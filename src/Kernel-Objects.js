@@ -1772,24 +1772,24 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-
-		if(self == true) {
-		return aBoolean;
-		} else {
-		return false;
-		}
-	;
-return self;
+var $2,$1;
+$2=self.__eq(true);
+if($core.assert($2)){
+$1=aBoolean;
+} else {
+$1=false;
+};
+return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"&",{aBoolean:aBoolean},$globals.Boolean)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBoolean"],
-source: "& aBoolean\x0a\x09<\x0a\x09\x09if(self == true) {\x0a\x09\x09return aBoolean;\x0a\x09\x09} else {\x0a\x09\x09return false;\x0a\x09\x09}\x0a\x09>",
+source: "& aBoolean\x0a\x09^ self = true\x0a\x09\x09ifTrue: [ aBoolean ]\x0a\x09\x09ifFalse: [ false ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["ifTrue:ifFalse:", "="]
 }),
 $globals.Boolean);
 
@@ -1803,10 +1803,10 @@ var self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		return aBoolean != null &&
-			typeof aBoolean._isBoolean === "function" &&
-			aBoolean._isBoolean() &&
-			Boolean(self == true) == aBoolean
+		if (aBoolean == null) return false;
+		if (typeof aBoolean === "object") aBoolean = aBoolean.valueOf();
+		if (typeof aBoolean === "boolean") return self == aBoolean;
+		return false;
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1815,7 +1815,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBoolean"],
-source: "= aBoolean\x0a\x09<\x0a\x09\x09return aBoolean != null &&\x0a\x09\x09\x09typeof aBoolean._isBoolean === \x22function\x22 &&\x0a\x09\x09\x09aBoolean._isBoolean() &&\x0a\x09\x09\x09Boolean(self == true) == aBoolean\x0a\x09>",
+source: "= aBoolean\x0a\x09<\x0a\x09\x09if (aBoolean == null) return false;\x0a\x09\x09if (typeof aBoolean === \x22object\x22) aBoolean = aBoolean.valueOf();\x0a\x09\x09if (typeof aBoolean === \x22boolean\x22) return self == aBoolean;\x0a\x09\x09return false;\x0a\x09>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2215,24 +2215,24 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-
-		if(self == true) {
-		return true;
-		} else {
-		return aBoolean;
-		}
-	;
-return self;
+var $2,$1;
+$2=self.__eq(true);
+if($core.assert($2)){
+$1=true;
+} else {
+$1=aBoolean;
+};
+return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"|",{aBoolean:aBoolean},$globals.Boolean)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBoolean"],
-source: "| aBoolean\x0a\x09<\x0a\x09\x09if(self == true) {\x0a\x09\x09return true;\x0a\x09\x09} else {\x0a\x09\x09return aBoolean;\x0a\x09\x09}\x0a\x09>",
+source: "| aBoolean\x0a\x09^ self = true\x0a\x09\x09ifTrue: [ true ]\x0a\x09\x09ifFalse: [ aBoolean ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["ifTrue:ifFalse:", "="]
 }),
 $globals.Boolean);
 

@@ -438,10 +438,10 @@ I am directly mapped to JavaScript Boolean. The `true` and `false` objects are t
 
 = aBoolean
 	<
-		return aBoolean !!= null &&
-			typeof aBoolean._isBoolean === "function" &&
-			aBoolean._isBoolean() &&
-			Boolean(self == true) == aBoolean
+		if (aBoolean == null) return false;
+		if (typeof aBoolean === "object") aBoolean = aBoolean.valueOf();
+		if (typeof aBoolean === "boolean") return self == aBoolean;
+		return false;
 	>
 !
 
@@ -452,13 +452,9 @@ I am directly mapped to JavaScript Boolean. The `true` and `false` objects are t
 !Boolean methodsFor: 'controlling'!
 
 & aBoolean
-	<
-		if(self == true) {
-		return aBoolean;
-		} else {
-		return false;
-		}
-	>
+	^ self = true
+		ifTrue: [ aBoolean ]
+		ifFalse: [ false ]
 !
 
 and: aBlock
@@ -504,13 +500,9 @@ or: aBlock
 !
 
 | aBoolean
-	<
-		if(self == true) {
-		return true;
-		} else {
-		return aBoolean;
-		}
-	>
+	^ self = true
+		ifTrue: [ true ]
+		ifFalse: [ aBoolean ]
 ! !
 
 !Boolean methodsFor: 'converting'!
