@@ -134,7 +134,7 @@ testEnsureRaises
 !
 
 testExceptionSemantics
-	"See https://github.com/NicolasPetton/amber/issues/314"
+	"See https://lolg.it/amber/amber/issues/314"
 	self timeout: 100.
 	
 	(self async: [

@@ -8,7 +8,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/amber-smalltalk/amber.git"
+    "url": "git://lolg.it/amber/amber.git"
   },
   "engines": {
     "node": "0.10.x || 0.12.x || >=4.0.0"
@@ -16,7 +16,7 @@
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/amber-smalltalk/amber/issues?labels=in+devkit"
+    "url": "https://lolg.it/amber/amber/issues?labels=in+devkit"
   },
   "dependencies": {
     "amd-config-builder": "^0.2.0",

@@ -760,7 +760,7 @@ Object subclass: #ClassSorterNode
 !ClassSorterNode commentStamp!
 I provide an algorithm for sorting classes alphabetically.
 
-See [Issue #143](https://github.com/amber-smalltalk/amber/issues/143) on GitHub.!
+See [Issue #143](https://lolg.it/amber/amber/issues/143).!
 
 !ClassSorterNode methodsFor: 'accessing'!
 

@@ -76,7 +76,7 @@ alias: aNode
 !
 
 aliasTemporally: aCollection
-	"https://github.com/NicolasPetton/amber/issues/296
+	"https://lolg.it/amber/amber/issues/296
 	
 	If a node is aliased, all preceding ones are aliased as well.
 	The tree is iterated twice. First we get the aliasing dependency,

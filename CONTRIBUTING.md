@@ -17,11 +17,11 @@ To get your clone, follow this list:
 1. Run ```bower install``` to install dependencies listed in bower.json. Used by Amber in browser. See [here](http://bower.io/) for more info.
 1. Run ```cd external/amber-dev && npm install && cd ../..``` to install dependencies of `amber-dev` component.
 1. Get your copy of Helios IDE into directory `my/helios`, choosing among using your own fork / using the stock version:
-    - ```git clone git@github.com:<your username>/helios.git my/helios``` to use your own fork, or
-    - ```git clone git@github.com:amber-smalltalk/helios.git my/helios``` to use stock version.
+    - ```git clone git@lolg.it:<your username>/helios.git my/helios``` to use your own fork, or
+    - ```git clone git@lolg.it:amber/helios.git my/helios``` to use stock version.
 1. Install Helios' dependencies: ```cd my/helios && bower install && cd ../..```.
 1. Get your copy of legacy IDE into directory `my/amber-contrib-legacy`:
-  ```git clone git@github.com:amber-smalltalk/amber-contrib-legacy.git my/amber-contrib-legacy```.
+  ```git clone git@lolg.it:amber/amber-contrib-legacy.git my/amber-contrib-legacy```.
 1. Run ```grunt devel```. Prepares some transient files.
 1. Run ```amber serve```. Starts the integrated development server.
 
@@ -65,10 +65,10 @@ If you don't list the exact steps required to reproduce the issue we won't be ab
 
 Afterwards, report the issue on one of the following trackers:
 
-* [Amber Issues](https://github.com/amber-smalltalk/amber/issues)
-* [Helios IDE Issues](https://github.com/amber-smalltalk/helios/issues)
-* [Amber Examples Issues](https://github.com/amber-smalltalk/amber-examples/issues)
-* [Amber Website Issues](https://github.com/amber-smalltalk/amber-website/issues)
+* [Amber Issues](https://lolg.it/amber/amber/issues)
+* [Helios IDE Issues](https://lolg.it/amber/helios/issues)
+* [Amber Examples Issues](https://lolg.it/amber/amber-examples/issues)
+* [Amber Website Issues](https://lolg.it/amber/amber-website/issues)
 
 
 Developing Amber

@@ -1002,9 +1002,9 @@ define("amber/node-compatibility", ["./es2015-polyfills"], function(){});
  | Copyright (c) 2010-2014
  | Nicolas Petton <petton.nicolas@gmail.com>
  |
- | Copyright (c) 2012-2014
- | The Amber team https://github.com/amber-smalltalk?tab=members
- | Amber contributors https://github.com/amber-smalltalk/amber/graphs/contributors
+ | Copyright (c) 2012-2016
+ | The Amber team https://lolg.it/org/amber/members
+ | Amber contributors (see /CONTRIBUTORS)
  |
  | Amber is released under the MIT license
  |
@@ -1033,7 +1033,7 @@ define("amber/node-compatibility", ["./es2015-polyfills"], function(){});
 
 define('amber/boot',['require', './compatibility'], function (require) {
 
-    /* Reconfigurable micro composition system, https://github.com/amber-smalltalk/brikz */
+    /* Reconfigurable micro composition system, https://lolg.it/herby/brikz */
 
     function Brikz(api, apiKey, initKey) {
         var brikz = this, backup = {};
@@ -8820,7 +8820,7 @@ $globals.ClassBuilder);
 
 
 $core.addClass('ClassSorterNode', $globals.Object, ['theClass', 'level', 'nodes'], 'Kernel-Classes');
-$globals.ClassSorterNode.comment="I provide an algorithm for sorting classes alphabetically.\x0a\x0aSee [Issue #143](https://github.com/amber-smalltalk/amber/issues/143) on GitHub.";
+$globals.ClassSorterNode.comment="I provide an algorithm for sorting classes alphabetically.\x0a\x0aSee [Issue #143](https://lolg.it/amber/amber/issues/143) on GitHub.";
 $core.addMethod(
 $core.method({
 selector: "getNodesFrom:",
@@ -38372,7 +38372,7 @@ return result;
 }, function($ctx1) {$ctx1.fill(self,"aliasTemporally:",{aCollection:aCollection,threshold:threshold,result:result},$globals.IRASTTranslator)});
 },
 args: ["aCollection"],
-source: "aliasTemporally: aCollection\x0a\x09\x22https://github.com/NicolasPetton/amber/issues/296\x0a\x09\x0a\x09If a node is aliased, all preceding ones are aliased as well.\x0a\x09The tree is iterated twice. First we get the aliasing dependency,\x0a\x09then the aliasing itself is done\x22\x0a\x0a\x09| threshold result |\x0a\x09threshold := 0.\x0a\x09\x0a\x09aCollection withIndexDo: [ :each :i |\x0a\x09\x09each subtreeNeedsAliasing\x0a\x09\x09\x09ifTrue: [ threshold := i ] ].\x0a\x0a\x09result := OrderedCollection new.\x0a\x09aCollection withIndexDo: [ :each :i |\x0a\x09\x09result add: (i <= threshold\x0a\x09\x09\x09ifTrue: [ self alias: each ]\x0a\x09\x09\x09ifFalse: [ self visit: each ]) ].\x0a\x0a\x09^ result",
+source: "aliasTemporally: aCollection\x0a\x09\x22https://lolg.it/amber/amber/issues/296\x0a\x09\x0a\x09If a node is aliased, all preceding ones are aliased as well.\x0a\x09The tree is iterated twice. First we get the aliasing dependency,\x0a\x09then the aliasing itself is done\x22\x0a\x0a\x09| threshold result |\x0a\x09threshold := 0.\x0a\x09\x0a\x09aCollection withIndexDo: [ :each :i |\x0a\x09\x09each subtreeNeedsAliasing\x0a\x09\x09\x09ifTrue: [ threshold := i ] ].\x0a\x0a\x09result := OrderedCollection new.\x0a\x09aCollection withIndexDo: [ :each :i |\x0a\x09\x09result add: (i <= threshold\x0a\x09\x09\x09ifTrue: [ self alias: each ]\x0a\x09\x09\x09ifFalse: [ self visit: each ]) ].\x0a\x0a\x09^ result",
 referencedClasses: ["OrderedCollection"],
 messageSends: ["withIndexDo:", "ifTrue:", "subtreeNeedsAliasing", "new", "add:", "ifTrue:ifFalse:", "<=", "alias:", "visit:"]
 }),
@@ -49548,7 +49548,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testMutableLiterals",{},$globals.CodeGeneratorTest)});
 },
 args: [],
-source: "testMutableLiterals\x0a\x09\x22Mutable literals must be aliased in cascades.\x0a\x09See https://github.com/amber-smalltalk/amber/issues/428\x22\x0a\x09\x0a\x09self \x0a\x09\x09should: 'foo ^ #( 1 2 ) at: 1 put: 3; yourself' \x0a\x09\x09return: #(3 2)",
+source: "testMutableLiterals\x0a\x09\x22Mutable literals must be aliased in cascades.\x0a\x09See https://lolg.it/amber/amber/issues/428\x22\x0a\x09\x0a\x09self \x0a\x09\x09should: 'foo ^ #( 1 2 ) at: 1 put: 3; yourself' \x0a\x09\x09return: #(3 2)",
 referencedClasses: [],
 messageSends: ["should:return:"]
 }),
@@ -51250,7 +51250,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testExceptionSemantics",{},$globals.BlockClosureTest)});
 },
 args: [],
-source: "testExceptionSemantics\x0a\x09\x22See https://github.com/NicolasPetton/amber/issues/314\x22\x0a\x09self timeout: 100.\x0a\x09\x0a\x09(self async: [\x0a\x09\x09[\x0a\x09\x09\x09self assert: true.\x0a\x09\x09\x09Error signal.\x0a\x09\x09\x09\x22The following should *not* be run\x22\x0a\x09\x09\x09self deny: true.\x0a\x09\x09\x09self finished.\x0a\x09\x09] on: Error do: [ :ex | self finished ]\x0a\x09]) valueWithTimeout: 0",
+source: "testExceptionSemantics\x0a\x09\x22See https://lolg.it/amber/amber/issues/314\x22\x0a\x09self timeout: 100.\x0a\x09\x0a\x09(self async: [\x0a\x09\x09[\x0a\x09\x09\x09self assert: true.\x0a\x09\x09\x09Error signal.\x0a\x09\x09\x09\x22The following should *not* be run\x22\x0a\x09\x09\x09self deny: true.\x0a\x09\x09\x09self finished.\x0a\x09\x09] on: Error do: [ :ex | self finished ]\x0a\x09]) valueWithTimeout: 0",
 referencedClasses: ["Error"],
 messageSends: ["timeout:", "valueWithTimeout:", "async:", "on:do:", "assert:", "signal", "deny:", "finished"]
 }),

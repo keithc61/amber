@@ -10,9 +10,9 @@
  | Copyright (c) 2010-2014
  | Nicolas Petton <petton.nicolas@gmail.com>
  |
- | Copyright (c) 2012-2014
- | The Amber team https://github.com/amber-smalltalk?tab=members
- | Amber contributors https://github.com/amber-smalltalk/amber/graphs/contributors
+ | Copyright (c) 2012-2016
+ | The Amber team https://lolg.it/org/amber/members
+ | Amber contributors (see /CONTRIBUTORS)
  |
  | Amber is released under the MIT license
  |
@@ -41,7 +41,7 @@
 
 define(['require', './compatibility'], function (require) {
 
-    /* Reconfigurable micro composition system, https://github.com/amber-smalltalk/brikz */
+    /* Reconfigurable micro composition system, https://lolg.it/herby/brikz */
 
     function Brikz(api, apiKey, initKey) {
         var brikz = this, backup = {};

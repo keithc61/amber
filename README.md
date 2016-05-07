@@ -83,11 +83,11 @@ Start developing in Amber Smalltalk
 Reporting issues
 --------------
 
-  - Report issues with the www.amber-lang.net website here: https://github.com/amber-smalltalk/amber-website/issues.
-  - Report issues with the docs.amber-lang.net website here: https://github.com/amber-smalltalk/documentation/issues.
-  - Report issues with `amber init` project template here: https://github.com/amber-smalltalk/grunt-init-amber/issues.
-  - Report issues with Amber engine, core library or `amber` / `amberc` cli tools here: https://github.com/amber-smalltalk/amber/issues.
-  - Report issues with the Helios IDE here: https://github.com/amber-smalltalk/helios/issues.
+  - Report issues with the www.amber-lang.net website here: https://lolg.it/amber/amber-website/issues.
+  - Report issues with the docs.amber-lang.net website here: https://lolg.it/amber/documentation/issues.
+  - Report issues with `amber init` project template here: https://lolg.it/amber/grunt-init-amber/issues.
+  - Report issues with Amber engine, core library or `amber` / `amberc` cli tools here: https://lolg.it/amber/amber/issues.
+  - Report issues with the Helios IDE here: https://lolg.it/amber/helios/issues.
 
 Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for further details.
 

@@ -338,7 +338,7 @@ testMultipleSequences
 
 testMutableLiterals
 	"Mutable literals must be aliased in cascades.
-	See https://github.com/amber-smalltalk/amber/issues/428"
+	See https://lolg.it/amber/amber/issues/428"
 	
 	self 
 		should: 'foo ^ #( 1 2 ) at: 1 put: 3; yourself' 
