@@ -9,7 +9,7 @@ Amber
 
 Copyright 2011-2015 Nicolas Petton
 
-Copyright 2014-2016 Herbert Vojčík and [Amber contributors](https://github.com/amber-smalltalk/amber/contributors)
+Copyright 2014-2016 Herbert Vojčík and [Amber contributors](CONTRIBUTORS)
 
 Amber is an implementation of the Smalltalk language that runs on top of the JavaScript runtime. It is designed to make client-side development faster and easier.
 
