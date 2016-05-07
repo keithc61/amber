@@ -17,7 +17,7 @@ Install [grunt-init](http://gruntjs.com/project-scaffolding) if you have not alr
 Place this template in your `~/.grunt-init/` directory using the following command:
 
 ```
-git clone git://github.com/amber-smalltalk/grunt-init-amber.git ~/.grunt-init/amber
+git clone git://lolg.it/amber/grunt-init-amber.git ~/.grunt-init/amber
 ```
 
 _Windows users, see [the grunt-init documentation](http://gruntjs.com/project-scaffolding) for the correct directory destination_
