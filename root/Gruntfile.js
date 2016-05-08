@@ -1,14 +1,14 @@
 'use strict';
 
 module.exports = function (grunt) {
-    var path = require('path'),
-        helpers = require('amber-dev').helpers;
-
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-execute');
     grunt.loadNpmTasks('amber-dev');
+
+    var path = require('path'),
+        helpers = require('amber-dev').helpers;
 
     // Default task.
     grunt.registerTask('default', ['amdconfig:app', 'amberc:all']);
