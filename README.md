@@ -60,7 +60,7 @@ Getting Amber and setting up an initial project
 Do this to install Amber
 
     # Install the CLI tool `amber-cli` and supporting tools
-    npm install -g grunt-cli grunt-init amber-cli
+    npm install -g grunt-cli@0 grunt-init bower amber-cli
 
 
 Use ``amber init``  to create a project of your own
