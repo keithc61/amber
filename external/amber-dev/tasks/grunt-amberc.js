@@ -60,9 +60,8 @@ module.exports = function (grunt) {
 
         // run the compiler and call the async callback once finished
         var self = this;
-        compiler.main(configuration, function () {
-            // signal that task has finished
-            done();
+        compiler.main(configuration, function (err) {
+            done(err || true);
         });
     });
 
