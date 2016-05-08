@@ -28,7 +28,7 @@ module.exports = function (grunt) {
         }
 
         require('..').configBuilder.writeConfig(options.root_dir, this.files[0].dest, function (err) {
-            done(!err);
+            done(err || true);
         })
     });
 };
