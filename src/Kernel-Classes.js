@@ -2914,7 +2914,7 @@ $globals.ClassBuilder);
 
 $core.addClass('ClassSorterNode', $globals.Object, ['theClass', 'level', 'nodes'], 'Kernel-Classes');
 //>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.ClassSorterNode.comment="I provide an algorithm for sorting classes alphabetically.\x0a\x0aSee [Issue #143](https://lolg.it/amber/amber/issues/143) on GitHub.";
+$globals.ClassSorterNode.comment="I provide an algorithm for sorting classes alphabetically.\x0a\x0aSee [Issue #143](https://lolg.it/amber/amber/issues/143).";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
