@@ -160,8 +160,8 @@ exports.template = function (grunt, init, done) {
                 "amber-compat-es2015": "^0.1.0",
                 "amber-contrib-jquery": "^0.2.0",
                 "amber-contrib-web": "^0.3.0",
-                "domite": "^0.4.0",
-                "silk": "^0.2.0"
+                "domite": "https://lolg.it/herby/domite.git#^0.4.0",
+                "silk": "https://lolg.it/herby/silk.git#^0.2.0"
             },
             "devDependencies": {
                 "amber-contrib-legacy": "^0.3.0",
