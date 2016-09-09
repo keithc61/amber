@@ -223,7 +223,7 @@ define(['require', './compatibility'], function (require) {
 
         /* Method not implemented handlers */
 
-        var methods = [], methodDict = Object.create(null);
+        var methodDict = Object.create(null);
         this.selectors = [];
         this.jsSelectors = [];
 
@@ -235,12 +235,10 @@ define(['require', './compatibility'], function (require) {
             this.jsSelectors.push(jsSelector);
             method = {jsSelector: jsSelector, fn: createHandler(stSelector)};
             methodDict[stSelector] = method;
-            methods.push(method);
             manip.installMethod(method, rootAsClass);
             targetClasses.forEach(function (target) {
                 manip.installMethod(method, target);
             });
-            return method;
         };
 
         /* Dnu handler method */
@@ -286,13 +284,17 @@ define(['require', './compatibility'], function (require) {
             var myproto = klass.fn.prototype,
                 superproto = superclass.fn.prototype;
             dnu.jsSelectors.forEach(function (selector) {
-                if (!localMethodsByJsSelector[selector]) {
+                var method = localMethodsByJsSelector[selector];
+                if (!method) {
                     manip.installMethod({
                         jsSelector: selector,
                         fn: superproto[selector]
                     }, klass);
-                } else if (!myproto[selector]) {
-                    manip.installMethod(localMethodsByJsSelector[selector], klass);
+                } else if (method.fn !== myproto[selector]) {
+                    if (myproto[selector]) {
+                        console.warn("Amber forcefully rewriting method " + selector + " of " + klass.className + ".");
+                    }
+                    manip.installMethod(method, klass);
                 }
             });
         }
@@ -307,12 +309,10 @@ define(['require', './compatibility'], function (require) {
         };
     }
 
-
     function PackagesBrik(brikz, st) {
 
         var org = brikz.ensure("organize");
         var root = brikz.ensure("root");
-        var nil = root.nil;
         var SmalltalkObject = root.Object;
 
         function SmalltalkPackage() {
@@ -343,7 +343,7 @@ define(['require', './compatibility'], function (require) {
 
         st.addPackage = function (pkgName, properties) {
             if (!pkgName) {
-                return nil;
+                return null;
             }
             if (!(st.packages[pkgName])) {
                 st.packages[pkgName] = pkg({
@@ -364,7 +364,6 @@ define(['require', './compatibility'], function (require) {
         var org = brikz.ensure("organize");
         var root = brikz.ensure("root");
         var classInit = brikz.ensure("classInit");
-        var nil = root.nil;
         var rootAsClass = root.rootAsClass;
         var SmalltalkObject = root.Object;
         rootAsClass.klass = {fn: SmalltalkClass};
@@ -381,6 +380,10 @@ define(['require', './compatibility'], function (require) {
         inherits(SmalltalkBehavior, SmalltalkObject);
         inherits(SmalltalkClass, SmalltalkBehavior);
         inherits(SmalltalkMetaclass, SmalltalkBehavior);
+
+        SmalltalkBehavior.prototype.toString = function () {
+            return 'Smalltalk ' + this.className;
+        };
 
         SmalltalkMetaclass.prototype.meta = true;
 
@@ -440,10 +443,6 @@ define(['require', './compatibility'], function (require) {
             return that;
         }
 
-        SmalltalkBehavior.prototype.toString = function () {
-            return 'Smalltalk ' + this.className;
-        };
-
         function wireKlass(klass) {
             Object.defineProperty(klass.fn.prototype, "klass", {
                 value: klass,
@@ -470,7 +469,7 @@ define(['require', './compatibility'], function (require) {
         st.addClass = function (className, superclass, iVarNames, pkgName) {
             // While subclassing nil is allowed, it might be an error, so
             // warn about it.
-            if (typeof superclass == 'undefined' || superclass == nil) {
+            if (typeof superclass == 'undefined' || superclass && superclass.isNil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
             rawAddClass(pkgName, className, superclass, iVarNames, false, null);
@@ -483,7 +482,7 @@ define(['require', './compatibility'], function (require) {
                 throw new Error("Missing package " + pkgName);
             }
 
-            if (!superclass || superclass == nil) {
+            if (superclass == null || superclass.isNil) {
                 superclass = null;
             }
             var theClass = globals.hasOwnProperty(className) && globals[className];
@@ -572,7 +571,7 @@ define(['require', './compatibility'], function (require) {
             return classes;
         };
 
-        st.wrappedClasses = function () {
+        this.wrappedClasses = function () {
             return wrappedClasses;
         };
 
@@ -592,7 +591,7 @@ define(['require', './compatibility'], function (require) {
         var dnu = brikz.ensure("dnu");
         var SmalltalkObject = brikz.ensure("root").Object;
         brikz.ensure("selectorConversion");
-        brikz.ensure("classes");
+        var classBrik = brikz.ensure("classes");
 
         function SmalltalkMethod() {
         }
@@ -641,7 +640,7 @@ define(['require', './compatibility'], function (require) {
             propagateMethodChange(klass, method);
 
             var usedSelectors = method.messageSends,
-                targetClasses = stInit.initialized() ? st.wrappedClasses() : [];
+                targetClasses = stInit.initialized() ? classBrik.wrappedClasses() : [];
 
             dnu.make(method.selector, targetClasses);
 
@@ -850,7 +849,6 @@ define(['require', './compatibility'], function (require) {
 
         brikz.ensure("selectorConversion");
         var root = brikz.ensure("root");
-        var nil = root.nil;
         var SmalltalkObject = root.Object;
 
         function SmalltalkMethodContext(home, setup) {
@@ -934,7 +932,7 @@ define(['require', './compatibility'], function (require) {
          */
         st.seamless = function (worker) {
             return inContext(worker, function (ctx) {
-                ctx.fill(nil, "seamlessDoIt", {}, globals.UndefinedObject);
+                ctx.fill(null, "seamlessDoIt", {}, globals.UndefinedObject);
             });
         };
 
@@ -1014,7 +1012,7 @@ define(['require', './compatibility'], function (require) {
                 thisContext.init();
                 return thisContext;
             } else {
-                return nil;
+                return null;
             }
         };
     }
@@ -1079,7 +1077,7 @@ define(['require', './compatibility'], function (require) {
                 return propertyValue.apply(receiver, args || []);
             } else if (args.length > 0) {
                 receiver[propertyName] = args[0];
-                return nil;
+                return receiver;
             } else {
                 return propertyValue;
             }
@@ -1093,22 +1091,21 @@ define(['require', './compatibility'], function (require) {
 
         /* Convert a Smalltalk selector into a JS selector */
         st.st2js = function (string) {
-            var selector = '_' + string;
-            selector = selector.replace(/:/g, '_');
-            selector = selector.replace(/[\&]/g, '_and');
-            selector = selector.replace(/[\|]/g, '_or');
-            selector = selector.replace(/[+]/g, '_plus');
-            selector = selector.replace(/-/g, '_minus');
-            selector = selector.replace(/[*]/g, '_star');
-            selector = selector.replace(/[\/]/g, '_slash');
-            selector = selector.replace(/[\\]/g, '_backslash');
-            selector = selector.replace(/[\~]/g, '_tild');
-            selector = selector.replace(/>/g, '_gt');
-            selector = selector.replace(/</g, '_lt');
-            selector = selector.replace(/=/g, '_eq');
-            selector = selector.replace(/,/g, '_comma');
-            selector = selector.replace(/[@]/g, '_at');
-            return selector;
+            return '_' + string
+                    .replace(/:/g, '_')
+                    .replace(/[\&]/g, '_and')
+                    .replace(/[\|]/g, '_or')
+                    .replace(/[+]/g, '_plus')
+                    .replace(/-/g, '_minus')
+                    .replace(/[*]/g, '_star')
+                    .replace(/[\/]/g, '_slash')
+                    .replace(/[\\]/g, '_backslash')
+                    .replace(/[\~]/g, '_tild')
+                    .replace(/>/g, '_gt')
+                    .replace(/</g, '_lt')
+                    .replace(/=/g, '_eq')
+                    .replace(/,/g, '_comma')
+                    .replace(/[@]/g, '_at');
         };
 
         /* Convert a string to a valid smalltalk selector.

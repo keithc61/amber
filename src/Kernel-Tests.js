@@ -2419,6 +2419,130 @@ messageSends: ["copyClass:named:", "javascriptConstructor:", "jsConstructor", "a
 }),
 $globals.ClassTest);
 
+$core.addMethod(
+$core.method({
+selector: "testTrickySetJavaScriptConstructor",
+protocol: 'tests',
+fn: function (){
+var self=this;
+var instance;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1,$4,$3,$6,$5,$8,$7;
+self["@theClass"]=$recv(self["@builder"])._copyClass_named_($globals.ObjectMock,"ObjectMock2");
+$recv(self["@theClass"])._javascriptConstructor_(self._trickyJsConstructor());
+$2=$recv(self["@theClass"])._superclass();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["superclass"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2).__eq_eq($recv($globals.ObjectMock)._superclass());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["=="]=1;
+//>>excludeEnd("ctx");
+self._assert_($1);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:"]=1;
+//>>excludeEnd("ctx");
+$4=$recv(self["@theClass"])._instanceVariableNames();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["instanceVariableNames"]=1;
+//>>excludeEnd("ctx");
+$3=$recv($4).__eq_eq($recv($globals.ObjectMock)._instanceVariableNames());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["=="]=2;
+//>>excludeEnd("ctx");
+self._assert_($3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:"]=2;
+//>>excludeEnd("ctx");
+self._assert_equals_($recv(self["@theClass"])._name(),"ObjectMock2");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+$6=$recv(self["@theClass"])._package();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["package"]=1;
+//>>excludeEnd("ctx");
+$5=$recv($6).__eq_eq($recv($globals.ObjectMock)._package());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["=="]=3;
+//>>excludeEnd("ctx");
+self._assert_($5);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:"]=3;
+//>>excludeEnd("ctx");
+$8=$recv(self["@theClass"])._methodDictionary();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["methodDictionary"]=1;
+//>>excludeEnd("ctx");
+$7=$recv($8)._keys();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["keys"]=1;
+//>>excludeEnd("ctx");
+self._assert_equals_($7,$recv($recv($globals.ObjectMock)._methodDictionary())._keys());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+instance=$recv(self["@theClass"])._new();
+self._assert_($recv($recv(instance)._class()).__eq_eq(self["@theClass"]));
+self._assert_equals_($recv(instance)._value(),(4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=3;
+//>>excludeEnd("ctx");
+self._shouldnt_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(instance)._foo_((9));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+self._assert_equals_($recv(instance)._foo(),(9));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testTrickySetJavaScriptConstructor",{instance:instance},$globals.ClassTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testTrickySetJavaScriptConstructor\x0a\x09| instance |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09theClass javascriptConstructor: self trickyJsConstructor.\x0a\x09\x22part took from copy class test\x22\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.\x0a\x09\x22testing specific to late-wrapped class\x22\x0a\x09instance := theClass new.\x0a\x09self assert: instance class == theClass.\x0a\x09self assert: instance value equals: 4.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
+referencedClasses: ["ObjectMock", "Error"],
+//>>excludeEnd("ide");
+messageSends: ["copyClass:named:", "javascriptConstructor:", "trickyJsConstructor", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "keys", "methodDictionary", "new", "class", "value", "shouldnt:raise:", "foo:", "foo"]
+}),
+$globals.ClassTest);
+
+$core.addMethod(
+$core.method({
+selector: "trickyJsConstructor",
+protocol: 'running',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+		function Foo(){}
+		Foo.prototype.valueOf = function () {return 4;};
+		Foo.prototype._foo = function () {return "bar";};
+		return Foo;
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"trickyJsConstructor",{},$globals.ClassTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "trickyJsConstructor\x0a\x09<\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09Foo.prototype._foo = function () {return \x22bar\x22;};\x0a\x09\x09return Foo;\x0a\x09>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.ClassTest);
+
 
 
 $core.addClass('CollectionTest', $globals.TestCase, ['sampleBlock'], 'Kernel-Tests');
