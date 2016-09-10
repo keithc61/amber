@@ -707,8 +707,7 @@ installMethod: aCompiledMethod forClass: aBehavior protocol: aString
 
 basicAddSubclassOf: aClass named: aString instanceVariableNames: aCollection package: packageName
 	<
-		$core.addClass(aString, aClass, aCollection, packageName);
-		return $globals[aString]
+		return $core.addClass(aString, aClass, aCollection, packageName);
 	>
 !
 

@@ -2314,8 +2314,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		$core.addClass(aString, aClass, aCollection, packageName);
-		return $globals[aString]
+		return $core.addClass(aString, aClass, aCollection, packageName);
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2324,7 +2323,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aString", "aCollection", "packageName"],
-source: "basicAddSubclassOf: aClass named: aString instanceVariableNames: aCollection package: packageName\x0a\x09<\x0a\x09\x09$core.addClass(aString, aClass, aCollection, packageName);\x0a\x09\x09return $globals[aString]\x0a\x09>",
+source: "basicAddSubclassOf: aClass named: aString instanceVariableNames: aCollection package: packageName\x0a\x09<\x0a\x09\x09return $core.addClass(aString, aClass, aCollection, packageName);\x0a\x09>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

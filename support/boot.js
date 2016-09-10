@@ -478,7 +478,7 @@ define(['require', './compatibility'], function (require) {
             if (typeof superclass == 'undefined' || superclass && superclass.isNil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
-            rawAddClass(pkgName, className, superclass, iVarNames, false, null);
+            return rawAddClass(pkgName, className, superclass, iVarNames, false, null);
         };
 
         function rawAddClass(pkgName, className, superclass, iVarNames, fn, detachedRoot) {
@@ -519,6 +519,7 @@ define(['require', './compatibility'], function (require) {
 
             classes.addElement(theClass);
             org.addOrganizationElement(pkg, theClass);
+            return theClass;
         }
 
         st.removeClass = function (klass) {
@@ -544,12 +545,13 @@ define(['require', './compatibility'], function (require) {
          optionally detached root, and add it to the global smalltalk object.*/
 
         st.addDetachedRootClass = function (className, superclass, pkgName, fn) {
-            rawAddClass(pkgName, className, superclass, null, fn, true);
-            detachedRootClasses.addElement(globals[className]);
+            var klass = rawAddClass(pkgName, className, superclass, null, fn, true);
+            detachedRootClasses.addElement(klass);
+            return klass;
         };
 
         st.addCoupledClass = function (className, superclass, pkgName, fn) {
-            rawAddClass(pkgName, className, superclass, null, fn, false);
+            return rawAddClass(pkgName, className, superclass, null, fn, false);
         };
 
         /* Manually set the constructor of an existing Smalltalk klass, making it a detached root class. */
