@@ -489,7 +489,7 @@ define(['require', './compatibility'], function (require) {
             if (theClass && theClass.superclass == superclass) {
                 if (iVarNames) theClass.iVarNames = iVarNames;
                 if (pkg) theClass.pkg = pkg;
-                if (fn) {
+                if (fn && theClass.fn !== fn) {
                     fn.prototype = theClass.fn.prototype;
                     theClass.fn = fn;
                     fn.prototype.constructor = fn;
