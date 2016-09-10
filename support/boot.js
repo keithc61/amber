@@ -117,11 +117,13 @@ define(['require', './compatibility'], function (require) {
         return child;
     }
 
-    var jsGlobals = new Function("return this")();
-    var globals = Object.create(jsGlobals);
-    globals.SmalltalkSettings = {};
-    var api = {};
-    var brikz = new Brikz(api);
+    function SmalltalkGlobalsBrik(brikz, st) {
+        var jsGlobals = new Function("return this")();
+        var globals = Object.create(jsGlobals);
+        globals.SmalltalkSettings = {};
+
+        this.globals = globals;
+    }
 
     function RootBrik(brikz, st) {
 
@@ -162,6 +164,7 @@ define(['require', './compatibility'], function (require) {
         this.rootAsClass = {fn: SmalltalkRoot};
 
         this.__init__ = function () {
+            var globals = brikz.smalltalkGlobals.globals;
             st.addPackage("Kernel-Objects");
             st.addCoupledClass("ProtoObject", undefined, "Kernel-Objects", SmalltalkProtoObject);
             st.addCoupledClass("Object", globals.ProtoObject, "Kernel-Objects", SmalltalkObject);
@@ -190,6 +193,7 @@ define(['require', './compatibility'], function (require) {
         inherits(SmalltalkClassOrganizer, SmalltalkOrganizer);
 
         this.__init__ = function () {
+            var globals = brikz.smalltalkGlobals.globals;
             st.addPackage("Kernel-Infrastructure");
             st.addCoupledClass("Organizer", globals.Object, "Kernel-Infrastructure", SmalltalkOrganizer);
             st.addCoupledClass("PackageOrganizer", globals.Organizer, "Kernel-Infrastructure", SmalltalkPackageOrganizer);
@@ -321,6 +325,7 @@ define(['require', './compatibility'], function (require) {
         inherits(SmalltalkPackage, SmalltalkObject);
 
         this.__init__ = function () {
+            var globals = brikz.smalltalkGlobals.globals;
             st.addPackage("Kernel-Infrastructure");
             st.addCoupledClass("Package", globals.Object, "Kernel-Infrastructure", SmalltalkPackage);
         };
@@ -363,6 +368,7 @@ define(['require', './compatibility'], function (require) {
 
         var org = brikz.ensure("organize");
         var root = brikz.ensure("root");
+        var globals = brikz.ensure("smalltalkGlobals").globals;
         var classInit = brikz.ensure("classInit");
         var rootAsClass = root.rootAsClass;
         var SmalltalkObject = root.Object;
@@ -388,6 +394,7 @@ define(['require', './compatibility'], function (require) {
         SmalltalkMetaclass.prototype.meta = true;
 
         this.__init__ = function () {
+            var globals = brikz.smalltalkGlobals.globals;
             st.addPackage("Kernel-Classes");
             st.addCoupledClass("Behavior", globals.Object, "Kernel-Classes", SmalltalkBehavior);
             st.addCoupledClass("Metaclass", globals.Behavior, "Kernel-Classes", SmalltalkMetaclass);
@@ -599,6 +606,7 @@ define(['require', './compatibility'], function (require) {
         inherits(SmalltalkMethod, SmalltalkObject);
 
         this.__init__ = function () {
+            var globals = brikz.smalltalkGlobals.globals;
             st.addPackage("Kernel-Methods");
             st.addCoupledClass("CompiledMethod", globals.Object, "Kernel-Methods", SmalltalkMethod);
         };
@@ -753,6 +761,7 @@ define(['require', './compatibility'], function (require) {
         };
 
         this.__init__ = function () {
+            var globals = brikz.smalltalkGlobals.globals;
             st.addPackage("Kernel-Methods");
             st.addDetachedRootClass("Number", globals.Object, "Kernel-Objects", Number);
             st.addDetachedRootClass("BlockClosure", globals.Object, "Kernel-Methods", Function);
@@ -784,6 +793,8 @@ define(['require', './compatibility'], function (require) {
     }
 
     function PrimitivesBrik(brikz, st) {
+
+        var globals = brikz.ensure("smalltalkGlobals").globals;
 
         /* Unique ID number generator */
 
@@ -848,6 +859,7 @@ define(['require', './compatibility'], function (require) {
     function RuntimeBrik(brikz, st) {
 
         brikz.ensure("selectorConversion");
+        var globals = brikz.ensure("smalltalkGlobals").globals;
         var root = brikz.ensure("root");
         var SmalltalkObject = root.Object;
 
@@ -863,6 +875,7 @@ define(['require', './compatibility'], function (require) {
         inherits(SmalltalkMethodContext, SmalltalkObject);
 
         this.__init__ = function () {
+            var globals = brikz.smalltalkGlobals.globals;
             st.addPackage("Kernel-Methods");
             st.addCoupledClass("MethodContext", globals.Object, "Kernel-Methods", SmalltalkMethodContext);
 
@@ -1019,6 +1032,7 @@ define(['require', './compatibility'], function (require) {
 
     function MessageSendBrik(brikz, st) {
 
+        var globals = brikz.ensure("smalltalkGlobals").globals;
         brikz.ensure("selectorConversion");
         var nil = brikz.ensure("root").nil;
 
@@ -1160,6 +1174,7 @@ define(['require', './compatibility'], function (require) {
     /* (logically it belongs more to PrimitiveBrik) */
     function AsReceiverBrik(brikz, st) {
 
+        var globals = brikz.ensure("smalltalkGlobals").globals;
         var nil = brikz.ensure("root").nil;
 
         /**
@@ -1185,9 +1200,12 @@ define(['require', './compatibility'], function (require) {
         };
     }
 
+    var api = {};
+    var brikz = new Brikz(api);
 
     /* Making smalltalk that can load */
 
+    brikz.smalltalkGlobals = SmalltalkGlobalsBrik;
     brikz.root = RootBrik;
     brikz.dnu = DNUBrik;
     brikz.organize = OrganizeBrik;
@@ -1218,7 +1236,7 @@ define(['require', './compatibility'], function (require) {
         api: api,
         nil: brikz.root.nil,
         dnu: brikz.root.rootAsClass,
-        globals: globals,
+        globals: brikz.smalltalkGlobals.globals,
         asReceiver: brikz.asReceiver.asReceiver
     };
 });
