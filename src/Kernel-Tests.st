@@ -470,7 +470,7 @@ testSetJavaScriptConstructor
 	self assert: theClass name equals: 'ObjectMock2'.
 	self assert: theClass package == ObjectMock package.
 	self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.
-	"testing specific to late-wrapped class"
+	"testing specific to late-coupled detached root class"
 	instance := theClass new.
 	self assert: instance class == theClass.
 	self assert: instance value equals: 4.
@@ -488,7 +488,7 @@ testTrickySetJavaScriptConstructor
 	self assert: theClass name equals: 'ObjectMock2'.
 	self assert: theClass package == ObjectMock package.
 	self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.
-	"testing specific to late-wrapped class"
+	"testing specific to late-coupled detached root class"
 	instance := theClass new.
 	self assert: instance class == theClass.
 	self assert: instance value equals: 4.

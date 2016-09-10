@@ -163,9 +163,9 @@ define(['require', './compatibility'], function (require) {
 
         this.__init__ = function () {
             st.addPackage("Kernel-Objects");
-            st.wrapClassName("ProtoObject", "Kernel-Objects", SmalltalkProtoObject, undefined, false);
-            st.wrapClassName("Object", "Kernel-Objects", SmalltalkObject, globals.ProtoObject, false);
-            st.wrapClassName("UndefinedObject", "Kernel-Objects", SmalltalkNil, globals.Object, false);
+            st.addCoupledClass("ProtoObject", undefined, "Kernel-Objects", SmalltalkProtoObject);
+            st.addCoupledClass("Object", globals.ProtoObject, "Kernel-Objects", SmalltalkObject);
+            st.addCoupledClass("UndefinedObject", globals.Object, "Kernel-Objects", SmalltalkNil);
         };
     }
 
@@ -191,9 +191,9 @@ define(['require', './compatibility'], function (require) {
 
         this.__init__ = function () {
             st.addPackage("Kernel-Infrastructure");
-            st.wrapClassName("Organizer", "Kernel-Infrastructure", SmalltalkOrganizer, globals.Object, false);
-            st.wrapClassName("PackageOrganizer", "Kernel-Infrastructure", SmalltalkPackageOrganizer, globals.Organizer, false);
-            st.wrapClassName("ClassOrganizer", "Kernel-Infrastructure", SmalltalkClassOrganizer, globals.Organizer, false);
+            st.addCoupledClass("Organizer", globals.Object, "Kernel-Infrastructure", SmalltalkOrganizer);
+            st.addCoupledClass("PackageOrganizer", globals.Organizer, "Kernel-Infrastructure", SmalltalkPackageOrganizer);
+            st.addCoupledClass("ClassOrganizer", globals.Organizer, "Kernel-Infrastructure", SmalltalkClassOrganizer);
         };
 
         this.setupClassOrganization = function (klass) {
@@ -266,7 +266,7 @@ define(['require', './compatibility'], function (require) {
         };
 
         function initClass(klass) {
-            if (klass.wrapped) {
+            if (klass.detachedRoot) {
                 copySuperclass(klass);
             }
         }
@@ -322,7 +322,7 @@ define(['require', './compatibility'], function (require) {
 
         this.__init__ = function () {
             st.addPackage("Kernel-Infrastructure");
-            st.wrapClassName("Package", "Kernel-Infrastructure", SmalltalkPackage, globals.Object, false);
+            st.addCoupledClass("Package", globals.Object, "Kernel-Infrastructure", SmalltalkPackage);
         };
 
         st.packages = {};
@@ -389,9 +389,9 @@ define(['require', './compatibility'], function (require) {
 
         this.__init__ = function () {
             st.addPackage("Kernel-Classes");
-            st.wrapClassName("Behavior", "Kernel-Classes", SmalltalkBehavior, globals.Object, false);
-            st.wrapClassName("Metaclass", "Kernel-Classes", SmalltalkMetaclass, globals.Behavior, false);
-            st.wrapClassName("Class", "Kernel-Classes", SmalltalkClass, globals.Behavior, false);
+            st.addCoupledClass("Behavior", globals.Object, "Kernel-Classes", SmalltalkBehavior);
+            st.addCoupledClass("Metaclass", globals.Behavior, "Kernel-Classes", SmalltalkMetaclass);
+            st.addCoupledClass("Class", globals.Behavior, "Kernel-Classes", SmalltalkClass);
 
             // Manually bootstrap the metaclass hierarchy
             globals.ProtoObject.klass.superclass = rootAsClass.klass = globals.Class;
@@ -401,7 +401,7 @@ define(['require', './compatibility'], function (require) {
         /* Smalltalk classes */
 
         var classes = [];
-        var wrappedClasses = [];
+        var detachedRootClasses = [];
 
         /* Smalltalk class creation. A class is an instance of an automatically
          created metaclass object. Newly created classes (not their metaclass)
@@ -427,7 +427,7 @@ define(['require', './compatibility'], function (require) {
             setupClass(that, spec);
 
             that.className = spec.className;
-            that.wrapped = spec.wrapped || false;
+            that.detachedRoot = spec.detachedRoot || false;
             meta.className = spec.className + ' class';
             meta.superclass = spec.superclass.klass;
             return that;
@@ -475,7 +475,7 @@ define(['require', './compatibility'], function (require) {
             rawAddClass(pkgName, className, superclass, iVarNames, false, null);
         };
 
-        function rawAddClass(pkgName, className, superclass, iVarNames, wrapped, fn) {
+        function rawAddClass(pkgName, className, superclass, iVarNames, fn, detachedRoot) {
             var pkg = st.packages[pkgName];
 
             if (!pkg) {
@@ -505,7 +505,7 @@ define(['require', './compatibility'], function (require) {
                     pkg: pkg,
                     iVarNames: iVarNames,
                     fn: fn,
-                    wrapped: wrapped
+                    detachedRoot: detachedRoot
                 });
 
                 addSubclass(theClass);
@@ -534,22 +534,23 @@ define(['require', './compatibility'], function (require) {
             }
         }
 
-        /* Create a new class wrapping a JavaScript constructor, and add it to the
-         global smalltalk object. Package is lazily created if it does not exist with given name. */
+        /* Create a new class coupling with a JavaScript constructor,
+         optionally detached root, and add it to the global smalltalk object.*/
 
-        st.wrapClassName = function (className, pkgName, fn, superclass, wrapped) {
-            wrapped = wrapped !== false;
-            rawAddClass(pkgName, className, superclass, globals[className] && globals[className].iVarNames, wrapped, fn);
-            if (wrapped) {
-                wrappedClasses.addElement(globals[className]);
-            }
+        st.addDetachedRootClass = function (className, superclass, pkgName, fn) {
+            rawAddClass(pkgName, className, superclass, globals[className] && globals[className].iVarNames, fn, true);
+            detachedRootClasses.addElement(globals[className]);
         };
 
-        /* Manually set the constructor of an existing Smalltalk klass, making it a wrapped class. */
+        st.addCoupledClass = function (className, superclass, pkgName, fn) {
+            rawAddClass(pkgName, className, superclass, globals[className] && globals[className].iVarNames, fn, false);
+        };
+
+        /* Manually set the constructor of an existing Smalltalk klass, making it a detached root class. */
 
         st.setClassConstructor = function (klass, constructor) {
-            wrappedClasses.addElement(klass);
-            klass.wrapped = true;
+            detachedRootClasses.addElement(klass);
+            klass.detachedRoot = true;
             klass.fn = constructor;
 
             // The fn property changed. We need to add back the klass property to the prototype
@@ -571,8 +572,8 @@ define(['require', './compatibility'], function (require) {
             return classes;
         };
 
-        this.wrappedClasses = function () {
-            return wrappedClasses;
+        this.detachedRootClasses = function () {
+            return detachedRootClasses;
         };
 
         // Still used, but could go away now that subclasses are stored
@@ -600,7 +601,7 @@ define(['require', './compatibility'], function (require) {
 
         this.__init__ = function () {
             st.addPackage("Kernel-Methods");
-            st.wrapClassName("CompiledMethod", "Kernel-Methods", SmalltalkMethod, globals.Object, false);
+            st.addCoupledClass("CompiledMethod", globals.Object, "Kernel-Methods", SmalltalkMethod);
         };
 
         /* Smalltalk method object. To add a method to a class,
@@ -640,7 +641,7 @@ define(['require', './compatibility'], function (require) {
             propagateMethodChange(klass, method);
 
             var usedSelectors = method.messageSends,
-                targetClasses = stInit.initialized() ? classBrik.wrappedClasses() : [];
+                targetClasses = stInit.initialized() ? classBrik.detachedRootClasses() : [];
 
             dnu.make(method.selector, targetClasses);
 
@@ -652,7 +653,7 @@ define(['require', './compatibility'], function (require) {
         function propagateMethodChange(klass, method) {
             // If already initialized (else it will be done later anyway),
             // re-initialize all subclasses to ensure the method change
-            // propagation (for wrapped classes, not using the prototype
+            // propagation (for detached root classes, not using the prototype
             // chain).
 
             if (stInit.initialized()) {
@@ -663,7 +664,7 @@ define(['require', './compatibility'], function (require) {
         }
 
         function initMethodInClass(klass, method) {
-            if (klass.wrapped && !klass.methods[method.selector]) {
+            if (klass.detachedRoot && !klass.methods[method.selector]) {
                 var jsSelector = method.jsSelector;
                 manip.installMethod({
                     jsSelector: jsSelector,
@@ -754,26 +755,26 @@ define(['require', './compatibility'], function (require) {
 
         this.__init__ = function () {
             st.addPackage("Kernel-Methods");
-            st.wrapClassName("Number", "Kernel-Objects", Number, globals.Object);
-            st.wrapClassName("BlockClosure", "Kernel-Methods", Function, globals.Object);
-            st.wrapClassName("Boolean", "Kernel-Objects", Boolean, globals.Object);
-            st.wrapClassName("Date", "Kernel-Objects", Date, globals.Object);
+            st.addDetachedRootClass("Number", globals.Object, "Kernel-Objects", Number);
+            st.addDetachedRootClass("BlockClosure", globals.Object, "Kernel-Methods", Function);
+            st.addDetachedRootClass("Boolean", globals.Object, "Kernel-Objects", Boolean);
+            st.addDetachedRootClass("Date", globals.Object, "Kernel-Objects", Date);
 
             st.addPackage("Kernel-Collections");
             st.addClass("Collection", globals.Object, null, "Kernel-Collections");
             st.addClass("IndexableCollection", globals.Collection, null, "Kernel-Collections");
             st.addClass("SequenceableCollection", globals.IndexableCollection, null, "Kernel-Collections");
             st.addClass("CharacterArray", globals.SequenceableCollection, null, "Kernel-Collections");
-            st.wrapClassName("String", "Kernel-Collections", String, globals.CharacterArray);
-            st.wrapClassName("Array", "Kernel-Collections", Array, globals.SequenceableCollection);
-            st.wrapClassName("RegularExpression", "Kernel-Collections", RegExp, globals.Object);
+            st.addDetachedRootClass("String", globals.CharacterArray, "Kernel-Collections", String);
+            st.addDetachedRootClass("Array", globals.SequenceableCollection, "Kernel-Collections", Array);
+            st.addDetachedRootClass("RegularExpression", globals.Object, "Kernel-Collections", RegExp);
 
             st.addPackage("Kernel-Exceptions");
-            st.wrapClassName("Error", "Kernel-Exceptions", Error, globals.Object);
+            st.addDetachedRootClass("Error", globals.Object, "Kernel-Exceptions", Error);
 
             st.addPackage("Kernel-Promises");
             st.addClass("Thenable", globals.Object, null, "Kernel-Promises");
-            st.wrapClassName("Promise", "Kernel-Promises", Promise, globals.Thenable);
+            st.addDetachedRootClass("Promise", globals.Thenable, "Kernel-Promises", Promise);
 
             /* Alias definitions */
 
@@ -864,7 +865,7 @@ define(['require', './compatibility'], function (require) {
 
         this.__init__ = function () {
             st.addPackage("Kernel-Methods");
-            st.wrapClassName("MethodContext", "Kernel-Methods", SmalltalkMethodContext, globals.Object, false);
+            st.addCoupledClass("MethodContext", globals.Object, "Kernel-Methods", SmalltalkMethodContext);
 
             // Fallbacks
             SmalltalkMethodContext.prototype.locals = {};
@@ -1177,9 +1178,10 @@ define(['require', './compatibility'], function (require) {
                 return o.klass != null ? o : globals.JSObjectProxy._on_(o);
             }
             // IMPORTANT: This optimization (return o if typeof !== "object")
-            // assumes all primitive types are wrapped by some Smalltalk class
-            // so they can be returned as-is, without boxing and looking for .klass.
-            // KEEP THE primitives-are-wrapped INVARIANT!
+            // assumes all primitive types are coupled with some
+            // (detached root) Smalltalk class so they can be returned as-is,
+            // without boxing and looking for .klass.
+            // KEEP THE primitives-are-coupled INVARIANT!
             return o;
         };
     }
