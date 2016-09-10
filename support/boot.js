@@ -409,7 +409,6 @@ define(['require', './compatibility'], function (require) {
          Superclass linking is *not* handled here, see smalltalk.init()  */
 
         function klass(spec) {
-            spec = spec || {};
             var setSuperClass = spec.superclass;
             if (!spec.superclass) {
                 spec.superclass = rootAsClass;
@@ -434,12 +433,11 @@ define(['require', './compatibility'], function (require) {
         }
 
         function metaclass(spec) {
-            spec = spec || {};
             var that = new SmalltalkMetaclass();
             that.fn = inherits(function () {
             }, spec.superclass.klass.fn);
             that.instanceClass = new that.fn();
-            setupClass(that);
+            setupClass(that, {});
             return that;
         }
 
@@ -451,9 +449,10 @@ define(['require', './compatibility'], function (require) {
         }
 
         function setupClass(klass, spec) {
-            spec = spec || {};
             klass.iVarNames = spec.iVarNames || [];
-            klass.pkg = spec.pkg;
+            if (spec.pkg) {
+                klass.pkg = spec.pkg;
+            }
 
             org.setupClassOrganization(klass);
             Object.defineProperty(klass, "methods", {
