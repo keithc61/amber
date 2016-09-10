@@ -487,8 +487,7 @@ define(['require', './compatibility'], function (require) {
             }
             var theClass = globals.hasOwnProperty(className) && globals[className];
             if (theClass && theClass.superclass == superclass) {
-                //            theClass.superclass = superclass;
-                theClass.iVarNames = iVarNames || [];
+                if (iVarNames) theClass.iVarNames = iVarNames;
                 if (pkg) theClass.pkg = pkg;
                 if (fn) {
                     fn.prototype = theClass.fn.prototype;
@@ -497,6 +496,7 @@ define(['require', './compatibility'], function (require) {
                 }
             } else {
                 if (theClass) {
+                    iVarNames = iVarNames || theClass.iVarNames;
                     st.removeClass(theClass);
                 }
                 theClass = globals[className] = klass({
@@ -538,12 +538,12 @@ define(['require', './compatibility'], function (require) {
          optionally detached root, and add it to the global smalltalk object.*/
 
         st.addDetachedRootClass = function (className, superclass, pkgName, fn) {
-            rawAddClass(pkgName, className, superclass, globals[className] && globals[className].iVarNames, fn, true);
+            rawAddClass(pkgName, className, superclass, null, fn, true);
             detachedRootClasses.addElement(globals[className]);
         };
 
         st.addCoupledClass = function (className, superclass, pkgName, fn) {
-            rawAddClass(pkgName, className, superclass, globals[className] && globals[className].iVarNames, fn, false);
+            rawAddClass(pkgName, className, superclass, null, fn, false);
         };
 
         /* Manually set the constructor of an existing Smalltalk klass, making it a detached root class. */
