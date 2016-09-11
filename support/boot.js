@@ -220,22 +220,37 @@ define(['require', './compatibility'], function (require) {
         };
     });
 
-    var DNUBrik = depends(["selectorConversion", "messageSend", "manipulation", "root"], function (brikz, st) {
+    var SelectorsBrik = depends(["selectorConversion"], function (brikz, st) {
+        var selectorSet = Object.create(null);
+        var selectors = this.selectors = [];
+        var jsSelectors = this.jsSelectors = [];
+
+        this.registerSelector = function (stSelector) {
+            if (selectorSet[stSelector]) return null;
+            var jsSelector = st.st2js(stSelector);
+            selectorSet[stSelector] = true;
+            selectors.push(stSelector);
+            jsSelectors.push(jsSelector);
+            return jsSelector;
+        };
+
+        /* Answer all method selectors based on dnu handlers */
+
+        st.allSelectors = function () {
+            return selectors;
+        };
+    });
+
+    var DNUBrik = depends(["selectors", "messageSend", "manipulation", "root"], function (brikz, st) {
+        var registerSelector = brikz.selectors.registerSelector;
         var installJSMethod = brikz.manipulation.installJSMethod;
         var RootProto = brikz.root.rootAsClass.fn.prototype;
 
         /* Method not implemented handlers */
 
-        var selectorSet = Object.create(null);
-        var selectors = this.selectors = [];
-        var jsSelectors = this.jsSelectors = [];
-
         this.makeDnuHandler = function (stSelector, targetClasses) {
-            if (selectorSet[stSelector]) return;
-            var jsSelector = st.st2js(stSelector);
-            selectorSet[stSelector] = true;
-            selectors.push(stSelector);
-            jsSelectors.push(jsSelector);
+            var jsSelector = registerSelector(stSelector);
+            if (!jsSelector) return;
             var fn = createHandler(stSelector);
             installJSMethod(RootProto, jsSelector, fn);
             targetClasses.forEach(function (target) {
@@ -252,8 +267,8 @@ define(['require', './compatibility'], function (require) {
         }
     });
 
-    var ClassInitBrik = depends(["dnu", "manipulation"], function (brikz, st) {
-        var dnu = brikz.dnu;
+    var ClassInitBrik = depends(["selectors", "manipulation"], function (brikz, st) {
+        var selectors = brikz.selectors;
         var installMethod = brikz.manipulation.installMethod;
         var installJSMethod = brikz.manipulation.installJSMethod;
 
@@ -285,7 +300,7 @@ define(['require', './compatibility'], function (require) {
             });
             var myproto = klass.fn.prototype,
                 superproto = superclass.fn.prototype;
-            dnu.jsSelectors.forEach(function (jsSelector) {
+            selectors.jsSelectors.forEach(function (jsSelector) {
                 var method = localMethodsByJsSelector[jsSelector];
                 if (!method) {
                     installJSMethod(myproto, jsSelector, superproto[jsSelector]);
@@ -596,8 +611,7 @@ define(['require', './compatibility'], function (require) {
         var installJSMethod = brikz.manipulation.installJSMethod;
         var addOrganizationElement = brikz.organize.addOrganizationElement;
         var initialized = brikz.stInit.initialized;
-        var dnu = brikz.dnu;
-        var makeDnuHandler = dnu.makeDnuHandler;
+        var makeDnuHandler = brikz.dnu.makeDnuHandler;
         var SmalltalkObject = brikz.root.Object;
         var detachedRootClasses = brikz.classes.detachedRootClasses;
 
@@ -696,12 +710,6 @@ define(['require', './compatibility'], function (require) {
 
             // Do *not* delete protocols from here.
             // This is handled by #removeCompiledMethod
-        };
-
-        /* Answer all method selectors based on dnu handlers */
-
-        st.allSelectors = function () {
-            return dnu.selectors;
         };
     });
 
@@ -1190,6 +1198,7 @@ define(['require', './compatibility'], function (require) {
 
     brikz.smalltalkGlobals = SmalltalkGlobalsBrik;
     brikz.root = RootBrik;
+    brikz.selectors = SelectorsBrik;
     brikz.dnu = DNUBrik;
     brikz.organize = OrganizeBrik;
     brikz.selectorConversion = SelectorConversionBrik;
