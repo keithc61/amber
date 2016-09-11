@@ -221,26 +221,25 @@ define(['require', './compatibility'], function (require) {
     });
 
     var DNUBrik = depends(["selectorConversion", "messageSend", "manipulation", "root"], function (brikz, st) {
-        var installMethod = brikz.manipulation.installMethod;
-        var rootAsClass = brikz.root.rootAsClass;
+        var installJSMethod = brikz.manipulation.installJSMethod;
+        var RootProto = brikz.root.rootAsClass.fn.prototype;
 
         /* Method not implemented handlers */
 
-        var methodDict = Object.create(null);
+        var selectorSet = Object.create(null);
         var selectors = this.selectors = [];
         var jsSelectors = this.jsSelectors = [];
 
         this.makeDnuHandler = function (stSelector, targetClasses) {
-            var method = methodDict[stSelector];
-            if (method) return;
+            if (selectorSet[stSelector]) return;
             var jsSelector = st.st2js(stSelector);
+            selectorSet[stSelector] = true;
             selectors.push(stSelector);
             jsSelectors.push(jsSelector);
-            method = {jsSelector: jsSelector, fn: createHandler(stSelector)};
-            methodDict[stSelector] = method;
-            installMethod(method, rootAsClass);
+            var fn = createHandler(stSelector);
+            installJSMethod(RootProto, jsSelector, fn);
             targetClasses.forEach(function (target) {
-                installMethod(method, target);
+                installJSMethod(target.fn.prototype, jsSelector, fn);
             });
         };
 
@@ -256,6 +255,7 @@ define(['require', './compatibility'], function (require) {
     var ClassInitBrik = depends(["dnu", "manipulation"], function (brikz, st) {
         var dnu = brikz.dnu;
         var installMethod = brikz.manipulation.installMethod;
+        var installJSMethod = brikz.manipulation.installJSMethod;
 
         /* Initialize a class in its class hierarchy. Handle both classes and
          metaclasses. */
@@ -285,16 +285,13 @@ define(['require', './compatibility'], function (require) {
             });
             var myproto = klass.fn.prototype,
                 superproto = superclass.fn.prototype;
-            dnu.jsSelectors.forEach(function (selector) {
-                var method = localMethodsByJsSelector[selector];
+            dnu.jsSelectors.forEach(function (jsSelector) {
+                var method = localMethodsByJsSelector[jsSelector];
                 if (!method) {
-                    installMethod({
-                        jsSelector: selector,
-                        fn: superproto[selector]
-                    }, klass);
-                } else if (method.fn !== myproto[selector]) {
-                    if (myproto[selector]) {
-                        console.warn("Amber forcefully rewriting method " + selector + " of " + klass.className + ".");
+                    installJSMethod(myproto, jsSelector, superproto[jsSelector]);
+                } else if (method.fn !== myproto[jsSelector]) {
+                    if (myproto[jsSelector]) {
+                        console.warn("Amber forcefully rewriting method " + jsSelector + " of " + klass.className + ".");
                     }
                     installMethod(method, klass);
                 }
@@ -303,12 +300,19 @@ define(['require', './compatibility'], function (require) {
     });
 
     function ManipulationBrik(brikz, st) {
-        this.installMethod = function (method, klass) {
-            Object.defineProperty(klass.fn.prototype, method.jsSelector, {
-                value: method.fn,
+        function installJSMethod(obj, jsSelector, fn) {
+            Object.defineProperty(obj, jsSelector, {
+                value: fn,
                 enumerable: false, configurable: true, writable: true
             });
-        };
+        }
+
+        function installMethod(method, klass) {
+            installJSMethod(klass.fn.prototype, method.jsSelector, method.fn);
+        }
+
+        this.installMethod = installMethod;
+        this.installJSMethod = installJSMethod;
     }
 
     var PackagesBrik = depends(["organize", "root"], function (brikz, st) {
@@ -589,6 +593,7 @@ define(['require', './compatibility'], function (require) {
 
     var MethodsBrik = depends(["manipulation", "organize", "stInit", "dnu", "root", "selectorConversion", "classes"], function (brikz, st) {
         var installMethod = brikz.manipulation.installMethod;
+        var installJSMethod = brikz.manipulation.installJSMethod;
         var addOrganizationElement = brikz.organize.addOrganizationElement;
         var initialized = brikz.stInit.initialized;
         var dnu = brikz.dnu;
@@ -669,10 +674,7 @@ define(['require', './compatibility'], function (require) {
         function initMethodInClass(klass, method) {
             if (klass.detachedRoot && !klass.methods[method.selector]) {
                 var jsSelector = method.jsSelector;
-                installMethod({
-                    jsSelector: jsSelector,
-                    fn: klass.superclass.fn.prototype[jsSelector]
-                }, klass);
+                installJSMethod(klass.fn.prototype, jsSelector, klass.superclass.fn.prototype[jsSelector]);
             }
         }
 
