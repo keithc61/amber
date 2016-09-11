@@ -131,7 +131,6 @@ define(['require', './compatibility'], function (require) {
     }
 
     function RootBrik(brikz, st) {
-
         /* Smalltalk foundational objects */
 
         /* SmalltalkRoot is the hidden root of the Amber hierarchy.
@@ -178,7 +177,6 @@ define(['require', './compatibility'], function (require) {
     }
 
     var OrganizeBrik = depends(["augments", "root"], function (brikz, st) {
-
         var SmalltalkObject = brikz.root.Object;
 
         function SmalltalkOrganizer() {
@@ -223,27 +221,26 @@ define(['require', './compatibility'], function (require) {
     });
 
     var DNUBrik = depends(["selectorConversion", "messageSend", "manipulation", "root"], function (brikz, st) {
-
-        var manip = brikz.manipulation;
+        var installMethod = brikz.manipulation.installMethod;
         var rootAsClass = brikz.root.rootAsClass;
 
         /* Method not implemented handlers */
 
         var methodDict = Object.create(null);
-        this.selectors = [];
-        this.jsSelectors = [];
+        var selectors = this.selectors = [];
+        var jsSelectors = this.jsSelectors = [];
 
-        this.make = function (stSelector, targetClasses) {
+        this.makeDnuHandler = function (stSelector, targetClasses) {
             var method = methodDict[stSelector];
             if (method) return;
             var jsSelector = st.st2js(stSelector);
-            this.selectors.push(stSelector);
-            this.jsSelectors.push(jsSelector);
+            selectors.push(stSelector);
+            jsSelectors.push(jsSelector);
             method = {jsSelector: jsSelector, fn: createHandler(stSelector)};
             methodDict[stSelector] = method;
-            manip.installMethod(method, rootAsClass);
+            installMethod(method, rootAsClass);
             targetClasses.forEach(function (target) {
-                manip.installMethod(method, target);
+                installMethod(method, target);
             });
         };
 
@@ -257,9 +254,8 @@ define(['require', './compatibility'], function (require) {
     });
 
     var ClassInitBrik = depends(["dnu", "manipulation"], function (brikz, st) {
-
         var dnu = brikz.dnu;
-        var manip = brikz.manipulation;
+        var installMethod = brikz.manipulation.installMethod;
 
         /* Initialize a class in its class hierarchy. Handle both classes and
          metaclasses. */
@@ -292,7 +288,7 @@ define(['require', './compatibility'], function (require) {
             dnu.jsSelectors.forEach(function (selector) {
                 var method = localMethodsByJsSelector[selector];
                 if (!method) {
-                    manip.installMethod({
+                    installMethod({
                         jsSelector: selector,
                         fn: superproto[selector]
                     }, klass);
@@ -300,7 +296,7 @@ define(['require', './compatibility'], function (require) {
                     if (myproto[selector]) {
                         console.warn("Amber forcefully rewriting method " + selector + " of " + klass.className + ".");
                     }
-                    manip.installMethod(method, klass);
+                    installMethod(method, klass);
                 }
             });
         }
@@ -316,8 +312,7 @@ define(['require', './compatibility'], function (require) {
     }
 
     var PackagesBrik = depends(["organize", "root"], function (brikz, st) {
-
-        var org = brikz.organize;
+        var setupPackageOrganization = brikz.organize.setupPackageOrganization;
         var SmalltalkObject = brikz.root.Object;
 
         function SmalltalkPackage() {
@@ -338,7 +333,7 @@ define(['require', './compatibility'], function (require) {
         function pkg(spec) {
             var that = new SmalltalkPackage();
             that.pkgName = spec.pkgName;
-            org.setupPackageOrganization(that);
+            setupPackageOrganization(that);
             that.properties = spec.properties || {};
             return that;
         }
@@ -366,13 +361,13 @@ define(['require', './compatibility'], function (require) {
     });
 
     var ClassesBrik = depends(["organize", "root", "smalltalkGlobals", "classInit"], function (brikz, st) {
-
-        var org = brikz.organize;
-        var root = brikz.root;
+        var setupClassOrganization = brikz.organize.setupClassOrganization;
+        var addOrganizationElement = brikz.organize.addOrganizationElement;
+        var removeOrganizationElement = brikz.organize.removeOrganizationElement;
         var globals = brikz.smalltalkGlobals.globals;
-        var classInit = brikz.classInit;
-        var rootAsClass = root.rootAsClass;
-        var SmalltalkObject = root.Object;
+        var initClass = brikz.classInit.initClass;
+        var rootAsClass = brikz.root.rootAsClass;
+        var SmalltalkObject = brikz.root.Object;
         rootAsClass.klass = {fn: SmalltalkClass};
 
         function SmalltalkBehavior() {
@@ -462,7 +457,7 @@ define(['require', './compatibility'], function (require) {
                 klass.pkg = spec.pkg;
             }
 
-            org.setupClassOrganization(klass);
+            setupClassOrganization(klass);
             Object.defineProperty(klass, "methods", {
                 value: Object.create(null),
                 enumerable: false, configurable: true, writable: true
@@ -519,12 +514,12 @@ define(['require', './compatibility'], function (require) {
             }
 
             classes.addElement(theClass);
-            org.addOrganizationElement(pkg, theClass);
+            addOrganizationElement(pkg, theClass);
             return theClass;
         }
 
         st.removeClass = function (klass) {
-            org.removeOrganizationElement(klass.pkg, klass);
+            removeOrganizationElement(klass.pkg, klass);
             classes.removeElement(klass);
             removeSubclass(klass);
             delete globals[klass.className];
@@ -565,7 +560,7 @@ define(['require', './compatibility'], function (require) {
             // The fn property changed. We need to add back the klass property to the prototype
             wireKlass(klass);
 
-            classInit.initClass(klass);
+            initClass(klass);
         };
 
         /* Create an alias for an existing class */
@@ -590,17 +585,16 @@ define(['require', './compatibility'], function (require) {
         st.allSubclasses = function (klass) {
             return klass._allSubclasses();
         };
-
     });
 
     var MethodsBrik = depends(["manipulation", "organize", "stInit", "dnu", "root", "selectorConversion", "classes"], function (brikz, st) {
-
-        var manip = brikz.manipulation;
-        var org = brikz.organize;
-        var stInit = brikz.stInit;
+        var installMethod = brikz.manipulation.installMethod;
+        var addOrganizationElement = brikz.organize.addOrganizationElement;
+        var initialized = brikz.stInit.initialized;
         var dnu = brikz.dnu;
+        var makeDnuHandler = dnu.makeDnuHandler;
         var SmalltalkObject = brikz.root.Object;
-        var classBrik = brikz.classes;
+        var detachedRootClasses = brikz.classes.detachedRootClasses;
 
         function SmalltalkMethod() {
         }
@@ -639,23 +633,23 @@ define(['require', './compatibility'], function (require) {
 
         st.addMethod = function (method, klass) {
             ensureJsSelector(method);
-            manip.installMethod(method, klass);
+            installMethod(method, klass);
             klass.methods[method.selector] = method;
             method.methodClass = klass;
 
             // During the bootstrap, #addCompiledMethod is not used.
             // Therefore we populate the organizer here too
-            org.addOrganizationElement(klass, method.protocol);
+            addOrganizationElement(klass, method.protocol);
 
             propagateMethodChange(klass, method);
 
             var usedSelectors = method.messageSends,
-                targetClasses = stInit.initialized() ? classBrik.detachedRootClasses() : [];
+                targetClasses = initialized() ? detachedRootClasses() : [];
 
-            dnu.make(method.selector, targetClasses);
+            makeDnuHandler(method.selector, targetClasses);
 
             for (var i = 0; i < usedSelectors.length; i++) {
-                dnu.make(usedSelectors[i], targetClasses);
+                makeDnuHandler(usedSelectors[i], targetClasses);
             }
         };
 
@@ -665,7 +659,7 @@ define(['require', './compatibility'], function (require) {
             // propagation (for detached root classes, not using the prototype
             // chain).
 
-            if (stInit.initialized()) {
+            if (initialized()) {
                 st.allSubclasses(klass).forEach(function (subclass) {
                     initMethodInClass(subclass, method);
                 });
@@ -675,7 +669,7 @@ define(['require', './compatibility'], function (require) {
         function initMethodInClass(klass, method) {
             if (klass.detachedRoot && !klass.methods[method.selector]) {
                 var jsSelector = method.jsSelector;
-                manip.installMethod({
+                installMethod({
                     jsSelector: jsSelector,
                     fn: klass.superclass.fn.prototype[jsSelector]
                 }, klass);
@@ -707,11 +701,9 @@ define(['require', './compatibility'], function (require) {
         st.allSelectors = function () {
             return dnu.selectors;
         };
-
     });
 
     function AugmentsBrik(brikz, st) {
-
         /* Array extensions */
 
         Array.prototype.addElement = function (el) {
@@ -732,7 +724,6 @@ define(['require', './compatibility'], function (require) {
     }
 
     var SmalltalkInitBrik = depends(["classInit", "classes"], function (brikz, st) {
-
         var initialized = false;
 
         /* Smalltalk initialization. Called on page load */
@@ -787,17 +778,15 @@ define(['require', './compatibility'], function (require) {
 
             st.alias(globals.Array, "OrderedCollection");
             st.alias(globals.Date, "Time");
-
         };
     });
 
     var PrimitivesBrik = depends(["smalltalkGlobals"], function (brikz, st) {
-
         var globals = brikz.smalltalkGlobals.globals;
 
-        /* Unique ID number generator */
 
         var oid = 0;
+        /* Unique ID number generator */
         st.nextId = function () {
             oid += 1;
             return oid;
@@ -852,11 +841,9 @@ define(['require', './compatibility'], function (require) {
             'public', 'static', 'yield'];
 
         st.globalJsVariables = ['window', 'document', 'process', 'global'];
-
     });
 
     var RuntimeBrik = depends(["selectorConversion", "smalltalkGlobals", "root"], function (brikz, st) {
-
         var globals = brikz.smalltalkGlobals.globals;
         var SmalltalkObject = brikz.root.Object;
 
@@ -1028,7 +1015,6 @@ define(['require', './compatibility'], function (require) {
     });
 
     var MessageSendBrik = depends(["smalltalkGlobals", "selectorConversion", "root"], function (brikz, st) {
-
         var globals = brikz.smalltalkGlobals.globals;
         var nil = brikz.root.nil;
 
@@ -1098,7 +1084,6 @@ define(['require', './compatibility'], function (require) {
     });
 
     function SelectorConversionBrik(brikz, st) {
-
         /* Convert a Smalltalk selector into a JS selector */
         st.st2js = function (string) {
             return '_' + string
