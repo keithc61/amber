@@ -157,14 +157,14 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
     var SelectorsBrik = depends(["selectorConversion"], function (brikz, st) {
         var selectorSet = Object.create(null);
         var selectors = this.selectors = [];
-        var jsSelectors = this.jsSelectors = [];
+        var selectorPairs = this.selectorPairs = [];
 
         this.registerSelector = function (stSelector) {
             if (selectorSet[stSelector]) return null;
             var jsSelector = st.st2js(stSelector);
             selectorSet[stSelector] = true;
             selectors.push(stSelector);
-            jsSelectors.push(jsSelector);
+            selectorPairs.push({st: stSelector, js: jsSelector});
             return jsSelector;
         };
 
@@ -234,8 +234,9 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             });
             var myproto = klass.fn.prototype,
                 superproto = superclass.fn.prototype;
-            selectors.jsSelectors.forEach(function (jsSelector) {
-                var method = localMethodsByJsSelector[jsSelector];
+            selectors.selectorPairs.forEach(function (selectorPair) {
+                var jsSelector = selectorPair.js,
+                    method = localMethodsByJsSelector[jsSelector];
                 if (!method) {
                     installJSMethod(myproto, jsSelector, superproto[jsSelector]);
                 } else if (method.fn !== myproto[jsSelector]) {
