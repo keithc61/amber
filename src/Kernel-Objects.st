@@ -99,7 +99,7 @@ perform: aString
 !
 
 perform: aString withArguments: aCollection
-	<return $core.send(self, aString._asJavaScriptMethodName(), aCollection)>
+	<return $core.send2(self, aString, aCollection)>
 ! !
 
 !ProtoObject methodsFor: 'printing'!

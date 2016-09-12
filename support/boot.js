@@ -965,8 +965,8 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         /* Handles unhandled errors during message sends */
         // simply send the message and handle #dnu:
 
-        st.send = function (receiver, jsSelector, args, klass) {
-            var method;
+        st.send2 = function (receiver, selector, args, klass) {
+            var method, jsSelector = st.st2js(selector);
             if (receiver == null) {
                 receiver = nil;
             }
@@ -974,7 +974,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             if (method) {
                 return method.apply(receiver, args || []);
             } else {
-                return messageNotUnderstood(receiver, st.js2st(jsSelector), args);
+                return messageNotUnderstood(receiver, selector, args);
             }
         };
 

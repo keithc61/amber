@@ -508,7 +508,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $core.send(self, aString._asJavaScriptMethodName(), aCollection);
+return $core.send2(self, aString, aCollection);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"perform:withArguments:",{aString:aString,aCollection:aCollection},$globals.ProtoObject)});
@@ -516,7 +516,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aCollection"],
-source: "perform: aString withArguments: aCollection\x0a\x09<return $core.send(self, aString._asJavaScriptMethodName(), aCollection)>",
+source: "perform: aString withArguments: aCollection\x0a\x09<return $core.send2(self, aString, aCollection)>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
