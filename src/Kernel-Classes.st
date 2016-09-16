@@ -35,15 +35,7 @@ allSelectors
 allSubclasses
 	"Answer an collection of the receiver's and the receiver's descendent's subclasses. "
 
-	| subclasses index |
-	
-	subclasses := self subclasses.
-	index := 1.
-	[ index > subclasses size ]
-		whileFalse: [ subclasses addAll: (subclasses at: index) subclasses.
-			index := index + 1 ].
-
-	^ subclasses
+	^ Array streamContents: [ :str | self allSubclassesDo: [ :each | str nextPut: each ] ]
 !
 
 allSuperclasses
@@ -274,8 +266,9 @@ removeCompiledMethod: aMethod
 allSubclassesDo: aBlock
 	"Evaluate the argument, aBlock, for each of the receiver's subclasses."
 
-	self allSubclasses do: [ :each |
-    	aBlock value: each ]
+<$core.traverseClassTree(self, function(subclass) {
+	if (subclass !!== self) aBlock._value_(subclass);
+})>
 !
 
 protocolsDo: aBlock
@@ -497,9 +490,7 @@ package
 !
 
 subclasses
-	^ (self instanceClass subclasses 
-		select: [ :each | each isMetaclass not ])
-		collect: [ :each | each theMetaClass ]
+	<return $core.metaSubclasses(self)>
 !
 
 theMetaClass

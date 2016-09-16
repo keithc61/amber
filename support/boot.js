@@ -537,12 +537,25 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             return detachedRootClasses;
         };
 
+        function metaSubclasses(metaclass) {
+            return metaclass.instanceClass.subclasses
+                .filter(function (each) {
+                    return !each.meta;
+                })
+                .map(function (each) {
+                    return each.klass;
+                });
+        }
+
+        st.metaSubclasses = metaSubclasses;
+
         st.traverseClassTree = function (klass, fn) {
             var queue = [klass];
             for (var i = 0; i < queue.length; ++i) {
                 var item = queue[i];
                 fn(item);
-                queue.push.apply(queue, item.subclasses);
+                var subclasses = item.meta ? metaSubclasses(item) : item.subclasses;
+                queue.push.apply(queue, subclasses);
             }
         }
     });

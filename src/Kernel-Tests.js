@@ -2326,6 +2326,108 @@ $globals.ClassTest);
 
 $core.addMethod(
 $core.method({
+selector: "testAllSubclasses",
+protocol: 'tests',
+fn: function (){
+var self=this;
+var subclasses,index;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+subclasses=$recv($globals.Object)._subclasses();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["subclasses"]=1;
+//>>excludeEnd("ctx");
+index=(1);
+$recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(index).__gt($recv(subclasses)._size());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}))._whileFalse_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv(subclasses)._addAll_($recv($recv(subclasses)._at_(index))._subclasses());
+index=$recv(index).__plus((1));
+return index;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+self._assert_equals_($recv($globals.Object)._allSubclasses(),subclasses);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testAllSubclasses",{subclasses:subclasses,index:index},$globals.ClassTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAllSubclasses\x0a\x09| subclasses index |\x0a\x0a\x09subclasses := Object subclasses.\x0a\x09index := 1.\x0a\x09[ index > subclasses size ]\x0a\x09\x09whileFalse: [ subclasses addAll: (subclasses at: index) subclasses.\x0a\x09\x09\x09index := index + 1 ].\x0a\x0a\x09self assert: Object allSubclasses equals: subclasses",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+messageSends: ["subclasses", "whileFalse:", ">", "size", "addAll:", "at:", "+", "assert:equals:", "allSubclasses"]
+}),
+$globals.ClassTest);
+
+$core.addMethod(
+$core.method({
+selector: "testMetaclassSubclasses",
+protocol: 'tests',
+fn: function (){
+var self=this;
+var subclasses;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $4,$3,$2,$1;
+$4=$recv($globals.Object)._class();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["class"]=1;
+//>>excludeEnd("ctx");
+$3=$recv($4)._instanceClass();
+$2=$recv($3)._subclasses();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["subclasses"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2)._select_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($recv(each)._isMetaclass())._not();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+subclasses=$recv($1)._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(each)._theMetaClass();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+self._assert_equals_($recv($recv($globals.Object)._class())._subclasses(),subclasses);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testMetaclassSubclasses",{subclasses:subclasses},$globals.ClassTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testMetaclassSubclasses\x0a\x09| subclasses |\x0a\x0a\x09subclasses := (Object class instanceClass subclasses \x0a\x09\x09select: [ :each | each isMetaclass not ])\x0a\x09\x09collect: [ :each | each theMetaClass ].\x0a\x0a\x09self assert: Object class subclasses equals: subclasses",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+messageSends: ["collect:", "select:", "subclasses", "instanceClass", "class", "not", "isMetaclass", "theMetaClass", "assert:equals:"]
+}),
+$globals.ClassTest);
+
+$core.addMethod(
+$core.method({
 selector: "testSetJavaScriptConstructor",
 protocol: 'tests',
 fn: function (){

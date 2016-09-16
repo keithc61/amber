@@ -460,6 +460,28 @@ trickyJsConstructor
 
 !ClassTest methodsFor: 'tests'!
 
+testAllSubclasses
+	| subclasses index |
+
+	subclasses := Object subclasses.
+	index := 1.
+	[ index > subclasses size ]
+		whileFalse: [ subclasses addAll: (subclasses at: index) subclasses.
+			index := index + 1 ].
+
+	self assert: Object allSubclasses equals: subclasses
+!
+
+testMetaclassSubclasses
+	| subclasses |
+
+	subclasses := (Object class instanceClass subclasses 
+		select: [ :each | each isMetaclass not ])
+		collect: [ :each | each theMetaClass ].
+
+	self assert: Object class subclasses equals: subclasses
+!
+
 testSetJavaScriptConstructor
 	| instance |
 	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.
