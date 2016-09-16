@@ -250,6 +250,13 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
     });
 
     function ManipulationBrik(brikz, st) {
+        function wireKlass(klass) {
+            Object.defineProperty(klass.fn.prototype, "klass", {
+                value: klass,
+                enumerable: false, configurable: true, writable: true
+            });
+        }
+
         function installJSMethod(obj, jsSelector, fn) {
             Object.defineProperty(obj, jsSelector, {
                 value: fn,
@@ -261,6 +268,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             installJSMethod(klass.fn.prototype, method.jsSelector, method.fn);
         }
 
+        this.wireKlass = wireKlass;
         this.installMethod = installMethod;
         this.installJSMethod = installJSMethod;
     }
@@ -314,10 +322,11 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         };
     });
 
-    var ClassesBrik = depends(["organize", "root", "smalltalkGlobals", "classInit"], function (brikz, st) {
+    var ClassesBrik = depends(["organize", "manipulation", "root", "smalltalkGlobals", "classInit"], function (brikz, st) {
         var setupClassOrganization = brikz.organize.setupClassOrganization;
         var addOrganizationElement = brikz.organize.addOrganizationElement;
         var removeOrganizationElement = brikz.organize.removeOrganizationElement;
+        var wireKlass = brikz.manipulation.wireKlass;
         var globals = brikz.smalltalkGlobals.globals;
         var initClass = brikz.classInit.initClass;
         var rootAsClass = brikz.root.rootAsClass;
@@ -396,13 +405,6 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             that.instanceClass = new that.fn();
             setupClass(that, {});
             return that;
-        }
-
-        function wireKlass(klass) {
-            Object.defineProperty(klass.fn.prototype, "klass", {
-                value: klass,
-                enumerable: false, configurable: true, writable: true
-            });
         }
 
         function setupClass(klass, spec) {
