@@ -537,11 +537,14 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             return detachedRootClasses;
         };
 
-        // Still used, but could go away now that subclasses are stored
-        // into classes directly.
-        st.allSubclasses = function (klass) {
-            return klass._allSubclasses();
-        };
+        st.traverseClassTree = function (klass, fn) {
+            var queue = [klass];
+            for (var i = 0; i < queue.length; ++i) {
+                var item = queue[i];
+                fn(item);
+                queue.push.apply(queue, item.subclasses);
+            }
+        }
     });
 
     var MethodsBrik = depends(["manipulation", "organize", "stInit", "dnu", "root", "selectorConversion", "classes"], function (brikz, st) {
@@ -617,8 +620,8 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             // chain).
 
             if (initialized()) {
-                st.allSubclasses(klass).forEach(function (subclass) {
-                    initMethodInClass(subclass, method);
+                st.traverseClassTree(klass, function (subclass) {
+                    if (subclass !== klass) initMethodInClass(subclass, method);
                 });
             }
         }
