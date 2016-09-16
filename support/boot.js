@@ -369,7 +369,6 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         /* Smalltalk classes */
 
         var classes = [];
-        var detachedRootClasses = [];
 
         /* Smalltalk class creation. A class is an instance of an automatically
          created metaclass object. Newly created classes (not their metaclass)
@@ -394,7 +393,6 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             setupClass(that, spec);
 
             that.className = spec.className;
-            that.detachedRoot = spec.detachedRoot || false;
             meta.className = spec.className + ' class';
             meta.superclass = spec.superclass.klass;
             return that;
@@ -432,10 +430,10 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             if (typeof superclass == 'undefined' || superclass && superclass.isNil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
-            return rawAddClass(pkgName, className, superclass, iVarNames, null, false);
+            return rawAddClass(pkgName, className, superclass, iVarNames, null);
         };
 
-        function rawAddClass(pkgName, className, superclass, iVarNames, fn, detachedRoot) {
+        function rawAddClass(pkgName, className, superclass, iVarNames, fn) {
             var pkg = st.packages[pkgName];
 
             if (!pkg) {
@@ -464,8 +462,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
                     superclass: superclass,
                     pkg: pkg,
                     iVarNames: iVarNames,
-                    fn: fn,
-                    detachedRoot: detachedRoot
+                    fn: fn
                 });
 
                 addSubclass(theClass);
@@ -495,24 +492,30 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             }
         }
 
+        var detachedRootClasses = [];
+
         /* Create a new class coupling with a JavaScript constructor,
          optionally detached root, and add it to the global smalltalk object.*/
 
         st.addDetachedRootClass = function (className, superclass, pkgName, fn) {
-            var klass = rawAddClass(pkgName, className, superclass, null, fn, true);
-            detachedRootClasses.addElement(klass);
+            var klass = rawAddClass(pkgName, className, superclass, null, fn);
+            markClassDetachedRoot(klass);
             return klass;
         };
 
+        function markClassDetachedRoot(klass) {
+            detachedRootClasses.addElement(klass);
+            klass.detachedRoot = true;
+        }
+
         st.addCoupledClass = function (className, superclass, pkgName, fn) {
-            return rawAddClass(pkgName, className, superclass, null, fn, false);
+            return rawAddClass(pkgName, className, superclass, null, fn);
         };
 
         /* Manually set the constructor of an existing Smalltalk klass, making it a detached root class. */
 
         st.setClassConstructor = function (klass, constructor) {
-            detachedRootClasses.addElement(klass);
-            klass.detachedRoot = true;
+            markClassDetachedRoot(klass);
             klass.fn = constructor;
             initClass(klass);
         };
