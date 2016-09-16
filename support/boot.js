@@ -432,7 +432,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             if (typeof superclass == 'undefined' || superclass && superclass.isNil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
-            return rawAddClass(pkgName, className, superclass, iVarNames, false, null);
+            return rawAddClass(pkgName, className, superclass, iVarNames, null, false);
         };
 
         function rawAddClass(pkgName, className, superclass, iVarNames, fn, detachedRoot) {
