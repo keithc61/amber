@@ -203,6 +203,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
     var ClassInitBrik = depends(["selectors", "manipulation"], function (brikz, st) {
         var selectors = brikz.selectors;
+        var wireKlass = brikz.manipulation.wireKlass;
         var installMethod = brikz.manipulation.installMethod;
         var installJSMethod = brikz.manipulation.installJSMethod;
 
@@ -217,6 +218,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         };
 
         function initClass(klass) {
+            wireKlass(klass);
             if (klass.detachedRoot) {
                 copySuperclass(klass);
             }
@@ -402,6 +404,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             var that = new SmalltalkMetaclass();
             that.fn = inherits(function () {
             }, spec.superclass.klass.fn);
+            wireKlass(that);
             that.instanceClass = new that.fn();
             setupClass(that, {});
             return that;
@@ -418,7 +421,6 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
                 value: Object.create(null),
                 enumerable: false, configurable: true, writable: true
             });
-            wireKlass(klass);
         }
 
         /* Add a class to the smalltalk object, creating a new one if needed.
@@ -512,10 +514,6 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             detachedRootClasses.addElement(klass);
             klass.detachedRoot = true;
             klass.fn = constructor;
-
-            // The fn property changed. We need to add back the klass property to the prototype
-            wireKlass(klass);
-
             initClass(klass);
         };
 
