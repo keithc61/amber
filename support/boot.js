@@ -51,11 +51,6 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         return child;
     }
 
-    function depends(deps, brik) {
-        brik.deps = deps;
-        return brik;
-    }
-
     function SmalltalkGlobalsBrik(brikz, st) {
         var jsGlobals = new Function("return this")();
         var globals = Object.create(jsGlobals);
@@ -110,7 +105,8 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         };
     }
 
-    var OrganizeBrik = depends(["augments", "root"], function (brikz, st) {
+    OrganizeBrik.deps = ["augments", "root"];
+    function OrganizeBrik(brikz, st) {
         var SmalltalkObject = brikz.root.Object;
 
         function SmalltalkOrganizer() {
@@ -152,9 +148,10 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         this.removeOrganizationElement = function (owner, element) {
             owner.organization.elements.removeElement(element);
         };
-    });
+    }
 
-    var SelectorsBrik = depends(["selectorConversion"], function (brikz, st) {
+    SelectorsBrik.deps = ["selectorConversion"];
+    function SelectorsBrik(brikz, st) {
         var selectorSet = Object.create(null);
         var selectors = this.selectors = [];
         var selectorPairs = this.selectorPairs = [];
@@ -174,9 +171,10 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         st.allSelectors = function () {
             return selectors;
         };
-    });
+    }
 
-    var PackagesBrik = depends(["organize", "root"], function (brikz, st) {
+    PackagesBrik.deps = ["organize", "root"];
+    function PackagesBrik(brikz, st) {
         var setupPackageOrganization = brikz.organize.setupPackageOrganization;
         var SmalltalkObject = brikz.root.Object;
 
@@ -223,9 +221,10 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             }
             return st.packages[pkgName];
         };
-    });
+    }
 
-    var ClassesBrik = depends(["organize", "root", "smalltalkGlobals"], function (brikz, st) {
+    ClassesBrik.deps = ["organize", "root", "smalltalkGlobals"];
+    function ClassesBrik(brikz, st) {
         var setupClassOrganization = brikz.organize.setupClassOrganization;
         var addOrganizationElement = brikz.organize.addOrganizationElement;
         var removeOrganizationElement = brikz.organize.removeOrganizationElement;
@@ -460,9 +459,10 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
                 queue.push.apply(queue, subclasses);
             }
         }
-    });
+    }
 
-    var MethodsBrik = depends(["organize", "selectors", "root", "selectorConversion"], function (brikz, st) {
+    MethodsBrik.deps = ["organize", "selectors", "root", "selectorConversion"];
+    function MethodsBrik(brikz, st) {
         var addOrganizationElement = brikz.organize.addOrganizationElement;
         var registerSelector = brikz.selectors.registerSelector;
         var SmalltalkObject = brikz.root.Object;
@@ -537,7 +537,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             // Do *not* delete protocols from here.
             // This is handled by #removeCompiledMethod
         };
-    });
+    }
 
     function AugmentsBrik(brikz, st) {
         /* Array extensions */
@@ -559,7 +559,8 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         };
     }
 
-    var SmalltalkInitBrik = depends(["classes"], function (brikz, st) {
+    SmalltalkInitBrik.deps = ["classes"];
+    function SmalltalkInitBrik(brikz, st) {
         var initialized = false;
 
         /* Smalltalk initialization. Called on page load */
@@ -607,9 +608,10 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             st.alias(globals.Array, "OrderedCollection");
             st.alias(globals.Date, "Time");
         };
-    });
+    }
 
-    var DNUBrik = depends(["selectors", "messageSend", "manipulation", "root"], function (brikz, st) {
+    DNUBrik.deps = ["selectors", "messageSend", "manipulation", "root"];
+    function DNUBrik(brikz, st) {
         var selectorsBrik = brikz.selectors;
         var messageNotUnderstood = brikz.messageSend.messageNotUnderstood;
         var installJSMethod = brikz.manipulation.installJSMethod;
@@ -639,7 +641,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         selectorsBrik.selectorPairs.forEach(function (pair) {
             makeDnuHandler(pair, []);
         });
-    });
+    }
 
     function ManipulationBrik(brikz, st) {
         function installJSMethod(obj, jsSelector, fn) {
@@ -657,7 +659,8 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         this.installJSMethod = installJSMethod;
     }
 
-    var RuntimeClassesBrik = depends(["selectors", "dnu", "classes", "manipulation"], function (brikz, st) {
+    RuntimeClassesBrik.deps = ["selectors", "dnu", "classes", "manipulation"];
+    function RuntimeClassesBrik(brikz, st) {
         var selectors = brikz.selectors;
         var classes = brikz.classes.classes;
         var wireKlass = brikz.classes.wireKlass;
@@ -710,9 +713,10 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             klass.fn = constructor;
             initClass(klass);
         };
-    });
+    }
 
-    var RuntimeMethodsBrik = depends(["manipulation", "dnu", "classes"], function (brikz, st) {
+    RuntimeMethodsBrik.deps = ["manipulation", "dnu", "classes"];
+    function RuntimeMethodsBrik(brikz, st) {
         var installMethod = brikz.manipulation.installMethod;
         var installJSMethod = brikz.manipulation.installJSMethod;
         var makeDnuHandler = brikz.dnu.makeDnuHandler;
@@ -750,9 +754,10 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
                 installJSMethod(klass.fn.prototype, jsSelector, klass.superclass.fn.prototype[jsSelector]);
             }
         }
-    });
+    }
 
-    var PrimitivesBrik = depends(["smalltalkGlobals"], function (brikz, st) {
+    PrimitivesBrik.deps = ["smalltalkGlobals"];
+    function PrimitivesBrik(brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
 
 
@@ -812,9 +817,10 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             'public', 'static', 'yield'];
 
         st.globalJsVariables = ['window', 'document', 'process', 'global'];
-    });
+    }
 
-    var RuntimeBrik = depends(["selectorConversion", "smalltalkGlobals", "root"], function (brikz, st) {
+    RuntimeBrik.deps = ["selectorConversion", "smalltalkGlobals", "root"];
+    function RuntimeBrik(brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
         var SmalltalkObject = brikz.root.Object;
 
@@ -983,9 +989,10 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
                 return null;
             }
         };
-    });
+    }
 
-    var MessageSendBrik = depends(["smalltalkGlobals", "selectorConversion", "root"], function (brikz, st) {
+    MessageSendBrik.deps = ["smalltalkGlobals", "selectorConversion", "root"];
+    function MessageSendBrik(brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
         var nil = brikz.root.nil;
 
@@ -1052,7 +1059,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
         st.accessJavaScript = accessJavaScript;
         this.messageNotUnderstood = messageNotUnderstood;
-    });
+    }
 
     function SelectorConversionBrik(brikz, st) {
         /* Convert a Smalltalk selector into a JS selector */
@@ -1124,7 +1131,8 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
     /* Defines asReceiver to be present at load time */
     /* (logically it belongs more to PrimitiveBrik) */
-    var AsReceiverBrik = depends(["smalltalkGlobals", "root"], function (brikz, st) {
+    AsReceiverBrik.deps = ["smalltalkGlobals", "root"];
+    function AsReceiverBrik(brikz, st) {
 
         var globals = brikz.smalltalkGlobals.globals;
         var nil = brikz.root.nil;
@@ -1150,7 +1158,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             // KEEP THE primitives-are-coupled INVARIANT!
             return o;
         };
-    });
+    }
 
     var api = {};
     var brikz = new Brikz(api);
