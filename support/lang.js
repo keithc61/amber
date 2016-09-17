@@ -1,6 +1,6 @@
 define([
-    './helpers', // pre-fetch, dep of ./deploy
     './deploy',
+    './helpers', // pre-fetch, dep of ./deploy
     './parser',
     // --- packages for the Amber reflection begin here ---
     'amber_core/Platform-ImportExport',
