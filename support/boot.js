@@ -359,7 +359,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
                 superclass = null;
             }
             var theClass = globals.hasOwnProperty(className) && globals[className];
-            if (theClass && theClass.superclass == superclass) {
+            if (theClass && theClass.superclass == superclass && !fn) {
                 if (iVarNames) theClass.iVarNames = iVarNames;
                 if (pkg) theClass.pkg = pkg;
             } else {
@@ -809,10 +809,10 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         st.globalJsVariables = ['window', 'document', 'process', 'global'];
     }
 
-    RuntimeBrik.deps = ["selectorConversion", "smalltalkGlobals", "root"];
+    RuntimeBrik.deps = ["selectorConversion", "smalltalkGlobals", "runtimeClasses"];
     function RuntimeBrik(brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
-        var SmalltalkObject = brikz.root.Object;
+        var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
 
         function SmalltalkMethodContext(home, setup) {
             this.sendIdx = {};
@@ -823,21 +823,11 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             this.supercall = false;
         }
 
-        inherits(SmalltalkMethodContext, SmalltalkObject);
-
         // Fallbacks
         SmalltalkMethodContext.prototype.locals = {};
         SmalltalkMethodContext.prototype.receiver = null;
         SmalltalkMethodContext.prototype.selector = null;
         SmalltalkMethodContext.prototype.lookupClass = null;
-
-        this.__init__ = function () {
-            var globals = brikz.smalltalkGlobals.globals;
-            var addCoupledClass = brikz.classes.addCoupledClass;
-            st.addPackage("Kernel-Methods");
-
-            addCoupledClass("MethodContext", globals.Object, "Kernel-Methods", SmalltalkMethodContext);
-        };
 
         SmalltalkMethodContext.prototype.fill = function (receiver, selector, locals, lookupClass) {
             this.receiver = receiver;
@@ -873,6 +863,8 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             }
             return method;
         };
+
+        setClassConstructor(globals.MethodContext, SmalltalkMethodContext);
 
         /* This is the current call context object. While it is publicly available,
          Use smalltalk.getThisContext() instead which will answer a safe copy of
