@@ -2458,7 +2458,6 @@ return self._compileMethod_(chunk);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
-$recv($recv($globals.ClassBuilder)._new())._setupClass_(self["@class"]);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"scanFrom:",{aChunkParser:aChunkParser,chunk:chunk},$globals.ClassProtocolReader)});
@@ -2466,10 +2465,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aChunkParser"],
-source: "scanFrom: aChunkParser\x0a\x09| chunk |\x0a\x09[ chunk := aChunkParser nextChunk.\x0a\x09chunk isEmpty ] whileFalse: [\x0a\x09\x09self compileMethod: chunk ].\x0a\x09ClassBuilder new setupClass: class",
-referencedClasses: ["ClassBuilder"],
+source: "scanFrom: aChunkParser\x0a\x09| chunk |\x0a\x09[ chunk := aChunkParser nextChunk.\x0a\x09chunk isEmpty ] whileFalse: [\x0a\x09\x09self compileMethod: chunk ]",
+referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["whileFalse:", "nextChunk", "isEmpty", "compileMethod:", "setupClass:", "new"]
+messageSends: ["whileFalse:", "nextChunk", "isEmpty", "compileMethod:"]
 }),
 $globals.ClassProtocolReader);
 

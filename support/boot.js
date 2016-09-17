@@ -377,6 +377,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
             classes.addElement(theClass);
             addOrganizationElement(pkg, theClass);
+            st._classAdded && st._classAdded(theClass);
             return theClass;
         }
 
@@ -641,16 +642,16 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             return detachedRootClasses;
         };
 
-        st.init = function (klass) {
+        function initClassAndMetaclass(klass) {
             initClass(klass);
             if (klass.klass && !klass.meta) {
                 initClass(klass.klass);
             }
-        };
+        }
 
-        classes().forEach(function (klass) {
-            st.init(klass);
-        });
+        classes().forEach(initClassAndMetaclass);
+
+        st._classAdded = initClassAndMetaclass;
 
         function initClass(klass) {
             wireKlass(klass);

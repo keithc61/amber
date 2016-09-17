@@ -582,8 +582,7 @@ scanFrom: aChunkParser
 	| chunk |
 	[ chunk := aChunkParser nextChunk.
 	chunk isEmpty ] whileFalse: [
-		self compileMethod: chunk ].
-	ClassBuilder new setupClass: class
+		self compileMethod: chunk ]
 ! !
 
 !ClassProtocolReader methodsFor: 'initialization'!

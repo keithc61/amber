@@ -561,7 +561,6 @@ addSubclassOf: aClass named: className instanceVariableNames: aCollection packag
 
 class: aClass instanceVariableNames: ivarNames
 	self basicClass: aClass instanceVariableNames: ivarNames.
-	self setupClass: aClass.
 	
 	SystemAnnouncer current
 		announce: (ClassDefinitionChanged new
@@ -579,7 +578,6 @@ superclass: aClass subclass: className instanceVariableNames: ivarNames package:
 	newClass := self addSubclassOf: aClass
 		named: className instanceVariableNames: (self instanceVariableNamesFor: ivarNames)
 		package: (packageName ifNil: [ 'unclassified' ]).
-	self setupClass: newClass.
 	
 	SystemAnnouncer current
 		announce: (ClassAdded new
@@ -681,9 +679,7 @@ copyClass: aClass to: anotherClass
 	self basicClass: anotherClass class instanceVariables: aClass class instanceVariableNames.
 
 	aClass class methodDictionary valuesDo: [ :each |
-		Compiler new install: each source forClass: anotherClass class protocol: each protocol ].
-
-	self setupClass: anotherClass
+		Compiler new install: each source forClass: anotherClass class protocol: each protocol ]
 ! !
 
 !ClassBuilder methodsFor: 'method definition'!
@@ -741,7 +737,7 @@ rawRenameClass: aClass to: aString
 !ClassBuilder methodsFor: 'public'!
 
 setupClass: aClass
-	<$core.init(aClass);>
+	self deprecatedAPI: 'Classes are now auto-inited.'
 ! !
 
 Object subclass: #ClassSorterNode

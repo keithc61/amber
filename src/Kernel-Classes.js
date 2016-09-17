@@ -2444,7 +2444,6 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2;
 self._basicClass_instanceVariableNames_(aClass,ivarNames);
-self._setupClass_(aClass);
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.ClassDefinitionChanged)._new();
 $recv($3)._theClass_(aClass);
@@ -2457,10 +2456,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "ivarNames"],
-source: "class: aClass instanceVariableNames: ivarNames\x0a\x09self basicClass: aClass instanceVariableNames: ivarNames.\x0a\x09self setupClass: aClass.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassDefinitionChanged new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
+source: "class: aClass instanceVariableNames: ivarNames\x0a\x09self basicClass: aClass instanceVariableNames: ivarNames.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassDefinitionChanged new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassDefinitionChanged"],
 //>>excludeEnd("ide");
-messageSends: ["basicClass:instanceVariableNames:", "setupClass:", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["basicClass:instanceVariableNames:", "announce:", "current", "theClass:", "new", "yourself"]
 }),
 $globals.ClassBuilder);
 
@@ -2562,7 +2561,6 @@ return $recv($recv($globals.Compiler)._new())._install_forClass_protocol_($recv(
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
-self._setupClass_(anotherClass);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"copyClass:to:",{aClass:aClass,anotherClass:anotherClass},$globals.ClassBuilder)});
@@ -2570,10 +2568,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "anotherClass"],
-source: "copyClass: aClass to: anotherClass\x0a\x0a\x09anotherClass comment: aClass comment.\x0a\x0a\x09aClass methodDictionary valuesDo: [ :each |\x0a\x09\x09Compiler new install: each source forClass: anotherClass protocol: each protocol ].\x0a\x0a\x09self basicClass: anotherClass class instanceVariables: aClass class instanceVariableNames.\x0a\x0a\x09aClass class methodDictionary valuesDo: [ :each |\x0a\x09\x09Compiler new install: each source forClass: anotherClass class protocol: each protocol ].\x0a\x0a\x09self setupClass: anotherClass",
+source: "copyClass: aClass to: anotherClass\x0a\x0a\x09anotherClass comment: aClass comment.\x0a\x0a\x09aClass methodDictionary valuesDo: [ :each |\x0a\x09\x09Compiler new install: each source forClass: anotherClass protocol: each protocol ].\x0a\x0a\x09self basicClass: anotherClass class instanceVariables: aClass class instanceVariableNames.\x0a\x0a\x09aClass class methodDictionary valuesDo: [ :each |\x0a\x09\x09Compiler new install: each source forClass: anotherClass class protocol: each protocol ]",
 referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
-messageSends: ["comment:", "comment", "valuesDo:", "methodDictionary", "install:forClass:protocol:", "new", "source", "protocol", "basicClass:instanceVariables:", "class", "instanceVariableNames", "setupClass:"]
+messageSends: ["comment:", "comment", "valuesDo:", "methodDictionary", "install:forClass:protocol:", "new", "source", "protocol", "basicClass:instanceVariables:", "class", "instanceVariableNames"]
 }),
 $globals.ClassBuilder);
 
@@ -2803,7 +2801,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$core.init(aClass);;
+self._deprecatedAPI_("Classes are now auto-inited.");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setupClass:",{aClass:aClass},$globals.ClassBuilder)});
@@ -2811,10 +2809,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
-source: "setupClass: aClass\x0a\x09<$core.init(aClass);>",
+source: "setupClass: aClass\x0a\x09self deprecatedAPI: 'Classes are now auto-inited.'",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["deprecatedAPI:"]
 }),
 $globals.ClassBuilder);
 
@@ -2859,7 +2857,6 @@ $2="unclassified";
 $2=packageName;
 };
 newClass=self._addSubclassOf_named_instanceVariableNames_package_(aClass,className,$1,$2);
-self._setupClass_(newClass);
 $3=$recv($globals.SystemAnnouncer)._current();
 $5=$recv($globals.ClassAdded)._new();
 $recv($5)._theClass_(newClass);
@@ -2872,10 +2869,10 @@ return newClass;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "className", "ivarNames", "packageName"],
-source: "superclass: aClass subclass: className instanceVariableNames: ivarNames package: packageName\x0a\x09| newClass |\x0a\x09\x0a\x09newClass := self addSubclassOf: aClass\x0a\x09\x09named: className instanceVariableNames: (self instanceVariableNamesFor: ivarNames)\x0a\x09\x09package: (packageName ifNil: [ 'unclassified' ]).\x0a\x09self setupClass: newClass.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
+source: "superclass: aClass subclass: className instanceVariableNames: ivarNames package: packageName\x0a\x09| newClass |\x0a\x09\x0a\x09newClass := self addSubclassOf: aClass\x0a\x09\x09named: className instanceVariableNames: (self instanceVariableNamesFor: ivarNames)\x0a\x09\x09package: (packageName ifNil: [ 'unclassified' ]).\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
 referencedClasses: ["SystemAnnouncer", "ClassAdded"],
 //>>excludeEnd("ide");
-messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "instanceVariableNamesFor:", "ifNil:", "setupClass:", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "instanceVariableNamesFor:", "ifNil:", "announce:", "current", "theClass:", "new", "yourself"]
 }),
 $globals.ClassBuilder);
 
