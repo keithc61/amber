@@ -1,5 +1,7 @@
 define([
     './lang',
+    './compatibility', // pre-fetch, dep of ./boot
+    './boot', // pre-fetch, dep of ./helpers
     './helpers', // pre-fetch, dep of ./deploy
     './deploy', // pre-fetch, dep of ./lang
     // --- packages of the development only Amber begin here ---

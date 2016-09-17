@@ -1,5 +1,7 @@
 define([
     './deploy',
+    './compatibility', // pre-fetch, dep of ./boot
+    './boot', // pre-fetch, dep of ./helpers
     './helpers', // pre-fetch, dep of ./deploy
     './parser',
     // --- packages for the Amber reflection begin here ---
