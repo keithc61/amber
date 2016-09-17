@@ -222,31 +222,24 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             if (klass.detachedRoot) {
                 copySuperclass(klass);
             }
+            installMethods(klass);
         }
 
         this.initClass = initClass;
 
         function copySuperclass(klass) {
-            var superclass = klass.superclass,
-                localMethods = klass.methods,
-                localMethodsByJsSelector = {};
-            Object.keys(localMethods).forEach(function (each) {
-                var localMethod = localMethods[each];
-                localMethodsByJsSelector[localMethod.jsSelector] = localMethod;
-            });
             var myproto = klass.fn.prototype,
-                superproto = superclass.fn.prototype;
+                superproto = klass.superclass.fn.prototype;
             selectors.selectorPairs.forEach(function (selectorPair) {
-                var jsSelector = selectorPair.js,
-                    method = localMethodsByJsSelector[jsSelector];
-                if (!method) {
-                    installJSMethod(myproto, jsSelector, superproto[jsSelector]);
-                } else if (method.fn !== myproto[jsSelector]) {
-                    if (myproto[jsSelector]) {
-                        console.warn("Amber forcefully rewriting method " + jsSelector + " of " + klass.className + ".");
-                    }
-                    installMethod(method, klass);
-                }
+                var jsSelector = selectorPair.js;
+                installJSMethod(myproto, jsSelector, superproto[jsSelector]);
+            });
+        }
+
+        function installMethods(klass) {
+            var methods = klass.methods;
+            Object.keys(methods).forEach(function (selector) {
+                installMethod(methods[selector], klass);
             });
         }
     });
@@ -606,7 +599,6 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
         st.addMethod = function (method, klass) {
             ensureJsSelector(method);
-            installMethod(method, klass);
             klass.methods[method.selector] = method;
             method.methodClass = klass;
 
@@ -614,6 +606,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             // Therefore we populate the organizer here too
             addOrganizationElement(klass, method.protocol);
 
+            if (initialized()) installMethod(method, klass);
             propagateMethodChange(klass, method);
 
             var usedSelectors = method.messageSends,
