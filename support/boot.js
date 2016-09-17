@@ -399,23 +399,8 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             }
         }
 
-        var detachedRootClasses = [];
-
         /* Create a new class coupling with a JavaScript constructor,
-         optionally detached root, and add it to the global smalltalk object.*/
-
-        st.addDetachedRootClass = function (className, superclass, pkgName, fn) {
-            var klass = rawAddClass(pkgName, className, superclass, null, fn);
-            markClassDetachedRoot(klass);
-            return klass;
-        };
-
-        function markClassDetachedRoot(klass) {
-            detachedRootClasses.addElement(klass);
-            klass.detachedRoot = true;
-        }
-
-        this.markClassDetachedRoot = markClassDetachedRoot;
+         and add it to the global smalltalk object.*/
 
         st.addCoupledClass = function (className, superclass, pkgName, fn) {
             return rawAddClass(pkgName, className, superclass, null, fn);
@@ -432,10 +417,6 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
         st.classes = this.classes = function () {
             return classes;
-        };
-
-        this.detachedRootClasses = function () {
-            return detachedRootClasses;
         };
 
         function metaSubclasses(metaclass) {
@@ -581,27 +562,6 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
         this.__init__ = function () {
             var globals = brikz.smalltalkGlobals.globals;
-            st.addPackage("Kernel-Methods");
-            st.addDetachedRootClass("Number", globals.Object, "Kernel-Objects", Number);
-            st.addDetachedRootClass("BlockClosure", globals.Object, "Kernel-Methods", Function);
-            st.addDetachedRootClass("Boolean", globals.Object, "Kernel-Objects", Boolean);
-            st.addDetachedRootClass("Date", globals.Object, "Kernel-Objects", Date);
-
-            st.addPackage("Kernel-Collections");
-            st.addClass("Collection", globals.Object, null, "Kernel-Collections");
-            st.addClass("IndexableCollection", globals.Collection, null, "Kernel-Collections");
-            st.addClass("SequenceableCollection", globals.IndexableCollection, null, "Kernel-Collections");
-            st.addClass("CharacterArray", globals.SequenceableCollection, null, "Kernel-Collections");
-            st.addDetachedRootClass("String", globals.CharacterArray, "Kernel-Collections", String);
-            st.addDetachedRootClass("Array", globals.SequenceableCollection, "Kernel-Collections", Array);
-            st.addDetachedRootClass("RegularExpression", globals.Object, "Kernel-Collections", RegExp);
-
-            st.addPackage("Kernel-Exceptions");
-            st.addDetachedRootClass("Error", globals.Object, "Kernel-Exceptions", Error);
-
-            st.addPackage("Kernel-Promises");
-            st.addClass("Thenable", globals.Object, null, "Kernel-Promises");
-            st.addDetachedRootClass("Promise", globals.Thenable, "Kernel-Promises", Promise);
 
             /* Alias definitions */
 
@@ -664,12 +624,22 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         var selectors = brikz.selectors;
         var classes = brikz.classes.classes;
         var wireKlass = brikz.classes.wireKlass;
-        var markClassDetachedRoot = brikz.classes.markClassDetachedRoot;
         var installMethod = brikz.manipulation.installMethod;
         var installJSMethod = brikz.manipulation.installJSMethod;
 
         /* Initialize a class in its class hierarchy. Handle both classes and
          metaclasses. */
+
+        var detachedRootClasses = [];
+
+        function markClassDetachedRoot(klass) {
+            detachedRootClasses.addElement(klass);
+            klass.detachedRoot = true;
+        }
+
+        this.detachedRootClasses = function () {
+            return detachedRootClasses;
+        };
 
         st.init = function (klass) {
             initClass(klass);
@@ -708,19 +678,35 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
         /* Manually set the constructor of an existing Smalltalk klass, making it a detached root class. */
 
-        st.setClassConstructor = function (klass, constructor) {
+        st.setClassConstructor = this.setClassConstructor = function (klass, constructor) {
             markClassDetachedRoot(klass);
             klass.fn = constructor;
             initClass(klass);
         };
     }
 
-    RuntimeMethodsBrik.deps = ["manipulation", "dnu", "classes"];
+    FrameBindingBrik.deps=["globals", "runtimeClasses"];
+    function FrameBindingBrik(brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+        var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
+
+        setClassConstructor(globals.Number, Number);
+        setClassConstructor(globals.BlockClosure, Function);
+        setClassConstructor(globals.Boolean, Boolean);
+        setClassConstructor(globals.Date, Date);
+        setClassConstructor(globals.String, String);
+        setClassConstructor(globals.Array, Array);
+        setClassConstructor(globals.RegularExpression, RegExp);
+        setClassConstructor(globals.Error, Error);
+        setClassConstructor(globals.Promise, Promise);
+    }
+
+    RuntimeMethodsBrik.deps = ["manipulation", "dnu", "runtimeClasses"];
     function RuntimeMethodsBrik(brikz, st) {
         var installMethod = brikz.manipulation.installMethod;
         var installJSMethod = brikz.manipulation.installJSMethod;
         var makeDnuHandler = brikz.dnu.makeDnuHandler;
-        var detachedRootClasses = brikz.classes.detachedRootClasses;
+        var detachedRootClasses = brikz.runtimeClasses.detachedRootClasses;
 
         st._methodAdded = function (method, klass) {
             installMethod(method, klass);
@@ -1186,6 +1172,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         brikz.dnu = DNUBrik;
         brikz.manipulation = ManipulationBrik;
         brikz.runtimeClasses = RuntimeClassesBrik;
+        brikz.frameBinding = FrameBindingBrik;
         brikz.runtimeMethods = RuntimeMethodsBrik;
         brikz.messageSend = MessageSendBrik;
         brikz.runtime = RuntimeBrik;
