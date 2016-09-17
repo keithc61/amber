@@ -55,7 +55,12 @@ function Brikz(api, apiKey, initKey) {
             mixin(brik[apiKey] || {}, api);
         });
         order.forEach(function (brik) {
-            if (brik[initKey]) brik[initKey]();
+            if (brik[initKey]) {
+                brik[initKey]();
+                if (brik[initKey].once) {
+                    delete brik[initKey];
+                }
+            }
         });
         backup = mixin(brikz, {});
     };

@@ -98,11 +98,13 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
         this.__init__ = function () {
             var globals = brikz.smalltalkGlobals.globals;
+            var addCoupledClass = brikz.classes.addCoupledClass;
             st.addPackage("Kernel-Objects");
-            st.addCoupledClass("ProtoObject", undefined, "Kernel-Objects", SmalltalkProtoObject);
-            st.addCoupledClass("Object", globals.ProtoObject, "Kernel-Objects", SmalltalkObject);
-            st.addCoupledClass("UndefinedObject", globals.Object, "Kernel-Objects", SmalltalkNil);
+            addCoupledClass("ProtoObject", undefined, "Kernel-Objects", SmalltalkProtoObject);
+            addCoupledClass("Object", globals.ProtoObject, "Kernel-Objects", SmalltalkObject);
+            addCoupledClass("UndefinedObject", globals.Object, "Kernel-Objects", SmalltalkNil);
         };
+        this.__init__.once = true;
     }
 
     OrganizeBrik.deps = ["augments", "root"];
@@ -126,11 +128,13 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
         this.__init__ = function () {
             var globals = brikz.smalltalkGlobals.globals;
+            var addCoupledClass = brikz.classes.addCoupledClass;
             st.addPackage("Kernel-Infrastructure");
-            st.addCoupledClass("Organizer", globals.Object, "Kernel-Infrastructure", SmalltalkOrganizer);
-            st.addCoupledClass("PackageOrganizer", globals.Organizer, "Kernel-Infrastructure", SmalltalkPackageOrganizer);
-            st.addCoupledClass("ClassOrganizer", globals.Organizer, "Kernel-Infrastructure", SmalltalkClassOrganizer);
+            addCoupledClass("Organizer", globals.Object, "Kernel-Infrastructure", SmalltalkOrganizer);
+            addCoupledClass("PackageOrganizer", globals.Organizer, "Kernel-Infrastructure", SmalltalkPackageOrganizer);
+            addCoupledClass("ClassOrganizer", globals.Organizer, "Kernel-Infrastructure", SmalltalkClassOrganizer);
         };
+        this.__init__.once = true;
 
         this.setupClassOrganization = function (klass) {
             klass.organization = new SmalltalkClassOrganizer();
@@ -185,9 +189,11 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
         this.__init__ = function () {
             var globals = brikz.smalltalkGlobals.globals;
+            var addCoupledClass = brikz.classes.addCoupledClass;
             st.addPackage("Kernel-Infrastructure");
-            st.addCoupledClass("Package", globals.Object, "Kernel-Infrastructure", SmalltalkPackage);
+            addCoupledClass("Package", globals.Object, "Kernel-Infrastructure", SmalltalkPackage);
         };
+        this.__init__.once = true;
 
         st.packages = {};
 
@@ -254,15 +260,17 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
         this.__init__ = function () {
             var globals = brikz.smalltalkGlobals.globals;
+            var addCoupledClass = brikz.classes.addCoupledClass;
             st.addPackage("Kernel-Classes");
-            st.addCoupledClass("Behavior", globals.Object, "Kernel-Classes", SmalltalkBehavior);
-            st.addCoupledClass("Metaclass", globals.Behavior, "Kernel-Classes", SmalltalkMetaclass);
-            st.addCoupledClass("Class", globals.Behavior, "Kernel-Classes", SmalltalkClass);
+            addCoupledClass("Behavior", globals.Object, "Kernel-Classes", SmalltalkBehavior);
+            addCoupledClass("Metaclass", globals.Behavior, "Kernel-Classes", SmalltalkMetaclass);
+            addCoupledClass("Class", globals.Behavior, "Kernel-Classes", SmalltalkClass);
 
             // Manually bootstrap the metaclass hierarchy
             globals.ProtoObject.klass.superclass = rootAsClass.klass = globals.Class;
             addSubclass(globals.ProtoObject.klass);
         };
+        this.__init__.once = true;
 
         /* Smalltalk classes */
 
@@ -403,7 +411,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         /* Create a new class coupling with a JavaScript constructor,
          and add it to the global smalltalk object.*/
 
-        st.addCoupledClass = function (className, superclass, pkgName, fn) {
+        this.addCoupledClass = function (className, superclass, pkgName, fn) {
             return rawAddClass(pkgName, className, superclass, null, fn);
         };
 
@@ -456,9 +464,11 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
         this.__init__ = function () {
             var globals = brikz.smalltalkGlobals.globals;
+            var addCoupledClass = brikz.classes.addCoupledClass;
             st.addPackage("Kernel-Methods");
-            st.addCoupledClass("CompiledMethod", globals.Object, "Kernel-Methods", SmalltalkMethod);
+            addCoupledClass("CompiledMethod", globals.Object, "Kernel-Methods", SmalltalkMethod);
         };
+        this.__init__.once = true;
 
         /* Smalltalk method object. To add a method to a class,
          use smalltalk.addMethod() */
@@ -541,8 +551,10 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         };
     }
 
-    SmalltalkInitBrik.deps = ["classes"];
+    SmalltalkInitBrik.deps = ["globals", "classes"];
     function SmalltalkInitBrik(brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+
         var initialized = false;
 
         /* Smalltalk initialization. Called on page load */
@@ -554,20 +566,16 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
             runnable();
 
+            /* Alias definitions */
+
+            st.alias(globals.Array, "OrderedCollection");
+            st.alias(globals.Date, "Time");
+
             st.classes().forEach(function (klass) {
                 klass._initialize();
             });
 
             initialized = true;
-        };
-
-        this.__init__ = function () {
-            var globals = brikz.smalltalkGlobals.globals;
-
-            /* Alias definitions */
-
-            st.alias(globals.Array, "OrderedCollection");
-            st.alias(globals.Date, "Time");
         };
     }
 
@@ -824,8 +832,9 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
         this.__init__ = function () {
             var globals = brikz.smalltalkGlobals.globals;
+            var addCoupledClass = brikz.classes.addCoupledClass;
             st.addPackage("Kernel-Methods");
-            st.addCoupledClass("MethodContext", globals.Object, "Kernel-Methods", SmalltalkMethodContext);
+            addCoupledClass("MethodContext", globals.Object, "Kernel-Methods", SmalltalkMethodContext);
 
             // Fallbacks
             SmalltalkMethodContext.prototype.locals = {};
@@ -1109,11 +1118,9 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
     /* Adds AMD and requirejs related methods to the smalltalk object */
     function AMDBrik(brikz, st) {
-        this.__init__ = function () {
-            st.amdRequire = require;
-            st.defaultTransportType = st.defaultTransportType || "amd";
-            st.defaultAmdNamespace = st.defaultAmdNamespace || "amber_core";
-        };
+        st.amdRequire = require;
+        st.defaultTransportType = st.defaultTransportType || "amd";
+        st.defaultAmdNamespace = st.defaultAmdNamespace || "amber_core";
     }
 
     /* Defines asReceiver to be present at load time */
