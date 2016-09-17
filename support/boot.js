@@ -578,8 +578,9 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
         st.method = function (spec) {
             var that = new SmalltalkMethod();
-            that.selector = spec.selector;
-            that.jsSelector = spec.jsSelector;
+            var selector = spec.selector;
+            that.selector = selector;
+            that.jsSelector = st.st2js(selector);
             that.args = spec.args || {};
             that.protocol = spec.protocol;
             that.source = spec.source;
@@ -589,16 +590,9 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             return that;
         };
 
-        function ensureJsSelector(method) {
-            if (!(method.jsSelector)) {
-                method.jsSelector = st.st2js(method.selector);
-            }
-        }
-
         /* Add/remove a method to/from a class */
 
         st.addMethod = function (method, klass) {
-            ensureJsSelector(method);
             klass.methods[method.selector] = method;
             method.methodClass = klass;
 
@@ -656,7 +650,6 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
                     klass.className);
             }
 
-            ensureJsSelector(method);
             delete klass.fn.prototype[method.jsSelector];
             delete klass.methods[method.selector];
 
