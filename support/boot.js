@@ -164,8 +164,9 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             var jsSelector = st.st2js(stSelector);
             selectorSet[stSelector] = true;
             selectors.push(stSelector);
-            selectorPairs.push({st: stSelector, js: jsSelector});
-            return jsSelector;
+            var pair = {st: stSelector, js: jsSelector};
+            selectorPairs.push(pair);
+            return pair;
         };
 
         /* Answer all method selectors based on dnu handlers */
@@ -175,17 +176,15 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         };
     });
 
-    var DNUBrik = depends(["selectors", "messageSend", "manipulation", "root"], function (brikz, st) {
-        var registerSelector = brikz.selectors.registerSelector;
+    var DNUBrik = depends(["messageSend", "manipulation", "root"], function (brikz, st) {
         var installJSMethod = brikz.manipulation.installJSMethod;
         var RootProto = brikz.root.rootAsClass.fn.prototype;
 
         /* Method not implemented handlers */
 
-        this.makeDnuHandler = function (stSelector, targetClasses) {
-            var jsSelector = registerSelector(stSelector);
-            if (!jsSelector) return;
-            var fn = createHandler(stSelector);
+        this.makeDnuHandler = function (pair, targetClasses) {
+            var jsSelector = pair.js;
+            var fn = createHandler(pair.st);
             installJSMethod(RootProto, jsSelector, fn);
             targetClasses.forEach(function (target) {
                 installJSMethod(target.fn.prototype, jsSelector, fn);
@@ -553,11 +552,12 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         }
     });
 
-    var MethodsBrik = depends(["manipulation", "organize", "stInit", "dnu", "root", "selectorConversion", "classes"], function (brikz, st) {
+    var MethodsBrik = depends(["manipulation", "organize", "stInit", "selectors", "dnu", "root", "selectorConversion", "classes"], function (brikz, st) {
         var installMethod = brikz.manipulation.installMethod;
         var installJSMethod = brikz.manipulation.installJSMethod;
         var addOrganizationElement = brikz.organize.addOrganizationElement;
         var initialized = brikz.stInit.initialized;
+        var registerSelector = brikz.selectors.registerSelector;
         var makeDnuHandler = brikz.dnu.makeDnuHandler;
         var SmalltalkObject = brikz.root.Object;
         var detachedRootClasses = brikz.classes.detachedRootClasses;
@@ -606,19 +606,29 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             // Therefore we populate the organizer here too
             addOrganizationElement(klass, method.protocol);
 
+            var newSelectors = [];
+
+            function selectorInUse(stSelector) {
+                var pair = registerSelector(stSelector);
+                if (pair) {
+                    newSelectors.push(pair);
+                }
+            }
+
+            selectorInUse(method.selector);
+            method.messageSends.forEach(selectorInUse);
+
+            var targetClasses = [];
+
             if (initialized()) {
                 installMethod(method, klass);
                 propagateMethodChange(klass, method, klass);
+                targetClasses = detachedRootClasses();
             }
 
-            var usedSelectors = method.messageSends,
-                targetClasses = initialized() ? detachedRootClasses() : [];
-
-            makeDnuHandler(method.selector, targetClasses);
-
-            for (var i = 0; i < usedSelectors.length; i++) {
-                makeDnuHandler(usedSelectors[i], targetClasses);
-            }
+            newSelectors.forEach(function (pair) {
+                makeDnuHandler(pair, targetClasses);
+            });
         };
 
         function propagateMethodChange(klass, method, exclude) {
