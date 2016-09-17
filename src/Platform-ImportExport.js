@@ -17,33 +17,31 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$3,$4,$1;
-$2=$recv(aClass)._isMetaclass();
-if($core.assert($2)){
-$3=$recv($recv(aClass)._instanceClass())._name();
+var $1,$2,$receiver;
+$1=$recv(aClass)._isMetaclass();
+if($core.assert($1)){
+$2=$recv($recv(aClass)._instanceClass())._name();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["name"]=1;
 //>>excludeEnd("ctx");
-$1=$recv($3).__comma(" class");
+return $recv($2).__comma(" class");
 } else {
-$4=$recv(aClass)._isNil();
-if($core.assert($4)){
-$1="nil";
+if(($receiver = aClass) == null || $receiver.isNil){
+return "nil";
 } else {
-$1=$recv(aClass)._name();
+return $recv(aClass)._name();
 };
 };
-return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"classNameFor:",{aClass:aClass},$globals.AbstractExporter)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
-source: "classNameFor: aClass\x0a\x09^ aClass isMetaclass\x0a\x09\x09ifTrue: [ aClass instanceClass name, ' class' ]\x0a\x09\x09ifFalse: [\x0a\x09\x09\x09aClass isNil\x0a\x09\x09\x09\x09ifTrue: [ 'nil' ]\x0a\x09\x09\x09\x09ifFalse: [ aClass name ] ]",
+source: "classNameFor: aClass\x0a\x09^ aClass isMetaclass\x0a\x09\x09ifTrue: [ aClass instanceClass name, ' class' ]\x0a\x09\x09ifFalse: [\x0a\x09\x09\x09aClass\x0a\x09\x09\x09\x09ifNil: [ 'nil' ]\x0a\x09\x09\x09\x09ifNotNil: [ aClass name ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:ifFalse:", "isMetaclass", ",", "name", "instanceClass", "isNil"]
+messageSends: ["ifTrue:ifFalse:", "isMetaclass", ",", "name", "instanceClass", "ifNil:ifNotNil:"]
 }),
 $globals.AbstractExporter);
 

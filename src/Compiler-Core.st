@@ -7,15 +7,6 @@ I am the abstract super class of all code generators and provide their common AP
 
 !AbstractCodeGenerator methodsFor: 'accessing'!
 
-classNameFor: aClass
-	^ aClass isMetaclass
-		ifTrue: [ aClass instanceClass name, '.klass' ]
-		ifFalse: [
-		aClass isNil
-			ifTrue: [ 'nil' ]
-			ifFalse: [ aClass name ]]
-!
-
 currentClass
 	^ currentClass
 !

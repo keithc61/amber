@@ -48,9 +48,9 @@ classNameFor: aClass
 	^ aClass isMetaclass
 		ifTrue: [ aClass instanceClass name, ' class' ]
 		ifFalse: [
-			aClass isNil
-				ifTrue: [ 'nil' ]
-				ifFalse: [ aClass name ] ]
+			aClass
+				ifNil: [ 'nil' ]
+				ifNotNil: [ aClass name ] ]
 ! !
 
 !AbstractExporter methodsFor: 'output'!
