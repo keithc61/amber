@@ -362,11 +362,6 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             if (theClass && theClass.superclass == superclass) {
                 if (iVarNames) theClass.iVarNames = iVarNames;
                 if (pkg) theClass.pkg = pkg;
-                if (fn && theClass.fn !== fn) {
-                    fn.prototype = theClass.fn.prototype;
-                    theClass.fn = fn;
-                    fn.prototype.constructor = fn;
-                }
             } else {
                 if (theClass) {
                     iVarNames = iVarNames || theClass.iVarNames;
@@ -830,52 +825,53 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
 
         inherits(SmalltalkMethodContext, SmalltalkObject);
 
+        // Fallbacks
+        SmalltalkMethodContext.prototype.locals = {};
+        SmalltalkMethodContext.prototype.receiver = null;
+        SmalltalkMethodContext.prototype.selector = null;
+        SmalltalkMethodContext.prototype.lookupClass = null;
+
         this.__init__ = function () {
             var globals = brikz.smalltalkGlobals.globals;
             var addCoupledClass = brikz.classes.addCoupledClass;
             st.addPackage("Kernel-Methods");
+
             addCoupledClass("MethodContext", globals.Object, "Kernel-Methods", SmalltalkMethodContext);
+        };
 
-            // Fallbacks
-            SmalltalkMethodContext.prototype.locals = {};
-            SmalltalkMethodContext.prototype.receiver = null;
-            SmalltalkMethodContext.prototype.selector = null;
-            SmalltalkMethodContext.prototype.lookupClass = null;
+        SmalltalkMethodContext.prototype.fill = function (receiver, selector, locals, lookupClass) {
+            this.receiver = receiver;
+            this.selector = selector;
+            this.locals = locals || {};
+            this.lookupClass = lookupClass;
+            if (this.homeContext) {
+                this.homeContext.evaluatedSelector = selector;
+            }
+        };
 
-            SmalltalkMethodContext.prototype.fill = function (receiver, selector, locals, lookupClass) {
-                this.receiver = receiver;
-                this.selector = selector;
-                this.locals = locals || {};
-                this.lookupClass = lookupClass;
-                if (this.homeContext) {
-                    this.homeContext.evaluatedSelector = selector;
-                }
-            };
+        SmalltalkMethodContext.prototype.fillBlock = function (locals, ctx, index) {
+            this.locals = locals || {};
+            this.outerContext = ctx;
+            this.index = index || 0;
+        };
 
-            SmalltalkMethodContext.prototype.fillBlock = function (locals, ctx, index) {
-                this.locals = locals || {};
-                this.outerContext = ctx;
-                this.index = index || 0;
-            };
+        SmalltalkMethodContext.prototype.init = function () {
+            var home = this.homeContext;
+            if (home) {
+                home.init();
+            }
 
-            SmalltalkMethodContext.prototype.init = function () {
-                var home = this.homeContext;
-                if (home) {
-                    home.init();
-                }
+            this.setup(this);
+        };
 
-                this.setup(this);
-            };
-
-            SmalltalkMethodContext.prototype.method = function () {
-                var method;
-                var lookup = this.lookupClass || this.receiver.klass;
-                while (!method && lookup) {
-                    method = lookup.methods[st.js2st(this.selector)];
-                    lookup = lookup.superclass;
-                }
-                return method;
-            };
+        SmalltalkMethodContext.prototype.method = function () {
+            var method;
+            var lookup = this.lookupClass || this.receiver.klass;
+            while (!method && lookup) {
+                method = lookup.methods[st.js2st(this.selector)];
+                lookup = lookup.superclass;
+            }
+            return method;
         };
 
         /* This is the current call context object. While it is publicly available,
