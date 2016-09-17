@@ -606,8 +606,10 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             // Therefore we populate the organizer here too
             addOrganizationElement(klass, method.protocol);
 
-            if (initialized()) installMethod(method, klass);
-            propagateMethodChange(klass, method);
+            if (initialized()) {
+                installMethod(method, klass);
+                propagateMethodChange(klass, method, klass);
+            }
 
             var usedSelectors = method.messageSends,
                 targetClasses = initialized() ? detachedRootClasses() : [];
@@ -619,22 +621,18 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             }
         };
 
-        function propagateMethodChange(klass, method) {
-            // If already initialized (else it will be done later anyway),
-            // re-initialize all subclasses to ensure the method change
-            // propagation (for detached root classes, not using the prototype
-            // chain).
-
-            if (initialized()) {
-                st.traverseClassTree(klass, function (subclass) {
-                    if (subclass !== klass) initMethodInClass(subclass, method);
-                });
-            }
+        function propagateMethodChange(klass, method, exclude) {
+            var selector = method.selector;
+            var jsSelector = method.jsSelector;
+            st.traverseClassTree(klass, function (subclass) {
+                if (subclass != exclude) {
+                    initMethodInClass(subclass, selector, jsSelector);
+                }
+            });
         }
 
-        function initMethodInClass(klass, method) {
-            if (klass.detachedRoot && !klass.methods[method.selector]) {
-                var jsSelector = method.jsSelector;
+        function initMethodInClass(klass, selector, jsSelector) {
+            if (klass.detachedRoot && !klass.methods[selector]) {
                 installJSMethod(klass.fn.prototype, jsSelector, klass.superclass.fn.prototype[jsSelector]);
             }
         }
@@ -652,8 +650,9 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             delete klass.fn.prototype[method.jsSelector];
             delete klass.methods[method.selector];
 
-            initMethodInClass(klass, method);
-            propagateMethodChange(klass, method);
+            if (initialized()) {
+                propagateMethodChange(klass, method, null);
+            }
 
             // Do *not* delete protocols from here.
             // This is handled by #removeCompiledMethod
