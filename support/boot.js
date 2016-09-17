@@ -39,7 +39,7 @@
 
 //jshint eqnull:true
 
-define(['require', './brikz.umd', './kernel-runtime', './compatibility'], function (require, Brikz, configureWithRuntime) {
+define(['require', './brikz.umd', './compatibility'], function (require, Brikz) {
 
     function inherits(child, parent) {
         child.prototype = Object.create(parent.prototype, {
@@ -551,6 +551,10 @@ define(['require', './brikz.umd', './kernel-runtime', './compatibility'], functi
         var globals = brikz.smalltalkGlobals.globals;
 
         var initialized = false;
+        var runtimeLoadedPromise = new Promise(function (resolve, reject) {
+            require(['amber/kernel-runtime'], resolve, reject);
+        });
+
 
         /* Smalltalk initialization. Called on page load */
 
@@ -559,18 +563,20 @@ define(['require', './brikz.umd', './kernel-runtime', './compatibility'], functi
                 return;
             }
 
-            configureWithRuntime(brikz);
+            return runtimeLoadedPromise.then(function (configureWithRuntime) {
+                configureWithRuntime(brikz);
 
-            /* Alias definitions */
+                /* Alias definitions */
 
-            st.alias(globals.Array, "OrderedCollection");
-            st.alias(globals.Date, "Time");
+                st.alias(globals.Array, "OrderedCollection");
+                st.alias(globals.Date, "Time");
 
-            st.classes().forEach(function (klass) {
-                klass._initialize();
+                st.classes().forEach(function (klass) {
+                    klass._initialize();
+                });
+
+                initialized = true;
             });
-
-            initialized = true;
         };
     }
 
