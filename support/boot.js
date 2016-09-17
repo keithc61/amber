@@ -176,97 +176,6 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         };
     });
 
-    var DNUBrik = depends(["messageSend", "manipulation", "root"], function (brikz, st) {
-        var installJSMethod = brikz.manipulation.installJSMethod;
-        var RootProto = brikz.root.rootAsClass.fn.prototype;
-
-        /* Method not implemented handlers */
-
-        this.makeDnuHandler = function (pair, targetClasses) {
-            var jsSelector = pair.js;
-            var fn = createHandler(pair.st);
-            installJSMethod(RootProto, jsSelector, fn);
-            targetClasses.forEach(function (target) {
-                installJSMethod(target.fn.prototype, jsSelector, fn);
-            });
-        };
-
-        /* Dnu handler method */
-
-        function createHandler(stSelector) {
-            return function () {
-                return brikz.messageSend.messageNotUnderstood(this, stSelector, arguments);
-            };
-        }
-    });
-
-    var ClassInitBrik = depends(["selectors", "manipulation"], function (brikz, st) {
-        var selectors = brikz.selectors;
-        var wireKlass = brikz.manipulation.wireKlass;
-        var installMethod = brikz.manipulation.installMethod;
-        var installJSMethod = brikz.manipulation.installJSMethod;
-
-        /* Initialize a class in its class hierarchy. Handle both classes and
-         metaclasses. */
-
-        st.init = function (klass) {
-            initClass(klass);
-            if (klass.klass && !klass.meta) {
-                initClass(klass.klass);
-            }
-        };
-
-        function initClass(klass) {
-            wireKlass(klass);
-            if (klass.detachedRoot) {
-                copySuperclass(klass);
-            }
-            installMethods(klass);
-        }
-
-        this.initClass = initClass;
-
-        function copySuperclass(klass) {
-            var myproto = klass.fn.prototype,
-                superproto = klass.superclass.fn.prototype;
-            selectors.selectorPairs.forEach(function (selectorPair) {
-                var jsSelector = selectorPair.js;
-                installJSMethod(myproto, jsSelector, superproto[jsSelector]);
-            });
-        }
-
-        function installMethods(klass) {
-            var methods = klass.methods;
-            Object.keys(methods).forEach(function (selector) {
-                installMethod(methods[selector], klass);
-            });
-        }
-    });
-
-    function ManipulationBrik(brikz, st) {
-        function wireKlass(klass) {
-            Object.defineProperty(klass.fn.prototype, "klass", {
-                value: klass,
-                enumerable: false, configurable: true, writable: true
-            });
-        }
-
-        function installJSMethod(obj, jsSelector, fn) {
-            Object.defineProperty(obj, jsSelector, {
-                value: fn,
-                enumerable: false, configurable: true, writable: true
-            });
-        }
-
-        function installMethod(method, klass) {
-            installJSMethod(klass.fn.prototype, method.jsSelector, method.fn);
-        }
-
-        this.wireKlass = wireKlass;
-        this.installMethod = installMethod;
-        this.installJSMethod = installJSMethod;
-    }
-
     var PackagesBrik = depends(["organize", "root"], function (brikz, st) {
         var setupPackageOrganization = brikz.organize.setupPackageOrganization;
         var SmalltalkObject = brikz.root.Object;
@@ -316,13 +225,11 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         };
     });
 
-    var ClassesBrik = depends(["organize", "manipulation", "root", "smalltalkGlobals", "classInit"], function (brikz, st) {
+    var ClassesBrik = depends(["organize", "root", "smalltalkGlobals"], function (brikz, st) {
         var setupClassOrganization = brikz.organize.setupClassOrganization;
         var addOrganizationElement = brikz.organize.addOrganizationElement;
         var removeOrganizationElement = brikz.organize.removeOrganizationElement;
-        var wireKlass = brikz.manipulation.wireKlass;
         var globals = brikz.smalltalkGlobals.globals;
-        var initClass = brikz.classInit.initClass;
         var rootAsClass = brikz.root.rootAsClass;
         var SmalltalkObject = brikz.root.Object;
         rootAsClass.klass = {fn: SmalltalkClass};
@@ -413,6 +320,15 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             });
         }
 
+        function wireKlass(klass) {
+            Object.defineProperty(klass.fn.prototype, "klass", {
+                value: klass,
+                enumerable: false, configurable: true, writable: true
+            });
+        }
+
+        this.wireKlass = wireKlass;
+
         /* Add a class to the smalltalk object, creating a new one if needed.
          A Package is lazily created if it does not exist with given name. */
 
@@ -500,16 +416,10 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             klass.detachedRoot = true;
         }
 
+        this.markClassDetachedRoot = markClassDetachedRoot;
+
         st.addCoupledClass = function (className, superclass, pkgName, fn) {
             return rawAddClass(pkgName, className, superclass, null, fn);
-        };
-
-        /* Manually set the constructor of an existing Smalltalk klass, making it a detached root class. */
-
-        st.setClassConstructor = function (klass, constructor) {
-            markClassDetachedRoot(klass);
-            klass.fn = constructor;
-            initClass(klass);
         };
 
         /* Create an alias for an existing class */
@@ -521,7 +431,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         /* Answer all registered Smalltalk classes */
         //TODO: remove the function and make smalltalk.classes an array
 
-        st.classes = function () {
+        st.classes = this.classes = function () {
             return classes;
         };
 
@@ -552,15 +462,10 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         }
     });
 
-    var MethodsBrik = depends(["manipulation", "organize", "stInit", "selectors", "dnu", "root", "selectorConversion", "classes"], function (brikz, st) {
-        var installMethod = brikz.manipulation.installMethod;
-        var installJSMethod = brikz.manipulation.installJSMethod;
+    var MethodsBrik = depends(["organize", "selectors", "root", "selectorConversion"], function (brikz, st) {
         var addOrganizationElement = brikz.organize.addOrganizationElement;
-        var initialized = brikz.stInit.initialized;
         var registerSelector = brikz.selectors.registerSelector;
-        var makeDnuHandler = brikz.dnu.makeDnuHandler;
         var SmalltalkObject = brikz.root.Object;
-        var detachedRootClasses = brikz.classes.detachedRootClasses;
 
         function SmalltalkMethod() {
         }
@@ -612,34 +517,9 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             selectorInUse(method.selector);
             method.messageSends.forEach(selectorInUse);
 
-            var targetClasses = [];
-
-            if (initialized()) {
-                installMethod(method, klass);
-                propagateMethodChange(klass, method, klass);
-                targetClasses = detachedRootClasses();
-            }
-
-            newSelectors.forEach(function (pair) {
-                makeDnuHandler(pair, targetClasses);
-            });
+            st._methodAdded && st._methodAdded(method, klass);
+            st._selectorsAdded && st._selectorsAdded(newSelectors);
         };
-
-        function propagateMethodChange(klass, method, exclude) {
-            var selector = method.selector;
-            var jsSelector = method.jsSelector;
-            st.traverseClassTree(klass, function (subclass) {
-                if (subclass != exclude) {
-                    initMethodInClass(subclass, selector, jsSelector);
-                }
-            });
-        }
-
-        function initMethodInClass(klass, selector, jsSelector) {
-            if (klass.detachedRoot && !klass.methods[selector]) {
-                installJSMethod(klass.fn.prototype, jsSelector, klass.superclass.fn.prototype[jsSelector]);
-            }
-        }
 
         st.removeMethod = function (method, klass) {
             if (klass !== method.methodClass) {
@@ -650,12 +530,9 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
                     klass.className);
             }
 
-            delete klass.fn.prototype[method.jsSelector];
             delete klass.methods[method.selector];
 
-            if (initialized()) {
-                propagateMethodChange(klass, method, null);
-            }
+            st._methodRemoved && st._methodRemoved(method, klass);
 
             // Do *not* delete protocols from here.
             // This is handled by #removeCompiledMethod
@@ -682,7 +559,7 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         };
     }
 
-    var SmalltalkInitBrik = depends(["classInit", "classes"], function (brikz, st) {
+    var SmalltalkInitBrik = depends(["classes"], function (brikz, st) {
         var initialized = false;
 
         /* Smalltalk initialization. Called on page load */
@@ -692,10 +569,6 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
                 return;
             }
 
-            st.classes().forEach(function (klass) {
-                st.init(klass);
-            });
-
             runnable();
 
             st.classes().forEach(function (klass) {
@@ -703,10 +576,6 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             });
 
             initialized = true;
-        };
-
-        this.initialized = function () {
-            return initialized;
         };
 
         this.__init__ = function () {
@@ -738,6 +607,149 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
             st.alias(globals.Array, "OrderedCollection");
             st.alias(globals.Date, "Time");
         };
+    });
+
+    var DNUBrik = depends(["selectors", "messageSend", "manipulation", "root"], function (brikz, st) {
+        var selectorsBrik = brikz.selectors;
+        var messageNotUnderstood = brikz.messageSend.messageNotUnderstood;
+        var installJSMethod = brikz.manipulation.installJSMethod;
+        var RootProto = brikz.root.rootAsClass.fn.prototype;
+
+        /* Method not implemented handlers */
+
+        function makeDnuHandler(pair, targetClasses) {
+            var jsSelector = pair.js;
+            var fn = createHandler(pair.st);
+            installJSMethod(RootProto, jsSelector, fn);
+            targetClasses.forEach(function (target) {
+                installJSMethod(target.fn.prototype, jsSelector, fn);
+            });
+        }
+
+        this.makeDnuHandler = makeDnuHandler;
+
+        /* Dnu handler method */
+
+        function createHandler(stSelector) {
+            return function () {
+                return messageNotUnderstood(this, stSelector, arguments);
+            };
+        }
+
+        selectorsBrik.selectorPairs.forEach(function (pair) {
+            makeDnuHandler(pair, []);
+        });
+    });
+
+    function ManipulationBrik(brikz, st) {
+        function installJSMethod(obj, jsSelector, fn) {
+            Object.defineProperty(obj, jsSelector, {
+                value: fn,
+                enumerable: false, configurable: true, writable: true
+            });
+        }
+
+        function installMethod(method, klass) {
+            installJSMethod(klass.fn.prototype, method.jsSelector, method.fn);
+        }
+
+        this.installMethod = installMethod;
+        this.installJSMethod = installJSMethod;
+    }
+
+    var RuntimeClassesBrik = depends(["selectors", "dnu", "classes", "manipulation"], function (brikz, st) {
+        var selectors = brikz.selectors;
+        var classes = brikz.classes.classes;
+        var wireKlass = brikz.classes.wireKlass;
+        var markClassDetachedRoot = brikz.classes.markClassDetachedRoot;
+        var installMethod = brikz.manipulation.installMethod;
+        var installJSMethod = brikz.manipulation.installJSMethod;
+
+        /* Initialize a class in its class hierarchy. Handle both classes and
+         metaclasses. */
+
+        st.init = function (klass) {
+            initClass(klass);
+            if (klass.klass && !klass.meta) {
+                initClass(klass.klass);
+            }
+        };
+
+        classes().forEach(function (klass) {
+            st.init(klass);
+        });
+
+        function initClass(klass) {
+            wireKlass(klass);
+            if (klass.detachedRoot) {
+                copySuperclass(klass);
+            }
+            installMethods(klass);
+        }
+
+        function copySuperclass(klass) {
+            var myproto = klass.fn.prototype,
+                superproto = klass.superclass.fn.prototype;
+            selectors.selectorPairs.forEach(function (selectorPair) {
+                var jsSelector = selectorPair.js;
+                installJSMethod(myproto, jsSelector, superproto[jsSelector]);
+            });
+        }
+
+        function installMethods(klass) {
+            var methods = klass.methods;
+            Object.keys(methods).forEach(function (selector) {
+                installMethod(methods[selector], klass);
+            });
+        }
+
+        /* Manually set the constructor of an existing Smalltalk klass, making it a detached root class. */
+
+        st.setClassConstructor = function (klass, constructor) {
+            markClassDetachedRoot(klass);
+            klass.fn = constructor;
+            initClass(klass);
+        };
+    });
+
+    var RuntimeMethodsBrik = depends(["manipulation", "dnu", "classes"], function (brikz, st) {
+        var installMethod = brikz.manipulation.installMethod;
+        var installJSMethod = brikz.manipulation.installJSMethod;
+        var makeDnuHandler = brikz.dnu.makeDnuHandler;
+        var detachedRootClasses = brikz.classes.detachedRootClasses;
+
+        st._methodAdded = function (method, klass) {
+            installMethod(method, klass);
+            propagateMethodChange(klass, method, klass);
+        };
+
+        st._selectorsAdded = function (newSelectors) {
+            var targetClasses = detachedRootClasses();
+            newSelectors.forEach(function (pair) {
+                makeDnuHandler(pair, targetClasses);
+            });
+        };
+
+        st._methodRemoved = function (method, klass) {
+            delete klass.fn.prototype[method.jsSelector];
+            propagateMethodChange(klass, method, null);
+        };
+
+        function propagateMethodChange(klass, method, exclude) {
+            var selector = method.selector;
+            var jsSelector = method.jsSelector;
+            st.traverseClassTree(klass, function (subclass) {
+                if (subclass != exclude) {
+                    initMethodInClass(subclass, selector, jsSelector);
+                }
+            });
+        }
+
+        function initMethodInClass(klass, selector, jsSelector) {
+            if (klass.detachedRoot && !klass.methods[selector]) {
+                installJSMethod(klass.fn.prototype, jsSelector, klass.superclass.fn.prototype[jsSelector]);
+            }
+        }
     });
 
     var PrimitivesBrik = depends(["smalltalkGlobals"], function (brikz, st) {
@@ -1148,11 +1160,8 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
     brikz.smalltalkGlobals = SmalltalkGlobalsBrik;
     brikz.root = RootBrik;
     brikz.selectors = SelectorsBrik;
-    brikz.dnu = DNUBrik;
     brikz.organize = OrganizeBrik;
     brikz.selectorConversion = SelectorConversionBrik;
-    brikz.classInit = ClassInitBrik;
-    brikz.manipulation = ManipulationBrik;
     brikz.packages = PackagesBrik;
     brikz.classes = ClassesBrik;
     brikz.methods = MethodsBrik;
@@ -1166,6 +1175,10 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
     /* Making smalltalk that can run */
 
     function runnable() {
+        brikz.dnu = DNUBrik;
+        brikz.manipulation = ManipulationBrik;
+        brikz.runtimeClasses = RuntimeClassesBrik;
+        brikz.runtimeMethods = RuntimeMethodsBrik;
         brikz.messageSend = MessageSendBrik;
         brikz.runtime = RuntimeBrik;
         brikz.primitives = PrimitivesBrik;
