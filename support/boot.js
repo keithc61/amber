@@ -559,11 +559,11 @@ define(['require', './brikz.umd', './compatibility'], function (require, Brikz) 
         /* Smalltalk initialization. Called on page load */
 
         st.initialize = function () {
-            if (initialized) {
-                return;
-            }
-
             return runtimeLoadedPromise.then(function (configureWithRuntime) {
+                if (initialized) {
+                    return;
+                }
+
                 configureWithRuntime(brikz);
 
                 /* Alias definitions */
