@@ -39,7 +39,7 @@
 
 //jshint eqnull:true
 
-define(['require', './brikz.umd', './compatibility'], function (require, Brikz) {
+define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
     function inherits(child, parent) {
         child.prototype = Object.create(parent.prototype, {
