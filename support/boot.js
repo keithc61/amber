@@ -71,14 +71,14 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         function SmalltalkProtoObject() {
         }
 
-        inherits(SmalltalkProtoObject, SmalltalkRoot);
         function SmalltalkObject() {
         }
 
-        inherits(SmalltalkObject, SmalltalkProtoObject);
         function SmalltalkNil() {
         }
 
+        inherits(SmalltalkProtoObject, SmalltalkRoot);
+        inherits(SmalltalkObject, SmalltalkProtoObject);
         inherits(SmalltalkNil, SmalltalkObject);
 
         this.Object = SmalltalkObject;
@@ -651,7 +651,6 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     /* (logically it belongs more to PrimitiveBrik) */
     AsReceiverBrik.deps = ["smalltalkGlobals", "root"];
     function AsReceiverBrik(brikz, st) {
-
         var globals = brikz.smalltalkGlobals.globals;
         var nil = brikz.root.nil;
 
