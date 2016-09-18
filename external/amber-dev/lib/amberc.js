@@ -204,9 +204,11 @@ function create_compiler(configuration) {
     var include_files = configuration.load;
     return new Promise(configuration.requirejs.bind(null, ["amber/lang"]))
         .then(function (boot) {
-            boot.api.initialize();
             configuration.core = boot.api;
             configuration.globals = boot.globals;
+            return boot.api.initialize();
+        })
+        .then(function () {
             var pluginPrefixedLibraries = include_files.map(function (each) {
                 return 'amber/without-imports!' + each;
             });
