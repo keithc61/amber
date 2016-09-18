@@ -1,5 +1,7 @@
 define([], function () {
     return function Brikz(api, apiKey, initKey) {
+        //jshint eqnull:true
+
         var brikz = this,
             backup = {};
         apiKey = apiKey || 'exports';

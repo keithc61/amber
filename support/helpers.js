@@ -68,7 +68,7 @@ define(["amber/boot", "require"], function (boot, require) {
             .then(mixinToSettings)
             .then(function () {
                 return api.initialize();
-            })
+            });
     };
 
     // Exports

@@ -52,6 +52,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     }
 
     function SmalltalkGlobalsBrik(brikz, st) {
+        // jshint evil:true
         var jsGlobals = new Function("return this")();
         var globals = Object.create(jsGlobals);
         globals.SmalltalkSettings = {};
@@ -380,7 +381,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
             classes.addElement(theClass);
             addOrganizationElement(pkg, theClass);
-            st._classAdded && st._classAdded(theClass);
+            if (st._classAdded) st._classAdded(theClass);
             return theClass;
         }
 
@@ -443,7 +444,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
                 var subclasses = item.meta ? metaSubclasses(item) : item.subclasses;
                 queue.push.apply(queue, subclasses);
             }
-        }
+        };
     }
 
     MethodsBrik.deps = ["organize", "selectors", "root", "selectorConversion"];
@@ -504,8 +505,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             selectorInUse(method.selector);
             method.messageSends.forEach(selectorInUse);
 
-            st._methodAdded && st._methodAdded(method, klass);
-            st._selectorsAdded && st._selectorsAdded(newSelectors);
+            if (st._methodAdded) st._methodAdded(method, klass);
+            if (st._selectorsAdded) st._selectorsAdded(newSelectors);
         };
 
         st.removeMethod = function (method, klass) {
@@ -519,7 +520,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
             delete klass.methods[method.selector];
 
-            st._methodRemoved && st._methodRemoved(method, klass);
+            if (st._methodRemoved) st._methodRemoved(method, klass);
 
             // Do *not* delete protocols from here.
             // This is handled by #removeCompiledMethod
