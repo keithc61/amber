@@ -553,7 +553,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
         var initialized = false;
         var runtimeLoadedPromise = new Promise(function (resolve, reject) {
-            require(['amber/kernel-runtime'], resolve, reject);
+            require(['./kernel-runtime'], resolve, reject);
         });
 
 
