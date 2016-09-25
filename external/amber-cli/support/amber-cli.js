@@ -13,974 +13,1234 @@ define("jquery", {});
 
 define("config-node", function(){});
 
+define('amber/brikz',[], function () {
+    return function Brikz(api, apiKey, initKey) {
+        //jshint eqnull:true
+
+        var brikz = this,
+            backup = {};
+        apiKey = apiKey || 'exports';
+        initKey = initKey || '__init__';
+
+        function mixin(src, target, what) {
+            for (var keys = Object.keys(what || src), l = keys.length, i = 0; i < l; ++i) {
+                if (src == null) {
+                    target[keys[i]] = undefined;
+                } else {
+                    var value = src[keys[i]];
+                    if (typeof value !== "undefined") {
+                        target[keys[i]] = value;
+                    }
+                }
+            }
+            return target;
+        }
+
+        Object.defineProperties(this, {
+            rebuild: { value: null, enumerable: false, configurable: true, writable: true }
+        });
+        var exclude = mixin(this, {});
+
+        this.rebuild = function () {
+            Object.keys(backup).forEach(function (key) {
+                mixin(null, api, (backup[key] || 0)[apiKey] || {});
+            });
+            var oapi = mixin(api, {}),
+                order = [],
+                chk = {};
+
+            function ensure(key) {
+                if (key in exclude) {
+                    return null;
+                }
+                var b = brikz[key],
+                    bak = backup[key];
+                mixin(null, api, api);
+                while (typeof b === "function") {
+                    (b.deps || []).forEach(ensure);
+                    b = new b(brikz, api, bak);
+                }
+                brikz[key] = b;
+                if (b && !chk[key]) {
+                    chk[key] = true;
+                    order.push(b);
+                }
+                if (b && !b[apiKey]) {
+                    b[apiKey] = mixin(api, {});
+                }
+            }
+
+            Object.keys(brikz).forEach(ensure);
+            mixin(oapi, mixin(null, api, api));
+            order.forEach(function (brik) {
+                mixin(brik[apiKey] || {}, api);
+            });
+            order.forEach(function (brik) {
+                if (brik[initKey]) {
+                    brik[initKey]();
+                    if (brik[initKey].once) {
+                        delete brik[initKey];
+                    }
+                }
+            });
+            backup = mixin(brikz, {});
+        };
+    };
+});
 /*!
  * @overview es6-promise - a tiny implementation of Promises/A+.
  * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
  * @license   Licensed under MIT license
- *            See https://raw.githubusercontent.com/jakearchibald/es6-promise/master/LICENSE
- * @version   3.0.2
+ *            See https://raw.githubusercontent.com/stefanpenner/es6-promise/master/LICENSE
+ * @version   3.3.1
  */
 
-(function() {
-    "use strict";
-    function lib$es6$promise$utils$$objectOrFunction(x) {
-      return typeof x === 'function' || (typeof x === 'object' && x !== null);
-    }
+(function (global, factory) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+    typeof define === 'function' && define.amd ? define('amber/es6-promise',factory) :
+    (global.ES6Promise = factory());
+}(this, (function () { 'use strict';
 
-    function lib$es6$promise$utils$$isFunction(x) {
-      return typeof x === 'function';
-    }
+function objectOrFunction(x) {
+  return typeof x === 'function' || typeof x === 'object' && x !== null;
+}
 
-    function lib$es6$promise$utils$$isMaybeThenable(x) {
-      return typeof x === 'object' && x !== null;
-    }
+function isFunction(x) {
+  return typeof x === 'function';
+}
 
-    var lib$es6$promise$utils$$_isArray;
-    if (!Array.isArray) {
-      lib$es6$promise$utils$$_isArray = function (x) {
-        return Object.prototype.toString.call(x) === '[object Array]';
-      };
+var _isArray = undefined;
+if (!Array.isArray) {
+  _isArray = function (x) {
+    return Object.prototype.toString.call(x) === '[object Array]';
+  };
+} else {
+  _isArray = Array.isArray;
+}
+
+var isArray = _isArray;
+
+var len = 0;
+var vertxNext = undefined;
+var customSchedulerFn = undefined;
+
+var asap = function asap(callback, arg) {
+  queue[len] = callback;
+  queue[len + 1] = arg;
+  len += 2;
+  if (len === 2) {
+    // If len is 2, that means that we need to schedule an async flush.
+    // If additional callbacks are queued before the queue is flushed, they
+    // will be processed by this flush that we are scheduling.
+    if (customSchedulerFn) {
+      customSchedulerFn(flush);
     } else {
-      lib$es6$promise$utils$$_isArray = Array.isArray;
+      scheduleFlush();
     }
+  }
+};
+
+function setScheduler(scheduleFn) {
+  customSchedulerFn = scheduleFn;
+}
+
+function setAsap(asapFn) {
+  asap = asapFn;
+}
+
+var browserWindow = typeof window !== 'undefined' ? window : undefined;
+var browserGlobal = browserWindow || {};
+var BrowserMutationObserver = browserGlobal.MutationObserver || browserGlobal.WebKitMutationObserver;
+var isNode = typeof self === 'undefined' && typeof process !== 'undefined' && ({}).toString.call(process) === '[object process]';
+
+// test for web worker but not in IE10
+var isWorker = typeof Uint8ClampedArray !== 'undefined' && typeof importScripts !== 'undefined' && typeof MessageChannel !== 'undefined';
+
+// node
+function useNextTick() {
+  // node version 0.10.x displays a deprecation warning when nextTick is used recursively
+  // see https://github.com/cujojs/when/issues/410 for details
+  return function () {
+    return process.nextTick(flush);
+  };
+}
+
+// vertx
+function useVertxTimer() {
+  return function () {
+    vertxNext(flush);
+  };
+}
+
+function useMutationObserver() {
+  var iterations = 0;
+  var observer = new BrowserMutationObserver(flush);
+  var node = document.createTextNode('');
+  observer.observe(node, { characterData: true });
+
+  return function () {
+    node.data = iterations = ++iterations % 2;
+  };
+}
+
+// web worker
+function useMessageChannel() {
+  var channel = new MessageChannel();
+  channel.port1.onmessage = flush;
+  return function () {
+    return channel.port2.postMessage(0);
+  };
+}
+
+function useSetTimeout() {
+  // Store setTimeout reference so es6-promise will be unaffected by
+  // other code modifying setTimeout (like sinon.useFakeTimers())
+  var globalSetTimeout = setTimeout;
+  return function () {
+    return globalSetTimeout(flush, 1);
+  };
+}
+
+var queue = new Array(1000);
+function flush() {
+  for (var i = 0; i < len; i += 2) {
+    var callback = queue[i];
+    var arg = queue[i + 1];
+
+    callback(arg);
+
+    queue[i] = undefined;
+    queue[i + 1] = undefined;
+  }
+
+  len = 0;
+}
+
+function attemptVertx() {
+  try {
+    var r = require;
+    var vertx = r('vertx');
+    vertxNext = vertx.runOnLoop || vertx.runOnContext;
+    return useVertxTimer();
+  } catch (e) {
+    return useSetTimeout();
+  }
+}
+
+var scheduleFlush = undefined;
+// Decide what async method to use to triggering processing of queued callbacks:
+if (isNode) {
+  scheduleFlush = useNextTick();
+} else if (BrowserMutationObserver) {
+  scheduleFlush = useMutationObserver();
+} else if (isWorker) {
+  scheduleFlush = useMessageChannel();
+} else if (browserWindow === undefined && typeof require === 'function') {
+  scheduleFlush = attemptVertx();
+} else {
+  scheduleFlush = useSetTimeout();
+}
 
-    var lib$es6$promise$utils$$isArray = lib$es6$promise$utils$$_isArray;
-    var lib$es6$promise$asap$$len = 0;
-    var lib$es6$promise$asap$$toString = {}.toString;
-    var lib$es6$promise$asap$$vertxNext;
-    var lib$es6$promise$asap$$customSchedulerFn;
-
-    var lib$es6$promise$asap$$asap = function asap(callback, arg) {
-      lib$es6$promise$asap$$queue[lib$es6$promise$asap$$len] = callback;
-      lib$es6$promise$asap$$queue[lib$es6$promise$asap$$len + 1] = arg;
-      lib$es6$promise$asap$$len += 2;
-      if (lib$es6$promise$asap$$len === 2) {
-        // If len is 2, that means that we need to schedule an async flush.
-        // If additional callbacks are queued before the queue is flushed, they
-        // will be processed by this flush that we are scheduling.
-        if (lib$es6$promise$asap$$customSchedulerFn) {
-          lib$es6$promise$asap$$customSchedulerFn(lib$es6$promise$asap$$flush);
-        } else {
-          lib$es6$promise$asap$$scheduleFlush();
-        }
-      }
-    }
-
-    function lib$es6$promise$asap$$setScheduler(scheduleFn) {
-      lib$es6$promise$asap$$customSchedulerFn = scheduleFn;
-    }
-
-    function lib$es6$promise$asap$$setAsap(asapFn) {
-      lib$es6$promise$asap$$asap = asapFn;
-    }
-
-    var lib$es6$promise$asap$$browserWindow = (typeof window !== 'undefined') ? window : undefined;
-    var lib$es6$promise$asap$$browserGlobal = lib$es6$promise$asap$$browserWindow || {};
-    var lib$es6$promise$asap$$BrowserMutationObserver = lib$es6$promise$asap$$browserGlobal.MutationObserver || lib$es6$promise$asap$$browserGlobal.WebKitMutationObserver;
-    var lib$es6$promise$asap$$isNode = typeof process !== 'undefined' && {}.toString.call(process) === '[object process]';
-
-    // test for web worker but not in IE10
-    var lib$es6$promise$asap$$isWorker = typeof Uint8ClampedArray !== 'undefined' &&
-      typeof importScripts !== 'undefined' &&
-      typeof MessageChannel !== 'undefined';
-
-    // node
-    function lib$es6$promise$asap$$useNextTick() {
-      // node version 0.10.x displays a deprecation warning when nextTick is used recursively
-      // see https://github.com/cujojs/when/issues/410 for details
-      return function() {
-        process.nextTick(lib$es6$promise$asap$$flush);
-      };
-    }
-
-    // vertx
-    function lib$es6$promise$asap$$useVertxTimer() {
-      return function() {
-        lib$es6$promise$asap$$vertxNext(lib$es6$promise$asap$$flush);
-      };
-    }
-
-    function lib$es6$promise$asap$$useMutationObserver() {
-      var iterations = 0;
-      var observer = new lib$es6$promise$asap$$BrowserMutationObserver(lib$es6$promise$asap$$flush);
-      var node = document.createTextNode('');
-      observer.observe(node, { characterData: true });
-
-      return function() {
-        node.data = (iterations = ++iterations % 2);
-      };
-    }
-
-    // web worker
-    function lib$es6$promise$asap$$useMessageChannel() {
-      var channel = new MessageChannel();
-      channel.port1.onmessage = lib$es6$promise$asap$$flush;
-      return function () {
-        channel.port2.postMessage(0);
-      };
-    }
-
-    function lib$es6$promise$asap$$useSetTimeout() {
-      return function() {
-        setTimeout(lib$es6$promise$asap$$flush, 1);
-      };
-    }
-
-    var lib$es6$promise$asap$$queue = new Array(1000);
-    function lib$es6$promise$asap$$flush() {
-      for (var i = 0; i < lib$es6$promise$asap$$len; i+=2) {
-        var callback = lib$es6$promise$asap$$queue[i];
-        var arg = lib$es6$promise$asap$$queue[i+1];
-
-        callback(arg);
-
-        lib$es6$promise$asap$$queue[i] = undefined;
-        lib$es6$promise$asap$$queue[i+1] = undefined;
-      }
-
-      lib$es6$promise$asap$$len = 0;
-    }
-
-    function lib$es6$promise$asap$$attemptVertx() {
-      try {
-        var r = require;
-        var vertx = r('vertx');
-        lib$es6$promise$asap$$vertxNext = vertx.runOnLoop || vertx.runOnContext;
-        return lib$es6$promise$asap$$useVertxTimer();
-      } catch(e) {
-        return lib$es6$promise$asap$$useSetTimeout();
-      }
-    }
-
-    var lib$es6$promise$asap$$scheduleFlush;
-    // Decide what async method to use to triggering processing of queued callbacks:
-    if (lib$es6$promise$asap$$isNode) {
-      lib$es6$promise$asap$$scheduleFlush = lib$es6$promise$asap$$useNextTick();
-    } else if (lib$es6$promise$asap$$BrowserMutationObserver) {
-      lib$es6$promise$asap$$scheduleFlush = lib$es6$promise$asap$$useMutationObserver();
-    } else if (lib$es6$promise$asap$$isWorker) {
-      lib$es6$promise$asap$$scheduleFlush = lib$es6$promise$asap$$useMessageChannel();
-    } else if (lib$es6$promise$asap$$browserWindow === undefined && typeof require === 'function') {
-      lib$es6$promise$asap$$scheduleFlush = lib$es6$promise$asap$$attemptVertx();
-    } else {
-      lib$es6$promise$asap$$scheduleFlush = lib$es6$promise$asap$$useSetTimeout();
-    }
-
-    function lib$es6$promise$$internal$$noop() {}
-
-    var lib$es6$promise$$internal$$PENDING   = void 0;
-    var lib$es6$promise$$internal$$FULFILLED = 1;
-    var lib$es6$promise$$internal$$REJECTED  = 2;
-
-    var lib$es6$promise$$internal$$GET_THEN_ERROR = new lib$es6$promise$$internal$$ErrorObject();
-
-    function lib$es6$promise$$internal$$selfFulfillment() {
-      return new TypeError("You cannot resolve a promise with itself");
-    }
-
-    function lib$es6$promise$$internal$$cannotReturnOwn() {
-      return new TypeError('A promises callback cannot return that same promise.');
-    }
-
-    function lib$es6$promise$$internal$$getThen(promise) {
-      try {
-        return promise.then;
-      } catch(error) {
-        lib$es6$promise$$internal$$GET_THEN_ERROR.error = error;
-        return lib$es6$promise$$internal$$GET_THEN_ERROR;
-      }
-    }
-
-    function lib$es6$promise$$internal$$tryThen(then, value, fulfillmentHandler, rejectionHandler) {
-      try {
-        then.call(value, fulfillmentHandler, rejectionHandler);
-      } catch(e) {
-        return e;
-      }
-    }
-
-    function lib$es6$promise$$internal$$handleForeignThenable(promise, thenable, then) {
-       lib$es6$promise$asap$$asap(function(promise) {
-        var sealed = false;
-        var error = lib$es6$promise$$internal$$tryThen(then, thenable, function(value) {
-          if (sealed) { return; }
-          sealed = true;
-          if (thenable !== value) {
-            lib$es6$promise$$internal$$resolve(promise, value);
-          } else {
-            lib$es6$promise$$internal$$fulfill(promise, value);
-          }
-        }, function(reason) {
-          if (sealed) { return; }
-          sealed = true;
-
-          lib$es6$promise$$internal$$reject(promise, reason);
-        }, 'Settle: ' + (promise._label || ' unknown promise'));
-
-        if (!sealed && error) {
-          sealed = true;
-          lib$es6$promise$$internal$$reject(promise, error);
-        }
-      }, promise);
-    }
-
-    function lib$es6$promise$$internal$$handleOwnThenable(promise, thenable) {
-      if (thenable._state === lib$es6$promise$$internal$$FULFILLED) {
-        lib$es6$promise$$internal$$fulfill(promise, thenable._result);
-      } else if (thenable._state === lib$es6$promise$$internal$$REJECTED) {
-        lib$es6$promise$$internal$$reject(promise, thenable._result);
-      } else {
-        lib$es6$promise$$internal$$subscribe(thenable, undefined, function(value) {
-          lib$es6$promise$$internal$$resolve(promise, value);
-        }, function(reason) {
-          lib$es6$promise$$internal$$reject(promise, reason);
-        });
-      }
-    }
-
-    function lib$es6$promise$$internal$$handleMaybeThenable(promise, maybeThenable) {
-      if (maybeThenable.constructor === promise.constructor) {
-        lib$es6$promise$$internal$$handleOwnThenable(promise, maybeThenable);
-      } else {
-        var then = lib$es6$promise$$internal$$getThen(maybeThenable);
-
-        if (then === lib$es6$promise$$internal$$GET_THEN_ERROR) {
-          lib$es6$promise$$internal$$reject(promise, lib$es6$promise$$internal$$GET_THEN_ERROR.error);
-        } else if (then === undefined) {
-          lib$es6$promise$$internal$$fulfill(promise, maybeThenable);
-        } else if (lib$es6$promise$utils$$isFunction(then)) {
-          lib$es6$promise$$internal$$handleForeignThenable(promise, maybeThenable, then);
-        } else {
-          lib$es6$promise$$internal$$fulfill(promise, maybeThenable);
-        }
-      }
-    }
-
-    function lib$es6$promise$$internal$$resolve(promise, value) {
-      if (promise === value) {
-        lib$es6$promise$$internal$$reject(promise, lib$es6$promise$$internal$$selfFulfillment());
-      } else if (lib$es6$promise$utils$$objectOrFunction(value)) {
-        lib$es6$promise$$internal$$handleMaybeThenable(promise, value);
-      } else {
-        lib$es6$promise$$internal$$fulfill(promise, value);
-      }
-    }
-
-    function lib$es6$promise$$internal$$publishRejection(promise) {
-      if (promise._onerror) {
-        promise._onerror(promise._result);
-      }
-
-      lib$es6$promise$$internal$$publish(promise);
-    }
-
-    function lib$es6$promise$$internal$$fulfill(promise, value) {
-      if (promise._state !== lib$es6$promise$$internal$$PENDING) { return; }
-
-      promise._result = value;
-      promise._state = lib$es6$promise$$internal$$FULFILLED;
-
-      if (promise._subscribers.length !== 0) {
-        lib$es6$promise$asap$$asap(lib$es6$promise$$internal$$publish, promise);
-      }
-    }
-
-    function lib$es6$promise$$internal$$reject(promise, reason) {
-      if (promise._state !== lib$es6$promise$$internal$$PENDING) { return; }
-      promise._state = lib$es6$promise$$internal$$REJECTED;
-      promise._result = reason;
-
-      lib$es6$promise$asap$$asap(lib$es6$promise$$internal$$publishRejection, promise);
-    }
-
-    function lib$es6$promise$$internal$$subscribe(parent, child, onFulfillment, onRejection) {
-      var subscribers = parent._subscribers;
-      var length = subscribers.length;
-
-      parent._onerror = null;
-
-      subscribers[length] = child;
-      subscribers[length + lib$es6$promise$$internal$$FULFILLED] = onFulfillment;
-      subscribers[length + lib$es6$promise$$internal$$REJECTED]  = onRejection;
-
-      if (length === 0 && parent._state) {
-        lib$es6$promise$asap$$asap(lib$es6$promise$$internal$$publish, parent);
-      }
-    }
-
-    function lib$es6$promise$$internal$$publish(promise) {
-      var subscribers = promise._subscribers;
-      var settled = promise._state;
-
-      if (subscribers.length === 0) { return; }
-
-      var child, callback, detail = promise._result;
-
-      for (var i = 0; i < subscribers.length; i += 3) {
-        child = subscribers[i];
-        callback = subscribers[i + settled];
-
-        if (child) {
-          lib$es6$promise$$internal$$invokeCallback(settled, child, callback, detail);
-        } else {
-          callback(detail);
-        }
-      }
-
-      promise._subscribers.length = 0;
-    }
-
-    function lib$es6$promise$$internal$$ErrorObject() {
-      this.error = null;
-    }
-
-    var lib$es6$promise$$internal$$TRY_CATCH_ERROR = new lib$es6$promise$$internal$$ErrorObject();
-
-    function lib$es6$promise$$internal$$tryCatch(callback, detail) {
-      try {
-        return callback(detail);
-      } catch(e) {
-        lib$es6$promise$$internal$$TRY_CATCH_ERROR.error = e;
-        return lib$es6$promise$$internal$$TRY_CATCH_ERROR;
-      }
-    }
-
-    function lib$es6$promise$$internal$$invokeCallback(settled, promise, callback, detail) {
-      var hasCallback = lib$es6$promise$utils$$isFunction(callback),
-          value, error, succeeded, failed;
-
-      if (hasCallback) {
-        value = lib$es6$promise$$internal$$tryCatch(callback, detail);
-
-        if (value === lib$es6$promise$$internal$$TRY_CATCH_ERROR) {
-          failed = true;
-          error = value.error;
-          value = null;
-        } else {
-          succeeded = true;
-        }
-
-        if (promise === value) {
-          lib$es6$promise$$internal$$reject(promise, lib$es6$promise$$internal$$cannotReturnOwn());
-          return;
-        }
-
-      } else {
-        value = detail;
-        succeeded = true;
-      }
-
-      if (promise._state !== lib$es6$promise$$internal$$PENDING) {
-        // noop
-      } else if (hasCallback && succeeded) {
-        lib$es6$promise$$internal$$resolve(promise, value);
-      } else if (failed) {
-        lib$es6$promise$$internal$$reject(promise, error);
-      } else if (settled === lib$es6$promise$$internal$$FULFILLED) {
-        lib$es6$promise$$internal$$fulfill(promise, value);
-      } else if (settled === lib$es6$promise$$internal$$REJECTED) {
-        lib$es6$promise$$internal$$reject(promise, value);
-      }
-    }
-
-    function lib$es6$promise$$internal$$initializePromise(promise, resolver) {
-      try {
-        resolver(function resolvePromise(value){
-          lib$es6$promise$$internal$$resolve(promise, value);
-        }, function rejectPromise(reason) {
-          lib$es6$promise$$internal$$reject(promise, reason);
-        });
-      } catch(e) {
-        lib$es6$promise$$internal$$reject(promise, e);
-      }
-    }
-
-    function lib$es6$promise$enumerator$$Enumerator(Constructor, input) {
-      var enumerator = this;
-
-      enumerator._instanceConstructor = Constructor;
-      enumerator.promise = new Constructor(lib$es6$promise$$internal$$noop);
-
-      if (enumerator._validateInput(input)) {
-        enumerator._input     = input;
-        enumerator.length     = input.length;
-        enumerator._remaining = input.length;
-
-        enumerator._init();
-
-        if (enumerator.length === 0) {
-          lib$es6$promise$$internal$$fulfill(enumerator.promise, enumerator._result);
-        } else {
-          enumerator.length = enumerator.length || 0;
-          enumerator._enumerate();
-          if (enumerator._remaining === 0) {
-            lib$es6$promise$$internal$$fulfill(enumerator.promise, enumerator._result);
-          }
-        }
-      } else {
-        lib$es6$promise$$internal$$reject(enumerator.promise, enumerator._validationError());
-      }
-    }
-
-    lib$es6$promise$enumerator$$Enumerator.prototype._validateInput = function(input) {
-      return lib$es6$promise$utils$$isArray(input);
-    };
-
-    lib$es6$promise$enumerator$$Enumerator.prototype._validationError = function() {
-      return new Error('Array Methods must be provided an Array');
-    };
-
-    lib$es6$promise$enumerator$$Enumerator.prototype._init = function() {
-      this._result = new Array(this.length);
-    };
-
-    var lib$es6$promise$enumerator$$default = lib$es6$promise$enumerator$$Enumerator;
-
-    lib$es6$promise$enumerator$$Enumerator.prototype._enumerate = function() {
-      var enumerator = this;
-
-      var length  = enumerator.length;
-      var promise = enumerator.promise;
-      var input   = enumerator._input;
-
-      for (var i = 0; promise._state === lib$es6$promise$$internal$$PENDING && i < length; i++) {
-        enumerator._eachEntry(input[i], i);
-      }
-    };
-
-    lib$es6$promise$enumerator$$Enumerator.prototype._eachEntry = function(entry, i) {
-      var enumerator = this;
-      var c = enumerator._instanceConstructor;
-
-      if (lib$es6$promise$utils$$isMaybeThenable(entry)) {
-        if (entry.constructor === c && entry._state !== lib$es6$promise$$internal$$PENDING) {
-          entry._onerror = null;
-          enumerator._settledAt(entry._state, i, entry._result);
-        } else {
-          enumerator._willSettleAt(c.resolve(entry), i);
-        }
-      } else {
-        enumerator._remaining--;
-        enumerator._result[i] = entry;
-      }
-    };
-
-    lib$es6$promise$enumerator$$Enumerator.prototype._settledAt = function(state, i, value) {
-      var enumerator = this;
-      var promise = enumerator.promise;
-
-      if (promise._state === lib$es6$promise$$internal$$PENDING) {
-        enumerator._remaining--;
-
-        if (state === lib$es6$promise$$internal$$REJECTED) {
-          lib$es6$promise$$internal$$reject(promise, value);
-        } else {
-          enumerator._result[i] = value;
-        }
-      }
-
-      if (enumerator._remaining === 0) {
-        lib$es6$promise$$internal$$fulfill(promise, enumerator._result);
-      }
-    };
-
-    lib$es6$promise$enumerator$$Enumerator.prototype._willSettleAt = function(promise, i) {
-      var enumerator = this;
-
-      lib$es6$promise$$internal$$subscribe(promise, undefined, function(value) {
-        enumerator._settledAt(lib$es6$promise$$internal$$FULFILLED, i, value);
-      }, function(reason) {
-        enumerator._settledAt(lib$es6$promise$$internal$$REJECTED, i, reason);
+function then(onFulfillment, onRejection) {
+  var _arguments = arguments;
+
+  var parent = this;
+
+  var child = new this.constructor(noop);
+
+  if (child[PROMISE_ID] === undefined) {
+    makePromise(child);
+  }
+
+  var _state = parent._state;
+
+  if (_state) {
+    (function () {
+      var callback = _arguments[_state - 1];
+      asap(function () {
+        return invokeCallback(_state, child, callback, parent._result);
       });
-    };
-    function lib$es6$promise$promise$all$$all(entries) {
-      return new lib$es6$promise$enumerator$$default(this, entries).promise;
-    }
-    var lib$es6$promise$promise$all$$default = lib$es6$promise$promise$all$$all;
-    function lib$es6$promise$promise$race$$race(entries) {
-      /*jshint validthis:true */
-      var Constructor = this;
-
-      var promise = new Constructor(lib$es6$promise$$internal$$noop);
-
-      if (!lib$es6$promise$utils$$isArray(entries)) {
-        lib$es6$promise$$internal$$reject(promise, new TypeError('You must pass an array to race.'));
-        return promise;
-      }
-
-      var length = entries.length;
-
-      function onFulfillment(value) {
-        lib$es6$promise$$internal$$resolve(promise, value);
-      }
-
-      function onRejection(reason) {
-        lib$es6$promise$$internal$$reject(promise, reason);
-      }
-
-      for (var i = 0; promise._state === lib$es6$promise$$internal$$PENDING && i < length; i++) {
-        lib$es6$promise$$internal$$subscribe(Constructor.resolve(entries[i]), undefined, onFulfillment, onRejection);
-      }
-
-      return promise;
-    }
-    var lib$es6$promise$promise$race$$default = lib$es6$promise$promise$race$$race;
-    function lib$es6$promise$promise$resolve$$resolve(object) {
-      /*jshint validthis:true */
-      var Constructor = this;
-
-      if (object && typeof object === 'object' && object.constructor === Constructor) {
-        return object;
-      }
-
-      var promise = new Constructor(lib$es6$promise$$internal$$noop);
-      lib$es6$promise$$internal$$resolve(promise, object);
-      return promise;
-    }
-    var lib$es6$promise$promise$resolve$$default = lib$es6$promise$promise$resolve$$resolve;
-    function lib$es6$promise$promise$reject$$reject(reason) {
-      /*jshint validthis:true */
-      var Constructor = this;
-      var promise = new Constructor(lib$es6$promise$$internal$$noop);
-      lib$es6$promise$$internal$$reject(promise, reason);
-      return promise;
-    }
-    var lib$es6$promise$promise$reject$$default = lib$es6$promise$promise$reject$$reject;
-
-    var lib$es6$promise$promise$$counter = 0;
-
-    function lib$es6$promise$promise$$needsResolver() {
-      throw new TypeError('You must pass a resolver function as the first argument to the promise constructor');
-    }
-
-    function lib$es6$promise$promise$$needsNew() {
-      throw new TypeError("Failed to construct 'Promise': Please use the 'new' operator, this object constructor cannot be called as a function.");
-    }
-
-    var lib$es6$promise$promise$$default = lib$es6$promise$promise$$Promise;
-    /**
-      Promise objects represent the eventual result of an asynchronous operation. The
-      primary way of interacting with a promise is through its `then` method, which
-      registers callbacks to receive either a promise's eventual value or the reason
-      why the promise cannot be fulfilled.
-
-      Terminology
-      -----------
-
-      - `promise` is an object or function with a `then` method whose behavior conforms to this specification.
-      - `thenable` is an object or function that defines a `then` method.
-      - `value` is any legal JavaScript value (including undefined, a thenable, or a promise).
-      - `exception` is a value that is thrown using the throw statement.
-      - `reason` is a value that indicates why a promise was rejected.
-      - `settled` the final resting state of a promise, fulfilled or rejected.
-
-      A promise can be in one of three states: pending, fulfilled, or rejected.
-
-      Promises that are fulfilled have a fulfillment value and are in the fulfilled
-      state.  Promises that are rejected have a rejection reason and are in the
-      rejected state.  A fulfillment value is never a thenable.
-
-      Promises can also be said to *resolve* a value.  If this value is also a
-      promise, then the original promise's settled state will match the value's
-      settled state.  So a promise that *resolves* a promise that rejects will
-      itself reject, and a promise that *resolves* a promise that fulfills will
-      itself fulfill.
-
-
-      Basic Usage:
-      ------------
-
-      ```js
-      var promise = new Promise(function(resolve, reject) {
-        // on success
-        resolve(value);
-
-        // on failure
-        reject(reason);
-      });
-
-      promise.then(function(value) {
-        // on fulfillment
-      }, function(reason) {
-        // on rejection
-      });
-      ```
-
-      Advanced Usage:
-      ---------------
-
-      Promises shine when abstracting away asynchronous interactions such as
-      `XMLHttpRequest`s.
-
-      ```js
-      function getJSON(url) {
-        return new Promise(function(resolve, reject){
-          var xhr = new XMLHttpRequest();
-
-          xhr.open('GET', url);
-          xhr.onreadystatechange = handler;
-          xhr.responseType = 'json';
-          xhr.setRequestHeader('Accept', 'application/json');
-          xhr.send();
-
-          function handler() {
-            if (this.readyState === this.DONE) {
-              if (this.status === 200) {
-                resolve(this.response);
-              } else {
-                reject(new Error('getJSON: `' + url + '` failed with status: [' + this.status + ']'));
-              }
-            }
-          };
-        });
-      }
-
-      getJSON('/posts.json').then(function(json) {
-        // on fulfillment
-      }, function(reason) {
-        // on rejection
-      });
-      ```
-
-      Unlike callbacks, promises are great composable primitives.
-
-      ```js
-      Promise.all([
-        getJSON('/posts'),
-        getJSON('/comments')
-      ]).then(function(values){
-        values[0] // => postsJSON
-        values[1] // => commentsJSON
-
-        return values;
-      });
-      ```
-
-      @class Promise
-      @param {function} resolver
-      Useful for tooling.
-      @constructor
-    */
-    function lib$es6$promise$promise$$Promise(resolver) {
-      this._id = lib$es6$promise$promise$$counter++;
-      this._state = undefined;
-      this._result = undefined;
-      this._subscribers = [];
-
-      if (lib$es6$promise$$internal$$noop !== resolver) {
-        if (!lib$es6$promise$utils$$isFunction(resolver)) {
-          lib$es6$promise$promise$$needsResolver();
-        }
-
-        if (!(this instanceof lib$es6$promise$promise$$Promise)) {
-          lib$es6$promise$promise$$needsNew();
-        }
-
-        lib$es6$promise$$internal$$initializePromise(this, resolver);
-      }
-    }
-
-    lib$es6$promise$promise$$Promise.all = lib$es6$promise$promise$all$$default;
-    lib$es6$promise$promise$$Promise.race = lib$es6$promise$promise$race$$default;
-    lib$es6$promise$promise$$Promise.resolve = lib$es6$promise$promise$resolve$$default;
-    lib$es6$promise$promise$$Promise.reject = lib$es6$promise$promise$reject$$default;
-    lib$es6$promise$promise$$Promise._setScheduler = lib$es6$promise$asap$$setScheduler;
-    lib$es6$promise$promise$$Promise._setAsap = lib$es6$promise$asap$$setAsap;
-    lib$es6$promise$promise$$Promise._asap = lib$es6$promise$asap$$asap;
-
-    lib$es6$promise$promise$$Promise.prototype = {
-      constructor: lib$es6$promise$promise$$Promise,
-
-    /**
-      The primary way of interacting with a promise is through its `then` method,
-      which registers callbacks to receive either a promise's eventual value or the
-      reason why the promise cannot be fulfilled.
-
-      ```js
-      findUser().then(function(user){
-        // user is available
-      }, function(reason){
-        // user is unavailable, and you are given the reason why
-      });
-      ```
-
-      Chaining
-      --------
-
-      The return value of `then` is itself a promise.  This second, 'downstream'
-      promise is resolved with the return value of the first promise's fulfillment
-      or rejection handler, or rejected if the handler throws an exception.
-
-      ```js
-      findUser().then(function (user) {
-        return user.name;
-      }, function (reason) {
-        return 'default name';
-      }).then(function (userName) {
-        // If `findUser` fulfilled, `userName` will be the user's name, otherwise it
-        // will be `'default name'`
-      });
-
-      findUser().then(function (user) {
-        throw new Error('Found user, but still unhappy');
-      }, function (reason) {
-        throw new Error('`findUser` rejected and we're unhappy');
-      }).then(function (value) {
-        // never reached
-      }, function (reason) {
-        // if `findUser` fulfilled, `reason` will be 'Found user, but still unhappy'.
-        // If `findUser` rejected, `reason` will be '`findUser` rejected and we're unhappy'.
-      });
-      ```
-      If the downstream promise does not specify a rejection handler, rejection reasons will be propagated further downstream.
-
-      ```js
-      findUser().then(function (user) {
-        throw new PedagogicalException('Upstream error');
-      }).then(function (value) {
-        // never reached
-      }).then(function (value) {
-        // never reached
-      }, function (reason) {
-        // The `PedgagocialException` is propagated all the way down to here
-      });
-      ```
-
-      Assimilation
-      ------------
-
-      Sometimes the value you want to propagate to a downstream promise can only be
-      retrieved asynchronously. This can be achieved by returning a promise in the
-      fulfillment or rejection handler. The downstream promise will then be pending
-      until the returned promise is settled. This is called *assimilation*.
-
-      ```js
-      findUser().then(function (user) {
-        return findCommentsByAuthor(user);
-      }).then(function (comments) {
-        // The user's comments are now available
-      });
-      ```
-
-      If the assimliated promise rejects, then the downstream promise will also reject.
-
-      ```js
-      findUser().then(function (user) {
-        return findCommentsByAuthor(user);
-      }).then(function (comments) {
-        // If `findCommentsByAuthor` fulfills, we'll have the value here
-      }, function (reason) {
-        // If `findCommentsByAuthor` rejects, we'll have the reason here
-      });
-      ```
-
-      Simple Example
-      --------------
-
-      Synchronous Example
-
-      ```javascript
-      var result;
-
-      try {
-        result = findResult();
-        // success
-      } catch(reason) {
-        // failure
-      }
-      ```
-
-      Errback Example
-
-      ```js
-      findResult(function(result, err){
-        if (err) {
-          // failure
-        } else {
-          // success
-        }
-      });
-      ```
-
-      Promise Example;
-
-      ```javascript
-      findResult().then(function(result){
-        // success
-      }, function(reason){
-        // failure
-      });
-      ```
-
-      Advanced Example
-      --------------
-
-      Synchronous Example
-
-      ```javascript
-      var author, books;
-
-      try {
-        author = findAuthor();
-        books  = findBooksByAuthor(author);
-        // success
-      } catch(reason) {
-        // failure
-      }
-      ```
-
-      Errback Example
-
-      ```js
-
-      function foundBooks(books) {
-
-      }
-
-      function failure(reason) {
-
-      }
-
-      findAuthor(function(author, err){
-        if (err) {
-          failure(err);
-          // failure
-        } else {
-          try {
-            findBoooksByAuthor(author, function(books, err) {
-              if (err) {
-                failure(err);
-              } else {
-                try {
-                  foundBooks(books);
-                } catch(reason) {
-                  failure(reason);
-                }
-              }
-            });
-          } catch(error) {
-            failure(err);
-          }
-          // success
-        }
-      });
-      ```
-
-      Promise Example;
-
-      ```javascript
-      findAuthor().
-        then(findBooksByAuthor).
-        then(function(books){
-          // found books
-      }).catch(function(reason){
-        // something went wrong
-      });
-      ```
-
-      @method then
-      @param {Function} onFulfilled
-      @param {Function} onRejected
-      Useful for tooling.
-      @return {Promise}
-    */
-      then: function(onFulfillment, onRejection) {
-        var parent = this;
-        var state = parent._state;
-
-        if (state === lib$es6$promise$$internal$$FULFILLED && !onFulfillment || state === lib$es6$promise$$internal$$REJECTED && !onRejection) {
-          return this;
-        }
-
-        var child = new this.constructor(lib$es6$promise$$internal$$noop);
-        var result = parent._result;
-
-        if (state) {
-          var callback = arguments[state - 1];
-          lib$es6$promise$asap$$asap(function(){
-            lib$es6$promise$$internal$$invokeCallback(state, child, callback, result);
-          });
-        } else {
-          lib$es6$promise$$internal$$subscribe(parent, child, onFulfillment, onRejection);
-        }
-
-        return child;
-      },
-
-    /**
-      `catch` is simply sugar for `then(undefined, onRejection)` which makes it the same
-      as the catch block of a try/catch statement.
-
-      ```js
-      function findAuthor(){
-        throw new Error('couldn't find that author');
-      }
-
-      // synchronous
-      try {
-        findAuthor();
-      } catch(reason) {
-        // something went wrong
-      }
-
-      // async with promises
-      findAuthor().catch(function(reason){
-        // something went wrong
-      });
-      ```
-
-      @method catch
-      @param {Function} onRejection
-      Useful for tooling.
-      @return {Promise}
-    */
-      'catch': function(onRejection) {
-        return this.then(null, onRejection);
-      }
-    };
-    function lib$es6$promise$polyfill$$polyfill() {
-      var local;
-
-      if (typeof global !== 'undefined') {
-          local = global;
-      } else if (typeof self !== 'undefined') {
-          local = self;
-      } else {
-          try {
-              local = Function('return this')();
-          } catch (e) {
-              throw new Error('polyfill failed because global object is unavailable in this environment');
-          }
-      }
-
-      var P = local.Promise;
-
-      if (P && Object.prototype.toString.call(P.resolve()) === '[object Promise]' && !P.cast) {
+    })();
+  } else {
+    subscribe(parent, child, onFulfillment, onRejection);
+  }
+
+  return child;
+}
+
+/**
+  `Promise.resolve` returns a promise that will become resolved with the
+  passed `value`. It is shorthand for the following:
+
+  ```javascript
+  let promise = new Promise(function(resolve, reject){
+    resolve(1);
+  });
+
+  promise.then(function(value){
+    // value === 1
+  });
+  ```
+
+  Instead of writing the above, your code now simply becomes the following:
+
+  ```javascript
+  let promise = Promise.resolve(1);
+
+  promise.then(function(value){
+    // value === 1
+  });
+  ```
+
+  @method resolve
+  @static
+  @param {Any} value value that the returned promise will be resolved with
+  Useful for tooling.
+  @return {Promise} a promise that will become fulfilled with the given
+  `value`
+*/
+function resolve(object) {
+  /*jshint validthis:true */
+  var Constructor = this;
+
+  if (object && typeof object === 'object' && object.constructor === Constructor) {
+    return object;
+  }
+
+  var promise = new Constructor(noop);
+  _resolve(promise, object);
+  return promise;
+}
+
+var PROMISE_ID = Math.random().toString(36).substring(16);
+
+function noop() {}
+
+var PENDING = void 0;
+var FULFILLED = 1;
+var REJECTED = 2;
+
+var GET_THEN_ERROR = new ErrorObject();
+
+function selfFulfillment() {
+  return new TypeError("You cannot resolve a promise with itself");
+}
+
+function cannotReturnOwn() {
+  return new TypeError('A promises callback cannot return that same promise.');
+}
+
+function getThen(promise) {
+  try {
+    return promise.then;
+  } catch (error) {
+    GET_THEN_ERROR.error = error;
+    return GET_THEN_ERROR;
+  }
+}
+
+function tryThen(then, value, fulfillmentHandler, rejectionHandler) {
+  try {
+    then.call(value, fulfillmentHandler, rejectionHandler);
+  } catch (e) {
+    return e;
+  }
+}
+
+function handleForeignThenable(promise, thenable, then) {
+  asap(function (promise) {
+    var sealed = false;
+    var error = tryThen(then, thenable, function (value) {
+      if (sealed) {
         return;
       }
+      sealed = true;
+      if (thenable !== value) {
+        _resolve(promise, value);
+      } else {
+        fulfill(promise, value);
+      }
+    }, function (reason) {
+      if (sealed) {
+        return;
+      }
+      sealed = true;
 
-      local.Promise = lib$es6$promise$promise$$default;
+      _reject(promise, reason);
+    }, 'Settle: ' + (promise._label || ' unknown promise'));
+
+    if (!sealed && error) {
+      sealed = true;
+      _reject(promise, error);
     }
-    var lib$es6$promise$polyfill$$default = lib$es6$promise$polyfill$$polyfill;
+  }, promise);
+}
 
-    var lib$es6$promise$umd$$ES6Promise = {
-      'Promise': lib$es6$promise$promise$$default,
-      'polyfill': lib$es6$promise$polyfill$$default
-    };
+function handleOwnThenable(promise, thenable) {
+  if (thenable._state === FULFILLED) {
+    fulfill(promise, thenable._result);
+  } else if (thenable._state === REJECTED) {
+    _reject(promise, thenable._result);
+  } else {
+    subscribe(thenable, undefined, function (value) {
+      return _resolve(promise, value);
+    }, function (reason) {
+      return _reject(promise, reason);
+    });
+  }
+}
 
-    /* global define:true module:true window: true */
-    if (typeof define === 'function' && define['amd']) {
-      define('amber/es6-promise',[],function() { return lib$es6$promise$umd$$ES6Promise; });
-    } else if (typeof module !== 'undefined' && module['exports']) {
-      module['exports'] = lib$es6$promise$umd$$ES6Promise;
-    } else if (typeof this !== 'undefined') {
-      this['ES6Promise'] = lib$es6$promise$umd$$ES6Promise;
+function handleMaybeThenable(promise, maybeThenable, then$$) {
+  if (maybeThenable.constructor === promise.constructor && then$$ === then && maybeThenable.constructor.resolve === resolve) {
+    handleOwnThenable(promise, maybeThenable);
+  } else {
+    if (then$$ === GET_THEN_ERROR) {
+      _reject(promise, GET_THEN_ERROR.error);
+    } else if (then$$ === undefined) {
+      fulfill(promise, maybeThenable);
+    } else if (isFunction(then$$)) {
+      handleForeignThenable(promise, maybeThenable, then$$);
+    } else {
+      fulfill(promise, maybeThenable);
+    }
+  }
+}
+
+function _resolve(promise, value) {
+  if (promise === value) {
+    _reject(promise, selfFulfillment());
+  } else if (objectOrFunction(value)) {
+    handleMaybeThenable(promise, value, getThen(value));
+  } else {
+    fulfill(promise, value);
+  }
+}
+
+function publishRejection(promise) {
+  if (promise._onerror) {
+    promise._onerror(promise._result);
+  }
+
+  publish(promise);
+}
+
+function fulfill(promise, value) {
+  if (promise._state !== PENDING) {
+    return;
+  }
+
+  promise._result = value;
+  promise._state = FULFILLED;
+
+  if (promise._subscribers.length !== 0) {
+    asap(publish, promise);
+  }
+}
+
+function _reject(promise, reason) {
+  if (promise._state !== PENDING) {
+    return;
+  }
+  promise._state = REJECTED;
+  promise._result = reason;
+
+  asap(publishRejection, promise);
+}
+
+function subscribe(parent, child, onFulfillment, onRejection) {
+  var _subscribers = parent._subscribers;
+  var length = _subscribers.length;
+
+  parent._onerror = null;
+
+  _subscribers[length] = child;
+  _subscribers[length + FULFILLED] = onFulfillment;
+  _subscribers[length + REJECTED] = onRejection;
+
+  if (length === 0 && parent._state) {
+    asap(publish, parent);
+  }
+}
+
+function publish(promise) {
+  var subscribers = promise._subscribers;
+  var settled = promise._state;
+
+  if (subscribers.length === 0) {
+    return;
+  }
+
+  var child = undefined,
+      callback = undefined,
+      detail = promise._result;
+
+  for (var i = 0; i < subscribers.length; i += 3) {
+    child = subscribers[i];
+    callback = subscribers[i + settled];
+
+    if (child) {
+      invokeCallback(settled, child, callback, detail);
+    } else {
+      callback(detail);
+    }
+  }
+
+  promise._subscribers.length = 0;
+}
+
+function ErrorObject() {
+  this.error = null;
+}
+
+var TRY_CATCH_ERROR = new ErrorObject();
+
+function tryCatch(callback, detail) {
+  try {
+    return callback(detail);
+  } catch (e) {
+    TRY_CATCH_ERROR.error = e;
+    return TRY_CATCH_ERROR;
+  }
+}
+
+function invokeCallback(settled, promise, callback, detail) {
+  var hasCallback = isFunction(callback),
+      value = undefined,
+      error = undefined,
+      succeeded = undefined,
+      failed = undefined;
+
+  if (hasCallback) {
+    value = tryCatch(callback, detail);
+
+    if (value === TRY_CATCH_ERROR) {
+      failed = true;
+      error = value.error;
+      value = null;
+    } else {
+      succeeded = true;
     }
 
-    lib$es6$promise$polyfill$$default();
-}).call(this);
+    if (promise === value) {
+      _reject(promise, cannotReturnOwn());
+      return;
+    }
+  } else {
+    value = detail;
+    succeeded = true;
+  }
+
+  if (promise._state !== PENDING) {
+    // noop
+  } else if (hasCallback && succeeded) {
+      _resolve(promise, value);
+    } else if (failed) {
+      _reject(promise, error);
+    } else if (settled === FULFILLED) {
+      fulfill(promise, value);
+    } else if (settled === REJECTED) {
+      _reject(promise, value);
+    }
+}
+
+function initializePromise(promise, resolver) {
+  try {
+    resolver(function resolvePromise(value) {
+      _resolve(promise, value);
+    }, function rejectPromise(reason) {
+      _reject(promise, reason);
+    });
+  } catch (e) {
+    _reject(promise, e);
+  }
+}
+
+var id = 0;
+function nextId() {
+  return id++;
+}
+
+function makePromise(promise) {
+  promise[PROMISE_ID] = id++;
+  promise._state = undefined;
+  promise._result = undefined;
+  promise._subscribers = [];
+}
+
+function Enumerator(Constructor, input) {
+  this._instanceConstructor = Constructor;
+  this.promise = new Constructor(noop);
+
+  if (!this.promise[PROMISE_ID]) {
+    makePromise(this.promise);
+  }
+
+  if (isArray(input)) {
+    this._input = input;
+    this.length = input.length;
+    this._remaining = input.length;
+
+    this._result = new Array(this.length);
+
+    if (this.length === 0) {
+      fulfill(this.promise, this._result);
+    } else {
+      this.length = this.length || 0;
+      this._enumerate();
+      if (this._remaining === 0) {
+        fulfill(this.promise, this._result);
+      }
+    }
+  } else {
+    _reject(this.promise, validationError());
+  }
+}
+
+function validationError() {
+  return new Error('Array Methods must be provided an Array');
+};
+
+Enumerator.prototype._enumerate = function () {
+  var length = this.length;
+  var _input = this._input;
+
+  for (var i = 0; this._state === PENDING && i < length; i++) {
+    this._eachEntry(_input[i], i);
+  }
+};
+
+Enumerator.prototype._eachEntry = function (entry, i) {
+  var c = this._instanceConstructor;
+  var resolve$$ = c.resolve;
+
+  if (resolve$$ === resolve) {
+    var _then = getThen(entry);
+
+    if (_then === then && entry._state !== PENDING) {
+      this._settledAt(entry._state, i, entry._result);
+    } else if (typeof _then !== 'function') {
+      this._remaining--;
+      this._result[i] = entry;
+    } else if (c === Promise) {
+      var promise = new c(noop);
+      handleMaybeThenable(promise, entry, _then);
+      this._willSettleAt(promise, i);
+    } else {
+      this._willSettleAt(new c(function (resolve$$) {
+        return resolve$$(entry);
+      }), i);
+    }
+  } else {
+    this._willSettleAt(resolve$$(entry), i);
+  }
+};
+
+Enumerator.prototype._settledAt = function (state, i, value) {
+  var promise = this.promise;
+
+  if (promise._state === PENDING) {
+    this._remaining--;
+
+    if (state === REJECTED) {
+      _reject(promise, value);
+    } else {
+      this._result[i] = value;
+    }
+  }
+
+  if (this._remaining === 0) {
+    fulfill(promise, this._result);
+  }
+};
+
+Enumerator.prototype._willSettleAt = function (promise, i) {
+  var enumerator = this;
+
+  subscribe(promise, undefined, function (value) {
+    return enumerator._settledAt(FULFILLED, i, value);
+  }, function (reason) {
+    return enumerator._settledAt(REJECTED, i, reason);
+  });
+};
+
+/**
+  `Promise.all` accepts an array of promises, and returns a new promise which
+  is fulfilled with an array of fulfillment values for the passed promises, or
+  rejected with the reason of the first passed promise to be rejected. It casts all
+  elements of the passed iterable to promises as it runs this algorithm.
+
+  Example:
+
+  ```javascript
+  let promise1 = resolve(1);
+  let promise2 = resolve(2);
+  let promise3 = resolve(3);
+  let promises = [ promise1, promise2, promise3 ];
+
+  Promise.all(promises).then(function(array){
+    // The array here would be [ 1, 2, 3 ];
+  });
+  ```
+
+  If any of the `promises` given to `all` are rejected, the first promise
+  that is rejected will be given as an argument to the returned promises's
+  rejection handler. For example:
+
+  Example:
+
+  ```javascript
+  let promise1 = resolve(1);
+  let promise2 = reject(new Error("2"));
+  let promise3 = reject(new Error("3"));
+  let promises = [ promise1, promise2, promise3 ];
+
+  Promise.all(promises).then(function(array){
+    // Code here never runs because there are rejected promises!
+  }, function(error) {
+    // error.message === "2"
+  });
+  ```
+
+  @method all
+  @static
+  @param {Array} entries array of promises
+  @param {String} label optional string for labeling the promise.
+  Useful for tooling.
+  @return {Promise} promise that is fulfilled when all `promises` have been
+  fulfilled, or rejected if any of them become rejected.
+  @static
+*/
+function all(entries) {
+  return new Enumerator(this, entries).promise;
+}
+
+/**
+  `Promise.race` returns a new promise which is settled in the same way as the
+  first passed promise to settle.
+
+  Example:
+
+  ```javascript
+  let promise1 = new Promise(function(resolve, reject){
+    setTimeout(function(){
+      resolve('promise 1');
+    }, 200);
+  });
+
+  let promise2 = new Promise(function(resolve, reject){
+    setTimeout(function(){
+      resolve('promise 2');
+    }, 100);
+  });
+
+  Promise.race([promise1, promise2]).then(function(result){
+    // result === 'promise 2' because it was resolved before promise1
+    // was resolved.
+  });
+  ```
+
+  `Promise.race` is deterministic in that only the state of the first
+  settled promise matters. For example, even if other promises given to the
+  `promises` array argument are resolved, but the first settled promise has
+  become rejected before the other promises became fulfilled, the returned
+  promise will become rejected:
+
+  ```javascript
+  let promise1 = new Promise(function(resolve, reject){
+    setTimeout(function(){
+      resolve('promise 1');
+    }, 200);
+  });
+
+  let promise2 = new Promise(function(resolve, reject){
+    setTimeout(function(){
+      reject(new Error('promise 2'));
+    }, 100);
+  });
+
+  Promise.race([promise1, promise2]).then(function(result){
+    // Code here never runs
+  }, function(reason){
+    // reason.message === 'promise 2' because promise 2 became rejected before
+    // promise 1 became fulfilled
+  });
+  ```
+
+  An example real-world use case is implementing timeouts:
+
+  ```javascript
+  Promise.race([ajax('foo.json'), timeout(5000)])
+  ```
+
+  @method race
+  @static
+  @param {Array} promises array of promises to observe
+  Useful for tooling.
+  @return {Promise} a promise which settles in the same way as the first passed
+  promise to settle.
+*/
+function race(entries) {
+  /*jshint validthis:true */
+  var Constructor = this;
+
+  if (!isArray(entries)) {
+    return new Constructor(function (_, reject) {
+      return reject(new TypeError('You must pass an array to race.'));
+    });
+  } else {
+    return new Constructor(function (resolve, reject) {
+      var length = entries.length;
+      for (var i = 0; i < length; i++) {
+        Constructor.resolve(entries[i]).then(resolve, reject);
+      }
+    });
+  }
+}
+
+/**
+  `Promise.reject` returns a promise rejected with the passed `reason`.
+  It is shorthand for the following:
+
+  ```javascript
+  let promise = new Promise(function(resolve, reject){
+    reject(new Error('WHOOPS'));
+  });
+
+  promise.then(function(value){
+    // Code here doesn't run because the promise is rejected!
+  }, function(reason){
+    // reason.message === 'WHOOPS'
+  });
+  ```
+
+  Instead of writing the above, your code now simply becomes the following:
+
+  ```javascript
+  let promise = Promise.reject(new Error('WHOOPS'));
+
+  promise.then(function(value){
+    // Code here doesn't run because the promise is rejected!
+  }, function(reason){
+    // reason.message === 'WHOOPS'
+  });
+  ```
+
+  @method reject
+  @static
+  @param {Any} reason value that the returned promise will be rejected with.
+  Useful for tooling.
+  @return {Promise} a promise rejected with the given `reason`.
+*/
+function reject(reason) {
+  /*jshint validthis:true */
+  var Constructor = this;
+  var promise = new Constructor(noop);
+  _reject(promise, reason);
+  return promise;
+}
+
+function needsResolver() {
+  throw new TypeError('You must pass a resolver function as the first argument to the promise constructor');
+}
+
+function needsNew() {
+  throw new TypeError("Failed to construct 'Promise': Please use the 'new' operator, this object constructor cannot be called as a function.");
+}
+
+/**
+  Promise objects represent the eventual result of an asynchronous operation. The
+  primary way of interacting with a promise is through its `then` method, which
+  registers callbacks to receive either a promise's eventual value or the reason
+  why the promise cannot be fulfilled.
+
+  Terminology
+  -----------
+
+  - `promise` is an object or function with a `then` method whose behavior conforms to this specification.
+  - `thenable` is an object or function that defines a `then` method.
+  - `value` is any legal JavaScript value (including undefined, a thenable, or a promise).
+  - `exception` is a value that is thrown using the throw statement.
+  - `reason` is a value that indicates why a promise was rejected.
+  - `settled` the final resting state of a promise, fulfilled or rejected.
+
+  A promise can be in one of three states: pending, fulfilled, or rejected.
+
+  Promises that are fulfilled have a fulfillment value and are in the fulfilled
+  state.  Promises that are rejected have a rejection reason and are in the
+  rejected state.  A fulfillment value is never a thenable.
+
+  Promises can also be said to *resolve* a value.  If this value is also a
+  promise, then the original promise's settled state will match the value's
+  settled state.  So a promise that *resolves* a promise that rejects will
+  itself reject, and a promise that *resolves* a promise that fulfills will
+  itself fulfill.
 
 
+  Basic Usage:
+  ------------
+
+  ```js
+  let promise = new Promise(function(resolve, reject) {
+    // on success
+    resolve(value);
+
+    // on failure
+    reject(reason);
+  });
+
+  promise.then(function(value) {
+    // on fulfillment
+  }, function(reason) {
+    // on rejection
+  });
+  ```
+
+  Advanced Usage:
+  ---------------
+
+  Promises shine when abstracting away asynchronous interactions such as
+  `XMLHttpRequest`s.
+
+  ```js
+  function getJSON(url) {
+    return new Promise(function(resolve, reject){
+      let xhr = new XMLHttpRequest();
+
+      xhr.open('GET', url);
+      xhr.onreadystatechange = handler;
+      xhr.responseType = 'json';
+      xhr.setRequestHeader('Accept', 'application/json');
+      xhr.send();
+
+      function handler() {
+        if (this.readyState === this.DONE) {
+          if (this.status === 200) {
+            resolve(this.response);
+          } else {
+            reject(new Error('getJSON: `' + url + '` failed with status: [' + this.status + ']'));
+          }
+        }
+      };
+    });
+  }
+
+  getJSON('/posts.json').then(function(json) {
+    // on fulfillment
+  }, function(reason) {
+    // on rejection
+  });
+  ```
+
+  Unlike callbacks, promises are great composable primitives.
+
+  ```js
+  Promise.all([
+    getJSON('/posts'),
+    getJSON('/comments')
+  ]).then(function(values){
+    values[0] // => postsJSON
+    values[1] // => commentsJSON
+
+    return values;
+  });
+  ```
+
+  @class Promise
+  @param {function} resolver
+  Useful for tooling.
+  @constructor
+*/
+function Promise(resolver) {
+  this[PROMISE_ID] = nextId();
+  this._result = this._state = undefined;
+  this._subscribers = [];
+
+  if (noop !== resolver) {
+    typeof resolver !== 'function' && needsResolver();
+    this instanceof Promise ? initializePromise(this, resolver) : needsNew();
+  }
+}
+
+Promise.all = all;
+Promise.race = race;
+Promise.resolve = resolve;
+Promise.reject = reject;
+Promise._setScheduler = setScheduler;
+Promise._setAsap = setAsap;
+Promise._asap = asap;
+
+Promise.prototype = {
+  constructor: Promise,
+
+  /**
+    The primary way of interacting with a promise is through its `then` method,
+    which registers callbacks to receive either a promise's eventual value or the
+    reason why the promise cannot be fulfilled.
+  
+    ```js
+    findUser().then(function(user){
+      // user is available
+    }, function(reason){
+      // user is unavailable, and you are given the reason why
+    });
+    ```
+  
+    Chaining
+    --------
+  
+    The return value of `then` is itself a promise.  This second, 'downstream'
+    promise is resolved with the return value of the first promise's fulfillment
+    or rejection handler, or rejected if the handler throws an exception.
+  
+    ```js
+    findUser().then(function (user) {
+      return user.name;
+    }, function (reason) {
+      return 'default name';
+    }).then(function (userName) {
+      // If `findUser` fulfilled, `userName` will be the user's name, otherwise it
+      // will be `'default name'`
+    });
+  
+    findUser().then(function (user) {
+      throw new Error('Found user, but still unhappy');
+    }, function (reason) {
+      throw new Error('`findUser` rejected and we're unhappy');
+    }).then(function (value) {
+      // never reached
+    }, function (reason) {
+      // if `findUser` fulfilled, `reason` will be 'Found user, but still unhappy'.
+      // If `findUser` rejected, `reason` will be '`findUser` rejected and we're unhappy'.
+    });
+    ```
+    If the downstream promise does not specify a rejection handler, rejection reasons will be propagated further downstream.
+  
+    ```js
+    findUser().then(function (user) {
+      throw new PedagogicalException('Upstream error');
+    }).then(function (value) {
+      // never reached
+    }).then(function (value) {
+      // never reached
+    }, function (reason) {
+      // The `PedgagocialException` is propagated all the way down to here
+    });
+    ```
+  
+    Assimilation
+    ------------
+  
+    Sometimes the value you want to propagate to a downstream promise can only be
+    retrieved asynchronously. This can be achieved by returning a promise in the
+    fulfillment or rejection handler. The downstream promise will then be pending
+    until the returned promise is settled. This is called *assimilation*.
+  
+    ```js
+    findUser().then(function (user) {
+      return findCommentsByAuthor(user);
+    }).then(function (comments) {
+      // The user's comments are now available
+    });
+    ```
+  
+    If the assimliated promise rejects, then the downstream promise will also reject.
+  
+    ```js
+    findUser().then(function (user) {
+      return findCommentsByAuthor(user);
+    }).then(function (comments) {
+      // If `findCommentsByAuthor` fulfills, we'll have the value here
+    }, function (reason) {
+      // If `findCommentsByAuthor` rejects, we'll have the reason here
+    });
+    ```
+  
+    Simple Example
+    --------------
+  
+    Synchronous Example
+  
+    ```javascript
+    let result;
+  
+    try {
+      result = findResult();
+      // success
+    } catch(reason) {
+      // failure
+    }
+    ```
+  
+    Errback Example
+  
+    ```js
+    findResult(function(result, err){
+      if (err) {
+        // failure
+      } else {
+        // success
+      }
+    });
+    ```
+  
+    Promise Example;
+  
+    ```javascript
+    findResult().then(function(result){
+      // success
+    }, function(reason){
+      // failure
+    });
+    ```
+  
+    Advanced Example
+    --------------
+  
+    Synchronous Example
+  
+    ```javascript
+    let author, books;
+  
+    try {
+      author = findAuthor();
+      books  = findBooksByAuthor(author);
+      // success
+    } catch(reason) {
+      // failure
+    }
+    ```
+  
+    Errback Example
+  
+    ```js
+  
+    function foundBooks(books) {
+  
+    }
+  
+    function failure(reason) {
+  
+    }
+  
+    findAuthor(function(author, err){
+      if (err) {
+        failure(err);
+        // failure
+      } else {
+        try {
+          findBoooksByAuthor(author, function(books, err) {
+            if (err) {
+              failure(err);
+            } else {
+              try {
+                foundBooks(books);
+              } catch(reason) {
+                failure(reason);
+              }
+            }
+          });
+        } catch(error) {
+          failure(err);
+        }
+        // success
+      }
+    });
+    ```
+  
+    Promise Example;
+  
+    ```javascript
+    findAuthor().
+      then(findBooksByAuthor).
+      then(function(books){
+        // found books
+    }).catch(function(reason){
+      // something went wrong
+    });
+    ```
+  
+    @method then
+    @param {Function} onFulfilled
+    @param {Function} onRejected
+    Useful for tooling.
+    @return {Promise}
+  */
+  then: then,
+
+  /**
+    `catch` is simply sugar for `then(undefined, onRejection)` which makes it the same
+    as the catch block of a try/catch statement.
+  
+    ```js
+    function findAuthor(){
+      throw new Error('couldn't find that author');
+    }
+  
+    // synchronous
+    try {
+      findAuthor();
+    } catch(reason) {
+      // something went wrong
+    }
+  
+    // async with promises
+    findAuthor().catch(function(reason){
+      // something went wrong
+    });
+    ```
+  
+    @method catch
+    @param {Function} onRejection
+    Useful for tooling.
+    @return {Promise}
+  */
+  'catch': function _catch(onRejection) {
+    return this.then(null, onRejection);
+  }
+};
+
+function polyfill() {
+    var local = undefined;
+
+    if (typeof global !== 'undefined') {
+        local = global;
+    } else if (typeof self !== 'undefined') {
+        local = self;
+    } else {
+        try {
+            local = Function('return this')();
+        } catch (e) {
+            throw new Error('polyfill failed because global object is unavailable in this environment');
+        }
+    }
+
+    var P = local.Promise;
+
+    if (P) {
+        var promiseToString = null;
+        try {
+            promiseToString = Object.prototype.toString.call(P.resolve());
+        } catch (e) {
+            // silently ignored
+        }
+
+        if (promiseToString === '[object Promise]' && !P.cast) {
+            return;
+        }
+    }
+
+    local.Promise = Promise;
+}
+
+polyfill();
+// Strange compat..
+Promise.polyfill = polyfill;
+Promise.Promise = Promise;
+
+return Promise;
+
+})));
+//# sourceMappingURL=es6-promise.map;
 define('amber/es2015-polyfills',['amber/es6-promise'], function (promiseLib) {
     promiseLib.polyfill();
 });
@@ -1031,73 +1291,7 @@ define("amber/node-compatibility", ["./es2015-polyfills"], function(){});
 
 //jshint eqnull:true
 
-define('amber/boot',['require', './compatibility'], function (require) {
-
-    /* Reconfigurable micro composition system, https://lolg.it/herby/brikz */
-
-    function Brikz(api, apiKey, initKey) {
-        var brikz = this, backup = {};
-        apiKey = apiKey || 'exports';
-        initKey = initKey || '__init__';
-
-        function mixin(src, target, what) {
-            for (var keys = Object.keys(what || src), l = keys.length, i = 0; i < l; ++i) {
-                if (src == null) {
-                    target[keys[i]] = undefined;
-                } else {
-                    var value = src[keys[i]];
-                    if (typeof value !== "undefined") {
-                        target[keys[i]] = value;
-                    }
-                }
-            }
-            return target;
-        }
-
-        var d = {value: null, enumerable: false, configurable: true, writable: true};
-        Object.defineProperties(this, {ensure: d, rebuild: d});
-        var exclude = mixin(this, {});
-
-        this.rebuild = function () {
-            Object.keys(backup).forEach(function (key) {
-                mixin(null, api, (backup[key] || 0)[apiKey] || {});
-            });
-            var oapi = mixin(api, {}), order = [], chk = {};
-            brikz.ensure = function (key) {
-                if (key in exclude) {
-                    return null;
-                }
-                var b = brikz[key], bak = backup[key];
-                mixin(null, api, api);
-                while (typeof b === "function") {
-                    b = new b(brikz, api, bak);
-                }
-                if (b && !chk[key]) {
-                    chk[key] = true;
-                    order.push(b);
-                }
-                if (b && !b[apiKey]) {
-                    b[apiKey] = mixin(api, {});
-                }
-                brikz[key] = b;
-                return b;
-            };
-            Object.keys(brikz).forEach(function (key) {
-                brikz.ensure(key);
-            });
-            brikz.ensure = null;
-            mixin(oapi, mixin(null, api, api));
-            order.forEach(function (brik) {
-                mixin(brik[apiKey] || {}, api);
-            });
-            order.forEach(function (brik) {
-                if (brik[initKey]) brik[initKey]();
-            });
-            backup = mixin(brikz, {});
-        };
-    }
-
-    /* Brikz end */
+define('amber/boot',['require', './brikz', './compatibility'], function (require, Brikz) {
 
     function inherits(child, parent) {
         child.prototype = Object.create(parent.prototype, {
@@ -1109,14 +1303,16 @@ define('amber/boot',['require', './compatibility'], function (require) {
         return child;
     }
 
-    var jsGlobals = new Function("return this")();
-    var globals = Object.create(jsGlobals);
-    globals.SmalltalkSettings = {};
-    var api = {};
-    var brikz = new Brikz(api);
+    function SmalltalkGlobalsBrik(brikz, st) {
+        // jshint evil:true
+        var jsGlobals = new Function("return this")();
+        var globals = Object.create(jsGlobals);
+        globals.SmalltalkSettings = {};
+
+        this.globals = globals;
+    }
 
     function RootBrik(brikz, st) {
-
         /* Smalltalk foundational objects */
 
         /* SmalltalkRoot is the hidden root of the Amber hierarchy.
@@ -1127,14 +1323,14 @@ define('amber/boot',['require', './compatibility'], function (require) {
         function SmalltalkProtoObject() {
         }
 
-        inherits(SmalltalkProtoObject, SmalltalkRoot);
         function SmalltalkObject() {
         }
 
-        inherits(SmalltalkObject, SmalltalkProtoObject);
         function SmalltalkNil() {
         }
 
+        inherits(SmalltalkProtoObject, SmalltalkRoot);
+        inherits(SmalltalkObject, SmalltalkProtoObject);
         inherits(SmalltalkNil, SmalltalkObject);
 
         this.Object = SmalltalkObject;
@@ -1154,17 +1350,19 @@ define('amber/boot',['require', './compatibility'], function (require) {
         this.rootAsClass = {fn: SmalltalkRoot};
 
         this.__init__ = function () {
+            var globals = brikz.smalltalkGlobals.globals;
+            var addCoupledClass = brikz.classes.addCoupledClass;
             st.addPackage("Kernel-Objects");
-            st.wrapClassName("ProtoObject", "Kernel-Objects", SmalltalkProtoObject, undefined, false);
-            st.wrapClassName("Object", "Kernel-Objects", SmalltalkObject, globals.ProtoObject, false);
-            st.wrapClassName("UndefinedObject", "Kernel-Objects", SmalltalkNil, globals.Object, false);
+            addCoupledClass("ProtoObject", undefined, "Kernel-Objects", SmalltalkProtoObject);
+            addCoupledClass("Object", globals.ProtoObject, "Kernel-Objects", SmalltalkObject);
+            addCoupledClass("UndefinedObject", globals.Object, "Kernel-Objects", SmalltalkNil);
         };
+        this.__init__.once = true;
     }
 
+    OrganizeBrik.deps = ["augments", "root"];
     function OrganizeBrik(brikz, st) {
-
-        brikz.ensure("augments");
-        var SmalltalkObject = brikz.ensure("root").Object;
+        var SmalltalkObject = brikz.root.Object;
 
         function SmalltalkOrganizer() {
         }
@@ -1182,11 +1380,14 @@ define('amber/boot',['require', './compatibility'], function (require) {
         inherits(SmalltalkClassOrganizer, SmalltalkOrganizer);
 
         this.__init__ = function () {
+            var globals = brikz.smalltalkGlobals.globals;
+            var addCoupledClass = brikz.classes.addCoupledClass;
             st.addPackage("Kernel-Infrastructure");
-            st.wrapClassName("Organizer", "Kernel-Infrastructure", SmalltalkOrganizer, globals.Object, false);
-            st.wrapClassName("PackageOrganizer", "Kernel-Infrastructure", SmalltalkPackageOrganizer, globals.Organizer, false);
-            st.wrapClassName("ClassOrganizer", "Kernel-Infrastructure", SmalltalkClassOrganizer, globals.Organizer, false);
+            addCoupledClass("Organizer", globals.Object, "Kernel-Infrastructure", SmalltalkOrganizer);
+            addCoupledClass("PackageOrganizer", globals.Organizer, "Kernel-Infrastructure", SmalltalkPackageOrganizer);
+            addCoupledClass("ClassOrganizer", globals.Organizer, "Kernel-Infrastructure", SmalltalkClassOrganizer);
         };
+        this.__init__.once = true;
 
         this.setupClassOrganization = function (klass) {
             klass.organization = new SmalltalkClassOrganizer();
@@ -1206,106 +1407,33 @@ define('amber/boot',['require', './compatibility'], function (require) {
         };
     }
 
-    function DNUBrik(brikz, st) {
+    SelectorsBrik.deps = ["selectorConversion"];
+    function SelectorsBrik(brikz, st) {
+        var selectorSet = Object.create(null);
+        var selectors = this.selectors = [];
+        var selectorPairs = this.selectorPairs = [];
 
-        brikz.ensure("selectorConversion");
-        brikz.ensure("messageSend");
-        var manip = brikz.ensure("manipulation");
-        var rootAsClass = brikz.ensure("root").rootAsClass;
-
-        /* Method not implemented handlers */
-
-        var methods = [], methodDict = Object.create(null);
-        this.selectors = [];
-        this.jsSelectors = [];
-
-        this.make = function (stSelector, targetClasses) {
-            var method = methodDict[stSelector];
-            if (method) return;
+        this.registerSelector = function (stSelector) {
+            if (selectorSet[stSelector]) return null;
             var jsSelector = st.st2js(stSelector);
-            this.selectors.push(stSelector);
-            this.jsSelectors.push(jsSelector);
-            method = {jsSelector: jsSelector, fn: createHandler(stSelector)};
-            methodDict[stSelector] = method;
-            methods.push(method);
-            manip.installMethod(method, rootAsClass);
-            targetClasses.forEach(function (target) {
-                manip.installMethod(method, target);
-            });
-            return method;
+            selectorSet[stSelector] = true;
+            selectors.push(stSelector);
+            var pair = {st: stSelector, js: jsSelector};
+            selectorPairs.push(pair);
+            return pair;
         };
 
-        /* Dnu handler method */
+        /* Answer all method selectors based on dnu handlers */
 
-        function createHandler(stSelector) {
-            return function () {
-                return brikz.messageSend.messageNotUnderstood(this, stSelector, arguments);
-            };
-        }
-    }
-
-    function ClassInitBrik(brikz, st) {
-
-        var dnu = brikz.ensure("dnu");
-        var manip = brikz.ensure("manipulation");
-
-        /* Initialize a class in its class hierarchy. Handle both classes and
-         metaclasses. */
-
-        st.init = function (klass) {
-            initClass(klass);
-            if (klass.klass && !klass.meta) {
-                initClass(klass.klass);
-            }
-        };
-
-        function initClass(klass) {
-            if (klass.wrapped) {
-                copySuperclass(klass);
-            }
-        }
-
-        this.initClass = initClass;
-
-        function copySuperclass(klass) {
-            var superclass = klass.superclass,
-                localMethods = klass.methods,
-                localMethodsByJsSelector = {};
-            Object.keys(localMethods).forEach(function (each) {
-                var localMethod = localMethods[each];
-                localMethodsByJsSelector[localMethod.jsSelector] = localMethod;
-            });
-            var myproto = klass.fn.prototype,
-                superproto = superclass.fn.prototype;
-            dnu.jsSelectors.forEach(function (selector) {
-                if (!localMethodsByJsSelector[selector]) {
-                    manip.installMethod({
-                        jsSelector: selector,
-                        fn: superproto[selector]
-                    }, klass);
-                } else if (!myproto[selector]) {
-                    manip.installMethod(localMethodsByJsSelector[selector], klass);
-                }
-            });
-        }
-    }
-
-    function ManipulationBrik(brikz, st) {
-        this.installMethod = function (method, klass) {
-            Object.defineProperty(klass.fn.prototype, method.jsSelector, {
-                value: method.fn,
-                enumerable: false, configurable: true, writable: true
-            });
+        st.allSelectors = function () {
+            return selectors;
         };
     }
 
-
+    PackagesBrik.deps = ["organize", "root"];
     function PackagesBrik(brikz, st) {
-
-        var org = brikz.ensure("organize");
-        var root = brikz.ensure("root");
-        var nil = root.nil;
-        var SmalltalkObject = root.Object;
+        var setupPackageOrganization = brikz.organize.setupPackageOrganization;
+        var SmalltalkObject = brikz.root.Object;
 
         function SmalltalkPackage() {
         }
@@ -1313,9 +1441,12 @@ define('amber/boot',['require', './compatibility'], function (require) {
         inherits(SmalltalkPackage, SmalltalkObject);
 
         this.__init__ = function () {
+            var globals = brikz.smalltalkGlobals.globals;
+            var addCoupledClass = brikz.classes.addCoupledClass;
             st.addPackage("Kernel-Infrastructure");
-            st.wrapClassName("Package", "Kernel-Infrastructure", SmalltalkPackage, globals.Object, false);
+            addCoupledClass("Package", globals.Object, "Kernel-Infrastructure", SmalltalkPackage);
         };
+        this.__init__.once = true;
 
         st.packages = {};
 
@@ -1324,7 +1455,7 @@ define('amber/boot',['require', './compatibility'], function (require) {
         function pkg(spec) {
             var that = new SmalltalkPackage();
             that.pkgName = spec.pkgName;
-            org.setupPackageOrganization(that);
+            setupPackageOrganization(that);
             that.properties = spec.properties || {};
             return that;
         }
@@ -1335,7 +1466,7 @@ define('amber/boot',['require', './compatibility'], function (require) {
 
         st.addPackage = function (pkgName, properties) {
             if (!pkgName) {
-                return nil;
+                return null;
             }
             if (!(st.packages[pkgName])) {
                 st.packages[pkgName] = pkg({
@@ -1351,14 +1482,14 @@ define('amber/boot',['require', './compatibility'], function (require) {
         };
     }
 
+    ClassesBrik.deps = ["organize", "root", "smalltalkGlobals"];
     function ClassesBrik(brikz, st) {
-
-        var org = brikz.ensure("organize");
-        var root = brikz.ensure("root");
-        var classInit = brikz.ensure("classInit");
-        var nil = root.nil;
-        var rootAsClass = root.rootAsClass;
-        var SmalltalkObject = root.Object;
+        var setupClassOrganization = brikz.organize.setupClassOrganization;
+        var addOrganizationElement = brikz.organize.addOrganizationElement;
+        var removeOrganizationElement = brikz.organize.removeOrganizationElement;
+        var globals = brikz.smalltalkGlobals.globals;
+        var rootAsClass = brikz.root.rootAsClass;
+        var SmalltalkObject = brikz.root.Object;
         rootAsClass.klass = {fn: SmalltalkClass};
 
         function SmalltalkBehavior() {
@@ -1374,23 +1505,29 @@ define('amber/boot',['require', './compatibility'], function (require) {
         inherits(SmalltalkClass, SmalltalkBehavior);
         inherits(SmalltalkMetaclass, SmalltalkBehavior);
 
+        SmalltalkBehavior.prototype.toString = function () {
+            return 'Smalltalk ' + this.className;
+        };
+
         SmalltalkMetaclass.prototype.meta = true;
 
         this.__init__ = function () {
+            var globals = brikz.smalltalkGlobals.globals;
+            var addCoupledClass = brikz.classes.addCoupledClass;
             st.addPackage("Kernel-Classes");
-            st.wrapClassName("Behavior", "Kernel-Classes", SmalltalkBehavior, globals.Object, false);
-            st.wrapClassName("Metaclass", "Kernel-Classes", SmalltalkMetaclass, globals.Behavior, false);
-            st.wrapClassName("Class", "Kernel-Classes", SmalltalkClass, globals.Behavior, false);
+            addCoupledClass("Behavior", globals.Object, "Kernel-Classes", SmalltalkBehavior);
+            addCoupledClass("Metaclass", globals.Behavior, "Kernel-Classes", SmalltalkMetaclass);
+            addCoupledClass("Class", globals.Behavior, "Kernel-Classes", SmalltalkClass);
 
             // Manually bootstrap the metaclass hierarchy
             globals.ProtoObject.klass.superclass = rootAsClass.klass = globals.Class;
             addSubclass(globals.ProtoObject.klass);
         };
+        this.__init__.once = true;
 
         /* Smalltalk classes */
 
         var classes = [];
-        var wrappedClasses = [];
 
         /* Smalltalk class creation. A class is an instance of an automatically
          created metaclass object. Newly created classes (not their metaclass)
@@ -1398,7 +1535,6 @@ define('amber/boot',['require', './compatibility'], function (require) {
          Superclass linking is *not* handled here, see smalltalk.init()  */
 
         function klass(spec) {
-            spec = spec || {};
             var setSuperClass = spec.superclass;
             if (!spec.superclass) {
                 spec.superclass = rootAsClass;
@@ -1416,25 +1552,33 @@ define('amber/boot',['require', './compatibility'], function (require) {
             setupClass(that, spec);
 
             that.className = spec.className;
-            that.wrapped = spec.wrapped || false;
             meta.className = spec.className + ' class';
             meta.superclass = spec.superclass.klass;
             return that;
         }
 
         function metaclass(spec) {
-            spec = spec || {};
             var that = new SmalltalkMetaclass();
             that.fn = inherits(function () {
             }, spec.superclass.klass.fn);
+            wireKlass(that);
             that.instanceClass = new that.fn();
-            setupClass(that);
+            setupClass(that, {});
             return that;
         }
 
-        SmalltalkBehavior.prototype.toString = function () {
-            return 'Smalltalk ' + this.className;
-        };
+        function setupClass(klass, spec) {
+            klass.iVarNames = spec.iVarNames || [];
+            if (spec.pkg) {
+                klass.pkg = spec.pkg;
+            }
+
+            setupClassOrganization(klass);
+            Object.defineProperty(klass, "methods", {
+                value: Object.create(null),
+                enumerable: false, configurable: true, writable: true
+            });
+        }
 
         function wireKlass(klass) {
             Object.defineProperty(klass.fn.prototype, "klass", {
@@ -1443,18 +1587,7 @@ define('amber/boot',['require', './compatibility'], function (require) {
             });
         }
 
-        function setupClass(klass, spec) {
-            spec = spec || {};
-            klass.iVarNames = spec.iVarNames || [];
-            klass.pkg = spec.pkg;
-
-            org.setupClassOrganization(klass);
-            Object.defineProperty(klass, "methods", {
-                value: Object.create(null),
-                enumerable: false, configurable: true, writable: true
-            });
-            wireKlass(klass);
-        }
+        this.wireKlass = wireKlass;
 
         /* Add a class to the smalltalk object, creating a new one if needed.
          A Package is lazily created if it does not exist with given name. */
@@ -1462,34 +1595,29 @@ define('amber/boot',['require', './compatibility'], function (require) {
         st.addClass = function (className, superclass, iVarNames, pkgName) {
             // While subclassing nil is allowed, it might be an error, so
             // warn about it.
-            if (typeof superclass == 'undefined' || superclass == nil) {
+            if (typeof superclass == 'undefined' || superclass && superclass.isNil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
-            rawAddClass(pkgName, className, superclass, iVarNames, false, null);
+            return rawAddClass(pkgName, className, superclass, iVarNames, null);
         };
 
-        function rawAddClass(pkgName, className, superclass, iVarNames, wrapped, fn) {
+        function rawAddClass(pkgName, className, superclass, iVarNames, fn) {
             var pkg = st.packages[pkgName];
 
             if (!pkg) {
                 throw new Error("Missing package " + pkgName);
             }
 
-            if (!superclass || superclass == nil) {
+            if (superclass == null || superclass.isNil) {
                 superclass = null;
             }
             var theClass = globals.hasOwnProperty(className) && globals[className];
-            if (theClass && theClass.superclass == superclass) {
-                //            theClass.superclass = superclass;
-                theClass.iVarNames = iVarNames || [];
+            if (theClass && theClass.superclass == superclass && !fn) {
+                if (iVarNames) theClass.iVarNames = iVarNames;
                 if (pkg) theClass.pkg = pkg;
-                if (fn) {
-                    fn.prototype = theClass.fn.prototype;
-                    theClass.fn = fn;
-                    fn.prototype.constructor = fn;
-                }
             } else {
                 if (theClass) {
+                    iVarNames = iVarNames || theClass.iVarNames;
                     st.removeClass(theClass);
                 }
                 theClass = globals[className] = klass({
@@ -1497,19 +1625,20 @@ define('amber/boot',['require', './compatibility'], function (require) {
                     superclass: superclass,
                     pkg: pkg,
                     iVarNames: iVarNames,
-                    fn: fn,
-                    wrapped: wrapped
+                    fn: fn
                 });
 
                 addSubclass(theClass);
             }
 
             classes.addElement(theClass);
-            org.addOrganizationElement(pkg, theClass);
+            addOrganizationElement(pkg, theClass);
+            if (st._classAdded) st._classAdded(theClass);
+            return theClass;
         }
 
         st.removeClass = function (klass) {
-            org.removeOrganizationElement(klass.pkg, klass);
+            removeOrganizationElement(klass.pkg, klass);
             classes.removeElement(klass);
             removeSubclass(klass);
             delete globals[klass.className];
@@ -1527,28 +1656,11 @@ define('amber/boot',['require', './compatibility'], function (require) {
             }
         }
 
-        /* Create a new class wrapping a JavaScript constructor, and add it to the
-         global smalltalk object. Package is lazily created if it does not exist with given name. */
+        /* Create a new class coupling with a JavaScript constructor,
+         and add it to the global smalltalk object.*/
 
-        st.wrapClassName = function (className, pkgName, fn, superclass, wrapped) {
-            wrapped = wrapped !== false;
-            rawAddClass(pkgName, className, superclass, globals[className] && globals[className].iVarNames, wrapped, fn);
-            if (wrapped) {
-                wrappedClasses.addElement(globals[className]);
-            }
-        };
-
-        /* Manually set the constructor of an existing Smalltalk klass, making it a wrapped class. */
-
-        st.setClassConstructor = function (klass, constructor) {
-            wrappedClasses.addElement(klass);
-            klass.wrapped = true;
-            klass.fn = constructor;
-
-            // The fn property changed. We need to add back the klass property to the prototype
-            wireKlass(klass);
-
-            classInit.initClass(klass);
+        this.addCoupledClass = function (className, superclass, pkgName, fn) {
+            return rawAddClass(pkgName, className, superclass, null, fn);
         };
 
         /* Create an alias for an existing class */
@@ -1560,31 +1672,38 @@ define('amber/boot',['require', './compatibility'], function (require) {
         /* Answer all registered Smalltalk classes */
         //TODO: remove the function and make smalltalk.classes an array
 
-        st.classes = function () {
+        st.classes = this.classes = function () {
             return classes;
         };
 
-        st.wrappedClasses = function () {
-            return wrappedClasses;
-        };
+        function metaSubclasses(metaclass) {
+            return metaclass.instanceClass.subclasses
+                .filter(function (each) {
+                    return !each.meta;
+                })
+                .map(function (each) {
+                    return each.klass;
+                });
+        }
 
-        // Still used, but could go away now that subclasses are stored
-        // into classes directly.
-        st.allSubclasses = function (klass) {
-            return klass._allSubclasses();
-        };
+        st.metaSubclasses = metaSubclasses;
 
+        st.traverseClassTree = function (klass, fn) {
+            var queue = [klass];
+            for (var i = 0; i < queue.length; ++i) {
+                var item = queue[i];
+                fn(item);
+                var subclasses = item.meta ? metaSubclasses(item) : item.subclasses;
+                queue.push.apply(queue, subclasses);
+            }
+        };
     }
 
+    MethodsBrik.deps = ["organize", "selectors", "root", "selectorConversion"];
     function MethodsBrik(brikz, st) {
-
-        var manip = brikz.ensure("manipulation");
-        var org = brikz.ensure("organize");
-        var stInit = brikz.ensure("stInit");
-        var dnu = brikz.ensure("dnu");
-        var SmalltalkObject = brikz.ensure("root").Object;
-        brikz.ensure("selectorConversion");
-        brikz.ensure("classes");
+        var addOrganizationElement = brikz.organize.addOrganizationElement;
+        var registerSelector = brikz.selectors.registerSelector;
+        var SmalltalkObject = brikz.root.Object;
 
         function SmalltalkMethod() {
         }
@@ -1592,17 +1711,21 @@ define('amber/boot',['require', './compatibility'], function (require) {
         inherits(SmalltalkMethod, SmalltalkObject);
 
         this.__init__ = function () {
+            var globals = brikz.smalltalkGlobals.globals;
+            var addCoupledClass = brikz.classes.addCoupledClass;
             st.addPackage("Kernel-Methods");
-            st.wrapClassName("CompiledMethod", "Kernel-Methods", SmalltalkMethod, globals.Object, false);
+            addCoupledClass("CompiledMethod", globals.Object, "Kernel-Methods", SmalltalkMethod);
         };
+        this.__init__.once = true;
 
         /* Smalltalk method object. To add a method to a class,
          use smalltalk.addMethod() */
 
         st.method = function (spec) {
             var that = new SmalltalkMethod();
-            that.selector = spec.selector;
-            that.jsSelector = spec.jsSelector;
+            var selector = spec.selector;
+            that.selector = selector;
+            that.jsSelector = st.st2js(selector);
             that.args = spec.args || {};
             that.protocol = spec.protocol;
             that.source = spec.source;
@@ -1612,58 +1735,31 @@ define('amber/boot',['require', './compatibility'], function (require) {
             return that;
         };
 
-        function ensureJsSelector(method) {
-            if (!(method.jsSelector)) {
-                method.jsSelector = st.st2js(method.selector);
-            }
-        }
-
         /* Add/remove a method to/from a class */
 
         st.addMethod = function (method, klass) {
-            ensureJsSelector(method);
-            manip.installMethod(method, klass);
             klass.methods[method.selector] = method;
             method.methodClass = klass;
 
             // During the bootstrap, #addCompiledMethod is not used.
             // Therefore we populate the organizer here too
-            org.addOrganizationElement(klass, method.protocol);
+            addOrganizationElement(klass, method.protocol);
 
-            propagateMethodChange(klass, method);
+            var newSelectors = [];
 
-            var usedSelectors = method.messageSends,
-                targetClasses = stInit.initialized() ? st.wrappedClasses() : [];
-
-            dnu.make(method.selector, targetClasses);
-
-            for (var i = 0; i < usedSelectors.length; i++) {
-                dnu.make(usedSelectors[i], targetClasses);
+            function selectorInUse(stSelector) {
+                var pair = registerSelector(stSelector);
+                if (pair) {
+                    newSelectors.push(pair);
+                }
             }
+
+            selectorInUse(method.selector);
+            method.messageSends.forEach(selectorInUse);
+
+            if (st._methodAdded) st._methodAdded(method, klass);
+            if (st._selectorsAdded) st._selectorsAdded(newSelectors);
         };
-
-        function propagateMethodChange(klass, method) {
-            // If already initialized (else it will be done later anyway),
-            // re-initialize all subclasses to ensure the method change
-            // propagation (for wrapped classes, not using the prototype
-            // chain).
-
-            if (stInit.initialized()) {
-                st.allSubclasses(klass).forEach(function (subclass) {
-                    initMethodInClass(subclass, method);
-                });
-            }
-        }
-
-        function initMethodInClass(klass, method) {
-            if (klass.wrapped && !klass.methods[method.selector]) {
-                var jsSelector = method.jsSelector;
-                manip.installMethod({
-                    jsSelector: jsSelector,
-                    fn: klass.superclass.fn.prototype[jsSelector]
-                }, klass);
-            }
-        }
 
         st.removeMethod = function (method, klass) {
             if (klass !== method.methodClass) {
@@ -1674,27 +1770,16 @@ define('amber/boot',['require', './compatibility'], function (require) {
                     klass.className);
             }
 
-            ensureJsSelector(method);
-            delete klass.fn.prototype[method.jsSelector];
             delete klass.methods[method.selector];
 
-            initMethodInClass(klass, method);
-            propagateMethodChange(klass, method);
+            if (st._methodRemoved) st._methodRemoved(method, klass);
 
             // Do *not* delete protocols from here.
             // This is handled by #removeCompiledMethod
         };
-
-        /* Answer all method selectors based on dnu handlers */
-
-        st.allSelectors = function () {
-            return dnu.selectors;
-        };
-
     }
 
     function AugmentsBrik(brikz, st) {
-
         /* Array extensions */
 
         Array.prototype.addElement = function (el) {
@@ -1714,375 +1799,58 @@ define('amber/boot',['require', './compatibility'], function (require) {
         };
     }
 
+    SmalltalkInitBrik.deps = ["globals", "classes"];
     function SmalltalkInitBrik(brikz, st) {
-
-        brikz.ensure("classInit");
-        brikz.ensure("classes");
+        var globals = brikz.smalltalkGlobals.globals;
 
         var initialized = false;
+        var runtimeLoadedPromise = new Promise(function (resolve, reject) {
+            require(['./kernel-runtime'], resolve, reject);
+        });
+
 
         /* Smalltalk initialization. Called on page load */
 
         st.initialize = function () {
-            if (initialized) {
-                return;
-            }
+            return runtimeLoadedPromise.then(function (configureWithRuntime) {
+                if (initialized) {
+                    return;
+                }
 
-            st.classes().forEach(function (klass) {
-                st.init(klass);
+                configureWithRuntime(brikz);
+
+                /* Alias definitions */
+
+                st.alias(globals.Array, "OrderedCollection");
+                st.alias(globals.Date, "Time");
+
+                st.classes().forEach(function (klass) {
+                    klass._initialize();
+                });
+
+                initialized = true;
             });
-
-            runnable();
-
-            st.classes().forEach(function (klass) {
-                klass._initialize();
-            });
-
-            initialized = true;
         };
-
-        this.initialized = function () {
-            return initialized;
-        };
-
-        this.__init__ = function () {
-            st.addPackage("Kernel-Methods");
-            st.wrapClassName("Number", "Kernel-Objects", Number, globals.Object);
-            st.wrapClassName("BlockClosure", "Kernel-Methods", Function, globals.Object);
-            st.wrapClassName("Boolean", "Kernel-Objects", Boolean, globals.Object);
-            st.wrapClassName("Date", "Kernel-Objects", Date, globals.Object);
-
-            st.addPackage("Kernel-Collections");
-            st.addClass("Collection", globals.Object, null, "Kernel-Collections");
-            st.addClass("IndexableCollection", globals.Collection, null, "Kernel-Collections");
-            st.addClass("SequenceableCollection", globals.IndexableCollection, null, "Kernel-Collections");
-            st.addClass("CharacterArray", globals.SequenceableCollection, null, "Kernel-Collections");
-            st.wrapClassName("String", "Kernel-Collections", String, globals.CharacterArray);
-            st.wrapClassName("Array", "Kernel-Collections", Array, globals.SequenceableCollection);
-            st.wrapClassName("RegularExpression", "Kernel-Collections", RegExp, globals.Object);
-
-            st.addPackage("Kernel-Exceptions");
-            st.wrapClassName("Error", "Kernel-Exceptions", Error, globals.Object);
-
-            /* Alias definitions */
-
-            st.alias(globals.Array, "OrderedCollection");
-            st.alias(globals.Date, "Time");
-
-        };
-    }
-
-    function PrimitivesBrik(brikz, st) {
-
-        /* Unique ID number generator */
-
-        var oid = 0;
-        st.nextId = function () {
-            oid += 1;
-            return oid;
-        };
-
-        /* Converts a JavaScript object to valid Smalltalk Object */
-        st.readJSObject = function (js) {
-            if (js == null)
-                return null;
-            var readObject = js.constructor === Object;
-            var readArray = js.constructor === Array;
-            var object = readObject ? globals.Dictionary._new() : readArray ? [] : js;
-
-            for (var i in js) {
-                if (readObject) {
-                    object._at_put_(i, st.readJSObject(js[i]));
-                }
-                if (readArray) {
-                    object[i] = st.readJSObject(js[i]);
-                }
-            }
-            return object;
-        };
-
-        /* Boolean assertion */
-        st.assert = function (shouldBeBoolean) {
-            if (typeof shouldBeBoolean === "boolean") return shouldBeBoolean;
-            else if (shouldBeBoolean != null && typeof shouldBeBoolean === "object") {
-                shouldBeBoolean = shouldBeBoolean.valueOf();
-                if (typeof shouldBeBoolean === "boolean") return shouldBeBoolean;
-            }
-            globals.NonBooleanReceiver._new()._object_(shouldBeBoolean)._signal();
-        };
-
-        /* List of all reserved words in JavaScript. They may not be used as variables
-         in Smalltalk. */
-
-        // list of reserved JavaScript keywords as of
-        //   http://es5.github.com/#x7.6.1.1
-        // and
-        //   http://people.mozilla.org/~jorendorff/es6-draft.html#sec-7.6.1
-        st.reservedWords = ['break', 'case', 'catch', 'continue', 'debugger',
-            'default', 'delete', 'do', 'else', 'finally', 'for', 'function',
-            'if', 'in', 'instanceof', 'new', 'return', 'switch', 'this', 'throw',
-            'try', 'typeof', 'var', 'void', 'while', 'with',
-            // Amber protected words: these should not be compiled as-is when in code
-            'arguments',
-            // ES5: future use: http://es5.github.com/#x7.6.1.2
-            'class', 'const', 'enum', 'export', 'extends', 'import', 'super',
-            // ES5: future use in strict mode
-            'implements', 'interface', 'let', 'package', 'private', 'protected',
-            'public', 'static', 'yield'];
-
-        st.globalJsVariables = ['window', 'document', 'process', 'global'];
-
-    }
-
-    function RuntimeBrik(brikz, st) {
-
-        brikz.ensure("selectorConversion");
-        var root = brikz.ensure("root");
-        var nil = root.nil;
-        var SmalltalkObject = root.Object;
-
-        function SmalltalkMethodContext(home, setup) {
-            this.sendIdx = {};
-            this.homeContext = home;
-            this.setup = setup || function () {
-                };
-
-            this.supercall = false;
-        }
-
-        inherits(SmalltalkMethodContext, SmalltalkObject);
-
-        this.__init__ = function () {
-            st.addPackage("Kernel-Methods");
-            st.wrapClassName("MethodContext", "Kernel-Methods", SmalltalkMethodContext, globals.Object, false);
-
-            // Fallbacks
-            SmalltalkMethodContext.prototype.locals = {};
-            SmalltalkMethodContext.prototype.receiver = null;
-            SmalltalkMethodContext.prototype.selector = null;
-            SmalltalkMethodContext.prototype.lookupClass = null;
-
-            SmalltalkMethodContext.prototype.fill = function (receiver, selector, locals, lookupClass) {
-                this.receiver = receiver;
-                this.selector = selector;
-                this.locals = locals || {};
-                this.lookupClass = lookupClass;
-                if (this.homeContext) {
-                    this.homeContext.evaluatedSelector = selector;
-                }
-            };
-
-            SmalltalkMethodContext.prototype.fillBlock = function (locals, ctx, index) {
-                this.locals = locals || {};
-                this.outerContext = ctx;
-                this.index = index || 0;
-            };
-
-            SmalltalkMethodContext.prototype.init = function () {
-                var home = this.homeContext;
-                if (home) {
-                    home.init();
-                }
-
-                this.setup(this);
-            };
-
-            SmalltalkMethodContext.prototype.method = function () {
-                var method;
-                var lookup = this.lookupClass || this.receiver.klass;
-                while (!method && lookup) {
-                    method = lookup.methods[st.js2st(this.selector)];
-                    lookup = lookup.superclass;
-                }
-                return method;
-            };
-        };
-
-        /* This is the current call context object. While it is publicly available,
-         Use smalltalk.getThisContext() instead which will answer a safe copy of
-         the current context */
-
-        var thisContext = null;
-
-        st.withContext = function (worker, setup) {
-            if (thisContext) {
-                return inContext(worker, setup);
-            } else {
-                return inContextWithErrorHandling(worker, setup);
-            }
-        };
-
-        function inContextWithErrorHandling(worker, setup) {
-            try {
-                return inContext(worker, setup);
-            } catch (error) {
-                handleError(error);
-                thisContext = null;
-                // Rethrow the error in any case.
-                error.amberHandled = true;
-                throw error;
-            }
-        }
-
-        function inContext(worker, setup) {
-            var oldContext = thisContext;
-            thisContext = new SmalltalkMethodContext(thisContext, setup);
-            var result = worker(thisContext);
-            thisContext = oldContext;
-            return result;
-        }
-
-        /* Wrap a JavaScript exception in a Smalltalk Exception.
-
-         In case of a RangeError, stub the stack after 100 contexts to
-         avoid another RangeError later when the stack is manipulated. */
-        function wrappedError(error) {
-            var errorWrapper = globals.JavaScriptException._on_(error);
-            // Add the error to the context, so it is visible in the stack
-            try {
-                errorWrapper._signal();
-            } catch (ex) {
-            }
-            var context = st.getThisContext();
-            if (isRangeError(error)) {
-                stubContextStack(context);
-            }
-            errorWrapper._context_(context);
-            return errorWrapper;
-        }
-
-        /* Stub the context stack after 100 contexts */
-        function stubContextStack(context) {
-            var currentContext = context;
-            var contexts = 0;
-            while (contexts < 100) {
-                if (currentContext) {
-                    currentContext = currentContext.homeContext;
-                }
-                contexts++;
-            }
-            if (currentContext) {
-                currentContext.homeContext = undefined;
-            }
-        }
-
-        function isRangeError(error) {
-            return error instanceof RangeError;
-        }
-
-
-        /* Handles Smalltalk errors. Triggers the registered ErrorHandler
-         (See the Smalltalk class ErrorHandler and its subclasses */
-
-        function handleError(error) {
-            if (!error.smalltalkError) {
-                error = wrappedError(error);
-            }
-            globals.ErrorHandler._handleError_(error);
-        }
-
-        /* Handle thisContext pseudo variable */
-
-        st.getThisContext = function () {
-            if (thisContext) {
-                thisContext.init();
-                return thisContext;
-            } else {
-                return nil;
-            }
-        };
-    }
-
-    function MessageSendBrik(brikz, st) {
-
-        brikz.ensure("selectorConversion");
-        var nil = brikz.ensure("root").nil;
-
-        /* Handles unhandled errors during message sends */
-        // simply send the message and handle #dnu:
-
-        st.send = function (receiver, jsSelector, args, klass) {
-            var method;
-            if (receiver == null) {
-                receiver = nil;
-            }
-            method = klass ? klass.fn.prototype[jsSelector] : receiver.klass && receiver[jsSelector];
-            if (method) {
-                return method.apply(receiver, args || []);
-            } else {
-                return messageNotUnderstood(receiver, st.js2st(jsSelector), args);
-            }
-        };
-
-        function invokeDnuMethod(receiver, stSelector, args) {
-            return receiver._doesNotUnderstand_(
-                globals.Message._new()
-                    ._selector_(stSelector)
-                    ._arguments_([].slice.call(args))
-            );
-        }
-
-        /* Handles #dnu: *and* JavaScript method calls.
-         if the receiver has no klass, we consider it a JS object (outside of the
-         Amber system). Else assume that the receiver understands #doesNotUnderstand: */
-        function messageNotUnderstood(receiver, stSelector, args) {
-            if (receiver.klass != null && !receiver.allowJavaScriptCalls) {
-                return invokeDnuMethod(receiver, stSelector, args);
-            }
-            /* Call a method of a JS object, or answer a property if it exists.
-             Else try wrapping a JSObjectProxy around the receiver. */
-            var propertyName = st.st2prop(stSelector);
-            if (!(propertyName in receiver)) {
-                return invokeDnuMethod(globals.JSObjectProxy._on_(receiver), stSelector, args);
-            }
-            return accessJavaScript(receiver, propertyName, args);
-        }
-
-        /* If the object property is a function, then call it, except if it starts with
-         an uppercase character (we probably want to answer the function itself in this
-         case and send it #new from Amber).
-
-         Converts keyword-based selectors by using the first
-         keyword only, but keeping all message arguments.
-
-         Example:
-         "self do: aBlock with: anObject" -> "self.do(aBlock, anObject)" */
-        function accessJavaScript(receiver, propertyName, args) {
-            var propertyValue = receiver[propertyName];
-            if (typeof propertyValue === "function" && !/^[A-Z]/.test(propertyName)) {
-                return propertyValue.apply(receiver, args || []);
-            } else if (args.length > 0) {
-                receiver[propertyName] = args[0];
-                return nil;
-            } else {
-                return propertyValue;
-            }
-        }
-
-        st.accessJavaScript = accessJavaScript;
-        this.messageNotUnderstood = messageNotUnderstood;
     }
 
     function SelectorConversionBrik(brikz, st) {
-
         /* Convert a Smalltalk selector into a JS selector */
         st.st2js = function (string) {
-            var selector = '_' + string;
-            selector = selector.replace(/:/g, '_');
-            selector = selector.replace(/[\&]/g, '_and');
-            selector = selector.replace(/[\|]/g, '_or');
-            selector = selector.replace(/[+]/g, '_plus');
-            selector = selector.replace(/-/g, '_minus');
-            selector = selector.replace(/[*]/g, '_star');
-            selector = selector.replace(/[\/]/g, '_slash');
-            selector = selector.replace(/[\\]/g, '_backslash');
-            selector = selector.replace(/[\~]/g, '_tild');
-            selector = selector.replace(/>/g, '_gt');
-            selector = selector.replace(/</g, '_lt');
-            selector = selector.replace(/=/g, '_eq');
-            selector = selector.replace(/,/g, '_comma');
-            selector = selector.replace(/[@]/g, '_at');
-            return selector;
+            return '_' + string
+                    .replace(/:/g, '_')
+                    .replace(/[\&]/g, '_and')
+                    .replace(/[\|]/g, '_or')
+                    .replace(/[+]/g, '_plus')
+                    .replace(/-/g, '_minus')
+                    .replace(/[*]/g, '_star')
+                    .replace(/[\/]/g, '_slash')
+                    .replace(/[\\]/g, '_backslash')
+                    .replace(/[\~]/g, '_tild')
+                    .replace(/>/g, '_gt')
+                    .replace(/</g, '_lt')
+                    .replace(/=/g, '_eq')
+                    .replace(/,/g, '_comma')
+                    .replace(/[@]/g, '_at');
         };
 
         /* Convert a string to a valid smalltalk selector.
@@ -2126,18 +1894,17 @@ define('amber/boot',['require', './compatibility'], function (require) {
 
     /* Adds AMD and requirejs related methods to the smalltalk object */
     function AMDBrik(brikz, st) {
-        this.__init__ = function () {
-            st.amdRequire = require;
-            st.defaultTransportType = st.defaultTransportType || "amd";
-            st.defaultAmdNamespace = st.defaultAmdNamespace || "amber_core";
-        };
+        st.amdRequire = require;
+        st.defaultTransportType = st.defaultTransportType || "amd";
+        st.defaultAmdNamespace = st.defaultAmdNamespace || "amber_core";
     }
 
     /* Defines asReceiver to be present at load time */
     /* (logically it belongs more to PrimitiveBrik) */
+    AsReceiverBrik.deps = ["smalltalkGlobals", "root"];
     function AsReceiverBrik(brikz, st) {
-
-        var nil = brikz.ensure("root").nil;
+        var globals = brikz.smalltalkGlobals.globals;
+        var nil = brikz.root.nil;
 
         /**
          * This function is used all over the compiled amber code.
@@ -2154,22 +1921,24 @@ define('amber/boot',['require', './compatibility'], function (require) {
                 return o.klass != null ? o : globals.JSObjectProxy._on_(o);
             }
             // IMPORTANT: This optimization (return o if typeof !== "object")
-            // assumes all primitive types are wrapped by some Smalltalk class
-            // so they can be returned as-is, without boxing and looking for .klass.
-            // KEEP THE primitives-are-wrapped INVARIANT!
+            // assumes all primitive types are coupled with some
+            // (detached root) Smalltalk class so they can be returned as-is,
+            // without boxing and looking for .klass.
+            // KEEP THE primitives-are-coupled INVARIANT!
             return o;
         };
     }
 
+    var api = {};
+    var brikz = new Brikz(api);
 
     /* Making smalltalk that can load */
 
+    brikz.smalltalkGlobals = SmalltalkGlobalsBrik;
     brikz.root = RootBrik;
-    brikz.dnu = DNUBrik;
+    brikz.selectors = SelectorsBrik;
     brikz.organize = OrganizeBrik;
     brikz.selectorConversion = SelectorConversionBrik;
-    brikz.classInit = ClassInitBrik;
-    brikz.manipulation = ManipulationBrik;
     brikz.packages = PackagesBrik;
     brikz.classes = ClassesBrik;
     brikz.methods = MethodsBrik;
@@ -2180,21 +1949,11 @@ define('amber/boot',['require', './compatibility'], function (require) {
 
     brikz.rebuild();
 
-    /* Making smalltalk that can run */
-
-    function runnable() {
-        brikz.messageSend = MessageSendBrik;
-        brikz.runtime = RuntimeBrik;
-        brikz.primitives = PrimitivesBrik;
-
-        brikz.rebuild();
-    }
-
     return {
         api: api,
         nil: brikz.root.nil,
         dnu: brikz.root.rootAsClass,
-        globals: globals,
+        globals: brikz.smalltalkGlobals.globals,
         asReceiver: brikz.asReceiver.asReceiver
     };
 });
@@ -2269,7 +2028,7 @@ define('amber/helpers',["amber/boot", "require"], function (boot, require) {
             .then(mixinToSettings)
             .then(function () {
                 return api.initialize();
-            })
+            });
     };
 
     // Exports
@@ -2671,12 +2430,12 @@ protocol: 'message handling',
 fn: function (aString,aCollection){
 var self=this;
 return $core.withContext(function($ctx1) {
-return $core.send(self, aString._asJavaScriptMethodName(), aCollection);
+return $core.send2(self, aString, aCollection);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"perform:withArguments:",{aString:aString,aCollection:aCollection},$globals.ProtoObject)});
 },
 args: ["aString", "aCollection"],
-source: "perform: aString withArguments: aCollection\x0a\x09<return $core.send(self, aString._asJavaScriptMethodName(), aCollection)>",
+source: "perform: aString withArguments: aCollection\x0a\x09<return $core.send2(self, aString, aCollection)>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -6843,29 +6602,22 @@ selector: "allSubclasses",
 protocol: 'accessing',
 fn: function (){
 var self=this;
-var subclasses,index;
 return $core.withContext(function($ctx1) {
-subclasses=self._subclasses();
-$ctx1.sendIdx["subclasses"]=1;
-index=(1);
-$recv((function(){
+return $recv($globals.Array)._streamContents_((function(str){
 return $core.withContext(function($ctx2) {
-return $recv(index).__gt($recv(subclasses)._size());
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}))._whileFalse_((function(){
-return $core.withContext(function($ctx2) {
-$recv(subclasses)._addAll_($recv($recv(subclasses)._at_(index))._subclasses());
-index=$recv(index).__plus((1));
-return index;
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+return self._allSubclassesDo_((function(each){
+return $core.withContext(function($ctx3) {
+return $recv(str)._nextPut_(each);
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
 }));
-return subclasses;
-}, function($ctx1) {$ctx1.fill(self,"allSubclasses",{subclasses:subclasses,index:index},$globals.Behavior)});
+}, function($ctx2) {$ctx2.fillBlock({str:str},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"allSubclasses",{},$globals.Behavior)});
 },
 args: [],
-source: "allSubclasses\x0a\x09\x22Answer an collection of the receiver's and the receiver's descendent's subclasses. \x22\x0a\x0a\x09| subclasses index |\x0a\x09\x0a\x09subclasses := self subclasses.\x0a\x09index := 1.\x0a\x09[ index > subclasses size ]\x0a\x09\x09whileFalse: [ subclasses addAll: (subclasses at: index) subclasses.\x0a\x09\x09\x09index := index + 1 ].\x0a\x0a\x09^ subclasses",
-referencedClasses: [],
-messageSends: ["subclasses", "whileFalse:", ">", "size", "addAll:", "at:", "+"]
+source: "allSubclasses\x0a\x09\x22Answer an collection of the receiver's and the receiver's descendent's subclasses. \x22\x0a\x0a\x09^ Array streamContents: [ :str | self allSubclassesDo: [ :each | str nextPut: each ] ]",
+referencedClasses: ["Array"],
+messageSends: ["streamContents:", "allSubclassesDo:", "nextPut:"]
 }),
 $globals.Behavior);
 
@@ -6876,18 +6628,16 @@ protocol: 'enumerating',
 fn: function (aBlock){
 var self=this;
 return $core.withContext(function($ctx1) {
-$recv(self._allSubclasses())._do_((function(each){
-return $core.withContext(function($ctx2) {
-return $recv(aBlock)._value_(each);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-}));
+$core.traverseClassTree(self, function(subclass) {
+	if (subclass !== self) aBlock._value_(subclass);
+});
 return self;
 }, function($ctx1) {$ctx1.fill(self,"allSubclassesDo:",{aBlock:aBlock},$globals.Behavior)});
 },
 args: ["aBlock"],
-source: "allSubclassesDo: aBlock\x0a\x09\x22Evaluate the argument, aBlock, for each of the receiver's subclasses.\x22\x0a\x0a\x09self allSubclasses do: [ :each |\x0a    \x09aBlock value: each ]",
+source: "allSubclassesDo: aBlock\x0a\x09\x22Evaluate the argument, aBlock, for each of the receiver's subclasses.\x22\x0a\x0a<$core.traverseClassTree(self, function(subclass) {\x0a\x09if (subclass !== self) aBlock._value_(subclass);\x0a})>",
 referencedClasses: [],
-messageSends: ["do:", "allSubclasses", "value:"]
+messageSends: []
 }),
 $globals.Behavior);
 
@@ -8283,21 +8033,14 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return $recv($recv($recv(self._instanceClass())._subclasses())._select_((function(each){
-return $core.withContext(function($ctx2) {
-return $recv($recv(each)._isMetaclass())._not();
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-})))._collect_((function(each){
-return $core.withContext(function($ctx2) {
-return $recv(each)._theMetaClass();
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
-}));
+return $core.metaSubclasses(self);
+return self;
 }, function($ctx1) {$ctx1.fill(self,"subclasses",{},$globals.Metaclass)});
 },
 args: [],
-source: "subclasses\x0a\x09^ (self instanceClass subclasses \x0a\x09\x09select: [ :each | each isMetaclass not ])\x0a\x09\x09collect: [ :each | each theMetaClass ]",
+source: "subclasses\x0a\x09<return $core.metaSubclasses(self)>",
 referencedClasses: [],
-messageSends: ["collect:", "select:", "subclasses", "instanceClass", "not", "isMetaclass", "theMetaClass"]
+messageSends: []
 }),
 $globals.Metaclass);
 
@@ -8377,14 +8120,13 @@ fn: function (aClass,aString,aCollection,packageName){
 var self=this;
 return $core.withContext(function($ctx1) {
 
-		$core.addClass(aString, aClass, aCollection, packageName);
-		return $globals[aString]
+		return $core.addClass(aString, aClass, aCollection, packageName);
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"basicAddSubclassOf:named:instanceVariableNames:package:",{aClass:aClass,aString:aString,aCollection:aCollection,packageName:packageName},$globals.ClassBuilder)});
 },
 args: ["aClass", "aString", "aCollection", "packageName"],
-source: "basicAddSubclassOf: aClass named: aString instanceVariableNames: aCollection package: packageName\x0a\x09<\x0a\x09\x09$core.addClass(aString, aClass, aCollection, packageName);\x0a\x09\x09return $globals[aString]\x0a\x09>",
+source: "basicAddSubclassOf: aClass named: aString instanceVariableNames: aCollection package: packageName\x0a\x09<\x0a\x09\x09return $core.addClass(aString, aClass, aCollection, packageName);\x0a\x09>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -8502,7 +8244,6 @@ var self=this;
 return $core.withContext(function($ctx1) {
 var $1,$3,$2;
 self._basicClass_instanceVariableNames_(aClass,ivarNames);
-self._setupClass_(aClass);
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.ClassDefinitionChanged)._new();
 $recv($3)._theClass_(aClass);
@@ -8512,9 +8253,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"class:instanceVariableNames:",{aClass:aClass,ivarNames:ivarNames},$globals.ClassBuilder)});
 },
 args: ["aClass", "ivarNames"],
-source: "class: aClass instanceVariableNames: ivarNames\x0a\x09self basicClass: aClass instanceVariableNames: ivarNames.\x0a\x09self setupClass: aClass.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassDefinitionChanged new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
+source: "class: aClass instanceVariableNames: ivarNames\x0a\x09self basicClass: aClass instanceVariableNames: ivarNames.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassDefinitionChanged new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassDefinitionChanged"],
-messageSends: ["basicClass:instanceVariableNames:", "setupClass:", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["basicClass:instanceVariableNames:", "announce:", "current", "theClass:", "new", "yourself"]
 }),
 $globals.ClassBuilder);
 
@@ -8582,14 +8323,13 @@ return $core.withContext(function($ctx2) {
 return $recv($recv($globals.Compiler)._new())._install_forClass_protocol_($recv(each)._source(),$recv(anotherClass)._class(),$recv(each)._protocol());
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 }));
-self._setupClass_(anotherClass);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"copyClass:to:",{aClass:aClass,anotherClass:anotherClass},$globals.ClassBuilder)});
 },
 args: ["aClass", "anotherClass"],
-source: "copyClass: aClass to: anotherClass\x0a\x0a\x09anotherClass comment: aClass comment.\x0a\x0a\x09aClass methodDictionary valuesDo: [ :each |\x0a\x09\x09Compiler new install: each source forClass: anotherClass protocol: each protocol ].\x0a\x0a\x09self basicClass: anotherClass class instanceVariables: aClass class instanceVariableNames.\x0a\x0a\x09aClass class methodDictionary valuesDo: [ :each |\x0a\x09\x09Compiler new install: each source forClass: anotherClass class protocol: each protocol ].\x0a\x0a\x09self setupClass: anotherClass",
+source: "copyClass: aClass to: anotherClass\x0a\x0a\x09anotherClass comment: aClass comment.\x0a\x0a\x09aClass methodDictionary valuesDo: [ :each |\x0a\x09\x09Compiler new install: each source forClass: anotherClass protocol: each protocol ].\x0a\x0a\x09self basicClass: anotherClass class instanceVariables: aClass class instanceVariableNames.\x0a\x0a\x09aClass class methodDictionary valuesDo: [ :each |\x0a\x09\x09Compiler new install: each source forClass: anotherClass class protocol: each protocol ]",
 referencedClasses: ["Compiler"],
-messageSends: ["comment:", "comment", "valuesDo:", "methodDictionary", "install:forClass:protocol:", "new", "source", "protocol", "basicClass:instanceVariables:", "class", "instanceVariableNames", "setupClass:"]
+messageSends: ["comment:", "comment", "valuesDo:", "methodDictionary", "install:forClass:protocol:", "new", "source", "protocol", "basicClass:instanceVariables:", "class", "instanceVariableNames"]
 }),
 $globals.ClassBuilder);
 
@@ -8757,14 +8497,14 @@ protocol: 'public',
 fn: function (aClass){
 var self=this;
 return $core.withContext(function($ctx1) {
-$core.init(aClass);;
+self._deprecatedAPI_("Classes are now auto-inited.");
 return self;
 }, function($ctx1) {$ctx1.fill(self,"setupClass:",{aClass:aClass},$globals.ClassBuilder)});
 },
 args: ["aClass"],
-source: "setupClass: aClass\x0a\x09<$core.init(aClass);>",
+source: "setupClass: aClass\x0a\x09self deprecatedAPI: 'Classes are now auto-inited.'",
 referencedClasses: [],
-messageSends: []
+messageSends: ["deprecatedAPI:"]
 }),
 $globals.ClassBuilder);
 
@@ -8801,7 +8541,6 @@ $2="unclassified";
 $2=packageName;
 };
 newClass=self._addSubclassOf_named_instanceVariableNames_package_(aClass,className,$1,$2);
-self._setupClass_(newClass);
 $3=$recv($globals.SystemAnnouncer)._current();
 $5=$recv($globals.ClassAdded)._new();
 $recv($5)._theClass_(newClass);
@@ -8811,16 +8550,16 @@ return newClass;
 }, function($ctx1) {$ctx1.fill(self,"superclass:subclass:instanceVariableNames:package:",{aClass:aClass,className:className,ivarNames:ivarNames,packageName:packageName,newClass:newClass},$globals.ClassBuilder)});
 },
 args: ["aClass", "className", "ivarNames", "packageName"],
-source: "superclass: aClass subclass: className instanceVariableNames: ivarNames package: packageName\x0a\x09| newClass |\x0a\x09\x0a\x09newClass := self addSubclassOf: aClass\x0a\x09\x09named: className instanceVariableNames: (self instanceVariableNamesFor: ivarNames)\x0a\x09\x09package: (packageName ifNil: [ 'unclassified' ]).\x0a\x09self setupClass: newClass.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
+source: "superclass: aClass subclass: className instanceVariableNames: ivarNames package: packageName\x0a\x09| newClass |\x0a\x09\x0a\x09newClass := self addSubclassOf: aClass\x0a\x09\x09named: className instanceVariableNames: (self instanceVariableNamesFor: ivarNames)\x0a\x09\x09package: (packageName ifNil: [ 'unclassified' ]).\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
 referencedClasses: ["SystemAnnouncer", "ClassAdded"],
-messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "instanceVariableNamesFor:", "ifNil:", "setupClass:", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "instanceVariableNamesFor:", "ifNil:", "announce:", "current", "theClass:", "new", "yourself"]
 }),
 $globals.ClassBuilder);
 
 
 
 $core.addClass('ClassSorterNode', $globals.Object, ['theClass', 'level', 'nodes'], 'Kernel-Classes');
-$globals.ClassSorterNode.comment="I provide an algorithm for sorting classes alphabetically.\x0a\x0aSee [Issue #143](https://lolg.it/amber/amber/issues/143) on GitHub.";
+$globals.ClassSorterNode.comment="I provide an algorithm for sorting classes alphabetically.\x0a\x0aSee [Issue #143](https://lolg.it/amber/amber/issues/143).";
 $core.addMethod(
 $core.method({
 selector: "getNodesFrom:",
@@ -22196,11 +21935,11 @@ selector: "version",
 protocol: 'accessing',
 fn: function (){
 var self=this;
-return "0.15.0-pre";
+return "0.16.0";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.15.0-pre'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.16.0'",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22419,6 +22158,476 @@ referencedClasses: [],
 messageSends: ["value", "asSettingIfAbsent:"]
 }),
 $globals.String);
+
+});
+
+define("amber_core/Kernel-Promises", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Kernel-Infrastructure"], function($boot){"use strict";
+var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+$core.addPackage('Kernel-Promises');
+$core.packages["Kernel-Promises"].innerEval = function (expr) { return eval(expr); };
+$core.packages["Kernel-Promises"].transport = {"type":"amd","amdNamespace":"amber_core"};
+
+$core.addClass('Thenable', $globals.Object, [], 'Kernel-Promises');
+$globals.Thenable.comment="I am the abstract base class for Promises.\x0a\x0aMy subclasses should wrap existing JS implementations.\x0a\x0aI contain methods that wrap Promises/A+ `.then` behaviour.";
+$core.addMethod(
+$core.method({
+selector: "catch:",
+protocol: 'promises',
+fn: function (aBlock){
+var self=this;
+return $core.withContext(function($ctx1) {
+return self.then(null, function (err) {return $core.seamless(function () {
+    return aBlock._value_(err);
+})});
+return self;
+}, function($ctx1) {$ctx1.fill(self,"catch:",{aBlock:aBlock},$globals.Thenable)});
+},
+args: ["aBlock"],
+source: "catch: aBlock\x0a<return self.then(null, function (err) {return $core.seamless(function () {\x0a    return aBlock._value_(err);\x0a})})>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Thenable);
+
+$core.addMethod(
+$core.method({
+selector: "on:do:",
+protocol: 'promises',
+fn: function (aClass,aBlock){
+var self=this;
+return $core.withContext(function($ctx1) {
+return self.then(null, function (err) {return $core.seamless(function () {
+    if (err._isKindOf_(aClass)) return aBlock._value_(err);
+    else throw err;
+})});
+return self;
+}, function($ctx1) {$ctx1.fill(self,"on:do:",{aClass:aClass,aBlock:aBlock},$globals.Thenable)});
+},
+args: ["aClass", "aBlock"],
+source: "on: aClass do: aBlock\x0a<return self.then(null, function (err) {return $core.seamless(function () {\x0a    if (err._isKindOf_(aClass)) return aBlock._value_(err);\x0a    else throw err;\x0a})})>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Thenable);
+
+$core.addMethod(
+$core.method({
+selector: "on:do:catch:",
+protocol: 'promises',
+fn: function (aClass,aBlock,anotherBlock){
+var self=this;
+return $core.withContext(function($ctx1) {
+return self.then(null, function (err) {return $core.seamless(function () {
+    try { if (err._isKindOf_(aClass)) return aBlock._value_(err); } catch (e) { err = e; }
+    return anotherBlock._value_(err);
+})});
+return self;
+}, function($ctx1) {$ctx1.fill(self,"on:do:catch:",{aClass:aClass,aBlock:aBlock,anotherBlock:anotherBlock},$globals.Thenable)});
+},
+args: ["aClass", "aBlock", "anotherBlock"],
+source: "on: aClass do: aBlock catch: anotherBlock\x0a<return self.then(null, function (err) {return $core.seamless(function () {\x0a    try { if (err._isKindOf_(aClass)) return aBlock._value_(err); } catch (e) { err = e; }\x0a    return anotherBlock._value_(err);\x0a})})>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Thenable);
+
+$core.addMethod(
+$core.method({
+selector: "then:",
+protocol: 'promises',
+fn: function (aBlockOrArray){
+var self=this;
+return $core.withContext(function($ctx1) {
+
+var array = Array.isArray(aBlockOrArray) ? aBlockOrArray : [aBlockOrArray];
+return array.reduce(function (soFar, aBlock) {
+    return soFar.then(typeof aBlock === "function" && aBlock.length > 1 ?
+        function (result) {return $core.seamless(function () {
+            if (Array.isArray(result)) {
+                return aBlock._valueWithPossibleArguments_([result].concat(result.slice(0, aBlock.length-1)));
+            } else {
+                return aBlock._value_(result);
+            }
+        })} :
+        function (result) {return $core.seamless(function () {
+            return aBlock._value_(result);
+        })}
+    );
+}, self);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"then:",{aBlockOrArray:aBlockOrArray},$globals.Thenable)});
+},
+args: ["aBlockOrArray"],
+source: "then: aBlockOrArray\x0a\x22Accepts a block or array of blocks.\x0aEach of blocks in the array or the singleton one is\x0aused in .then call to a promise, to accept a result\x0aand transform it to the result for the next one.\x0aIn case a block has more than one argument\x0aand result is an array, first n-1 elements of the array\x0aare put into additional arguments beyond the first.\x0aThe first argument always contains the result as-is.\x22\x0a<\x0avar array = Array.isArray(aBlockOrArray) ? aBlockOrArray : [aBlockOrArray];\x0areturn array.reduce(function (soFar, aBlock) {\x0a    return soFar.then(typeof aBlock === \x22function\x22 && aBlock.length >> 1 ?\x0a        function (result) {return $core.seamless(function () {\x0a            if (Array.isArray(result)) {\x0a                return aBlock._valueWithPossibleArguments_([result].concat(result.slice(0, aBlock.length-1)));\x0a            } else {\x0a                return aBlock._value_(result);\x0a            }\x0a        })} :\x0a        function (result) {return $core.seamless(function () {\x0a            return aBlock._value_(result);\x0a        })}\x0a    );\x0a}, self)>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Thenable);
+
+$core.addMethod(
+$core.method({
+selector: "then:catch:",
+protocol: 'promises',
+fn: function (aBlockOrArray,anotherBlock){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv(self._then_(aBlockOrArray))._catch_(anotherBlock);
+}, function($ctx1) {$ctx1.fill(self,"then:catch:",{aBlockOrArray:aBlockOrArray,anotherBlock:anotherBlock},$globals.Thenable)});
+},
+args: ["aBlockOrArray", "anotherBlock"],
+source: "then: aBlockOrArray catch: anotherBlock\x0a\x09^ (self then: aBlockOrArray) catch: anotherBlock",
+referencedClasses: [],
+messageSends: ["catch:", "then:"]
+}),
+$globals.Thenable);
+
+$core.addMethod(
+$core.method({
+selector: "then:on:do:",
+protocol: 'promises',
+fn: function (aBlockOrArray,aClass,aBlock){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv(self._then_(aBlockOrArray))._on_do_(aClass,aBlock);
+}, function($ctx1) {$ctx1.fill(self,"then:on:do:",{aBlockOrArray:aBlockOrArray,aClass:aClass,aBlock:aBlock},$globals.Thenable)});
+},
+args: ["aBlockOrArray", "aClass", "aBlock"],
+source: "then: aBlockOrArray on: aClass do: aBlock\x0a\x09^ (self then: aBlockOrArray) on: aClass do: aBlock",
+referencedClasses: [],
+messageSends: ["on:do:", "then:"]
+}),
+$globals.Thenable);
+
+$core.addMethod(
+$core.method({
+selector: "then:on:do:catch:",
+protocol: 'promises',
+fn: function (aBlockOrArray,aClass,aBlock,anotherBlock){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv($recv(self._then_(aBlockOrArray))._on_do_(aClass,aBlock))._catch_(anotherBlock);
+}, function($ctx1) {$ctx1.fill(self,"then:on:do:catch:",{aBlockOrArray:aBlockOrArray,aClass:aClass,aBlock:aBlock,anotherBlock:anotherBlock},$globals.Thenable)});
+},
+args: ["aBlockOrArray", "aClass", "aBlock", "anotherBlock"],
+source: "then: aBlockOrArray on: aClass do: aBlock catch: anotherBlock\x0a\x09^ ((self then: aBlockOrArray) on: aClass do: aBlock) catch: anotherBlock",
+referencedClasses: [],
+messageSends: ["catch:", "on:do:", "then:"]
+}),
+$globals.Thenable);
+
+
+
+$core.addClass('Promise', $globals.Thenable, [], 'Kernel-Promises');
+
+$core.addMethod(
+$core.method({
+selector: "all:",
+protocol: 'composites',
+fn: function (aCollection){
+var self=this;
+return $core.withContext(function($ctx1) {
+return Promise.all($recv(aCollection)._asArray());
+return self;
+}, function($ctx1) {$ctx1.fill(self,"all:",{aCollection:aCollection},$globals.Promise.klass)});
+},
+args: ["aCollection"],
+source: "all: aCollection\x0a\x22Returns a Promise resolved with results of sub-promises.\x22\x0a<return Promise.all($recv(aCollection)._asArray())>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Promise.klass);
+
+$core.addMethod(
+$core.method({
+selector: "any:",
+protocol: 'composites',
+fn: function (aCollection){
+var self=this;
+return $core.withContext(function($ctx1) {
+return Promise.race($recv(aCollection)._asArray());
+return self;
+}, function($ctx1) {$ctx1.fill(self,"any:",{aCollection:aCollection},$globals.Promise.klass)});
+},
+args: ["aCollection"],
+source: "any: aCollection\x0a\x22Returns a Promise resolved with first result of sub-promises.\x22\x0a<return Promise.race($recv(aCollection)._asArray())>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Promise.klass);
+
+$core.addMethod(
+$core.method({
+selector: "forBlock:",
+protocol: 'instance creation',
+fn: function (aBlock){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv(self._new())._then_(aBlock);
+}, function($ctx1) {$ctx1.fill(self,"forBlock:",{aBlock:aBlock},$globals.Promise.klass)});
+},
+args: ["aBlock"],
+source: "forBlock: aBlock\x0a\x22Returns a Promise that is resolved with the value of aBlock,\x0aand rejected if error happens while evaluating aBlock.\x22\x0a\x09^ self new then: aBlock",
+referencedClasses: [],
+messageSends: ["then:", "new"]
+}),
+$globals.Promise.klass);
+
+$core.addMethod(
+$core.method({
+selector: "new",
+protocol: 'instance creation',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+return Promise.resolve();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"new",{},$globals.Promise.klass)});
+},
+args: [],
+source: "new\x0a\x22Returns a dumb Promise resolved with nil.\x22\x0a<return Promise.resolve()>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Promise.klass);
+
+$core.addMethod(
+$core.method({
+selector: "new:",
+protocol: 'instance creation',
+fn: function (aBlock){
+var self=this;
+return $core.withContext(function($ctx1) {
+return new Promise(function (resolve, reject) {
+    var model = {value: resolve, signal: reject}; // TODO make faster
+    aBlock._value_(model);
+});
+return self;
+}, function($ctx1) {$ctx1.fill(self,"new:",{aBlock:aBlock},$globals.Promise.klass)});
+},
+args: ["aBlock"],
+source: "new: aBlock\x0a\x22Returns a Promise that is eventually resolved or rejected.\x0aPass a block that is called with one argument, model.\x0aYou should call model value: ... to resolve the promise\x0aand model signal: ... to reject the promise.\x0aIf error happens during run of the block,\x0apromise is rejected with that error as well.\x22\x0a<return new Promise(function (resolve, reject) {\x0a    var model = {value: resolve, signal: reject}; // TODO make faster\x0a    aBlock._value_(model);\x0a})>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Promise.klass);
+
+$core.addMethod(
+$core.method({
+selector: "signal:",
+protocol: 'instance creation',
+fn: function (anObject){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv(anObject)._in_(function (x) {return Promise.reject(x)});
+return self;
+}, function($ctx1) {$ctx1.fill(self,"signal:",{anObject:anObject},$globals.Promise.klass)});
+},
+args: ["anObject"],
+source: "signal: anObject\x0a\x22Returns a Promise rejected with anObject.\x22\x0a<return $recv(anObject)._in_(function (x) {return Promise.reject(x)})>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Promise.klass);
+
+$core.addMethod(
+$core.method({
+selector: "value:",
+protocol: 'instance creation',
+fn: function (anObject){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv(anObject)._in_(function (x) {return Promise.resolve(x)});
+return self;
+}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject},$globals.Promise.klass)});
+},
+args: ["anObject"],
+source: "value: anObject\x0a\x22Returns a Promise resolved with anObject.\x22\x0a<return $recv(anObject)._in_(function (x) {return Promise.resolve(x)})>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Promise.klass);
+
+$core.addMethod(
+$core.method({
+selector: "catch:",
+protocol: '*Kernel-Promises',
+fn: function (aBlock){
+var self=this;
+return $core.withContext(function($ctx1) {
+var js = self["@jsObject"];
+if (typeof js.then === "function")
+    return $globals.Thenable.fn.prototype._catch_.call(js, aBlock);
+else
+    return self._doesNotUnderstand_(
+        $globals.Message._new()
+            ._selector_("catch:")
+            ._arguments_([aBlock])
+    );
+return self;
+}, function($ctx1) {$ctx1.fill(self,"catch:",{aBlock:aBlock},$globals.JSObjectProxy)});
+},
+args: ["aBlock"],
+source: "catch: aBlock\x0a<var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._catch_.call(js, aBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22catch:\x22)\x0a            ._arguments_([aBlock])\x0a    )>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.JSObjectProxy);
+
+$core.addMethod(
+$core.method({
+selector: "on:do:",
+protocol: '*Kernel-Promises',
+fn: function (aClass,aBlock){
+var self=this;
+return $core.withContext(function($ctx1) {
+var js = self["@jsObject"];
+if (typeof js.then === "function")
+    return $globals.Thenable.fn.prototype._on_do_.call(js, aClass, aBlock);
+else
+    return self._doesNotUnderstand_(
+        $globals.Message._new()
+            ._selector_("on:do:")
+            ._arguments_([aClass, aBlock])
+    );
+return self;
+}, function($ctx1) {$ctx1.fill(self,"on:do:",{aClass:aClass,aBlock:aBlock},$globals.JSObjectProxy)});
+},
+args: ["aClass", "aBlock"],
+source: "on: aClass do: aBlock\x0a<var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._on_do_.call(js, aClass, aBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22on:do:\x22)\x0a            ._arguments_([aClass, aBlock])\x0a    )>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.JSObjectProxy);
+
+$core.addMethod(
+$core.method({
+selector: "on:do:catch:",
+protocol: '*Kernel-Promises',
+fn: function (aClass,aBlock,anotherBlock){
+var self=this;
+return $core.withContext(function($ctx1) {
+var js = self["@jsObject"];
+if (typeof js.then === "function")
+    return $globals.Thenable.fn.prototype._on_do_catch_.call(js, aClass, aBlock, anotherBlock);
+else
+    return self._doesNotUnderstand_(
+        $globals.Message._new()
+            ._selector_("on:do:catch:")
+            ._arguments_([aClass, aBlock, anotherBlock])
+    );
+return self;
+}, function($ctx1) {$ctx1.fill(self,"on:do:catch:",{aClass:aClass,aBlock:aBlock,anotherBlock:anotherBlock},$globals.JSObjectProxy)});
+},
+args: ["aClass", "aBlock", "anotherBlock"],
+source: "on: aClass do: aBlock catch: anotherBlock\x0a<var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._on_do_catch_.call(js, aClass, aBlock, anotherBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22on:do:catch:\x22)\x0a            ._arguments_([aClass, aBlock, anotherBlock])\x0a    )>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.JSObjectProxy);
+
+$core.addMethod(
+$core.method({
+selector: "then:",
+protocol: '*Kernel-Promises',
+fn: function (aBlockOrArray){
+var self=this;
+return $core.withContext(function($ctx1) {
+var js = self["@jsObject"];
+if (typeof js.then === "function")
+    return $globals.Thenable.fn.prototype._then_.call(js, aBlockOrArray);
+else
+    return self._doesNotUnderstand_(
+        $globals.Message._new()
+            ._selector_("then:")
+            ._arguments_([aBlockOrArray])
+    );
+return self;
+}, function($ctx1) {$ctx1.fill(self,"then:",{aBlockOrArray:aBlockOrArray},$globals.JSObjectProxy)});
+},
+args: ["aBlockOrArray"],
+source: "then: aBlockOrArray\x0a<var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_.call(js, aBlockOrArray);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:\x22)\x0a            ._arguments_([aBlockOrArray])\x0a    )>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.JSObjectProxy);
+
+$core.addMethod(
+$core.method({
+selector: "then:catch:",
+protocol: '*Kernel-Promises',
+fn: function (aBlockOrArray,anotherBlock){
+var self=this;
+return $core.withContext(function($ctx1) {
+var js = self["@jsObject"];
+if (typeof js.then === "function")
+    return $globals.Thenable.fn.prototype._then_catch_.call(js, aBlockOrArray, anotherBlock);
+else
+    return self._doesNotUnderstand_(
+        $globals.Message._new()
+            ._selector_("then:catch:")
+            ._arguments_([aBlockOrArray, anotherBlock])
+    );
+return self;
+}, function($ctx1) {$ctx1.fill(self,"then:catch:",{aBlockOrArray:aBlockOrArray,anotherBlock:anotherBlock},$globals.JSObjectProxy)});
+},
+args: ["aBlockOrArray", "anotherBlock"],
+source: "then: aBlockOrArray catch: anotherBlock\x0a<var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_catch_.call(js, aBlockOrArray, anotherBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:catch:\x22)\x0a            ._arguments_([aBlockOrArray, anotherBlock])\x0a    )>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.JSObjectProxy);
+
+$core.addMethod(
+$core.method({
+selector: "then:on:do:",
+protocol: '*Kernel-Promises',
+fn: function (aBlockOrArray,aClass,aBlock){
+var self=this;
+return $core.withContext(function($ctx1) {
+var js = self["@jsObject"];
+if (typeof js.then === "function")
+    return $globals.Thenable.fn.prototype._then_on_do_.call(js, aBlockOrArray, aClass, aBlock);
+else
+    return self._doesNotUnderstand_(
+        $globals.Message._new()
+            ._selector_("then:on:do:")
+            ._arguments_([aBlockOrArray, aClass, aBlock])
+    );
+return self;
+}, function($ctx1) {$ctx1.fill(self,"then:on:do:",{aBlockOrArray:aBlockOrArray,aClass:aClass,aBlock:aBlock},$globals.JSObjectProxy)});
+},
+args: ["aBlockOrArray", "aClass", "aBlock"],
+source: "then: aBlockOrArray on: aClass do: aBlock\x0a<var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_on_do_.call(js, aBlockOrArray, aClass, aBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:on:do:\x22)\x0a            ._arguments_([aBlockOrArray, aClass, aBlock])\x0a    )>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.JSObjectProxy);
+
+$core.addMethod(
+$core.method({
+selector: "then:on:do:catch:",
+protocol: '*Kernel-Promises',
+fn: function (aBlockOrArray,aClass,aBlock,anotherBlock){
+var self=this;
+return $core.withContext(function($ctx1) {
+var js = self["@jsObject"];
+if (typeof js.then === "function")
+    return $globals.Thenable.fn.prototype._then_on_do_catch_.call(js, aBlockOrArray, aClass, aBlock, anotherBlock);
+else
+    return self._doesNotUnderstand_(
+        $globals.Message._new()
+            ._selector_("then:on:do:catch:")
+            ._arguments_([aBlockOrArray, aClass, aBlock, anotherBlock])
+    );
+return self;
+}, function($ctx1) {$ctx1.fill(self,"then:on:do:catch:",{aBlockOrArray:aBlockOrArray,aClass:aClass,aBlock:aBlock,anotherBlock:anotherBlock},$globals.JSObjectProxy)});
+},
+args: ["aBlockOrArray", "aClass", "aBlock", "anotherBlock"],
+source: "then: aBlockOrArray on: aClass do: aBlock catch: anotherBlock\x0a<var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_on_do_catch_.call(js, aBlockOrArray, aClass, aBlock, anotherBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:on:do:catch:\x22)\x0a            ._arguments_([aBlockOrArray, aClass, aBlock, anotherBlock])\x0a    )>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.JSObjectProxy);
 
 });
 
@@ -23328,7 +23537,7 @@ $globals.ProtocolRemoved.comment="I am emitted when a protocol is removed from a
 
 });
 
-define("amber_core/Platform-Services", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Kernel-Collections", "amber_core/Kernel-Methods", "amber_core/Kernel-Infrastructure"], function($boot){"use strict";
+define("amber_core/Platform-Services", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Kernel-Methods", "amber_core/Kernel-Collections", "amber_core/Kernel-Infrastructure"], function($boot){"use strict";
 var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage('Platform-Services');
 $core.packages["Platform-Services"].innerEval = function (expr) { return eval(expr); };
@@ -25359,12 +25568,15 @@ $globals.NodePlatform.klass);
 
 define('amber/deploy',[
     './helpers',
+    './compatibility', // pre-fetch, dep of ./boot
+    './boot', // pre-fetch, dep of ./helpers
     // --- packages of the core Amber begin here ---
     'amber_core/Kernel-Objects',
     'amber_core/Kernel-Classes',
     'amber_core/Kernel-Methods',
     'amber_core/Kernel-Collections',
     'amber_core/Kernel-Infrastructure',
+    'amber_core/Kernel-Promises',
     'amber_core/Kernel-Exceptions',
     'amber_core/Kernel-Announcements',
     'amber_core/Platform-Services',
@@ -29237,27 +29449,25 @@ protocol: 'convenience',
 fn: function (aClass){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $2,$3,$4,$1;
-$2=$recv(aClass)._isMetaclass();
-if($core.assert($2)){
-$3=$recv($recv(aClass)._instanceClass())._name();
+var $1,$2,$receiver;
+$1=$recv(aClass)._isMetaclass();
+if($core.assert($1)){
+$2=$recv($recv(aClass)._instanceClass())._name();
 $ctx1.sendIdx["name"]=1;
-$1=$recv($3).__comma(" class");
+return $recv($2).__comma(" class");
 } else {
-$4=$recv(aClass)._isNil();
-if($core.assert($4)){
-$1="nil";
+if(($receiver = aClass) == null || $receiver.isNil){
+return "nil";
 } else {
-$1=$recv(aClass)._name();
+return $recv(aClass)._name();
 };
 };
-return $1;
 }, function($ctx1) {$ctx1.fill(self,"classNameFor:",{aClass:aClass},$globals.AbstractExporter)});
 },
 args: ["aClass"],
-source: "classNameFor: aClass\x0a\x09^ aClass isMetaclass\x0a\x09\x09ifTrue: [ aClass instanceClass name, ' class' ]\x0a\x09\x09ifFalse: [\x0a\x09\x09\x09aClass isNil\x0a\x09\x09\x09\x09ifTrue: [ 'nil' ]\x0a\x09\x09\x09\x09ifFalse: [ aClass name ] ]",
+source: "classNameFor: aClass\x0a\x09^ aClass isMetaclass\x0a\x09\x09ifTrue: [ aClass instanceClass name, ' class' ]\x0a\x09\x09ifFalse: [\x0a\x09\x09\x09aClass\x0a\x09\x09\x09\x09ifNil: [ 'nil' ]\x0a\x09\x09\x09\x09ifNotNil: [ aClass name ] ]",
 referencedClasses: [],
-messageSends: ["ifTrue:ifFalse:", "isMetaclass", ",", "name", "instanceClass", "isNil"]
+messageSends: ["ifTrue:ifFalse:", "isMetaclass", ",", "name", "instanceClass", "ifNil:ifNotNil:"]
 }),
 $globals.AbstractExporter);
 
@@ -30840,14 +31050,13 @@ return $core.withContext(function($ctx2) {
 return self._compileMethod_(chunk);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }));
-$recv($recv($globals.ClassBuilder)._new())._setupClass_(self["@class"]);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"scanFrom:",{aChunkParser:aChunkParser,chunk:chunk},$globals.ClassProtocolReader)});
 },
 args: ["aChunkParser"],
-source: "scanFrom: aChunkParser\x0a\x09| chunk |\x0a\x09[ chunk := aChunkParser nextChunk.\x0a\x09chunk isEmpty ] whileFalse: [\x0a\x09\x09self compileMethod: chunk ].\x0a\x09ClassBuilder new setupClass: class",
-referencedClasses: ["ClassBuilder"],
-messageSends: ["whileFalse:", "nextChunk", "isEmpty", "compileMethod:", "setupClass:", "new"]
+source: "scanFrom: aChunkParser\x0a\x09| chunk |\x0a\x09[ chunk := aChunkParser nextChunk.\x0a\x09chunk isEmpty ] whileFalse: [\x0a\x09\x09self compileMethod: chunk ]",
+referencedClasses: [],
+messageSends: ["whileFalse:", "nextChunk", "isEmpty", "compileMethod:"]
 }),
 $globals.ClassProtocolReader);
 
@@ -32329,37 +32538,6 @@ $core.packages["Compiler-Core"].transport = {"type":"amd","amdNamespace":"amber_
 
 $core.addClass('AbstractCodeGenerator', $globals.Object, ['currentClass', 'currentPackage', 'source'], 'Compiler-Core');
 $globals.AbstractCodeGenerator.comment="I am the abstract super class of all code generators and provide their common API.";
-$core.addMethod(
-$core.method({
-selector: "classNameFor:",
-protocol: 'accessing',
-fn: function (aClass){
-var self=this;
-return $core.withContext(function($ctx1) {
-var $2,$3,$4,$1;
-$2=$recv(aClass)._isMetaclass();
-if($core.assert($2)){
-$3=$recv($recv(aClass)._instanceClass())._name();
-$ctx1.sendIdx["name"]=1;
-$1=$recv($3).__comma(".klass");
-} else {
-$4=$recv(aClass)._isNil();
-if($core.assert($4)){
-$1="nil";
-} else {
-$1=$recv(aClass)._name();
-};
-};
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"classNameFor:",{aClass:aClass},$globals.AbstractCodeGenerator)});
-},
-args: ["aClass"],
-source: "classNameFor: aClass\x0a\x09^ aClass isMetaclass\x0a\x09\x09ifTrue: [ aClass instanceClass name, '.klass' ]\x0a\x09\x09ifFalse: [\x0a\x09\x09aClass isNil\x0a\x09\x09\x09ifTrue: [ 'nil' ]\x0a\x09\x09\x09ifFalse: [ aClass name ]]",
-referencedClasses: [],
-messageSends: ["ifTrue:ifFalse:", "isMetaclass", ",", "name", "instanceClass", "isNil"]
-}),
-$globals.AbstractCodeGenerator);
-
 $core.addMethod(
 $core.method({
 selector: "compileNode:",
@@ -47254,8 +47432,10 @@ $globals.SendNode);
 });
 
 define('amber/lang',[
-    './helpers', // pre-fetch, dep of ./deploy
     './deploy',
+    './compatibility', // pre-fetch, dep of ./boot
+    './boot', // pre-fetch, dep of ./helpers
+    './helpers', // pre-fetch, dep of ./deploy
     './parser',
     // --- packages for the Amber reflection begin here ---
     'amber_core/Platform-ImportExport',
@@ -52341,6 +52521,74 @@ $globals.ClassTest);
 
 $core.addMethod(
 $core.method({
+selector: "testAllSubclasses",
+protocol: 'tests',
+fn: function (){
+var self=this;
+var subclasses,index;
+return $core.withContext(function($ctx1) {
+subclasses=$recv($globals.Object)._subclasses();
+$ctx1.sendIdx["subclasses"]=1;
+index=(1);
+$recv((function(){
+return $core.withContext(function($ctx2) {
+return $recv(index).__gt($recv(subclasses)._size());
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}))._whileFalse_((function(){
+return $core.withContext(function($ctx2) {
+$recv(subclasses)._addAll_($recv($recv(subclasses)._at_(index))._subclasses());
+index=$recv(index).__plus((1));
+return index;
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}));
+self._assert_equals_($recv($globals.Object)._allSubclasses(),subclasses);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testAllSubclasses",{subclasses:subclasses,index:index},$globals.ClassTest)});
+},
+args: [],
+source: "testAllSubclasses\x0a\x09| subclasses index |\x0a\x0a\x09subclasses := Object subclasses.\x0a\x09index := 1.\x0a\x09[ index > subclasses size ]\x0a\x09\x09whileFalse: [ subclasses addAll: (subclasses at: index) subclasses.\x0a\x09\x09\x09index := index + 1 ].\x0a\x0a\x09self assert: Object allSubclasses equals: subclasses",
+referencedClasses: ["Object"],
+messageSends: ["subclasses", "whileFalse:", ">", "size", "addAll:", "at:", "+", "assert:equals:", "allSubclasses"]
+}),
+$globals.ClassTest);
+
+$core.addMethod(
+$core.method({
+selector: "testMetaclassSubclasses",
+protocol: 'tests',
+fn: function (){
+var self=this;
+var subclasses;
+return $core.withContext(function($ctx1) {
+var $4,$3,$2,$1;
+$4=$recv($globals.Object)._class();
+$ctx1.sendIdx["class"]=1;
+$3=$recv($4)._instanceClass();
+$2=$recv($3)._subclasses();
+$ctx1.sendIdx["subclasses"]=1;
+$1=$recv($2)._select_((function(each){
+return $core.withContext(function($ctx2) {
+return $recv($recv(each)._isMetaclass())._not();
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}));
+subclasses=$recv($1)._collect_((function(each){
+return $core.withContext(function($ctx2) {
+return $recv(each)._theMetaClass();
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+}));
+self._assert_equals_($recv($recv($globals.Object)._class())._subclasses(),subclasses);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testMetaclassSubclasses",{subclasses:subclasses},$globals.ClassTest)});
+},
+args: [],
+source: "testMetaclassSubclasses\x0a\x09| subclasses |\x0a\x0a\x09subclasses := (Object class instanceClass subclasses \x0a\x09\x09select: [ :each | each isMetaclass not ])\x0a\x09\x09collect: [ :each | each theMetaClass ].\x0a\x0a\x09self assert: Object class subclasses equals: subclasses",
+referencedClasses: ["Object"],
+messageSends: ["collect:", "select:", "subclasses", "instanceClass", "class", "not", "isMetaclass", "theMetaClass", "assert:equals:"]
+}),
+$globals.ClassTest);
+
+$core.addMethod(
+$core.method({
 selector: "testSetJavaScriptConstructor",
 protocol: 'tests',
 fn: function (){
@@ -52390,9 +52638,89 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testSetJavaScriptConstructor",{instance:instance},$globals.ClassTest)});
 },
 args: [],
-source: "testSetJavaScriptConstructor\x0a\x09| instance |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09theClass javascriptConstructor: self jsConstructor.\x0a\x09\x22part took from copy class test\x22\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.\x0a\x09\x22testing specific to late-wrapped class\x22\x0a\x09instance := theClass new.\x0a\x09self assert: instance class == theClass.\x0a\x09self assert: instance value equals: 4.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
+source: "testSetJavaScriptConstructor\x0a\x09| instance |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09theClass javascriptConstructor: self jsConstructor.\x0a\x09\x22part took from copy class test\x22\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.\x0a\x09\x22testing specific to late-coupled detached root class\x22\x0a\x09instance := theClass new.\x0a\x09self assert: instance class == theClass.\x0a\x09self assert: instance value equals: 4.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
 referencedClasses: ["ObjectMock", "Error"],
 messageSends: ["copyClass:named:", "javascriptConstructor:", "jsConstructor", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "keys", "methodDictionary", "new", "class", "value", "shouldnt:raise:", "foo:", "foo"]
+}),
+$globals.ClassTest);
+
+$core.addMethod(
+$core.method({
+selector: "testTrickySetJavaScriptConstructor",
+protocol: 'tests',
+fn: function (){
+var self=this;
+var instance;
+return $core.withContext(function($ctx1) {
+var $2,$1,$4,$3,$6,$5,$8,$7;
+self["@theClass"]=$recv(self["@builder"])._copyClass_named_($globals.ObjectMock,"ObjectMock2");
+$recv(self["@theClass"])._javascriptConstructor_(self._trickyJsConstructor());
+$2=$recv(self["@theClass"])._superclass();
+$ctx1.sendIdx["superclass"]=1;
+$1=$recv($2).__eq_eq($recv($globals.ObjectMock)._superclass());
+$ctx1.sendIdx["=="]=1;
+self._assert_($1);
+$ctx1.sendIdx["assert:"]=1;
+$4=$recv(self["@theClass"])._instanceVariableNames();
+$ctx1.sendIdx["instanceVariableNames"]=1;
+$3=$recv($4).__eq_eq($recv($globals.ObjectMock)._instanceVariableNames());
+$ctx1.sendIdx["=="]=2;
+self._assert_($3);
+$ctx1.sendIdx["assert:"]=2;
+self._assert_equals_($recv(self["@theClass"])._name(),"ObjectMock2");
+$ctx1.sendIdx["assert:equals:"]=1;
+$6=$recv(self["@theClass"])._package();
+$ctx1.sendIdx["package"]=1;
+$5=$recv($6).__eq_eq($recv($globals.ObjectMock)._package());
+$ctx1.sendIdx["=="]=3;
+self._assert_($5);
+$ctx1.sendIdx["assert:"]=3;
+$8=$recv(self["@theClass"])._methodDictionary();
+$ctx1.sendIdx["methodDictionary"]=1;
+$7=$recv($8)._keys();
+$ctx1.sendIdx["keys"]=1;
+self._assert_equals_($7,$recv($recv($globals.ObjectMock)._methodDictionary())._keys());
+$ctx1.sendIdx["assert:equals:"]=2;
+instance=$recv(self["@theClass"])._new();
+self._assert_($recv($recv(instance)._class()).__eq_eq(self["@theClass"]));
+self._assert_equals_($recv(instance)._value(),(4));
+$ctx1.sendIdx["assert:equals:"]=3;
+self._shouldnt_raise_((function(){
+return $core.withContext(function($ctx2) {
+return $recv(instance)._foo_((9));
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}),$globals.Error);
+self._assert_equals_($recv(instance)._foo(),(9));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testTrickySetJavaScriptConstructor",{instance:instance},$globals.ClassTest)});
+},
+args: [],
+source: "testTrickySetJavaScriptConstructor\x0a\x09| instance |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09theClass javascriptConstructor: self trickyJsConstructor.\x0a\x09\x22part took from copy class test\x22\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.\x0a\x09\x22testing specific to late-coupled detached root class\x22\x0a\x09instance := theClass new.\x0a\x09self assert: instance class == theClass.\x0a\x09self assert: instance value equals: 4.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
+referencedClasses: ["ObjectMock", "Error"],
+messageSends: ["copyClass:named:", "javascriptConstructor:", "trickyJsConstructor", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "keys", "methodDictionary", "new", "class", "value", "shouldnt:raise:", "foo:", "foo"]
+}),
+$globals.ClassTest);
+
+$core.addMethod(
+$core.method({
+selector: "trickyJsConstructor",
+protocol: 'running',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+
+		function Foo(){}
+		Foo.prototype.valueOf = function () {return 4;};
+		Foo.prototype._foo = function () {return "bar";};
+		return Foo;
+	;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"trickyJsConstructor",{},$globals.ClassTest)});
+},
+args: [],
+source: "trickyJsConstructor\x0a\x09<\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09Foo.prototype._foo = function () {return \x22bar\x22;};\x0a\x09\x09return Foo;\x0a\x09>",
+referencedClasses: [],
+messageSends: []
 }),
 $globals.ClassTest);
 
@@ -61757,9 +62085,11 @@ $globals.SUnitAsyncTest);
 });
 
 define('amber/devel',[
+    './lang',
+    './compatibility', // pre-fetch, dep of ./boot
+    './boot', // pre-fetch, dep of ./helpers
     './helpers', // pre-fetch, dep of ./deploy
     './deploy', // pre-fetch, dep of ./lang
-    './lang',
     // --- packages of the development only Amber begin here ---
     'amber_core/SUnit',
     'amber_core/Compiler-Tests',
