@@ -33,4 +33,5 @@ sed -e 's@/amber.git.*"@/amber.git"@' package.json.bak >package.json
 rm package.json.bak
 git add package.json
 git commit -a -m "Working on $VERF"
-git push --tags
+git push
+git push $VER
