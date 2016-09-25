@@ -20,6 +20,8 @@ if [ "$VER" = "0" ]; then :; else
 	git tag -a "$VER" -m "Release version $VER"
 # bower does not publish explicitly but implictly via semver tag
 	echo npm publish
+	grunt
+	git commit -a -m "Recompile (while version set to $VER)"
 fi
 echo -n "Which version are you going to work on? "
 VERF=`head -n 1`
