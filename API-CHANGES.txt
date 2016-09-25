@@ -1,3 +1,23 @@
+0.16.0:
+
+* Deprecate ClassBuilder >> setupClass:
+* $core.initialize now returns a Promise
+* $core.addClass now returns the class
+
++ amber/boot api >>
+  + send2
+  + traverseClassTree
++ Promise class >>
+  + new
+
+- amber/boot api >>
+  - wrapClassName
+  - send
+  - allSubclasses
+- AbstractCodeGenerator
+  - classNameFor:
+
+
 0.15.1:
 
 * Thenable class added

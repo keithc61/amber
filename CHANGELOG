@@ -1,3 +1,22 @@
+25 September 2016 - Release 0.16.0
+===================================
+
+* boot.js overhaul:
+  * brikz external, reworked to less imperative (no ensure call).
+  * addClass returns the class.
+  * no wrapClassName, using setClassConstructor in later stage.
+  * traverseClassTree (eg allSubclassesDo:) in kernel, not allSubclasses.
+  * runtime part extracted to kernel-runtime.js.
+  * runtime loaded lazily, packages can load without runtime in.
+  * initialize returns a Promise.
+  * init done automatically upon class creation if runtime is active.
+* amber-dev upgrade (to honour initialize returning a Promise).
+* Edits relating to lolg.it move.
+* Fixes.
+
+Commits: https://lolg.it/amber/amber/commits/0.16.0.
+
+
 6 February 2016 - Release 0.15.1
 ===================================
 
