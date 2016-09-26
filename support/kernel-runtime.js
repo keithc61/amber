@@ -6,14 +6,14 @@ define(function () {
         var selectorsBrik = brikz.selectors;
         var messageNotUnderstood = brikz.messageSend.messageNotUnderstood;
         var installJSMethod = brikz.manipulation.installJSMethod;
-        var RootProto = brikz.root.rootAsClass.fn.prototype;
+        var nilAsClass = brikz.root.nilAsClass;
 
         /* Method not implemented handlers */
 
         function makeDnuHandler(pair, targetClasses) {
             var jsSelector = pair.js;
             var fn = createHandler(pair.st);
-            installJSMethod(RootProto, jsSelector, fn);
+            installJSMethod(nilAsClass.fn.prototype, jsSelector, fn);
             targetClasses.forEach(function (target) {
                 installJSMethod(target.fn.prototype, jsSelector, fn);
             });

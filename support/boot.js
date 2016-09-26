@@ -95,7 +95,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         });
 
         // Hidden root class of the system.
-        this.rootAsClass = {fn: SmalltalkRoot};
+        // Effective superclass of all classes created with `nil subclass: ...`.
+        this.nilAsClass = {fn: SmalltalkRoot};
 
         this.__init__ = function () {
             var globals = brikz.smalltalkGlobals.globals;
@@ -236,9 +237,9 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         var addOrganizationElement = brikz.organize.addOrganizationElement;
         var removeOrganizationElement = brikz.organize.removeOrganizationElement;
         var globals = brikz.smalltalkGlobals.globals;
-        var rootAsClass = brikz.root.rootAsClass;
+        var nilAsClass = brikz.root.nilAsClass;
         var SmalltalkObject = brikz.root.Object;
-        rootAsClass.klass = {fn: SmalltalkClass};
+        nilAsClass.klass = {fn: SmalltalkClass};
 
         function SmalltalkBehavior() {
         }
@@ -268,7 +269,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             addCoupledClass("Class", globals.Behavior, "Kernel-Classes", SmalltalkClass);
 
             // Manually bootstrap the metaclass hierarchy
-            globals.ProtoObject.klass.superclass = rootAsClass.klass = globals.Class;
+            globals.ProtoObject.klass.superclass = nilAsClass.klass = globals.Class;
             addSubclass(globals.ProtoObject.klass);
         };
         this.__init__.once = true;
@@ -285,7 +286,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         function klass(spec) {
             var setSuperClass = spec.superclass;
             if (!spec.superclass) {
-                spec.superclass = rootAsClass;
+                spec.superclass = nilAsClass;
             }
 
             var meta = metaclass(spec);
@@ -700,7 +701,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     return {
         api: api,
         nil: brikz.root.nil,
-        dnu: brikz.root.rootAsClass,
+        dnu/* TODO deprecate */: brikz.root.nilAsClass,
+        nilAsClass: brikz.root.nilAsClass,
         globals: brikz.smalltalkGlobals.globals,
         asReceiver: brikz.asReceiver.asReceiver
     };
