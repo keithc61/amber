@@ -1,3 +1,5 @@
+"use strict";
+
 //jshint eqnull:true
 
 define(function () {

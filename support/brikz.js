@@ -1,3 +1,5 @@
+"use strict";
+
 define([], function () {
     return function Brikz(api, apiKey, initKey) {
         //jshint eqnull:true
