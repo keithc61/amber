@@ -2854,7 +2854,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.CollectionTest.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.CollectionTest.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -5485,7 +5485,7 @@ var $2,$3,$4,$1,$5,$7,$8,$9,$6,$10,$12,$11;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.AssociativeCollectionTest.superclass||$boot.dnu).fn.prototype._testAddAll.apply($recv(self), []));
+($globals.AssociativeCollectionTest.superclass||$boot.nilAsClass).fn.prototype._testAddAll.apply($recv(self), []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -5622,7 +5622,7 @@ var $2,$3,$1,$4,$6,$7,$5,$8,$10,$9;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.AssociativeCollectionTest.superclass||$boot.dnu).fn.prototype._testComma.apply($recv(self), []));
+($globals.AssociativeCollectionTest.superclass||$boot.nilAsClass).fn.prototype._testComma.apply($recv(self), []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -6365,7 +6365,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.DictionaryTest.superclass||$boot.dnu).fn.prototype._samplesDo_.apply($recv(self), [aBlock]));
+($globals.DictionaryTest.superclass||$boot.nilAsClass).fn.prototype._samplesDo_.apply($recv(self), [aBlock]));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -7602,7 +7602,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.ArrayTest.superclass||$boot.dnu).fn.prototype._samplesDo_.apply($recv(self), [aBlock]));
+($globals.ArrayTest.superclass||$boot.nilAsClass).fn.prototype._samplesDo_.apply($recv(self), [aBlock]));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -8180,7 +8180,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.StringTest.superclass||$boot.dnu).fn.prototype._samplesDo_.apply($recv(self), [aBlock]));
+($globals.StringTest.superclass||$boot.nilAsClass).fn.prototype._samplesDo_.apply($recv(self), [aBlock]));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -9324,7 +9324,7 @@ var $2,$3,$4,$1,$5,$7,$8,$9,$6,$10,$12,$11;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.SetTest.superclass||$boot.dnu).fn.prototype._testAddAll.apply($recv(self), []));
+($globals.SetTest.superclass||$boot.nilAsClass).fn.prototype._testAddAll.apply($recv(self), []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -9495,7 +9495,7 @@ var $2,$1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.SetTest.superclass||$boot.dnu).fn.prototype._testCollect.apply($recv(self), []));
+($globals.SetTest.superclass||$boot.nilAsClass).fn.prototype._testCollect.apply($recv(self), []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -9541,7 +9541,7 @@ var $2,$3,$1,$4,$6,$7,$5,$8,$10,$9;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.SetTest.superclass||$boot.dnu).fn.prototype._testComma.apply($recv(self), []));
+($globals.SetTest.superclass||$boot.nilAsClass).fn.prototype._testComma.apply($recv(self), []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;

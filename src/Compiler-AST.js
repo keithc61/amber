@@ -787,7 +787,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.Node.superclass||$boot.dnu).fn.prototype._postCopy.apply($recv(self), []));
+($globals.Node.superclass||$boot.nilAsClass).fn.prototype._postCopy.apply($recv(self), []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -1237,7 +1237,7 @@ $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.AssignmentNode.superclass||$boot.dnu).fn.prototype._shouldBeAliased.apply($recv(self), []));
+($globals.AssignmentNode.superclass||$boot.nilAsClass).fn.prototype._shouldBeAliased.apply($recv(self), []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -2514,7 +2514,7 @@ $2=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.SendNode.superclass||$boot.dnu).fn.prototype._shouldBeAliased.apply($recv(self), []));
+($globals.SendNode.superclass||$boot.nilAsClass).fn.prototype._shouldBeAliased.apply($recv(self), []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
