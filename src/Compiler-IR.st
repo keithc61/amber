@@ -1052,7 +1052,7 @@ visitSuperSend: anIRSend
 		nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;
 		nextPutAll: '//>>excludeEnd("ctx");'; lf;
 		nextPutAll: '(', self currentClass asJavascript;
-		nextPutAll: '.superclass||$boot.dnu).fn.prototype.';
+		nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';
 		nextPutAll: anIRSend selector asJavaScriptMethodName, '.apply(';
 		nextPutAll: '$recv(self), '.
 	self
