@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 (function(define, require){
 define('__wrap__', function (requirejs) {
+var module = null; // Bad UMDs workaround
 requirejs.resolve = require.resolve;
 require = requirejs;
 // This file is used to make additional changes
@@ -15,6 +16,8 @@ define("config-node", function(){});
 
 define('amber/brikz',[], function () {
     return function Brikz(api, apiKey, initKey) {
+        "use strict";
+
         //jshint eqnull:true
 
         var brikz = this,
@@ -1292,6 +1295,7 @@ define("amber/node-compatibility", ["./es2015-polyfills"], function(){});
 //jshint eqnull:true
 
 define('amber/boot',['require', './brikz', './compatibility'], function (require, Brikz) {
+    "use strict";
 
     function inherits(child, parent) {
         child.prototype = Object.create(parent.prototype, {
@@ -1347,7 +1351,8 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
         });
 
         // Hidden root class of the system.
-        this.rootAsClass = {fn: SmalltalkRoot};
+        // Effective superclass of all classes created with `nil subclass: ...`.
+        this.nilAsClass = {fn: SmalltalkRoot};
 
         this.__init__ = function () {
             var globals = brikz.smalltalkGlobals.globals;
@@ -1488,9 +1493,9 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
         var addOrganizationElement = brikz.organize.addOrganizationElement;
         var removeOrganizationElement = brikz.organize.removeOrganizationElement;
         var globals = brikz.smalltalkGlobals.globals;
-        var rootAsClass = brikz.root.rootAsClass;
+        var nilAsClass = brikz.root.nilAsClass;
         var SmalltalkObject = brikz.root.Object;
-        rootAsClass.klass = {fn: SmalltalkClass};
+        nilAsClass.klass = {fn: SmalltalkClass};
 
         function SmalltalkBehavior() {
         }
@@ -1520,7 +1525,7 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
             addCoupledClass("Class", globals.Behavior, "Kernel-Classes", SmalltalkClass);
 
             // Manually bootstrap the metaclass hierarchy
-            globals.ProtoObject.klass.superclass = rootAsClass.klass = globals.Class;
+            globals.ProtoObject.klass.superclass = nilAsClass.klass = globals.Class;
             addSubclass(globals.ProtoObject.klass);
         };
         this.__init__.once = true;
@@ -1537,7 +1542,7 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
         function klass(spec) {
             var setSuperClass = spec.superclass;
             if (!spec.superclass) {
-                spec.superclass = rootAsClass;
+                spec.superclass = nilAsClass;
             }
 
             var meta = metaclass(spec);
@@ -1952,7 +1957,8 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
     return {
         api: api,
         nil: brikz.root.nil,
-        dnu: brikz.root.rootAsClass,
+        dnu/* TODO deprecate */: brikz.root.nilAsClass,
+        nilAsClass: brikz.root.nilAsClass,
         globals: brikz.smalltalkGlobals.globals,
         asReceiver: brikz.asReceiver.asReceiver
     };
@@ -9751,7 +9757,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.ForkPool.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.ForkPool.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 self["@poolSize"]=(0);
 self["@queue"]=$recv($globals.Queue)._new();
@@ -9953,7 +9959,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.Message.superclass||$boot.dnu).fn.prototype._printOn_.apply($recv(self), [aStream]));
+($globals.Message.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($recv(self), [aStream]));
 $ctx1.supercall = false;
 $recv(aStream)._nextPutAll_("(");
 $ctx1.sendIdx["nextPutAll:"]=1;
@@ -10089,7 +10095,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.MessageSend.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.MessageSend.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 self["@message"]=$recv($globals.Message)._new();
 return self;
@@ -10111,7 +10117,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.MessageSend.superclass||$boot.dnu).fn.prototype._printOn_.apply($recv(self), [aStream]));
+($globals.MessageSend.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($recv(self), [aStream]));
 $ctx1.supercall = false;
 $recv(aStream)._nextPutAll_("(");
 $ctx1.sendIdx["nextPutAll:"]=1;
@@ -10609,7 +10615,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.MethodContext.superclass||$boot.dnu).fn.prototype._printOn_.apply($recv(self), [aStream]));
+($globals.MethodContext.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($recv(self), [aStream]));
 $ctx1.supercall = false;
 $recv(aStream)._nextPutAll_("(");
 $ctx1.sendIdx["nextPutAll:"]=1;
@@ -11628,7 +11634,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.BucketStore.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.BucketStore.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 self._removeAll();
 return self;
@@ -12996,7 +13002,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.AssociativeCollection.superclass||$boot.dnu).fn.prototype._addAll_.apply($recv(self), [$recv(anAssociativeCollection)._associations()]));
+($globals.AssociativeCollection.superclass||$boot.nilAsClass).fn.prototype._addAll_.apply($recv(self), [$recv(anAssociativeCollection)._associations()]));
 $ctx1.supercall = false;
 return anAssociativeCollection;
 }, function($ctx1) {$ctx1.fill(self,"addAll:",{anAssociativeCollection:anAssociativeCollection},$globals.AssociativeCollection)});
@@ -13379,7 +13385,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.AssociativeCollection.superclass||$boot.dnu).fn.prototype._printOn_.apply($recv(self), [aStream]));
+($globals.AssociativeCollection.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($recv(self), [aStream]));
 $ctx1.supercall = false;
 $ctx1.sendIdx["printOn:"]=1;
 $recv(aStream)._nextPutAll_(" (");
@@ -13787,7 +13793,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.Dictionary.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.Dictionary.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 self["@keys"]=[];
 self["@values"]=[];
@@ -15036,7 +15042,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.Array.superclass||$boot.dnu).fn.prototype._printOn_.apply($recv(self), [aStream]));
+($globals.Array.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($recv(self), [aStream]));
 $ctx1.supercall = false;
 $ctx1.sendIdx["printOn:"]=1;
 $recv(aStream)._nextPutAll_(" (");
@@ -17394,7 +17400,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.Set.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.Set.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 self["@defaultBucket"]=[];
 self._initializeSlowBucketStores();
@@ -17465,7 +17471,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.Set.superclass||$boot.dnu).fn.prototype._printOn_.apply($recv(self), [aStream]));
+($globals.Set.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($recv(self), [aStream]));
 $ctx1.supercall = false;
 $ctx1.sendIdx["printOn:"]=1;
 $recv(aStream)._nextPutAll_(" (");
@@ -18627,7 +18633,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.Queue.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.Queue.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 self["@read"]=$recv($globals.OrderedCollection)._new();
 $ctx1.sendIdx["new"]=1;
@@ -19612,7 +19618,7 @@ $1=$recv($globals.JSObjectProxy)._lookupProperty_ofProxy_($recv($recv(aMessage).
 if(($receiver = $1) == null || $receiver.isNil){
 return (
 $ctx1.supercall = true,
-($globals.JSObjectProxy.superclass||$boot.dnu).fn.prototype._doesNotUnderstand_.apply($recv(self), [aMessage]));
+($globals.JSObjectProxy.superclass||$boot.nilAsClass).fn.prototype._doesNotUnderstand_.apply($recv(self), [aMessage]));
 $ctx1.supercall = false;
 } else {
 var jsSelector;
@@ -19933,7 +19939,7 @@ return $core.withContext(function($ctx1) {
 var $1,$3,$2;
 (
 $ctx1.supercall = true,
-($globals.ClassOrganizer.superclass||$boot.dnu).fn.prototype._addElement_.apply($recv(self), [aString]));
+($globals.ClassOrganizer.superclass||$boot.nilAsClass).fn.prototype._addElement_.apply($recv(self), [aString]));
 $ctx1.supercall = false;
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.ProtocolAdded)._new();
@@ -19961,7 +19967,7 @@ return $core.withContext(function($ctx1) {
 var $1,$3,$2;
 (
 $ctx1.supercall = true,
-($globals.ClassOrganizer.superclass||$boot.dnu).fn.prototype._removeElement_.apply($recv(self), [aString]));
+($globals.ClassOrganizer.superclass||$boot.nilAsClass).fn.prototype._removeElement_.apply($recv(self), [aString]));
 $ctx1.supercall = false;
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.ProtocolRemoved)._new();
@@ -20538,7 +20544,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.Package.superclass||$boot.dnu).fn.prototype._printOn_.apply($recv(self), [aStream]));
+($globals.Package.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($recv(self), [aStream]));
 $ctx1.supercall = false;
 $recv(aStream)._nextPutAll_(" (");
 $ctx1.sendIdx["nextPutAll:"]=1;
@@ -21214,7 +21220,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 $1=(
 $ctx1.supercall = true,
-($globals.Setting.klass.superclass||$boot.dnu).fn.prototype._new.apply($recv(self), []));
+($globals.Setting.klass.superclass||$boot.nilAsClass).fn.prototype._new.apply($recv(self), []));
 $ctx1.supercall = false;
 $recv($1)._key_(aString);
 $recv($1)._defaultValue_(aDefaultValue);
@@ -21935,11 +21941,11 @@ selector: "version",
 protocol: 'accessing',
 fn: function (){
 var self=this;
-return "0.16.0";
+return "0.16.1";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.16.0'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.16.1'",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21959,7 +21965,7 @@ $1=self["@current"];
 if(($receiver = $1) == null || $receiver.isNil){
 self["@current"]=(
 $ctx1.supercall = true,
-($globals.SmalltalkImage.klass.superclass||$boot.dnu).fn.prototype._new.apply($recv(self), []));
+($globals.SmalltalkImage.klass.superclass||$boot.nilAsClass).fn.prototype._new.apply($recv(self), []));
 $ctx1.supercall = false;
 return self["@current"];
 } else {
@@ -22913,7 +22919,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.Announcer.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.Announcer.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 self["@subscriptions"]=$recv($globals.OrderedCollection)._new();
 return self;
@@ -23076,7 +23082,7 @@ $1=self["@current"];
 if(($receiver = $1) == null || $receiver.isNil){
 self["@current"]=(
 $ctx1.supercall = true,
-($globals.SystemAnnouncer.klass.superclass||$boot.dnu).fn.prototype._new.apply($recv(self), []));
+($globals.SystemAnnouncer.klass.superclass||$boot.nilAsClass).fn.prototype._new.apply($recv(self), []));
 $ctx1.supercall = false;
 return self["@current"];
 } else {
@@ -25447,7 +25453,7 @@ return $core.withContext(function($ctx1) {
 var $3,$2,$1,$5,$4;
 (
 $ctx1.supercall = true,
-($globals.String.superclass||$boot.dnu).fn.prototype._inspectOn_.apply($recv(self), [anInspector]));
+($globals.String.superclass||$boot.nilAsClass).fn.prototype._inspectOn_.apply($recv(self), [anInspector]));
 $ctx1.supercall = false;
 $3=self._printString();
 $ctx1.sendIdx["printString"]=1;
@@ -30916,7 +30922,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.ClassCommentReader.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.ClassCommentReader.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.ClassCommentReader)});
@@ -31019,7 +31025,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.ClassProtocolReader.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.ClassProtocolReader.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.ClassProtocolReader)});
@@ -32060,7 +32066,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 (
 $ctx1.supercall = true,
-($globals.PackageTransport.klass.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.PackageTransport.klass.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 $1=self.__eq_eq($globals.PackageTransport);
 if($core.assert($1)){
@@ -32151,7 +32157,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 $1=(
 $ctx1.supercall = true,
-($globals.AmdPackageTransport.superclass||$boot.dnu).fn.prototype._asJSON.apply($recv(self), []));
+($globals.AmdPackageTransport.superclass||$boot.nilAsClass).fn.prototype._asJSON.apply($recv(self), []));
 $ctx1.supercall = false;
 $recv($1)._at_put_("amdNamespace",self._namespace());
 return $recv($1)._yourself();
@@ -32274,7 +32280,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.AmdPackageTransport.superclass||$boot.dnu).fn.prototype._printOn_.apply($recv(self), [aStream]));
+($globals.AmdPackageTransport.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($recv(self), [aStream]));
 $ctx1.supercall = false;
 $recv(aStream)._nextPutAll_(" (AMD Namespace: ");
 $ctx1.sendIdx["nextPutAll:"]=1;
@@ -34017,7 +34023,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.Node.superclass||$boot.dnu).fn.prototype._postCopy.apply($recv(self), []));
+($globals.Node.superclass||$boot.nilAsClass).fn.prototype._postCopy.apply($recv(self), []));
 $ctx1.supercall = false;
 $recv(self._nodes())._do_((function(each){
 return $core.withContext(function($ctx2) {
@@ -34361,7 +34367,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 $1=(
 $ctx1.supercall = true,
-($globals.AssignmentNode.superclass||$boot.dnu).fn.prototype._shouldBeAliased.apply($recv(self), []));
+($globals.AssignmentNode.superclass||$boot.nilAsClass).fn.prototype._shouldBeAliased.apply($recv(self), []));
 $ctx1.supercall = false;
 return $recv($1)._or_((function(){
 return $core.withContext(function($ctx2) {
@@ -35392,7 +35398,7 @@ var $2,$1;
 sends=$recv($recv($recv(self._method())._sendIndexes())._at_(self._selector()))._size();
 $2=(
 $ctx1.supercall = true,
-($globals.SendNode.superclass||$boot.dnu).fn.prototype._shouldBeAliased.apply($recv(self), []));
+($globals.SendNode.superclass||$boot.nilAsClass).fn.prototype._shouldBeAliased.apply($recv(self), []));
 $ctx1.supercall = false;
 $1=$recv($2)._or_((function(){
 return $core.withContext(function($ctx2) {
@@ -36819,7 +36825,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 $1=(
 $ctx1.supercall = true,
-($globals.MethodLexicalScope.superclass||$boot.dnu).fn.prototype._allVariableNames.apply($recv(self), []));
+($globals.MethodLexicalScope.superclass||$boot.nilAsClass).fn.prototype._allVariableNames.apply($recv(self), []));
 $ctx1.supercall = false;
 return $recv($1).__comma($recv(self._iVars())._keys());
 }, function($ctx1) {$ctx1.fill(self,"allVariableNames",{},$globals.MethodLexicalScope)});
@@ -36841,7 +36847,7 @@ return $core.withContext(function($ctx1) {
 var $1,$receiver;
 $1=(
 $ctx1.supercall = true,
-($globals.MethodLexicalScope.superclass||$boot.dnu).fn.prototype._bindingFor_.apply($recv(self), [aNode]));
+($globals.MethodLexicalScope.superclass||$boot.nilAsClass).fn.prototype._bindingFor_.apply($recv(self), [aNode]));
 $ctx1.supercall = false;
 if(($receiver = $1) == null || $receiver.isNil){
 return $recv(self._iVars())._at_ifAbsent_($recv(aNode)._value(),(function(){
@@ -37993,7 +37999,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.SemanticAnalyzer.superclass||$boot.dnu).fn.prototype._visitAssignmentNode_.apply($recv(self), [aNode]));
+($globals.SemanticAnalyzer.superclass||$boot.nilAsClass).fn.prototype._visitAssignmentNode_.apply($recv(self), [aNode]));
 $ctx1.supercall = false;
 $recv($recv(aNode)._left())._beAssigned();
 return self;
@@ -38025,7 +38031,7 @@ return $recv(self["@currentScope"])._addArg_(each);
 }));
 (
 $ctx1.supercall = true,
-($globals.SemanticAnalyzer.superclass||$boot.dnu).fn.prototype._visitBlockNode_.apply($recv(self), [aNode]));
+($globals.SemanticAnalyzer.superclass||$boot.nilAsClass).fn.prototype._visitBlockNode_.apply($recv(self), [aNode]));
 $ctx1.supercall = false;
 self._popScope();
 return self;
@@ -38048,7 +38054,7 @@ return $core.withContext(function($ctx1) {
 $recv(aNode)._receiver_($recv($recv($recv(aNode)._nodes())._first())._receiver());
 (
 $ctx1.supercall = true,
-($globals.SemanticAnalyzer.superclass||$boot.dnu).fn.prototype._visitCascadeNode_.apply($recv(self), [aNode]));
+($globals.SemanticAnalyzer.superclass||$boot.nilAsClass).fn.prototype._visitCascadeNode_.apply($recv(self), [aNode]));
 $ctx1.supercall = false;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitCascadeNode:",{aNode:aNode},$globals.SemanticAnalyzer)});
@@ -38084,7 +38090,7 @@ return $recv(self["@currentScope"])._addArg_(each);
 }));
 (
 $ctx1.supercall = true,
-($globals.SemanticAnalyzer.superclass||$boot.dnu).fn.prototype._visitMethodNode_.apply($recv(self), [aNode]));
+($globals.SemanticAnalyzer.superclass||$boot.nilAsClass).fn.prototype._visitMethodNode_.apply($recv(self), [aNode]));
 $ctx1.supercall = false;
 $recv(aNode)._classReferences_(self._classReferences());
 $recv(aNode)._sendIndexes_(self._messageSends());
@@ -38116,7 +38122,7 @@ $recv($recv(self["@currentScope"])._methodScope())._addNonLocalReturn_(self["@cu
 };
 (
 $ctx1.supercall = true,
-($globals.SemanticAnalyzer.superclass||$boot.dnu).fn.prototype._visitReturnNode_.apply($recv(self), [aNode]));
+($globals.SemanticAnalyzer.superclass||$boot.nilAsClass).fn.prototype._visitReturnNode_.apply($recv(self), [aNode]));
 $ctx1.supercall = false;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitReturnNode:",{aNode:aNode},$globals.SemanticAnalyzer)});
@@ -38176,7 +38182,7 @@ $recv($10)._add_(aNode);
 $recv(aNode)._index_($recv($recv(self._messageSends())._at_($recv(aNode)._selector()))._size());
 (
 $ctx1.supercall = true,
-($globals.SemanticAnalyzer.superclass||$boot.dnu).fn.prototype._visitSendNode_.apply($recv(self), [aNode]));
+($globals.SemanticAnalyzer.superclass||$boot.nilAsClass).fn.prototype._visitSendNode_.apply($recv(self), [aNode]));
 $ctx1.supercall = false;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode},$globals.SemanticAnalyzer)});
@@ -38203,7 +38209,7 @@ return $recv(self["@currentScope"])._addTemp_(each);
 }));
 (
 $ctx1.supercall = true,
-($globals.SemanticAnalyzer.superclass||$boot.dnu).fn.prototype._visitSequenceNode_.apply($recv(self), [aNode]));
+($globals.SemanticAnalyzer.superclass||$boot.nilAsClass).fn.prototype._visitSequenceNode_.apply($recv(self), [aNode]));
 $ctx1.supercall = false;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitSequenceNode:",{aNode:aNode},$globals.SemanticAnalyzer)});
@@ -39863,7 +39869,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.IRClosureInstruction.superclass||$boot.dnu).fn.prototype._scope_.apply($recv(self), [aScope]));
+($globals.IRClosureInstruction.superclass||$boot.nilAsClass).fn.prototype._scope_.apply($recv(self), [aScope]));
 $ctx1.supercall = false;
 $recv(aScope)._instruction_(self);
 return self;
@@ -41279,7 +41285,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.IRJSTranslator.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.IRJSTranslator.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 self["@stream"]=$recv($globals.JSStream)._new();
 return self;
@@ -41379,7 +41385,7 @@ return $recv(self._stream())._nextPutBlockContextFor_during_(anIRClosure,(functi
 return $core.withContext(function($ctx3) {
 return (
 $ctx3.supercall = true,
-($globals.IRJSTranslator.superclass||$boot.dnu).fn.prototype._visitIRClosure_.apply($recv(self), [anIRClosure]));
+($globals.IRJSTranslator.superclass||$boot.nilAsClass).fn.prototype._visitIRClosure_.apply($recv(self), [anIRClosure]));
 $ctx3.supercall = false;
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 }));
@@ -41479,7 +41485,7 @@ return $recv(self._stream())._nextPutNonLocalReturnHandlingWith_((function(){
 return $core.withContext(function($ctx5) {
 return (
 $ctx5.supercall = true,
-($globals.IRJSTranslator.superclass||$boot.dnu).fn.prototype._visitIRMethod_.apply($recv(self), [anIRMethod]));
+($globals.IRJSTranslator.superclass||$boot.nilAsClass).fn.prototype._visitIRMethod_.apply($recv(self), [anIRMethod]));
 $ctx5.supercall = false;
 $ctx5.sendIdx["visitIRMethod:"]=1;
 }, function($ctx5) {$ctx5.fillBlock({},$ctx4,8)});
@@ -41487,7 +41493,7 @@ $ctx5.sendIdx["visitIRMethod:"]=1;
 } else {
 return (
 $ctx4.supercall = true,
-($globals.IRJSTranslator.superclass||$boot.dnu).fn.prototype._visitIRMethod_.apply($recv(self), [anIRMethod]));
+($globals.IRJSTranslator.superclass||$boot.nilAsClass).fn.prototype._visitIRMethod_.apply($recv(self), [anIRMethod]));
 $ctx4.supercall = false;
 };
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
@@ -41517,7 +41523,7 @@ $recv(self._stream())._nextPutNonLocalReturnWith_((function(){
 return $core.withContext(function($ctx2) {
 return (
 $ctx2.supercall = true,
-($globals.IRJSTranslator.superclass||$boot.dnu).fn.prototype._visitIRNonLocalReturn_.apply($recv(self), [anIRNonLocalReturn]));
+($globals.IRJSTranslator.superclass||$boot.nilAsClass).fn.prototype._visitIRNonLocalReturn_.apply($recv(self), [anIRNonLocalReturn]));
 $ctx2.supercall = false;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
@@ -41542,7 +41548,7 @@ $recv(self._stream())._nextPutReturnWith_((function(){
 return $core.withContext(function($ctx2) {
 return (
 $ctx2.supercall = true,
-($globals.IRJSTranslator.superclass||$boot.dnu).fn.prototype._visitIRReturn_.apply($recv(self), [anIRReturn]));
+($globals.IRJSTranslator.superclass||$boot.nilAsClass).fn.prototype._visitIRReturn_.apply($recv(self), [anIRReturn]));
 $ctx2.supercall = false;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
@@ -41831,7 +41837,7 @@ $5="(".__comma($recv(self._currentClass())._asJavascript());
 $ctx1.sendIdx[","]=2;
 $recv($1)._nextPutAll_($5);
 $ctx1.sendIdx["nextPutAll:"]=5;
-$recv($1)._nextPutAll_(".superclass||$boot.dnu).fn.prototype.");
+$recv($1)._nextPutAll_(".superclass||$boot.nilAsClass).fn.prototype.");
 $ctx1.sendIdx["nextPutAll:"]=6;
 $6=$recv($recv($recv(anIRSend)._selector())._asJavaScriptMethodName()).__comma(".apply(");
 $ctx1.sendIdx[","]=3;
@@ -41857,7 +41863,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"visitSuperSend:",{anIRSend:anIRSend},$globals.IRJSTranslator)});
 },
 args: ["anIRSend"],
-source: "visitSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: '('; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'; lf;\x0a\x09\x09nextPutAll: '(', self currentClass asJavascript;\x0a\x09\x09nextPutAll: '.superclass||$boot.dnu).fn.prototype.';\x0a\x09\x09nextPutAll: anIRSend selector asJavaScriptMethodName, '.apply(';\x0a\x09\x09nextPutAll: '$recv(self), '.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend instructions allButFirst\x0a\x09\x09enclosedBetween: '[' and: ']'.\x0a\x09self stream \x0a\x09\x09nextPutAll: '));'; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'",
+source: "visitSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: '('; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'; lf;\x0a\x09\x09nextPutAll: '(', self currentClass asJavascript;\x0a\x09\x09nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';\x0a\x09\x09nextPutAll: anIRSend selector asJavaScriptMethodName, '.apply(';\x0a\x09\x09nextPutAll: '$recv(self), '.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend instructions allButFirst\x0a\x09\x09enclosedBetween: '[' and: ']'.\x0a\x09self stream \x0a\x09\x09nextPutAll: '));'; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'",
 referencedClasses: [],
 messageSends: ["nextPutAll:", "stream", "lf", ",", "alias", "scope", "asJavascript", "currentClass", "asJavaScriptMethodName", "selector", "visitInstructionList:enclosedBetween:and:", "allButFirst", "instructions"]
 }),
@@ -41892,7 +41898,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.JSStream.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.JSStream.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 self["@stream"]=""._writeStream();
 return self;
@@ -43160,7 +43166,7 @@ return localReturn;
 };
 $7=(
 $ctx1.supercall = true,
-($globals.IRInliner.superclass||$boot.dnu).fn.prototype._visitIRNonLocalReturn_.apply($recv(self), [anIRNonLocalReturn]));
+($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRNonLocalReturn_.apply($recv(self), [anIRNonLocalReturn]));
 $ctx1.supercall = false;
 return $7;
 }, function($ctx1) {$ctx1.fill(self,"transformNonLocalReturn:",{anIRNonLocalReturn:anIRNonLocalReturn,localReturn:localReturn},$globals.IRInliner)});
@@ -43186,7 +43192,7 @@ return $recv(self._assignmentInliner())._inlineAssignment_(anIRAssignment);
 } else {
 return (
 $ctx1.supercall = true,
-($globals.IRInliner.superclass||$boot.dnu).fn.prototype._visitIRAssignment_.apply($recv(self), [anIRAssignment]));
+($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRAssignment_.apply($recv(self), [anIRAssignment]));
 $ctx1.supercall = false;
 };
 }, function($ctx1) {$ctx1.fill(self,"visitIRAssignment:",{anIRAssignment:anIRAssignment},$globals.IRInliner)});
@@ -43229,7 +43235,7 @@ return $recv(self._returnInliner())._inlineReturn_(anIRReturn);
 } else {
 return (
 $ctx1.supercall = true,
-($globals.IRInliner.superclass||$boot.dnu).fn.prototype._visitIRReturn_.apply($recv(self), [anIRReturn]));
+($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRReturn_.apply($recv(self), [anIRReturn]));
 $ctx1.supercall = false;
 };
 }, function($ctx1) {$ctx1.fill(self,"visitIRReturn:",{anIRReturn:anIRReturn},$globals.IRInliner)});
@@ -43255,7 +43261,7 @@ return $recv(self._sendInliner())._inlineSend_(anIRSend);
 } else {
 return (
 $ctx1.supercall = true,
-($globals.IRInliner.superclass||$boot.dnu).fn.prototype._visitIRSend_.apply($recv(self), [anIRSend]));
+($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRSend_.apply($recv(self), [anIRSend]));
 $ctx1.supercall = false;
 };
 }, function($ctx1) {$ctx1.fill(self,"visitIRSend:",{anIRSend:anIRSend},$globals.IRInliner)});
@@ -44205,7 +44211,7 @@ return $core.withContext(function($ctx1) {
 var $2,$1,$4,$3,$5,$7,$6;
 inlinedClosure=(
 $ctx1.supercall = true,
-($globals.IRAssignmentInliner.superclass||$boot.dnu).fn.prototype._inlineClosure_.apply($recv(self), [anIRClosure]));
+($globals.IRAssignmentInliner.superclass||$boot.nilAsClass).fn.prototype._inlineClosure_.apply($recv(self), [anIRClosure]));
 $ctx1.supercall = false;
 $2=$recv(inlinedClosure)._instructions();
 $ctx1.sendIdx["instructions"]=2;
@@ -44255,7 +44261,7 @@ return $core.withContext(function($ctx1) {
 var $1,$3,$2,$4,$6,$5;
 closure=(
 $ctx1.supercall = true,
-($globals.IRReturnInliner.superclass||$boot.dnu).fn.prototype._inlineClosure_.apply($recv(self), [anIRClosure]));
+($globals.IRReturnInliner.superclass||$boot.nilAsClass).fn.prototype._inlineClosure_.apply($recv(self), [anIRClosure]));
 $ctx1.supercall = false;
 $1=$recv($recv(closure)._instructions())._last();
 $ctx1.sendIdx["last"]=1;
@@ -45596,7 +45602,7 @@ $recv(self._context())._localAt_ifAbsent_($recv(aNode)._value(),(function(){
 return $core.withContext(function($ctx2) {
 $1=(
 $ctx2.supercall = true,
-($globals.AISemanticAnalyzer.superclass||$boot.dnu).fn.prototype._visitVariableNode_.apply($recv(self), [aNode]));
+($globals.AISemanticAnalyzer.superclass||$boot.nilAsClass).fn.prototype._visitVariableNode_.apply($recv(self), [aNode]));
 $ctx2.supercall = false;
 throw $early=[$1];
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -46073,7 +46079,7 @@ return $recv($recv(self._interpreter())._context())._defineLocal_(each);
 }));
 $1=(
 $ctx1.supercall = true,
-($globals.ASTEnterNode.superclass||$boot.dnu).fn.prototype._visitSequenceNode_.apply($recv(self), [aNode]));
+($globals.ASTEnterNode.superclass||$boot.nilAsClass).fn.prototype._visitSequenceNode_.apply($recv(self), [aNode]));
 $ctx1.supercall = false;
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"visitSequenceNode:",{aNode:aNode},$globals.ASTEnterNode)});
@@ -46294,7 +46300,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.ASTInterpreter.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.ASTInterpreter.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 self["@forceAtEnd"]=false;
 return self;
@@ -46780,7 +46786,7 @@ $1=self._hasReturned();
 if(!$core.assert($1)){
 (
 $ctx1.supercall = true,
-($globals.ASTInterpreter.superclass||$boot.dnu).fn.prototype._visit_.apply($recv(self), [aNode]));
+($globals.ASTInterpreter.superclass||$boot.nilAsClass).fn.prototype._visit_.apply($recv(self), [aNode]));
 $ctx1.supercall = false;
 };
 return self;
@@ -46845,7 +46851,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.ASTInterpreter.superclass||$boot.dnu).fn.prototype._visitBlockSequenceNode_.apply($recv(self), [aNode]));
+($globals.ASTInterpreter.superclass||$boot.nilAsClass).fn.prototype._visitBlockSequenceNode_.apply($recv(self), [aNode]));
 $ctx1.supercall = false;
 self["@forceAtEnd"]=true;
 return self;
@@ -47249,7 +47255,7 @@ $ctx1.sendIdx["selector"]=1;
 sendIndex=$recv($1)._sendIndexAt_($2);
 (
 $ctx1.supercall = true,
-($globals.ASTPCNodeVisitor.superclass||$boot.dnu).fn.prototype._visitSendNode_.apply($recv(self), [aNode]));
+($globals.ASTPCNodeVisitor.superclass||$boot.nilAsClass).fn.prototype._visitSendNode_.apply($recv(self), [aNode]));
 $ctx1.supercall = false;
 $4=self._selector();
 $ctx1.sendIdx["selector"]=2;
@@ -48182,7 +48188,7 @@ return self._withErrorReporting_((function(){
 return $core.withContext(function($ctx3) {
 return (
 $ctx3.supercall = true,
-($globals.ReportingTestContext.superclass||$boot.dnu).fn.prototype._execute_.apply($recv(self), [aBlock]));
+($globals.ReportingTestContext.superclass||$boot.nilAsClass).fn.prototype._execute_.apply($recv(self), [aBlock]));
 $ctx3.supercall = false;
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 }));
@@ -48282,7 +48288,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 $1=(
 $ctx1.supercall = true,
-($globals.ReportingTestContext.klass.superclass||$boot.dnu).fn.prototype._testCase_.apply($recv(self), [aTestCase]));
+($globals.ReportingTestContext.klass.superclass||$boot.nilAsClass).fn.prototype._testCase_.apply($recv(self), [aTestCase]));
 $ctx1.supercall = false;
 $recv($1)._result_(aTestResult);
 $recv($1)._finished_(aBlock);
@@ -48398,7 +48404,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.TestResult.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.TestResult.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 self["@timestamp"]=$recv($globals.Date)._now();
 self["@runs"]=(0);
@@ -48621,7 +48627,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 (
 $ctx1.supercall = true,
-($globals.TestSuiteRunner.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.TestSuiteRunner.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 self["@announcer"]=$recv($globals.Announcer)._new();
 $ctx1.sendIdx["new"]=1;
@@ -48747,7 +48753,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 $1=(
 $ctx1.supercall = true,
-($globals.TestSuiteRunner.klass.superclass||$boot.dnu).fn.prototype._new.apply($recv(self), []));
+($globals.TestSuiteRunner.klass.superclass||$boot.nilAsClass).fn.prototype._new.apply($recv(self), []));
 $ctx1.supercall = false;
 return $recv($1)._suite_(aCollection);
 }, function($ctx1) {$ctx1.fill(self,"on:",{aCollection:aCollection},$globals.TestSuiteRunner.klass)});
@@ -52875,7 +52881,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.CollectionTest.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.CollectionTest.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 self["@sampleBlock"]=(function(){
 
@@ -54570,7 +54576,7 @@ return $core.withContext(function($ctx1) {
 var $2,$3,$4,$1,$5,$7,$8,$9,$6,$10,$12,$11;
 (
 $ctx1.supercall = true,
-($globals.AssociativeCollectionTest.superclass||$boot.dnu).fn.prototype._testAddAll.apply($recv(self), []));
+($globals.AssociativeCollectionTest.superclass||$boot.nilAsClass).fn.prototype._testAddAll.apply($recv(self), []));
 $ctx1.supercall = false;
 $2=self._collection();
 $ctx1.sendIdx["collection"]=1;
@@ -54659,7 +54665,7 @@ return $core.withContext(function($ctx1) {
 var $2,$3,$1,$4,$6,$7,$5,$8,$10,$9;
 (
 $ctx1.supercall = true,
-($globals.AssociativeCollectionTest.superclass||$boot.dnu).fn.prototype._testComma.apply($recv(self), []));
+($globals.AssociativeCollectionTest.superclass||$boot.nilAsClass).fn.prototype._testComma.apply($recv(self), []));
 $ctx1.supercall = false;
 $2=self._collection();
 $ctx1.sendIdx["collection"]=1;
@@ -55154,7 +55160,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.DictionaryTest.superclass||$boot.dnu).fn.prototype._samplesDo_.apply($recv(self), [aBlock]));
+($globals.DictionaryTest.superclass||$boot.nilAsClass).fn.prototype._samplesDo_.apply($recv(self), [aBlock]));
 $ctx1.supercall = false;
 $recv(aBlock)._value_value_(true,(3));
 $ctx1.sendIdx["value:value:"]=1;
@@ -56063,7 +56069,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.ArrayTest.superclass||$boot.dnu).fn.prototype._samplesDo_.apply($recv(self), [aBlock]));
+($globals.ArrayTest.superclass||$boot.nilAsClass).fn.prototype._samplesDo_.apply($recv(self), [aBlock]));
 $ctx1.supercall = false;
 $recv(aBlock)._value_value_((3),(3));
 return self;
@@ -56505,7 +56511,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.StringTest.superclass||$boot.dnu).fn.prototype._samplesDo_.apply($recv(self), [aBlock]));
+($globals.StringTest.superclass||$boot.nilAsClass).fn.prototype._samplesDo_.apply($recv(self), [aBlock]));
 $ctx1.supercall = false;
 $recv(aBlock)._value_value_((3),"l");
 return self;
@@ -57305,7 +57311,7 @@ return $core.withContext(function($ctx1) {
 var $2,$3,$4,$1,$5,$7,$8,$9,$6,$10,$12,$11;
 (
 $ctx1.supercall = true,
-($globals.SetTest.superclass||$boot.dnu).fn.prototype._testAddAll.apply($recv(self), []));
+($globals.SetTest.superclass||$boot.nilAsClass).fn.prototype._testAddAll.apply($recv(self), []));
 $ctx1.supercall = false;
 $2=self._collection();
 $ctx1.sendIdx["collection"]=1;
@@ -57414,7 +57420,7 @@ return $core.withContext(function($ctx1) {
 var $2,$1;
 (
 $ctx1.supercall = true,
-($globals.SetTest.superclass||$boot.dnu).fn.prototype._testCollect.apply($recv(self), []));
+($globals.SetTest.superclass||$boot.nilAsClass).fn.prototype._testCollect.apply($recv(self), []));
 $ctx1.supercall = false;
 $2=[(5), (6), (8)]._asSet();
 $ctx1.sendIdx["asSet"]=1;
@@ -57444,7 +57450,7 @@ return $core.withContext(function($ctx1) {
 var $2,$3,$1,$4,$6,$7,$5,$8,$10,$9;
 (
 $ctx1.supercall = true,
-($globals.SetTest.superclass||$boot.dnu).fn.prototype._testComma.apply($recv(self), []));
+($globals.SetTest.superclass||$boot.nilAsClass).fn.prototype._testComma.apply($recv(self), []));
 $ctx1.supercall = false;
 $2=self._collection();
 $ctx1.sendIdx["collection"]=1;
@@ -62368,7 +62374,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.BaseFileManipulator.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.BaseFileManipulator.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 self["@path"]=$recv(require)._value_("path");
 $ctx1.sendIdx["value:"]=1;
@@ -62412,7 +62418,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.Configurator.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.Configurator.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Configurator)});
@@ -62789,7 +62795,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 (
 $ctx1.supercall = true,
-($globals.FileServer.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.FileServer.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 self["@http"]=self._require_("http");
 $ctx1.sendIdx["require:"]=1;
@@ -63800,7 +63806,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.Initer.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.Initer.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 self["@childProcess"]=$recv(require)._value_("child_process");
 self["@nmPath"]=$recv(self["@path"])._join_with_(self._rootDirname(),"node_modules");
@@ -64245,7 +64251,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 (
 $ctx1.supercall = true,
-($globals.Repl.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+($globals.Repl.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 $ctx1.supercall = false;
 self["@session"]=$recv($globals.DoIt)._new();
 self["@readline"]=$recv(require)._value_("readline");
@@ -64681,6 +64687,505 @@ $globals.Repl.klass);
                                 });
                             });
                         }());
+//jshint eqnull:true
+
+define('amber/kernel-runtime',[],function () {
+    "use strict";
+
+    DNUBrik.deps = ["selectors", "messageSend", "manipulation", "root"];
+    function DNUBrik(brikz, st) {
+        var selectorsBrik = brikz.selectors;
+        var messageNotUnderstood = brikz.messageSend.messageNotUnderstood;
+        var installJSMethod = brikz.manipulation.installJSMethod;
+        var nilAsClass = brikz.root.nilAsClass;
+
+        /* Method not implemented handlers */
+
+        function makeDnuHandler(pair, targetClasses) {
+            var jsSelector = pair.js;
+            var fn = createHandler(pair.st);
+            installJSMethod(nilAsClass.fn.prototype, jsSelector, fn);
+            targetClasses.forEach(function (target) {
+                installJSMethod(target.fn.prototype, jsSelector, fn);
+            });
+        }
+
+        this.makeDnuHandler = makeDnuHandler;
+
+        /* Dnu handler method */
+
+        function createHandler(stSelector) {
+            return function () {
+                return messageNotUnderstood(this, stSelector, arguments);
+            };
+        }
+
+        selectorsBrik.selectorPairs.forEach(function (pair) {
+            makeDnuHandler(pair, []);
+        });
+    }
+
+    function ManipulationBrik(brikz, st) {
+        function installJSMethod(obj, jsSelector, fn) {
+            Object.defineProperty(obj, jsSelector, {
+                value: fn,
+                enumerable: false, configurable: true, writable: true
+            });
+        }
+
+        function installMethod(method, klass) {
+            installJSMethod(klass.fn.prototype, method.jsSelector, method.fn);
+        }
+
+        this.installMethod = installMethod;
+        this.installJSMethod = installJSMethod;
+    }
+
+    RuntimeClassesBrik.deps = ["selectors", "dnu", "classes", "manipulation"];
+    function RuntimeClassesBrik(brikz, st) {
+        var selectors = brikz.selectors;
+        var classes = brikz.classes.classes;
+        var wireKlass = brikz.classes.wireKlass;
+        var installMethod = brikz.manipulation.installMethod;
+        var installJSMethod = brikz.manipulation.installJSMethod;
+
+        /* Initialize a class in its class hierarchy. Handle both classes and
+         metaclasses. */
+
+        var detachedRootClasses = [];
+
+        function markClassDetachedRoot(klass) {
+            detachedRootClasses.addElement(klass);
+            klass.detachedRoot = true;
+        }
+
+        this.detachedRootClasses = function () {
+            return detachedRootClasses;
+        };
+
+        function initClassAndMetaclass(klass) {
+            initClass(klass);
+            if (klass.klass && !klass.meta) {
+                initClass(klass.klass);
+            }
+        }
+
+        classes().forEach(initClassAndMetaclass);
+
+        st._classAdded = initClassAndMetaclass;
+
+        function initClass(klass) {
+            wireKlass(klass);
+            if (klass.detachedRoot) {
+                copySuperclass(klass);
+            }
+            installMethods(klass);
+        }
+
+        function copySuperclass(klass) {
+            var myproto = klass.fn.prototype,
+                superproto = klass.superclass.fn.prototype;
+            selectors.selectorPairs.forEach(function (selectorPair) {
+                var jsSelector = selectorPair.js;
+                installJSMethod(myproto, jsSelector, superproto[jsSelector]);
+            });
+        }
+
+        function installMethods(klass) {
+            var methods = klass.methods;
+            Object.keys(methods).forEach(function (selector) {
+                installMethod(methods[selector], klass);
+            });
+        }
+
+        /* Manually set the constructor of an existing Smalltalk klass, making it a detached root class. */
+
+        st.setClassConstructor = this.setClassConstructor = function (klass, constructor) {
+            markClassDetachedRoot(klass);
+            klass.fn = constructor;
+            initClass(klass);
+        };
+    }
+
+    FrameBindingBrik.deps=["globals", "runtimeClasses"];
+    function FrameBindingBrik(brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+        var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
+
+        setClassConstructor(globals.Number, Number);
+        setClassConstructor(globals.BlockClosure, Function);
+        setClassConstructor(globals.Boolean, Boolean);
+        setClassConstructor(globals.Date, Date);
+        setClassConstructor(globals.String, String);
+        setClassConstructor(globals.Array, Array);
+        setClassConstructor(globals.RegularExpression, RegExp);
+        setClassConstructor(globals.Error, Error);
+        setClassConstructor(globals.Promise, Promise);
+    }
+
+    RuntimeMethodsBrik.deps = ["manipulation", "dnu", "runtimeClasses"];
+    function RuntimeMethodsBrik(brikz, st) {
+        var installMethod = brikz.manipulation.installMethod;
+        var installJSMethod = brikz.manipulation.installJSMethod;
+        var makeDnuHandler = brikz.dnu.makeDnuHandler;
+        var detachedRootClasses = brikz.runtimeClasses.detachedRootClasses;
+
+        st._methodAdded = function (method, klass) {
+            installMethod(method, klass);
+            propagateMethodChange(klass, method, klass);
+        };
+
+        st._selectorsAdded = function (newSelectors) {
+            var targetClasses = detachedRootClasses();
+            newSelectors.forEach(function (pair) {
+                makeDnuHandler(pair, targetClasses);
+            });
+        };
+
+        st._methodRemoved = function (method, klass) {
+            delete klass.fn.prototype[method.jsSelector];
+            propagateMethodChange(klass, method, null);
+        };
+
+        function propagateMethodChange(klass, method, exclude) {
+            var selector = method.selector;
+            var jsSelector = method.jsSelector;
+            st.traverseClassTree(klass, function (subclass) {
+                if (subclass != exclude) {
+                    initMethodInClass(subclass, selector, jsSelector);
+                }
+            });
+        }
+
+        function initMethodInClass(klass, selector, jsSelector) {
+            if (klass.detachedRoot && !klass.methods[selector]) {
+                installJSMethod(klass.fn.prototype, jsSelector, klass.superclass.fn.prototype[jsSelector]);
+            }
+        }
+    }
+
+    PrimitivesBrik.deps = ["smalltalkGlobals"];
+    function PrimitivesBrik(brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+
+
+        var oid = 0;
+        /* Unique ID number generator */
+        st.nextId = function () {
+            oid += 1;
+            return oid;
+        };
+
+        /* Converts a JavaScript object to valid Smalltalk Object */
+        st.readJSObject = function (js) {
+            if (js == null)
+                return null;
+            var readObject = js.constructor === Object;
+            var readArray = js.constructor === Array;
+            var object = readObject ? globals.Dictionary._new() : readArray ? [] : js;
+
+            for (var i in js) {
+                if (readObject) {
+                    object._at_put_(i, st.readJSObject(js[i]));
+                }
+                if (readArray) {
+                    object[i] = st.readJSObject(js[i]);
+                }
+            }
+            return object;
+        };
+
+        /* Boolean assertion */
+        st.assert = function (shouldBeBoolean) {
+            if (typeof shouldBeBoolean === "boolean") return shouldBeBoolean;
+            else if (shouldBeBoolean != null && typeof shouldBeBoolean === "object") {
+                shouldBeBoolean = shouldBeBoolean.valueOf();
+                if (typeof shouldBeBoolean === "boolean") return shouldBeBoolean;
+            }
+            globals.NonBooleanReceiver._new()._object_(shouldBeBoolean)._signal();
+        };
+
+        /* List of all reserved words in JavaScript. They may not be used as variables
+         in Smalltalk. */
+
+        // list of reserved JavaScript keywords as of
+        //   http://es5.github.com/#x7.6.1.1
+        // and
+        //   http://people.mozilla.org/~jorendorff/es6-draft.html#sec-7.6.1
+        st.reservedWords = ['break', 'case', 'catch', 'continue', 'debugger',
+            'default', 'delete', 'do', 'else', 'finally', 'for', 'function',
+            'if', 'in', 'instanceof', 'new', 'return', 'switch', 'this', 'throw',
+            'try', 'typeof', 'var', 'void', 'while', 'with',
+            // Amber protected words: these should not be compiled as-is when in code
+            'arguments',
+            // ES5: future use: http://es5.github.com/#x7.6.1.2
+            'class', 'const', 'enum', 'export', 'extends', 'import', 'super',
+            // ES5: future use in strict mode
+            'implements', 'interface', 'let', 'package', 'private', 'protected',
+            'public', 'static', 'yield'];
+
+        st.globalJsVariables = ['window', 'document', 'process', 'global'];
+    }
+
+    RuntimeBrik.deps = ["selectorConversion", "smalltalkGlobals", "runtimeClasses"];
+    function RuntimeBrik(brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+        var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
+
+        function SmalltalkMethodContext(home, setup) {
+            this.sendIdx = {};
+            this.homeContext = home;
+            this.setup = setup || function () {
+                };
+
+            this.supercall = false;
+        }
+
+        // Fallbacks
+        SmalltalkMethodContext.prototype.locals = {};
+        SmalltalkMethodContext.prototype.receiver = null;
+        SmalltalkMethodContext.prototype.selector = null;
+        SmalltalkMethodContext.prototype.lookupClass = null;
+
+        SmalltalkMethodContext.prototype.fill = function (receiver, selector, locals, lookupClass) {
+            this.receiver = receiver;
+            this.selector = selector;
+            this.locals = locals || {};
+            this.lookupClass = lookupClass;
+            if (this.homeContext) {
+                this.homeContext.evaluatedSelector = selector;
+            }
+        };
+
+        SmalltalkMethodContext.prototype.fillBlock = function (locals, ctx, index) {
+            this.locals = locals || {};
+            this.outerContext = ctx;
+            this.index = index || 0;
+        };
+
+        SmalltalkMethodContext.prototype.init = function () {
+            var home = this.homeContext;
+            if (home) {
+                home.init();
+            }
+
+            this.setup(this);
+        };
+
+        SmalltalkMethodContext.prototype.method = function () {
+            var method;
+            var lookup = this.lookupClass || this.receiver.klass;
+            while (!method && lookup) {
+                method = lookup.methods[st.js2st(this.selector)];
+                lookup = lookup.superclass;
+            }
+            return method;
+        };
+
+        setClassConstructor(globals.MethodContext, SmalltalkMethodContext);
+
+        /* This is the current call context object. While it is publicly available,
+         Use smalltalk.getThisContext() instead which will answer a safe copy of
+         the current context */
+
+        var thisContext = null;
+
+        st.withContext = function (worker, setup) {
+            if (thisContext) {
+                return inContext(worker, setup);
+            } else {
+                return inContextWithErrorHandling(worker, setup);
+            }
+        };
+
+        /*
+           Runs worker function so that error handler is not set up
+           if there isn't one. This is accomplished by unconditional
+           wrapping inside a context of a simulated `nil seamlessDoIt` call,
+           which then stops error handler setup (see st.withContext above).
+           The effect is, $core.seamless(fn)'s exceptions are not
+           handed into ST error handler and caller should process them.
+         */
+        st.seamless = function (worker) {
+            return inContext(worker, function (ctx) {
+                ctx.fill(null, "seamlessDoIt", {}, globals.UndefinedObject);
+            });
+        };
+
+        function inContextWithErrorHandling(worker, setup) {
+            try {
+                return inContext(worker, setup);
+            } catch (error) {
+                handleError(error);
+                thisContext = null;
+                // Rethrow the error in any case.
+                error.amberHandled = true;
+                throw error;
+            }
+        }
+
+        function inContext(worker, setup) {
+            var oldContext = thisContext;
+            thisContext = new SmalltalkMethodContext(thisContext, setup);
+            var result = worker(thisContext);
+            thisContext = oldContext;
+            return result;
+        }
+
+        /* Wrap a JavaScript exception in a Smalltalk Exception.
+
+         In case of a RangeError, stub the stack after 100 contexts to
+         avoid another RangeError later when the stack is manipulated. */
+        function wrappedError(error) {
+            var errorWrapper = globals.JavaScriptException._on_(error);
+            // Add the error to the context, so it is visible in the stack
+            try {
+                errorWrapper._signal();
+            } catch (ex) {
+            }
+            var context = st.getThisContext();
+            if (isRangeError(error)) {
+                stubContextStack(context);
+            }
+            errorWrapper._context_(context);
+            return errorWrapper;
+        }
+
+        /* Stub the context stack after 100 contexts */
+        function stubContextStack(context) {
+            var currentContext = context;
+            var contexts = 0;
+            while (contexts < 100) {
+                if (currentContext) {
+                    currentContext = currentContext.homeContext;
+                }
+                contexts++;
+            }
+            if (currentContext) {
+                currentContext.homeContext = undefined;
+            }
+        }
+
+        function isRangeError(error) {
+            return error instanceof RangeError;
+        }
+
+
+        /* Handles Smalltalk errors. Triggers the registered ErrorHandler
+         (See the Smalltalk class ErrorHandler and its subclasses */
+
+        function handleError(error) {
+            if (!error.smalltalkError) {
+                error = wrappedError(error);
+            }
+            globals.ErrorHandler._handleError_(error);
+        }
+
+        /* Handle thisContext pseudo variable */
+
+        st.getThisContext = function () {
+            if (thisContext) {
+                thisContext.init();
+                return thisContext;
+            } else {
+                return null;
+            }
+        };
+    }
+
+    MessageSendBrik.deps = ["smalltalkGlobals", "selectorConversion", "root"];
+    function MessageSendBrik(brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+        var nil = brikz.root.nil;
+
+        /* Handles unhandled errors during message sends */
+        // simply send the message and handle #dnu:
+
+        st.send2 = function (receiver, selector, args, klass) {
+            var method, jsSelector = st.st2js(selector);
+            if (receiver == null) {
+                receiver = nil;
+            }
+            method = klass ? klass.fn.prototype[jsSelector] : receiver.klass && receiver[jsSelector];
+            if (method) {
+                return method.apply(receiver, args || []);
+            } else {
+                return messageNotUnderstood(receiver, selector, args);
+            }
+        };
+
+        function invokeDnuMethod(receiver, stSelector, args) {
+            return receiver._doesNotUnderstand_(
+                globals.Message._new()
+                    ._selector_(stSelector)
+                    ._arguments_([].slice.call(args))
+            );
+        }
+
+        /* Handles #dnu: *and* JavaScript method calls.
+         if the receiver has no klass, we consider it a JS object (outside of the
+         Amber system). Else assume that the receiver understands #doesNotUnderstand: */
+        function messageNotUnderstood(receiver, stSelector, args) {
+            if (receiver.klass != null && !receiver.allowJavaScriptCalls) {
+                return invokeDnuMethod(receiver, stSelector, args);
+            }
+            /* Call a method of a JS object, or answer a property if it exists.
+             Else try wrapping a JSObjectProxy around the receiver. */
+            var propertyName = st.st2prop(stSelector);
+            if (!(propertyName in receiver)) {
+                return invokeDnuMethod(globals.JSObjectProxy._on_(receiver), stSelector, args);
+            }
+            return accessJavaScript(receiver, propertyName, args);
+        }
+
+        /* If the object property is a function, then call it, except if it starts with
+         an uppercase character (we probably want to answer the function itself in this
+         case and send it #new from Amber).
+
+         Converts keyword-based selectors by using the first
+         keyword only, but keeping all message arguments.
+
+         Example:
+         "self do: aBlock with: anObject" -> "self.do(aBlock, anObject)" */
+        function accessJavaScript(receiver, propertyName, args) {
+            var propertyValue = receiver[propertyName];
+            if (typeof propertyValue === "function" && !/^[A-Z]/.test(propertyName)) {
+                return propertyValue.apply(receiver, args || []);
+            } else if (args.length > 0) {
+                receiver[propertyName] = args[0];
+                return receiver;
+            } else {
+                return propertyValue;
+            }
+        }
+
+        st.accessJavaScript = accessJavaScript;
+        this.messageNotUnderstood = messageNotUnderstood;
+    }
+
+    /* Making smalltalk that can run */
+
+    function configureWithRuntime(brikz) {
+        brikz.dnu = DNUBrik;
+        brikz.manipulation = ManipulationBrik;
+        brikz.runtimeClasses = RuntimeClassesBrik;
+        brikz.frameBinding = FrameBindingBrik;
+        brikz.runtimeMethods = RuntimeMethodsBrik;
+        brikz.messageSend = MessageSendBrik;
+        brikz.runtime = RuntimeBrik;
+        brikz.primitives = PrimitivesBrik;
+
+        brikz.rebuild();
+    }
+
+    return configureWithRuntime;
+});
+
+// Depend on each module that is loaded lazily.
+// Add to packager tasks as dependency,
+// so the lazy-loaded modules are included.
+define('amber/lazypack',['./kernel-runtime'], {});
+
 
 require(["app"]);
 });
