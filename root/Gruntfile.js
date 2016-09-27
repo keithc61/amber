@@ -59,7 +59,7 @@ module.exports = function (grunt) {
                         excludeIdeData: true,
                         excludeDebugContexts: true
                     },
-                    include: ['config', 'config-browser', 'node_modules/requirejs/require', 'app'],
+                    include: ['config', 'config-browser', 'node_modules/requirejs/require', 'app', 'amber/lazypack'],
                     optimize: "uglify2",
                     out: "the.js"
                 }
@@ -93,7 +93,7 @@ module.exports = function (grunt) {
                     pragmas: {
                         excludeIdeData: true
                     },
-                    include: ['config-node', 'app'],
+                    include: ['config-node', 'app', 'amber/lazypack'],
                     insertRequire: ['app'],
                     optimize: "none",
                     wrap: helpers.nodeWrapperWithShebang,
