@@ -1,7 +1,7 @@
-"use strict";
-
 define([], function () {
     return function Brikz(api, apiKey, initKey) {
+        "use strict";
+
         //jshint eqnull:true
 
         var brikz = this,

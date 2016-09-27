@@ -1,8 +1,8 @@
-"use strict";
-
 //jshint eqnull:true
 
 define(function () {
+    "use strict";
+
     DNUBrik.deps = ["selectors", "messageSend", "manipulation", "root"];
     function DNUBrik(brikz, st) {
         var selectorsBrik = brikz.selectors;

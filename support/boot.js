@@ -1,5 +1,3 @@
-"use strict";
-
 /* ====================================================================
  |
  |   Amber Smalltalk
@@ -42,6 +40,7 @@
 //jshint eqnull:true
 
 define(['require', './brikz', './compatibility'], function (require, Brikz) {
+    "use strict";
 
     function inherits(child, parent) {
         child.prototype = Object.create(parent.prototype, {
