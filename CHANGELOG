@@ -1,3 +1,15 @@
+27 September 2016 - Release 0.16.1
+===================================
+
+* Fix node builds (lazy loaded kernel-runtime wasn't packaged).
+* amber-dev upgrade (to fix UMDs checking for module before define).
+* Kernel files use 'use strict'.
+
+Breaks fw compat (uses $boot.nilAsClass in supersends).
+
+Commits: https://lolg.it/amber/amber/commits/0.16.1.
+
+
 25 September 2016 - Release 0.16.0
 ===================================
 
@@ -13,6 +25,8 @@
 * amber-dev upgrade (to honour initialize returning a Promise).
 * Edits relating to lolg.it move.
 * Fixes.
+
+May break bw compat for kernel API using code.
 
 Commits: https://lolg.it/amber/amber/commits/0.16.0.
 
@@ -39,6 +53,8 @@ Commits: https://github.com/amber-smalltalk/amber/compare/0.14.18...0.15.1.
 Maintenance release.
 Cleaning the code in compiler and parser.
 Some bug fixes (in compiler/interpreter as well as in other places).
+
+Breaks fw compat (uses $boot.dnu in supercall).
 
 Commits: https://github.com/amber-smalltalk/amber/compare/0.14.17...0.14.18
 
