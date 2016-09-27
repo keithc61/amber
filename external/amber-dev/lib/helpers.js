@@ -2,6 +2,7 @@ function nodeWrapper() {
     return {
         start: "(function(define, require){\n" +
         "define('__wrap__', function (requirejs) {\n" +
+        "var module = null; // Bad UMDs workaround\n" +
         "requirejs.resolve = require.resolve;\n" +
         "require = requirejs;\n",
         end: "});\n" +
