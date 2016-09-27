@@ -85,7 +85,7 @@ module.exports = function (grunt) {
                     pragmas: {
                         // none, for repl to have all info
                     },
-                    include: ['config-node', 'app'],
+                    include: ['config-node', 'app', 'amber/lazypack'],
                     insertRequire: ['app'],
                     optimize: "none",
                     wrap: helpers.nodeWrapperWithShebang,
@@ -108,7 +108,7 @@ module.exports = function (grunt) {
                     pragmas: {
                         // none, amber tests test contexts as well as eg. class copying which needs sources
                     },
-                    include: ['config-node', 'app'],
+                    include: ['config-node', 'app', 'amber/lazypack'],
                     insertRequire: ['app'],
                     optimize: "none",
                     wrap: helpers.nodeWrapperWithShebang,
