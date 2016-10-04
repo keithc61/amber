@@ -425,11 +425,7 @@ exportPackagePrologueOf: aPackage on: aStream
 		pragmaStart := String lf, '//>>excludeStart("imports", pragmas.excludeImports);', String lf.
 		pragmaEnd := String lf, '//>>excludeEnd("imports");', String lf ].
 	aStream
-		nextPutAll: 'define("';
-		nextPutAll: (self amdNamespaceOfPackage: aPackage);
-		nextPutAll: '/'; 
-		nextPutAll: aPackage name;
-		nextPutAll: '", ';
+		nextPutAll: 'define(';
 		nextPutAll: (((
 			(#('amber/boot' ':1:'), importsForOutput value, #(':2:'), loadDependencies asArray sorted) asJavascript)
 			replace: ',\s*["'']:1:["'']' with: pragmaStart) replace: ',\s*["'']:2:["'']' with: pragmaEnd);
