@@ -283,45 +283,6 @@ registerTranscript: aTranscript
 	Transcript register: aTranscript
 ! !
 
-Object subclass: #InterfacingObject
-	instanceVariableNames: ''
-	package: 'Platform-Services'!
-!InterfacingObject commentStamp!
-I am superclass of all object that interface with user or environment. `Widget` and a few other classes are subclasses of me. I delegate all of the above APIs to `PlatformInterface`.
-
-## API
-
-    self alert: 'Hey, there is a problem'.
-    self confirm: 'Affirmative?'.
-    self prompt: 'Your name:'.
-
-    self ajax: #{
-        'url' -> '/patch.js'. 'type' -> 'GET'. dataType->'script'
-    }.!
-
-!InterfacingObject methodsFor: 'actions'!
-
-ajax: anObject
-	self deprecatedAPI.
-	^ PlatformInterface ajax: anObject
-!
-
-alert: aString
-	^ Terminal alert: aString
-!
-
-confirm: aString
-	^ Terminal confirm: aString
-!
-
-prompt: aString
-	^ Terminal prompt: aString
-!
-
-prompt: aString default: defaultString
-	^ Terminal prompt: aString default: defaultString
-! !
-
 Object subclass: #NullProgressHandler
 	instanceVariableNames: ''
 	package: 'Platform-Services'!
