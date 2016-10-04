@@ -1,3 +1,8 @@
+0.17.0:
+
+* Remove class InterfacingObject.
+
+
 0.16.1:
 
 * Deprecate $boot.dnu (use $boot.nilAsClass).
