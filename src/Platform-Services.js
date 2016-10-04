@@ -720,7 +720,7 @@ return self._evaluate_for_(aString,$recv($globals.DoIt)._new());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._alert_($recv(error)._messageText());
+return $recv($globals.Terminal)._alert_($recv(error)._messageText());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,2)});
 //>>excludeEnd("ctx");
@@ -732,8 +732,8 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "compileClassDefinition: aString\x0a\x09[ self evaluate: aString for: DoIt new ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :error | self alert: error messageText ]",
-referencedClasses: ["DoIt", "Error"],
+source: "compileClassDefinition: aString\x0a\x09[ self evaluate: aString for: DoIt new ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :error | Terminal alert: error messageText ]",
+referencedClasses: ["DoIt", "Error", "Terminal"],
 //>>excludeEnd("ide");
 messageSends: ["on:do:", "evaluate:for:", "new", "alert:", "messageText"]
 }),

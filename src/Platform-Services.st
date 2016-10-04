@@ -274,7 +274,7 @@ compileClassComment: aString for: aClass
 compileClassDefinition: aString
 	[ self evaluate: aString for: DoIt new ]
 		on: Error
-		do: [ :error | self alert: error messageText ]
+		do: [ :error | Terminal alert: error messageText ]
 !
 
 compileMethod: sourceCode for: class protocol: protocol

@@ -267,7 +267,7 @@ evaluate: aString context: aContext
 	compiler := Compiler new.
 	[ ast := compiler parseExpression: aString ] 
 		on: Error 
-		do: [ :ex | ^ self alert: ex messageText ].
+		do: [ :ex | ^ Terminal alert: ex messageText ].
 		
 	(AISemanticAnalyzer on: aContext receiver class)
 		context: aContext;
@@ -286,7 +286,7 @@ evaluate: aString receiver: anObject
 	compiler := Compiler new.
 	[ compiler parseExpression: aString ] 
 		on: Error 
-		do: [ :ex | ^ self alert: ex messageText ].
+		do: [ :ex | ^ Terminal alert: ex messageText ].
 
 	^ compiler evaluateExpression: aString on: anObject
 ! !
