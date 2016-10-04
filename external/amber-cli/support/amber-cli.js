@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 (function(define, require){
 define('__wrap__', function (requirejs) {
-var module = null; // Bad UMDs workaround
+var module = void 0; // Bad UMDs workaround
 requirejs.resolve = require.resolve;
 require = requirejs;
 // This file is used to make additional changes
@@ -21941,11 +21941,11 @@ selector: "version",
 protocol: 'accessing',
 fn: function (){
 var self=this;
-return "0.16.1";
+return "0.17.0-pre";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.16.1'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.17.0-pre'",
 referencedClasses: [],
 messageSends: []
 }),
