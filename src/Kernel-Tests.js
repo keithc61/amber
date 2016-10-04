@@ -1,4 +1,4 @@
-define("amber_core/Kernel-Tests", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/SUnit"], function($boot){"use strict";
+define(["amber/boot", "amber_core/Kernel-Objects", "amber_core/SUnit"], function($boot){"use strict";
 var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage('Kernel-Tests');
 $core.packages["Kernel-Tests"].innerEval = function (expr) { return eval(expr); };
