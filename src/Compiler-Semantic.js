@@ -1,4 +1,4 @@
-define("amber_core/Compiler-Semantic", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Compiler-AST", "amber_core/Compiler-Core"], function($boot){"use strict";
+define("amber_core/Compiler-Semantic", ["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Core", "amber_core/Kernel-Objects"], function($boot){"use strict";
 var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage('Compiler-Semantic');
 $core.packages["Compiler-Semantic"].innerEval = function (expr) { return eval(expr); };

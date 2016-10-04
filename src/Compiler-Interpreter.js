@@ -1,4 +1,4 @@
-define("amber_core/Compiler-Interpreter", ["amber/boot", "amber_core/Kernel-Methods", "amber_core/Compiler-Semantic", "amber_core/Kernel-Objects", "amber_core/Compiler-AST", "amber_core/Kernel-Exceptions"], function($boot){"use strict";
+define("amber_core/Compiler-Interpreter", ["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Semantic", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
 var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage('Compiler-Interpreter');
 $core.packages["Compiler-Interpreter"].innerEval = function (expr) { return eval(expr); };
