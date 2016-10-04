@@ -431,7 +431,7 @@ exportPackagePrologueOf: aPackage on: aStream
 		nextPutAll: aPackage name;
 		nextPutAll: '", ';
 		nextPutAll: (((
-			(#('amber/boot' ':1:'), importsForOutput value, #(':2:'), loadDependencies) asJavascript)
+			(#('amber/boot' ':1:'), importsForOutput value, #(':2:'), loadDependencies asArray sorted) asJavascript)
 			replace: ',\s*["'']:1:["'']' with: pragmaStart) replace: ',\s*["'']:2:["'']' with: pragmaEnd);
 		nextPutAll: ', function(';
 		nextPutAll: (((
