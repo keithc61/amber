@@ -2,6 +2,12 @@
 
 * Remove classes InterfacingObject, PlatformInterface.
 
+- NativeFunction class >>
+  - constructor:
+  - constructor:value:
+  - constructor:value:value:
+  - constructor:value:value:value:
+
 
 0.16.1:
 

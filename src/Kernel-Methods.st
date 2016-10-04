@@ -766,38 +766,6 @@ functionOf: nativeFunc valueWithArgs: args
 
 !NativeFunction class methodsFor: 'instance creation'!
 
-constructor: aString
-	<
-		self._deprecatedAPI_("Use constructorNamed:");
-		var nativeFunc=eval(aString);
-		return new nativeFunc();
-	>
-!
-
-constructor: aString value:anObject
-	<
-		self._deprecatedAPI_("Use constructorNamed:value:");
-		var nativeFunc=eval(aString);
-		return new nativeFunc(anObject);
-	>
-!
-
-constructor: aString value:anObject value: anObject2
-	<
-		self._deprecatedAPI_("Use constructorNamed:value:value:");
-		var nativeFunc=eval(aString);
-		return new nativeFunc(anObject,anObject2);
-	>
-!
-
-constructor: aString value:anObject value: anObject2 value:anObject3
-	<
-		self._deprecatedAPI_("Use constructorNamed:value:value:value");
-		var nativeFunc=eval(aString);
-		return new nativeFunc(anObject,anObject2, anObject3);
-	>
-!
-
 constructorNamed: aString
 	<
 		var nativeFunc=(new Function('return this'))()[aString];
