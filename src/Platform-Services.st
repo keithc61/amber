@@ -303,61 +303,6 @@ initialize
 	ProgressHandler registerIfNone: self new
 ! !
 
-Object subclass: #PlatformInterface
-	instanceVariableNames: ''
-	package: 'Platform-Services'!
-!PlatformInterface commentStamp!
-Deprecated. Use `Platform` or `Terminal`.!
-
-!PlatformInterface class methodsFor: 'accessing'!
-
-globals
-	self deprecatedAPI: 'Use Platform globals'.
-	^ Platform globals
-! !
-
-!PlatformInterface class methodsFor: 'actions'!
-
-ajax: anObject
-	self deprecatedAPI: 'Use Platform newXhr or dedicated library.'.
-	^ JQuery
-		ifNotNil: [ JQuery current ajax: anObject ]
-		ifNil: [ self error: 'JQuery wrapper not loaded, cannot do AJAX.' ]
-!
-
-alert: aString
-	self deprecatedAPI: 'Use Terminal alert:'.
-	^ Terminal alert: aString
-!
-
-confirm: aString
-	self deprecatedAPI: 'Use Terminal confirm:'.
-	^ Terminal confirm: aString
-!
-
-existsGlobal: aString
-	self deprecatedAPI: 'Use Smalltalk existsJsGlobal:'.
-	^ PlatformInterface globals 
-		at: aString 
-		ifPresent: [ true ] 
-		ifAbsent: [ false ]
-!
-
-newXhr
-	self deprecatedAPI: 'Use Platform newXhr'.
-	^ Platform newXhr
-!
-
-prompt: aString
-	self deprecatedAPI: 'Use Terminal prompt:'.
-	^ Terminal prompt: aString
-!
-
-prompt: aString default: defaultString
-	self deprecatedAPI: 'Use Terminal prompt:default:'.
-	^ Terminal prompt: aString default: defaultString
-! !
-
 Object subclass: #Service
 	instanceVariableNames: ''
 	package: 'Platform-Services'!

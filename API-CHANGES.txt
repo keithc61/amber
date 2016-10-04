@@ -1,6 +1,6 @@
 0.17.0:
 
-* Remove class InterfacingObject.
+* Remove classes InterfacingObject, PlatformInterface.
 
 
 0.16.1:
