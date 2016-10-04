@@ -1,4 +1,4 @@
-define("amber_core/Compiler-Core", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Kernel-Exceptions", "amber_core/Platform-Services", "amber_core/Kernel-Collections"], function($boot){"use strict";
+define("amber_core/Compiler-Core", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Collections"], function($boot){"use strict";
 var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage('Compiler-Core');
 $core.packages["Compiler-Core"].innerEval = function (expr) { return eval(expr); };
@@ -939,7 +939,7 @@ $globals.DoIt.comment="`DoIt` is the class used to compile and evaluate expressi
 //>>excludeEnd("ide");
 
 
-$core.addClass('Evaluator', $globals.InterfacingObject, [], 'Compiler-Core');
+$core.addClass('Evaluator', $globals.Object, [], 'Compiler-Core');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Evaluator.comment="I evaluate code against a receiver, dispatching #evaluate:on: to the receiver.";
 //>>excludeEnd("ide");

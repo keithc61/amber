@@ -688,7 +688,7 @@ Error subclass: #PackageCommitError
 !PackageCommitError commentStamp!
 I get signaled when an attempt to commit a package has failed.!
 
-InterfacingObject subclass: #PackageHandler
+Object subclass: #PackageHandler
 	instanceVariableNames: ''
 	package: 'Platform-ImportExport'!
 !PackageHandler commentStamp!

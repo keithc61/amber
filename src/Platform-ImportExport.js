@@ -1,4 +1,4 @@
-define("amber_core/Platform-ImportExport", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Kernel-Exceptions", "amber_core/Platform-Services", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Classes"], function($boot){"use strict";
+define("amber_core/Platform-ImportExport", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Classes"], function($boot){"use strict";
 var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage('Platform-ImportExport');
 $core.packages["Platform-ImportExport"].innerEval = function (expr) { return eval(expr); };
@@ -2746,7 +2746,7 @@ $globals.PackageCommitError.comment="I get signaled when an attempt to commit a 
 //>>excludeEnd("ide");
 
 
-$core.addClass('PackageHandler', $globals.InterfacingObject, [], 'Platform-ImportExport');
+$core.addClass('PackageHandler', $globals.Object, [], 'Platform-ImportExport');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageHandler.comment="I am responsible for handling package loading and committing.\x0a\x0aI should not be used directly. Instead, use the corresponding `Package` methods.";
 //>>excludeEnd("ide");

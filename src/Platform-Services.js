@@ -1,4 +1,4 @@
-define("amber_core/Platform-Services", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Kernel-Methods", "amber_core/Kernel-Collections", "amber_core/Kernel-Infrastructure"], function($boot){"use strict";
+define("amber_core/Platform-Services", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Kernel-Collections", "amber_core/Kernel-Methods", "amber_core/Kernel-Infrastructure"], function($boot){"use strict";
 var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage('Platform-Services');
 $core.packages["Platform-Services"].innerEval = function (expr) { return eval(expr); };
@@ -296,129 +296,7 @@ messageSends: ["registerIfNone:", "new"]
 $globals.ConsoleTranscript.klass);
 
 
-$core.addClass('InterfacingObject', $globals.Object, [], 'Platform-Services');
-//>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.InterfacingObject.comment="I am superclass of all object that interface with user or environment. `Widget` and a few other classes are subclasses of me. I delegate all of the above APIs to `PlatformInterface`.\x0a\x0a## API\x0a\x0a    self alert: 'Hey, there is a problem'.\x0a    self confirm: 'Affirmative?'.\x0a    self prompt: 'Your name:'.\x0a\x0a    self ajax: #{\x0a        'url' -> '/patch.js'. 'type' -> 'GET'. dataType->'script'\x0a    }.";
-//>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "ajax:",
-protocol: 'actions',
-fn: function (anObject){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-self._deprecatedAPI();
-return $recv($globals.PlatformInterface)._ajax_(anObject);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"ajax:",{anObject:anObject},$globals.InterfacingObject)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anObject"],
-source: "ajax: anObject\x0a\x09self deprecatedAPI.\x0a\x09^ PlatformInterface ajax: anObject",
-referencedClasses: ["PlatformInterface"],
-//>>excludeEnd("ide");
-messageSends: ["deprecatedAPI", "ajax:"]
-}),
-$globals.InterfacingObject);
-
-$core.addMethod(
-$core.method({
-selector: "alert:",
-protocol: 'actions',
-fn: function (aString){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($globals.Terminal)._alert_(aString);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"alert:",{aString:aString},$globals.InterfacingObject)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "alert: aString\x0a\x09^ Terminal alert: aString",
-referencedClasses: ["Terminal"],
-//>>excludeEnd("ide");
-messageSends: ["alert:"]
-}),
-$globals.InterfacingObject);
-
-$core.addMethod(
-$core.method({
-selector: "confirm:",
-protocol: 'actions',
-fn: function (aString){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($globals.Terminal)._confirm_(aString);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"confirm:",{aString:aString},$globals.InterfacingObject)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "confirm: aString\x0a\x09^ Terminal confirm: aString",
-referencedClasses: ["Terminal"],
-//>>excludeEnd("ide");
-messageSends: ["confirm:"]
-}),
-$globals.InterfacingObject);
-
-$core.addMethod(
-$core.method({
-selector: "prompt:",
-protocol: 'actions',
-fn: function (aString){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($globals.Terminal)._prompt_(aString);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"prompt:",{aString:aString},$globals.InterfacingObject)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "prompt: aString\x0a\x09^ Terminal prompt: aString",
-referencedClasses: ["Terminal"],
-//>>excludeEnd("ide");
-messageSends: ["prompt:"]
-}),
-$globals.InterfacingObject);
-
-$core.addMethod(
-$core.method({
-selector: "prompt:default:",
-protocol: 'actions',
-fn: function (aString,defaultString){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($globals.Terminal)._prompt_default_(aString,defaultString);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"prompt:default:",{aString:aString,defaultString:defaultString},$globals.InterfacingObject)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString", "defaultString"],
-source: "prompt: aString default: defaultString\x0a\x09^ Terminal prompt: aString default: defaultString",
-referencedClasses: ["Terminal"],
-//>>excludeEnd("ide");
-messageSends: ["prompt:default:"]
-}),
-$globals.InterfacingObject);
-
-
-
-$core.addClass('Environment', $globals.InterfacingObject, [], 'Platform-Services');
+$core.addClass('Environment', $globals.Object, [], 'Platform-Services');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Environment.comment="I provide an unified entry point to manipulate Amber packages, classes and methods.\x0a\x0aTypical use cases include IDEs, remote access and restricting browsing.";
 //>>excludeEnd("ide");
@@ -1383,6 +1261,128 @@ referencedClasses: ["Smalltalk"],
 messageSends: ["current", "at:", "globals"]
 }),
 $globals.Environment);
+
+
+
+$core.addClass('InterfacingObject', $globals.Object, [], 'Platform-Services');
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.InterfacingObject.comment="I am superclass of all object that interface with user or environment. `Widget` and a few other classes are subclasses of me. I delegate all of the above APIs to `PlatformInterface`.\x0a\x0a## API\x0a\x0a    self alert: 'Hey, there is a problem'.\x0a    self confirm: 'Affirmative?'.\x0a    self prompt: 'Your name:'.\x0a\x0a    self ajax: #{\x0a        'url' -> '/patch.js'. 'type' -> 'GET'. dataType->'script'\x0a    }.";
+//>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "ajax:",
+protocol: 'actions',
+fn: function (anObject){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+self._deprecatedAPI();
+return $recv($globals.PlatformInterface)._ajax_(anObject);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"ajax:",{anObject:anObject},$globals.InterfacingObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "ajax: anObject\x0a\x09self deprecatedAPI.\x0a\x09^ PlatformInterface ajax: anObject",
+referencedClasses: ["PlatformInterface"],
+//>>excludeEnd("ide");
+messageSends: ["deprecatedAPI", "ajax:"]
+}),
+$globals.InterfacingObject);
+
+$core.addMethod(
+$core.method({
+selector: "alert:",
+protocol: 'actions',
+fn: function (aString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.Terminal)._alert_(aString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"alert:",{aString:aString},$globals.InterfacingObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "alert: aString\x0a\x09^ Terminal alert: aString",
+referencedClasses: ["Terminal"],
+//>>excludeEnd("ide");
+messageSends: ["alert:"]
+}),
+$globals.InterfacingObject);
+
+$core.addMethod(
+$core.method({
+selector: "confirm:",
+protocol: 'actions',
+fn: function (aString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.Terminal)._confirm_(aString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"confirm:",{aString:aString},$globals.InterfacingObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "confirm: aString\x0a\x09^ Terminal confirm: aString",
+referencedClasses: ["Terminal"],
+//>>excludeEnd("ide");
+messageSends: ["confirm:"]
+}),
+$globals.InterfacingObject);
+
+$core.addMethod(
+$core.method({
+selector: "prompt:",
+protocol: 'actions',
+fn: function (aString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.Terminal)._prompt_(aString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"prompt:",{aString:aString},$globals.InterfacingObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "prompt: aString\x0a\x09^ Terminal prompt: aString",
+referencedClasses: ["Terminal"],
+//>>excludeEnd("ide");
+messageSends: ["prompt:"]
+}),
+$globals.InterfacingObject);
+
+$core.addMethod(
+$core.method({
+selector: "prompt:default:",
+protocol: 'actions',
+fn: function (aString,defaultString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.Terminal)._prompt_default_(aString,defaultString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"prompt:default:",{aString:aString,defaultString:defaultString},$globals.InterfacingObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "defaultString"],
+source: "prompt: aString default: defaultString\x0a\x09^ Terminal prompt: aString default: defaultString",
+referencedClasses: ["Terminal"],
+//>>excludeEnd("ide");
+messageSends: ["prompt:default:"]
+}),
+$globals.InterfacingObject);
 
 
 
