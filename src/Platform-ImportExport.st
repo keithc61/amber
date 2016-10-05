@@ -436,6 +436,8 @@ exportPackagePrologueOf: aPackage on: aStream
 		nextPutAll: '){"use strict";';
 		lf;
 		nextPutAll: 'var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;';
+		lf;
+		nextPutAll: 'if(!!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;';
 		lf
 ! !
 
