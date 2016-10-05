@@ -1,5 +1,6 @@
 define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
 var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Platform-Browser');
 $core.packages["Platform-Browser"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Platform-Browser"].transport = {"type":"amd","amdNamespace":"amber_core"};

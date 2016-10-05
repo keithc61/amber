@@ -1,5 +1,6 @@
 define(["amber/boot"], function($boot){"use strict";
 var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Kernel-Objects');
 $core.packages["Kernel-Objects"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Objects"].transport = {"type":"amd","amdNamespace":"amber_core"};
