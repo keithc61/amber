@@ -184,12 +184,26 @@ selector: "main",
 protocol: 'startup',
 fn: function (){
 var self=this;
-var args;
+var args,packageJSON;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $3,$2,$1,$4;
-$3=$recv("Welcome to Amber version ".__comma($recv($globals.Smalltalk)._version())).__comma(" (NodeJS ");
+var $7,$6,$5,$4,$3,$2,$1,$8;
+packageJSON=$recv(require)._value_("../package.json");
+$7=$recv(packageJSON)._version();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["version"]=1;
+//>>excludeEnd("ctx");
+$6="Welcome to Amber CLI version ".__comma($7);
+$5=$recv($6).__comma(" (Amber ");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=5;
+//>>excludeEnd("ctx");
+$4=$recv($5).__comma($recv($globals.Smalltalk)._version());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=4;
+//>>excludeEnd("ctx");
+$3=$recv($4).__comma(", NodeJS ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=3;
 //>>excludeEnd("ctx");
@@ -204,23 +218,23 @@ $ctx1.sendIdx[","]=1;
 $recv($globals.Transcript)._show_($1);
 args=$recv(process)._argv();
 $recv(args)._removeFrom_to_((1),(2));
-$4=$recv(args)._isEmpty();
-if($core.assert($4)){
+$8=$recv(args)._isEmpty();
+if($core.assert($8)){
 self._help_(nil);
 } else {
 return self._handleArguments_(args);
 };
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"main",{args:args},$globals.AmberCli.klass)});
+}, function($ctx1) {$ctx1.fill(self,"main",{args:args,packageJSON:packageJSON},$globals.AmberCli.klass)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "main\x0a\x09\x22Main entry point for Amber applications.\x0a\x09Parses commandline arguments and starts the according subprogram.\x22\x0a\x09| args |\x0a\x09\x0a\x09Transcript show: 'Welcome to Amber version ', Smalltalk version, ' (NodeJS ', process versions node, ').'.\x0a\x0a\x09args := process argv.\x0a\x09\x22Remove the first args which contain the path to the node executable and the script file.\x22\x0a\x09args removeFrom: 1 to: 2.\x0a\x09\x0a\x09(args isEmpty)\x0a\x09\x09ifTrue: [self help: nil]\x0a\x09\x09ifFalse: [^self handleArguments: args]",
+source: "main\x0a\x09\x22Main entry point for Amber applications.\x0a\x09Parses commandline arguments and starts the according subprogram.\x22\x0a\x09| args packageJSON |\x0a\x09\x0a\x09packageJSON := require value: '../package.json'.\x0a\x09Transcript show: 'Welcome to Amber CLI version ', packageJSON version, ' (Amber ', Smalltalk version, ', NodeJS ', process versions node, ').'.\x0a\x0a\x09args := process argv.\x0a\x09\x22Remove the first args which contain the path to the node executable and the script file.\x22\x0a\x09args removeFrom: 1 to: 2.\x0a\x09\x0a\x09(args isEmpty)\x0a\x09\x09ifTrue: [self help: nil]\x0a\x09\x09ifFalse: [^self handleArguments: args]",
 referencedClasses: ["Transcript", "Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["show:", ",", "version", "node", "versions", "argv", "removeFrom:to:", "ifTrue:ifFalse:", "isEmpty", "help:", "handleArguments:"]
+messageSends: ["value:", "show:", ",", "version", "node", "versions", "argv", "removeFrom:to:", "ifTrue:ifFalse:", "isEmpty", "help:", "handleArguments:"]
 }),
 $globals.AmberCli.klass);
 

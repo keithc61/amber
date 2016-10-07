@@ -84,9 +84,10 @@ version: arguments
 main
 	"Main entry point for Amber applications.
 	Parses commandline arguments and starts the according subprogram."
-	| args |
+	| args packageJSON |
 	
-	Transcript show: 'Welcome to Amber version ', Smalltalk version, ' (NodeJS ', process versions node, ').'.
+	packageJSON := require value: '../package.json'.
+	Transcript show: 'Welcome to Amber CLI version ', packageJSON version, ' (Amber ', Smalltalk version, ', NodeJS ', process versions node, ').'.
 
 	args := process argv.
 	"Remove the first args which contain the path to the node executable and the script file."
