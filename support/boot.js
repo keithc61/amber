@@ -701,7 +701,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
     return {
         api: api,
-        nil: brikz.root.nil,
+        nil/* TODO deprecate */: brikz.root.nil,
+        nilAsReceiver: brikz.root.nil,
         dnu/* TODO deprecate */: brikz.root.nilAsClass,
         nilAsClass: brikz.root.nilAsClass,
         globals: brikz.smalltalkGlobals.globals,
