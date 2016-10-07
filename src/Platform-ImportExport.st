@@ -435,7 +435,9 @@ exportPackagePrologueOf: aPackage on: aStream
 			replace: ',\s*:1:' with: pragmaStart) replace: ',\s*:2:' with: pragmaEnd);
 		nextPutAll: '){"use strict";';
 		lf;
-		nextPutAll: 'var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;';
+		nextPutAll: 'if(!!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;';
+		lf;
+		nextPutAll: 'var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;';
 		lf;
 		nextPutAll: 'if(!!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;';
 		lf
