@@ -1,6 +1,10 @@
 0.17.0:
 
 * Remove classes InterfacingObject, PlatformInterface.
+* Deprecate $boot.nil (use $boot.nilAsReceiver).
+
++ amber/boot api >>
+  + nilAsReceiver
 
 - NativeFunction class >>
   - constructor:
