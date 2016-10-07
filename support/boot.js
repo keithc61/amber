@@ -667,15 +667,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
          */
         this.asReceiver = function (o) {
             if (o == null) return nil;
-            if (typeof o === "object" || typeof o === "function") {
-                return o.klass != null ? o : globals.JSObjectProxy._on_(o);
-            }
-            // IMPORTANT: This optimization (return o if typeof !== "object")
-            // assumes all primitive types are coupled with some
-            // (detached root) Smalltalk class so they can be returned as-is,
-            // without boxing and looking for .klass.
-            // KEEP THE primitives-are-coupled INVARIANT!
-            return o;
+            else if (o.klass != null) return o;
+            else return globals.JSObjectProxy._on_(o);
         };
     }
 
