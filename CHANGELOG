@@ -2,6 +2,7 @@
 ===================================
 
 * Remove some deprecated classes and methods.
+* Fix fw compat break of 0.16.1.
 
 Breaks bw compat because of removed deprecated pieces.
 
@@ -15,7 +16,7 @@ Commits: https://lolg.it/amber/amber/commits/0.17.0.
 * amber-dev upgrade (to fix UMDs checking for module before define).
 * Kernel files use 'use strict'.
 
-Breaks fw compat (uses $boot.nilAsClass in supersends).
+<del>Breaks fw compat (uses $boot.nilAsClass in supersends)</del>.
 
 Commits: https://lolg.it/amber/amber/commits/0.16.1.
 
