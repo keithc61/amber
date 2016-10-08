@@ -7,7 +7,9 @@ define("{%= namespace %}/{%= name %}", ["amber/boot"
 
 //>>excludeEnd("imports");
 ){
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('{%= name %}');
 $core.packages["{%= name %}"].innerEval = function (expr) { return eval(expr); };
 $core.packages["{%= name %}"].imports = ["amber/jquery/Wrappers-JQuery", "amber/web/Web", "silk/Silk"];
