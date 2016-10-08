@@ -2,7 +2,7 @@ define(["amber/boot", "require"], function (boot, require) {
     var globals = boot.globals,
         exports = {},
         api = boot.api,
-        nil = boot.nil;
+        nil = boot.nilAsReceiver;
 
     // API
 
