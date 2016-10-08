@@ -355,6 +355,16 @@ exportPackage: aPackage on: aStream
 	self exportPackageEpilogueOf: aPackage on: aStream
 !
 
+exportPackageBodyBlockPrologueOf: aPackage on: aStream
+	aStream
+		nextPutAll: 'if(!!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;';
+		lf;
+		nextPutAll: 'var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;';
+		lf;
+		nextPutAll: 'if(!!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;';
+		lf
+!
+
 exportPackageContextOf: aPackage on: aStream
 	aStream
 		nextPutAll: '$core.packages[';
@@ -434,13 +444,8 @@ exportPackagePrologueOf: aPackage on: aStream
 			(#('$boot' ':1:'), importsForOutput key, #(':2:')) join: ',')
 			replace: ',\s*:1:' with: pragmaStart) replace: ',\s*:2:' with: pragmaEnd);
 		nextPutAll: '){"use strict";';
-		lf;
-		nextPutAll: 'if(!!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;';
-		lf;
-		nextPutAll: 'var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;';
-		lf;
-		nextPutAll: 'if(!!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;';
-		lf
+		lf.
+	self exportPackageBodyBlockPrologueOf: aPackage on: aStream
 ! !
 
 !AmdExporter methodsFor: 'private'!
