@@ -961,9 +961,9 @@ visitIRMethod: anIRMethod
 				self stream nextPutVars: (anIRMethod tempDeclarations collect: [ :each |
 					each name asVariableName ]).
 				self stream nextPutContextFor: anIRMethod during: [
-				anIRMethod internalVariables notEmpty ifTrue: [
-					self stream nextPutVars: (anIRMethod internalVariables asSet collect: [ :each |
-						each variable alias ]) ].
+					anIRMethod internalVariables ifNotEmpty: [ :internalVars |
+						self stream nextPutVars: 
+							(internalVars asSet collect: [ :each | each variable alias ]) ].
 				anIRMethod scope hasNonLocalReturn
 					ifTrue: [
 						self stream nextPutNonLocalReturnHandlingWith: [

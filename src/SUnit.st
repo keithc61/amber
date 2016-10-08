@@ -337,12 +337,9 @@ runs
 !
 
 status
-	^ self errors isEmpty
-		ifTrue: [
-			self failures isEmpty
-				ifTrue: [ 'success' ]
-				ifFalse: [ 'failure' ]]
-		ifFalse: [ 'error' ]
+	^ self errors ifNotEmpty: [ 'error' ] ifEmpty: [
+		self failures ifNotEmpty: [ 'failure' ] ifEmpty: [
+			'success' ]]
 !
 
 timestamp

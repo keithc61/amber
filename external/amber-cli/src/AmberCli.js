@@ -188,7 +188,9 @@ var args,packageJSON;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $7,$6,$5,$4,$3,$2,$1,$8;
+var $7,$6,$5,$4,$3,$2,$1;
+var $early={};
+try {
 packageJSON=$recv(require)._value_("../package.json");
 $7=$recv(packageJSON)._version();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -218,23 +220,36 @@ $ctx1.sendIdx[","]=1;
 $recv($globals.Transcript)._show_($1);
 args=$recv(process)._argv();
 $recv(args)._removeFrom_to_((1),(2));
-$8=$recv(args)._isEmpty();
-if($core.assert($8)){
-self._help_(nil);
-} else {
-return self._handleArguments_(args);
-};
+$recv(args)._ifEmpty_ifNotEmpty_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return self._help_(nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+throw $early=[self._handleArguments_(args)];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
 return self;
+}
+catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"main",{args:args,packageJSON:packageJSON},$globals.AmberCli.klass)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "main\x0a\x09\x22Main entry point for Amber applications.\x0a\x09Parses commandline arguments and starts the according subprogram.\x22\x0a\x09| args packageJSON |\x0a\x09\x0a\x09packageJSON := require value: '../package.json'.\x0a\x09Transcript show: 'Welcome to Amber CLI version ', packageJSON version, ' (Amber ', Smalltalk version, ', NodeJS ', process versions node, ').'.\x0a\x0a\x09args := process argv.\x0a\x09\x22Remove the first args which contain the path to the node executable and the script file.\x22\x0a\x09args removeFrom: 1 to: 2.\x0a\x09\x0a\x09(args isEmpty)\x0a\x09\x09ifTrue: [self help: nil]\x0a\x09\x09ifFalse: [^self handleArguments: args]",
+source: "main\x0a\x09\x22Main entry point for Amber applications.\x0a\x09Parses commandline arguments and starts the according subprogram.\x22\x0a\x09| args packageJSON |\x0a\x09\x0a\x09packageJSON := require value: '../package.json'.\x0a\x09Transcript show: 'Welcome to Amber CLI version ', packageJSON version, ' (Amber ', Smalltalk version, ', NodeJS ', process versions node, ').'.\x0a\x0a\x09args := process argv.\x0a\x09\x22Remove the first args which contain the path to the node executable and the script file.\x22\x0a\x09args removeFrom: 1 to: 2.\x0a\x09\x0a\x09args\x0a\x09\x09ifEmpty: [self help: nil]\x0a\x09\x09ifNotEmpty: [^self handleArguments: args]",
 referencedClasses: ["Transcript", "Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["value:", "show:", ",", "version", "node", "versions", "argv", "removeFrom:to:", "ifTrue:ifFalse:", "isEmpty", "help:", "handleArguments:"]
+messageSends: ["value:", "show:", ",", "version", "node", "versions", "argv", "removeFrom:to:", "ifEmpty:ifNotEmpty:", "help:", "handleArguments:"]
 }),
 $globals.AmberCli.klass);
 
@@ -999,7 +1014,9 @@ var header,token,auth,parts;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1,$3,$4,$5,$6,$9,$10,$8,$7,$receiver;
+var $2,$1,$3,$4,$5,$8,$9,$7,$6,$receiver;
+var $early={};
+try {
 $2=$recv(self["@username"])._isNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["isNil"]=1;
@@ -1028,63 +1045,71 @@ header="";
 } else {
 header=$3;
 };
-$4=$recv(header)._isEmpty();
-if($core.assert($4)){
-return false;
-} else {
-$5=$recv(header)._tokenize_(" ");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["tokenize:"]=1;
-//>>excludeEnd("ctx");
-if(($receiver = $5) == null || $receiver.isNil){
-token="";
-} else {
-token=$5;
-};
-token;
-$6=$recv(token)._at_((2));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:"]=2;
-//>>excludeEnd("ctx");
-auth=self._base64Decode_($6);
-auth;
-parts=$recv(auth)._tokenize_(":");
-parts;
-$9=self["@username"];
-$10=$recv(parts)._at_((1));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:"]=3;
-//>>excludeEnd("ctx");
-$8=$recv($9).__eq($10);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["="]=1;
-//>>excludeEnd("ctx");
-$7=$recv($8)._and_((function(){
+$recv(header)._ifEmpty_ifNotEmpty_((function(){
+throw $early=[false];
+
+}),(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
+$4=$recv(header)._tokenize_(" ");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["tokenize:"]=1;
+//>>excludeEnd("ctx");
+if(($receiver = $4) == null || $receiver.isNil){
+token="";
+} else {
+token=$4;
+};
+token;
+$5=$recv(token)._at_((2));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["at:"]=2;
+//>>excludeEnd("ctx");
+auth=self._base64Decode_($5);
+auth;
+parts=$recv(auth)._tokenize_(":");
+parts;
+$8=self["@username"];
+$9=$recv(parts)._at_((1));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["at:"]=3;
+//>>excludeEnd("ctx");
+$7=$recv($8).__eq($9);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["="]=1;
+//>>excludeEnd("ctx");
+$6=$recv($7)._and_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
 return $recv(self["@password"]).__eq($recv(parts)._at_((2)));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,7)});
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,7)});
 //>>excludeEnd("ctx");
 }));
-if($core.assert($7)){
-return true;
+if($core.assert($6)){
+throw $early=[true];
 } else {
-return false;
+throw $early=[false];
 };
-};
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,5)});
+//>>excludeEnd("ctx");
+}));
 return self;
+}
+catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isAuthenticated:",{aRequest:aRequest,header:header,token:token,auth:auth,parts:parts},$globals.FileServer)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aRequest"],
-source: "isAuthenticated: aRequest\x0a\x09\x22Basic HTTP Auth: http://stackoverflow.com/a/5957629/293175\x0a\x09 and https://gist.github.com/1686663\x22\x0a\x09| header token auth parts|\x0a\x0a\x09(username isNil and: [password isNil]) ifTrue: [^ true].\x0a\x0a\x09\x22get authentication header\x22\x0a\x09header := (aRequest headers at: 'authorization') ifNil:[''].\x0a\x09(header isEmpty)\x0a\x09ifTrue: [^ false]\x0a\x09ifFalse: [\x0a\x09\x09\x22get authentication token\x22\x0a\x09\x09token := (header tokenize: ' ') ifNil:[''].\x0a\x09\x09\x22convert back from base64\x22\x0a\x09\x09auth := self base64Decode: (token at: 2).\x0a\x09\x09\x22split token at colon\x22\x0a\x09\x09parts := auth tokenize: ':'.\x0a\x0a\x09\x09((username = (parts at: 1)) and: [password = (parts at: 2)])\x0a\x09\x09\x09ifTrue: [^ true]\x0a\x09\x09\x09ifFalse: [^ false]\x0a\x09].",
+source: "isAuthenticated: aRequest\x0a\x09\x22Basic HTTP Auth: http://stackoverflow.com/a/5957629/293175\x0a\x09 and https://gist.github.com/1686663\x22\x0a\x09| header token auth parts|\x0a\x0a\x09(username isNil and: [password isNil]) ifTrue: [^ true].\x0a\x0a\x09\x22get authentication header\x22\x0a\x09header := (aRequest headers at: 'authorization') ifNil:[''].\x0a\x09header\x0a\x09ifEmpty: [^ false]\x0a\x09ifNotEmpty: [\x0a\x09\x09\x22get authentication token\x22\x0a\x09\x09token := (header tokenize: ' ') ifNil:[''].\x0a\x09\x09\x22convert back from base64\x22\x0a\x09\x09auth := self base64Decode: (token at: 2).\x0a\x09\x09\x22split token at colon\x22\x0a\x09\x09parts := auth tokenize: ':'.\x0a\x0a\x09\x09((username = (parts at: 1)) and: [password = (parts at: 2)])\x0a\x09\x09\x09ifTrue: [^ true]\x0a\x09\x09\x09ifFalse: [^ false]\x0a\x09].",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:", "and:", "isNil", "ifNil:", "at:", "headers", "ifTrue:ifFalse:", "isEmpty", "tokenize:", "base64Decode:", "="]
+messageSends: ["ifTrue:", "and:", "isNil", "ifNil:", "at:", "headers", "ifEmpty:ifNotEmpty:", "tokenize:", "base64Decode:", "ifTrue:ifFalse:", "="]
 }),
 $globals.FileServer);
 
@@ -2860,33 +2885,38 @@ var result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
-$1=$recv(buffer)._isEmpty();
-if(!$core.assert($1)){
-$recv((function(){
+var $1;
+$recv(buffer)._ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 result=$recv($recv($globals.Compiler)._new())._evaluateExpression_on_(buffer,anObject);
 return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 //>>excludeEnd("ctx");
 }))._tryCatch_((function(e){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
+return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-$2=$recv(e)._isSmalltalkError();
-if($core.assert($2)){
+$1=$recv(e)._isSmalltalkError();
+if($core.assert($1)){
 return $recv(e)._resignal();
 } else {
 return $recv($recv(process)._stdout())._write_($recv(e)._jsStack());
 };
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({e:e},$ctx1,3)});
+}, function($ctx3) {$ctx3.fillBlock({e:e},$ctx2,3)});
 //>>excludeEnd("ctx");
 }));
-};
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
 return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"eval:on:",{buffer:buffer,anObject:anObject,result:result},$globals.Repl)});
@@ -2894,10 +2924,10 @@ return result;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["buffer", "anObject"],
-source: "eval: buffer on: anObject\x0a\x09| result |\x0a\x09buffer isEmpty ifFalse: [\x0a\x09\x09[result := Compiler new evaluateExpression: buffer on: anObject]\x0a\x09\x09\x09tryCatch: [:e |\x0a\x09\x09\x09\x09e isSmalltalkError\x0a\x09\x09\x09\x09    ifTrue: [ e resignal ]\x0a\x09\x09\x09 \x09   ifFalse: [ process stdout write: e jsStack ]]].\x0a\x09^ result",
+source: "eval: buffer on: anObject\x0a\x09| result |\x0a\x09buffer ifNotEmpty: [\x0a\x09\x09[result := Compiler new evaluateExpression: buffer on: anObject]\x0a\x09\x09\x09tryCatch: [:e |\x0a\x09\x09\x09\x09e isSmalltalkError\x0a\x09\x09\x09\x09\x09ifTrue: [ e resignal ]\x0a\x09\x09\x09\x09\x09ifFalse: [ process stdout write: e jsStack ]]].\x0a\x09^ result",
 referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
-messageSends: ["ifFalse:", "isEmpty", "tryCatch:", "evaluateExpression:on:", "new", "ifTrue:ifFalse:", "isSmalltalkError", "resignal", "write:", "stdout", "jsStack"]
+messageSends: ["ifNotEmpty:", "tryCatch:", "evaluateExpression:on:", "new", "ifTrue:ifFalse:", "isSmalltalkError", "resignal", "write:", "stdout", "jsStack"]
 }),
 $globals.Repl);
 

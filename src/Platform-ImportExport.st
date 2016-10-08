@@ -144,7 +144,7 @@ exportDefinitionOf: aClass on: aStream
 	aStream
 		nextPutAll: ''''; lf;
 		tab; nextPutAll: 'package: ''', aClass category, '''!!'; lf.
-	aClass comment notEmpty ifTrue: [
+	aClass comment ifNotEmpty: [
 		aStream
 		nextPutAll: '!!', (self classNameFor: aClass), ' commentStamp!!';lf;
 		nextPutAll: (self chunkEscape: aClass comment), '!!';lf ].
@@ -153,11 +153,11 @@ exportDefinitionOf: aClass on: aStream
 
 exportMetaDefinitionOf: aClass on: aStream
 
-	aClass class instanceVariableNames isEmpty ifFalse: [
+	aClass class instanceVariableNames ifNotEmpty: [ :classIvars |
 		aStream
 			nextPutAll: (self classNameFor: aClass class);
 			nextPutAll: ' instanceVariableNames: '''.
-		aClass class instanceVariableNames
+		classIvars
 			do: [ :each | aStream nextPutAll: each ]
 			separatedBy: [ aStream nextPutAll: ' ' ].
 		aStream
@@ -287,7 +287,7 @@ exportDefinitionOf: aClass on: aStream
 		nextPutAll: '], ''';
 		nextPutAll: aClass category, '''';
 		nextPutAll: ');'.
-	aClass comment notEmpty ifTrue: [
+	aClass comment ifNotEmpty: [
 		aStream
 			lf;
 			nextPutAll: '//>>excludeStart("ide", pragmas.excludeIdeData);';
@@ -303,11 +303,11 @@ exportDefinitionOf: aClass on: aStream
 
 exportMetaDefinitionOf: aClass on: aStream
 	aStream lf.
-	aClass class instanceVariableNames isEmpty ifFalse: [
+	aClass class instanceVariableNames ifNotEmpty: [ :classIvars |
 		aStream
 		nextPutAll: (self jsClassNameFor: aClass class);
 		nextPutAll: '.iVarNames = ['.
-		aClass class instanceVariableNames
+		classIvars
 		do: [ :each | aStream nextPutAll: '''', each, '''' ]
 		separatedBy: [ aStream nextPutAll: ',' ].
 		aStream nextPutAll: '];', String lf ]
@@ -547,7 +547,7 @@ class: aClass
 scanFrom: aChunkParser
 	| chunk |
 	chunk := aChunkParser nextChunk.
-	chunk isEmpty ifFalse: [
+	chunk ifNotEmpty: [
 		self setComment: chunk ].
 ! !
 
@@ -669,9 +669,9 @@ import: aStream
 	[
 	[ chunk := parser nextChunk.
 	chunk isNil ] whileFalse: [
-		chunk isEmpty
-			ifTrue: [ lastEmpty := true ]
-			ifFalse: [
+		chunk
+			ifEmpty: [ lastEmpty := true ]
+			ifNotEmpty: [
 				lastSection := chunk.
 				result := Compiler new evaluateExpression: chunk.
 				lastEmpty

@@ -1402,21 +1402,28 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$3,$1;
-$2=$recv(self._errors())._isEmpty();
+var $1;
+$1=$recv(self._errors())._ifNotEmpty_ifEmpty_((function(){
+return "error";
+
+}),(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["isEmpty"]=1;
+return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if($core.assert($2)){
-$3=$recv(self._failures())._isEmpty();
-if($core.assert($3)){
-$1="success";
-} else {
-$1="failure";
-};
-} else {
-$1="error";
-};
+return $recv(self._failures())._ifNotEmpty_ifEmpty_((function(){
+return "failure";
+
+}),(function(){
+return "success";
+
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["ifNotEmpty:ifEmpty:"]=1;
+//>>excludeEnd("ctx");
 return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"status",{},$globals.TestResult)});
@@ -1424,10 +1431,10 @@ return $1;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "status\x0a\x09^ self errors isEmpty\x0a\x09\x09ifTrue: [\x0a\x09\x09\x09self failures isEmpty\x0a\x09\x09\x09\x09ifTrue: [ 'success' ]\x0a\x09\x09\x09\x09ifFalse: [ 'failure' ]]\x0a\x09\x09ifFalse: [ 'error' ]",
+source: "status\x0a\x09^ self errors ifNotEmpty: [ 'error' ] ifEmpty: [\x0a\x09\x09self failures ifNotEmpty: [ 'failure' ] ifEmpty: [\x0a\x09\x09\x09'success' ]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:ifFalse:", "isEmpty", "errors", "failures"]
+messageSends: ["ifNotEmpty:ifEmpty:", "errors", "failures"]
 }),
 $globals.TestResult);
 

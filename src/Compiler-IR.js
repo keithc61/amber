@@ -3855,7 +3855,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5,$7,$6,$8,$9;
+var $1,$2,$3,$4,$5,$6,$7;
 $1=self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["stream"]=1;
@@ -3900,28 +3900,29 @@ return $recv($5)._nextPutContextFor_during_(anIRMethod,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
-$7=$recv(anIRMethod)._internalVariables();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["internalVariables"]=1;
-//>>excludeEnd("ctx");
-$6=$recv($7)._notEmpty();
-if($core.assert($6)){
-$8=self._stream();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["stream"]=5;
-//>>excludeEnd("ctx");
-$recv($8)._nextPutVars_($recv($recv($recv(anIRMethod)._internalVariables())._asSet())._collect_((function(each){
+$recv($recv(anIRMethod)._internalVariables())._ifNotEmpty_((function(internalVars){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx5) {
 //>>excludeEnd("ctx");
+$6=self._stream();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx5.sendIdx["stream"]=5;
+//>>excludeEnd("ctx");
+return $recv($6)._nextPutVars_($recv($recv(internalVars)._asSet())._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx6) {
+//>>excludeEnd("ctx");
 return $recv($recv(each)._variable())._alias();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx5) {$ctx5.fillBlock({each:each},$ctx4,6)});
+}, function($ctx6) {$ctx6.fillBlock({each:each},$ctx5,6)});
 //>>excludeEnd("ctx");
 })));
-};
-$9=$recv($recv(anIRMethod)._scope())._hasNonLocalReturn();
-if($core.assert($9)){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx5) {$ctx5.fillBlock({internalVars:internalVars},$ctx4,5)});
+//>>excludeEnd("ctx");
+}));
+$7=$recv($recv(anIRMethod)._scope())._hasNonLocalReturn();
+if($core.assert($7)){
 return $recv(self._stream())._nextPutNonLocalReturnHandlingWith_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx5) {
@@ -3970,10 +3971,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRMethod"],
-source: "visitIRMethod: anIRMethod\x0a\x0a\x09self stream\x0a\x09\x09nextPutMethodDeclaration: anIRMethod\x0a\x09\x09with: [ self stream\x0a\x09\x09\x09nextPutFunctionWith: [\x0a\x09\x09\x09\x09self stream nextPutVars: (anIRMethod tempDeclarations collect: [ :each |\x0a\x09\x09\x09\x09\x09each name asVariableName ]).\x0a\x09\x09\x09\x09self stream nextPutContextFor: anIRMethod during: [\x0a\x09\x09\x09\x09anIRMethod internalVariables notEmpty ifTrue: [\x0a\x09\x09\x09\x09\x09self stream nextPutVars: (anIRMethod internalVariables asSet collect: [ :each |\x0a\x09\x09\x09\x09\x09\x09each variable alias ]) ].\x0a\x09\x09\x09\x09anIRMethod scope hasNonLocalReturn\x0a\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09self stream nextPutNonLocalReturnHandlingWith: [\x0a\x09\x09\x09\x09\x09\x09\x09super visitIRMethod: anIRMethod ] ]\x0a\x09\x09\x09\x09\x09ifFalse: [ super visitIRMethod: anIRMethod ] ]]\x0a\x09\x09\x09arguments: anIRMethod arguments ]",
+source: "visitIRMethod: anIRMethod\x0a\x0a\x09self stream\x0a\x09\x09nextPutMethodDeclaration: anIRMethod\x0a\x09\x09with: [ self stream\x0a\x09\x09\x09nextPutFunctionWith: [\x0a\x09\x09\x09\x09self stream nextPutVars: (anIRMethod tempDeclarations collect: [ :each |\x0a\x09\x09\x09\x09\x09each name asVariableName ]).\x0a\x09\x09\x09\x09self stream nextPutContextFor: anIRMethod during: [\x0a\x09\x09\x09\x09\x09anIRMethod internalVariables ifNotEmpty: [ :internalVars |\x0a\x09\x09\x09\x09\x09\x09self stream nextPutVars: \x0a\x09\x09\x09\x09\x09\x09\x09(internalVars asSet collect: [ :each | each variable alias ]) ].\x0a\x09\x09\x09\x09anIRMethod scope hasNonLocalReturn\x0a\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09self stream nextPutNonLocalReturnHandlingWith: [\x0a\x09\x09\x09\x09\x09\x09\x09super visitIRMethod: anIRMethod ] ]\x0a\x09\x09\x09\x09\x09ifFalse: [ super visitIRMethod: anIRMethod ] ]]\x0a\x09\x09\x09arguments: anIRMethod arguments ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["nextPutMethodDeclaration:with:", "stream", "nextPutFunctionWith:arguments:", "nextPutVars:", "collect:", "tempDeclarations", "asVariableName", "name", "nextPutContextFor:during:", "ifTrue:", "notEmpty", "internalVariables", "asSet", "alias", "variable", "ifTrue:ifFalse:", "hasNonLocalReturn", "scope", "nextPutNonLocalReturnHandlingWith:", "visitIRMethod:", "arguments"]
+messageSends: ["nextPutMethodDeclaration:with:", "stream", "nextPutFunctionWith:arguments:", "nextPutVars:", "collect:", "tempDeclarations", "asVariableName", "name", "nextPutContextFor:during:", "ifNotEmpty:", "internalVariables", "asSet", "alias", "variable", "ifTrue:ifFalse:", "hasNonLocalReturn", "scope", "nextPutNonLocalReturnHandlingWith:", "visitIRMethod:", "arguments"]
 }),
 $globals.IRJSTranslator);
 

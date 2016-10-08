@@ -93,9 +93,9 @@ main
 	"Remove the first args which contain the path to the node executable and the script file."
 	args removeFrom: 1 to: 2.
 	
-	(args isEmpty)
-		ifTrue: [self help: nil]
-		ifFalse: [^self handleArguments: args]
+	args
+		ifEmpty: [self help: nil]
+		ifNotEmpty: [^self handleArguments: args]
 ! !
 
 Object subclass: #BaseFileManipulator
@@ -257,9 +257,9 @@ isAuthenticated: aRequest
 
 	"get authentication header"
 	header := (aRequest headers at: 'authorization') ifNil:[''].
-	(header isEmpty)
-	ifTrue: [^ false]
-	ifFalse: [
+	header
+	ifEmpty: [^ false]
+	ifNotEmpty: [
 		"get authentication token"
 		token := (header tokenize: ' ') ifNil:[''].
 		"convert back from base64"
@@ -1136,12 +1136,12 @@ eval: buffer
 
 eval: buffer on: anObject
 	| result |
-	buffer isEmpty ifFalse: [
+	buffer ifNotEmpty: [
 		[result := Compiler new evaluateExpression: buffer on: anObject]
 			tryCatch: [:e |
 				e isSmalltalkError
-				    ifTrue: [ e resignal ]
-			 	   ifFalse: [ process stdout write: e jsStack ]]].
+					ifTrue: [ e resignal ]
+					ifFalse: [ process stdout write: e jsStack ]]].
 	^ result
 !
 

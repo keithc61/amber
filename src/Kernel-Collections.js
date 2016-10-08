@@ -6270,23 +6270,25 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=self._isEmpty();
-if($core.assert($1)){
-return self;
-} else {
+return self._ifNotEmpty_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
 return $recv($recv(self._first())._asUppercase()).__comma(self._allButFirst());
-};
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"capitalized",{},$globals.String)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "capitalized\x0a\x09^ self isEmpty\x0a\x09\x09ifTrue: [ self ]\x0a\x09\x09ifFalse: [ self first asUppercase, self allButFirst ]",
+source: "capitalized\x0a\x09^ self ifNotEmpty: [ self first asUppercase, self allButFirst ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:ifFalse:", "isEmpty", ",", "asUppercase", "first", "allButFirst"]
+messageSends: ["ifNotEmpty:", ",", "asUppercase", "first", "allButFirst"]
 }),
 $globals.String);
 
@@ -9827,24 +9829,29 @@ var result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1;
 var $early={};
 try {
 result=$recv(self["@read"])._at_ifAbsent_(self["@readIndex"],(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$recv(self["@write"])._isEmpty();
+$recv(self["@write"])._ifEmpty_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$1=$recv(self["@readIndex"]).__gt((1));
 if($core.assert($1)){
-$2=$recv(self["@readIndex"]).__gt((1));
-if($core.assert($2)){
 self["@read"]=[];
 self["@read"];
 self["@readIndex"]=(1);
 self["@readIndex"];
 };
 throw $early=[$recv(aBlock)._value()];
-};
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
 self["@read"]=self["@write"];
 self["@read"];
 self["@readIndex"]=(1);
@@ -9867,10 +9874,10 @@ catch(e) {if(e===$early)return e[0]; throw e}
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "nextIfAbsent: aBlock\x0a\x09| result |\x0a\x09result := read at: readIndex ifAbsent: [\x0a\x09\x09write isEmpty ifTrue: [\x0a\x09\x09\x09readIndex > 1 ifTrue: [ read := #(). readIndex := 1 ].\x0a\x09\x09\x09^ aBlock value ].\x0a\x09\x09read := write.\x0a\x09\x09readIndex := 1.\x0a\x09\x09write := OrderedCollection new.\x0a\x09\x09read first ].\x0a\x09read at: readIndex put: nil.\x0a\x09readIndex := readIndex + 1.\x0a\x09^ result",
+source: "nextIfAbsent: aBlock\x0a\x09| result |\x0a\x09result := read at: readIndex ifAbsent: [\x0a\x09\x09write ifEmpty: [\x0a\x09\x09\x09readIndex > 1 ifTrue: [ read := #(). readIndex := 1 ].\x0a\x09\x09\x09^ aBlock value ].\x0a\x09\x09read := write.\x0a\x09\x09readIndex := 1.\x0a\x09\x09write := OrderedCollection new.\x0a\x09\x09read first ].\x0a\x09read at: readIndex put: nil.\x0a\x09readIndex := readIndex + 1.\x0a\x09^ result",
 referencedClasses: ["OrderedCollection"],
 //>>excludeEnd("ide");
-messageSends: ["at:ifAbsent:", "ifTrue:", "isEmpty", ">", "value", "new", "first", "at:put:", "+"]
+messageSends: ["at:ifAbsent:", "ifEmpty:", "ifTrue:", ">", "value", "new", "first", "at:put:", "+"]
 }),
 $globals.Queue);
 

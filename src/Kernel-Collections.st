@@ -1540,9 +1540,7 @@ asUppercase
 !
 
 capitalized
-	^ self isEmpty
-		ifTrue: [ self ]
-		ifFalse: [ self first asUppercase, self allButFirst ]
+	^ self ifNotEmpty: [ self first asUppercase, self allButFirst ]
 !
 
 crlfSanitized
@@ -2350,7 +2348,7 @@ next
 nextIfAbsent: aBlock
 	| result |
 	result := read at: readIndex ifAbsent: [
-		write isEmpty ifTrue: [
+		write ifEmpty: [
 			readIndex > 1 ifTrue: [ read := #(). readIndex := 1 ].
 			^ aBlock value ].
 		read := write.

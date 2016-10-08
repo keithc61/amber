@@ -275,7 +275,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2,$4,$6,$5,$7,$9,$8,$11,$10,$12;
+var $1,$3,$2,$4,$6,$5,$7,$8,$10,$9,$11;
 $1=self._classNameFor_($recv(aClass)._superclass());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["classNameFor:"]=1;
@@ -356,35 +356,40 @@ $7=$recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=3;
 //>>excludeEnd("ctx");
-$9=$recv(aClass)._comment();
+$8=$recv(aClass)._comment();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["comment"]=1;
 //>>excludeEnd("ctx");
-$8=$recv($9)._notEmpty();
-if($core.assert($8)){
-$11="!".__comma(self._classNameFor_(aClass));
+$recv($8)._ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=5;
+return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$10=$recv($11).__comma(" commentStamp!");
+$10="!".__comma(self._classNameFor_(aClass));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=4;
+$ctx2.sendIdx[","]=5;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_($10);
+$9=$recv($10).__comma(" commentStamp!");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=8;
+$ctx2.sendIdx[","]=4;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_($9);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["nextPutAll:"]=8;
 //>>excludeEnd("ctx");
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lf"]=4;
+$ctx2.sendIdx["lf"]=4;
 //>>excludeEnd("ctx");
 $recv(aStream)._nextPutAll_($recv(self._chunkEscape_($recv(aClass)._comment())).__comma("!"));
-$12=$recv(aStream)._lf();
+$11=$recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lf"]=5;
+$ctx2.sendIdx["lf"]=5;
 //>>excludeEnd("ctx");
-$12;
-};
+return $11;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+//>>excludeEnd("ctx");
+}));
 $recv(aStream)._lf();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -393,10 +398,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aStream"],
-source: "exportDefinitionOf: aClass on: aStream\x0a\x09\x22Chunk format.\x22\x0a\x0a\x09aStream\x0a\x09\x09nextPutAll: (self classNameFor: aClass superclass);\x0a\x09\x09nextPutAll: ' subclass: #', (self classNameFor: aClass); lf;\x0a\x09\x09tab; nextPutAll: 'instanceVariableNames: '''.\x0a\x09aClass instanceVariableNames\x0a\x09\x09do: [ :each | aStream nextPutAll: each ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ' ' ].\x0a\x09aStream\x0a\x09\x09nextPutAll: ''''; lf;\x0a\x09\x09tab; nextPutAll: 'package: ''', aClass category, '''!'; lf.\x0a\x09aClass comment notEmpty ifTrue: [\x0a\x09\x09aStream\x0a\x09\x09nextPutAll: '!', (self classNameFor: aClass), ' commentStamp!';lf;\x0a\x09\x09nextPutAll: (self chunkEscape: aClass comment), '!';lf ].\x0a\x09aStream lf",
+source: "exportDefinitionOf: aClass on: aStream\x0a\x09\x22Chunk format.\x22\x0a\x0a\x09aStream\x0a\x09\x09nextPutAll: (self classNameFor: aClass superclass);\x0a\x09\x09nextPutAll: ' subclass: #', (self classNameFor: aClass); lf;\x0a\x09\x09tab; nextPutAll: 'instanceVariableNames: '''.\x0a\x09aClass instanceVariableNames\x0a\x09\x09do: [ :each | aStream nextPutAll: each ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ' ' ].\x0a\x09aStream\x0a\x09\x09nextPutAll: ''''; lf;\x0a\x09\x09tab; nextPutAll: 'package: ''', aClass category, '''!'; lf.\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09nextPutAll: '!', (self classNameFor: aClass), ' commentStamp!';lf;\x0a\x09\x09nextPutAll: (self chunkEscape: aClass comment), '!';lf ].\x0a\x09aStream lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["nextPutAll:", "classNameFor:", "superclass", ",", "lf", "tab", "do:separatedBy:", "instanceVariableNames", "category", "ifTrue:", "notEmpty", "comment", "chunkEscape:"]
+messageSends: ["nextPutAll:", "classNameFor:", "superclass", ",", "lf", "tab", "do:separatedBy:", "instanceVariableNames", "category", "ifNotEmpty:", "comment", "chunkEscape:"]
 }),
 $globals.ChunkExporter);
 
@@ -409,61 +414,58 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $3,$2,$1,$5,$4,$6;
-$3=$recv(aClass)._class();
+var $2,$1,$3;
+$2=$recv(aClass)._class();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["class"]=1;
 //>>excludeEnd("ctx");
-$2=$recv($3)._instanceVariableNames();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["instanceVariableNames"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._isEmpty();
-if(!$core.assert($1)){
-$5=$recv(aClass)._class();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["class"]=2;
-//>>excludeEnd("ctx");
-$4=self._classNameFor_($5);
-$recv(aStream)._nextPutAll_($4);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=1;
-//>>excludeEnd("ctx");
-$6=$recv(aStream)._nextPutAll_(" instanceVariableNames: '");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=2;
-//>>excludeEnd("ctx");
-$6;
-$recv($recv($recv(aClass)._class())._instanceVariableNames())._do_separatedBy_((function(each){
+$1=$recv($2)._instanceVariableNames();
+$recv($1)._ifNotEmpty_((function(classIvars){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_(self._classNameFor_($recv(aClass)._class()));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["nextPutAll:"]=1;
+//>>excludeEnd("ctx");
+$3=$recv(aStream)._nextPutAll_(" instanceVariableNames: '");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["nextPutAll:"]=2;
+//>>excludeEnd("ctx");
+$3;
+$recv(classIvars)._do_separatedBy_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 return $recv(aStream)._nextPutAll_(each);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=3;
+$ctx3.sendIdx["nextPutAll:"]=3;
 //>>excludeEnd("ctx");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
 //>>excludeEnd("ctx");
 }),(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
+return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 return $recv(aStream)._nextPutAll_(" ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=4;
+$ctx3.sendIdx["nextPutAll:"]=4;
 //>>excludeEnd("ctx");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 //>>excludeEnd("ctx");
 }));
 $recv(aStream)._nextPutAll_("'!");
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lf"]=1;
+$ctx2.sendIdx["lf"]=1;
 //>>excludeEnd("ctx");
-$recv(aStream)._lf();
-};
+return $recv(aStream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({classIvars:classIvars},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"exportMetaDefinitionOf:on:",{aClass:aClass,aStream:aStream},$globals.ChunkExporter)});
@@ -471,10 +473,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aStream"],
-source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x0a\x09aClass class instanceVariableNames isEmpty ifFalse: [\x0a\x09\x09aStream\x0a\x09\x09\x09nextPutAll: (self classNameFor: aClass class);\x0a\x09\x09\x09nextPutAll: ' instanceVariableNames: '''.\x0a\x09\x09aClass class instanceVariableNames\x0a\x09\x09\x09do: [ :each | aStream nextPutAll: each ]\x0a\x09\x09\x09separatedBy: [ aStream nextPutAll: ' ' ].\x0a\x09\x09aStream\x0a\x09\x09\x09nextPutAll: '''!'; lf; lf ]",
+source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x0a\x09aClass class instanceVariableNames ifNotEmpty: [ :classIvars |\x0a\x09\x09aStream\x0a\x09\x09\x09nextPutAll: (self classNameFor: aClass class);\x0a\x09\x09\x09nextPutAll: ' instanceVariableNames: '''.\x0a\x09\x09classIvars\x0a\x09\x09\x09do: [ :each | aStream nextPutAll: each ]\x0a\x09\x09\x09separatedBy: [ aStream nextPutAll: ' ' ].\x0a\x09\x09aStream\x0a\x09\x09\x09nextPutAll: '''!'; lf; lf ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifFalse:", "isEmpty", "instanceVariableNames", "class", "nextPutAll:", "classNameFor:", "do:separatedBy:", "lf"]
+messageSends: ["ifNotEmpty:", "instanceVariableNames", "class", "nextPutAll:", "classNameFor:", "do:separatedBy:", "lf"]
 }),
 $globals.ChunkExporter);
 
@@ -978,7 +980,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1,$3,$4,$6,$5,$7,$9,$8;
+var $2,$1,$3,$4,$6,$5,$7,$8;
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=1;
@@ -1054,46 +1056,51 @@ $7=$recv(aStream)._nextPutAll_(");");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=9;
 //>>excludeEnd("ctx");
-$9=$recv(aClass)._comment();
+$8=$recv(aClass)._comment();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["comment"]=1;
 //>>excludeEnd("ctx");
-$8=$recv($9)._notEmpty();
-if($core.assert($8)){
+$recv($8)._ifNotEmpty_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lf"]=2;
+$ctx2.sendIdx["lf"]=2;
 //>>excludeEnd("ctx");
 $recv(aStream)._nextPutAll_("//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=10;
+$ctx2.sendIdx["nextPutAll:"]=10;
 //>>excludeEnd("ctx");
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lf"]=3;
+$ctx2.sendIdx["lf"]=3;
 //>>excludeEnd("ctx");
 $recv(aStream)._nextPutAll_(self._jsClassNameFor_(aClass));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=11;
+$ctx2.sendIdx["nextPutAll:"]=11;
 //>>excludeEnd("ctx");
 $recv(aStream)._nextPutAll_(".comment=");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=12;
+$ctx2.sendIdx["nextPutAll:"]=12;
 //>>excludeEnd("ctx");
 $recv(aStream)._nextPutAll_($recv($recv($recv(aClass)._comment())._crlfSanitized())._asJavascript());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=13;
+$ctx2.sendIdx["nextPutAll:"]=13;
 //>>excludeEnd("ctx");
 $recv(aStream)._nextPutAll_(";");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=14;
+$ctx2.sendIdx["nextPutAll:"]=14;
 //>>excludeEnd("ctx");
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lf"]=4;
+$ctx2.sendIdx["lf"]=4;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_("//>>excludeEnd(\x22ide\x22);");
-};
+return $recv(aStream)._nextPutAll_("//>>excludeEnd(\x22ide\x22);");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+//>>excludeEnd("ctx");
+}));
 $recv(aStream)._lf();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1102,10 +1109,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aStream"],
-source: "exportDefinitionOf: aClass on: aStream\x0a\x09aStream\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: '$core.addClass(';\x0a\x09\x09nextPutAll: '''', (self classNameFor: aClass), ''', ';\x0a\x09\x09nextPutAll: (self jsClassNameFor: aClass superclass);\x0a\x09\x09nextPutAll: ', ['.\x0a\x09aClass instanceVariableNames\x0a\x09\x09do: [ :each | aStream nextPutAll: '''', each, '''' ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ', ' ].\x0a\x09aStream\x0a\x09\x09nextPutAll: '], ''';\x0a\x09\x09nextPutAll: aClass category, '''';\x0a\x09\x09nextPutAll: ');'.\x0a\x09aClass comment notEmpty ifTrue: [\x0a\x09\x09aStream\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: (self jsClassNameFor: aClass);\x0a\x09\x09\x09nextPutAll: '.comment=';\x0a\x09\x09\x09nextPutAll: aClass comment crlfSanitized asJavascript;\x0a\x09\x09\x09nextPutAll: ';';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeEnd(\x22ide\x22);' ].\x0a\x09aStream lf",
+source: "exportDefinitionOf: aClass on: aStream\x0a\x09aStream\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: '$core.addClass(';\x0a\x09\x09nextPutAll: '''', (self classNameFor: aClass), ''', ';\x0a\x09\x09nextPutAll: (self jsClassNameFor: aClass superclass);\x0a\x09\x09nextPutAll: ', ['.\x0a\x09aClass instanceVariableNames\x0a\x09\x09do: [ :each | aStream nextPutAll: '''', each, '''' ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ', ' ].\x0a\x09aStream\x0a\x09\x09nextPutAll: '], ''';\x0a\x09\x09nextPutAll: aClass category, '''';\x0a\x09\x09nextPutAll: ');'.\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: (self jsClassNameFor: aClass);\x0a\x09\x09\x09nextPutAll: '.comment=';\x0a\x09\x09\x09nextPutAll: aClass comment crlfSanitized asJavascript;\x0a\x09\x09\x09nextPutAll: ';';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeEnd(\x22ide\x22);' ].\x0a\x09aStream lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["lf", "nextPutAll:", ",", "classNameFor:", "jsClassNameFor:", "superclass", "do:separatedBy:", "instanceVariableNames", "category", "ifTrue:", "notEmpty", "comment", "asJavascript", "crlfSanitized"]
+messageSends: ["lf", "nextPutAll:", ",", "classNameFor:", "jsClassNameFor:", "superclass", "do:separatedBy:", "instanceVariableNames", "category", "ifNotEmpty:", "comment", "asJavascript", "crlfSanitized"]
 }),
 $globals.Exporter);
 
@@ -1118,68 +1125,65 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $3,$2,$1,$5,$4,$6,$8,$7;
+var $2,$1,$3,$5,$4;
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=1;
 //>>excludeEnd("ctx");
-$3=$recv(aClass)._class();
+$2=$recv(aClass)._class();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["class"]=1;
 //>>excludeEnd("ctx");
-$2=$recv($3)._instanceVariableNames();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["instanceVariableNames"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._isEmpty();
-if(!$core.assert($1)){
-$5=$recv(aClass)._class();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["class"]=2;
-//>>excludeEnd("ctx");
-$4=self._jsClassNameFor_($5);
-$recv(aStream)._nextPutAll_($4);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=1;
-//>>excludeEnd("ctx");
-$6=$recv(aStream)._nextPutAll_(".iVarNames = [");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=2;
-//>>excludeEnd("ctx");
-$6;
-$recv($recv($recv(aClass)._class())._instanceVariableNames())._do_separatedBy_((function(each){
+$1=$recv($2)._instanceVariableNames();
+$recv($1)._ifNotEmpty_((function(classIvars){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$8="'".__comma(each);
+$recv(aStream)._nextPutAll_(self._jsClassNameFor_($recv(aClass)._class()));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=2;
+$ctx2.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$7=$recv($8).__comma("'");
+$3=$recv(aStream)._nextPutAll_(".iVarNames = [");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=1;
+$ctx2.sendIdx["nextPutAll:"]=2;
 //>>excludeEnd("ctx");
-return $recv(aStream)._nextPutAll_($7);
+$3;
+$recv(classIvars)._do_separatedBy_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=3;
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$5="'".__comma(each);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx[","]=2;
+//>>excludeEnd("ctx");
+$4=$recv($5).__comma("'");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx[","]=1;
+//>>excludeEnd("ctx");
+return $recv(aStream)._nextPutAll_($4);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["nextPutAll:"]=3;
 //>>excludeEnd("ctx");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
 //>>excludeEnd("ctx");
 }),(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
+return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 return $recv(aStream)._nextPutAll_(",");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=4;
+$ctx3.sendIdx["nextPutAll:"]=4;
 //>>excludeEnd("ctx");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 //>>excludeEnd("ctx");
 }));
-$recv(aStream)._nextPutAll_("];".__comma($recv($globals.String)._lf()));
-};
+return $recv(aStream)._nextPutAll_("];".__comma($recv($globals.String)._lf()));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({classIvars:classIvars},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"exportMetaDefinitionOf:on:",{aClass:aClass,aStream:aStream},$globals.Exporter)});
@@ -1187,10 +1191,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aStream"],
-source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x09aStream lf.\x0a\x09aClass class instanceVariableNames isEmpty ifFalse: [\x0a\x09\x09aStream\x0a\x09\x09nextPutAll: (self jsClassNameFor: aClass class);\x0a\x09\x09nextPutAll: '.iVarNames = ['.\x0a\x09\x09aClass class instanceVariableNames\x0a\x09\x09do: [ :each | aStream nextPutAll: '''', each, '''' ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ',' ].\x0a\x09\x09aStream nextPutAll: '];', String lf ]",
+source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x09aStream lf.\x0a\x09aClass class instanceVariableNames ifNotEmpty: [ :classIvars |\x0a\x09\x09aStream\x0a\x09\x09nextPutAll: (self jsClassNameFor: aClass class);\x0a\x09\x09nextPutAll: '.iVarNames = ['.\x0a\x09\x09classIvars\x0a\x09\x09do: [ :each | aStream nextPutAll: '''', each, '''' ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ',' ].\x0a\x09\x09aStream nextPutAll: '];', String lf ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["lf", "ifFalse:", "isEmpty", "instanceVariableNames", "class", "nextPutAll:", "jsClassNameFor:", "do:separatedBy:", ","]
+messageSends: ["lf", "ifNotEmpty:", "instanceVariableNames", "class", "nextPutAll:", "jsClassNameFor:", "do:separatedBy:", ","]
 }),
 $globals.Exporter);
 
@@ -2304,12 +2308,16 @@ var chunk;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 chunk=$recv(aChunkParser)._nextChunk();
-$1=$recv(chunk)._isEmpty();
-if(!$core.assert($1)){
-self._setComment_(chunk);
-};
+$recv(chunk)._ifNotEmpty_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return self._setComment_(chunk);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"scanFrom:",{aChunkParser:aChunkParser,chunk:chunk},$globals.ClassCommentReader)});
@@ -2317,10 +2325,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aChunkParser"],
-source: "scanFrom: aChunkParser\x0a\x09| chunk |\x0a\x09chunk := aChunkParser nextChunk.\x0a\x09chunk isEmpty ifFalse: [\x0a\x09\x09self setComment: chunk ].",
+source: "scanFrom: aChunkParser\x0a\x09| chunk |\x0a\x09chunk := aChunkParser nextChunk.\x0a\x09chunk ifNotEmpty: [\x0a\x09\x09self setComment: chunk ].",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["nextChunk", "ifFalse:", "isEmpty", "setComment:"]
+messageSends: ["nextChunk", "ifNotEmpty:", "setComment:"]
 }),
 $globals.ClassCommentReader);
 
@@ -2631,7 +2639,7 @@ var chunk,result,parser,lastEmpty;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1;
 parser=$recv($globals.ChunkParser)._on_(aStream);
 lastEmpty=false;
 self["@lastSection"]="n/a, not started";
@@ -2654,22 +2662,28 @@ return $recv(chunk)._isNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-$1=$recv(chunk)._isEmpty();
-if($core.assert($1)){
+return $recv(chunk)._ifEmpty_ifNotEmpty_((function(){
 lastEmpty=true;
 return lastEmpty;
-} else {
+
+}),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
 self["@lastSection"]=chunk;
 self["@lastSection"];
 result=$recv($recv($globals.Compiler)._new())._evaluateExpression_(chunk);
 result;
-$2=lastEmpty;
-if($core.assert($2)){
+$1=lastEmpty;
+if($core.assert($1)){
 lastEmpty=false;
 lastEmpty;
 return $recv(result)._scanFrom_(parser);
 };
-};
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,5)});
+//>>excludeEnd("ctx");
+}));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 //>>excludeEnd("ctx");
@@ -2697,10 +2711,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aStream"],
-source: "import: aStream\x0a\x09| chunk result parser lastEmpty |\x0a\x09parser := ChunkParser on: aStream.\x0a\x09lastEmpty := false.\x0a\x09lastSection := 'n/a, not started'.\x0a\x09lastChunk := nil.\x0a\x09[\x0a\x09[ chunk := parser nextChunk.\x0a\x09chunk isNil ] whileFalse: [\x0a\x09\x09chunk isEmpty\x0a\x09\x09\x09ifTrue: [ lastEmpty := true ]\x0a\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09lastSection := chunk.\x0a\x09\x09\x09\x09result := Compiler new evaluateExpression: chunk.\x0a\x09\x09\x09\x09lastEmpty\x0a\x09\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09lastEmpty := false.\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09result scanFrom: parser ]] ].\x0a\x09lastSection := 'n/a, finished'\x0a\x09] on: Error do: [:e | lastChunk := parser last. e resignal ].",
+source: "import: aStream\x0a\x09| chunk result parser lastEmpty |\x0a\x09parser := ChunkParser on: aStream.\x0a\x09lastEmpty := false.\x0a\x09lastSection := 'n/a, not started'.\x0a\x09lastChunk := nil.\x0a\x09[\x0a\x09[ chunk := parser nextChunk.\x0a\x09chunk isNil ] whileFalse: [\x0a\x09\x09chunk\x0a\x09\x09\x09ifEmpty: [ lastEmpty := true ]\x0a\x09\x09\x09ifNotEmpty: [\x0a\x09\x09\x09\x09lastSection := chunk.\x0a\x09\x09\x09\x09result := Compiler new evaluateExpression: chunk.\x0a\x09\x09\x09\x09lastEmpty\x0a\x09\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09lastEmpty := false.\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09result scanFrom: parser ]] ].\x0a\x09lastSection := 'n/a, finished'\x0a\x09] on: Error do: [:e | lastChunk := parser last. e resignal ].",
 referencedClasses: ["ChunkParser", "Compiler", "Error"],
 //>>excludeEnd("ide");
-messageSends: ["on:", "on:do:", "whileFalse:", "nextChunk", "isNil", "ifTrue:ifFalse:", "isEmpty", "evaluateExpression:", "new", "ifTrue:", "scanFrom:", "last", "resignal"]
+messageSends: ["on:", "on:do:", "whileFalse:", "nextChunk", "isNil", "ifEmpty:ifNotEmpty:", "evaluateExpression:", "new", "ifTrue:", "scanFrom:", "last", "resignal"]
 }),
 $globals.Importer);
 
