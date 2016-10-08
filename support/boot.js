@@ -83,14 +83,14 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         inherits(SmalltalkNil, SmalltalkObject);
 
         this.Object = SmalltalkObject;
-        this.nil = new SmalltalkNil();
+        this.nilAsReceiver = new SmalltalkNil();
 
         // Adds an `isNil` property to the `nil` object.  When sending
         // nil objects from one environment to another, doing
         // `anObject == nil` (in JavaScript) does not always answer
         // true as the referenced nil object might come from the other
         // environment.
-        Object.defineProperty(this.nil, 'isNil', {
+        Object.defineProperty(this.nilAsReceiver, 'isNil', {
             value: true,
             enumerable: false, configurable: false, writable: false
         });
@@ -654,7 +654,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     AsReceiverBrik.deps = ["smalltalkGlobals", "root"];
     function AsReceiverBrik(brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
-        var nil = brikz.root.nil;
+        var nilAsReceiver = brikz.root.nilAsReceiver;
 
         /**
          * This function is used all over the compiled amber code.
@@ -666,7 +666,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
          * otherwise unchanged
          */
         this.asReceiver = function (o) {
-            if (o == null) return nil;
+            if (o == null) return nilAsReceiver;
             else if (o.klass != null) return o;
             else return globals.JSObjectProxy._on_(o);
         };
@@ -694,8 +694,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
     return {
         api: api,
-        nil/* TODO deprecate */: brikz.root.nil,
-        nilAsReceiver: brikz.root.nil,
+        nil/* TODO deprecate */: brikz.root.nilAsReceiver,
+        nilAsReceiver: brikz.root.nilAsReceiver,
         dnu/* TODO deprecate */: brikz.root.nilAsClass,
         nilAsClass: brikz.root.nilAsClass,
         globals: brikz.smalltalkGlobals.globals,

@@ -407,7 +407,7 @@ define(function () {
     MessageSendBrik.deps = ["smalltalkGlobals", "selectorConversion", "root"];
     function MessageSendBrik(brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
-        var nil = brikz.root.nil;
+        var nilAsReceiver = brikz.root.nilAsReceiver;
 
         /* Handles unhandled errors during message sends */
         // simply send the message and handle #dnu:
@@ -415,7 +415,7 @@ define(function () {
         st.send2 = function (receiver, selector, args, klass) {
             var method, jsSelector = st.st2js(selector);
             if (receiver == null) {
-                receiver = nil;
+                receiver = nilAsReceiver;
             }
             method = klass ? klass.fn.prototype[jsSelector] : receiver.klass && receiver[jsSelector];
             if (method) {
