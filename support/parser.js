@@ -1,5 +1,5 @@
 define(['./boot'], function($boot) {
-var $globals = $boot.globals, nil = $boot.nil;
+var $globals = $boot.globals, nil = $boot.nilAsReceiver;
 $globals.SmalltalkParser = (function() {
   "use strict";
 

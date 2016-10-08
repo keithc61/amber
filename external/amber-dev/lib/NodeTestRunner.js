@@ -1,5 +1,6 @@
 define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('NodeTestRunner');
 $core.packages["NodeTestRunner"].innerEval = function (expr) { return eval(expr); };
