@@ -3525,14 +3525,15 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._visitAll_($recv(aNode)._nodes());
+self._visitAll_($recv(aNode)._nodes());
+return aNode;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitNode:",{aNode:aNode},$globals.NodeVisitor)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitNode: aNode\x0a\x09^ self visitAll: aNode nodes",
+source: "visitNode: aNode\x0a\x09self visitAll: aNode nodes.\x0a\x09^ aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitAll:", "nodes"]

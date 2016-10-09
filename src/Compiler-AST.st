@@ -834,7 +834,8 @@ visitMethodNode: aNode
 !
 
 visitNode: aNode
-	^ self visitAll: aNode nodes
+	self visitAll: aNode nodes.
+	^ aNode
 !
 
 visitReturnNode: aNode
