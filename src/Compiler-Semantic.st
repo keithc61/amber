@@ -550,7 +550,7 @@ visitBlockNode: aNode
 !
 
 visitCascadeNode: aNode
-	aNode receiver: aNode nodes first receiver.
+	aNode receiver: aNode dagChildren first receiver.
 	super visitCascadeNode: aNode
 !
 

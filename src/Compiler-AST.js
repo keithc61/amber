@@ -1,4 +1,4 @@
-define(["amber/boot", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
+define(["amber/boot", "amber_core/Kernel-Dag", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
@@ -6,97 +6,10 @@ $core.addPackage('Compiler-AST');
 $core.packages["Compiler-AST"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-AST"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('Node', $globals.Object, ['parent', 'position', 'source', 'nodes', 'shouldBeInlined', 'shouldBeAliased'], 'Compiler-AST');
+$core.addClass('Node', $globals.DagParentNode, ['parent', 'position', 'source', 'shouldBeInlined', 'shouldBeAliased'], 'Compiler-AST');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Node.comment="I am the abstract root class of the abstract syntax tree.\x0a\x0aConcrete classes should implement `#accept:` to allow visiting.\x0a\x0a`position` holds a point containing line and column number of the symbol location in the original source file.";
 //>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "accept:",
-protocol: 'visiting',
-fn: function (aVisitor){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(aVisitor)._visitNode_(self);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.Node)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitNode: self",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["visitNode:"]
-}),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "addNode:",
-protocol: 'accessing',
-fn: function (aNode){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv(self._nodes())._add_(aNode);
-$recv(aNode)._parent_(self);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"addNode:",{aNode:aNode},$globals.Node)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode"],
-source: "addNode: aNode\x0a\x09self nodes add: aNode.\x0a\x09aNode parent: self",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["add:", "nodes", "parent:"]
-}),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "allNodes",
-protocol: 'accessing',
-fn: function (){
-var self=this;
-var allNodes;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=self._nodes();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=1;
-//>>excludeEnd("ctx");
-allNodes=$recv($1)._asSet();
-$recv(self._nodes())._do_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(allNodes)._addAll_($recv(each)._allNodes());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-return allNodes;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"allNodes",{allNodes:allNodes},$globals.Node)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "allNodes\x0a\x09| allNodes |\x0a\x09\x0a\x09allNodes := self nodes asSet.\x0a\x09self nodes do: [ :each | \x0a\x09\x09allNodes addAll: each allNodes ].\x0a\x09\x0a\x09^ allNodes",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["asSet", "nodes", "do:", "addAll:", "allNodes"]
-}),
-$globals.Node);
-
 $core.addMethod(
 $core.method({
 selector: "inPosition:",
@@ -245,17 +158,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv($recv(self._parent())._nodes())._last()).__eq(self);
+return $recv($recv($recv(self._parent())._dagChildren())._last()).__eq(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isLastChild",{},$globals.Node)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isLastChild\x0a\x09^ self parent nodes last = self",
+source: "isLastChild\x0a\x09^ self parent dagChildren last = self",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["=", "last", "nodes", "parent"]
+messageSends: ["=", "last", "dagChildren", "parent"]
 }),
 $globals.Node);
 
@@ -516,7 +429,7 @@ return $core.withContext(function($ctx1) {
 var $2,$1;
 var $early={};
 try {
-children=$recv(self._allNodes())._select_((function(each){
+children=$recv(self._allDagChildren())._select_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -567,73 +480,10 @@ catch(e) {if(e===$early)return e[0]; throw e}
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPoint", "aBlock"],
-source: "navigationNodeAt: aPoint ifAbsent: aBlock\x0a\x09\x22Answer the navigation node in the receiver's tree at aPoint \x0a\x09or nil if no navigation node was found.\x0a\x09\x0a\x09See `node >> isNaviationNode`\x22\x0a\x09\x0a\x09| children |\x0a\x09\x0a\x09children := self allNodes select: [ :each | \x0a\x09\x09each isNavigationNode and: [ each inPosition: aPoint ] ].\x0a\x09\x0a\x09children ifEmpty: [ ^ aBlock value ].\x0a\x09\x0a\x09^ (children asArray sort: [ :a :b | \x0a\x09\x09(a positionStart dist: aPoint) <= \x0a\x09\x09(b positionStart dist: aPoint) ]) first",
+source: "navigationNodeAt: aPoint ifAbsent: aBlock\x0a\x09\x22Answer the navigation node in the receiver's tree at aPoint \x0a\x09or nil if no navigation node was found.\x0a\x09\x0a\x09See `node >> isNaviationNode`\x22\x0a\x09\x0a\x09| children |\x0a\x09\x0a\x09children := self allDagChildren select: [ :each | \x0a\x09\x09each isNavigationNode and: [ each inPosition: aPoint ] ].\x0a\x09\x0a\x09children ifEmpty: [ ^ aBlock value ].\x0a\x09\x0a\x09^ (children asArray sort: [ :a :b | \x0a\x09\x09(a positionStart dist: aPoint) <= \x0a\x09\x09(b positionStart dist: aPoint) ]) first",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["select:", "allNodes", "and:", "isNavigationNode", "inPosition:", "ifEmpty:", "value", "first", "sort:", "asArray", "<=", "dist:", "positionStart"]
-}),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "nodes",
-protocol: 'accessing',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$receiver;
-$1=self["@nodes"];
-if(($receiver = $1) == null || $receiver.isNil){
-self["@nodes"]=$recv($globals.Array)._new();
-return self["@nodes"];
-} else {
-return $1;
-};
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nodes",{},$globals.Node)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "nodes\x0a\x09^ nodes ifNil: [ nodes := Array new ]",
-referencedClasses: ["Array"],
-//>>excludeEnd("ide");
-messageSends: ["ifNil:", "new"]
-}),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "nodes:",
-protocol: 'building',
-fn: function (aCollection){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-self["@nodes"]=aCollection;
-$recv(aCollection)._do_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(each)._parent_(self);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nodes:",{aCollection:aCollection},$globals.Node)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aCollection"],
-source: "nodes: aCollection\x0a\x09nodes := aCollection.\x0a\x09aCollection do: [ :each | each parent: self ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["do:", "parent:"]
+messageSends: ["select:", "allDagChildren", "and:", "isNavigationNode", "inPosition:", "ifEmpty:", "value", "first", "sort:", "asArray", "<=", "dist:", "positionStart"]
 }),
 $globals.Node);
 
@@ -796,46 +646,6 @@ $globals.Node);
 
 $core.addMethod(
 $core.method({
-selector: "postCopy",
-protocol: 'copying',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = true,
-//>>excludeEnd("ctx");
-($globals.Node.superclass||$boot.nilAsClass).fn.prototype._postCopy.apply($recv(self), []));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = false;
-//>>excludeEnd("ctx");;
-$recv(self._nodes())._do_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(each)._parent_(self);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"postCopy",{},$globals.Node)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "postCopy\x0a\x09super postCopy.\x0a\x09self nodes do: [ :each | each parent: self ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["postCopy", "do:", "nodes", "parent:"]
-}),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
 selector: "requiresSmalltalkContext",
 protocol: 'testing',
 fn: function (){
@@ -843,7 +653,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv(self._nodes())._detect_ifNone_((function(each){
+return $recv($recv(self._dagChildren())._detect_ifNone_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -861,10 +671,10 @@ return nil;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "requiresSmalltalkContext\x0a\x09\x22Answer true if the receiver requires a smalltalk context.\x0a\x09Only send nodes require a context.\x0a\x09\x0a\x09If no node requires a context, the method will be compiled without one.\x0a\x09See `IRJSTranslator` and `JSStream` for context creation\x22\x0a\x09\x0a\x09^ (self nodes \x0a\x09\x09detect: [ :each | each requiresSmalltalkContext ]\x0a\x09\x09ifNone: [ nil ]) notNil",
+source: "requiresSmalltalkContext\x0a\x09\x22Answer true if the receiver requires a smalltalk context.\x0a\x09Only send nodes require a context.\x0a\x09\x0a\x09If no node requires a context, the method will be compiled without one.\x0a\x09See `IRJSTranslator` and `JSStream` for context creation\x22\x0a\x09\x0a\x09^ (self dagChildren \x0a\x09\x09detect: [ :each | each requiresSmalltalkContext ]\x0a\x09\x09ifNone: [ nil ]) notNil",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["notNil", "detect:ifNone:", "nodes", "requiresSmalltalkContext"]
+messageSends: ["notNil", "detect:ifNone:", "dagChildren", "requiresSmalltalkContext"]
 }),
 $globals.Node);
 
@@ -1057,7 +867,7 @@ return self._shouldBeInlined();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv(self._nodes())._anySatisfy_((function(each){
+return $recv(self._dagChildren())._anySatisfy_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -1080,10 +890,10 @@ return $1;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "subtreeNeedsAliasing\x0a\x09^ (self shouldBeAliased or: [ self shouldBeInlined ]) or: [\x0a\x09\x09self nodes anySatisfy: [ :each | each subtreeNeedsAliasing ] ]",
+source: "subtreeNeedsAliasing\x0a\x09^ (self shouldBeAliased or: [ self shouldBeInlined ]) or: [\x0a\x09\x09self dagChildren anySatisfy: [ :each | each subtreeNeedsAliasing ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["or:", "shouldBeAliased", "shouldBeInlined", "anySatisfy:", "nodes", "subtreeNeedsAliasing"]
+messageSends: ["or:", "shouldBeAliased", "shouldBeInlined", "anySatisfy:", "dagChildren", "subtreeNeedsAliasing"]
 }),
 $globals.Node);
 
@@ -1095,7 +905,7 @@ $globals.AssignmentNode.comment="I represent an assignment node.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -1104,15 +914,38 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(aVisitor)._visitAssignmentNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.AssignmentNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.AssignmentNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitAssignmentNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitAssignmentNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitAssignmentNode:"]
+}),
+$globals.AssignmentNode);
+
+$core.addMethod(
+$core.method({
+selector: "dagChildren",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.Array)._with_with_(self._left(),self._right());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"dagChildren",{},$globals.AssignmentNode)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "dagChildren\x0a\x09^ Array with: self left with: self right",
+referencedClasses: ["Array"],
+//>>excludeEnd("ide");
+messageSends: ["with:with:", "left", "right"]
 }),
 $globals.AssignmentNode);
 
@@ -1158,45 +991,16 @@ selector: "left:",
 protocol: 'accessing',
 fn: function (aNode){
 var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
 self["@left"]=aNode;
-$recv(aNode)._parent_(self);
 return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"left:",{aNode:aNode},$globals.AssignmentNode)});
-//>>excludeEnd("ctx");
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "left: aNode\x0a\x09left := aNode.\x0a\x09aNode parent: self",
+source: "left: aNode\x0a\x09left := aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["parent:"]
-}),
-$globals.AssignmentNode);
-
-$core.addMethod(
-$core.method({
-selector: "nodes",
-protocol: 'accessing',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($globals.Array)._with_with_(self._left(),self._right());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nodes",{},$globals.AssignmentNode)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "nodes\x0a\x09^ Array with: self left with: self right",
-referencedClasses: ["Array"],
-//>>excludeEnd("ide");
-messageSends: ["with:with:", "left", "right"]
+messageSends: []
 }),
 $globals.AssignmentNode);
 
@@ -1224,22 +1028,16 @@ selector: "right:",
 protocol: 'accessing',
 fn: function (aNode){
 var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
 self["@right"]=aNode;
-$recv(aNode)._parent_(self);
 return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"right:",{aNode:aNode},$globals.AssignmentNode)});
-//>>excludeEnd("ctx");
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "right: aNode\x0a\x09right := aNode.\x0a\x09aNode parent: self",
+source: "right: aNode\x0a\x09right := aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["parent:"]
+messageSends: []
 }),
 $globals.AssignmentNode);
 
@@ -1291,7 +1089,7 @@ $globals.BlockNode.comment="I represent an block closure node.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -1300,12 +1098,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(aVisitor)._visitBlockNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.BlockNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.BlockNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitBlockNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitBlockNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitBlockNode:"]
@@ -1455,7 +1253,7 @@ $globals.CascadeNode.comment="I represent an cascade node.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -1464,12 +1262,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(aVisitor)._visitCascadeNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.CascadeNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.CascadeNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitCascadeNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitCascadeNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitCascadeNode:"]
@@ -1562,7 +1360,7 @@ $globals.DynamicArrayNode.comment="I represent an dynamic array node.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -1571,12 +1369,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(aVisitor)._visitDynamicArrayNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.DynamicArrayNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.DynamicArrayNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitDynamicArrayNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitDynamicArrayNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitDynamicArrayNode:"]
@@ -1591,7 +1389,7 @@ $globals.DynamicDictionaryNode.comment="I represent an dynamic dictionary node."
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -1600,12 +1398,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(aVisitor)._visitDynamicDictionaryNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.DynamicDictionaryNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.DynamicDictionaryNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitDynamicDictionaryNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitDynamicDictionaryNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitDynamicDictionaryNode:"]
@@ -1620,7 +1418,7 @@ $globals.JSStatementNode.comment="I represent an JavaScript statement node.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -1629,12 +1427,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(aVisitor)._visitJSStatementNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.JSStatementNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.JSStatementNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitJSStatementNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitJSStatementNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitJSStatementNode:"]
@@ -1685,7 +1483,7 @@ $globals.MethodNode.comment="I represent an method node.\x0a\x0aA method node mu
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -1694,12 +1492,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(aVisitor)._visitMethodNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.MethodNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.MethodNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitMethodNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitMethodNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitMethodNode:"]
@@ -1955,7 +1753,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 var $early={};
 try {
-$recv(self._nodes())._do_((function(each){
+$recv(self._dagChildren())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -1976,10 +1774,10 @@ catch(e) {if(e===$early)return e[0]; throw e}
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "sequenceNode\x0a\x09self nodes do: [ :each |\x0a\x09\x09each isSequenceNode ifTrue: [ ^ each ] ].\x0a\x09\x09\x0a\x09^ nil",
+source: "sequenceNode\x0a\x09self dagChildren do: [ :each |\x0a\x09\x09each isSequenceNode ifTrue: [ ^ each ] ].\x0a\x09\x09\x0a\x09^ nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["do:", "nodes", "ifTrue:", "isSequenceNode"]
+messageSends: ["do:", "dagChildren", "ifTrue:", "isSequenceNode"]
 }),
 $globals.MethodNode);
 
@@ -2028,7 +1826,7 @@ $globals.ReturnNode.comment="I represent an return node. At the AST level, there
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -2037,12 +1835,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(aVisitor)._visitReturnNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.ReturnNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.ReturnNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitReturnNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitReturnNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitReturnNode:"]
@@ -2135,7 +1933,7 @@ $globals.SendNode.comment="I represent an message send node.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -2144,12 +1942,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(aVisitor)._visitSendNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.SendNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.SendNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitSendNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitSendNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitSendNode:"]
@@ -2192,69 +1990,55 @@ selector: "arguments:",
 protocol: 'accessing',
 fn: function (aCollection){
 var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
 self["@arguments"]=aCollection;
-$recv(aCollection)._do_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(each)._parent_(self);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
 return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"arguments:",{aCollection:aCollection},$globals.SendNode)});
-//>>excludeEnd("ctx");
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aCollection"],
-source: "arguments: aCollection\x0a\x09arguments := aCollection.\x0a\x09aCollection do: [ :each | each parent: self ]",
+source: "arguments: aCollection\x0a\x09arguments := aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["do:", "parent:"]
+messageSends: []
 }),
 $globals.SendNode);
 
 $core.addMethod(
 $core.method({
-selector: "cascadeNodeWithMessages:",
+selector: "dagChildren",
 protocol: 'accessing',
-fn: function (aCollection){
+fn: function (){
 var self=this;
-var first;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
-$1=$recv($globals.SendNode)._new();
+var $1,$2,$3,$receiver;
+$1=self._receiver();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["new"]=1;
+$ctx1.sendIdx["receiver"]=1;
 //>>excludeEnd("ctx");
-$recv($1)._selector_(self._selector());
-$recv($1)._arguments_(self._arguments());
-$2=$recv($1)._yourself();
+if(($receiver = $1) == null || $receiver.isNil){
+$2=self._arguments();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["yourself"]=1;
+$ctx1.sendIdx["arguments"]=1;
 //>>excludeEnd("ctx");
-first=$2;
-$3=$recv($globals.CascadeNode)._new();
-$recv($3)._receiver_(self._receiver());
-$recv($3)._nodes_($recv($recv($globals.Array)._with_(first)).__comma(aCollection));
+return $recv($2)._copy();
+} else {
+$1;
+};
+$3=$recv($globals.Array)._with_(self._receiver());
+$recv($3)._addAll_(self._arguments());
 return $recv($3)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"cascadeNodeWithMessages:",{aCollection:aCollection,first:first},$globals.SendNode)});
+}, function($ctx1) {$ctx1.fill(self,"dagChildren",{},$globals.SendNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aCollection"],
-source: "cascadeNodeWithMessages: aCollection\x0a\x09| first |\x0a\x09first := SendNode new\x0a\x09\x09selector: self selector;\x0a\x09\x09arguments: self arguments;\x0a\x09\x09yourself.\x0a\x09^ CascadeNode new\x0a\x09\x09receiver: self receiver;\x0a\x09\x09nodes: (Array with: first), aCollection;\x0a\x09\x09yourself",
-referencedClasses: ["SendNode", "CascadeNode", "Array"],
+args: [],
+source: "dagChildren\x0a\x09self receiver ifNil: [ ^ self arguments copy ].\x0a\x09\x0a\x09^ (Array with: self receiver)\x0a\x09\x09addAll: self arguments;\x0a\x09\x09yourself",
+referencedClasses: ["Array"],
 //>>excludeEnd("ide");
-messageSends: ["selector:", "new", "selector", "arguments:", "arguments", "yourself", "receiver:", "receiver", "nodes:", ",", "with:"]
+messageSends: ["ifNil:", "receiver", "copy", "arguments", "addAll:", "with:", "yourself"]
 }),
 $globals.SendNode);
 
@@ -2379,45 +2163,6 @@ $globals.SendNode);
 
 $core.addMethod(
 $core.method({
-selector: "nodes",
-protocol: 'accessing',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$2,$3,$receiver;
-$1=self._receiver();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["receiver"]=1;
-//>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
-$2=self._arguments();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["arguments"]=1;
-//>>excludeEnd("ctx");
-return $recv($2)._copy();
-} else {
-$1;
-};
-$3=$recv($globals.Array)._with_(self._receiver());
-$recv($3)._addAll_(self._arguments());
-return $recv($3)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nodes",{},$globals.SendNode)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "nodes\x0a\x09self receiver ifNil: [ ^ self arguments copy ].\x0a\x09\x0a\x09^ (Array with: self receiver)\x0a\x09\x09addAll: self arguments;\x0a\x09\x09yourself",
-referencedClasses: ["Array"],
-//>>excludeEnd("ide");
-messageSends: ["ifNil:", "receiver", "copy", "arguments", "addAll:", "with:", "yourself"]
-}),
-$globals.SendNode);
-
-$core.addMethod(
-$core.method({
 selector: "receiver",
 protocol: 'accessing',
 fn: function (){
@@ -2440,26 +2185,16 @@ selector: "receiver:",
 protocol: 'accessing',
 fn: function (aNode){
 var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
 self["@receiver"]=aNode;
-$1=$recv(aNode)._isNode();
-if($core.assert($1)){
-$recv(aNode)._parent_(self);
-};
 return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"receiver:",{aNode:aNode},$globals.SendNode)});
-//>>excludeEnd("ctx");
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "receiver: aNode\x0a\x09receiver := aNode.\x0a\x09aNode isNode ifTrue: [\x0a\x09\x09aNode parent: self ]",
+source: "receiver: aNode\x0a\x09receiver := aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:", "isNode", "parent:"]
+messageSends: []
 }),
 $globals.SendNode);
 
@@ -2664,7 +2399,7 @@ $globals.SequenceNode.comment="I represent an sequence node. A sequence represen
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -2673,12 +2408,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(aVisitor)._visitSequenceNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.SequenceNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.SequenceNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitSequenceNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitSequenceNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitSequenceNode:"]
@@ -2698,7 +2433,7 @@ var $1;
 $1=$recv($globals.BlockSequenceNode)._new();
 $recv($1)._position_(self._position());
 $recv($1)._source_(self._source());
-$recv($1)._nodes_(self._nodes());
+$recv($1)._dagChildren_(self._dagChildren());
 $recv($1)._temps_(self._temps());
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2707,10 +2442,10 @@ return $recv($1)._yourself();
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asBlockSequenceNode\x0a\x09^ BlockSequenceNode new\x0a\x09\x09position: self position;\x0a\x09\x09source: self source;\x0a\x09\x09nodes: self nodes;\x0a\x09\x09temps: self temps;\x0a\x09\x09yourself",
+source: "asBlockSequenceNode\x0a\x09^ BlockSequenceNode new\x0a\x09\x09position: self position;\x0a\x09\x09source: self source;\x0a\x09\x09dagChildren: self dagChildren;\x0a\x09\x09temps: self temps;\x0a\x09\x09yourself",
 referencedClasses: ["BlockSequenceNode"],
 //>>excludeEnd("ide");
-messageSends: ["position:", "new", "position", "source:", "source", "nodes:", "nodes", "temps:", "temps", "yourself"]
+messageSends: ["position:", "new", "position", "source:", "source", "dagChildren:", "dagChildren", "temps:", "temps", "yourself"]
 }),
 $globals.SequenceNode);
 
@@ -2825,7 +2560,7 @@ $globals.BlockSequenceNode.comment="I represent an special sequence node for blo
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -2834,12 +2569,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(aVisitor)._visitBlockSequenceNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.BlockSequenceNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.BlockSequenceNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitBlockSequenceNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitBlockSequenceNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitBlockSequenceNode:"]
@@ -2872,7 +2607,7 @@ $globals.ValueNode.comment="I represent a value node.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -2881,12 +2616,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(aVisitor)._visitValueNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.ValueNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.ValueNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitValueNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitValueNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitValueNode:"]
@@ -2979,7 +2714,7 @@ $globals.VariableNode.comment="I represent an variable node.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -2988,12 +2723,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(aVisitor)._visitVariableNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.VariableNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.VariableNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitVariableNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitVariableNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitVariableNode:"]
@@ -3263,7 +2998,7 @@ $globals.VariableNode);
 
 
 
-$core.addClass('NodeVisitor', $globals.Object, [], 'Compiler-AST');
+$core.addClass('NodeVisitor', $globals.PathDagVisitor, [], 'Compiler-AST');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.NodeVisitor.comment="I am the abstract super class of all AST node visitors.";
 //>>excludeEnd("ide");
@@ -3276,48 +3011,35 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(aNode)._accept_(self);
+var $1;
+$recv(self._path())._ifNotEmpty_((function(p){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(aNode)._parent_($recv(p)._last());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({p:p},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$1=(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.NodeVisitor.superclass||$boot.nilAsClass).fn.prototype._visit_.apply($recv(self), [aNode]));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visit:",{aNode:aNode},$globals.NodeVisitor)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visit: aNode\x0a\x09^ aNode accept: self",
+source: "visit: aNode\x0a\x09self path ifNotEmpty: [ :p | aNode parent: p last ].\x0a\x09^ super visit: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["accept:"]
-}),
-$globals.NodeVisitor);
-
-$core.addMethod(
-$core.method({
-selector: "visitAll:",
-protocol: 'visiting',
-fn: function (aCollection){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(aCollection)._collect_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return self._visit_(each);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitAll:",{aCollection:aCollection},$globals.NodeVisitor)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aCollection"],
-source: "visitAll: aCollection\x0a\x09^ aCollection collect: [ :each | self visit: each ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["collect:", "visit:"]
+messageSends: ["ifNotEmpty:", "path", "parent:", "last", "visit:"]
 }),
 $globals.NodeVisitor);
 
@@ -3330,17 +3052,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitAssignmentNode:",{aNode:aNode},$globals.NodeVisitor)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitAssignmentNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitAssignmentNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -3353,17 +3075,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitBlockNode:",{aNode:aNode},$globals.NodeVisitor)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitBlockNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitBlockNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -3399,17 +3121,40 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitCascadeNode:",{aNode:aNode},$globals.NodeVisitor)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitCascadeNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitCascadeNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
+}),
+$globals.NodeVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "visitDagNode:",
+protocol: 'visiting',
+fn: function (aNode){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._visitDagNodeVariantSimple_(aNode);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"visitDagNode:",{aNode:aNode},$globals.NodeVisitor)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNode"],
+source: "visitDagNode: aNode\x0a\x09^ self visitDagNodeVariantSimple: aNode",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["visitDagNodeVariantSimple:"]
 }),
 $globals.NodeVisitor);
 
@@ -3422,17 +3167,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitDynamicArrayNode:",{aNode:aNode},$globals.NodeVisitor)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitDynamicArrayNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitDynamicArrayNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -3445,17 +3190,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitDynamicDictionaryNode:",{aNode:aNode},$globals.NodeVisitor)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitDynamicDictionaryNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitDynamicDictionaryNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -3468,17 +3213,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitJSStatementNode:",{aNode:aNode},$globals.NodeVisitor)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitJSStatementNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitJSStatementNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -3491,41 +3236,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitMethodNode:",{aNode:aNode},$globals.NodeVisitor)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitMethodNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitMethodNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["visitNode:"]
-}),
-$globals.NodeVisitor);
-
-$core.addMethod(
-$core.method({
-selector: "visitNode:",
-protocol: 'visiting',
-fn: function (aNode){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-self._visitAll_($recv(aNode)._nodes());
-return aNode;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitNode:",{aNode:aNode},$globals.NodeVisitor)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode"],
-source: "visitNode: aNode\x0a\x09self visitAll: aNode nodes.\x0a\x09^ aNode",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["visitAll:", "nodes"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -3538,17 +3259,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitReturnNode:",{aNode:aNode},$globals.NodeVisitor)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitReturnNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitReturnNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -3561,17 +3282,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode},$globals.NodeVisitor)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitSendNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitSendNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -3584,17 +3305,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitSequenceNode:",{aNode:aNode},$globals.NodeVisitor)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitSequenceNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitSequenceNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -3607,17 +3328,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitValueNode:",{aNode:aNode},$globals.NodeVisitor)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitValueNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitValueNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -3630,17 +3351,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitVariableNode:",{aNode:aNode},$globals.NodeVisitor)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitVariableNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitVariableNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 

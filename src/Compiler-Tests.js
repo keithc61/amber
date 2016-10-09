@@ -2425,9 +2425,9 @@ var $4,$3,$2,$1;
 src="foo | a | a + 1. [ | b | b := a ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
 $recv(self["@analyzer"])._visit_(ast);
-$4=$recv($recv($recv(ast)._nodes())._first())._nodes();
+$4=$recv($recv($recv(ast)._dagChildren())._first())._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=1;
+$ctx1.sendIdx["dagChildren"]=1;
 //>>excludeEnd("ctx");
 $3=$recv($4)._last();
 $2=$recv($3)._scope();
@@ -2443,10 +2443,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testScope\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ | b | b := a ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09self deny: ast nodes first nodes last scope == ast scope.",
+source: "testScope\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ | b | b := a ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09self deny: ast dagChildren first dagChildren last scope == ast scope.",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["parse:", "visit:", "deny:", "==", "scope", "last", "nodes", "first"]
+messageSends: ["parse:", "visit:", "deny:", "==", "scope", "last", "dagChildren", "first"]
 }),
 $globals.SemanticAnalyzerTest);
 
@@ -2464,22 +2464,22 @@ var $8,$7,$6,$5,$4,$3,$2,$1;
 src="foo | a | a + 1. [ [ | b | b := a ] ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
 $recv(self["@analyzer"])._visit_(ast);
-$8=$recv($recv($recv(ast)._nodes())._first())._nodes();
+$8=$recv($recv($recv(ast)._dagChildren())._first())._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=3;
+$ctx1.sendIdx["dagChildren"]=3;
 //>>excludeEnd("ctx");
 $7=$recv($8)._last();
-$6=$recv($7)._nodes();
+$6=$recv($7)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=2;
+$ctx1.sendIdx["dagChildren"]=2;
 //>>excludeEnd("ctx");
 $5=$recv($6)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["first"]=2;
 //>>excludeEnd("ctx");
-$4=$recv($5)._nodes();
+$4=$recv($5)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=1;
+$ctx1.sendIdx["dagChildren"]=1;
 //>>excludeEnd("ctx");
 $3=$recv($4)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2498,10 +2498,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testScope2\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ [ | b | b := a ] ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09self deny: ast nodes first nodes last nodes first nodes first scope == ast scope.",
+source: "testScope2\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ [ | b | b := a ] ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09self deny: ast dagChildren first dagChildren last dagChildren first dagChildren first scope == ast scope.",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["parse:", "visit:", "deny:", "==", "scope", "first", "nodes", "last"]
+messageSends: ["parse:", "visit:", "deny:", "==", "scope", "first", "dagChildren", "last"]
 }),
 $globals.SemanticAnalyzerTest);
 
@@ -2531,22 +2531,22 @@ self._assert_equals_($1,(1));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=1;
 //>>excludeEnd("ctx");
-$10=$recv($recv($recv(ast)._nodes())._first())._nodes();
+$10=$recv($recv($recv(ast)._dagChildren())._first())._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=3;
+$ctx1.sendIdx["dagChildren"]=3;
 //>>excludeEnd("ctx");
 $9=$recv($10)._last();
-$8=$recv($9)._nodes();
+$8=$recv($9)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=2;
+$ctx1.sendIdx["dagChildren"]=2;
 //>>excludeEnd("ctx");
 $7=$recv($8)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["first"]=2;
 //>>excludeEnd("ctx");
-$6=$recv($7)._nodes();
+$6=$recv($7)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=1;
+$ctx1.sendIdx["dagChildren"]=1;
 //>>excludeEnd("ctx");
 $5=$recv($6)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2562,10 +2562,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testScopeLevel\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ [ | b | b := a ] ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09self assert: ast scope scopeLevel equals: 1.\x0a\x09self assert: ast nodes first nodes last nodes first nodes first scope scopeLevel equals: 3",
+source: "testScopeLevel\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ [ | b | b := a ] ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09self assert: ast scope scopeLevel equals: 1.\x0a\x09self assert: ast dagChildren first dagChildren last dagChildren first dagChildren first scope scopeLevel equals: 3",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["parse:", "visit:", "assert:equals:", "scopeLevel", "scope", "first", "nodes", "last"]
+messageSends: ["parse:", "visit:", "assert:equals:", "scopeLevel", "scope", "first", "dagChildren", "last"]
 }),
 $globals.SemanticAnalyzerTest);
 
@@ -2804,17 +2804,17 @@ var $7,$6,$5,$4,$3,$2,$1,$15,$14,$13,$12,$11,$10,$9,$16,$8,$27,$26,$25,$24,$23,$
 src="foo | a | a + 1. [ | b | b := a ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
 $recv(self["@analyzer"])._visit_(ast);
-$7=$recv(ast)._nodes();
+$7=$recv(ast)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=2;
+$ctx1.sendIdx["dagChildren"]=2;
 //>>excludeEnd("ctx");
 $6=$recv($7)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["first"]=2;
 //>>excludeEnd("ctx");
-$5=$recv($6)._nodes();
+$5=$recv($6)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=1;
+$ctx1.sendIdx["dagChildren"]=1;
 //>>excludeEnd("ctx");
 $4=$recv($5)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2836,17 +2836,17 @@ self._assert_($1);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:"]=1;
 //>>excludeEnd("ctx");
-$15=$recv(ast)._nodes();
+$15=$recv(ast)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=4;
+$ctx1.sendIdx["dagChildren"]=4;
 //>>excludeEnd("ctx");
 $14=$recv($15)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["first"]=4;
 //>>excludeEnd("ctx");
-$13=$recv($14)._nodes();
+$13=$recv($14)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=3;
+$ctx1.sendIdx["dagChildren"]=3;
 //>>excludeEnd("ctx");
 $12=$recv($13)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2873,33 +2873,33 @@ self._assert_($8);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:"]=2;
 //>>excludeEnd("ctx");
-$27=$recv(ast)._nodes();
+$27=$recv(ast)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=8;
+$ctx1.sendIdx["dagChildren"]=8;
 //>>excludeEnd("ctx");
 $26=$recv($27)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["first"]=7;
 //>>excludeEnd("ctx");
-$25=$recv($26)._nodes();
+$25=$recv($26)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=7;
+$ctx1.sendIdx["dagChildren"]=7;
 //>>excludeEnd("ctx");
 $24=$recv($25)._last();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["last"]=1;
 //>>excludeEnd("ctx");
-$23=$recv($24)._nodes();
+$23=$recv($24)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=6;
+$ctx1.sendIdx["dagChildren"]=6;
 //>>excludeEnd("ctx");
 $22=$recv($23)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["first"]=6;
 //>>excludeEnd("ctx");
-$21=$recv($22)._nodes();
+$21=$recv($22)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=5;
+$ctx1.sendIdx["dagChildren"]=5;
 //>>excludeEnd("ctx");
 $20=$recv($21)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2918,33 +2918,33 @@ self._assert_($17);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:"]=3;
 //>>excludeEnd("ctx");
-$39=$recv(ast)._nodes();
+$39=$recv(ast)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=12;
+$ctx1.sendIdx["dagChildren"]=12;
 //>>excludeEnd("ctx");
 $38=$recv($39)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["first"]=10;
 //>>excludeEnd("ctx");
-$37=$recv($38)._nodes();
+$37=$recv($38)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=11;
+$ctx1.sendIdx["dagChildren"]=11;
 //>>excludeEnd("ctx");
 $36=$recv($37)._last();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["last"]=2;
 //>>excludeEnd("ctx");
-$35=$recv($36)._nodes();
+$35=$recv($36)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=10;
+$ctx1.sendIdx["dagChildren"]=10;
 //>>excludeEnd("ctx");
 $34=$recv($35)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["first"]=9;
 //>>excludeEnd("ctx");
-$33=$recv($34)._nodes();
+$33=$recv($34)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=9;
+$ctx1.sendIdx["dagChildren"]=9;
 //>>excludeEnd("ctx");
 $32=$recv($33)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2956,9 +2956,9 @@ $29=$recv($30)._scope();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["scope"]=3;
 //>>excludeEnd("ctx");
-$42=$recv($recv($recv(ast)._nodes())._first())._nodes();
+$42=$recv($recv($recv(ast)._dagChildren())._first())._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=13;
+$ctx1.sendIdx["dagChildren"]=13;
 //>>excludeEnd("ctx");
 $41=$recv($42)._last();
 $40=$recv($41)._scope();
@@ -2971,10 +2971,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testVariablesLookup\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ | b | b := a ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09\x22Binding for `a` in the message send\x22\x0a\x09self assert: ast nodes first nodes first receiver binding isTempVar.\x0a\x09self assert: ast nodes first nodes first receiver binding scope == ast scope.\x0a\x0a\x09\x22Binding for `b`\x22\x0a\x09self assert: ast nodes first nodes last nodes first nodes first left binding isTempVar.\x0a\x09self assert: ast nodes first nodes last nodes first nodes first left binding scope == ast nodes first nodes last scope.",
+source: "testVariablesLookup\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ | b | b := a ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09\x22Binding for `a` in the message send\x22\x0a\x09self assert: ast dagChildren first dagChildren first receiver binding isTempVar.\x0a\x09self assert: ast dagChildren first dagChildren first receiver binding scope == ast scope.\x0a\x0a\x09\x22Binding for `b`\x22\x0a\x09self assert: ast dagChildren first dagChildren last dagChildren first dagChildren first left binding isTempVar.\x0a\x09self assert: ast dagChildren first dagChildren last dagChildren first dagChildren first left binding scope == ast dagChildren first dagChildren last scope.",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["parse:", "visit:", "assert:", "isTempVar", "binding", "receiver", "first", "nodes", "==", "scope", "left", "last"]
+messageSends: ["parse:", "visit:", "assert:", "isTempVar", "binding", "receiver", "first", "dagChildren", "==", "scope", "left", "last"]
 }),
 $globals.SemanticAnalyzerTest);
 

@@ -134,7 +134,7 @@ $globals.SmalltalkParser = (function() {
                              return $globals.DynamicArrayNode._new()
                                     ._location_(location())
                                     ._source_(text())
-                                    ._nodes_(expressions || []);
+                                    ._dagChildren_(expressions || []);
                          },
         peg$c66 = "#{",
         peg$c67 = { type: "literal", value: "#{", description: "\"#{\"" },
@@ -142,7 +142,7 @@ $globals.SmalltalkParser = (function() {
                                 return $globals.DynamicDictionaryNode._new()
                                        ._location_(location())
                                        ._source_(text())
-                                       ._nodes_(expressions || []);
+                                       ._dagChildren_(expressions || []);
                             },
         peg$c69 = "true",
         peg$c70 = { type: "literal", value: "true", description: "\"true\"" },
@@ -197,7 +197,7 @@ $globals.SmalltalkParser = (function() {
                              return $globals.ReturnNode._new()
                                     ._location_(location())
                                     ._source_(text())
-                                    ._nodes_([expression]);
+                                    ._dagChildren_([expression]);
                          },
         peg$c95 = "|",
         peg$c96 = { type: "literal", value: "|", description: "\"|\"" },
@@ -220,7 +220,7 @@ $globals.SmalltalkParser = (function() {
                                     ._location_(location())
                                     ._source_(text())
                                     ._temps_(temps || [])
-                                    ._nodes_(statements || []);
+                                    ._dagChildren_(statements || []);
                          },
         peg$c106 = "[",
         peg$c107 = { type: "literal", value: "[", description: "\"[\"" },
@@ -231,7 +231,7 @@ $globals.SmalltalkParser = (function() {
                                     ._location_(location())
                                     ._source_(text())
                                     ._parameters_(params || [])
-                                    ._nodes_([sequence._asBlockSequenceNode()]);
+                                    ._dagChildren_([sequence._asBlockSequenceNode()]);
                          },
         peg$c111 = function(selector) {
                              return $globals.SendNode._new()
@@ -292,7 +292,7 @@ $globals.SmalltalkParser = (function() {
                              return $globals.CascadeNode._new()
                                     ._location_(location())
                                     ._source_(text())
-                                    ._nodes_(messages);
+                                    ._dagChildren_(messages);
                          },
         peg$c122 = "<",
         peg$c123 = { type: "literal", value: "<", description: "\"<\"" },
@@ -314,7 +314,7 @@ $globals.SmalltalkParser = (function() {
                                      ._source_(text())
                                      ._selector_(pattern[0])
                                      ._arguments_(pattern[1])
-                                     ._nodes_([sequence]);
+                                     ._dagChildren_([sequence]);
                          },
         peg$c133 = function(send) { return send._isSendNode() && send._selector() === "->" },
         peg$c134 = function(send) { return [send._receiver(), send._arguments()[0]]; },

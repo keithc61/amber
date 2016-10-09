@@ -247,7 +247,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$3;
 context=$recv(self["@outerContext"])._newInnerContext();
-$1=$recv($recv($recv(self["@node"])._nodes())._first())._copy();
+$1=$recv($recv($recv(self["@node"])._dagChildren())._first())._copy();
 $recv($1)._parent_(nil);
 sequenceNode=$recv($1)._yourself();
 $recv($recv(sequenceNode)._temps())._do_((function(each){
@@ -294,10 +294,10 @@ return $recv($recv(context)._interpreter())._pop();
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aCollection"],
-source: "valueWithPossibleArguments: aCollection\x0a\x09| context sequenceNode |\x0a\x09context := outerContext newInnerContext.\x0a\x0a\x09\x22Interpret a copy of the sequence node to avoid creating a new AIBlockClosure\x22\x0a\x09sequenceNode := node nodes first copy\x0a\x09\x09parent: nil;\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09\x22Define locals in the context\x22\x0a\x09sequenceNode temps do: [ :each |\x0a\x09\x09context defineLocal: each ].\x0a\x09\x09\x0a\x09\x22Populate the arguments into the context locals\x22\x09\x0a\x09node parameters withIndexDo: [ :each :index |\x0a\x09\x09context defineLocal: each.\x0a\x09\x09context localAt: each put: (aCollection at: index ifAbsent: [ nil ]) ].\x0a\x0a\x09\x22Interpret the first node of the BlockSequenceNode\x22\x0a\x09context interpreter\x0a\x09\x09node: sequenceNode;\x0a\x09\x09enterNode;\x0a\x09\x09proceed.\x0a\x09\x09\x0a\x09outerContext interpreter\x0a\x09\x09setNonLocalReturnFromContext: context.\x0a\x09\x09\x0a\x09^ context interpreter pop",
+source: "valueWithPossibleArguments: aCollection\x0a\x09| context sequenceNode |\x0a\x09context := outerContext newInnerContext.\x0a\x0a\x09\x22Interpret a copy of the sequence node to avoid creating a new AIBlockClosure\x22\x0a\x09sequenceNode := node dagChildren first copy\x0a\x09\x09parent: nil;\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09\x22Define locals in the context\x22\x0a\x09sequenceNode temps do: [ :each |\x0a\x09\x09context defineLocal: each ].\x0a\x09\x09\x0a\x09\x22Populate the arguments into the context locals\x22\x09\x0a\x09node parameters withIndexDo: [ :each :index |\x0a\x09\x09context defineLocal: each.\x0a\x09\x09context localAt: each put: (aCollection at: index ifAbsent: [ nil ]) ].\x0a\x0a\x09\x22Interpret the first node of the BlockSequenceNode\x22\x0a\x09context interpreter\x0a\x09\x09node: sequenceNode;\x0a\x09\x09enterNode;\x0a\x09\x09proceed.\x0a\x09\x09\x0a\x09outerContext interpreter\x0a\x09\x09setNonLocalReturnFromContext: context.\x0a\x09\x09\x0a\x09^ context interpreter pop",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["newInnerContext", "parent:", "copy", "first", "nodes", "yourself", "do:", "temps", "defineLocal:", "withIndexDo:", "parameters", "localAt:put:", "at:ifAbsent:", "node:", "interpreter", "enterNode", "proceed", "setNonLocalReturnFromContext:", "pop"]
+messageSends: ["newInnerContext", "parent:", "copy", "first", "dagChildren", "yourself", "do:", "temps", "defineLocal:", "withIndexDo:", "parameters", "localAt:put:", "at:ifAbsent:", "node:", "interpreter", "enterNode", "proceed", "setNonLocalReturnFromContext:", "pop"]
 }),
 $globals.AIBlockClosure);
 
@@ -2096,7 +2096,7 @@ $globals.ASTEnterNode);
 
 $core.addMethod(
 $core.method({
-selector: "visitNode:",
+selector: "visitDagNode:",
 protocol: 'visiting',
 fn: function (aNode){
 var self=this;
@@ -2105,7 +2105,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $early={};
 try {
-$recv($recv(aNode)._nodes())._ifEmpty_ifNotEmpty_((function(){
+$recv($recv(aNode)._dagChildren())._ifEmpty_ifNotEmpty_((function(){
 throw $early=[aNode];
 
 }),(function(nodes){
@@ -2121,15 +2121,15 @@ return self;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitNode:",{aNode:aNode},$globals.ASTEnterNode)});
+}, function($ctx1) {$ctx1.fill(self,"visitDagNode:",{aNode:aNode},$globals.ASTEnterNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitNode: aNode\x0a\x09aNode nodes\x0a\x09\x09ifEmpty: [ ^ aNode ]\x0a\x09\x09ifNotEmpty: [ :nodes | ^ self visit: nodes first ]",
+source: "visitDagNode: aNode\x0a\x09aNode dagChildren\x0a\x09\x09ifEmpty: [ ^ aNode ]\x0a\x09\x09ifNotEmpty: [ :nodes | ^ self visit: nodes first ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifEmpty:ifNotEmpty:", "nodes", "visit:", "first"]
+messageSends: ["ifEmpty:ifNotEmpty:", "dagChildren", "visit:", "first"]
 }),
 $globals.ASTEnterNode);
 
@@ -3211,6 +3211,24 @@ $globals.ASTInterpreter);
 
 $core.addMethod(
 $core.method({
+selector: "visitDagNode:",
+protocol: 'visiting',
+fn: function (aNode){
+var self=this;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNode"],
+source: "visitDagNode: aNode\x0a\x09\x22Do nothing by default. Especially, do not visit children recursively.\x22",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.ASTInterpreter);
+
+$core.addMethod(
+$core.method({
 selector: "visitDynamicArrayNode:",
 protocol: 'visiting',
 fn: function (aNode){
@@ -3220,7 +3238,7 @@ var array;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 array=[];
-$recv($recv(aNode)._nodes())._do_((function(each){
+$recv($recv(aNode)._dagChildren())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -3237,10 +3255,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitDynamicArrayNode: aNode\x0a\x09| array |\x0a\x09\x0a\x09array := #().\x0a\x09aNode nodes do: [ :each |\x0a\x09\x09array addFirst: self pop ].\x0a\x09\x0a\x09self push: array",
+source: "visitDynamicArrayNode: aNode\x0a\x09| array |\x0a\x09\x0a\x09array := #().\x0a\x09aNode dagChildren do: [ :each |\x0a\x09\x09array addFirst: self pop ].\x0a\x09\x0a\x09self push: array",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["do:", "nodes", "addFirst:", "pop", "push:"]
+messageSends: ["do:", "dagChildren", "addFirst:", "pop", "push:"]
 }),
 $globals.ASTInterpreter);
 
@@ -3255,7 +3273,7 @@ var keyValueList;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 keyValueList=$recv($globals.OrderedCollection)._new();
-$recv($recv(aNode)._nodes())._do_((function(each){
+$recv($recv(aNode)._dagChildren())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -3272,10 +3290,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitDynamicDictionaryNode: aNode\x0a\x09| keyValueList |\x0a\x09\x0a\x09keyValueList := OrderedCollection new.\x0a\x09\x0a\x09aNode nodes do: [ :each | \x0a\x09\x09keyValueList add: self pop ].\x0a\x09\x0a\x09self push: (HashedCollection newFromPairs: keyValueList reversed)",
+source: "visitDynamicDictionaryNode: aNode\x0a\x09| keyValueList |\x0a\x09\x0a\x09keyValueList := OrderedCollection new.\x0a\x09\x0a\x09aNode dagChildren do: [ :each | \x0a\x09\x09keyValueList add: self pop ].\x0a\x09\x0a\x09self push: (HashedCollection newFromPairs: keyValueList reversed)",
 referencedClasses: ["OrderedCollection", "HashedCollection"],
 //>>excludeEnd("ide");
-messageSends: ["new", "do:", "nodes", "add:", "pop", "push:", "newFromPairs:", "reversed"]
+messageSends: ["new", "do:", "dagChildren", "add:", "pop", "push:", "newFromPairs:", "reversed"]
 }),
 $globals.ASTInterpreter);
 
@@ -3301,24 +3319,6 @@ source: "visitJSStatementNode: aNode\x0a\x09returned := true.\x0a\x09self return
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["returnValue:", "eval:", "source"]
-}),
-$globals.ASTInterpreter);
-
-$core.addMethod(
-$core.method({
-selector: "visitNode:",
-protocol: 'visiting',
-fn: function (aNode){
-var self=this;
-return self;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode"],
-source: "visitNode: aNode\x0a\x09\x22Do nothing by default. Especially, do not visit children recursively.\x22",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
 }),
 $globals.ASTInterpreter);
 
@@ -3903,11 +3903,11 @@ return $core.withContext(function($ctx1) {
 var $1;
 var $early={};
 try {
-$1=self._nodes();
+$1=self._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nodes"]=1;
+$ctx1.sendIdx["dagChildren"]=1;
 //>>excludeEnd("ctx");
-return $recv($1)._at_ifAbsent_($recv($recv(self._nodes())._indexOf_(aNode)).__plus((1)),(function(){
+return $recv($1)._at_ifAbsent_($recv($recv(self._dagChildren())._indexOf_(aNode)).__plus((1)),(function(){
 throw $early=[nil];
 
 }));
@@ -3919,10 +3919,10 @@ catch(e) {if(e===$early)return e[0]; throw e}
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "nextSiblingNode: aNode\x0a\x09\x22Answer the next node after aNode or nil\x22\x0a\x09\x0a\x09^ self nodes \x0a\x09\x09at: (self nodes indexOf: aNode) + 1\x0a\x09\x09ifAbsent: [ ^ nil ]",
+source: "nextSiblingNode: aNode\x0a\x09\x22Answer the next node after aNode or nil\x22\x0a\x09\x0a\x09^ self dagChildren \x0a\x09\x09at: (self dagChildren indexOf: aNode) + 1\x0a\x09\x09ifAbsent: [ ^ nil ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["at:ifAbsent:", "nodes", "+", "indexOf:"]
+messageSends: ["at:ifAbsent:", "dagChildren", "+", "indexOf:"]
 }),
 $globals.Node);
 

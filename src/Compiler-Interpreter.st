@@ -60,7 +60,7 @@ valueWithPossibleArguments: aCollection
 	context := outerContext newInnerContext.
 
 	"Interpret a copy of the sequence node to avoid creating a new AIBlockClosure"
-	sequenceNode := node nodes first copy
+	sequenceNode := node dagChildren first copy
 		parent: nil;
 		yourself.
 		
@@ -560,8 +560,8 @@ visitBlockNode: aNode
 	^ aNode
 !
 
-visitNode: aNode
-	aNode nodes
+visitDagNode: aNode
+	aNode dagChildren
 		ifEmpty: [ ^ aNode ]
 		ifNotEmpty: [ :nodes | ^ self visit: nodes first ]
 !
@@ -834,11 +834,15 @@ visitBlockSequenceNode: aNode
 	forceAtEnd := true
 !
 
+visitDagNode: aNode
+	"Do nothing by default. Especially, do not visit children recursively."
+!
+
 visitDynamicArrayNode: aNode
 	| array |
 	
 	array := #().
-	aNode nodes do: [ :each |
+	aNode dagChildren do: [ :each |
 		array addFirst: self pop ].
 	
 	self push: array
@@ -849,7 +853,7 @@ visitDynamicDictionaryNode: aNode
 	
 	keyValueList := OrderedCollection new.
 	
-	aNode nodes do: [ :each | 
+	aNode dagChildren do: [ :each | 
 		keyValueList add: self pop ].
 	
 	self push: (HashedCollection newFromPairs: keyValueList reversed)
@@ -858,10 +862,6 @@ visitDynamicDictionaryNode: aNode
 visitJSStatementNode: aNode
 	returned := true.
 	self returnValue: (self eval: aNode source)
-!
-
-visitNode: aNode
-	"Do nothing by default. Especially, do not visit children recursively."
 !
 
 visitReturnNode: aNode
@@ -1021,8 +1021,8 @@ isSteppingNode
 nextSiblingNode: aNode
 	"Answer the next node after aNode or nil"
 	
-	^ self nodes 
-		at: (self nodes indexOf: aNode) + 1
+	^ self dagChildren 
+		at: (self dagChildren indexOf: aNode) + 1
 		ifAbsent: [ ^ nil ]
 ! !
 

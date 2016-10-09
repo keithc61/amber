@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Compiler-AST'!
-Object subclass: #Node
-	instanceVariableNames: 'parent position source nodes shouldBeInlined shouldBeAliased'
+DagParentNode subclass: #Node
+	instanceVariableNames: 'parent position source shouldBeInlined shouldBeAliased'
 	package: 'Compiler-AST'!
 !Node commentStamp!
 I am the abstract root class of the abstract syntax tree.
@@ -10,21 +10,6 @@ Concrete classes should implement `#accept:` to allow visiting.
 `position` holds a point containing line and column number of the symbol location in the original source file.!
 
 !Node methodsFor: 'accessing'!
-
-addNode: aNode
-	self nodes add: aNode.
-	aNode parent: self
-!
-
-allNodes
-	| allNodes |
-	
-	allNodes := self nodes asSet.
-	self nodes do: [ :each | 
-		allNodes addAll: each allNodes ].
-	
-	^ allNodes
-!
 
 location: aLocation
 	self position: aLocation start line @ aLocation start column
@@ -42,7 +27,7 @@ navigationNodeAt: aPoint ifAbsent: aBlock
 	
 	| children |
 	
-	children := self allNodes select: [ :each | 
+	children := self allDagChildren select: [ :each | 
 		each isNavigationNode and: [ each inPosition: aPoint ] ].
 	
 	children ifEmpty: [ ^ aBlock value ].
@@ -50,10 +35,6 @@ navigationNodeAt: aPoint ifAbsent: aBlock
 	^ (children asArray sort: [ :a :b | 
 		(a positionStart dist: aPoint) <= 
 		(b positionStart dist: aPoint) ]) first
-!
-
-nodes
-	^ nodes ifNil: [ nodes := Array new ]
 !
 
 parent
@@ -111,20 +92,6 @@ source: aString
 	source := aString
 ! !
 
-!Node methodsFor: 'building'!
-
-nodes: aCollection
-	nodes := aCollection.
-	aCollection do: [ :each | each parent: self ]
-! !
-
-!Node methodsFor: 'copying'!
-
-postCopy
-	super postCopy.
-	self nodes do: [ :each | each parent: self ]
-! !
-
 !Node methodsFor: 'testing'!
 
 inPosition: aPoint
@@ -157,7 +124,7 @@ isJSStatementNode
 !
 
 isLastChild
-	^ self parent nodes last = self
+	^ self parent dagChildren last = self
 !
 
 isNavigationNode
@@ -209,20 +176,14 @@ requiresSmalltalkContext
 	If no node requires a context, the method will be compiled without one.
 	See `IRJSTranslator` and `JSStream` for context creation"
 	
-	^ (self nodes 
+	^ (self dagChildren 
 		detect: [ :each | each requiresSmalltalkContext ]
 		ifNone: [ nil ]) notNil
 !
 
 subtreeNeedsAliasing
 	^ (self shouldBeAliased or: [ self shouldBeInlined ]) or: [
-		self nodes anySatisfy: [ :each | each subtreeNeedsAliasing ] ]
-! !
-
-!Node methodsFor: 'visiting'!
-
-accept: aVisitor
-	^ aVisitor visitNode: self
+		self dagChildren anySatisfy: [ :each | each subtreeNeedsAliasing ] ]
 ! !
 
 Node subclass: #AssignmentNode
@@ -233,17 +194,16 @@ I represent an assignment node.!
 
 !AssignmentNode methodsFor: 'accessing'!
 
+dagChildren
+	^ Array with: self left with: self right
+!
+
 left
 	^ left
 !
 
 left: aNode
-	left := aNode.
-	aNode parent: self
-!
-
-nodes
-	^ Array with: self left with: self right
+	left := aNode
 !
 
 right
@@ -251,8 +211,7 @@ right
 !
 
 right: aNode
-	right := aNode.
-	aNode parent: self
+	right := aNode
 ! !
 
 !AssignmentNode methodsFor: 'testing'!
@@ -267,7 +226,7 @@ shouldBeAliased
 
 !AssignmentNode methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitAssignmentNode: self
 ! !
 
@@ -307,7 +266,7 @@ subtreeNeedsAliasing
 
 !BlockNode methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitBlockNode: self
 ! !
 
@@ -339,7 +298,7 @@ subtreeNeedsAliasing
 
 !CascadeNode methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitCascadeNode: self
 ! !
 
@@ -351,7 +310,7 @@ I represent an dynamic array node.!
 
 !DynamicArrayNode methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitDynamicArrayNode: self
 ! !
 
@@ -363,7 +322,7 @@ I represent an dynamic dictionary node.!
 
 !DynamicDictionaryNode methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitDynamicDictionaryNode: self
 ! !
 
@@ -385,7 +344,7 @@ requiresSmalltalkContext
 
 !JSStatementNode methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitJSStatementNode: self
 ! !
 
@@ -448,7 +407,7 @@ sendIndexes: aDictionary
 !
 
 sequenceNode
-	self nodes do: [ :each |
+	self dagChildren do: [ :each |
 		each isSequenceNode ifTrue: [ ^ each ] ].
 		
 	^ nil
@@ -464,7 +423,7 @@ source: aString
 
 !MethodNode methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitMethodNode: self
 ! !
 
@@ -496,7 +455,7 @@ nonLocalReturn
 
 !ReturnNode methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitReturnNode: self
 ! !
 
@@ -513,19 +472,14 @@ arguments
 !
 
 arguments: aCollection
-	arguments := aCollection.
-	aCollection do: [ :each | each parent: self ]
+	arguments := aCollection
 !
 
-cascadeNodeWithMessages: aCollection
-	| first |
-	first := SendNode new
-		selector: self selector;
-		arguments: self arguments;
-		yourself.
-	^ CascadeNode new
-		receiver: self receiver;
-		nodes: (Array with: first), aCollection;
+dagChildren
+	self receiver ifNil: [ ^ self arguments copy ].
+	
+	^ (Array with: self receiver)
+		addAll: self arguments;
 		yourself
 !
 
@@ -541,22 +495,12 @@ navigationLink
 	^ self selector
 !
 
-nodes
-	self receiver ifNil: [ ^ self arguments copy ].
-	
-	^ (Array with: self receiver)
-		addAll: self arguments;
-		yourself
-!
-
 receiver
 	^ receiver
 !
 
 receiver: aNode
-	receiver := aNode.
-	aNode isNode ifTrue: [
-		aNode parent: self ]
+	receiver := aNode
 !
 
 selector
@@ -619,7 +563,7 @@ shouldBeAliased
 
 !SendNode methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitSendNode: self
 ! !
 
@@ -653,7 +597,7 @@ asBlockSequenceNode
 	^ BlockSequenceNode new
 		position: self position;
 		source: self source;
-		nodes: self nodes;
+		dagChildren: self dagChildren;
 		temps: self temps;
 		yourself
 ! !
@@ -666,7 +610,7 @@ isSequenceNode
 
 !SequenceNode methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitSequenceNode: self
 ! !
 
@@ -684,7 +628,7 @@ isBlockSequenceNode
 
 !BlockSequenceNode methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitBlockSequenceNode: self
 ! !
 
@@ -716,7 +660,7 @@ isValueNode
 
 !ValueNode methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitValueNode: self
 ! !
 
@@ -781,11 +725,11 @@ isVariableNode
 
 !VariableNode methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitVariableNode: self
 ! !
 
-Object subclass: #NodeVisitor
+PathDagVisitor subclass: #NodeVisitor
 	instanceVariableNames: ''
 	package: 'Compiler-AST'!
 !NodeVisitor commentStamp!
@@ -794,19 +738,16 @@ I am the abstract super class of all AST node visitors.!
 !NodeVisitor methodsFor: 'visiting'!
 
 visit: aNode
-	^ aNode accept: self
-!
-
-visitAll: aCollection
-	^ aCollection collect: [ :each | self visit: each ]
+	self path ifNotEmpty: [ :p | aNode parent: p last ].
+	^ super visit: aNode
 !
 
 visitAssignmentNode: aNode
-	^ self visitNode: aNode
+	^ self visitDagNode: aNode
 !
 
 visitBlockNode: aNode
-	^ self visitNode: aNode
+	^ self visitDagNode: aNode
 !
 
 visitBlockSequenceNode: aNode
@@ -814,48 +755,47 @@ visitBlockSequenceNode: aNode
 !
 
 visitCascadeNode: aNode
-	^ self visitNode: aNode
+	^ self visitDagNode: aNode
+!
+
+visitDagNode: aNode
+	^ self visitDagNodeVariantSimple: aNode
 !
 
 visitDynamicArrayNode: aNode
-	^ self visitNode: aNode
+	^ self visitDagNode: aNode
 !
 
 visitDynamicDictionaryNode: aNode
-	^ self visitNode: aNode
+	^ self visitDagNode: aNode
 !
 
 visitJSStatementNode: aNode
-	^ self visitNode: aNode
+	^ self visitDagNode: aNode
 !
 
 visitMethodNode: aNode
-	^ self visitNode: aNode
-!
-
-visitNode: aNode
-	self visitAll: aNode nodes.
-	^ aNode
+	^ self visitDagNode: aNode
 !
 
 visitReturnNode: aNode
-	^ self visitNode: aNode
+	^ self visitDagNode: aNode
 !
 
 visitSendNode: aNode
-	^ self visitNode: aNode
+	^ self visitDagNode: aNode
 !
 
 visitSequenceNode: aNode
-	^ self visitNode: aNode
+	^ self visitDagNode: aNode
 !
 
 visitValueNode: aNode
-	^ self visitNode: aNode
+	^ self visitDagNode: aNode
 !
 
 visitVariableNode: aNode
-	^ self visitNode: aNode
+	^ self visitDagNode: aNode
 ! !
 
 !CompiledMethod methodsFor: '*Compiler-AST'!

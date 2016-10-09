@@ -121,7 +121,7 @@ visitBlockNode: aNode
 			name: each name;
 			scope: aNode scope;
 			yourself) ].
-	aNode nodes do: [ :each | closure add: (self visit: each) ].
+	aNode dagChildren do: [ :each | closure add: (self visit: each) ].
 	^ closure
 !
 
@@ -129,12 +129,12 @@ visitBlockSequenceNode: aNode
 	^ self
 		withSequence: IRBlockSequence new
 		do: [
-			aNode nodes ifNotEmpty: [
-				aNode nodes allButLast do: [ :each |
+			aNode dagChildren ifNotEmpty: [
+				aNode dagChildren allButLast do: [ :each |
 					self sequence add: (self visitOrAlias: each) ].
-				aNode nodes last isReturnNode
-					ifFalse: [ self sequence add: (IRBlockReturn new add: (self visitOrAlias: aNode nodes last); yourself) ]
-					ifTrue: [ self sequence add: (self visitOrAlias: aNode nodes last) ] ]]
+				aNode dagChildren last isReturnNode
+					ifFalse: [ self sequence add: (IRBlockReturn new add: (self visitOrAlias: aNode dagChildren last); yourself) ]
+					ifTrue: [ self sequence add: (self visitOrAlias: aNode dagChildren last) ] ]]
 !
 
 visitCascadeNode: aNode
@@ -144,25 +144,25 @@ visitCascadeNode: aNode
 		| alias |
 		alias := self alias: receiver.
 		receiver := VariableNode new binding: alias variable ].
-	aNode nodes do: [ :each | each receiver: receiver ].
+	aNode dagChildren do: [ :each | each receiver: receiver ].
 
-	aNode nodes allButLast do: [ :each |
+	aNode dagChildren allButLast do: [ :each |
 		self sequence add: (self visit: each) ].
 
-	^ self visitOrAlias: aNode nodes last
+	^ self visitOrAlias: aNode dagChildren last
 !
 
 visitDynamicArrayNode: aNode
 	| array |
 	array := IRDynamicArray new.
-	(self aliasTemporally: aNode nodes) do: [ :each | array add: each ].
+	(self aliasTemporally: aNode dagChildren) do: [ :each | array add: each ].
 	^ array
 !
 
 visitDynamicDictionaryNode: aNode
 	| dictionary |
 	dictionary := IRDynamicDictionary new.
-	(self aliasTemporally: aNode nodes) do: [ :each | dictionary add: each ].
+	(self aliasTemporally: aNode dagChildren) do: [ :each | dictionary add: each ].
 	^ dictionary
 !
 
@@ -191,7 +191,7 @@ visitMethodNode: aNode
 			scope: aNode scope;
 			yourself) ].
 
-	aNode nodes do: [ :each | self method add: (self visit: each) ].
+	aNode dagChildren do: [ :each | self method add: (self visit: each) ].
 
 	aNode scope hasLocalReturn ifFalse: [self method
 		add: (IRReturn new
@@ -216,7 +216,7 @@ visitReturnNode: aNode
 		ifTrue: [ IRNonLocalReturn new ]
 		ifFalse: [ IRReturn new ].
 	return scope: aNode scope.
-	aNode nodes do: [ :each |
+	aNode dagChildren do: [ :each |
 		return add: (self visitOrAlias: each) ].
 	^ return
 !
@@ -228,7 +228,7 @@ visitSendNode: aNode
 		selector: aNode selector;
 		index: aNode index.
 	
-	(self aliasTemporally: aNode nodes) do: [ :each | send add: each ].
+	(self aliasTemporally: aNode dagChildren) do: [ :each | send add: each ].
 
 	^ send
 !
@@ -237,7 +237,7 @@ visitSequenceNode: aNode
 	^ self
 		withSequence: IRSequence new
 		do: [
-			aNode nodes do: [ :each | | instruction |
+			aNode dagChildren do: [ :each | | instruction |
 				instruction := self visitOrAlias: each.
 				instruction isVariable ifFalse: [
 					self sequence add: instruction ] ]]
