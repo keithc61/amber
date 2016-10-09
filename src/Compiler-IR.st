@@ -138,16 +138,13 @@ visitBlockSequenceNode: aNode
 !
 
 visitCascadeNode: aNode
-	aNode nodes inject: aNode receiver into: [ :previous :each |
-		| receiver |
-		receiver := previous isImmutable 
-			ifTrue: [ previous ]
-			ifFalse: [
-				| alias |
-				alias := self alias: previous.
-				VariableNode new binding: alias variable ].
-		each receiver: receiver.
-		receiver ].
+	| receiver |
+	receiver := aNode receiver.
+	receiver isImmutable ifFalse: [
+		| alias |
+		alias := self alias: receiver.
+		receiver := VariableNode new binding: alias variable ].
+	aNode nodes do: [ :each | each receiver: receiver ].
 
 	aNode nodes allButLast do: [ :each |
 		self sequence add: (self visit: each) ].
