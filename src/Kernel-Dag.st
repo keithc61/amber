@@ -1,4 +1,96 @@
 Smalltalk createPackage: 'Kernel-Dag'!
+Object subclass: #AbstractDagVisitor
+	instanceVariableNames: ''
+	package: 'Kernel-Dag'!
+!AbstractDagVisitor commentStamp!
+I am base class of `DagNode` visitor.
+
+Concrete classes should implement `visitDagNode:`,
+they can reuse possible variants of implementation
+offered directly: `visitDagNodeVariantSimple:`
+and `visitDagNodeVariantRedux:`.!
+
+!AbstractDagVisitor methodsFor: 'visiting'!
+
+visit: aNode
+	^ aNode acceptDagVisitor: self
+!
+
+visitAll: aCollection
+	^ aCollection collect: [ :each | self visit: each ]
+!
+
+visitAllChildren: aDagNode
+	^ self visitAll: aDagNode dagChildren
+!
+
+visitDagNode: aNode
+	self subclassResponsibility
+!
+
+visitDagNodeVariantRedux: aNode
+	"Immutable-guarded implementation of visitDagNode:.
+	Visits all children and checks if there were changes.
+	If not, returns aNode.
+	If yes, returns copy of aNode with new children."
+
+	| newChildren oldChildren |
+	oldChildren := aNode dagChildren.
+	newChildren := self visitAllChildren: aNode.
+	oldChildren size = newChildren size ifTrue: [
+		(1 to: oldChildren size) detect: [ :i |
+			(oldChildren at: i) ~= (newChildren at: i)
+		] ifNone: [ "no change" ^ aNode ] ].
+	^ aNode copy dagChildren: newChildren; yourself
+!
+
+visitDagNodeVariantSimple: aNode
+	"Simple implementation of visitDagNode:.
+	Visits children, then returns aNode"
+
+	self visitAllChildren: aNode.
+	^ aNode
+! !
+
+AbstractDagVisitor subclass: #PathDagVisitor
+	instanceVariableNames: 'path'
+	package: 'Kernel-Dag'!
+!PathDagVisitor commentStamp!
+I am base class of `DagNode` visitor.
+
+I hold the path of ancestors up to actual node
+in `self path`.!
+
+!PathDagVisitor methodsFor: 'accessing'!
+
+path
+	^ path
+! !
+
+!PathDagVisitor methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+
+	path := #()
+! !
+
+!PathDagVisitor methodsFor: 'visiting'!
+
+visit: aNode
+	| oldPath |
+	oldPath := path.
+	path := path, {aNode}.
+	[ ^ super visit: aNode ] ensure: [ path := oldPath ]
+!
+
+visitDagNodeVariantRedux: aNode
+	| newNode |
+	newNode := super visitDagNodeVariantRedux: aNode.
+	aNode == newNode ifFalse: [ path at: path size put: newNode ].
+	^ newNode
+! !
+
 Object subclass: #DagNode
 	instanceVariableNames: ''
 	package: 'Kernel-Dag'!
@@ -32,6 +124,12 @@ dagChildren: aCollection
 
 isDagNode
 	^ true
+! !
+
+!DagNode methodsFor: 'visiting'!
+
+acceptDagVisitor: aVisitor
+	^ aVisitor visitDagNode: self
 ! !
 
 DagNode subclass: #DagParentNode
