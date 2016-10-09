@@ -613,8 +613,8 @@ shouldBeAliased
 	
 	^ (super shouldBeAliased or: [
 		self isReferenced and: [
-			(sends > 1 and: [ self index < sends ])
-				or: [ self superSend ] ] ])
+			self index < sends or: [
+				self superSend ] ] ])
 ! !
 
 !SendNode methodsFor: 'visiting'!
