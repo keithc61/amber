@@ -190,6 +190,10 @@ isSequenceNode
 	^ false
 !
 
+isSuperKeyword
+	^ false
+!
+
 isValueNode
 	^ false
 !
@@ -564,7 +568,7 @@ selector: aString
 !
 
 superSend
-	^ self receiver value = 'super'
+	^ self receiver notNil and: [ self receiver isSuperKeyword ]
 ! !
 
 !SendNode methodsFor: 'building'!
@@ -765,6 +769,10 @@ isImmutable
 
 isNavigationNode
 	^ true
+!
+
+isSuperKeyword
+	^ self value = 'super'
 !
 
 isVariableNode

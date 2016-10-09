@@ -389,6 +389,24 @@ $globals.Node);
 
 $core.addMethod(
 $core.method({
+selector: "isSuperKeyword",
+protocol: 'testing',
+fn: function (){
+var self=this;
+return false;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isSuperKeyword\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Node);
+
+$core.addMethod(
+$core.method({
 selector: "isValueNode",
 protocol: 'testing',
 fn: function (){
@@ -2582,17 +2600,31 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv(self._receiver())._value()).__eq("super");
+var $2,$1;
+$2=self._receiver();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["receiver"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2)._notNil();
+return $recv($1)._and_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(self._receiver())._isSuperKeyword();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"superSend",{},$globals.SendNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "superSend\x0a\x09^ self receiver value = 'super'",
+source: "superSend\x0a\x09^ self receiver notNil and: [ self receiver isSuperKeyword ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["=", "value", "receiver"]
+messageSends: ["and:", "notNil", "receiver", "isSuperKeyword"]
 }),
 $globals.SendNode);
 
@@ -3173,6 +3205,29 @@ source: "isNavigationNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
+}),
+$globals.VariableNode);
+
+$core.addMethod(
+$core.method({
+selector: "isSuperKeyword",
+protocol: 'testing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._value()).__eq("super");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isSuperKeyword",{},$globals.VariableNode)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isSuperKeyword\x0a\x09^ self value = 'super'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["=", "value"]
 }),
 $globals.VariableNode);
 
