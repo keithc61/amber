@@ -3771,6 +3771,59 @@ selector: "isSteppingNode",
 protocol: '*Compiler-Interpreter',
 fn: function (){
 var self=this;
+return false;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isSteppingNode\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.ASTNode);
+
+$core.addMethod(
+$core.method({
+selector: "nextSiblingNode:",
+protocol: '*Compiler-Interpreter',
+fn: function (aNode){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+var $early={};
+try {
+$1=self._dagChildren();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["dagChildren"]=1;
+//>>excludeEnd("ctx");
+return $recv($1)._at_ifAbsent_($recv($recv(self._dagChildren())._indexOf_(aNode)).__plus((1)),(function(){
+throw $early=[nil];
+
+}));
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"nextSiblingNode:",{aNode:aNode},$globals.ASTNode)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNode"],
+source: "nextSiblingNode: aNode\x0a\x09\x22Answer the next node after aNode or nil\x22\x0a\x09\x0a\x09^ self dagChildren \x0a\x09\x09at: (self dagChildren indexOf: aNode) + 1\x0a\x09\x09ifAbsent: [ ^ nil ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["at:ifAbsent:", "dagChildren", "+", "indexOf:"]
+}),
+$globals.ASTNode);
+
+$core.addMethod(
+$core.method({
+selector: "isSteppingNode",
+protocol: '*Compiler-Interpreter',
+fn: function (){
+var self=this;
 return true;
 
 },
@@ -3872,59 +3925,6 @@ referencedClasses: [],
 messageSends: []
 }),
 $globals.JSStatementNode);
-
-$core.addMethod(
-$core.method({
-selector: "isSteppingNode",
-protocol: '*Compiler-Interpreter',
-fn: function (){
-var self=this;
-return false;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isSteppingNode\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "nextSiblingNode:",
-protocol: '*Compiler-Interpreter',
-fn: function (aNode){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-var $early={};
-try {
-$1=self._dagChildren();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["dagChildren"]=1;
-//>>excludeEnd("ctx");
-return $recv($1)._at_ifAbsent_($recv($recv(self._dagChildren())._indexOf_(aNode)).__plus((1)),(function(){
-throw $early=[nil];
-
-}));
-}
-catch(e) {if(e===$early)return e[0]; throw e}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nextSiblingNode:",{aNode:aNode},$globals.Node)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode"],
-source: "nextSiblingNode: aNode\x0a\x09\x22Answer the next node after aNode or nil\x22\x0a\x09\x0a\x09^ self dagChildren \x0a\x09\x09at: (self dagChildren indexOf: aNode) + 1\x0a\x09\x09ifAbsent: [ ^ nil ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["at:ifAbsent:", "dagChildren", "+", "indexOf:"]
-}),
-$globals.Node);
 
 $core.addMethod(
 $core.method({

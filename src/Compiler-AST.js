@@ -1,4 +1,4 @@
-define(["amber/boot", "amber_core/Kernel-Dag", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
+define(["amber/boot", "amber_core/Kernel-Dag", "amber_core/Kernel-Methods"], function($boot){"use strict";
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
@@ -6,9 +6,9 @@ $core.addPackage('Compiler-AST');
 $core.packages["Compiler-AST"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-AST"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('Node', $globals.DagParentNode, ['parent', 'position', 'source', 'shouldBeInlined', 'shouldBeAliased'], 'Compiler-AST');
+$core.addClass('ASTNode', $globals.DagParentNode, ['parent', 'position', 'source', 'shouldBeInlined', 'shouldBeAliased'], 'Compiler-AST');
 //>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.Node.comment="I am the abstract root class of the abstract syntax tree.\x0a\x0aConcrete classes should implement `#accept:` to allow visiting.\x0a\x0a`position` holds a point containing line and column number of the symbol location in the original source file.";
+$globals.ASTNode.comment="I am the abstract root class of the abstract syntax tree.\x0a\x0aConcrete classes should implement `#accept:` to allow visiting.\x0a\x0a`position` holds a point containing line and column number of the symbol location in the original source file.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
@@ -29,7 +29,7 @@ return $recv(self._positionEnd()).__gt_eq(aPoint);
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"inPosition:",{aPoint:aPoint},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"inPosition:",{aPoint:aPoint},$globals.ASTNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -39,7 +39,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["and:", "<=", "positionStart", ">=", "positionEnd"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -57,7 +57,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -75,7 +75,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -93,7 +93,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -111,7 +111,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -129,7 +129,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -147,7 +147,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -160,7 +160,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($recv($recv(self._parent())._dagChildren())._last()).__eq(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isLastChild",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"isLastChild",{},$globals.ASTNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -170,7 +170,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["=", "last", "dagChildren", "parent"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -188,25 +188,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "isNode",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return true;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isNode\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -234,7 +216,7 @@ return $recv(self._parent())._isAssignmentNode();
 }));
 return $recv($1)._not();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isReferenced",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"isReferenced",{},$globals.ASTNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -244,7 +226,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["not", "or:", "isSequenceNode", "parent", "isAssignmentNode"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -262,7 +244,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -280,7 +262,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -298,7 +280,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -316,7 +298,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -334,7 +316,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -352,7 +334,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -373,7 +355,7 @@ $1=$recv($2).__at($recv($recv(aLocation)._start())._column());
 self._position_($1);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"location:",{aLocation:aLocation},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"location:",{aLocation:aLocation},$globals.ASTNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -383,7 +365,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["position:", "@", "line", "start", "column"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -404,7 +386,7 @@ node=$receiver;
 return $recv(node)._method();
 };
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"method",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"method",{},$globals.ASTNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -414,7 +396,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifNotNil:", "parent", "method"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -475,7 +457,7 @@ return $recv($1).__lt_eq($recv($recv(b)._positionStart())._dist_(aPoint));
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"navigationNodeAt:ifAbsent:",{aPoint:aPoint,aBlock:aBlock,children:children},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"navigationNodeAt:ifAbsent:",{aPoint:aPoint,aBlock:aBlock,children:children},$globals.ASTNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -485,7 +467,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["select:", "allDagChildren", "and:", "isNavigationNode", "inPosition:", "ifEmpty:", "value", "first", "sort:", "asArray", "<=", "dist:", "positionStart"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -503,7 +485,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -522,7 +504,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -548,7 +530,7 @@ return $recv(node)._position();
 return $1;
 };
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"position",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"position",{},$globals.ASTNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -558,7 +540,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifNil:", "ifNotNil:", "parent", "position"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -577,7 +559,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -609,7 +591,7 @@ $ctx1.sendIdx["-"]=1;
 $2=$recv($3).__at($recv($recv($recv($recv(self._source())._lines())._last())._size()).__minus((1)));
 return $recv($1).__plus($2);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"positionEnd",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"positionEnd",{},$globals.ASTNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -619,7 +601,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["+", "positionStart", "@", "-", "size", "lines", "source", "last"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -632,7 +614,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return self._position();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"positionStart",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"positionStart",{},$globals.ASTNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -642,7 +624,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["position"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -666,7 +648,7 @@ return nil;
 
 })))._notNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"requiresSmalltalkContext",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"requiresSmalltalkContext",{},$globals.ASTNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -676,7 +658,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["notNil", "detect:ifNone:", "dagChildren", "requiresSmalltalkContext"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -695,7 +677,7 @@ return false;
 return $1;
 };
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"shouldBeAliased",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"shouldBeAliased",{},$globals.ASTNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -705,7 +687,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifNil:"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -724,7 +706,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -743,7 +725,7 @@ return false;
 return $1;
 };
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"shouldBeInlined",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"shouldBeInlined",{},$globals.ASTNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -753,7 +735,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifNil:"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -772,7 +754,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -785,7 +767,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._source())._size();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"size",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"size",{},$globals.ASTNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -795,7 +777,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["size", "source"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -814,7 +796,7 @@ return "";
 return $1;
 };
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"source",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"source",{},$globals.ASTNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -824,7 +806,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifNil:"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -843,7 +825,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -885,7 +867,7 @@ $ctx1.sendIdx["or:"]=1;
 //>>excludeEnd("ctx");
 return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subtreeNeedsAliasing",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"subtreeNeedsAliasing",{},$globals.ASTNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -895,11 +877,11 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["or:", "shouldBeAliased", "shouldBeInlined", "anySatisfy:", "dagChildren", "subtreeNeedsAliasing"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 
 
-$core.addClass('AssignmentNode', $globals.Node, ['left', 'right'], 'Compiler-AST');
+$core.addClass('AssignmentNode', $globals.ASTNode, ['left', 'right'], 'Compiler-AST');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AssignmentNode.comment="I represent an assignment node.";
 //>>excludeEnd("ide");
@@ -1083,7 +1065,7 @@ $globals.AssignmentNode);
 
 
 
-$core.addClass('BlockNode', $globals.Node, ['parameters', 'scope'], 'Compiler-AST');
+$core.addClass('BlockNode', $globals.ASTNode, ['parameters', 'scope'], 'Compiler-AST');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.BlockNode.comment="I represent an block closure node.";
 //>>excludeEnd("ide");
@@ -1247,7 +1229,7 @@ $globals.BlockNode);
 
 
 
-$core.addClass('CascadeNode', $globals.Node, ['receiver'], 'Compiler-AST');
+$core.addClass('CascadeNode', $globals.ASTNode, ['receiver'], 'Compiler-AST');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.CascadeNode.comment="I represent an cascade node.";
 //>>excludeEnd("ide");
@@ -1354,7 +1336,7 @@ $globals.CascadeNode);
 
 
 
-$core.addClass('DynamicArrayNode', $globals.Node, [], 'Compiler-AST');
+$core.addClass('DynamicArrayNode', $globals.ASTNode, [], 'Compiler-AST');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.DynamicArrayNode.comment="I represent an dynamic array node.";
 //>>excludeEnd("ide");
@@ -1383,7 +1365,7 @@ $globals.DynamicArrayNode);
 
 
 
-$core.addClass('DynamicDictionaryNode', $globals.Node, [], 'Compiler-AST');
+$core.addClass('DynamicDictionaryNode', $globals.ASTNode, [], 'Compiler-AST');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.DynamicDictionaryNode.comment="I represent an dynamic dictionary node.";
 //>>excludeEnd("ide");
@@ -1412,7 +1394,7 @@ $globals.DynamicDictionaryNode);
 
 
 
-$core.addClass('JSStatementNode', $globals.Node, [], 'Compiler-AST');
+$core.addClass('JSStatementNode', $globals.ASTNode, [], 'Compiler-AST');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.JSStatementNode.comment="I represent an JavaScript statement node.";
 //>>excludeEnd("ide");
@@ -1477,7 +1459,7 @@ $globals.JSStatementNode);
 
 
 
-$core.addClass('MethodNode', $globals.Node, ['selector', 'arguments', 'source', 'scope', 'classReferences', 'sendIndexes'], 'Compiler-AST');
+$core.addClass('MethodNode', $globals.ASTNode, ['selector', 'arguments', 'source', 'scope', 'classReferences', 'sendIndexes'], 'Compiler-AST');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodNode.comment="I represent an method node.\x0a\x0aA method node must be the root and only method node of a valid AST.";
 //>>excludeEnd("ide");
@@ -1820,7 +1802,7 @@ $globals.MethodNode);
 
 
 
-$core.addClass('ReturnNode', $globals.Node, ['scope'], 'Compiler-AST');
+$core.addClass('ReturnNode', $globals.ASTNode, ['scope'], 'Compiler-AST');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ReturnNode.comment="I represent an return node. At the AST level, there is not difference between a local return or non-local return.";
 //>>excludeEnd("ide");
@@ -1927,7 +1909,7 @@ $globals.ReturnNode);
 
 
 
-$core.addClass('SendNode', $globals.Node, ['selector', 'arguments', 'receiver', 'index'], 'Compiler-AST');
+$core.addClass('SendNode', $globals.ASTNode, ['selector', 'arguments', 'receiver', 'index'], 'Compiler-AST');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SendNode.comment="I represent an message send node.";
 //>>excludeEnd("ide");
@@ -2393,7 +2375,7 @@ $globals.SendNode);
 
 
 
-$core.addClass('SequenceNode', $globals.Node, ['temps', 'scope'], 'Compiler-AST');
+$core.addClass('SequenceNode', $globals.ASTNode, ['temps', 'scope'], 'Compiler-AST');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SequenceNode.comment="I represent an sequence node. A sequence represent a set of instructions inside the same scope (the method scope or a block scope).";
 //>>excludeEnd("ide");
@@ -2601,7 +2583,7 @@ $globals.BlockSequenceNode);
 
 
 
-$core.addClass('ValueNode', $globals.Node, ['value'], 'Compiler-AST');
+$core.addClass('ValueNode', $globals.ASTNode, ['value'], 'Compiler-AST');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ValueNode.comment="I represent a value node.";
 //>>excludeEnd("ide");
@@ -3402,23 +3384,5 @@ referencedClasses: ["Smalltalk"],
 messageSends: ["ifEmpty:", "source", "error:", "parse:"]
 }),
 $globals.CompiledMethod);
-
-$core.addMethod(
-$core.method({
-selector: "isNode",
-protocol: '*Compiler-AST',
-fn: function (){
-var self=this;
-return false;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isNode\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Object);
 
 });

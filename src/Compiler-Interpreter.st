@@ -974,6 +974,20 @@ visitSendNode: aNode
 		self increaseIndex ]
 ! !
 
+!ASTNode methodsFor: '*Compiler-Interpreter'!
+
+isSteppingNode
+	^ false
+!
+
+nextSiblingNode: aNode
+	"Answer the next node after aNode or nil"
+	
+	^ self dagChildren 
+		at: (self dagChildren indexOf: aNode) + 1
+		ifAbsent: [ ^ nil ]
+! !
+
 !AssignmentNode methodsFor: '*Compiler-Interpreter'!
 
 isSteppingNode
@@ -1010,20 +1024,6 @@ isSteppingNode
 
 isSteppingNode
 	^ true
-! !
-
-!Node methodsFor: '*Compiler-Interpreter'!
-
-isSteppingNode
-	^ false
-!
-
-nextSiblingNode: aNode
-	"Answer the next node after aNode or nil"
-	
-	^ self dagChildren 
-		at: (self dagChildren indexOf: aNode) + 1
-		ifAbsent: [ ^ nil ]
 ! !
 
 !SendNode methodsFor: '*Compiler-Interpreter'!

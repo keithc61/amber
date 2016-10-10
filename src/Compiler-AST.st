@@ -1,15 +1,15 @@
 Smalltalk createPackage: 'Compiler-AST'!
-DagParentNode subclass: #Node
+DagParentNode subclass: #ASTNode
 	instanceVariableNames: 'parent position source shouldBeInlined shouldBeAliased'
 	package: 'Compiler-AST'!
-!Node commentStamp!
+!ASTNode commentStamp!
 I am the abstract root class of the abstract syntax tree.
 
 Concrete classes should implement `#accept:` to allow visiting.
 
 `position` holds a point containing line and column number of the symbol location in the original source file.!
 
-!Node methodsFor: 'accessing'!
+!ASTNode methodsFor: 'accessing'!
 
 location: aLocation
 	self position: aLocation start line @ aLocation start column
@@ -92,7 +92,7 @@ source: aString
 	source := aString
 ! !
 
-!Node methodsFor: 'testing'!
+!ASTNode methodsFor: 'testing'!
 
 inPosition: aPoint
 	^ (self positionStart <= aPoint and: [
@@ -131,10 +131,6 @@ isNavigationNode
 	"Answer true if the node can be navigated to"
 	
 	^ false
-!
-
-isNode
-	^ true
 !
 
 isReferenced
@@ -186,7 +182,7 @@ subtreeNeedsAliasing
 		self dagChildren anySatisfy: [ :each | each subtreeNeedsAliasing ] ]
 ! !
 
-Node subclass: #AssignmentNode
+ASTNode subclass: #AssignmentNode
 	instanceVariableNames: 'left right'
 	package: 'Compiler-AST'!
 !AssignmentNode commentStamp!
@@ -230,7 +226,7 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitAssignmentNode: self
 ! !
 
-Node subclass: #BlockNode
+ASTNode subclass: #BlockNode
 	instanceVariableNames: 'parameters scope'
 	package: 'Compiler-AST'!
 !BlockNode commentStamp!
@@ -270,7 +266,7 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitBlockNode: self
 ! !
 
-Node subclass: #CascadeNode
+ASTNode subclass: #CascadeNode
 	instanceVariableNames: 'receiver'
 	package: 'Compiler-AST'!
 !CascadeNode commentStamp!
@@ -302,7 +298,7 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitCascadeNode: self
 ! !
 
-Node subclass: #DynamicArrayNode
+ASTNode subclass: #DynamicArrayNode
 	instanceVariableNames: ''
 	package: 'Compiler-AST'!
 !DynamicArrayNode commentStamp!
@@ -314,7 +310,7 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitDynamicArrayNode: self
 ! !
 
-Node subclass: #DynamicDictionaryNode
+ASTNode subclass: #DynamicDictionaryNode
 	instanceVariableNames: ''
 	package: 'Compiler-AST'!
 !DynamicDictionaryNode commentStamp!
@@ -326,7 +322,7 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitDynamicDictionaryNode: self
 ! !
 
-Node subclass: #JSStatementNode
+ASTNode subclass: #JSStatementNode
 	instanceVariableNames: ''
 	package: 'Compiler-AST'!
 !JSStatementNode commentStamp!
@@ -348,7 +344,7 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitJSStatementNode: self
 ! !
 
-Node subclass: #MethodNode
+ASTNode subclass: #MethodNode
 	instanceVariableNames: 'selector arguments source scope classReferences sendIndexes'
 	package: 'Compiler-AST'!
 !MethodNode commentStamp!
@@ -427,7 +423,7 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitMethodNode: self
 ! !
 
-Node subclass: #ReturnNode
+ASTNode subclass: #ReturnNode
 	instanceVariableNames: 'scope'
 	package: 'Compiler-AST'!
 !ReturnNode commentStamp!
@@ -459,7 +455,7 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitReturnNode: self
 ! !
 
-Node subclass: #SendNode
+ASTNode subclass: #SendNode
 	instanceVariableNames: 'selector arguments receiver index'
 	package: 'Compiler-AST'!
 !SendNode commentStamp!
@@ -567,7 +563,7 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitSendNode: self
 ! !
 
-Node subclass: #SequenceNode
+ASTNode subclass: #SequenceNode
 	instanceVariableNames: 'temps scope'
 	package: 'Compiler-AST'!
 !SequenceNode commentStamp!
@@ -632,7 +628,7 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitBlockSequenceNode: self
 ! !
 
-Node subclass: #ValueNode
+ASTNode subclass: #ValueNode
 	instanceVariableNames: 'value'
 	package: 'Compiler-AST'!
 !ValueNode commentStamp!
@@ -804,11 +800,5 @@ ast
 	self source ifEmpty: [ self error: 'Method source is empty' ].
 	
 	^ Smalltalk parse: self source
-! !
-
-!Object methodsFor: '*Compiler-AST'!
-
-isNode
-	^ false
 ! !
 
