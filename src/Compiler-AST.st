@@ -731,12 +731,15 @@ PathDagVisitor subclass: #NodeVisitor
 !NodeVisitor commentStamp!
 I am the abstract super class of all AST node visitors.!
 
-!NodeVisitor methodsFor: 'visiting'!
+!NodeVisitor methodsFor: 'initialization'!
 
-visit: aNode
-	self path ifNotEmpty: [ :p | aNode parent: p last ].
-	^ super visit: aNode
-!
+initialize
+	super initialize.
+
+	self setParentSelector: #parent:
+! !
+
+!NodeVisitor methodsFor: 'visiting'!
 
 visitAssignmentNode: aNode
 	^ self visitDagNode: aNode

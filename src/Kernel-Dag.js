@@ -197,7 +197,7 @@ $globals.AbstractDagVisitor);
 
 
 
-$core.addClass('PathDagVisitor', $globals.AbstractDagVisitor, ['path'], 'Kernel-Dag');
+$core.addClass('PathDagVisitor', $globals.AbstractDagVisitor, ['path', 'setParentSelector'], 'Kernel-Dag');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PathDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x0aI hold the path of ancestors up to actual node\x0ain `self path`.";
 //>>excludeEnd("ide");
@@ -218,6 +218,7 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
+self["@setParentSelector"]=nil;
 self["@path"]=[];
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -226,7 +227,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x0a\x09path := #()",
+source: "initialize\x0a\x09super initialize.\x0a\x0a\x09setParentSelector := nil.\x0a\x09path := #()",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["initialize"]
@@ -253,6 +254,43 @@ $globals.PathDagVisitor);
 
 $core.addMethod(
 $core.method({
+selector: "setParentSelector",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return self["@setParentSelector"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "setParentSelector\x0a\x09^ setParentSelector",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.PathDagVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "setParentSelector:",
+protocol: 'accessing',
+fn: function (anObject){
+var self=this;
+self["@setParentSelector"]=anObject;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "setParentSelector: anObject\x0a\x09setParentSelector := anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.PathDagVisitor);
+
+$core.addMethod(
+$core.method({
 selector: "visit:",
 protocol: 'visiting',
 fn: function (aNode){
@@ -261,16 +299,31 @@ var oldPath;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
+var $1,$2,$receiver;
 var $early={};
 try {
 oldPath=self["@path"];
-self["@path"]=$recv(self["@path"]).__comma([aNode]);
 $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=(
+self["@path"]=$recv(self["@path"]).__comma([aNode]);
+self["@path"];
+$1=self["@setParentSelector"];
+if(($receiver = $1) == null || $receiver.isNil){
+$1;
+} else {
+$recv(oldPath)._ifNotEmpty_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(aNode)._perform_withArguments_(self["@setParentSelector"],[$recv(oldPath)._last()]);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
+//>>excludeEnd("ctx");
+}));
+};
+$2=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.supercall = true,
 //>>excludeEnd("ctx");
@@ -278,7 +331,7 @@ $ctx2.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.supercall = false;
 //>>excludeEnd("ctx");;
-throw $early=[$1];
+throw $early=[$2];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -296,10 +349,10 @@ catch(e) {if(e===$early)return e[0]; throw e}
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visit: aNode\x0a\x09| oldPath |\x0a\x09oldPath := path.\x0a\x09path := path, {aNode}.\x0a\x09[ ^ super visit: aNode ] ensure: [ path := oldPath ]",
+source: "visit: aNode\x0a\x09| oldPath |\x0a\x09oldPath := path.\x0a\x09[\x0a\x09\x09path := path, {aNode}.\x0a\x09\x09setParentSelector ifNotNil: [ oldPath ifNotEmpty: [\x0a\x09\x09\x09aNode\x0a\x09\x09\x09\x09perform: setParentSelector\x0a\x09\x09\x09\x09withArguments: {oldPath last} ] ].\x0a\x09\x09^ super visit: aNode\x0a\x09] ensure: [ path := oldPath ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: [",", "ensure:", "visit:"]
+messageSends: ["ensure:", ",", "ifNotNil:", "ifNotEmpty:", "perform:withArguments:", "last", "visit:"]
 }),
 $globals.PathDagVisitor);
 

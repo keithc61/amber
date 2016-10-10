@@ -2986,42 +2986,33 @@ $globals.NodeVisitor.comment="I am the abstract super class of all AST node visi
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "visit:",
-protocol: 'visiting',
-fn: function (aNode){
+selector: "initialize",
+protocol: 'initialization',
+fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$recv(self._path())._ifNotEmpty_((function(p){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(aNode)._parent_($recv(p)._last());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({p:p},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-$1=(
+(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.NodeVisitor.superclass||$boot.nilAsClass).fn.prototype._visit_.apply($recv(self), [aNode]));
+($globals.NodeVisitor.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-return $1;
+self._setParentSelector_("parent:");
+return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visit:",{aNode:aNode},$globals.NodeVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.NodeVisitor)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode"],
-source: "visit: aNode\x0a\x09self path ifNotEmpty: [ :p | aNode parent: p last ].\x0a\x09^ super visit: aNode",
+args: [],
+source: "initialize\x0a\x09super initialize.\x0a\x0a\x09self setParentSelector: #parent:",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifNotEmpty:", "path", "parent:", "last", "visit:"]
+messageSends: ["initialize", "setParentSelector:"]
 }),
 $globals.NodeVisitor);
 

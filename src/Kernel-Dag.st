@@ -53,7 +53,7 @@ visitDagNodeVariantSimple: aNode
 ! !
 
 AbstractDagVisitor subclass: #PathDagVisitor
-	instanceVariableNames: 'path'
+	instanceVariableNames: 'path setParentSelector'
 	package: 'Kernel-Dag'!
 !PathDagVisitor commentStamp!
 I am base class of `DagNode` visitor.
@@ -65,6 +65,14 @@ in `self path`.!
 
 path
 	^ path
+!
+
+setParentSelector
+	^ setParentSelector
+!
+
+setParentSelector: anObject
+	setParentSelector := anObject
 ! !
 
 !PathDagVisitor methodsFor: 'initialization'!
@@ -72,6 +80,7 @@ path
 initialize
 	super initialize.
 
+	setParentSelector := nil.
 	path := #()
 ! !
 
@@ -80,8 +89,14 @@ initialize
 visit: aNode
 	| oldPath |
 	oldPath := path.
-	path := path, {aNode}.
-	[ ^ super visit: aNode ] ensure: [ path := oldPath ]
+	[
+		path := path, {aNode}.
+		setParentSelector ifNotNil: [ oldPath ifNotEmpty: [
+			aNode
+				perform: setParentSelector
+				withArguments: {oldPath last} ] ].
+		^ super visit: aNode
+	] ensure: [ path := oldPath ]
 !
 
 visitDagNodeVariantRedux: aNode
