@@ -255,18 +255,14 @@ visitVariableNode: aNode
 		yourself
 ! !
 
-Object subclass: #IRInstruction
-	instanceVariableNames: 'parent instructions'
+DagParentNode subclass: #IRInstruction
+	instanceVariableNames: 'parent'
 	package: 'Compiler-IR'!
 !IRInstruction commentStamp!
 I am the abstract root class of the IR (intermediate representation) instructions class hierarchy.
 The IR graph is used to emit JavaScript code using a JSStream.!
 
 !IRInstruction methodsFor: 'accessing'!
-
-instructions
-	^ instructions ifNil: [ instructions := OrderedCollection new ]
-!
 
 method
 	^ self parent method
@@ -289,7 +285,7 @@ scope
 
 add: anObject
 	anObject parent: self.
-	^ self instructions add: anObject
+	^ self dagChildren add: anObject
 !
 
 remove
@@ -297,13 +293,13 @@ remove
 !
 
 remove: anIRInstruction
-	self instructions remove: anIRInstruction
+	self dagChildren remove: anIRInstruction
 !
 
 replace: anIRInstruction with: anotherIRInstruction
 	anotherIRInstruction parent: self.
-	self instructions
-		at: (self instructions indexOf: anIRInstruction)
+	self dagChildren
+		at: (self dagChildren indexOf: anIRInstruction)
 		put: anotherIRInstruction
 !
 
@@ -357,12 +353,6 @@ needsBoxingAsReceiver
 	^ true
 ! !
 
-!IRInstruction methodsFor: 'visiting'!
-
-accept: aVisitor
-	^ aVisitor visitIRInstruction: self
-! !
-
 !IRInstruction class methodsFor: 'instance creation'!
 
 on: aBuilder
@@ -378,16 +368,16 @@ IRInstruction subclass: #IRAssignment
 !IRAssignment methodsFor: 'accessing'!
 
 left
-	^ self instructions first
+	^ self dagChildren first
 !
 
 right
-	^ self instructions last
+	^ self dagChildren last
 ! !
 
 !IRAssignment methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRAssignment: self
 ! !
 
@@ -397,7 +387,7 @@ IRInstruction subclass: #IRDynamicArray
 
 !IRDynamicArray methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRDynamicArray: self
 ! !
 
@@ -407,7 +397,7 @@ IRInstruction subclass: #IRDynamicDictionary
 
 !IRDynamicDictionary methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRDynamicDictionary: self
 ! !
 
@@ -459,7 +449,7 @@ scope: aScope
 !
 
 tempDeclarations
-	^ self instructions select: [ :each |
+	^ self dagChildren select: [ :each |
 		each isTempDeclaration ]
 ! !
 
@@ -470,7 +460,7 @@ IRClosureInstruction subclass: #IRClosure
 !IRClosure methodsFor: 'accessing'!
 
 sequence
-	^ self instructions last
+	^ self dagChildren last
 ! !
 
 !IRClosure methodsFor: 'testing'!
@@ -481,7 +471,7 @@ isClosure
 
 !IRClosure methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRClosure: self
 ! !
 
@@ -553,7 +543,7 @@ isMethod
 
 !IRMethod methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRMethod: self
 ! !
 
@@ -566,7 +556,7 @@ I am a local return instruction.!
 !IRReturn methodsFor: 'accessing'!
 
 expression
-	^ self instructions single
+	^ self dagChildren single
 !
 
 scope
@@ -597,7 +587,7 @@ isReturn
 
 !IRReturn methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRReturn: self
 ! !
 
@@ -615,7 +605,7 @@ isBlockReturn
 
 !IRBlockReturn methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRBlockReturn: self
 ! !
 
@@ -636,7 +626,7 @@ isLocalReturn
 
 !IRNonLocalReturn methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRNonLocalReturn: self
 ! !
 
@@ -662,7 +652,7 @@ isTempDeclaration
 
 !IRTempDeclaration methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRTempDeclaration: self
 ! !
 
@@ -675,7 +665,7 @@ I am a message send instruction.!
 !IRSend methodsFor: 'accessing'!
 
 arguments
-	^ self instructions allButFirst
+	^ self dagChildren allButFirst
 !
 
 index
@@ -687,7 +677,7 @@ index: anInteger
 !
 
 receiver
-	^ self instructions first
+	^ self dagChildren first
 !
 
 selector
@@ -712,7 +702,7 @@ isSuperSend
 
 !IRSend methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRSend: self
 ! !
 
@@ -728,7 +718,7 @@ isSequence
 
 !IRSequence methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRSequence: self
 ! !
 
@@ -738,7 +728,7 @@ IRSequence subclass: #IRBlockSequence
 
 !IRBlockSequence methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRBlockSequence: self
 ! !
 
@@ -766,7 +756,7 @@ needsBoxingAsReceiver
 
 !IRValue methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRValue: self
 ! !
 
@@ -798,7 +788,7 @@ needsBoxingAsReceiver
 
 !IRVariable methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRVariable: self
 ! !
 
@@ -818,22 +808,22 @@ source: aString
 
 !IRVerbatim methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRVerbatim: self
 ! !
 
-Object subclass: #IRVisitor
+PathDagVisitor subclass: #IRVisitor
 	instanceVariableNames: ''
 	package: 'Compiler-IR'!
 
 !IRVisitor methodsFor: 'visiting'!
 
-visit: anIRInstruction
-	^ anIRInstruction accept: self
+visitDagNode: aNode
+	^ self visitDagNodeVariantSimple: aNode
 !
 
 visitIRAssignment: anIRAssignment
-	^ self visitIRInstruction: anIRAssignment
+	^ self visitDagNode: anIRAssignment
 !
 
 visitIRBlockReturn: anIRBlockReturn
@@ -845,15 +835,15 @@ visitIRBlockSequence: anIRBlockSequence
 !
 
 visitIRClosure: anIRClosure
-	^ self visitIRInstruction: anIRClosure
+	^ self visitDagNode: anIRClosure
 !
 
 visitIRDynamicArray: anIRDynamicArray
-	^ self visitIRInstruction: anIRDynamicArray
+	^ self visitDagNode: anIRDynamicArray
 !
 
 visitIRDynamicDictionary: anIRDynamicDictionary
-	^ self visitIRInstruction: anIRDynamicDictionary
+	^ self visitDagNode: anIRDynamicDictionary
 !
 
 visitIRInlinedClosure: anIRInlinedClosure
@@ -864,49 +854,44 @@ visitIRInlinedSequence: anIRInlinedSequence
 	^ self visitIRSequence: anIRInlinedSequence
 !
 
-visitIRInstruction: anIRInstruction
-	anIRInstruction instructions do: [ :each | self visit: each ].
-	^ anIRInstruction
-!
-
 visitIRMethod: anIRMethod
-	^ self visitIRInstruction: anIRMethod
+	^ self visitDagNode: anIRMethod
 !
 
 visitIRNonLocalReturn: anIRNonLocalReturn
-	^ self visitIRInstruction: anIRNonLocalReturn
+	^ self visitDagNode: anIRNonLocalReturn
 !
 
 visitIRNonLocalReturnHandling: anIRNonLocalReturnHandling
-	^ self visitIRInstruction: anIRNonLocalReturnHandling
+	^ self visitDagNode: anIRNonLocalReturnHandling
 !
 
 visitIRReturn: anIRReturn
-	^ self visitIRInstruction: anIRReturn
+	^ self visitDagNode: anIRReturn
 !
 
 visitIRSend: anIRSend
-	^ self visitIRInstruction: anIRSend
+	^ self visitDagNode: anIRSend
 !
 
 visitIRSequence: anIRSequence
-	^ self visitIRInstruction: anIRSequence
+	^ self visitDagNode: anIRSequence
 !
 
 visitIRTempDeclaration: anIRTempDeclaration
-	^ self visitIRInstruction: anIRTempDeclaration
+	^ self visitDagNode: anIRTempDeclaration
 !
 
 visitIRValue: anIRValue
-	^ self visitIRInstruction: anIRValue
+	^ self visitDagNode: anIRValue
 !
 
 visitIRVariable: anIRVariable
-	^ self visitIRInstruction: anIRVariable
+	^ self visitDagNode: anIRVariable
 !
 
 visitIRVerbatim: anIRVerbatim
-	^ self visitIRInstruction: anIRVerbatim
+	^ self visitDagNode: anIRVerbatim
 ! !
 
 IRVisitor subclass: #IRJSTranslator
@@ -963,13 +948,13 @@ visitIRClosure: anIRClosure
 
 visitIRDynamicArray: anIRDynamicArray
 	self
-		visitInstructionList: anIRDynamicArray instructions
+		visitInstructionList: anIRDynamicArray dagChildren
 		enclosedBetween: '[' and: ']'
 !
 
 visitIRDynamicDictionary: anIRDynamicDictionary
 	self
-		visitInstructionList: anIRDynamicDictionary instructions
+		visitInstructionList: anIRDynamicDictionary dagChildren
 		enclosedBetween: '$globals.HashedCollection._newFromPairs_([' and: '])'
 !
 
@@ -1017,7 +1002,7 @@ visitIRSend: anIRSend
 
 visitIRSequence: anIRSequence
 	self stream nextPutSequenceWith: [
-		anIRSequence instructions do: [ :each |
+		anIRSequence dagChildren do: [ :each |
 			self stream nextPutStatementWith: (self visit: each) ] ]
 !
 
