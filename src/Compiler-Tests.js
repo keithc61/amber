@@ -1415,6 +1415,30 @@ $globals.CodeGeneratorTest);
 
 $core.addMethod(
 $core.method({
+selector: "testPragmaJSStatement",
+protocol: 'tests',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+self._should_return_("foo < inlineJS: 'return 2+3' >",(5));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPragmaJSStatement",{},$globals.CodeGeneratorTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPragmaJSStatement\x0a\x09self should: 'foo < inlineJS: ''return 2+3'' >' return: 5",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["should:return:"]
+}),
+$globals.CodeGeneratorTest);
+
+$core.addMethod(
+$core.method({
 selector: "testRootSuperSend",
 protocol: 'tests',
 fn: function (){

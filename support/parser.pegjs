@@ -251,10 +251,19 @@ cascade        = send:keywordSend & { return send._isSendNode(); } messages:(ws 
                             ._nodes_(messages);
                  }
 
-jsStatement    = "<" val:((">>" {return ">";} / [^>])*) ">" {
+jsStatement    = pragmaJsStatement / legacyJsStatement
+
+legacyJsStatement = "<" val:((">>" {return ">";} / [^>])*) ">" {
+                     console.warn("Use of <...js code...> is deprecated, in:\n" + val.join(""));
                      return $globals.JSStatementNode._new()
                             ._location_(location())
                             ._source_(val.join(""))
+                 }
+
+pragmaJsStatement = "<" ws "inlineJS:" ws val:string ws ">" {
+                     return $globals.JSStatementNode._new()
+                            ._location_(location())
+                            ._source_(val._value())
                  }
 
 

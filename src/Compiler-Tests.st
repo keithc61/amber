@@ -369,6 +369,10 @@ testPascalCaseGlobal
 	self should: 'foo ^NonExistent' return: nil
 !
 
+testPragmaJSStatement
+	self should: 'foo < inlineJS: ''return 2+3'' >' return: 5
+!
+
 testRootSuperSend
 	self 
 		should: 'foo ^ super class' 
