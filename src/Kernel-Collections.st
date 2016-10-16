@@ -148,6 +148,15 @@ I provide a set of useful methods to the Collection hierarchy such as enumeratin
 
 !Collection methodsFor: 'accessing'!
 
+anyOne
+	"Answer a representative sample of the receiver. This method can
+	be helpful when needing to preinfer the nature of the contents of 
+	semi-homogeneous collections."
+
+	self ifEmpty: [ self error: 'Collection is empty' ].
+	self do: [ :each | ^ each ]
+!
+
 occurrencesOf: anObject
 	"Answer how many of the receiver's elements are equal to anObject."
 
@@ -155,6 +164,15 @@ occurrencesOf: anObject
 	tally := 0.
 	self do: [ :each | anObject = each ifTrue: [ tally := tally + 1 ]].
 	^ tally
+!
+
+single
+	"Answer a single element.
+	Raise an error if collection holds less or more than one element."
+
+	self ifEmpty: [ self error: 'Collection is empty' ].
+	self size > 1 ifTrue: [ self error: 'Collection holds more than one element' ].
+	^ self anyOne
 !
 
 size
@@ -171,15 +189,6 @@ addAll: aCollection
 	aCollection do: [ :each |
 		self add: each ].
 	^ aCollection
-!
-
-anyOne
-	"Answer a representative sample of the receiver. This method can
-	be helpful when needing to preinfer the nature of the contents of 
-	semi-homogeneous collections."
-
-	self ifEmpty: [ self error: 'Collection is empty' ].
-	self do: [ :each | ^ each ]
 !
 
 remove: anObject
@@ -939,6 +948,10 @@ allButLast
 	^ self copyFrom: 1 to: self size - 1
 !
 
+anyOne
+	^ self at: 1
+!
+
 atRandom
 	^ self at: self size atRandom
 !
@@ -1002,6 +1015,14 @@ last: aNumber
 
 second
 	^ self at: 2
+!
+
+single
+<
+	if (self.length == 0) throw new Error("Collection is empty");
+	if (self.length >> 1) throw new Error("Collection holds more than one element.");
+	return self[0];
+>
 !
 
 third

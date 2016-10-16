@@ -4603,6 +4603,57 @@ $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
+selector: "testSingle",
+protocol: 'tests',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($recv(self._collectionClass())._new())._single();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["single"]=1;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["should:raise:"]=1;
+//>>excludeEnd("ctx");
+self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(self._collection())._single();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["single"]=2;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+self._assert_equals_($recv(self._sampleNewValueAsCollection())._single(),self._sampleNewValue());
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testSingle",{},$globals.CollectionTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSingle\x0a\x09self should: [ self collectionClass new single ] raise: Error.\x0a\x09self should: [ self collection single ] raise: Error.\x0a\x09self assert: self sampleNewValueAsCollection single equals: self sampleNewValue",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+messageSends: ["should:raise:", "single", "new", "collectionClass", "collection", "assert:equals:", "sampleNewValueAsCollection", "sampleNewValue"]
+}),
+$globals.CollectionTest);
+
+$core.addMethod(
+$core.method({
 selector: "testSize",
 protocol: 'tests',
 fn: function (){
