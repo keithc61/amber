@@ -2071,7 +2071,7 @@ $globals.IRMethod);
 $core.addMethod(
 $core.method({
 selector: "isMethod",
-protocol: 'accessing',
+protocol: 'testing',
 fn: function (){
 var self=this;
 return true;
@@ -2690,7 +2690,7 @@ $globals.IRSend);
 $core.addMethod(
 $core.method({
 selector: "isSuperSend",
-protocol: 'accessing',
+protocol: 'testing',
 fn: function (){
 var self=this;
 var receiver;

@@ -495,10 +495,6 @@ internalVariables
 	^ internalVariables ifNil: [ internalVariables := Set new ]
 !
 
-isMethod
-	^ true
-!
-
 messageSends
 	^ self sendIndexes keys
 !
@@ -537,6 +533,12 @@ theClass
 
 theClass: aClass
 	theClass := aClass
+! !
+
+!IRMethod methodsFor: 'testing'!
+
+isMethod
+	^ true
 ! !
 
 !IRMethod methodsFor: 'visiting'!
@@ -666,12 +668,6 @@ index: anInteger
 	index := anInteger
 !
 
-isSuperSend
-	| receiver |
-	receiver := self instructions first.
-	^ receiver isVariable and: [ receiver variable name = 'super' ]
-!
-
 selector
 	^ selector
 !
@@ -684,6 +680,12 @@ selector: aString
 
 isSend
 	^ true
+!
+
+isSuperSend
+	| receiver |
+	receiver := self instructions first.
+	^ receiver isVariable and: [ receiver variable name = 'super' ]
 ! !
 
 !IRSend methodsFor: 'visiting'!
