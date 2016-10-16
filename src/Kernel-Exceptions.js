@@ -75,7 +75,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "context\x0a\x09<return self.context>",
+source: "context\x0a\x09<inlineJS: 'return self.context'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -123,7 +123,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isSmalltalkError\x0a\x09<return self.smalltalkError === true>",
+source: "isSmalltalkError\x0a\x09<inlineJS: 'return self.smalltalkError === true'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -147,7 +147,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "jsStack\x0a\x09<return self.stack>",
+source: "jsStack\x0a\x09<inlineJS: 'return self.stack'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -361,7 +361,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "wasHandled\x0a\x09<return self.amberHandled || false>",
+source: "wasHandled\x0a\x09<inlineJS: 'return self.amberHandled || false'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -592,7 +592,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return 'JavaScript exception: ' + self["@exception"].toString();
+return "JavaScript exception: " + self["@exception"].toString();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"messageText",{},$globals.JavaScriptException)});
@@ -600,7 +600,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "messageText\x0a\x09<return 'JavaScript exception: ' + self[\x22@exception\x22].toString()>",
+source: "messageText\x0a\x09<inlineJS: 'return \x22JavaScript exception: \x22 + self[\x22@exception\x22].toString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

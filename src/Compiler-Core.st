@@ -165,13 +165,13 @@ compileNode: aNode forClass: aClass package: aPackage
 !
 
 eval: aString
-	<return eval(aString)>
+	<inlineJS: 'return eval(aString)'>
 !
 
 eval: aString forPackage: aPackage
-	<return aPackage && aPackage.innerEval
+	<inlineJS: 'return aPackage && aPackage.innerEval
 		? aPackage.innerEval(aString)
-		: eval(aString)>
+		: eval(aString)'>
 !
 
 evaluateExpression: aString

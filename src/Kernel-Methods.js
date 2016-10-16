@@ -27,7 +27,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject", "aCollection"],
-source: "applyTo: anObject arguments: aCollection\x0a\x09<return self.apply(anObject, aCollection)>",
+source: "applyTo: anObject arguments: aCollection\x0a\x09<inlineJS: 'return self.apply(anObject, aCollection)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -51,7 +51,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "asCompiledMethod: aString\x0a\x09<return $core.method({selector:aString, fn:self});>",
+source: "asCompiledMethod: aString\x0a\x09<inlineJS: 'return $core.method({selector:aString, fn:self});'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -75,7 +75,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "compiledSource\x0a\x09<return self.toString()>",
+source: "compiledSource\x0a\x09<inlineJS: 'return self.toString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -105,7 +105,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "currySelf\x0a\x09\x22Transforms [ :selfarg :x :y | stcode ] block\x0a\x09which represents JS function (selfarg, x, y, ...) {jscode}\x0a\x09into function (x, y, ...) {jscode} that takes selfarg from 'this'.\x0a\x09IOW, it is usable as JS method and first arg takes the receiver.\x22\x0a\x09\x0a\x09<\x0a\x09\x09return function () {\x0a\x09\x09\x09var args = [ this ];\x0a\x09\x09\x09args.push.apply(args, arguments);\x0a\x09\x09\x09return self.apply(null, args);\x0a\x09\x09}\x0a\x09>",
+source: "currySelf\x0a\x09\x22Transforms [ :selfarg :x :y | stcode ] block\x0a\x09which represents JS function (selfarg, x, y, ...) {jscode}\x0a\x09into function (x, y, ...) {jscode} that takes selfarg from 'this'.\x0a\x09IOW, it is usable as JS method and first arg takes the receiver.\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09return function () {\x0a\x09\x09\x09var args = [ this ];\x0a\x09\x09\x09args.push.apply(args, arguments);\x0a\x09\x09\x09return self.apply(null, args);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -129,7 +129,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "ensure: aBlock\x0a\x09<try{return self._value()}finally{aBlock._value()}>",
+source: "ensure: aBlock\x0a\x09<inlineJS: 'try{return self._value()}finally{aBlock._value()}'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -177,7 +177,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "new\x0a\x09\x22Use the receiver as a JS constructor.\x0a\x09*Do not* use this method to instanciate Smalltalk objects!\x22\x0a\x09<return new self()>",
+source: "new\x0a\x09\x22Use the receiver as a JS constructor.\x0a\x09*Do not* use this method to instanciate Smalltalk objects!\x22\x0a\x09<inlineJS: 'return new self()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -274,7 +274,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aCollection"],
-source: "newWithValues: aCollection\x0a\x09\x22Simulates JS new operator by combination of Object.create and .apply\x22\x0a\x09<\x0a\x09\x09var object = Object.create(self.prototype);\x0a\x09\x09var result = self.apply(object, aCollection);\x0a\x09\x09return typeof result === \x22object\x22 ? result : object;\x0a\x09>",
+source: "newWithValues: aCollection\x0a\x09\x22Simulates JS new operator by combination of Object.create and .apply\x22\x0a\x09<inlineJS: '\x0a\x09\x09var object = Object.create(self.prototype);\x0a\x09\x09var result = self.apply(object, aCollection);\x0a\x09\x09return typeof result === \x22object\x22 ? result : object;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -298,7 +298,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "numArgs\x0a\x09<return self.length>",
+source: "numArgs\x0a\x09<inlineJS: 'return self.length'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -411,7 +411,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "tryCatch: aBlock\x0a\x09<\x0a\x09\x09try {\x0a\x09\x09\x09return self._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09return aBlock._value_(error);\x0a\x09\x09}\x0a\x09>",
+source: "tryCatch: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09try {\x0a\x09\x09\x09return self._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09return aBlock._value_(error);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -435,7 +435,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "value\x0a\x09<return self();>",
+source: "value\x0a\x09<inlineJS: 'return self();'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -459,7 +459,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anArg"],
-source: "value: anArg\x0a\x09<return self(anArg);>",
+source: "value: anArg\x0a\x09<inlineJS: 'return self(anArg);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -483,7 +483,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["firstArg", "secondArg"],
-source: "value: firstArg value: secondArg\x0a\x09<return self(firstArg, secondArg);>",
+source: "value: firstArg value: secondArg\x0a\x09<inlineJS: 'return self(firstArg, secondArg);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -507,7 +507,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["firstArg", "secondArg", "thirdArg"],
-source: "value: firstArg value: secondArg value: thirdArg\x0a\x09<return self(firstArg, secondArg, thirdArg);>",
+source: "value: firstArg value: secondArg value: thirdArg\x0a\x09<inlineJS: 'return self(firstArg, secondArg, thirdArg);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -534,7 +534,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "valueWithInterval: aNumber\x0a\x09<\x0a\x09\x09var interval = setInterval(self, aNumber);\x0a\x09\x09return $globals.Timeout._on_(interval);\x0a\x09>",
+source: "valueWithInterval: aNumber\x0a\x09<inlineJS: '\x0a\x09\x09var interval = setInterval(self, aNumber);\x0a\x09\x09return $globals.Timeout._on_(interval);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -558,7 +558,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aCollection"],
-source: "valueWithPossibleArguments: aCollection\x0a\x09<return self.apply(null, aCollection);>",
+source: "valueWithPossibleArguments: aCollection\x0a\x09<inlineJS: 'return self.apply(null, aCollection);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -585,7 +585,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "valueWithTimeout: aNumber\x0a\x09<\x0a\x09\x09var timeout = setTimeout(self, aNumber);\x0a\x09\x09return $globals.Timeout._on_(timeout);\x0a\x09>",
+source: "valueWithTimeout: aNumber\x0a\x09<inlineJS: '\x0a\x09\x09var timeout = setTimeout(self, aNumber);\x0a\x09\x09return $globals.Timeout._on_(timeout);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -715,7 +715,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "arguments\x0a\x09<return self.args || []>",
+source: "arguments\x0a\x09<inlineJS: 'return self.args || []'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2149,7 +2149,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "basicReceiver\x0a\x09<return self.receiver>",
+source: "basicReceiver\x0a\x09<inlineJS: 'return self.receiver'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2173,7 +2173,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "evaluatedSelector\x0a\x09<return self.evaluatedSelector>",
+source: "evaluatedSelector\x0a\x09<inlineJS: 'return self.evaluatedSelector'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2249,7 +2249,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "home\x0a\x09<return self.homeContext>",
+source: "home\x0a\x09<inlineJS: 'return self.homeContext'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2273,7 +2273,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "index\x0a\x09<return self.index || 0>",
+source: "index\x0a\x09<inlineJS: 'return self.index || 0'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2320,7 +2320,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "locals\x0a\x09<return self.locals || {}>",
+source: "locals\x0a\x09<inlineJS: 'return self.locals || {}'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2445,7 +2445,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "outerContext\x0a\x09<return self.outerContext || self.homeContext>",
+source: "outerContext\x0a\x09<inlineJS: 'return self.outerContext || self.homeContext'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2556,7 +2556,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "selector\x0a\x09<\x0a\x09\x09if(self.selector) {\x0a\x09\x09\x09return $core.js2st(self.selector);\x0a\x09\x09} else {\x0a\x09\x09\x09return nil;\x0a\x09\x09}\x0a\x09>",
+source: "selector\x0a\x09<inlineJS: '\x0a\x09\x09if(self.selector) {\x0a\x09\x09\x09return $core.js2st(self.selector);\x0a\x09\x09} else {\x0a\x09\x09\x09return nil;\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2580,7 +2580,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aSelector"],
-source: "sendIndexAt: aSelector\x0a\x09<return self.sendIdx[aSelector] || 0>",
+source: "sendIndexAt: aSelector\x0a\x09<inlineJS: 'return self.sendIdx[aSelector] || 0'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2604,7 +2604,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "sendIndexes\x0a\x09<return self.sendIdx>",
+source: "sendIndexes\x0a\x09<inlineJS: 'return self.sendIdx'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2628,7 +2628,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "supercall\x0a\x09<return self.supercall == true>",
+source: "supercall\x0a\x09<inlineJS: 'return self.supercall == true'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2662,7 +2662,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "constructorNamed: aString\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return new nativeFunc();\x0a\x09>",
+source: "constructorNamed: aString\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return new nativeFunc();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2689,7 +2689,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject"],
-source: "constructorNamed: aString value: anObject\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return new nativeFunc(anObject);\x0a\x09>",
+source: "constructorNamed: aString value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return new nativeFunc(anObject);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2716,7 +2716,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject", "anObject2"],
-source: "constructorNamed: aString value: anObject value: anObject2\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2);\x0a\x09>",
+source: "constructorNamed: aString value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2743,7 +2743,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject", "anObject2", "anObject3"],
-source: "constructorNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2, anObject3);\x0a\x09>",
+source: "constructorNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2769,7 +2769,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["nativeFunc"],
-source: "constructorOf: nativeFunc\x0a\x09<\x0a\x09\x09return new nativeFunc();\x0a\x09>",
+source: "constructorOf: nativeFunc\x0a\x09<inlineJS: '\x0a\x09\x09return new nativeFunc();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2795,7 +2795,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["nativeFunc", "anObject"],
-source: "constructorOf: nativeFunc value: anObject\x0a\x09<\x0a\x09\x09return new nativeFunc(anObject);\x0a\x09>",
+source: "constructorOf: nativeFunc value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09return new nativeFunc(anObject);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2821,7 +2821,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["nativeFunc", "anObject", "anObject2"],
-source: "constructorOf: nativeFunc value: anObject value: anObject2\x0a\x09<\x0a\x09\x09return new nativeFunc(anObject,anObject2);\x0a\x09>",
+source: "constructorOf: nativeFunc value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09return new nativeFunc(anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2847,7 +2847,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["nativeFunc", "anObject", "anObject2", "anObject3"],
-source: "constructorOf: nativeFunc value: anObject value: anObject2 value: anObject3\x0a\x09<\x0a\x09\x09return new nativeFunc(anObject,anObject2, anObject3);\x0a\x09>",
+source: "constructorOf: nativeFunc value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09return new nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2897,7 +2897,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "functionNamed: aString\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return nativeFunc();\x0a\x09>",
+source: "functionNamed: aString\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return nativeFunc();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2924,7 +2924,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject"],
-source: "functionNamed: aString value: anObject\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return nativeFunc(anObject);\x0a\x09>",
+source: "functionNamed: aString value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return nativeFunc(anObject);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2951,7 +2951,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject", "anObject2"],
-source: "functionNamed: aString value: anObject value: anObject2\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2);\x0a\x09>",
+source: "functionNamed: aString value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2978,7 +2978,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject", "anObject2", "anObject3"],
-source: "functionNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2, anObject3);\x0a\x09>",
+source: "functionNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3005,7 +3005,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "args"],
-source: "functionNamed: aString valueWithArgs: args\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, null, args);\x0a\x09>",
+source: "functionNamed: aString valueWithArgs: args\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, null, args);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3031,7 +3031,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["nativeFunc"],
-source: "functionOf: nativeFunc\x0a\x09<\x0a\x09\x09return nativeFunc();\x0a\x09>",
+source: "functionOf: nativeFunc\x0a\x09<inlineJS: '\x0a\x09\x09return nativeFunc();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3057,7 +3057,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["nativeFunc", "anObject"],
-source: "functionOf: nativeFunc value: anObject\x0a\x09<\x0a\x09\x09return nativeFunc(anObject);\x0a\x09>",
+source: "functionOf: nativeFunc value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09return nativeFunc(anObject);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3083,7 +3083,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["nativeFunc", "anObject", "anObject2"],
-source: "functionOf: nativeFunc value: anObject value: anObject2\x0a\x09<\x0a\x09\x09return nativeFunc(anObject,anObject2);\x0a\x09>",
+source: "functionOf: nativeFunc value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09return nativeFunc(anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3109,7 +3109,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["nativeFunc", "anObject", "anObject2", "anObject3"],
-source: "functionOf: nativeFunc value: anObject value: anObject2 value: anObject3\x0a\x09<\x0a\x09\x09return nativeFunc(anObject,anObject2, anObject3);\x0a\x09>",
+source: "functionOf: nativeFunc value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09return nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3135,7 +3135,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["nativeFunc", "args"],
-source: "functionOf: nativeFunc valueWithArgs: args\x0a\x09<\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, null, args);\x0a\x09>",
+source: "functionOf: nativeFunc valueWithArgs: args\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, null, args);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3161,7 +3161,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["nativeFunc", "thisObject"],
-source: "methodOf: nativeFunc this: thisObject\x0a\x09<\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject);\x0a\x09>",
+source: "methodOf: nativeFunc this: thisObject\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3187,7 +3187,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["nativeFunc", "thisObject", "anObject"],
-source: "methodOf: nativeFunc this: thisObject value: anObject\x0a\x09<\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject, anObject);\x0a\x09>",
+source: "methodOf: nativeFunc this: thisObject value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject, anObject);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3213,7 +3213,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["nativeFunc", "thisObject", "anObject", "anObject2"],
-source: "methodOf: nativeFunc this: thisObject value: anObject value: anObject2\x0a\x09<\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject,anObject,anObject2);\x0a\x09>",
+source: "methodOf: nativeFunc this: thisObject value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject,anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3239,7 +3239,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["nativeFunc", "thisObject", "anObject", "anObject2", "anObject3"],
-source: "methodOf: nativeFunc this: thisObject value: anObject value: anObject2 value: anObject3\x0a\x09<\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject,anObject,anObject2, anObject3);\x0a\x09>",
+source: "methodOf: nativeFunc this: thisObject value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject,anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3265,7 +3265,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["nativeFunc", "thisObject", "args"],
-source: "methodOf: nativeFunc this: thisObject valueWithArgs: args\x0a\x09<\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, thisObject, args);\x0a\x09>",
+source: "methodOf: nativeFunc this: thisObject valueWithArgs: args\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, thisObject, args);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

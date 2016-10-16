@@ -10,21 +10,21 @@ In most cases, subclassing `ProtoObject` is wrong and `Object` should be used in
 !ProtoObject methodsFor: 'accessing'!
 
 class
-	<return self.klass>
+	<inlineJS: 'return self.klass'>
 !
 
 identityHash
-	<
+	<inlineJS: '
 		var hash=self.identityHash;
 		if (hash) return hash;
 		hash=$core.nextId();
-		Object.defineProperty(self, 'identityHash', {value:hash});
+		Object.defineProperty(self, ''identityHash'', {value:hash});
 		return hash;
-	>
+	'>
 !
 
 instVarAt: aString
-	< return self['@'+aString] >
+	<inlineJS: 'return self[''@''+aString]'>
 !
 
 instVarAt: aString put: anObject
@@ -42,7 +42,8 @@ yourself
 !
 
 == anObject
-<return self._class() === $recv(anObject)._class() && self._isSameInstanceAs_(anObject)>
+<inlineJS:
+	'return self._class() === $recv(anObject)._class() && self._isSameInstanceAs_(anObject)'>
 !
 
 isSameInstanceAs: anObject
@@ -99,7 +100,7 @@ perform: aString
 !
 
 perform: aString withArguments: aCollection
-	<return $core.send2(self, aString, aCollection)>
+	<inlineJS: 'return $core.send2(self, aString, aCollection)'>
 ! !
 
 !ProtoObject methodsFor: 'printing'!
@@ -200,15 +201,15 @@ I understand equality `#=` and identity `#==` comparison.
 !Object methodsFor: 'accessing'!
 
 basicAt: aString
-	<return self[aString]>
+	<inlineJS: 'return self[aString]'>
 !
 
 basicAt: aString put: anObject
-	<return self[aString] = anObject>
+	<inlineJS: 'return self[aString] = anObject'>
 !
 
 basicDelete: aString
-	<delete self[aString]; return aString>
+	<inlineJS: 'delete self[aString]; return aString'>
 !
 
 size
@@ -250,7 +251,7 @@ copy
 !
 
 deepCopy
-	<
+	<inlineJS: '
 		var copy = self.klass._new();
 		Object.keys(self).forEach(function (i) {
 		if(/^@.+/.test(i)) {
@@ -258,14 +259,14 @@ deepCopy
 		}
 		});
 		return copy;
-	>
+	'>
 !
 
 postCopy
 !
 
 shallowCopy
-	<
+	<inlineJS: '
 		var copy = self.klass._new();
 		Object.keys(self).forEach(function(i) {
 		if(/^@.+/.test(i)) {
@@ -273,7 +274,7 @@ shallowCopy
 		}
 		});
 		return copy;
-	>
+	'>
 ! !
 
 !Object methodsFor: 'error handling'!
@@ -320,7 +321,7 @@ in: aValuable
 !
 
 value
-	<return self.valueOf()>
+	<inlineJS: 'return self.valueOf()'>
 ! !
 
 !Object methodsFor: 'message handling'!
@@ -330,7 +331,7 @@ basicPerform: aString
 !
 
 basicPerform: aString withArguments: aCollection
-	<return self[aString].apply(self, aCollection);>
+	<inlineJS: 'return self[aString].apply(self, aCollection);'>
 ! !
 
 !Object methodsFor: 'streaming'!
@@ -434,23 +435,23 @@ I am directly mapped to JavaScript Boolean. The `true` and `false` objects are t
 !Boolean methodsFor: 'comparing'!
 
 == aBoolean
-<
+<inlineJS: '
 	if (typeof aBoolean === "boolean") return self.valueOf() === aBoolean;
 	else if (aBoolean !!= null && typeof aBoolean === "object") return self.valueOf() === aBoolean.valueOf();
 	else return false;
->
+'>
 ! !
 
 !Boolean methodsFor: 'controlling'!
 
 & aBoolean
-	<
+	<inlineJS: '
 		if(self == true) {
 		return aBoolean;
 		} else {
 		return false;
 		}
-	>
+	'>
 !
 
 and: aBlock
@@ -476,13 +477,13 @@ ifTrue: aBlock
 
 ifTrue: aBlock ifFalse: anotherBlock
 	"inlined in the Compiler"
-	<
+	<inlineJS: '
 		if(self == true) {
 		return aBlock._value();
 		} else {
 		return anotherBlock._value();
 		}
-	>
+	'>
 !
 
 not
@@ -496,13 +497,13 @@ or: aBlock
 !
 
 | aBoolean
-	<
+	<inlineJS: '
 		if(self == true) {
 		return true;
 		} else {
 		return aBoolean;
 		}
-	>
+	'>
 ! !
 
 !Boolean methodsFor: 'converting'!
@@ -516,7 +517,7 @@ asJSON
 !
 
 asString
-	< return self.toString() >
+	<inlineJS: 'return self.toString()'>
 ! !
 
 !Boolean methodsFor: 'copying'!
@@ -573,7 +574,7 @@ day: aNumber
 !
 
 dayOfMonth
-	<return self.getDate()>
+	<inlineJS: 'return self.getDate()'>
 !
 
 dayOfMonth: aNumber
@@ -581,15 +582,15 @@ dayOfMonth: aNumber
 !
 
 dayOfWeek
-	<return self.getDay() + 1>
+	<inlineJS: 'return self.getDay() + 1'>
 !
 
 dayOfWeek: aNumber
-	<return self.setDay(aNumber - 1)>
+	<inlineJS: 'return self.setDay(aNumber - 1)'>
 !
 
 hours
-	<return self.getHours()>
+	<inlineJS: 'return self.getHours()'>
 !
 
 hours: aNumber
@@ -597,7 +598,7 @@ hours: aNumber
 !
 
 milliseconds
-	<return self.getMilliseconds()>
+	<inlineJS: 'return self.getMilliseconds()'>
 !
 
 milliseconds: aNumber
@@ -605,7 +606,7 @@ milliseconds: aNumber
 !
 
 minutes
-	<return self.getMinutes()>
+	<inlineJS: 'return self.getMinutes()'>
 !
 
 minutes: aNumber
@@ -613,7 +614,7 @@ minutes: aNumber
 !
 
 month
-	<return self.getMonth() + 1>
+	<inlineJS: 'return self.getMonth() + 1'>
 !
 
 month: aNumber
@@ -621,7 +622,7 @@ month: aNumber
 !
 
 seconds
-	<return self.getSeconds()>
+	<inlineJS: 'return self.getSeconds()'>
 !
 
 seconds: aNumber
@@ -629,7 +630,7 @@ seconds: aNumber
 !
 
 time
-	<return self.getTime()>
+	<inlineJS: 'return self.getTime()'>
 !
 
 time: aNumber
@@ -637,7 +638,7 @@ time: aNumber
 !
 
 year
-	<return self.getFullYear()>
+	<inlineJS: 'return self.getFullYear()'>
 !
 
 year: aNumber
@@ -647,21 +648,21 @@ year: aNumber
 !Date methodsFor: 'arithmetic'!
 
 + aDate
-	<return self + aDate>
+	<inlineJS: 'return self + aDate'>
 !
 
 - aDate
-	<return self - aDate>
+	<inlineJS: 'return self - aDate'>
 ! !
 
 !Date methodsFor: 'comparing'!
 
 < aDate
-	<return self < aDate>
+	<inlineJS: 'return self < aDate'>
 !
 
 <= aDate
-	<return self <= aDate>
+	<inlineJS: 'return self <= aDate'>
 !
 
 = aDate
@@ -669,21 +670,21 @@ year: aNumber
 !
 
 > aDate
-	<return self >> aDate>
+	<inlineJS: 'return self > aDate'>
 !
 
 >= aDate
-	<return self >>= aDate>
+	<inlineJS: 'return self >= aDate'>
 ! !
 
 !Date methodsFor: 'converting'!
 
 asDateString
-	<return self.toDateString()>
+	<inlineJS: 'return self.toDateString()'>
 !
 
 asLocaleString
-	<return self.toLocaleString()>
+	<inlineJS: 'return self.toLocaleString()'>
 !
 
 asMilliseconds
@@ -695,11 +696,11 @@ asNumber
 !
 
 asString
-	<return self.toString()>
+	<inlineJS: 'return self.toString()'>
 !
 
 asTimeString
-	<return self.toTimeString()>
+	<inlineJS: 'return self.toTimeString()'>
 ! !
 
 !Date methodsFor: 'printing'!
@@ -741,7 +742,7 @@ millisecondsToRun: aBlock
 !
 
 new: anObject
-	<return new Date(anObject)>
+	<inlineJS: 'return new Date(anObject)'>
 !
 
 now
@@ -775,22 +776,22 @@ My instances can also be used to evaluate a block a fixed number of times:
 
 * aNumber
 	"Inlined in the Compiler"
-	<return self * aNumber>
+	<inlineJS: 'return self * aNumber'>
 !
 
 + aNumber
 	"Inlined in the Compiler"
-	<return self + aNumber>
+	<inlineJS: 'return self + aNumber'>
 !
 
 - aNumber
 	"Inlined in the Compiler"
-	<return self - aNumber>
+	<inlineJS: 'return self - aNumber'>
 !
 
 / aNumber
 	"Inlined in the Compiler"
-	<return self / aNumber>
+	<inlineJS: 'return self / aNumber'>
 !
 
 // aNumber
@@ -798,19 +799,19 @@ My instances can also be used to evaluate a block a fixed number of times:
 !
 
 \\ aNumber
-	<return self % aNumber>
+	<inlineJS: 'return self % aNumber'>
 !
 
 abs
-	<return Math.abs(self);>
+	<inlineJS: 'return Math.abs(self);'>
 !
 
 max: aNumber
-	<return Math.max(self, aNumber);>
+	<inlineJS: 'return Math.max(self, aNumber);'>
 !
 
 min: aNumber
-	<return Math.min(self, aNumber);>
+	<inlineJS: 'return Math.min(self, aNumber);'>
 !
 
 negated
@@ -821,36 +822,36 @@ negated
 
 < aNumber
 	"Inlined in the Compiler"
-	<return self < aNumber>
+	<inlineJS: 'return self < aNumber'>
 !
 
 <= aNumber
 	"Inlined in the Compiler"
-	<return self <= aNumber>
+	<inlineJS: 'return self <= aNumber'>
 !
 
 == aNumber
-<
+<inlineJS: '
 	if (typeof aNumber === "number") return Number(self) === aNumber;
 	else if (aNumber !!= null && typeof aNumber === "object") return Number(self) === aNumber.valueOf();
 	else return false;
->
+'>
 !
 
 > aNumber
 	"Inlined in the Compiler"
-	<return self >> aNumber>
+	<inlineJS: 'return self > aNumber'>
 !
 
 >= aNumber
 	"Inlined in the Compiler"
-	<return self >>= aNumber>
+	<inlineJS: 'return self >= aNumber'>
 ! !
 
 !Number methodsFor: 'converting'!
 
 & aNumber
-	<return self & aNumber>
+	<inlineJS: 'return self & aNumber'>
 !
 
 @ aNumber
@@ -874,7 +875,7 @@ asPoint
 !
 
 asString
-	< return String(self) >
+	<inlineJS: 'return String(self)'>
 !
 
 atRandom
@@ -882,15 +883,15 @@ atRandom
 !
 
 ceiling
-	<return Math.ceil(self);>
+	<inlineJS: 'return Math.ceil(self);'>
 !
 
 floor
-	<return Math.floor(self);>
+	<inlineJS: 'return Math.floor(self);'>
 !
 
 rounded
-	<return Math.round(self);>
+	<inlineJS: 'return Math.round(self);'>
 !
 
 to: aNumber
@@ -925,17 +926,17 @@ to: stop by: step
 !
 
 truncated
-	<
-		if(self >>= 0) {
+	<inlineJS: '
+		if(self >= 0) {
 			return Math.floor(self);
 		} else {
 			return Math.floor(self * (-1)) * (-1);
 		};
-	>
+	'>
 !
 
 | aNumber
-	<return self | aNumber>
+	<inlineJS: 'return self | aNumber'>
 ! !
 
 !Number methodsFor: 'copying'!
@@ -988,35 +989,35 @@ to: stop do: aBlock
 !
 
 arcCos
-	<return Math.acos(self);>
+	<inlineJS: 'return Math.acos(self);'>
 !
 
 arcSin
-	<return Math.asin(self);>
+	<inlineJS: 'return Math.asin(self);'>
 !
 
 arcTan
-	<return Math.atan(self);>
+	<inlineJS: 'return Math.atan(self);'>
 !
 
 cos
-	<return Math.cos(self);>
+	<inlineJS: 'return Math.cos(self);'>
 !
 
 ln
-	<return Math.log(self);>
+	<inlineJS: 'return Math.log(self);'>
 !
 
 log
-	<return Math.log(self) / Math.LN10;>
+	<inlineJS: 'return Math.log(self) / Math.LN10;'>
 !
 
 log: aNumber
-	<return Math.log(self) / Math.log(aNumber);>
+	<inlineJS: 'return Math.log(self) / Math.log(aNumber);'>
 !
 
 raisedTo: exponent
-	<return Math.pow(self, exponent);>
+	<inlineJS: 'return Math.pow(self, exponent);'>
 !
 
 sign
@@ -1028,11 +1029,11 @@ sign
 !
 
 sin
-	<return Math.sin(self);>
+	<inlineJS: 'return Math.sin(self);'>
 !
 
 sqrt
-	<return Math.sqrt(self)>
+	<inlineJS: 'return Math.sqrt(self)'>
 !
 
 squared
@@ -1040,7 +1041,7 @@ squared
 !
 
 tan
-	<return Math.tan(self);>
+	<inlineJS: 'return Math.tan(self);'>
 ! !
 
 !Number methodsFor: 'printing'!
@@ -1050,7 +1051,7 @@ printOn: aStream
 !
 
 printShowingDecimalPlaces: placesDesired
-	<return self.toFixed(placesDesired)>
+	<inlineJS: 'return self.toFixed(placesDesired)'>
 ! !
 
 !Number methodsFor: 'testing'!
@@ -1100,11 +1101,11 @@ classTag
 !Number class methodsFor: 'instance creation'!
 
 e
-	<return Math.E;>
+	<inlineJS: 'return Math.E;'>
 !
 
 pi
-	<return Math.PI>
+	<inlineJS: 'return Math.PI'>
 ! !
 
 Object subclass: #Point
@@ -1286,7 +1287,7 @@ Since Amber does not have Characters this will return a `String` of length 1 lik
 !Random methodsFor: 'accessing'!
 
 next
-	<return Math.random()>
+	<inlineJS: 'return Math.random()'>
 !
 
 next: anInteger

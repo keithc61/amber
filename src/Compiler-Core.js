@@ -551,7 +551,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "eval: aString\x0a\x09<return eval(aString)>",
+source: "eval: aString\x0a\x09<inlineJS: 'return eval(aString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -577,7 +577,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aPackage"],
-source: "eval: aString forPackage: aPackage\x0a\x09<return aPackage && aPackage.innerEval\x0a\x09\x09? aPackage.innerEval(aString)\x0a\x09\x09: eval(aString)>",
+source: "eval: aString forPackage: aPackage\x0a\x09<inlineJS: 'return aPackage && aPackage.innerEval\x0a\x09\x09? aPackage.innerEval(aString)\x0a\x09\x09: eval(aString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

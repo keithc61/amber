@@ -434,11 +434,11 @@ TestCase subclass: #ClassTest
 !ClassTest methodsFor: 'running'!
 
 jsConstructor
-	<
+	<inlineJS: '
 		function Foo(){}
 		Foo.prototype.valueOf = function () {return 4;};
 		return Foo;
-	>
+	'>
 !
 
 setUp
@@ -450,12 +450,12 @@ tearDown
 !
 
 trickyJsConstructor
-	<
+	<inlineJS: '
 		function Foo(){}
 		Foo.prototype.valueOf = function () {return 4;};
 		Foo.prototype._foo = function () {return "bar";};
 		return Foo;
-	>
+	'>
 ! !
 
 !ClassTest methodsFor: 'tests'!
@@ -1870,15 +1870,16 @@ TestCase subclass: #JSObjectProxyTest
 !JSObjectProxyTest methodsFor: 'accessing'!
 
 jsNull
-	<return null>
+	<inlineJS: 'return null'>
 !
 
 jsObject
-	<return {a: 1, b: function() {return 2;}, c: function(object) {return object;}, d: '', 'e': null, 'f': void 0}>
+	<inlineJS: 
+		'return {a: 1, b: function() {return 2;}, c: function(object) {return object;}, d: "", "e": null, "f": void 0}'>
 !
 
 jsUndefined
-	<return>
+	<inlineJS: 'return'>
 ! !
 
 !JSObjectProxyTest methodsFor: 'tests'!
@@ -2501,7 +2502,7 @@ TestCase subclass: #ObjectTest
 !ObjectTest methodsFor: 'tests'!
 
 notDefined
-	<return void 0;>
+	<inlineJS: 'return void 0;'>
 !
 
 testBasicAccess

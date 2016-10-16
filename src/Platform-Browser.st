@@ -68,6 +68,6 @@ postMessageTo: aFrame
 !
 
 postMessageTo: aFrame origin: aString
-<return aFrame.postMessage(self, aString)>
+<inlineJS: 'return aFrame.postMessage(self, aString)'>
 ! !
 

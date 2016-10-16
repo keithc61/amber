@@ -300,7 +300,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aFrame", "aString"],
-source: "postMessageTo: aFrame origin: aString\x0a<return aFrame.postMessage(self, aString)>",
+source: "postMessageTo: aFrame origin: aString\x0a<inlineJS: 'return aFrame.postMessage(self, aString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

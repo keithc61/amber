@@ -113,7 +113,7 @@ initialize
 !BaseFileManipulator methodsFor: 'private'!
 
 dirname
-	<return __dirname>
+	<inlineJS: 'return __dirname'>
 !
 
 rootDirname
@@ -245,7 +245,7 @@ initialize
 !FileServer methodsFor: 'private'!
 
 base64Decode: aString
-	<return (new Buffer(aString, 'base64').toString())>
+	<inlineJS: 'return (new Buffer(aString, "base64").toString())'>
 !
 
 isAuthenticated: aRequest

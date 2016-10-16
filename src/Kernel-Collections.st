@@ -75,14 +75,14 @@ Types of buckets are the responsibility of subclasses via `#newBucket`.!
 !BucketStore methodsFor: 'accessing'!
 
 bucketOfElement: anObject
-	<
-		var hash = self['@hashBlock'](anObject);
+	<inlineJS: '
+		var hash = self[''@hashBlock''](anObject);
 		if (!!hash) return null;
-		var buckets = self['@buckets'],
+		var buckets = self[''@buckets''],
 			bucket = buckets[hash];
 		if (!!bucket) { bucket = buckets[hash] = self._newBucket(); }
 		return bucket;
-	>
+	'>
 !
 
 hashBlock: aBlock
@@ -773,23 +773,23 @@ The external name is referred to as the key.!
 !Dictionary methodsFor: 'accessing'!
 
 at: aKey ifAbsent: aBlock
-	<
+	<inlineJS: '
 		var index = self._positionOfKey_(aKey);
-		return index >>=0 ? self['@values'][index] : aBlock._value();
-	>
+		return index >=0 ? self[''@values''][index] : aBlock._value();
+	'>
 !
 
 at: aKey put: aValue
-	<
+	<inlineJS: '
 		var index = self._positionOfKey_(aKey);
 		if(index === -1) {
-			var keys = self['@keys'];
+			var keys = self[''@keys''];
 			index = keys.length;
 			keys.push(aKey);
 		}
 
-		return self['@values'][index] = aValue;
-	>
+		return self[''@values''][index] = aValue;
+	'>
 !
 
 indexOf: anObject ifAbsent: aBlock
@@ -818,12 +818,12 @@ removeAll
 !
 
 removeKey: aKey ifAbsent: aBlock
-	<
+	<inlineJS: '
 		var index = self._positionOfKey_(aKey);
 		if(index === -1) {
 			return aBlock._value()
 		} else {
-			var keys = self['@keys'], values = self['@values'];
+			var keys = self[''@keys''], values = self[''@values''];
 			var value = values[index], l = keys.length;
 			keys[index] = keys[l-1];
 			keys.pop();
@@ -831,7 +831,7 @@ removeKey: aKey ifAbsent: aBlock
 			values.pop();
 			return value;
 		}
-	>
+	'>
 ! !
 
 !Dictionary methodsFor: 'enumerating'!
@@ -859,19 +859,19 @@ initialize
 !Dictionary methodsFor: 'private'!
 
 positionOfKey: anObject
-	<
-		var keys = self['@keys'];
+	<inlineJS: '
+		var keys = self[''@keys''];
 		for(var i=0;i<keys.length;i++){
 			if(keys[i].__eq(anObject)) { return i;}
 		}
 		return -1;
-	>
+	'>
 ! !
 
 !Dictionary methodsFor: 'testing'!
 
 includesKey: aKey
-	< return self._positionOfKey_(aKey) >>= 0; >
+	<inlineJS: 'return self._positionOfKey_(aKey) >= 0;'>
 ! !
 
 AssociativeCollection subclass: #HashedCollection
@@ -895,15 +895,15 @@ at: aKey put: aValue
 !
 
 keys
-	<return Object.keys(self)>
+	<inlineJS: 'return Object.keys(self)'>
 !
 
 values
-	<
+	<inlineJS: '
 		return self._keys().map(function(key){
 			return self._at_(key);
 		});
-	>
+	'>
 ! !
 
 !HashedCollection methodsFor: 'adding/removing'!
@@ -928,7 +928,7 @@ valuesDo: aBlock
 !HashedCollection methodsFor: 'testing'!
 
 includesKey: aKey
-	<return self.hasOwnProperty(aKey)>
+	<inlineJS: 'return self.hasOwnProperty(aKey)'>
 ! !
 
 IndexableCollection subclass: #SequenceableCollection
@@ -974,13 +974,13 @@ fourth
 !
 
 indexOf: anObject ifAbsent: aBlock
-	<
+	<inlineJS: '
 		self = self._numericallyIndexable();
 		for(var i=0; i < self.length; i++) {
 			if($recv(self[i]).__eq(anObject)) {return i+1}
 		};
 		return aBlock._value();
-	>
+	'>
 !
 
 indexOf: anObject startingAt: start
@@ -991,13 +991,13 @@ indexOf: anObject startingAt: start
 !
 
 indexOf: anObject startingAt: start ifAbsent: aBlock
-	<
+	<inlineJS: '
 		self = self._numericallyIndexable();
 		for(var i=start - 1; i < self.length; i++){
 			if($recv(self[i]).__eq(anObject)) {return i+1}
 		}
 		return aBlock._value();
-	>
+	'>
 !
 
 last
@@ -1018,11 +1018,11 @@ second
 !
 
 single
-<
+<inlineJS: '
 	if (self.length == 0) throw new Error("Collection is empty");
-	if (self.length >> 1) throw new Error("Collection holds more than one element.");
+	if (self.length > 1) throw new Error("Collection holds more than one element.");
 	return self[0];
->
+'>
 !
 
 third
@@ -1064,13 +1064,13 @@ copyFrom: anIndex to: anotherIndex
 !SequenceableCollection methodsFor: 'enumerating'!
 
 detect: aBlock ifNone: anotherBlock
-	<
+	<inlineJS: '
 		self = self._numericallyIndexable();
 		for(var i = 0; i < self.length; i++)
 			if(aBlock._value_(self[i]))
 				return self[i];
 		return anotherBlock._value();
-	>
+	'>
 !
 
 do: aBlock
@@ -1185,45 +1185,45 @@ I am directly mapped to JavaScript Number.
 !Array methodsFor: 'accessing'!
 
 at: anIndex ifAbsent: aBlock
-	<
-		return anIndex >>= 1 && anIndex <= self.length
+	<inlineJS: '
+		return anIndex >= 1 && anIndex <= self.length
 			? self[anIndex - 1]
 			: aBlock._value()
-	>
+	'>
 !
 
 at: anIndex ifPresent: aBlock ifAbsent: anotherBlock
-	<
-		return anIndex >>= 1 && anIndex <= self.length
+	<inlineJS: '
+		return anIndex >= 1 && anIndex <= self.length
 			? aBlock._value_(self[anIndex - 1])
 			: anotherBlock._value()
-	>
+	'>
 !
 
 at: anIndex put: anObject
-	<return self[anIndex - 1] = anObject>
+	<inlineJS: 'return self[anIndex - 1] = anObject'>
 !
 
 size
-	<return self.length>
+	<inlineJS: 'return self.length'>
 ! !
 
 !Array methodsFor: 'adding/removing'!
 
 add: anObject
-	<self.push(anObject); return anObject;>
+	<inlineJS: 'self.push(anObject); return anObject;'>
 !
 
 addAll: aCollection
-<
+<inlineJS: '
 	if (Array.isArray(aCollection) && aCollection.length < 65000) self.push.apply(self, aCollection);
 	else $globals.Array.superclass.fn.prototype._addAll_.call(self, aCollection);
 	return aCollection;
->
+'>
 !
 
 addFirst: anObject
-	<self.unshift(anObject); return anObject;>
+	<inlineJS: 'self.unshift(anObject); return anObject;'>
 !
 
 remove: anObject ifAbsent: aBlock
@@ -1247,7 +1247,7 @@ removeIndex: anInteger
 !
 
 removeLast
-	<return self.pop();>
+	<inlineJS: 'return self.pop();'>
 ! !
 
 !Array methodsFor: 'converting'!
@@ -1257,25 +1257,25 @@ asJavascript
 !
 
 reversed
-	<return self.slice().reverse()>
+	<inlineJS: 'return self.slice().reverse()'>
 ! !
 
 !Array methodsFor: 'copying'!
 
 copyFrom: anIndex to: anotherIndex
-<
-	if (anIndex >>= 1 && anotherIndex <= self.length) {
+<inlineJS: '
+	if (anIndex >= 1 && anotherIndex <= self.length) {
 		return self.slice(anIndex - 1, anotherIndex);
 	} else {
 		self._at_(anIndex);
 		self._at_(self.length + 1);
 		throw new Error("Incorrect indexes in #copyFrom:to: not caught by #at:");
 	}
->
+'>
 !
 
 shallowCopy
-	<return self.slice()>
+	<inlineJS: 'return self.slice()'>
 ! !
 
 !Array methodsFor: 'enumerating'!
@@ -1283,17 +1283,17 @@ shallowCopy
 collect: aBlock
 	"Optimized version"
 	
-	<return self.map(function(each) {return aBlock._value_(each)})>
+	<inlineJS: 'return self.map(function(each) {return aBlock._value_(each)})'>
 !
 
 join: aString
-	<return self.join(aString)>
+	<inlineJS: 'return self.join(aString)'>
 !
 
 select: aBlock
 	"Optimized version"
 	
-	<return self.filter(function(each) {return aBlock._value_(each)})>
+	<inlineJS: 'return self.filter(function(each) {return aBlock._value_(each)})'>
 !
 
 sort
@@ -1301,11 +1301,11 @@ sort
 !
 
 sort: aBlock
-	<
+	<inlineJS: '
 		return self.sort(function(a, b) {
 			if(aBlock._value_value_(a,b)) {return -1} else {return 1}
 		})
-	>
+	'>
 !
 
 sorted
@@ -1337,7 +1337,7 @@ numericallyIndexable
 !Array class methodsFor: 'instance creation'!
 
 new: anInteger
-	<return new Array(anInteger)>
+	<inlineJS: 'return new Array(anInteger)'>
 !
 
 with: anObject
@@ -1457,56 +1457,57 @@ String inherits many useful methods from its hierarchy, such as
 !String methodsFor: 'accessing'!
 
 asciiValue
-	<return self.charCodeAt(0);>
+	<inlineJS: 'return self.charCodeAt(0);'>
 !
 
 at: anIndex ifAbsent: aBlock
-	<return String(self)[anIndex - 1] || aBlock._value()>
+	<inlineJS: 'return String(self)[anIndex - 1] || aBlock._value()'>
 !
 
 at: anIndex ifPresent: aBlock ifAbsent: anotherBlock
-	<
+	<inlineJS: '
 		var result = String(self)[anIndex - 1];
 		return result ? aBlock._value_(result) : anotherBlock._value();
-	>
+	'>
 !
 
 charCodeAt: anInteger
-	<return self.charCodeAt(anInteger - 1)>
+	<inlineJS: 'return self.charCodeAt(anInteger - 1)'>
 !
 
 size
-	<return self.length>
+	<inlineJS: 'return self.length'>
 ! !
 
 !String methodsFor: 'comparing'!
 
 < aString
-	<return String(self) < aString._asString()>
+	<inlineJS: 'return String(self) < aString._asString()'>
 !
 
 <= aString
-	<return String(self) <= aString._asString()>
+	<inlineJS: 'return String(self) <= aString._asString()'>
 !
 
 = aString
-<return aString !!= null && String(self) === (typeof aString === "string" ? aString : aString.valueOf())>
+<inlineJS:
+	'return aString !!= null && String(self) === (typeof aString === "string" ? aString : aString.valueOf())'>
 !
 
 == aString
-<
+<inlineJS: '
 	if (typeof aString === "string") return String(self) === aString;
 	else if (aString !!= null && typeof aString === "object") return String(self) === aString.valueOf();
 	else return false;
->
+'>
 !
 
 > aString
-	<return String(self) >> aString._asString()>
+	<inlineJS: 'return String(self) > aString._asString()'>
 !
 
 >= aString
-	<return String(self) >>= aString._asString()>
+	<inlineJS: 'return String(self) >= aString._asString()'>
 ! !
 
 !String methodsFor: 'converting'!
@@ -1516,20 +1517,20 @@ asJSON
 !
 
 asJavaScriptMethodName
-	<return $core.st2js(self)>
+	<inlineJS: 'return $core.st2js(self)'>
 !
 
 asJavascript
-	<
+	<inlineJS: '
 		if(self.search(/^[a-zA-Z0-9_:.$ ]*$/) == -1)
 			return "\"" + self.replace(/[\x00-\x1f"\\\x7f-\x9f]/g, function(ch){var c=ch.charCodeAt(0);return "\\x"+("0"+c.toString(16)).slice(-2)}) + "\"";
 		else
 			return "\"" + self + "\"";
-	>
+	'>
 !
 
 asLowercase
-	<return self.toLowerCase()>
+	<inlineJS: 'return self.toLowerCase()'>
 !
 
 asMutator
@@ -1541,7 +1542,7 @@ asMutator
 !
 
 asNumber
-	<return Number(self)>
+	<inlineJS: 'return Number(self)'>
 !
 
 asRegexp
@@ -1557,7 +1558,7 @@ asSymbol
 !
 
 asUppercase
-	<return self.toUpperCase()>
+	<inlineJS: 'return self.toUpperCase()'>
 !
 
 capitalized
@@ -1569,41 +1570,41 @@ crlfSanitized
 !
 
 escaped
-	<return escape(self)>
+	<inlineJS: 'return escape(self)'>
 !
 
 reversed
-	<return self.split("").reverse().join("")>
+	<inlineJS: 'return self.split("").reverse().join("")'>
 !
 
 unescaped
-	<return unescape(self)>
+	<inlineJS: 'return unescape(self)'>
 !
 
 uriComponentDecoded
-	<return decodeURIComponent(self)>
+	<inlineJS: 'return decodeURIComponent(self)'>
 !
 
 uriComponentEncoded
-	<return encodeURIComponent(self)>
+	<inlineJS: 'return encodeURIComponent(self)'>
 !
 
 uriDecoded
-	<return decodeURI(self)>
+	<inlineJS: 'return decodeURI(self)'>
 !
 
 uriEncoded
-	<return encodeURI(self)>
+	<inlineJS: 'return encodeURI(self)'>
 ! !
 
 !String methodsFor: 'copying'!
 
 , aString
-	<return String(self) + aString>
+	<inlineJS: 'return String(self) + aString'>
 !
 
 copyFrom: anIndex to: anotherIndex
-	<return self.substring(anIndex - 1, anotherIndex)>
+	<inlineJS: 'return self.substring(anIndex - 1, anotherIndex)'>
 !
 
 deepCopy
@@ -1636,17 +1637,17 @@ printOn: aStream
 !String methodsFor: 'private'!
 
 numericallyIndexable
-	<return String(self)>
+	<inlineJS: 'return String(self)'>
 ! !
 
 !String methodsFor: 'regular expressions'!
 
 match: aRegexp
-	<return self.search(aRegexp) !!= -1>
+	<inlineJS: 'return self.search(aRegexp) !!= -1'>
 !
 
 matchesOf: aRegularExpression
-	<return self.match(aRegularExpression)>
+	<inlineJS: 'return self.match(aRegularExpression)'>
 !
 
 replace: aString with: anotherString
@@ -1654,7 +1655,7 @@ replace: aString with: anotherString
 !
 
 replaceRegexp: aRegexp with: aString
-	<return self.replace(aRegexp, aString)>
+	<inlineJS: 'return self.replace(aRegexp, aString)'>
 !
 
 trimBoth
@@ -1737,11 +1738,11 @@ lineNumber: anIndex
 
 lines
 	"Answer an array of lines composing this receiver without the line ending delimiters."
-<
+<inlineJS: '
 	var result = self.split(/\r\n|\r|\n/);
 	if (!!result[result.length-1]) result.pop();
 	return result;
->
+'>
 !
 
 linesDo: aBlock
@@ -1756,13 +1757,13 @@ subStrings: aString
 !
 
 tokenize: aString
-	<return self.split(aString)>
+	<inlineJS: 'return self.split(aString)'>
 ! !
 
 !String methodsFor: 'testing'!
 
 includesSubString: subString
-	<return self.indexOf(subString) !!= -1>
+	<inlineJS: 'return self.indexOf(subString) !!= -1'>
 !
 
 isCapitalized
@@ -1786,11 +1787,11 @@ isVowel
 !String class methodsFor: 'accessing'!
 
 cr
-	<return '\r'>
+	<inlineJS: 'return "\r"'>
 !
 
 crlf
-	<return '\r\n'>
+	<inlineJS: 'return "\r\n"'>
 !
 
 esc
@@ -1798,11 +1799,11 @@ esc
 !
 
 lf
-	<return '\n'>
+	<inlineJS: 'return "\n"'>
 !
 
 space
-	<return ' '>
+	<inlineJS: 'return " "'>
 !
 
 streamClass
@@ -1810,29 +1811,29 @@ streamClass
 !
 
 tab
-	<return '\t'>
+	<inlineJS: 'return "\t"'>
 ! !
 
 !String class methodsFor: 'instance creation'!
 
 fromCharCode: anInteger
-	<return String.fromCharCode(anInteger)>
+	<inlineJS: 'return String.fromCharCode(anInteger)'>
 !
 
 fromString: aString
-		<return String(aString)>
+		<inlineJS: 'return String(aString)'>
 !
 
 value: aUTFCharCode
 
-	<return String.fromCharCode(aUTFCharCode);>
+	<inlineJS: 'return String.fromCharCode(aUTFCharCode);'>
 ! !
 
 !String class methodsFor: 'random'!
 
 random
 	"Returns random alphanumeric string beginning with letter"
-	<return (Math.random()*(22/32)+(10/32)).toString(32).slice(2);>
+	<inlineJS: 'return (Math.random()*(22/32)+(10/32)).toString(32).slice(2);'>
 !
 
 randomNotIn: aString
@@ -1900,16 +1901,16 @@ remove: anObject ifAbsent: aBlock
 !
 
 removeAll
-	<
-		self['@fastBuckets'] = {
-			'boolean': { store: Object.create(null), fn: function (x) { return {'true': true, 'false': false, 'null': null}[x]; } },
-			'number': { store: Object.create(null), fn: Number },
-			'string': { store: Object.create(null) }
+	<inlineJS: '
+		self[''@fastBuckets''] = {
+			"boolean": { store: Object.create(null), fn: function (x) { return {"true": true, "false": false, "null": null}[x]; } },
+			"number": { store: Object.create(null), fn: Number },
+			"string": { store: Object.create(null) }
 		};
-		self['@slowBucketStores'].forEach(function (x) { x._removeAll(); });
-		self['@defaultBucket']._removeAll();
-		self['@size'] = 0;
-	>
+		self[''@slowBucketStores''].forEach(function (x) { x._removeAll(); });
+		self[''@defaultBucket'']._removeAll();
+		self[''@size''] = 0;
+	'>
 ! !
 
 !Set methodsFor: 'comparing'!
@@ -1993,12 +1994,12 @@ printOn: aStream
 !Set methodsFor: 'private'!
 
 add: anObject in: anotherObject
-	<
+	<inlineJS: '
 		if (anObject in anotherObject.store) { return false; }
-		self['@size']++;
+		self[''@size'']++;
 		anotherObject.store[anObject] = true;
 		return anObject;
-	>
+	'>
 !
 
 bucketsOfElement: anObject
@@ -2008,35 +2009,35 @@ bucketsOfElement: anObject
 	- the primitive bucket
 	- the slow bucket"
 	
-	<
-		// include nil to well-known objects under 'boolean' fastBucket
-		if (anObject == null || anObject.isNil) return [ null, self['@fastBuckets'].boolean ];
+	<inlineJS: '
+		// include nil to well-known objects under "boolean" fastBucket
+		if (anObject == null || anObject.isNil) return [ null, self[''@fastBuckets''].boolean ];
 		
 		var prim = anObject.valueOf();
-		if (typeof prim === "object" || typeof prim === "function" || !!self['@fastBuckets'][typeof prim]) {
+		if (typeof prim === "object" || typeof prim === "function" || !!self[''@fastBuckets''][typeof prim]) {
 			var bucket = null;
-			self['@slowBucketStores'].some(function (store) {
+			self[''@slowBucketStores''].some(function (store) {
 				return bucket = store._bucketOfElement_(anObject);
 			});
-			return [ anObject, null, bucket || self['@defaultBucket'] ];
+			return [ anObject, null, bucket || self[''@defaultBucket''] ];
 		}
-		return [ prim, self['@fastBuckets'][typeof prim] ];
-	>
+		return [ prim, self[''@fastBuckets''][typeof prim] ];
+	'>
 !
 
 classNameOf: anObject
 	"Answer the class name of `anObject`, or `undefined` 
 	if `anObject` is not an Smalltalk object"
 	
-	<return anObject.klass !!= null && anObject.klass.className>
+	<inlineJS: 'return anObject.klass !!= null && anObject.klass.className'>
 !
 
 includes: anObject in: anotherObject
-	<return anObject in anotherObject.store>
+	<inlineJS: 'return anObject in anotherObject.store'>
 !
 
 jsConstructorNameOf: anObject
-	<return anObject.constructor && anObject.constructor.name>
+	<inlineJS: 'return anObject.constructor && anObject.constructor.name'>
 !
 
 remove: anObject in: anotherObject
@@ -2403,15 +2404,15 @@ I represent a regular expression object. My instances are JavaScript `RegExp` ob
 !RegularExpression methodsFor: 'evaluating'!
 
 compile: aString
-	<return self.compile(aString)>
+	<inlineJS: 'return self.compile(aString)'>
 !
 
 exec: aString
-	<return self.exec(aString) || nil>
+	<inlineJS: 'return self.exec(aString) || nil'>
 !
 
 test: aString
-	<return self.test(aString)>
+	<inlineJS: 'return self.test(aString)'>
 ! !
 
 !RegularExpression class methodsFor: 'instance creation'!
@@ -2421,6 +2422,6 @@ fromString: aString
 !
 
 fromString: aString flag: anotherString
-	<return new RegExp(aString, anotherString)>
+	<inlineJS: 'return new RegExp(aString, anotherString)'>
 ! !
 

@@ -21,11 +21,11 @@ beUnhandled
 !
 
 context
-	<return self.context>
+	<inlineJS: 'return self.context'>
 !
 
 jsStack
-	<return self.stack>
+	<inlineJS: 'return self.stack'>
 !
 
 messageText
@@ -85,11 +85,11 @@ signal: aString
 !Error methodsFor: 'testing'!
 
 isSmalltalkError
-	<return self.smalltalkError === true>
+	<inlineJS: 'return self.smalltalkError === true'>
 !
 
 wasHandled
-	<return self.amberHandled || false>
+	<inlineJS: 'return self.amberHandled || false'>
 ! !
 
 !Error class methodsFor: 'accessing'!
@@ -161,7 +161,7 @@ exception: anException
 !
 
 messageText
-	<return 'JavaScript exception: ' + self["@exception"].toString()>
+	<inlineJS: 'return "JavaScript exception: " + self["@exception"].toString()'>
 ! !
 
 !JavaScriptException class methodsFor: 'instance creation'!
