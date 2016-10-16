@@ -375,6 +375,16 @@ IRInstruction subclass: #IRAssignment
 	instanceVariableNames: ''
 	package: 'Compiler-IR'!
 
+!IRAssignment methodsFor: 'accessing'!
+
+left
+	^ self instructions first
+!
+
+right
+	^ self instructions last
+! !
+
 !IRAssignment methodsFor: 'visiting'!
 
 accept: aVisitor
@@ -660,12 +670,20 @@ I am a message send instruction.!
 
 !IRSend methodsFor: 'accessing'!
 
+arguments
+	^ self instructions allButFirst
+!
+
 index
 	^ index
 !
 
 index: anInteger
 	index := anInteger
+!
+
+receiver
+	^ self instructions first
 !
 
 selector
@@ -684,7 +702,7 @@ isSend
 
 isSuperSend
 	| receiver |
-	receiver := self instructions first.
+	receiver := self receiver.
 	^ receiver isVariable and: [ receiver variable name = 'super' ]
 ! !
 
@@ -924,8 +942,8 @@ initialize
 
 visitIRAssignment: anIRAssignment
 	self stream
-		nextPutAssignLhs: [self visit: anIRAssignment instructions first]
-		rhs: [self visit: anIRAssignment instructions last].
+		nextPutAssignLhs: [self visit: anIRAssignment left]
+		rhs: [self visit: anIRAssignment right].
 !
 
 visitIRClosure: anIRClosure
@@ -1037,10 +1055,10 @@ visitReceiver: anIRInstruction
 !
 
 visitSend: anIRSend
-	self visitReceiver: anIRSend instructions first.
+	self visitReceiver: anIRSend receiver.
 	self stream nextPutAll: '.', anIRSend selector asJavaScriptMethodName.
 	self
-		visitInstructionList: anIRSend instructions allButFirst
+		visitInstructionList: anIRSend arguments
 		enclosedBetween: '(' and: ')'
 !
 
@@ -1055,7 +1073,7 @@ visitSuperSend: anIRSend
 		nextPutAll: anIRSend selector asJavaScriptMethodName, '.apply(';
 		nextPutAll: '$recv(self), '.
 	self
-		visitInstructionList: anIRSend instructions allButFirst
+		visitInstructionList: anIRSend arguments
 		enclosedBetween: '[' and: ']'.
 	self stream 
 		nextPutAll: '));'; lf;

@@ -1617,6 +1617,52 @@ messageSends: ["visitIRAssignment:"]
 }),
 $globals.IRAssignment);
 
+$core.addMethod(
+$core.method({
+selector: "left",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._instructions())._first();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"left",{},$globals.IRAssignment)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "left\x0a\x09^ self instructions first",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["first", "instructions"]
+}),
+$globals.IRAssignment);
+
+$core.addMethod(
+$core.method({
+selector: "right",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._instructions())._last();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"right",{},$globals.IRAssignment)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "right\x0a\x09^ self instructions last",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["last", "instructions"]
+}),
+$globals.IRAssignment);
+
 
 
 $core.addClass('IRDynamicArray', $globals.IRInstruction, [], 'Compiler-IR');
@@ -2634,6 +2680,29 @@ $globals.IRSend);
 
 $core.addMethod(
 $core.method({
+selector: "arguments",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._instructions())._allButFirst();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"arguments",{},$globals.IRSend)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "arguments\x0a\x09^ self instructions allButFirst",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["allButFirst", "instructions"]
+}),
+$globals.IRSend);
+
+$core.addMethod(
+$core.method({
 selector: "index",
 protocol: 'accessing',
 fn: function (){
@@ -2697,7 +2766,7 @@ var receiver;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-receiver=$recv(self._instructions())._first();
+receiver=self._receiver();
 return $recv($recv(receiver)._isVariable())._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -2713,10 +2782,33 @@ return $recv($recv($recv(receiver)._variable())._name()).__eq("super");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isSuperSend\x0a\x09| receiver |\x0a\x09receiver := self instructions first.\x0a\x09^ receiver isVariable and: [ receiver variable name = 'super' ]",
+source: "isSuperSend\x0a\x09| receiver |\x0a\x09receiver := self receiver.\x0a\x09^ receiver isVariable and: [ receiver variable name = 'super' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["first", "instructions", "and:", "isVariable", "=", "name", "variable"]
+messageSends: ["receiver", "and:", "isVariable", "=", "name", "variable"]
+}),
+$globals.IRSend);
+
+$core.addMethod(
+$core.method({
+selector: "receiver",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._instructions())._first();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"receiver",{},$globals.IRSend)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "receiver\x0a\x09^ self instructions first",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["first", "instructions"]
 }),
 $globals.IRSend);
 
@@ -3694,17 +3786,11 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1;
 $recv(self._stream())._nextPutAssignLhs_rhs_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2=$recv(anIRAssignment)._instructions();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["instructions"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._first();
-return self._visit_($1);
+return self._visit_($recv(anIRAssignment)._left());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["visit:"]=1;
 //>>excludeEnd("ctx");
@@ -3715,7 +3801,7 @@ $ctx2.sendIdx["visit:"]=1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._visit_($recv($recv(anIRAssignment)._instructions())._last());
+return self._visit_($recv(anIRAssignment)._right());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
@@ -3727,10 +3813,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRAssignment"],
-source: "visitIRAssignment: anIRAssignment\x0a\x09self stream\x0a\x09\x09nextPutAssignLhs: [self visit: anIRAssignment instructions first]\x0a\x09\x09rhs: [self visit: anIRAssignment instructions last].",
+source: "visitIRAssignment: anIRAssignment\x0a\x09self stream\x0a\x09\x09nextPutAssignLhs: [self visit: anIRAssignment left]\x0a\x09\x09rhs: [self visit: anIRAssignment right].",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["nextPutAssignLhs:rhs:", "stream", "visit:", "first", "instructions", "last"]
+messageSends: ["nextPutAssignLhs:rhs:", "stream", "visit:", "left", "right"]
 }),
 $globals.IRJSTranslator);
 
@@ -4371,15 +4457,9 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1;
-$2=$recv(anIRSend)._instructions();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["instructions"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._first();
-self._visitReceiver_($1);
+self._visitReceiver_($recv(anIRSend)._receiver());
 $recv(self._stream())._nextPutAll_(".".__comma($recv($recv(anIRSend)._selector())._asJavaScriptMethodName()));
-self._visitInstructionList_enclosedBetween_and_($recv($recv(anIRSend)._instructions())._allButFirst(),"(",")");
+self._visitInstructionList_enclosedBetween_and_($recv(anIRSend)._arguments(),"(",")");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitSend:",{anIRSend:anIRSend},$globals.IRJSTranslator)});
@@ -4387,10 +4467,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSend"],
-source: "visitSend: anIRSend\x0a\x09self visitReceiver: anIRSend instructions first.\x0a\x09self stream nextPutAll: '.', anIRSend selector asJavaScriptMethodName.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend instructions allButFirst\x0a\x09\x09enclosedBetween: '(' and: ')'",
+source: "visitSend: anIRSend\x0a\x09self visitReceiver: anIRSend receiver.\x0a\x09self stream nextPutAll: '.', anIRSend selector asJavaScriptMethodName.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09enclosedBetween: '(' and: ')'",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["visitReceiver:", "first", "instructions", "nextPutAll:", "stream", ",", "asJavaScriptMethodName", "selector", "visitInstructionList:enclosedBetween:and:", "allButFirst"]
+messageSends: ["visitReceiver:", "receiver", "nextPutAll:", "stream", ",", "asJavaScriptMethodName", "selector", "visitInstructionList:enclosedBetween:and:", "arguments"]
 }),
 $globals.IRJSTranslator);
 
@@ -4476,7 +4556,7 @@ $7=$recv($1)._nextPutAll_("$recv(self), ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=8;
 //>>excludeEnd("ctx");
-self._visitInstructionList_enclosedBetween_and_($recv($recv(anIRSend)._instructions())._allButFirst(),"[","]");
+self._visitInstructionList_enclosedBetween_and_($recv(anIRSend)._arguments(),"[","]");
 $8=self._stream();
 $recv($8)._nextPutAll_("));");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4507,10 +4587,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSend"],
-source: "visitSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: '('; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'; lf;\x0a\x09\x09nextPutAll: '(', self currentClass asJavascript;\x0a\x09\x09nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';\x0a\x09\x09nextPutAll: anIRSend selector asJavaScriptMethodName, '.apply(';\x0a\x09\x09nextPutAll: '$recv(self), '.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend instructions allButFirst\x0a\x09\x09enclosedBetween: '[' and: ']'.\x0a\x09self stream \x0a\x09\x09nextPutAll: '));'; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'",
+source: "visitSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: '('; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'; lf;\x0a\x09\x09nextPutAll: '(', self currentClass asJavascript;\x0a\x09\x09nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';\x0a\x09\x09nextPutAll: anIRSend selector asJavaScriptMethodName, '.apply(';\x0a\x09\x09nextPutAll: '$recv(self), '.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09enclosedBetween: '[' and: ']'.\x0a\x09self stream \x0a\x09\x09nextPutAll: '));'; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["nextPutAll:", "stream", "lf", ",", "alias", "scope", "asJavascript", "currentClass", "asJavaScriptMethodName", "selector", "visitInstructionList:enclosedBetween:and:", "allButFirst", "instructions"]
+messageSends: ["nextPutAll:", "stream", "lf", ",", "alias", "scope", "asJavascript", "currentClass", "asJavaScriptMethodName", "selector", "visitInstructionList:enclosedBetween:and:", "arguments"]
 }),
 $globals.IRJSTranslator);
 
