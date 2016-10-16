@@ -779,6 +779,12 @@ testSelect
 	self assert: (self collectionWithNewValue select: [ :each | each ~= self sampleNewValue ]) equals: self collection
 !
 
+testSingle
+	self should: [ self collectionClass new single ] raise: Error.
+	self should: [ self collection single ] raise: Error.
+	self assert: self sampleNewValueAsCollection single equals: self sampleNewValue
+!
+
 testSize
 	self assert: self collectionClass new size equals: 0.
 	self assert: self sampleNewValueAsCollection size equals: 1.

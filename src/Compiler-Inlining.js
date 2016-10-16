@@ -543,25 +543,21 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $4,$3,$2,$1;
+var $3,$2,$1;
 $1=$recv($recv($recv(anIRAssignment)._isInlined())._not())._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$4=$recv(anIRAssignment)._instructions();
+$3=$recv(anIRAssignment)._right();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["instructions"]=1;
-//>>excludeEnd("ctx");
-$3=$recv($4)._last();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["last"]=1;
+$ctx2.sendIdx["right"]=1;
 //>>excludeEnd("ctx");
 $2=$recv($3)._isSend();
 return $recv($2)._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return self._shouldInlineSend_($recv($recv(anIRAssignment)._instructions())._last());
+return self._shouldInlineSend_($recv(anIRAssignment)._right());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 //>>excludeEnd("ctx");
@@ -580,10 +576,10 @@ return $1;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRAssignment"],
-source: "shouldInlineAssignment: anIRAssignment\x0a\x09^ anIRAssignment isInlined not and: [\x0a\x09\x09anIRAssignment instructions last isSend and: [\x0a\x09\x09\x09self shouldInlineSend: (anIRAssignment instructions last) ]]",
+source: "shouldInlineAssignment: anIRAssignment\x0a\x09^ anIRAssignment isInlined not and: [\x0a\x09\x09anIRAssignment right isSend and: [\x0a\x09\x09\x09self shouldInlineSend: anIRAssignment right ]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["and:", "not", "isInlined", "isSend", "last", "instructions", "shouldInlineSend:"]
+messageSends: ["and:", "not", "isInlined", "isSend", "right", "shouldInlineSend:"]
 }),
 $globals.IRInliner);
 
@@ -596,25 +592,16 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $4,$3,$2,$1;
+var $1;
 $1=$recv($recv($recv(anIRReturn)._isInlined())._not())._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$4=$recv(anIRReturn)._instructions();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["instructions"]=1;
-//>>excludeEnd("ctx");
-$3=$recv($4)._first();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["first"]=1;
-//>>excludeEnd("ctx");
-$2=$recv($3)._isSend();
-return $recv($2)._and_((function(){
+return $recv($recv($recv($recv(anIRReturn)._instructions())._single())._isSend())._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return self._shouldInlineSend_($recv($recv(anIRReturn)._instructions())._first());
+return self._shouldInlineSend_($recv(anIRReturn)._expression());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 //>>excludeEnd("ctx");
@@ -633,10 +620,10 @@ return $1;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRReturn"],
-source: "shouldInlineReturn: anIRReturn\x0a\x09^ anIRReturn isInlined not and: [\x0a\x09\x09anIRReturn instructions first isSend and: [\x0a\x09\x09\x09self shouldInlineSend: (anIRReturn instructions first) ]]",
+source: "shouldInlineReturn: anIRReturn\x0a\x09^ anIRReturn isInlined not and: [\x0a\x09\x09anIRReturn instructions single isSend and: [\x0a\x09\x09\x09self shouldInlineSend: anIRReturn expression ]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["and:", "not", "isInlined", "isSend", "first", "instructions", "shouldInlineSend:"]
+messageSends: ["and:", "not", "isInlined", "isSend", "single", "instructions", "shouldInlineSend:", "expression"]
 }),
 $globals.IRInliner);
 
@@ -882,7 +869,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._visit_($recv($recv(anIRInlinedAssignment)._instructions())._last());
+self._visit_($recv(anIRInlinedAssignment)._right());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitIRInlinedAssignment:",{anIRInlinedAssignment:anIRInlinedAssignment},$globals.IRInliningJSTranslator)});
@@ -890,10 +877,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRInlinedAssignment"],
-source: "visitIRInlinedAssignment: anIRInlinedAssignment\x0a\x09self visit: anIRInlinedAssignment instructions last",
+source: "visitIRInlinedAssignment: anIRInlinedAssignment\x0a\x09self visit: anIRInlinedAssignment right",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["visit:", "last", "instructions"]
+messageSends: ["visit:", "right"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -1252,7 +1239,7 @@ $recv($1)._nextPutStatementWith_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._visit_($recv($recv(anIRInlinedReturn)._instructions())._last());
+return self._visit_($recv(anIRInlinedReturn)._expression());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1267,10 +1254,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRInlinedReturn"],
-source: "visitIRInlinedNonLocalReturn: anIRInlinedReturn\x0a\x09self stream nextPutStatementWith: [\x0a\x09\x09self visit: anIRInlinedReturn instructions last ].\x0a\x09self stream nextPutNonLocalReturnWith: [ ]",
+source: "visitIRInlinedNonLocalReturn: anIRInlinedReturn\x0a\x09self stream nextPutStatementWith: [\x0a\x09\x09self visit: anIRInlinedReturn expression ].\x0a\x09self stream nextPutNonLocalReturnWith: [ ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["nextPutStatementWith:", "stream", "visit:", "last", "instructions", "nextPutNonLocalReturnWith:"]
+messageSends: ["nextPutStatementWith:", "stream", "visit:", "expression", "nextPutNonLocalReturnWith:"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -1283,7 +1270,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._visit_($recv($recv(anIRInlinedReturn)._instructions())._last());
+self._visit_($recv(anIRInlinedReturn)._expression());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitIRInlinedReturn:",{anIRInlinedReturn:anIRInlinedReturn},$globals.IRInliningJSTranslator)});
@@ -1291,10 +1278,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRInlinedReturn"],
-source: "visitIRInlinedReturn: anIRInlinedReturn\x0a\x09self visit: anIRInlinedReturn instructions last",
+source: "visitIRInlinedReturn: anIRInlinedReturn\x0a\x09self visit: anIRInlinedReturn expression",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["visit:", "last", "instructions"]
+messageSends: ["visit:", "expression"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -1410,7 +1397,7 @@ $ctx1.sendIdx["new"]=2;
 //>>excludeEnd("ctx");
 $recv($3)._scope_($recv($recv(anIRInstruction)._scope())._copy());
 $5=$recv($globals.IRBlockSequence)._new();
-$recv($5)._add_($recv($recv(self._send())._instructions())._first());
+$recv($5)._add_($recv(self._send())._receiver());
 $6=$recv($5)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["yourself"]=1;
@@ -1428,10 +1415,10 @@ return self._inlinedSend_withBlock_withBlock_($1,anIRInstruction,$2);
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRInstruction"],
-source: "ifNil: anIRInstruction\x0a\x09^ self\x0a\x09\x09inlinedSend: IRInlinedIfNilIfNotNil new\x0a\x09\x09withBlock: anIRInstruction\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: (IRBlockSequence new\x0a\x09\x09\x09\x09add: self send instructions first;\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself)",
+source: "ifNil: anIRInstruction\x0a\x09^ self\x0a\x09\x09inlinedSend: IRInlinedIfNilIfNotNil new\x0a\x09\x09withBlock: anIRInstruction\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: (IRBlockSequence new\x0a\x09\x09\x09\x09add: self send receiver;\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself)",
 referencedClasses: ["IRInlinedIfNilIfNotNil", "IRClosure", "IRBlockSequence"],
 //>>excludeEnd("ide");
-messageSends: ["inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "first", "instructions", "send", "yourself"]
+messageSends: ["inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "receiver", "send", "yourself"]
 }),
 $globals.IRSendInliner);
 
@@ -1478,7 +1465,7 @@ $ctx1.sendIdx["new"]=2;
 //>>excludeEnd("ctx");
 $recv($3)._scope_($recv($recv(anIRInstruction)._scope())._copy());
 $5=$recv($globals.IRBlockSequence)._new();
-$recv($5)._add_($recv($recv(self._send())._instructions())._first());
+$recv($5)._add_($recv(self._send())._receiver());
 $6=$recv($5)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["yourself"]=1;
@@ -1496,10 +1483,10 @@ return self._inlinedSend_withBlock_withBlock_($1,$2,anIRInstruction);
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRInstruction"],
-source: "ifNotNil: anIRInstruction\x0a\x09^ self\x0a\x09\x09inlinedSend: IRInlinedIfNilIfNotNil new\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: (IRBlockSequence new\x0a\x09\x09\x09\x09add: self send instructions first;\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself)\x0a\x09\x09withBlock: anIRInstruction",
+source: "ifNotNil: anIRInstruction\x0a\x09^ self\x0a\x09\x09inlinedSend: IRInlinedIfNilIfNotNil new\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: (IRBlockSequence new\x0a\x09\x09\x09\x09add: self send receiver;\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself)\x0a\x09\x09withBlock: anIRInstruction",
 referencedClasses: ["IRInlinedIfNilIfNotNil", "IRClosure", "IRBlockSequence"],
 //>>excludeEnd("ide");
-messageSends: ["inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "first", "instructions", "send", "yourself"]
+messageSends: ["inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "receiver", "send", "yourself"]
 }),
 $globals.IRSendInliner);
 
@@ -1582,7 +1569,7 @@ var inlinedClosure,sequence,statements;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$5,$6,$4,$7,$9,$11,$13,$14,$15,$12,$10,$17,$19,$20,$18,$16,$8,$22,$21,$25,$24,$26,$23,$27,$30,$29,$28;
+var $1,$2,$3,$5,$6,$4,$7,$9,$11,$13,$14,$15,$12,$10,$17,$19,$20,$18,$16,$8,$23,$22,$24,$21,$25,$27,$26;
 inlinedClosure=self._inlinedClosure();
 $1=inlinedClosure;
 $2=$recv(anIRClosure)._scope();
@@ -1703,18 +1690,7 @@ $recv(inlinedClosure)._add_(sequence);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["add:"]=6;
 //>>excludeEnd("ctx");
-$22=$recv(anIRClosure)._instructions();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["instructions"]=2;
-//>>excludeEnd("ctx");
-$21=$recv($22)._last();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["last"]=1;
-//>>excludeEnd("ctx");
-statements=$recv($21)._instructions();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["instructions"]=1;
-//>>excludeEnd("ctx");
+statements=$recv($recv(anIRClosure)._sequence())._instructions();
 $recv(statements)._ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -1731,33 +1707,32 @@ $ctx3.sendIdx["add:"]=7;
 }, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,4)});
 //>>excludeEnd("ctx");
 }));
-$25=$recv(statements)._last();
+$23=$recv(statements)._last();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["last"]=2;
+$ctx2.sendIdx["last"]=1;
 //>>excludeEnd("ctx");
-$24=$recv($25)._isReturn();
-$23=$recv($24)._and_((function(){
+$22=$recv($23)._isReturn();
+$21=$recv($22)._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-$26=$recv(statements)._last();
+$24=$recv(statements)._last();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["last"]=3;
+$ctx3.sendIdx["last"]=2;
 //>>excludeEnd("ctx");
-return $recv($26)._isBlockReturn();
+return $recv($24)._isBlockReturn();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,5)});
 //>>excludeEnd("ctx");
 }));
-if($core.assert($23)){
-$27=sequence;
-$30=$recv(statements)._last();
+if($core.assert($21)){
+$25=sequence;
+$27=$recv(statements)._last();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["last"]=4;
+$ctx2.sendIdx["last"]=3;
 //>>excludeEnd("ctx");
-$29=$recv($30)._instructions();
-$28=$recv($29)._first();
-return $recv($27)._add_($28);
+$26=$recv($27)._expression();
+return $recv($25)._add_($26);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["add:"]=8;
 //>>excludeEnd("ctx");
@@ -1775,10 +1750,10 @@ return inlinedClosure;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRClosure"],
-source: "inlineClosure: anIRClosure\x0a\x09| inlinedClosure sequence statements |\x0a\x0a\x09inlinedClosure := self inlinedClosure.\x0a\x09inlinedClosure \x0a\x09\x09scope: anIRClosure scope;\x0a\x09\x09parent: anIRClosure parent.\x0a\x0a\x09\x22Add the possible temp declarations\x22\x0a\x09anIRClosure tempDeclarations do: [ :each |\x0a\x09\x09\x09inlinedClosure add: each ].\x0a\x0a\x09\x22Add a block sequence\x22\x0a\x09sequence := self inlinedSequence.\x0a\x0a\x09\x22Map the closure arguments to the receiver of the message send\x22\x0a\x09anIRClosure arguments do: [ :each |\x0a\x09\x09inlinedClosure add: (IRTempDeclaration new name: each; yourself).\x0a\x09\x09sequence add: (IRAssignment new\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: each; yourself));\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: '$receiver'; yourself));\x0a\x09\x09\x09yourself) ].\x0a\x09\x09\x09\x0a\x09\x22To ensure the correct order of the closure instructions: first the temps then the sequence\x22\x0a\x09inlinedClosure add: sequence.\x0a\x0a\x09\x22Get all the statements\x22\x0a\x09statements := anIRClosure instructions last instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements allButLast do: [ :each | sequence add: each ].\x0a\x0a\x09\x09\x22Inlined closures don't have implicit local returns\x22\x0a\x09\x09(statements last isReturn and: [ statements last isBlockReturn ])\x0a\x09\x09\x09ifTrue: [ sequence add: statements last instructions first ]\x0a\x09\x09\x09ifFalse: [ sequence add: statements last ] ].\x0a\x0a\x09^ inlinedClosure",
+source: "inlineClosure: anIRClosure\x0a\x09| inlinedClosure sequence statements |\x0a\x0a\x09inlinedClosure := self inlinedClosure.\x0a\x09inlinedClosure \x0a\x09\x09scope: anIRClosure scope;\x0a\x09\x09parent: anIRClosure parent.\x0a\x0a\x09\x22Add the possible temp declarations\x22\x0a\x09anIRClosure tempDeclarations do: [ :each |\x0a\x09\x09\x09inlinedClosure add: each ].\x0a\x0a\x09\x22Add a block sequence\x22\x0a\x09sequence := self inlinedSequence.\x0a\x0a\x09\x22Map the closure arguments to the receiver of the message send\x22\x0a\x09anIRClosure arguments do: [ :each |\x0a\x09\x09inlinedClosure add: (IRTempDeclaration new name: each; yourself).\x0a\x09\x09sequence add: (IRAssignment new\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: each; yourself));\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: '$receiver'; yourself));\x0a\x09\x09\x09yourself) ].\x0a\x09\x09\x09\x0a\x09\x22To ensure the correct order of the closure instructions: first the temps then the sequence\x22\x0a\x09inlinedClosure add: sequence.\x0a\x0a\x09\x22Get all the statements\x22\x0a\x09statements := anIRClosure sequence instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements allButLast do: [ :each | sequence add: each ].\x0a\x0a\x09\x09\x22Inlined closures don't have implicit local returns\x22\x0a\x09\x09(statements last isReturn and: [ statements last isBlockReturn ])\x0a\x09\x09\x09ifTrue: [ sequence add: statements last expression ]\x0a\x09\x09\x09ifFalse: [ sequence add: statements last ] ].\x0a\x0a\x09^ inlinedClosure",
 referencedClasses: ["IRTempDeclaration", "IRAssignment", "IRVariable", "AliasVar"],
 //>>excludeEnd("ide");
-messageSends: ["inlinedClosure", "scope:", "scope", "parent:", "parent", "do:", "tempDeclarations", "add:", "inlinedSequence", "arguments", "name:", "new", "yourself", "variable:", "instructions", "last", "ifNotEmpty:", "allButLast", "ifTrue:ifFalse:", "and:", "isReturn", "isBlockReturn", "first"]
+messageSends: ["inlinedClosure", "scope:", "scope", "parent:", "parent", "do:", "tempDeclarations", "add:", "inlinedSequence", "arguments", "name:", "new", "yourself", "variable:", "instructions", "sequence", "ifNotEmpty:", "allButLast", "ifTrue:ifFalse:", "and:", "isReturn", "last", "isBlockReturn", "expression"]
 }),
 $globals.IRSendInliner);
 
@@ -1798,17 +1773,17 @@ $2=self._send();
 $ctx1.sendIdx["send"]=1;
 //>>excludeEnd("ctx");
 $1=$recv($2)._selector();
-return self._perform_withArguments_($1,$recv($recv(self._send())._instructions())._allButFirst());
+return self._perform_withArguments_($1,$recv(self._send())._arguments());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"inlineSend:",{anIRSend:anIRSend},$globals.IRSendInliner)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSend"],
-source: "inlineSend: anIRSend\x0a\x09self send: anIRSend.\x0a\x09^ self\x0a\x09\x09perform: self send selector\x0a\x09\x09withArguments: self send instructions allButFirst",
+source: "inlineSend: anIRSend\x0a\x09self send: anIRSend.\x0a\x09^ self\x0a\x09\x09perform: self send selector\x0a\x09\x09withArguments: self send arguments",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["send:", "perform:withArguments:", "selector", "send", "allButFirst", "instructions"]
+messageSends: ["send:", "perform:withArguments:", "selector", "send", "arguments"]
 }),
 $globals.IRSendInliner);
 
@@ -1845,7 +1820,7 @@ var inlinedClosure;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$5,$4,$3,$6;
+var $1,$2,$4,$3,$5;
 $1=$recv(anIRInstruction)._isClosure();
 if(!$core.assert($1)){
 self._inliningError_("Message argument should be a block");
@@ -1858,23 +1833,22 @@ if(!$core.assert($2)){
 self._inliningError_("Inlined block should have zero argument");
 };
 inlinedClosure=$recv(self._translator())._visit_(self._inlineClosure_(anIRInstruction));
-$5=self._send();
+$4=self._send();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["send"]=1;
 //>>excludeEnd("ctx");
-$4=$recv($5)._instructions();
-$3=$recv($4)._first();
+$3=$recv($4)._receiver();
 $recv(inlinedSend)._add_($3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["add:"]=1;
 //>>excludeEnd("ctx");
 $recv(inlinedSend)._add_(inlinedClosure);
 $recv(self._send())._replaceWith_(inlinedSend);
-$6=$recv($recv(inlinedSend)._method())._internalVariables();
+$5=$recv($recv(inlinedSend)._method())._internalVariables();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["internalVariables"]=1;
 //>>excludeEnd("ctx");
-$recv($6)._addAll_($recv(inlinedSend)._internalVariables());
+$recv($5)._addAll_($recv(inlinedSend)._internalVariables());
 return inlinedSend;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"inlinedSend:withBlock:",{inlinedSend:inlinedSend,anIRInstruction:anIRInstruction,inlinedClosure:inlinedClosure},$globals.IRSendInliner)});
@@ -1882,10 +1856,10 @@ return inlinedSend;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["inlinedSend", "anIRInstruction"],
-source: "inlinedSend: inlinedSend withBlock: anIRInstruction\x0a\x09| inlinedClosure |\x0a\x0a\x09anIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].\x0a\x09anIRInstruction arguments size = 0 ifFalse: [ self inliningError: 'Inlined block should have zero argument' ].\x0a\x0a\x09inlinedClosure := self translator visit: (self inlineClosure: anIRInstruction).\x0a\x0a\x09inlinedSend\x0a\x09\x09add: self send instructions first;\x0a\x09\x09add: inlinedClosure.\x0a\x0a\x09self send replaceWith: inlinedSend.\x0a\x09inlinedSend method internalVariables \x0a\x09\x09addAll: inlinedSend internalVariables.\x0a\x0a\x09^ inlinedSend",
+source: "inlinedSend: inlinedSend withBlock: anIRInstruction\x0a\x09| inlinedClosure |\x0a\x0a\x09anIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].\x0a\x09anIRInstruction arguments size = 0 ifFalse: [ self inliningError: 'Inlined block should have zero argument' ].\x0a\x0a\x09inlinedClosure := self translator visit: (self inlineClosure: anIRInstruction).\x0a\x0a\x09inlinedSend\x0a\x09\x09add: self send receiver;\x0a\x09\x09add: inlinedClosure.\x0a\x0a\x09self send replaceWith: inlinedSend.\x0a\x09inlinedSend method internalVariables \x0a\x09\x09addAll: inlinedSend internalVariables.\x0a\x0a\x09^ inlinedSend",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifFalse:", "isClosure", "inliningError:", "=", "size", "arguments", "visit:", "translator", "inlineClosure:", "add:", "first", "instructions", "send", "replaceWith:", "addAll:", "internalVariables", "method"]
+messageSends: ["ifFalse:", "isClosure", "inliningError:", "=", "size", "arguments", "visit:", "translator", "inlineClosure:", "add:", "receiver", "send", "replaceWith:", "addAll:", "internalVariables", "method"]
 }),
 $globals.IRSendInliner);
 
@@ -1899,7 +1873,7 @@ var inlinedClosure1,inlinedClosure2;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$7,$6,$5,$8;
+var $1,$2,$3,$4,$6,$5,$7;
 $1=$recv(anIRInstruction)._isClosure();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["isClosure"]=1;
@@ -1927,12 +1901,11 @@ inlinedClosure1=$recv($3)._visit_($4);
 $ctx1.sendIdx["visit:"]=1;
 //>>excludeEnd("ctx");
 inlinedClosure2=$recv(self._translator())._visit_(self._inlineClosure_(anotherIRInstruction));
-$7=self._send();
+$6=self._send();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["send"]=1;
 //>>excludeEnd("ctx");
-$6=$recv($7)._instructions();
-$5=$recv($6)._first();
+$5=$recv($6)._receiver();
 $recv(inlinedSend)._add_($5);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["add:"]=1;
@@ -1943,11 +1916,11 @@ $ctx1.sendIdx["add:"]=2;
 //>>excludeEnd("ctx");
 $recv(inlinedSend)._add_(inlinedClosure2);
 $recv(self._send())._replaceWith_(inlinedSend);
-$8=$recv($recv(inlinedSend)._method())._internalVariables();
+$7=$recv($recv(inlinedSend)._method())._internalVariables();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["internalVariables"]=1;
 //>>excludeEnd("ctx");
-$recv($8)._addAll_($recv(inlinedSend)._internalVariables());
+$recv($7)._addAll_($recv(inlinedSend)._internalVariables());
 return inlinedSend;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"inlinedSend:withBlock:withBlock:",{inlinedSend:inlinedSend,anIRInstruction:anIRInstruction,anotherIRInstruction:anotherIRInstruction,inlinedClosure1:inlinedClosure1,inlinedClosure2:inlinedClosure2},$globals.IRSendInliner)});
@@ -1955,10 +1928,10 @@ return inlinedSend;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["inlinedSend", "anIRInstruction", "anotherIRInstruction"],
-source: "inlinedSend: inlinedSend withBlock: anIRInstruction withBlock: anotherIRInstruction\x0a\x09| inlinedClosure1 inlinedClosure2 |\x0a\x0a\x09anIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].\x0a\x09anotherIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].\x0a\x0a\x09inlinedClosure1 := self translator visit: (self inlineClosure: anIRInstruction).\x0a\x09inlinedClosure2 := self translator visit: (self inlineClosure: anotherIRInstruction).\x0a\x0a\x09inlinedSend\x0a\x09\x09add: self send instructions first;\x0a\x09\x09add: inlinedClosure1;\x0a\x09\x09add: inlinedClosure2.\x0a\x0a\x09self send replaceWith: inlinedSend.\x0a\x09inlinedSend method internalVariables \x0a\x09\x09addAll: inlinedSend internalVariables.\x0a\x09\x09\x0a\x09^ inlinedSend",
+source: "inlinedSend: inlinedSend withBlock: anIRInstruction withBlock: anotherIRInstruction\x0a\x09| inlinedClosure1 inlinedClosure2 |\x0a\x0a\x09anIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].\x0a\x09anotherIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].\x0a\x0a\x09inlinedClosure1 := self translator visit: (self inlineClosure: anIRInstruction).\x0a\x09inlinedClosure2 := self translator visit: (self inlineClosure: anotherIRInstruction).\x0a\x0a\x09inlinedSend\x0a\x09\x09add: self send receiver;\x0a\x09\x09add: inlinedClosure1;\x0a\x09\x09add: inlinedClosure2.\x0a\x0a\x09self send replaceWith: inlinedSend.\x0a\x09inlinedSend method internalVariables \x0a\x09\x09addAll: inlinedSend internalVariables.\x0a\x09\x09\x0a\x09^ inlinedSend",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifFalse:", "isClosure", "inliningError:", "visit:", "translator", "inlineClosure:", "add:", "first", "instructions", "send", "replaceWith:", "addAll:", "internalVariables", "method"]
+messageSends: ["ifFalse:", "isClosure", "inliningError:", "visit:", "translator", "inlineClosure:", "add:", "receiver", "send", "replaceWith:", "addAll:", "internalVariables", "method"]
 }),
 $globals.IRSendInliner);
 
@@ -2106,17 +2079,17 @@ $core.addMethod(
 $core.method({
 selector: "shouldInline:",
 protocol: 'accessing',
-fn: function (anIRInstruction){
+fn: function (anIRSend){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=$recv(self._inlinedSelectors())._includes_($recv(anIRInstruction)._selector());
+$1=$recv(self._inlinedSelectors())._includes_($recv(anIRSend)._selector());
 if(!$core.assert($1)){
 return false;
 };
-return $recv($recv($recv(anIRInstruction)._instructions())._allButFirst())._allSatisfy_((function(each){
+return $recv($recv(anIRSend)._arguments())._allSatisfy_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -2126,15 +2099,15 @@ return $recv(each)._isClosure();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"shouldInline:",{anIRInstruction:anIRInstruction},$globals.IRSendInliner.klass)});
+}, function($ctx1) {$ctx1.fill(self,"shouldInline:",{anIRSend:anIRSend},$globals.IRSendInliner.klass)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anIRInstruction"],
-source: "shouldInline: anIRInstruction\x0a\x09(self inlinedSelectors includes: anIRInstruction selector) ifFalse: [ ^ false ].\x0a\x09^ anIRInstruction instructions allButFirst allSatisfy: [ :each | each isClosure]",
+args: ["anIRSend"],
+source: "shouldInline: anIRSend\x0a\x09(self inlinedSelectors includes: anIRSend selector) ifFalse: [ ^ false ].\x0a\x09^ anIRSend arguments allSatisfy: [ :each | each isClosure ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifFalse:", "includes:", "inlinedSelectors", "selector", "allSatisfy:", "allButFirst", "instructions", "isClosure"]
+messageSends: ["ifFalse:", "includes:", "inlinedSelectors", "selector", "allSatisfy:", "arguments", "isClosure"]
 }),
 $globals.IRSendInliner.klass);
 
@@ -2190,14 +2163,9 @@ var inlinedAssignment;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 self._assignment_(anIRAssignment);
 inlinedAssignment=$recv($globals.IRInlinedAssignment)._new();
-$1=$recv(anIRAssignment)._instructions();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["instructions"]=1;
-//>>excludeEnd("ctx");
-$recv($1)._do_((function(each){
+$recv($recv(anIRAssignment)._instructions())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -2207,7 +2175,7 @@ return $recv(inlinedAssignment)._add_(each);
 //>>excludeEnd("ctx");
 }));
 $recv(anIRAssignment)._replaceWith_(inlinedAssignment);
-self._inlineSend_($recv($recv(inlinedAssignment)._instructions())._last());
+self._inlineSend_($recv(inlinedAssignment)._right());
 return inlinedAssignment;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"inlineAssignment:",{anIRAssignment:anIRAssignment,inlinedAssignment:inlinedAssignment},$globals.IRAssignmentInliner)});
@@ -2215,10 +2183,10 @@ return inlinedAssignment;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRAssignment"],
-source: "inlineAssignment: anIRAssignment\x0a\x09| inlinedAssignment |\x0a\x09self assignment: anIRAssignment.\x0a\x09inlinedAssignment := IRInlinedAssignment new.\x0a\x09anIRAssignment instructions do: [ :each |\x0a\x09\x09inlinedAssignment add: each ].\x0a\x09anIRAssignment replaceWith: inlinedAssignment.\x0a\x09self inlineSend: inlinedAssignment instructions last.\x0a\x09^ inlinedAssignment",
+source: "inlineAssignment: anIRAssignment\x0a\x09| inlinedAssignment |\x0a\x09self assignment: anIRAssignment.\x0a\x09inlinedAssignment := IRInlinedAssignment new.\x0a\x09anIRAssignment instructions do: [ :each |\x0a\x09\x09inlinedAssignment add: each ].\x0a\x09anIRAssignment replaceWith: inlinedAssignment.\x0a\x09self inlineSend: inlinedAssignment right.\x0a\x09^ inlinedAssignment",
 referencedClasses: ["IRInlinedAssignment"],
 //>>excludeEnd("ide");
-messageSends: ["assignment:", "new", "do:", "instructions", "add:", "replaceWith:", "inlineSend:", "last"]
+messageSends: ["assignment:", "new", "do:", "instructions", "add:", "replaceWith:", "inlineSend:", "right"]
 }),
 $globals.IRAssignmentInliner);
 
@@ -2232,7 +2200,7 @@ var inlinedClosure,statements;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1,$4,$3,$5,$7,$6;
+var $2,$1,$3,$5,$4;
 inlinedClosure=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -2241,40 +2209,29 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$2=$recv(inlinedClosure)._instructions();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["instructions"]=2;
-//>>excludeEnd("ctx");
-$1=$recv($2)._last();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["last"]=1;
-//>>excludeEnd("ctx");
-statements=$recv($1)._instructions();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["instructions"]=1;
-//>>excludeEnd("ctx");
+statements=$recv($recv(inlinedClosure)._sequence())._instructions();
 $recv(statements)._ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$4=$recv(statements)._last();
+$2=$recv(statements)._last();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["last"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2)._canBeAssigned();
+if($core.assert($1)){
+$3=$recv(statements)._last();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["last"]=2;
 //>>excludeEnd("ctx");
-$3=$recv($4)._canBeAssigned();
-if($core.assert($3)){
-$5=$recv(statements)._last();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["last"]=3;
-//>>excludeEnd("ctx");
-$7=$recv($globals.IRAssignment)._new();
-$recv($7)._add_($recv($recv(self._assignment())._instructions())._first());
+$5=$recv($globals.IRAssignment)._new();
+$recv($5)._add_($recv(self._assignment())._left());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["add:"]=1;
 //>>excludeEnd("ctx");
-$recv($7)._add_($recv($recv(statements)._last())._copy());
-$6=$recv($7)._yourself();
-return $recv($5)._replaceWith_($6);
+$recv($5)._add_($recv($recv(statements)._last())._copy());
+$4=$recv($5)._yourself();
+return $recv($3)._replaceWith_($4);
 };
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -2287,10 +2244,10 @@ return inlinedClosure;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRClosure"],
-source: "inlineClosure: anIRClosure\x0a\x09| inlinedClosure statements |\x0a\x0a\x09inlinedClosure := super inlineClosure: anIRClosure.\x0a\x09statements := inlinedClosure instructions last instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements last canBeAssigned ifTrue: [\x0a\x09\x09\x09statements last replaceWith: (IRAssignment new\x0a\x09\x09\x09\x09add: self assignment instructions first;\x0a\x09\x09\x09\x09add: statements last copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ inlinedClosure",
+source: "inlineClosure: anIRClosure\x0a\x09| inlinedClosure statements |\x0a\x0a\x09inlinedClosure := super inlineClosure: anIRClosure.\x0a\x09statements := inlinedClosure sequence instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements last canBeAssigned ifTrue: [\x0a\x09\x09\x09statements last replaceWith: (IRAssignment new\x0a\x09\x09\x09\x09add: self assignment left;\x0a\x09\x09\x09\x09add: statements last copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ inlinedClosure",
 referencedClasses: ["IRAssignment"],
 //>>excludeEnd("ide");
-messageSends: ["inlineClosure:", "instructions", "last", "ifNotEmpty:", "ifTrue:", "canBeAssigned", "replaceWith:", "add:", "new", "first", "assignment", "copy", "yourself"]
+messageSends: ["inlineClosure:", "instructions", "sequence", "ifNotEmpty:", "ifTrue:", "canBeAssigned", "last", "replaceWith:", "add:", "new", "left", "assignment", "copy", "yourself"]
 }),
 $globals.IRAssignmentInliner);
 
@@ -2310,7 +2267,7 @@ var closure,statements;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2,$4,$6,$5;
+var $2,$1,$3,$5,$4;
 closure=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -2319,32 +2276,25 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$1=$recv($recv(closure)._instructions())._last();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["last"]=1;
-//>>excludeEnd("ctx");
-statements=$recv($1)._instructions();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["instructions"]=1;
-//>>excludeEnd("ctx");
+statements=$recv($recv(closure)._sequence())._instructions();
 $recv(statements)._ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
+$2=$recv(statements)._last();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["last"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2)._isReturn();
+if(!$core.assert($1)){
 $3=$recv(statements)._last();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["last"]=2;
 //>>excludeEnd("ctx");
-$2=$recv($3)._isReturn();
-if(!$core.assert($2)){
-$4=$recv(statements)._last();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["last"]=3;
-//>>excludeEnd("ctx");
-$6=$recv($globals.IRReturn)._new();
-$recv($6)._add_($recv($recv(statements)._last())._copy());
-$5=$recv($6)._yourself();
-return $recv($4)._replaceWith_($5);
+$5=$recv($globals.IRReturn)._new();
+$recv($5)._add_($recv($recv(statements)._last())._copy());
+$4=$recv($5)._yourself();
+return $recv($3)._replaceWith_($4);
 };
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -2357,10 +2307,10 @@ return closure;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRClosure"],
-source: "inlineClosure: anIRClosure\x0a\x09| closure statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09statements := closure instructions last instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements last isReturn\x0a\x09\x09\x09ifFalse: [ statements last replaceWith: (IRReturn new\x0a\x09\x09\x09\x09add: statements last copy;\x0a\x09\x09\x09\x09yourself)] ].\x0a\x0a\x09^ closure",
+source: "inlineClosure: anIRClosure\x0a\x09| closure statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09statements := closure sequence instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements last isReturn\x0a\x09\x09\x09ifFalse: [ statements last replaceWith: (IRReturn new\x0a\x09\x09\x09\x09add: statements last copy;\x0a\x09\x09\x09\x09yourself)] ].\x0a\x0a\x09^ closure",
 referencedClasses: ["IRReturn"],
 //>>excludeEnd("ide");
-messageSends: ["inlineClosure:", "instructions", "last", "ifNotEmpty:", "ifFalse:", "isReturn", "replaceWith:", "add:", "new", "copy", "yourself"]
+messageSends: ["inlineClosure:", "instructions", "sequence", "ifNotEmpty:", "ifFalse:", "isReturn", "last", "replaceWith:", "add:", "new", "copy", "yourself"]
 }),
 $globals.IRReturnInliner);
 
@@ -2374,13 +2324,8 @@ var return_;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 return_=self._inlinedReturn();
-$1=$recv(anIRReturn)._instructions();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["instructions"]=1;
-//>>excludeEnd("ctx");
-$recv($1)._do_((function(each){
+$recv($recv(anIRReturn)._instructions())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -2390,7 +2335,7 @@ return $recv(return_)._add_(each);
 //>>excludeEnd("ctx");
 }));
 $recv(anIRReturn)._replaceWith_(return_);
-self._inlineSend_($recv($recv(return_)._instructions())._last());
+self._inlineSend_($recv(return_)._expression());
 return return_;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"inlineReturn:",{anIRReturn:anIRReturn,return_:return_},$globals.IRReturnInliner)});
@@ -2398,10 +2343,10 @@ return return_;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRReturn"],
-source: "inlineReturn: anIRReturn\x0a\x09| return |\x0a\x09return := self inlinedReturn.\x0a\x09anIRReturn instructions do: [ :each |\x0a\x09\x09return add: each ].\x0a\x09anIRReturn replaceWith: return.\x0a\x09self inlineSend: return instructions last.\x0a\x09^ return",
+source: "inlineReturn: anIRReturn\x0a\x09| return |\x0a\x09return := self inlinedReturn.\x0a\x09anIRReturn instructions do: [ :each |\x0a\x09\x09return add: each ].\x0a\x09anIRReturn replaceWith: return.\x0a\x09self inlineSend: return expression.\x0a\x09^ return",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["inlinedReturn", "do:", "instructions", "add:", "replaceWith:", "inlineSend:", "last"]
+messageSends: ["inlinedReturn", "do:", "instructions", "add:", "replaceWith:", "inlineSend:", "expression"]
 }),
 $globals.IRReturnInliner);
 

@@ -549,7 +549,7 @@ $globals.Collection);
 $core.addMethod(
 $core.method({
 selector: "anyOne",
-protocol: 'adding/removing',
+protocol: 'accessing',
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1625,6 +1625,46 @@ source: "shallowCopy\x0a\x09^ self collect: [ :each | each ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["collect:"]
+}),
+$globals.Collection);
+
+$core.addMethod(
+$core.method({
+selector: "single",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+self._ifEmpty_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return self._error_("Collection is empty");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["error:"]=1;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$1=$recv(self._size()).__gt((1));
+if($core.assert($1)){
+self._error_("Collection holds more than one element");
+};
+return self._anyOne();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"single",{},$globals.Collection)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "single\x0a\x09\x22Answer a single element.\x0a\x09Raise an error if collection holds less or more than one element.\x22\x0a\x0a\x09self ifEmpty: [ self error: 'Collection is empty' ].\x0a\x09self size > 1 ifTrue: [ self error: 'Collection holds more than one element' ].\x0a\x09^ self anyOne",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["ifEmpty:", "error:", "ifTrue:", ">", "size", "anyOne"]
 }),
 $globals.Collection);
 
@@ -3868,6 +3908,29 @@ $globals.SequenceableCollection);
 
 $core.addMethod(
 $core.method({
+selector: "anyOne",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._at_((1));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"anyOne",{},$globals.SequenceableCollection)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "anyOne\x0a\x09^ self at: 1",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["at:"]
+}),
+$globals.SequenceableCollection);
+
+$core.addMethod(
+$core.method({
 selector: "atRandom",
 protocol: 'accessing',
 fn: function (){
@@ -4428,6 +4491,33 @@ source: "second\x0a\x09^ self at: 2",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["at:"]
+}),
+$globals.SequenceableCollection);
+
+$core.addMethod(
+$core.method({
+selector: "single",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+	if (self.length == 0) throw new Error("Collection is empty");
+	if (self.length > 1) throw new Error("Collection holds more than one element.");
+	return self[0];;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"single",{},$globals.SequenceableCollection)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "single\x0a<\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length >> 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return self[0];\x0a>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
 }),
 $globals.SequenceableCollection);
 

@@ -194,14 +194,14 @@ sendInliner
 
 shouldInlineAssignment: anIRAssignment
 	^ anIRAssignment isInlined not and: [
-		anIRAssignment instructions last isSend and: [
-			self shouldInlineSend: (anIRAssignment instructions last) ]]
+		anIRAssignment right isSend and: [
+			self shouldInlineSend: anIRAssignment right ]]
 !
 
 shouldInlineReturn: anIRReturn
 	^ anIRReturn isInlined not and: [
-		anIRReturn instructions first isSend and: [
-			self shouldInlineSend: (anIRReturn instructions first) ]]
+		anIRReturn instructions single isSend and: [
+			self shouldInlineSend: anIRReturn expression ]]
 !
 
 shouldInlineSend: anIRSend
@@ -258,7 +258,7 @@ I am a specialized JavaScript translator able to write inlined IR instructions t
 !IRInliningJSTranslator methodsFor: 'visiting'!
 
 visitIRInlinedAssignment: anIRInlinedAssignment
-	self visit: anIRInlinedAssignment instructions last
+	self visit: anIRInlinedAssignment right
 !
 
 visitIRInlinedClosure: anIRInlinedClosure
@@ -308,12 +308,12 @@ visitIRInlinedIfTrueIfFalse: anIRInlinedIfTrueIfFalse
 
 visitIRInlinedNonLocalReturn: anIRInlinedReturn
 	self stream nextPutStatementWith: [
-		self visit: anIRInlinedReturn instructions last ].
+		self visit: anIRInlinedReturn expression ].
 	self stream nextPutNonLocalReturnWith: [ ]
 !
 
 visitIRInlinedReturn: anIRInlinedReturn
-	self visit: anIRInlinedReturn instructions last
+	self visit: anIRInlinedReturn expression
 !
 
 visitIRInlinedSequence: anIRInlinedSequence
@@ -378,7 +378,7 @@ ifNil: anIRInstruction
 		withBlock: (IRClosure new
 			scope: anIRInstruction scope copy;
 			add: (IRBlockSequence new
-				add: self send instructions first;
+				add: self send receiver;
 				yourself);
 			yourself)
 !
@@ -393,7 +393,7 @@ ifNotNil: anIRInstruction
 		withBlock: (IRClosure new
 			scope: anIRInstruction scope copy;
 			add: (IRBlockSequence new
-				add: self send instructions first;
+				add: self send receiver;
 				yourself);
 			yourself)
 		withBlock: anIRInstruction
@@ -438,14 +438,14 @@ inlineClosure: anIRClosure
 	inlinedClosure add: sequence.
 
 	"Get all the statements"
-	statements := anIRClosure instructions last instructions.
+	statements := anIRClosure sequence instructions.
 	
 	statements ifNotEmpty: [
 		statements allButLast do: [ :each | sequence add: each ].
 
 		"Inlined closures don't have implicit local returns"
 		(statements last isReturn and: [ statements last isBlockReturn ])
-			ifTrue: [ sequence add: statements last instructions first ]
+			ifTrue: [ sequence add: statements last expression ]
 			ifFalse: [ sequence add: statements last ] ].
 
 	^ inlinedClosure
@@ -455,7 +455,7 @@ inlineSend: anIRSend
 	self send: anIRSend.
 	^ self
 		perform: self send selector
-		withArguments: self send instructions allButFirst
+		withArguments: self send arguments
 !
 
 inlinedSend: inlinedSend withBlock: anIRInstruction
@@ -467,7 +467,7 @@ inlinedSend: inlinedSend withBlock: anIRInstruction
 	inlinedClosure := self translator visit: (self inlineClosure: anIRInstruction).
 
 	inlinedSend
-		add: self send instructions first;
+		add: self send receiver;
 		add: inlinedClosure.
 
 	self send replaceWith: inlinedSend.
@@ -487,7 +487,7 @@ inlinedSend: inlinedSend withBlock: anIRInstruction withBlock: anotherIRInstruct
 	inlinedClosure2 := self translator visit: (self inlineClosure: anotherIRInstruction).
 
 	inlinedSend
-		add: self send instructions first;
+		add: self send receiver;
 		add: inlinedClosure1;
 		add: inlinedClosure2.
 
@@ -504,9 +504,9 @@ inlinedSelectors
 	^ #('ifTrue:' 'ifFalse:' 'ifTrue:ifFalse:' 'ifFalse:ifTrue:' 'ifNil:' 'ifNotNil:' 'ifNil:ifNotNil:' 'ifNotNil:ifNil:')
 !
 
-shouldInline: anIRInstruction
-	(self inlinedSelectors includes: anIRInstruction selector) ifFalse: [ ^ false ].
-	^ anIRInstruction instructions allButFirst allSatisfy: [ :each | each isClosure]
+shouldInline: anIRSend
+	(self inlinedSelectors includes: anIRSend selector) ifFalse: [ ^ false ].
+	^ anIRSend arguments allSatisfy: [ :each | each isClosure ]
 ! !
 
 IRSendInliner subclass: #IRAssignmentInliner
@@ -546,7 +546,7 @@ inlineAssignment: anIRAssignment
 	anIRAssignment instructions do: [ :each |
 		inlinedAssignment add: each ].
 	anIRAssignment replaceWith: inlinedAssignment.
-	self inlineSend: inlinedAssignment instructions last.
+	self inlineSend: inlinedAssignment right.
 	^ inlinedAssignment
 !
 
@@ -554,12 +554,12 @@ inlineClosure: anIRClosure
 	| inlinedClosure statements |
 
 	inlinedClosure := super inlineClosure: anIRClosure.
-	statements := inlinedClosure instructions last instructions.
+	statements := inlinedClosure sequence instructions.
 	
 	statements ifNotEmpty: [
 		statements last canBeAssigned ifTrue: [
 			statements last replaceWith: (IRAssignment new
-				add: self assignment instructions first;
+				add: self assignment left;
 				add: statements last copy;
 				yourself) ] ].
 
@@ -584,7 +584,7 @@ inlineClosure: anIRClosure
 	| closure statements |
 
 	closure := super inlineClosure: anIRClosure.
-	statements := closure instructions last instructions.
+	statements := closure sequence instructions.
 	
 	statements ifNotEmpty: [
 		statements last isReturn
@@ -601,7 +601,7 @@ inlineReturn: anIRReturn
 	anIRReturn instructions do: [ :each |
 		return add: each ].
 	anIRReturn replaceWith: return.
-	self inlineSend: return instructions last.
+	self inlineSend: return expression.
 	^ return
 ! !
 
