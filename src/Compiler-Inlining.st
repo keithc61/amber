@@ -201,7 +201,7 @@ shouldInlineAssignment: anIRAssignment
 shouldInlineReturn: anIRReturn
 	^ anIRReturn isInlined not and: [
 		anIRReturn instructions single isSend and: [
-			self shouldInlineSend: (anIRReturn instructions single) ]]
+			self shouldInlineSend: anIRReturn expression ]]
 !
 
 shouldInlineSend: anIRSend
@@ -308,12 +308,12 @@ visitIRInlinedIfTrueIfFalse: anIRInlinedIfTrueIfFalse
 
 visitIRInlinedNonLocalReturn: anIRInlinedReturn
 	self stream nextPutStatementWith: [
-		self visit: anIRInlinedReturn instructions single ].
+		self visit: anIRInlinedReturn expression ].
 	self stream nextPutNonLocalReturnWith: [ ]
 !
 
 visitIRInlinedReturn: anIRInlinedReturn
-	self visit: anIRInlinedReturn instructions single
+	self visit: anIRInlinedReturn expression
 !
 
 visitIRInlinedSequence: anIRInlinedSequence
@@ -445,7 +445,7 @@ inlineClosure: anIRClosure
 
 		"Inlined closures don't have implicit local returns"
 		(statements last isReturn and: [ statements last isBlockReturn ])
-			ifTrue: [ sequence add: statements last instructions single ]
+			ifTrue: [ sequence add: statements last expression ]
 			ifFalse: [ sequence add: statements last ] ].
 
 	^ inlinedClosure
@@ -601,7 +601,7 @@ inlineReturn: anIRReturn
 	anIRReturn instructions do: [ :each |
 		return add: each ].
 	anIRReturn replaceWith: return.
-	self inlineSend: return instructions single.
+	self inlineSend: return expression.
 	^ return
 ! !
 

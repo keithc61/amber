@@ -2370,6 +2370,29 @@ $globals.IRReturn);
 
 $core.addMethod(
 $core.method({
+selector: "expression",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._instructions())._single();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"expression",{},$globals.IRReturn)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "expression\x0a\x09^ self instructions single",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["single", "instructions"]
+}),
+$globals.IRReturn);
+
+$core.addMethod(
+$core.method({
 selector: "isBlockReturn",
 protocol: 'testing',
 fn: function (){

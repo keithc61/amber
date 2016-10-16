@@ -565,6 +565,10 @@ I am a local return instruction.!
 
 !IRReturn methodsFor: 'accessing'!
 
+expression
+	^ self instructions single
+!
+
 scope
 	^ scope ifNil: [ self parent scope ]
 ! !
