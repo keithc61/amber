@@ -1,11 +1,18 @@
+?? October 2016 - Release 0.17.1
+===================================
+
+* Allow new syntax for inline JS method body: <inlineJS: '...js code...'>
+  * If used in libraries / reused modules, breaks fw compat.
+  * Old syntax is deprecated, but retained in libraries for some grace period.
+
+Commits: https://lolg.it/amber/amber/commits/0.17.1.
+
+
 ?? October 2016 - Release 0.17.0
 ===================================
 
 * Remove some deprecated classes and methods.
 * Fix fw compat break of 0.16.1.
-* Allow new syntax for inline JS method body: <inlineJS: '...js code...'>
-  * Maybe break fw compat if used with libraries.
-  * Old syntax is deprecated, but retained in libraries.
 
 Breaks bw compat because of removed deprecated pieces.
 
