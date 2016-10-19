@@ -1338,14 +1338,14 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
         inherits(SmalltalkNil, SmalltalkObject);
 
         this.Object = SmalltalkObject;
-        this.nil = new SmalltalkNil();
+        this.nilAsReceiver = new SmalltalkNil();
 
         // Adds an `isNil` property to the `nil` object.  When sending
         // nil objects from one environment to another, doing
         // `anObject == nil` (in JavaScript) does not always answer
         // true as the referenced nil object might come from the other
         // environment.
-        Object.defineProperty(this.nil, 'isNil', {
+        Object.defineProperty(this.nilAsReceiver, 'isNil', {
             value: true,
             enumerable: false, configurable: false, writable: false
         });
@@ -1909,7 +1909,7 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
     AsReceiverBrik.deps = ["smalltalkGlobals", "root"];
     function AsReceiverBrik(brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
-        var nil = brikz.root.nil;
+        var nilAsReceiver = brikz.root.nilAsReceiver;
 
         /**
          * This function is used all over the compiled amber code.
@@ -1921,16 +1921,9 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
          * otherwise unchanged
          */
         this.asReceiver = function (o) {
-            if (o == null) return nil;
-            if (typeof o === "object" || typeof o === "function") {
-                return o.klass != null ? o : globals.JSObjectProxy._on_(o);
-            }
-            // IMPORTANT: This optimization (return o if typeof !== "object")
-            // assumes all primitive types are coupled with some
-            // (detached root) Smalltalk class so they can be returned as-is,
-            // without boxing and looking for .klass.
-            // KEEP THE primitives-are-coupled INVARIANT!
-            return o;
+            if (o == null) return nilAsReceiver;
+            else if (o.klass != null) return o;
+            else return globals.JSObjectProxy._on_(o);
         };
     }
 
@@ -1956,7 +1949,8 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
 
     return {
         api: api,
-        nil: brikz.root.nil,
+        nil/* TODO deprecate */: brikz.root.nilAsReceiver,
+        nilAsReceiver: brikz.root.nilAsReceiver,
         dnu/* TODO deprecate */: brikz.root.nilAsClass,
         nilAsClass: brikz.root.nilAsClass,
         globals: brikz.smalltalkGlobals.globals,
@@ -1968,7 +1962,7 @@ define('amber/helpers',["amber/boot", "require"], function (boot, require) {
     var globals = boot.globals,
         exports = {},
         api = boot.api,
-        nil = boot.nil;
+        nil = boot.nilAsReceiver;
 
     // API
 
@@ -2042,8 +2036,10 @@ define('amber/helpers',["amber/boot", "require"], function (boot, require) {
     return exports;
 });
 
-define("amber_core/Kernel-Objects", ["amber/boot"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Kernel-Objects',["amber/boot"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Kernel-Objects');
 $core.packages["Kernel-Objects"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Objects"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -6468,8 +6464,10 @@ $globals.UndefinedObject.klass);
 
 });
 
-define("amber_core/Kernel-Classes", ["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Kernel-Classes',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Kernel-Classes');
 $core.packages["Kernel-Classes"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Classes"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -8744,8 +8742,10 @@ $globals.ClassSorterNode.klass);
 
 });
 
-define("amber_core/Kernel-Methods", ["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Kernel-Methods',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Kernel-Methods');
 $core.packages["Kernel-Methods"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Methods"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -10746,94 +10746,6 @@ $globals.NativeFunction.comment="I am a wrapper around native functions, such as
 
 $core.addMethod(
 $core.method({
-selector: "constructor:",
-protocol: 'instance creation',
-fn: function (aString){
-var self=this;
-return $core.withContext(function($ctx1) {
-
-		self._deprecatedAPI_("Use constructorNamed:");
-		var nativeFunc=eval(aString);
-		return new nativeFunc();
-	;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"constructor:",{aString:aString},$globals.NativeFunction.klass)});
-},
-args: ["aString"],
-source: "constructor: aString\x0a\x09<\x0a\x09\x09self._deprecatedAPI_(\x22Use constructorNamed:\x22);\x0a\x09\x09var nativeFunc=eval(aString);\x0a\x09\x09return new nativeFunc();\x0a\x09>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.NativeFunction.klass);
-
-$core.addMethod(
-$core.method({
-selector: "constructor:value:",
-protocol: 'instance creation',
-fn: function (aString,anObject){
-var self=this;
-return $core.withContext(function($ctx1) {
-
-		self._deprecatedAPI_("Use constructorNamed:value:");
-		var nativeFunc=eval(aString);
-		return new nativeFunc(anObject);
-	;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"constructor:value:",{aString:aString,anObject:anObject},$globals.NativeFunction.klass)});
-},
-args: ["aString", "anObject"],
-source: "constructor: aString value:anObject\x0a\x09<\x0a\x09\x09self._deprecatedAPI_(\x22Use constructorNamed:value:\x22);\x0a\x09\x09var nativeFunc=eval(aString);\x0a\x09\x09return new nativeFunc(anObject);\x0a\x09>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.NativeFunction.klass);
-
-$core.addMethod(
-$core.method({
-selector: "constructor:value:value:",
-protocol: 'instance creation',
-fn: function (aString,anObject,anObject2){
-var self=this;
-return $core.withContext(function($ctx1) {
-
-		self._deprecatedAPI_("Use constructorNamed:value:value:");
-		var nativeFunc=eval(aString);
-		return new nativeFunc(anObject,anObject2);
-	;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"constructor:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.klass)});
-},
-args: ["aString", "anObject", "anObject2"],
-source: "constructor: aString value:anObject value: anObject2\x0a\x09<\x0a\x09\x09self._deprecatedAPI_(\x22Use constructorNamed:value:value:\x22);\x0a\x09\x09var nativeFunc=eval(aString);\x0a\x09\x09return new nativeFunc(anObject,anObject2);\x0a\x09>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.NativeFunction.klass);
-
-$core.addMethod(
-$core.method({
-selector: "constructor:value:value:value:",
-protocol: 'instance creation',
-fn: function (aString,anObject,anObject2,anObject3){
-var self=this;
-return $core.withContext(function($ctx1) {
-
-		self._deprecatedAPI_("Use constructorNamed:value:value:value");
-		var nativeFunc=eval(aString);
-		return new nativeFunc(anObject,anObject2, anObject3);
-	;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"constructor:value:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.klass)});
-},
-args: ["aString", "anObject", "anObject2", "anObject3"],
-source: "constructor: aString value:anObject value: anObject2 value:anObject3\x0a\x09<\x0a\x09\x09self._deprecatedAPI_(\x22Use constructorNamed:value:value:value\x22);\x0a\x09\x09var nativeFunc=eval(aString);\x0a\x09\x09return new nativeFunc(anObject,anObject2, anObject3);\x0a\x09>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.NativeFunction.klass);
-
-$core.addMethod(
-$core.method({
 selector: "constructorNamed:",
 protocol: 'instance creation',
 fn: function (aString){
@@ -11403,8 +11315,10 @@ $globals.Timeout.klass);
 
 });
 
-define("amber_core/Kernel-Collections", ["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Kernel-Collections',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Kernel-Collections');
 $core.packages["Kernel-Collections"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Collections"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -11820,7 +11734,7 @@ $globals.Collection);
 $core.addMethod(
 $core.method({
 selector: "anyOne",
-protocol: 'adding/removing',
+protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
@@ -12598,6 +12512,34 @@ args: [],
 source: "shallowCopy\x0a\x09^ self collect: [ :each | each ]",
 referencedClasses: [],
 messageSends: ["collect:"]
+}),
+$globals.Collection);
+
+$core.addMethod(
+$core.method({
+selector: "single",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+self._ifEmpty_((function(){
+return $core.withContext(function($ctx2) {
+return self._error_("Collection is empty");
+$ctx2.sendIdx["error:"]=1;
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+$1=$recv(self._size()).__gt((1));
+if($core.assert($1)){
+self._error_("Collection holds more than one element");
+};
+return self._anyOne();
+}, function($ctx1) {$ctx1.fill(self,"single",{},$globals.Collection)});
+},
+args: [],
+source: "single\x0a\x09\x22Answer a single element.\x0a\x09Raise an error if collection holds less or more than one element.\x22\x0a\x0a\x09self ifEmpty: [ self error: 'Collection is empty' ].\x0a\x09self size > 1 ifTrue: [ self error: 'Collection holds more than one element' ].\x0a\x09^ self anyOne",
+referencedClasses: [],
+messageSends: ["ifEmpty:", "error:", "ifTrue:", ">", "size", "anyOne"]
 }),
 $globals.Collection);
 
@@ -14233,6 +14175,23 @@ $globals.SequenceableCollection);
 
 $core.addMethod(
 $core.method({
+selector: "anyOne",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+return self._at_((1));
+}, function($ctx1) {$ctx1.fill(self,"anyOne",{},$globals.SequenceableCollection)});
+},
+args: [],
+source: "anyOne\x0a\x09^ self at: 1",
+referencedClasses: [],
+messageSends: ["at:"]
+}),
+$globals.SequenceableCollection);
+
+$core.addMethod(
+$core.method({
 selector: "atRandom",
 protocol: 'accessing',
 fn: function (){
@@ -14655,6 +14614,27 @@ args: [],
 source: "second\x0a\x09^ self at: 2",
 referencedClasses: [],
 messageSends: ["at:"]
+}),
+$globals.SequenceableCollection);
+
+$core.addMethod(
+$core.method({
+selector: "single",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+
+	if (self.length == 0) throw new Error("Collection is empty");
+	if (self.length > 1) throw new Error("Collection holds more than one element.");
+	return self[0];;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"single",{},$globals.SequenceableCollection)});
+},
+args: [],
+source: "single\x0a<\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length >> 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return self[0];\x0a>",
+referencedClasses: [],
+messageSends: []
 }),
 $globals.SequenceableCollection);
 
@@ -16043,19 +16023,17 @@ protocol: 'converting',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $1;
-$1=self._isEmpty();
-if($core.assert($1)){
-return self;
-} else {
+return self._ifNotEmpty_((function(){
+return $core.withContext(function($ctx2) {
 return $recv($recv(self._first())._asUppercase()).__comma(self._allButFirst());
-};
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
 }, function($ctx1) {$ctx1.fill(self,"capitalized",{},$globals.String)});
 },
 args: [],
-source: "capitalized\x0a\x09^ self isEmpty\x0a\x09\x09ifTrue: [ self ]\x0a\x09\x09ifFalse: [ self first asUppercase, self allButFirst ]",
+source: "capitalized\x0a\x09^ self ifNotEmpty: [ self first asUppercase, self allButFirst ]",
 referencedClasses: [],
-messageSends: ["ifTrue:ifFalse:", "isEmpty", ",", "asUppercase", "first", "allButFirst"]
+messageSends: ["ifNotEmpty:", ",", "asUppercase", "first", "allButFirst"]
 }),
 $globals.String);
 
@@ -18678,22 +18656,23 @@ fn: function (aBlock){
 var self=this;
 var result;
 return $core.withContext(function($ctx1) {
-var $1,$2;
+var $1;
 var $early={};
 try {
 result=$recv(self["@read"])._at_ifAbsent_(self["@readIndex"],(function(){
 return $core.withContext(function($ctx2) {
-$1=$recv(self["@write"])._isEmpty();
+$recv(self["@write"])._ifEmpty_((function(){
+return $core.withContext(function($ctx3) {
+$1=$recv(self["@readIndex"]).__gt((1));
 if($core.assert($1)){
-$2=$recv(self["@readIndex"]).__gt((1));
-if($core.assert($2)){
 self["@read"]=[];
 self["@read"];
 self["@readIndex"]=(1);
 self["@readIndex"];
 };
 throw $early=[$recv(aBlock)._value()];
-};
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+}));
 self["@read"]=self["@write"];
 self["@read"];
 self["@readIndex"]=(1);
@@ -18711,9 +18690,9 @@ catch(e) {if(e===$early)return e[0]; throw e}
 }, function($ctx1) {$ctx1.fill(self,"nextIfAbsent:",{aBlock:aBlock,result:result},$globals.Queue)});
 },
 args: ["aBlock"],
-source: "nextIfAbsent: aBlock\x0a\x09| result |\x0a\x09result := read at: readIndex ifAbsent: [\x0a\x09\x09write isEmpty ifTrue: [\x0a\x09\x09\x09readIndex > 1 ifTrue: [ read := #(). readIndex := 1 ].\x0a\x09\x09\x09^ aBlock value ].\x0a\x09\x09read := write.\x0a\x09\x09readIndex := 1.\x0a\x09\x09write := OrderedCollection new.\x0a\x09\x09read first ].\x0a\x09read at: readIndex put: nil.\x0a\x09readIndex := readIndex + 1.\x0a\x09^ result",
+source: "nextIfAbsent: aBlock\x0a\x09| result |\x0a\x09result := read at: readIndex ifAbsent: [\x0a\x09\x09write ifEmpty: [\x0a\x09\x09\x09readIndex > 1 ifTrue: [ read := #(). readIndex := 1 ].\x0a\x09\x09\x09^ aBlock value ].\x0a\x09\x09read := write.\x0a\x09\x09readIndex := 1.\x0a\x09\x09write := OrderedCollection new.\x0a\x09\x09read first ].\x0a\x09read at: readIndex put: nil.\x0a\x09readIndex := readIndex + 1.\x0a\x09^ result",
 referencedClasses: ["OrderedCollection"],
-messageSends: ["at:ifAbsent:", "ifTrue:", "isEmpty", ">", "value", "new", "first", "at:put:", "+"]
+messageSends: ["at:ifAbsent:", "ifEmpty:", "ifTrue:", ">", "value", "new", "first", "at:put:", "+"]
 }),
 $globals.Queue);
 
@@ -18831,8 +18810,10 @@ $globals.RegularExpression.klass);
 
 });
 
-define("amber_core/Kernel-Exceptions", ["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Kernel-Exceptions',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Kernel-Exceptions');
 $core.packages["Kernel-Exceptions"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Exceptions"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -19459,8 +19440,10 @@ $globals.NonBooleanReceiver);
 
 });
 
-define("amber_core/Kernel-Infrastructure", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Collections"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Kernel-Infrastructure',["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Kernel-Infrastructure');
 $core.packages["Kernel-Infrastructure"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Infrastructure"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -21941,11 +21924,11 @@ selector: "version",
 protocol: 'accessing',
 fn: function (){
 var self=this;
-return "0.17.0-pre";
+return "0.17.0";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.17.0-pre'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.17.0'",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22167,8 +22150,10 @@ $globals.String);
 
 });
 
-define("amber_core/Kernel-Promises", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Kernel-Infrastructure"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Kernel-Promises',["amber/boot", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Kernel-Promises');
 $core.packages["Kernel-Promises"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Promises"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -22637,8 +22622,10 @@ $globals.JSObjectProxy);
 
 });
 
-define("amber_core/Kernel-Announcements", ["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Kernel-Announcements',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Kernel-Announcements');
 $core.packages["Kernel-Announcements"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Announcements"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -23543,8 +23530,10 @@ $globals.ProtocolRemoved.comment="I am emitted when a protocol is removed from a
 
 });
 
-define("amber_core/Platform-Services", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Kernel-Methods", "amber_core/Kernel-Collections", "amber_core/Kernel-Infrastructure"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Platform-Services',["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Platform-Services');
 $core.packages["Platform-Services"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Platform-Services"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -23777,97 +23766,7 @@ messageSends: ["registerIfNone:", "new"]
 $globals.ConsoleTranscript.klass);
 
 
-$core.addClass('InterfacingObject', $globals.Object, [], 'Platform-Services');
-$globals.InterfacingObject.comment="I am superclass of all object that interface with user or environment. `Widget` and a few other classes are subclasses of me. I delegate all of the above APIs to `PlatformInterface`.\x0a\x0a## API\x0a\x0a    self alert: 'Hey, there is a problem'.\x0a    self confirm: 'Affirmative?'.\x0a    self prompt: 'Your name:'.\x0a\x0a    self ajax: #{\x0a        'url' -> '/patch.js'. 'type' -> 'GET'. dataType->'script'\x0a    }.";
-$core.addMethod(
-$core.method({
-selector: "ajax:",
-protocol: 'actions',
-fn: function (anObject){
-var self=this;
-return $core.withContext(function($ctx1) {
-self._deprecatedAPI();
-return $recv($globals.PlatformInterface)._ajax_(anObject);
-}, function($ctx1) {$ctx1.fill(self,"ajax:",{anObject:anObject},$globals.InterfacingObject)});
-},
-args: ["anObject"],
-source: "ajax: anObject\x0a\x09self deprecatedAPI.\x0a\x09^ PlatformInterface ajax: anObject",
-referencedClasses: ["PlatformInterface"],
-messageSends: ["deprecatedAPI", "ajax:"]
-}),
-$globals.InterfacingObject);
-
-$core.addMethod(
-$core.method({
-selector: "alert:",
-protocol: 'actions',
-fn: function (aString){
-var self=this;
-return $core.withContext(function($ctx1) {
-return $recv($globals.Terminal)._alert_(aString);
-}, function($ctx1) {$ctx1.fill(self,"alert:",{aString:aString},$globals.InterfacingObject)});
-},
-args: ["aString"],
-source: "alert: aString\x0a\x09^ Terminal alert: aString",
-referencedClasses: ["Terminal"],
-messageSends: ["alert:"]
-}),
-$globals.InterfacingObject);
-
-$core.addMethod(
-$core.method({
-selector: "confirm:",
-protocol: 'actions',
-fn: function (aString){
-var self=this;
-return $core.withContext(function($ctx1) {
-return $recv($globals.Terminal)._confirm_(aString);
-}, function($ctx1) {$ctx1.fill(self,"confirm:",{aString:aString},$globals.InterfacingObject)});
-},
-args: ["aString"],
-source: "confirm: aString\x0a\x09^ Terminal confirm: aString",
-referencedClasses: ["Terminal"],
-messageSends: ["confirm:"]
-}),
-$globals.InterfacingObject);
-
-$core.addMethod(
-$core.method({
-selector: "prompt:",
-protocol: 'actions',
-fn: function (aString){
-var self=this;
-return $core.withContext(function($ctx1) {
-return $recv($globals.Terminal)._prompt_(aString);
-}, function($ctx1) {$ctx1.fill(self,"prompt:",{aString:aString},$globals.InterfacingObject)});
-},
-args: ["aString"],
-source: "prompt: aString\x0a\x09^ Terminal prompt: aString",
-referencedClasses: ["Terminal"],
-messageSends: ["prompt:"]
-}),
-$globals.InterfacingObject);
-
-$core.addMethod(
-$core.method({
-selector: "prompt:default:",
-protocol: 'actions',
-fn: function (aString,defaultString){
-var self=this;
-return $core.withContext(function($ctx1) {
-return $recv($globals.Terminal)._prompt_default_(aString,defaultString);
-}, function($ctx1) {$ctx1.fill(self,"prompt:default:",{aString:aString,defaultString:defaultString},$globals.InterfacingObject)});
-},
-args: ["aString", "defaultString"],
-source: "prompt: aString default: defaultString\x0a\x09^ Terminal prompt: aString default: defaultString",
-referencedClasses: ["Terminal"],
-messageSends: ["prompt:default:"]
-}),
-$globals.InterfacingObject);
-
-
-
-$core.addClass('Environment', $globals.InterfacingObject, [], 'Platform-Services');
+$core.addClass('Environment', $globals.Object, [], 'Platform-Services');
 $globals.Environment.comment="I provide an unified entry point to manipulate Amber packages, classes and methods.\x0a\x0aTypical use cases include IDEs, remote access and restricting browsing.";
 $core.addMethod(
 $core.method({
@@ -24087,15 +23986,15 @@ return self._evaluate_for_(aString,$recv($globals.DoIt)._new());
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }))._on_do_($globals.Error,(function(error){
 return $core.withContext(function($ctx2) {
-return self._alert_($recv(error)._messageText());
+return $recv($globals.Terminal)._alert_($recv(error)._messageText());
 }, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,2)});
 }));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"compileClassDefinition:",{aString:aString},$globals.Environment)});
 },
 args: ["aString"],
-source: "compileClassDefinition: aString\x0a\x09[ self evaluate: aString for: DoIt new ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :error | self alert: error messageText ]",
-referencedClasses: ["DoIt", "Error"],
+source: "compileClassDefinition: aString\x0a\x09[ self evaluate: aString for: DoIt new ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :error | Terminal alert: error messageText ]",
+referencedClasses: ["DoIt", "Error", "Terminal"],
 messageSends: ["on:do:", "evaluate:for:", "new", "alert:", "messageText"]
 }),
 $globals.Environment);
@@ -24626,165 +24525,6 @@ referencedClasses: ["ProgressHandler"],
 messageSends: ["registerIfNone:", "new"]
 }),
 $globals.NullProgressHandler.klass);
-
-
-$core.addClass('PlatformInterface', $globals.Object, [], 'Platform-Services');
-$globals.PlatformInterface.comment="Deprecated. Use `Platform` or `Terminal`.";
-
-$core.addMethod(
-$core.method({
-selector: "ajax:",
-protocol: 'actions',
-fn: function (anObject){
-var self=this;
-return $core.withContext(function($ctx1) {
-var $receiver;
-self._deprecatedAPI_("Use Platform newXhr or dedicated library.");
-if(($receiver = $globals.JQuery) == null || $receiver.isNil){
-return self._error_("JQuery wrapper not loaded, cannot do AJAX.");
-} else {
-return $recv($recv($globals.JQuery)._current())._ajax_(anObject);
-};
-}, function($ctx1) {$ctx1.fill(self,"ajax:",{anObject:anObject},$globals.PlatformInterface.klass)});
-},
-args: ["anObject"],
-source: "ajax: anObject\x0a\x09self deprecatedAPI: 'Use Platform newXhr or dedicated library.'.\x0a\x09^ JQuery\x0a\x09\x09ifNotNil: [ JQuery current ajax: anObject ]\x0a\x09\x09ifNil: [ self error: 'JQuery wrapper not loaded, cannot do AJAX.' ]",
-referencedClasses: ["JQuery"],
-messageSends: ["deprecatedAPI:", "ifNotNil:ifNil:", "ajax:", "current", "error:"]
-}),
-$globals.PlatformInterface.klass);
-
-$core.addMethod(
-$core.method({
-selector: "alert:",
-protocol: 'actions',
-fn: function (aString){
-var self=this;
-return $core.withContext(function($ctx1) {
-self._deprecatedAPI_("Use Terminal alert:");
-return $recv($globals.Terminal)._alert_(aString);
-}, function($ctx1) {$ctx1.fill(self,"alert:",{aString:aString},$globals.PlatformInterface.klass)});
-},
-args: ["aString"],
-source: "alert: aString\x0a\x09self deprecatedAPI: 'Use Terminal alert:'.\x0a\x09^ Terminal alert: aString",
-referencedClasses: ["Terminal"],
-messageSends: ["deprecatedAPI:", "alert:"]
-}),
-$globals.PlatformInterface.klass);
-
-$core.addMethod(
-$core.method({
-selector: "confirm:",
-protocol: 'actions',
-fn: function (aString){
-var self=this;
-return $core.withContext(function($ctx1) {
-self._deprecatedAPI_("Use Terminal confirm:");
-return $recv($globals.Terminal)._confirm_(aString);
-}, function($ctx1) {$ctx1.fill(self,"confirm:",{aString:aString},$globals.PlatformInterface.klass)});
-},
-args: ["aString"],
-source: "confirm: aString\x0a\x09self deprecatedAPI: 'Use Terminal confirm:'.\x0a\x09^ Terminal confirm: aString",
-referencedClasses: ["Terminal"],
-messageSends: ["deprecatedAPI:", "confirm:"]
-}),
-$globals.PlatformInterface.klass);
-
-$core.addMethod(
-$core.method({
-selector: "existsGlobal:",
-protocol: 'actions',
-fn: function (aString){
-var self=this;
-return $core.withContext(function($ctx1) {
-self._deprecatedAPI_("Use Smalltalk existsJsGlobal:");
-return $recv($recv($globals.PlatformInterface)._globals())._at_ifPresent_ifAbsent_(aString,(function(){
-return true;
-
-}),(function(){
-return false;
-
-}));
-}, function($ctx1) {$ctx1.fill(self,"existsGlobal:",{aString:aString},$globals.PlatformInterface.klass)});
-},
-args: ["aString"],
-source: "existsGlobal: aString\x0a\x09self deprecatedAPI: 'Use Smalltalk existsJsGlobal:'.\x0a\x09^ PlatformInterface globals \x0a\x09\x09at: aString \x0a\x09\x09ifPresent: [ true ] \x0a\x09\x09ifAbsent: [ false ]",
-referencedClasses: ["PlatformInterface"],
-messageSends: ["deprecatedAPI:", "at:ifPresent:ifAbsent:", "globals"]
-}),
-$globals.PlatformInterface.klass);
-
-$core.addMethod(
-$core.method({
-selector: "globals",
-protocol: 'accessing',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-self._deprecatedAPI_("Use Platform globals");
-return $recv($globals.Platform)._globals();
-}, function($ctx1) {$ctx1.fill(self,"globals",{},$globals.PlatformInterface.klass)});
-},
-args: [],
-source: "globals\x0a\x09self deprecatedAPI: 'Use Platform globals'.\x0a\x09^ Platform globals",
-referencedClasses: ["Platform"],
-messageSends: ["deprecatedAPI:", "globals"]
-}),
-$globals.PlatformInterface.klass);
-
-$core.addMethod(
-$core.method({
-selector: "newXhr",
-protocol: 'actions',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-self._deprecatedAPI_("Use Platform newXhr");
-return $recv($globals.Platform)._newXhr();
-}, function($ctx1) {$ctx1.fill(self,"newXhr",{},$globals.PlatformInterface.klass)});
-},
-args: [],
-source: "newXhr\x0a\x09self deprecatedAPI: 'Use Platform newXhr'.\x0a\x09^ Platform newXhr",
-referencedClasses: ["Platform"],
-messageSends: ["deprecatedAPI:", "newXhr"]
-}),
-$globals.PlatformInterface.klass);
-
-$core.addMethod(
-$core.method({
-selector: "prompt:",
-protocol: 'actions',
-fn: function (aString){
-var self=this;
-return $core.withContext(function($ctx1) {
-self._deprecatedAPI_("Use Terminal prompt:");
-return $recv($globals.Terminal)._prompt_(aString);
-}, function($ctx1) {$ctx1.fill(self,"prompt:",{aString:aString},$globals.PlatformInterface.klass)});
-},
-args: ["aString"],
-source: "prompt: aString\x0a\x09self deprecatedAPI: 'Use Terminal prompt:'.\x0a\x09^ Terminal prompt: aString",
-referencedClasses: ["Terminal"],
-messageSends: ["deprecatedAPI:", "prompt:"]
-}),
-$globals.PlatformInterface.klass);
-
-$core.addMethod(
-$core.method({
-selector: "prompt:default:",
-protocol: 'actions',
-fn: function (aString,defaultString){
-var self=this;
-return $core.withContext(function($ctx1) {
-self._deprecatedAPI_("Use Terminal prompt:default:");
-return $recv($globals.Terminal)._prompt_default_(aString,defaultString);
-}, function($ctx1) {$ctx1.fill(self,"prompt:default:",{aString:aString,defaultString:defaultString},$globals.PlatformInterface.klass)});
-},
-args: ["aString", "defaultString"],
-source: "prompt: aString default: defaultString\x0a\x09self deprecatedAPI: 'Use Terminal prompt:default:'.\x0a\x09^ Terminal prompt: aString default: defaultString",
-referencedClasses: ["Terminal"],
-messageSends: ["deprecatedAPI:", "prompt:default:"]
-}),
-$globals.PlatformInterface.klass);
 
 
 $core.addClass('Service', $globals.Object, [], 'Platform-Services');
@@ -25482,8 +25222,10 @@ $globals.String);
 
 });
 
-define("amber_core/Platform-Node", ["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Platform-Node',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Platform-Node');
 $core.packages["Platform-Node"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Platform-Node"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -25591,7 +25333,7 @@ define('amber/deploy',[
 ], function (amber) { return amber; });
 
 define('amber/parser',['./boot'], function($boot) {
-var $globals = $boot.globals, nil = $boot.nil;
+var $globals = $boot.globals, nil = $boot.nilAsReceiver;
 $globals.SmalltalkParser = (function() {
   "use strict";
 
@@ -29440,8 +29182,10 @@ $globals.SmalltalkParser = (function() {
   };
 })();
 });
-define("amber_core/Platform-ImportExport", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Kernel-Exceptions", "amber_core/Platform-Services", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Classes"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Platform-ImportExport',["amber/boot", "amber_core/Kernel-Classes", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Platform-ImportExport');
 $core.packages["Platform-ImportExport"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Platform-ImportExport"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -29635,7 +29379,7 @@ protocol: 'output',
 fn: function (aClass,aStream){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $1,$3,$2,$4,$6,$5,$7,$9,$8,$11,$10,$12;
+var $1,$3,$2,$4,$6,$5,$7,$8,$10,$9,$11;
 $1=self._classNameFor_($recv(aClass)._superclass());
 $ctx1.sendIdx["classNameFor:"]=1;
 $recv(aStream)._nextPutAll_($1);
@@ -29676,31 +29420,32 @@ $recv(aStream)._nextPutAll_($5);
 $ctx1.sendIdx["nextPutAll:"]=7;
 $7=$recv(aStream)._lf();
 $ctx1.sendIdx["lf"]=3;
-$9=$recv(aClass)._comment();
+$8=$recv(aClass)._comment();
 $ctx1.sendIdx["comment"]=1;
-$8=$recv($9)._notEmpty();
-if($core.assert($8)){
-$11="!".__comma(self._classNameFor_(aClass));
-$ctx1.sendIdx[","]=5;
-$10=$recv($11).__comma(" commentStamp!");
-$ctx1.sendIdx[","]=4;
-$recv(aStream)._nextPutAll_($10);
-$ctx1.sendIdx["nextPutAll:"]=8;
+$recv($8)._ifNotEmpty_((function(){
+return $core.withContext(function($ctx2) {
+$10="!".__comma(self._classNameFor_(aClass));
+$ctx2.sendIdx[","]=5;
+$9=$recv($10).__comma(" commentStamp!");
+$ctx2.sendIdx[","]=4;
+$recv(aStream)._nextPutAll_($9);
+$ctx2.sendIdx["nextPutAll:"]=8;
 $recv(aStream)._lf();
-$ctx1.sendIdx["lf"]=4;
+$ctx2.sendIdx["lf"]=4;
 $recv(aStream)._nextPutAll_($recv(self._chunkEscape_($recv(aClass)._comment())).__comma("!"));
-$12=$recv(aStream)._lf();
-$ctx1.sendIdx["lf"]=5;
-$12;
-};
+$11=$recv(aStream)._lf();
+$ctx2.sendIdx["lf"]=5;
+return $11;
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+}));
 $recv(aStream)._lf();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"exportDefinitionOf:on:",{aClass:aClass,aStream:aStream},$globals.ChunkExporter)});
 },
 args: ["aClass", "aStream"],
-source: "exportDefinitionOf: aClass on: aStream\x0a\x09\x22Chunk format.\x22\x0a\x0a\x09aStream\x0a\x09\x09nextPutAll: (self classNameFor: aClass superclass);\x0a\x09\x09nextPutAll: ' subclass: #', (self classNameFor: aClass); lf;\x0a\x09\x09tab; nextPutAll: 'instanceVariableNames: '''.\x0a\x09aClass instanceVariableNames\x0a\x09\x09do: [ :each | aStream nextPutAll: each ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ' ' ].\x0a\x09aStream\x0a\x09\x09nextPutAll: ''''; lf;\x0a\x09\x09tab; nextPutAll: 'package: ''', aClass category, '''!'; lf.\x0a\x09aClass comment notEmpty ifTrue: [\x0a\x09\x09aStream\x0a\x09\x09nextPutAll: '!', (self classNameFor: aClass), ' commentStamp!';lf;\x0a\x09\x09nextPutAll: (self chunkEscape: aClass comment), '!';lf ].\x0a\x09aStream lf",
+source: "exportDefinitionOf: aClass on: aStream\x0a\x09\x22Chunk format.\x22\x0a\x0a\x09aStream\x0a\x09\x09nextPutAll: (self classNameFor: aClass superclass);\x0a\x09\x09nextPutAll: ' subclass: #', (self classNameFor: aClass); lf;\x0a\x09\x09tab; nextPutAll: 'instanceVariableNames: '''.\x0a\x09aClass instanceVariableNames\x0a\x09\x09do: [ :each | aStream nextPutAll: each ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ' ' ].\x0a\x09aStream\x0a\x09\x09nextPutAll: ''''; lf;\x0a\x09\x09tab; nextPutAll: 'package: ''', aClass category, '''!'; lf.\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09nextPutAll: '!', (self classNameFor: aClass), ' commentStamp!';lf;\x0a\x09\x09nextPutAll: (self chunkEscape: aClass comment), '!';lf ].\x0a\x09aStream lf",
 referencedClasses: [],
-messageSends: ["nextPutAll:", "classNameFor:", "superclass", ",", "lf", "tab", "do:separatedBy:", "instanceVariableNames", "category", "ifTrue:", "notEmpty", "comment", "chunkEscape:"]
+messageSends: ["nextPutAll:", "classNameFor:", "superclass", ",", "lf", "tab", "do:separatedBy:", "instanceVariableNames", "category", "ifNotEmpty:", "comment", "chunkEscape:"]
 }),
 $globals.ChunkExporter);
 
@@ -29711,44 +29456,41 @@ protocol: 'output',
 fn: function (aClass,aStream){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $3,$2,$1,$5,$4,$6;
-$3=$recv(aClass)._class();
+var $2,$1,$3;
+$2=$recv(aClass)._class();
 $ctx1.sendIdx["class"]=1;
-$2=$recv($3)._instanceVariableNames();
-$ctx1.sendIdx["instanceVariableNames"]=1;
-$1=$recv($2)._isEmpty();
-if(!$core.assert($1)){
-$5=$recv(aClass)._class();
-$ctx1.sendIdx["class"]=2;
-$4=self._classNameFor_($5);
-$recv(aStream)._nextPutAll_($4);
-$ctx1.sendIdx["nextPutAll:"]=1;
-$6=$recv(aStream)._nextPutAll_(" instanceVariableNames: '");
-$ctx1.sendIdx["nextPutAll:"]=2;
-$6;
-$recv($recv($recv(aClass)._class())._instanceVariableNames())._do_separatedBy_((function(each){
+$1=$recv($2)._instanceVariableNames();
+$recv($1)._ifNotEmpty_((function(classIvars){
 return $core.withContext(function($ctx2) {
+$recv(aStream)._nextPutAll_(self._classNameFor_($recv(aClass)._class()));
+$ctx2.sendIdx["nextPutAll:"]=1;
+$3=$recv(aStream)._nextPutAll_(" instanceVariableNames: '");
+$ctx2.sendIdx["nextPutAll:"]=2;
+$3;
+$recv(classIvars)._do_separatedBy_((function(each){
+return $core.withContext(function($ctx3) {
 return $recv(aStream)._nextPutAll_(each);
-$ctx2.sendIdx["nextPutAll:"]=3;
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+$ctx3.sendIdx["nextPutAll:"]=3;
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
 }),(function(){
-return $core.withContext(function($ctx2) {
+return $core.withContext(function($ctx3) {
 return $recv(aStream)._nextPutAll_(" ");
-$ctx2.sendIdx["nextPutAll:"]=4;
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+$ctx3.sendIdx["nextPutAll:"]=4;
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 }));
 $recv(aStream)._nextPutAll_("'!");
 $recv(aStream)._lf();
-$ctx1.sendIdx["lf"]=1;
-$recv(aStream)._lf();
-};
+$ctx2.sendIdx["lf"]=1;
+return $recv(aStream)._lf();
+}, function($ctx2) {$ctx2.fillBlock({classIvars:classIvars},$ctx1,1)});
+}));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"exportMetaDefinitionOf:on:",{aClass:aClass,aStream:aStream},$globals.ChunkExporter)});
 },
 args: ["aClass", "aStream"],
-source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x0a\x09aClass class instanceVariableNames isEmpty ifFalse: [\x0a\x09\x09aStream\x0a\x09\x09\x09nextPutAll: (self classNameFor: aClass class);\x0a\x09\x09\x09nextPutAll: ' instanceVariableNames: '''.\x0a\x09\x09aClass class instanceVariableNames\x0a\x09\x09\x09do: [ :each | aStream nextPutAll: each ]\x0a\x09\x09\x09separatedBy: [ aStream nextPutAll: ' ' ].\x0a\x09\x09aStream\x0a\x09\x09\x09nextPutAll: '''!'; lf; lf ]",
+source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x0a\x09aClass class instanceVariableNames ifNotEmpty: [ :classIvars |\x0a\x09\x09aStream\x0a\x09\x09\x09nextPutAll: (self classNameFor: aClass class);\x0a\x09\x09\x09nextPutAll: ' instanceVariableNames: '''.\x0a\x09\x09classIvars\x0a\x09\x09\x09do: [ :each | aStream nextPutAll: each ]\x0a\x09\x09\x09separatedBy: [ aStream nextPutAll: ' ' ].\x0a\x09\x09aStream\x0a\x09\x09\x09nextPutAll: '''!'; lf; lf ]",
 referencedClasses: [],
-messageSends: ["ifFalse:", "isEmpty", "instanceVariableNames", "class", "nextPutAll:", "classNameFor:", "do:separatedBy:", "lf"]
+messageSends: ["ifNotEmpty:", "instanceVariableNames", "class", "nextPutAll:", "classNameFor:", "do:separatedBy:", "lf"]
 }),
 $globals.ChunkExporter);
 
@@ -30090,7 +29832,7 @@ protocol: 'output',
 fn: function (aClass,aStream){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $2,$1,$3,$4,$6,$5,$7,$9,$8;
+var $2,$1,$3,$4,$6,$5,$7,$8;
 $recv(aStream)._lf();
 $ctx1.sendIdx["lf"]=1;
 $recv(aStream)._nextPutAll_("$core.addClass(");
@@ -30128,36 +29870,37 @@ $recv(aStream)._nextPutAll_($recv($recv(aClass)._category()).__comma("'"));
 $ctx1.sendIdx["nextPutAll:"]=8;
 $7=$recv(aStream)._nextPutAll_(");");
 $ctx1.sendIdx["nextPutAll:"]=9;
-$9=$recv(aClass)._comment();
+$8=$recv(aClass)._comment();
 $ctx1.sendIdx["comment"]=1;
-$8=$recv($9)._notEmpty();
-if($core.assert($8)){
+$recv($8)._ifNotEmpty_((function(){
+return $core.withContext(function($ctx2) {
 $recv(aStream)._lf();
-$ctx1.sendIdx["lf"]=2;
+$ctx2.sendIdx["lf"]=2;
 $recv(aStream)._nextPutAll_("//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);");
-$ctx1.sendIdx["nextPutAll:"]=10;
+$ctx2.sendIdx["nextPutAll:"]=10;
 $recv(aStream)._lf();
-$ctx1.sendIdx["lf"]=3;
+$ctx2.sendIdx["lf"]=3;
 $recv(aStream)._nextPutAll_(self._jsClassNameFor_(aClass));
-$ctx1.sendIdx["nextPutAll:"]=11;
+$ctx2.sendIdx["nextPutAll:"]=11;
 $recv(aStream)._nextPutAll_(".comment=");
-$ctx1.sendIdx["nextPutAll:"]=12;
+$ctx2.sendIdx["nextPutAll:"]=12;
 $recv(aStream)._nextPutAll_($recv($recv($recv(aClass)._comment())._crlfSanitized())._asJavascript());
-$ctx1.sendIdx["nextPutAll:"]=13;
+$ctx2.sendIdx["nextPutAll:"]=13;
 $recv(aStream)._nextPutAll_(";");
-$ctx1.sendIdx["nextPutAll:"]=14;
+$ctx2.sendIdx["nextPutAll:"]=14;
 $recv(aStream)._lf();
-$ctx1.sendIdx["lf"]=4;
-$recv(aStream)._nextPutAll_("//>>excludeEnd(\x22ide\x22);");
-};
+$ctx2.sendIdx["lf"]=4;
+return $recv(aStream)._nextPutAll_("//>>excludeEnd(\x22ide\x22);");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+}));
 $recv(aStream)._lf();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"exportDefinitionOf:on:",{aClass:aClass,aStream:aStream},$globals.Exporter)});
 },
 args: ["aClass", "aStream"],
-source: "exportDefinitionOf: aClass on: aStream\x0a\x09aStream\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: '$core.addClass(';\x0a\x09\x09nextPutAll: '''', (self classNameFor: aClass), ''', ';\x0a\x09\x09nextPutAll: (self jsClassNameFor: aClass superclass);\x0a\x09\x09nextPutAll: ', ['.\x0a\x09aClass instanceVariableNames\x0a\x09\x09do: [ :each | aStream nextPutAll: '''', each, '''' ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ', ' ].\x0a\x09aStream\x0a\x09\x09nextPutAll: '], ''';\x0a\x09\x09nextPutAll: aClass category, '''';\x0a\x09\x09nextPutAll: ');'.\x0a\x09aClass comment notEmpty ifTrue: [\x0a\x09\x09aStream\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: (self jsClassNameFor: aClass);\x0a\x09\x09\x09nextPutAll: '.comment=';\x0a\x09\x09\x09nextPutAll: aClass comment crlfSanitized asJavascript;\x0a\x09\x09\x09nextPutAll: ';';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeEnd(\x22ide\x22);' ].\x0a\x09aStream lf",
+source: "exportDefinitionOf: aClass on: aStream\x0a\x09aStream\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: '$core.addClass(';\x0a\x09\x09nextPutAll: '''', (self classNameFor: aClass), ''', ';\x0a\x09\x09nextPutAll: (self jsClassNameFor: aClass superclass);\x0a\x09\x09nextPutAll: ', ['.\x0a\x09aClass instanceVariableNames\x0a\x09\x09do: [ :each | aStream nextPutAll: '''', each, '''' ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ', ' ].\x0a\x09aStream\x0a\x09\x09nextPutAll: '], ''';\x0a\x09\x09nextPutAll: aClass category, '''';\x0a\x09\x09nextPutAll: ');'.\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: (self jsClassNameFor: aClass);\x0a\x09\x09\x09nextPutAll: '.comment=';\x0a\x09\x09\x09nextPutAll: aClass comment crlfSanitized asJavascript;\x0a\x09\x09\x09nextPutAll: ';';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeEnd(\x22ide\x22);' ].\x0a\x09aStream lf",
 referencedClasses: [],
-messageSends: ["lf", "nextPutAll:", ",", "classNameFor:", "jsClassNameFor:", "superclass", "do:separatedBy:", "instanceVariableNames", "category", "ifTrue:", "notEmpty", "comment", "asJavascript", "crlfSanitized"]
+messageSends: ["lf", "nextPutAll:", ",", "classNameFor:", "jsClassNameFor:", "superclass", "do:separatedBy:", "instanceVariableNames", "category", "ifNotEmpty:", "comment", "asJavascript", "crlfSanitized"]
 }),
 $globals.Exporter);
 
@@ -30168,47 +29911,44 @@ protocol: 'output',
 fn: function (aClass,aStream){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $3,$2,$1,$5,$4,$6,$8,$7;
+var $2,$1,$3,$5,$4;
 $recv(aStream)._lf();
 $ctx1.sendIdx["lf"]=1;
-$3=$recv(aClass)._class();
+$2=$recv(aClass)._class();
 $ctx1.sendIdx["class"]=1;
-$2=$recv($3)._instanceVariableNames();
-$ctx1.sendIdx["instanceVariableNames"]=1;
-$1=$recv($2)._isEmpty();
-if(!$core.assert($1)){
-$5=$recv(aClass)._class();
-$ctx1.sendIdx["class"]=2;
-$4=self._jsClassNameFor_($5);
-$recv(aStream)._nextPutAll_($4);
-$ctx1.sendIdx["nextPutAll:"]=1;
-$6=$recv(aStream)._nextPutAll_(".iVarNames = [");
-$ctx1.sendIdx["nextPutAll:"]=2;
-$6;
-$recv($recv($recv(aClass)._class())._instanceVariableNames())._do_separatedBy_((function(each){
+$1=$recv($2)._instanceVariableNames();
+$recv($1)._ifNotEmpty_((function(classIvars){
 return $core.withContext(function($ctx2) {
-$8="'".__comma(each);
-$ctx2.sendIdx[","]=2;
-$7=$recv($8).__comma("'");
-$ctx2.sendIdx[","]=1;
-return $recv(aStream)._nextPutAll_($7);
-$ctx2.sendIdx["nextPutAll:"]=3;
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+$recv(aStream)._nextPutAll_(self._jsClassNameFor_($recv(aClass)._class()));
+$ctx2.sendIdx["nextPutAll:"]=1;
+$3=$recv(aStream)._nextPutAll_(".iVarNames = [");
+$ctx2.sendIdx["nextPutAll:"]=2;
+$3;
+$recv(classIvars)._do_separatedBy_((function(each){
+return $core.withContext(function($ctx3) {
+$5="'".__comma(each);
+$ctx3.sendIdx[","]=2;
+$4=$recv($5).__comma("'");
+$ctx3.sendIdx[","]=1;
+return $recv(aStream)._nextPutAll_($4);
+$ctx3.sendIdx["nextPutAll:"]=3;
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
 }),(function(){
-return $core.withContext(function($ctx2) {
+return $core.withContext(function($ctx3) {
 return $recv(aStream)._nextPutAll_(",");
-$ctx2.sendIdx["nextPutAll:"]=4;
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+$ctx3.sendIdx["nextPutAll:"]=4;
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 }));
-$recv(aStream)._nextPutAll_("];".__comma($recv($globals.String)._lf()));
-};
+return $recv(aStream)._nextPutAll_("];".__comma($recv($globals.String)._lf()));
+}, function($ctx2) {$ctx2.fillBlock({classIvars:classIvars},$ctx1,1)});
+}));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"exportMetaDefinitionOf:on:",{aClass:aClass,aStream:aStream},$globals.Exporter)});
 },
 args: ["aClass", "aStream"],
-source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x09aStream lf.\x0a\x09aClass class instanceVariableNames isEmpty ifFalse: [\x0a\x09\x09aStream\x0a\x09\x09nextPutAll: (self jsClassNameFor: aClass class);\x0a\x09\x09nextPutAll: '.iVarNames = ['.\x0a\x09\x09aClass class instanceVariableNames\x0a\x09\x09do: [ :each | aStream nextPutAll: '''', each, '''' ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ',' ].\x0a\x09\x09aStream nextPutAll: '];', String lf ]",
+source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x09aStream lf.\x0a\x09aClass class instanceVariableNames ifNotEmpty: [ :classIvars |\x0a\x09\x09aStream\x0a\x09\x09nextPutAll: (self jsClassNameFor: aClass class);\x0a\x09\x09nextPutAll: '.iVarNames = ['.\x0a\x09\x09classIvars\x0a\x09\x09do: [ :each | aStream nextPutAll: '''', each, '''' ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ',' ].\x0a\x09\x09aStream nextPutAll: '];', String lf ]",
 referencedClasses: ["String"],
-messageSends: ["lf", "ifFalse:", "isEmpty", "instanceVariableNames", "class", "nextPutAll:", "jsClassNameFor:", "do:separatedBy:", ","]
+messageSends: ["lf", "ifNotEmpty:", "instanceVariableNames", "class", "nextPutAll:", "jsClassNameFor:", "do:separatedBy:", ","]
 }),
 $globals.Exporter);
 
@@ -30365,6 +30105,33 @@ args: ["aPackage", "aStream"],
 source: "exportPackage: aPackage on: aStream\x0a\x09\x0a\x09self \x0a\x09\x09exportPackagePrologueOf: aPackage on: aStream;\x0a\x09\x09exportPackageDefinitionOf: aPackage on: aStream;\x0a\x09\x09exportPackageContextOf: aPackage on: aStream;\x0a\x09\x09exportPackageImportsOf: aPackage on: aStream;\x0a\x09\x09exportPackageTransportOf: aPackage on: aStream.\x0a\x09\x0a\x09aPackage sortedClasses do: [ :each |\x0a\x09\x09self exportDefinitionOf: each on: aStream.\x0a\x09\x09each ownMethods do: [ :method |\x0a\x09\x09\x09self exportMethod: method on: aStream ].\x0a\x09\x09\x09\x0a\x09\x09self exportMetaDefinitionOf: each on: aStream.\x0a\x09\x09each class ownMethods do: [ :method |\x0a\x09\x09\x09self exportMethod: method on: aStream ] ].\x0a\x09\x09\x09\x0a\x09(self extensionMethodsOfPackage: aPackage) do: [ :each |\x0a\x09\x09self exportMethod: each on: aStream ].\x0a\x09\x09\x0a\x09self exportPackageEpilogueOf: aPackage on: aStream",
 referencedClasses: [],
 messageSends: ["exportPackagePrologueOf:on:", "exportPackageDefinitionOf:on:", "exportPackageContextOf:on:", "exportPackageImportsOf:on:", "exportPackageTransportOf:on:", "do:", "sortedClasses", "exportDefinitionOf:on:", "ownMethods", "exportMethod:on:", "exportMetaDefinitionOf:on:", "class", "extensionMethodsOfPackage:", "exportPackageEpilogueOf:on:"]
+}),
+$globals.Exporter);
+
+$core.addMethod(
+$core.method({
+selector: "exportPackageBodyBlockPrologueOf:on:",
+protocol: 'output',
+fn: function (aPackage,aStream){
+var self=this;
+return $core.withContext(function($ctx1) {
+$recv(aStream)._nextPutAll_("if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;");
+$ctx1.sendIdx["nextPutAll:"]=1;
+$recv(aStream)._lf();
+$ctx1.sendIdx["lf"]=1;
+$recv(aStream)._nextPutAll_("var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;");
+$ctx1.sendIdx["nextPutAll:"]=2;
+$recv(aStream)._lf();
+$ctx1.sendIdx["lf"]=2;
+$recv(aStream)._nextPutAll_("if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;");
+$recv(aStream)._lf();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"exportPackageBodyBlockPrologueOf:on:",{aPackage:aPackage,aStream:aStream},$globals.Exporter)});
+},
+args: ["aPackage", "aStream"],
+source: "exportPackageBodyBlockPrologueOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09nextPutAll: 'if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;';\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: 'var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;';\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: 'if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;';\x0a\x09\x09lf",
+referencedClasses: [],
+messageSends: ["nextPutAll:", "lf"]
 }),
 $globals.Exporter);
 
@@ -30704,21 +30471,13 @@ $ctx2.sendIdx[","]=3;
 return pragmaEnd;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
-$recv(aStream)._nextPutAll_("define(\x22");
+$recv(aStream)._nextPutAll_("define(");
 $ctx1.sendIdx["nextPutAll:"]=1;
-$recv(aStream)._nextPutAll_(self._amdNamespaceOfPackage_(aPackage));
-$ctx1.sendIdx["nextPutAll:"]=2;
-$recv(aStream)._nextPutAll_("/");
-$ctx1.sendIdx["nextPutAll:"]=3;
-$recv(aStream)._nextPutAll_($recv(aPackage)._name());
-$ctx1.sendIdx["nextPutAll:"]=4;
-$recv(aStream)._nextPutAll_("\x22, ");
-$ctx1.sendIdx["nextPutAll:"]=5;
 $13=["amber/boot", ":1:"].__comma($recv(importsForOutput)._value());
 $ctx1.sendIdx[","]=7;
 $12=$recv($13).__comma([":2:"]);
 $ctx1.sendIdx[","]=6;
-$11=$recv($12).__comma(loadDependencies);
+$11=$recv($12).__comma($recv($recv(loadDependencies)._asArray())._sorted());
 $ctx1.sendIdx[","]=5;
 $10=$recv($11)._asJavascript();
 $9=$recv($10)._replace_with_(",\x5cs*[\x22']:1:[\x22']",pragmaStart);
@@ -30726,9 +30485,9 @@ $ctx1.sendIdx["replace:with:"]=2;
 $8=$recv($9)._replace_with_(",\x5cs*[\x22']:2:[\x22']",pragmaEnd);
 $ctx1.sendIdx["replace:with:"]=1;
 $recv(aStream)._nextPutAll_($8);
-$ctx1.sendIdx["nextPutAll:"]=6;
+$ctx1.sendIdx["nextPutAll:"]=2;
 $recv(aStream)._nextPutAll_(", function(");
-$ctx1.sendIdx["nextPutAll:"]=7;
+$ctx1.sendIdx["nextPutAll:"]=3;
 $17=$recv(["$boot", ":1:"].__comma($recv(importsForOutput)._key())).__comma([":2:"]);
 $ctx1.sendIdx[","]=8;
 $16=$recv($17)._join_(",");
@@ -30736,20 +30495,17 @@ $15=$recv($16)._replace_with_(",\x5cs*:1:",pragmaStart);
 $14=$recv($15)._replace_with_(",\x5cs*:2:",pragmaEnd);
 $ctx1.sendIdx["replace:with:"]=3;
 $recv(aStream)._nextPutAll_($14);
-$ctx1.sendIdx["nextPutAll:"]=8;
+$ctx1.sendIdx["nextPutAll:"]=4;
 $recv(aStream)._nextPutAll_("){\x22use strict\x22;");
-$ctx1.sendIdx["nextPutAll:"]=9;
 $recv(aStream)._lf();
-$ctx1.sendIdx["lf"]=5;
-$recv(aStream)._nextPutAll_("var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;");
-$recv(aStream)._lf();
+self._exportPackageBodyBlockPrologueOf_on_(aPackage,aStream);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"exportPackagePrologueOf:on:",{aPackage:aPackage,aStream:aStream,importsForOutput:importsForOutput,loadDependencies:loadDependencies,pragmaStart:pragmaStart,pragmaEnd:pragmaEnd},$globals.AmdExporter)});
 },
 args: ["aPackage", "aStream"],
-source: "exportPackagePrologueOf: aPackage on: aStream\x0a\x09| importsForOutput loadDependencies pragmaStart pragmaEnd |\x0a\x09pragmaStart := ''.\x0a\x09pragmaEnd := ''.\x0a\x09importsForOutput := self importsForOutput: aPackage.\x0a\x09loadDependencies := self amdNamesOfPackages: aPackage loadDependencies.\x0a\x09importsForOutput value ifNotEmpty: [\x0a\x09\x09pragmaStart := String lf, '//>>excludeStart(\x22imports\x22, pragmas.excludeImports);', String lf.\x0a\x09\x09pragmaEnd := String lf, '//>>excludeEnd(\x22imports\x22);', String lf ].\x0a\x09aStream\x0a\x09\x09nextPutAll: 'define(\x22';\x0a\x09\x09nextPutAll: (self amdNamespaceOfPackage: aPackage);\x0a\x09\x09nextPutAll: '/'; \x0a\x09\x09nextPutAll: aPackage name;\x0a\x09\x09nextPutAll: '\x22, ';\x0a\x09\x09nextPutAll: (((\x0a\x09\x09\x09(#('amber/boot' ':1:'), importsForOutput value, #(':2:'), loadDependencies) asJavascript)\x0a\x09\x09\x09replace: ',\x5cs*[\x22'']:1:[\x22'']' with: pragmaStart) replace: ',\x5cs*[\x22'']:2:[\x22'']' with: pragmaEnd);\x0a\x09\x09nextPutAll: ', function(';\x0a\x09\x09nextPutAll: (((\x0a\x09\x09\x09(#('$boot' ':1:'), importsForOutput key, #(':2:')) join: ',')\x0a\x09\x09\x09replace: ',\x5cs*:1:' with: pragmaStart) replace: ',\x5cs*:2:' with: pragmaEnd);\x0a\x09\x09nextPutAll: '){\x22use strict\x22;';\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: 'var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;';\x0a\x09\x09lf",
+source: "exportPackagePrologueOf: aPackage on: aStream\x0a\x09| importsForOutput loadDependencies pragmaStart pragmaEnd |\x0a\x09pragmaStart := ''.\x0a\x09pragmaEnd := ''.\x0a\x09importsForOutput := self importsForOutput: aPackage.\x0a\x09loadDependencies := self amdNamesOfPackages: aPackage loadDependencies.\x0a\x09importsForOutput value ifNotEmpty: [\x0a\x09\x09pragmaStart := String lf, '//>>excludeStart(\x22imports\x22, pragmas.excludeImports);', String lf.\x0a\x09\x09pragmaEnd := String lf, '//>>excludeEnd(\x22imports\x22);', String lf ].\x0a\x09aStream\x0a\x09\x09nextPutAll: 'define(';\x0a\x09\x09nextPutAll: (((\x0a\x09\x09\x09(#('amber/boot' ':1:'), importsForOutput value, #(':2:'), loadDependencies asArray sorted) asJavascript)\x0a\x09\x09\x09replace: ',\x5cs*[\x22'']:1:[\x22'']' with: pragmaStart) replace: ',\x5cs*[\x22'']:2:[\x22'']' with: pragmaEnd);\x0a\x09\x09nextPutAll: ', function(';\x0a\x09\x09nextPutAll: (((\x0a\x09\x09\x09(#('$boot' ':1:'), importsForOutput key, #(':2:')) join: ',')\x0a\x09\x09\x09replace: ',\x5cs*:1:' with: pragmaStart) replace: ',\x5cs*:2:' with: pragmaEnd);\x0a\x09\x09nextPutAll: '){\x22use strict\x22;';\x0a\x09\x09lf.\x0a\x09self exportPackageBodyBlockPrologueOf: aPackage on: aStream",
 referencedClasses: ["String"],
-messageSends: ["importsForOutput:", "amdNamesOfPackages:", "loadDependencies", "ifNotEmpty:", "value", ",", "lf", "nextPutAll:", "amdNamespaceOfPackage:", "name", "replace:with:", "asJavascript", "join:", "key"]
+messageSends: ["importsForOutput:", "amdNamesOfPackages:", "loadDependencies", "ifNotEmpty:", "value", ",", "lf", "nextPutAll:", "replace:with:", "asJavascript", "sorted", "asArray", "join:", "key", "exportPackageBodyBlockPrologueOf:on:"]
 }),
 $globals.AmdExporter);
 
@@ -30942,19 +30698,19 @@ fn: function (aChunkParser){
 var self=this;
 var chunk;
 return $core.withContext(function($ctx1) {
-var $1;
 chunk=$recv(aChunkParser)._nextChunk();
-$1=$recv(chunk)._isEmpty();
-if(!$core.assert($1)){
-self._setComment_(chunk);
-};
+$recv(chunk)._ifNotEmpty_((function(){
+return $core.withContext(function($ctx2) {
+return self._setComment_(chunk);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"scanFrom:",{aChunkParser:aChunkParser,chunk:chunk},$globals.ClassCommentReader)});
 },
 args: ["aChunkParser"],
-source: "scanFrom: aChunkParser\x0a\x09| chunk |\x0a\x09chunk := aChunkParser nextChunk.\x0a\x09chunk isEmpty ifFalse: [\x0a\x09\x09self setComment: chunk ].",
+source: "scanFrom: aChunkParser\x0a\x09| chunk |\x0a\x09chunk := aChunkParser nextChunk.\x0a\x09chunk ifNotEmpty: [\x0a\x09\x09self setComment: chunk ].",
 referencedClasses: [],
-messageSends: ["nextChunk", "ifFalse:", "isEmpty", "setComment:"]
+messageSends: ["nextChunk", "ifNotEmpty:", "setComment:"]
 }),
 $globals.ClassCommentReader);
 
@@ -31193,7 +30949,7 @@ fn: function (aStream){
 var self=this;
 var chunk,result,parser,lastEmpty;
 return $core.withContext(function($ctx1) {
-var $1,$2;
+var $1;
 parser=$recv($globals.ChunkParser)._on_(aStream);
 lastEmpty=false;
 self["@lastSection"]="n/a, not started";
@@ -31208,22 +30964,24 @@ return $recv(chunk)._isNil();
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 }))._whileFalse_((function(){
 return $core.withContext(function($ctx3) {
-$1=$recv(chunk)._isEmpty();
-if($core.assert($1)){
+return $recv(chunk)._ifEmpty_ifNotEmpty_((function(){
 lastEmpty=true;
 return lastEmpty;
-} else {
+
+}),(function(){
+return $core.withContext(function($ctx4) {
 self["@lastSection"]=chunk;
 self["@lastSection"];
 result=$recv($recv($globals.Compiler)._new())._evaluateExpression_(chunk);
 result;
-$2=lastEmpty;
-if($core.assert($2)){
+$1=lastEmpty;
+if($core.assert($1)){
 lastEmpty=false;
 lastEmpty;
 return $recv(result)._scanFrom_(parser);
 };
-};
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,5)});
+}));
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 }));
 self["@lastSection"]="n/a, finished";
@@ -31240,9 +30998,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"import:",{aStream:aStream,chunk:chunk,result:result,parser:parser,lastEmpty:lastEmpty},$globals.Importer)});
 },
 args: ["aStream"],
-source: "import: aStream\x0a\x09| chunk result parser lastEmpty |\x0a\x09parser := ChunkParser on: aStream.\x0a\x09lastEmpty := false.\x0a\x09lastSection := 'n/a, not started'.\x0a\x09lastChunk := nil.\x0a\x09[\x0a\x09[ chunk := parser nextChunk.\x0a\x09chunk isNil ] whileFalse: [\x0a\x09\x09chunk isEmpty\x0a\x09\x09\x09ifTrue: [ lastEmpty := true ]\x0a\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09lastSection := chunk.\x0a\x09\x09\x09\x09result := Compiler new evaluateExpression: chunk.\x0a\x09\x09\x09\x09lastEmpty\x0a\x09\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09lastEmpty := false.\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09result scanFrom: parser ]] ].\x0a\x09lastSection := 'n/a, finished'\x0a\x09] on: Error do: [:e | lastChunk := parser last. e resignal ].",
+source: "import: aStream\x0a\x09| chunk result parser lastEmpty |\x0a\x09parser := ChunkParser on: aStream.\x0a\x09lastEmpty := false.\x0a\x09lastSection := 'n/a, not started'.\x0a\x09lastChunk := nil.\x0a\x09[\x0a\x09[ chunk := parser nextChunk.\x0a\x09chunk isNil ] whileFalse: [\x0a\x09\x09chunk\x0a\x09\x09\x09ifEmpty: [ lastEmpty := true ]\x0a\x09\x09\x09ifNotEmpty: [\x0a\x09\x09\x09\x09lastSection := chunk.\x0a\x09\x09\x09\x09result := Compiler new evaluateExpression: chunk.\x0a\x09\x09\x09\x09lastEmpty\x0a\x09\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09lastEmpty := false.\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09result scanFrom: parser ]] ].\x0a\x09lastSection := 'n/a, finished'\x0a\x09] on: Error do: [:e | lastChunk := parser last. e resignal ].",
 referencedClasses: ["ChunkParser", "Compiler", "Error"],
-messageSends: ["on:", "on:do:", "whileFalse:", "nextChunk", "isNil", "ifTrue:ifFalse:", "isEmpty", "evaluateExpression:", "new", "ifTrue:", "scanFrom:", "last", "resignal"]
+messageSends: ["on:", "on:do:", "whileFalse:", "nextChunk", "isNil", "ifEmpty:ifNotEmpty:", "evaluateExpression:", "new", "ifTrue:", "scanFrom:", "last", "resignal"]
 }),
 $globals.Importer);
 
@@ -31284,7 +31042,7 @@ $core.addClass('PackageCommitError', $globals.Error, [], 'Platform-ImportExport'
 $globals.PackageCommitError.comment="I get signaled when an attempt to commit a package has failed.";
 
 
-$core.addClass('PackageHandler', $globals.InterfacingObject, [], 'Platform-ImportExport');
+$core.addClass('PackageHandler', $globals.Object, [], 'Platform-ImportExport');
 $globals.PackageHandler.comment="I am responsible for handling package loading and committing.\x0a\x0aI should not be used directly. Instead, use the corresponding `Package` methods.";
 $core.addMethod(
 $core.method({
@@ -32536,8 +32294,10 @@ $globals.Package.klass);
 
 });
 
-define("amber_core/Compiler-Core", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Kernel-Exceptions", "amber_core/Platform-Services", "amber_core/Kernel-Collections"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Compiler-Core',["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Compiler-Core');
 $core.packages["Compiler-Core"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-Core"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -33275,7 +33035,7 @@ $core.addClass('DoIt', $globals.Object, [], 'Compiler-Core');
 $globals.DoIt.comment="`DoIt` is the class used to compile and evaluate expressions. See `Compiler >> evaluateExpression:`.";
 
 
-$core.addClass('Evaluator', $globals.InterfacingObject, [], 'Compiler-Core');
+$core.addClass('Evaluator', $globals.Object, [], 'Compiler-Core');
 $globals.Evaluator.comment="I evaluate code against a receiver, dispatching #evaluate:on: to the receiver.";
 $core.addMethod(
 $core.method({
@@ -33296,7 +33056,7 @@ return ast;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }))._on_do_($globals.Error,(function(ex){
 return $core.withContext(function($ctx2) {
-throw $early=[self._alert_($recv(ex)._messageText())];
+throw $early=[$recv($globals.Terminal)._alert_($recv(ex)._messageText())];
 }, function($ctx2) {$ctx2.fillBlock({ex:ex},$ctx1,2)});
 }));
 $1=$recv($globals.AISemanticAnalyzer)._on_($recv($recv(aContext)._receiver())._class());
@@ -33308,8 +33068,8 @@ catch(e) {if(e===$early)return e[0]; throw e}
 }, function($ctx1) {$ctx1.fill(self,"evaluate:context:",{aString:aString,aContext:aContext,compiler:compiler,ast:ast},$globals.Evaluator)});
 },
 args: ["aString", "aContext"],
-source: "evaluate: aString context: aContext\x0a\x09\x22Similar to #evaluate:for:, with the following differences:\x0a\x09- instead of compiling and running `aString`, `aString` is interpreted using an `ASTInterpreter`\x0a\x09- instead of evaluating against a receiver, evaluate in the context of `aContext`\x22\x0a\x0a\x09| compiler ast |\x0a\x09\x0a\x09compiler := Compiler new.\x0a\x09[ ast := compiler parseExpression: aString ] \x0a\x09\x09on: Error \x0a\x09\x09do: [ :ex | ^ self alert: ex messageText ].\x0a\x09\x09\x0a\x09(AISemanticAnalyzer on: aContext receiver class)\x0a\x09\x09context: aContext;\x0a\x09\x09visit: ast.\x0a\x0a\x09^ aContext evaluateNode: ast",
-referencedClasses: ["Compiler", "Error", "AISemanticAnalyzer"],
+source: "evaluate: aString context: aContext\x0a\x09\x22Similar to #evaluate:for:, with the following differences:\x0a\x09- instead of compiling and running `aString`, `aString` is interpreted using an `ASTInterpreter`\x0a\x09- instead of evaluating against a receiver, evaluate in the context of `aContext`\x22\x0a\x0a\x09| compiler ast |\x0a\x09\x0a\x09compiler := Compiler new.\x0a\x09[ ast := compiler parseExpression: aString ] \x0a\x09\x09on: Error \x0a\x09\x09do: [ :ex | ^ Terminal alert: ex messageText ].\x0a\x09\x09\x0a\x09(AISemanticAnalyzer on: aContext receiver class)\x0a\x09\x09context: aContext;\x0a\x09\x09visit: ast.\x0a\x0a\x09^ aContext evaluateNode: ast",
+referencedClasses: ["Compiler", "Error", "Terminal", "AISemanticAnalyzer"],
 messageSends: ["new", "on:do:", "parseExpression:", "alert:", "messageText", "context:", "on:", "class", "receiver", "visit:", "evaluateNode:"]
 }),
 $globals.Evaluator);
@@ -33348,7 +33108,7 @@ return $recv(compiler)._parseExpression_(aString);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }))._on_do_($globals.Error,(function(ex){
 return $core.withContext(function($ctx2) {
-throw $early=[self._alert_($recv(ex)._messageText())];
+throw $early=[$recv($globals.Terminal)._alert_($recv(ex)._messageText())];
 }, function($ctx2) {$ctx2.fillBlock({ex:ex},$ctx1,2)});
 }));
 return $recv(compiler)._evaluateExpression_on_(aString,anObject);
@@ -33357,8 +33117,8 @@ catch(e) {if(e===$early)return e[0]; throw e}
 }, function($ctx1) {$ctx1.fill(self,"evaluate:receiver:",{aString:aString,anObject:anObject,compiler:compiler},$globals.Evaluator)});
 },
 args: ["aString", "anObject"],
-source: "evaluate: aString receiver: anObject\x0a\x09| compiler |\x0a\x09\x0a\x09compiler := Compiler new.\x0a\x09[ compiler parseExpression: aString ] \x0a\x09\x09on: Error \x0a\x09\x09do: [ :ex | ^ self alert: ex messageText ].\x0a\x0a\x09^ compiler evaluateExpression: aString on: anObject",
-referencedClasses: ["Compiler", "Error"],
+source: "evaluate: aString receiver: anObject\x0a\x09| compiler |\x0a\x09\x0a\x09compiler := Compiler new.\x0a\x09[ compiler parseExpression: aString ] \x0a\x09\x09on: Error \x0a\x09\x09do: [ :ex | ^ Terminal alert: ex messageText ].\x0a\x0a\x09^ compiler evaluateExpression: aString on: anObject",
+referencedClasses: ["Compiler", "Error", "Terminal"],
 messageSends: ["new", "on:do:", "parseExpression:", "alert:", "messageText", "evaluateExpression:on:"]
 }),
 $globals.Evaluator);
@@ -33406,8 +33166,10 @@ $globals.String);
 
 });
 
-define("amber_core/Compiler-AST", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Kernel-Methods"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Compiler-AST',["amber/boot", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Compiler-AST');
 $core.packages["Compiler-AST"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-AST"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -33712,6 +33474,22 @@ return false;
 },
 args: [],
 source: "isSequenceNode\x0a\x09^ false",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Node);
+
+$core.addMethod(
+$core.method({
+selector: "isSuperKeyword",
+protocol: 'testing',
+fn: function (){
+var self=this;
+return false;
+
+},
+args: [],
+source: "isSuperKeyword\x0a\x09^ false",
 referencedClasses: [],
 messageSends: []
 }),
@@ -35404,18 +35182,13 @@ $1=$recv($2)._or_((function(){
 return $core.withContext(function($ctx2) {
 return $recv(self._isReferenced())._and_((function(){
 return $core.withContext(function($ctx3) {
-return $recv($recv($recv(sends).__gt((1)))._and_((function(){
-return $core.withContext(function($ctx4) {
-return $recv(self._index()).__lt(sends);
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
-})))._or_((function(){
+return $recv($recv(self._index()).__lt(sends))._or_((function(){
 return $core.withContext(function($ctx4) {
 return self._superSend();
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
 }));
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 }));
-$ctx2.sendIdx["and:"]=1;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
 $ctx1.sendIdx["or:"]=1;
@@ -35423,9 +35196,9 @@ return $1;
 }, function($ctx1) {$ctx1.fill(self,"shouldBeAliased",{sends:sends},$globals.SendNode)});
 },
 args: [],
-source: "shouldBeAliased\x0a\x09\x22Because we keep track of send indexes, some send nodes need additional care for aliasing. \x0a\x09See IRJSVisitor >> visitIRSend:\x22\x0a\x09\x0a\x09| sends |\x0a\x09\x0a\x09sends := (self method sendIndexes at: self selector) size.\x0a\x09\x0a\x09^ (super shouldBeAliased or: [\x0a\x09\x09self isReferenced and: [\x0a\x09\x09\x09(sends > 1 and: [ self index < sends ])\x0a\x09\x09\x09\x09or: [ self superSend ] ] ])",
+source: "shouldBeAliased\x0a\x09\x22Because we keep track of send indexes, some send nodes need additional care for aliasing. \x0a\x09See IRJSVisitor >> visitIRSend:\x22\x0a\x09\x0a\x09| sends |\x0a\x09\x0a\x09sends := (self method sendIndexes at: self selector) size.\x0a\x09\x0a\x09^ (super shouldBeAliased or: [\x0a\x09\x09self isReferenced and: [\x0a\x09\x09\x09self index < sends or: [\x0a\x09\x09\x09\x09self superSend ] ] ])",
 referencedClasses: [],
-messageSends: ["size", "at:", "sendIndexes", "method", "selector", "or:", "shouldBeAliased", "and:", "isReferenced", ">", "<", "index", "superSend"]
+messageSends: ["size", "at:", "sendIndexes", "method", "selector", "or:", "shouldBeAliased", "and:", "isReferenced", "<", "index", "superSend"]
 }),
 $globals.SendNode);
 
@@ -35436,13 +35209,21 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return $recv($recv(self._receiver())._value()).__eq("super");
+var $2,$1;
+$2=self._receiver();
+$ctx1.sendIdx["receiver"]=1;
+$1=$recv($2)._notNil();
+return $recv($1)._and_((function(){
+return $core.withContext(function($ctx2) {
+return $recv(self._receiver())._isSuperKeyword();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
 }, function($ctx1) {$ctx1.fill(self,"superSend",{},$globals.SendNode)});
 },
 args: [],
-source: "superSend\x0a\x09^ self receiver value = 'super'",
+source: "superSend\x0a\x09^ self receiver notNil and: [ self receiver isSuperKeyword ]",
 referencedClasses: [],
-messageSends: ["=", "value", "receiver"]
+messageSends: ["and:", "notNil", "receiver", "isSuperKeyword"]
 }),
 $globals.SendNode);
 
@@ -35916,6 +35697,23 @@ $globals.VariableNode);
 
 $core.addMethod(
 $core.method({
+selector: "isSuperKeyword",
+protocol: 'testing',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv(self._value()).__eq("super");
+}, function($ctx1) {$ctx1.fill(self,"isSuperKeyword",{},$globals.VariableNode)});
+},
+args: [],
+source: "isSuperKeyword\x0a\x09^ self value = 'super'",
+referencedClasses: [],
+messageSends: ["=", "value"]
+}),
+$globals.VariableNode);
+
+$core.addMethod(
+$core.method({
 selector: "isVariableNode",
 protocol: 'testing',
 fn: function (){
@@ -36132,11 +35930,12 @@ protocol: 'visiting',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitAll_($recv(aNode)._nodes());
+self._visitAll_($recv(aNode)._nodes());
+return aNode;
 }, function($ctx1) {$ctx1.fill(self,"visitNode:",{aNode:aNode},$globals.NodeVisitor)});
 },
 args: ["aNode"],
-source: "visitNode: aNode\x0a\x09^ self visitAll: aNode nodes",
+source: "visitNode: aNode\x0a\x09self visitAll: aNode nodes.\x0a\x09^ aNode",
 referencedClasses: [],
 messageSends: ["visitAll:", "nodes"]
 }),
@@ -36271,8 +36070,10 @@ $globals.Object);
 
 });
 
-define("amber_core/Compiler-Semantic", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Compiler-AST", "amber_core/Compiler-Core"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Compiler-Semantic',["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Core", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Compiler-Semantic');
 $core.packages["Compiler-Semantic"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-Semantic"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -38141,21 +37942,18 @@ protocol: 'visiting',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $3,$2,$1,$5,$6,$4,$7,$8,$9,$11,$12,$10,$receiver;
-$3=$recv(aNode)._receiver();
-$ctx1.sendIdx["receiver"]=1;
-$2=$recv($3)._value();
-$1=$recv($2).__eq("super");
+var $1,$3,$4,$2,$5,$6,$7,$9,$10,$8,$receiver;
+$1=$recv(aNode)._superSend();
 if(!$core.assert($1)){
-$5=$recv($globals.IRSendInliner)._inlinedSelectors();
-$6=$recv(aNode)._selector();
+$3=$recv($globals.IRSendInliner)._inlinedSelectors();
+$4=$recv(aNode)._selector();
 $ctx1.sendIdx["selector"]=1;
-$4=$recv($5)._includes_($6);
-if($core.assert($4)){
+$2=$recv($3)._includes_($4);
+if($core.assert($2)){
 $recv(aNode)._shouldBeInlined_(true);
-$7=$recv(aNode)._receiver();
-if(($receiver = $7) == null || $receiver.isNil){
-$7;
+$5=$recv(aNode)._receiver();
+if(($receiver = $5) == null || $receiver.isNil){
+$5;
 } else {
 var receiver;
 receiver=$receiver;
@@ -38163,22 +37961,22 @@ $recv(receiver)._shouldBeAliased_(true);
 };
 };
 };
-$8=self._messageSends();
+$6=self._messageSends();
 $ctx1.sendIdx["messageSends"]=1;
-$9=$recv(aNode)._selector();
+$7=$recv(aNode)._selector();
 $ctx1.sendIdx["selector"]=2;
-$recv($8)._at_ifAbsentPut_($9,(function(){
+$recv($6)._at_ifAbsentPut_($7,(function(){
 return $core.withContext(function($ctx2) {
 return $recv($globals.Set)._new();
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,4)});
 }));
-$11=self._messageSends();
+$9=self._messageSends();
 $ctx1.sendIdx["messageSends"]=2;
-$12=$recv(aNode)._selector();
+$10=$recv(aNode)._selector();
 $ctx1.sendIdx["selector"]=3;
-$10=$recv($11)._at_($12);
+$8=$recv($9)._at_($10);
 $ctx1.sendIdx["at:"]=1;
-$recv($10)._add_(aNode);
+$recv($8)._add_(aNode);
 $recv(aNode)._index_($recv($recv(self._messageSends())._at_($recv(aNode)._selector()))._size());
 (
 $ctx1.supercall = true,
@@ -38188,9 +37986,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode},$globals.SemanticAnalyzer)});
 },
 args: ["aNode"],
-source: "visitSendNode: aNode\x0a\x0a\x09aNode receiver value = 'super'\x0a\x09\x09ifFalse: [ (IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [\x0a\x09\x09\x09aNode shouldBeInlined: true.\x0a\x09\x09\x09aNode receiver ifNotNil: [ :receiver |\x0a\x09\x09\x09\x09receiver shouldBeAliased: true ] ] ].\x0a\x0a\x09self messageSends at: aNode selector ifAbsentPut: [ Set new ].\x0a\x09(self messageSends at: aNode selector) add: aNode.\x0a\x0a\x09aNode index: (self messageSends at: aNode selector) size.\x0a\x0a\x09super visitSendNode: aNode",
+source: "visitSendNode: aNode\x0a\x0a\x09aNode superSend ifFalse: [ \x0a\x09\x09(IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [\x0a\x09\x09\x09aNode shouldBeInlined: true.\x0a\x09\x09\x09aNode receiver ifNotNil: [ :receiver |\x0a\x09\x09\x09\x09receiver shouldBeAliased: true ] ] ].\x0a\x0a\x09self messageSends at: aNode selector ifAbsentPut: [ Set new ].\x0a\x09(self messageSends at: aNode selector) add: aNode.\x0a\x0a\x09aNode index: (self messageSends at: aNode selector) size.\x0a\x0a\x09super visitSendNode: aNode",
 referencedClasses: ["IRSendInliner", "Set"],
-messageSends: ["ifFalse:", "=", "value", "receiver", "ifTrue:", "includes:", "inlinedSelectors", "selector", "shouldBeInlined:", "ifNotNil:", "shouldBeAliased:", "at:ifAbsentPut:", "messageSends", "new", "add:", "at:", "index:", "size", "visitSendNode:"]
+messageSends: ["ifFalse:", "superSend", "ifTrue:", "includes:", "inlinedSelectors", "selector", "shouldBeInlined:", "ifNotNil:", "receiver", "shouldBeAliased:", "at:ifAbsentPut:", "messageSends", "new", "add:", "at:", "index:", "size", "visitSendNode:"]
 }),
 $globals.SemanticAnalyzer);
 
@@ -38467,8 +38265,10 @@ $globals.UnknownVariableError);
 
 });
 
-define("amber_core/Compiler-IR", ["amber/boot", "amber_core/Compiler-AST", "amber_core/Kernel-Objects", "amber_core/Kernel-Methods"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Compiler-IR',["amber/boot", "amber_core/Compiler-AST", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Compiler-IR');
 $core.packages["Compiler-IR"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-IR"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -38871,42 +38671,41 @@ selector: "visitCascadeNode:",
 protocol: 'visiting',
 fn: function (aNode){
 var self=this;
+var receiver;
 return $core.withContext(function($ctx1) {
 var $1,$2,$4,$3;
-$1=$recv(aNode)._nodes();
-$ctx1.sendIdx["nodes"]=1;
-$recv($1)._inject_into_($recv(aNode)._receiver(),(function(previous,each){
-var receiver;
-return $core.withContext(function($ctx2) {
-$2=$recv(previous)._isImmutable();
-if($core.assert($2)){
-receiver=previous;
-} else {
+receiver=$recv(aNode)._receiver();
+$1=$recv(receiver)._isImmutable();
+if(!$core.assert($1)){
 var alias;
-alias=self._alias_(previous);
+alias=self._alias_(receiver);
 alias;
 receiver=$recv($recv($globals.VariableNode)._new())._binding_($recv(alias)._variable());
-};
 receiver;
-$recv(each)._receiver_(receiver);
-return receiver;
-}, function($ctx2) {$ctx2.fillBlock({previous:previous,each:each,receiver:receiver},$ctx1,1)});
+};
+$2=$recv(aNode)._nodes();
+$ctx1.sendIdx["nodes"]=1;
+$recv($2)._do_((function(each){
+return $core.withContext(function($ctx2) {
+return $recv(each)._receiver_(receiver);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 }));
+$ctx1.sendIdx["do:"]=1;
 $4=$recv(aNode)._nodes();
 $ctx1.sendIdx["nodes"]=2;
 $3=$recv($4)._allButLast();
 $recv($3)._do_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(self._sequence())._add_(self._visit_(each));
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,4)});
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
 }));
 return self._visitOrAlias_($recv($recv(aNode)._nodes())._last());
-}, function($ctx1) {$ctx1.fill(self,"visitCascadeNode:",{aNode:aNode},$globals.IRASTTranslator)});
+}, function($ctx1) {$ctx1.fill(self,"visitCascadeNode:",{aNode:aNode,receiver:receiver},$globals.IRASTTranslator)});
 },
 args: ["aNode"],
-source: "visitCascadeNode: aNode\x0a\x09aNode nodes inject: aNode receiver into: [ :previous :each |\x0a\x09\x09| receiver |\x0a\x09\x09receiver := previous isImmutable \x0a\x09\x09\x09ifTrue: [ previous ]\x0a\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09| alias |\x0a\x09\x09\x09\x09alias := self alias: previous.\x0a\x09\x09\x09\x09VariableNode new binding: alias variable ].\x0a\x09\x09each receiver: receiver.\x0a\x09\x09receiver ].\x0a\x0a\x09aNode nodes allButLast do: [ :each |\x0a\x09\x09self sequence add: (self visit: each) ].\x0a\x0a\x09^ self visitOrAlias: aNode nodes last",
+source: "visitCascadeNode: aNode\x0a\x09| receiver |\x0a\x09receiver := aNode receiver.\x0a\x09receiver isImmutable ifFalse: [\x0a\x09\x09| alias |\x0a\x09\x09alias := self alias: receiver.\x0a\x09\x09receiver := VariableNode new binding: alias variable ].\x0a\x09aNode nodes do: [ :each | each receiver: receiver ].\x0a\x0a\x09aNode nodes allButLast do: [ :each |\x0a\x09\x09self sequence add: (self visit: each) ].\x0a\x0a\x09^ self visitOrAlias: aNode nodes last",
 referencedClasses: ["VariableNode"],
-messageSends: ["inject:into:", "nodes", "receiver", "ifTrue:ifFalse:", "isImmutable", "alias:", "binding:", "new", "variable", "receiver:", "do:", "allButLast", "add:", "sequence", "visit:", "visitOrAlias:", "last"]
+messageSends: ["receiver", "ifFalse:", "isImmutable", "alias:", "binding:", "new", "variable", "do:", "nodes", "receiver:", "allButLast", "add:", "sequence", "visit:", "visitOrAlias:", "last"]
 }),
 $globals.IRASTTranslator);
 
@@ -39677,6 +39476,40 @@ messageSends: ["visitIRAssignment:"]
 }),
 $globals.IRAssignment);
 
+$core.addMethod(
+$core.method({
+selector: "left",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv(self._instructions())._first();
+}, function($ctx1) {$ctx1.fill(self,"left",{},$globals.IRAssignment)});
+},
+args: [],
+source: "left\x0a\x09^ self instructions first",
+referencedClasses: [],
+messageSends: ["first", "instructions"]
+}),
+$globals.IRAssignment);
+
+$core.addMethod(
+$core.method({
+selector: "right",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv(self._instructions())._last();
+}, function($ctx1) {$ctx1.fill(self,"right",{},$globals.IRAssignment)});
+},
+args: [],
+source: "right\x0a\x09^ self instructions last",
+referencedClasses: [],
+messageSends: ["last", "instructions"]
+}),
+$globals.IRAssignment);
+
 
 
 $core.addClass('IRDynamicArray', $globals.IRInstruction, [], 'Compiler-IR');
@@ -40037,7 +39870,7 @@ $globals.IRMethod);
 $core.addMethod(
 $core.method({
 selector: "isMethod",
-protocol: 'accessing',
+protocol: 'testing',
 fn: function (){
 var self=this;
 return true;
@@ -40249,6 +40082,23 @@ args: [],
 source: "canBeAssigned\x0a\x09^ false",
 referencedClasses: [],
 messageSends: []
+}),
+$globals.IRReturn);
+
+$core.addMethod(
+$core.method({
+selector: "expression",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv(self._instructions())._single();
+}, function($ctx1) {$ctx1.fill(self,"expression",{},$globals.IRReturn)});
+},
+args: [],
+source: "expression\x0a\x09^ self instructions single",
+referencedClasses: [],
+messageSends: ["single", "instructions"]
 }),
 $globals.IRReturn);
 
@@ -40506,6 +40356,23 @@ $globals.IRSend);
 
 $core.addMethod(
 $core.method({
+selector: "arguments",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv(self._instructions())._allButFirst();
+}, function($ctx1) {$ctx1.fill(self,"arguments",{},$globals.IRSend)});
+},
+args: [],
+source: "arguments\x0a\x09^ self instructions allButFirst",
+referencedClasses: [],
+messageSends: ["allButFirst", "instructions"]
+}),
+$globals.IRSend);
+
+$core.addMethod(
+$core.method({
 selector: "index",
 protocol: 'accessing',
 fn: function (){
@@ -40556,12 +40423,12 @@ $globals.IRSend);
 $core.addMethod(
 $core.method({
 selector: "isSuperSend",
-protocol: 'accessing',
+protocol: 'testing',
 fn: function (){
 var self=this;
 var receiver;
 return $core.withContext(function($ctx1) {
-receiver=$recv(self._instructions())._first();
+receiver=self._receiver();
 return $recv($recv(receiver)._isVariable())._and_((function(){
 return $core.withContext(function($ctx2) {
 return $recv($recv($recv(receiver)._variable())._name()).__eq("super");
@@ -40570,9 +40437,26 @@ return $recv($recv($recv(receiver)._variable())._name()).__eq("super");
 }, function($ctx1) {$ctx1.fill(self,"isSuperSend",{receiver:receiver},$globals.IRSend)});
 },
 args: [],
-source: "isSuperSend\x0a\x09| receiver |\x0a\x09receiver := self instructions first.\x0a\x09^ receiver isVariable and: [ receiver variable name = 'super' ]",
+source: "isSuperSend\x0a\x09| receiver |\x0a\x09receiver := self receiver.\x0a\x09^ receiver isVariable and: [ receiver variable name = 'super' ]",
 referencedClasses: [],
-messageSends: ["first", "instructions", "and:", "isVariable", "=", "name", "variable"]
+messageSends: ["receiver", "and:", "isVariable", "=", "name", "variable"]
+}),
+$globals.IRSend);
+
+$core.addMethod(
+$core.method({
+selector: "receiver",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv(self._instructions())._first();
+}, function($ctx1) {$ctx1.fill(self,"receiver",{},$globals.IRSend)});
+},
+args: [],
+source: "receiver\x0a\x09^ self instructions first",
+referencedClasses: [],
+messageSends: ["first", "instructions"]
 }),
 $globals.IRSend);
 
@@ -41338,27 +41222,23 @@ protocol: 'visiting',
 fn: function (anIRAssignment){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $2,$1;
 $recv(self._stream())._nextPutAssignLhs_rhs_((function(){
 return $core.withContext(function($ctx2) {
-$2=$recv(anIRAssignment)._instructions();
-$ctx2.sendIdx["instructions"]=1;
-$1=$recv($2)._first();
-return self._visit_($1);
+return self._visit_($recv(anIRAssignment)._left());
 $ctx2.sendIdx["visit:"]=1;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }),(function(){
 return $core.withContext(function($ctx2) {
-return self._visit_($recv($recv(anIRAssignment)._instructions())._last());
+return self._visit_($recv(anIRAssignment)._right());
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRAssignment:",{anIRAssignment:anIRAssignment},$globals.IRJSTranslator)});
 },
 args: ["anIRAssignment"],
-source: "visitIRAssignment: anIRAssignment\x0a\x09self stream\x0a\x09\x09nextPutAssignLhs: [self visit: anIRAssignment instructions first]\x0a\x09\x09rhs: [self visit: anIRAssignment instructions last].",
+source: "visitIRAssignment: anIRAssignment\x0a\x09self stream\x0a\x09\x09nextPutAssignLhs: [self visit: anIRAssignment left]\x0a\x09\x09rhs: [self visit: anIRAssignment right].",
 referencedClasses: [],
-messageSends: ["nextPutAssignLhs:rhs:", "stream", "visit:", "first", "instructions", "last"]
+messageSends: ["nextPutAssignLhs:rhs:", "stream", "visit:", "left", "right"]
 }),
 $globals.IRJSTranslator);
 
@@ -41444,7 +41324,7 @@ protocol: 'visiting',
 fn: function (anIRMethod){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $1,$2,$3,$4,$5,$7,$6,$8,$9;
+var $1,$2,$3,$4,$5,$6,$7;
 $1=self._stream();
 $ctx1.sendIdx["stream"]=1;
 $recv($1)._nextPutMethodDeclaration_with_(anIRMethod,(function(){
@@ -41467,20 +41347,19 @@ $5=self._stream();
 $ctx3.sendIdx["stream"]=4;
 return $recv($5)._nextPutContextFor_during_(anIRMethod,(function(){
 return $core.withContext(function($ctx4) {
-$7=$recv(anIRMethod)._internalVariables();
-$ctx4.sendIdx["internalVariables"]=1;
-$6=$recv($7)._notEmpty();
-if($core.assert($6)){
-$8=self._stream();
-$ctx4.sendIdx["stream"]=5;
-$recv($8)._nextPutVars_($recv($recv($recv(anIRMethod)._internalVariables())._asSet())._collect_((function(each){
+$recv($recv(anIRMethod)._internalVariables())._ifNotEmpty_((function(internalVars){
 return $core.withContext(function($ctx5) {
+$6=self._stream();
+$ctx5.sendIdx["stream"]=5;
+return $recv($6)._nextPutVars_($recv($recv(internalVars)._asSet())._collect_((function(each){
+return $core.withContext(function($ctx6) {
 return $recv($recv(each)._variable())._alias();
-}, function($ctx5) {$ctx5.fillBlock({each:each},$ctx4,6)});
+}, function($ctx6) {$ctx6.fillBlock({each:each},$ctx5,6)});
 })));
-};
-$9=$recv($recv(anIRMethod)._scope())._hasNonLocalReturn();
-if($core.assert($9)){
+}, function($ctx5) {$ctx5.fillBlock({internalVars:internalVars},$ctx4,5)});
+}));
+$7=$recv($recv(anIRMethod)._scope())._hasNonLocalReturn();
+if($core.assert($7)){
 return $recv(self._stream())._nextPutNonLocalReturnHandlingWith_((function(){
 return $core.withContext(function($ctx5) {
 return (
@@ -41506,9 +41385,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRMethod:",{anIRMethod:anIRMethod},$globals.IRJSTranslator)});
 },
 args: ["anIRMethod"],
-source: "visitIRMethod: anIRMethod\x0a\x0a\x09self stream\x0a\x09\x09nextPutMethodDeclaration: anIRMethod\x0a\x09\x09with: [ self stream\x0a\x09\x09\x09nextPutFunctionWith: [\x0a\x09\x09\x09\x09self stream nextPutVars: (anIRMethod tempDeclarations collect: [ :each |\x0a\x09\x09\x09\x09\x09each name asVariableName ]).\x0a\x09\x09\x09\x09self stream nextPutContextFor: anIRMethod during: [\x0a\x09\x09\x09\x09anIRMethod internalVariables notEmpty ifTrue: [\x0a\x09\x09\x09\x09\x09self stream nextPutVars: (anIRMethod internalVariables asSet collect: [ :each |\x0a\x09\x09\x09\x09\x09\x09each variable alias ]) ].\x0a\x09\x09\x09\x09anIRMethod scope hasNonLocalReturn\x0a\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09self stream nextPutNonLocalReturnHandlingWith: [\x0a\x09\x09\x09\x09\x09\x09\x09super visitIRMethod: anIRMethod ] ]\x0a\x09\x09\x09\x09\x09ifFalse: [ super visitIRMethod: anIRMethod ] ]]\x0a\x09\x09\x09arguments: anIRMethod arguments ]",
+source: "visitIRMethod: anIRMethod\x0a\x0a\x09self stream\x0a\x09\x09nextPutMethodDeclaration: anIRMethod\x0a\x09\x09with: [ self stream\x0a\x09\x09\x09nextPutFunctionWith: [\x0a\x09\x09\x09\x09self stream nextPutVars: (anIRMethod tempDeclarations collect: [ :each |\x0a\x09\x09\x09\x09\x09each name asVariableName ]).\x0a\x09\x09\x09\x09self stream nextPutContextFor: anIRMethod during: [\x0a\x09\x09\x09\x09\x09anIRMethod internalVariables ifNotEmpty: [ :internalVars |\x0a\x09\x09\x09\x09\x09\x09self stream nextPutVars: \x0a\x09\x09\x09\x09\x09\x09\x09(internalVars asSet collect: [ :each | each variable alias ]) ].\x0a\x09\x09\x09\x09anIRMethod scope hasNonLocalReturn\x0a\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09self stream nextPutNonLocalReturnHandlingWith: [\x0a\x09\x09\x09\x09\x09\x09\x09super visitIRMethod: anIRMethod ] ]\x0a\x09\x09\x09\x09\x09ifFalse: [ super visitIRMethod: anIRMethod ] ]]\x0a\x09\x09\x09arguments: anIRMethod arguments ]",
 referencedClasses: [],
-messageSends: ["nextPutMethodDeclaration:with:", "stream", "nextPutFunctionWith:arguments:", "nextPutVars:", "collect:", "tempDeclarations", "asVariableName", "name", "nextPutContextFor:during:", "ifTrue:", "notEmpty", "internalVariables", "asSet", "alias", "variable", "ifTrue:ifFalse:", "hasNonLocalReturn", "scope", "nextPutNonLocalReturnHandlingWith:", "visitIRMethod:", "arguments"]
+messageSends: ["nextPutMethodDeclaration:with:", "stream", "nextPutFunctionWith:arguments:", "nextPutVars:", "collect:", "tempDeclarations", "asVariableName", "name", "nextPutContextFor:during:", "ifNotEmpty:", "internalVariables", "asSet", "alias", "variable", "ifTrue:ifFalse:", "hasNonLocalReturn", "scope", "nextPutNonLocalReturnHandlingWith:", "visitIRMethod:", "arguments"]
 }),
 $globals.IRJSTranslator);
 
@@ -41784,20 +41663,16 @@ protocol: 'visiting',
 fn: function (anIRSend){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $2,$1;
-$2=$recv(anIRSend)._instructions();
-$ctx1.sendIdx["instructions"]=1;
-$1=$recv($2)._first();
-self._visitReceiver_($1);
+self._visitReceiver_($recv(anIRSend)._receiver());
 $recv(self._stream())._nextPutAll_(".".__comma($recv($recv(anIRSend)._selector())._asJavaScriptMethodName()));
-self._visitInstructionList_enclosedBetween_and_($recv($recv(anIRSend)._instructions())._allButFirst(),"(",")");
+self._visitInstructionList_enclosedBetween_and_($recv(anIRSend)._arguments(),"(",")");
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitSend:",{anIRSend:anIRSend},$globals.IRJSTranslator)});
 },
 args: ["anIRSend"],
-source: "visitSend: anIRSend\x0a\x09self visitReceiver: anIRSend instructions first.\x0a\x09self stream nextPutAll: '.', anIRSend selector asJavaScriptMethodName.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend instructions allButFirst\x0a\x09\x09enclosedBetween: '(' and: ')'",
+source: "visitSend: anIRSend\x0a\x09self visitReceiver: anIRSend receiver.\x0a\x09self stream nextPutAll: '.', anIRSend selector asJavaScriptMethodName.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09enclosedBetween: '(' and: ')'",
 referencedClasses: [],
-messageSends: ["visitReceiver:", "first", "instructions", "nextPutAll:", "stream", ",", "asJavaScriptMethodName", "selector", "visitInstructionList:enclosedBetween:and:", "allButFirst"]
+messageSends: ["visitReceiver:", "receiver", "nextPutAll:", "stream", ",", "asJavaScriptMethodName", "selector", "visitInstructionList:enclosedBetween:and:", "arguments"]
 }),
 $globals.IRJSTranslator);
 
@@ -41845,7 +41720,7 @@ $recv($1)._nextPutAll_($6);
 $ctx1.sendIdx["nextPutAll:"]=7;
 $7=$recv($1)._nextPutAll_("$recv(self), ");
 $ctx1.sendIdx["nextPutAll:"]=8;
-self._visitInstructionList_enclosedBetween_and_($recv($recv(anIRSend)._instructions())._allButFirst(),"[","]");
+self._visitInstructionList_enclosedBetween_and_($recv(anIRSend)._arguments(),"[","]");
 $8=self._stream();
 $recv($8)._nextPutAll_("));");
 $ctx1.sendIdx["nextPutAll:"]=9;
@@ -41863,9 +41738,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"visitSuperSend:",{anIRSend:anIRSend},$globals.IRJSTranslator)});
 },
 args: ["anIRSend"],
-source: "visitSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: '('; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'; lf;\x0a\x09\x09nextPutAll: '(', self currentClass asJavascript;\x0a\x09\x09nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';\x0a\x09\x09nextPutAll: anIRSend selector asJavaScriptMethodName, '.apply(';\x0a\x09\x09nextPutAll: '$recv(self), '.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend instructions allButFirst\x0a\x09\x09enclosedBetween: '[' and: ']'.\x0a\x09self stream \x0a\x09\x09nextPutAll: '));'; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'",
+source: "visitSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: '('; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'; lf;\x0a\x09\x09nextPutAll: '(', self currentClass asJavascript;\x0a\x09\x09nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';\x0a\x09\x09nextPutAll: anIRSend selector asJavaScriptMethodName, '.apply(';\x0a\x09\x09nextPutAll: '$recv(self), '.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09enclosedBetween: '[' and: ']'.\x0a\x09self stream \x0a\x09\x09nextPutAll: '));'; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'",
 referencedClasses: [],
-messageSends: ["nextPutAll:", "stream", "lf", ",", "alias", "scope", "asJavascript", "currentClass", "asJavaScriptMethodName", "selector", "visitInstructionList:enclosedBetween:and:", "allButFirst", "instructions"]
+messageSends: ["nextPutAll:", "stream", "lf", ",", "alias", "scope", "asJavascript", "currentClass", "asJavaScriptMethodName", "selector", "visitInstructionList:enclosedBetween:and:", "arguments"]
 }),
 $globals.IRJSTranslator);
 
@@ -42632,8 +42507,10 @@ $globals.BlockClosure);
 
 });
 
-define("amber_core/Compiler-Inlining", ["amber/boot", "amber_core/Compiler-IR", "amber_core/Kernel-Objects", "amber_core/Compiler-Core", "amber_core/Compiler-Semantic"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Compiler-Inlining',["amber/boot", "amber_core/Compiler-Core", "amber_core/Compiler-IR", "amber_core/Compiler-Semantic", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Compiler-Inlining');
 $core.packages["Compiler-Inlining"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-Inlining"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -43053,17 +42930,15 @@ protocol: 'testing',
 fn: function (anIRAssignment){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $4,$3,$2,$1;
+var $3,$2,$1;
 $1=$recv($recv($recv(anIRAssignment)._isInlined())._not())._and_((function(){
 return $core.withContext(function($ctx2) {
-$4=$recv(anIRAssignment)._instructions();
-$ctx2.sendIdx["instructions"]=1;
-$3=$recv($4)._last();
-$ctx2.sendIdx["last"]=1;
+$3=$recv(anIRAssignment)._right();
+$ctx2.sendIdx["right"]=1;
 $2=$recv($3)._isSend();
 return $recv($2)._and_((function(){
 return $core.withContext(function($ctx3) {
-return self._shouldInlineSend_($recv($recv(anIRAssignment)._instructions())._last());
+return self._shouldInlineSend_($recv(anIRAssignment)._right());
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 }));
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -43073,9 +42948,9 @@ return $1;
 }, function($ctx1) {$ctx1.fill(self,"shouldInlineAssignment:",{anIRAssignment:anIRAssignment},$globals.IRInliner)});
 },
 args: ["anIRAssignment"],
-source: "shouldInlineAssignment: anIRAssignment\x0a\x09^ anIRAssignment isInlined not and: [\x0a\x09\x09anIRAssignment instructions last isSend and: [\x0a\x09\x09\x09self shouldInlineSend: (anIRAssignment instructions last) ]]",
+source: "shouldInlineAssignment: anIRAssignment\x0a\x09^ anIRAssignment isInlined not and: [\x0a\x09\x09anIRAssignment right isSend and: [\x0a\x09\x09\x09self shouldInlineSend: anIRAssignment right ]]",
 referencedClasses: [],
-messageSends: ["and:", "not", "isInlined", "isSend", "last", "instructions", "shouldInlineSend:"]
+messageSends: ["and:", "not", "isInlined", "isSend", "right", "shouldInlineSend:"]
 }),
 $globals.IRInliner);
 
@@ -43086,17 +42961,12 @@ protocol: 'testing',
 fn: function (anIRReturn){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $4,$3,$2,$1;
+var $1;
 $1=$recv($recv($recv(anIRReturn)._isInlined())._not())._and_((function(){
 return $core.withContext(function($ctx2) {
-$4=$recv(anIRReturn)._instructions();
-$ctx2.sendIdx["instructions"]=1;
-$3=$recv($4)._first();
-$ctx2.sendIdx["first"]=1;
-$2=$recv($3)._isSend();
-return $recv($2)._and_((function(){
+return $recv($recv($recv($recv(anIRReturn)._instructions())._single())._isSend())._and_((function(){
 return $core.withContext(function($ctx3) {
-return self._shouldInlineSend_($recv($recv(anIRReturn)._instructions())._first());
+return self._shouldInlineSend_($recv(anIRReturn)._expression());
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 }));
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -43106,9 +42976,9 @@ return $1;
 }, function($ctx1) {$ctx1.fill(self,"shouldInlineReturn:",{anIRReturn:anIRReturn},$globals.IRInliner)});
 },
 args: ["anIRReturn"],
-source: "shouldInlineReturn: anIRReturn\x0a\x09^ anIRReturn isInlined not and: [\x0a\x09\x09anIRReturn instructions first isSend and: [\x0a\x09\x09\x09self shouldInlineSend: (anIRReturn instructions first) ]]",
+source: "shouldInlineReturn: anIRReturn\x0a\x09^ anIRReturn isInlined not and: [\x0a\x09\x09anIRReturn instructions single isSend and: [\x0a\x09\x09\x09self shouldInlineSend: anIRReturn expression ]]",
 referencedClasses: [],
-messageSends: ["and:", "not", "isInlined", "isSend", "first", "instructions", "shouldInlineSend:"]
+messageSends: ["and:", "not", "isInlined", "isSend", "single", "instructions", "shouldInlineSend:", "expression"]
 }),
 $globals.IRInliner);
 
@@ -43284,14 +43154,14 @@ protocol: 'visiting',
 fn: function (anIRInlinedAssignment){
 var self=this;
 return $core.withContext(function($ctx1) {
-self._visit_($recv($recv(anIRInlinedAssignment)._instructions())._last());
+self._visit_($recv(anIRInlinedAssignment)._right());
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRInlinedAssignment:",{anIRInlinedAssignment:anIRInlinedAssignment},$globals.IRInliningJSTranslator)});
 },
 args: ["anIRInlinedAssignment"],
-source: "visitIRInlinedAssignment: anIRInlinedAssignment\x0a\x09self visit: anIRInlinedAssignment instructions last",
+source: "visitIRInlinedAssignment: anIRInlinedAssignment\x0a\x09self visit: anIRInlinedAssignment right",
 referencedClasses: [],
-messageSends: ["visit:", "last", "instructions"]
+messageSends: ["visit:", "right"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -43512,7 +43382,7 @@ $1=self._stream();
 $ctx1.sendIdx["stream"]=1;
 $recv($1)._nextPutStatementWith_((function(){
 return $core.withContext(function($ctx2) {
-return self._visit_($recv($recv(anIRInlinedReturn)._instructions())._last());
+return self._visit_($recv(anIRInlinedReturn)._expression());
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
 $recv(self._stream())._nextPutNonLocalReturnWith_((function(){
@@ -43522,9 +43392,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRInlinedNonLocalReturn:",{anIRInlinedReturn:anIRInlinedReturn},$globals.IRInliningJSTranslator)});
 },
 args: ["anIRInlinedReturn"],
-source: "visitIRInlinedNonLocalReturn: anIRInlinedReturn\x0a\x09self stream nextPutStatementWith: [\x0a\x09\x09self visit: anIRInlinedReturn instructions last ].\x0a\x09self stream nextPutNonLocalReturnWith: [ ]",
+source: "visitIRInlinedNonLocalReturn: anIRInlinedReturn\x0a\x09self stream nextPutStatementWith: [\x0a\x09\x09self visit: anIRInlinedReturn expression ].\x0a\x09self stream nextPutNonLocalReturnWith: [ ]",
 referencedClasses: [],
-messageSends: ["nextPutStatementWith:", "stream", "visit:", "last", "instructions", "nextPutNonLocalReturnWith:"]
+messageSends: ["nextPutStatementWith:", "stream", "visit:", "expression", "nextPutNonLocalReturnWith:"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -43535,14 +43405,14 @@ protocol: 'visiting',
 fn: function (anIRInlinedReturn){
 var self=this;
 return $core.withContext(function($ctx1) {
-self._visit_($recv($recv(anIRInlinedReturn)._instructions())._last());
+self._visit_($recv(anIRInlinedReturn)._expression());
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRInlinedReturn:",{anIRInlinedReturn:anIRInlinedReturn},$globals.IRInliningJSTranslator)});
 },
 args: ["anIRInlinedReturn"],
-source: "visitIRInlinedReturn: anIRInlinedReturn\x0a\x09self visit: anIRInlinedReturn instructions last",
+source: "visitIRInlinedReturn: anIRInlinedReturn\x0a\x09self visit: anIRInlinedReturn expression",
 referencedClasses: [],
-messageSends: ["visit:", "last", "instructions"]
+messageSends: ["visit:", "expression"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -43624,7 +43494,7 @@ $3=$recv($globals.IRClosure)._new();
 $ctx1.sendIdx["new"]=2;
 $recv($3)._scope_($recv($recv(anIRInstruction)._scope())._copy());
 $5=$recv($globals.IRBlockSequence)._new();
-$recv($5)._add_($recv($recv(self._send())._instructions())._first());
+$recv($5)._add_($recv(self._send())._receiver());
 $6=$recv($5)._yourself();
 $ctx1.sendIdx["yourself"]=1;
 $4=$6;
@@ -43635,9 +43505,9 @@ return self._inlinedSend_withBlock_withBlock_($1,anIRInstruction,$2);
 }, function($ctx1) {$ctx1.fill(self,"ifNil:",{anIRInstruction:anIRInstruction},$globals.IRSendInliner)});
 },
 args: ["anIRInstruction"],
-source: "ifNil: anIRInstruction\x0a\x09^ self\x0a\x09\x09inlinedSend: IRInlinedIfNilIfNotNil new\x0a\x09\x09withBlock: anIRInstruction\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: (IRBlockSequence new\x0a\x09\x09\x09\x09add: self send instructions first;\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself)",
+source: "ifNil: anIRInstruction\x0a\x09^ self\x0a\x09\x09inlinedSend: IRInlinedIfNilIfNotNil new\x0a\x09\x09withBlock: anIRInstruction\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: (IRBlockSequence new\x0a\x09\x09\x09\x09add: self send receiver;\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself)",
 referencedClasses: ["IRInlinedIfNilIfNotNil", "IRClosure", "IRBlockSequence"],
-messageSends: ["inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "first", "instructions", "send", "yourself"]
+messageSends: ["inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "receiver", "send", "yourself"]
 }),
 $globals.IRSendInliner);
 
@@ -43672,7 +43542,7 @@ $3=$recv($globals.IRClosure)._new();
 $ctx1.sendIdx["new"]=2;
 $recv($3)._scope_($recv($recv(anIRInstruction)._scope())._copy());
 $5=$recv($globals.IRBlockSequence)._new();
-$recv($5)._add_($recv($recv(self._send())._instructions())._first());
+$recv($5)._add_($recv(self._send())._receiver());
 $6=$recv($5)._yourself();
 $ctx1.sendIdx["yourself"]=1;
 $4=$6;
@@ -43683,9 +43553,9 @@ return self._inlinedSend_withBlock_withBlock_($1,$2,anIRInstruction);
 }, function($ctx1) {$ctx1.fill(self,"ifNotNil:",{anIRInstruction:anIRInstruction},$globals.IRSendInliner)});
 },
 args: ["anIRInstruction"],
-source: "ifNotNil: anIRInstruction\x0a\x09^ self\x0a\x09\x09inlinedSend: IRInlinedIfNilIfNotNil new\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: (IRBlockSequence new\x0a\x09\x09\x09\x09add: self send instructions first;\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself)\x0a\x09\x09withBlock: anIRInstruction",
+source: "ifNotNil: anIRInstruction\x0a\x09^ self\x0a\x09\x09inlinedSend: IRInlinedIfNilIfNotNil new\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: (IRBlockSequence new\x0a\x09\x09\x09\x09add: self send receiver;\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself)\x0a\x09\x09withBlock: anIRInstruction",
 referencedClasses: ["IRInlinedIfNilIfNotNil", "IRClosure", "IRBlockSequence"],
-messageSends: ["inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "first", "instructions", "send", "yourself"]
+messageSends: ["inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "receiver", "send", "yourself"]
 }),
 $globals.IRSendInliner);
 
@@ -43748,7 +43618,7 @@ fn: function (anIRClosure){
 var self=this;
 var inlinedClosure,sequence,statements;
 return $core.withContext(function($ctx1) {
-var $1,$2,$3,$5,$6,$4,$7,$9,$11,$13,$14,$15,$12,$10,$17,$19,$20,$18,$16,$8,$22,$21,$25,$24,$26,$23,$27,$30,$29,$28;
+var $1,$2,$3,$5,$6,$4,$7,$9,$11,$13,$14,$15,$12,$10,$17,$19,$20,$18,$16,$8,$23,$22,$24,$21,$25,$27,$26;
 inlinedClosure=self._inlinedClosure();
 $1=inlinedClosure;
 $2=$recv(anIRClosure)._scope();
@@ -43815,12 +43685,7 @@ $ctx2.sendIdx["add:"]=3;
 $ctx1.sendIdx["do:"]=2;
 $recv(inlinedClosure)._add_(sequence);
 $ctx1.sendIdx["add:"]=6;
-$22=$recv(anIRClosure)._instructions();
-$ctx1.sendIdx["instructions"]=2;
-$21=$recv($22)._last();
-$ctx1.sendIdx["last"]=1;
-statements=$recv($21)._instructions();
-$ctx1.sendIdx["instructions"]=1;
+statements=$recv($recv(anIRClosure)._sequence())._instructions();
 $recv(statements)._ifNotEmpty_((function(){
 return $core.withContext(function($ctx2) {
 $recv($recv(statements)._allButLast())._do_((function(each){
@@ -43829,23 +43694,22 @@ return $recv(sequence)._add_(each);
 $ctx3.sendIdx["add:"]=7;
 }, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,4)});
 }));
-$25=$recv(statements)._last();
-$ctx2.sendIdx["last"]=2;
-$24=$recv($25)._isReturn();
-$23=$recv($24)._and_((function(){
+$23=$recv(statements)._last();
+$ctx2.sendIdx["last"]=1;
+$22=$recv($23)._isReturn();
+$21=$recv($22)._and_((function(){
 return $core.withContext(function($ctx3) {
-$26=$recv(statements)._last();
-$ctx3.sendIdx["last"]=3;
-return $recv($26)._isBlockReturn();
+$24=$recv(statements)._last();
+$ctx3.sendIdx["last"]=2;
+return $recv($24)._isBlockReturn();
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,5)});
 }));
-if($core.assert($23)){
-$27=sequence;
-$30=$recv(statements)._last();
-$ctx2.sendIdx["last"]=4;
-$29=$recv($30)._instructions();
-$28=$recv($29)._first();
-return $recv($27)._add_($28);
+if($core.assert($21)){
+$25=sequence;
+$27=$recv(statements)._last();
+$ctx2.sendIdx["last"]=3;
+$26=$recv($27)._expression();
+return $recv($25)._add_($26);
 $ctx2.sendIdx["add:"]=8;
 } else {
 return $recv(sequence)._add_($recv(statements)._last());
@@ -43856,9 +43720,9 @@ return inlinedClosure;
 }, function($ctx1) {$ctx1.fill(self,"inlineClosure:",{anIRClosure:anIRClosure,inlinedClosure:inlinedClosure,sequence:sequence,statements:statements},$globals.IRSendInliner)});
 },
 args: ["anIRClosure"],
-source: "inlineClosure: anIRClosure\x0a\x09| inlinedClosure sequence statements |\x0a\x0a\x09inlinedClosure := self inlinedClosure.\x0a\x09inlinedClosure \x0a\x09\x09scope: anIRClosure scope;\x0a\x09\x09parent: anIRClosure parent.\x0a\x0a\x09\x22Add the possible temp declarations\x22\x0a\x09anIRClosure tempDeclarations do: [ :each |\x0a\x09\x09\x09inlinedClosure add: each ].\x0a\x0a\x09\x22Add a block sequence\x22\x0a\x09sequence := self inlinedSequence.\x0a\x0a\x09\x22Map the closure arguments to the receiver of the message send\x22\x0a\x09anIRClosure arguments do: [ :each |\x0a\x09\x09inlinedClosure add: (IRTempDeclaration new name: each; yourself).\x0a\x09\x09sequence add: (IRAssignment new\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: each; yourself));\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: '$receiver'; yourself));\x0a\x09\x09\x09yourself) ].\x0a\x09\x09\x09\x0a\x09\x22To ensure the correct order of the closure instructions: first the temps then the sequence\x22\x0a\x09inlinedClosure add: sequence.\x0a\x0a\x09\x22Get all the statements\x22\x0a\x09statements := anIRClosure instructions last instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements allButLast do: [ :each | sequence add: each ].\x0a\x0a\x09\x09\x22Inlined closures don't have implicit local returns\x22\x0a\x09\x09(statements last isReturn and: [ statements last isBlockReturn ])\x0a\x09\x09\x09ifTrue: [ sequence add: statements last instructions first ]\x0a\x09\x09\x09ifFalse: [ sequence add: statements last ] ].\x0a\x0a\x09^ inlinedClosure",
+source: "inlineClosure: anIRClosure\x0a\x09| inlinedClosure sequence statements |\x0a\x0a\x09inlinedClosure := self inlinedClosure.\x0a\x09inlinedClosure \x0a\x09\x09scope: anIRClosure scope;\x0a\x09\x09parent: anIRClosure parent.\x0a\x0a\x09\x22Add the possible temp declarations\x22\x0a\x09anIRClosure tempDeclarations do: [ :each |\x0a\x09\x09\x09inlinedClosure add: each ].\x0a\x0a\x09\x22Add a block sequence\x22\x0a\x09sequence := self inlinedSequence.\x0a\x0a\x09\x22Map the closure arguments to the receiver of the message send\x22\x0a\x09anIRClosure arguments do: [ :each |\x0a\x09\x09inlinedClosure add: (IRTempDeclaration new name: each; yourself).\x0a\x09\x09sequence add: (IRAssignment new\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: each; yourself));\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: '$receiver'; yourself));\x0a\x09\x09\x09yourself) ].\x0a\x09\x09\x09\x0a\x09\x22To ensure the correct order of the closure instructions: first the temps then the sequence\x22\x0a\x09inlinedClosure add: sequence.\x0a\x0a\x09\x22Get all the statements\x22\x0a\x09statements := anIRClosure sequence instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements allButLast do: [ :each | sequence add: each ].\x0a\x0a\x09\x09\x22Inlined closures don't have implicit local returns\x22\x0a\x09\x09(statements last isReturn and: [ statements last isBlockReturn ])\x0a\x09\x09\x09ifTrue: [ sequence add: statements last expression ]\x0a\x09\x09\x09ifFalse: [ sequence add: statements last ] ].\x0a\x0a\x09^ inlinedClosure",
 referencedClasses: ["IRTempDeclaration", "IRAssignment", "IRVariable", "AliasVar"],
-messageSends: ["inlinedClosure", "scope:", "scope", "parent:", "parent", "do:", "tempDeclarations", "add:", "inlinedSequence", "arguments", "name:", "new", "yourself", "variable:", "instructions", "last", "ifNotEmpty:", "allButLast", "ifTrue:ifFalse:", "and:", "isReturn", "isBlockReturn", "first"]
+messageSends: ["inlinedClosure", "scope:", "scope", "parent:", "parent", "do:", "tempDeclarations", "add:", "inlinedSequence", "arguments", "name:", "new", "yourself", "variable:", "instructions", "sequence", "ifNotEmpty:", "allButLast", "ifTrue:ifFalse:", "and:", "isReturn", "last", "isBlockReturn", "expression"]
 }),
 $globals.IRSendInliner);
 
@@ -43874,13 +43738,13 @@ self._send_(anIRSend);
 $2=self._send();
 $ctx1.sendIdx["send"]=1;
 $1=$recv($2)._selector();
-return self._perform_withArguments_($1,$recv($recv(self._send())._instructions())._allButFirst());
+return self._perform_withArguments_($1,$recv(self._send())._arguments());
 }, function($ctx1) {$ctx1.fill(self,"inlineSend:",{anIRSend:anIRSend},$globals.IRSendInliner)});
 },
 args: ["anIRSend"],
-source: "inlineSend: anIRSend\x0a\x09self send: anIRSend.\x0a\x09^ self\x0a\x09\x09perform: self send selector\x0a\x09\x09withArguments: self send instructions allButFirst",
+source: "inlineSend: anIRSend\x0a\x09self send: anIRSend.\x0a\x09^ self\x0a\x09\x09perform: self send selector\x0a\x09\x09withArguments: self send arguments",
 referencedClasses: [],
-messageSends: ["send:", "perform:withArguments:", "selector", "send", "allButFirst", "instructions"]
+messageSends: ["send:", "perform:withArguments:", "selector", "send", "arguments"]
 }),
 $globals.IRSendInliner);
 
@@ -43909,7 +43773,7 @@ fn: function (inlinedSend,anIRInstruction){
 var self=this;
 var inlinedClosure;
 return $core.withContext(function($ctx1) {
-var $1,$2,$5,$4,$3,$6;
+var $1,$2,$4,$3,$5;
 $1=$recv(anIRInstruction)._isClosure();
 if(!$core.assert($1)){
 self._inliningError_("Message argument should be a block");
@@ -43920,24 +43784,23 @@ if(!$core.assert($2)){
 self._inliningError_("Inlined block should have zero argument");
 };
 inlinedClosure=$recv(self._translator())._visit_(self._inlineClosure_(anIRInstruction));
-$5=self._send();
+$4=self._send();
 $ctx1.sendIdx["send"]=1;
-$4=$recv($5)._instructions();
-$3=$recv($4)._first();
+$3=$recv($4)._receiver();
 $recv(inlinedSend)._add_($3);
 $ctx1.sendIdx["add:"]=1;
 $recv(inlinedSend)._add_(inlinedClosure);
 $recv(self._send())._replaceWith_(inlinedSend);
-$6=$recv($recv(inlinedSend)._method())._internalVariables();
+$5=$recv($recv(inlinedSend)._method())._internalVariables();
 $ctx1.sendIdx["internalVariables"]=1;
-$recv($6)._addAll_($recv(inlinedSend)._internalVariables());
+$recv($5)._addAll_($recv(inlinedSend)._internalVariables());
 return inlinedSend;
 }, function($ctx1) {$ctx1.fill(self,"inlinedSend:withBlock:",{inlinedSend:inlinedSend,anIRInstruction:anIRInstruction,inlinedClosure:inlinedClosure},$globals.IRSendInliner)});
 },
 args: ["inlinedSend", "anIRInstruction"],
-source: "inlinedSend: inlinedSend withBlock: anIRInstruction\x0a\x09| inlinedClosure |\x0a\x0a\x09anIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].\x0a\x09anIRInstruction arguments size = 0 ifFalse: [ self inliningError: 'Inlined block should have zero argument' ].\x0a\x0a\x09inlinedClosure := self translator visit: (self inlineClosure: anIRInstruction).\x0a\x0a\x09inlinedSend\x0a\x09\x09add: self send instructions first;\x0a\x09\x09add: inlinedClosure.\x0a\x0a\x09self send replaceWith: inlinedSend.\x0a\x09inlinedSend method internalVariables \x0a\x09\x09addAll: inlinedSend internalVariables.\x0a\x0a\x09^ inlinedSend",
+source: "inlinedSend: inlinedSend withBlock: anIRInstruction\x0a\x09| inlinedClosure |\x0a\x0a\x09anIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].\x0a\x09anIRInstruction arguments size = 0 ifFalse: [ self inliningError: 'Inlined block should have zero argument' ].\x0a\x0a\x09inlinedClosure := self translator visit: (self inlineClosure: anIRInstruction).\x0a\x0a\x09inlinedSend\x0a\x09\x09add: self send receiver;\x0a\x09\x09add: inlinedClosure.\x0a\x0a\x09self send replaceWith: inlinedSend.\x0a\x09inlinedSend method internalVariables \x0a\x09\x09addAll: inlinedSend internalVariables.\x0a\x0a\x09^ inlinedSend",
 referencedClasses: [],
-messageSends: ["ifFalse:", "isClosure", "inliningError:", "=", "size", "arguments", "visit:", "translator", "inlineClosure:", "add:", "first", "instructions", "send", "replaceWith:", "addAll:", "internalVariables", "method"]
+messageSends: ["ifFalse:", "isClosure", "inliningError:", "=", "size", "arguments", "visit:", "translator", "inlineClosure:", "add:", "receiver", "send", "replaceWith:", "addAll:", "internalVariables", "method"]
 }),
 $globals.IRSendInliner);
 
@@ -43949,7 +43812,7 @@ fn: function (inlinedSend,anIRInstruction,anotherIRInstruction){
 var self=this;
 var inlinedClosure1,inlinedClosure2;
 return $core.withContext(function($ctx1) {
-var $1,$2,$3,$4,$7,$6,$5,$8;
+var $1,$2,$3,$4,$6,$5,$7;
 $1=$recv(anIRInstruction)._isClosure();
 $ctx1.sendIdx["isClosure"]=1;
 if(!$core.assert($1)){
@@ -43967,26 +43830,25 @@ $ctx1.sendIdx["inlineClosure:"]=1;
 inlinedClosure1=$recv($3)._visit_($4);
 $ctx1.sendIdx["visit:"]=1;
 inlinedClosure2=$recv(self._translator())._visit_(self._inlineClosure_(anotherIRInstruction));
-$7=self._send();
+$6=self._send();
 $ctx1.sendIdx["send"]=1;
-$6=$recv($7)._instructions();
-$5=$recv($6)._first();
+$5=$recv($6)._receiver();
 $recv(inlinedSend)._add_($5);
 $ctx1.sendIdx["add:"]=1;
 $recv(inlinedSend)._add_(inlinedClosure1);
 $ctx1.sendIdx["add:"]=2;
 $recv(inlinedSend)._add_(inlinedClosure2);
 $recv(self._send())._replaceWith_(inlinedSend);
-$8=$recv($recv(inlinedSend)._method())._internalVariables();
+$7=$recv($recv(inlinedSend)._method())._internalVariables();
 $ctx1.sendIdx["internalVariables"]=1;
-$recv($8)._addAll_($recv(inlinedSend)._internalVariables());
+$recv($7)._addAll_($recv(inlinedSend)._internalVariables());
 return inlinedSend;
 }, function($ctx1) {$ctx1.fill(self,"inlinedSend:withBlock:withBlock:",{inlinedSend:inlinedSend,anIRInstruction:anIRInstruction,anotherIRInstruction:anotherIRInstruction,inlinedClosure1:inlinedClosure1,inlinedClosure2:inlinedClosure2},$globals.IRSendInliner)});
 },
 args: ["inlinedSend", "anIRInstruction", "anotherIRInstruction"],
-source: "inlinedSend: inlinedSend withBlock: anIRInstruction withBlock: anotherIRInstruction\x0a\x09| inlinedClosure1 inlinedClosure2 |\x0a\x0a\x09anIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].\x0a\x09anotherIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].\x0a\x0a\x09inlinedClosure1 := self translator visit: (self inlineClosure: anIRInstruction).\x0a\x09inlinedClosure2 := self translator visit: (self inlineClosure: anotherIRInstruction).\x0a\x0a\x09inlinedSend\x0a\x09\x09add: self send instructions first;\x0a\x09\x09add: inlinedClosure1;\x0a\x09\x09add: inlinedClosure2.\x0a\x0a\x09self send replaceWith: inlinedSend.\x0a\x09inlinedSend method internalVariables \x0a\x09\x09addAll: inlinedSend internalVariables.\x0a\x09\x09\x0a\x09^ inlinedSend",
+source: "inlinedSend: inlinedSend withBlock: anIRInstruction withBlock: anotherIRInstruction\x0a\x09| inlinedClosure1 inlinedClosure2 |\x0a\x0a\x09anIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].\x0a\x09anotherIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].\x0a\x0a\x09inlinedClosure1 := self translator visit: (self inlineClosure: anIRInstruction).\x0a\x09inlinedClosure2 := self translator visit: (self inlineClosure: anotherIRInstruction).\x0a\x0a\x09inlinedSend\x0a\x09\x09add: self send receiver;\x0a\x09\x09add: inlinedClosure1;\x0a\x09\x09add: inlinedClosure2.\x0a\x0a\x09self send replaceWith: inlinedSend.\x0a\x09inlinedSend method internalVariables \x0a\x09\x09addAll: inlinedSend internalVariables.\x0a\x09\x09\x0a\x09^ inlinedSend",
 referencedClasses: [],
-messageSends: ["ifFalse:", "isClosure", "inliningError:", "visit:", "translator", "inlineClosure:", "add:", "first", "instructions", "send", "replaceWith:", "addAll:", "internalVariables", "method"]
+messageSends: ["ifFalse:", "isClosure", "inliningError:", "visit:", "translator", "inlineClosure:", "add:", "receiver", "send", "replaceWith:", "addAll:", "internalVariables", "method"]
 }),
 $globals.IRSendInliner);
 
@@ -44112,25 +43974,25 @@ $core.addMethod(
 $core.method({
 selector: "shouldInline:",
 protocol: 'accessing',
-fn: function (anIRInstruction){
+fn: function (anIRSend){
 var self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$1=$recv(self._inlinedSelectors())._includes_($recv(anIRInstruction)._selector());
+$1=$recv(self._inlinedSelectors())._includes_($recv(anIRSend)._selector());
 if(!$core.assert($1)){
 return false;
 };
-return $recv($recv($recv(anIRInstruction)._instructions())._allButFirst())._allSatisfy_((function(each){
+return $recv($recv(anIRSend)._arguments())._allSatisfy_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(each)._isClosure();
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 }));
-}, function($ctx1) {$ctx1.fill(self,"shouldInline:",{anIRInstruction:anIRInstruction},$globals.IRSendInliner.klass)});
+}, function($ctx1) {$ctx1.fill(self,"shouldInline:",{anIRSend:anIRSend},$globals.IRSendInliner.klass)});
 },
-args: ["anIRInstruction"],
-source: "shouldInline: anIRInstruction\x0a\x09(self inlinedSelectors includes: anIRInstruction selector) ifFalse: [ ^ false ].\x0a\x09^ anIRInstruction instructions allButFirst allSatisfy: [ :each | each isClosure]",
+args: ["anIRSend"],
+source: "shouldInline: anIRSend\x0a\x09(self inlinedSelectors includes: anIRSend selector) ifFalse: [ ^ false ].\x0a\x09^ anIRSend arguments allSatisfy: [ :each | each isClosure ]",
 referencedClasses: [],
-messageSends: ["ifFalse:", "includes:", "inlinedSelectors", "selector", "allSatisfy:", "allButFirst", "instructions", "isClosure"]
+messageSends: ["ifFalse:", "includes:", "inlinedSelectors", "selector", "allSatisfy:", "arguments", "isClosure"]
 }),
 $globals.IRSendInliner.klass);
 
@@ -44178,25 +44040,22 @@ fn: function (anIRAssignment){
 var self=this;
 var inlinedAssignment;
 return $core.withContext(function($ctx1) {
-var $1;
 self._assignment_(anIRAssignment);
 inlinedAssignment=$recv($globals.IRInlinedAssignment)._new();
-$1=$recv(anIRAssignment)._instructions();
-$ctx1.sendIdx["instructions"]=1;
-$recv($1)._do_((function(each){
+$recv($recv(anIRAssignment)._instructions())._do_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(inlinedAssignment)._add_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 $recv(anIRAssignment)._replaceWith_(inlinedAssignment);
-self._inlineSend_($recv($recv(inlinedAssignment)._instructions())._last());
+self._inlineSend_($recv(inlinedAssignment)._right());
 return inlinedAssignment;
 }, function($ctx1) {$ctx1.fill(self,"inlineAssignment:",{anIRAssignment:anIRAssignment,inlinedAssignment:inlinedAssignment},$globals.IRAssignmentInliner)});
 },
 args: ["anIRAssignment"],
-source: "inlineAssignment: anIRAssignment\x0a\x09| inlinedAssignment |\x0a\x09self assignment: anIRAssignment.\x0a\x09inlinedAssignment := IRInlinedAssignment new.\x0a\x09anIRAssignment instructions do: [ :each |\x0a\x09\x09inlinedAssignment add: each ].\x0a\x09anIRAssignment replaceWith: inlinedAssignment.\x0a\x09self inlineSend: inlinedAssignment instructions last.\x0a\x09^ inlinedAssignment",
+source: "inlineAssignment: anIRAssignment\x0a\x09| inlinedAssignment |\x0a\x09self assignment: anIRAssignment.\x0a\x09inlinedAssignment := IRInlinedAssignment new.\x0a\x09anIRAssignment instructions do: [ :each |\x0a\x09\x09inlinedAssignment add: each ].\x0a\x09anIRAssignment replaceWith: inlinedAssignment.\x0a\x09self inlineSend: inlinedAssignment right.\x0a\x09^ inlinedAssignment",
 referencedClasses: ["IRInlinedAssignment"],
-messageSends: ["assignment:", "new", "do:", "instructions", "add:", "replaceWith:", "inlineSend:", "last"]
+messageSends: ["assignment:", "new", "do:", "instructions", "add:", "replaceWith:", "inlineSend:", "right"]
 }),
 $globals.IRAssignmentInliner);
 
@@ -44208,31 +44067,26 @@ fn: function (anIRClosure){
 var self=this;
 var inlinedClosure,statements;
 return $core.withContext(function($ctx1) {
-var $2,$1,$4,$3,$5,$7,$6;
+var $2,$1,$3,$5,$4;
 inlinedClosure=(
 $ctx1.supercall = true,
 ($globals.IRAssignmentInliner.superclass||$boot.nilAsClass).fn.prototype._inlineClosure_.apply($recv(self), [anIRClosure]));
 $ctx1.supercall = false;
-$2=$recv(inlinedClosure)._instructions();
-$ctx1.sendIdx["instructions"]=2;
-$1=$recv($2)._last();
-$ctx1.sendIdx["last"]=1;
-statements=$recv($1)._instructions();
-$ctx1.sendIdx["instructions"]=1;
+statements=$recv($recv(inlinedClosure)._sequence())._instructions();
 $recv(statements)._ifNotEmpty_((function(){
 return $core.withContext(function($ctx2) {
-$4=$recv(statements)._last();
+$2=$recv(statements)._last();
+$ctx2.sendIdx["last"]=1;
+$1=$recv($2)._canBeAssigned();
+if($core.assert($1)){
+$3=$recv(statements)._last();
 $ctx2.sendIdx["last"]=2;
-$3=$recv($4)._canBeAssigned();
-if($core.assert($3)){
-$5=$recv(statements)._last();
-$ctx2.sendIdx["last"]=3;
-$7=$recv($globals.IRAssignment)._new();
-$recv($7)._add_($recv($recv(self._assignment())._instructions())._first());
+$5=$recv($globals.IRAssignment)._new();
+$recv($5)._add_($recv(self._assignment())._left());
 $ctx2.sendIdx["add:"]=1;
-$recv($7)._add_($recv($recv(statements)._last())._copy());
-$6=$recv($7)._yourself();
-return $recv($5)._replaceWith_($6);
+$recv($5)._add_($recv($recv(statements)._last())._copy());
+$4=$recv($5)._yourself();
+return $recv($3)._replaceWith_($4);
 };
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
@@ -44240,9 +44094,9 @@ return inlinedClosure;
 }, function($ctx1) {$ctx1.fill(self,"inlineClosure:",{anIRClosure:anIRClosure,inlinedClosure:inlinedClosure,statements:statements},$globals.IRAssignmentInliner)});
 },
 args: ["anIRClosure"],
-source: "inlineClosure: anIRClosure\x0a\x09| inlinedClosure statements |\x0a\x0a\x09inlinedClosure := super inlineClosure: anIRClosure.\x0a\x09statements := inlinedClosure instructions last instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements last canBeAssigned ifTrue: [\x0a\x09\x09\x09statements last replaceWith: (IRAssignment new\x0a\x09\x09\x09\x09add: self assignment instructions first;\x0a\x09\x09\x09\x09add: statements last copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ inlinedClosure",
+source: "inlineClosure: anIRClosure\x0a\x09| inlinedClosure statements |\x0a\x0a\x09inlinedClosure := super inlineClosure: anIRClosure.\x0a\x09statements := inlinedClosure sequence instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements last canBeAssigned ifTrue: [\x0a\x09\x09\x09statements last replaceWith: (IRAssignment new\x0a\x09\x09\x09\x09add: self assignment left;\x0a\x09\x09\x09\x09add: statements last copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ inlinedClosure",
 referencedClasses: ["IRAssignment"],
-messageSends: ["inlineClosure:", "instructions", "last", "ifNotEmpty:", "ifTrue:", "canBeAssigned", "replaceWith:", "add:", "new", "first", "assignment", "copy", "yourself"]
+messageSends: ["inlineClosure:", "instructions", "sequence", "ifNotEmpty:", "ifTrue:", "canBeAssigned", "last", "replaceWith:", "add:", "new", "left", "assignment", "copy", "yourself"]
 }),
 $globals.IRAssignmentInliner);
 
@@ -44258,27 +44112,24 @@ fn: function (anIRClosure){
 var self=this;
 var closure,statements;
 return $core.withContext(function($ctx1) {
-var $1,$3,$2,$4,$6,$5;
+var $2,$1,$3,$5,$4;
 closure=(
 $ctx1.supercall = true,
 ($globals.IRReturnInliner.superclass||$boot.nilAsClass).fn.prototype._inlineClosure_.apply($recv(self), [anIRClosure]));
 $ctx1.supercall = false;
-$1=$recv($recv(closure)._instructions())._last();
-$ctx1.sendIdx["last"]=1;
-statements=$recv($1)._instructions();
-$ctx1.sendIdx["instructions"]=1;
+statements=$recv($recv(closure)._sequence())._instructions();
 $recv(statements)._ifNotEmpty_((function(){
 return $core.withContext(function($ctx2) {
+$2=$recv(statements)._last();
+$ctx2.sendIdx["last"]=1;
+$1=$recv($2)._isReturn();
+if(!$core.assert($1)){
 $3=$recv(statements)._last();
 $ctx2.sendIdx["last"]=2;
-$2=$recv($3)._isReturn();
-if(!$core.assert($2)){
-$4=$recv(statements)._last();
-$ctx2.sendIdx["last"]=3;
-$6=$recv($globals.IRReturn)._new();
-$recv($6)._add_($recv($recv(statements)._last())._copy());
-$5=$recv($6)._yourself();
-return $recv($4)._replaceWith_($5);
+$5=$recv($globals.IRReturn)._new();
+$recv($5)._add_($recv($recv(statements)._last())._copy());
+$4=$recv($5)._yourself();
+return $recv($3)._replaceWith_($4);
 };
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
@@ -44286,9 +44137,9 @@ return closure;
 }, function($ctx1) {$ctx1.fill(self,"inlineClosure:",{anIRClosure:anIRClosure,closure:closure,statements:statements},$globals.IRReturnInliner)});
 },
 args: ["anIRClosure"],
-source: "inlineClosure: anIRClosure\x0a\x09| closure statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09statements := closure instructions last instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements last isReturn\x0a\x09\x09\x09ifFalse: [ statements last replaceWith: (IRReturn new\x0a\x09\x09\x09\x09add: statements last copy;\x0a\x09\x09\x09\x09yourself)] ].\x0a\x0a\x09^ closure",
+source: "inlineClosure: anIRClosure\x0a\x09| closure statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09statements := closure sequence instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements last isReturn\x0a\x09\x09\x09ifFalse: [ statements last replaceWith: (IRReturn new\x0a\x09\x09\x09\x09add: statements last copy;\x0a\x09\x09\x09\x09yourself)] ].\x0a\x0a\x09^ closure",
 referencedClasses: ["IRReturn"],
-messageSends: ["inlineClosure:", "instructions", "last", "ifNotEmpty:", "ifFalse:", "isReturn", "replaceWith:", "add:", "new", "copy", "yourself"]
+messageSends: ["inlineClosure:", "instructions", "sequence", "ifNotEmpty:", "ifFalse:", "isReturn", "last", "replaceWith:", "add:", "new", "copy", "yourself"]
 }),
 $globals.IRReturnInliner);
 
@@ -44300,24 +44151,21 @@ fn: function (anIRReturn){
 var self=this;
 var return_;
 return $core.withContext(function($ctx1) {
-var $1;
 return_=self._inlinedReturn();
-$1=$recv(anIRReturn)._instructions();
-$ctx1.sendIdx["instructions"]=1;
-$recv($1)._do_((function(each){
+$recv($recv(anIRReturn)._instructions())._do_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(return_)._add_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 $recv(anIRReturn)._replaceWith_(return_);
-self._inlineSend_($recv($recv(return_)._instructions())._last());
+self._inlineSend_($recv(return_)._expression());
 return return_;
 }, function($ctx1) {$ctx1.fill(self,"inlineReturn:",{anIRReturn:anIRReturn,return_:return_},$globals.IRReturnInliner)});
 },
 args: ["anIRReturn"],
-source: "inlineReturn: anIRReturn\x0a\x09| return |\x0a\x09return := self inlinedReturn.\x0a\x09anIRReturn instructions do: [ :each |\x0a\x09\x09return add: each ].\x0a\x09anIRReturn replaceWith: return.\x0a\x09self inlineSend: return instructions last.\x0a\x09^ return",
+source: "inlineReturn: anIRReturn\x0a\x09| return |\x0a\x09return := self inlinedReturn.\x0a\x09anIRReturn instructions do: [ :each |\x0a\x09\x09return add: each ].\x0a\x09anIRReturn replaceWith: return.\x0a\x09self inlineSend: return expression.\x0a\x09^ return",
 referencedClasses: [],
-messageSends: ["inlinedReturn", "do:", "instructions", "add:", "replaceWith:", "inlineSend:", "last"]
+messageSends: ["inlinedReturn", "do:", "instructions", "add:", "replaceWith:", "inlineSend:", "expression"]
 }),
 $globals.IRReturnInliner);
 
@@ -44411,8 +44259,10 @@ $globals.InliningError.comment="Instances of InliningError are signaled when usi
 
 });
 
-define("amber_core/Compiler-Interpreter", ["amber/boot", "amber_core/Kernel-Methods", "amber_core/Compiler-Semantic", "amber_core/Kernel-Objects", "amber_core/Compiler-AST", "amber_core/Kernel-Exceptions"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Compiler-Interpreter',["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Semantic", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Compiler-Interpreter');
 $core.packages["Compiler-Interpreter"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-Interpreter"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -47454,8 +47304,10 @@ define('amber/lang',[
     // --- packages for the Amber reflection end here ---
 ], function (amber) { return amber; });
 
-define("amber_core/SUnit", ["amber/boot", "amber_core/Kernel-Objects", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Classes"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/SUnit',["amber/boot", "amber_core/Kernel-Classes", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('SUnit');
 $core.packages["SUnit"].innerEval = function (expr) { return eval(expr); };
 $core.packages["SUnit"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -48504,26 +48356,29 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $2,$3,$1;
-$2=$recv(self._errors())._isEmpty();
-$ctx1.sendIdx["isEmpty"]=1;
-if($core.assert($2)){
-$3=$recv(self._failures())._isEmpty();
-if($core.assert($3)){
-$1="success";
-} else {
-$1="failure";
-};
-} else {
-$1="error";
-};
+var $1;
+$1=$recv(self._errors())._ifNotEmpty_ifEmpty_((function(){
+return "error";
+
+}),(function(){
+return $core.withContext(function($ctx2) {
+return $recv(self._failures())._ifNotEmpty_ifEmpty_((function(){
+return "failure";
+
+}),(function(){
+return "success";
+
+}));
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}));
+$ctx1.sendIdx["ifNotEmpty:ifEmpty:"]=1;
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"status",{},$globals.TestResult)});
 },
 args: [],
-source: "status\x0a\x09^ self errors isEmpty\x0a\x09\x09ifTrue: [\x0a\x09\x09\x09self failures isEmpty\x0a\x09\x09\x09\x09ifTrue: [ 'success' ]\x0a\x09\x09\x09\x09ifFalse: [ 'failure' ]]\x0a\x09\x09ifFalse: [ 'error' ]",
+source: "status\x0a\x09^ self errors ifNotEmpty: [ 'error' ] ifEmpty: [\x0a\x09\x09self failures ifNotEmpty: [ 'failure' ] ifEmpty: [\x0a\x09\x09\x09'success' ]]",
 referencedClasses: [],
-messageSends: ["ifTrue:ifFalse:", "isEmpty", "errors", "failures"]
+messageSends: ["ifNotEmpty:ifEmpty:", "errors", "failures"]
 }),
 $globals.TestResult);
 
@@ -48809,8 +48664,10 @@ $globals.Package);
 
 });
 
-define("amber_core/Compiler-Tests", ["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Compiler-Tests',["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Compiler-Tests');
 $core.packages["Compiler-Tests"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -50981,8 +50838,10 @@ $globals.AISemanticAnalyzerTest);
 
 });
 
-define("amber_core/Kernel-Tests", ["amber/boot", "amber_core/SUnit", "amber_core/Kernel-Objects"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/Kernel-Tests',["amber/boot", "amber_core/Kernel-Objects", "amber_core/SUnit"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Kernel-Tests');
 $core.packages["Kernel-Tests"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -53971,6 +53830,37 @@ args: [],
 source: "testSelect\x0a\x09self assert: (self collection select: [ false ]) equals: self collectionClass new.\x0a\x09self assert: (self collection select: [ true ]) equals: self collection.\x0a\x09self assert: (self collectionWithNewValue select: [ :each | each = self sampleNewValue ]) equals: self sampleNewValueAsCollection.\x0a\x09self assert: (self collectionWithNewValue select: [ :each | each ~= self sampleNewValue ]) equals: self collection.\x0a\x09self assert: (self collection select: [ :each | each = self sampleNewValue ]) equals: self collectionClass new.\x0a\x09self assert: (self collectionWithNewValue select: [ :each | each ~= self sampleNewValue ]) equals: self collection",
 referencedClasses: [],
 messageSends: ["assert:equals:", "select:", "collection", "new", "collectionClass", "collectionWithNewValue", "=", "sampleNewValue", "sampleNewValueAsCollection", "~="]
+}),
+$globals.CollectionTest);
+
+$core.addMethod(
+$core.method({
+selector: "testSingle",
+protocol: 'tests',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+self._should_raise_((function(){
+return $core.withContext(function($ctx2) {
+return $recv($recv(self._collectionClass())._new())._single();
+$ctx2.sendIdx["single"]=1;
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}),$globals.Error);
+$ctx1.sendIdx["should:raise:"]=1;
+self._should_raise_((function(){
+return $core.withContext(function($ctx2) {
+return $recv(self._collection())._single();
+$ctx2.sendIdx["single"]=2;
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}),$globals.Error);
+self._assert_equals_($recv(self._sampleNewValueAsCollection())._single(),self._sampleNewValue());
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testSingle",{},$globals.CollectionTest)});
+},
+args: [],
+source: "testSingle\x0a\x09self should: [ self collectionClass new single ] raise: Error.\x0a\x09self should: [ self collection single ] raise: Error.\x0a\x09self assert: self sampleNewValueAsCollection single equals: self sampleNewValue",
+referencedClasses: ["Error"],
+messageSends: ["should:raise:", "single", "new", "collectionClass", "collection", "assert:equals:", "sampleNewValueAsCollection", "sampleNewValue"]
 }),
 $globals.CollectionTest);
 
@@ -61432,8 +61322,10 @@ $globals.UndefinedTest);
 
 });
 
-define("amber_core/SUnit-Tests", ["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_core/SUnit-Tests',["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('SUnit-Tests');
 $core.packages["SUnit-Tests"].innerEval = function (expr) { return eval(expr); };
 $core.packages["SUnit-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -62104,8 +61996,10 @@ define('amber/devel',[
     // --- packages of the development only Amber end here ---
 ], function (amber) { return amber; });
 
-define("amber_cli/AmberCli", ["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-var $core=$boot.api,nil=$boot.nil,$recv=$boot.asReceiver,$globals=$boot.globals;
+define('amber_cli/AmberCli',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('AmberCli');
 $core.packages["AmberCli"].innerEval = function (expr) { return eval(expr); };
 $core.packages["AmberCli"].transport = {"type":"amd","amdNamespace":"amber_cli"};
@@ -62236,10 +62130,20 @@ selector: "main",
 protocol: 'startup',
 fn: function (){
 var self=this;
-var args;
+var args,packageJSON;
 return $core.withContext(function($ctx1) {
-var $3,$2,$1,$4;
-$3=$recv("Welcome to Amber version ".__comma($recv($globals.Smalltalk)._version())).__comma(" (NodeJS ");
+var $7,$6,$5,$4,$3,$2,$1;
+var $early={};
+try {
+packageJSON=$recv(require)._value_("../package.json");
+$7=$recv(packageJSON)._version();
+$ctx1.sendIdx["version"]=1;
+$6="Welcome to Amber CLI version ".__comma($7);
+$5=$recv($6).__comma(" (Amber ");
+$ctx1.sendIdx[","]=5;
+$4=$recv($5).__comma($recv($globals.Smalltalk)._version());
+$ctx1.sendIdx[","]=4;
+$3=$recv($4).__comma(", NodeJS ");
 $ctx1.sendIdx[","]=3;
 $2=$recv($3).__comma($recv($recv(process)._versions())._node());
 $ctx1.sendIdx[","]=2;
@@ -62248,19 +62152,24 @@ $ctx1.sendIdx[","]=1;
 $recv($globals.Transcript)._show_($1);
 args=$recv(process)._argv();
 $recv(args)._removeFrom_to_((1),(2));
-$4=$recv(args)._isEmpty();
-if($core.assert($4)){
-self._help_(nil);
-} else {
-return self._handleArguments_(args);
-};
+$recv(args)._ifEmpty_ifNotEmpty_((function(){
+return $core.withContext(function($ctx2) {
+return self._help_(nil);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}),(function(){
+return $core.withContext(function($ctx2) {
+throw $early=[self._handleArguments_(args)];
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}));
 return self;
-}, function($ctx1) {$ctx1.fill(self,"main",{args:args},$globals.AmberCli.klass)});
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"main",{args:args,packageJSON:packageJSON},$globals.AmberCli.klass)});
 },
 args: [],
-source: "main\x0a\x09\x22Main entry point for Amber applications.\x0a\x09Parses commandline arguments and starts the according subprogram.\x22\x0a\x09| args |\x0a\x09\x0a\x09Transcript show: 'Welcome to Amber version ', Smalltalk version, ' (NodeJS ', process versions node, ').'.\x0a\x0a\x09args := process argv.\x0a\x09\x22Remove the first args which contain the path to the node executable and the script file.\x22\x0a\x09args removeFrom: 1 to: 2.\x0a\x09\x0a\x09(args isEmpty)\x0a\x09\x09ifTrue: [self help: nil]\x0a\x09\x09ifFalse: [^self handleArguments: args]",
+source: "main\x0a\x09\x22Main entry point for Amber applications.\x0a\x09Parses commandline arguments and starts the according subprogram.\x22\x0a\x09| args packageJSON |\x0a\x09\x0a\x09packageJSON := require value: '../package.json'.\x0a\x09Transcript show: 'Welcome to Amber CLI version ', packageJSON version, ' (Amber ', Smalltalk version, ', NodeJS ', process versions node, ').'.\x0a\x0a\x09args := process argv.\x0a\x09\x22Remove the first args which contain the path to the node executable and the script file.\x22\x0a\x09args removeFrom: 1 to: 2.\x0a\x09\x0a\x09args\x0a\x09\x09ifEmpty: [self help: nil]\x0a\x09\x09ifNotEmpty: [^self handleArguments: args]",
 referencedClasses: ["Transcript", "Smalltalk"],
-messageSends: ["show:", ",", "version", "node", "versions", "argv", "removeFrom:to:", "ifTrue:ifFalse:", "isEmpty", "help:", "handleArguments:"]
+messageSends: ["value:", "show:", ",", "version", "node", "versions", "argv", "removeFrom:to:", "ifEmpty:ifNotEmpty:", "help:", "handleArguments:"]
 }),
 $globals.AmberCli.klass);
 
@@ -62827,7 +62736,9 @@ fn: function (aRequest){
 var self=this;
 var header,token,auth,parts;
 return $core.withContext(function($ctx1) {
-var $2,$1,$3,$4,$5,$6,$9,$10,$8,$7,$receiver;
+var $2,$1,$3,$4,$5,$8,$9,$7,$6,$receiver;
+var $early={};
+try {
 $2=$recv(self["@username"])._isNil();
 $ctx1.sendIdx["isNil"]=1;
 $1=$recv($2)._and_((function(){
@@ -62846,47 +62757,51 @@ header="";
 } else {
 header=$3;
 };
-$4=$recv(header)._isEmpty();
-if($core.assert($4)){
-return false;
-} else {
-$5=$recv(header)._tokenize_(" ");
-$ctx1.sendIdx["tokenize:"]=1;
-if(($receiver = $5) == null || $receiver.isNil){
+$recv(header)._ifEmpty_ifNotEmpty_((function(){
+throw $early=[false];
+
+}),(function(){
+return $core.withContext(function($ctx2) {
+$4=$recv(header)._tokenize_(" ");
+$ctx2.sendIdx["tokenize:"]=1;
+if(($receiver = $4) == null || $receiver.isNil){
 token="";
 } else {
-token=$5;
+token=$4;
 };
 token;
-$6=$recv(token)._at_((2));
-$ctx1.sendIdx["at:"]=2;
-auth=self._base64Decode_($6);
+$5=$recv(token)._at_((2));
+$ctx2.sendIdx["at:"]=2;
+auth=self._base64Decode_($5);
 auth;
 parts=$recv(auth)._tokenize_(":");
 parts;
-$9=self["@username"];
-$10=$recv(parts)._at_((1));
-$ctx1.sendIdx["at:"]=3;
-$8=$recv($9).__eq($10);
-$ctx1.sendIdx["="]=1;
-$7=$recv($8)._and_((function(){
-return $core.withContext(function($ctx2) {
+$8=self["@username"];
+$9=$recv(parts)._at_((1));
+$ctx2.sendIdx["at:"]=3;
+$7=$recv($8).__eq($9);
+$ctx2.sendIdx["="]=1;
+$6=$recv($7)._and_((function(){
+return $core.withContext(function($ctx3) {
 return $recv(self["@password"]).__eq($recv(parts)._at_((2)));
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,7)});
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,7)});
 }));
-if($core.assert($7)){
-return true;
+if($core.assert($6)){
+throw $early=[true];
 } else {
-return false;
+throw $early=[false];
 };
-};
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,5)});
+}));
 return self;
+}
+catch(e) {if(e===$early)return e[0]; throw e}
 }, function($ctx1) {$ctx1.fill(self,"isAuthenticated:",{aRequest:aRequest,header:header,token:token,auth:auth,parts:parts},$globals.FileServer)});
 },
 args: ["aRequest"],
-source: "isAuthenticated: aRequest\x0a\x09\x22Basic HTTP Auth: http://stackoverflow.com/a/5957629/293175\x0a\x09 and https://gist.github.com/1686663\x22\x0a\x09| header token auth parts|\x0a\x0a\x09(username isNil and: [password isNil]) ifTrue: [^ true].\x0a\x0a\x09\x22get authentication header\x22\x0a\x09header := (aRequest headers at: 'authorization') ifNil:[''].\x0a\x09(header isEmpty)\x0a\x09ifTrue: [^ false]\x0a\x09ifFalse: [\x0a\x09\x09\x22get authentication token\x22\x0a\x09\x09token := (header tokenize: ' ') ifNil:[''].\x0a\x09\x09\x22convert back from base64\x22\x0a\x09\x09auth := self base64Decode: (token at: 2).\x0a\x09\x09\x22split token at colon\x22\x0a\x09\x09parts := auth tokenize: ':'.\x0a\x0a\x09\x09((username = (parts at: 1)) and: [password = (parts at: 2)])\x0a\x09\x09\x09ifTrue: [^ true]\x0a\x09\x09\x09ifFalse: [^ false]\x0a\x09].",
+source: "isAuthenticated: aRequest\x0a\x09\x22Basic HTTP Auth: http://stackoverflow.com/a/5957629/293175\x0a\x09 and https://gist.github.com/1686663\x22\x0a\x09| header token auth parts|\x0a\x0a\x09(username isNil and: [password isNil]) ifTrue: [^ true].\x0a\x0a\x09\x22get authentication header\x22\x0a\x09header := (aRequest headers at: 'authorization') ifNil:[''].\x0a\x09header\x0a\x09ifEmpty: [^ false]\x0a\x09ifNotEmpty: [\x0a\x09\x09\x22get authentication token\x22\x0a\x09\x09token := (header tokenize: ' ') ifNil:[''].\x0a\x09\x09\x22convert back from base64\x22\x0a\x09\x09auth := self base64Decode: (token at: 2).\x0a\x09\x09\x22split token at colon\x22\x0a\x09\x09parts := auth tokenize: ':'.\x0a\x0a\x09\x09((username = (parts at: 1)) and: [password = (parts at: 2)])\x0a\x09\x09\x09ifTrue: [^ true]\x0a\x09\x09\x09ifFalse: [^ false]\x0a\x09].",
 referencedClasses: [],
-messageSends: ["ifTrue:", "and:", "isNil", "ifNil:", "at:", "headers", "ifTrue:ifFalse:", "isEmpty", "tokenize:", "base64Decode:", "="]
+messageSends: ["ifTrue:", "and:", "isNil", "ifNil:", "at:", "headers", "ifEmpty:ifNotEmpty:", "tokenize:", "base64Decode:", "ifTrue:ifFalse:", "="]
 }),
 $globals.FileServer);
 
@@ -64182,32 +64097,33 @@ fn: function (buffer,anObject){
 var self=this;
 var result;
 return $core.withContext(function($ctx1) {
-var $1,$2;
-$1=$recv(buffer)._isEmpty();
-if(!$core.assert($1)){
-$recv((function(){
+var $1;
+$recv(buffer)._ifNotEmpty_((function(){
 return $core.withContext(function($ctx2) {
+return $recv((function(){
+return $core.withContext(function($ctx3) {
 result=$recv($recv($globals.Compiler)._new())._evaluateExpression_on_(buffer,anObject);
 return result;
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 }))._tryCatch_((function(e){
-return $core.withContext(function($ctx2) {
-$2=$recv(e)._isSmalltalkError();
-if($core.assert($2)){
+return $core.withContext(function($ctx3) {
+$1=$recv(e)._isSmalltalkError();
+if($core.assert($1)){
 return $recv(e)._resignal();
 } else {
 return $recv($recv(process)._stdout())._write_($recv(e)._jsStack());
 };
-}, function($ctx2) {$ctx2.fillBlock({e:e},$ctx1,3)});
+}, function($ctx3) {$ctx3.fillBlock({e:e},$ctx2,3)});
 }));
-};
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
 return result;
 }, function($ctx1) {$ctx1.fill(self,"eval:on:",{buffer:buffer,anObject:anObject,result:result},$globals.Repl)});
 },
 args: ["buffer", "anObject"],
-source: "eval: buffer on: anObject\x0a\x09| result |\x0a\x09buffer isEmpty ifFalse: [\x0a\x09\x09[result := Compiler new evaluateExpression: buffer on: anObject]\x0a\x09\x09\x09tryCatch: [:e |\x0a\x09\x09\x09\x09e isSmalltalkError\x0a\x09\x09\x09\x09    ifTrue: [ e resignal ]\x0a\x09\x09\x09 \x09   ifFalse: [ process stdout write: e jsStack ]]].\x0a\x09^ result",
+source: "eval: buffer on: anObject\x0a\x09| result |\x0a\x09buffer ifNotEmpty: [\x0a\x09\x09[result := Compiler new evaluateExpression: buffer on: anObject]\x0a\x09\x09\x09tryCatch: [:e |\x0a\x09\x09\x09\x09e isSmalltalkError\x0a\x09\x09\x09\x09\x09ifTrue: [ e resignal ]\x0a\x09\x09\x09\x09\x09ifFalse: [ process stdout write: e jsStack ]]].\x0a\x09^ result",
 referencedClasses: ["Compiler"],
-messageSends: ["ifFalse:", "isEmpty", "tryCatch:", "evaluateExpression:on:", "new", "ifTrue:ifFalse:", "isSmalltalkError", "resignal", "write:", "stdout", "jsStack"]
+messageSends: ["ifNotEmpty:", "tryCatch:", "evaluateExpression:on:", "new", "ifTrue:ifFalse:", "isSmalltalkError", "resignal", "write:", "stdout", "jsStack"]
 }),
 $globals.Repl);
 
@@ -65096,7 +65012,7 @@ define('amber/kernel-runtime',[],function () {
     MessageSendBrik.deps = ["smalltalkGlobals", "selectorConversion", "root"];
     function MessageSendBrik(brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
-        var nil = brikz.root.nil;
+        var nilAsReceiver = brikz.root.nilAsReceiver;
 
         /* Handles unhandled errors during message sends */
         // simply send the message and handle #dnu:
@@ -65104,7 +65020,7 @@ define('amber/kernel-runtime',[],function () {
         st.send2 = function (receiver, selector, args, klass) {
             var method, jsSelector = st.st2js(selector);
             if (receiver == null) {
-                receiver = nil;
+                receiver = nilAsReceiver;
             }
             method = klass ? klass.fn.prototype[jsSelector] : receiver.klass && receiver[jsSelector];
             if (method) {
