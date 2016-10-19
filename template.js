@@ -156,7 +156,7 @@ exports.template = function (grunt, init, done) {
             "license": props.licenses,
             "private": false,
             "dependencies": {
-                "amber": "^0.16.1",
+                "amber": "^0.17.0",
                 "amber-compat-es2015": "^0.1.5",
                 "amber-contrib-jquery": "^0.2.0",
                 "amber-contrib-web": "^0.3.0",
