@@ -168,7 +168,7 @@ exports.template = function (grunt, init, done) {
                 "amber-ide-starter-dialog": "^0.1.0",
                 "helios": "^0.6.0"
             }
-        }, null, 4));
+        }, null, 2));
 
 
         // All done!
