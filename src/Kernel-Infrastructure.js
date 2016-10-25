@@ -2218,60 +2218,6 @@ $globals.ParseError.comment="Instance of ParseError are signaled on any parsing 
 //>>excludeEnd("ide");
 
 
-$core.addClass('RethrowErrorHandler', $globals.Object, [], 'Kernel-Infrastructure');
-//>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.RethrowErrorHandler.comment="This class is used in the commandline version of the compiler.\x0aIt uses the handleError: message of ErrorHandler for printing the stacktrace and throws the error again as JS exception.\x0aAs a result Smalltalk errors are not swallowd by the Amber runtime and compilation can be aborted.";
-//>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "basicSignal:",
-protocol: 'error handling',
-fn: function (anError){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-throw anError;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicSignal:",{anError:anError},$globals.RethrowErrorHandler)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anError"],
-source: "basicSignal: anError\x0a        <throw anError>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.RethrowErrorHandler);
-
-$core.addMethod(
-$core.method({
-selector: "handleError:",
-protocol: 'error handling',
-fn: function (anError){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-self._basicSignal_(anError);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"handleError:",{anError:anError},$globals.RethrowErrorHandler)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anError"],
-source: "handleError: anError\x0a        self basicSignal: anError",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["basicSignal:"]
-}),
-$globals.RethrowErrorHandler);
-
-
-
 $core.addClass('Setting', $globals.Object, ['key', 'value', 'defaultValue'], 'Kernel-Infrastructure');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Setting.comment="I represent a setting **stored** at `Smalltalk settings`. \x0aIn the current implementation, `Smalltalk settings` is an object persisted in the localStorage.\x0a\x0a## API\x0a\x0aA `Setting` value can be read using `value` and set using `value:`.\x0a\x0aSettings are accessed with `'key' asSetting` or `'key' asSettingIfAbsent: aDefaultValue`.\x0a\x0aTo read the value of a setting you can also use the convenience:\x0a\x0a`theValueSet :=  'any.characteristic' settingValue` \x0a\x0aor with a default using:\x0a\x0a `theEnsuredValueSet := 'any.characteristic' settingValueIfAbsent: true`";

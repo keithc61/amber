@@ -1,11 +1,14 @@
-?? October 2016 - Release 0.17.1
+?? October 2016 - Release 0.18.0
 ===================================
 
+* Remove some old internal pieces.
 * Allow new syntax for inline JS method body: <inlineJS: '...js code...'>
   * If used in libraries / reused modules, breaks fw compat.
   * Old syntax is deprecated, but retained in libraries for some grace period.
 
-Commits: https://lolg.it/amber/amber/commits/0.17.1.
+May break bw compat because of removed internal pieces.
+
+Commits: https://lolg.it/amber/amber/commits/0.18.0.
 
 
 19 October 2016 - Release 0.17.0
