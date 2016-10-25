@@ -46,6 +46,15 @@ astPCNodeVisitorForSelector: aString
 testJSStatementNode
 	| ast visitor |
 	
+	ast := self parse: 'foo <inlineJS: ''consolee.log(1)''>' forClass: Object.
+	self assert: (self astPCNodeVisitor
+		visit: ast;
+		currentNode) isJSStatementNode
+!
+
+testLegacyJSStatementNode
+	| ast visitor |
+	
 	ast := self parse: 'foo <consolee.log(1)>' forClass: Object.
 	self assert: (self astPCNodeVisitor
 		visit: ast;
@@ -91,15 +100,6 @@ testNoMessageSend
 	self assert: (self astPCNodeVisitor
 		visit: ast;
 		currentNode) isNil
-!
-
-testPC
-	| ast visitor |
-	
-	ast := self parse: 'foo <console.log(1)>' forClass: Object.
-	self assert: (self astPCNodeVisitor
-		visit: ast;
-		currentNode) isJSStatementNode
 ! !
 
 ASTParsingTest subclass: #ASTPositionTest
