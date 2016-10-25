@@ -86,12 +86,12 @@ asJSON
 !
 
 keysAndValuesDo: aBlock
-	<
-		var o = self['@jsObject'];
+	<inlineJS: '
+		var o = self[''@jsObject''];
 		for(var i in o) {
 			aBlock._value_value_(i, o[i]);
 		}
-	>
+	'>
 ! !
 
 !JSObjectProxy methodsFor: 'printing'!
@@ -139,12 +139,12 @@ on: aJSObject
 !JSObjectProxy class methodsFor: 'proxy'!
 
 addObjectVariablesTo: aDictionary ofProxy: aProxy
-	<
-		var jsObject = aProxy['@jsObject'];
+	<inlineJS: '
+		var jsObject = aProxy[''@jsObject''];
 		for(var i in jsObject) {
 			aDictionary._at_put_(i, jsObject[i]);
 		}
-	>
+	'>
 !
 
 compareJSObjectOfProxy: aProxy withProxy: anotherProxy
@@ -161,7 +161,7 @@ forwardMessage: aString withArguments: anArray ofProxy: aProxy
 !
 
 jsObject: aJSObject ofProxy: aProxy
-	<aProxy['@jsObject'] = aJSObject>
+	<inlineJS: 'aProxy[''@jsObject''] = aJSObject'>
 !
 
 lookupProperty: aString ofProxy: aProxy
@@ -184,7 +184,7 @@ Use `#addElement:` and `#removeElement:` to manipulate instances.!
 !Organizer methodsFor: 'accessing'!
 
 addElement: anObject
-	<self.elements.addElement(anObject)>
+	<inlineJS: 'self.elements.addElement(anObject)'>
 !
 
 elements
@@ -192,7 +192,7 @@ elements
 !
 
 removeElement: anObject
-	<self.elements.removeElement(anObject)>
+	<inlineJS: 'self.elements.removeElement(anObject)'>
 ! !
 
 Organizer subclass: #ClassOrganizer
@@ -432,7 +432,7 @@ basicImports
 !
 
 basicName: aString
-	<self.pkgName = aString>
+	<inlineJS: 'self.pkgName = aString'>
 !
 
 basicTransport
@@ -703,7 +703,7 @@ cancelOptOut: anObject
 	This removes the shadow and anObject is Smalltalk object
 	again if it was before."
 	
-	<delete anObject.klass>
+	<inlineJS: 'delete anObject.klass'>
 !
 
 core
@@ -723,7 +723,7 @@ optOut: anObject
 	This shadows the property for anObject.
 	The object is treated as plain JS object following this."
 	
-	<anObject.klass = null>
+	<inlineJS: 'anObject.klass = null'>
 !
 
 parse: aString
@@ -889,20 +889,20 @@ basicParse: aString
 
 basicRegisterPackage: aPackage
 	"Put aPackage in $core.packages object."
-	<$core.packages[aPackage.pkgName]=aPackage>
+	<inlineJS: '$core.packages[aPackage.pkgName]=aPackage'>
 !
 
 deleteClass: aClass
 	"Deletes a class by deleting its binding only. Use #removeClass instead"
 	
-	<$core.removeClass(aClass)>
+	<inlineJS: '$core.removeClass(aClass)'>
 !
 
 deletePackage: packageName
 	"Deletes a package by deleting its binding, but does not check if it contains classes etc.
 	To remove a package, use #removePackage instead."
 
-	<delete $core.packages[packageName]>
+	<inlineJS: 'delete $core.packages[packageName]'>
 ! !
 
 !SmalltalkImage methodsFor: 'testing'!

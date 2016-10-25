@@ -24,6 +24,6 @@ initialize
 !
 
 isFeasible
-<return typeof global !!== "undefined">
+<inlineJS: 'return typeof global !!== "undefined"'>
 ! !
 

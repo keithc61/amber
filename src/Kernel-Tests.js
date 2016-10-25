@@ -728,15 +728,15 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
 	function TestConstructor(arg1, arg2, arg3) {}
-	TestConstructor.prototype.name = 'theTestPrototype';
+	TestConstructor.prototype.name = "theTestPrototype";
 
 	var wrappedConstructor = $recv(TestConstructor);
-	var result = wrappedConstructor._newWithValues_([1, 2, 3 ]);
+	var result = wrappedConstructor._newWithValues_([1, 2, 3]);
 	self._assert_(result instanceof TestConstructor);
-	self._assert_equals_(result.name, 'theTestPrototype');
+	self._assert_equals_(result.name, "theTestPrototype");
 
-	"newWithValues: cannot help if the argument list is wrong, and should warn that a mistake was made."
-	self._should_raise_(function () {wrappedConstructor._newWithValues_('single argument');}, $globals.Error);;
+	/* newWithValues: cannot help if the argument list is wrong, and should warn that a mistake was made. */
+	self._should_raise_(function () {wrappedConstructor._newWithValues_("single argument");}, $globals.Error);;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testNewWithValues",{},$globals.BlockClosureTest)});
@@ -744,7 +744,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testNewWithValues\x0a<\x0a\x09function TestConstructor(arg1, arg2, arg3) {}\x0a\x09TestConstructor.prototype.name = 'theTestPrototype';\x0a\x0a\x09var wrappedConstructor = $recv(TestConstructor);\x0a\x09var result = wrappedConstructor._newWithValues_([1, 2, 3 ]);\x0a\x09self._assert_(result instanceof TestConstructor);\x0a\x09self._assert_equals_(result.name, 'theTestPrototype');\x0a\x0a\x09\x22newWithValues: cannot help if the argument list is wrong, and should warn that a mistake was made.\x22\x0a\x09self._should_raise_(function () {wrappedConstructor._newWithValues_('single argument');}, $globals.Error);\x0a>",
+source: "testNewWithValues\x0a<inlineJS: '\x0a\x09function TestConstructor(arg1, arg2, arg3) {}\x0a\x09TestConstructor.prototype.name = \x22theTestPrototype\x22;\x0a\x0a\x09var wrappedConstructor = $recv(TestConstructor);\x0a\x09var result = wrappedConstructor._newWithValues_([1, 2, 3]);\x0a\x09self._assert_(result instanceof TestConstructor);\x0a\x09self._assert_equals_(result.name, \x22theTestPrototype\x22);\x0a\x0a\x09/* newWithValues: cannot help if the argument list is wrong, and should warn that a mistake was made. */\x0a\x09self._should_raise_(function () {wrappedConstructor._newWithValues_(\x22single argument\x22);}, $globals.Error);\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -11184,7 +11184,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-throw 'test';
+throw "test";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"throwException",{},$globals.JavaScriptExceptionTest)});
@@ -11192,7 +11192,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "throwException\x0a\x09<throw 'test'>",
+source: "throwException\x0a\x09<inlineJS: 'throw \x22test\x22'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

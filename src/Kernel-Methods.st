@@ -47,7 +47,7 @@ whileFalse
 !
 
 whileFalse: aBlock
-	<while(!!$core.assert(self._value())) {aBlock._value()}>
+	<inlineJS: 'while(!!$core.assert(self._value())) {aBlock._value()}'>
 !
 
 whileTrue
@@ -55,7 +55,7 @@ whileTrue
 !
 
 whileTrue: aBlock
-	<while($core.assert(self._value())) {aBlock._value()}>
+	<inlineJS: 'while($core.assert(self._value())) {aBlock._value()}'>
 ! !
 
 !BlockClosure methodsFor: 'converting'!
@@ -875,17 +875,17 @@ rawTimeout: anObject
 !Timeout methodsFor: 'timeout/interval'!
 
 clearInterval
-	<
+	<inlineJS: '
 		var interval = self["@rawTimeout"];
 		clearInterval(interval);
-	>
+	'>
 !
 
 clearTimeout
-	<
+	<inlineJS: '
 		var timeout = self["@rawTimeout"];
 		clearTimeout(timeout);
-	>
+	'>
 ! !
 
 !Timeout class methodsFor: 'instance creation'!

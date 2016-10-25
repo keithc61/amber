@@ -92,17 +92,17 @@ hashBlock: aBlock
 !BucketStore methodsFor: 'adding/removing'!
 
 removeAll
-	<self['@buckets'] = Object.create(null);>
+	<inlineJS: 'self[''@buckets''] = Object.create(null);'>
 ! !
 
 !BucketStore methodsFor: 'enumerating'!
 
 do: aBlock
-	<
-		var buckets = self['@buckets'];
+	<inlineJS: '
+		var buckets = self[''@buckets''];
 		var keys = Object.keys(buckets);
 		for (var i = 0; i < keys.length; ++i) { buckets[keys[i]]._do_(aBlock); }
-	>
+	'>
 ! !
 
 !BucketStore methodsFor: 'initialization'!
@@ -1074,31 +1074,31 @@ detect: aBlock ifNone: anotherBlock
 !
 
 do: aBlock
-	<
+	<inlineJS: '
 		self = self._numericallyIndexable();
 		for(var i=0; i < self.length; i++) {
 			aBlock._value_(self[i]);
 		}
-	>
+	'>
 !
 
 with: anotherCollection do: aBlock
-	<
+	<inlineJS: '
 		self = self._numericallyIndexable();
 		anotherCollection = anotherCollection._numericallyIndexable();
 		for(var i=0; i<self.length; i++) {
 			aBlock._value_value_(self[i], anotherCollection[i]);
 		}
-	>
+	'>
 !
 
 withIndexDo: aBlock
-	<
+	<inlineJS: '
 		self = self._numericallyIndexable();
 		for(var i=0; i < self.length; i++) {
 			aBlock._value_value_(self[i], i+1);
 		}
-	>
+	'>
 ! !
 
 !SequenceableCollection methodsFor: 'private'!
@@ -1235,15 +1235,15 @@ remove: anObject ifAbsent: aBlock
 !
 
 removeAll
-	<self.length = 0>
+	<inlineJS: 'self.length = 0'>
 !
 
 removeFrom: aNumber to: anotherNumber
-	<self.splice(aNumber -1, anotherNumber - aNumber + 1)>
+	<inlineJS: 'self.splice(aNumber -1, anotherNumber - aNumber + 1)'>
 !
 
 removeIndex: anInteger
-	<self.splice(anInteger - 1, 1)>
+	<inlineJS: 'self.splice(anInteger - 1, 1)'>
 !
 
 removeLast
@@ -1624,7 +1624,7 @@ value: anObject
 !String methodsFor: 'printing'!
 
 printNl
-	<console.log(self)>
+	<inlineJS: 'console.log(self)'>
 !
 
 printOn: aStream
@@ -1937,19 +1937,19 @@ detect: aBlock ifNone: anotherBlock
 !
 
 do: aBlock
-	<
+	<inlineJS: '
 		var el, keys, i;
-		el = self['@fastBuckets'];
+		el = self[''@fastBuckets''];
 		keys = Object.keys(el);
 		for (i = 0; i < keys.length; ++i) {
 			var fastBucket = el[keys[i]], fn = fastBucket.fn, store = Object.keys(fastBucket.store);
 			if (fn) { for (var j = 0; j < store.length; ++j) { aBlock._value_(fn(store[j])); } }
 			else { store._do_(aBlock); }
 		}
-		el = self['@slowBucketStores'];
+		el = self[''@slowBucketStores''];
 		for (i = 0; i < el.length; ++i) { el[i]._do_(aBlock); }
-		self['@defaultBucket']._do_(aBlock);
-	>
+		self[''@defaultBucket'']._do_(aBlock);
+	'>
 !
 
 select: aBlock
@@ -2041,7 +2041,7 @@ jsConstructorNameOf: anObject
 !
 
 remove: anObject in: anotherObject
-	<if (delete anotherObject.store[anObject]) self['@size']-->
+	<inlineJS: 'if (delete anotherObject.store[anObject]) self[''@size'']--'>
 ! !
 
 !Set methodsFor: 'testing'!

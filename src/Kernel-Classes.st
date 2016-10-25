@@ -77,7 +77,7 @@ javascriptConstructor: aJavaScriptFunction
 	"Set the JS constructor used to instantiate.
 	See the JS counter-part in boot.js `$core.setClassConstructor'"
 	
-	<$core.setClassConstructor(self, aJavaScriptFunction);>
+	<inlineJS: '$core.setClassConstructor(self, aJavaScriptFunction);'>
 !
 
 lookupSelector: selector
@@ -266,9 +266,9 @@ removeCompiledMethod: aMethod
 allSubclassesDo: aBlock
 	"Evaluate the argument, aBlock, for each of the receiver's subclasses."
 
-<$core.traverseClassTree(self, function(subclass) {
+<inlineJS: '$core.traverseClassTree(self, function(subclass) {
 	if (subclass !!== self) aBlock._value_(subclass);
-})>
+})'>
 !
 
 protocolsDo: aBlock
@@ -297,11 +297,11 @@ new
 !Behavior methodsFor: 'private'!
 
 basicAddCompiledMethod: aMethod
-	<$core.addMethod(aMethod, self)>
+	<inlineJS: '$core.addMethod(aMethod, self)'>
 !
 
 basicRemoveCompiledMethod: aMethod
-	<$core.removeMethod(aMethod,self)>
+	<inlineJS: '$core.removeMethod(aMethod,self)'>
 ! !
 
 !Behavior methodsFor: 'testing'!
@@ -709,29 +709,29 @@ basicClass: aClass instanceVariables: aCollection
 !
 
 basicRemoveClass: aClass
-	<$core.removeClass(aClass)>
+	<inlineJS: '$core.removeClass(aClass)'>
 !
 
 basicRenameClass: aClass to: aString
-	<
+	<inlineJS: '
 		$globals[aString] = aClass;
 		delete $globals[aClass.className];
 		aClass.className = aString;
-	>
+	'>
 !
 
 basicSwapClassNames: aClass with: anotherClass
-	<
+	<inlineJS: '
 		var tmp = aClass.className;
 		aClass.className = anotherClass.className;
 		anotherClass.className = tmp;
-	>
+	'>
 !
 
 rawRenameClass: aClass to: aString
-	<
+	<inlineJS: '
 		$globals[aString] = aClass;
-	>
+	'>
 ! !
 
 !ClassBuilder methodsFor: 'public'!

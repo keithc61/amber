@@ -28,7 +28,7 @@ instVarAt: aString
 !
 
 instVarAt: aString put: anObject
-	< self['@' + aString] = anObject >
+	<inlineJS: 'self[''@'' + aString] = anObject'>
 !
 
 yourself
@@ -311,7 +311,7 @@ subclassResponsibility
 !
 
 throw: anObject
-	< throw anObject >
+	<inlineJS: 'throw anObject'>
 ! !
 
 !Object methodsFor: 'evaluating'!
@@ -578,7 +578,7 @@ dayOfMonth
 !
 
 dayOfMonth: aNumber
-	<self.setDate(aNumber)>
+	<inlineJS: 'self.setDate(aNumber)'>
 !
 
 dayOfWeek
@@ -594,7 +594,7 @@ hours
 !
 
 hours: aNumber
-	<self.setHours(aNumber)>
+	<inlineJS: 'self.setHours(aNumber)'>
 !
 
 milliseconds
@@ -602,7 +602,7 @@ milliseconds
 !
 
 milliseconds: aNumber
-	<self.setMilliseconds(aNumber)>
+	<inlineJS: 'self.setMilliseconds(aNumber)'>
 !
 
 minutes
@@ -610,7 +610,7 @@ minutes
 !
 
 minutes: aNumber
-	<self.setMinutes(aNumber)>
+	<inlineJS: 'self.setMinutes(aNumber)'>
 !
 
 month
@@ -618,7 +618,7 @@ month
 !
 
 month: aNumber
-	<self.setMonth(aNumber - 1)>
+	<inlineJS: 'self.setMonth(aNumber - 1)'>
 !
 
 seconds
@@ -626,7 +626,7 @@ seconds
 !
 
 seconds: aNumber
-	<self.setSeconds(aNumber)>
+	<inlineJS: 'self.setSeconds(aNumber)'>
 !
 
 time
@@ -634,7 +634,7 @@ time
 !
 
 time: aNumber
-	<self.setTime(aNumber)>
+	<inlineJS: 'self.setTime(aNumber)'>
 !
 
 year
@@ -642,7 +642,7 @@ year
 !
 
 year: aNumber
-	<self.setFullYear(aNumber)>
+	<inlineJS: 'self.setFullYear(aNumber)'>
 ! !
 
 !Date methodsFor: 'arithmetic'!

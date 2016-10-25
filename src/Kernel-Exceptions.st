@@ -13,11 +13,11 @@ As `Error` is explicitly specified to be subclassable, conforming implementation
 !Error methodsFor: 'accessing'!
 
 beHandled
-	<self.amberHandled = true>
+	<inlineJS: 'self.amberHandled = true'>
 !
 
 beUnhandled
-	<self.amberHandled = false>
+	<inlineJS: 'self.amberHandled = false'>
 !
 
 context
@@ -62,19 +62,19 @@ initialize
 resignal
 	"Resignal the receiver without changing its exception context"
 	
-	<
+	<inlineJS: '
 		self.amberHandled = false;
 		throw(self);
-	>
+	'>
 !
 
 signal
-	<
+	<inlineJS: '
 		self.amberHandled = false;
 		self.context = $core.getThisContext(); 
 		self.smalltalkError = true;
 		throw self;
-	>
+	'>
 !
 
 signal: aString
@@ -149,7 +149,7 @@ context: aMethodContext
 	"Set the context from the outside.
 	See boot.js `inContext()` exception handling"
 	
-	<self.context = aMethodContext>
+	<inlineJS: 'self.context = aMethodContext'>
 !
 
 exception

@@ -103,7 +103,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isFeasible\x0a<return typeof window !== \x22undefined\x22>",
+source: "isFeasible\x0a<inlineJS: 'return typeof window !== \x22undefined\x22'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -253,7 +253,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isFeasible\x0a<return typeof window !== \x22undefined\x22>",
+source: "isFeasible\x0a<inlineJS: 'return typeof window !== \x22undefined\x22'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

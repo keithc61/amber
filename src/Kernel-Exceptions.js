@@ -27,7 +27,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "beHandled\x0a\x09<self.amberHandled = true>",
+source: "beHandled\x0a\x09<inlineJS: 'self.amberHandled = true'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -51,7 +51,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "beUnhandled\x0a\x09<self.amberHandled = false>",
+source: "beUnhandled\x0a\x09<inlineJS: 'self.amberHandled = false'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -211,7 +211,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "resignal\x0a\x09\x22Resignal the receiver without changing its exception context\x22\x0a\x09\x0a\x09<\x0a\x09\x09self.amberHandled = false;\x0a\x09\x09throw(self);\x0a\x09>",
+source: "resignal\x0a\x09\x22Resignal the receiver without changing its exception context\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09self.amberHandled = false;\x0a\x09\x09throw(self);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -240,7 +240,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "signal\x0a\x09<\x0a\x09\x09self.amberHandled = false;\x0a\x09\x09self.context = $core.getThisContext(); \x0a\x09\x09self.smalltalkError = true;\x0a\x09\x09throw self;\x0a\x09>",
+source: "signal\x0a\x09<inlineJS: '\x0a\x09\x09self.amberHandled = false;\x0a\x09\x09self.context = $core.getThisContext(); \x0a\x09\x09self.smalltalkError = true;\x0a\x09\x09throw self;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -539,7 +539,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aMethodContext"],
-source: "context: aMethodContext\x0a\x09\x22Set the context from the outside.\x0a\x09See boot.js `inContext()` exception handling\x22\x0a\x09\x0a\x09<self.context = aMethodContext>",
+source: "context: aMethodContext\x0a\x09\x22Set the context from the outside.\x0a\x09See boot.js `inContext()` exception handling\x22\x0a\x09\x0a\x09<inlineJS: 'self.context = aMethodContext'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

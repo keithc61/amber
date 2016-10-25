@@ -67,7 +67,7 @@ cr
 
 show: anObject
 "Smalltalk objects should have no trouble displaying themselves on the Transcript; Javascript objects don't know how, so must be wrapped in a JSObectProxy."
-<console.log(String($recv(anObject)._asString()))>
+<inlineJS: 'console.log(String($recv(anObject)._asString()))'>
 ! !
 
 !ConsoleTranscript class methodsFor: 'initialization'!

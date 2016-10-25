@@ -365,7 +365,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
- self['@' + aString] = anObject ;
+self['@' + aString] = anObject;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"instVarAt:put:",{aString:aString,anObject:anObject},$globals.ProtoObject)});
@@ -373,7 +373,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject"],
-source: "instVarAt: aString put: anObject\x0a\x09< self['@' + aString] = anObject >",
+source: "instVarAt: aString put: anObject\x0a\x09<inlineJS: 'self[''@'' + aString] = anObject'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -1564,7 +1564,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
- throw anObject ;
+throw anObject;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"throw:",{anObject:anObject},$globals.Object)});
@@ -1572,7 +1572,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "throw: anObject\x0a\x09< throw anObject >",
+source: "throw: anObject\x0a\x09<inlineJS: 'throw anObject'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2581,7 +2581,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "dayOfMonth: aNumber\x0a\x09<self.setDate(aNumber)>",
+source: "dayOfMonth: aNumber\x0a\x09<inlineJS: 'self.setDate(aNumber)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2677,7 +2677,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "hours: aNumber\x0a\x09<self.setHours(aNumber)>",
+source: "hours: aNumber\x0a\x09<inlineJS: 'self.setHours(aNumber)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2725,7 +2725,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "milliseconds: aNumber\x0a\x09<self.setMilliseconds(aNumber)>",
+source: "milliseconds: aNumber\x0a\x09<inlineJS: 'self.setMilliseconds(aNumber)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2773,7 +2773,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "minutes: aNumber\x0a\x09<self.setMinutes(aNumber)>",
+source: "minutes: aNumber\x0a\x09<inlineJS: 'self.setMinutes(aNumber)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2821,7 +2821,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "month: aNumber\x0a\x09<self.setMonth(aNumber - 1)>",
+source: "month: aNumber\x0a\x09<inlineJS: 'self.setMonth(aNumber - 1)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2893,7 +2893,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "seconds: aNumber\x0a\x09<self.setSeconds(aNumber)>",
+source: "seconds: aNumber\x0a\x09<inlineJS: 'self.setSeconds(aNumber)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2941,7 +2941,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "time: aNumber\x0a\x09<self.setTime(aNumber)>",
+source: "time: aNumber\x0a\x09<inlineJS: 'self.setTime(aNumber)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2989,7 +2989,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "year: aNumber\x0a\x09<self.setFullYear(aNumber)>",
+source: "year: aNumber\x0a\x09<inlineJS: 'self.setFullYear(aNumber)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

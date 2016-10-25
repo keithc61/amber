@@ -157,18 +157,18 @@ testLocalReturnOnDoMiss
 !
 
 testNewWithValues
-<
+<inlineJS: '
 	function TestConstructor(arg1, arg2, arg3) {}
-	TestConstructor.prototype.name = 'theTestPrototype';
+	TestConstructor.prototype.name = "theTestPrototype";
 
 	var wrappedConstructor = $recv(TestConstructor);
-	var result = wrappedConstructor._newWithValues_([1, 2, 3 ]);
+	var result = wrappedConstructor._newWithValues_([1, 2, 3]);
 	self._assert_(result instanceof TestConstructor);
-	self._assert_equals_(result.name, 'theTestPrototype');
+	self._assert_equals_(result.name, "theTestPrototype");
 
-	"newWithValues: cannot help if the argument list is wrong, and should warn that a mistake was made."
-	self._should_raise_(function () {wrappedConstructor._newWithValues_('single argument');}, $globals.Error);
->
+	/* newWithValues: cannot help if the argument list is wrong, and should warn that a mistake was made. */
+	self._should_raise_(function () {wrappedConstructor._newWithValues_("single argument");}, $globals.Error);
+'>
 !
 
 testNumArgs
@@ -2043,7 +2043,7 @@ TestCase subclass: #JavaScriptExceptionTest
 !JavaScriptExceptionTest methodsFor: 'helpers'!
 
 throwException
-	<throw 'test'>
+	<inlineJS: 'throw "test"'>
 ! !
 
 !JavaScriptExceptionTest methodsFor: 'tests'!

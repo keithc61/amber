@@ -635,7 +635,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "whileFalse: aBlock\x0a\x09<while(!$core.assert(self._value())) {aBlock._value()}>",
+source: "whileFalse: aBlock\x0a\x09<inlineJS: 'while(!$core.assert(self._value())) {aBlock._value()}'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -685,7 +685,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "whileTrue: aBlock\x0a\x09<while($core.assert(self._value())) {aBlock._value()}>",
+source: "whileTrue: aBlock\x0a\x09<inlineJS: 'while($core.assert(self._value())) {aBlock._value()}'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3297,7 +3297,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "clearInterval\x0a\x09<\x0a\x09\x09var interval = self[\x22@rawTimeout\x22];\x0a\x09\x09clearInterval(interval);\x0a\x09>",
+source: "clearInterval\x0a\x09<inlineJS: '\x0a\x09\x09var interval = self[\x22@rawTimeout\x22];\x0a\x09\x09clearInterval(interval);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3324,7 +3324,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "clearTimeout\x0a\x09<\x0a\x09\x09var timeout = self[\x22@rawTimeout\x22];\x0a\x09\x09clearTimeout(timeout);\x0a\x09>",
+source: "clearTimeout\x0a\x09<inlineJS: '\x0a\x09\x09var timeout = self[\x22@rawTimeout\x22];\x0a\x09\x09clearTimeout(timeout);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
