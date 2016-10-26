@@ -292,10 +292,6 @@ add: anObject
 	^ self instructions add: anObject
 !
 
-remove
-	self parent remove: self
-!
-
 remove: anIRInstruction
 	self instructions remove: anIRInstruction
 !

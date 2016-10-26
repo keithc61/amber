@@ -1434,30 +1434,6 @@ $globals.IRInstruction);
 
 $core.addMethod(
 $core.method({
-selector: "remove",
-protocol: 'building',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv(self._parent())._remove_(self);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"remove",{},$globals.IRInstruction)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "remove\x0a\x09self parent remove: self",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["remove:", "parent"]
-}),
-$globals.IRInstruction);
-
-$core.addMethod(
-$core.method({
 selector: "remove:",
 protocol: 'building',
 fn: function (anIRInstruction){
