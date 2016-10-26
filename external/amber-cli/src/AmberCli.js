@@ -377,7 +377,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "dirname\x0a\x09<return __dirname>",
+source: "dirname\x0a\x09<inlineJS: 'return __dirname'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -553,7 +553,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return (new Buffer(aString, 'base64').toString());
+return (new Buffer(aString, "base64").toString());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"base64Decode:",{aString:aString},$globals.FileServer)});
@@ -561,7 +561,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "base64Decode: aString\x0a\x09<return (new Buffer(aString, 'base64').toString())>",
+source: "base64Decode: aString\x0a\x09<inlineJS: 'return (new Buffer(aString, \x22base64\x22).toString())'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

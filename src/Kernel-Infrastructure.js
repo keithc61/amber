@@ -77,7 +77,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "at: aString\x0a\x09<return self['@jsObject'][aString]>",
+source: "at: aString\x0a\x09<inlineJS: 'return self[''@jsObject''][aString]'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -104,7 +104,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aBlock"],
-source: "at: aString ifAbsent: aBlock\x0a\x09\x22return the aString property or evaluate aBlock if the property is not defined on the object\x22\x0a\x09<\x0a\x09\x09var obj = self['@jsObject'];\x0a\x09\x09return aString in obj ? obj[aString] : aBlock._value();\x0a\x09>",
+source: "at: aString ifAbsent: aBlock\x0a\x09\x22return the aString property or evaluate aBlock if the property is not defined on the object\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = self[''@jsObject''];\x0a\x09\x09return aString in obj ? obj[aString] : aBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -131,7 +131,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aBlock"],
-source: "at: aString ifPresent: aBlock\x0a\x09\x22return the evaluation of aBlock with the value if the property is defined or return nil\x22\x0a\x09<\x0a\x09\x09var obj = self['@jsObject'];\x0a\x09\x09return aString in obj ? aBlock._value_(obj[aString]) : nil;\x0a\x09>",
+source: "at: aString ifPresent: aBlock\x0a\x09\x22return the evaluation of aBlock with the value if the property is defined or return nil\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = self[''@jsObject''];\x0a\x09\x09return aString in obj ? aBlock._value_(obj[aString]) : nil;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -158,7 +158,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aBlock", "anotherBlock"],
-source: "at: aString ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09\x22return the evaluation of aBlock with the value if the property is defined\x0a\x09or return value of anotherBlock\x22\x0a\x09<\x0a\x09\x09var obj = self['@jsObject'];\x0a\x09\x09return aString in obj ? aBlock._value_(obj[aString]) : anotherBlock._value();\x0a\x09>",
+source: "at: aString ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09\x22return the evaluation of aBlock with the value if the property is defined\x0a\x09or return value of anotherBlock\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = self[''@jsObject''];\x0a\x09\x09return aString in obj ? aBlock._value_(obj[aString]) : anotherBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -182,7 +182,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject"],
-source: "at: aString put: anObject\x0a\x09<return self['@jsObject'][aString] = anObject>",
+source: "at: aString put: anObject\x0a\x09<inlineJS: 'return self[''@jsObject''][aString] = anObject'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -290,7 +290,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "keysAndValuesDo: aBlock\x0a\x09<\x0a\x09\x09var o = self['@jsObject'];\x0a\x09\x09for(var i in o) {\x0a\x09\x09\x09aBlock._value_value_(i, o[i]);\x0a\x09\x09}\x0a\x09>",
+source: "keysAndValuesDo: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var o = self[''@jsObject''];\x0a\x09\x09for(var i in o) {\x0a\x09\x09\x09aBlock._value_value_(i, o[i]);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -343,7 +343,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "printString\x0a\x09<\x0a\x09\x09var js = self['@jsObject'];\x0a\x09\x09return js.toString\x0a\x09\x09\x09? js.toString()\x0a\x09\x09\x09: Object.prototype.toString.call(js)\x0a\x09>",
+source: "printString\x0a\x09<inlineJS: '\x0a\x09\x09var js = self[''@jsObject''];\x0a\x09\x09return js.toString\x0a\x09\x09\x09? js.toString()\x0a\x09\x09\x09: Object.prototype.toString.call(js)\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -397,7 +397,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aDictionary", "aProxy"],
-source: "addObjectVariablesTo: aDictionary ofProxy: aProxy\x0a\x09<\x0a\x09\x09var jsObject = aProxy['@jsObject'];\x0a\x09\x09for(var i in jsObject) {\x0a\x09\x09\x09aDictionary._at_put_(i, jsObject[i]);\x0a\x09\x09}\x0a\x09>",
+source: "addObjectVariablesTo: aDictionary ofProxy: aProxy\x0a\x09<inlineJS: '\x0a\x09\x09var jsObject = aProxy[''@jsObject''];\x0a\x09\x09for(var i in jsObject) {\x0a\x09\x09\x09aDictionary._at_put_(i, jsObject[i]);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -423,7 +423,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aProxy", "anotherProxy"],
-source: "compareJSObjectOfProxy: aProxy withProxy: anotherProxy\x0a<\x0a\x09var anotherJSObject = anotherProxy.klass ? anotherProxy[\x22@jsObject\x22] : anotherProxy;\x0a\x09return aProxy[\x22@jsObject\x22] === anotherJSObject\x0a>",
+source: "compareJSObjectOfProxy: aProxy withProxy: anotherProxy\x0a<inlineJS: '\x0a\x09var anotherJSObject = anotherProxy.klass ? anotherProxy[\x22@jsObject\x22] : anotherProxy;\x0a\x09return aProxy[\x22@jsObject\x22] === anotherJSObject\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -449,7 +449,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anArray", "aProxy"],
-source: "forwardMessage: aString withArguments: anArray ofProxy: aProxy\x0a\x09<\x0a\x09\x09return $core.accessJavaScript(aProxy._jsObject(), aString, anArray);\x0a\x09>",
+source: "forwardMessage: aString withArguments: anArray ofProxy: aProxy\x0a\x09<inlineJS: '\x0a\x09\x09return $core.accessJavaScript(aProxy._jsObject(), aString, anArray);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -473,7 +473,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aJSObject", "aProxy"],
-source: "jsObject: aJSObject ofProxy: aProxy\x0a\x09<aProxy['@jsObject'] = aJSObject>",
+source: "jsObject: aJSObject ofProxy: aProxy\x0a\x09<inlineJS: 'aProxy[''@jsObject''] = aJSObject'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -497,7 +497,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aProxy"],
-source: "lookupProperty: aString ofProxy: aProxy\x0a\x09\x22Looks up a property in JS object.\x0a\x09Answer the property if it is present, or nil if it is not present.\x22\x0a\x09\x0a\x09<return aString in aProxy._jsObject() ? aString : nil>",
+source: "lookupProperty: aString ofProxy: aProxy\x0a\x09\x22Looks up a property in JS object.\x0a\x09Answer the property if it is present, or nil if it is not present.\x22\x0a\x09\x0a\x09<inlineJS: 'return aString in aProxy._jsObject() ? aString : nil'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -552,7 +552,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "addElement: anObject\x0a\x09<self.elements.addElement(anObject)>",
+source: "addElement: anObject\x0a\x09<inlineJS: 'self.elements.addElement(anObject)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -599,7 +599,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "removeElement: anObject\x0a\x09<self.elements.removeElement(anObject)>",
+source: "removeElement: anObject\x0a\x09<inlineJS: 'self.elements.removeElement(anObject)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -697,7 +697,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
- return self.theClass ;
+return self.theClass;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"theClass",{},$globals.ClassOrganizer)});
@@ -705,7 +705,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "theClass\x0a\x09< return self.theClass >",
+source: "theClass\x0a\x09<inlineJS: 'return self.theClass'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -741,7 +741,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "basicImports\x0a\x09\x22Answer the imports literal JavaScript object as setup in the JavaScript file, if any\x22\x0a\x09\x0a\x09<return self.imports || []>",
+source: "basicImports\x0a\x09\x22Answer the imports literal JavaScript object as setup in the JavaScript file, if any\x22\x0a\x09\x0a\x09<inlineJS: 'return self.imports || []'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -765,7 +765,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "basicName: aString\x0a\x09<self.pkgName = aString>",
+source: "basicName: aString\x0a\x09<inlineJS: 'self.pkgName = aString'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -789,7 +789,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "basicTransport\x0a\x09\x22Answer the transport literal JavaScript object as setup in the JavaScript file, if any\x22\x0a\x09\x0a\x09<return self.transport>",
+source: "basicTransport\x0a\x09\x22Answer the transport literal JavaScript object as setup in the JavaScript file, if any\x22\x0a\x09\x0a\x09<inlineJS: 'return self.transport'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -1425,7 +1425,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "name\x0a\x09<return self.pkgName>",
+source: "name\x0a\x09<inlineJS: 'return self.pkgName'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2218,60 +2218,6 @@ $globals.ParseError.comment="Instance of ParseError are signaled on any parsing 
 //>>excludeEnd("ide");
 
 
-$core.addClass('RethrowErrorHandler', $globals.Object, [], 'Kernel-Infrastructure');
-//>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.RethrowErrorHandler.comment="This class is used in the commandline version of the compiler.\x0aIt uses the handleError: message of ErrorHandler for printing the stacktrace and throws the error again as JS exception.\x0aAs a result Smalltalk errors are not swallowd by the Amber runtime and compilation can be aborted.";
-//>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "basicSignal:",
-protocol: 'error handling',
-fn: function (anError){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-throw anError;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicSignal:",{anError:anError},$globals.RethrowErrorHandler)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anError"],
-source: "basicSignal: anError\x0a        <throw anError>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.RethrowErrorHandler);
-
-$core.addMethod(
-$core.method({
-selector: "handleError:",
-protocol: 'error handling',
-fn: function (anError){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-self._basicSignal_(anError);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"handleError:",{anError:anError},$globals.RethrowErrorHandler)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anError"],
-source: "handleError: anError\x0a        self basicSignal: anError",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["basicSignal:"]
-}),
-$globals.RethrowErrorHandler);
-
-
-
 $core.addClass('Setting', $globals.Object, ['key', 'value', 'defaultValue'], 'Kernel-Infrastructure');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Setting.comment="I represent a setting **stored** at `Smalltalk settings`. \x0aIn the current implementation, `Smalltalk settings` is an object persisted in the localStorage.\x0a\x0a## API\x0a\x0aA `Setting` value can be read using `value` and set using `value:`.\x0a\x0aSettings are accessed with `'key' asSetting` or `'key' asSettingIfAbsent: aDefaultValue`.\x0a\x0aTo read the value of a setting you can also use the convenience:\x0a\x0a`theValueSet :=  'any.characteristic' settingValue` \x0a\x0aor with a default using:\x0a\x0a `theEnsuredValueSet := 'any.characteristic' settingValueIfAbsent: true`";
@@ -2569,7 +2515,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["packageName"],
-source: "basicCreatePackage: packageName\x0a\x09\x22Create and bind a new bare package with given name and return it.\x22\x0a\x09<return $core.addPackage(packageName)>",
+source: "basicCreatePackage: packageName\x0a\x09\x22Create and bind a new bare package with given name and return it.\x22\x0a\x09<inlineJS: 'return $core.addPackage(packageName)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2616,7 +2562,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage"],
-source: "basicRegisterPackage: aPackage\x0a\x09\x22Put aPackage in $core.packages object.\x22\x0a\x09<$core.packages[aPackage.pkgName]=aPackage>",
+source: "basicRegisterPackage: aPackage\x0a\x09\x22Put aPackage in $core.packages object.\x22\x0a\x09<inlineJS: '$core.packages[aPackage.pkgName]=aPackage'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2640,7 +2586,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "cancelOptOut: anObject\x0a\x09\x22A Smalltalk object has a 'klass' property.\x0a\x09If this property is shadowed for anObject by optOut:,\x0a\x09the object is treated as plain JS object.\x0a\x09This removes the shadow and anObject is Smalltalk object\x0a\x09again if it was before.\x22\x0a\x09\x0a\x09<delete anObject.klass>",
+source: "cancelOptOut: anObject\x0a\x09\x22A Smalltalk object has a 'klass' property.\x0a\x09If this property is shadowed for anObject by optOut:,\x0a\x09the object is treated as plain JS object.\x0a\x09This removes the shadow and anObject is Smalltalk object\x0a\x09again if it was before.\x22\x0a\x09\x0a\x09<inlineJS: 'delete anObject.klass'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2664,7 +2610,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "classes\x0a\x09<return $core.classes()>",
+source: "classes\x0a\x09<inlineJS: 'return $core.classes()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2688,7 +2634,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "core\x0a\x09<return $core>",
+source: "core\x0a\x09<inlineJS: 'return $core'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2789,7 +2735,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
-source: "deleteClass: aClass\x0a\x09\x22Deletes a class by deleting its binding only. Use #removeClass instead\x22\x0a\x09\x0a\x09<$core.removeClass(aClass)>",
+source: "deleteClass: aClass\x0a\x09\x22Deletes a class by deleting its binding only. Use #removeClass instead\x22\x0a\x09\x0a\x09<inlineJS: '$core.removeClass(aClass)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2839,7 +2785,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["packageName"],
-source: "deletePackage: packageName\x0a\x09\x22Deletes a package by deleting its binding, but does not check if it contains classes etc.\x0a\x09To remove a package, use #removePackage instead.\x22\x0a\x0a\x09<delete $core.packages[packageName]>",
+source: "deletePackage: packageName\x0a\x09\x22Deletes a package by deleting its binding, but does not check if it contains classes etc.\x0a\x09To remove a package, use #removePackage instead.\x22\x0a\x0a\x09<inlineJS: 'delete $core.packages[packageName]'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2892,7 +2838,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "globalJsVariables\x0a\x09\x22Array of global JavaScript variables\x22\x0a\x09<return $core.globalJsVariables>",
+source: "globalJsVariables\x0a\x09\x22Array of global JavaScript variables\x22\x0a\x09<inlineJS: 'return $core.globalJsVariables'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2916,7 +2862,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "globals\x0a\x09<return $globals>",
+source: "globals\x0a\x09<inlineJS: 'return $globals'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2940,7 +2886,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aKey"],
-source: "includesKey: aKey\x0a\x09<return $core.hasOwnProperty(aKey)>",
+source: "includesKey: aKey\x0a\x09<inlineJS: 'return $core.hasOwnProperty(aKey)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2964,7 +2910,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "isSmalltalkObject: anObject\x0a\x09\x22Consider anObject a Smalltalk object if it has a 'klass' property.\x0a\x09Note that this may be unaccurate\x22\x0a\x09\x0a\x09<return anObject.klass != null>",
+source: "isSmalltalkObject: anObject\x0a\x09\x22Consider anObject a Smalltalk object if it has a 'klass' property.\x0a\x09Note that this may be unaccurate\x22\x0a\x09\x0a\x09<inlineJS: 'return anObject.klass != null'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2988,7 +2934,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "optOut: anObject\x0a\x09\x22A Smalltalk object has a 'klass' property.\x0a\x09This shadows the property for anObject.\x0a\x09The object is treated as plain JS object following this.\x22\x0a\x09\x0a\x09<anObject.klass = null>",
+source: "optOut: anObject\x0a\x09\x22A Smalltalk object has a 'klass' property.\x0a\x09This shadows the property for anObject.\x0a\x09The object is treated as plain JS object following this.\x22\x0a\x09\x0a\x09<inlineJS: 'anObject.klass = null'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3012,7 +2958,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["packageName"],
-source: "packageAt: packageName\x0a\x09<return $core.packages[packageName]>",
+source: "packageAt: packageName\x0a\x09<inlineJS: 'return $core.packages[packageName]'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3065,7 +3011,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "packages\x0a\x09\x22Return all Package instances in the system.\x22\x0a\x0a\x09<\x0a\x09\x09return Object.keys($core.packages).map(function(k) {\x0a\x09\x09\x09return $core.packages[k];\x0a\x09\x09})\x0a\x09>",
+source: "packages\x0a\x09\x22Return all Package instances in the system.\x22\x0a\x0a\x09<inlineJS: '\x0a\x09\x09return Object.keys($core.packages).map(function(k) {\x0a\x09\x09\x09return $core.packages[k];\x0a\x09\x09})\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3202,7 +3148,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "readJSObject: anObject\x0a\x09<return $core.readJSObject(anObject)>",
+source: "readJSObject: anObject\x0a\x09<inlineJS: 'return $core.readJSObject(anObject)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3353,7 +3299,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "reservedWords\x0a\x09\x22JavaScript reserved words\x22\x0a\x09<return $core.reservedWords>",
+source: "reservedWords\x0a\x09\x22JavaScript reserved words\x22\x0a\x09<inlineJS: 'return $core.reservedWords'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3384,12 +3330,12 @@ selector: "version",
 protocol: 'accessing',
 fn: function (){
 var self=this;
-return "0.17.0-pre";
+return "0.18.0-pre";
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.17.0-pre'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.18.0-pre'",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3536,7 +3482,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJavaScriptPropertyName\x0a<return $core.st2prop(self)>",
+source: "asJavaScriptPropertyName\x0a<inlineJS: 'return $core.st2prop(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

@@ -158,7 +158,7 @@ var ast,visitor;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $3,$2,$1;
-ast=self._parse_forClass_("foo <consolee.log(1)>",$globals.Object);
+ast=self._parse_forClass_("foo <inlineJS: 'consolee.log(1)'>",$globals.Object);
 $3=self._astPCNodeVisitor();
 $recv($3)._visit_(ast);
 $2=$recv($3)._currentNode();
@@ -171,7 +171,38 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testJSStatementNode\x0a\x09| ast visitor |\x0a\x09\x0a\x09ast := self parse: 'foo <consolee.log(1)>' forClass: Object.\x0a\x09self assert: (self astPCNodeVisitor\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) isJSStatementNode",
+source: "testJSStatementNode\x0a\x09| ast visitor |\x0a\x09\x0a\x09ast := self parse: 'foo <inlineJS: ''consolee.log(1)''>' forClass: Object.\x0a\x09self assert: (self astPCNodeVisitor\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) isJSStatementNode",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+messageSends: ["parse:forClass:", "assert:", "isJSStatementNode", "visit:", "astPCNodeVisitor", "currentNode"]
+}),
+$globals.ASTPCNodeVisitorTest);
+
+$core.addMethod(
+$core.method({
+selector: "testLegacyJSStatementNode",
+protocol: 'tests',
+fn: function (){
+var self=this;
+var ast,visitor;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $3,$2,$1;
+ast=self._parse_forClass_("foo <consolee.log(1)>",$globals.Object);
+$3=self._astPCNodeVisitor();
+$recv($3)._visit_(ast);
+$2=$recv($3)._currentNode();
+$1=$recv($2)._isJSStatementNode();
+self._assert_($1);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testLegacyJSStatementNode",{ast:ast,visitor:visitor},$globals.ASTPCNodeVisitorTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testLegacyJSStatementNode\x0a\x09| ast visitor |\x0a\x09\x0a\x09ast := self parse: 'foo <consolee.log(1)>' forClass: Object.\x0a\x09self assert: (self astPCNodeVisitor\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) isJSStatementNode",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
 messageSends: ["parse:forClass:", "assert:", "isJSStatementNode", "visit:", "astPCNodeVisitor", "currentNode"]
@@ -324,37 +355,6 @@ source: "testNoMessageSend\x0a\x09| ast |\x0a\x09\x0a\x09ast := self parse: 'foo
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
 messageSends: ["parse:forClass:", "assert:", "isNil", "visit:", "astPCNodeVisitor", "currentNode"]
-}),
-$globals.ASTPCNodeVisitorTest);
-
-$core.addMethod(
-$core.method({
-selector: "testPC",
-protocol: 'tests',
-fn: function (){
-var self=this;
-var ast,visitor;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $3,$2,$1;
-ast=self._parse_forClass_("foo <console.log(1)>",$globals.Object);
-$3=self._astPCNodeVisitor();
-$recv($3)._visit_(ast);
-$2=$recv($3)._currentNode();
-$1=$recv($2)._isJSStatementNode();
-self._assert_($1);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testPC",{ast:ast,visitor:visitor},$globals.ASTPCNodeVisitorTest)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testPC\x0a\x09| ast visitor |\x0a\x09\x0a\x09ast := self parse: 'foo <console.log(1)>' forClass: Object.\x0a\x09self assert: (self astPCNodeVisitor\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) isJSStatementNode",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-messageSends: ["parse:forClass:", "assert:", "isJSStatementNode", "visit:", "astPCNodeVisitor", "currentNode"]
 }),
 $globals.ASTPCNodeVisitorTest);
 
@@ -1410,6 +1410,30 @@ source: "testPascalCaseGlobal\x0a\x09self should: 'foo ^Object' return: (Smallta
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 messageSends: ["should:return:", "at:", "globals"]
+}),
+$globals.CodeGeneratorTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPragmaJSStatement",
+protocol: 'tests',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+self._should_return_("foo < inlineJS: 'return 2+3' >",(5));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPragmaJSStatement",{},$globals.CodeGeneratorTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPragmaJSStatement\x0a\x09self should: 'foo < inlineJS: ''return 2+3'' >' return: 5",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
 

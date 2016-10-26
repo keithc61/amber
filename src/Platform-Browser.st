@@ -24,7 +24,7 @@ initialize
 !
 
 isFeasible
-<return typeof window !!== "undefined">
+<inlineJS: 'return typeof window !!== "undefined"'>
 ! !
 
 Object subclass: #BrowserTerminal
@@ -58,7 +58,7 @@ initialize
 !
 
 isFeasible
-<return typeof window !!== "undefined">
+<inlineJS: 'return typeof window !!== "undefined"'>
 ! !
 
 !Object methodsFor: '*Platform-Browser'!
@@ -68,6 +68,6 @@ postMessageTo: aFrame
 !
 
 postMessageTo: aFrame origin: aString
-<return aFrame.postMessage(self, aString)>
+<inlineJS: 'return aFrame.postMessage(self, aString)'>
 ! !
 

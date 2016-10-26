@@ -200,7 +200,7 @@ shouldInlineAssignment: anIRAssignment
 
 shouldInlineReturn: anIRReturn
 	^ anIRReturn isInlined not and: [
-		anIRReturn instructions single isSend and: [
+		anIRReturn expression isSend and: [
 			self shouldInlineSend: anIRReturn expression ]]
 !
 

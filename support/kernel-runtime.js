@@ -60,9 +60,6 @@ define(function () {
         var installMethod = brikz.manipulation.installMethod;
         var installJSMethod = brikz.manipulation.installJSMethod;
 
-        /* Initialize a class in its class hierarchy. Handle both classes and
-         metaclasses. */
-
         var detachedRootClasses = [];
 
         function markClassDetachedRoot(klass) {
@@ -73,6 +70,9 @@ define(function () {
         this.detachedRootClasses = function () {
             return detachedRootClasses;
         };
+
+        /* Initialize a class in its class hierarchy. Handle both classes and
+         metaclasses. */
 
         function initClassAndMetaclass(klass) {
             initClass(klass);
@@ -295,9 +295,10 @@ define(function () {
 
         setClassConstructor(globals.MethodContext, SmalltalkMethodContext);
 
-        /* This is the current call context object. While it is publicly available,
-         Use smalltalk.getThisContext() instead which will answer a safe copy of
-         the current context */
+        /* This is the current call context object.
+         In Smalltalk code, it is accessible just by using 'thisContext' variable.
+         In JS code, use api.getThisContext() (see below).
+         */
 
         var thisContext = null;
 
@@ -409,8 +410,7 @@ define(function () {
         var globals = brikz.smalltalkGlobals.globals;
         var nilAsReceiver = brikz.root.nilAsReceiver;
 
-        /* Handles unhandled errors during message sends */
-        // simply send the message and handle #dnu:
+        /* Send message programmatically. Used to implement #perform: & Co. */
 
         st.send2 = function (receiver, selector, args, klass) {
             var method, jsSelector = st.st2js(selector);
@@ -441,6 +441,13 @@ define(function () {
                 return invokeDnuMethod(receiver, stSelector, args);
             }
             /* Call a method of a JS object, or answer a property if it exists.
+
+             Converts keyword-based selectors by using the first
+             keyword only, but keeping all message arguments.
+
+             Example:
+             "self do: aBlock with: anObject" -> "self.do(aBlock, anObject)"
+
              Else try wrapping a JSObjectProxy around the receiver. */
             var propertyName = st.st2prop(stSelector);
             if (!(propertyName in receiver)) {
@@ -452,12 +459,7 @@ define(function () {
         /* If the object property is a function, then call it, except if it starts with
          an uppercase character (we probably want to answer the function itself in this
          case and send it #new from Amber).
-
-         Converts keyword-based selectors by using the first
-         keyword only, but keeping all message arguments.
-
-         Example:
-         "self do: aBlock with: anObject" -> "self.do(aBlock, anObject)" */
+         */
         function accessJavaScript(receiver, propertyName, args) {
             var propertyValue = receiver[propertyName];
             if (typeof propertyValue === "function" && !/^[A-Z]/.test(propertyName)) {

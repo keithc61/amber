@@ -64,20 +64,20 @@ definition
 !
 
 instanceVariableNames
-	<return self.iVarNames>
+	<inlineJS: 'return self.iVarNames'>
 !
 
 javascriptConstructor
 	"Answer the JS constructor used to instantiate. See boot.js"
 	
-	<return self.fn>
+	<inlineJS: 'return self.fn'>
 !
 
 javascriptConstructor: aJavaScriptFunction
 	"Set the JS constructor used to instantiate.
 	See the JS counter-part in boot.js `$core.setClassConstructor'"
 	
-	<$core.setClassConstructor(self, aJavaScriptFunction);>
+	<inlineJS: '$core.setClassConstructor(self, aJavaScriptFunction);'>
 !
 
 lookupSelector: selector
@@ -101,14 +101,14 @@ methodAt: aString
 !
 
 methodDictionary
-	<var dict = $globals.HashedCollection._new();
+	<inlineJS: 'var dict = $globals.HashedCollection._new();
 	var methods = self.methods;
 	Object.keys(methods).forEach(function(i) {
 		if(methods[i].selector) {
 			dict._at_put_(methods[i].selector, methods[i]);
 		}
 	});
-	return dict>
+	return dict'>
 !
 
 methodTemplate
@@ -132,7 +132,7 @@ methodsInProtocol: aString
 !
 
 name
-	<return self.className || nil>
+	<inlineJS: 'return self.className || nil'>
 !
 
 organization
@@ -173,7 +173,7 @@ protocols
 !
 
 prototype
-	<return self.fn.prototype>
+	<inlineJS: 'return self.fn.prototype'>
 !
 
 removeProtocolIfEmpty: aString
@@ -191,7 +191,7 @@ subclasses
 !
 
 superclass
-	<return self.superclass>
+	<inlineJS: 'return self.superclass'>
 !
 
 theMetaClass
@@ -266,9 +266,9 @@ removeCompiledMethod: aMethod
 allSubclassesDo: aBlock
 	"Evaluate the argument, aBlock, for each of the receiver's subclasses."
 
-<$core.traverseClassTree(self, function(subclass) {
+<inlineJS: '$core.traverseClassTree(self, function(subclass) {
 	if (subclass !!== self) aBlock._value_(subclass);
-})>
+})'>
 !
 
 protocolsDo: aBlock
@@ -287,7 +287,7 @@ protocolsDo: aBlock
 !Behavior methodsFor: 'instance creation'!
 
 basicNew
-	<return new self.fn()>
+	<inlineJS: 'return new self.fn()'>
 !
 
 new
@@ -297,11 +297,11 @@ new
 !Behavior methodsFor: 'private'!
 
 basicAddCompiledMethod: aMethod
-	<$core.addMethod(aMethod, self)>
+	<inlineJS: '$core.addMethod(aMethod, self)'>
 !
 
 basicRemoveCompiledMethod: aMethod
-	<$core.removeMethod(aMethod,self)>
+	<inlineJS: '$core.removeMethod(aMethod,self)'>
 ! !
 
 !Behavior methodsFor: 'testing'!
@@ -398,7 +398,7 @@ rename: aString
 !
 
 subclasses
-	<return self.subclasses._copy()>
+	<inlineJS: 'return self.subclasses._copy()'>
 !
 
 theMetaClass
@@ -477,7 +477,7 @@ definition
 !
 
 instanceClass
-	<return self.instanceClass>
+	<inlineJS: 'return self.instanceClass'>
 !
 
 instanceVariableNames: aCollection
@@ -490,7 +490,7 @@ package
 !
 
 subclasses
-	<return $core.metaSubclasses(self)>
+	<inlineJS: 'return $core.metaSubclasses(self)'>
 !
 
 theMetaClass
@@ -693,9 +693,9 @@ installMethod: aCompiledMethod forClass: aBehavior protocol: aString
 !ClassBuilder methodsFor: 'private'!
 
 basicAddSubclassOf: aClass named: aString instanceVariableNames: aCollection package: packageName
-	<
+	<inlineJS: '
 		return $core.addClass(aString, aClass, aCollection, packageName);
-	>
+	'>
 !
 
 basicClass: aClass instanceVariableNames: aString
@@ -709,29 +709,29 @@ basicClass: aClass instanceVariables: aCollection
 !
 
 basicRemoveClass: aClass
-	<$core.removeClass(aClass)>
+	<inlineJS: '$core.removeClass(aClass)'>
 !
 
 basicRenameClass: aClass to: aString
-	<
+	<inlineJS: '
 		$globals[aString] = aClass;
 		delete $globals[aClass.className];
 		aClass.className = aString;
-	>
+	'>
 !
 
 basicSwapClassNames: aClass with: anotherClass
-	<
+	<inlineJS: '
 		var tmp = aClass.className;
 		aClass.className = anotherClass.className;
 		anotherClass.className = tmp;
-	>
+	'>
 !
 
 rawRenameClass: aClass to: aString
-	<
+	<inlineJS: '
 		$globals[aString] = aClass;
-	>
+	'>
 ! !
 
 !ClassBuilder methodsFor: 'public'!

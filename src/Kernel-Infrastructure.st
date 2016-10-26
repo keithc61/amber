@@ -30,36 +30,36 @@ __Note:__ For keyword-based messages, only the first keyword is kept: `window fo
 !JSObjectProxy methodsFor: 'accessing'!
 
 at: aString
-	<return self['@jsObject'][aString]>
+	<inlineJS: 'return self[''@jsObject''][aString]'>
 !
 
 at: aString ifAbsent: aBlock
 	"return the aString property or evaluate aBlock if the property is not defined on the object"
-	<
-		var obj = self['@jsObject'];
+	<inlineJS: '
+		var obj = self[''@jsObject''];
 		return aString in obj ? obj[aString] : aBlock._value();
-	>
+	'>
 !
 
 at: aString ifPresent: aBlock
 	"return the evaluation of aBlock with the value if the property is defined or return nil"
-	<
-		var obj = self['@jsObject'];
+	<inlineJS: '
+		var obj = self[''@jsObject''];
 		return aString in obj ? aBlock._value_(obj[aString]) : nil;
-	>
+	'>
 !
 
 at: aString ifPresent: aBlock ifAbsent: anotherBlock
 	"return the evaluation of aBlock with the value if the property is defined
 	or return value of anotherBlock"
-	<
-		var obj = self['@jsObject'];
+	<inlineJS: '
+		var obj = self[''@jsObject''];
 		return aString in obj ? aBlock._value_(obj[aString]) : anotherBlock._value();
-	>
+	'>
 !
 
 at: aString put: anObject
-	<return self['@jsObject'][aString] = anObject>
+	<inlineJS: 'return self[''@jsObject''][aString] = anObject'>
 !
 
 in: aValuable
@@ -86,12 +86,12 @@ asJSON
 !
 
 keysAndValuesDo: aBlock
-	<
-		var o = self['@jsObject'];
+	<inlineJS: '
+		var o = self[''@jsObject''];
 		for(var i in o) {
 			aBlock._value_value_(i, o[i]);
 		}
-	>
+	'>
 ! !
 
 !JSObjectProxy methodsFor: 'printing'!
@@ -101,12 +101,12 @@ printOn: aStream
 !
 
 printString
-	<
-		var js = self['@jsObject'];
+	<inlineJS: '
+		var js = self[''@jsObject''];
 		return js.toString
 			? js.toString()
 			: Object.prototype.toString.call(js)
-	>
+	'>
 ! !
 
 !JSObjectProxy methodsFor: 'proxy'!
@@ -139,36 +139,36 @@ on: aJSObject
 !JSObjectProxy class methodsFor: 'proxy'!
 
 addObjectVariablesTo: aDictionary ofProxy: aProxy
-	<
-		var jsObject = aProxy['@jsObject'];
+	<inlineJS: '
+		var jsObject = aProxy[''@jsObject''];
 		for(var i in jsObject) {
 			aDictionary._at_put_(i, jsObject[i]);
 		}
-	>
+	'>
 !
 
 compareJSObjectOfProxy: aProxy withProxy: anotherProxy
-<
+<inlineJS: '
 	var anotherJSObject = anotherProxy.klass ? anotherProxy["@jsObject"] : anotherProxy;
 	return aProxy["@jsObject"] === anotherJSObject
->
+'>
 !
 
 forwardMessage: aString withArguments: anArray ofProxy: aProxy
-	<
+	<inlineJS: '
 		return $core.accessJavaScript(aProxy._jsObject(), aString, anArray);
-	>
+	'>
 !
 
 jsObject: aJSObject ofProxy: aProxy
-	<aProxy['@jsObject'] = aJSObject>
+	<inlineJS: 'aProxy[''@jsObject''] = aJSObject'>
 !
 
 lookupProperty: aString ofProxy: aProxy
 	"Looks up a property in JS object.
 	Answer the property if it is present, or nil if it is not present."
 	
-	<return aString in aProxy._jsObject() ? aString : nil>
+	<inlineJS: 'return aString in aProxy._jsObject() ? aString : nil'>
 ! !
 
 Object subclass: #Organizer
@@ -184,7 +184,7 @@ Use `#addElement:` and `#removeElement:` to manipulate instances.!
 !Organizer methodsFor: 'accessing'!
 
 addElement: anObject
-	<self.elements.addElement(anObject)>
+	<inlineJS: 'self.elements.addElement(anObject)'>
 !
 
 elements
@@ -192,7 +192,7 @@ elements
 !
 
 removeElement: anObject
-	<self.elements.removeElement(anObject)>
+	<inlineJS: 'self.elements.removeElement(anObject)'>
 ! !
 
 Organizer subclass: #ClassOrganizer
@@ -222,7 +222,7 @@ removeElement: aString
 !
 
 theClass
-	< return self.theClass >
+	<inlineJS: 'return self.theClass'>
 ! !
 
 Organizer subclass: #PackageOrganizer
@@ -322,7 +322,7 @@ importsDefinition
 !
 
 name
-	<return self.pkgName>
+	<inlineJS: 'return self.pkgName'>
 !
 
 name: aString
@@ -428,17 +428,17 @@ printOn: aStream
 basicImports
 	"Answer the imports literal JavaScript object as setup in the JavaScript file, if any"
 	
-	<return self.imports || []>
+	<inlineJS: 'return self.imports || []'>
 !
 
 basicName: aString
-	<self.pkgName = aString>
+	<inlineJS: 'self.pkgName = aString'>
 !
 
 basicTransport
 	"Answer the transport literal JavaScript object as setup in the JavaScript file, if any"
 	
-	<return self.transport>
+	<inlineJS: 'return self.transport'>
 !
 
 sortedImportsAsArray
@@ -603,24 +603,6 @@ Error subclass: #ParseError
 Instance of ParseError are signaled on any parsing error.
 See `Smalltalk >> #parse:`!
 
-Object subclass: #RethrowErrorHandler
-	instanceVariableNames: ''
-	package: 'Kernel-Infrastructure'!
-!RethrowErrorHandler commentStamp!
-This class is used in the commandline version of the compiler.
-It uses the handleError: message of ErrorHandler for printing the stacktrace and throws the error again as JS exception.
-As a result Smalltalk errors are not swallowd by the Amber runtime and compilation can be aborted.!
-
-!RethrowErrorHandler methodsFor: 'error handling'!
-
-basicSignal: anError
-        <throw anError>
-!
-
-handleError: anError
-        self basicSignal: anError
-! !
-
 Object subclass: #Setting
 	instanceVariableNames: 'key value defaultValue'
 	package: 'Kernel-Infrastructure'!
@@ -721,19 +703,19 @@ cancelOptOut: anObject
 	This removes the shadow and anObject is Smalltalk object
 	again if it was before."
 	
-	<delete anObject.klass>
+	<inlineJS: 'delete anObject.klass'>
 !
 
 core
-	<return $core>
+	<inlineJS: 'return $core'>
 !
 
 globals
-	<return $globals>
+	<inlineJS: 'return $globals'>
 !
 
 includesKey: aKey
-	<return $core.hasOwnProperty(aKey)>
+	<inlineJS: 'return $core.hasOwnProperty(aKey)'>
 !
 
 optOut: anObject
@@ -741,7 +723,7 @@ optOut: anObject
 	This shadows the property for anObject.
 	The object is treated as plain JS object following this."
 	
-	<anObject.klass = null>
+	<inlineJS: 'anObject.klass = null'>
 !
 
 parse: aString
@@ -760,12 +742,12 @@ pseudoVariableNames
 !
 
 readJSObject: anObject
-	<return $core.readJSObject(anObject)>
+	<inlineJS: 'return $core.readJSObject(anObject)'>
 !
 
 reservedWords
 	"JavaScript reserved words"
-	<return $core.reservedWords>
+	<inlineJS: 'return $core.reservedWords'>
 !
 
 settings
@@ -775,7 +757,7 @@ settings
 version
 	"Answer the version string of Amber"
 	
-	^ '0.17.0-pre'
+	^ '0.18.0-pre'
 ! !
 
 !SmalltalkImage methodsFor: 'accessing amd'!
@@ -795,7 +777,7 @@ defaultAmdNamespace: aString
 !SmalltalkImage methodsFor: 'classes'!
 
 classes
-	<return $core.classes()>
+	<inlineJS: 'return $core.classes()'>
 !
 
 removeClass: aClass
@@ -836,7 +818,7 @@ deleteGlobalJsVariable: aString
 
 globalJsVariables
 	"Array of global JavaScript variables"
-	<return $core.globalJsVariables>
+	<inlineJS: 'return $core.globalJsVariables'>
 ! !
 
 !SmalltalkImage methodsFor: 'packages'!
@@ -856,7 +838,7 @@ createPackage: packageName
 !
 
 packageAt: packageName
-	<return $core.packages[packageName]>
+	<inlineJS: 'return $core.packages[packageName]'>
 !
 
 packageAt: packageName ifAbsent: aBlock
@@ -866,11 +848,11 @@ packageAt: packageName ifAbsent: aBlock
 packages
 	"Return all Package instances in the system."
 
-	<
+	<inlineJS: '
 		return Object.keys($core.packages).map(function(k) {
 			return $core.packages[k];
 		})
-	>
+	'>
 !
 
 removePackage: packageName
@@ -898,7 +880,7 @@ renamePackage: packageName to: newName
 
 basicCreatePackage: packageName
 	"Create and bind a new bare package with given name and return it."
-	<return $core.addPackage(packageName)>
+	<inlineJS: 'return $core.addPackage(packageName)'>
 !
 
 basicParse: aString
@@ -907,20 +889,20 @@ basicParse: aString
 
 basicRegisterPackage: aPackage
 	"Put aPackage in $core.packages object."
-	<$core.packages[aPackage.pkgName]=aPackage>
+	<inlineJS: '$core.packages[aPackage.pkgName]=aPackage'>
 !
 
 deleteClass: aClass
 	"Deletes a class by deleting its binding only. Use #removeClass instead"
 	
-	<$core.removeClass(aClass)>
+	<inlineJS: '$core.removeClass(aClass)'>
 !
 
 deletePackage: packageName
 	"Deletes a package by deleting its binding, but does not check if it contains classes etc.
 	To remove a package, use #removePackage instead."
 
-	<delete $core.packages[packageName]>
+	<inlineJS: 'delete $core.packages[packageName]'>
 ! !
 
 !SmalltalkImage methodsFor: 'testing'!
@@ -936,7 +918,7 @@ isSmalltalkObject: anObject
 	"Consider anObject a Smalltalk object if it has a 'klass' property.
 	Note that this may be unaccurate"
 	
-	<return anObject.klass !!= null>
+	<inlineJS: 'return anObject.klass !!= null'>
 ! !
 
 SmalltalkImage class instanceVariableNames: 'current'!
@@ -971,7 +953,7 @@ importsString
 !String methodsFor: '*Kernel-Infrastructure'!
 
 asJavaScriptPropertyName
-<return $core.st2prop(self)>
+<inlineJS: 'return $core.st2prop(self)'>
 !
 
 asSetting

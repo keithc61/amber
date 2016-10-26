@@ -234,7 +234,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "bucketOfElement: anObject\x0a\x09<\x0a\x09\x09var hash = self['@hashBlock'](anObject);\x0a\x09\x09if (!hash) return null;\x0a\x09\x09var buckets = self['@buckets'],\x0a\x09\x09\x09bucket = buckets[hash];\x0a\x09\x09if (!bucket) { bucket = buckets[hash] = self._newBucket(); }\x0a\x09\x09return bucket;\x0a\x09>",
+source: "bucketOfElement: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var hash = self[''@hashBlock''](anObject);\x0a\x09\x09if (!hash) return null;\x0a\x09\x09var buckets = self[''@buckets''],\x0a\x09\x09\x09bucket = buckets[hash];\x0a\x09\x09if (!bucket) { bucket = buckets[hash] = self._newBucket(); }\x0a\x09\x09return bucket;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -262,7 +262,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "do: aBlock\x0a\x09<\x0a\x09\x09var buckets = self['@buckets'];\x0a\x09\x09var keys = Object.keys(buckets);\x0a\x09\x09for (var i = 0; i < keys.length; ++i) { buckets[keys[i]]._do_(aBlock); }\x0a\x09>",
+source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var buckets = self[''@buckets''];\x0a\x09\x09var keys = Object.keys(buckets);\x0a\x09\x09for (var i = 0; i < keys.length; ++i) { buckets[keys[i]]._do_(aBlock); }\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -361,7 +361,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "removeAll\x0a\x09<self['@buckets'] = Object.create(null);>",
+source: "removeAll\x0a\x09<inlineJS: 'self[''@buckets''] = Object.create(null);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3205,7 +3205,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aKey", "aBlock"],
-source: "at: aKey ifAbsent: aBlock\x0a\x09<\x0a\x09\x09var index = self._positionOfKey_(aKey);\x0a\x09\x09return index >>=0 ? self['@values'][index] : aBlock._value();\x0a\x09>",
+source: "at: aKey ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var index = self._positionOfKey_(aKey);\x0a\x09\x09return index >=0 ? self[''@values''][index] : aBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3238,7 +3238,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aKey", "aValue"],
-source: "at: aKey put: aValue\x0a\x09<\x0a\x09\x09var index = self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09var keys = self['@keys'];\x0a\x09\x09\x09index = keys.length;\x0a\x09\x09\x09keys.push(aKey);\x0a\x09\x09}\x0a\x0a\x09\x09return self['@values'][index] = aValue;\x0a\x09>",
+source: "at: aKey put: aValue\x0a\x09<inlineJS: '\x0a\x09\x09var index = self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09var keys = self[''@keys''];\x0a\x09\x09\x09index = keys.length;\x0a\x09\x09\x09keys.push(aKey);\x0a\x09\x09}\x0a\x0a\x09\x09return self[''@values''][index] = aValue;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3254,7 +3254,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
- return self._positionOfKey_(aKey) >= 0; ;
+return self._positionOfKey_(aKey) >= 0;;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"includesKey:",{aKey:aKey},$globals.Dictionary)});
@@ -3262,7 +3262,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aKey"],
-source: "includesKey: aKey\x0a\x09< return self._positionOfKey_(aKey) >>= 0; >",
+source: "includesKey: aKey\x0a\x09<inlineJS: 'return self._positionOfKey_(aKey) >= 0;'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3428,7 +3428,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "positionOfKey: anObject\x0a\x09<\x0a\x09\x09var keys = self['@keys'];\x0a\x09\x09for(var i=0;i<keys.length;i++){\x0a\x09\x09\x09if(keys[i].__eq(anObject)) { return i;}\x0a\x09\x09}\x0a\x09\x09return -1;\x0a\x09>",
+source: "positionOfKey: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var keys = self[''@keys''];\x0a\x09\x09for(var i=0;i<keys.length;i++){\x0a\x09\x09\x09if(keys[i].__eq(anObject)) { return i;}\x0a\x09\x09}\x0a\x09\x09return -1;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3493,7 +3493,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aKey", "aBlock"],
-source: "removeKey: aKey ifAbsent: aBlock\x0a\x09<\x0a\x09\x09var index = self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09return aBlock._value()\x0a\x09\x09} else {\x0a\x09\x09\x09var keys = self['@keys'], values = self['@values'];\x0a\x09\x09\x09var value = values[index], l = keys.length;\x0a\x09\x09\x09keys[index] = keys[l-1];\x0a\x09\x09\x09keys.pop();\x0a\x09\x09\x09values[index] = values[l-1];\x0a\x09\x09\x09values.pop();\x0a\x09\x09\x09return value;\x0a\x09\x09}\x0a\x09>",
+source: "removeKey: aKey ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var index = self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09return aBlock._value()\x0a\x09\x09} else {\x0a\x09\x09\x09var keys = self[''@keys''], values = self[''@values''];\x0a\x09\x09\x09var value = values[index], l = keys.length;\x0a\x09\x09\x09keys[index] = keys[l-1];\x0a\x09\x09\x09keys.pop();\x0a\x09\x09\x09values[index] = values[l-1];\x0a\x09\x09\x09values.pop();\x0a\x09\x09\x09return value;\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3616,7 +3616,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aKey"],
-source: "includesKey: aKey\x0a\x09<return self.hasOwnProperty(aKey)>",
+source: "includesKey: aKey\x0a\x09<inlineJS: 'return self.hasOwnProperty(aKey)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3640,7 +3640,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "keys\x0a\x09<return Object.keys(self)>",
+source: "keys\x0a\x09<inlineJS: 'return Object.keys(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3732,7 +3732,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "values\x0a\x09<\x0a\x09\x09return self._keys().map(function(key){\x0a\x09\x09\x09return self._at_(key);\x0a\x09\x09});\x0a\x09>",
+source: "values\x0a\x09<inlineJS: '\x0a\x09\x09return self._keys().map(function(key){\x0a\x09\x09\x09return self._at_(key);\x0a\x09\x09});\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4035,7 +4035,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock", "anotherBlock"],
-source: "detect: aBlock ifNone: anotherBlock\x0a\x09<\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i = 0; i < self.length; i++)\x0a\x09\x09\x09if(aBlock._value_(self[i]))\x0a\x09\x09\x09\x09return self[i];\x0a\x09\x09return anotherBlock._value();\x0a\x09>",
+source: "detect: aBlock ifNone: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i = 0; i < self.length; i++)\x0a\x09\x09\x09if(aBlock._value_(self[i]))\x0a\x09\x09\x09\x09return self[i];\x0a\x09\x09return anotherBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4064,7 +4064,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "do: aBlock\x0a\x09<\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_(self[i]);\x0a\x09\x09}\x0a\x09>",
+source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_(self[i]);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4230,7 +4230,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject", "aBlock"],
-source: "indexOf: anObject ifAbsent: aBlock\x0a\x09<\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09};\x0a\x09\x09return aBlock._value();\x0a\x09>",
+source: "indexOf: anObject ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09};\x0a\x09\x09return aBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4286,7 +4286,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject", "start", "aBlock"],
-source: "indexOf: anObject startingAt: start ifAbsent: aBlock\x0a\x09<\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i=start - 1; i < self.length; i++){\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09}\x0a\x09\x09return aBlock._value();\x0a\x09>",
+source: "indexOf: anObject startingAt: start ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i=start - 1; i < self.length; i++){\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09}\x0a\x09\x09return aBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4514,7 +4514,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "single\x0a<\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length >> 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return self[0];\x0a>",
+source: "single\x0a<inlineJS: '\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length > 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return self[0];\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4613,7 +4613,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anotherCollection", "aBlock"],
-source: "with: anotherCollection do: aBlock\x0a\x09<\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09anotherCollection = anotherCollection._numericallyIndexable();\x0a\x09\x09for(var i=0; i<self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], anotherCollection[i]);\x0a\x09\x09}\x0a\x09>",
+source: "with: anotherCollection do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09anotherCollection = anotherCollection._numericallyIndexable();\x0a\x09\x09for(var i=0; i<self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], anotherCollection[i]);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4642,7 +4642,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "withIndexDo: aBlock\x0a\x09<\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], i+1);\x0a\x09\x09}\x0a\x09>",
+source: "withIndexDo: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], i+1);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4739,7 +4739,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "add: anObject\x0a\x09<self.push(anObject); return anObject;>",
+source: "add: anObject\x0a\x09<inlineJS: 'self.push(anObject); return anObject;'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4766,7 +4766,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aCollection"],
-source: "addAll: aCollection\x0a<\x0a\x09if (Array.isArray(aCollection) && aCollection.length < 65000) self.push.apply(self, aCollection);\x0a\x09else $globals.Array.superclass.fn.prototype._addAll_.call(self, aCollection);\x0a\x09return aCollection;\x0a>",
+source: "addAll: aCollection\x0a<inlineJS: '\x0a\x09if (Array.isArray(aCollection) && aCollection.length < 65000) self.push.apply(self, aCollection);\x0a\x09else $globals.Array.superclass.fn.prototype._addAll_.call(self, aCollection);\x0a\x09return aCollection;\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4790,7 +4790,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "addFirst: anObject\x0a\x09<self.unshift(anObject); return anObject;>",
+source: "addFirst: anObject\x0a\x09<inlineJS: 'self.unshift(anObject); return anObject;'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4854,7 +4854,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIndex", "aBlock"],
-source: "at: anIndex ifAbsent: aBlock\x0a\x09<\x0a\x09\x09return anIndex >>= 1 && anIndex <= self.length\x0a\x09\x09\x09? self[anIndex - 1]\x0a\x09\x09\x09: aBlock._value()\x0a\x09>",
+source: "at: anIndex ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09return anIndex >= 1 && anIndex <= self.length\x0a\x09\x09\x09? self[anIndex - 1]\x0a\x09\x09\x09: aBlock._value()\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4882,7 +4882,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIndex", "aBlock", "anotherBlock"],
-source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09<\x0a\x09\x09return anIndex >>= 1 && anIndex <= self.length\x0a\x09\x09\x09? aBlock._value_(self[anIndex - 1])\x0a\x09\x09\x09: anotherBlock._value()\x0a\x09>",
+source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09return anIndex >= 1 && anIndex <= self.length\x0a\x09\x09\x09? aBlock._value_(self[anIndex - 1])\x0a\x09\x09\x09: anotherBlock._value()\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4906,7 +4906,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIndex", "anObject"],
-source: "at: anIndex put: anObject\x0a\x09<return self[anIndex - 1] = anObject>",
+source: "at: anIndex put: anObject\x0a\x09<inlineJS: 'return self[anIndex - 1] = anObject'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4930,7 +4930,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "collect: aBlock\x0a\x09\x22Optimized version\x22\x0a\x09\x0a\x09<return self.map(function(each) {return aBlock._value_(each)})>",
+source: "collect: aBlock\x0a\x09\x22Optimized version\x22\x0a\x09\x0a\x09<inlineJS: 'return self.map(function(each) {return aBlock._value_(each)})'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4961,7 +4961,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIndex", "anotherIndex"],
-source: "copyFrom: anIndex to: anotherIndex\x0a<\x0a\x09if (anIndex >>= 1 && anotherIndex <= self.length) {\x0a\x09\x09return self.slice(anIndex - 1, anotherIndex);\x0a\x09} else {\x0a\x09\x09self._at_(anIndex);\x0a\x09\x09self._at_(self.length + 1);\x0a\x09\x09throw new Error(\x22Incorrect indexes in #copyFrom:to: not caught by #at:\x22);\x0a\x09}\x0a>",
+source: "copyFrom: anIndex to: anotherIndex\x0a<inlineJS: '\x0a\x09if (anIndex >= 1 && anotherIndex <= self.length) {\x0a\x09\x09return self.slice(anIndex - 1, anotherIndex);\x0a\x09} else {\x0a\x09\x09self._at_(anIndex);\x0a\x09\x09self._at_(self.length + 1);\x0a\x09\x09throw new Error(\x22Incorrect indexes in #copyFrom:to: not caught by #at:\x22);\x0a\x09}\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4985,7 +4985,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "join: aString\x0a\x09<return self.join(aString)>",
+source: "join: aString\x0a\x09<inlineJS: 'return self.join(aString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -5121,7 +5121,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "removeAll\x0a\x09<self.length = 0>",
+source: "removeAll\x0a\x09<inlineJS: 'self.length = 0'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -5145,7 +5145,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber", "anotherNumber"],
-source: "removeFrom: aNumber to: anotherNumber\x0a\x09<self.splice(aNumber -1, anotherNumber - aNumber + 1)>",
+source: "removeFrom: aNumber to: anotherNumber\x0a\x09<inlineJS: 'self.splice(aNumber -1, anotherNumber - aNumber + 1)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -5169,7 +5169,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anInteger"],
-source: "removeIndex: anInteger\x0a\x09<self.splice(anInteger - 1, 1)>",
+source: "removeIndex: anInteger\x0a\x09<inlineJS: 'self.splice(anInteger - 1, 1)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -5193,7 +5193,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "removeLast\x0a\x09<return self.pop();>",
+source: "removeLast\x0a\x09<inlineJS: 'return self.pop();'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -5217,7 +5217,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "reversed\x0a\x09<return self.slice().reverse()>",
+source: "reversed\x0a\x09<inlineJS: 'return self.slice().reverse()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -5241,7 +5241,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "select: aBlock\x0a\x09\x22Optimized version\x22\x0a\x09\x0a\x09<return self.filter(function(each) {return aBlock._value_(each)})>",
+source: "select: aBlock\x0a\x09\x22Optimized version\x22\x0a\x09\x0a\x09<inlineJS: 'return self.filter(function(each) {return aBlock._value_(each)})'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -5265,7 +5265,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "shallowCopy\x0a\x09<return self.slice()>",
+source: "shallowCopy\x0a\x09<inlineJS: 'return self.slice()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -5289,7 +5289,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "size\x0a\x09<return self.length>",
+source: "size\x0a\x09<inlineJS: 'return self.length'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -5348,7 +5348,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "sort: aBlock\x0a\x09<\x0a\x09\x09return self.sort(function(a, b) {\x0a\x09\x09\x09if(aBlock._value_value_(a,b)) {return -1} else {return 1}\x0a\x09\x09})\x0a\x09>",
+source: "sort: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09return self.sort(function(a, b) {\x0a\x09\x09\x09if(aBlock._value_value_(a,b)) {return -1} else {return 1}\x0a\x09\x09})\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -5419,7 +5419,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anInteger"],
-source: "new: anInteger\x0a\x09<return new Array(anInteger)>",
+source: "new: anInteger\x0a\x09<inlineJS: 'return new Array(anInteger)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -5892,7 +5892,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: ", aString\x0a\x09<return String(self) + aString>",
+source: ", aString\x0a\x09<inlineJS: 'return String(self) + aString'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -5916,7 +5916,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "< aString\x0a\x09<return String(self) < aString._asString()>",
+source: "< aString\x0a\x09<inlineJS: 'return String(self) < aString._asString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -5940,7 +5940,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "<= aString\x0a\x09<return String(self) <= aString._asString()>",
+source: "<= aString\x0a\x09<inlineJS: 'return String(self) <= aString._asString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -5964,7 +5964,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "= aString\x0a<return aString != null && String(self) === (typeof aString === \x22string\x22 ? aString : aString.valueOf())>",
+source: "= aString\x0a<inlineJS:\x0a\x09'return aString != null && String(self) === (typeof aString === \x22string\x22 ? aString : aString.valueOf())'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -5991,7 +5991,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "== aString\x0a<\x0a\x09if (typeof aString === \x22string\x22) return String(self) === aString;\x0a\x09else if (aString != null && typeof aString === \x22object\x22) return String(self) === aString.valueOf();\x0a\x09else return false;\x0a>",
+source: "== aString\x0a<inlineJS: '\x0a\x09if (typeof aString === \x22string\x22) return String(self) === aString;\x0a\x09else if (aString != null && typeof aString === \x22object\x22) return String(self) === aString.valueOf();\x0a\x09else return false;\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6015,7 +6015,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "> aString\x0a\x09<return String(self) >> aString._asString()>",
+source: "> aString\x0a\x09<inlineJS: 'return String(self) > aString._asString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6039,7 +6039,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: ">= aString\x0a\x09<return String(self) >>= aString._asString()>",
+source: ">= aString\x0a\x09<inlineJS: 'return String(self) >= aString._asString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6081,7 +6081,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJavaScriptMethodName\x0a\x09<return $core.st2js(self)>",
+source: "asJavaScriptMethodName\x0a\x09<inlineJS: 'return $core.st2js(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6110,7 +6110,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJavascript\x0a\x09<\x0a\x09\x09if(self.search(/^[a-zA-Z0-9_:.$ ]*$/) == -1)\x0a\x09\x09\x09return \x22\x5c\x22\x22 + self.replace(/[\x5cx00-\x5cx1f\x22\x5c\x5c\x5cx7f-\x5cx9f]/g, function(ch){var c=ch.charCodeAt(0);return \x22\x5c\x5cx\x22+(\x220\x22+c.toString(16)).slice(-2)}) + \x22\x5c\x22\x22;\x0a\x09\x09else\x0a\x09\x09\x09return \x22\x5c\x22\x22 + self + \x22\x5c\x22\x22;\x0a\x09>",
+source: "asJavascript\x0a\x09<inlineJS: '\x0a\x09\x09if(self.search(/^[a-zA-Z0-9_:.$ ]*$/) == -1)\x0a\x09\x09\x09return \x22\x5c\x22\x22 + self.replace(/[\x5cx00-\x5cx1f\x22\x5c\x5c\x5cx7f-\x5cx9f]/g, function(ch){var c=ch.charCodeAt(0);return \x22\x5c\x5cx\x22+(\x220\x22+c.toString(16)).slice(-2)}) + \x22\x5c\x22\x22;\x0a\x09\x09else\x0a\x09\x09\x09return \x22\x5c\x22\x22 + self + \x22\x5c\x22\x22;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6134,7 +6134,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asLowercase\x0a\x09<return self.toLowerCase()>",
+source: "asLowercase\x0a\x09<inlineJS: 'return self.toLowerCase()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6186,7 +6186,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asNumber\x0a\x09<return Number(self)>",
+source: "asNumber\x0a\x09<inlineJS: 'return Number(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6269,7 +6269,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asUppercase\x0a\x09<return self.toUpperCase()>",
+source: "asUppercase\x0a\x09<inlineJS: 'return self.toUpperCase()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6293,7 +6293,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asciiValue\x0a\x09<return self.charCodeAt(0);>",
+source: "asciiValue\x0a\x09<inlineJS: 'return self.charCodeAt(0);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6317,7 +6317,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIndex", "aBlock"],
-source: "at: anIndex ifAbsent: aBlock\x0a\x09<return String(self)[anIndex - 1] || aBlock._value()>",
+source: "at: anIndex ifAbsent: aBlock\x0a\x09<inlineJS: 'return String(self)[anIndex - 1] || aBlock._value()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6344,7 +6344,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIndex", "aBlock", "anotherBlock"],
-source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09<\x0a\x09\x09var result = String(self)[anIndex - 1];\x0a\x09\x09return result ? aBlock._value_(result) : anotherBlock._value();\x0a\x09>",
+source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09var result = String(self)[anIndex - 1];\x0a\x09\x09return result ? aBlock._value_(result) : anotherBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6399,7 +6399,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anInteger"],
-source: "charCodeAt: anInteger\x0a\x09<return self.charCodeAt(anInteger - 1)>",
+source: "charCodeAt: anInteger\x0a\x09<inlineJS: 'return self.charCodeAt(anInteger - 1)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6423,7 +6423,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIndex", "anotherIndex"],
-source: "copyFrom: anIndex to: anotherIndex\x0a\x09<return self.substring(anIndex - 1, anotherIndex)>",
+source: "copyFrom: anIndex to: anotherIndex\x0a\x09<inlineJS: 'return self.substring(anIndex - 1, anotherIndex)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6493,7 +6493,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "escaped\x0a\x09<return escape(self)>",
+source: "escaped\x0a\x09<inlineJS: 'return escape(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6517,7 +6517,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["subString"],
-source: "includesSubString: subString\x0a\x09<return self.indexOf(subString) != -1>",
+source: "includesSubString: subString\x0a\x09<inlineJS: 'return self.indexOf(subString) != -1'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6901,7 +6901,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "lines\x0a\x09\x22Answer an array of lines composing this receiver without the line ending delimiters.\x22\x0a<\x0a\x09var result = self.split(/\x5cr\x5cn|\x5cr|\x5cn/);\x0a\x09if (!result[result.length-1]) result.pop();\x0a\x09return result;\x0a>",
+source: "lines\x0a\x09\x22Answer an array of lines composing this receiver without the line ending delimiters.\x22\x0a<inlineJS: '\x0a\x09var result = self.split(/\x5cr\x5cn|\x5cr|\x5cn/);\x0a\x09if (!result[result.length-1]) result.pop();\x0a\x09return result;\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6949,7 +6949,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aRegexp"],
-source: "match: aRegexp\x0a\x09<return self.search(aRegexp) != -1>",
+source: "match: aRegexp\x0a\x09<inlineJS: 'return self.search(aRegexp) != -1'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6973,7 +6973,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aRegularExpression"],
-source: "matchesOf: aRegularExpression\x0a\x09<return self.match(aRegularExpression)>",
+source: "matchesOf: aRegularExpression\x0a\x09<inlineJS: 'return self.match(aRegularExpression)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6997,7 +6997,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "numericallyIndexable\x0a\x09<return String(self)>",
+source: "numericallyIndexable\x0a\x09<inlineJS: 'return String(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7021,7 +7021,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "printNl\x0a\x09<console.log(self)>",
+source: "printNl\x0a\x09<inlineJS: 'console.log(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7100,7 +7100,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aRegexp", "aString"],
-source: "replaceRegexp: aRegexp with: aString\x0a\x09<return self.replace(aRegexp, aString)>",
+source: "replaceRegexp: aRegexp with: aString\x0a\x09<inlineJS: 'return self.replace(aRegexp, aString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7124,7 +7124,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "reversed\x0a\x09<return self.split(\x22\x22).reverse().join(\x22\x22)>",
+source: "reversed\x0a\x09<inlineJS: 'return self.split(\x22\x22).reverse().join(\x22\x22)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7166,7 +7166,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "size\x0a\x09<return self.length>",
+source: "size\x0a\x09<inlineJS: 'return self.length'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7213,7 +7213,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "tokenize: aString\x0a\x09<return self.split(aString)>",
+source: "tokenize: aString\x0a\x09<inlineJS: 'return self.split(aString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7387,7 +7387,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "unescaped\x0a\x09<return unescape(self)>",
+source: "unescaped\x0a\x09<inlineJS: 'return unescape(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7411,7 +7411,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "uriComponentDecoded\x0a\x09<return decodeURIComponent(self)>",
+source: "uriComponentDecoded\x0a\x09<inlineJS: 'return decodeURIComponent(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7435,7 +7435,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "uriComponentEncoded\x0a\x09<return encodeURIComponent(self)>",
+source: "uriComponentEncoded\x0a\x09<inlineJS: 'return encodeURIComponent(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7459,7 +7459,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "uriDecoded\x0a\x09<return decodeURI(self)>",
+source: "uriDecoded\x0a\x09<inlineJS: 'return decodeURI(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7483,7 +7483,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "uriEncoded\x0a\x09<return encodeURI(self)>",
+source: "uriEncoded\x0a\x09<inlineJS: 'return encodeURI(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7523,7 +7523,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return '\r';
+return "\r";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"cr",{},$globals.String.klass)});
@@ -7531,7 +7531,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "cr\x0a\x09<return '\x5cr'>",
+source: "cr\x0a\x09<inlineJS: 'return \x22\x5cr\x22'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7547,7 +7547,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return '\r\n';
+return "\r\n";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"crlf",{},$globals.String.klass)});
@@ -7555,7 +7555,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "crlf\x0a\x09<return '\x5cr\x5cn'>",
+source: "crlf\x0a\x09<inlineJS: 'return \x22\x5cr\x5cn\x22'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7602,7 +7602,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anInteger"],
-source: "fromCharCode: anInteger\x0a\x09<return String.fromCharCode(anInteger)>",
+source: "fromCharCode: anInteger\x0a\x09<inlineJS: 'return String.fromCharCode(anInteger)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7626,7 +7626,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "fromString: aString\x0a\x09\x09<return String(aString)>",
+source: "fromString: aString\x0a\x09\x09<inlineJS: 'return String(aString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7642,7 +7642,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return '\n';
+return "\n";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"lf",{},$globals.String.klass)});
@@ -7650,7 +7650,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "lf\x0a\x09<return '\x5cn'>",
+source: "lf\x0a\x09<inlineJS: 'return \x22\x5cn\x22'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7674,7 +7674,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "random\x0a\x09\x22Returns random alphanumeric string beginning with letter\x22\x0a\x09<return (Math.random()*(22/32)+(10/32)).toString(32).slice(2);>",
+source: "random\x0a\x09\x22Returns random alphanumeric string beginning with letter\x22\x0a\x09<inlineJS: 'return (Math.random()*(22/32)+(10/32)).toString(32).slice(2);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7725,7 +7725,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return ' ';
+return " ";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"space",{},$globals.String.klass)});
@@ -7733,7 +7733,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "space\x0a\x09<return ' '>",
+source: "space\x0a\x09<inlineJS: 'return \x22 \x22'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7767,7 +7767,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return '\t';
+return "\t";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"tab",{},$globals.String.klass)});
@@ -7775,7 +7775,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "tab\x0a\x09<return '\x5ct'>",
+source: "tab\x0a\x09<inlineJS: 'return \x22\x5ct\x22'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7799,7 +7799,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aUTFCharCode"],
-source: "value: aUTFCharCode\x0a\x0a\x09<return String.fromCharCode(aUTFCharCode);>",
+source: "value: aUTFCharCode\x0a\x0a\x09<inlineJS: 'return String.fromCharCode(aUTFCharCode);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7944,7 +7944,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject", "anotherObject"],
-source: "add: anObject in: anotherObject\x0a\x09<\x0a\x09\x09if (anObject in anotherObject.store) { return false; }\x0a\x09\x09self['@size']++;\x0a\x09\x09anotherObject.store[anObject] = true;\x0a\x09\x09return anObject;\x0a\x09>",
+source: "add: anObject in: anotherObject\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) { return false; }\x0a\x09\x09self[''@size'']++;\x0a\x09\x09anotherObject.store[anObject] = true;\x0a\x09\x09return anObject;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7961,7 +7961,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		// include nil to well-known objects under 'boolean' fastBucket
+		// include nil to well-known objects under "boolean" fastBucket
 		if (anObject == null || anObject.isNil) return [ null, self['@fastBuckets'].boolean ];
 		
 		var prim = anObject.valueOf();
@@ -7981,7 +7981,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "bucketsOfElement: anObject\x0a\x09\x22Find the appropriate bucket for `anObject`.\x0a\x09For optimization purposes, directly answer an array with: \x0a\x09- the object to be store\x0a\x09- the primitive bucket\x0a\x09- the slow bucket\x22\x0a\x09\x0a\x09<\x0a\x09\x09// include nil to well-known objects under 'boolean' fastBucket\x0a\x09\x09if (anObject == null || anObject.isNil) return [ null, self['@fastBuckets'].boolean ];\x0a\x09\x09\x0a\x09\x09var prim = anObject.valueOf();\x0a\x09\x09if (typeof prim === \x22object\x22 || typeof prim === \x22function\x22 || !self['@fastBuckets'][typeof prim]) {\x0a\x09\x09\x09var bucket = null;\x0a\x09\x09\x09self['@slowBucketStores'].some(function (store) {\x0a\x09\x09\x09\x09return bucket = store._bucketOfElement_(anObject);\x0a\x09\x09\x09});\x0a\x09\x09\x09return [ anObject, null, bucket || self['@defaultBucket'] ];\x0a\x09\x09}\x0a\x09\x09return [ prim, self['@fastBuckets'][typeof prim] ];\x0a\x09>",
+source: "bucketsOfElement: anObject\x0a\x09\x22Find the appropriate bucket for `anObject`.\x0a\x09For optimization purposes, directly answer an array with: \x0a\x09- the object to be store\x0a\x09- the primitive bucket\x0a\x09- the slow bucket\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09// include nil to well-known objects under \x22boolean\x22 fastBucket\x0a\x09\x09if (anObject == null || anObject.isNil) return [ null, self[''@fastBuckets''].boolean ];\x0a\x09\x09\x0a\x09\x09var prim = anObject.valueOf();\x0a\x09\x09if (typeof prim === \x22object\x22 || typeof prim === \x22function\x22 || !self[''@fastBuckets''][typeof prim]) {\x0a\x09\x09\x09var bucket = null;\x0a\x09\x09\x09self[''@slowBucketStores''].some(function (store) {\x0a\x09\x09\x09\x09return bucket = store._bucketOfElement_(anObject);\x0a\x09\x09\x09});\x0a\x09\x09\x09return [ anObject, null, bucket || self[''@defaultBucket''] ];\x0a\x09\x09}\x0a\x09\x09return [ prim, self[''@fastBuckets''][typeof prim] ];\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -8005,7 +8005,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "classNameOf: anObject\x0a\x09\x22Answer the class name of `anObject`, or `undefined` \x0a\x09if `anObject` is not an Smalltalk object\x22\x0a\x09\x0a\x09<return anObject.klass != null && anObject.klass.className>",
+source: "classNameOf: anObject\x0a\x09\x22Answer the class name of `anObject`, or `undefined` \x0a\x09if `anObject` is not an Smalltalk object\x22\x0a\x09\x0a\x09<inlineJS: 'return anObject.klass != null && anObject.klass.className'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -8115,7 +8115,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "do: aBlock\x0a\x09<\x0a\x09\x09var el, keys, i;\x0a\x09\x09el = self['@fastBuckets'];\x0a\x09\x09keys = Object.keys(el);\x0a\x09\x09for (i = 0; i < keys.length; ++i) {\x0a\x09\x09\x09var fastBucket = el[keys[i]], fn = fastBucket.fn, store = Object.keys(fastBucket.store);\x0a\x09\x09\x09if (fn) { for (var j = 0; j < store.length; ++j) { aBlock._value_(fn(store[j])); } }\x0a\x09\x09\x09else { store._do_(aBlock); }\x0a\x09\x09}\x0a\x09\x09el = self['@slowBucketStores'];\x0a\x09\x09for (i = 0; i < el.length; ++i) { el[i]._do_(aBlock); }\x0a\x09\x09self['@defaultBucket']._do_(aBlock);\x0a\x09>",
+source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var el, keys, i;\x0a\x09\x09el = self[''@fastBuckets''];\x0a\x09\x09keys = Object.keys(el);\x0a\x09\x09for (i = 0; i < keys.length; ++i) {\x0a\x09\x09\x09var fastBucket = el[keys[i]], fn = fastBucket.fn, store = Object.keys(fastBucket.store);\x0a\x09\x09\x09if (fn) { for (var j = 0; j < store.length; ++j) { aBlock._value_(fn(store[j])); } }\x0a\x09\x09\x09else { store._do_(aBlock); }\x0a\x09\x09}\x0a\x09\x09el = self[''@slowBucketStores''];\x0a\x09\x09for (i = 0; i < el.length; ++i) { el[i]._do_(aBlock); }\x0a\x09\x09self[''@defaultBucket'']._do_(aBlock);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -8177,7 +8177,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject", "anotherObject"],
-source: "includes: anObject in: anotherObject\x0a\x09<return anObject in anotherObject.store>",
+source: "includes: anObject in: anotherObject\x0a\x09<inlineJS: 'return anObject in anotherObject.store'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -8280,7 +8280,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "jsConstructorNameOf: anObject\x0a\x09<return anObject.constructor && anObject.constructor.name>",
+source: "jsConstructorNameOf: anObject\x0a\x09<inlineJS: 'return anObject.constructor && anObject.constructor.name'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -8415,7 +8415,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject", "anotherObject"],
-source: "remove: anObject in: anotherObject\x0a\x09<if (delete anotherObject.store[anObject]) self['@size']-->",
+source: "remove: anObject in: anotherObject\x0a\x09<inlineJS: 'if (delete anotherObject.store[anObject]) self[''@size'']--'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -8433,9 +8433,9 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
 		self['@fastBuckets'] = {
-			'boolean': { store: Object.create(null), fn: function (x) { return {'true': true, 'false': false, 'null': null}[x]; } },
-			'number': { store: Object.create(null), fn: Number },
-			'string': { store: Object.create(null) }
+			"boolean": { store: Object.create(null), fn: function (x) { return {"true": true, "false": false, "null": null}[x]; } },
+			"number": { store: Object.create(null), fn: Number },
+			"string": { store: Object.create(null) }
 		};
 		self['@slowBucketStores'].forEach(function (x) { x._removeAll(); });
 		self['@defaultBucket']._removeAll();
@@ -8448,7 +8448,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "removeAll\x0a\x09<\x0a\x09\x09self['@fastBuckets'] = {\x0a\x09\x09\x09'boolean': { store: Object.create(null), fn: function (x) { return {'true': true, 'false': false, 'null': null}[x]; } },\x0a\x09\x09\x09'number': { store: Object.create(null), fn: Number },\x0a\x09\x09\x09'string': { store: Object.create(null) }\x0a\x09\x09};\x0a\x09\x09self['@slowBucketStores'].forEach(function (x) { x._removeAll(); });\x0a\x09\x09self['@defaultBucket']._removeAll();\x0a\x09\x09self['@size'] = 0;\x0a\x09>",
+source: "removeAll\x0a\x09<inlineJS: '\x0a\x09\x09self[''@fastBuckets''] = {\x0a\x09\x09\x09\x22boolean\x22: { store: Object.create(null), fn: function (x) { return {\x22true\x22: true, \x22false\x22: false, \x22null\x22: null}[x]; } },\x0a\x09\x09\x09\x22number\x22: { store: Object.create(null), fn: Number },\x0a\x09\x09\x09\x22string\x22: { store: Object.create(null) }\x0a\x09\x09};\x0a\x09\x09self[''@slowBucketStores''].forEach(function (x) { x._removeAll(); });\x0a\x09\x09self[''@defaultBucket'']._removeAll();\x0a\x09\x09self[''@size''] = 0;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -10018,7 +10018,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "compile: aString\x0a\x09<return self.compile(aString)>",
+source: "compile: aString\x0a\x09<inlineJS: 'return self.compile(aString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -10042,7 +10042,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "exec: aString\x0a\x09<return self.exec(aString) || nil>",
+source: "exec: aString\x0a\x09<inlineJS: 'return self.exec(aString) || nil'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -10066,7 +10066,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "test: aString\x0a\x09<return self.test(aString)>",
+source: "test: aString\x0a\x09<inlineJS: 'return self.test(aString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -10114,7 +10114,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anotherString"],
-source: "fromString: aString flag: anotherString\x0a\x09<return new RegExp(aString, anotherString)>",
+source: "fromString: aString flag: anotherString\x0a\x09<inlineJS: 'return new RegExp(aString, anotherString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

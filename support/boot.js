@@ -64,8 +64,10 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     function RootBrik(brikz, st) {
         /* Smalltalk foundational objects */
 
-        /* SmalltalkRoot is the hidden root of the Amber hierarchy.
-         All objects including `Object` inherit from SmalltalkRoot */
+        /* SmalltalkRoot is the hidden root of the normal Amber hierarchy.
+          All objects including `ProtoObject` inherit from SmalltalkRoot.
+          Detached roots (eg. wrapped JS classes like Number or Date)
+          do not directly inherit from SmalltalkRoot, but employ a workaround.*/
         function SmalltalkRoot() {
         }
 
@@ -95,7 +97,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             enumerable: false, configurable: false, writable: false
         });
 
-        // Hidden root class of the system.
+        // Fake root class of the system.
         // Effective superclass of all classes created with `nil subclass: ...`.
         this.nilAsClass = {fn: SmalltalkRoot};
 
@@ -173,8 +175,6 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             return pair;
         };
 
-        /* Answer all method selectors based on dnu handlers */
-
         st.allSelectors = function () {
             return selectors;
         };
@@ -210,8 +210,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             return that;
         }
 
-        /* Add a package to the smalltalk.packages object, creating a new one if needed.
-         If pkgName is null or empty we return nil, which is an allowed package for a class.
+        /* Add a package to the system, creating a new one if needed.
+         If pkgName is null or empty we return nil.
          If package already exists we still update the properties of it. */
 
         st.addPackage = function (pkgName, properties) {
@@ -281,8 +281,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
         /* Smalltalk class creation. A class is an instance of an automatically
          created metaclass object. Newly created classes (not their metaclass)
-         should be added to the smalltalk object, see smalltalk.addClass().
-         Superclass linking is *not* handled here, see smalltalk.init()  */
+         should be added to the system, see smalltalk.addClass().
+         Superclass linking is *not* handled here, see api.initialize()  */
 
         function klass(spec) {
             var setSuperClass = spec.superclass;
@@ -339,8 +339,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
         this.wireKlass = wireKlass;
 
-        /* Add a class to the smalltalk object, creating a new one if needed.
-         A Package is lazily created if it does not exist with given name. */
+        /* Add a class to the system, creating a new one if needed.
+         A Package is lazily created if one with given name does not exist. */
 
         st.addClass = function (className, superclass, iVarNames, pkgName) {
             // While subclassing nil is allowed, it might be an error, so
@@ -407,7 +407,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         }
 
         /* Create a new class coupling with a JavaScript constructor,
-         and add it to the global smalltalk object.*/
+         and add it to the system.*/
 
         this.addCoupledClass = function (className, superclass, pkgName, fn) {
             return rawAddClass(pkgName, className, superclass, null, fn);
@@ -469,7 +469,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         this.__init__.once = true;
 
         /* Smalltalk method object. To add a method to a class,
-         use smalltalk.addMethod() */
+         use api.addMethod() */
 
         st.method = function (spec) {
             var that = new SmalltalkMethod();
@@ -569,8 +569,6 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
                 configureWithRuntime(brikz);
 
-                /* Alias definitions */
-
                 st.alias(globals.Array, "OrderedCollection");
                 st.alias(globals.Date, "Time");
 
@@ -642,7 +640,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
     }
 
-    /* Adds AMD and requirejs related methods to the smalltalk object */
+    /* Adds AMD and requirejs related methods to the api */
     function AMDBrik(brikz, st) {
         st.amdRequire = require;
         st.defaultTransportType = st.defaultTransportType || "amd";
@@ -661,9 +659,9 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
          * It takes any value (JavaScript or Smalltalk)
          * and returns a proper Amber Smalltalk receiver.
          *
-         * null or undefined -> nil,
-         * plain JS object -> wrapped JS object,
-         * otherwise unchanged
+         * null or undefined -> nilAsReceiver,
+         * object having Smalltalk signature -> unchanged,
+         * otherwise wrapped foreign (JS) object
          */
         this.asReceiver = function (o) {
             if (o == null) return nilAsReceiver;

@@ -29,11 +29,11 @@ I am is directly mapped to JavaScript Function.
 !BlockClosure methodsFor: 'accessing'!
 
 compiledSource
-	<return self.toString()>
+	<inlineJS: 'return self.toString()'>
 !
 
 numArgs
-	<return self.length>
+	<inlineJS: 'return self.length'>
 !
 
 receiver
@@ -47,7 +47,7 @@ whileFalse
 !
 
 whileFalse: aBlock
-	<while(!!$core.assert(self._value())) {aBlock._value()}>
+	<inlineJS: 'while(!!$core.assert(self._value())) {aBlock._value()}'>
 !
 
 whileTrue
@@ -55,13 +55,13 @@ whileTrue
 !
 
 whileTrue: aBlock
-	<while($core.assert(self._value())) {aBlock._value()}>
+	<inlineJS: 'while($core.assert(self._value())) {aBlock._value()}'>
 ! !
 
 !BlockClosure methodsFor: 'converting'!
 
 asCompiledMethod: aString
-	<return $core.method({selector:aString, fn:self});>
+	<inlineJS: 'return $core.method({selector:aString, fn:self});'>
 !
 
 currySelf
@@ -70,13 +70,13 @@ currySelf
 	into function (x, y, ...) {jscode} that takes selfarg from 'this'.
 	IOW, it is usable as JS method and first arg takes the receiver."
 	
-	<
+	<inlineJS: '
 		return function () {
 			var args = [ this ];
 			args.push.apply(args, arguments);
 			return self.apply(null, args);
 		}
-	>
+	'>
 ! !
 
 !BlockClosure methodsFor: 'error handling'!
@@ -93,7 +93,7 @@ on: anErrorClass do: aBlock
 !
 
 tryCatch: aBlock
-	<
+	<inlineJS: '
 		try {
 			return self._value();
 		} catch(error) {
@@ -101,23 +101,23 @@ tryCatch: aBlock
 			if (Array.isArray(error) && error.length === 1) throw error;
 			return aBlock._value_(error);
 		}
-	>
+	'>
 ! !
 
 !BlockClosure methodsFor: 'evaluating'!
 
 applyTo: anObject arguments: aCollection
-	<return self.apply(anObject, aCollection)>
+	<inlineJS: 'return self.apply(anObject, aCollection)'>
 !
 
 ensure: aBlock
-	<try{return self._value()}finally{aBlock._value()}>
+	<inlineJS: 'try{return self._value()}finally{aBlock._value()}'>
 !
 
 new
 	"Use the receiver as a JS constructor.
 	*Do not* use this method to instanciate Smalltalk objects!!"
-	<return new self()>
+	<inlineJS: 'return new self()'>
 !
 
 newValue: anObject
@@ -134,11 +134,11 @@ newValue: anObject value: anObject2 value: anObject3
 
 newWithValues: aCollection
 	"Simulates JS new operator by combination of Object.create and .apply"
-	<
+	<inlineJS: '
 		var object = Object.create(self.prototype);
 		var result = self.apply(object, aCollection);
 		return typeof result === "object" ? result : object;
-	>
+	'>
 !
 
 timeToRun
@@ -148,23 +148,23 @@ timeToRun
 !
 
 value
-	<return self();>
+	<inlineJS: 'return self();'>
 !
 
 value: anArg
-	<return self(anArg);>
+	<inlineJS: 'return self(anArg);'>
 !
 
 value: firstArg value: secondArg
-	<return self(firstArg, secondArg);>
+	<inlineJS: 'return self(firstArg, secondArg);'>
 !
 
 value: firstArg value: secondArg value: thirdArg
-	<return self(firstArg, secondArg, thirdArg);>
+	<inlineJS: 'return self(firstArg, secondArg, thirdArg);'>
 !
 
 valueWithPossibleArguments: aCollection
-	<return self.apply(null, aCollection);>
+	<inlineJS: 'return self.apply(null, aCollection);'>
 ! !
 
 !BlockClosure methodsFor: 'timeout/interval'!
@@ -174,17 +174,17 @@ fork
 !
 
 valueWithInterval: aNumber
-	<
+	<inlineJS: '
 		var interval = setInterval(self, aNumber);
 		return $globals.Timeout._on_(interval);
-	>
+	'>
 !
 
 valueWithTimeout: aNumber
-	<
+	<inlineJS: '
 		var timeout = setTimeout(self, aNumber);
 		return $globals.Timeout._on_(timeout);
-	>
+	'>
 ! !
 
 Object subclass: #CompiledMethod
@@ -213,7 +213,7 @@ Messages sent from an instance:
 !CompiledMethod methodsFor: 'accessing'!
 
 arguments
-	<return self.args || []>
+	<inlineJS: 'return self.args || []'>
 !
 
 category
@@ -558,11 +558,11 @@ My instances are JavaScript `SmalltalkMethodContext` objects defined in `boot.js
 !MethodContext methodsFor: 'accessing'!
 
 basicReceiver
-	<return self.receiver>
+	<inlineJS: 'return self.receiver'>
 !
 
 evaluatedSelector
-	<return self.evaluatedSelector>
+	<inlineJS: 'return self.evaluatedSelector'>
 !
 
 findContextSuchThat: testBlock
@@ -581,15 +581,15 @@ findContextSuchThat: testBlock
 !
 
 home
-	<return self.homeContext>
+	<inlineJS: 'return self.homeContext'>
 !
 
 index
-	<return self.index || 0>
+	<inlineJS: 'return self.index || 0'>
 !
 
 locals
-	<return self.locals || {}>
+	<inlineJS: 'return self.locals || {}'>
 !
 
 method
@@ -616,7 +616,7 @@ methodContext
 !
 
 outerContext
-	<return self.outerContext || self.homeContext>
+	<inlineJS: 'return self.outerContext || self.homeContext'>
 !
 
 receiver
@@ -626,25 +626,25 @@ receiver
 !
 
 selector
-	<
+	<inlineJS: '
 		if(self.selector) {
 			return $core.js2st(self.selector);
 		} else {
 			return nil;
 		}
-	>
+	'>
 !
 
 sendIndexAt: aSelector
-	<return self.sendIdx[aSelector] || 0>
+	<inlineJS: 'return self.sendIdx[aSelector] || 0'>
 !
 
 sendIndexes
-	<return self.sendIdx>
+	<inlineJS: 'return self.sendIdx'>
 !
 
 supercall
-	<return self.supercall == true>
+	<inlineJS: 'return self.supercall == true'>
 ! !
 
 !MethodContext methodsFor: 'converting'!
@@ -700,154 +700,154 @@ Created instances will most probably be instance of `JSObjectProxy`.
 !NativeFunction class methodsFor: 'function calling'!
 
 functionNamed: aString
-	<
-		var nativeFunc=(new Function('return this'))()[aString];
+	<inlineJS: '
+		var nativeFunc=(new Function(''return this''))()[aString];
 		return nativeFunc();
-	>
+	'>
 !
 
 functionNamed: aString value: anObject
-	<
-		var nativeFunc=(new Function('return this'))()[aString];
+	<inlineJS: '
+		var nativeFunc=(new Function(''return this''))()[aString];
 		return nativeFunc(anObject);
-	>
+	'>
 !
 
 functionNamed: aString value: anObject value: anObject2
-	<
-		var nativeFunc=(new Function('return this'))()[aString];
+	<inlineJS: '
+		var nativeFunc=(new Function(''return this''))()[aString];
 		return nativeFunc(anObject,anObject2);
-	>
+	'>
 !
 
 functionNamed: aString value: anObject value: anObject2 value: anObject3
-	<
-		var nativeFunc=(new Function('return this'))()[aString];
+	<inlineJS: '
+		var nativeFunc=(new Function(''return this''))()[aString];
 		return nativeFunc(anObject,anObject2, anObject3);
-	>
+	'>
 !
 
 functionNamed: aString valueWithArgs: args
-	<
-		var nativeFunc=(new Function('return this'))()[aString];
+	<inlineJS: '
+		var nativeFunc=(new Function(''return this''))()[aString];
 		return Function.prototype.apply.call(nativeFunc, null, args);
-	>
+	'>
 !
 
 functionOf: nativeFunc
-	<
+	<inlineJS: '
 		return nativeFunc();
-	>
+	'>
 !
 
 functionOf: nativeFunc value: anObject
-	<
+	<inlineJS: '
 		return nativeFunc(anObject);
-	>
+	'>
 !
 
 functionOf: nativeFunc value: anObject value: anObject2
-	<
+	<inlineJS: '
 		return nativeFunc(anObject,anObject2);
-	>
+	'>
 !
 
 functionOf: nativeFunc value: anObject value: anObject2 value: anObject3
-	<
+	<inlineJS: '
 		return nativeFunc(anObject,anObject2, anObject3);
-	>
+	'>
 !
 
 functionOf: nativeFunc valueWithArgs: args
-	<
+	<inlineJS: '
 		return Function.prototype.apply.call(nativeFunc, null, args);
-	>
+	'>
 ! !
 
 !NativeFunction class methodsFor: 'instance creation'!
 
 constructorNamed: aString
-	<
-		var nativeFunc=(new Function('return this'))()[aString];
+	<inlineJS: '
+		var nativeFunc=(new Function(''return this''))()[aString];
 		return new nativeFunc();
-	>
+	'>
 !
 
 constructorNamed: aString value: anObject
-	<
-		var nativeFunc=(new Function('return this'))()[aString];
+	<inlineJS: '
+		var nativeFunc=(new Function(''return this''))()[aString];
 		return new nativeFunc(anObject);
-	>
+	'>
 !
 
 constructorNamed: aString value: anObject value: anObject2
-	<
-		var nativeFunc=(new Function('return this'))()[aString];
+	<inlineJS: '
+		var nativeFunc=(new Function(''return this''))()[aString];
 		return new nativeFunc(anObject,anObject2);
-	>
+	'>
 !
 
 constructorNamed: aString value: anObject value: anObject2 value: anObject3
-	<
-		var nativeFunc=(new Function('return this'))()[aString];
+	<inlineJS: '
+		var nativeFunc=(new Function(''return this''))()[aString];
 		return new nativeFunc(anObject,anObject2, anObject3);
-	>
+	'>
 !
 
 constructorOf: nativeFunc
-	<
+	<inlineJS: '
 		return new nativeFunc();
-	>
+	'>
 !
 
 constructorOf: nativeFunc value: anObject
-	<
+	<inlineJS: '
 		return new nativeFunc(anObject);
-	>
+	'>
 !
 
 constructorOf: nativeFunc value: anObject value: anObject2
-	<
+	<inlineJS: '
 		return new nativeFunc(anObject,anObject2);
-	>
+	'>
 !
 
 constructorOf: nativeFunc value: anObject value: anObject2 value: anObject3
-	<
+	<inlineJS: '
 		return new nativeFunc(anObject,anObject2, anObject3);
-	>
+	'>
 ! !
 
 !NativeFunction class methodsFor: 'method calling'!
 
 methodOf: nativeFunc this: thisObject
-	<
+	<inlineJS: '
 		return Function.prototype.call.call(nativeFunc, thisObject);
-	>
+	'>
 !
 
 methodOf: nativeFunc this: thisObject value: anObject
-	<
+	<inlineJS: '
 		return Function.prototype.call.call(nativeFunc, thisObject, anObject);
-	>
+	'>
 !
 
 methodOf: nativeFunc this: thisObject value: anObject value: anObject2
-	<
+	<inlineJS: '
 		return Function.prototype.call.call(nativeFunc, thisObject,anObject,anObject2);
-	>
+	'>
 !
 
 methodOf: nativeFunc this: thisObject value: anObject value: anObject2 value: anObject3
-	<
+	<inlineJS: '
 		return Function.prototype.call.call(nativeFunc, thisObject,anObject,anObject2, anObject3);
-	>
+	'>
 !
 
 methodOf: nativeFunc this: thisObject valueWithArgs: args
-	<
+	<inlineJS: '
 		return Function.prototype.apply.call(nativeFunc, thisObject, args);
-	>
+	'>
 ! !
 
 !NativeFunction class methodsFor: 'testing'!
@@ -875,17 +875,17 @@ rawTimeout: anObject
 !Timeout methodsFor: 'timeout/interval'!
 
 clearInterval
-	<
+	<inlineJS: '
 		var interval = self["@rawTimeout"];
 		clearInterval(interval);
-	>
+	'>
 !
 
 clearTimeout
-	<
+	<inlineJS: '
 		var timeout = self["@rawTimeout"];
 		clearTimeout(timeout);
-	>
+	'>
 ! !
 
 !Timeout class methodsFor: 'instance creation'!

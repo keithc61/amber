@@ -217,8 +217,6 @@ function create_compiler(configuration) {
         .then(function () {
             console.log('Compiler loaded');
 
-            configuration.globals.ErrorHandler._register_(configuration.globals.RethrowErrorHandler._new());
-
             if (0 !== configuration.jsGlobals.length) {
                 var jsGlobalVariables = configuration.core.globalJsVariables;
                 jsGlobalVariables.push.apply(jsGlobalVariables, configuration.jsGlobals);

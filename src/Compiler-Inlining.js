@@ -592,12 +592,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
+var $3,$2,$1;
 $1=$recv($recv($recv(anIRReturn)._isInlined())._not())._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($recv($recv($recv(anIRReturn)._instructions())._single())._isSend())._and_((function(){
+$3=$recv(anIRReturn)._expression();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["expression"]=1;
+//>>excludeEnd("ctx");
+$2=$recv($3)._isSend();
+return $recv($2)._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -620,10 +625,10 @@ return $1;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRReturn"],
-source: "shouldInlineReturn: anIRReturn\x0a\x09^ anIRReturn isInlined not and: [\x0a\x09\x09anIRReturn instructions single isSend and: [\x0a\x09\x09\x09self shouldInlineSend: anIRReturn expression ]]",
+source: "shouldInlineReturn: anIRReturn\x0a\x09^ anIRReturn isInlined not and: [\x0a\x09\x09anIRReturn expression isSend and: [\x0a\x09\x09\x09self shouldInlineSend: anIRReturn expression ]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["and:", "not", "isInlined", "isSend", "single", "instructions", "shouldInlineSend:", "expression"]
+messageSends: ["and:", "not", "isInlined", "isSend", "expression", "shouldInlineSend:"]
 }),
 $globals.IRInliner);
 

@@ -13,19 +13,19 @@ As `Error` is explicitly specified to be subclassable, conforming implementation
 !Error methodsFor: 'accessing'!
 
 beHandled
-	<self.amberHandled = true>
+	<inlineJS: 'self.amberHandled = true'>
 !
 
 beUnhandled
-	<self.amberHandled = false>
+	<inlineJS: 'self.amberHandled = false'>
 !
 
 context
-	<return self.context>
+	<inlineJS: 'return self.context'>
 !
 
 jsStack
-	<return self.stack>
+	<inlineJS: 'return self.stack'>
 !
 
 messageText
@@ -62,19 +62,19 @@ initialize
 resignal
 	"Resignal the receiver without changing its exception context"
 	
-	<
+	<inlineJS: '
 		self.amberHandled = false;
 		throw(self);
-	>
+	'>
 !
 
 signal
-	<
+	<inlineJS: '
 		self.amberHandled = false;
 		self.context = $core.getThisContext(); 
 		self.smalltalkError = true;
 		throw self;
-	>
+	'>
 !
 
 signal: aString
@@ -85,11 +85,11 @@ signal: aString
 !Error methodsFor: 'testing'!
 
 isSmalltalkError
-	<return self.smalltalkError === true>
+	<inlineJS: 'return self.smalltalkError === true'>
 !
 
 wasHandled
-	<return self.amberHandled || false>
+	<inlineJS: 'return self.amberHandled || false'>
 ! !
 
 !Error class methodsFor: 'accessing'!
@@ -149,7 +149,7 @@ context: aMethodContext
 	"Set the context from the outside.
 	See boot.js `inContext()` exception handling"
 	
-	<self.context = aMethodContext>
+	<inlineJS: 'self.context = aMethodContext'>
 !
 
 exception
@@ -161,7 +161,7 @@ exception: anException
 !
 
 messageText
-	<return 'JavaScript exception: ' + self["@exception"].toString()>
+	<inlineJS: 'return "JavaScript exception: " + self["@exception"].toString()'>
 ! !
 
 !JavaScriptException class methodsFor: 'instance creation'!
