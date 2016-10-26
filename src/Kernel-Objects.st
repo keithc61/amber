@@ -308,10 +308,6 @@ shouldNotImplement
 
 subclassResponsibility
 	self error: 'This method is a responsibility of a subclass'
-!
-
-throw: anObject
-	<inlineJS: 'throw anObject'>
 ! !
 
 !Object methodsFor: 'evaluating'!

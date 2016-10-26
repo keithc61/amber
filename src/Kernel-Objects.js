@@ -1557,30 +1557,6 @@ $globals.Object);
 
 $core.addMethod(
 $core.method({
-selector: "throw:",
-protocol: 'error handling',
-fn: function (anObject){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-throw anObject;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"throw:",{anObject:anObject},$globals.Object)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anObject"],
-source: "throw: anObject\x0a\x09<inlineJS: 'throw anObject'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Object);
-
-$core.addMethod(
-$core.method({
 selector: "value",
 protocol: 'evaluating',
 fn: function (){
