@@ -1,6 +1,7 @@
 0.18.0:
 
 * Remove class RethrowErrorHandler (hack for cli before 0.12.3).
+* Some internal API changes in Compiler-*.
 
 - Object >>
   - throw:

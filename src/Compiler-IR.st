@@ -309,10 +309,6 @@ replaceWith: anIRInstruction
 
 !IRInstruction methodsFor: 'testing'!
 
-canBeAssigned
-	^ true
-!
-
 isClosure
 	^ false
 !
@@ -321,15 +317,7 @@ isInlined
 	^ false
 !
 
-isLocalReturn
-	^ false
-!
-
 isMethod
-	^ false
-!
-
-isReturn
 	^ false
 !
 
@@ -350,6 +338,10 @@ isVariable
 !
 
 needsBoxingAsReceiver
+	^ true
+!
+
+yieldsValue
 	^ true
 ! !
 
@@ -571,24 +563,8 @@ scope
 
 !IRReturn methodsFor: 'testing'!
 
-canBeAssigned
+yieldsValue
 	^ false
-!
-
-isBlockReturn
-	^ false
-!
-
-isLocalReturn
-	^ true
-!
-
-isNonLocalReturn
-	^ self isLocalReturn not
-!
-
-isReturn
-	^ true
 ! !
 
 !IRReturn methodsFor: 'visiting'!
@@ -602,12 +578,6 @@ IRReturn subclass: #IRBlockReturn
 	package: 'Compiler-IR'!
 !IRBlockReturn commentStamp!
 Smalltalk blocks return their last statement. I am a implicit block return instruction.!
-
-!IRBlockReturn methodsFor: 'testing'!
-
-isBlockReturn
-	^ true
-! !
 
 !IRBlockReturn methodsFor: 'visiting'!
 
@@ -623,12 +593,6 @@ I am a non local return instruction.
 Non local returns are handled using a try/catch JavaScript statement.
 
 See `IRNonLocalReturnHandling` class.!
-
-!IRNonLocalReturn methodsFor: 'testing'!
-
-isLocalReturn
-	^ false
-! !
 
 !IRNonLocalReturn methodsFor: 'visiting'!
 

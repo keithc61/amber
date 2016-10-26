@@ -431,10 +431,8 @@ inlineClosure: anIRClosure
 	statements ifNotEmpty: [
 		statements allButLast do: [ :each | sequence add: each ].
 
-		"Inlined closures don't have implicit local returns"
-		(statements last isReturn and: [ statements last isBlockReturn ])
-			ifTrue: [ sequence add: statements last expression ]
-			ifFalse: [ sequence add: statements last ] ].
+		"Inlined closures change local returns into result value itself"
+		sequence add: statements last asInlinedBlockResult ].
 
 	^ inlinedClosure
 !
@@ -539,19 +537,19 @@ inlineAssignment: anIRAssignment
 !
 
 inlineClosure: anIRClosure
-	| inlinedClosure statements |
+	| closure statements |
 
-	inlinedClosure := super inlineClosure: anIRClosure.
-	statements := inlinedClosure sequence instructions.
+	closure := super inlineClosure: anIRClosure.
+	statements := closure sequence instructions.
 	
 	statements ifNotEmpty: [
-		statements last canBeAssigned ifTrue: [
+		statements last yieldsValue ifTrue: [
 			statements last replaceWith: (IRAssignment new
 				add: self assignment left;
 				add: statements last copy;
 				yourself) ] ].
 
-	^ inlinedClosure
+	^ closure
 ! !
 
 IRSendInliner subclass: #IRReturnInliner
@@ -575,8 +573,8 @@ inlineClosure: anIRClosure
 	statements := closure sequence instructions.
 	
 	statements ifNotEmpty: [
-		statements last isReturn
-			ifFalse: [ statements last replaceWith: (IRReturn new
+		statements last yieldsValue ifTrue: [
+			statements last replaceWith: (IRReturn new
 				add: statements last copy;
 				yourself)] ].
 
@@ -627,4 +625,16 @@ SemanticError subclass: #InliningError
 	package: 'Compiler-Inlining'!
 !InliningError commentStamp!
 Instances of InliningError are signaled when using an `InliningCodeGenerator`in a `Compiler`.!
+
+!IRBlockReturn methodsFor: '*Compiler-Inlining'!
+
+asInlinedBlockResult
+	^ self expression
+! !
+
+!IRInstruction methodsFor: '*Compiler-Inlining'!
+
+asInlinedBlockResult
+	^ self
+! !
 
