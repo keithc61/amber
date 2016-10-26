@@ -6,53 +6,6 @@ $core.addPackage('Compiler-Inlining');
 $core.packages["Compiler-Inlining"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-Inlining"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('IRInlinedAssignment', $globals.IRAssignment, [], 'Compiler-Inlining');
-//>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.IRInlinedAssignment.comment="I represent an inlined assignment instruction.";
-//>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "accept:",
-protocol: 'visiting',
-fn: function (aVisitor){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(aVisitor)._visitIRInlinedAssignment_(self);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedAssignment)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRInlinedAssignment: self",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["visitIRInlinedAssignment:"]
-}),
-$globals.IRInlinedAssignment);
-
-$core.addMethod(
-$core.method({
-selector: "isInlined",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return true;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isInlined\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.IRInlinedAssignment);
-
-
-
 $core.addClass('IRInlinedClosure', $globals.IRClosure, [], 'Compiler-Inlining');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInlinedClosure.comment="I represent an inlined closure instruction.";
@@ -98,53 +51,6 @@ referencedClasses: [],
 messageSends: []
 }),
 $globals.IRInlinedClosure);
-
-
-
-$core.addClass('IRInlinedReturn', $globals.IRReturn, [], 'Compiler-Inlining');
-//>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.IRInlinedReturn.comment="I represent an inlined local return instruction.";
-//>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "accept:",
-protocol: 'visiting',
-fn: function (aVisitor){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(aVisitor)._visitIRInlinedReturn_(self);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedReturn)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRInlinedReturn: self",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["visitIRInlinedReturn:"]
-}),
-$globals.IRInlinedReturn);
-
-$core.addMethod(
-$core.method({
-selector: "isInlined",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return true;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isInlined\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.IRInlinedReturn);
 
 
 
@@ -844,30 +750,6 @@ $globals.IRInliningJSTranslator.comment="I am a specialized JavaScript translato
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "visitIRInlinedAssignment:",
-protocol: 'visiting',
-fn: function (anIRInlinedAssignment){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-self._visit_($recv(anIRInlinedAssignment)._right());
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitIRInlinedAssignment:",{anIRInlinedAssignment:anIRInlinedAssignment},$globals.IRInliningJSTranslator)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anIRInlinedAssignment"],
-source: "visitIRInlinedAssignment: anIRInlinedAssignment\x0a\x09self visit: anIRInlinedAssignment right",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["visit:", "right"]
-}),
-$globals.IRInliningJSTranslator);
-
-$core.addMethod(
-$core.method({
 selector: "visitIRInlinedClosure:",
 protocol: 'visiting',
 fn: function (anIRInlinedClosure){
@@ -1200,30 +1082,6 @@ source: "visitIRInlinedIfTrueIfFalse: anIRInlinedIfTrueIfFalse\x0a\x09self strea
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["nextPutIf:then:else:", "stream", "nextPutAll:", "visit:", "first", "instructions", "second", "third"]
-}),
-$globals.IRInliningJSTranslator);
-
-$core.addMethod(
-$core.method({
-selector: "visitIRInlinedReturn:",
-protocol: 'visiting',
-fn: function (anIRInlinedReturn){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-self._visit_($recv(anIRInlinedReturn)._expression());
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitIRInlinedReturn:",{anIRInlinedReturn:anIRInlinedReturn},$globals.IRInliningJSTranslator)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anIRInlinedReturn"],
-source: "visitIRInlinedReturn: anIRInlinedReturn\x0a\x09self visit: anIRInlinedReturn expression",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["visit:", "expression"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -1700,6 +1558,31 @@ $globals.IRSendInliner);
 
 $core.addMethod(
 $core.method({
+selector: "inlineSend:andReplace:",
+protocol: 'private',
+fn: function (anIRSend,anIRInstruction){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv(anIRInstruction)._replaceWith_(anIRSend);
+self._inlineSend_(anIRSend);
+return anIRSend;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"inlineSend:andReplace:",{anIRSend:anIRSend,anIRInstruction:anIRInstruction},$globals.IRSendInliner)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anIRSend", "anIRInstruction"],
+source: "inlineSend: anIRSend andReplace: anIRInstruction\x0a\x09anIRInstruction replaceWith: anIRSend.\x0a\x09self inlineSend: anIRSend.\x0a\x09^ anIRSend",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["replaceWith:", "inlineSend:"]
+}),
+$globals.IRSendInliner);
+
+$core.addMethod(
+$core.method({
 selector: "inlinedClosure",
 protocol: 'factory',
 fn: function (){
@@ -1724,7 +1607,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "inlinedSend:withBlock:",
-protocol: 'inlining',
+protocol: 'private',
 fn: function (inlinedSend,anIRInstruction){
 var self=this;
 var inlinedClosure;
@@ -1777,7 +1660,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "inlinedSend:withBlock:withBlock:",
-protocol: 'inlining',
+protocol: 'private',
 fn: function (inlinedSend,anIRInstruction,anotherIRInstruction){
 var self=this;
 var inlinedClosure1,inlinedClosure2;
@@ -2023,81 +1906,31 @@ messageSends: ["ifFalse:", "includes:", "inlinedSelectors", "selector", "allSati
 $globals.IRSendInliner.klass);
 
 
-$core.addClass('IRAssignmentInliner', $globals.IRSendInliner, ['assignment'], 'Compiler-Inlining');
+$core.addClass('IRAssignmentInliner', $globals.IRSendInliner, ['target'], 'Compiler-Inlining');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRAssignmentInliner.comment="I inline message sends together with assignments by moving them around into the inline closure instructions.\x0a\x0a##Example\x0a\x0a\x09foo\x0a\x09\x09| a |\x0a\x09\x09a := true ifTrue: [ 1 ]\x0a\x0aWill produce:\x0a\x0a\x09if($core.assert(true) {\x0a\x09\x09a = 1;\x0a\x09};";
 //>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "assignment",
-protocol: 'accessing',
-fn: function (){
-var self=this;
-return self["@assignment"];
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "assignment\x0a\x09^ assignment",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.IRAssignmentInliner);
-
-$core.addMethod(
-$core.method({
-selector: "assignment:",
-protocol: 'accessing',
-fn: function (aNode){
-var self=this;
-self["@assignment"]=aNode;
-return self;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode"],
-source: "assignment: aNode\x0a\x09assignment := aNode",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.IRAssignmentInliner);
-
 $core.addMethod(
 $core.method({
 selector: "inlineAssignment:",
 protocol: 'inlining',
 fn: function (anIRAssignment){
 var self=this;
-var inlinedAssignment;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._assignment_(anIRAssignment);
-inlinedAssignment=$recv($globals.IRInlinedAssignment)._new();
-$recv($recv(anIRAssignment)._instructions())._do_((function(each){
+self._target_($recv(anIRAssignment)._left());
+return self._inlineSend_andReplace_($recv(anIRAssignment)._right(),anIRAssignment);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(inlinedAssignment)._add_(each);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-$recv(anIRAssignment)._replaceWith_(inlinedAssignment);
-self._inlineSend_($recv(inlinedAssignment)._right());
-return inlinedAssignment;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"inlineAssignment:",{anIRAssignment:anIRAssignment,inlinedAssignment:inlinedAssignment},$globals.IRAssignmentInliner)});
+}, function($ctx1) {$ctx1.fill(self,"inlineAssignment:",{anIRAssignment:anIRAssignment},$globals.IRAssignmentInliner)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRAssignment"],
-source: "inlineAssignment: anIRAssignment\x0a\x09| inlinedAssignment |\x0a\x09self assignment: anIRAssignment.\x0a\x09inlinedAssignment := IRInlinedAssignment new.\x0a\x09anIRAssignment instructions do: [ :each |\x0a\x09\x09inlinedAssignment add: each ].\x0a\x09anIRAssignment replaceWith: inlinedAssignment.\x0a\x09self inlineSend: inlinedAssignment right.\x0a\x09^ inlinedAssignment",
-referencedClasses: ["IRInlinedAssignment"],
+source: "inlineAssignment: anIRAssignment\x0a\x09self target: anIRAssignment left.\x0a\x09^ self inlineSend: anIRAssignment right andReplace: anIRAssignment",
+referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["assignment:", "new", "do:", "instructions", "add:", "replaceWith:", "inlineSend:", "right"]
+messageSends: ["target:", "left", "inlineSend:andReplace:", "right"]
 }),
 $globals.IRAssignmentInliner);
 
@@ -2136,7 +1969,7 @@ $3=$recv(statements)._last();
 $ctx2.sendIdx["last"]=2;
 //>>excludeEnd("ctx");
 $5=$recv($globals.IRAssignment)._new();
-$recv($5)._add_($recv(self._assignment())._left());
+$recv($5)._add_(self._target());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["add:"]=1;
 //>>excludeEnd("ctx");
@@ -2155,10 +1988,47 @@ return closure;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRClosure"],
-source: "inlineClosure: anIRClosure\x0a\x09| closure statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09statements := closure sequence instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements last yieldsValue ifTrue: [\x0a\x09\x09\x09statements last replaceWith: (IRAssignment new\x0a\x09\x09\x09\x09add: self assignment left;\x0a\x09\x09\x09\x09add: statements last copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ closure",
+source: "inlineClosure: anIRClosure\x0a\x09| closure statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09statements := closure sequence instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements last yieldsValue ifTrue: [\x0a\x09\x09\x09statements last replaceWith: (IRAssignment new\x0a\x09\x09\x09\x09add: self target;\x0a\x09\x09\x09\x09add: statements last copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ closure",
 referencedClasses: ["IRAssignment"],
 //>>excludeEnd("ide");
-messageSends: ["inlineClosure:", "instructions", "sequence", "ifNotEmpty:", "ifTrue:", "yieldsValue", "last", "replaceWith:", "add:", "new", "left", "assignment", "copy", "yourself"]
+messageSends: ["inlineClosure:", "instructions", "sequence", "ifNotEmpty:", "ifTrue:", "yieldsValue", "last", "replaceWith:", "add:", "new", "target", "copy", "yourself"]
+}),
+$globals.IRAssignmentInliner);
+
+$core.addMethod(
+$core.method({
+selector: "target",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return self["@target"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "target\x0a\x09^ target",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.IRAssignmentInliner);
+
+$core.addMethod(
+$core.method({
+selector: "target:",
+protocol: 'accessing',
+fn: function (anObject){
+var self=this;
+self["@target"]=anObject;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "target: anObject\x0a\x09target := anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
 }),
 $globals.IRAssignmentInliner);
 
@@ -2231,56 +2101,20 @@ selector: "inlineReturn:",
 protocol: 'inlining',
 fn: function (anIRReturn){
 var self=this;
-var return_;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return_=self._inlinedReturn();
-$recv($recv(anIRReturn)._instructions())._do_((function(each){
+return self._inlineSend_andReplace_($recv(anIRReturn)._expression(),anIRReturn);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(return_)._add_(each);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-$recv(anIRReturn)._replaceWith_(return_);
-self._inlineSend_($recv(return_)._expression());
-return return_;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"inlineReturn:",{anIRReturn:anIRReturn,return_:return_},$globals.IRReturnInliner)});
+}, function($ctx1) {$ctx1.fill(self,"inlineReturn:",{anIRReturn:anIRReturn},$globals.IRReturnInliner)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRReturn"],
-source: "inlineReturn: anIRReturn\x0a\x09| return |\x0a\x09return := self inlinedReturn.\x0a\x09anIRReturn instructions do: [ :each |\x0a\x09\x09return add: each ].\x0a\x09anIRReturn replaceWith: return.\x0a\x09self inlineSend: return expression.\x0a\x09^ return",
+source: "inlineReturn: anIRReturn\x0a\x09^ self inlineSend: anIRReturn expression andReplace: anIRReturn",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["inlinedReturn", "do:", "instructions", "add:", "replaceWith:", "inlineSend:", "expression"]
-}),
-$globals.IRReturnInliner);
-
-$core.addMethod(
-$core.method({
-selector: "inlinedReturn",
-protocol: 'factory',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($globals.IRInlinedReturn)._new();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"inlinedReturn",{},$globals.IRReturnInliner)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "inlinedReturn\x0a\x09^ IRInlinedReturn new",
-referencedClasses: ["IRInlinedReturn"],
-//>>excludeEnd("ide");
-messageSends: ["new"]
+messageSends: ["inlineSend:andReplace:", "expression"]
 }),
 $globals.IRReturnInliner);
 
