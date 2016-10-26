@@ -1228,46 +1228,6 @@ $globals.IRInliningJSTranslator);
 
 $core.addMethod(
 $core.method({
-selector: "visitIRInlinedNonLocalReturn:",
-protocol: 'visiting',
-fn: function (anIRInlinedReturn){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=self._stream();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["stream"]=1;
-//>>excludeEnd("ctx");
-$recv($1)._nextPutStatementWith_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return self._visit_($recv(anIRInlinedReturn)._expression());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-$recv(self._stream())._nextPutNonLocalReturnWith_((function(){
-
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitIRInlinedNonLocalReturn:",{anIRInlinedReturn:anIRInlinedReturn},$globals.IRInliningJSTranslator)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anIRInlinedReturn"],
-source: "visitIRInlinedNonLocalReturn: anIRInlinedReturn\x0a\x09self stream nextPutStatementWith: [\x0a\x09\x09self visit: anIRInlinedReturn expression ].\x0a\x09self stream nextPutNonLocalReturnWith: [ ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["nextPutStatementWith:", "stream", "visit:", "expression", "nextPutNonLocalReturnWith:"]
-}),
-$globals.IRInliningJSTranslator);
-
-$core.addMethod(
-$core.method({
 selector: "visitIRInlinedReturn:",
 protocol: 'visiting',
 fn: function (anIRInlinedReturn){

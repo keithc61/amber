@@ -306,12 +306,6 @@ visitIRInlinedIfTrueIfFalse: anIRInlinedIfTrueIfFalse
 		else: [ self visit: anIRInlinedIfTrueIfFalse instructions third ]
 !
 
-visitIRInlinedNonLocalReturn: anIRInlinedReturn
-	self stream nextPutStatementWith: [
-		self visit: anIRInlinedReturn expression ].
-	self stream nextPutNonLocalReturnWith: [ ]
-!
-
 visitIRInlinedReturn: anIRInlinedReturn
 	self visit: anIRInlinedReturn expression
 !
