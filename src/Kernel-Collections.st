@@ -375,13 +375,13 @@ ifEmpty: aBlock
 		self classifyMethodAs:
 			(myProtocol ifEmpty: ['As yet unclassified'])"
 	^ self isEmpty
-		ifTrue: aBlock
+		ifTrue: "aBlock" [ aBlock value ]
 		ifFalse: [ self ]
 !
 
 ifEmpty: aBlock ifNotEmpty: anotherBlock
 	^ self isEmpty
-		ifTrue: aBlock
+		ifTrue: "aBlock" [ aBlock value ]
 		ifFalse: [ anotherBlock value: self ]
 !
 
@@ -394,7 +394,7 @@ ifNotEmpty: aBlock
 ifNotEmpty: aBlock ifEmpty: anotherBlock
 	^ self notEmpty
 		ifTrue: [ aBlock value: self ]
-		ifFalse: anotherBlock
+		ifFalse: "anotherBlock" [ anotherBlock value ]
 !
 
 includes: anObject

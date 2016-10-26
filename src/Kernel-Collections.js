@@ -1027,20 +1027,21 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=self._isEmpty();
-return $recv($1)._ifTrue_ifFalse_(aBlock,(function(){
+if($core.assert($1)){
+return $recv(aBlock)._value();
+} else {
 return self;
-
-}));
+};
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ifEmpty:",{aBlock:aBlock},$globals.Collection)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "ifEmpty: aBlock\x0a\x09\x22Evaluate the given block with the receiver as argument, answering its value if the receiver is empty, otherwise answer the receiver. \x0a\x09Note that the fact that this method returns its argument in case the receiver is not empty allows one to write expressions like the following ones: \x0a\x09\x09self classifyMethodAs:\x0a\x09\x09\x09(myProtocol ifEmpty: ['As yet unclassified'])\x22\x0a\x09^ self isEmpty\x0a\x09\x09ifTrue: aBlock\x0a\x09\x09ifFalse: [ self ]",
+source: "ifEmpty: aBlock\x0a\x09\x22Evaluate the given block with the receiver as argument, answering its value if the receiver is empty, otherwise answer the receiver. \x0a\x09Note that the fact that this method returns its argument in case the receiver is not empty allows one to write expressions like the following ones: \x0a\x09\x09self classifyMethodAs:\x0a\x09\x09\x09(myProtocol ifEmpty: ['As yet unclassified'])\x22\x0a\x09^ self isEmpty\x0a\x09\x09ifTrue: \x22aBlock\x22 [ aBlock value ]\x0a\x09\x09ifFalse: [ self ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:ifFalse:", "isEmpty"]
+messageSends: ["ifTrue:ifFalse:", "isEmpty", "value"]
 }),
 $globals.Collection);
 
@@ -1055,25 +1056,21 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=self._isEmpty();
-return $recv($1)._ifTrue_ifFalse_(aBlock,(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
+if($core.assert($1)){
+return $recv(aBlock)._value();
+} else {
 return $recv(anotherBlock)._value_(self);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+};
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ifEmpty:ifNotEmpty:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.Collection)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock", "anotherBlock"],
-source: "ifEmpty: aBlock ifNotEmpty: anotherBlock\x0a\x09^ self isEmpty\x0a\x09\x09ifTrue: aBlock\x0a\x09\x09ifFalse: [ anotherBlock value: self ]",
+source: "ifEmpty: aBlock ifNotEmpty: anotherBlock\x0a\x09^ self isEmpty\x0a\x09\x09ifTrue: \x22aBlock\x22 [ aBlock value ]\x0a\x09\x09ifFalse: [ anotherBlock value: self ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:ifFalse:", "isEmpty", "value:"]
+messageSends: ["ifTrue:ifFalse:", "isEmpty", "value", "value:"]
 }),
 $globals.Collection);
 
@@ -1117,25 +1114,21 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=self._notEmpty();
-return $recv($1)._ifTrue_ifFalse_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
+if($core.assert($1)){
 return $recv(aBlock)._value_(self);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}),anotherBlock);
+} else {
+return $recv(anotherBlock)._value();
+};
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ifNotEmpty:ifEmpty:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.Collection)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock", "anotherBlock"],
-source: "ifNotEmpty: aBlock ifEmpty: anotherBlock\x0a\x09^ self notEmpty\x0a\x09\x09ifTrue: [ aBlock value: self ]\x0a\x09\x09ifFalse: anotherBlock",
+source: "ifNotEmpty: aBlock ifEmpty: anotherBlock\x0a\x09^ self notEmpty\x0a\x09\x09ifTrue: [ aBlock value: self ]\x0a\x09\x09ifFalse: \x22anotherBlock\x22 [ anotherBlock value ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:ifFalse:", "notEmpty", "value:"]
+messageSends: ["ifTrue:ifFalse:", "notEmpty", "value:", "value"]
 }),
 $globals.Collection);
 
