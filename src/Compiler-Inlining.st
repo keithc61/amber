@@ -211,9 +211,13 @@ shouldInlineSend: anIRSend
 
 !IRInliner methodsFor: 'visiting'!
 
-transformNonLocalReturn: anIRNonLocalReturn
-	"Replace a non local return into a local return"
+visitIRAssignment: anIRAssignment
+	^ (self shouldInlineAssignment: anIRAssignment)
+		ifTrue: [ self assignmentInliner inlineAssignment: anIRAssignment ]
+		ifFalse: [ super visitIRAssignment: anIRAssignment ]
+!
 
+visitIRNonLocalReturn: anIRNonLocalReturn
 	| localReturn |
 	anIRNonLocalReturn scope canInlineNonLocalReturns ifTrue: [
 		anIRNonLocalReturn scope methodScope removeNonLocalReturn: anIRNonLocalReturn scope.
@@ -225,16 +229,6 @@ transformNonLocalReturn: anIRNonLocalReturn
 		anIRNonLocalReturn replaceWith: localReturn.
 		^ localReturn ].
 	^ super visitIRNonLocalReturn: anIRNonLocalReturn
-!
-
-visitIRAssignment: anIRAssignment
-	^ (self shouldInlineAssignment: anIRAssignment)
-		ifTrue: [ self assignmentInliner inlineAssignment: anIRAssignment ]
-		ifFalse: [ super visitIRAssignment: anIRAssignment ]
-!
-
-visitIRNonLocalReturn: anIRNonLocalReturn
-	^ self transformNonLocalReturn: anIRNonLocalReturn
 !
 
 visitIRReturn: anIRReturn
