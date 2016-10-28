@@ -495,16 +495,19 @@ inlineAssignment: anIRAssignment
 !
 
 inlineClosure: anIRClosure
-	| closure statements |
+	| closure sequence statements |
 
 	closure := super inlineClosure: anIRClosure.
-	statements := closure sequence instructions.
+	sequence := closure sequence.
+	statements := sequence instructions.
 	
 	statements ifNotEmpty: [
-		statements last yieldsValue ifTrue: [
-			statements last replaceWith: (IRAssignment new
+		| final |
+		final := statements last.
+		final yieldsValue ifTrue: [
+			sequence replace: final with: (IRAssignment new
 				add: self target;
-				add: statements last copy;
+				add: final copy;
 				yourself) ] ].
 
 	^ closure
@@ -519,16 +522,19 @@ I inline message sends with inlined closure together with a return instruction.!
 !IRReturnInliner methodsFor: 'inlining'!
 
 inlineClosure: anIRClosure
-	| closure statements |
+	| closure sequence statements |
 
 	closure := super inlineClosure: anIRClosure.
-	statements := closure sequence instructions.
+	sequence := closure sequence.
+	statements := sequence instructions.
 	
 	statements ifNotEmpty: [
-		statements last yieldsValue ifTrue: [
-			statements last replaceWith: (IRReturn new
-				add: statements last copy;
-				yourself)] ].
+		| final |
+		final := statements last.
+		final yieldsValue ifTrue: [
+			sequence replace: final with: (IRReturn new
+				add: final copy;
+				yourself) ] ].
 
 	^ closure
 !
