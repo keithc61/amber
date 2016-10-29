@@ -1123,24 +1123,6 @@ $globals.IRInstruction);
 
 $core.addMethod(
 $core.method({
-selector: "canBeAssigned",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return true;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "canBeAssigned\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.IRInstruction);
-
-$core.addMethod(
-$core.method({
 selector: "isClosure",
 protocol: 'testing',
 fn: function (){
@@ -1177,24 +1159,6 @@ $globals.IRInstruction);
 
 $core.addMethod(
 $core.method({
-selector: "isLocalReturn",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return false;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isLocalReturn\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.IRInstruction);
-
-$core.addMethod(
-$core.method({
 selector: "isMethod",
 protocol: 'testing',
 fn: function (){
@@ -1205,24 +1169,6 @@ return false;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "isMethod\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.IRInstruction);
-
-$core.addMethod(
-$core.method({
-selector: "isReturn",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return false;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isReturn\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -1381,30 +1327,6 @@ $globals.IRInstruction);
 
 $core.addMethod(
 $core.method({
-selector: "remove",
-protocol: 'building',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv(self._parent())._remove_(self);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"remove",{},$globals.IRInstruction)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "remove\x0a\x09self parent remove: self",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["remove:", "parent"]
-}),
-$globals.IRInstruction);
-
-$core.addMethod(
-$core.method({
 selector: "remove:",
 protocol: 'building',
 fn: function (anIRInstruction){
@@ -1509,6 +1431,24 @@ source: "scope\x0a\x09^ self parent ifNotNil: [ :node | \x0a\x09\x09node scope ]
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifNotNil:", "parent", "scope"]
+}),
+$globals.IRInstruction);
+
+$core.addMethod(
+$core.method({
+selector: "yieldsValue",
+protocol: 'testing',
+fn: function (){
+var self=this;
+return true;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "yieldsValue\x0a\x09^ true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
 }),
 $globals.IRInstruction);
 
@@ -2299,24 +2239,6 @@ $globals.IRReturn);
 
 $core.addMethod(
 $core.method({
-selector: "canBeAssigned",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return false;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "canBeAssigned\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.IRReturn);
-
-$core.addMethod(
-$core.method({
 selector: "expression",
 protocol: 'accessing',
 fn: function (){
@@ -2335,83 +2257,6 @@ source: "expression\x0a\x09^ self dagChildren single",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["single", "dagChildren"]
-}),
-$globals.IRReturn);
-
-$core.addMethod(
-$core.method({
-selector: "isBlockReturn",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return false;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isBlockReturn\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.IRReturn);
-
-$core.addMethod(
-$core.method({
-selector: "isLocalReturn",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return true;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isLocalReturn\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.IRReturn);
-
-$core.addMethod(
-$core.method({
-selector: "isNonLocalReturn",
-protocol: 'testing',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self._isLocalReturn())._not();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isNonLocalReturn",{},$globals.IRReturn)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isNonLocalReturn\x0a\x09^ self isLocalReturn not",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["not", "isLocalReturn"]
-}),
-$globals.IRReturn);
-
-$core.addMethod(
-$core.method({
-selector: "isReturn",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return true;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isReturn\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
 }),
 $globals.IRReturn);
 
@@ -2444,6 +2289,24 @@ messageSends: ["ifNil:", "scope", "parent"]
 }),
 $globals.IRReturn);
 
+$core.addMethod(
+$core.method({
+selector: "yieldsValue",
+protocol: 'testing',
+fn: function (){
+var self=this;
+return false;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "yieldsValue\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.IRReturn);
+
 
 
 $core.addClass('IRBlockReturn', $globals.IRReturn, [], 'Compiler-IR');
@@ -2473,24 +2336,6 @@ messageSends: ["visitIRBlockReturn:"]
 }),
 $globals.IRBlockReturn);
 
-$core.addMethod(
-$core.method({
-selector: "isBlockReturn",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return true;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isBlockReturn\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.IRBlockReturn);
-
 
 
 $core.addClass('IRNonLocalReturn', $globals.IRReturn, [], 'Compiler-IR');
@@ -2517,24 +2362,6 @@ source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRNonLocalReturn: sel
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitIRNonLocalReturn:"]
-}),
-$globals.IRNonLocalReturn);
-
-$core.addMethod(
-$core.method({
-selector: "isLocalReturn",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return false;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isLocalReturn\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
 }),
 $globals.IRNonLocalReturn);
 

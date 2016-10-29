@@ -211,9 +211,13 @@ shouldInlineSend: anIRSend
 
 !IRInliner methodsFor: 'visiting'!
 
-transformNonLocalReturn: anIRNonLocalReturn
-	"Replace a non local return into a local return"
+visitIRAssignment: anIRAssignment
+	^ (self shouldInlineAssignment: anIRAssignment)
+		ifTrue: [ self assignmentInliner inlineAssignment: anIRAssignment ]
+		ifFalse: [ super visitIRAssignment: anIRAssignment ]
+!
 
+visitIRNonLocalReturn: anIRNonLocalReturn
 	| localReturn |
 	anIRNonLocalReturn scope canInlineNonLocalReturns ifTrue: [
 		anIRNonLocalReturn scope methodScope removeNonLocalReturn: anIRNonLocalReturn scope.
@@ -225,16 +229,6 @@ transformNonLocalReturn: anIRNonLocalReturn
 		anIRNonLocalReturn replaceWith: localReturn.
 		^ localReturn ].
 	^ super visitIRNonLocalReturn: anIRNonLocalReturn
-!
-
-visitIRAssignment: anIRAssignment
-	^ (self shouldInlineAssignment: anIRAssignment)
-		ifTrue: [ self assignmentInliner inlineAssignment: anIRAssignment ]
-		ifFalse: [ super visitIRAssignment: anIRAssignment ]
-!
-
-visitIRNonLocalReturn: anIRNonLocalReturn
-	^ self transformNonLocalReturn: anIRNonLocalReturn
 !
 
 visitIRReturn: anIRReturn
@@ -303,12 +297,6 @@ visitIRInlinedIfTrueIfFalse: anIRInlinedIfTrueIfFalse
 			self stream nextPutAll: ')' ]
 		then: [ self visit: anIRInlinedIfTrueIfFalse dagChildren second ]
 		else: [ self visit: anIRInlinedIfTrueIfFalse dagChildren third ]
-!
-
-visitIRInlinedNonLocalReturn: anIRInlinedReturn
-	self stream nextPutStatementWith: [
-		self visit: anIRInlinedReturn expression ].
-	self stream nextPutNonLocalReturnWith: [ ]
 !
 
 visitIRInlinedReturn: anIRInlinedReturn
@@ -442,10 +430,8 @@ inlineClosure: anIRClosure
 	statements ifNotEmpty: [
 		statements allButLast do: [ :each | sequence add: each ].
 
-		"Inlined closures don't have implicit local returns"
-		(statements last isReturn and: [ statements last isBlockReturn ])
-			ifTrue: [ sequence add: statements last expression ]
-			ifFalse: [ sequence add: statements last ] ].
+		"Inlined closures change local returns into result value itself"
+		sequence add: statements last asInlinedBlockResult ].
 
 	^ inlinedClosure
 !
@@ -550,19 +536,19 @@ inlineAssignment: anIRAssignment
 !
 
 inlineClosure: anIRClosure
-	| inlinedClosure statements |
+	| closure statements |
 
-	inlinedClosure := super inlineClosure: anIRClosure.
-	statements := inlinedClosure sequence dagChildren.
+	closure := super inlineClosure: anIRClosure.
+	statements := closure sequence dagChildren.
 	
 	statements ifNotEmpty: [
-		statements last canBeAssigned ifTrue: [
+		statements last yieldsValue ifTrue: [
 			statements last replaceWith: (IRAssignment new
 				add: self assignment left;
 				add: statements last copy;
 				yourself) ] ].
 
-	^ inlinedClosure
+	^ closure
 ! !
 
 IRSendInliner subclass: #IRReturnInliner
@@ -586,8 +572,8 @@ inlineClosure: anIRClosure
 	statements := closure sequence dagChildren.
 	
 	statements ifNotEmpty: [
-		statements last isReturn
-			ifFalse: [ statements last replaceWith: (IRReturn new
+		statements last yieldsValue ifTrue: [
+			statements last replaceWith: (IRReturn new
 				add: statements last copy;
 				yourself)] ].
 
@@ -638,4 +624,16 @@ SemanticError subclass: #InliningError
 	package: 'Compiler-Inlining'!
 !InliningError commentStamp!
 Instances of InliningError are signaled when using an `InliningCodeGenerator`in a `Compiler`.!
+
+!IRBlockReturn methodsFor: '*Compiler-Inlining'!
+
+asInlinedBlockResult
+	^ self expression
+! !
+
+!IRInstruction methodsFor: '*Compiler-Inlining'!
+
+asInlinedBlockResult
+	^ self
+! !
 
