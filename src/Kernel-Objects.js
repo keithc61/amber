@@ -1765,22 +1765,21 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=self.__eq(true);
-return $recv($1)._ifTrue_ifFalse_(aBlock,(function(){
+if($core.assert(self)){
+return $recv(aBlock)._value();
+} else {
 return false;
-
-}));
+};
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"and:",{aBlock:aBlock},$globals.Boolean)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "and: aBlock\x0a\x09^ self = true\x0a\x09\x09ifTrue: aBlock\x0a\x09\x09ifFalse: [ false ]",
+source: "and: aBlock\x0a\x09^ self\x0a\x09\x09ifTrue: \x22aBlock\x22 [ aBlock value ]\x0a\x09\x09ifFalse: [ false ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:ifFalse:", "="]
+messageSends: ["ifTrue:ifFalse:", "value"]
 }),
 $globals.Boolean);
 
@@ -2042,22 +2041,21 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=self.__eq(true);
-return $recv($1)._ifTrue_ifFalse_((function(){
+if($core.assert(self)){
 return true;
-
-}),aBlock);
+} else {
+return $recv(aBlock)._value();
+};
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"or:",{aBlock:aBlock},$globals.Boolean)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "or: aBlock\x0a\x09^ self = true\x0a\x09\x09ifTrue: [ true ]\x0a\x09\x09ifFalse: aBlock",
+source: "or: aBlock\x0a\x09^ self\x0a\x09\x09ifTrue: [ true ]\x0a\x09\x09ifFalse: \x22aBlock\x22 [ aBlock value ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:ifFalse:", "="]
+messageSends: ["ifTrue:ifFalse:", "value"]
 }),
 $globals.Boolean);
 

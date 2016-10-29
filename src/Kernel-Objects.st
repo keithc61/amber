@@ -451,8 +451,8 @@ I am directly mapped to JavaScript Boolean. The `true` and `false` objects are t
 !
 
 and: aBlock
-	^ self = true
-		ifTrue: aBlock
+	^ self
+		ifTrue: "aBlock" [ aBlock value ]
 		ifFalse: [ false ]
 !
 
@@ -487,9 +487,9 @@ not
 !
 
 or: aBlock
-	^ self = true
+	^ self
 		ifTrue: [ true ]
-		ifFalse: aBlock
+		ifFalse: "aBlock" [ aBlock value ]
 !
 
 | aBoolean

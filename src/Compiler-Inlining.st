@@ -1,22 +1,4 @@
 Smalltalk createPackage: 'Compiler-Inlining'!
-IRAssignment subclass: #IRInlinedAssignment
-	instanceVariableNames: ''
-	package: 'Compiler-Inlining'!
-!IRInlinedAssignment commentStamp!
-I represent an inlined assignment instruction.!
-
-!IRInlinedAssignment methodsFor: 'testing'!
-
-isInlined
-	^ true
-! !
-
-!IRInlinedAssignment methodsFor: 'visiting'!
-
-acceptDagVisitor: aVisitor
-	^ aVisitor visitIRInlinedAssignment: self
-! !
-
 IRClosure subclass: #IRInlinedClosure
 	instanceVariableNames: ''
 	package: 'Compiler-Inlining'!
@@ -33,24 +15,6 @@ isInlined
 
 acceptDagVisitor: aVisitor
 	aVisitor visitIRInlinedClosure: self
-! !
-
-IRReturn subclass: #IRInlinedReturn
-	instanceVariableNames: ''
-	package: 'Compiler-Inlining'!
-!IRInlinedReturn commentStamp!
-I represent an inlined local return instruction.!
-
-!IRInlinedReturn methodsFor: 'testing'!
-
-isInlined
-	^ true
-! !
-
-!IRInlinedReturn methodsFor: 'visiting'!
-
-acceptDagVisitor: aVisitor
-	^ aVisitor visitIRInlinedReturn: self
 ! !
 
 IRSend subclass: #IRInlinedSend
@@ -251,10 +215,6 @@ I am a specialized JavaScript translator able to write inlined IR instructions t
 
 !IRInliningJSTranslator methodsFor: 'visiting'!
 
-visitIRInlinedAssignment: anIRInlinedAssignment
-	self visit: anIRInlinedAssignment right
-!
-
 visitIRInlinedClosure: anIRInlinedClosure
 	self stream nextPutVars: (anIRInlinedClosure tempDeclarations collect: [ :each |
 		each name asVariableName ]).
@@ -297,10 +257,6 @@ visitIRInlinedIfTrueIfFalse: anIRInlinedIfTrueIfFalse
 			self stream nextPutAll: ')' ]
 		then: [ self visit: anIRInlinedIfTrueIfFalse dagChildren second ]
 		else: [ self visit: anIRInlinedIfTrueIfFalse dagChildren third ]
-!
-
-visitIRInlinedReturn: anIRInlinedReturn
-	self visit: anIRInlinedReturn expression
 !
 
 visitIRInlinedSequence: anIRInlinedSequence
@@ -441,6 +397,14 @@ inlineSend: anIRSend
 	^ self
 		perform: self send selector
 		withArguments: self send arguments
+! !
+
+!IRSendInliner methodsFor: 'private'!
+
+inlineSend: anIRSend andReplace: anIRInstruction
+	anIRInstruction replaceWith: anIRSend.
+	self inlineSend: anIRSend.
+	^ anIRSend
 !
 
 inlinedSend: inlinedSend withBlock: anIRInstruction
@@ -495,7 +459,7 @@ shouldInline: anIRSend
 ! !
 
 IRSendInliner subclass: #IRAssignmentInliner
-	instanceVariableNames: 'assignment'
+	instanceVariableNames: 'target'
 	package: 'Compiler-Inlining'!
 !IRAssignmentInliner commentStamp!
 I inline message sends together with assignments by moving them around into the inline closure instructions.
@@ -514,38 +478,35 @@ Will produce:
 
 !IRAssignmentInliner methodsFor: 'accessing'!
 
-assignment
-	^ assignment
+target
+	^ target
 !
 
-assignment: aNode
-	assignment := aNode
+target: anObject
+	target := anObject
 ! !
 
 !IRAssignmentInliner methodsFor: 'inlining'!
 
 inlineAssignment: anIRAssignment
-	| inlinedAssignment |
-	self assignment: anIRAssignment.
-	inlinedAssignment := IRInlinedAssignment new.
-	anIRAssignment dagChildren do: [ :each |
-		inlinedAssignment add: each ].
-	anIRAssignment replaceWith: inlinedAssignment.
-	self inlineSend: inlinedAssignment right.
-	^ inlinedAssignment
+	self target: anIRAssignment left.
+	^ self inlineSend: anIRAssignment right andReplace: anIRAssignment
 !
 
 inlineClosure: anIRClosure
-	| closure statements |
+	| closure sequence statements |
 
 	closure := super inlineClosure: anIRClosure.
-	statements := closure sequence dagChildren.
+	sequence := closure sequence.
+	statements := sequence dagChildren.
 	
 	statements ifNotEmpty: [
-		statements last yieldsValue ifTrue: [
-			statements last replaceWith: (IRAssignment new
-				add: self assignment left;
-				add: statements last copy;
+		| final |
+		final := statements last.
+		final yieldsValue ifTrue: [
+			sequence replace: final with: (IRAssignment new
+				add: self target;
+				add: final copy;
 				yourself) ] ].
 
 	^ closure
@@ -557,37 +518,28 @@ IRSendInliner subclass: #IRReturnInliner
 !IRReturnInliner commentStamp!
 I inline message sends with inlined closure together with a return instruction.!
 
-!IRReturnInliner methodsFor: 'factory'!
-
-inlinedReturn
-	^ IRInlinedReturn new
-! !
-
 !IRReturnInliner methodsFor: 'inlining'!
 
 inlineClosure: anIRClosure
-	| closure statements |
+	| closure sequence statements |
 
 	closure := super inlineClosure: anIRClosure.
-	statements := closure sequence dagChildren.
+	sequence := closure sequence.
+	statements := sequence dagChildren.
 	
 	statements ifNotEmpty: [
-		statements last yieldsValue ifTrue: [
-			statements last replaceWith: (IRReturn new
-				add: statements last copy;
-				yourself)] ].
+		| final |
+		final := statements last.
+		final yieldsValue ifTrue: [
+			sequence replace: final with: (IRReturn new
+				add: final copy;
+				yourself) ] ].
 
 	^ closure
 !
 
 inlineReturn: anIRReturn
-	| return |
-	return := self inlinedReturn.
-	anIRReturn dagChildren do: [ :each |
-		return add: each ].
-	anIRReturn replaceWith: return.
-	self inlineSend: return expression.
-	^ return
+	^ self inlineSend: anIRReturn expression andReplace: anIRReturn
 ! !
 
 CodeGenerator subclass: #InliningCodeGenerator
