@@ -1566,15 +1566,14 @@ var self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $recv(anIRInstruction)._replaceWith_(anIRSend);
-self._inlineSend_(anIRSend);
-return anIRSend;
+return self._inlineSend_(anIRSend);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"inlineSend:andReplace:",{anIRSend:anIRSend,anIRInstruction:anIRInstruction},$globals.IRSendInliner)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSend", "anIRInstruction"],
-source: "inlineSend: anIRSend andReplace: anIRInstruction\x0a\x09anIRInstruction replaceWith: anIRSend.\x0a\x09self inlineSend: anIRSend.\x0a\x09^ anIRSend",
+source: "inlineSend: anIRSend andReplace: anIRInstruction\x0a\x09anIRInstruction replaceWith: anIRSend.\x0a\x09^ self inlineSend: anIRSend",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["replaceWith:", "inlineSend:"]

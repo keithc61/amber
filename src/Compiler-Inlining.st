@@ -404,8 +404,7 @@ inlineSend: anIRSend
 
 inlineSend: anIRSend andReplace: anIRInstruction
 	anIRInstruction replaceWith: anIRSend.
-	self inlineSend: anIRSend.
-	^ anIRSend
+	^ self inlineSend: anIRSend
 !
 
 inlinedSend: inlinedSend withBlock: anIRInstruction
