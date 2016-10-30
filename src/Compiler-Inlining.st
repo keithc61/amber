@@ -191,7 +191,7 @@ visitIRNonLocalReturn: anIRNonLocalReturn
 		anIRNonLocalReturn instructions do: [ :each |
 			localReturn add: each ].
 		anIRNonLocalReturn replaceWith: localReturn.
-		^ localReturn ].
+		^ self visitIRReturn: localReturn ].
 	^ super visitIRNonLocalReturn: anIRNonLocalReturn
 !
 
