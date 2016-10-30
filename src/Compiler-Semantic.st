@@ -583,16 +583,17 @@ visitReturnNode: aNode
 
 visitSendNode: aNode
 
+	| sends |
 	aNode superSend ifFalse: [ 
 		(IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [
 			aNode shouldBeInlined: true.
 			aNode receiver ifNotNil: [ :receiver |
 				receiver shouldBeAliased: true ] ] ].
 
-	self messageSends at: aNode selector ifAbsentPut: [ Set new ].
-	(self messageSends at: aNode selector) add: aNode.
+	sends := self messageSends at: aNode selector ifAbsentPut: [ OrderedCollection new ].
+	sends add: aNode.
 
-	aNode index: (self messageSends at: aNode selector) size.
+	aNode index: sends size.
 
 	super visitSendNode: aNode
 !

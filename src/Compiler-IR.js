@@ -4011,15 +4011,7 @@ self._visitSuperSend_(anIRSend);
 } else {
 self._visitSend_(anIRSend);
 };
-$2=$recv($recv(sends).__gt((1)))._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($recv(anIRSend)._index()).__lt(sends);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
-//>>excludeEnd("ctx");
-}));
+$2=$recv($recv(anIRSend)._index()).__lt(sends);
 if($core.assert($2)){
 $recv(self._stream())._nextPutSendIndexFor_(anIRSend);
 };
@@ -4030,10 +4022,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSend"],
-source: "visitIRSend: anIRSend\x0a\x09| sends superclass |\x0a\x09sends := (anIRSend method sendIndexes at: anIRSend selector) size.\x0a\x09\x0a\x09anIRSend isSuperSend\x0a\x09\x09ifTrue: [ self visitSuperSend: anIRSend ]\x0a\x09\x09ifFalse: [ self visitSend: anIRSend ].\x0a\x09\x09\x0a\x09(sends > 1 and: [ anIRSend index < sends ])\x0a\x09\x09ifTrue: [ self stream nextPutSendIndexFor: anIRSend ]",
+source: "visitIRSend: anIRSend\x0a\x09| sends superclass |\x0a\x09sends := (anIRSend method sendIndexes at: anIRSend selector) size.\x0a\x09\x0a\x09anIRSend isSuperSend\x0a\x09\x09ifTrue: [ self visitSuperSend: anIRSend ]\x0a\x09\x09ifFalse: [ self visitSend: anIRSend ].\x0a\x09\x09\x0a\x09anIRSend index < sends\x0a\x09\x09ifTrue: [ self stream nextPutSendIndexFor: anIRSend ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["size", "at:", "sendIndexes", "method", "selector", "ifTrue:ifFalse:", "isSuperSend", "visitSuperSend:", "visitSend:", "ifTrue:", "and:", ">", "<", "index", "nextPutSendIndexFor:", "stream"]
+messageSends: ["size", "at:", "sendIndexes", "method", "selector", "ifTrue:ifFalse:", "isSuperSend", "visitSuperSend:", "visitSend:", "ifTrue:", "<", "index", "nextPutSendIndexFor:", "stream"]
 }),
 $globals.IRJSTranslator);
 
