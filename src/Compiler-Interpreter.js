@@ -385,15 +385,13 @@ var $1,$2,$3,$receiver;
 $1=self._isBlockContext();
 if($core.assert($1)){
 $2=self._outerContext();
-return $recv($2)._ifNotNil_((function(context){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
+if(($receiver = $2) == null || $receiver.isNil){
+return $2;
+} else {
+var context;
+context=$receiver;
 return $recv(context)._ast();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({context:context},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
+};
 };
 $3=self["@ast"];
 if(($receiver = $3) == null || $receiver.isNil){

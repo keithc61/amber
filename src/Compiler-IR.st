@@ -956,7 +956,7 @@ visitIRSend: anIRSend
 		ifTrue: [ self visitSuperSend: anIRSend ]
 		ifFalse: [ self visitSend: anIRSend ].
 		
-	(sends > 1 and: [ anIRSend index < sends ])
+	anIRSend index < sends
 		ifTrue: [ self stream nextPutSendIndexFor: anIRSend ]
 !
 

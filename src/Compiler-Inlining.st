@@ -191,7 +191,7 @@ visitIRNonLocalReturn: anIRNonLocalReturn
 		anIRNonLocalReturn dagChildren do: [ :each |
 			localReturn add: each ].
 		anIRNonLocalReturn replaceWith: localReturn.
-		^ localReturn ].
+		^ self visitIRReturn: localReturn ].
 	^ super visitIRNonLocalReturn: anIRNonLocalReturn
 !
 
@@ -403,8 +403,7 @@ inlineSend: anIRSend
 
 inlineSend: anIRSend andReplace: anIRInstruction
 	anIRInstruction replaceWith: anIRSend.
-	self inlineSend: anIRSend.
-	^ anIRSend
+	^ self inlineSend: anIRSend
 !
 
 inlinedSend: inlinedSend withBlock: anIRInstruction

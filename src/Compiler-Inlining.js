@@ -646,7 +646,7 @@ return $recv(localReturn)._add_(each);
 //>>excludeEnd("ctx");
 }));
 $recv(anIRNonLocalReturn)._replaceWith_(localReturn);
-return localReturn;
+return self._visitIRReturn_(localReturn);
 };
 $7=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -663,10 +663,10 @@ return $7;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRNonLocalReturn"],
-source: "visitIRNonLocalReturn: anIRNonLocalReturn\x0a\x09| localReturn |\x0a\x09anIRNonLocalReturn scope canInlineNonLocalReturns ifTrue: [\x0a\x09\x09anIRNonLocalReturn scope methodScope removeNonLocalReturn: anIRNonLocalReturn scope.\x0a\x09\x09localReturn := IRReturn new\x0a\x09\x09\x09scope: anIRNonLocalReturn scope;\x0a\x09\x09\x09yourself.\x0a\x09\x09anIRNonLocalReturn dagChildren do: [ :each |\x0a\x09\x09\x09localReturn add: each ].\x0a\x09\x09anIRNonLocalReturn replaceWith: localReturn.\x0a\x09\x09^ localReturn ].\x0a\x09^ super visitIRNonLocalReturn: anIRNonLocalReturn",
+source: "visitIRNonLocalReturn: anIRNonLocalReturn\x0a\x09| localReturn |\x0a\x09anIRNonLocalReturn scope canInlineNonLocalReturns ifTrue: [\x0a\x09\x09anIRNonLocalReturn scope methodScope removeNonLocalReturn: anIRNonLocalReturn scope.\x0a\x09\x09localReturn := IRReturn new\x0a\x09\x09\x09scope: anIRNonLocalReturn scope;\x0a\x09\x09\x09yourself.\x0a\x09\x09anIRNonLocalReturn dagChildren do: [ :each |\x0a\x09\x09\x09localReturn add: each ].\x0a\x09\x09anIRNonLocalReturn replaceWith: localReturn.\x0a\x09\x09^ self visitIRReturn: localReturn ].\x0a\x09^ super visitIRNonLocalReturn: anIRNonLocalReturn",
 referencedClasses: ["IRReturn"],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:", "canInlineNonLocalReturns", "scope", "removeNonLocalReturn:", "methodScope", "scope:", "new", "yourself", "do:", "dagChildren", "add:", "replaceWith:", "visitIRNonLocalReturn:"]
+messageSends: ["ifTrue:", "canInlineNonLocalReturns", "scope", "removeNonLocalReturn:", "methodScope", "scope:", "new", "yourself", "do:", "dagChildren", "add:", "replaceWith:", "visitIRReturn:", "visitIRNonLocalReturn:"]
 }),
 $globals.IRInliner);
 
@@ -1558,15 +1558,14 @@ var self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $recv(anIRInstruction)._replaceWith_(anIRSend);
-self._inlineSend_(anIRSend);
-return anIRSend;
+return self._inlineSend_(anIRSend);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"inlineSend:andReplace:",{anIRSend:anIRSend,anIRInstruction:anIRInstruction},$globals.IRSendInliner)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSend", "anIRInstruction"],
-source: "inlineSend: anIRSend andReplace: anIRInstruction\x0a\x09anIRInstruction replaceWith: anIRSend.\x0a\x09self inlineSend: anIRSend.\x0a\x09^ anIRSend",
+source: "inlineSend: anIRSend andReplace: anIRInstruction\x0a\x09anIRInstruction replaceWith: anIRSend.\x0a\x09^ self inlineSend: anIRSend",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["replaceWith:", "inlineSend:"]

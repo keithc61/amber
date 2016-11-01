@@ -2375,10 +2375,11 @@ selector: "visitSendNode:",
 protocol: 'visiting',
 fn: function (aNode){
 var self=this;
+var sends;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$4,$2,$5,$6,$7,$9,$10,$8,$receiver;
+var $1,$3,$4,$2,$5,$receiver;
 $1=$recv(aNode)._superSend();
 if(!$core.assert($1)){
 $3=$recv($globals.IRSendInliner)._inlinedSelectors();
@@ -2399,37 +2400,17 @@ $recv(receiver)._shouldBeAliased_(true);
 };
 };
 };
-$6=self._messageSends();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["messageSends"]=1;
-//>>excludeEnd("ctx");
-$7=$recv(aNode)._selector();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["selector"]=2;
-//>>excludeEnd("ctx");
-$recv($6)._at_ifAbsentPut_($7,(function(){
+sends=$recv(self._messageSends())._at_ifAbsentPut_($recv(aNode)._selector(),(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($globals.Set)._new();
+return $recv($globals.OrderedCollection)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,4)});
 //>>excludeEnd("ctx");
 }));
-$9=self._messageSends();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["messageSends"]=2;
-//>>excludeEnd("ctx");
-$10=$recv(aNode)._selector();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["selector"]=3;
-//>>excludeEnd("ctx");
-$8=$recv($9)._at_($10);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:"]=1;
-//>>excludeEnd("ctx");
-$recv($8)._add_(aNode);
-$recv(aNode)._index_($recv($recv(self._messageSends())._at_($recv(aNode)._selector()))._size());
+$recv(sends)._add_(aNode);
+$recv(aNode)._index_($recv(sends)._size());
 (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -2440,15 +2421,15 @@ $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode,sends:sends},$globals.SemanticAnalyzer)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitSendNode: aNode\x0a\x0a\x09aNode superSend ifFalse: [ \x0a\x09\x09(IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [\x0a\x09\x09\x09aNode shouldBeInlined: true.\x0a\x09\x09\x09aNode receiver ifNotNil: [ :receiver |\x0a\x09\x09\x09\x09receiver shouldBeAliased: true ] ] ].\x0a\x0a\x09self messageSends at: aNode selector ifAbsentPut: [ Set new ].\x0a\x09(self messageSends at: aNode selector) add: aNode.\x0a\x0a\x09aNode index: (self messageSends at: aNode selector) size.\x0a\x0a\x09super visitSendNode: aNode",
-referencedClasses: ["IRSendInliner", "Set"],
+source: "visitSendNode: aNode\x0a\x0a\x09| sends |\x0a\x09aNode superSend ifFalse: [ \x0a\x09\x09(IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [\x0a\x09\x09\x09aNode shouldBeInlined: true.\x0a\x09\x09\x09aNode receiver ifNotNil: [ :receiver |\x0a\x09\x09\x09\x09receiver shouldBeAliased: true ] ] ].\x0a\x0a\x09sends := self messageSends at: aNode selector ifAbsentPut: [ OrderedCollection new ].\x0a\x09sends add: aNode.\x0a\x0a\x09aNode index: sends size.\x0a\x0a\x09super visitSendNode: aNode",
+referencedClasses: ["IRSendInliner", "OrderedCollection"],
 //>>excludeEnd("ide");
-messageSends: ["ifFalse:", "superSend", "ifTrue:", "includes:", "inlinedSelectors", "selector", "shouldBeInlined:", "ifNotNil:", "receiver", "shouldBeAliased:", "at:ifAbsentPut:", "messageSends", "new", "add:", "at:", "index:", "size", "visitSendNode:"]
+messageSends: ["ifFalse:", "superSend", "ifTrue:", "includes:", "inlinedSelectors", "selector", "shouldBeInlined:", "ifNotNil:", "receiver", "shouldBeAliased:", "at:ifAbsentPut:", "messageSends", "new", "add:", "index:", "size", "visitSendNode:"]
 }),
 $globals.SemanticAnalyzer);
 
