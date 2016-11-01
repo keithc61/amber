@@ -913,7 +913,7 @@ Error subclass: #ASTInterpreterError
 I get signaled when an AST interpreter is unable to interpret a node.!
 
 NodeVisitor subclass: #ASTPCNodeVisitor
-	instanceVariableNames: 'context index selector currentNode'
+	instanceVariableNames: 'context trackedIndex selector currentNode'
 	package: 'Compiler-Interpreter'!
 !ASTPCNodeVisitor commentStamp!
 I visit an AST until I get to the current node for the `context` and answer it.
@@ -938,12 +938,8 @@ currentNode
 	^ currentNode
 !
 
-increaseIndex
-	index := self index + 1
-!
-
-index
-	^ index ifNil: [ index := 0 ]
+increaseTrackedIndex
+	trackedIndex := self trackedIndex + 1
 !
 
 selector
@@ -952,6 +948,10 @@ selector
 
 selector: aString
 	selector := aString
+!
+
+trackedIndex
+	^ trackedIndex ifNil: [ trackedIndex := 0 ]
 ! !
 
 !ASTPCNodeVisitor methodsFor: 'visiting'!
@@ -970,8 +970,8 @@ visitSendNode: aNode
 	super visitSendNode: aNode.
 	
 	self selector = aNode selector ifTrue: [
-		self index = sendIndex ifTrue: [ currentNode := aNode ].
-		self increaseIndex ]
+		self trackedIndex = sendIndex ifTrue: [ currentNode := aNode ].
+		self increaseTrackedIndex ]
 ! !
 
 !AssignmentNode methodsFor: '*Compiler-Interpreter'!
