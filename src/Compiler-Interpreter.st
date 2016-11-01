@@ -312,7 +312,7 @@ setupInterpreter: anInterpreter
 	"Retrieve the current node"
 	currentNode := ASTPCNodeVisitor new
 			selector: self evaluatedSelector;
-			context: self;
+			index: (self sendIndexAt: self evaluatedSelector);
 			visit: self ast;
 			currentNode.
 	
@@ -913,7 +913,7 @@ Error subclass: #ASTInterpreterError
 I get signaled when an AST interpreter is unable to interpret a node.!
 
 NodeVisitor subclass: #ASTPCNodeVisitor
-	instanceVariableNames: 'context trackedIndex selector currentNode'
+	instanceVariableNames: 'index trackedIndex selector currentNode'
 	package: 'Compiler-Interpreter'!
 !ASTPCNodeVisitor commentStamp!
 I visit an AST until I get to the current node for the `context` and answer it.
@@ -926,20 +926,20 @@ After visiting the AST the current node is answered by `#currentNode`!
 
 !ASTPCNodeVisitor methodsFor: 'accessing'!
 
-context
-	^ context
-!
-
-context: aContext
-	context := aContext
-!
-
 currentNode
 	^ currentNode
 !
 
 increaseTrackedIndex
 	trackedIndex := self trackedIndex + 1
+!
+
+index
+	^ index
+!
+
+index: aNumber
+	index := aNumber
 !
 
 selector
@@ -964,13 +964,10 @@ visitJSStatementNode: aNode
 !
 
 visitSendNode: aNode
-	| sendIndex |
-	sendIndex := self context sendIndexAt: self selector.
-	
 	super visitSendNode: aNode.
 	
 	self selector = aNode selector ifTrue: [
-		self trackedIndex = sendIndex ifTrue: [ currentNode := aNode ].
+		self trackedIndex = self index ifTrue: [ currentNode := aNode ].
 		self increaseTrackedIndex ]
 ! !
 

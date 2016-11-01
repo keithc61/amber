@@ -28,16 +28,14 @@ ASTParsingTest subclass: #ASTPCNodeVisitorTest
 
 astPCNodeVisitor
 	^ ASTPCNodeVisitor new
-		context: (AIContext new
-			yourself);
+		index: 0;
 		yourself
 !
 
 astPCNodeVisitorForSelector: aString
 	^ ASTPCNodeVisitor new
 		selector: aString;
-		context: (AIContext new
-			yourself);
+		index: 0;
 		yourself
 ! !
 

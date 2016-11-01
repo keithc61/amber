@@ -1315,19 +1315,23 @@ var currentNode;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$6,$5,$4,$receiver;
+var $1,$2,$3,$4,$7,$6,$5,$receiver;
 $1=$recv($globals.ASTPCNodeVisitor)._new();
-$recv($1)._selector_(self._evaluatedSelector());
-$recv($1)._context_(self);
-$2=self._ast();
+$2=self._evaluatedSelector();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["evaluatedSelector"]=1;
+//>>excludeEnd("ctx");
+$recv($1)._selector_($2);
+$recv($1)._index_(self._sendIndexAt_(self._evaluatedSelector()));
+$3=self._ast();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["ast"]=1;
 //>>excludeEnd("ctx");
-$recv($1)._visit_($2);
+$recv($1)._visit_($3);
 currentNode=$recv($1)._currentNode();
-$3=$recv(self._ast())._sequenceNode();
-if(($receiver = $3) == null || $receiver.isNil){
-$3;
+$4=$recv(self._ast())._sequenceNode();
+if(($receiver = $4) == null || $receiver.isNil){
+$4;
 } else {
 var sequence;
 sequence=$receiver;
@@ -1345,13 +1349,13 @@ $ctx1.sendIdx["do:"]=1;
 //>>excludeEnd("ctx");
 };
 $recv(anInterpreter)._node_(currentNode);
-$6=self._innerContext();
+$7=self._innerContext();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["innerContext"]=1;
 //>>excludeEnd("ctx");
-$5=$recv($6)._arguments();
-$4=$recv($5)._reversed();
-$recv($4)._do_((function(each){
+$6=$recv($7)._arguments();
+$5=$recv($6)._reversed();
+$recv($5)._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -1371,10 +1375,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anInterpreter"],
-source: "setupInterpreter: anInterpreter\x0a\x09| currentNode |\x0a\x09\x0a\x09\x22Retrieve the current node\x22\x0a\x09currentNode := ASTPCNodeVisitor new\x0a\x09\x09\x09selector: self evaluatedSelector;\x0a\x09\x09\x09context: self;\x0a\x09\x09\x09visit: self ast;\x0a\x09\x09\x09currentNode.\x0a\x09\x0a\x09\x22Define locals for the context\x22\x0a\x09self ast sequenceNode ifNotNil: [ :sequence |\x0a\x09\x09sequence temps do: [ :each |\x0a\x09\x09\x09self defineLocal: each ] ].\x0a\x09\x0a\x09anInterpreter node: currentNode.\x0a\x0a\x09\x22Push the send args and receiver to the interpreter stack\x22\x09\x0a\x09self innerContext arguments reversed do: [ :each | \x0a\x09\x09anInterpreter push: each ].\x0a\x09\x09\x0a\x09anInterpreter push: (self innerContext receiver)",
+source: "setupInterpreter: anInterpreter\x0a\x09| currentNode |\x0a\x09\x0a\x09\x22Retrieve the current node\x22\x0a\x09currentNode := ASTPCNodeVisitor new\x0a\x09\x09\x09selector: self evaluatedSelector;\x0a\x09\x09\x09index: (self sendIndexAt: self evaluatedSelector);\x0a\x09\x09\x09visit: self ast;\x0a\x09\x09\x09currentNode.\x0a\x09\x0a\x09\x22Define locals for the context\x22\x0a\x09self ast sequenceNode ifNotNil: [ :sequence |\x0a\x09\x09sequence temps do: [ :each |\x0a\x09\x09\x09self defineLocal: each ] ].\x0a\x09\x0a\x09anInterpreter node: currentNode.\x0a\x0a\x09\x22Push the send args and receiver to the interpreter stack\x22\x09\x0a\x09self innerContext arguments reversed do: [ :each | \x0a\x09\x09anInterpreter push: each ].\x0a\x09\x09\x0a\x09anInterpreter push: (self innerContext receiver)",
 referencedClasses: ["ASTPCNodeVisitor"],
 //>>excludeEnd("ide");
-messageSends: ["selector:", "new", "evaluatedSelector", "context:", "visit:", "ast", "currentNode", "ifNotNil:", "sequenceNode", "do:", "temps", "defineLocal:", "node:", "reversed", "arguments", "innerContext", "push:", "receiver"]
+messageSends: ["selector:", "new", "evaluatedSelector", "index:", "sendIndexAt:", "visit:", "ast", "currentNode", "ifNotNil:", "sequenceNode", "do:", "temps", "defineLocal:", "node:", "reversed", "arguments", "innerContext", "push:", "receiver"]
 }),
 $globals.AIContext);
 
@@ -3538,47 +3542,10 @@ $globals.ASTInterpreterError.comment="I get signaled when an AST interpreter is 
 //>>excludeEnd("ide");
 
 
-$core.addClass('ASTPCNodeVisitor', $globals.NodeVisitor, ['context', 'trackedIndex', 'selector', 'currentNode'], 'Compiler-Interpreter');
+$core.addClass('ASTPCNodeVisitor', $globals.NodeVisitor, ['index', 'trackedIndex', 'selector', 'currentNode'], 'Compiler-Interpreter');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ASTPCNodeVisitor.comment="I visit an AST until I get to the current node for the `context` and answer it.\x0a\x0a## API\x0a\x0aMy instances must be filled with a context object using `#context:`.\x0a\x0aAfter visiting the AST the current node is answered by `#currentNode`";
 //>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "context",
-protocol: 'accessing',
-fn: function (){
-var self=this;
-return self["@context"];
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "context\x0a\x09^ context",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.ASTPCNodeVisitor);
-
-$core.addMethod(
-$core.method({
-selector: "context:",
-protocol: 'accessing',
-fn: function (aContext){
-var self=this;
-self["@context"]=aContext;
-return self;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aContext"],
-source: "context: aContext\x0a\x09context := aContext",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.ASTPCNodeVisitor);
-
 $core.addMethod(
 $core.method({
 selector: "currentNode",
@@ -3618,6 +3585,43 @@ source: "increaseTrackedIndex\x0a\x09trackedIndex := self trackedIndex + 1",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["+", "trackedIndex"]
+}),
+$globals.ASTPCNodeVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "index",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return self["@index"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "index\x0a\x09^ index",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.ASTPCNodeVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "index:",
+protocol: 'accessing',
+fn: function (aNumber){
+var self=this;
+self["@index"]=aNumber;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "index: aNumber\x0a\x09index := aNumber",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
 }),
 $globals.ASTPCNodeVisitor);
 
@@ -3713,17 +3717,10 @@ selector: "visitSendNode:",
 protocol: 'visiting',
 fn: function (aNode){
 var self=this;
-var sendIndex;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$3,$5;
-$1=self._context();
-$2=self._selector();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["selector"]=1;
-//>>excludeEnd("ctx");
-sendIndex=$recv($1)._sendIndexAt_($2);
+var $2,$1,$3;
 (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -3732,17 +3729,17 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$4=self._selector();
+$2=self._selector();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["selector"]=2;
+$ctx1.sendIdx["selector"]=1;
 //>>excludeEnd("ctx");
-$3=$recv($4).__eq($recv(aNode)._selector());
+$1=$recv($2).__eq($recv(aNode)._selector());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["="]=1;
 //>>excludeEnd("ctx");
+if($core.assert($1)){
+$3=$recv(self._trackedIndex()).__eq(self._index());
 if($core.assert($3)){
-$5=$recv(self._trackedIndex()).__eq(sendIndex);
-if($core.assert($5)){
 self["@currentNode"]=aNode;
 self["@currentNode"];
 };
@@ -3750,15 +3747,15 @@ self._increaseTrackedIndex();
 };
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode,sendIndex:sendIndex},$globals.ASTPCNodeVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode},$globals.ASTPCNodeVisitor)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitSendNode: aNode\x0a\x09| sendIndex |\x0a\x09sendIndex := self context sendIndexAt: self selector.\x0a\x09\x0a\x09super visitSendNode: aNode.\x0a\x09\x0a\x09self selector = aNode selector ifTrue: [\x0a\x09\x09self trackedIndex = sendIndex ifTrue: [ currentNode := aNode ].\x0a\x09\x09self increaseTrackedIndex ]",
+source: "visitSendNode: aNode\x0a\x09super visitSendNode: aNode.\x0a\x09\x0a\x09self selector = aNode selector ifTrue: [\x0a\x09\x09self trackedIndex = self index ifTrue: [ currentNode := aNode ].\x0a\x09\x09self increaseTrackedIndex ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["sendIndexAt:", "context", "selector", "visitSendNode:", "ifTrue:", "=", "trackedIndex", "increaseTrackedIndex"]
+messageSends: ["visitSendNode:", "ifTrue:", "=", "selector", "trackedIndex", "index", "increaseTrackedIndex"]
 }),
 $globals.ASTPCNodeVisitor);
 

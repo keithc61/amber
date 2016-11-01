@@ -89,16 +89,9 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1;
 $1=$recv($globals.ASTPCNodeVisitor)._new();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["new"]=1;
-//>>excludeEnd("ctx");
-$2=$recv($recv($globals.AIContext)._new())._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["yourself"]=1;
-//>>excludeEnd("ctx");
-$recv($1)._context_($2);
+$recv($1)._index_((0));
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"astPCNodeVisitor",{},$globals.ASTPCNodeVisitorTest)});
@@ -106,10 +99,10 @@ return $recv($1)._yourself();
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "astPCNodeVisitor\x0a\x09^ ASTPCNodeVisitor new\x0a\x09\x09context: (AIContext new\x0a\x09\x09\x09yourself);\x0a\x09\x09yourself",
-referencedClasses: ["ASTPCNodeVisitor", "AIContext"],
+source: "astPCNodeVisitor\x0a\x09^ ASTPCNodeVisitor new\x0a\x09\x09index: 0;\x0a\x09\x09yourself",
+referencedClasses: ["ASTPCNodeVisitor"],
 //>>excludeEnd("ide");
-messageSends: ["context:", "new", "yourself"]
+messageSends: ["index:", "new", "yourself"]
 }),
 $globals.ASTPCNodeVisitorTest);
 
@@ -122,17 +115,10 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1;
 $1=$recv($globals.ASTPCNodeVisitor)._new();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["new"]=1;
-//>>excludeEnd("ctx");
 $recv($1)._selector_(aString);
-$2=$recv($recv($globals.AIContext)._new())._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["yourself"]=1;
-//>>excludeEnd("ctx");
-$recv($1)._context_($2);
+$recv($1)._index_((0));
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"astPCNodeVisitorForSelector:",{aString:aString},$globals.ASTPCNodeVisitorTest)});
@@ -140,10 +126,10 @@ return $recv($1)._yourself();
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "astPCNodeVisitorForSelector: aString\x0a\x09^ ASTPCNodeVisitor new\x0a\x09\x09selector: aString;\x0a\x09\x09context: (AIContext new\x0a\x09\x09\x09yourself);\x0a\x09\x09yourself",
-referencedClasses: ["ASTPCNodeVisitor", "AIContext"],
+source: "astPCNodeVisitorForSelector: aString\x0a\x09^ ASTPCNodeVisitor new\x0a\x09\x09selector: aString;\x0a\x09\x09index: 0;\x0a\x09\x09yourself",
+referencedClasses: ["ASTPCNodeVisitor"],
 //>>excludeEnd("ide");
-messageSends: ["selector:", "new", "context:", "yourself"]
+messageSends: ["selector:", "new", "index:", "yourself"]
 }),
 $globals.ASTPCNodeVisitorTest);
 
