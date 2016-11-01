@@ -772,7 +772,7 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitIRVerbatim: self
 ! !
 
-PathDagVisitor subclass: #IRVisitor
+ParentFakingPathDagVisitor subclass: #IRVisitor
 	instanceVariableNames: ''
 	package: 'Compiler-IR'!
 

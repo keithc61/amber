@@ -725,19 +725,27 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitVariableNode: self
 ! !
 
-PathDagVisitor subclass: #NodeVisitor
+PathDagVisitor subclass: #ParentFakingPathDagVisitor
+	instanceVariableNames: 'setParentSelector'
+	package: 'Compiler-AST'!
+!ParentFakingPathDagVisitor commentStamp!
+I am base class of `DagNode` visitor.
+
+I hold the path of ancestors up to actual node
+in `self path`.!
+
+!ParentFakingPathDagVisitor methodsFor: 'visiting'!
+
+visit: aNode
+	self path ifNotEmpty: [ :p | aNode parent: p last ].
+	^ super visit: aNode
+! !
+
+ParentFakingPathDagVisitor subclass: #NodeVisitor
 	instanceVariableNames: ''
 	package: 'Compiler-AST'!
 !NodeVisitor commentStamp!
 I am the abstract super class of all AST node visitors.!
-
-!NodeVisitor methodsFor: 'initialization'!
-
-initialize
-	super initialize.
-
-	self setParentSelector: #parent:
-! !
 
 !NodeVisitor methodsFor: 'visiting'!
 

@@ -2972,7 +2972,7 @@ $globals.IRVerbatim);
 
 
 
-$core.addClass('IRVisitor', $globals.PathDagVisitor, [], 'Compiler-IR');
+$core.addClass('IRVisitor', $globals.ParentFakingPathDagVisitor, [], 'Compiler-IR');
 $core.addMethod(
 $core.method({
 selector: "visitDagNode:",
