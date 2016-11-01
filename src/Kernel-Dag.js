@@ -257,13 +257,11 @@ selector: "visit:",
 protocol: 'visiting',
 fn: function (aNode){
 var self=this;
-var oldPath;
+var oldPath,result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-var $early={};
-try {
+result=aNode;
 oldPath=self["@path"];
 $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -271,7 +269,7 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 self["@path"]=$recv(self["@path"]).__comma([aNode]);
 self["@path"];
-$1=(
+result=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.supercall = true,
 //>>excludeEnd("ctx");
@@ -279,7 +277,7 @@ $ctx2.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.supercall = false;
 //>>excludeEnd("ctx");;
-throw $early=[$1];
+return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -288,16 +286,14 @@ self["@path"]=oldPath;
 return self["@path"];
 
 }));
-return self;
-}
-catch(e) {if(e===$early)return e[0]; throw e}
+return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visit:",{aNode:aNode,oldPath:oldPath},$globals.PathDagVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"visit:",{aNode:aNode,oldPath:oldPath,result:result},$globals.PathDagVisitor)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visit: aNode\x0a\x09| oldPath |\x0a\x09oldPath := path.\x0a\x09[\x0a\x09\x09path := path, {aNode}.\x0a\x09\x09^ super visit: aNode\x0a\x09] ensure: [ path := oldPath ]",
+source: "visit: aNode\x0a\x09| oldPath result |\x0a\x09result := aNode.\x0a\x09oldPath := path.\x0a\x09[\x0a\x09\x09path := path, {aNode}.\x0a\x09\x09result := super visit: aNode\x0a\x09] ensure: [ path := oldPath ].\x0a\x09^ result",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ensure:", ",", "visit:"]

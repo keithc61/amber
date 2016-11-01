@@ -78,12 +78,14 @@ initialize
 !PathDagVisitor methodsFor: 'visiting'!
 
 visit: aNode
-	| oldPath |
+	| oldPath result |
+	result := aNode.
 	oldPath := path.
 	[
 		path := path, {aNode}.
-		^ super visit: aNode
-	] ensure: [ path := oldPath ]
+		result := super visit: aNode
+	] ensure: [ path := oldPath ].
+	^ result
 !
 
 visitDagNodeVariantRedux: aNode
