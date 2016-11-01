@@ -1,7 +1,8 @@
 0.18.0:
 
 * Remove class RethrowErrorHandler (hack for cli before 0.12.3).
-* Some internal API changes in Compiler-*.
+* Add Kernel-Dag package with abstract DAG-node and DAG-node visitor.
+* Some internal API changes in Compiler-* (including the move to DAG-node).
 
 - Object >>
   - throw:
