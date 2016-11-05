@@ -1319,8 +1319,10 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
     function RootBrik(brikz, st) {
         /* Smalltalk foundational objects */
 
-        /* SmalltalkRoot is the hidden root of the Amber hierarchy.
-         All objects including `Object` inherit from SmalltalkRoot */
+        /* SmalltalkRoot is the hidden root of the normal Amber hierarchy.
+          All objects including `ProtoObject` inherit from SmalltalkRoot.
+          Detached roots (eg. wrapped JS classes like Number or Date)
+          do not directly inherit from SmalltalkRoot, but employ a workaround.*/
         function SmalltalkRoot() {
         }
 
@@ -1350,7 +1352,7 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
             enumerable: false, configurable: false, writable: false
         });
 
-        // Hidden root class of the system.
+        // Fake root class of the system.
         // Effective superclass of all classes created with `nil subclass: ...`.
         this.nilAsClass = {fn: SmalltalkRoot};
 
@@ -1428,8 +1430,6 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
             return pair;
         };
 
-        /* Answer all method selectors based on dnu handlers */
-
         st.allSelectors = function () {
             return selectors;
         };
@@ -1465,8 +1465,8 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
             return that;
         }
 
-        /* Add a package to the smalltalk.packages object, creating a new one if needed.
-         If pkgName is null or empty we return nil, which is an allowed package for a class.
+        /* Add a package to the system, creating a new one if needed.
+         If pkgName is null or empty we return nil.
          If package already exists we still update the properties of it. */
 
         st.addPackage = function (pkgName, properties) {
@@ -1536,8 +1536,8 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
 
         /* Smalltalk class creation. A class is an instance of an automatically
          created metaclass object. Newly created classes (not their metaclass)
-         should be added to the smalltalk object, see smalltalk.addClass().
-         Superclass linking is *not* handled here, see smalltalk.init()  */
+         should be added to the system, see smalltalk.addClass().
+         Superclass linking is *not* handled here, see api.initialize()  */
 
         function klass(spec) {
             var setSuperClass = spec.superclass;
@@ -1594,8 +1594,8 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
 
         this.wireKlass = wireKlass;
 
-        /* Add a class to the smalltalk object, creating a new one if needed.
-         A Package is lazily created if it does not exist with given name. */
+        /* Add a class to the system, creating a new one if needed.
+         A Package is lazily created if one with given name does not exist. */
 
         st.addClass = function (className, superclass, iVarNames, pkgName) {
             // While subclassing nil is allowed, it might be an error, so
@@ -1662,7 +1662,7 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
         }
 
         /* Create a new class coupling with a JavaScript constructor,
-         and add it to the global smalltalk object.*/
+         and add it to the system.*/
 
         this.addCoupledClass = function (className, superclass, pkgName, fn) {
             return rawAddClass(pkgName, className, superclass, null, fn);
@@ -1724,7 +1724,7 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
         this.__init__.once = true;
 
         /* Smalltalk method object. To add a method to a class,
-         use smalltalk.addMethod() */
+         use api.addMethod() */
 
         st.method = function (spec) {
             var that = new SmalltalkMethod();
@@ -1824,8 +1824,6 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
 
                 configureWithRuntime(brikz);
 
-                /* Alias definitions */
-
                 st.alias(globals.Array, "OrderedCollection");
                 st.alias(globals.Date, "Time");
 
@@ -1897,7 +1895,7 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
         };
     }
 
-    /* Adds AMD and requirejs related methods to the smalltalk object */
+    /* Adds AMD and requirejs related methods to the api */
     function AMDBrik(brikz, st) {
         st.amdRequire = require;
         st.defaultTransportType = st.defaultTransportType || "amd";
@@ -1916,9 +1914,9 @@ define('amber/boot',['require', './brikz', './compatibility'], function (require
          * It takes any value (JavaScript or Smalltalk)
          * and returns a proper Amber Smalltalk receiver.
          *
-         * null or undefined -> nil,
-         * plain JS object -> wrapped JS object,
-         * otherwise unchanged
+         * null or undefined -> nilAsReceiver,
+         * object having Smalltalk signature -> unchanged,
+         * otherwise wrapped foreign (JS) object
          */
         this.asReceiver = function (o) {
             if (o == null) return nilAsReceiver;
@@ -2075,7 +2073,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"==",{anObject:anObject},$globals.ProtoObject)});
 },
 args: ["anObject"],
-source: "== anObject\x0a<return self._class() === $recv(anObject)._class() && self._isSameInstanceAs_(anObject)>",
+source: "== anObject\x0a<inlineJS:\x0a\x09'return self._class() === $recv(anObject)._class() && self._isSameInstanceAs_(anObject)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -2110,7 +2108,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"class",{},$globals.ProtoObject)});
 },
 args: [],
-source: "class\x0a\x09<return self.klass>",
+source: "class\x0a\x09<inlineJS: 'return self.klass'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -2173,7 +2171,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"identityHash",{},$globals.ProtoObject)});
 },
 args: [],
-source: "identityHash\x0a\x09<\x0a\x09\x09var hash=self.identityHash;\x0a\x09\x09if (hash) return hash;\x0a\x09\x09hash=$core.nextId();\x0a\x09\x09Object.defineProperty(self, 'identityHash', {value:hash});\x0a\x09\x09return hash;\x0a\x09>",
+source: "identityHash\x0a\x09<inlineJS: '\x0a\x09\x09var hash=self.identityHash;\x0a\x09\x09if (hash) return hash;\x0a\x09\x09hash=$core.nextId();\x0a\x09\x09Object.defineProperty(self, ''identityHash'', {value:hash});\x0a\x09\x09return hash;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -2303,12 +2301,12 @@ protocol: 'accessing',
 fn: function (aString){
 var self=this;
 return $core.withContext(function($ctx1) {
- return self['@'+aString] ;
+return self['@'+aString];
 return self;
 }, function($ctx1) {$ctx1.fill(self,"instVarAt:",{aString:aString},$globals.ProtoObject)});
 },
 args: ["aString"],
-source: "instVarAt: aString\x0a\x09< return self['@'+aString] >",
+source: "instVarAt: aString\x0a\x09<inlineJS: 'return self[''@''+aString]'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -2321,12 +2319,12 @@ protocol: 'accessing',
 fn: function (aString,anObject){
 var self=this;
 return $core.withContext(function($ctx1) {
- self['@' + aString] = anObject ;
+self['@' + aString] = anObject;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"instVarAt:put:",{aString:aString,anObject:anObject},$globals.ProtoObject)});
 },
 args: ["aString", "anObject"],
-source: "instVarAt: aString put: anObject\x0a\x09< self['@' + aString] = anObject >",
+source: "instVarAt: aString put: anObject\x0a\x09<inlineJS: 'self[''@'' + aString] = anObject'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -2437,7 +2435,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"perform:withArguments:",{aString:aString,aCollection:aCollection},$globals.ProtoObject)});
 },
 args: ["aString", "aCollection"],
-source: "perform: aString withArguments: aCollection\x0a\x09<return $core.send2(self, aString, aCollection)>",
+source: "perform: aString withArguments: aCollection\x0a\x09<inlineJS: 'return $core.send2(self, aString, aCollection)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -2656,7 +2654,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"basicAt:",{aString:aString},$globals.Object)});
 },
 args: ["aString"],
-source: "basicAt: aString\x0a\x09<return self[aString]>",
+source: "basicAt: aString\x0a\x09<inlineJS: 'return self[aString]'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -2674,7 +2672,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"basicAt:put:",{aString:aString,anObject:anObject},$globals.Object)});
 },
 args: ["aString", "anObject"],
-source: "basicAt: aString put: anObject\x0a\x09<return self[aString] = anObject>",
+source: "basicAt: aString put: anObject\x0a\x09<inlineJS: 'return self[aString] = anObject'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -2692,7 +2690,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"basicDelete:",{aString:aString},$globals.Object)});
 },
 args: ["aString"],
-source: "basicDelete: aString\x0a\x09<delete self[aString]; return aString>",
+source: "basicDelete: aString\x0a\x09<inlineJS: 'delete self[aString]; return aString'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -2727,7 +2725,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"basicPerform:withArguments:",{aString:aString,aCollection:aCollection},$globals.Object)});
 },
 args: ["aString", "aCollection"],
-source: "basicPerform: aString withArguments: aCollection\x0a\x09<return self[aString].apply(self, aCollection);>",
+source: "basicPerform: aString withArguments: aCollection\x0a\x09<inlineJS: 'return self[aString].apply(self, aCollection);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -2788,7 +2786,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"deepCopy",{},$globals.Object)});
 },
 args: [],
-source: "deepCopy\x0a\x09<\x0a\x09\x09var copy = self.klass._new();\x0a\x09\x09Object.keys(self).forEach(function (i) {\x0a\x09\x09if(/^@.+/.test(i)) {\x0a\x09\x09\x09copy[i] = self[i]._deepCopy();\x0a\x09\x09}\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09>",
+source: "deepCopy\x0a\x09<inlineJS: '\x0a\x09\x09var copy = self.klass._new();\x0a\x09\x09Object.keys(self).forEach(function (i) {\x0a\x09\x09if(/^@.+/.test(i)) {\x0a\x09\x09\x09copy[i] = self[i]._deepCopy();\x0a\x09\x09}\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3177,7 +3175,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"shallowCopy",{},$globals.Object)});
 },
 args: [],
-source: "shallowCopy\x0a\x09<\x0a\x09\x09var copy = self.klass._new();\x0a\x09\x09Object.keys(self).forEach(function(i) {\x0a\x09\x09if(/^@.+/.test(i)) {\x0a\x09\x09\x09copy[i] = self[i];\x0a\x09\x09}\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09>",
+source: "shallowCopy\x0a\x09<inlineJS: '\x0a\x09\x09var copy = self.klass._new();\x0a\x09\x09Object.keys(self).forEach(function(i) {\x0a\x09\x09if(/^@.+/.test(i)) {\x0a\x09\x09\x09copy[i] = self[i];\x0a\x09\x09}\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3239,24 +3237,6 @@ $globals.Object);
 
 $core.addMethod(
 $core.method({
-selector: "throw:",
-protocol: 'error handling',
-fn: function (anObject){
-var self=this;
-return $core.withContext(function($ctx1) {
- throw anObject ;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"throw:",{anObject:anObject},$globals.Object)});
-},
-args: ["anObject"],
-source: "throw: anObject\x0a\x09< throw anObject >",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.Object);
-
-$core.addMethod(
-$core.method({
 selector: "value",
 protocol: 'evaluating',
 fn: function (){
@@ -3267,7 +3247,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"value",{},$globals.Object)});
 },
 args: [],
-source: "value\x0a\x09<return self.valueOf()>",
+source: "value\x0a\x09<inlineJS: 'return self.valueOf()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3383,7 +3363,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"&",{aBoolean:aBoolean},$globals.Boolean)});
 },
 args: ["aBoolean"],
-source: "& aBoolean\x0a\x09<\x0a\x09\x09if(self == true) {\x0a\x09\x09return aBoolean;\x0a\x09\x09} else {\x0a\x09\x09return false;\x0a\x09\x09}\x0a\x09>",
+source: "& aBoolean\x0a\x09<inlineJS: '\x0a\x09\x09if(self == true) {\x0a\x09\x09return aBoolean;\x0a\x09\x09} else {\x0a\x09\x09return false;\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3404,7 +3384,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"==",{aBoolean:aBoolean},$globals.Boolean)});
 },
 args: ["aBoolean"],
-source: "== aBoolean\x0a<\x0a\x09if (typeof aBoolean === \x22boolean\x22) return self.valueOf() === aBoolean;\x0a\x09else if (aBoolean != null && typeof aBoolean === \x22object\x22) return self.valueOf() === aBoolean.valueOf();\x0a\x09else return false;\x0a>",
+source: "== aBoolean\x0a<inlineJS: '\x0a\x09if (typeof aBoolean === \x22boolean\x22) return self.valueOf() === aBoolean;\x0a\x09else if (aBoolean != null && typeof aBoolean === \x22object\x22) return self.valueOf() === aBoolean.valueOf();\x0a\x09else return false;\x0a'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3417,18 +3397,17 @@ protocol: 'controlling',
 fn: function (aBlock){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $1;
-$1=self.__eq(true);
-return $recv($1)._ifTrue_ifFalse_(aBlock,(function(){
+if($core.assert(self)){
+return $recv(aBlock)._value();
+} else {
 return false;
-
-}));
+};
 }, function($ctx1) {$ctx1.fill(self,"and:",{aBlock:aBlock},$globals.Boolean)});
 },
 args: ["aBlock"],
-source: "and: aBlock\x0a\x09^ self = true\x0a\x09\x09ifTrue: aBlock\x0a\x09\x09ifFalse: [ false ]",
+source: "and: aBlock\x0a\x09^ self\x0a\x09\x09ifTrue: \x22aBlock\x22 [ aBlock value ]\x0a\x09\x09ifFalse: [ false ]",
 referencedClasses: [],
-messageSends: ["ifTrue:ifFalse:", "="]
+messageSends: ["ifTrue:ifFalse:", "value"]
 }),
 $globals.Boolean);
 
@@ -3476,12 +3455,12 @@ protocol: 'converting',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
- return self.toString() ;
+return self.toString();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"asString",{},$globals.Boolean)});
 },
 args: [],
-source: "asString\x0a\x09< return self.toString() >",
+source: "asString\x0a\x09<inlineJS: 'return self.toString()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3576,7 +3555,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"ifTrue:ifFalse:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.Boolean)});
 },
 args: ["aBlock", "anotherBlock"],
-source: "ifTrue: aBlock ifFalse: anotherBlock\x0a\x09\x22inlined in the Compiler\x22\x0a\x09<\x0a\x09\x09if(self == true) {\x0a\x09\x09return aBlock._value();\x0a\x09\x09} else {\x0a\x09\x09return anotherBlock._value();\x0a\x09\x09}\x0a\x09>",
+source: "ifTrue: aBlock ifFalse: anotherBlock\x0a\x09\x22inlined in the Compiler\x22\x0a\x09<inlineJS: '\x0a\x09\x09if(self == true) {\x0a\x09\x09return aBlock._value();\x0a\x09\x09} else {\x0a\x09\x09return anotherBlock._value();\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3638,18 +3617,17 @@ protocol: 'controlling',
 fn: function (aBlock){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $1;
-$1=self.__eq(true);
-return $recv($1)._ifTrue_ifFalse_((function(){
+if($core.assert(self)){
 return true;
-
-}),aBlock);
+} else {
+return $recv(aBlock)._value();
+};
 }, function($ctx1) {$ctx1.fill(self,"or:",{aBlock:aBlock},$globals.Boolean)});
 },
 args: ["aBlock"],
-source: "or: aBlock\x0a\x09^ self = true\x0a\x09\x09ifTrue: [ true ]\x0a\x09\x09ifFalse: aBlock",
+source: "or: aBlock\x0a\x09^ self\x0a\x09\x09ifTrue: [ true ]\x0a\x09\x09ifFalse: \x22aBlock\x22 [ aBlock value ]",
 referencedClasses: [],
-messageSends: ["ifTrue:ifFalse:", "="]
+messageSends: ["ifTrue:ifFalse:", "value"]
 }),
 $globals.Boolean);
 
@@ -3705,7 +3683,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"|",{aBoolean:aBoolean},$globals.Boolean)});
 },
 args: ["aBoolean"],
-source: "| aBoolean\x0a\x09<\x0a\x09\x09if(self == true) {\x0a\x09\x09return true;\x0a\x09\x09} else {\x0a\x09\x09return aBoolean;\x0a\x09\x09}\x0a\x09>",
+source: "| aBoolean\x0a\x09<inlineJS: '\x0a\x09\x09if(self == true) {\x0a\x09\x09return true;\x0a\x09\x09} else {\x0a\x09\x09return aBoolean;\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3727,7 +3705,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"+",{aDate:aDate},$globals.Date)});
 },
 args: ["aDate"],
-source: "+ aDate\x0a\x09<return self + aDate>",
+source: "+ aDate\x0a\x09<inlineJS: 'return self + aDate'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3745,7 +3723,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"-",{aDate:aDate},$globals.Date)});
 },
 args: ["aDate"],
-source: "- aDate\x0a\x09<return self - aDate>",
+source: "- aDate\x0a\x09<inlineJS: 'return self - aDate'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3763,7 +3741,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"<",{aDate:aDate},$globals.Date)});
 },
 args: ["aDate"],
-source: "< aDate\x0a\x09<return self < aDate>",
+source: "< aDate\x0a\x09<inlineJS: 'return self < aDate'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3781,7 +3759,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"<=",{aDate:aDate},$globals.Date)});
 },
 args: ["aDate"],
-source: "<= aDate\x0a\x09<return self <= aDate>",
+source: "<= aDate\x0a\x09<inlineJS: 'return self <= aDate'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3827,7 +3805,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,">",{aDate:aDate},$globals.Date)});
 },
 args: ["aDate"],
-source: "> aDate\x0a\x09<return self >> aDate>",
+source: "> aDate\x0a\x09<inlineJS: 'return self > aDate'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3845,7 +3823,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,">=",{aDate:aDate},$globals.Date)});
 },
 args: ["aDate"],
-source: ">= aDate\x0a\x09<return self >>= aDate>",
+source: ">= aDate\x0a\x09<inlineJS: 'return self >= aDate'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3863,7 +3841,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"asDateString",{},$globals.Date)});
 },
 args: [],
-source: "asDateString\x0a\x09<return self.toDateString()>",
+source: "asDateString\x0a\x09<inlineJS: 'return self.toDateString()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3881,7 +3859,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"asLocaleString",{},$globals.Date)});
 },
 args: [],
-source: "asLocaleString\x0a\x09<return self.toLocaleString()>",
+source: "asLocaleString\x0a\x09<inlineJS: 'return self.toLocaleString()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3933,7 +3911,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"asString",{},$globals.Date)});
 },
 args: [],
-source: "asString\x0a\x09<return self.toString()>",
+source: "asString\x0a\x09<inlineJS: 'return self.toString()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3951,7 +3929,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"asTimeString",{},$globals.Date)});
 },
 args: [],
-source: "asTimeString\x0a\x09<return self.toTimeString()>",
+source: "asTimeString\x0a\x09<inlineJS: 'return self.toTimeString()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4004,7 +3982,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"dayOfMonth",{},$globals.Date)});
 },
 args: [],
-source: "dayOfMonth\x0a\x09<return self.getDate()>",
+source: "dayOfMonth\x0a\x09<inlineJS: 'return self.getDate()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4022,7 +4000,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"dayOfMonth:",{aNumber:aNumber},$globals.Date)});
 },
 args: ["aNumber"],
-source: "dayOfMonth: aNumber\x0a\x09<self.setDate(aNumber)>",
+source: "dayOfMonth: aNumber\x0a\x09<inlineJS: 'self.setDate(aNumber)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4040,7 +4018,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"dayOfWeek",{},$globals.Date)});
 },
 args: [],
-source: "dayOfWeek\x0a\x09<return self.getDay() + 1>",
+source: "dayOfWeek\x0a\x09<inlineJS: 'return self.getDay() + 1'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4058,7 +4036,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"dayOfWeek:",{aNumber:aNumber},$globals.Date)});
 },
 args: ["aNumber"],
-source: "dayOfWeek: aNumber\x0a\x09<return self.setDay(aNumber - 1)>",
+source: "dayOfWeek: aNumber\x0a\x09<inlineJS: 'return self.setDay(aNumber - 1)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4076,7 +4054,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"hours",{},$globals.Date)});
 },
 args: [],
-source: "hours\x0a\x09<return self.getHours()>",
+source: "hours\x0a\x09<inlineJS: 'return self.getHours()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4094,7 +4072,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"hours:",{aNumber:aNumber},$globals.Date)});
 },
 args: ["aNumber"],
-source: "hours: aNumber\x0a\x09<self.setHours(aNumber)>",
+source: "hours: aNumber\x0a\x09<inlineJS: 'self.setHours(aNumber)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4112,7 +4090,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"milliseconds",{},$globals.Date)});
 },
 args: [],
-source: "milliseconds\x0a\x09<return self.getMilliseconds()>",
+source: "milliseconds\x0a\x09<inlineJS: 'return self.getMilliseconds()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4130,7 +4108,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"milliseconds:",{aNumber:aNumber},$globals.Date)});
 },
 args: ["aNumber"],
-source: "milliseconds: aNumber\x0a\x09<self.setMilliseconds(aNumber)>",
+source: "milliseconds: aNumber\x0a\x09<inlineJS: 'self.setMilliseconds(aNumber)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4148,7 +4126,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"minutes",{},$globals.Date)});
 },
 args: [],
-source: "minutes\x0a\x09<return self.getMinutes()>",
+source: "minutes\x0a\x09<inlineJS: 'return self.getMinutes()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4166,7 +4144,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"minutes:",{aNumber:aNumber},$globals.Date)});
 },
 args: ["aNumber"],
-source: "minutes: aNumber\x0a\x09<self.setMinutes(aNumber)>",
+source: "minutes: aNumber\x0a\x09<inlineJS: 'self.setMinutes(aNumber)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4184,7 +4162,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"month",{},$globals.Date)});
 },
 args: [],
-source: "month\x0a\x09<return self.getMonth() + 1>",
+source: "month\x0a\x09<inlineJS: 'return self.getMonth() + 1'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4202,7 +4180,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"month:",{aNumber:aNumber},$globals.Date)});
 },
 args: ["aNumber"],
-source: "month: aNumber\x0a\x09<self.setMonth(aNumber - 1)>",
+source: "month: aNumber\x0a\x09<inlineJS: 'self.setMonth(aNumber - 1)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4238,7 +4216,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"seconds",{},$globals.Date)});
 },
 args: [],
-source: "seconds\x0a\x09<return self.getSeconds()>",
+source: "seconds\x0a\x09<inlineJS: 'return self.getSeconds()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4256,7 +4234,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"seconds:",{aNumber:aNumber},$globals.Date)});
 },
 args: ["aNumber"],
-source: "seconds: aNumber\x0a\x09<self.setSeconds(aNumber)>",
+source: "seconds: aNumber\x0a\x09<inlineJS: 'self.setSeconds(aNumber)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4274,7 +4252,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"time",{},$globals.Date)});
 },
 args: [],
-source: "time\x0a\x09<return self.getTime()>",
+source: "time\x0a\x09<inlineJS: 'return self.getTime()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4292,7 +4270,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"time:",{aNumber:aNumber},$globals.Date)});
 },
 args: ["aNumber"],
-source: "time: aNumber\x0a\x09<self.setTime(aNumber)>",
+source: "time: aNumber\x0a\x09<inlineJS: 'self.setTime(aNumber)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4310,7 +4288,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"year",{},$globals.Date)});
 },
 args: [],
-source: "year\x0a\x09<return self.getFullYear()>",
+source: "year\x0a\x09<inlineJS: 'return self.getFullYear()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4328,7 +4306,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"year:",{aNumber:aNumber},$globals.Date)});
 },
 args: ["aNumber"],
-source: "year: aNumber\x0a\x09<self.setFullYear(aNumber)>",
+source: "year: aNumber\x0a\x09<inlineJS: 'self.setFullYear(aNumber)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4435,7 +4413,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"new:",{anObject:anObject},$globals.Date.klass)});
 },
 args: ["anObject"],
-source: "new: anObject\x0a\x09<return new Date(anObject)>",
+source: "new: anObject\x0a\x09<inlineJS: 'return new Date(anObject)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4490,7 +4468,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"&",{aNumber:aNumber},$globals.Number)});
 },
 args: ["aNumber"],
-source: "& aNumber\x0a\x09<return self & aNumber>",
+source: "& aNumber\x0a\x09<inlineJS: 'return self & aNumber'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4508,7 +4486,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"*",{aNumber:aNumber},$globals.Number)});
 },
 args: ["aNumber"],
-source: "* aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<return self * aNumber>",
+source: "* aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self * aNumber'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4543,7 +4521,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"+",{aNumber:aNumber},$globals.Number)});
 },
 args: ["aNumber"],
-source: "+ aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<return self + aNumber>",
+source: "+ aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self + aNumber'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4561,7 +4539,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"-",{aNumber:aNumber},$globals.Number)});
 },
 args: ["aNumber"],
-source: "- aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<return self - aNumber>",
+source: "- aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self - aNumber'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4579,7 +4557,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"/",{aNumber:aNumber},$globals.Number)});
 },
 args: ["aNumber"],
-source: "/ aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<return self / aNumber>",
+source: "/ aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self / aNumber'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4614,7 +4592,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"<",{aNumber:aNumber},$globals.Number)});
 },
 args: ["aNumber"],
-source: "< aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<return self < aNumber>",
+source: "< aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self < aNumber'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4632,7 +4610,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"<=",{aNumber:aNumber},$globals.Number)});
 },
 args: ["aNumber"],
-source: "<= aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<return self <= aNumber>",
+source: "<= aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self <= aNumber'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4653,7 +4631,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"==",{aNumber:aNumber},$globals.Number)});
 },
 args: ["aNumber"],
-source: "== aNumber\x0a<\x0a\x09if (typeof aNumber === \x22number\x22) return Number(self) === aNumber;\x0a\x09else if (aNumber != null && typeof aNumber === \x22object\x22) return Number(self) === aNumber.valueOf();\x0a\x09else return false;\x0a>",
+source: "== aNumber\x0a<inlineJS: '\x0a\x09if (typeof aNumber === \x22number\x22) return Number(self) === aNumber;\x0a\x09else if (aNumber != null && typeof aNumber === \x22object\x22) return Number(self) === aNumber.valueOf();\x0a\x09else return false;\x0a'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4671,7 +4649,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,">",{aNumber:aNumber},$globals.Number)});
 },
 args: ["aNumber"],
-source: "> aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<return self >> aNumber>",
+source: "> aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self > aNumber'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4689,7 +4667,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,">=",{aNumber:aNumber},$globals.Number)});
 },
 args: ["aNumber"],
-source: ">= aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<return self >>= aNumber>",
+source: ">= aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self >= aNumber'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4724,7 +4702,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"\x5c\x5c",{aNumber:aNumber},$globals.Number)});
 },
 args: ["aNumber"],
-source: "\x5c\x5c aNumber\x0a\x09<return self % aNumber>",
+source: "\x5c\x5c aNumber\x0a\x09<inlineJS: 'return self % aNumber'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4742,7 +4720,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"abs",{},$globals.Number)});
 },
 args: [],
-source: "abs\x0a\x09<return Math.abs(self);>",
+source: "abs\x0a\x09<inlineJS: 'return Math.abs(self);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4760,7 +4738,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"arcCos",{},$globals.Number)});
 },
 args: [],
-source: "arcCos\x0a\x09<return Math.acos(self);>",
+source: "arcCos\x0a\x09<inlineJS: 'return Math.acos(self);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4778,7 +4756,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"arcSin",{},$globals.Number)});
 },
 args: [],
-source: "arcSin\x0a\x09<return Math.asin(self);>",
+source: "arcSin\x0a\x09<inlineJS: 'return Math.asin(self);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4796,7 +4774,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"arcTan",{},$globals.Number)});
 },
 args: [],
-source: "arcTan\x0a\x09<return Math.atan(self);>",
+source: "arcTan\x0a\x09<inlineJS: 'return Math.atan(self);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4878,12 +4856,12 @@ protocol: 'converting',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
- return String(self) ;
+return String(self);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"asString",{},$globals.Number)});
 },
 args: [],
-source: "asString\x0a\x09< return String(self) >",
+source: "asString\x0a\x09<inlineJS: 'return String(self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4918,7 +4896,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"ceiling",{},$globals.Number)});
 },
 args: [],
-source: "ceiling\x0a\x09<return Math.ceil(self);>",
+source: "ceiling\x0a\x09<inlineJS: 'return Math.ceil(self);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4952,7 +4930,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"cos",{},$globals.Number)});
 },
 args: [],
-source: "cos\x0a\x09<return Math.cos(self);>",
+source: "cos\x0a\x09<inlineJS: 'return Math.cos(self);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -5004,7 +4982,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"floor",{},$globals.Number)});
 },
 args: [],
-source: "floor\x0a\x09<return Math.floor(self);>",
+source: "floor\x0a\x09<inlineJS: 'return Math.floor(self);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -5071,7 +5049,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"ln",{},$globals.Number)});
 },
 args: [],
-source: "ln\x0a\x09<return Math.log(self);>",
+source: "ln\x0a\x09<inlineJS: 'return Math.log(self);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -5089,7 +5067,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"log",{},$globals.Number)});
 },
 args: [],
-source: "log\x0a\x09<return Math.log(self) / Math.LN10;>",
+source: "log\x0a\x09<inlineJS: 'return Math.log(self) / Math.LN10;'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -5107,7 +5085,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"log:",{aNumber:aNumber},$globals.Number)});
 },
 args: ["aNumber"],
-source: "log: aNumber\x0a\x09<return Math.log(self) / Math.log(aNumber);>",
+source: "log: aNumber\x0a\x09<inlineJS: 'return Math.log(self) / Math.log(aNumber);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -5125,7 +5103,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"max:",{aNumber:aNumber},$globals.Number)});
 },
 args: ["aNumber"],
-source: "max: aNumber\x0a\x09<return Math.max(self, aNumber);>",
+source: "max: aNumber\x0a\x09<inlineJS: 'return Math.max(self, aNumber);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -5143,7 +5121,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"min:",{aNumber:aNumber},$globals.Number)});
 },
 args: ["aNumber"],
-source: "min: aNumber\x0a\x09<return Math.min(self, aNumber);>",
+source: "min: aNumber\x0a\x09<inlineJS: 'return Math.min(self, aNumber);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -5247,7 +5225,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"printShowingDecimalPlaces:",{placesDesired:placesDesired},$globals.Number)});
 },
 args: ["placesDesired"],
-source: "printShowingDecimalPlaces: placesDesired\x0a\x09<return self.toFixed(placesDesired)>",
+source: "printShowingDecimalPlaces: placesDesired\x0a\x09<inlineJS: 'return self.toFixed(placesDesired)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -5265,7 +5243,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"raisedTo:",{exponent:exponent},$globals.Number)});
 },
 args: ["exponent"],
-source: "raisedTo: exponent\x0a\x09<return Math.pow(self, exponent);>",
+source: "raisedTo: exponent\x0a\x09<inlineJS: 'return Math.pow(self, exponent);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -5283,7 +5261,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"rounded",{},$globals.Number)});
 },
 args: [],
-source: "rounded\x0a\x09<return Math.round(self);>",
+source: "rounded\x0a\x09<inlineJS: 'return Math.round(self);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -5329,7 +5307,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"sin",{},$globals.Number)});
 },
 args: [],
-source: "sin\x0a\x09<return Math.sin(self);>",
+source: "sin\x0a\x09<inlineJS: 'return Math.sin(self);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -5347,7 +5325,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"sqrt",{},$globals.Number)});
 },
 args: [],
-source: "sqrt\x0a\x09<return Math.sqrt(self)>",
+source: "sqrt\x0a\x09<inlineJS: 'return Math.sqrt(self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -5382,7 +5360,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"tan",{},$globals.Number)});
 },
 args: [],
-source: "tan\x0a\x09<return Math.tan(self);>",
+source: "tan\x0a\x09<inlineJS: 'return Math.tan(self);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -5614,7 +5592,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"truncated",{},$globals.Number)});
 },
 args: [],
-source: "truncated\x0a\x09<\x0a\x09\x09if(self >>= 0) {\x0a\x09\x09\x09return Math.floor(self);\x0a\x09\x09} else {\x0a\x09\x09\x09return Math.floor(self * (-1)) * (-1);\x0a\x09\x09};\x0a\x09>",
+source: "truncated\x0a\x09<inlineJS: '\x0a\x09\x09if(self >= 0) {\x0a\x09\x09\x09return Math.floor(self);\x0a\x09\x09} else {\x0a\x09\x09\x09return Math.floor(self * (-1)) * (-1);\x0a\x09\x09};\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -5632,7 +5610,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"|",{aNumber:aNumber},$globals.Number)});
 },
 args: ["aNumber"],
-source: "| aNumber\x0a\x09<return self | aNumber>",
+source: "| aNumber\x0a\x09<inlineJS: 'return self | aNumber'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -5667,7 +5645,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"e",{},$globals.Number.klass)});
 },
 args: [],
-source: "e\x0a\x09<return Math.E;>",
+source: "e\x0a\x09<inlineJS: 'return Math.E;'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -5685,7 +5663,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"pi",{},$globals.Number.klass)});
 },
 args: [],
-source: "pi\x0a\x09<return Math.PI>",
+source: "pi\x0a\x09<inlineJS: 'return Math.PI'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -6161,7 +6139,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"next",{},$globals.Random)});
 },
 args: [],
-source: "next\x0a\x09<return Math.random()>",
+source: "next\x0a\x09<inlineJS: 'return Math.random()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -6639,7 +6617,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"allSubclassesDo:",{aBlock:aBlock},$globals.Behavior)});
 },
 args: ["aBlock"],
-source: "allSubclassesDo: aBlock\x0a\x09\x22Evaluate the argument, aBlock, for each of the receiver's subclasses.\x22\x0a\x0a<$core.traverseClassTree(self, function(subclass) {\x0a\x09if (subclass !== self) aBlock._value_(subclass);\x0a})>",
+source: "allSubclassesDo: aBlock\x0a\x09\x22Evaluate the argument, aBlock, for each of the receiver's subclasses.\x22\x0a\x0a<inlineJS: '$core.traverseClassTree(self, function(subclass) {\x0a\x09if (subclass !== self) aBlock._value_(subclass);\x0a})'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -6686,7 +6664,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"basicAddCompiledMethod:",{aMethod:aMethod},$globals.Behavior)});
 },
 args: ["aMethod"],
-source: "basicAddCompiledMethod: aMethod\x0a\x09<$core.addMethod(aMethod, self)>",
+source: "basicAddCompiledMethod: aMethod\x0a\x09<inlineJS: '$core.addMethod(aMethod, self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -6704,7 +6682,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"basicNew",{},$globals.Behavior)});
 },
 args: [],
-source: "basicNew\x0a\x09<return new self.fn()>",
+source: "basicNew\x0a\x09<inlineJS: 'return new self.fn()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -6722,7 +6700,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"basicRemoveCompiledMethod:",{aMethod:aMethod},$globals.Behavior)});
 },
 args: ["aMethod"],
-source: "basicRemoveCompiledMethod: aMethod\x0a\x09<$core.removeMethod(aMethod,self)>",
+source: "basicRemoveCompiledMethod: aMethod\x0a\x09<inlineJS: '$core.removeMethod(aMethod,self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -6919,7 +6897,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"instanceVariableNames",{},$globals.Behavior)});
 },
 args: [],
-source: "instanceVariableNames\x0a\x09<return self.iVarNames>",
+source: "instanceVariableNames\x0a\x09<inlineJS: 'return self.iVarNames'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -6953,7 +6931,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"javascriptConstructor",{},$globals.Behavior)});
 },
 args: [],
-source: "javascriptConstructor\x0a\x09\x22Answer the JS constructor used to instantiate. See boot.js\x22\x0a\x09\x0a\x09<return self.fn>",
+source: "javascriptConstructor\x0a\x09\x22Answer the JS constructor used to instantiate. See boot.js\x22\x0a\x09\x0a\x09<inlineJS: 'return self.fn'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -6971,7 +6949,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"javascriptConstructor:",{aJavaScriptFunction:aJavaScriptFunction},$globals.Behavior)});
 },
 args: ["aJavaScriptFunction"],
-source: "javascriptConstructor: aJavaScriptFunction\x0a\x09\x22Set the JS constructor used to instantiate.\x0a\x09See the JS counter-part in boot.js `$core.setClassConstructor'\x22\x0a\x09\x0a\x09<$core.setClassConstructor(self, aJavaScriptFunction);>",
+source: "javascriptConstructor: aJavaScriptFunction\x0a\x09\x22Set the JS constructor used to instantiate.\x0a\x09See the JS counter-part in boot.js `$core.setClassConstructor'\x22\x0a\x09\x0a\x09<inlineJS: '$core.setClassConstructor(self, aJavaScriptFunction);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -7051,7 +7029,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"methodDictionary",{},$globals.Behavior)});
 },
 args: [],
-source: "methodDictionary\x0a\x09<var dict = $globals.HashedCollection._new();\x0a\x09var methods = self.methods;\x0a\x09Object.keys(methods).forEach(function(i) {\x0a\x09\x09if(methods[i].selector) {\x0a\x09\x09\x09dict._at_put_(methods[i].selector, methods[i]);\x0a\x09\x09}\x0a\x09});\x0a\x09return dict>",
+source: "methodDictionary\x0a\x09<inlineJS: 'var dict = $globals.HashedCollection._new();\x0a\x09var methods = self.methods;\x0a\x09Object.keys(methods).forEach(function(i) {\x0a\x09\x09if(methods[i].selector) {\x0a\x09\x09\x09dict._at_put_(methods[i].selector, methods[i]);\x0a\x09\x09}\x0a\x09});\x0a\x09return dict'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -7157,7 +7135,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"name",{},$globals.Behavior)});
 },
 args: [],
-source: "name\x0a\x09<return self.className || nil>",
+source: "name\x0a\x09<inlineJS: 'return self.className || nil'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -7334,7 +7312,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"prototype",{},$globals.Behavior)});
 },
 args: [],
-source: "prototype\x0a\x09<return self.fn.prototype>",
+source: "prototype\x0a\x09<inlineJS: 'return self.fn.prototype'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -7455,7 +7433,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"superclass",{},$globals.Behavior)});
 },
 args: [],
-source: "superclass\x0a\x09<return self.superclass>",
+source: "superclass\x0a\x09<inlineJS: 'return self.superclass'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -7840,7 +7818,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"subclasses",{},$globals.Class)});
 },
 args: [],
-source: "subclasses\x0a\x09<return self.subclasses._copy()>",
+source: "subclasses\x0a\x09<inlineJS: 'return self.subclasses._copy()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -7953,7 +7931,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"instanceClass",{},$globals.Metaclass)});
 },
 args: [],
-source: "instanceClass\x0a\x09<return self.instanceClass>",
+source: "instanceClass\x0a\x09<inlineJS: 'return self.instanceClass'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -8042,7 +8020,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"subclasses",{},$globals.Metaclass)});
 },
 args: [],
-source: "subclasses\x0a\x09<return $core.metaSubclasses(self)>",
+source: "subclasses\x0a\x09<inlineJS: 'return $core.metaSubclasses(self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -8130,7 +8108,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"basicAddSubclassOf:named:instanceVariableNames:package:",{aClass:aClass,aString:aString,aCollection:aCollection,packageName:packageName},$globals.ClassBuilder)});
 },
 args: ["aClass", "aString", "aCollection", "packageName"],
-source: "basicAddSubclassOf: aClass named: aString instanceVariableNames: aCollection package: packageName\x0a\x09<\x0a\x09\x09return $core.addClass(aString, aClass, aCollection, packageName);\x0a\x09>",
+source: "basicAddSubclassOf: aClass named: aString instanceVariableNames: aCollection package: packageName\x0a\x09<inlineJS: '\x0a\x09\x09return $core.addClass(aString, aClass, aCollection, packageName);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -8189,7 +8167,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"basicRemoveClass:",{aClass:aClass},$globals.ClassBuilder)});
 },
 args: ["aClass"],
-source: "basicRemoveClass: aClass\x0a\x09<$core.removeClass(aClass)>",
+source: "basicRemoveClass: aClass\x0a\x09<inlineJS: '$core.removeClass(aClass)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -8211,7 +8189,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"basicRenameClass:to:",{aClass:aClass,aString:aString},$globals.ClassBuilder)});
 },
 args: ["aClass", "aString"],
-source: "basicRenameClass: aClass to: aString\x0a\x09<\x0a\x09\x09$globals[aString] = aClass;\x0a\x09\x09delete $globals[aClass.className];\x0a\x09\x09aClass.className = aString;\x0a\x09>",
+source: "basicRenameClass: aClass to: aString\x0a\x09<inlineJS: '\x0a\x09\x09$globals[aString] = aClass;\x0a\x09\x09delete $globals[aClass.className];\x0a\x09\x09aClass.className = aString;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -8233,7 +8211,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"basicSwapClassNames:with:",{aClass:aClass,anotherClass:anotherClass},$globals.ClassBuilder)});
 },
 args: ["aClass", "anotherClass"],
-source: "basicSwapClassNames: aClass with: anotherClass\x0a\x09<\x0a\x09\x09var tmp = aClass.className;\x0a\x09\x09aClass.className = anotherClass.className;\x0a\x09\x09anotherClass.className = tmp;\x0a\x09>",
+source: "basicSwapClassNames: aClass with: anotherClass\x0a\x09<inlineJS: '\x0a\x09\x09var tmp = aClass.className;\x0a\x09\x09aClass.className = anotherClass.className;\x0a\x09\x09anotherClass.className = tmp;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -8463,7 +8441,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"rawRenameClass:to:",{aClass:aClass,aString:aString},$globals.ClassBuilder)});
 },
 args: ["aClass", "aString"],
-source: "rawRenameClass: aClass to: aString\x0a\x09<\x0a\x09\x09$globals[aString] = aClass;\x0a\x09>",
+source: "rawRenameClass: aClass to: aString\x0a\x09<inlineJS: '\x0a\x09\x09$globals[aString] = aClass;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -8764,7 +8742,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"applyTo:arguments:",{anObject:anObject,aCollection:aCollection},$globals.BlockClosure)});
 },
 args: ["anObject", "aCollection"],
-source: "applyTo: anObject arguments: aCollection\x0a\x09<return self.apply(anObject, aCollection)>",
+source: "applyTo: anObject arguments: aCollection\x0a\x09<inlineJS: 'return self.apply(anObject, aCollection)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -8782,7 +8760,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"asCompiledMethod:",{aString:aString},$globals.BlockClosure)});
 },
 args: ["aString"],
-source: "asCompiledMethod: aString\x0a\x09<return $core.method({selector:aString, fn:self});>",
+source: "asCompiledMethod: aString\x0a\x09<inlineJS: 'return $core.method({selector:aString, fn:self});'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -8800,7 +8778,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"compiledSource",{},$globals.BlockClosure)});
 },
 args: [],
-source: "compiledSource\x0a\x09<return self.toString()>",
+source: "compiledSource\x0a\x09<inlineJS: 'return self.toString()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -8824,7 +8802,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"currySelf",{},$globals.BlockClosure)});
 },
 args: [],
-source: "currySelf\x0a\x09\x22Transforms [ :selfarg :x :y | stcode ] block\x0a\x09which represents JS function (selfarg, x, y, ...) {jscode}\x0a\x09into function (x, y, ...) {jscode} that takes selfarg from 'this'.\x0a\x09IOW, it is usable as JS method and first arg takes the receiver.\x22\x0a\x09\x0a\x09<\x0a\x09\x09return function () {\x0a\x09\x09\x09var args = [ this ];\x0a\x09\x09\x09args.push.apply(args, arguments);\x0a\x09\x09\x09return self.apply(null, args);\x0a\x09\x09}\x0a\x09>",
+source: "currySelf\x0a\x09\x22Transforms [ :selfarg :x :y | stcode ] block\x0a\x09which represents JS function (selfarg, x, y, ...) {jscode}\x0a\x09into function (x, y, ...) {jscode} that takes selfarg from 'this'.\x0a\x09IOW, it is usable as JS method and first arg takes the receiver.\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09return function () {\x0a\x09\x09\x09var args = [ this ];\x0a\x09\x09\x09args.push.apply(args, arguments);\x0a\x09\x09\x09return self.apply(null, args);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -8842,7 +8820,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"ensure:",{aBlock:aBlock},$globals.BlockClosure)});
 },
 args: ["aBlock"],
-source: "ensure: aBlock\x0a\x09<try{return self._value()}finally{aBlock._value()}>",
+source: "ensure: aBlock\x0a\x09<inlineJS: 'try{return self._value()}finally{aBlock._value()}'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -8878,7 +8856,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"new",{},$globals.BlockClosure)});
 },
 args: [],
-source: "new\x0a\x09\x22Use the receiver as a JS constructor.\x0a\x09*Do not* use this method to instanciate Smalltalk objects!\x22\x0a\x09<return new self()>",
+source: "new\x0a\x09\x22Use the receiver as a JS constructor.\x0a\x09*Do not* use this method to instanciate Smalltalk objects!\x22\x0a\x09<inlineJS: 'return new self()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -8951,7 +8929,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"newWithValues:",{aCollection:aCollection},$globals.BlockClosure)});
 },
 args: ["aCollection"],
-source: "newWithValues: aCollection\x0a\x09\x22Simulates JS new operator by combination of Object.create and .apply\x22\x0a\x09<\x0a\x09\x09var object = Object.create(self.prototype);\x0a\x09\x09var result = self.apply(object, aCollection);\x0a\x09\x09return typeof result === \x22object\x22 ? result : object;\x0a\x09>",
+source: "newWithValues: aCollection\x0a\x09\x22Simulates JS new operator by combination of Object.create and .apply\x22\x0a\x09<inlineJS: '\x0a\x09\x09var object = Object.create(self.prototype);\x0a\x09\x09var result = self.apply(object, aCollection);\x0a\x09\x09return typeof result === \x22object\x22 ? result : object;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -8969,7 +8947,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"numArgs",{},$globals.BlockClosure)});
 },
 args: [],
-source: "numArgs\x0a\x09<return self.length>",
+source: "numArgs\x0a\x09<inlineJS: 'return self.length'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -9058,7 +9036,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"tryCatch:",{aBlock:aBlock},$globals.BlockClosure)});
 },
 args: ["aBlock"],
-source: "tryCatch: aBlock\x0a\x09<\x0a\x09\x09try {\x0a\x09\x09\x09return self._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09return aBlock._value_(error);\x0a\x09\x09}\x0a\x09>",
+source: "tryCatch: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09try {\x0a\x09\x09\x09return self._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09return aBlock._value_(error);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -9076,7 +9054,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"value",{},$globals.BlockClosure)});
 },
 args: [],
-source: "value\x0a\x09<return self();>",
+source: "value\x0a\x09<inlineJS: 'return self();'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -9094,7 +9072,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"value:",{anArg:anArg},$globals.BlockClosure)});
 },
 args: ["anArg"],
-source: "value: anArg\x0a\x09<return self(anArg);>",
+source: "value: anArg\x0a\x09<inlineJS: 'return self(anArg);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -9112,7 +9090,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"value:value:",{firstArg:firstArg,secondArg:secondArg},$globals.BlockClosure)});
 },
 args: ["firstArg", "secondArg"],
-source: "value: firstArg value: secondArg\x0a\x09<return self(firstArg, secondArg);>",
+source: "value: firstArg value: secondArg\x0a\x09<inlineJS: 'return self(firstArg, secondArg);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -9130,7 +9108,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"value:value:value:",{firstArg:firstArg,secondArg:secondArg,thirdArg:thirdArg},$globals.BlockClosure)});
 },
 args: ["firstArg", "secondArg", "thirdArg"],
-source: "value: firstArg value: secondArg value: thirdArg\x0a\x09<return self(firstArg, secondArg, thirdArg);>",
+source: "value: firstArg value: secondArg value: thirdArg\x0a\x09<inlineJS: 'return self(firstArg, secondArg, thirdArg);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -9151,7 +9129,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"valueWithInterval:",{aNumber:aNumber},$globals.BlockClosure)});
 },
 args: ["aNumber"],
-source: "valueWithInterval: aNumber\x0a\x09<\x0a\x09\x09var interval = setInterval(self, aNumber);\x0a\x09\x09return $globals.Timeout._on_(interval);\x0a\x09>",
+source: "valueWithInterval: aNumber\x0a\x09<inlineJS: '\x0a\x09\x09var interval = setInterval(self, aNumber);\x0a\x09\x09return $globals.Timeout._on_(interval);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -9169,7 +9147,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"valueWithPossibleArguments:",{aCollection:aCollection},$globals.BlockClosure)});
 },
 args: ["aCollection"],
-source: "valueWithPossibleArguments: aCollection\x0a\x09<return self.apply(null, aCollection);>",
+source: "valueWithPossibleArguments: aCollection\x0a\x09<inlineJS: 'return self.apply(null, aCollection);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -9190,7 +9168,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"valueWithTimeout:",{aNumber:aNumber},$globals.BlockClosure)});
 },
 args: ["aNumber"],
-source: "valueWithTimeout: aNumber\x0a\x09<\x0a\x09\x09var timeout = setTimeout(self, aNumber);\x0a\x09\x09return $globals.Timeout._on_(timeout);\x0a\x09>",
+source: "valueWithTimeout: aNumber\x0a\x09<inlineJS: '\x0a\x09\x09var timeout = setTimeout(self, aNumber);\x0a\x09\x09return $globals.Timeout._on_(timeout);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -9228,7 +9206,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"whileFalse:",{aBlock:aBlock},$globals.BlockClosure)});
 },
 args: ["aBlock"],
-source: "whileFalse: aBlock\x0a\x09<while(!$core.assert(self._value())) {aBlock._value()}>",
+source: "whileFalse: aBlock\x0a\x09<inlineJS: 'while(!$core.assert(self._value())) {aBlock._value()}'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -9266,7 +9244,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"whileTrue:",{aBlock:aBlock},$globals.BlockClosure)});
 },
 args: ["aBlock"],
-source: "whileTrue: aBlock\x0a\x09<while($core.assert(self._value())) {aBlock._value()}>",
+source: "whileTrue: aBlock\x0a\x09<inlineJS: 'while($core.assert(self._value())) {aBlock._value()}'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -9288,7 +9266,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"arguments",{},$globals.CompiledMethod)});
 },
 args: [],
-source: "arguments\x0a\x09<return self.args || []>",
+source: "arguments\x0a\x09<inlineJS: 'return self.args || []'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10376,7 +10354,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"basicReceiver",{},$globals.MethodContext)});
 },
 args: [],
-source: "basicReceiver\x0a\x09<return self.receiver>",
+source: "basicReceiver\x0a\x09<inlineJS: 'return self.receiver'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10394,7 +10372,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"evaluatedSelector",{},$globals.MethodContext)});
 },
 args: [],
-source: "evaluatedSelector\x0a\x09<return self.evaluatedSelector>",
+source: "evaluatedSelector\x0a\x09<inlineJS: 'return self.evaluatedSelector'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10450,7 +10428,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"home",{},$globals.MethodContext)});
 },
 args: [],
-source: "home\x0a\x09<return self.homeContext>",
+source: "home\x0a\x09<inlineJS: 'return self.homeContext'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10468,7 +10446,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"index",{},$globals.MethodContext)});
 },
 args: [],
-source: "index\x0a\x09<return self.index || 0>",
+source: "index\x0a\x09<inlineJS: 'return self.index || 0'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10503,7 +10481,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"locals",{},$globals.MethodContext)});
 },
 args: [],
-source: "locals\x0a\x09<return self.locals || {}>",
+source: "locals\x0a\x09<inlineJS: 'return self.locals || {}'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10600,7 +10578,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"outerContext",{},$globals.MethodContext)});
 },
 args: [],
-source: "outerContext\x0a\x09<return self.outerContext || self.homeContext>",
+source: "outerContext\x0a\x09<inlineJS: 'return self.outerContext || self.homeContext'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10679,7 +10657,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"selector",{},$globals.MethodContext)});
 },
 args: [],
-source: "selector\x0a\x09<\x0a\x09\x09if(self.selector) {\x0a\x09\x09\x09return $core.js2st(self.selector);\x0a\x09\x09} else {\x0a\x09\x09\x09return nil;\x0a\x09\x09}\x0a\x09>",
+source: "selector\x0a\x09<inlineJS: '\x0a\x09\x09if(self.selector) {\x0a\x09\x09\x09return $core.js2st(self.selector);\x0a\x09\x09} else {\x0a\x09\x09\x09return nil;\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10697,7 +10675,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"sendIndexAt:",{aSelector:aSelector},$globals.MethodContext)});
 },
 args: ["aSelector"],
-source: "sendIndexAt: aSelector\x0a\x09<return self.sendIdx[aSelector] || 0>",
+source: "sendIndexAt: aSelector\x0a\x09<inlineJS: 'return self.sendIdx[aSelector] || 0'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10715,7 +10693,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"sendIndexes",{},$globals.MethodContext)});
 },
 args: [],
-source: "sendIndexes\x0a\x09<return self.sendIdx>",
+source: "sendIndexes\x0a\x09<inlineJS: 'return self.sendIdx'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10733,7 +10711,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"supercall",{},$globals.MethodContext)});
 },
 args: [],
-source: "supercall\x0a\x09<return self.supercall == true>",
+source: "supercall\x0a\x09<inlineJS: 'return self.supercall == true'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10759,7 +10737,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"constructorNamed:",{aString:aString},$globals.NativeFunction.klass)});
 },
 args: ["aString"],
-source: "constructorNamed: aString\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return new nativeFunc();\x0a\x09>",
+source: "constructorNamed: aString\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return new nativeFunc();\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10780,7 +10758,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"constructorNamed:value:",{aString:aString,anObject:anObject},$globals.NativeFunction.klass)});
 },
 args: ["aString", "anObject"],
-source: "constructorNamed: aString value: anObject\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return new nativeFunc(anObject);\x0a\x09>",
+source: "constructorNamed: aString value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return new nativeFunc(anObject);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10801,7 +10779,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"constructorNamed:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.klass)});
 },
 args: ["aString", "anObject", "anObject2"],
-source: "constructorNamed: aString value: anObject value: anObject2\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2);\x0a\x09>",
+source: "constructorNamed: aString value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10822,7 +10800,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"constructorNamed:value:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.klass)});
 },
 args: ["aString", "anObject", "anObject2", "anObject3"],
-source: "constructorNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2, anObject3);\x0a\x09>",
+source: "constructorNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10842,7 +10820,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"constructorOf:",{nativeFunc:nativeFunc},$globals.NativeFunction.klass)});
 },
 args: ["nativeFunc"],
-source: "constructorOf: nativeFunc\x0a\x09<\x0a\x09\x09return new nativeFunc();\x0a\x09>",
+source: "constructorOf: nativeFunc\x0a\x09<inlineJS: '\x0a\x09\x09return new nativeFunc();\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10862,7 +10840,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"constructorOf:value:",{nativeFunc:nativeFunc,anObject:anObject},$globals.NativeFunction.klass)});
 },
 args: ["nativeFunc", "anObject"],
-source: "constructorOf: nativeFunc value: anObject\x0a\x09<\x0a\x09\x09return new nativeFunc(anObject);\x0a\x09>",
+source: "constructorOf: nativeFunc value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09return new nativeFunc(anObject);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10882,7 +10860,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"constructorOf:value:value:",{nativeFunc:nativeFunc,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.klass)});
 },
 args: ["nativeFunc", "anObject", "anObject2"],
-source: "constructorOf: nativeFunc value: anObject value: anObject2\x0a\x09<\x0a\x09\x09return new nativeFunc(anObject,anObject2);\x0a\x09>",
+source: "constructorOf: nativeFunc value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09return new nativeFunc(anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10902,7 +10880,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"constructorOf:value:value:value:",{nativeFunc:nativeFunc,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.klass)});
 },
 args: ["nativeFunc", "anObject", "anObject2", "anObject3"],
-source: "constructorOf: nativeFunc value: anObject value: anObject2 value: anObject3\x0a\x09<\x0a\x09\x09return new nativeFunc(anObject,anObject2, anObject3);\x0a\x09>",
+source: "constructorOf: nativeFunc value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09return new nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10940,7 +10918,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"functionNamed:",{aString:aString},$globals.NativeFunction.klass)});
 },
 args: ["aString"],
-source: "functionNamed: aString\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return nativeFunc();\x0a\x09>",
+source: "functionNamed: aString\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return nativeFunc();\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10961,7 +10939,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"functionNamed:value:",{aString:aString,anObject:anObject},$globals.NativeFunction.klass)});
 },
 args: ["aString", "anObject"],
-source: "functionNamed: aString value: anObject\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return nativeFunc(anObject);\x0a\x09>",
+source: "functionNamed: aString value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return nativeFunc(anObject);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10982,7 +10960,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"functionNamed:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.klass)});
 },
 args: ["aString", "anObject", "anObject2"],
-source: "functionNamed: aString value: anObject value: anObject2\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2);\x0a\x09>",
+source: "functionNamed: aString value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11003,7 +10981,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"functionNamed:value:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.klass)});
 },
 args: ["aString", "anObject", "anObject2", "anObject3"],
-source: "functionNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2, anObject3);\x0a\x09>",
+source: "functionNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11024,7 +11002,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"functionNamed:valueWithArgs:",{aString:aString,args:args},$globals.NativeFunction.klass)});
 },
 args: ["aString", "args"],
-source: "functionNamed: aString valueWithArgs: args\x0a\x09<\x0a\x09\x09var nativeFunc=(new Function('return this'))()[aString];\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, null, args);\x0a\x09>",
+source: "functionNamed: aString valueWithArgs: args\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, null, args);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11044,7 +11022,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"functionOf:",{nativeFunc:nativeFunc},$globals.NativeFunction.klass)});
 },
 args: ["nativeFunc"],
-source: "functionOf: nativeFunc\x0a\x09<\x0a\x09\x09return nativeFunc();\x0a\x09>",
+source: "functionOf: nativeFunc\x0a\x09<inlineJS: '\x0a\x09\x09return nativeFunc();\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11064,7 +11042,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"functionOf:value:",{nativeFunc:nativeFunc,anObject:anObject},$globals.NativeFunction.klass)});
 },
 args: ["nativeFunc", "anObject"],
-source: "functionOf: nativeFunc value: anObject\x0a\x09<\x0a\x09\x09return nativeFunc(anObject);\x0a\x09>",
+source: "functionOf: nativeFunc value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09return nativeFunc(anObject);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11084,7 +11062,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"functionOf:value:value:",{nativeFunc:nativeFunc,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.klass)});
 },
 args: ["nativeFunc", "anObject", "anObject2"],
-source: "functionOf: nativeFunc value: anObject value: anObject2\x0a\x09<\x0a\x09\x09return nativeFunc(anObject,anObject2);\x0a\x09>",
+source: "functionOf: nativeFunc value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09return nativeFunc(anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11104,7 +11082,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"functionOf:value:value:value:",{nativeFunc:nativeFunc,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.klass)});
 },
 args: ["nativeFunc", "anObject", "anObject2", "anObject3"],
-source: "functionOf: nativeFunc value: anObject value: anObject2 value: anObject3\x0a\x09<\x0a\x09\x09return nativeFunc(anObject,anObject2, anObject3);\x0a\x09>",
+source: "functionOf: nativeFunc value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09return nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11124,7 +11102,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"functionOf:valueWithArgs:",{nativeFunc:nativeFunc,args:args},$globals.NativeFunction.klass)});
 },
 args: ["nativeFunc", "args"],
-source: "functionOf: nativeFunc valueWithArgs: args\x0a\x09<\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, null, args);\x0a\x09>",
+source: "functionOf: nativeFunc valueWithArgs: args\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, null, args);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11144,7 +11122,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"methodOf:this:",{nativeFunc:nativeFunc,thisObject:thisObject},$globals.NativeFunction.klass)});
 },
 args: ["nativeFunc", "thisObject"],
-source: "methodOf: nativeFunc this: thisObject\x0a\x09<\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject);\x0a\x09>",
+source: "methodOf: nativeFunc this: thisObject\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11164,7 +11142,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"methodOf:this:value:",{nativeFunc:nativeFunc,thisObject:thisObject,anObject:anObject},$globals.NativeFunction.klass)});
 },
 args: ["nativeFunc", "thisObject", "anObject"],
-source: "methodOf: nativeFunc this: thisObject value: anObject\x0a\x09<\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject, anObject);\x0a\x09>",
+source: "methodOf: nativeFunc this: thisObject value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject, anObject);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11184,7 +11162,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"methodOf:this:value:value:",{nativeFunc:nativeFunc,thisObject:thisObject,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.klass)});
 },
 args: ["nativeFunc", "thisObject", "anObject", "anObject2"],
-source: "methodOf: nativeFunc this: thisObject value: anObject value: anObject2\x0a\x09<\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject,anObject,anObject2);\x0a\x09>",
+source: "methodOf: nativeFunc this: thisObject value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject,anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11204,7 +11182,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"methodOf:this:value:value:value:",{nativeFunc:nativeFunc,thisObject:thisObject,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.klass)});
 },
 args: ["nativeFunc", "thisObject", "anObject", "anObject2", "anObject3"],
-source: "methodOf: nativeFunc this: thisObject value: anObject value: anObject2 value: anObject3\x0a\x09<\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject,anObject,anObject2, anObject3);\x0a\x09>",
+source: "methodOf: nativeFunc this: thisObject value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject,anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11224,7 +11202,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"methodOf:this:valueWithArgs:",{nativeFunc:nativeFunc,thisObject:thisObject,args:args},$globals.NativeFunction.klass)});
 },
 args: ["nativeFunc", "thisObject", "args"],
-source: "methodOf: nativeFunc this: thisObject valueWithArgs: args\x0a\x09<\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, thisObject, args);\x0a\x09>",
+source: "methodOf: nativeFunc this: thisObject valueWithArgs: args\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, thisObject, args);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11248,7 +11226,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"clearInterval",{},$globals.Timeout)});
 },
 args: [],
-source: "clearInterval\x0a\x09<\x0a\x09\x09var interval = self[\x22@rawTimeout\x22];\x0a\x09\x09clearInterval(interval);\x0a\x09>",
+source: "clearInterval\x0a\x09<inlineJS: '\x0a\x09\x09var interval = self[\x22@rawTimeout\x22];\x0a\x09\x09clearInterval(interval);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11269,7 +11247,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"clearTimeout",{},$globals.Timeout)});
 },
 args: [],
-source: "clearTimeout\x0a\x09<\x0a\x09\x09var timeout = self[\x22@rawTimeout\x22];\x0a\x09\x09clearTimeout(timeout);\x0a\x09>",
+source: "clearTimeout\x0a\x09<inlineJS: '\x0a\x09\x09var timeout = self[\x22@rawTimeout\x22];\x0a\x09\x09clearTimeout(timeout);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11494,7 +11472,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"bucketOfElement:",{anObject:anObject},$globals.BucketStore)});
 },
 args: ["anObject"],
-source: "bucketOfElement: anObject\x0a\x09<\x0a\x09\x09var hash = self['@hashBlock'](anObject);\x0a\x09\x09if (!hash) return null;\x0a\x09\x09var buckets = self['@buckets'],\x0a\x09\x09\x09bucket = buckets[hash];\x0a\x09\x09if (!bucket) { bucket = buckets[hash] = self._newBucket(); }\x0a\x09\x09return bucket;\x0a\x09>",
+source: "bucketOfElement: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var hash = self[''@hashBlock''](anObject);\x0a\x09\x09if (!hash) return null;\x0a\x09\x09var buckets = self[''@buckets''],\x0a\x09\x09\x09bucket = buckets[hash];\x0a\x09\x09if (!bucket) { bucket = buckets[hash] = self._newBucket(); }\x0a\x09\x09return bucket;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11516,7 +11494,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock},$globals.BucketStore)});
 },
 args: ["aBlock"],
-source: "do: aBlock\x0a\x09<\x0a\x09\x09var buckets = self['@buckets'];\x0a\x09\x09var keys = Object.keys(buckets);\x0a\x09\x09for (var i = 0; i < keys.length; ++i) { buckets[keys[i]]._do_(aBlock); }\x0a\x09>",
+source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var buckets = self[''@buckets''];\x0a\x09\x09var keys = Object.keys(buckets);\x0a\x09\x09for (var i = 0; i < keys.length; ++i) { buckets[keys[i]]._do_(aBlock); }\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11591,7 +11569,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"removeAll",{},$globals.BucketStore)});
 },
 args: [],
-source: "removeAll\x0a\x09<self['@buckets'] = Object.create(null);>",
+source: "removeAll\x0a\x09<inlineJS: 'self[''@buckets''] = Object.create(null);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -12082,16 +12060,17 @@ var self=this;
 return $core.withContext(function($ctx1) {
 var $1;
 $1=self._isEmpty();
-return $recv($1)._ifTrue_ifFalse_(aBlock,(function(){
+if($core.assert($1)){
+return $recv(aBlock)._value();
+} else {
 return self;
-
-}));
+};
 }, function($ctx1) {$ctx1.fill(self,"ifEmpty:",{aBlock:aBlock},$globals.Collection)});
 },
 args: ["aBlock"],
-source: "ifEmpty: aBlock\x0a\x09\x22Evaluate the given block with the receiver as argument, answering its value if the receiver is empty, otherwise answer the receiver. \x0a\x09Note that the fact that this method returns its argument in case the receiver is not empty allows one to write expressions like the following ones: \x0a\x09\x09self classifyMethodAs:\x0a\x09\x09\x09(myProtocol ifEmpty: ['As yet unclassified'])\x22\x0a\x09^ self isEmpty\x0a\x09\x09ifTrue: aBlock\x0a\x09\x09ifFalse: [ self ]",
+source: "ifEmpty: aBlock\x0a\x09\x22Evaluate the given block with the receiver as argument, answering its value if the receiver is empty, otherwise answer the receiver. \x0a\x09Note that the fact that this method returns its argument in case the receiver is not empty allows one to write expressions like the following ones: \x0a\x09\x09self classifyMethodAs:\x0a\x09\x09\x09(myProtocol ifEmpty: ['As yet unclassified'])\x22\x0a\x09^ self isEmpty\x0a\x09\x09ifTrue: \x22aBlock\x22 [ aBlock value ]\x0a\x09\x09ifFalse: [ self ]",
 referencedClasses: [],
-messageSends: ["ifTrue:ifFalse:", "isEmpty"]
+messageSends: ["ifTrue:ifFalse:", "isEmpty", "value"]
 }),
 $globals.Collection);
 
@@ -12104,17 +12083,17 @@ var self=this;
 return $core.withContext(function($ctx1) {
 var $1;
 $1=self._isEmpty();
-return $recv($1)._ifTrue_ifFalse_(aBlock,(function(){
-return $core.withContext(function($ctx2) {
+if($core.assert($1)){
+return $recv(aBlock)._value();
+} else {
 return $recv(anotherBlock)._value_(self);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+};
 }, function($ctx1) {$ctx1.fill(self,"ifEmpty:ifNotEmpty:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.Collection)});
 },
 args: ["aBlock", "anotherBlock"],
-source: "ifEmpty: aBlock ifNotEmpty: anotherBlock\x0a\x09^ self isEmpty\x0a\x09\x09ifTrue: aBlock\x0a\x09\x09ifFalse: [ anotherBlock value: self ]",
+source: "ifEmpty: aBlock ifNotEmpty: anotherBlock\x0a\x09^ self isEmpty\x0a\x09\x09ifTrue: \x22aBlock\x22 [ aBlock value ]\x0a\x09\x09ifFalse: [ anotherBlock value: self ]",
 referencedClasses: [],
-messageSends: ["ifTrue:ifFalse:", "isEmpty", "value:"]
+messageSends: ["ifTrue:ifFalse:", "isEmpty", "value", "value:"]
 }),
 $globals.Collection);
 
@@ -12150,17 +12129,17 @@ var self=this;
 return $core.withContext(function($ctx1) {
 var $1;
 $1=self._notEmpty();
-return $recv($1)._ifTrue_ifFalse_((function(){
-return $core.withContext(function($ctx2) {
+if($core.assert($1)){
 return $recv(aBlock)._value_(self);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}),anotherBlock);
+} else {
+return $recv(anotherBlock)._value();
+};
 }, function($ctx1) {$ctx1.fill(self,"ifNotEmpty:ifEmpty:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.Collection)});
 },
 args: ["aBlock", "anotherBlock"],
-source: "ifNotEmpty: aBlock ifEmpty: anotherBlock\x0a\x09^ self notEmpty\x0a\x09\x09ifTrue: [ aBlock value: self ]\x0a\x09\x09ifFalse: anotherBlock",
+source: "ifNotEmpty: aBlock ifEmpty: anotherBlock\x0a\x09^ self notEmpty\x0a\x09\x09ifTrue: [ aBlock value: self ]\x0a\x09\x09ifFalse: \x22anotherBlock\x22 [ anotherBlock value ]",
 referencedClasses: [],
-messageSends: ["ifTrue:ifFalse:", "notEmpty", "value:"]
+messageSends: ["ifTrue:ifFalse:", "notEmpty", "value:", "value"]
 }),
 $globals.Collection);
 
@@ -13647,7 +13626,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{aKey:aKey,aBlock:aBlock},$globals.Dictionary)});
 },
 args: ["aKey", "aBlock"],
-source: "at: aKey ifAbsent: aBlock\x0a\x09<\x0a\x09\x09var index = self._positionOfKey_(aKey);\x0a\x09\x09return index >>=0 ? self['@values'][index] : aBlock._value();\x0a\x09>",
+source: "at: aKey ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var index = self._positionOfKey_(aKey);\x0a\x09\x09return index >=0 ? self[''@values''][index] : aBlock._value();\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -13674,7 +13653,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"at:put:",{aKey:aKey,aValue:aValue},$globals.Dictionary)});
 },
 args: ["aKey", "aValue"],
-source: "at: aKey put: aValue\x0a\x09<\x0a\x09\x09var index = self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09var keys = self['@keys'];\x0a\x09\x09\x09index = keys.length;\x0a\x09\x09\x09keys.push(aKey);\x0a\x09\x09}\x0a\x0a\x09\x09return self['@values'][index] = aValue;\x0a\x09>",
+source: "at: aKey put: aValue\x0a\x09<inlineJS: '\x0a\x09\x09var index = self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09var keys = self[''@keys''];\x0a\x09\x09\x09index = keys.length;\x0a\x09\x09\x09keys.push(aKey);\x0a\x09\x09}\x0a\x0a\x09\x09return self[''@values''][index] = aValue;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -13687,12 +13666,12 @@ protocol: 'testing',
 fn: function (aKey){
 var self=this;
 return $core.withContext(function($ctx1) {
- return self._positionOfKey_(aKey) >= 0; ;
+return self._positionOfKey_(aKey) >= 0;;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"includesKey:",{aKey:aKey},$globals.Dictionary)});
 },
 args: ["aKey"],
-source: "includesKey: aKey\x0a\x09< return self._positionOfKey_(aKey) >>= 0; >",
+source: "includesKey: aKey\x0a\x09<inlineJS: 'return self._positionOfKey_(aKey) >= 0;'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -13818,7 +13797,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"positionOfKey:",{anObject:anObject},$globals.Dictionary)});
 },
 args: ["anObject"],
-source: "positionOfKey: anObject\x0a\x09<\x0a\x09\x09var keys = self['@keys'];\x0a\x09\x09for(var i=0;i<keys.length;i++){\x0a\x09\x09\x09if(keys[i].__eq(anObject)) { return i;}\x0a\x09\x09}\x0a\x09\x09return -1;\x0a\x09>",
+source: "positionOfKey: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var keys = self[''@keys''];\x0a\x09\x09for(var i=0;i<keys.length;i++){\x0a\x09\x09\x09if(keys[i].__eq(anObject)) { return i;}\x0a\x09\x09}\x0a\x09\x09return -1;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -13869,7 +13848,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"removeKey:ifAbsent:",{aKey:aKey,aBlock:aBlock},$globals.Dictionary)});
 },
 args: ["aKey", "aBlock"],
-source: "removeKey: aKey ifAbsent: aBlock\x0a\x09<\x0a\x09\x09var index = self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09return aBlock._value()\x0a\x09\x09} else {\x0a\x09\x09\x09var keys = self['@keys'], values = self['@values'];\x0a\x09\x09\x09var value = values[index], l = keys.length;\x0a\x09\x09\x09keys[index] = keys[l-1];\x0a\x09\x09\x09keys.pop();\x0a\x09\x09\x09values[index] = values[l-1];\x0a\x09\x09\x09values.pop();\x0a\x09\x09\x09return value;\x0a\x09\x09}\x0a\x09>",
+source: "removeKey: aKey ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var index = self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09return aBlock._value()\x0a\x09\x09} else {\x0a\x09\x09\x09var keys = self[''@keys''], values = self[''@values''];\x0a\x09\x09\x09var value = values[index], l = keys.length;\x0a\x09\x09\x09keys[index] = keys[l-1];\x0a\x09\x09\x09keys.pop();\x0a\x09\x09\x09values[index] = values[l-1];\x0a\x09\x09\x09values.pop();\x0a\x09\x09\x09return value;\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -13964,7 +13943,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"includesKey:",{aKey:aKey},$globals.HashedCollection)});
 },
 args: ["aKey"],
-source: "includesKey: aKey\x0a\x09<return self.hasOwnProperty(aKey)>",
+source: "includesKey: aKey\x0a\x09<inlineJS: 'return self.hasOwnProperty(aKey)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -13982,7 +13961,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"keys",{},$globals.HashedCollection)});
 },
 args: [],
-source: "keys\x0a\x09<return Object.keys(self)>",
+source: "keys\x0a\x09<inlineJS: 'return Object.keys(self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14048,7 +14027,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"values",{},$globals.HashedCollection)});
 },
 args: [],
-source: "values\x0a\x09<\x0a\x09\x09return self._keys().map(function(key){\x0a\x09\x09\x09return self._at_(key);\x0a\x09\x09});\x0a\x09>",
+source: "values\x0a\x09<inlineJS: '\x0a\x09\x09return self._keys().map(function(key){\x0a\x09\x09\x09return self._at_(key);\x0a\x09\x09});\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14269,7 +14248,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"detect:ifNone:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.SequenceableCollection)});
 },
 args: ["aBlock", "anotherBlock"],
-source: "detect: aBlock ifNone: anotherBlock\x0a\x09<\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i = 0; i < self.length; i++)\x0a\x09\x09\x09if(aBlock._value_(self[i]))\x0a\x09\x09\x09\x09return self[i];\x0a\x09\x09return anotherBlock._value();\x0a\x09>",
+source: "detect: aBlock ifNone: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i = 0; i < self.length; i++)\x0a\x09\x09\x09if(aBlock._value_(self[i]))\x0a\x09\x09\x09\x09return self[i];\x0a\x09\x09return anotherBlock._value();\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14292,7 +14271,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock},$globals.SequenceableCollection)});
 },
 args: ["aBlock"],
-source: "do: aBlock\x0a\x09<\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_(self[i]);\x0a\x09\x09}\x0a\x09>",
+source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_(self[i]);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14418,7 +14397,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"indexOf:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.SequenceableCollection)});
 },
 args: ["anObject", "aBlock"],
-source: "indexOf: anObject ifAbsent: aBlock\x0a\x09<\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09};\x0a\x09\x09return aBlock._value();\x0a\x09>",
+source: "indexOf: anObject ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09};\x0a\x09\x09return aBlock._value();\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14462,7 +14441,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"indexOf:startingAt:ifAbsent:",{anObject:anObject,start:start,aBlock:aBlock},$globals.SequenceableCollection)});
 },
 args: ["anObject", "start", "aBlock"],
-source: "indexOf: anObject startingAt: start ifAbsent: aBlock\x0a\x09<\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i=start - 1; i < self.length; i++){\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09}\x0a\x09\x09return aBlock._value();\x0a\x09>",
+source: "indexOf: anObject startingAt: start ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i=start - 1; i < self.length; i++){\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09}\x0a\x09\x09return aBlock._value();\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14632,7 +14611,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"single",{},$globals.SequenceableCollection)});
 },
 args: [],
-source: "single\x0a<\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length >> 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return self[0];\x0a>",
+source: "single\x0a<inlineJS: '\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length > 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return self[0];\x0a'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14707,7 +14686,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"with:do:",{anotherCollection:anotherCollection,aBlock:aBlock},$globals.SequenceableCollection)});
 },
 args: ["anotherCollection", "aBlock"],
-source: "with: anotherCollection do: aBlock\x0a\x09<\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09anotherCollection = anotherCollection._numericallyIndexable();\x0a\x09\x09for(var i=0; i<self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], anotherCollection[i]);\x0a\x09\x09}\x0a\x09>",
+source: "with: anotherCollection do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09anotherCollection = anotherCollection._numericallyIndexable();\x0a\x09\x09for(var i=0; i<self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], anotherCollection[i]);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14730,7 +14709,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"withIndexDo:",{aBlock:aBlock},$globals.SequenceableCollection)});
 },
 args: ["aBlock"],
-source: "withIndexDo: aBlock\x0a\x09<\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], i+1);\x0a\x09\x09}\x0a\x09>",
+source: "withIndexDo: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09self = self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], i+1);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14805,7 +14784,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject},$globals.Array)});
 },
 args: ["anObject"],
-source: "add: anObject\x0a\x09<self.push(anObject); return anObject;>",
+source: "add: anObject\x0a\x09<inlineJS: 'self.push(anObject); return anObject;'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14826,7 +14805,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"addAll:",{aCollection:aCollection},$globals.Array)});
 },
 args: ["aCollection"],
-source: "addAll: aCollection\x0a<\x0a\x09if (Array.isArray(aCollection) && aCollection.length < 65000) self.push.apply(self, aCollection);\x0a\x09else $globals.Array.superclass.fn.prototype._addAll_.call(self, aCollection);\x0a\x09return aCollection;\x0a>",
+source: "addAll: aCollection\x0a<inlineJS: '\x0a\x09if (Array.isArray(aCollection) && aCollection.length < 65000) self.push.apply(self, aCollection);\x0a\x09else $globals.Array.superclass.fn.prototype._addAll_.call(self, aCollection);\x0a\x09return aCollection;\x0a'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14844,7 +14823,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"addFirst:",{anObject:anObject},$globals.Array)});
 },
 args: ["anObject"],
-source: "addFirst: anObject\x0a\x09<self.unshift(anObject); return anObject;>",
+source: "addFirst: anObject\x0a\x09<inlineJS: 'self.unshift(anObject); return anObject;'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14890,7 +14869,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{anIndex:anIndex,aBlock:aBlock},$globals.Array)});
 },
 args: ["anIndex", "aBlock"],
-source: "at: anIndex ifAbsent: aBlock\x0a\x09<\x0a\x09\x09return anIndex >>= 1 && anIndex <= self.length\x0a\x09\x09\x09? self[anIndex - 1]\x0a\x09\x09\x09: aBlock._value()\x0a\x09>",
+source: "at: anIndex ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09return anIndex >= 1 && anIndex <= self.length\x0a\x09\x09\x09? self[anIndex - 1]\x0a\x09\x09\x09: aBlock._value()\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14912,7 +14891,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{anIndex:anIndex,aBlock:aBlock,anotherBlock:anotherBlock},$globals.Array)});
 },
 args: ["anIndex", "aBlock", "anotherBlock"],
-source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09<\x0a\x09\x09return anIndex >>= 1 && anIndex <= self.length\x0a\x09\x09\x09? aBlock._value_(self[anIndex - 1])\x0a\x09\x09\x09: anotherBlock._value()\x0a\x09>",
+source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09return anIndex >= 1 && anIndex <= self.length\x0a\x09\x09\x09? aBlock._value_(self[anIndex - 1])\x0a\x09\x09\x09: anotherBlock._value()\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14930,7 +14909,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"at:put:",{anIndex:anIndex,anObject:anObject},$globals.Array)});
 },
 args: ["anIndex", "anObject"],
-source: "at: anIndex put: anObject\x0a\x09<return self[anIndex - 1] = anObject>",
+source: "at: anIndex put: anObject\x0a\x09<inlineJS: 'return self[anIndex - 1] = anObject'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14948,7 +14927,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"collect:",{aBlock:aBlock},$globals.Array)});
 },
 args: ["aBlock"],
-source: "collect: aBlock\x0a\x09\x22Optimized version\x22\x0a\x09\x0a\x09<return self.map(function(each) {return aBlock._value_(each)})>",
+source: "collect: aBlock\x0a\x09\x22Optimized version\x22\x0a\x09\x0a\x09<inlineJS: 'return self.map(function(each) {return aBlock._value_(each)})'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14973,7 +14952,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"copyFrom:to:",{anIndex:anIndex,anotherIndex:anotherIndex},$globals.Array)});
 },
 args: ["anIndex", "anotherIndex"],
-source: "copyFrom: anIndex to: anotherIndex\x0a<\x0a\x09if (anIndex >>= 1 && anotherIndex <= self.length) {\x0a\x09\x09return self.slice(anIndex - 1, anotherIndex);\x0a\x09} else {\x0a\x09\x09self._at_(anIndex);\x0a\x09\x09self._at_(self.length + 1);\x0a\x09\x09throw new Error(\x22Incorrect indexes in #copyFrom:to: not caught by #at:\x22);\x0a\x09}\x0a>",
+source: "copyFrom: anIndex to: anotherIndex\x0a<inlineJS: '\x0a\x09if (anIndex >= 1 && anotherIndex <= self.length) {\x0a\x09\x09return self.slice(anIndex - 1, anotherIndex);\x0a\x09} else {\x0a\x09\x09self._at_(anIndex);\x0a\x09\x09self._at_(self.length + 1);\x0a\x09\x09throw new Error(\x22Incorrect indexes in #copyFrom:to: not caught by #at:\x22);\x0a\x09}\x0a'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14991,7 +14970,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"join:",{aString:aString},$globals.Array)});
 },
 args: ["aString"],
-source: "join: aString\x0a\x09<return self.join(aString)>",
+source: "join: aString\x0a\x09<inlineJS: 'return self.join(aString)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15089,7 +15068,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"removeAll",{},$globals.Array)});
 },
 args: [],
-source: "removeAll\x0a\x09<self.length = 0>",
+source: "removeAll\x0a\x09<inlineJS: 'self.length = 0'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15107,7 +15086,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"removeFrom:to:",{aNumber:aNumber,anotherNumber:anotherNumber},$globals.Array)});
 },
 args: ["aNumber", "anotherNumber"],
-source: "removeFrom: aNumber to: anotherNumber\x0a\x09<self.splice(aNumber -1, anotherNumber - aNumber + 1)>",
+source: "removeFrom: aNumber to: anotherNumber\x0a\x09<inlineJS: 'self.splice(aNumber -1, anotherNumber - aNumber + 1)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15125,7 +15104,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"removeIndex:",{anInteger:anInteger},$globals.Array)});
 },
 args: ["anInteger"],
-source: "removeIndex: anInteger\x0a\x09<self.splice(anInteger - 1, 1)>",
+source: "removeIndex: anInteger\x0a\x09<inlineJS: 'self.splice(anInteger - 1, 1)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15143,7 +15122,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"removeLast",{},$globals.Array)});
 },
 args: [],
-source: "removeLast\x0a\x09<return self.pop();>",
+source: "removeLast\x0a\x09<inlineJS: 'return self.pop();'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15161,7 +15140,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"reversed",{},$globals.Array)});
 },
 args: [],
-source: "reversed\x0a\x09<return self.slice().reverse()>",
+source: "reversed\x0a\x09<inlineJS: 'return self.slice().reverse()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15179,7 +15158,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"select:",{aBlock:aBlock},$globals.Array)});
 },
 args: ["aBlock"],
-source: "select: aBlock\x0a\x09\x22Optimized version\x22\x0a\x09\x0a\x09<return self.filter(function(each) {return aBlock._value_(each)})>",
+source: "select: aBlock\x0a\x09\x22Optimized version\x22\x0a\x09\x0a\x09<inlineJS: 'return self.filter(function(each) {return aBlock._value_(each)})'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15197,7 +15176,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"shallowCopy",{},$globals.Array)});
 },
 args: [],
-source: "shallowCopy\x0a\x09<return self.slice()>",
+source: "shallowCopy\x0a\x09<inlineJS: 'return self.slice()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15215,7 +15194,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"size",{},$globals.Array)});
 },
 args: [],
-source: "size\x0a\x09<return self.length>",
+source: "size\x0a\x09<inlineJS: 'return self.length'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15258,7 +15237,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"sort:",{aBlock:aBlock},$globals.Array)});
 },
 args: ["aBlock"],
-source: "sort: aBlock\x0a\x09<\x0a\x09\x09return self.sort(function(a, b) {\x0a\x09\x09\x09if(aBlock._value_value_(a,b)) {return -1} else {return 1}\x0a\x09\x09})\x0a\x09>",
+source: "sort: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09return self.sort(function(a, b) {\x0a\x09\x09\x09if(aBlock._value_value_(a,b)) {return -1} else {return 1}\x0a\x09\x09})\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15311,7 +15290,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"new:",{anInteger:anInteger},$globals.Array.klass)});
 },
 args: ["anInteger"],
-source: "new: anInteger\x0a\x09<return new Array(anInteger)>",
+source: "new: anInteger\x0a\x09<inlineJS: 'return new Array(anInteger)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15660,7 +15639,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,",",{aString:aString},$globals.String)});
 },
 args: ["aString"],
-source: ", aString\x0a\x09<return String(self) + aString>",
+source: ", aString\x0a\x09<inlineJS: 'return String(self) + aString'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15678,7 +15657,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"<",{aString:aString},$globals.String)});
 },
 args: ["aString"],
-source: "< aString\x0a\x09<return String(self) < aString._asString()>",
+source: "< aString\x0a\x09<inlineJS: 'return String(self) < aString._asString()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15696,7 +15675,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"<=",{aString:aString},$globals.String)});
 },
 args: ["aString"],
-source: "<= aString\x0a\x09<return String(self) <= aString._asString()>",
+source: "<= aString\x0a\x09<inlineJS: 'return String(self) <= aString._asString()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15714,7 +15693,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"=",{aString:aString},$globals.String)});
 },
 args: ["aString"],
-source: "= aString\x0a<return aString != null && String(self) === (typeof aString === \x22string\x22 ? aString : aString.valueOf())>",
+source: "= aString\x0a<inlineJS:\x0a\x09'return aString != null && String(self) === (typeof aString === \x22string\x22 ? aString : aString.valueOf())'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15735,7 +15714,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"==",{aString:aString},$globals.String)});
 },
 args: ["aString"],
-source: "== aString\x0a<\x0a\x09if (typeof aString === \x22string\x22) return String(self) === aString;\x0a\x09else if (aString != null && typeof aString === \x22object\x22) return String(self) === aString.valueOf();\x0a\x09else return false;\x0a>",
+source: "== aString\x0a<inlineJS: '\x0a\x09if (typeof aString === \x22string\x22) return String(self) === aString;\x0a\x09else if (aString != null && typeof aString === \x22object\x22) return String(self) === aString.valueOf();\x0a\x09else return false;\x0a'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15753,7 +15732,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,">",{aString:aString},$globals.String)});
 },
 args: ["aString"],
-source: "> aString\x0a\x09<return String(self) >> aString._asString()>",
+source: "> aString\x0a\x09<inlineJS: 'return String(self) > aString._asString()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15771,7 +15750,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,">=",{aString:aString},$globals.String)});
 },
 args: ["aString"],
-source: ">= aString\x0a\x09<return String(self) >>= aString._asString()>",
+source: ">= aString\x0a\x09<inlineJS: 'return String(self) >= aString._asString()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15805,7 +15784,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"asJavaScriptMethodName",{},$globals.String)});
 },
 args: [],
-source: "asJavaScriptMethodName\x0a\x09<return $core.st2js(self)>",
+source: "asJavaScriptMethodName\x0a\x09<inlineJS: 'return $core.st2js(self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15828,7 +15807,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"asJavascript",{},$globals.String)});
 },
 args: [],
-source: "asJavascript\x0a\x09<\x0a\x09\x09if(self.search(/^[a-zA-Z0-9_:.$ ]*$/) == -1)\x0a\x09\x09\x09return \x22\x5c\x22\x22 + self.replace(/[\x5cx00-\x5cx1f\x22\x5c\x5c\x5cx7f-\x5cx9f]/g, function(ch){var c=ch.charCodeAt(0);return \x22\x5c\x5cx\x22+(\x220\x22+c.toString(16)).slice(-2)}) + \x22\x5c\x22\x22;\x0a\x09\x09else\x0a\x09\x09\x09return \x22\x5c\x22\x22 + self + \x22\x5c\x22\x22;\x0a\x09>",
+source: "asJavascript\x0a\x09<inlineJS: '\x0a\x09\x09if(self.search(/^[a-zA-Z0-9_:.$ ]*$/) == -1)\x0a\x09\x09\x09return \x22\x5c\x22\x22 + self.replace(/[\x5cx00-\x5cx1f\x22\x5c\x5c\x5cx7f-\x5cx9f]/g, function(ch){var c=ch.charCodeAt(0);return \x22\x5c\x5cx\x22+(\x220\x22+c.toString(16)).slice(-2)}) + \x22\x5c\x22\x22;\x0a\x09\x09else\x0a\x09\x09\x09return \x22\x5c\x22\x22 + self + \x22\x5c\x22\x22;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15846,7 +15825,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"asLowercase",{},$globals.String)});
 },
 args: [],
-source: "asLowercase\x0a\x09<return self.toLowerCase()>",
+source: "asLowercase\x0a\x09<inlineJS: 'return self.toLowerCase()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15886,7 +15865,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"asNumber",{},$globals.String)});
 },
 args: [],
-source: "asNumber\x0a\x09<return Number(self)>",
+source: "asNumber\x0a\x09<inlineJS: 'return Number(self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15953,7 +15932,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"asUppercase",{},$globals.String)});
 },
 args: [],
-source: "asUppercase\x0a\x09<return self.toUpperCase()>",
+source: "asUppercase\x0a\x09<inlineJS: 'return self.toUpperCase()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15971,7 +15950,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"asciiValue",{},$globals.String)});
 },
 args: [],
-source: "asciiValue\x0a\x09<return self.charCodeAt(0);>",
+source: "asciiValue\x0a\x09<inlineJS: 'return self.charCodeAt(0);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15989,7 +15968,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{anIndex:anIndex,aBlock:aBlock},$globals.String)});
 },
 args: ["anIndex", "aBlock"],
-source: "at: anIndex ifAbsent: aBlock\x0a\x09<return String(self)[anIndex - 1] || aBlock._value()>",
+source: "at: anIndex ifAbsent: aBlock\x0a\x09<inlineJS: 'return String(self)[anIndex - 1] || aBlock._value()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16010,7 +15989,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{anIndex:anIndex,aBlock:aBlock,anotherBlock:anotherBlock},$globals.String)});
 },
 args: ["anIndex", "aBlock", "anotherBlock"],
-source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09<\x0a\x09\x09var result = String(self)[anIndex - 1];\x0a\x09\x09return result ? aBlock._value_(result) : anotherBlock._value();\x0a\x09>",
+source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09var result = String(self)[anIndex - 1];\x0a\x09\x09return result ? aBlock._value_(result) : anotherBlock._value();\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16049,7 +16028,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"charCodeAt:",{anInteger:anInteger},$globals.String)});
 },
 args: ["anInteger"],
-source: "charCodeAt: anInteger\x0a\x09<return self.charCodeAt(anInteger - 1)>",
+source: "charCodeAt: anInteger\x0a\x09<inlineJS: 'return self.charCodeAt(anInteger - 1)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16067,7 +16046,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"copyFrom:to:",{anIndex:anIndex,anotherIndex:anotherIndex},$globals.String)});
 },
 args: ["anIndex", "anotherIndex"],
-source: "copyFrom: anIndex to: anotherIndex\x0a\x09<return self.substring(anIndex - 1, anotherIndex)>",
+source: "copyFrom: anIndex to: anotherIndex\x0a\x09<inlineJS: 'return self.substring(anIndex - 1, anotherIndex)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16119,7 +16098,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"escaped",{},$globals.String)});
 },
 args: [],
-source: "escaped\x0a\x09<return escape(self)>",
+source: "escaped\x0a\x09<inlineJS: 'return escape(self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16137,7 +16116,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"includesSubString:",{subString:subString},$globals.String)});
 },
 args: ["subString"],
-source: "includesSubString: subString\x0a\x09<return self.indexOf(subString) != -1>",
+source: "includesSubString: subString\x0a\x09<inlineJS: 'return self.indexOf(subString) != -1'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16401,7 +16380,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"lines",{},$globals.String)});
 },
 args: [],
-source: "lines\x0a\x09\x22Answer an array of lines composing this receiver without the line ending delimiters.\x22\x0a<\x0a\x09var result = self.split(/\x5cr\x5cn|\x5cr|\x5cn/);\x0a\x09if (!result[result.length-1]) result.pop();\x0a\x09return result;\x0a>",
+source: "lines\x0a\x09\x22Answer an array of lines composing this receiver without the line ending delimiters.\x22\x0a<inlineJS: '\x0a\x09var result = self.split(/\x5cr\x5cn|\x5cr|\x5cn/);\x0a\x09if (!result[result.length-1]) result.pop();\x0a\x09return result;\x0a'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16437,7 +16416,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"match:",{aRegexp:aRegexp},$globals.String)});
 },
 args: ["aRegexp"],
-source: "match: aRegexp\x0a\x09<return self.search(aRegexp) != -1>",
+source: "match: aRegexp\x0a\x09<inlineJS: 'return self.search(aRegexp) != -1'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16455,7 +16434,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"matchesOf:",{aRegularExpression:aRegularExpression},$globals.String)});
 },
 args: ["aRegularExpression"],
-source: "matchesOf: aRegularExpression\x0a\x09<return self.match(aRegularExpression)>",
+source: "matchesOf: aRegularExpression\x0a\x09<inlineJS: 'return self.match(aRegularExpression)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16473,7 +16452,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"numericallyIndexable",{},$globals.String)});
 },
 args: [],
-source: "numericallyIndexable\x0a\x09<return String(self)>",
+source: "numericallyIndexable\x0a\x09<inlineJS: 'return String(self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16491,7 +16470,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"printNl",{},$globals.String)});
 },
 args: [],
-source: "printNl\x0a\x09<console.log(self)>",
+source: "printNl\x0a\x09<inlineJS: 'console.log(self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16548,7 +16527,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"replaceRegexp:with:",{aRegexp:aRegexp,aString:aString},$globals.String)});
 },
 args: ["aRegexp", "aString"],
-source: "replaceRegexp: aRegexp with: aString\x0a\x09<return self.replace(aRegexp, aString)>",
+source: "replaceRegexp: aRegexp with: aString\x0a\x09<inlineJS: 'return self.replace(aRegexp, aString)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16566,7 +16545,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"reversed",{},$globals.String)});
 },
 args: [],
-source: "reversed\x0a\x09<return self.split(\x22\x22).reverse().join(\x22\x22)>",
+source: "reversed\x0a\x09<inlineJS: 'return self.split(\x22\x22).reverse().join(\x22\x22)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16600,7 +16579,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"size",{},$globals.String)});
 },
 args: [],
-source: "size\x0a\x09<return self.length>",
+source: "size\x0a\x09<inlineJS: 'return self.length'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16635,7 +16614,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"tokenize:",{aString:aString},$globals.String)});
 },
 args: ["aString"],
-source: "tokenize: aString\x0a\x09<return self.split(aString)>",
+source: "tokenize: aString\x0a\x09<inlineJS: 'return self.split(aString)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16763,7 +16742,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"unescaped",{},$globals.String)});
 },
 args: [],
-source: "unescaped\x0a\x09<return unescape(self)>",
+source: "unescaped\x0a\x09<inlineJS: 'return unescape(self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16781,7 +16760,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"uriComponentDecoded",{},$globals.String)});
 },
 args: [],
-source: "uriComponentDecoded\x0a\x09<return decodeURIComponent(self)>",
+source: "uriComponentDecoded\x0a\x09<inlineJS: 'return decodeURIComponent(self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16799,7 +16778,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"uriComponentEncoded",{},$globals.String)});
 },
 args: [],
-source: "uriComponentEncoded\x0a\x09<return encodeURIComponent(self)>",
+source: "uriComponentEncoded\x0a\x09<inlineJS: 'return encodeURIComponent(self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16817,7 +16796,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"uriDecoded",{},$globals.String)});
 },
 args: [],
-source: "uriDecoded\x0a\x09<return decodeURI(self)>",
+source: "uriDecoded\x0a\x09<inlineJS: 'return decodeURI(self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16835,7 +16814,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"uriEncoded",{},$globals.String)});
 },
 args: [],
-source: "uriEncoded\x0a\x09<return encodeURI(self)>",
+source: "uriEncoded\x0a\x09<inlineJS: 'return encodeURI(self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16866,12 +16845,12 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return '\r';
+return "\r";
 return self;
 }, function($ctx1) {$ctx1.fill(self,"cr",{},$globals.String.klass)});
 },
 args: [],
-source: "cr\x0a\x09<return '\x5cr'>",
+source: "cr\x0a\x09<inlineJS: 'return \x22\x5cr\x22'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16884,12 +16863,12 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return '\r\n';
+return "\r\n";
 return self;
 }, function($ctx1) {$ctx1.fill(self,"crlf",{},$globals.String.klass)});
 },
 args: [],
-source: "crlf\x0a\x09<return '\x5cr\x5cn'>",
+source: "crlf\x0a\x09<inlineJS: 'return \x22\x5cr\x5cn\x22'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16924,7 +16903,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"fromCharCode:",{anInteger:anInteger},$globals.String.klass)});
 },
 args: ["anInteger"],
-source: "fromCharCode: anInteger\x0a\x09<return String.fromCharCode(anInteger)>",
+source: "fromCharCode: anInteger\x0a\x09<inlineJS: 'return String.fromCharCode(anInteger)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16942,7 +16921,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"fromString:",{aString:aString},$globals.String.klass)});
 },
 args: ["aString"],
-source: "fromString: aString\x0a\x09\x09<return String(aString)>",
+source: "fromString: aString\x0a\x09\x09<inlineJS: 'return String(aString)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16955,12 +16934,12 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return '\n';
+return "\n";
 return self;
 }, function($ctx1) {$ctx1.fill(self,"lf",{},$globals.String.klass)});
 },
 args: [],
-source: "lf\x0a\x09<return '\x5cn'>",
+source: "lf\x0a\x09<inlineJS: 'return \x22\x5cn\x22'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16978,7 +16957,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"random",{},$globals.String.klass)});
 },
 args: [],
-source: "random\x0a\x09\x22Returns random alphanumeric string beginning with letter\x22\x0a\x09<return (Math.random()*(22/32)+(10/32)).toString(32).slice(2);>",
+source: "random\x0a\x09\x22Returns random alphanumeric string beginning with letter\x22\x0a\x09<inlineJS: 'return (Math.random()*(22/32)+(10/32)).toString(32).slice(2);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -17016,12 +16995,12 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return ' ';
+return " ";
 return self;
 }, function($ctx1) {$ctx1.fill(self,"space",{},$globals.String.klass)});
 },
 args: [],
-source: "space\x0a\x09<return ' '>",
+source: "space\x0a\x09<inlineJS: 'return \x22 \x22'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -17050,12 +17029,12 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return '\t';
+return "\t";
 return self;
 }, function($ctx1) {$ctx1.fill(self,"tab",{},$globals.String.klass)});
 },
 args: [],
-source: "tab\x0a\x09<return '\x5ct'>",
+source: "tab\x0a\x09<inlineJS: 'return \x22\x5ct\x22'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -17073,7 +17052,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"value:",{aUTFCharCode:aUTFCharCode},$globals.String.klass)});
 },
 args: ["aUTFCharCode"],
-source: "value: aUTFCharCode\x0a\x0a\x09<return String.fromCharCode(aUTFCharCode);>",
+source: "value: aUTFCharCode\x0a\x0a\x09<inlineJS: 'return String.fromCharCode(aUTFCharCode);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -17182,7 +17161,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"add:in:",{anObject:anObject,anotherObject:anotherObject},$globals.Set)});
 },
 args: ["anObject", "anotherObject"],
-source: "add: anObject in: anotherObject\x0a\x09<\x0a\x09\x09if (anObject in anotherObject.store) { return false; }\x0a\x09\x09self['@size']++;\x0a\x09\x09anotherObject.store[anObject] = true;\x0a\x09\x09return anObject;\x0a\x09>",
+source: "add: anObject in: anotherObject\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) { return false; }\x0a\x09\x09self[''@size'']++;\x0a\x09\x09anotherObject.store[anObject] = true;\x0a\x09\x09return anObject;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -17196,7 +17175,7 @@ fn: function (anObject){
 var self=this;
 return $core.withContext(function($ctx1) {
 
-		// include nil to well-known objects under 'boolean' fastBucket
+		// include nil to well-known objects under "boolean" fastBucket
 		if (anObject == null || anObject.isNil) return [ null, self['@fastBuckets'].boolean ];
 		
 		var prim = anObject.valueOf();
@@ -17213,7 +17192,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"bucketsOfElement:",{anObject:anObject},$globals.Set)});
 },
 args: ["anObject"],
-source: "bucketsOfElement: anObject\x0a\x09\x22Find the appropriate bucket for `anObject`.\x0a\x09For optimization purposes, directly answer an array with: \x0a\x09- the object to be store\x0a\x09- the primitive bucket\x0a\x09- the slow bucket\x22\x0a\x09\x0a\x09<\x0a\x09\x09// include nil to well-known objects under 'boolean' fastBucket\x0a\x09\x09if (anObject == null || anObject.isNil) return [ null, self['@fastBuckets'].boolean ];\x0a\x09\x09\x0a\x09\x09var prim = anObject.valueOf();\x0a\x09\x09if (typeof prim === \x22object\x22 || typeof prim === \x22function\x22 || !self['@fastBuckets'][typeof prim]) {\x0a\x09\x09\x09var bucket = null;\x0a\x09\x09\x09self['@slowBucketStores'].some(function (store) {\x0a\x09\x09\x09\x09return bucket = store._bucketOfElement_(anObject);\x0a\x09\x09\x09});\x0a\x09\x09\x09return [ anObject, null, bucket || self['@defaultBucket'] ];\x0a\x09\x09}\x0a\x09\x09return [ prim, self['@fastBuckets'][typeof prim] ];\x0a\x09>",
+source: "bucketsOfElement: anObject\x0a\x09\x22Find the appropriate bucket for `anObject`.\x0a\x09For optimization purposes, directly answer an array with: \x0a\x09- the object to be store\x0a\x09- the primitive bucket\x0a\x09- the slow bucket\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09// include nil to well-known objects under \x22boolean\x22 fastBucket\x0a\x09\x09if (anObject == null || anObject.isNil) return [ null, self[''@fastBuckets''].boolean ];\x0a\x09\x09\x0a\x09\x09var prim = anObject.valueOf();\x0a\x09\x09if (typeof prim === \x22object\x22 || typeof prim === \x22function\x22 || !self[''@fastBuckets''][typeof prim]) {\x0a\x09\x09\x09var bucket = null;\x0a\x09\x09\x09self[''@slowBucketStores''].some(function (store) {\x0a\x09\x09\x09\x09return bucket = store._bucketOfElement_(anObject);\x0a\x09\x09\x09});\x0a\x09\x09\x09return [ anObject, null, bucket || self[''@defaultBucket''] ];\x0a\x09\x09}\x0a\x09\x09return [ prim, self[''@fastBuckets''][typeof prim] ];\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -17231,7 +17210,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"classNameOf:",{anObject:anObject},$globals.Set)});
 },
 args: ["anObject"],
-source: "classNameOf: anObject\x0a\x09\x22Answer the class name of `anObject`, or `undefined` \x0a\x09if `anObject` is not an Smalltalk object\x22\x0a\x09\x0a\x09<return anObject.klass != null && anObject.klass.className>",
+source: "classNameOf: anObject\x0a\x09\x22Answer the class name of `anObject`, or `undefined` \x0a\x09if `anObject` is not an Smalltalk object\x22\x0a\x09\x0a\x09<inlineJS: 'return anObject.klass != null && anObject.klass.className'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -17315,7 +17294,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock},$globals.Set)});
 },
 args: ["aBlock"],
-source: "do: aBlock\x0a\x09<\x0a\x09\x09var el, keys, i;\x0a\x09\x09el = self['@fastBuckets'];\x0a\x09\x09keys = Object.keys(el);\x0a\x09\x09for (i = 0; i < keys.length; ++i) {\x0a\x09\x09\x09var fastBucket = el[keys[i]], fn = fastBucket.fn, store = Object.keys(fastBucket.store);\x0a\x09\x09\x09if (fn) { for (var j = 0; j < store.length; ++j) { aBlock._value_(fn(store[j])); } }\x0a\x09\x09\x09else { store._do_(aBlock); }\x0a\x09\x09}\x0a\x09\x09el = self['@slowBucketStores'];\x0a\x09\x09for (i = 0; i < el.length; ++i) { el[i]._do_(aBlock); }\x0a\x09\x09self['@defaultBucket']._do_(aBlock);\x0a\x09>",
+source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var el, keys, i;\x0a\x09\x09el = self[''@fastBuckets''];\x0a\x09\x09keys = Object.keys(el);\x0a\x09\x09for (i = 0; i < keys.length; ++i) {\x0a\x09\x09\x09var fastBucket = el[keys[i]], fn = fastBucket.fn, store = Object.keys(fastBucket.store);\x0a\x09\x09\x09if (fn) { for (var j = 0; j < store.length; ++j) { aBlock._value_(fn(store[j])); } }\x0a\x09\x09\x09else { store._do_(aBlock); }\x0a\x09\x09}\x0a\x09\x09el = self[''@slowBucketStores''];\x0a\x09\x09for (i = 0; i < el.length; ++i) { el[i]._do_(aBlock); }\x0a\x09\x09self[''@defaultBucket'']._do_(aBlock);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -17363,7 +17342,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"includes:in:",{anObject:anObject,anotherObject:anotherObject},$globals.Set)});
 },
 args: ["anObject", "anotherObject"],
-source: "includes: anObject in: anotherObject\x0a\x09<return anObject in anotherObject.store>",
+source: "includes: anObject in: anotherObject\x0a\x09<inlineJS: 'return anObject in anotherObject.store'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -17434,7 +17413,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"jsConstructorNameOf:",{anObject:anObject},$globals.Set)});
 },
 args: ["anObject"],
-source: "jsConstructorNameOf: anObject\x0a\x09<return anObject.constructor && anObject.constructor.name>",
+source: "jsConstructorNameOf: anObject\x0a\x09<inlineJS: 'return anObject.constructor && anObject.constructor.name'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -17527,7 +17506,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"remove:in:",{anObject:anObject,anotherObject:anotherObject},$globals.Set)});
 },
 args: ["anObject", "anotherObject"],
-source: "remove: anObject in: anotherObject\x0a\x09<if (delete anotherObject.store[anObject]) self['@size']-->",
+source: "remove: anObject in: anotherObject\x0a\x09<inlineJS: 'if (delete anotherObject.store[anObject]) self[''@size'']--'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -17542,9 +17521,9 @@ var self=this;
 return $core.withContext(function($ctx1) {
 
 		self['@fastBuckets'] = {
-			'boolean': { store: Object.create(null), fn: function (x) { return {'true': true, 'false': false, 'null': null}[x]; } },
-			'number': { store: Object.create(null), fn: Number },
-			'string': { store: Object.create(null) }
+			"boolean": { store: Object.create(null), fn: function (x) { return {"true": true, "false": false, "null": null}[x]; } },
+			"number": { store: Object.create(null), fn: Number },
+			"string": { store: Object.create(null) }
 		};
 		self['@slowBucketStores'].forEach(function (x) { x._removeAll(); });
 		self['@defaultBucket']._removeAll();
@@ -17554,7 +17533,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"removeAll",{},$globals.Set)});
 },
 args: [],
-source: "removeAll\x0a\x09<\x0a\x09\x09self['@fastBuckets'] = {\x0a\x09\x09\x09'boolean': { store: Object.create(null), fn: function (x) { return {'true': true, 'false': false, 'null': null}[x]; } },\x0a\x09\x09\x09'number': { store: Object.create(null), fn: Number },\x0a\x09\x09\x09'string': { store: Object.create(null) }\x0a\x09\x09};\x0a\x09\x09self['@slowBucketStores'].forEach(function (x) { x._removeAll(); });\x0a\x09\x09self['@defaultBucket']._removeAll();\x0a\x09\x09self['@size'] = 0;\x0a\x09>",
+source: "removeAll\x0a\x09<inlineJS: '\x0a\x09\x09self[''@fastBuckets''] = {\x0a\x09\x09\x09\x22boolean\x22: { store: Object.create(null), fn: function (x) { return {\x22true\x22: true, \x22false\x22: false, \x22null\x22: null}[x]; } },\x0a\x09\x09\x09\x22number\x22: { store: Object.create(null), fn: Number },\x0a\x09\x09\x09\x22string\x22: { store: Object.create(null) }\x0a\x09\x09};\x0a\x09\x09self[''@slowBucketStores''].forEach(function (x) { x._removeAll(); });\x0a\x09\x09self[''@defaultBucket'']._removeAll();\x0a\x09\x09self[''@size''] = 0;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -18730,7 +18709,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"compile:",{aString:aString},$globals.RegularExpression)});
 },
 args: ["aString"],
-source: "compile: aString\x0a\x09<return self.compile(aString)>",
+source: "compile: aString\x0a\x09<inlineJS: 'return self.compile(aString)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -18748,7 +18727,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"exec:",{aString:aString},$globals.RegularExpression)});
 },
 args: ["aString"],
-source: "exec: aString\x0a\x09<return self.exec(aString) || nil>",
+source: "exec: aString\x0a\x09<inlineJS: 'return self.exec(aString) || nil'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -18766,7 +18745,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"test:",{aString:aString},$globals.RegularExpression)});
 },
 args: ["aString"],
-source: "test: aString\x0a\x09<return self.test(aString)>",
+source: "test: aString\x0a\x09<inlineJS: 'return self.test(aString)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -18802,11 +18781,484 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"fromString:flag:",{aString:aString,anotherString:anotherString},$globals.RegularExpression.klass)});
 },
 args: ["aString", "anotherString"],
-source: "fromString: aString flag: anotherString\x0a\x09<return new RegExp(aString, anotherString)>",
+source: "fromString: aString flag: anotherString\x0a\x09<inlineJS: 'return new RegExp(aString, anotherString)'>",
 referencedClasses: [],
 messageSends: []
 }),
 $globals.RegularExpression.klass);
+
+});
+
+define('amber_core/Kernel-Dag',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
+$core.addPackage('Kernel-Dag');
+$core.packages["Kernel-Dag"].innerEval = function (expr) { return eval(expr); };
+$core.packages["Kernel-Dag"].transport = {"type":"amd","amdNamespace":"amber_core"};
+
+$core.addClass('AbstractDagVisitor', $globals.Object, [], 'Kernel-Dag');
+$globals.AbstractDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x0aConcrete classes should implement `visitDagNode:`,\x0athey can reuse possible variants of implementation\x0aoffered directly: `visitDagNodeVariantSimple:`\x0aand `visitDagNodeVariantRedux:`.";
+$core.addMethod(
+$core.method({
+selector: "visit:",
+protocol: 'visiting',
+fn: function (aNode){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv(aNode)._acceptDagVisitor_(self);
+}, function($ctx1) {$ctx1.fill(self,"visit:",{aNode:aNode},$globals.AbstractDagVisitor)});
+},
+args: ["aNode"],
+source: "visit: aNode\x0a\x09^ aNode acceptDagVisitor: self",
+referencedClasses: [],
+messageSends: ["acceptDagVisitor:"]
+}),
+$globals.AbstractDagVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "visitAll:",
+protocol: 'visiting',
+fn: function (aCollection){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv(aCollection)._collect_((function(each){
+return $core.withContext(function($ctx2) {
+return self._visit_(each);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"visitAll:",{aCollection:aCollection},$globals.AbstractDagVisitor)});
+},
+args: ["aCollection"],
+source: "visitAll: aCollection\x0a\x09^ aCollection collect: [ :each | self visit: each ]",
+referencedClasses: [],
+messageSends: ["collect:", "visit:"]
+}),
+$globals.AbstractDagVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "visitAllChildren:",
+protocol: 'visiting',
+fn: function (aDagNode){
+var self=this;
+return $core.withContext(function($ctx1) {
+return self._visitAll_($recv(aDagNode)._dagChildren());
+}, function($ctx1) {$ctx1.fill(self,"visitAllChildren:",{aDagNode:aDagNode},$globals.AbstractDagVisitor)});
+},
+args: ["aDagNode"],
+source: "visitAllChildren: aDagNode\x0a\x09^ self visitAll: aDagNode dagChildren",
+referencedClasses: [],
+messageSends: ["visitAll:", "dagChildren"]
+}),
+$globals.AbstractDagVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "visitDagNode:",
+protocol: 'visiting',
+fn: function (aNode){
+var self=this;
+return $core.withContext(function($ctx1) {
+self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"visitDagNode:",{aNode:aNode},$globals.AbstractDagVisitor)});
+},
+args: ["aNode"],
+source: "visitDagNode: aNode\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.AbstractDagVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "visitDagNodeVariantRedux:",
+protocol: 'visiting',
+fn: function (aNode){
+var self=this;
+var newChildren,oldChildren;
+return $core.withContext(function($ctx1) {
+var $2,$3,$1,$4,$5;
+var $early={};
+try {
+oldChildren=$recv(aNode)._dagChildren();
+newChildren=self._visitAllChildren_(aNode);
+$2=$recv(oldChildren)._size();
+$ctx1.sendIdx["size"]=1;
+$3=$recv(newChildren)._size();
+$ctx1.sendIdx["size"]=2;
+$1=$recv($2).__eq($3);
+if($core.assert($1)){
+$recv((1)._to_($recv(oldChildren)._size()))._detect_ifNone_((function(i){
+return $core.withContext(function($ctx2) {
+$4=$recv(oldChildren)._at_(i);
+$ctx2.sendIdx["at:"]=1;
+return $recv($4).__tild_eq($recv(newChildren)._at_(i));
+}, function($ctx2) {$ctx2.fillBlock({i:i},$ctx1,2)});
+}),(function(){
+throw $early=[aNode];
+
+}));
+};
+$5=$recv(aNode)._copy();
+$recv($5)._dagChildren_(newChildren);
+return $recv($5)._yourself();
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"visitDagNodeVariantRedux:",{aNode:aNode,newChildren:newChildren,oldChildren:oldChildren},$globals.AbstractDagVisitor)});
+},
+args: ["aNode"],
+source: "visitDagNodeVariantRedux: aNode\x0a\x09\x22Immutable-guarded implementation of visitDagNode:.\x0a\x09Visits all children and checks if there were changes.\x0a\x09If not, returns aNode.\x0a\x09If yes, returns copy of aNode with new children.\x22\x0a\x0a\x09| newChildren oldChildren |\x0a\x09oldChildren := aNode dagChildren.\x0a\x09newChildren := self visitAllChildren: aNode.\x0a\x09oldChildren size = newChildren size ifTrue: [\x0a\x09\x09(1 to: oldChildren size) detect: [ :i |\x0a\x09\x09\x09(oldChildren at: i) ~= (newChildren at: i)\x0a\x09\x09] ifNone: [ \x22no change\x22 ^ aNode ] ].\x0a\x09^ aNode copy dagChildren: newChildren; yourself",
+referencedClasses: [],
+messageSends: ["dagChildren", "visitAllChildren:", "ifTrue:", "=", "size", "detect:ifNone:", "to:", "~=", "at:", "dagChildren:", "copy", "yourself"]
+}),
+$globals.AbstractDagVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "visitDagNodeVariantSimple:",
+protocol: 'visiting',
+fn: function (aNode){
+var self=this;
+return $core.withContext(function($ctx1) {
+self._visitAllChildren_(aNode);
+return aNode;
+}, function($ctx1) {$ctx1.fill(self,"visitDagNodeVariantSimple:",{aNode:aNode},$globals.AbstractDagVisitor)});
+},
+args: ["aNode"],
+source: "visitDagNodeVariantSimple: aNode\x0a\x09\x22Simple implementation of visitDagNode:.\x0a\x09Visits children, then returns aNode\x22\x0a\x0a\x09self visitAllChildren: aNode.\x0a\x09^ aNode",
+referencedClasses: [],
+messageSends: ["visitAllChildren:"]
+}),
+$globals.AbstractDagVisitor);
+
+
+
+$core.addClass('PathDagVisitor', $globals.AbstractDagVisitor, ['path'], 'Kernel-Dag');
+$globals.PathDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x0aI hold the path of ancestors up to actual node\x0ain `self path`.";
+$core.addMethod(
+$core.method({
+selector: "initialize",
+protocol: 'initialization',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+(
+$ctx1.supercall = true,
+($globals.PathDagVisitor.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
+$ctx1.supercall = false;
+self["@path"]=[];
+return self;
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.PathDagVisitor)});
+},
+args: [],
+source: "initialize\x0a\x09super initialize.\x0a\x0a\x09path := #()",
+referencedClasses: [],
+messageSends: ["initialize"]
+}),
+$globals.PathDagVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "path",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return self["@path"];
+
+},
+args: [],
+source: "path\x0a\x09^ path",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.PathDagVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "visit:",
+protocol: 'visiting',
+fn: function (aNode){
+var self=this;
+var oldPath,result;
+return $core.withContext(function($ctx1) {
+result=aNode;
+oldPath=self["@path"];
+$recv((function(){
+return $core.withContext(function($ctx2) {
+self["@path"]=$recv(self["@path"]).__comma([aNode]);
+self["@path"];
+result=(
+$ctx2.supercall = true,
+($globals.PathDagVisitor.superclass||$boot.nilAsClass).fn.prototype._visit_.apply($recv(self), [aNode]));
+$ctx2.supercall = false;
+return result;
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}))._ensure_((function(){
+self["@path"]=oldPath;
+return self["@path"];
+
+}));
+return result;
+}, function($ctx1) {$ctx1.fill(self,"visit:",{aNode:aNode,oldPath:oldPath,result:result},$globals.PathDagVisitor)});
+},
+args: ["aNode"],
+source: "visit: aNode\x0a\x09| oldPath result |\x0a\x09result := aNode.\x0a\x09oldPath := path.\x0a\x09[\x0a\x09\x09path := path, {aNode}.\x0a\x09\x09result := super visit: aNode\x0a\x09] ensure: [ path := oldPath ].\x0a\x09^ result",
+referencedClasses: [],
+messageSends: ["ensure:", ",", "visit:"]
+}),
+$globals.PathDagVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "visitDagNodeVariantRedux:",
+protocol: 'visiting',
+fn: function (aNode){
+var self=this;
+var newNode;
+return $core.withContext(function($ctx1) {
+var $1;
+newNode=(
+$ctx1.supercall = true,
+($globals.PathDagVisitor.superclass||$boot.nilAsClass).fn.prototype._visitDagNodeVariantRedux_.apply($recv(self), [aNode]));
+$ctx1.supercall = false;
+$1=$recv(aNode).__eq_eq(newNode);
+if(!$core.assert($1)){
+$recv(self["@path"])._at_put_($recv(self["@path"])._size(),newNode);
+};
+return newNode;
+}, function($ctx1) {$ctx1.fill(self,"visitDagNodeVariantRedux:",{aNode:aNode,newNode:newNode},$globals.PathDagVisitor)});
+},
+args: ["aNode"],
+source: "visitDagNodeVariantRedux: aNode\x0a\x09| newNode |\x0a\x09newNode := super visitDagNodeVariantRedux: aNode.\x0a\x09aNode == newNode ifFalse: [ path at: path size put: newNode ].\x0a\x09^ newNode",
+referencedClasses: [],
+messageSends: ["visitDagNodeVariantRedux:", "ifFalse:", "==", "at:put:", "size"]
+}),
+$globals.PathDagVisitor);
+
+
+
+$core.addClass('DagNode', $globals.Object, [], 'Kernel-Dag');
+$globals.DagNode.comment="I am the abstract root class of any directed acyclic graph.\x0a\x0aConcrete classes should implement `dagChildren` and `dagChildren:`\x0ato get / set direct successor nodes (aka child nodes / subnodes).";
+$core.addMethod(
+$core.method({
+selector: "acceptDagVisitor:",
+protocol: 'visiting',
+fn: function (aVisitor){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv(aVisitor)._visitDagNode_(self);
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.DagNode)});
+},
+args: ["aVisitor"],
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitDagNode: self",
+referencedClasses: [],
+messageSends: ["visitDagNode:"]
+}),
+$globals.DagNode);
+
+$core.addMethod(
+$core.method({
+selector: "allDagChildren",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+var allNodes;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=self._dagChildren();
+$ctx1.sendIdx["dagChildren"]=1;
+allNodes=$recv($1)._asSet();
+$recv(self._dagChildren())._do_((function(each){
+return $core.withContext(function($ctx2) {
+return $recv(allNodes)._addAll_($recv(each)._allDagChildren());
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}));
+return allNodes;
+}, function($ctx1) {$ctx1.fill(self,"allDagChildren",{allNodes:allNodes},$globals.DagNode)});
+},
+args: [],
+source: "allDagChildren\x0a\x09| allNodes |\x0a\x09\x0a\x09allNodes := self dagChildren asSet.\x0a\x09self dagChildren do: [ :each | \x0a\x09\x09allNodes addAll: each allDagChildren ].\x0a\x09\x0a\x09^ allNodes",
+referencedClasses: [],
+messageSends: ["asSet", "dagChildren", "do:", "addAll:", "allDagChildren"]
+}),
+$globals.DagNode);
+
+$core.addMethod(
+$core.method({
+selector: "dagChildren",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"dagChildren",{},$globals.DagNode)});
+},
+args: [],
+source: "dagChildren\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.DagNode);
+
+$core.addMethod(
+$core.method({
+selector: "dagChildren:",
+protocol: 'accessing',
+fn: function (aCollection){
+var self=this;
+return $core.withContext(function($ctx1) {
+self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"dagChildren:",{aCollection:aCollection},$globals.DagNode)});
+},
+args: ["aCollection"],
+source: "dagChildren: aCollection\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.DagNode);
+
+$core.addMethod(
+$core.method({
+selector: "isDagNode",
+protocol: 'testing',
+fn: function (){
+var self=this;
+return true;
+
+},
+args: [],
+source: "isDagNode\x0a\x09^ true",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.DagNode);
+
+
+
+$core.addClass('DagParentNode', $globals.DagNode, ['nodes'], 'Kernel-Dag');
+$globals.DagParentNode.comment="I am `DagNode` that stores a collection of its children,\x0alazy initialized to empty array.\x0a\x0aI can `addDagChild:` to add a child.";
+$core.addMethod(
+$core.method({
+selector: "addDagChild:",
+protocol: 'accessing',
+fn: function (aDagNode){
+var self=this;
+return $core.withContext(function($ctx1) {
+$recv(self._dagChildren())._add_(aDagNode);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"addDagChild:",{aDagNode:aDagNode},$globals.DagParentNode)});
+},
+args: ["aDagNode"],
+source: "addDagChild: aDagNode\x0a\x09self dagChildren add: aDagNode",
+referencedClasses: [],
+messageSends: ["add:", "dagChildren"]
+}),
+$globals.DagParentNode);
+
+$core.addMethod(
+$core.method({
+selector: "dagChildren",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+var $1,$receiver;
+$1=self["@nodes"];
+if(($receiver = $1) == null || $receiver.isNil){
+self["@nodes"]=$recv($globals.Array)._new();
+return self["@nodes"];
+} else {
+return $1;
+};
+}, function($ctx1) {$ctx1.fill(self,"dagChildren",{},$globals.DagParentNode)});
+},
+args: [],
+source: "dagChildren\x0a\x09^ nodes ifNil: [ nodes := Array new ]",
+referencedClasses: ["Array"],
+messageSends: ["ifNil:", "new"]
+}),
+$globals.DagParentNode);
+
+$core.addMethod(
+$core.method({
+selector: "dagChildren:",
+protocol: 'accessing',
+fn: function (aCollection){
+var self=this;
+self["@nodes"]=aCollection;
+return self;
+
+},
+args: ["aCollection"],
+source: "dagChildren: aCollection\x0a\x09nodes := aCollection",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.DagParentNode);
+
+
+
+$core.addClass('DagSink', $globals.DagNode, ['nodes'], 'Kernel-Dag');
+$globals.DagSink.comment="I am `DagNode` with no direct successors.\x0a\x0aSending `dagChildren:` with empty collection is legal.";
+$core.addMethod(
+$core.method({
+selector: "dagChildren",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return [];
+
+},
+args: [],
+source: "dagChildren\x0a\x09^ #()",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.DagSink);
+
+$core.addMethod(
+$core.method({
+selector: "dagChildren:",
+protocol: 'accessing',
+fn: function (aCollection){
+var self=this;
+return $core.withContext(function($ctx1) {
+$recv(aCollection)._ifNotEmpty_((function(){
+return $core.withContext(function($ctx2) {
+return self._error_("A DagSink cannot have children.");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"dagChildren:",{aCollection:aCollection},$globals.DagSink)});
+},
+args: ["aCollection"],
+source: "dagChildren: aCollection\x0a\x09aCollection ifNotEmpty: [ self error: 'A DagSink cannot have children.' ]",
+referencedClasses: [],
+messageSends: ["ifNotEmpty:", "error:"]
+}),
+$globals.DagSink);
+
+
+$core.addMethod(
+$core.method({
+selector: "isDagNode",
+protocol: '*Kernel-Dag',
+fn: function (){
+var self=this;
+return false;
+
+},
+args: [],
+source: "isDagNode\x0a\x09^ false",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Object);
 
 });
 
@@ -18832,7 +19284,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"beHandled",{},$globals.Error)});
 },
 args: [],
-source: "beHandled\x0a\x09<self.amberHandled = true>",
+source: "beHandled\x0a\x09<inlineJS: 'self.amberHandled = true'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -18850,7 +19302,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"beUnhandled",{},$globals.Error)});
 },
 args: [],
-source: "beUnhandled\x0a\x09<self.amberHandled = false>",
+source: "beUnhandled\x0a\x09<inlineJS: 'self.amberHandled = false'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -18868,7 +19320,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"context",{},$globals.Error)});
 },
 args: [],
-source: "context\x0a\x09<return self.context>",
+source: "context\x0a\x09<inlineJS: 'return self.context'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -18904,7 +19356,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"isSmalltalkError",{},$globals.Error)});
 },
 args: [],
-source: "isSmalltalkError\x0a\x09<return self.smalltalkError === true>",
+source: "isSmalltalkError\x0a\x09<inlineJS: 'return self.smalltalkError === true'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -18922,7 +19374,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"jsStack",{},$globals.Error)});
 },
 args: [],
-source: "jsStack\x0a\x09<return self.stack>",
+source: "jsStack\x0a\x09<inlineJS: 'return self.stack'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -18976,7 +19428,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"resignal",{},$globals.Error)});
 },
 args: [],
-source: "resignal\x0a\x09\x22Resignal the receiver without changing its exception context\x22\x0a\x09\x0a\x09<\x0a\x09\x09self.amberHandled = false;\x0a\x09\x09throw(self);\x0a\x09>",
+source: "resignal\x0a\x09\x22Resignal the receiver without changing its exception context\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09self.amberHandled = false;\x0a\x09\x09throw(self);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -18999,7 +19451,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"signal",{},$globals.Error)});
 },
 args: [],
-source: "signal\x0a\x09<\x0a\x09\x09self.amberHandled = false;\x0a\x09\x09self.context = $core.getThisContext(); \x0a\x09\x09self.smalltalkError = true;\x0a\x09\x09throw self;\x0a\x09>",
+source: "signal\x0a\x09<inlineJS: '\x0a\x09\x09self.amberHandled = false;\x0a\x09\x09self.context = $core.getThisContext(); \x0a\x09\x09self.smalltalkError = true;\x0a\x09\x09throw self;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19084,7 +19536,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"wasHandled",{},$globals.Error)});
 },
 args: [],
-source: "wasHandled\x0a\x09<return self.amberHandled || false>",
+source: "wasHandled\x0a\x09<inlineJS: 'return self.amberHandled || false'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19212,7 +19664,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"context:",{aMethodContext:aMethodContext},$globals.JavaScriptException)});
 },
 args: ["aMethodContext"],
-source: "context: aMethodContext\x0a\x09\x22Set the context from the outside.\x0a\x09See boot.js `inContext()` exception handling\x22\x0a\x09\x0a\x09<self.context = aMethodContext>",
+source: "context: aMethodContext\x0a\x09\x22Set the context from the outside.\x0a\x09See boot.js `inContext()` exception handling\x22\x0a\x09\x0a\x09<inlineJS: 'self.context = aMethodContext'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19258,12 +19710,12 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return 'JavaScript exception: ' + self["@exception"].toString();
+return "JavaScript exception: " + self["@exception"].toString();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"messageText",{},$globals.JavaScriptException)});
 },
 args: [],
-source: "messageText\x0a\x09<return 'JavaScript exception: ' + self[\x22@exception\x22].toString()>",
+source: "messageText\x0a\x09<inlineJS: 'return \x22JavaScript exception: \x22 + self[\x22@exception\x22].toString()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19502,7 +19954,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"at:",{aString:aString},$globals.JSObjectProxy)});
 },
 args: ["aString"],
-source: "at: aString\x0a\x09<return self['@jsObject'][aString]>",
+source: "at: aString\x0a\x09<inlineJS: 'return self[''@jsObject''][aString]'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19523,7 +19975,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{aString:aString,aBlock:aBlock},$globals.JSObjectProxy)});
 },
 args: ["aString", "aBlock"],
-source: "at: aString ifAbsent: aBlock\x0a\x09\x22return the aString property or evaluate aBlock if the property is not defined on the object\x22\x0a\x09<\x0a\x09\x09var obj = self['@jsObject'];\x0a\x09\x09return aString in obj ? obj[aString] : aBlock._value();\x0a\x09>",
+source: "at: aString ifAbsent: aBlock\x0a\x09\x22return the aString property or evaluate aBlock if the property is not defined on the object\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = self[''@jsObject''];\x0a\x09\x09return aString in obj ? obj[aString] : aBlock._value();\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19544,7 +19996,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"at:ifPresent:",{aString:aString,aBlock:aBlock},$globals.JSObjectProxy)});
 },
 args: ["aString", "aBlock"],
-source: "at: aString ifPresent: aBlock\x0a\x09\x22return the evaluation of aBlock with the value if the property is defined or return nil\x22\x0a\x09<\x0a\x09\x09var obj = self['@jsObject'];\x0a\x09\x09return aString in obj ? aBlock._value_(obj[aString]) : nil;\x0a\x09>",
+source: "at: aString ifPresent: aBlock\x0a\x09\x22return the evaluation of aBlock with the value if the property is defined or return nil\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = self[''@jsObject''];\x0a\x09\x09return aString in obj ? aBlock._value_(obj[aString]) : nil;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19565,7 +20017,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{aString:aString,aBlock:aBlock,anotherBlock:anotherBlock},$globals.JSObjectProxy)});
 },
 args: ["aString", "aBlock", "anotherBlock"],
-source: "at: aString ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09\x22return the evaluation of aBlock with the value if the property is defined\x0a\x09or return value of anotherBlock\x22\x0a\x09<\x0a\x09\x09var obj = self['@jsObject'];\x0a\x09\x09return aString in obj ? aBlock._value_(obj[aString]) : anotherBlock._value();\x0a\x09>",
+source: "at: aString ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09\x22return the evaluation of aBlock with the value if the property is defined\x0a\x09or return value of anotherBlock\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = self[''@jsObject''];\x0a\x09\x09return aString in obj ? aBlock._value_(obj[aString]) : anotherBlock._value();\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19583,7 +20035,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"at:put:",{aString:aString,anObject:anObject},$globals.JSObjectProxy)});
 },
 args: ["aString", "anObject"],
-source: "at: aString put: anObject\x0a\x09<return self['@jsObject'][aString] = anObject>",
+source: "at: aString put: anObject\x0a\x09<inlineJS: 'return self[''@jsObject''][aString] = anObject'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19667,7 +20119,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"keysAndValuesDo:",{aBlock:aBlock},$globals.JSObjectProxy)});
 },
 args: ["aBlock"],
-source: "keysAndValuesDo: aBlock\x0a\x09<\x0a\x09\x09var o = self['@jsObject'];\x0a\x09\x09for(var i in o) {\x0a\x09\x09\x09aBlock._value_value_(i, o[i]);\x0a\x09\x09}\x0a\x09>",
+source: "keysAndValuesDo: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var o = self[''@jsObject''];\x0a\x09\x09for(var i in o) {\x0a\x09\x09\x09aBlock._value_value_(i, o[i]);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19708,7 +20160,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"printString",{},$globals.JSObjectProxy)});
 },
 args: [],
-source: "printString\x0a\x09<\x0a\x09\x09var js = self['@jsObject'];\x0a\x09\x09return js.toString\x0a\x09\x09\x09? js.toString()\x0a\x09\x09\x09: Object.prototype.toString.call(js)\x0a\x09>",
+source: "printString\x0a\x09<inlineJS: '\x0a\x09\x09var js = self[''@jsObject''];\x0a\x09\x09return js.toString\x0a\x09\x09\x09? js.toString()\x0a\x09\x09\x09: Object.prototype.toString.call(js)\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19750,7 +20202,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"addObjectVariablesTo:ofProxy:",{aDictionary:aDictionary,aProxy:aProxy},$globals.JSObjectProxy.klass)});
 },
 args: ["aDictionary", "aProxy"],
-source: "addObjectVariablesTo: aDictionary ofProxy: aProxy\x0a\x09<\x0a\x09\x09var jsObject = aProxy['@jsObject'];\x0a\x09\x09for(var i in jsObject) {\x0a\x09\x09\x09aDictionary._at_put_(i, jsObject[i]);\x0a\x09\x09}\x0a\x09>",
+source: "addObjectVariablesTo: aDictionary ofProxy: aProxy\x0a\x09<inlineJS: '\x0a\x09\x09var jsObject = aProxy[''@jsObject''];\x0a\x09\x09for(var i in jsObject) {\x0a\x09\x09\x09aDictionary._at_put_(i, jsObject[i]);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19770,7 +20222,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"compareJSObjectOfProxy:withProxy:",{aProxy:aProxy,anotherProxy:anotherProxy},$globals.JSObjectProxy.klass)});
 },
 args: ["aProxy", "anotherProxy"],
-source: "compareJSObjectOfProxy: aProxy withProxy: anotherProxy\x0a<\x0a\x09var anotherJSObject = anotherProxy.klass ? anotherProxy[\x22@jsObject\x22] : anotherProxy;\x0a\x09return aProxy[\x22@jsObject\x22] === anotherJSObject\x0a>",
+source: "compareJSObjectOfProxy: aProxy withProxy: anotherProxy\x0a<inlineJS: '\x0a\x09var anotherJSObject = anotherProxy.klass ? anotherProxy[\x22@jsObject\x22] : anotherProxy;\x0a\x09return aProxy[\x22@jsObject\x22] === anotherJSObject\x0a'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19790,7 +20242,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"forwardMessage:withArguments:ofProxy:",{aString:aString,anArray:anArray,aProxy:aProxy},$globals.JSObjectProxy.klass)});
 },
 args: ["aString", "anArray", "aProxy"],
-source: "forwardMessage: aString withArguments: anArray ofProxy: aProxy\x0a\x09<\x0a\x09\x09return $core.accessJavaScript(aProxy._jsObject(), aString, anArray);\x0a\x09>",
+source: "forwardMessage: aString withArguments: anArray ofProxy: aProxy\x0a\x09<inlineJS: '\x0a\x09\x09return $core.accessJavaScript(aProxy._jsObject(), aString, anArray);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19808,7 +20260,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"jsObject:ofProxy:",{aJSObject:aJSObject,aProxy:aProxy},$globals.JSObjectProxy.klass)});
 },
 args: ["aJSObject", "aProxy"],
-source: "jsObject: aJSObject ofProxy: aProxy\x0a\x09<aProxy['@jsObject'] = aJSObject>",
+source: "jsObject: aJSObject ofProxy: aProxy\x0a\x09<inlineJS: 'aProxy[''@jsObject''] = aJSObject'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19826,7 +20278,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"lookupProperty:ofProxy:",{aString:aString,aProxy:aProxy},$globals.JSObjectProxy.klass)});
 },
 args: ["aString", "aProxy"],
-source: "lookupProperty: aString ofProxy: aProxy\x0a\x09\x22Looks up a property in JS object.\x0a\x09Answer the property if it is present, or nil if it is not present.\x22\x0a\x09\x0a\x09<return aString in aProxy._jsObject() ? aString : nil>",
+source: "lookupProperty: aString ofProxy: aProxy\x0a\x09\x22Looks up a property in JS object.\x0a\x09Answer the property if it is present, or nil if it is not present.\x22\x0a\x09\x0a\x09<inlineJS: 'return aString in aProxy._jsObject() ? aString : nil'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19867,7 +20319,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"addElement:",{anObject:anObject},$globals.Organizer)});
 },
 args: ["anObject"],
-source: "addElement: anObject\x0a\x09<self.elements.addElement(anObject)>",
+source: "addElement: anObject\x0a\x09<inlineJS: 'self.elements.addElement(anObject)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19902,7 +20354,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"removeElement:",{anObject:anObject},$globals.Organizer)});
 },
 args: ["anObject"],
-source: "removeElement: anObject\x0a\x09<self.elements.removeElement(anObject)>",
+source: "removeElement: anObject\x0a\x09<inlineJS: 'self.elements.removeElement(anObject)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19975,12 +20427,12 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
- return self.theClass ;
+return self.theClass;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"theClass",{},$globals.ClassOrganizer)});
 },
 args: [],
-source: "theClass\x0a\x09< return self.theClass >",
+source: "theClass\x0a\x09<inlineJS: 'return self.theClass'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -20006,7 +20458,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"basicImports",{},$globals.Package)});
 },
 args: [],
-source: "basicImports\x0a\x09\x22Answer the imports literal JavaScript object as setup in the JavaScript file, if any\x22\x0a\x09\x0a\x09<return self.imports || []>",
+source: "basicImports\x0a\x09\x22Answer the imports literal JavaScript object as setup in the JavaScript file, if any\x22\x0a\x09\x0a\x09<inlineJS: 'return self.imports || []'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -20024,7 +20476,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"basicName:",{aString:aString},$globals.Package)});
 },
 args: ["aString"],
-source: "basicName: aString\x0a\x09<self.pkgName = aString>",
+source: "basicName: aString\x0a\x09<inlineJS: 'self.pkgName = aString'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -20042,7 +20494,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"basicTransport",{},$globals.Package)});
 },
 args: [],
-source: "basicTransport\x0a\x09\x22Answer the transport literal JavaScript object as setup in the JavaScript file, if any\x22\x0a\x09\x0a\x09<return self.transport>",
+source: "basicTransport\x0a\x09\x22Answer the transport literal JavaScript object as setup in the JavaScript file, if any\x22\x0a\x09\x0a\x09<inlineJS: 'return self.transport'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -20476,7 +20928,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"name",{},$globals.Package)});
 },
 args: [],
-source: "name\x0a\x09<return self.pkgName>",
+source: "name\x0a\x09<inlineJS: 'return self.pkgName'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21046,46 +21498,6 @@ $core.addClass('ParseError', $globals.Error, [], 'Kernel-Infrastructure');
 $globals.ParseError.comment="Instance of ParseError are signaled on any parsing error.\x0aSee `Smalltalk >> #parse:`";
 
 
-$core.addClass('RethrowErrorHandler', $globals.Object, [], 'Kernel-Infrastructure');
-$globals.RethrowErrorHandler.comment="This class is used in the commandline version of the compiler.\x0aIt uses the handleError: message of ErrorHandler for printing the stacktrace and throws the error again as JS exception.\x0aAs a result Smalltalk errors are not swallowd by the Amber runtime and compilation can be aborted.";
-$core.addMethod(
-$core.method({
-selector: "basicSignal:",
-protocol: 'error handling',
-fn: function (anError){
-var self=this;
-return $core.withContext(function($ctx1) {
-throw anError;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"basicSignal:",{anError:anError},$globals.RethrowErrorHandler)});
-},
-args: ["anError"],
-source: "basicSignal: anError\x0a        <throw anError>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.RethrowErrorHandler);
-
-$core.addMethod(
-$core.method({
-selector: "handleError:",
-protocol: 'error handling',
-fn: function (anError){
-var self=this;
-return $core.withContext(function($ctx1) {
-self._basicSignal_(anError);
-return self;
-}, function($ctx1) {$ctx1.fill(self,"handleError:",{anError:anError},$globals.RethrowErrorHandler)});
-},
-args: ["anError"],
-source: "handleError: anError\x0a        self basicSignal: anError",
-referencedClasses: [],
-messageSends: ["basicSignal:"]
-}),
-$globals.RethrowErrorHandler);
-
-
-
 $core.addClass('Setting', $globals.Object, ['key', 'value', 'defaultValue'], 'Kernel-Infrastructure');
 $globals.Setting.comment="I represent a setting **stored** at `Smalltalk settings`. \x0aIn the current implementation, `Smalltalk settings` is an object persisted in the localStorage.\x0a\x0a## API\x0a\x0aA `Setting` value can be read using `value` and set using `value:`.\x0a\x0aSettings are accessed with `'key' asSetting` or `'key' asSettingIfAbsent: aDefaultValue`.\x0a\x0aTo read the value of a setting you can also use the convenience:\x0a\x0a`theValueSet :=  'any.characteristic' settingValue` \x0a\x0aor with a default using:\x0a\x0a `theEnsuredValueSet := 'any.characteristic' settingValueIfAbsent: true`";
 $core.addMethod(
@@ -21312,7 +21724,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"basicCreatePackage:",{packageName:packageName},$globals.SmalltalkImage)});
 },
 args: ["packageName"],
-source: "basicCreatePackage: packageName\x0a\x09\x22Create and bind a new bare package with given name and return it.\x22\x0a\x09<return $core.addPackage(packageName)>",
+source: "basicCreatePackage: packageName\x0a\x09\x22Create and bind a new bare package with given name and return it.\x22\x0a\x09<inlineJS: 'return $core.addPackage(packageName)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21347,7 +21759,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"basicRegisterPackage:",{aPackage:aPackage},$globals.SmalltalkImage)});
 },
 args: ["aPackage"],
-source: "basicRegisterPackage: aPackage\x0a\x09\x22Put aPackage in $core.packages object.\x22\x0a\x09<$core.packages[aPackage.pkgName]=aPackage>",
+source: "basicRegisterPackage: aPackage\x0a\x09\x22Put aPackage in $core.packages object.\x22\x0a\x09<inlineJS: '$core.packages[aPackage.pkgName]=aPackage'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21365,7 +21777,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"cancelOptOut:",{anObject:anObject},$globals.SmalltalkImage)});
 },
 args: ["anObject"],
-source: "cancelOptOut: anObject\x0a\x09\x22A Smalltalk object has a 'klass' property.\x0a\x09If this property is shadowed for anObject by optOut:,\x0a\x09the object is treated as plain JS object.\x0a\x09This removes the shadow and anObject is Smalltalk object\x0a\x09again if it was before.\x22\x0a\x09\x0a\x09<delete anObject.klass>",
+source: "cancelOptOut: anObject\x0a\x09\x22A Smalltalk object has a 'klass' property.\x0a\x09If this property is shadowed for anObject by optOut:,\x0a\x09the object is treated as plain JS object.\x0a\x09This removes the shadow and anObject is Smalltalk object\x0a\x09again if it was before.\x22\x0a\x09\x0a\x09<inlineJS: 'delete anObject.klass'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21383,7 +21795,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"classes",{},$globals.SmalltalkImage)});
 },
 args: [],
-source: "classes\x0a\x09<return $core.classes()>",
+source: "classes\x0a\x09<inlineJS: 'return $core.classes()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21401,7 +21813,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"core",{},$globals.SmalltalkImage)});
 },
 args: [],
-source: "core\x0a\x09<return $core>",
+source: "core\x0a\x09<inlineJS: 'return $core'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21478,7 +21890,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"deleteClass:",{aClass:aClass},$globals.SmalltalkImage)});
 },
 args: ["aClass"],
-source: "deleteClass: aClass\x0a\x09\x22Deletes a class by deleting its binding only. Use #removeClass instead\x22\x0a\x09\x0a\x09<$core.removeClass(aClass)>",
+source: "deleteClass: aClass\x0a\x09\x22Deletes a class by deleting its binding only. Use #removeClass instead\x22\x0a\x09\x0a\x09<inlineJS: '$core.removeClass(aClass)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21516,7 +21928,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"deletePackage:",{packageName:packageName},$globals.SmalltalkImage)});
 },
 args: ["packageName"],
-source: "deletePackage: packageName\x0a\x09\x22Deletes a package by deleting its binding, but does not check if it contains classes etc.\x0a\x09To remove a package, use #removePackage instead.\x22\x0a\x0a\x09<delete $core.packages[packageName]>",
+source: "deletePackage: packageName\x0a\x09\x22Deletes a package by deleting its binding, but does not check if it contains classes etc.\x0a\x09To remove a package, use #removePackage instead.\x22\x0a\x0a\x09<inlineJS: 'delete $core.packages[packageName]'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21557,7 +21969,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"globalJsVariables",{},$globals.SmalltalkImage)});
 },
 args: [],
-source: "globalJsVariables\x0a\x09\x22Array of global JavaScript variables\x22\x0a\x09<return $core.globalJsVariables>",
+source: "globalJsVariables\x0a\x09\x22Array of global JavaScript variables\x22\x0a\x09<inlineJS: 'return $core.globalJsVariables'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21575,7 +21987,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"globals",{},$globals.SmalltalkImage)});
 },
 args: [],
-source: "globals\x0a\x09<return $globals>",
+source: "globals\x0a\x09<inlineJS: 'return $globals'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21593,7 +22005,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"includesKey:",{aKey:aKey},$globals.SmalltalkImage)});
 },
 args: ["aKey"],
-source: "includesKey: aKey\x0a\x09<return $core.hasOwnProperty(aKey)>",
+source: "includesKey: aKey\x0a\x09<inlineJS: 'return $core.hasOwnProperty(aKey)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21611,7 +22023,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"isSmalltalkObject:",{anObject:anObject},$globals.SmalltalkImage)});
 },
 args: ["anObject"],
-source: "isSmalltalkObject: anObject\x0a\x09\x22Consider anObject a Smalltalk object if it has a 'klass' property.\x0a\x09Note that this may be unaccurate\x22\x0a\x09\x0a\x09<return anObject.klass != null>",
+source: "isSmalltalkObject: anObject\x0a\x09\x22Consider anObject a Smalltalk object if it has a 'klass' property.\x0a\x09Note that this may be unaccurate\x22\x0a\x09\x0a\x09<inlineJS: 'return anObject.klass != null'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21629,7 +22041,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"optOut:",{anObject:anObject},$globals.SmalltalkImage)});
 },
 args: ["anObject"],
-source: "optOut: anObject\x0a\x09\x22A Smalltalk object has a 'klass' property.\x0a\x09This shadows the property for anObject.\x0a\x09The object is treated as plain JS object following this.\x22\x0a\x09\x0a\x09<anObject.klass = null>",
+source: "optOut: anObject\x0a\x09\x22A Smalltalk object has a 'klass' property.\x0a\x09This shadows the property for anObject.\x0a\x09The object is treated as plain JS object following this.\x22\x0a\x09\x0a\x09<inlineJS: 'anObject.klass = null'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21647,7 +22059,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"packageAt:",{packageName:packageName},$globals.SmalltalkImage)});
 },
 args: ["packageName"],
-source: "packageAt: packageName\x0a\x09<return $core.packages[packageName]>",
+source: "packageAt: packageName\x0a\x09<inlineJS: 'return $core.packages[packageName]'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21688,7 +22100,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"packages",{},$globals.SmalltalkImage)});
 },
 args: [],
-source: "packages\x0a\x09\x22Return all Package instances in the system.\x22\x0a\x0a\x09<\x0a\x09\x09return Object.keys($core.packages).map(function(k) {\x0a\x09\x09\x09return $core.packages[k];\x0a\x09\x09})\x0a\x09>",
+source: "packages\x0a\x09\x22Return all Package instances in the system.\x22\x0a\x0a\x09<inlineJS: '\x0a\x09\x09return Object.keys($core.packages).map(function(k) {\x0a\x09\x09\x09return $core.packages[k];\x0a\x09\x09})\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21785,7 +22197,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"readJSObject:",{anObject:anObject},$globals.SmalltalkImage)});
 },
 args: ["anObject"],
-source: "readJSObject: anObject\x0a\x09<return $core.readJSObject(anObject)>",
+source: "readJSObject: anObject\x0a\x09<inlineJS: 'return $core.readJSObject(anObject)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21896,7 +22308,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"reservedWords",{},$globals.SmalltalkImage)});
 },
 args: [],
-source: "reservedWords\x0a\x09\x22JavaScript reserved words\x22\x0a\x09<return $core.reservedWords>",
+source: "reservedWords\x0a\x09\x22JavaScript reserved words\x22\x0a\x09<inlineJS: 'return $core.reservedWords'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21924,11 +22336,11 @@ selector: "version",
 protocol: 'accessing',
 fn: function (){
 var self=this;
-return "0.17.0";
+return "0.18.0";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.17.0'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.18.0'",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22037,7 +22449,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"asJavaScriptPropertyName",{},$globals.String)});
 },
 args: [],
-source: "asJavaScriptPropertyName\x0a<return $core.st2prop(self)>",
+source: "asJavaScriptPropertyName\x0a<inlineJS: 'return $core.st2prop(self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22174,7 +22586,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"catch:",{aBlock:aBlock},$globals.Thenable)});
 },
 args: ["aBlock"],
-source: "catch: aBlock\x0a<return self.then(null, function (err) {return $core.seamless(function () {\x0a    return aBlock._value_(err);\x0a})})>",
+source: "catch: aBlock\x0a<inlineJS: 'return self.then(null, function (err) {return $core.seamless(function () {\x0a    return aBlock._value_(err);\x0a})})'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22195,7 +22607,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"on:do:",{aClass:aClass,aBlock:aBlock},$globals.Thenable)});
 },
 args: ["aClass", "aBlock"],
-source: "on: aClass do: aBlock\x0a<return self.then(null, function (err) {return $core.seamless(function () {\x0a    if (err._isKindOf_(aClass)) return aBlock._value_(err);\x0a    else throw err;\x0a})})>",
+source: "on: aClass do: aBlock\x0a<inlineJS: 'return self.then(null, function (err) {return $core.seamless(function () {\x0a    if (err._isKindOf_(aClass)) return aBlock._value_(err);\x0a    else throw err;\x0a})})'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22216,7 +22628,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"on:do:catch:",{aClass:aClass,aBlock:aBlock,anotherBlock:anotherBlock},$globals.Thenable)});
 },
 args: ["aClass", "aBlock", "anotherBlock"],
-source: "on: aClass do: aBlock catch: anotherBlock\x0a<return self.then(null, function (err) {return $core.seamless(function () {\x0a    try { if (err._isKindOf_(aClass)) return aBlock._value_(err); } catch (e) { err = e; }\x0a    return anotherBlock._value_(err);\x0a})})>",
+source: "on: aClass do: aBlock catch: anotherBlock\x0a<inlineJS: 'return self.then(null, function (err) {return $core.seamless(function () {\x0a    try { if (err._isKindOf_(aClass)) return aBlock._value_(err); } catch (e) { err = e; }\x0a    return anotherBlock._value_(err);\x0a})})'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22249,7 +22661,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"then:",{aBlockOrArray:aBlockOrArray},$globals.Thenable)});
 },
 args: ["aBlockOrArray"],
-source: "then: aBlockOrArray\x0a\x22Accepts a block or array of blocks.\x0aEach of blocks in the array or the singleton one is\x0aused in .then call to a promise, to accept a result\x0aand transform it to the result for the next one.\x0aIn case a block has more than one argument\x0aand result is an array, first n-1 elements of the array\x0aare put into additional arguments beyond the first.\x0aThe first argument always contains the result as-is.\x22\x0a<\x0avar array = Array.isArray(aBlockOrArray) ? aBlockOrArray : [aBlockOrArray];\x0areturn array.reduce(function (soFar, aBlock) {\x0a    return soFar.then(typeof aBlock === \x22function\x22 && aBlock.length >> 1 ?\x0a        function (result) {return $core.seamless(function () {\x0a            if (Array.isArray(result)) {\x0a                return aBlock._valueWithPossibleArguments_([result].concat(result.slice(0, aBlock.length-1)));\x0a            } else {\x0a                return aBlock._value_(result);\x0a            }\x0a        })} :\x0a        function (result) {return $core.seamless(function () {\x0a            return aBlock._value_(result);\x0a        })}\x0a    );\x0a}, self)>",
+source: "then: aBlockOrArray\x0a\x22Accepts a block or array of blocks.\x0aEach of blocks in the array or the singleton one is\x0aused in .then call to a promise, to accept a result\x0aand transform it to the result for the next one.\x0aIn case a block has more than one argument\x0aand result is an array, first n-1 elements of the array\x0aare put into additional arguments beyond the first.\x0aThe first argument always contains the result as-is.\x22\x0a<inlineJS: '\x0avar array = Array.isArray(aBlockOrArray) ? aBlockOrArray : [aBlockOrArray];\x0areturn array.reduce(function (soFar, aBlock) {\x0a    return soFar.then(typeof aBlock === \x22function\x22 && aBlock.length > 1 ?\x0a        function (result) {return $core.seamless(function () {\x0a            if (Array.isArray(result)) {\x0a                return aBlock._valueWithPossibleArguments_([result].concat(result.slice(0, aBlock.length-1)));\x0a            } else {\x0a                return aBlock._value_(result);\x0a            }\x0a        })} :\x0a        function (result) {return $core.seamless(function () {\x0a            return aBlock._value_(result);\x0a        })}\x0a    );\x0a}, self)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22322,7 +22734,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"all:",{aCollection:aCollection},$globals.Promise.klass)});
 },
 args: ["aCollection"],
-source: "all: aCollection\x0a\x22Returns a Promise resolved with results of sub-promises.\x22\x0a<return Promise.all($recv(aCollection)._asArray())>",
+source: "all: aCollection\x0a\x22Returns a Promise resolved with results of sub-promises.\x22\x0a<inlineJS: 'return Promise.all($recv(aCollection)._asArray())'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22340,7 +22752,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"any:",{aCollection:aCollection},$globals.Promise.klass)});
 },
 args: ["aCollection"],
-source: "any: aCollection\x0a\x22Returns a Promise resolved with first result of sub-promises.\x22\x0a<return Promise.race($recv(aCollection)._asArray())>",
+source: "any: aCollection\x0a\x22Returns a Promise resolved with first result of sub-promises.\x22\x0a<inlineJS: 'return Promise.race($recv(aCollection)._asArray())'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22375,7 +22787,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"new",{},$globals.Promise.klass)});
 },
 args: [],
-source: "new\x0a\x22Returns a dumb Promise resolved with nil.\x22\x0a<return Promise.resolve()>",
+source: "new\x0a\x22Returns a dumb Promise resolved with nil.\x22\x0a<inlineJS: 'return Promise.resolve()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22396,7 +22808,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"new:",{aBlock:aBlock},$globals.Promise.klass)});
 },
 args: ["aBlock"],
-source: "new: aBlock\x0a\x22Returns a Promise that is eventually resolved or rejected.\x0aPass a block that is called with one argument, model.\x0aYou should call model value: ... to resolve the promise\x0aand model signal: ... to reject the promise.\x0aIf error happens during run of the block,\x0apromise is rejected with that error as well.\x22\x0a<return new Promise(function (resolve, reject) {\x0a    var model = {value: resolve, signal: reject}; // TODO make faster\x0a    aBlock._value_(model);\x0a})>",
+source: "new: aBlock\x0a\x22Returns a Promise that is eventually resolved or rejected.\x0aPass a block that is called with one argument, model.\x0aYou should call model value: ... to resolve the promise\x0aand model signal: ... to reject the promise.\x0aIf error happens during run of the block,\x0apromise is rejected with that error as well.\x22\x0a<inlineJS: 'return new Promise(function (resolve, reject) {\x0a    var model = {value: resolve, signal: reject}; // TODO make faster\x0a    aBlock._value_(model);\x0a})'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22414,7 +22826,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"signal:",{anObject:anObject},$globals.Promise.klass)});
 },
 args: ["anObject"],
-source: "signal: anObject\x0a\x22Returns a Promise rejected with anObject.\x22\x0a<return $recv(anObject)._in_(function (x) {return Promise.reject(x)})>",
+source: "signal: anObject\x0a\x22Returns a Promise rejected with anObject.\x22\x0a<inlineJS: 'return $recv(anObject)._in_(function (x) {return Promise.reject(x)})'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22432,7 +22844,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject},$globals.Promise.klass)});
 },
 args: ["anObject"],
-source: "value: anObject\x0a\x22Returns a Promise resolved with anObject.\x22\x0a<return $recv(anObject)._in_(function (x) {return Promise.resolve(x)})>",
+source: "value: anObject\x0a\x22Returns a Promise resolved with anObject.\x22\x0a<inlineJS: 'return $recv(anObject)._in_(function (x) {return Promise.resolve(x)})'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22458,7 +22870,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"catch:",{aBlock:aBlock},$globals.JSObjectProxy)});
 },
 args: ["aBlock"],
-source: "catch: aBlock\x0a<var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._catch_.call(js, aBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22catch:\x22)\x0a            ._arguments_([aBlock])\x0a    )>",
+source: "catch: aBlock\x0a<inlineJS: 'var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._catch_.call(js, aBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22catch:\x22)\x0a            ._arguments_([aBlock])\x0a    )'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22484,7 +22896,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"on:do:",{aClass:aClass,aBlock:aBlock},$globals.JSObjectProxy)});
 },
 args: ["aClass", "aBlock"],
-source: "on: aClass do: aBlock\x0a<var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._on_do_.call(js, aClass, aBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22on:do:\x22)\x0a            ._arguments_([aClass, aBlock])\x0a    )>",
+source: "on: aClass do: aBlock\x0a<inlineJS: 'var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._on_do_.call(js, aClass, aBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22on:do:\x22)\x0a            ._arguments_([aClass, aBlock])\x0a    )'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22510,7 +22922,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"on:do:catch:",{aClass:aClass,aBlock:aBlock,anotherBlock:anotherBlock},$globals.JSObjectProxy)});
 },
 args: ["aClass", "aBlock", "anotherBlock"],
-source: "on: aClass do: aBlock catch: anotherBlock\x0a<var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._on_do_catch_.call(js, aClass, aBlock, anotherBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22on:do:catch:\x22)\x0a            ._arguments_([aClass, aBlock, anotherBlock])\x0a    )>",
+source: "on: aClass do: aBlock catch: anotherBlock\x0a<inlineJS: 'var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._on_do_catch_.call(js, aClass, aBlock, anotherBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22on:do:catch:\x22)\x0a            ._arguments_([aClass, aBlock, anotherBlock])\x0a    )'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22536,7 +22948,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"then:",{aBlockOrArray:aBlockOrArray},$globals.JSObjectProxy)});
 },
 args: ["aBlockOrArray"],
-source: "then: aBlockOrArray\x0a<var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_.call(js, aBlockOrArray);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:\x22)\x0a            ._arguments_([aBlockOrArray])\x0a    )>",
+source: "then: aBlockOrArray\x0a<inlineJS: 'var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_.call(js, aBlockOrArray);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:\x22)\x0a            ._arguments_([aBlockOrArray])\x0a    )'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22562,7 +22974,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"then:catch:",{aBlockOrArray:aBlockOrArray,anotherBlock:anotherBlock},$globals.JSObjectProxy)});
 },
 args: ["aBlockOrArray", "anotherBlock"],
-source: "then: aBlockOrArray catch: anotherBlock\x0a<var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_catch_.call(js, aBlockOrArray, anotherBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:catch:\x22)\x0a            ._arguments_([aBlockOrArray, anotherBlock])\x0a    )>",
+source: "then: aBlockOrArray catch: anotherBlock\x0a<inlineJS: 'var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_catch_.call(js, aBlockOrArray, anotherBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:catch:\x22)\x0a            ._arguments_([aBlockOrArray, anotherBlock])\x0a    )'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22588,7 +23000,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"then:on:do:",{aBlockOrArray:aBlockOrArray,aClass:aClass,aBlock:aBlock},$globals.JSObjectProxy)});
 },
 args: ["aBlockOrArray", "aClass", "aBlock"],
-source: "then: aBlockOrArray on: aClass do: aBlock\x0a<var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_on_do_.call(js, aBlockOrArray, aClass, aBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:on:do:\x22)\x0a            ._arguments_([aBlockOrArray, aClass, aBlock])\x0a    )>",
+source: "then: aBlockOrArray on: aClass do: aBlock\x0a<inlineJS: 'var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_on_do_.call(js, aBlockOrArray, aClass, aBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:on:do:\x22)\x0a            ._arguments_([aBlockOrArray, aClass, aBlock])\x0a    )'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22614,7 +23026,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"then:on:do:catch:",{aBlockOrArray:aBlockOrArray,aClass:aClass,aBlock:aBlock,anotherBlock:anotherBlock},$globals.JSObjectProxy)});
 },
 args: ["aBlockOrArray", "aClass", "aBlock", "anotherBlock"],
-source: "then: aBlockOrArray on: aClass do: aBlock catch: anotherBlock\x0a<var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_on_do_catch_.call(js, aBlockOrArray, aClass, aBlock, anotherBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:on:do:catch:\x22)\x0a            ._arguments_([aBlockOrArray, aClass, aBlock, anotherBlock])\x0a    )>",
+source: "then: aBlockOrArray on: aClass do: aBlock catch: anotherBlock\x0a<inlineJS: 'var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_on_do_catch_.call(js, aBlockOrArray, aClass, aBlock, anotherBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:on:do:catch:\x22)\x0a            ._arguments_([aBlockOrArray, aClass, aBlock, anotherBlock])\x0a    )'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -23740,7 +24152,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"show:",{anObject:anObject},$globals.ConsoleTranscript)});
 },
 args: ["anObject"],
-source: "show: anObject\x0a\x22Smalltalk objects should have no trouble displaying themselves on the Transcript; Javascript objects don't know how, so must be wrapped in a JSObectProxy.\x22\x0a<console.log(String($recv(anObject)._asString()))>",
+source: "show: anObject\x0a\x22Smalltalk objects should have no trouble displaying themselves on the Transcript; Javascript objects don't know how, so must be wrapped in a JSObectProxy.\x22\x0a<inlineJS: 'console.log(String($recv(anObject)._asString()))'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -25306,7 +25718,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"isFeasible",{},$globals.NodePlatform.klass)});
 },
 args: [],
-source: "isFeasible\x0a<return typeof global !== \x22undefined\x22>",
+source: "isFeasible\x0a<inlineJS: 'return typeof global !== \x22undefined\x22'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -25323,6 +25735,7 @@ define('amber/deploy',[
     'amber_core/Kernel-Classes',
     'amber_core/Kernel-Methods',
     'amber_core/Kernel-Collections',
+    'amber_core/Kernel-Dag',
     'amber_core/Kernel-Infrastructure',
     'amber_core/Kernel-Promises',
     'amber_core/Kernel-Exceptions',
@@ -25468,7 +25881,7 @@ $globals.SmalltalkParser = (function() {
                              return $globals.DynamicArrayNode._new()
                                     ._location_(location())
                                     ._source_(text())
-                                    ._nodes_(expressions || []);
+                                    ._dagChildren_(expressions || []);
                          },
         peg$c66 = "#{",
         peg$c67 = { type: "literal", value: "#{", description: "\"#{\"" },
@@ -25476,7 +25889,7 @@ $globals.SmalltalkParser = (function() {
                                 return $globals.DynamicDictionaryNode._new()
                                        ._location_(location())
                                        ._source_(text())
-                                       ._nodes_(expressions || []);
+                                       ._dagChildren_(expressions || []);
                             },
         peg$c69 = "true",
         peg$c70 = { type: "literal", value: "true", description: "\"true\"" },
@@ -25531,7 +25944,7 @@ $globals.SmalltalkParser = (function() {
                              return $globals.ReturnNode._new()
                                     ._location_(location())
                                     ._source_(text())
-                                    ._nodes_([expression]);
+                                    ._dagChildren_([expression]);
                          },
         peg$c95 = "|",
         peg$c96 = { type: "literal", value: "|", description: "\"|\"" },
@@ -25554,7 +25967,7 @@ $globals.SmalltalkParser = (function() {
                                     ._location_(location())
                                     ._source_(text())
                                     ._temps_(temps || [])
-                                    ._nodes_(statements || []);
+                                    ._dagChildren_(statements || []);
                          },
         peg$c106 = "[",
         peg$c107 = { type: "literal", value: "[", description: "\"[\"" },
@@ -25565,7 +25978,7 @@ $globals.SmalltalkParser = (function() {
                                     ._location_(location())
                                     ._source_(text())
                                     ._parameters_(params || [])
-                                    ._nodes_([sequence._asBlockSequenceNode()]);
+                                    ._dagChildren_([sequence._asBlockSequenceNode()]);
                          },
         peg$c111 = function(selector) {
                              return $globals.SendNode._new()
@@ -25626,7 +26039,7 @@ $globals.SmalltalkParser = (function() {
                              return $globals.CascadeNode._new()
                                     ._location_(location())
                                     ._source_(text())
-                                    ._nodes_(messages);
+                                    ._dagChildren_(messages);
                          },
         peg$c122 = "<",
         peg$c123 = { type: "literal", value: "<", description: "\"<\"" },
@@ -25638,21 +26051,29 @@ $globals.SmalltalkParser = (function() {
         peg$c129 = ">",
         peg$c130 = { type: "literal", value: ">", description: "\">\"" },
         peg$c131 = function(val) {
+                             console.warn("Use of <...js code...> is deprecated, in:\n" + val.join(""));
                              return $globals.JSStatementNode._new()
                                     ._location_(location())
                                     ._source_(val.join(""))
                          },
-        peg$c132 = function(pattern, sequence) {
+        peg$c132 = "inlineJS:",
+        peg$c133 = { type: "literal", value: "inlineJS:", description: "\"inlineJS:\"" },
+        peg$c134 = function(val) {
+                             return $globals.JSStatementNode._new()
+                                    ._location_(location())
+                                    ._source_(val._value())
+                         },
+        peg$c135 = function(pattern, sequence) {
                               return $globals.MethodNode._new()
                                      ._location_(location())
                                      ._source_(text())
                                      ._selector_(pattern[0])
                                      ._arguments_(pattern[1])
-                                     ._nodes_([sequence]);
+                                     ._dagChildren_([sequence]);
                          },
-        peg$c133 = function(send) { return send._isSendNode() && send._selector() === "->" },
-        peg$c134 = function(send) { return [send._receiver(), send._arguments()[0]]; },
-        peg$c135 = function(first, others) { return first.concat.apply(first, others); },
+        peg$c136 = function(send) { return send._isSendNode() && send._selector() === "->" },
+        peg$c137 = function(send) { return [send._receiver(), send._arguments()[0]]; },
+        peg$c138 = function(first, others) { return first.concat.apply(first, others); },
 
         peg$currPos          = 0,
         peg$savedPos         = 0,
@@ -25844,7 +26265,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsestart() {
       var s0;
 
-      var key    = peg$currPos * 61 + 0,
+      var key    = peg$currPos * 63 + 0,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -25863,7 +26284,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseseparator() {
       var s0, s1;
 
-      var key    = peg$currPos * 61 + 1,
+      var key    = peg$currPos * 63 + 1,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -25903,7 +26324,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsecomments() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 2,
+      var key    = peg$currPos * 63 + 2,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26029,7 +26450,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsews() {
       var s0, s1;
 
-      var key    = peg$currPos * 61 + 3,
+      var key    = peg$currPos * 63 + 3,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26059,7 +26480,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsemaybeDotsWs() {
       var s0, s1;
 
-      var key    = peg$currPos * 61 + 4,
+      var key    = peg$currPos * 63 + 4,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26107,7 +26528,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseidentifier() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 61 + 5,
+      var key    = peg$currPos * 63 + 5,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26164,7 +26585,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsekeyword() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 6,
+      var key    = peg$currPos * 63 + 6,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26204,7 +26625,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseselector() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 61 + 7,
+      var key    = peg$currPos * 63 + 7,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26261,7 +26682,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseclassName() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 61 + 8,
+      var key    = peg$currPos * 63 + 8,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26318,7 +26739,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsestring() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 9,
+      var key    = peg$currPos * 63 + 9,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26417,7 +26838,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsecharacter() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 10,
+      var key    = peg$currPos * 63 + 10,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26463,7 +26884,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsesymbol() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 11,
+      var key    = peg$currPos * 63 + 11,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26503,7 +26924,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebareSymbol() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 12,
+      var key    = peg$currPos * 63 + 12,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26540,7 +26961,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsenumber() {
       var s0, s1;
 
-      var key    = peg$currPos * 61 + 13,
+      var key    = peg$currPos * 63 + 13,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26574,7 +26995,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsenumberExp() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 14,
+      var key    = peg$currPos * 63 + 14,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26628,7 +27049,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsehex() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 15,
+      var key    = peg$currPos * 63 + 15,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26704,7 +27125,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsefloat() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 61 + 16,
+      var key    = peg$currPos * 63 + 16,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26807,7 +27228,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseinteger() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 61 + 17,
+      var key    = peg$currPos * 63 + 17,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26871,7 +27292,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseliteralArray() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 18,
+      var key    = peg$currPos * 63 + 18,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26929,7 +27350,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebareLiteralArray() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 19,
+      var key    = peg$currPos * 63 + 19,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26987,7 +27408,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseliteralArrayElement() {
       var s0;
 
-      var key    = peg$currPos * 61 + 20,
+      var key    = peg$currPos * 63 + 20,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27012,7 +27433,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsLiteralArrayContents() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 21,
+      var key    = peg$currPos * 63 + 21,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27072,7 +27493,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsedynamicArray() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 61 + 22,
+      var key    = peg$currPos * 63 + 22,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27139,7 +27560,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsedynamicDictionary() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 61 + 23,
+      var key    = peg$currPos * 63 + 23,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27206,7 +27627,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsepseudoVariable() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 24,
+      var key    = peg$currPos * 63 + 24,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27273,7 +27694,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseparseTimeLiteral() {
       var s0;
 
-      var key    = peg$currPos * 61 + 25,
+      var key    = peg$currPos * 63 + 25,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27307,7 +27728,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseruntimeLiteral() {
       var s0;
 
-      var key    = peg$currPos * 61 + 26,
+      var key    = peg$currPos * 63 + 26,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27332,7 +27753,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseliteral() {
       var s0;
 
-      var key    = peg$currPos * 61 + 27,
+      var key    = peg$currPos * 63 + 27,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27354,7 +27775,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsevariable() {
       var s0, s1;
 
-      var key    = peg$currPos * 61 + 28,
+      var key    = peg$currPos * 63 + 28,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27379,7 +27800,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebinarySelector() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 29,
+      var key    = peg$currPos * 63 + 29,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27425,7 +27846,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsKeywordPattern() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 61 + 30,
+      var key    = peg$currPos * 63 + 30,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27513,7 +27934,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsBinaryPattern() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 31,
+      var key    = peg$currPos * 63 + 31,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27559,7 +27980,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsUnaryPattern() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 32,
+      var key    = peg$currPos * 63 + 32,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27593,7 +28014,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseexpression() {
       var s0;
 
-      var key    = peg$currPos * 61 + 33,
+      var key    = peg$currPos * 63 + 33,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27618,7 +28039,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsExpressionsRest() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 34,
+      var key    = peg$currPos * 63 + 34,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27670,7 +28091,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseexpressions() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 61 + 35,
+      var key    = peg$currPos * 63 + 35,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27709,7 +28130,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseassignment() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 61 + 36,
+      var key    = peg$currPos * 63 + 36,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27767,7 +28188,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseret() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 61 + 37,
+      var key    = peg$currPos * 63 + 37,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27813,7 +28234,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsetemps() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 61 + 38,
+      var key    = peg$currPos * 63 + 38,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27906,7 +28327,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsBlockParamList() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 61 + 39,
+      var key    = peg$currPos * 63 + 39,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28027,7 +28448,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsesubexpression() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 61 + 40,
+      var key    = peg$currPos * 63 + 40,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28091,7 +28512,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsestatementsWs() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 61 + 41,
+      var key    = peg$currPos * 63 + 41,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28194,7 +28615,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsSequenceWs() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 61 + 42,
+      var key    = peg$currPos * 63 + 42,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28237,7 +28658,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsStSequenceWs() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 43,
+      var key    = peg$currPos * 63 + 43,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28289,7 +28710,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseblock() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 44,
+      var key    = peg$currPos * 63 + 44,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28353,7 +28774,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseoperand() {
       var s0;
 
-      var key    = peg$currPos * 61 + 45,
+      var key    = peg$currPos * 63 + 45,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28378,7 +28799,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsUnaryMessage() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 46,
+      var key    = peg$currPos * 63 + 46,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28433,7 +28854,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsUnaryTail() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 47,
+      var key    = peg$currPos * 63 + 47,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28470,7 +28891,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseunarySend() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 48,
+      var key    = peg$currPos * 63 + 48,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28507,7 +28928,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsBinaryMessage() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 49,
+      var key    = peg$currPos * 63 + 49,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28553,7 +28974,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsBinaryTail() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 50,
+      var key    = peg$currPos * 63 + 50,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28590,7 +29011,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebinarySend() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 51,
+      var key    = peg$currPos * 63 + 51,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28627,7 +29048,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsKeywordMessage() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 61 + 52,
+      var key    = peg$currPos * 63 + 52,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28715,7 +29136,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsekeywordSend() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 53,
+      var key    = peg$currPos * 63 + 53,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28752,7 +29173,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsMessage() {
       var s0;
 
-      var key    = peg$currPos * 61 + 54,
+      var key    = peg$currPos * 63 + 54,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28777,7 +29198,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsecascade() {
       var s0, s1, s2, s3, s4, s5, s6, s7;
 
-      var key    = peg$currPos * 61 + 55,
+      var key    = peg$currPos * 63 + 55,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28884,9 +29305,31 @@ $globals.SmalltalkParser = (function() {
     }
 
     function peg$parsejsStatement() {
+      var s0;
+
+      var key    = peg$currPos * 63 + 56,
+          cached = peg$resultsCache[key];
+
+      if (cached) {
+        peg$currPos = cached.nextPos;
+
+        return cached.result;
+      }
+
+      s0 = peg$parsepragmaJsStatement();
+      if (s0 === peg$FAILED) {
+        s0 = peg$parselegacyJsStatement();
+      }
+
+      peg$resultsCache[key] = { nextPos: peg$currPos, result: s0 };
+
+      return s0;
+    }
+
+    function peg$parselegacyJsStatement() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 56,
+      var key    = peg$currPos * 63 + 57,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28982,10 +29425,92 @@ $globals.SmalltalkParser = (function() {
       return s0;
     }
 
+    function peg$parsepragmaJsStatement() {
+      var s0, s1, s2, s3, s4, s5, s6, s7;
+
+      var key    = peg$currPos * 63 + 58,
+          cached = peg$resultsCache[key];
+
+      if (cached) {
+        peg$currPos = cached.nextPos;
+
+        return cached.result;
+      }
+
+      s0 = peg$currPos;
+      if (input.charCodeAt(peg$currPos) === 60) {
+        s1 = peg$c122;
+        peg$currPos++;
+      } else {
+        s1 = peg$FAILED;
+        if (peg$silentFails === 0) { peg$fail(peg$c123); }
+      }
+      if (s1 !== peg$FAILED) {
+        s2 = peg$parsews();
+        if (s2 !== peg$FAILED) {
+          if (input.substr(peg$currPos, 9) === peg$c132) {
+            s3 = peg$c132;
+            peg$currPos += 9;
+          } else {
+            s3 = peg$FAILED;
+            if (peg$silentFails === 0) { peg$fail(peg$c133); }
+          }
+          if (s3 !== peg$FAILED) {
+            s4 = peg$parsews();
+            if (s4 !== peg$FAILED) {
+              s5 = peg$parsestring();
+              if (s5 !== peg$FAILED) {
+                s6 = peg$parsews();
+                if (s6 !== peg$FAILED) {
+                  if (input.charCodeAt(peg$currPos) === 62) {
+                    s7 = peg$c129;
+                    peg$currPos++;
+                  } else {
+                    s7 = peg$FAILED;
+                    if (peg$silentFails === 0) { peg$fail(peg$c130); }
+                  }
+                  if (s7 !== peg$FAILED) {
+                    peg$savedPos = s0;
+                    s1 = peg$c134(s5);
+                    s0 = s1;
+                  } else {
+                    peg$currPos = s0;
+                    s0 = peg$FAILED;
+                  }
+                } else {
+                  peg$currPos = s0;
+                  s0 = peg$FAILED;
+                }
+              } else {
+                peg$currPos = s0;
+                s0 = peg$FAILED;
+              }
+            } else {
+              peg$currPos = s0;
+              s0 = peg$FAILED;
+            }
+          } else {
+            peg$currPos = s0;
+            s0 = peg$FAILED;
+          }
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+
+      peg$resultsCache[key] = { nextPos: peg$currPos, result: s0 };
+
+      return s0;
+    }
+
     function peg$parsemethod() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 57,
+      var key    = peg$currPos * 63 + 59,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29009,7 +29534,7 @@ $globals.SmalltalkParser = (function() {
         }
         if (s2 !== peg$FAILED) {
           peg$savedPos = s0;
-          s1 = peg$c132(s1, s2);
+          s1 = peg$c135(s1, s2);
           s0 = s1;
         } else {
           peg$currPos = s0;
@@ -29028,7 +29553,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseassociationSend() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 58,
+      var key    = peg$currPos * 63 + 60,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29041,7 +29566,7 @@ $globals.SmalltalkParser = (function() {
       s1 = peg$parsebinarySend();
       if (s1 !== peg$FAILED) {
         peg$savedPos = peg$currPos;
-        s2 = peg$c133(s1);
+        s2 = peg$c136(s1);
         if (s2) {
           s2 = void 0;
         } else {
@@ -29049,7 +29574,7 @@ $globals.SmalltalkParser = (function() {
         }
         if (s2 !== peg$FAILED) {
           peg$savedPos = s0;
-          s1 = peg$c134(s1);
+          s1 = peg$c137(s1);
           s0 = s1;
         } else {
           peg$currPos = s0;
@@ -29068,7 +29593,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsAssociationsRest() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 59,
+      var key    = peg$currPos * 63 + 61,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29120,7 +29645,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseassociations() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 61 + 60,
+      var key    = peg$currPos * 63 + 62,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29140,7 +29665,7 @@ $globals.SmalltalkParser = (function() {
         }
         if (s2 !== peg$FAILED) {
           peg$savedPos = s0;
-          s1 = peg$c135(s1, s2);
+          s1 = peg$c138(s1, s2);
           s0 = s1;
         } else {
           peg$currPos = s0;
@@ -32500,15 +33025,31 @@ fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$1=$recv($globals.SemanticAnalyzer)._on_(self._currentClass());
+$1=$recv(self._semanticAnalyzerClass())._on_(self._currentClass());
 $recv($1)._thePackage_(self._currentPackage());
 return $recv($1)._yourself();
 }, function($ctx1) {$ctx1.fill(self,"semanticAnalyzer",{},$globals.CodeGenerator)});
 },
 args: [],
-source: "semanticAnalyzer\x0a\x09^ (SemanticAnalyzer on: self currentClass)\x0a\x09\x09thePackage: self currentPackage;\x0a\x09\x09yourself",
+source: "semanticAnalyzer\x0a\x09^ (self semanticAnalyzerClass on: self currentClass)\x0a\x09\x09thePackage: self currentPackage;\x0a\x09\x09yourself",
+referencedClasses: [],
+messageSends: ["thePackage:", "on:", "semanticAnalyzerClass", "currentClass", "currentPackage", "yourself"]
+}),
+$globals.CodeGenerator);
+
+$core.addMethod(
+$core.method({
+selector: "semanticAnalyzerClass",
+protocol: 'compiling',
+fn: function (){
+var self=this;
+return $globals.SemanticAnalyzer;
+
+},
+args: [],
+source: "semanticAnalyzerClass\x0a\x09^ SemanticAnalyzer",
 referencedClasses: ["SemanticAnalyzer"],
-messageSends: ["thePackage:", "on:", "currentClass", "currentPackage", "yourself"]
+messageSends: []
 }),
 $globals.CodeGenerator);
 
@@ -32738,7 +33279,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"eval:",{aString:aString},$globals.Compiler)});
 },
 args: ["aString"],
-source: "eval: aString\x0a\x09<return eval(aString)>",
+source: "eval: aString\x0a\x09<inlineJS: 'return eval(aString)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -32758,7 +33299,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"eval:forPackage:",{aString:aString,aPackage:aPackage},$globals.Compiler)});
 },
 args: ["aString", "aPackage"],
-source: "eval: aString forPackage: aPackage\x0a\x09<return aPackage && aPackage.innerEval\x0a\x09\x09? aPackage.innerEval(aString)\x0a\x09\x09: eval(aString)>",
+source: "eval: aString forPackage: aPackage\x0a\x09<inlineJS: 'return aPackage && aPackage.innerEval\x0a\x09\x09? aPackage.innerEval(aString)\x0a\x09\x09: eval(aString)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -33166,7 +33707,7 @@ $globals.String);
 
 });
 
-define('amber_core/Compiler-AST',["amber/boot", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
+define('amber_core/Compiler-AST',["amber/boot", "amber_core/Kernel-Dag", "amber_core/Kernel-Methods"], function($boot){"use strict";
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
@@ -33174,71 +33715,8 @@ $core.addPackage('Compiler-AST');
 $core.packages["Compiler-AST"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-AST"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('Node', $globals.Object, ['parent', 'position', 'source', 'nodes', 'shouldBeInlined', 'shouldBeAliased'], 'Compiler-AST');
-$globals.Node.comment="I am the abstract root class of the abstract syntax tree.\x0a\x0aConcrete classes should implement `#accept:` to allow visiting.\x0a\x0a`position` holds a point containing line and column number of the symbol location in the original source file.";
-$core.addMethod(
-$core.method({
-selector: "accept:",
-protocol: 'visiting',
-fn: function (aVisitor){
-var self=this;
-return $core.withContext(function($ctx1) {
-return $recv(aVisitor)._visitNode_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.Node)});
-},
-args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitNode: self",
-referencedClasses: [],
-messageSends: ["visitNode:"]
-}),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "addNode:",
-protocol: 'accessing',
-fn: function (aNode){
-var self=this;
-return $core.withContext(function($ctx1) {
-$recv(self._nodes())._add_(aNode);
-$recv(aNode)._parent_(self);
-return self;
-}, function($ctx1) {$ctx1.fill(self,"addNode:",{aNode:aNode},$globals.Node)});
-},
-args: ["aNode"],
-source: "addNode: aNode\x0a\x09self nodes add: aNode.\x0a\x09aNode parent: self",
-referencedClasses: [],
-messageSends: ["add:", "nodes", "parent:"]
-}),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "allNodes",
-protocol: 'accessing',
-fn: function (){
-var self=this;
-var allNodes;
-return $core.withContext(function($ctx1) {
-var $1;
-$1=self._nodes();
-$ctx1.sendIdx["nodes"]=1;
-allNodes=$recv($1)._asSet();
-$recv(self._nodes())._do_((function(each){
-return $core.withContext(function($ctx2) {
-return $recv(allNodes)._addAll_($recv(each)._allNodes());
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-}));
-return allNodes;
-}, function($ctx1) {$ctx1.fill(self,"allNodes",{allNodes:allNodes},$globals.Node)});
-},
-args: [],
-source: "allNodes\x0a\x09| allNodes |\x0a\x09\x0a\x09allNodes := self nodes asSet.\x0a\x09self nodes do: [ :each | \x0a\x09\x09allNodes addAll: each allNodes ].\x0a\x09\x0a\x09^ allNodes",
-referencedClasses: [],
-messageSends: ["asSet", "nodes", "do:", "addAll:", "allNodes"]
-}),
-$globals.Node);
-
+$core.addClass('ASTNode', $globals.DagParentNode, ['parent', 'position', 'source', 'shouldBeAliased'], 'Compiler-AST');
+$globals.ASTNode.comment="I am the abstract root class of the abstract syntax tree.\x0a\x0aConcrete classes should implement `#accept:` to allow visiting.\x0a\x0a`position` holds a point containing line and column number of the symbol location in the original source file.";
 $core.addMethod(
 $core.method({
 selector: "inPosition:",
@@ -33251,14 +33729,14 @@ return $core.withContext(function($ctx2) {
 return $recv(self._positionEnd()).__gt_eq(aPoint);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
-}, function($ctx1) {$ctx1.fill(self,"inPosition:",{aPoint:aPoint},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"inPosition:",{aPoint:aPoint},$globals.ASTNode)});
 },
 args: ["aPoint"],
 source: "inPosition: aPoint\x0a\x09^ (self positionStart <= aPoint and: [\x0a\x09\x09self positionEnd >= aPoint ])",
 referencedClasses: [],
 messageSends: ["and:", "<=", "positionStart", ">=", "positionEnd"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33274,7 +33752,7 @@ source: "isAssignmentNode\x0a\x09^ false",
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33290,7 +33768,7 @@ source: "isBlockNode\x0a\x09^ false",
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33306,7 +33784,7 @@ source: "isBlockSequenceNode\x0a\x09^ false",
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33322,7 +33800,7 @@ source: "isCascadeNode\x0a\x09^ false",
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33338,7 +33816,7 @@ source: "isImmutable\x0a\x09^ false",
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33354,24 +33832,7 @@ source: "isJSStatementNode\x0a\x09^ false",
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "isLastChild",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-return $recv($recv($recv(self._parent())._nodes())._last()).__eq(self);
-}, function($ctx1) {$ctx1.fill(self,"isLastChild",{},$globals.Node)});
-},
-args: [],
-source: "isLastChild\x0a\x09^ self parent nodes last = self",
-referencedClasses: [],
-messageSends: ["=", "last", "nodes", "parent"]
-}),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33387,49 +33848,7 @@ source: "isNavigationNode\x0a\x09\x22Answer true if the node can be navigated to
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "isNode",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return true;
-
-},
-args: [],
-source: "isNode\x0a\x09^ true",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "isReferenced",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-var $3,$2,$1;
-$3=self._parent();
-$ctx1.sendIdx["parent"]=1;
-$2=$recv($3)._isSequenceNode();
-$1=$recv($2)._or_((function(){
-return $core.withContext(function($ctx2) {
-return $recv(self._parent())._isAssignmentNode();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
-return $recv($1)._not();
-}, function($ctx1) {$ctx1.fill(self,"isReferenced",{},$globals.Node)});
-},
-args: [],
-source: "isReferenced\x0a\x09\x22Answer true if the receiver is referenced by other nodes.\x0a\x09Do not take sequences or assignments into account\x22\x0a\x09\x0a\x09^ (self parent isSequenceNode or: [\x0a\x09\x09self parent isAssignmentNode ]) not",
-referencedClasses: [],
-messageSends: ["not", "or:", "isSequenceNode", "parent", "isAssignmentNode"]
-}),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33445,7 +33864,7 @@ source: "isReturnNode\x0a\x09^ false",
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33461,7 +33880,7 @@ source: "isSendNode\x0a\x09^ false",
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33477,7 +33896,7 @@ source: "isSequenceNode\x0a\x09^ false",
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33493,7 +33912,7 @@ source: "isSuperKeyword\x0a\x09^ false",
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33509,7 +33928,7 @@ source: "isValueNode\x0a\x09^ false",
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33525,7 +33944,7 @@ source: "isVariableNode\x0a\x09^ false",
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33541,14 +33960,14 @@ $2=$recv($3)._line();
 $1=$recv($2).__at($recv($recv(aLocation)._start())._column());
 self._position_($1);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"location:",{aLocation:aLocation},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"location:",{aLocation:aLocation},$globals.ASTNode)});
 },
 args: ["aLocation"],
 source: "location: aLocation\x0a\x09self position: aLocation start line @ aLocation start column",
 referencedClasses: [],
 messageSends: ["position:", "@", "line", "start", "column"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33566,14 +33985,14 @@ var node;
 node=$receiver;
 return $recv(node)._method();
 };
-}, function($ctx1) {$ctx1.fill(self,"method",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"method",{},$globals.ASTNode)});
 },
 args: [],
 source: "method\x0a\x09^ self parent ifNotNil: [ :node | node method ]",
 referencedClasses: [],
 messageSends: ["ifNotNil:", "parent", "method"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33586,7 +34005,7 @@ return $core.withContext(function($ctx1) {
 var $2,$1;
 var $early={};
 try {
-children=$recv(self._allNodes())._select_((function(each){
+children=$recv(self._allDagChildren())._select_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv($recv(each)._isNavigationNode())._and_((function(){
 return $core.withContext(function($ctx3) {
@@ -33611,61 +34030,14 @@ return $recv($1).__lt_eq($recv($recv(b)._positionStart())._dist_(aPoint));
 })))._first();
 }
 catch(e) {if(e===$early)return e[0]; throw e}
-}, function($ctx1) {$ctx1.fill(self,"navigationNodeAt:ifAbsent:",{aPoint:aPoint,aBlock:aBlock,children:children},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"navigationNodeAt:ifAbsent:",{aPoint:aPoint,aBlock:aBlock,children:children},$globals.ASTNode)});
 },
 args: ["aPoint", "aBlock"],
-source: "navigationNodeAt: aPoint ifAbsent: aBlock\x0a\x09\x22Answer the navigation node in the receiver's tree at aPoint \x0a\x09or nil if no navigation node was found.\x0a\x09\x0a\x09See `node >> isNaviationNode`\x22\x0a\x09\x0a\x09| children |\x0a\x09\x0a\x09children := self allNodes select: [ :each | \x0a\x09\x09each isNavigationNode and: [ each inPosition: aPoint ] ].\x0a\x09\x0a\x09children ifEmpty: [ ^ aBlock value ].\x0a\x09\x0a\x09^ (children asArray sort: [ :a :b | \x0a\x09\x09(a positionStart dist: aPoint) <= \x0a\x09\x09(b positionStart dist: aPoint) ]) first",
+source: "navigationNodeAt: aPoint ifAbsent: aBlock\x0a\x09\x22Answer the navigation node in the receiver's tree at aPoint \x0a\x09or nil if no navigation node was found.\x0a\x09\x0a\x09See `node >> isNaviationNode`\x22\x0a\x09\x0a\x09| children |\x0a\x09\x0a\x09children := self allDagChildren select: [ :each | \x0a\x09\x09each isNavigationNode and: [ each inPosition: aPoint ] ].\x0a\x09\x0a\x09children ifEmpty: [ ^ aBlock value ].\x0a\x09\x0a\x09^ (children asArray sort: [ :a :b | \x0a\x09\x09(a positionStart dist: aPoint) <= \x0a\x09\x09(b positionStart dist: aPoint) ]) first",
 referencedClasses: [],
-messageSends: ["select:", "allNodes", "and:", "isNavigationNode", "inPosition:", "ifEmpty:", "value", "first", "sort:", "asArray", "<=", "dist:", "positionStart"]
+messageSends: ["select:", "allDagChildren", "and:", "isNavigationNode", "inPosition:", "ifEmpty:", "value", "first", "sort:", "asArray", "<=", "dist:", "positionStart"]
 }),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "nodes",
-protocol: 'accessing',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-var $1,$receiver;
-$1=self["@nodes"];
-if(($receiver = $1) == null || $receiver.isNil){
-self["@nodes"]=$recv($globals.Array)._new();
-return self["@nodes"];
-} else {
-return $1;
-};
-}, function($ctx1) {$ctx1.fill(self,"nodes",{},$globals.Node)});
-},
-args: [],
-source: "nodes\x0a\x09^ nodes ifNil: [ nodes := Array new ]",
-referencedClasses: ["Array"],
-messageSends: ["ifNil:", "new"]
-}),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "nodes:",
-protocol: 'building',
-fn: function (aCollection){
-var self=this;
-return $core.withContext(function($ctx1) {
-self["@nodes"]=aCollection;
-$recv(aCollection)._do_((function(each){
-return $core.withContext(function($ctx2) {
-return $recv(each)._parent_(self);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-}));
-return self;
-}, function($ctx1) {$ctx1.fill(self,"nodes:",{aCollection:aCollection},$globals.Node)});
-},
-args: ["aCollection"],
-source: "nodes: aCollection\x0a\x09nodes := aCollection.\x0a\x09aCollection do: [ :each | each parent: self ]",
-referencedClasses: [],
-messageSends: ["do:", "parent:"]
-}),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33681,7 +34053,7 @@ source: "parent\x0a\x09^ parent",
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33698,7 +34070,7 @@ source: "parent: aNode\x0a\x09parent := aNode",
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33721,14 +34093,14 @@ return $recv(node)._position();
 } else {
 return $1;
 };
-}, function($ctx1) {$ctx1.fill(self,"position",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"position",{},$globals.ASTNode)});
 },
 args: [],
 source: "position\x0a\x09\x22answer the line and column of the receiver in the source code\x22\x0a\x09\x0a\x09^ position ifNil: [ \x0a\x09\x09self parent ifNotNil: [ :node | node position ] ]",
 referencedClasses: [],
 messageSends: ["ifNil:", "ifNotNil:", "parent", "position"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33745,7 +34117,7 @@ source: "position: aPosition\x0a\x09position := aPosition",
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33766,14 +34138,14 @@ $3=$recv($4).__minus((1));
 $ctx1.sendIdx["-"]=1;
 $2=$recv($3).__at($recv($recv($recv($recv(self._source())._lines())._last())._size()).__minus((1)));
 return $recv($1).__plus($2);
-}, function($ctx1) {$ctx1.fill(self,"positionEnd",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"positionEnd",{},$globals.ASTNode)});
 },
 args: [],
 source: "positionEnd\x0a\x09^ self positionStart + ((self source lines size - 1) @ (self source lines last size - 1))",
 referencedClasses: [],
 messageSends: ["+", "positionStart", "@", "-", "size", "lines", "source", "last"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33783,40 +34155,14 @@ fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
 return self._position();
-}, function($ctx1) {$ctx1.fill(self,"positionStart",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"positionStart",{},$globals.ASTNode)});
 },
 args: [],
 source: "positionStart\x0a\x09^ self position",
 referencedClasses: [],
 messageSends: ["position"]
 }),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "postCopy",
-protocol: 'copying',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-(
-$ctx1.supercall = true,
-($globals.Node.superclass||$boot.nilAsClass).fn.prototype._postCopy.apply($recv(self), []));
-$ctx1.supercall = false;
-$recv(self._nodes())._do_((function(each){
-return $core.withContext(function($ctx2) {
-return $recv(each)._parent_(self);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-}));
-return self;
-}, function($ctx1) {$ctx1.fill(self,"postCopy",{},$globals.Node)});
-},
-args: [],
-source: "postCopy\x0a\x09super postCopy.\x0a\x09self nodes do: [ :each | each parent: self ]",
-referencedClasses: [],
-messageSends: ["postCopy", "do:", "nodes", "parent:"]
-}),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33825,7 +34171,7 @@ protocol: 'testing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return $recv($recv(self._nodes())._detect_ifNone_((function(each){
+return $recv($recv(self._dagChildren())._detect_ifNone_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(each)._requiresSmalltalkContext();
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -33833,14 +34179,14 @@ return $recv(each)._requiresSmalltalkContext();
 return nil;
 
 })))._notNil();
-}, function($ctx1) {$ctx1.fill(self,"requiresSmalltalkContext",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"requiresSmalltalkContext",{},$globals.ASTNode)});
 },
 args: [],
-source: "requiresSmalltalkContext\x0a\x09\x22Answer true if the receiver requires a smalltalk context.\x0a\x09Only send nodes require a context.\x0a\x09\x0a\x09If no node requires a context, the method will be compiled without one.\x0a\x09See `IRJSTranslator` and `JSStream` for context creation\x22\x0a\x09\x0a\x09^ (self nodes \x0a\x09\x09detect: [ :each | each requiresSmalltalkContext ]\x0a\x09\x09ifNone: [ nil ]) notNil",
+source: "requiresSmalltalkContext\x0a\x09\x22Answer true if the receiver requires a smalltalk context.\x0a\x09Only send nodes require a context.\x0a\x09\x0a\x09If no node requires a context, the method will be compiled without one.\x0a\x09See `IRJSTranslator` and `JSStream` for context creation\x22\x0a\x09\x0a\x09^ (self dagChildren \x0a\x09\x09detect: [ :each | each requiresSmalltalkContext ]\x0a\x09\x09ifNone: [ nil ]) notNil",
 referencedClasses: [],
-messageSends: ["notNil", "detect:ifNone:", "nodes", "requiresSmalltalkContext"]
+messageSends: ["notNil", "detect:ifNone:", "dagChildren", "requiresSmalltalkContext"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33856,14 +34202,14 @@ return false;
 } else {
 return $1;
 };
-}, function($ctx1) {$ctx1.fill(self,"shouldBeAliased",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"shouldBeAliased",{},$globals.ASTNode)});
 },
 args: [],
 source: "shouldBeAliased\x0a\x09^ shouldBeAliased ifNil: [ false ]",
 referencedClasses: [],
 messageSends: ["ifNil:"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33880,47 +34226,7 @@ source: "shouldBeAliased: aBoolean\x0a\x09shouldBeAliased := aBoolean",
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "shouldBeInlined",
-protocol: 'accessing',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-var $1,$receiver;
-$1=self["@shouldBeInlined"];
-if(($receiver = $1) == null || $receiver.isNil){
-return false;
-} else {
-return $1;
-};
-}, function($ctx1) {$ctx1.fill(self,"shouldBeInlined",{},$globals.Node)});
-},
-args: [],
-source: "shouldBeInlined\x0a\x09^ shouldBeInlined ifNil: [ false ]",
-referencedClasses: [],
-messageSends: ["ifNil:"]
-}),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "shouldBeInlined:",
-protocol: 'accessing',
-fn: function (aBoolean){
-var self=this;
-self["@shouldBeInlined"]=aBoolean;
-return self;
-
-},
-args: ["aBoolean"],
-source: "shouldBeInlined: aBoolean\x0a\x09shouldBeInlined := aBoolean",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33930,14 +34236,14 @@ fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(self._source())._size();
-}, function($ctx1) {$ctx1.fill(self,"size",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"size",{},$globals.ASTNode)});
 },
 args: [],
 source: "size\x0a\x09^ self source size",
 referencedClasses: [],
 messageSends: ["size", "source"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33953,14 +34259,14 @@ return "";
 } else {
 return $1;
 };
-}, function($ctx1) {$ctx1.fill(self,"source",{},$globals.Node)});
+}, function($ctx1) {$ctx1.fill(self,"source",{},$globals.ASTNode)});
 },
 args: [],
 source: "source\x0a\x09^ source ifNil: [ '' ]",
 referencedClasses: [],
 messageSends: ["ifNil:"]
 }),
-$globals.Node);
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -33977,58 +34283,43 @@ source: "source: aString\x0a\x09source := aString",
 referencedClasses: [],
 messageSends: []
 }),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "subtreeNeedsAliasing",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-var $1;
-$1=$recv($recv(self._shouldBeAliased())._or_((function(){
-return $core.withContext(function($ctx2) {
-return self._shouldBeInlined();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-})))._or_((function(){
-return $core.withContext(function($ctx2) {
-return $recv(self._nodes())._anySatisfy_((function(each){
-return $core.withContext(function($ctx3) {
-return $recv(each)._subtreeNeedsAliasing();
-}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,3)});
-}));
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-}));
-$ctx1.sendIdx["or:"]=1;
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"subtreeNeedsAliasing",{},$globals.Node)});
-},
-args: [],
-source: "subtreeNeedsAliasing\x0a\x09^ (self shouldBeAliased or: [ self shouldBeInlined ]) or: [\x0a\x09\x09self nodes anySatisfy: [ :each | each subtreeNeedsAliasing ] ]",
-referencedClasses: [],
-messageSends: ["or:", "shouldBeAliased", "shouldBeInlined", "anySatisfy:", "nodes", "subtreeNeedsAliasing"]
-}),
-$globals.Node);
+$globals.ASTNode);
 
 
 
-$core.addClass('AssignmentNode', $globals.Node, ['left', 'right'], 'Compiler-AST');
+$core.addClass('AssignmentNode', $globals.ASTNode, ['left', 'right'], 'Compiler-AST');
 $globals.AssignmentNode.comment="I represent an assignment node.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitAssignmentNode_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.AssignmentNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.AssignmentNode)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitAssignmentNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitAssignmentNode: self",
 referencedClasses: [],
 messageSends: ["visitAssignmentNode:"]
+}),
+$globals.AssignmentNode);
+
+$core.addMethod(
+$core.method({
+selector: "dagChildren",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv($globals.Array)._with_with_(self._left(),self._right());
+}, function($ctx1) {$ctx1.fill(self,"dagChildren",{},$globals.AssignmentNode)});
+},
+args: [],
+source: "dagChildren\x0a\x09^ Array with: self left with: self right",
+referencedClasses: ["Array"],
+messageSends: ["with:with:", "left", "right"]
 }),
 $globals.AssignmentNode);
 
@@ -34070,33 +34361,14 @@ selector: "left:",
 protocol: 'accessing',
 fn: function (aNode){
 var self=this;
-return $core.withContext(function($ctx1) {
 self["@left"]=aNode;
-$recv(aNode)._parent_(self);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"left:",{aNode:aNode},$globals.AssignmentNode)});
+
 },
 args: ["aNode"],
-source: "left: aNode\x0a\x09left := aNode.\x0a\x09aNode parent: self",
+source: "left: aNode\x0a\x09left := aNode",
 referencedClasses: [],
-messageSends: ["parent:"]
-}),
-$globals.AssignmentNode);
-
-$core.addMethod(
-$core.method({
-selector: "nodes",
-protocol: 'accessing',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-return $recv($globals.Array)._with_with_(self._left(),self._right());
-}, function($ctx1) {$ctx1.fill(self,"nodes",{},$globals.AssignmentNode)});
-},
-args: [],
-source: "nodes\x0a\x09^ Array with: self left with: self right",
-referencedClasses: ["Array"],
-messageSends: ["with:with:", "left", "right"]
+messageSends: []
 }),
 $globals.AssignmentNode);
 
@@ -34122,61 +34394,33 @@ selector: "right:",
 protocol: 'accessing',
 fn: function (aNode){
 var self=this;
-return $core.withContext(function($ctx1) {
 self["@right"]=aNode;
-$recv(aNode)._parent_(self);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"right:",{aNode:aNode},$globals.AssignmentNode)});
+
 },
 args: ["aNode"],
-source: "right: aNode\x0a\x09right := aNode.\x0a\x09aNode parent: self",
+source: "right: aNode\x0a\x09right := aNode",
 referencedClasses: [],
-messageSends: ["parent:"]
-}),
-$globals.AssignmentNode);
-
-$core.addMethod(
-$core.method({
-selector: "shouldBeAliased",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-var $1;
-$1=(
-$ctx1.supercall = true,
-($globals.AssignmentNode.superclass||$boot.nilAsClass).fn.prototype._shouldBeAliased.apply($recv(self), []));
-$ctx1.supercall = false;
-return $recv($1)._or_((function(){
-return $core.withContext(function($ctx2) {
-return self._isReferenced();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
-}, function($ctx1) {$ctx1.fill(self,"shouldBeAliased",{},$globals.AssignmentNode)});
-},
-args: [],
-source: "shouldBeAliased\x0a\x09^ super shouldBeAliased or: [ self isReferenced ]",
-referencedClasses: [],
-messageSends: ["or:", "shouldBeAliased", "isReferenced"]
+messageSends: []
 }),
 $globals.AssignmentNode);
 
 
 
-$core.addClass('BlockNode', $globals.Node, ['parameters', 'scope'], 'Compiler-AST');
+$core.addClass('BlockNode', $globals.ASTNode, ['parameters', 'scope'], 'Compiler-AST');
 $globals.BlockNode.comment="I represent an block closure node.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitBlockNode_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.BlockNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.BlockNode)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitBlockNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitBlockNode: self",
 referencedClasses: [],
 messageSends: ["visitBlockNode:"]
 }),
@@ -34272,43 +34516,22 @@ messageSends: []
 }),
 $globals.BlockNode);
 
-$core.addMethod(
-$core.method({
-selector: "subtreeNeedsAliasing",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-return $recv(self._shouldBeAliased())._or_((function(){
-return $core.withContext(function($ctx2) {
-return self._shouldBeInlined();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
-}, function($ctx1) {$ctx1.fill(self,"subtreeNeedsAliasing",{},$globals.BlockNode)});
-},
-args: [],
-source: "subtreeNeedsAliasing\x0a\x09^ self shouldBeAliased or: [ self shouldBeInlined ]",
-referencedClasses: [],
-messageSends: ["or:", "shouldBeAliased", "shouldBeInlined"]
-}),
-$globals.BlockNode);
 
 
-
-$core.addClass('CascadeNode', $globals.Node, ['receiver'], 'Compiler-AST');
+$core.addClass('CascadeNode', $globals.ASTNode, ['receiver'], 'Compiler-AST');
 $globals.CascadeNode.comment="I represent an cascade node.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitCascadeNode_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.CascadeNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.CascadeNode)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitCascadeNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitCascadeNode: self",
 referencedClasses: [],
 messageSends: ["visitCascadeNode:"]
 }),
@@ -34363,39 +34586,22 @@ messageSends: []
 }),
 $globals.CascadeNode);
 
-$core.addMethod(
-$core.method({
-selector: "subtreeNeedsAliasing",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-return $recv($recv(self._parent())._isSequenceNode())._not();
-}, function($ctx1) {$ctx1.fill(self,"subtreeNeedsAliasing",{},$globals.CascadeNode)});
-},
-args: [],
-source: "subtreeNeedsAliasing\x0a\x09^ self parent isSequenceNode not",
-referencedClasses: [],
-messageSends: ["not", "isSequenceNode", "parent"]
-}),
-$globals.CascadeNode);
 
 
-
-$core.addClass('DynamicArrayNode', $globals.Node, [], 'Compiler-AST');
+$core.addClass('DynamicArrayNode', $globals.ASTNode, [], 'Compiler-AST');
 $globals.DynamicArrayNode.comment="I represent an dynamic array node.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitDynamicArrayNode_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.DynamicArrayNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.DynamicArrayNode)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitDynamicArrayNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitDynamicArrayNode: self",
 referencedClasses: [],
 messageSends: ["visitDynamicArrayNode:"]
 }),
@@ -34403,20 +34609,20 @@ $globals.DynamicArrayNode);
 
 
 
-$core.addClass('DynamicDictionaryNode', $globals.Node, [], 'Compiler-AST');
+$core.addClass('DynamicDictionaryNode', $globals.ASTNode, [], 'Compiler-AST');
 $globals.DynamicDictionaryNode.comment="I represent an dynamic dictionary node.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitDynamicDictionaryNode_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.DynamicDictionaryNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.DynamicDictionaryNode)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitDynamicDictionaryNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitDynamicDictionaryNode: self",
 referencedClasses: [],
 messageSends: ["visitDynamicDictionaryNode:"]
 }),
@@ -34424,20 +34630,20 @@ $globals.DynamicDictionaryNode);
 
 
 
-$core.addClass('JSStatementNode', $globals.Node, [], 'Compiler-AST');
+$core.addClass('JSStatementNode', $globals.ASTNode, [], 'Compiler-AST');
 $globals.JSStatementNode.comment="I represent an JavaScript statement node.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitJSStatementNode_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.JSStatementNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.JSStatementNode)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitJSStatementNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitJSStatementNode: self",
 referencedClasses: [],
 messageSends: ["visitJSStatementNode:"]
 }),
@@ -34477,20 +34683,20 @@ $globals.JSStatementNode);
 
 
 
-$core.addClass('MethodNode', $globals.Node, ['selector', 'arguments', 'source', 'scope', 'classReferences', 'sendIndexes'], 'Compiler-AST');
+$core.addClass('MethodNode', $globals.ASTNode, ['selector', 'arguments', 'source', 'scope', 'classReferences', 'sendIndexes'], 'Compiler-AST');
 $globals.MethodNode.comment="I represent an method node.\x0a\x0aA method node must be the root and only method node of a valid AST.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitMethodNode_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.MethodNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.MethodNode)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitMethodNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitMethodNode: self",
 referencedClasses: [],
 messageSends: ["visitMethodNode:"]
 }),
@@ -34711,7 +34917,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 var $early={};
 try {
-$recv(self._nodes())._do_((function(each){
+$recv(self._dagChildren())._do_((function(each){
 return $core.withContext(function($ctx2) {
 $1=$recv(each)._isSequenceNode();
 if($core.assert($1)){
@@ -34725,9 +34931,9 @@ catch(e) {if(e===$early)return e[0]; throw e}
 }, function($ctx1) {$ctx1.fill(self,"sequenceNode",{},$globals.MethodNode)});
 },
 args: [],
-source: "sequenceNode\x0a\x09self nodes do: [ :each |\x0a\x09\x09each isSequenceNode ifTrue: [ ^ each ] ].\x0a\x09\x09\x0a\x09^ nil",
+source: "sequenceNode\x0a\x09self dagChildren do: [ :each |\x0a\x09\x09each isSequenceNode ifTrue: [ ^ each ] ].\x0a\x09\x09\x0a\x09^ nil",
 referencedClasses: [],
-messageSends: ["do:", "nodes", "ifTrue:", "isSequenceNode"]
+messageSends: ["do:", "dagChildren", "ifTrue:", "isSequenceNode"]
 }),
 $globals.MethodNode);
 
@@ -34766,20 +34972,20 @@ $globals.MethodNode);
 
 
 
-$core.addClass('ReturnNode', $globals.Node, ['scope'], 'Compiler-AST');
+$core.addClass('ReturnNode', $globals.ASTNode, ['scope'], 'Compiler-AST');
 $globals.ReturnNode.comment="I represent an return node. At the AST level, there is not difference between a local return or non-local return.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitReturnNode_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.ReturnNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.ReturnNode)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitReturnNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitReturnNode: self",
 referencedClasses: [],
 messageSends: ["visitReturnNode:"]
 }),
@@ -34853,20 +35059,20 @@ $globals.ReturnNode);
 
 
 
-$core.addClass('SendNode', $globals.Node, ['selector', 'arguments', 'receiver', 'index'], 'Compiler-AST');
+$core.addClass('SendNode', $globals.ASTNode, ['selector', 'arguments', 'receiver', 'index', 'shouldBeInlined'], 'Compiler-AST');
 $globals.SendNode.comment="I represent an message send node.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitSendNode_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.SendNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.SendNode)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitSendNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitSendNode: self",
 referencedClasses: [],
 messageSends: ["visitSendNode:"]
 }),
@@ -34902,49 +35108,43 @@ selector: "arguments:",
 protocol: 'accessing',
 fn: function (aCollection){
 var self=this;
-return $core.withContext(function($ctx1) {
 self["@arguments"]=aCollection;
-$recv(aCollection)._do_((function(each){
-return $core.withContext(function($ctx2) {
-return $recv(each)._parent_(self);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-}));
 return self;
-}, function($ctx1) {$ctx1.fill(self,"arguments:",{aCollection:aCollection},$globals.SendNode)});
+
 },
 args: ["aCollection"],
-source: "arguments: aCollection\x0a\x09arguments := aCollection.\x0a\x09aCollection do: [ :each | each parent: self ]",
+source: "arguments: aCollection\x0a\x09arguments := aCollection",
 referencedClasses: [],
-messageSends: ["do:", "parent:"]
+messageSends: []
 }),
 $globals.SendNode);
 
 $core.addMethod(
 $core.method({
-selector: "cascadeNodeWithMessages:",
+selector: "dagChildren",
 protocol: 'accessing',
-fn: function (aCollection){
+fn: function (){
 var self=this;
-var first;
 return $core.withContext(function($ctx1) {
-var $1,$2,$3;
-$1=$recv($globals.SendNode)._new();
-$ctx1.sendIdx["new"]=1;
-$recv($1)._selector_(self._selector());
-$recv($1)._arguments_(self._arguments());
-$2=$recv($1)._yourself();
-$ctx1.sendIdx["yourself"]=1;
-first=$2;
-$3=$recv($globals.CascadeNode)._new();
-$recv($3)._receiver_(self._receiver());
-$recv($3)._nodes_($recv($recv($globals.Array)._with_(first)).__comma(aCollection));
+var $1,$2,$3,$receiver;
+$1=self._receiver();
+$ctx1.sendIdx["receiver"]=1;
+if(($receiver = $1) == null || $receiver.isNil){
+$2=self._arguments();
+$ctx1.sendIdx["arguments"]=1;
+return $recv($2)._copy();
+} else {
+$1;
+};
+$3=$recv($globals.Array)._with_(self._receiver());
+$recv($3)._addAll_(self._arguments());
 return $recv($3)._yourself();
-}, function($ctx1) {$ctx1.fill(self,"cascadeNodeWithMessages:",{aCollection:aCollection,first:first},$globals.SendNode)});
+}, function($ctx1) {$ctx1.fill(self,"dagChildren",{},$globals.SendNode)});
 },
-args: ["aCollection"],
-source: "cascadeNodeWithMessages: aCollection\x0a\x09| first |\x0a\x09first := SendNode new\x0a\x09\x09selector: self selector;\x0a\x09\x09arguments: self arguments;\x0a\x09\x09yourself.\x0a\x09^ CascadeNode new\x0a\x09\x09receiver: self receiver;\x0a\x09\x09nodes: (Array with: first), aCollection;\x0a\x09\x09yourself",
-referencedClasses: ["SendNode", "CascadeNode", "Array"],
-messageSends: ["selector:", "new", "selector", "arguments:", "arguments", "yourself", "receiver:", "receiver", "nodes:", ",", "with:"]
+args: [],
+source: "dagChildren\x0a\x09self receiver ifNil: [ ^ self arguments copy ].\x0a\x09\x0a\x09^ (Array with: self receiver)\x0a\x09\x09addAll: self arguments;\x0a\x09\x09yourself",
+referencedClasses: ["Array"],
+messageSends: ["ifNil:", "receiver", "copy", "arguments", "addAll:", "with:", "yourself"]
 }),
 $globals.SendNode);
 
@@ -34978,23 +35178,6 @@ args: ["anInteger"],
 source: "index: anInteger\x0a\x09index := anInteger",
 referencedClasses: [],
 messageSends: []
-}),
-$globals.SendNode);
-
-$core.addMethod(
-$core.method({
-selector: "isCascadeSendNode",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-return $recv(self._parent())._isCascadeNode();
-}, function($ctx1) {$ctx1.fill(self,"isCascadeSendNode",{},$globals.SendNode)});
-},
-args: [],
-source: "isCascadeSendNode\x0a\x09^ self parent isCascadeNode",
-referencedClasses: [],
-messageSends: ["isCascadeNode", "parent"]
 }),
 $globals.SendNode);
 
@@ -35049,35 +35232,6 @@ $globals.SendNode);
 
 $core.addMethod(
 $core.method({
-selector: "nodes",
-protocol: 'accessing',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-var $1,$2,$3,$receiver;
-$1=self._receiver();
-$ctx1.sendIdx["receiver"]=1;
-if(($receiver = $1) == null || $receiver.isNil){
-$2=self._arguments();
-$ctx1.sendIdx["arguments"]=1;
-return $recv($2)._copy();
-} else {
-$1;
-};
-$3=$recv($globals.Array)._with_(self._receiver());
-$recv($3)._addAll_(self._arguments());
-return $recv($3)._yourself();
-}, function($ctx1) {$ctx1.fill(self,"nodes",{},$globals.SendNode)});
-},
-args: [],
-source: "nodes\x0a\x09self receiver ifNil: [ ^ self arguments copy ].\x0a\x09\x0a\x09^ (Array with: self receiver)\x0a\x09\x09addAll: self arguments;\x0a\x09\x09yourself",
-referencedClasses: ["Array"],
-messageSends: ["ifNil:", "receiver", "copy", "arguments", "addAll:", "with:", "yourself"]
-}),
-$globals.SendNode);
-
-$core.addMethod(
-$core.method({
 selector: "receiver",
 protocol: 'accessing',
 fn: function (){
@@ -35098,20 +35252,14 @@ selector: "receiver:",
 protocol: 'accessing',
 fn: function (aNode){
 var self=this;
-return $core.withContext(function($ctx1) {
-var $1;
 self["@receiver"]=aNode;
-$1=$recv(aNode)._isNode();
-if($core.assert($1)){
-$recv(aNode)._parent_(self);
-};
 return self;
-}, function($ctx1) {$ctx1.fill(self,"receiver:",{aNode:aNode},$globals.SendNode)});
+
 },
 args: ["aNode"],
-source: "receiver: aNode\x0a\x09receiver := aNode.\x0a\x09aNode isNode ifTrue: [\x0a\x09\x09aNode parent: self ]",
+source: "receiver: aNode\x0a\x09receiver := aNode",
 referencedClasses: [],
-messageSends: ["ifTrue:", "isNode", "parent:"]
+messageSends: []
 }),
 $globals.SendNode);
 
@@ -35166,39 +35314,41 @@ $globals.SendNode);
 
 $core.addMethod(
 $core.method({
-selector: "shouldBeAliased",
-protocol: 'testing',
+selector: "shouldBeInlined",
+protocol: 'accessing',
 fn: function (){
 var self=this;
-var sends;
 return $core.withContext(function($ctx1) {
-var $2,$1;
-sends=$recv($recv($recv(self._method())._sendIndexes())._at_(self._selector()))._size();
-$2=(
-$ctx1.supercall = true,
-($globals.SendNode.superclass||$boot.nilAsClass).fn.prototype._shouldBeAliased.apply($recv(self), []));
-$ctx1.supercall = false;
-$1=$recv($2)._or_((function(){
-return $core.withContext(function($ctx2) {
-return $recv(self._isReferenced())._and_((function(){
-return $core.withContext(function($ctx3) {
-return $recv($recv(self._index()).__lt(sends))._or_((function(){
-return $core.withContext(function($ctx4) {
-return self._superSend();
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
-}));
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-}));
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
-$ctx1.sendIdx["or:"]=1;
+var $1,$receiver;
+$1=self["@shouldBeInlined"];
+if(($receiver = $1) == null || $receiver.isNil){
+return false;
+} else {
 return $1;
-}, function($ctx1) {$ctx1.fill(self,"shouldBeAliased",{sends:sends},$globals.SendNode)});
+};
+}, function($ctx1) {$ctx1.fill(self,"shouldBeInlined",{},$globals.SendNode)});
 },
 args: [],
-source: "shouldBeAliased\x0a\x09\x22Because we keep track of send indexes, some send nodes need additional care for aliasing. \x0a\x09See IRJSVisitor >> visitIRSend:\x22\x0a\x09\x0a\x09| sends |\x0a\x09\x0a\x09sends := (self method sendIndexes at: self selector) size.\x0a\x09\x0a\x09^ (super shouldBeAliased or: [\x0a\x09\x09self isReferenced and: [\x0a\x09\x09\x09self index < sends or: [\x0a\x09\x09\x09\x09self superSend ] ] ])",
+source: "shouldBeInlined\x0a\x09^ shouldBeInlined ifNil: [ false ]",
 referencedClasses: [],
-messageSends: ["size", "at:", "sendIndexes", "method", "selector", "or:", "shouldBeAliased", "and:", "isReferenced", "<", "index", "superSend"]
+messageSends: ["ifNil:"]
+}),
+$globals.SendNode);
+
+$core.addMethod(
+$core.method({
+selector: "shouldBeInlined:",
+protocol: 'accessing',
+fn: function (aBoolean){
+var self=this;
+self["@shouldBeInlined"]=aBoolean;
+return self;
+
+},
+args: ["aBoolean"],
+source: "shouldBeInlined: aBoolean\x0a\x09shouldBeInlined := aBoolean",
+referencedClasses: [],
+messageSends: []
 }),
 $globals.SendNode);
 
@@ -35260,20 +35410,20 @@ $globals.SendNode);
 
 
 
-$core.addClass('SequenceNode', $globals.Node, ['temps', 'scope'], 'Compiler-AST');
+$core.addClass('SequenceNode', $globals.ASTNode, ['temps', 'scope'], 'Compiler-AST');
 $globals.SequenceNode.comment="I represent an sequence node. A sequence represent a set of instructions inside the same scope (the method scope or a block scope).";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitSequenceNode_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.SequenceNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.SequenceNode)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitSequenceNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitSequenceNode: self",
 referencedClasses: [],
 messageSends: ["visitSequenceNode:"]
 }),
@@ -35290,15 +35440,15 @@ var $1;
 $1=$recv($globals.BlockSequenceNode)._new();
 $recv($1)._position_(self._position());
 $recv($1)._source_(self._source());
-$recv($1)._nodes_(self._nodes());
+$recv($1)._dagChildren_(self._dagChildren());
 $recv($1)._temps_(self._temps());
 return $recv($1)._yourself();
 }, function($ctx1) {$ctx1.fill(self,"asBlockSequenceNode",{},$globals.SequenceNode)});
 },
 args: [],
-source: "asBlockSequenceNode\x0a\x09^ BlockSequenceNode new\x0a\x09\x09position: self position;\x0a\x09\x09source: self source;\x0a\x09\x09nodes: self nodes;\x0a\x09\x09temps: self temps;\x0a\x09\x09yourself",
+source: "asBlockSequenceNode\x0a\x09^ BlockSequenceNode new\x0a\x09\x09position: self position;\x0a\x09\x09source: self source;\x0a\x09\x09dagChildren: self dagChildren;\x0a\x09\x09temps: self temps;\x0a\x09\x09yourself",
 referencedClasses: ["BlockSequenceNode"],
-messageSends: ["position:", "new", "position", "source:", "source", "nodes:", "nodes", "temps:", "temps", "yourself"]
+messageSends: ["position:", "new", "position", "source:", "source", "dagChildren:", "dagChildren", "temps:", "temps", "yourself"]
 }),
 $globals.SequenceNode);
 
@@ -35397,16 +35547,16 @@ $core.addClass('BlockSequenceNode', $globals.SequenceNode, [], 'Compiler-AST');
 $globals.BlockSequenceNode.comment="I represent an special sequence node for block scopes.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitBlockSequenceNode_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.BlockSequenceNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.BlockSequenceNode)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitBlockSequenceNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitBlockSequenceNode: self",
 referencedClasses: [],
 messageSends: ["visitBlockSequenceNode:"]
 }),
@@ -35430,20 +35580,20 @@ $globals.BlockSequenceNode);
 
 
 
-$core.addClass('ValueNode', $globals.Node, ['value'], 'Compiler-AST');
+$core.addClass('ValueNode', $globals.ASTNode, ['value'], 'Compiler-AST');
 $globals.ValueNode.comment="I represent a value node.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitValueNode_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.ValueNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.ValueNode)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitValueNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitValueNode: self",
 referencedClasses: [],
 messageSends: ["visitValueNode:"]
 }),
@@ -35521,16 +35671,16 @@ $core.addClass('VariableNode', $globals.ValueNode, ['assigned', 'binding'], 'Com
 $globals.VariableNode.comment="I represent an variable node.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitVariableNode_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.VariableNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.VariableNode)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitVariableNode: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitVariableNode: self",
 referencedClasses: [],
 messageSends: ["visitVariableNode:"]
 }),
@@ -35747,8 +35897,8 @@ $globals.VariableNode);
 
 
 
-$core.addClass('NodeVisitor', $globals.Object, [], 'Compiler-AST');
-$globals.NodeVisitor.comment="I am the abstract super class of all AST node visitors.";
+$core.addClass('ParentFakingPathDagVisitor', $globals.PathDagVisitor, ['setParentSelector'], 'Compiler-AST');
+$globals.ParentFakingPathDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x0aI hold the path of ancestors up to actual node\x0ain `self path`.";
 $core.addMethod(
 $core.method({
 selector: "visit:",
@@ -35756,37 +35906,30 @@ protocol: 'visiting',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-return $recv(aNode)._accept_(self);
-}, function($ctx1) {$ctx1.fill(self,"visit:",{aNode:aNode},$globals.NodeVisitor)});
+var $1;
+$recv(self._path())._ifNotEmpty_((function(p){
+return $core.withContext(function($ctx2) {
+return $recv(aNode)._parent_($recv(p)._last());
+}, function($ctx2) {$ctx2.fillBlock({p:p},$ctx1,1)});
+}));
+$1=(
+$ctx1.supercall = true,
+($globals.ParentFakingPathDagVisitor.superclass||$boot.nilAsClass).fn.prototype._visit_.apply($recv(self), [aNode]));
+$ctx1.supercall = false;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"visit:",{aNode:aNode},$globals.ParentFakingPathDagVisitor)});
 },
 args: ["aNode"],
-source: "visit: aNode\x0a\x09^ aNode accept: self",
+source: "visit: aNode\x0a\x09self path ifNotEmpty: [ :p | aNode parent: p last ].\x0a\x09^ super visit: aNode",
 referencedClasses: [],
-messageSends: ["accept:"]
+messageSends: ["ifNotEmpty:", "path", "parent:", "last", "visit:"]
 }),
-$globals.NodeVisitor);
+$globals.ParentFakingPathDagVisitor);
 
-$core.addMethod(
-$core.method({
-selector: "visitAll:",
-protocol: 'visiting',
-fn: function (aCollection){
-var self=this;
-return $core.withContext(function($ctx1) {
-return $recv(aCollection)._collect_((function(each){
-return $core.withContext(function($ctx2) {
-return self._visit_(each);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-}));
-}, function($ctx1) {$ctx1.fill(self,"visitAll:",{aCollection:aCollection},$globals.NodeVisitor)});
-},
-args: ["aCollection"],
-source: "visitAll: aCollection\x0a\x09^ aCollection collect: [ :each | self visit: each ]",
-referencedClasses: [],
-messageSends: ["collect:", "visit:"]
-}),
-$globals.NodeVisitor);
 
+
+$core.addClass('NodeVisitor', $globals.ParentFakingPathDagVisitor, [], 'Compiler-AST');
+$globals.NodeVisitor.comment="I am the abstract super class of all AST node visitors.";
 $core.addMethod(
 $core.method({
 selector: "visitAssignmentNode:",
@@ -35794,13 +35937,13 @@ protocol: 'visiting',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 }, function($ctx1) {$ctx1.fill(self,"visitAssignmentNode:",{aNode:aNode},$globals.NodeVisitor)});
 },
 args: ["aNode"],
-source: "visitAssignmentNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitAssignmentNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -35811,13 +35954,13 @@ protocol: 'visiting',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 }, function($ctx1) {$ctx1.fill(self,"visitBlockNode:",{aNode:aNode},$globals.NodeVisitor)});
 },
 args: ["aNode"],
-source: "visitBlockNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitBlockNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -35845,13 +35988,30 @@ protocol: 'visiting',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 }, function($ctx1) {$ctx1.fill(self,"visitCascadeNode:",{aNode:aNode},$globals.NodeVisitor)});
 },
 args: ["aNode"],
-source: "visitCascadeNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitCascadeNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
+}),
+$globals.NodeVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "visitDagNode:",
+protocol: 'visiting',
+fn: function (aNode){
+var self=this;
+return $core.withContext(function($ctx1) {
+return self._visitDagNodeVariantSimple_(aNode);
+}, function($ctx1) {$ctx1.fill(self,"visitDagNode:",{aNode:aNode},$globals.NodeVisitor)});
+},
+args: ["aNode"],
+source: "visitDagNode: aNode\x0a\x09^ self visitDagNodeVariantSimple: aNode",
+referencedClasses: [],
+messageSends: ["visitDagNodeVariantSimple:"]
 }),
 $globals.NodeVisitor);
 
@@ -35862,13 +36022,13 @@ protocol: 'visiting',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 }, function($ctx1) {$ctx1.fill(self,"visitDynamicArrayNode:",{aNode:aNode},$globals.NodeVisitor)});
 },
 args: ["aNode"],
-source: "visitDynamicArrayNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitDynamicArrayNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -35879,13 +36039,13 @@ protocol: 'visiting',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 }, function($ctx1) {$ctx1.fill(self,"visitDynamicDictionaryNode:",{aNode:aNode},$globals.NodeVisitor)});
 },
 args: ["aNode"],
-source: "visitDynamicDictionaryNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitDynamicDictionaryNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -35896,13 +36056,13 @@ protocol: 'visiting',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 }, function($ctx1) {$ctx1.fill(self,"visitJSStatementNode:",{aNode:aNode},$globals.NodeVisitor)});
 },
 args: ["aNode"],
-source: "visitJSStatementNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitJSStatementNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -35913,31 +36073,13 @@ protocol: 'visiting',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 }, function($ctx1) {$ctx1.fill(self,"visitMethodNode:",{aNode:aNode},$globals.NodeVisitor)});
 },
 args: ["aNode"],
-source: "visitMethodNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitMethodNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
-messageSends: ["visitNode:"]
-}),
-$globals.NodeVisitor);
-
-$core.addMethod(
-$core.method({
-selector: "visitNode:",
-protocol: 'visiting',
-fn: function (aNode){
-var self=this;
-return $core.withContext(function($ctx1) {
-self._visitAll_($recv(aNode)._nodes());
-return aNode;
-}, function($ctx1) {$ctx1.fill(self,"visitNode:",{aNode:aNode},$globals.NodeVisitor)});
-},
-args: ["aNode"],
-source: "visitNode: aNode\x0a\x09self visitAll: aNode nodes.\x0a\x09^ aNode",
-referencedClasses: [],
-messageSends: ["visitAll:", "nodes"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -35948,13 +36090,13 @@ protocol: 'visiting',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 }, function($ctx1) {$ctx1.fill(self,"visitReturnNode:",{aNode:aNode},$globals.NodeVisitor)});
 },
 args: ["aNode"],
-source: "visitReturnNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitReturnNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -35965,13 +36107,13 @@ protocol: 'visiting',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 }, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode},$globals.NodeVisitor)});
 },
 args: ["aNode"],
-source: "visitSendNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitSendNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -35982,13 +36124,13 @@ protocol: 'visiting',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 }, function($ctx1) {$ctx1.fill(self,"visitSequenceNode:",{aNode:aNode},$globals.NodeVisitor)});
 },
 args: ["aNode"],
-source: "visitSequenceNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitSequenceNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -35999,13 +36141,13 @@ protocol: 'visiting',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 }, function($ctx1) {$ctx1.fill(self,"visitValueNode:",{aNode:aNode},$globals.NodeVisitor)});
 },
 args: ["aNode"],
-source: "visitValueNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitValueNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -36016,13 +36158,13 @@ protocol: 'visiting',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitNode_(aNode);
+return self._visitDagNode_(aNode);
 }, function($ctx1) {$ctx1.fill(self,"visitVariableNode:",{aNode:aNode},$globals.NodeVisitor)});
 },
 args: ["aNode"],
-source: "visitVariableNode: aNode\x0a\x09^ self visitNode: aNode",
+source: "visitVariableNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
-messageSends: ["visitNode:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
 
@@ -36051,22 +36193,6 @@ referencedClasses: ["Smalltalk"],
 messageSends: ["ifEmpty:", "source", "error:", "parse:"]
 }),
 $globals.CompiledMethod);
-
-$core.addMethod(
-$core.method({
-selector: "isNode",
-protocol: '*Compiler-AST',
-fn: function (){
-var self=this;
-return false;
-
-},
-args: [],
-source: "isNode\x0a\x09^ false",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.Object);
 
 });
 
@@ -37852,7 +37978,7 @@ protocol: 'visiting',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-$recv(aNode)._receiver_($recv($recv($recv(aNode)._nodes())._first())._receiver());
+$recv(aNode)._receiver_($recv($recv($recv(aNode)._dagChildren())._first())._receiver());
 (
 $ctx1.supercall = true,
 ($globals.SemanticAnalyzer.superclass||$boot.nilAsClass).fn.prototype._visitCascadeNode_.apply($recv(self), [aNode]));
@@ -37861,9 +37987,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"visitCascadeNode:",{aNode:aNode},$globals.SemanticAnalyzer)});
 },
 args: ["aNode"],
-source: "visitCascadeNode: aNode\x0a\x09aNode receiver: aNode nodes first receiver.\x0a\x09super visitCascadeNode: aNode",
+source: "visitCascadeNode: aNode\x0a\x09aNode receiver: aNode dagChildren first receiver.\x0a\x09super visitCascadeNode: aNode",
 referencedClasses: [],
-messageSends: ["receiver:", "receiver", "first", "nodes", "visitCascadeNode:"]
+messageSends: ["receiver:", "receiver", "first", "dagChildren", "visitCascadeNode:"]
 }),
 $globals.SemanticAnalyzer);
 
@@ -37941,54 +38067,26 @@ selector: "visitSendNode:",
 protocol: 'visiting',
 fn: function (aNode){
 var self=this;
+var sends;
 return $core.withContext(function($ctx1) {
-var $1,$3,$4,$2,$5,$6,$7,$9,$10,$8,$receiver;
-$1=$recv(aNode)._superSend();
-if(!$core.assert($1)){
-$3=$recv($globals.IRSendInliner)._inlinedSelectors();
-$4=$recv(aNode)._selector();
-$ctx1.sendIdx["selector"]=1;
-$2=$recv($3)._includes_($4);
-if($core.assert($2)){
-$recv(aNode)._shouldBeInlined_(true);
-$5=$recv(aNode)._receiver();
-if(($receiver = $5) == null || $receiver.isNil){
-$5;
-} else {
-var receiver;
-receiver=$receiver;
-$recv(receiver)._shouldBeAliased_(true);
-};
-};
-};
-$6=self._messageSends();
-$ctx1.sendIdx["messageSends"]=1;
-$7=$recv(aNode)._selector();
-$ctx1.sendIdx["selector"]=2;
-$recv($6)._at_ifAbsentPut_($7,(function(){
+sends=$recv(self._messageSends())._at_ifAbsentPut_($recv(aNode)._selector(),(function(){
 return $core.withContext(function($ctx2) {
-return $recv($globals.Set)._new();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,4)});
+return $recv($globals.OrderedCollection)._new();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
-$9=self._messageSends();
-$ctx1.sendIdx["messageSends"]=2;
-$10=$recv(aNode)._selector();
-$ctx1.sendIdx["selector"]=3;
-$8=$recv($9)._at_($10);
-$ctx1.sendIdx["at:"]=1;
-$recv($8)._add_(aNode);
-$recv(aNode)._index_($recv($recv(self._messageSends())._at_($recv(aNode)._selector()))._size());
+$recv(sends)._add_(aNode);
+$recv(aNode)._index_($recv(sends)._size());
 (
 $ctx1.supercall = true,
 ($globals.SemanticAnalyzer.superclass||$boot.nilAsClass).fn.prototype._visitSendNode_.apply($recv(self), [aNode]));
 $ctx1.supercall = false;
 return self;
-}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode,sends:sends},$globals.SemanticAnalyzer)});
 },
 args: ["aNode"],
-source: "visitSendNode: aNode\x0a\x0a\x09aNode superSend ifFalse: [ \x0a\x09\x09(IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [\x0a\x09\x09\x09aNode shouldBeInlined: true.\x0a\x09\x09\x09aNode receiver ifNotNil: [ :receiver |\x0a\x09\x09\x09\x09receiver shouldBeAliased: true ] ] ].\x0a\x0a\x09self messageSends at: aNode selector ifAbsentPut: [ Set new ].\x0a\x09(self messageSends at: aNode selector) add: aNode.\x0a\x0a\x09aNode index: (self messageSends at: aNode selector) size.\x0a\x0a\x09super visitSendNode: aNode",
-referencedClasses: ["IRSendInliner", "Set"],
-messageSends: ["ifFalse:", "superSend", "ifTrue:", "includes:", "inlinedSelectors", "selector", "shouldBeInlined:", "ifNotNil:", "receiver", "shouldBeAliased:", "at:ifAbsentPut:", "messageSends", "new", "add:", "at:", "index:", "size", "visitSendNode:"]
+source: "visitSendNode: aNode\x0a\x0a\x09| sends |\x0a\x09sends := self messageSends at: aNode selector ifAbsentPut: [ OrderedCollection new ].\x0a\x09sends add: aNode.\x0a\x0a\x09aNode index: sends size.\x0a\x0a\x09super visitSendNode: aNode",
+referencedClasses: ["OrderedCollection"],
+messageSends: ["at:ifAbsentPut:", "messageSends", "selector", "new", "add:", "index:", "size", "visitSendNode:"]
 }),
 $globals.SemanticAnalyzer);
 
@@ -38265,7 +38363,7 @@ $globals.UnknownVariableError);
 
 });
 
-define('amber_core/Compiler-IR',["amber/boot", "amber_core/Compiler-AST", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
+define('amber_core/Compiler-IR',["amber/boot", "amber_core/Compiler-AST", "amber_core/Kernel-Dag", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
@@ -38585,7 +38683,7 @@ $ctx2.sendIdx["add:"]=1;
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 $ctx1.sendIdx["do:"]=1;
-$recv($recv(aNode)._nodes())._do_((function(each){
+$recv($recv(aNode)._dagChildren())._do_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(closure)._add_(self._visit_(each));
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
@@ -38594,9 +38692,9 @@ return closure;
 }, function($ctx1) {$ctx1.fill(self,"visitBlockNode:",{aNode:aNode,closure:closure},$globals.IRASTTranslator)});
 },
 args: ["aNode"],
-source: "visitBlockNode: aNode\x0a\x09| closure |\x0a\x09closure := IRClosure new\x0a\x09\x09arguments: aNode parameters;\x0a\x09\x09requiresSmalltalkContext: aNode requiresSmalltalkContext;\x0a\x09\x09scope: aNode scope;\x0a\x09\x09yourself.\x0a\x09aNode scope temps do: [ :each |\x0a\x09\x09closure add: (IRTempDeclaration new\x0a\x09\x09\x09name: each name;\x0a\x09\x09\x09scope: aNode scope;\x0a\x09\x09\x09yourself) ].\x0a\x09aNode nodes do: [ :each | closure add: (self visit: each) ].\x0a\x09^ closure",
+source: "visitBlockNode: aNode\x0a\x09| closure |\x0a\x09closure := IRClosure new\x0a\x09\x09arguments: aNode parameters;\x0a\x09\x09requiresSmalltalkContext: aNode requiresSmalltalkContext;\x0a\x09\x09scope: aNode scope;\x0a\x09\x09yourself.\x0a\x09aNode scope temps do: [ :each |\x0a\x09\x09closure add: (IRTempDeclaration new\x0a\x09\x09\x09name: each name;\x0a\x09\x09\x09scope: aNode scope;\x0a\x09\x09\x09yourself) ].\x0a\x09aNode dagChildren do: [ :each | closure add: (self visit: each) ].\x0a\x09^ closure",
 referencedClasses: ["IRClosure", "IRTempDeclaration"],
-messageSends: ["arguments:", "new", "parameters", "requiresSmalltalkContext:", "requiresSmalltalkContext", "scope:", "scope", "yourself", "do:", "temps", "add:", "name:", "name", "nodes", "visit:"]
+messageSends: ["arguments:", "new", "parameters", "requiresSmalltalkContext:", "requiresSmalltalkContext", "scope:", "scope", "yourself", "do:", "temps", "add:", "name:", "name", "dagChildren", "visit:"]
 }),
 $globals.IRASTTranslator);
 
@@ -38612,12 +38710,12 @@ $1=$recv($globals.IRBlockSequence)._new();
 $ctx1.sendIdx["new"]=1;
 return self._withSequence_do_($1,(function(){
 return $core.withContext(function($ctx2) {
-$2=$recv(aNode)._nodes();
-$ctx2.sendIdx["nodes"]=1;
+$2=$recv(aNode)._dagChildren();
+$ctx2.sendIdx["dagChildren"]=1;
 return $recv($2)._ifNotEmpty_((function(){
 return $core.withContext(function($ctx3) {
-$4=$recv(aNode)._nodes();
-$ctx3.sendIdx["nodes"]=2;
+$4=$recv(aNode)._dagChildren();
+$ctx3.sendIdx["dagChildren"]=2;
 $3=$recv($4)._allButLast();
 $recv($3)._do_((function(each){
 return $core.withContext(function($ctx4) {
@@ -38629,19 +38727,19 @@ return $recv($5)._add_($6);
 $ctx4.sendIdx["add:"]=1;
 }, function($ctx4) {$ctx4.fillBlock({each:each},$ctx3,3)});
 }));
-$9=$recv(aNode)._nodes();
-$ctx3.sendIdx["nodes"]=3;
+$9=$recv(aNode)._dagChildren();
+$ctx3.sendIdx["dagChildren"]=3;
 $8=$recv($9)._last();
 $ctx3.sendIdx["last"]=1;
 $7=$recv($8)._isReturnNode();
 if($core.assert($7)){
-return $recv(self._sequence())._add_(self._visitOrAlias_($recv($recv(aNode)._nodes())._last()));
+return $recv(self._sequence())._add_(self._visitOrAlias_($recv($recv(aNode)._dagChildren())._last()));
 } else {
 $10=self._sequence();
 $ctx3.sendIdx["sequence"]=2;
 $12=$recv($globals.IRBlockReturn)._new();
-$15=$recv(aNode)._nodes();
-$ctx3.sendIdx["nodes"]=4;
+$15=$recv(aNode)._dagChildren();
+$ctx3.sendIdx["dagChildren"]=4;
 $14=$recv($15)._last();
 $ctx3.sendIdx["last"]=2;
 $13=self._visitOrAlias_($14);
@@ -38659,9 +38757,9 @@ $ctx3.sendIdx["add:"]=2;
 }, function($ctx1) {$ctx1.fill(self,"visitBlockSequenceNode:",{aNode:aNode},$globals.IRASTTranslator)});
 },
 args: ["aNode"],
-source: "visitBlockSequenceNode: aNode\x0a\x09^ self\x0a\x09\x09withSequence: IRBlockSequence new\x0a\x09\x09do: [\x0a\x09\x09\x09aNode nodes ifNotEmpty: [\x0a\x09\x09\x09\x09aNode nodes allButLast do: [ :each |\x0a\x09\x09\x09\x09\x09self sequence add: (self visitOrAlias: each) ].\x0a\x09\x09\x09\x09aNode nodes last isReturnNode\x0a\x09\x09\x09\x09\x09ifFalse: [ self sequence add: (IRBlockReturn new add: (self visitOrAlias: aNode nodes last); yourself) ]\x0a\x09\x09\x09\x09\x09ifTrue: [ self sequence add: (self visitOrAlias: aNode nodes last) ] ]]",
+source: "visitBlockSequenceNode: aNode\x0a\x09^ self\x0a\x09\x09withSequence: IRBlockSequence new\x0a\x09\x09do: [\x0a\x09\x09\x09aNode dagChildren ifNotEmpty: [\x0a\x09\x09\x09\x09aNode dagChildren allButLast do: [ :each |\x0a\x09\x09\x09\x09\x09self sequence add: (self visitOrAlias: each) ].\x0a\x09\x09\x09\x09aNode dagChildren last isReturnNode\x0a\x09\x09\x09\x09\x09ifFalse: [ self sequence add: (IRBlockReturn new add: (self visitOrAlias: aNode dagChildren last); yourself) ]\x0a\x09\x09\x09\x09\x09ifTrue: [ self sequence add: (self visitOrAlias: aNode dagChildren last) ] ]]",
 referencedClasses: ["IRBlockSequence", "IRBlockReturn"],
-messageSends: ["withSequence:do:", "new", "ifNotEmpty:", "nodes", "do:", "allButLast", "add:", "sequence", "visitOrAlias:", "ifFalse:ifTrue:", "isReturnNode", "last", "yourself"]
+messageSends: ["withSequence:do:", "new", "ifNotEmpty:", "dagChildren", "do:", "allButLast", "add:", "sequence", "visitOrAlias:", "ifFalse:ifTrue:", "isReturnNode", "last", "yourself"]
 }),
 $globals.IRASTTranslator);
 
@@ -38683,29 +38781,29 @@ alias;
 receiver=$recv($recv($globals.VariableNode)._new())._binding_($recv(alias)._variable());
 receiver;
 };
-$2=$recv(aNode)._nodes();
-$ctx1.sendIdx["nodes"]=1;
+$2=$recv(aNode)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=1;
 $recv($2)._do_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(each)._receiver_(receiver);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 }));
 $ctx1.sendIdx["do:"]=1;
-$4=$recv(aNode)._nodes();
-$ctx1.sendIdx["nodes"]=2;
+$4=$recv(aNode)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=2;
 $3=$recv($4)._allButLast();
 $recv($3)._do_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(self._sequence())._add_(self._visit_(each));
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
 }));
-return self._visitOrAlias_($recv($recv(aNode)._nodes())._last());
+return self._visitOrAlias_($recv($recv(aNode)._dagChildren())._last());
 }, function($ctx1) {$ctx1.fill(self,"visitCascadeNode:",{aNode:aNode,receiver:receiver},$globals.IRASTTranslator)});
 },
 args: ["aNode"],
-source: "visitCascadeNode: aNode\x0a\x09| receiver |\x0a\x09receiver := aNode receiver.\x0a\x09receiver isImmutable ifFalse: [\x0a\x09\x09| alias |\x0a\x09\x09alias := self alias: receiver.\x0a\x09\x09receiver := VariableNode new binding: alias variable ].\x0a\x09aNode nodes do: [ :each | each receiver: receiver ].\x0a\x0a\x09aNode nodes allButLast do: [ :each |\x0a\x09\x09self sequence add: (self visit: each) ].\x0a\x0a\x09^ self visitOrAlias: aNode nodes last",
+source: "visitCascadeNode: aNode\x0a\x09| receiver |\x0a\x09receiver := aNode receiver.\x0a\x09receiver isImmutable ifFalse: [\x0a\x09\x09| alias |\x0a\x09\x09alias := self alias: receiver.\x0a\x09\x09receiver := VariableNode new binding: alias variable ].\x0a\x09aNode dagChildren do: [ :each | each receiver: receiver ].\x0a\x0a\x09aNode dagChildren allButLast do: [ :each |\x0a\x09\x09self sequence add: (self visit: each) ].\x0a\x0a\x09^ self visitOrAlias: aNode dagChildren last",
 referencedClasses: ["VariableNode"],
-messageSends: ["receiver", "ifFalse:", "isImmutable", "alias:", "binding:", "new", "variable", "do:", "nodes", "receiver:", "allButLast", "add:", "sequence", "visit:", "visitOrAlias:", "last"]
+messageSends: ["receiver", "ifFalse:", "isImmutable", "alias:", "binding:", "new", "variable", "do:", "dagChildren", "receiver:", "allButLast", "add:", "sequence", "visit:", "visitOrAlias:", "last"]
 }),
 $globals.IRASTTranslator);
 
@@ -38718,7 +38816,7 @@ var self=this;
 var array;
 return $core.withContext(function($ctx1) {
 array=$recv($globals.IRDynamicArray)._new();
-$recv(self._aliasTemporally_($recv(aNode)._nodes()))._do_((function(each){
+$recv(self._aliasTemporally_($recv(aNode)._dagChildren()))._do_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(array)._add_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -38727,9 +38825,9 @@ return array;
 }, function($ctx1) {$ctx1.fill(self,"visitDynamicArrayNode:",{aNode:aNode,array:array},$globals.IRASTTranslator)});
 },
 args: ["aNode"],
-source: "visitDynamicArrayNode: aNode\x0a\x09| array |\x0a\x09array := IRDynamicArray new.\x0a\x09(self aliasTemporally: aNode nodes) do: [ :each | array add: each ].\x0a\x09^ array",
+source: "visitDynamicArrayNode: aNode\x0a\x09| array |\x0a\x09array := IRDynamicArray new.\x0a\x09(self aliasTemporally: aNode dagChildren) do: [ :each | array add: each ].\x0a\x09^ array",
 referencedClasses: ["IRDynamicArray"],
-messageSends: ["new", "do:", "aliasTemporally:", "nodes", "add:"]
+messageSends: ["new", "do:", "aliasTemporally:", "dagChildren", "add:"]
 }),
 $globals.IRASTTranslator);
 
@@ -38742,7 +38840,7 @@ var self=this;
 var dictionary;
 return $core.withContext(function($ctx1) {
 dictionary=$recv($globals.IRDynamicDictionary)._new();
-$recv(self._aliasTemporally_($recv(aNode)._nodes()))._do_((function(each){
+$recv(self._aliasTemporally_($recv(aNode)._dagChildren()))._do_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(dictionary)._add_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -38751,9 +38849,9 @@ return dictionary;
 }, function($ctx1) {$ctx1.fill(self,"visitDynamicDictionaryNode:",{aNode:aNode,dictionary:dictionary},$globals.IRASTTranslator)});
 },
 args: ["aNode"],
-source: "visitDynamicDictionaryNode: aNode\x0a\x09| dictionary |\x0a\x09dictionary := IRDynamicDictionary new.\x0a\x09(self aliasTemporally: aNode nodes) do: [ :each | dictionary add: each ].\x0a\x09^ dictionary",
+source: "visitDynamicDictionaryNode: aNode\x0a\x09| dictionary |\x0a\x09dictionary := IRDynamicDictionary new.\x0a\x09(self aliasTemporally: aNode dagChildren) do: [ :each | dictionary add: each ].\x0a\x09^ dictionary",
 referencedClasses: ["IRDynamicDictionary"],
-messageSends: ["new", "do:", "aliasTemporally:", "nodes", "add:"]
+messageSends: ["new", "do:", "aliasTemporally:", "dagChildren", "add:"]
 }),
 $globals.IRASTTranslator);
 
@@ -38824,7 +38922,7 @@ $ctx2.sendIdx["add:"]=1;
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 $ctx1.sendIdx["do:"]=1;
-$recv($recv(aNode)._nodes())._do_((function(each){
+$recv($recv(aNode)._dagChildren())._do_((function(each){
 return $core.withContext(function($ctx2) {
 $12=self._method();
 $ctx2.sendIdx["method"]=2;
@@ -38862,9 +38960,9 @@ return self._method();
 }, function($ctx1) {$ctx1.fill(self,"visitMethodNode:",{aNode:aNode},$globals.IRASTTranslator)});
 },
 args: ["aNode"],
-source: "visitMethodNode: aNode\x0a\x0a\x09self method: (IRMethod new\x0a\x09\x09source: self source crlfSanitized;\x0a\x09\x09theClass: self theClass;\x0a\x09\x09arguments: aNode arguments;\x0a\x09\x09selector: aNode selector;\x0a\x09\x09sendIndexes: aNode sendIndexes;\x0a\x09\x09requiresSmalltalkContext: aNode requiresSmalltalkContext;\x0a\x09\x09classReferences: aNode classReferences;\x0a\x09\x09scope: aNode scope;\x0a\x09\x09yourself).\x0a\x0a\x09aNode scope temps do: [ :each |\x0a\x09\x09self method add: (IRTempDeclaration new\x0a\x09\x09\x09name: each name;\x0a\x09\x09\x09scope: aNode scope;\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09aNode nodes do: [ :each | self method add: (self visit: each) ].\x0a\x0a\x09aNode scope hasLocalReturn ifFalse: [self method\x0a\x09\x09add: (IRReturn new\x0a\x09\x09\x09add: (IRVariable new\x0a\x09\x09\x09\x09variable: (aNode scope pseudoVars at: 'self');\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself);\x0a\x09\x09add: (IRVerbatim new source: ''; yourself) ].\x0a\x0a\x09^ self method",
+source: "visitMethodNode: aNode\x0a\x0a\x09self method: (IRMethod new\x0a\x09\x09source: self source crlfSanitized;\x0a\x09\x09theClass: self theClass;\x0a\x09\x09arguments: aNode arguments;\x0a\x09\x09selector: aNode selector;\x0a\x09\x09sendIndexes: aNode sendIndexes;\x0a\x09\x09requiresSmalltalkContext: aNode requiresSmalltalkContext;\x0a\x09\x09classReferences: aNode classReferences;\x0a\x09\x09scope: aNode scope;\x0a\x09\x09yourself).\x0a\x0a\x09aNode scope temps do: [ :each |\x0a\x09\x09self method add: (IRTempDeclaration new\x0a\x09\x09\x09name: each name;\x0a\x09\x09\x09scope: aNode scope;\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09aNode dagChildren do: [ :each | self method add: (self visit: each) ].\x0a\x0a\x09aNode scope hasLocalReturn ifFalse: [self method\x0a\x09\x09add: (IRReturn new\x0a\x09\x09\x09add: (IRVariable new\x0a\x09\x09\x09\x09variable: (aNode scope pseudoVars at: 'self');\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself);\x0a\x09\x09add: (IRVerbatim new source: ''; yourself) ].\x0a\x0a\x09^ self method",
 referencedClasses: ["IRMethod", "IRTempDeclaration", "IRReturn", "IRVariable", "IRVerbatim"],
-messageSends: ["method:", "source:", "new", "crlfSanitized", "source", "theClass:", "theClass", "arguments:", "arguments", "selector:", "selector", "sendIndexes:", "sendIndexes", "requiresSmalltalkContext:", "requiresSmalltalkContext", "classReferences:", "classReferences", "scope:", "scope", "yourself", "do:", "temps", "add:", "method", "name:", "name", "nodes", "visit:", "ifFalse:", "hasLocalReturn", "variable:", "at:", "pseudoVars"]
+messageSends: ["method:", "source:", "new", "crlfSanitized", "source", "theClass:", "theClass", "arguments:", "arguments", "selector:", "selector", "sendIndexes:", "sendIndexes", "requiresSmalltalkContext:", "requiresSmalltalkContext", "classReferences:", "classReferences", "scope:", "scope", "yourself", "do:", "temps", "add:", "method", "name:", "name", "dagChildren", "visit:", "ifFalse:", "hasLocalReturn", "variable:", "at:", "pseudoVars"]
 }),
 $globals.IRASTTranslator);
 
@@ -38908,7 +39006,7 @@ $ctx1.sendIdx["new"]=1;
 return_=$recv($globals.IRReturn)._new();
 };
 $recv(return_)._scope_($recv(aNode)._scope());
-$recv($recv(aNode)._nodes())._do_((function(each){
+$recv($recv(aNode)._dagChildren())._do_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(return_)._add_(self._visitOrAlias_(each));
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
@@ -38917,9 +39015,9 @@ return return_;
 }, function($ctx1) {$ctx1.fill(self,"visitReturnNode:",{aNode:aNode,return_:return_},$globals.IRASTTranslator)});
 },
 args: ["aNode"],
-source: "visitReturnNode: aNode\x0a\x09| return |\x0a\x09return := aNode nonLocalReturn\x0a\x09\x09ifTrue: [ IRNonLocalReturn new ]\x0a\x09\x09ifFalse: [ IRReturn new ].\x0a\x09return scope: aNode scope.\x0a\x09aNode nodes do: [ :each |\x0a\x09\x09return add: (self visitOrAlias: each) ].\x0a\x09^ return",
+source: "visitReturnNode: aNode\x0a\x09| return |\x0a\x09return := aNode nonLocalReturn\x0a\x09\x09ifTrue: [ IRNonLocalReturn new ]\x0a\x09\x09ifFalse: [ IRReturn new ].\x0a\x09return scope: aNode scope.\x0a\x09aNode dagChildren do: [ :each |\x0a\x09\x09return add: (self visitOrAlias: each) ].\x0a\x09^ return",
 referencedClasses: ["IRNonLocalReturn", "IRReturn"],
-messageSends: ["ifTrue:ifFalse:", "nonLocalReturn", "new", "scope:", "scope", "do:", "nodes", "add:", "visitOrAlias:"]
+messageSends: ["ifTrue:ifFalse:", "nonLocalReturn", "new", "scope:", "scope", "do:", "dagChildren", "add:", "visitOrAlias:"]
 }),
 $globals.IRASTTranslator);
 
@@ -38936,7 +39034,7 @@ send=$recv($globals.IRSend)._new();
 $1=send;
 $recv($1)._selector_($recv(aNode)._selector());
 $recv($1)._index_($recv(aNode)._index());
-$recv(self._aliasTemporally_($recv(aNode)._nodes()))._do_((function(each){
+$recv(self._aliasTemporally_($recv(aNode)._dagChildren()))._do_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(send)._add_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -38945,9 +39043,9 @@ return send;
 }, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode,send:send},$globals.IRASTTranslator)});
 },
 args: ["aNode"],
-source: "visitSendNode: aNode\x0a\x09| send |\x0a\x09send := IRSend new.\x0a\x09send\x0a\x09\x09selector: aNode selector;\x0a\x09\x09index: aNode index.\x0a\x09\x0a\x09(self aliasTemporally: aNode nodes) do: [ :each | send add: each ].\x0a\x0a\x09^ send",
+source: "visitSendNode: aNode\x0a\x09| send |\x0a\x09send := IRSend new.\x0a\x09send\x0a\x09\x09selector: aNode selector;\x0a\x09\x09index: aNode index.\x0a\x09\x0a\x09(self aliasTemporally: aNode dagChildren) do: [ :each | send add: each ].\x0a\x0a\x09^ send",
 referencedClasses: ["IRSend"],
-messageSends: ["new", "selector:", "selector", "index:", "index", "do:", "aliasTemporally:", "nodes", "add:"]
+messageSends: ["new", "selector:", "selector", "index:", "index", "do:", "aliasTemporally:", "dagChildren", "add:"]
 }),
 $globals.IRASTTranslator);
 
@@ -38961,7 +39059,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 return self._withSequence_do_($recv($globals.IRSequence)._new(),(function(){
 return $core.withContext(function($ctx2) {
-return $recv($recv(aNode)._nodes())._do_((function(each){
+return $recv($recv(aNode)._dagChildren())._do_((function(each){
 var instruction;
 return $core.withContext(function($ctx3) {
 instruction=self._visitOrAlias_(each);
@@ -38977,9 +39075,9 @@ return $recv(self._sequence())._add_(instruction);
 }, function($ctx1) {$ctx1.fill(self,"visitSequenceNode:",{aNode:aNode},$globals.IRASTTranslator)});
 },
 args: ["aNode"],
-source: "visitSequenceNode: aNode\x0a\x09^ self\x0a\x09\x09withSequence: IRSequence new\x0a\x09\x09do: [\x0a\x09\x09\x09aNode nodes do: [ :each | | instruction |\x0a\x09\x09\x09\x09instruction := self visitOrAlias: each.\x0a\x09\x09\x09\x09instruction isVariable ifFalse: [\x0a\x09\x09\x09\x09\x09self sequence add: instruction ] ]]",
+source: "visitSequenceNode: aNode\x0a\x09^ self\x0a\x09\x09withSequence: IRSequence new\x0a\x09\x09do: [\x0a\x09\x09\x09aNode dagChildren do: [ :each | | instruction |\x0a\x09\x09\x09\x09instruction := self visitOrAlias: each.\x0a\x09\x09\x09\x09instruction isVariable ifFalse: [\x0a\x09\x09\x09\x09\x09self sequence add: instruction ] ]]",
 referencedClasses: ["IRSequence"],
-messageSends: ["withSequence:do:", "new", "do:", "nodes", "visitOrAlias:", "ifFalse:", "isVariable", "add:", "sequence"]
+messageSends: ["withSequence:do:", "new", "do:", "dagChildren", "visitOrAlias:", "ifFalse:", "isVariable", "add:", "sequence"]
 }),
 $globals.IRASTTranslator);
 
@@ -39048,25 +39146,8 @@ $globals.IRASTTranslator);
 
 
 
-$core.addClass('IRInstruction', $globals.Object, ['parent', 'instructions'], 'Compiler-IR');
+$core.addClass('IRInstruction', $globals.DagParentNode, ['parent'], 'Compiler-IR');
 $globals.IRInstruction.comment="I am the abstract root class of the IR (intermediate representation) instructions class hierarchy.\x0aThe IR graph is used to emit JavaScript code using a JSStream.";
-$core.addMethod(
-$core.method({
-selector: "accept:",
-protocol: 'visiting',
-fn: function (aVisitor){
-var self=this;
-return $core.withContext(function($ctx1) {
-return $recv(aVisitor)._visitIRInstruction_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInstruction)});
-},
-args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRInstruction: self",
-referencedClasses: [],
-messageSends: ["visitIRInstruction:"]
-}),
-$globals.IRInstruction);
-
 $core.addMethod(
 $core.method({
 selector: "add:",
@@ -39075,53 +39156,13 @@ fn: function (anObject){
 var self=this;
 return $core.withContext(function($ctx1) {
 $recv(anObject)._parent_(self);
-return $recv(self._instructions())._add_(anObject);
+return $recv(self._dagChildren())._add_(anObject);
 }, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject},$globals.IRInstruction)});
 },
 args: ["anObject"],
-source: "add: anObject\x0a\x09anObject parent: self.\x0a\x09^ self instructions add: anObject",
+source: "add: anObject\x0a\x09anObject parent: self.\x0a\x09^ self dagChildren add: anObject",
 referencedClasses: [],
-messageSends: ["parent:", "add:", "instructions"]
-}),
-$globals.IRInstruction);
-
-$core.addMethod(
-$core.method({
-selector: "canBeAssigned",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return true;
-
-},
-args: [],
-source: "canBeAssigned\x0a\x09^ true",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.IRInstruction);
-
-$core.addMethod(
-$core.method({
-selector: "instructions",
-protocol: 'accessing',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-var $1,$receiver;
-$1=self["@instructions"];
-if(($receiver = $1) == null || $receiver.isNil){
-self["@instructions"]=$recv($globals.OrderedCollection)._new();
-return self["@instructions"];
-} else {
-return $1;
-};
-}, function($ctx1) {$ctx1.fill(self,"instructions",{},$globals.IRInstruction)});
-},
-args: [],
-source: "instructions\x0a\x09^ instructions ifNil: [ instructions := OrderedCollection new ]",
-referencedClasses: ["OrderedCollection"],
-messageSends: ["ifNil:", "new"]
+messageSends: ["parent:", "add:", "dagChildren"]
 }),
 $globals.IRInstruction);
 
@@ -39159,22 +39200,6 @@ $globals.IRInstruction);
 
 $core.addMethod(
 $core.method({
-selector: "isLocalReturn",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return false;
-
-},
-args: [],
-source: "isLocalReturn\x0a\x09^ false",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.IRInstruction);
-
-$core.addMethod(
-$core.method({
 selector: "isMethod",
 protocol: 'testing',
 fn: function (){
@@ -39184,22 +39209,6 @@ return false;
 },
 args: [],
 source: "isMethod\x0a\x09^ false",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.IRInstruction);
-
-$core.addMethod(
-$core.method({
-selector: "isReturn",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return false;
-
-},
-args: [],
-source: "isReturn\x0a\x09^ false",
 referencedClasses: [],
 messageSends: []
 }),
@@ -39337,37 +39346,19 @@ $globals.IRInstruction);
 
 $core.addMethod(
 $core.method({
-selector: "remove",
-protocol: 'building',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-$recv(self._parent())._remove_(self);
-return self;
-}, function($ctx1) {$ctx1.fill(self,"remove",{},$globals.IRInstruction)});
-},
-args: [],
-source: "remove\x0a\x09self parent remove: self",
-referencedClasses: [],
-messageSends: ["remove:", "parent"]
-}),
-$globals.IRInstruction);
-
-$core.addMethod(
-$core.method({
 selector: "remove:",
 protocol: 'building',
 fn: function (anIRInstruction){
 var self=this;
 return $core.withContext(function($ctx1) {
-$recv(self._instructions())._remove_(anIRInstruction);
+$recv(self._dagChildren())._remove_(anIRInstruction);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"remove:",{anIRInstruction:anIRInstruction},$globals.IRInstruction)});
 },
 args: ["anIRInstruction"],
-source: "remove: anIRInstruction\x0a\x09self instructions remove: anIRInstruction",
+source: "remove: anIRInstruction\x0a\x09self dagChildren remove: anIRInstruction",
 referencedClasses: [],
-messageSends: ["remove:", "instructions"]
+messageSends: ["remove:", "dagChildren"]
 }),
 $globals.IRInstruction);
 
@@ -39380,16 +39371,16 @@ var self=this;
 return $core.withContext(function($ctx1) {
 var $1;
 $recv(anotherIRInstruction)._parent_(self);
-$1=self._instructions();
-$ctx1.sendIdx["instructions"]=1;
-$recv($1)._at_put_($recv(self._instructions())._indexOf_(anIRInstruction),anotherIRInstruction);
+$1=self._dagChildren();
+$ctx1.sendIdx["dagChildren"]=1;
+$recv($1)._at_put_($recv(self._dagChildren())._indexOf_(anIRInstruction),anotherIRInstruction);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"replace:with:",{anIRInstruction:anIRInstruction,anotherIRInstruction:anotherIRInstruction},$globals.IRInstruction)});
 },
 args: ["anIRInstruction", "anotherIRInstruction"],
-source: "replace: anIRInstruction with: anotherIRInstruction\x0a\x09anotherIRInstruction parent: self.\x0a\x09self instructions\x0a\x09\x09at: (self instructions indexOf: anIRInstruction)\x0a\x09\x09put: anotherIRInstruction",
+source: "replace: anIRInstruction with: anotherIRInstruction\x0a\x09anotherIRInstruction parent: self.\x0a\x09self dagChildren\x0a\x09\x09at: (self dagChildren indexOf: anIRInstruction)\x0a\x09\x09put: anotherIRInstruction",
 referencedClasses: [],
-messageSends: ["parent:", "at:put:", "instructions", "indexOf:"]
+messageSends: ["parent:", "at:put:", "dagChildren", "indexOf:"]
 }),
 $globals.IRInstruction);
 
@@ -39436,6 +39427,22 @@ messageSends: ["ifNotNil:", "parent", "scope"]
 }),
 $globals.IRInstruction);
 
+$core.addMethod(
+$core.method({
+selector: "yieldsValue",
+protocol: 'testing',
+fn: function (){
+var self=this;
+return true;
+
+},
+args: [],
+source: "yieldsValue\x0a\x09^ true",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.IRInstruction);
+
 
 $core.addMethod(
 $core.method({
@@ -39461,16 +39468,16 @@ $globals.IRInstruction.klass);
 $core.addClass('IRAssignment', $globals.IRInstruction, [], 'Compiler-IR');
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitIRAssignment_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRAssignment)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRAssignment)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRAssignment: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRAssignment: self",
 referencedClasses: [],
 messageSends: ["visitIRAssignment:"]
 }),
@@ -39483,13 +39490,13 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return $recv(self._instructions())._first();
+return $recv(self._dagChildren())._first();
 }, function($ctx1) {$ctx1.fill(self,"left",{},$globals.IRAssignment)});
 },
 args: [],
-source: "left\x0a\x09^ self instructions first",
+source: "left\x0a\x09^ self dagChildren first",
 referencedClasses: [],
-messageSends: ["first", "instructions"]
+messageSends: ["first", "dagChildren"]
 }),
 $globals.IRAssignment);
 
@@ -39500,13 +39507,13 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return $recv(self._instructions())._last();
+return $recv(self._dagChildren())._last();
 }, function($ctx1) {$ctx1.fill(self,"right",{},$globals.IRAssignment)});
 },
 args: [],
-source: "right\x0a\x09^ self instructions last",
+source: "right\x0a\x09^ self dagChildren last",
 referencedClasses: [],
-messageSends: ["last", "instructions"]
+messageSends: ["last", "dagChildren"]
 }),
 $globals.IRAssignment);
 
@@ -39515,16 +39522,16 @@ $globals.IRAssignment);
 $core.addClass('IRDynamicArray', $globals.IRInstruction, [], 'Compiler-IR');
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitIRDynamicArray_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRDynamicArray)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRDynamicArray)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRDynamicArray: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRDynamicArray: self",
 referencedClasses: [],
 messageSends: ["visitIRDynamicArray:"]
 }),
@@ -39535,16 +39542,16 @@ $globals.IRDynamicArray);
 $core.addClass('IRDynamicDictionary', $globals.IRInstruction, [], 'Compiler-IR');
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitIRDynamicDictionary_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRDynamicDictionary)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRDynamicDictionary)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRDynamicDictionary: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRDynamicDictionary: self",
 referencedClasses: [],
 messageSends: ["visitIRDynamicDictionary:"]
 }),
@@ -39722,7 +39729,7 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return $recv(self._instructions())._select_((function(each){
+return $recv(self._dagChildren())._select_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(each)._isTempDeclaration();
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -39730,9 +39737,9 @@ return $recv(each)._isTempDeclaration();
 }, function($ctx1) {$ctx1.fill(self,"tempDeclarations",{},$globals.IRClosureInstruction)});
 },
 args: [],
-source: "tempDeclarations\x0a\x09^ self instructions select: [ :each |\x0a\x09\x09each isTempDeclaration ]",
+source: "tempDeclarations\x0a\x09^ self dagChildren select: [ :each |\x0a\x09\x09each isTempDeclaration ]",
 referencedClasses: [],
-messageSends: ["select:", "instructions", "isTempDeclaration"]
+messageSends: ["select:", "dagChildren", "isTempDeclaration"]
 }),
 $globals.IRClosureInstruction);
 
@@ -39741,16 +39748,16 @@ $globals.IRClosureInstruction);
 $core.addClass('IRClosure', $globals.IRClosureInstruction, [], 'Compiler-IR');
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitIRClosure_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRClosure)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRClosure)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRClosure: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRClosure: self",
 referencedClasses: [],
 messageSends: ["visitIRClosure:"]
 }),
@@ -39779,13 +39786,13 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return $recv(self._instructions())._last();
+return $recv(self._dagChildren())._last();
 }, function($ctx1) {$ctx1.fill(self,"sequence",{},$globals.IRClosure)});
 },
 args: [],
-source: "sequence\x0a\x09^ self instructions last",
+source: "sequence\x0a\x09^ self dagChildren last",
 referencedClasses: [],
-messageSends: ["last", "instructions"]
+messageSends: ["last", "dagChildren"]
 }),
 $globals.IRClosure);
 
@@ -39795,16 +39802,16 @@ $core.addClass('IRMethod', $globals.IRClosureInstruction, ['theClass', 'source',
 $globals.IRMethod.comment="I am a method instruction";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitIRMethod_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRMethod)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRMethod)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRMethod: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRMethod: self",
 referencedClasses: [],
 messageSends: ["visitIRMethod:"]
 }),
@@ -40054,34 +40061,18 @@ $core.addClass('IRReturn', $globals.IRScopedInstruction, [], 'Compiler-IR');
 $globals.IRReturn.comment="I am a local return instruction.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitIRReturn_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRReturn)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRReturn)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRReturn: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRReturn: self",
 referencedClasses: [],
 messageSends: ["visitIRReturn:"]
-}),
-$globals.IRReturn);
-
-$core.addMethod(
-$core.method({
-selector: "canBeAssigned",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return false;
-
-},
-args: [],
-source: "canBeAssigned\x0a\x09^ false",
-referencedClasses: [],
-messageSends: []
 }),
 $globals.IRReturn);
 
@@ -40092,78 +40083,13 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return $recv(self._instructions())._single();
+return $recv(self._dagChildren())._single();
 }, function($ctx1) {$ctx1.fill(self,"expression",{},$globals.IRReturn)});
 },
 args: [],
-source: "expression\x0a\x09^ self instructions single",
+source: "expression\x0a\x09^ self dagChildren single",
 referencedClasses: [],
-messageSends: ["single", "instructions"]
-}),
-$globals.IRReturn);
-
-$core.addMethod(
-$core.method({
-selector: "isBlockReturn",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return false;
-
-},
-args: [],
-source: "isBlockReturn\x0a\x09^ false",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.IRReturn);
-
-$core.addMethod(
-$core.method({
-selector: "isLocalReturn",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return true;
-
-},
-args: [],
-source: "isLocalReturn\x0a\x09^ true",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.IRReturn);
-
-$core.addMethod(
-$core.method({
-selector: "isNonLocalReturn",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-return $recv(self._isLocalReturn())._not();
-}, function($ctx1) {$ctx1.fill(self,"isNonLocalReturn",{},$globals.IRReturn)});
-},
-args: [],
-source: "isNonLocalReturn\x0a\x09^ self isLocalReturn not",
-referencedClasses: [],
-messageSends: ["not", "isLocalReturn"]
-}),
-$globals.IRReturn);
-
-$core.addMethod(
-$core.method({
-selector: "isReturn",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return true;
-
-},
-args: [],
-source: "isReturn\x0a\x09^ true",
-referencedClasses: [],
-messageSends: []
+messageSends: ["single", "dagChildren"]
 }),
 $globals.IRReturn);
 
@@ -40190,40 +40116,40 @@ messageSends: ["ifNil:", "scope", "parent"]
 }),
 $globals.IRReturn);
 
+$core.addMethod(
+$core.method({
+selector: "yieldsValue",
+protocol: 'testing',
+fn: function (){
+var self=this;
+return false;
+
+},
+args: [],
+source: "yieldsValue\x0a\x09^ false",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.IRReturn);
+
 
 
 $core.addClass('IRBlockReturn', $globals.IRReturn, [], 'Compiler-IR');
 $globals.IRBlockReturn.comment="Smalltalk blocks return their last statement. I am a implicit block return instruction.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitIRBlockReturn_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRBlockReturn)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRBlockReturn)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRBlockReturn: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRBlockReturn: self",
 referencedClasses: [],
 messageSends: ["visitIRBlockReturn:"]
-}),
-$globals.IRBlockReturn);
-
-$core.addMethod(
-$core.method({
-selector: "isBlockReturn",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return true;
-
-},
-args: [],
-source: "isBlockReturn\x0a\x09^ true",
-referencedClasses: [],
-messageSends: []
 }),
 $globals.IRBlockReturn);
 
@@ -40233,34 +40159,18 @@ $core.addClass('IRNonLocalReturn', $globals.IRReturn, [], 'Compiler-IR');
 $globals.IRNonLocalReturn.comment="I am a non local return instruction.\x0aNon local returns are handled using a try/catch JavaScript statement.\x0a\x0aSee `IRNonLocalReturnHandling` class.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitIRNonLocalReturn_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRNonLocalReturn)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRNonLocalReturn)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRNonLocalReturn: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRNonLocalReturn: self",
 referencedClasses: [],
 messageSends: ["visitIRNonLocalReturn:"]
-}),
-$globals.IRNonLocalReturn);
-
-$core.addMethod(
-$core.method({
-selector: "isLocalReturn",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return false;
-
-},
-args: [],
-source: "isLocalReturn\x0a\x09^ false",
-referencedClasses: [],
-messageSends: []
 }),
 $globals.IRNonLocalReturn);
 
@@ -40269,16 +40179,16 @@ $globals.IRNonLocalReturn);
 $core.addClass('IRTempDeclaration', $globals.IRScopedInstruction, ['name'], 'Compiler-IR');
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitIRTempDeclaration_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRTempDeclaration)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRTempDeclaration)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRTempDeclaration: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRTempDeclaration: self",
 referencedClasses: [],
 messageSends: ["visitIRTempDeclaration:"]
 }),
@@ -40339,16 +40249,16 @@ $core.addClass('IRSend', $globals.IRInstruction, ['selector', 'index'], 'Compile
 $globals.IRSend.comment="I am a message send instruction.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitIRSend_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRSend)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRSend)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRSend: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRSend: self",
 referencedClasses: [],
 messageSends: ["visitIRSend:"]
 }),
@@ -40361,13 +40271,13 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return $recv(self._instructions())._allButFirst();
+return $recv(self._dagChildren())._allButFirst();
 }, function($ctx1) {$ctx1.fill(self,"arguments",{},$globals.IRSend)});
 },
 args: [],
-source: "arguments\x0a\x09^ self instructions allButFirst",
+source: "arguments\x0a\x09^ self dagChildren allButFirst",
 referencedClasses: [],
-messageSends: ["allButFirst", "instructions"]
+messageSends: ["allButFirst", "dagChildren"]
 }),
 $globals.IRSend);
 
@@ -40450,13 +40360,13 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return $recv(self._instructions())._first();
+return $recv(self._dagChildren())._first();
 }, function($ctx1) {$ctx1.fill(self,"receiver",{},$globals.IRSend)});
 },
 args: [],
-source: "receiver\x0a\x09^ self instructions first",
+source: "receiver\x0a\x09^ self dagChildren first",
 referencedClasses: [],
-messageSends: ["first", "instructions"]
+messageSends: ["first", "dagChildren"]
 }),
 $globals.IRSend);
 
@@ -40498,16 +40408,16 @@ $globals.IRSend);
 $core.addClass('IRSequence', $globals.IRInstruction, [], 'Compiler-IR');
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitIRSequence_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRSequence)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRSequence)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRSequence: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRSequence: self",
 referencedClasses: [],
 messageSends: ["visitIRSequence:"]
 }),
@@ -40534,16 +40444,16 @@ $globals.IRSequence);
 $core.addClass('IRBlockSequence', $globals.IRSequence, [], 'Compiler-IR');
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitIRBlockSequence_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRBlockSequence)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRBlockSequence)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRBlockSequence: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRBlockSequence: self",
 referencedClasses: [],
 messageSends: ["visitIRBlockSequence:"]
 }),
@@ -40555,16 +40465,16 @@ $core.addClass('IRValue', $globals.IRInstruction, ['value'], 'Compiler-IR');
 $globals.IRValue.comment="I am the simplest possible instruction. I represent a value.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitIRValue_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRValue)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRValue)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRValue: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRValue: self",
 referencedClasses: [],
 messageSends: ["visitIRValue:"]
 }),
@@ -40625,16 +40535,16 @@ $core.addClass('IRVariable', $globals.IRInstruction, ['variable'], 'Compiler-IR'
 $globals.IRVariable.comment="I am a variable instruction.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitIRVariable_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRVariable)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRVariable)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRVariable: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRVariable: self",
 referencedClasses: [],
 messageSends: ["visitIRVariable:"]
 }),
@@ -40711,16 +40621,16 @@ $globals.IRVariable);
 $core.addClass('IRVerbatim', $globals.IRInstruction, ['source'], 'Compiler-IR');
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitIRVerbatim_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRVerbatim)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRVerbatim)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRVerbatim: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRVerbatim: self",
 referencedClasses: [],
 messageSends: ["visitIRVerbatim:"]
 }),
@@ -40761,21 +40671,21 @@ $globals.IRVerbatim);
 
 
 
-$core.addClass('IRVisitor', $globals.Object, [], 'Compiler-IR');
+$core.addClass('IRVisitor', $globals.ParentFakingPathDagVisitor, [], 'Compiler-IR');
 $core.addMethod(
 $core.method({
-selector: "visit:",
+selector: "visitDagNode:",
 protocol: 'visiting',
-fn: function (anIRInstruction){
+fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-return $recv(anIRInstruction)._accept_(self);
-}, function($ctx1) {$ctx1.fill(self,"visit:",{anIRInstruction:anIRInstruction},$globals.IRVisitor)});
+return self._visitDagNodeVariantSimple_(aNode);
+}, function($ctx1) {$ctx1.fill(self,"visitDagNode:",{aNode:aNode},$globals.IRVisitor)});
 },
-args: ["anIRInstruction"],
-source: "visit: anIRInstruction\x0a\x09^ anIRInstruction accept: self",
+args: ["aNode"],
+source: "visitDagNode: aNode\x0a\x09^ self visitDagNodeVariantSimple: aNode",
 referencedClasses: [],
-messageSends: ["accept:"]
+messageSends: ["visitDagNodeVariantSimple:"]
 }),
 $globals.IRVisitor);
 
@@ -40786,13 +40696,13 @@ protocol: 'visiting',
 fn: function (anIRAssignment){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitIRInstruction_(anIRAssignment);
+return self._visitDagNode_(anIRAssignment);
 }, function($ctx1) {$ctx1.fill(self,"visitIRAssignment:",{anIRAssignment:anIRAssignment},$globals.IRVisitor)});
 },
 args: ["anIRAssignment"],
-source: "visitIRAssignment: anIRAssignment\x0a\x09^ self visitIRInstruction: anIRAssignment",
+source: "visitIRAssignment: anIRAssignment\x0a\x09^ self visitDagNode: anIRAssignment",
 referencedClasses: [],
-messageSends: ["visitIRInstruction:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
 
@@ -40837,13 +40747,13 @@ protocol: 'visiting',
 fn: function (anIRClosure){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitIRInstruction_(anIRClosure);
+return self._visitDagNode_(anIRClosure);
 }, function($ctx1) {$ctx1.fill(self,"visitIRClosure:",{anIRClosure:anIRClosure},$globals.IRVisitor)});
 },
 args: ["anIRClosure"],
-source: "visitIRClosure: anIRClosure\x0a\x09^ self visitIRInstruction: anIRClosure",
+source: "visitIRClosure: anIRClosure\x0a\x09^ self visitDagNode: anIRClosure",
 referencedClasses: [],
-messageSends: ["visitIRInstruction:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
 
@@ -40854,13 +40764,13 @@ protocol: 'visiting',
 fn: function (anIRDynamicArray){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitIRInstruction_(anIRDynamicArray);
+return self._visitDagNode_(anIRDynamicArray);
 }, function($ctx1) {$ctx1.fill(self,"visitIRDynamicArray:",{anIRDynamicArray:anIRDynamicArray},$globals.IRVisitor)});
 },
 args: ["anIRDynamicArray"],
-source: "visitIRDynamicArray: anIRDynamicArray\x0a\x09^ self visitIRInstruction: anIRDynamicArray",
+source: "visitIRDynamicArray: anIRDynamicArray\x0a\x09^ self visitDagNode: anIRDynamicArray",
 referencedClasses: [],
-messageSends: ["visitIRInstruction:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
 
@@ -40871,13 +40781,13 @@ protocol: 'visiting',
 fn: function (anIRDynamicDictionary){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitIRInstruction_(anIRDynamicDictionary);
+return self._visitDagNode_(anIRDynamicDictionary);
 }, function($ctx1) {$ctx1.fill(self,"visitIRDynamicDictionary:",{anIRDynamicDictionary:anIRDynamicDictionary},$globals.IRVisitor)});
 },
 args: ["anIRDynamicDictionary"],
-source: "visitIRDynamicDictionary: anIRDynamicDictionary\x0a\x09^ self visitIRInstruction: anIRDynamicDictionary",
+source: "visitIRDynamicDictionary: anIRDynamicDictionary\x0a\x09^ self visitDagNode: anIRDynamicDictionary",
 referencedClasses: [],
-messageSends: ["visitIRInstruction:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
 
@@ -40917,40 +40827,18 @@ $globals.IRVisitor);
 
 $core.addMethod(
 $core.method({
-selector: "visitIRInstruction:",
-protocol: 'visiting',
-fn: function (anIRInstruction){
-var self=this;
-return $core.withContext(function($ctx1) {
-$recv($recv(anIRInstruction)._instructions())._do_((function(each){
-return $core.withContext(function($ctx2) {
-return self._visit_(each);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-}));
-return anIRInstruction;
-}, function($ctx1) {$ctx1.fill(self,"visitIRInstruction:",{anIRInstruction:anIRInstruction},$globals.IRVisitor)});
-},
-args: ["anIRInstruction"],
-source: "visitIRInstruction: anIRInstruction\x0a\x09anIRInstruction instructions do: [ :each | self visit: each ].\x0a\x09^ anIRInstruction",
-referencedClasses: [],
-messageSends: ["do:", "instructions", "visit:"]
-}),
-$globals.IRVisitor);
-
-$core.addMethod(
-$core.method({
 selector: "visitIRMethod:",
 protocol: 'visiting',
 fn: function (anIRMethod){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitIRInstruction_(anIRMethod);
+return self._visitDagNode_(anIRMethod);
 }, function($ctx1) {$ctx1.fill(self,"visitIRMethod:",{anIRMethod:anIRMethod},$globals.IRVisitor)});
 },
 args: ["anIRMethod"],
-source: "visitIRMethod: anIRMethod\x0a\x09^ self visitIRInstruction: anIRMethod",
+source: "visitIRMethod: anIRMethod\x0a\x09^ self visitDagNode: anIRMethod",
 referencedClasses: [],
-messageSends: ["visitIRInstruction:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
 
@@ -40961,13 +40849,13 @@ protocol: 'visiting',
 fn: function (anIRNonLocalReturn){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitIRInstruction_(anIRNonLocalReturn);
+return self._visitDagNode_(anIRNonLocalReturn);
 }, function($ctx1) {$ctx1.fill(self,"visitIRNonLocalReturn:",{anIRNonLocalReturn:anIRNonLocalReturn},$globals.IRVisitor)});
 },
 args: ["anIRNonLocalReturn"],
-source: "visitIRNonLocalReturn: anIRNonLocalReturn\x0a\x09^ self visitIRInstruction: anIRNonLocalReturn",
+source: "visitIRNonLocalReturn: anIRNonLocalReturn\x0a\x09^ self visitDagNode: anIRNonLocalReturn",
 referencedClasses: [],
-messageSends: ["visitIRInstruction:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
 
@@ -40978,13 +40866,13 @@ protocol: 'visiting',
 fn: function (anIRNonLocalReturnHandling){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitIRInstruction_(anIRNonLocalReturnHandling);
+return self._visitDagNode_(anIRNonLocalReturnHandling);
 }, function($ctx1) {$ctx1.fill(self,"visitIRNonLocalReturnHandling:",{anIRNonLocalReturnHandling:anIRNonLocalReturnHandling},$globals.IRVisitor)});
 },
 args: ["anIRNonLocalReturnHandling"],
-source: "visitIRNonLocalReturnHandling: anIRNonLocalReturnHandling\x0a\x09^ self visitIRInstruction: anIRNonLocalReturnHandling",
+source: "visitIRNonLocalReturnHandling: anIRNonLocalReturnHandling\x0a\x09^ self visitDagNode: anIRNonLocalReturnHandling",
 referencedClasses: [],
-messageSends: ["visitIRInstruction:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
 
@@ -40995,13 +40883,13 @@ protocol: 'visiting',
 fn: function (anIRReturn){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitIRInstruction_(anIRReturn);
+return self._visitDagNode_(anIRReturn);
 }, function($ctx1) {$ctx1.fill(self,"visitIRReturn:",{anIRReturn:anIRReturn},$globals.IRVisitor)});
 },
 args: ["anIRReturn"],
-source: "visitIRReturn: anIRReturn\x0a\x09^ self visitIRInstruction: anIRReturn",
+source: "visitIRReturn: anIRReturn\x0a\x09^ self visitDagNode: anIRReturn",
 referencedClasses: [],
-messageSends: ["visitIRInstruction:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
 
@@ -41012,13 +40900,13 @@ protocol: 'visiting',
 fn: function (anIRSend){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitIRInstruction_(anIRSend);
+return self._visitDagNode_(anIRSend);
 }, function($ctx1) {$ctx1.fill(self,"visitIRSend:",{anIRSend:anIRSend},$globals.IRVisitor)});
 },
 args: ["anIRSend"],
-source: "visitIRSend: anIRSend\x0a\x09^ self visitIRInstruction: anIRSend",
+source: "visitIRSend: anIRSend\x0a\x09^ self visitDagNode: anIRSend",
 referencedClasses: [],
-messageSends: ["visitIRInstruction:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
 
@@ -41029,13 +40917,13 @@ protocol: 'visiting',
 fn: function (anIRSequence){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitIRInstruction_(anIRSequence);
+return self._visitDagNode_(anIRSequence);
 }, function($ctx1) {$ctx1.fill(self,"visitIRSequence:",{anIRSequence:anIRSequence},$globals.IRVisitor)});
 },
 args: ["anIRSequence"],
-source: "visitIRSequence: anIRSequence\x0a\x09^ self visitIRInstruction: anIRSequence",
+source: "visitIRSequence: anIRSequence\x0a\x09^ self visitDagNode: anIRSequence",
 referencedClasses: [],
-messageSends: ["visitIRInstruction:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
 
@@ -41046,13 +40934,13 @@ protocol: 'visiting',
 fn: function (anIRTempDeclaration){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitIRInstruction_(anIRTempDeclaration);
+return self._visitDagNode_(anIRTempDeclaration);
 }, function($ctx1) {$ctx1.fill(self,"visitIRTempDeclaration:",{anIRTempDeclaration:anIRTempDeclaration},$globals.IRVisitor)});
 },
 args: ["anIRTempDeclaration"],
-source: "visitIRTempDeclaration: anIRTempDeclaration\x0a\x09^ self visitIRInstruction: anIRTempDeclaration",
+source: "visitIRTempDeclaration: anIRTempDeclaration\x0a\x09^ self visitDagNode: anIRTempDeclaration",
 referencedClasses: [],
-messageSends: ["visitIRInstruction:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
 
@@ -41063,13 +40951,13 @@ protocol: 'visiting',
 fn: function (anIRValue){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitIRInstruction_(anIRValue);
+return self._visitDagNode_(anIRValue);
 }, function($ctx1) {$ctx1.fill(self,"visitIRValue:",{anIRValue:anIRValue},$globals.IRVisitor)});
 },
 args: ["anIRValue"],
-source: "visitIRValue: anIRValue\x0a\x09^ self visitIRInstruction: anIRValue",
+source: "visitIRValue: anIRValue\x0a\x09^ self visitDagNode: anIRValue",
 referencedClasses: [],
-messageSends: ["visitIRInstruction:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
 
@@ -41080,13 +40968,13 @@ protocol: 'visiting',
 fn: function (anIRVariable){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitIRInstruction_(anIRVariable);
+return self._visitDagNode_(anIRVariable);
 }, function($ctx1) {$ctx1.fill(self,"visitIRVariable:",{anIRVariable:anIRVariable},$globals.IRVisitor)});
 },
 args: ["anIRVariable"],
-source: "visitIRVariable: anIRVariable\x0a\x09^ self visitIRInstruction: anIRVariable",
+source: "visitIRVariable: anIRVariable\x0a\x09^ self visitDagNode: anIRVariable",
 referencedClasses: [],
-messageSends: ["visitIRInstruction:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
 
@@ -41097,13 +40985,13 @@ protocol: 'visiting',
 fn: function (anIRVerbatim){
 var self=this;
 return $core.withContext(function($ctx1) {
-return self._visitIRInstruction_(anIRVerbatim);
+return self._visitDagNode_(anIRVerbatim);
 }, function($ctx1) {$ctx1.fill(self,"visitIRVerbatim:",{anIRVerbatim:anIRVerbatim},$globals.IRVisitor)});
 },
 args: ["anIRVerbatim"],
-source: "visitIRVerbatim: anIRVerbatim\x0a\x09^ self visitIRInstruction: anIRVerbatim",
+source: "visitIRVerbatim: anIRVerbatim\x0a\x09^ self visitDagNode: anIRVerbatim",
 referencedClasses: [],
-messageSends: ["visitIRInstruction:"]
+messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
 
@@ -41288,14 +41176,14 @@ protocol: 'visiting',
 fn: function (anIRDynamicArray){
 var self=this;
 return $core.withContext(function($ctx1) {
-self._visitInstructionList_enclosedBetween_and_($recv(anIRDynamicArray)._instructions(),"[","]");
+self._visitInstructionList_enclosedBetween_and_($recv(anIRDynamicArray)._dagChildren(),"[","]");
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRDynamicArray:",{anIRDynamicArray:anIRDynamicArray},$globals.IRJSTranslator)});
 },
 args: ["anIRDynamicArray"],
-source: "visitIRDynamicArray: anIRDynamicArray\x0a\x09self\x0a\x09\x09visitInstructionList: anIRDynamicArray instructions\x0a\x09\x09enclosedBetween: '[' and: ']'",
+source: "visitIRDynamicArray: anIRDynamicArray\x0a\x09self\x0a\x09\x09visitInstructionList: anIRDynamicArray dagChildren\x0a\x09\x09enclosedBetween: '[' and: ']'",
 referencedClasses: [],
-messageSends: ["visitInstructionList:enclosedBetween:and:", "instructions"]
+messageSends: ["visitInstructionList:enclosedBetween:and:", "dagChildren"]
 }),
 $globals.IRJSTranslator);
 
@@ -41306,14 +41194,14 @@ protocol: 'visiting',
 fn: function (anIRDynamicDictionary){
 var self=this;
 return $core.withContext(function($ctx1) {
-self._visitInstructionList_enclosedBetween_and_($recv(anIRDynamicDictionary)._instructions(),"$globals.HashedCollection._newFromPairs_([","])");
+self._visitInstructionList_enclosedBetween_and_($recv(anIRDynamicDictionary)._dagChildren(),"$globals.HashedCollection._newFromPairs_([","])");
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRDynamicDictionary:",{anIRDynamicDictionary:anIRDynamicDictionary},$globals.IRJSTranslator)});
 },
 args: ["anIRDynamicDictionary"],
-source: "visitIRDynamicDictionary: anIRDynamicDictionary\x0a\x09self\x0a\x09\x09visitInstructionList: anIRDynamicDictionary instructions\x0a\x09\x09enclosedBetween: '$globals.HashedCollection._newFromPairs_([' and: '])'",
+source: "visitIRDynamicDictionary: anIRDynamicDictionary\x0a\x09self\x0a\x09\x09visitInstructionList: anIRDynamicDictionary dagChildren\x0a\x09\x09enclosedBetween: '$globals.HashedCollection._newFromPairs_([' and: '])'",
 referencedClasses: [],
-messageSends: ["visitInstructionList:enclosedBetween:and:", "instructions"]
+messageSends: ["visitInstructionList:enclosedBetween:and:", "dagChildren"]
 }),
 $globals.IRJSTranslator);
 
@@ -41457,11 +41345,7 @@ self._visitSuperSend_(anIRSend);
 } else {
 self._visitSend_(anIRSend);
 };
-$2=$recv($recv(sends).__gt((1)))._and_((function(){
-return $core.withContext(function($ctx2) {
-return $recv($recv(anIRSend)._index()).__lt(sends);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
-}));
+$2=$recv($recv(anIRSend)._index()).__lt(sends);
 if($core.assert($2)){
 $recv(self._stream())._nextPutSendIndexFor_(anIRSend);
 };
@@ -41469,9 +41353,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRSend:",{anIRSend:anIRSend,sends:sends,superclass:superclass},$globals.IRJSTranslator)});
 },
 args: ["anIRSend"],
-source: "visitIRSend: anIRSend\x0a\x09| sends superclass |\x0a\x09sends := (anIRSend method sendIndexes at: anIRSend selector) size.\x0a\x09\x0a\x09anIRSend isSuperSend\x0a\x09\x09ifTrue: [ self visitSuperSend: anIRSend ]\x0a\x09\x09ifFalse: [ self visitSend: anIRSend ].\x0a\x09\x09\x0a\x09(sends > 1 and: [ anIRSend index < sends ])\x0a\x09\x09ifTrue: [ self stream nextPutSendIndexFor: anIRSend ]",
+source: "visitIRSend: anIRSend\x0a\x09| sends superclass |\x0a\x09sends := (anIRSend method sendIndexes at: anIRSend selector) size.\x0a\x09\x0a\x09anIRSend isSuperSend\x0a\x09\x09ifTrue: [ self visitSuperSend: anIRSend ]\x0a\x09\x09ifFalse: [ self visitSend: anIRSend ].\x0a\x09\x09\x0a\x09anIRSend index < sends\x0a\x09\x09ifTrue: [ self stream nextPutSendIndexFor: anIRSend ]",
 referencedClasses: [],
-messageSends: ["size", "at:", "sendIndexes", "method", "selector", "ifTrue:ifFalse:", "isSuperSend", "visitSuperSend:", "visitSend:", "ifTrue:", "and:", ">", "<", "index", "nextPutSendIndexFor:", "stream"]
+messageSends: ["size", "at:", "sendIndexes", "method", "selector", "ifTrue:ifFalse:", "isSuperSend", "visitSuperSend:", "visitSend:", "ifTrue:", "<", "index", "nextPutSendIndexFor:", "stream"]
 }),
 $globals.IRJSTranslator);
 
@@ -41487,7 +41371,7 @@ $1=self._stream();
 $ctx1.sendIdx["stream"]=1;
 $recv($1)._nextPutSequenceWith_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($recv(anIRSequence)._instructions())._do_((function(each){
+return $recv($recv(anIRSequence)._dagChildren())._do_((function(each){
 return $core.withContext(function($ctx3) {
 return $recv(self._stream())._nextPutStatementWith_(self._visit_(each));
 }, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
@@ -41498,9 +41382,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRSequence:",{anIRSequence:anIRSequence},$globals.IRJSTranslator)});
 },
 args: ["anIRSequence"],
-source: "visitIRSequence: anIRSequence\x0a\x09self stream nextPutSequenceWith: [\x0a\x09\x09anIRSequence instructions do: [ :each |\x0a\x09\x09\x09self stream nextPutStatementWith: (self visit: each) ] ]",
+source: "visitIRSequence: anIRSequence\x0a\x09self stream nextPutSequenceWith: [\x0a\x09\x09anIRSequence dagChildren do: [ :each |\x0a\x09\x09\x09self stream nextPutStatementWith: (self visit: each) ] ]",
 referencedClasses: [],
-messageSends: ["nextPutSequenceWith:", "stream", "do:", "instructions", "nextPutStatementWith:", "visit:"]
+messageSends: ["nextPutSequenceWith:", "stream", "do:", "dagChildren", "nextPutStatementWith:", "visit:"]
 }),
 $globals.IRJSTranslator);
 
@@ -42489,6 +42373,83 @@ $globals.JSStream);
 
 $core.addMethod(
 $core.method({
+selector: "isReferenced",
+protocol: '*Compiler-IR',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+var $3,$2,$1;
+$3=self._parent();
+$ctx1.sendIdx["parent"]=1;
+$2=$recv($3)._isSequenceNode();
+$1=$recv($2)._or_((function(){
+return $core.withContext(function($ctx2) {
+return $recv(self._parent())._isAssignmentNode();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+return $recv($1)._not();
+}, function($ctx1) {$ctx1.fill(self,"isReferenced",{},$globals.ASTNode)});
+},
+args: [],
+source: "isReferenced\x0a\x09\x22Answer true if the receiver is referenced by other nodes.\x0a\x09Do not take sequences or assignments into account\x22\x0a\x09\x0a\x09^ (self parent isSequenceNode or: [\x0a\x09\x09self parent isAssignmentNode ]) not",
+referencedClasses: [],
+messageSends: ["not", "or:", "isSequenceNode", "parent", "isAssignmentNode"]
+}),
+$globals.ASTNode);
+
+$core.addMethod(
+$core.method({
+selector: "subtreeNeedsAliasing",
+protocol: '*Compiler-IR',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv(self._shouldBeAliased())._or_((function(){
+return $core.withContext(function($ctx2) {
+return $recv(self._dagChildren())._anySatisfy_((function(each){
+return $core.withContext(function($ctx3) {
+return $recv(each)._subtreeNeedsAliasing();
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
+}));
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"subtreeNeedsAliasing",{},$globals.ASTNode)});
+},
+args: [],
+source: "subtreeNeedsAliasing\x0a\x09^ self shouldBeAliased or: [\x0a\x09\x09self dagChildren anySatisfy: [ :each | each subtreeNeedsAliasing ] ]",
+referencedClasses: [],
+messageSends: ["or:", "shouldBeAliased", "anySatisfy:", "dagChildren", "subtreeNeedsAliasing"]
+}),
+$globals.ASTNode);
+
+$core.addMethod(
+$core.method({
+selector: "shouldBeAliased",
+protocol: '*Compiler-IR',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=(
+$ctx1.supercall = true,
+($globals.AssignmentNode.superclass||$boot.nilAsClass).fn.prototype._shouldBeAliased.apply($recv(self), []));
+$ctx1.supercall = false;
+return $recv($1)._or_((function(){
+return $core.withContext(function($ctx2) {
+return self._isReferenced();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"shouldBeAliased",{},$globals.AssignmentNode)});
+},
+args: [],
+source: "shouldBeAliased\x0a\x09^ super shouldBeAliased or: [ self isReferenced ]",
+referencedClasses: [],
+messageSends: ["or:", "shouldBeAliased", "isReferenced"]
+}),
+$globals.AssignmentNode);
+
+$core.addMethod(
+$core.method({
 selector: "appendToInstruction:",
 protocol: '*Compiler-IR',
 fn: function (anIRInstruction){
@@ -42505,6 +42466,102 @@ messageSends: ["appendBlock:"]
 }),
 $globals.BlockClosure);
 
+$core.addMethod(
+$core.method({
+selector: "subtreeNeedsAliasing",
+protocol: '*Compiler-IR',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+return self._shouldBeAliased();
+}, function($ctx1) {$ctx1.fill(self,"subtreeNeedsAliasing",{},$globals.BlockNode)});
+},
+args: [],
+source: "subtreeNeedsAliasing\x0a\x09^ self shouldBeAliased",
+referencedClasses: [],
+messageSends: ["shouldBeAliased"]
+}),
+$globals.BlockNode);
+
+$core.addMethod(
+$core.method({
+selector: "subtreeNeedsAliasing",
+protocol: '*Compiler-IR',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv($recv(self._parent())._isSequenceNode())._not();
+}, function($ctx1) {$ctx1.fill(self,"subtreeNeedsAliasing",{},$globals.CascadeNode)});
+},
+args: [],
+source: "subtreeNeedsAliasing\x0a\x09^ self parent isSequenceNode not",
+referencedClasses: [],
+messageSends: ["not", "isSequenceNode", "parent"]
+}),
+$globals.CascadeNode);
+
+$core.addMethod(
+$core.method({
+selector: "shouldBeAliased",
+protocol: '*Compiler-IR',
+fn: function (){
+var self=this;
+var sends;
+return $core.withContext(function($ctx1) {
+var $2,$1;
+sends=$recv($recv($recv(self._method())._sendIndexes())._at_(self._selector()))._size();
+$2=(
+$ctx1.supercall = true,
+($globals.SendNode.superclass||$boot.nilAsClass).fn.prototype._shouldBeAliased.apply($recv(self), []));
+$ctx1.supercall = false;
+$1=$recv($2)._or_((function(){
+return $core.withContext(function($ctx2) {
+return $recv(self._isReferenced())._and_((function(){
+return $core.withContext(function($ctx3) {
+return $recv($recv(self._index()).__lt(sends))._or_((function(){
+return $core.withContext(function($ctx4) {
+return self._superSend();
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
+}));
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+}));
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+$ctx1.sendIdx["or:"]=1;
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"shouldBeAliased",{sends:sends},$globals.SendNode)});
+},
+args: [],
+source: "shouldBeAliased\x0a\x09\x22Because we keep track of send indexes, some send nodes need additional care for aliasing. \x0a\x09See IRJSVisitor >> visitIRSend:\x22\x0a\x09\x0a\x09| sends |\x0a\x09\x0a\x09sends := (self method sendIndexes at: self selector) size.\x0a\x09\x0a\x09^ (super shouldBeAliased or: [\x0a\x09\x09self isReferenced and: [\x0a\x09\x09\x09self index < sends or: [\x0a\x09\x09\x09\x09self superSend ] ] ])",
+referencedClasses: [],
+messageSends: ["size", "at:", "sendIndexes", "method", "selector", "or:", "shouldBeAliased", "and:", "isReferenced", "<", "index", "superSend"]
+}),
+$globals.SendNode);
+
+$core.addMethod(
+$core.method({
+selector: "subtreeNeedsAliasing",
+protocol: '*Compiler-IR',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv(self._shouldBeInlined())._or_((function(){
+return $core.withContext(function($ctx2) {
+return (
+$ctx2.supercall = true,
+($globals.SendNode.superclass||$boot.nilAsClass).fn.prototype._subtreeNeedsAliasing.apply($recv(self), []));
+$ctx2.supercall = false;
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"subtreeNeedsAliasing",{},$globals.SendNode)});
+},
+args: [],
+source: "subtreeNeedsAliasing\x0a\x09^ self shouldBeInlined or: [ super subtreeNeedsAliasing ]",
+referencedClasses: [],
+messageSends: ["or:", "shouldBeInlined", "subtreeNeedsAliasing"]
+}),
+$globals.SendNode);
+
 });
 
 define('amber_core/Compiler-Inlining',["amber/boot", "amber_core/Compiler-Core", "amber_core/Compiler-IR", "amber_core/Compiler-Semantic", "amber_core/Kernel-Objects"], function($boot){"use strict";
@@ -42515,58 +42572,21 @@ $core.addPackage('Compiler-Inlining');
 $core.packages["Compiler-Inlining"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-Inlining"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('IRInlinedAssignment', $globals.IRAssignment, [], 'Compiler-Inlining');
-$globals.IRInlinedAssignment.comment="I represent an inlined assignment instruction.";
-$core.addMethod(
-$core.method({
-selector: "accept:",
-protocol: 'visiting',
-fn: function (aVisitor){
-var self=this;
-return $core.withContext(function($ctx1) {
-return $recv(aVisitor)._visitIRInlinedAssignment_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedAssignment)});
-},
-args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRInlinedAssignment: self",
-referencedClasses: [],
-messageSends: ["visitIRInlinedAssignment:"]
-}),
-$globals.IRInlinedAssignment);
-
-$core.addMethod(
-$core.method({
-selector: "isInlined",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return true;
-
-},
-args: [],
-source: "isInlined\x0a\x09^ true",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.IRInlinedAssignment);
-
-
-
 $core.addClass('IRInlinedClosure', $globals.IRClosure, [], 'Compiler-Inlining');
 $globals.IRInlinedClosure.comment="I represent an inlined closure instruction.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 $recv(aVisitor)._visitIRInlinedClosure_(self);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedClosure)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRInlinedClosure)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09aVisitor visitIRInlinedClosure: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedClosure: self",
 referencedClasses: [],
 messageSends: ["visitIRInlinedClosure:"]
 }),
@@ -42590,58 +42610,21 @@ $globals.IRInlinedClosure);
 
 
 
-$core.addClass('IRInlinedReturn', $globals.IRReturn, [], 'Compiler-Inlining');
-$globals.IRInlinedReturn.comment="I represent an inlined local return instruction.";
-$core.addMethod(
-$core.method({
-selector: "accept:",
-protocol: 'visiting',
-fn: function (aVisitor){
-var self=this;
-return $core.withContext(function($ctx1) {
-return $recv(aVisitor)._visitIRInlinedReturn_(self);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedReturn)});
-},
-args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09^ aVisitor visitIRInlinedReturn: self",
-referencedClasses: [],
-messageSends: ["visitIRInlinedReturn:"]
-}),
-$globals.IRInlinedReturn);
-
-$core.addMethod(
-$core.method({
-selector: "isInlined",
-protocol: 'testing',
-fn: function (){
-var self=this;
-return true;
-
-},
-args: [],
-source: "isInlined\x0a\x09^ true",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.IRInlinedReturn);
-
-
-
 $core.addClass('IRInlinedSend', $globals.IRSend, [], 'Compiler-Inlining');
 $globals.IRInlinedSend.comment="I am the abstract super class of inlined message send instructions.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 $recv(aVisitor)._visitInlinedSend_(self);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedSend)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRInlinedSend)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09aVisitor visitInlinedSend: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitInlinedSend: self",
 referencedClasses: [],
 messageSends: ["visitInlinedSend:"]
 }),
@@ -42685,17 +42668,17 @@ $core.addClass('IRInlinedIfFalse', $globals.IRInlinedSend, [], 'Compiler-Inlinin
 $globals.IRInlinedIfFalse.comment="I represent an inlined `#ifFalse:` message send instruction.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 $recv(aVisitor)._visitIRInlinedIfFalse_(self);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedIfFalse)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRInlinedIfFalse)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09aVisitor visitIRInlinedIfFalse: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedIfFalse: self",
 referencedClasses: [],
 messageSends: ["visitIRInlinedIfFalse:"]
 }),
@@ -42707,17 +42690,17 @@ $core.addClass('IRInlinedIfNilIfNotNil', $globals.IRInlinedSend, [], 'Compiler-I
 $globals.IRInlinedIfNilIfNotNil.comment="I represent an inlined `#ifNil:ifNotNil:` message send instruction.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 $recv(aVisitor)._visitIRInlinedIfNilIfNotNil_(self);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedIfNilIfNotNil)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRInlinedIfNilIfNotNil)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09aVisitor visitIRInlinedIfNilIfNotNil: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedIfNilIfNotNil: self",
 referencedClasses: [],
 messageSends: ["visitIRInlinedIfNilIfNotNil:"]
 }),
@@ -42783,17 +42766,17 @@ $core.addClass('IRInlinedIfTrue', $globals.IRInlinedSend, [], 'Compiler-Inlining
 $globals.IRInlinedIfTrue.comment="I represent an inlined `#ifTrue:` message send instruction.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 $recv(aVisitor)._visitIRInlinedIfTrue_(self);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedIfTrue)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRInlinedIfTrue)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09aVisitor visitIRInlinedIfTrue: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedIfTrue: self",
 referencedClasses: [],
 messageSends: ["visitIRInlinedIfTrue:"]
 }),
@@ -42805,17 +42788,17 @@ $core.addClass('IRInlinedIfTrueIfFalse', $globals.IRInlinedSend, [], 'Compiler-I
 $globals.IRInlinedIfTrueIfFalse.comment="I represent an inlined `#ifTrue:ifFalse:` message send instruction.";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 $recv(aVisitor)._visitIRInlinedIfTrueIfFalse_(self);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedIfTrueIfFalse)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRInlinedIfTrueIfFalse)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09aVisitor visitIRInlinedIfTrueIfFalse: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedIfTrueIfFalse: self",
 referencedClasses: [],
 messageSends: ["visitIRInlinedIfTrueIfFalse:"]
 }),
@@ -42827,17 +42810,17 @@ $core.addClass('IRInlinedSequence', $globals.IRBlockSequence, [], 'Compiler-Inli
 $globals.IRInlinedSequence.comment="I represent a (block) sequence inside an inlined closure instruction (instance of `IRInlinedClosure`).";
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
 return $core.withContext(function($ctx1) {
 $recv(aVisitor)._visitIRInlinedSequence_(self);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedSequence)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRInlinedSequence)});
 },
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09aVisitor visitIRInlinedSequence: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedSequence: self",
 referencedClasses: [],
 messageSends: ["visitIRInlinedSequence:"]
 }),
@@ -42961,10 +42944,13 @@ protocol: 'testing',
 fn: function (anIRReturn){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $1;
+var $3,$2,$1;
 $1=$recv($recv($recv(anIRReturn)._isInlined())._not())._and_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($recv($recv($recv(anIRReturn)._instructions())._single())._isSend())._and_((function(){
+$3=$recv(anIRReturn)._expression();
+$ctx2.sendIdx["expression"]=1;
+$2=$recv($3)._isSend();
+return $recv($2)._and_((function(){
 return $core.withContext(function($ctx3) {
 return self._shouldInlineSend_($recv(anIRReturn)._expression());
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
@@ -42976,9 +42962,9 @@ return $1;
 }, function($ctx1) {$ctx1.fill(self,"shouldInlineReturn:",{anIRReturn:anIRReturn},$globals.IRInliner)});
 },
 args: ["anIRReturn"],
-source: "shouldInlineReturn: anIRReturn\x0a\x09^ anIRReturn isInlined not and: [\x0a\x09\x09anIRReturn instructions single isSend and: [\x0a\x09\x09\x09self shouldInlineSend: anIRReturn expression ]]",
+source: "shouldInlineReturn: anIRReturn\x0a\x09^ anIRReturn isInlined not and: [\x0a\x09\x09anIRReturn expression isSend and: [\x0a\x09\x09\x09self shouldInlineSend: anIRReturn expression ]]",
 referencedClasses: [],
-messageSends: ["and:", "not", "isInlined", "isSend", "single", "instructions", "shouldInlineSend:", "expression"]
+messageSends: ["and:", "not", "isInlined", "isSend", "expression", "shouldInlineSend:"]
 }),
 $globals.IRInliner);
 
@@ -43000,51 +42986,6 @@ args: ["anIRSend"],
 source: "shouldInlineSend: anIRSend\x0a\x09^ anIRSend isInlined not and: [\x0a\x09\x09IRSendInliner shouldInline: anIRSend ]",
 referencedClasses: ["IRSendInliner"],
 messageSends: ["and:", "not", "isInlined", "shouldInline:"]
-}),
-$globals.IRInliner);
-
-$core.addMethod(
-$core.method({
-selector: "transformNonLocalReturn:",
-protocol: 'visiting',
-fn: function (anIRNonLocalReturn){
-var self=this;
-var localReturn;
-return $core.withContext(function($ctx1) {
-var $2,$1,$4,$3,$5,$6,$7;
-$2=$recv(anIRNonLocalReturn)._scope();
-$ctx1.sendIdx["scope"]=1;
-$1=$recv($2)._canInlineNonLocalReturns();
-if($core.assert($1)){
-$4=$recv(anIRNonLocalReturn)._scope();
-$ctx1.sendIdx["scope"]=2;
-$3=$recv($4)._methodScope();
-$5=$recv(anIRNonLocalReturn)._scope();
-$ctx1.sendIdx["scope"]=3;
-$recv($3)._removeNonLocalReturn_($5);
-$6=$recv($globals.IRReturn)._new();
-$recv($6)._scope_($recv(anIRNonLocalReturn)._scope());
-localReturn=$recv($6)._yourself();
-localReturn;
-$recv($recv(anIRNonLocalReturn)._instructions())._do_((function(each){
-return $core.withContext(function($ctx2) {
-return $recv(localReturn)._add_(each);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
-}));
-$recv(anIRNonLocalReturn)._replaceWith_(localReturn);
-return localReturn;
-};
-$7=(
-$ctx1.supercall = true,
-($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRNonLocalReturn_.apply($recv(self), [anIRNonLocalReturn]));
-$ctx1.supercall = false;
-return $7;
-}, function($ctx1) {$ctx1.fill(self,"transformNonLocalReturn:",{anIRNonLocalReturn:anIRNonLocalReturn,localReturn:localReturn},$globals.IRInliner)});
-},
-args: ["anIRNonLocalReturn"],
-source: "transformNonLocalReturn: anIRNonLocalReturn\x0a\x09\x22Replace a non local return into a local return\x22\x0a\x0a\x09| localReturn |\x0a\x09anIRNonLocalReturn scope canInlineNonLocalReturns ifTrue: [\x0a\x09\x09anIRNonLocalReturn scope methodScope removeNonLocalReturn: anIRNonLocalReturn scope.\x0a\x09\x09localReturn := IRReturn new\x0a\x09\x09\x09scope: anIRNonLocalReturn scope;\x0a\x09\x09\x09yourself.\x0a\x09\x09anIRNonLocalReturn instructions do: [ :each |\x0a\x09\x09\x09localReturn add: each ].\x0a\x09\x09anIRNonLocalReturn replaceWith: localReturn.\x0a\x09\x09^ localReturn ].\x0a\x09^ super visitIRNonLocalReturn: anIRNonLocalReturn",
-referencedClasses: ["IRReturn"],
-messageSends: ["ifTrue:", "canInlineNonLocalReturns", "scope", "removeNonLocalReturn:", "methodScope", "scope:", "new", "yourself", "do:", "instructions", "add:", "replaceWith:", "visitIRNonLocalReturn:"]
 }),
 $globals.IRInliner);
 
@@ -43080,14 +43021,42 @@ selector: "visitIRNonLocalReturn:",
 protocol: 'visiting',
 fn: function (anIRNonLocalReturn){
 var self=this;
+var localReturn;
 return $core.withContext(function($ctx1) {
-return self._transformNonLocalReturn_(anIRNonLocalReturn);
-}, function($ctx1) {$ctx1.fill(self,"visitIRNonLocalReturn:",{anIRNonLocalReturn:anIRNonLocalReturn},$globals.IRInliner)});
+var $2,$1,$4,$3,$5,$6,$7;
+$2=$recv(anIRNonLocalReturn)._scope();
+$ctx1.sendIdx["scope"]=1;
+$1=$recv($2)._canInlineNonLocalReturns();
+if($core.assert($1)){
+$4=$recv(anIRNonLocalReturn)._scope();
+$ctx1.sendIdx["scope"]=2;
+$3=$recv($4)._methodScope();
+$5=$recv(anIRNonLocalReturn)._scope();
+$ctx1.sendIdx["scope"]=3;
+$recv($3)._removeNonLocalReturn_($5);
+$6=$recv($globals.IRReturn)._new();
+$recv($6)._scope_($recv(anIRNonLocalReturn)._scope());
+localReturn=$recv($6)._yourself();
+localReturn;
+$recv($recv(anIRNonLocalReturn)._dagChildren())._do_((function(each){
+return $core.withContext(function($ctx2) {
+return $recv(localReturn)._add_(each);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+}));
+$recv(anIRNonLocalReturn)._replaceWith_(localReturn);
+return self._visitIRReturn_(localReturn);
+};
+$7=(
+$ctx1.supercall = true,
+($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRNonLocalReturn_.apply($recv(self), [anIRNonLocalReturn]));
+$ctx1.supercall = false;
+return $7;
+}, function($ctx1) {$ctx1.fill(self,"visitIRNonLocalReturn:",{anIRNonLocalReturn:anIRNonLocalReturn,localReturn:localReturn},$globals.IRInliner)});
 },
 args: ["anIRNonLocalReturn"],
-source: "visitIRNonLocalReturn: anIRNonLocalReturn\x0a\x09^ self transformNonLocalReturn: anIRNonLocalReturn",
-referencedClasses: [],
-messageSends: ["transformNonLocalReturn:"]
+source: "visitIRNonLocalReturn: anIRNonLocalReturn\x0a\x09| localReturn |\x0a\x09anIRNonLocalReturn scope canInlineNonLocalReturns ifTrue: [\x0a\x09\x09anIRNonLocalReturn scope methodScope removeNonLocalReturn: anIRNonLocalReturn scope.\x0a\x09\x09localReturn := IRReturn new\x0a\x09\x09\x09scope: anIRNonLocalReturn scope;\x0a\x09\x09\x09yourself.\x0a\x09\x09anIRNonLocalReturn dagChildren do: [ :each |\x0a\x09\x09\x09localReturn add: each ].\x0a\x09\x09anIRNonLocalReturn replaceWith: localReturn.\x0a\x09\x09^ self visitIRReturn: localReturn ].\x0a\x09^ super visitIRNonLocalReturn: anIRNonLocalReturn",
+referencedClasses: ["IRReturn"],
+messageSends: ["ifTrue:", "canInlineNonLocalReturns", "scope", "removeNonLocalReturn:", "methodScope", "scope:", "new", "yourself", "do:", "dagChildren", "add:", "replaceWith:", "visitIRReturn:", "visitIRNonLocalReturn:"]
 }),
 $globals.IRInliner);
 
@@ -43149,24 +43118,6 @@ $core.addClass('IRInliningJSTranslator', $globals.IRJSTranslator, [], 'Compiler-
 $globals.IRInliningJSTranslator.comment="I am a specialized JavaScript translator able to write inlined IR instructions to JavaScript stream (`JSStream` instance).";
 $core.addMethod(
 $core.method({
-selector: "visitIRInlinedAssignment:",
-protocol: 'visiting',
-fn: function (anIRInlinedAssignment){
-var self=this;
-return $core.withContext(function($ctx1) {
-self._visit_($recv(anIRInlinedAssignment)._right());
-return self;
-}, function($ctx1) {$ctx1.fill(self,"visitIRInlinedAssignment:",{anIRInlinedAssignment:anIRInlinedAssignment},$globals.IRInliningJSTranslator)});
-},
-args: ["anIRInlinedAssignment"],
-source: "visitIRInlinedAssignment: anIRInlinedAssignment\x0a\x09self visit: anIRInlinedAssignment right",
-referencedClasses: [],
-messageSends: ["visit:", "right"]
-}),
-$globals.IRInliningJSTranslator);
-
-$core.addMethod(
-$core.method({
 selector: "visitIRInlinedClosure:",
 protocol: 'visiting',
 fn: function (anIRInlinedClosure){
@@ -43177,18 +43128,14 @@ return $core.withContext(function($ctx2) {
 return $recv($recv(each)._name())._asVariableName();
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 })));
-$recv($recv(anIRInlinedClosure)._instructions())._do_((function(each){
-return $core.withContext(function($ctx2) {
-return self._visit_(each);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
-}));
+self._visitAll_($recv(anIRInlinedClosure)._dagChildren());
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRInlinedClosure:",{anIRInlinedClosure:anIRInlinedClosure},$globals.IRInliningJSTranslator)});
 },
 args: ["anIRInlinedClosure"],
-source: "visitIRInlinedClosure: anIRInlinedClosure\x0a\x09self stream nextPutVars: (anIRInlinedClosure tempDeclarations collect: [ :each |\x0a\x09\x09each name asVariableName ]).\x0a\x09anIRInlinedClosure instructions do: [ :each |\x0a\x09\x09self visit: each ]",
+source: "visitIRInlinedClosure: anIRInlinedClosure\x0a\x09self stream nextPutVars: (anIRInlinedClosure tempDeclarations collect: [ :each |\x0a\x09\x09each name asVariableName ]).\x0a\x09self visitAll: anIRInlinedClosure dagChildren",
 referencedClasses: [],
-messageSends: ["nextPutVars:", "stream", "collect:", "tempDeclarations", "asVariableName", "name", "do:", "instructions", "visit:"]
+messageSends: ["nextPutVars:", "stream", "collect:", "tempDeclarations", "asVariableName", "name", "visitAll:", "dagChildren"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -43208,8 +43155,8 @@ $2=self._stream();
 $ctx2.sendIdx["stream"]=2;
 $recv($2)._nextPutAll_("!$core.assert(");
 $ctx2.sendIdx["nextPutAll:"]=1;
-$4=$recv(anIRInlinedIfFalse)._instructions();
-$ctx2.sendIdx["instructions"]=1;
+$4=$recv(anIRInlinedIfFalse)._dagChildren();
+$ctx2.sendIdx["dagChildren"]=1;
 $3=$recv($4)._first();
 self._visit_($3);
 $ctx2.sendIdx["visit:"]=1;
@@ -43217,16 +43164,16 @@ return $recv(self._stream())._nextPutAll_(")");
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }),(function(){
 return $core.withContext(function($ctx2) {
-return self._visit_($recv($recv(anIRInlinedIfFalse)._instructions())._last());
+return self._visit_($recv($recv(anIRInlinedIfFalse)._dagChildren())._last());
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRInlinedIfFalse:",{anIRInlinedIfFalse:anIRInlinedIfFalse},$globals.IRInliningJSTranslator)});
 },
 args: ["anIRInlinedIfFalse"],
-source: "visitIRInlinedIfFalse: anIRInlinedIfFalse\x0a\x09self stream nextPutIf: [\x0a\x09\x09self stream nextPutAll: '!$core.assert('.\x0a\x09\x09self visit: anIRInlinedIfFalse instructions first.\x0a\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfFalse instructions last ]",
+source: "visitIRInlinedIfFalse: anIRInlinedIfFalse\x0a\x09self stream nextPutIf: [\x0a\x09\x09self stream nextPutAll: '!$core.assert('.\x0a\x09\x09self visit: anIRInlinedIfFalse dagChildren first.\x0a\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfFalse dagChildren last ]",
 referencedClasses: [],
-messageSends: ["nextPutIf:then:", "stream", "nextPutAll:", "visit:", "first", "instructions", "last"]
+messageSends: ["nextPutIf:then:", "stream", "nextPutAll:", "visit:", "first", "dagChildren", "last"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -43253,8 +43200,8 @@ $3=$recv($4).__comma(" = ");
 $ctx2.sendIdx[","]=1;
 $recv($2)._nextPutAll_($3);
 $ctx2.sendIdx["nextPutAll:"]=1;
-$6=$recv(anIRInlinedIfNilIfNotNil)._instructions();
-$ctx2.sendIdx["instructions"]=1;
+$6=$recv(anIRInlinedIfNilIfNotNil)._dagChildren();
+$ctx2.sendIdx["dagChildren"]=1;
 $5=$recv($6)._first();
 self._visit_($5);
 $ctx2.sendIdx["visit:"]=1;
@@ -43265,24 +43212,24 @@ return $recv($7)._nextPutAll_($8);
 }, function($ctx2) {$ctx2.fillBlock({recvVarName:recvVarName},$ctx1,1)});
 }),(function(){
 return $core.withContext(function($ctx2) {
-$10=$recv(anIRInlinedIfNilIfNotNil)._instructions();
-$ctx2.sendIdx["instructions"]=2;
+$10=$recv(anIRInlinedIfNilIfNotNil)._dagChildren();
+$ctx2.sendIdx["dagChildren"]=2;
 $9=$recv($10)._second();
 return self._visit_($9);
 $ctx2.sendIdx["visit:"]=2;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }),(function(){
 return $core.withContext(function($ctx2) {
-return self._visit_($recv($recv(anIRInlinedIfNilIfNotNil)._instructions())._third());
+return self._visit_($recv($recv(anIRInlinedIfNilIfNotNil)._dagChildren())._third());
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
 }));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRInlinedIfNilIfNotNil:",{anIRInlinedIfNilIfNotNil:anIRInlinedIfNilIfNotNil},$globals.IRInliningJSTranslator)});
 },
 args: ["anIRInlinedIfNilIfNotNil"],
-source: "visitIRInlinedIfNilIfNotNil: anIRInlinedIfNilIfNotNil\x0a\x09self stream\x0a\x09\x09nextPutIf: [\x0a\x09\x09\x09| recvVarName |\x0a\x09\x09\x09recvVarName := anIRInlinedIfNilIfNotNil receiverInternalVariableName.\x0a\x09\x09\x09self stream nextPutAll: '(', recvVarName, ' = '.\x0a\x09\x09\x09self visit: anIRInlinedIfNilIfNotNil instructions first.\x0a\x09\x09\x09self stream nextPutAll: ') == null || ', recvVarName, '.isNil' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfNilIfNotNil instructions second ]\x0a\x09\x09else: [ self visit: anIRInlinedIfNilIfNotNil instructions third ]",
+source: "visitIRInlinedIfNilIfNotNil: anIRInlinedIfNilIfNotNil\x0a\x09self stream\x0a\x09\x09nextPutIf: [\x0a\x09\x09\x09| recvVarName |\x0a\x09\x09\x09recvVarName := anIRInlinedIfNilIfNotNil receiverInternalVariableName.\x0a\x09\x09\x09self stream nextPutAll: '(', recvVarName, ' = '.\x0a\x09\x09\x09self visit: anIRInlinedIfNilIfNotNil dagChildren first.\x0a\x09\x09\x09self stream nextPutAll: ') == null || ', recvVarName, '.isNil' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfNilIfNotNil dagChildren second ]\x0a\x09\x09else: [ self visit: anIRInlinedIfNilIfNotNil dagChildren third ]",
 referencedClasses: [],
-messageSends: ["nextPutIf:then:else:", "stream", "receiverInternalVariableName", "nextPutAll:", ",", "visit:", "first", "instructions", "second", "third"]
+messageSends: ["nextPutIf:then:else:", "stream", "receiverInternalVariableName", "nextPutAll:", ",", "visit:", "first", "dagChildren", "second", "third"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -43302,8 +43249,8 @@ $2=self._stream();
 $ctx2.sendIdx["stream"]=2;
 $recv($2)._nextPutAll_("$core.assert(");
 $ctx2.sendIdx["nextPutAll:"]=1;
-$4=$recv(anIRInlinedIfTrue)._instructions();
-$ctx2.sendIdx["instructions"]=1;
+$4=$recv(anIRInlinedIfTrue)._dagChildren();
+$ctx2.sendIdx["dagChildren"]=1;
 $3=$recv($4)._first();
 self._visit_($3);
 $ctx2.sendIdx["visit:"]=1;
@@ -43311,16 +43258,16 @@ return $recv(self._stream())._nextPutAll_(")");
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }),(function(){
 return $core.withContext(function($ctx2) {
-return self._visit_($recv($recv(anIRInlinedIfTrue)._instructions())._last());
+return self._visit_($recv($recv(anIRInlinedIfTrue)._dagChildren())._last());
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRInlinedIfTrue:",{anIRInlinedIfTrue:anIRInlinedIfTrue},$globals.IRInliningJSTranslator)});
 },
 args: ["anIRInlinedIfTrue"],
-source: "visitIRInlinedIfTrue: anIRInlinedIfTrue\x0a\x09self stream nextPutIf: [\x0a\x09\x09self stream nextPutAll: '$core.assert('.\x0a\x09\x09self visit: anIRInlinedIfTrue instructions first.\x0a\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfTrue instructions last ]",
+source: "visitIRInlinedIfTrue: anIRInlinedIfTrue\x0a\x09self stream nextPutIf: [\x0a\x09\x09self stream nextPutAll: '$core.assert('.\x0a\x09\x09self visit: anIRInlinedIfTrue dagChildren first.\x0a\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfTrue dagChildren last ]",
 referencedClasses: [],
-messageSends: ["nextPutIf:then:", "stream", "nextPutAll:", "visit:", "first", "instructions", "last"]
+messageSends: ["nextPutIf:then:", "stream", "nextPutAll:", "visit:", "first", "dagChildren", "last"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -43340,8 +43287,8 @@ $2=self._stream();
 $ctx2.sendIdx["stream"]=2;
 $recv($2)._nextPutAll_("$core.assert(");
 $ctx2.sendIdx["nextPutAll:"]=1;
-$4=$recv(anIRInlinedIfTrueIfFalse)._instructions();
-$ctx2.sendIdx["instructions"]=1;
+$4=$recv(anIRInlinedIfTrueIfFalse)._dagChildren();
+$ctx2.sendIdx["dagChildren"]=1;
 $3=$recv($4)._first();
 self._visit_($3);
 $ctx2.sendIdx["visit:"]=1;
@@ -43349,70 +43296,24 @@ return $recv(self._stream())._nextPutAll_(")");
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }),(function(){
 return $core.withContext(function($ctx2) {
-$6=$recv(anIRInlinedIfTrueIfFalse)._instructions();
-$ctx2.sendIdx["instructions"]=2;
+$6=$recv(anIRInlinedIfTrueIfFalse)._dagChildren();
+$ctx2.sendIdx["dagChildren"]=2;
 $5=$recv($6)._second();
 return self._visit_($5);
 $ctx2.sendIdx["visit:"]=2;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }),(function(){
 return $core.withContext(function($ctx2) {
-return self._visit_($recv($recv(anIRInlinedIfTrueIfFalse)._instructions())._third());
+return self._visit_($recv($recv(anIRInlinedIfTrueIfFalse)._dagChildren())._third());
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
 }));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRInlinedIfTrueIfFalse:",{anIRInlinedIfTrueIfFalse:anIRInlinedIfTrueIfFalse},$globals.IRInliningJSTranslator)});
 },
 args: ["anIRInlinedIfTrueIfFalse"],
-source: "visitIRInlinedIfTrueIfFalse: anIRInlinedIfTrueIfFalse\x0a\x09self stream\x0a\x09\x09nextPutIf: [\x0a\x09\x09\x09self stream nextPutAll: '$core.assert('.\x0a\x09\x09\x09self visit: anIRInlinedIfTrueIfFalse instructions first.\x0a\x09\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfTrueIfFalse instructions second ]\x0a\x09\x09else: [ self visit: anIRInlinedIfTrueIfFalse instructions third ]",
+source: "visitIRInlinedIfTrueIfFalse: anIRInlinedIfTrueIfFalse\x0a\x09self stream\x0a\x09\x09nextPutIf: [\x0a\x09\x09\x09self stream nextPutAll: '$core.assert('.\x0a\x09\x09\x09self visit: anIRInlinedIfTrueIfFalse dagChildren first.\x0a\x09\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfTrueIfFalse dagChildren second ]\x0a\x09\x09else: [ self visit: anIRInlinedIfTrueIfFalse dagChildren third ]",
 referencedClasses: [],
-messageSends: ["nextPutIf:then:else:", "stream", "nextPutAll:", "visit:", "first", "instructions", "second", "third"]
-}),
-$globals.IRInliningJSTranslator);
-
-$core.addMethod(
-$core.method({
-selector: "visitIRInlinedNonLocalReturn:",
-protocol: 'visiting',
-fn: function (anIRInlinedReturn){
-var self=this;
-return $core.withContext(function($ctx1) {
-var $1;
-$1=self._stream();
-$ctx1.sendIdx["stream"]=1;
-$recv($1)._nextPutStatementWith_((function(){
-return $core.withContext(function($ctx2) {
-return self._visit_($recv(anIRInlinedReturn)._expression());
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
-$recv(self._stream())._nextPutNonLocalReturnWith_((function(){
-
-}));
-return self;
-}, function($ctx1) {$ctx1.fill(self,"visitIRInlinedNonLocalReturn:",{anIRInlinedReturn:anIRInlinedReturn},$globals.IRInliningJSTranslator)});
-},
-args: ["anIRInlinedReturn"],
-source: "visitIRInlinedNonLocalReturn: anIRInlinedReturn\x0a\x09self stream nextPutStatementWith: [\x0a\x09\x09self visit: anIRInlinedReturn expression ].\x0a\x09self stream nextPutNonLocalReturnWith: [ ]",
-referencedClasses: [],
-messageSends: ["nextPutStatementWith:", "stream", "visit:", "expression", "nextPutNonLocalReturnWith:"]
-}),
-$globals.IRInliningJSTranslator);
-
-$core.addMethod(
-$core.method({
-selector: "visitIRInlinedReturn:",
-protocol: 'visiting',
-fn: function (anIRInlinedReturn){
-var self=this;
-return $core.withContext(function($ctx1) {
-self._visit_($recv(anIRInlinedReturn)._expression());
-return self;
-}, function($ctx1) {$ctx1.fill(self,"visitIRInlinedReturn:",{anIRInlinedReturn:anIRInlinedReturn},$globals.IRInliningJSTranslator)});
-},
-args: ["anIRInlinedReturn"],
-source: "visitIRInlinedReturn: anIRInlinedReturn\x0a\x09self visit: anIRInlinedReturn expression",
-referencedClasses: [],
-messageSends: ["visit:", "expression"]
+messageSends: ["nextPutIf:then:else:", "stream", "nextPutAll:", "visit:", "first", "dagChildren", "second", "third"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -43423,7 +43324,7 @@ protocol: 'visiting',
 fn: function (anIRInlinedSequence){
 var self=this;
 return $core.withContext(function($ctx1) {
-$recv($recv(anIRInlinedSequence)._instructions())._do_((function(each){
+$recv($recv(anIRInlinedSequence)._dagChildren())._do_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(self._stream())._nextPutStatementWith_((function(){
 return $core.withContext(function($ctx3) {
@@ -43436,9 +43337,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRInlinedSequence:",{anIRInlinedSequence:anIRInlinedSequence},$globals.IRInliningJSTranslator)});
 },
 args: ["anIRInlinedSequence"],
-source: "visitIRInlinedSequence: anIRInlinedSequence\x0a\x09anIRInlinedSequence instructions do: [ :each |\x0a\x09\x09self stream nextPutStatementWith: [ self visit: each ]]",
+source: "visitIRInlinedSequence: anIRInlinedSequence\x0a\x09anIRInlinedSequence dagChildren do: [ :each |\x0a\x09\x09self stream nextPutStatementWith: [ self visit: each ]]",
 referencedClasses: [],
-messageSends: ["do:", "instructions", "nextPutStatementWith:", "stream", "visit:"]
+messageSends: ["do:", "dagChildren", "nextPutStatementWith:", "stream", "visit:"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -43618,7 +43519,7 @@ fn: function (anIRClosure){
 var self=this;
 var inlinedClosure,sequence,statements;
 return $core.withContext(function($ctx1) {
-var $1,$2,$3,$5,$6,$4,$7,$9,$11,$13,$14,$15,$12,$10,$17,$19,$20,$18,$16,$8,$23,$22,$24,$21,$25,$27,$26;
+var $1,$2,$3,$5,$6,$4,$7,$9,$11,$13,$14,$15,$12,$10,$17,$19,$20,$18,$16,$8;
 inlinedClosure=self._inlinedClosure();
 $1=inlinedClosure;
 $2=$recv(anIRClosure)._scope();
@@ -43685,7 +43586,7 @@ $ctx2.sendIdx["add:"]=3;
 $ctx1.sendIdx["do:"]=2;
 $recv(inlinedClosure)._add_(sequence);
 $ctx1.sendIdx["add:"]=6;
-statements=$recv($recv(anIRClosure)._sequence())._instructions();
+statements=$recv($recv(anIRClosure)._sequence())._dagChildren();
 $recv(statements)._ifNotEmpty_((function(){
 return $core.withContext(function($ctx2) {
 $recv($recv(statements)._allButLast())._do_((function(each){
@@ -43694,35 +43595,16 @@ return $recv(sequence)._add_(each);
 $ctx3.sendIdx["add:"]=7;
 }, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,4)});
 }));
-$23=$recv(statements)._last();
-$ctx2.sendIdx["last"]=1;
-$22=$recv($23)._isReturn();
-$21=$recv($22)._and_((function(){
-return $core.withContext(function($ctx3) {
-$24=$recv(statements)._last();
-$ctx3.sendIdx["last"]=2;
-return $recv($24)._isBlockReturn();
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,5)});
-}));
-if($core.assert($21)){
-$25=sequence;
-$27=$recv(statements)._last();
-$ctx2.sendIdx["last"]=3;
-$26=$recv($27)._expression();
-return $recv($25)._add_($26);
-$ctx2.sendIdx["add:"]=8;
-} else {
-return $recv(sequence)._add_($recv(statements)._last());
-};
+return $recv(sequence)._add_($recv($recv(statements)._last())._asInlinedBlockResult());
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
 }));
 return inlinedClosure;
 }, function($ctx1) {$ctx1.fill(self,"inlineClosure:",{anIRClosure:anIRClosure,inlinedClosure:inlinedClosure,sequence:sequence,statements:statements},$globals.IRSendInliner)});
 },
 args: ["anIRClosure"],
-source: "inlineClosure: anIRClosure\x0a\x09| inlinedClosure sequence statements |\x0a\x0a\x09inlinedClosure := self inlinedClosure.\x0a\x09inlinedClosure \x0a\x09\x09scope: anIRClosure scope;\x0a\x09\x09parent: anIRClosure parent.\x0a\x0a\x09\x22Add the possible temp declarations\x22\x0a\x09anIRClosure tempDeclarations do: [ :each |\x0a\x09\x09\x09inlinedClosure add: each ].\x0a\x0a\x09\x22Add a block sequence\x22\x0a\x09sequence := self inlinedSequence.\x0a\x0a\x09\x22Map the closure arguments to the receiver of the message send\x22\x0a\x09anIRClosure arguments do: [ :each |\x0a\x09\x09inlinedClosure add: (IRTempDeclaration new name: each; yourself).\x0a\x09\x09sequence add: (IRAssignment new\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: each; yourself));\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: '$receiver'; yourself));\x0a\x09\x09\x09yourself) ].\x0a\x09\x09\x09\x0a\x09\x22To ensure the correct order of the closure instructions: first the temps then the sequence\x22\x0a\x09inlinedClosure add: sequence.\x0a\x0a\x09\x22Get all the statements\x22\x0a\x09statements := anIRClosure sequence instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements allButLast do: [ :each | sequence add: each ].\x0a\x0a\x09\x09\x22Inlined closures don't have implicit local returns\x22\x0a\x09\x09(statements last isReturn and: [ statements last isBlockReturn ])\x0a\x09\x09\x09ifTrue: [ sequence add: statements last expression ]\x0a\x09\x09\x09ifFalse: [ sequence add: statements last ] ].\x0a\x0a\x09^ inlinedClosure",
+source: "inlineClosure: anIRClosure\x0a\x09| inlinedClosure sequence statements |\x0a\x0a\x09inlinedClosure := self inlinedClosure.\x0a\x09inlinedClosure \x0a\x09\x09scope: anIRClosure scope;\x0a\x09\x09parent: anIRClosure parent.\x0a\x0a\x09\x22Add the possible temp declarations\x22\x0a\x09anIRClosure tempDeclarations do: [ :each |\x0a\x09\x09\x09inlinedClosure add: each ].\x0a\x0a\x09\x22Add a block sequence\x22\x0a\x09sequence := self inlinedSequence.\x0a\x0a\x09\x22Map the closure arguments to the receiver of the message send\x22\x0a\x09anIRClosure arguments do: [ :each |\x0a\x09\x09inlinedClosure add: (IRTempDeclaration new name: each; yourself).\x0a\x09\x09sequence add: (IRAssignment new\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: each; yourself));\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: '$receiver'; yourself));\x0a\x09\x09\x09yourself) ].\x0a\x09\x09\x09\x0a\x09\x22To ensure the correct order of the closure instructions: first the temps then the sequence\x22\x0a\x09inlinedClosure add: sequence.\x0a\x0a\x09\x22Get all the statements\x22\x0a\x09statements := anIRClosure sequence dagChildren.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements allButLast do: [ :each | sequence add: each ].\x0a\x0a\x09\x09\x22Inlined closures change local returns into result value itself\x22\x0a\x09\x09sequence add: statements last asInlinedBlockResult ].\x0a\x0a\x09^ inlinedClosure",
 referencedClasses: ["IRTempDeclaration", "IRAssignment", "IRVariable", "AliasVar"],
-messageSends: ["inlinedClosure", "scope:", "scope", "parent:", "parent", "do:", "tempDeclarations", "add:", "inlinedSequence", "arguments", "name:", "new", "yourself", "variable:", "instructions", "sequence", "ifNotEmpty:", "allButLast", "ifTrue:ifFalse:", "and:", "isReturn", "last", "isBlockReturn", "expression"]
+messageSends: ["inlinedClosure", "scope:", "scope", "parent:", "parent", "do:", "tempDeclarations", "add:", "inlinedSequence", "arguments", "name:", "new", "yourself", "variable:", "dagChildren", "sequence", "ifNotEmpty:", "allButLast", "asInlinedBlockResult", "last"]
 }),
 $globals.IRSendInliner);
 
@@ -43750,6 +43632,24 @@ $globals.IRSendInliner);
 
 $core.addMethod(
 $core.method({
+selector: "inlineSend:andReplace:",
+protocol: 'private',
+fn: function (anIRSend,anIRInstruction){
+var self=this;
+return $core.withContext(function($ctx1) {
+$recv(anIRInstruction)._replaceWith_(anIRSend);
+return self._inlineSend_(anIRSend);
+}, function($ctx1) {$ctx1.fill(self,"inlineSend:andReplace:",{anIRSend:anIRSend,anIRInstruction:anIRInstruction},$globals.IRSendInliner)});
+},
+args: ["anIRSend", "anIRInstruction"],
+source: "inlineSend: anIRSend andReplace: anIRInstruction\x0a\x09anIRInstruction replaceWith: anIRSend.\x0a\x09^ self inlineSend: anIRSend",
+referencedClasses: [],
+messageSends: ["replaceWith:", "inlineSend:"]
+}),
+$globals.IRSendInliner);
+
+$core.addMethod(
+$core.method({
 selector: "inlinedClosure",
 protocol: 'factory',
 fn: function (){
@@ -43768,7 +43668,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "inlinedSend:withBlock:",
-protocol: 'inlining',
+protocol: 'private',
 fn: function (inlinedSend,anIRInstruction){
 var self=this;
 var inlinedClosure;
@@ -43807,7 +43707,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "inlinedSend:withBlock:withBlock:",
-protocol: 'inlining',
+protocol: 'private',
 fn: function (inlinedSend,anIRInstruction,anotherIRInstruction){
 var self=this;
 var inlinedClosure1,inlinedClosure2;
@@ -43997,65 +43897,23 @@ messageSends: ["ifFalse:", "includes:", "inlinedSelectors", "selector", "allSati
 $globals.IRSendInliner.klass);
 
 
-$core.addClass('IRAssignmentInliner', $globals.IRSendInliner, ['assignment'], 'Compiler-Inlining');
+$core.addClass('IRAssignmentInliner', $globals.IRSendInliner, ['target'], 'Compiler-Inlining');
 $globals.IRAssignmentInliner.comment="I inline message sends together with assignments by moving them around into the inline closure instructions.\x0a\x0a##Example\x0a\x0a\x09foo\x0a\x09\x09| a |\x0a\x09\x09a := true ifTrue: [ 1 ]\x0a\x0aWill produce:\x0a\x0a\x09if($core.assert(true) {\x0a\x09\x09a = 1;\x0a\x09};";
-$core.addMethod(
-$core.method({
-selector: "assignment",
-protocol: 'accessing',
-fn: function (){
-var self=this;
-return self["@assignment"];
-
-},
-args: [],
-source: "assignment\x0a\x09^ assignment",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.IRAssignmentInliner);
-
-$core.addMethod(
-$core.method({
-selector: "assignment:",
-protocol: 'accessing',
-fn: function (aNode){
-var self=this;
-self["@assignment"]=aNode;
-return self;
-
-},
-args: ["aNode"],
-source: "assignment: aNode\x0a\x09assignment := aNode",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.IRAssignmentInliner);
-
 $core.addMethod(
 $core.method({
 selector: "inlineAssignment:",
 protocol: 'inlining',
 fn: function (anIRAssignment){
 var self=this;
-var inlinedAssignment;
 return $core.withContext(function($ctx1) {
-self._assignment_(anIRAssignment);
-inlinedAssignment=$recv($globals.IRInlinedAssignment)._new();
-$recv($recv(anIRAssignment)._instructions())._do_((function(each){
-return $core.withContext(function($ctx2) {
-return $recv(inlinedAssignment)._add_(each);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-}));
-$recv(anIRAssignment)._replaceWith_(inlinedAssignment);
-self._inlineSend_($recv(inlinedAssignment)._right());
-return inlinedAssignment;
-}, function($ctx1) {$ctx1.fill(self,"inlineAssignment:",{anIRAssignment:anIRAssignment,inlinedAssignment:inlinedAssignment},$globals.IRAssignmentInliner)});
+self._target_($recv(anIRAssignment)._left());
+return self._inlineSend_andReplace_($recv(anIRAssignment)._right(),anIRAssignment);
+}, function($ctx1) {$ctx1.fill(self,"inlineAssignment:",{anIRAssignment:anIRAssignment},$globals.IRAssignmentInliner)});
 },
 args: ["anIRAssignment"],
-source: "inlineAssignment: anIRAssignment\x0a\x09| inlinedAssignment |\x0a\x09self assignment: anIRAssignment.\x0a\x09inlinedAssignment := IRInlinedAssignment new.\x0a\x09anIRAssignment instructions do: [ :each |\x0a\x09\x09inlinedAssignment add: each ].\x0a\x09anIRAssignment replaceWith: inlinedAssignment.\x0a\x09self inlineSend: inlinedAssignment right.\x0a\x09^ inlinedAssignment",
-referencedClasses: ["IRInlinedAssignment"],
-messageSends: ["assignment:", "new", "do:", "instructions", "add:", "replaceWith:", "inlineSend:", "right"]
+source: "inlineAssignment: anIRAssignment\x0a\x09self target: anIRAssignment left.\x0a\x09^ self inlineSend: anIRAssignment right andReplace: anIRAssignment",
+referencedClasses: [],
+messageSends: ["target:", "left", "inlineSend:andReplace:", "right"]
 }),
 $globals.IRAssignmentInliner);
 
@@ -44065,38 +43923,73 @@ selector: "inlineClosure:",
 protocol: 'inlining',
 fn: function (anIRClosure){
 var self=this;
-var inlinedClosure,statements;
+var closure,sequence,statements;
 return $core.withContext(function($ctx1) {
-var $2,$1,$3,$5,$4;
-inlinedClosure=(
+var $1,$2,$3,$5,$4;
+closure=(
 $ctx1.supercall = true,
 ($globals.IRAssignmentInliner.superclass||$boot.nilAsClass).fn.prototype._inlineClosure_.apply($recv(self), [anIRClosure]));
 $ctx1.supercall = false;
-statements=$recv($recv(inlinedClosure)._sequence())._instructions();
+sequence=$recv(closure)._sequence();
+statements=$recv(sequence)._dagChildren();
 $recv(statements)._ifNotEmpty_((function(){
+var final;
 return $core.withContext(function($ctx2) {
-$2=$recv(statements)._last();
-$ctx2.sendIdx["last"]=1;
-$1=$recv($2)._canBeAssigned();
+final=$recv(statements)._last();
+final;
+$1=$recv(final)._yieldsValue();
 if($core.assert($1)){
-$3=$recv(statements)._last();
-$ctx2.sendIdx["last"]=2;
+$2=sequence;
+$3=final;
 $5=$recv($globals.IRAssignment)._new();
-$recv($5)._add_($recv(self._assignment())._left());
+$recv($5)._add_(self._target());
 $ctx2.sendIdx["add:"]=1;
-$recv($5)._add_($recv($recv(statements)._last())._copy());
+$recv($5)._add_($recv(final)._copy());
 $4=$recv($5)._yourself();
-return $recv($3)._replaceWith_($4);
+return $recv($2)._replace_with_($3,$4);
 };
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({final:final},$ctx1,1)});
 }));
-return inlinedClosure;
-}, function($ctx1) {$ctx1.fill(self,"inlineClosure:",{anIRClosure:anIRClosure,inlinedClosure:inlinedClosure,statements:statements},$globals.IRAssignmentInliner)});
+return closure;
+}, function($ctx1) {$ctx1.fill(self,"inlineClosure:",{anIRClosure:anIRClosure,closure:closure,sequence:sequence,statements:statements},$globals.IRAssignmentInliner)});
 },
 args: ["anIRClosure"],
-source: "inlineClosure: anIRClosure\x0a\x09| inlinedClosure statements |\x0a\x0a\x09inlinedClosure := super inlineClosure: anIRClosure.\x0a\x09statements := inlinedClosure sequence instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements last canBeAssigned ifTrue: [\x0a\x09\x09\x09statements last replaceWith: (IRAssignment new\x0a\x09\x09\x09\x09add: self assignment left;\x0a\x09\x09\x09\x09add: statements last copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ inlinedClosure",
+source: "inlineClosure: anIRClosure\x0a\x09| closure sequence statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09sequence := closure sequence.\x0a\x09statements := sequence dagChildren.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09| final |\x0a\x09\x09final := statements last.\x0a\x09\x09final yieldsValue ifTrue: [\x0a\x09\x09\x09sequence replace: final with: (IRAssignment new\x0a\x09\x09\x09\x09add: self target;\x0a\x09\x09\x09\x09add: final copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ closure",
 referencedClasses: ["IRAssignment"],
-messageSends: ["inlineClosure:", "instructions", "sequence", "ifNotEmpty:", "ifTrue:", "canBeAssigned", "last", "replaceWith:", "add:", "new", "left", "assignment", "copy", "yourself"]
+messageSends: ["inlineClosure:", "sequence", "dagChildren", "ifNotEmpty:", "last", "ifTrue:", "yieldsValue", "replace:with:", "add:", "new", "target", "copy", "yourself"]
+}),
+$globals.IRAssignmentInliner);
+
+$core.addMethod(
+$core.method({
+selector: "target",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return self["@target"];
+
+},
+args: [],
+source: "target\x0a\x09^ target",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.IRAssignmentInliner);
+
+$core.addMethod(
+$core.method({
+selector: "target:",
+protocol: 'accessing',
+fn: function (anObject){
+var self=this;
+self["@target"]=anObject;
+return self;
+
+},
+args: ["anObject"],
+source: "target: anObject\x0a\x09target := anObject",
+referencedClasses: [],
+messageSends: []
 }),
 $globals.IRAssignmentInliner);
 
@@ -44110,36 +44003,38 @@ selector: "inlineClosure:",
 protocol: 'inlining',
 fn: function (anIRClosure){
 var self=this;
-var closure,statements;
+var closure,sequence,statements;
 return $core.withContext(function($ctx1) {
-var $2,$1,$3,$5,$4;
+var $1,$2,$3,$5,$4;
 closure=(
 $ctx1.supercall = true,
 ($globals.IRReturnInliner.superclass||$boot.nilAsClass).fn.prototype._inlineClosure_.apply($recv(self), [anIRClosure]));
 $ctx1.supercall = false;
-statements=$recv($recv(closure)._sequence())._instructions();
+sequence=$recv(closure)._sequence();
+statements=$recv(sequence)._dagChildren();
 $recv(statements)._ifNotEmpty_((function(){
+var final;
 return $core.withContext(function($ctx2) {
-$2=$recv(statements)._last();
-$ctx2.sendIdx["last"]=1;
-$1=$recv($2)._isReturn();
-if(!$core.assert($1)){
-$3=$recv(statements)._last();
-$ctx2.sendIdx["last"]=2;
+final=$recv(statements)._last();
+final;
+$1=$recv(final)._yieldsValue();
+if($core.assert($1)){
+$2=sequence;
+$3=final;
 $5=$recv($globals.IRReturn)._new();
-$recv($5)._add_($recv($recv(statements)._last())._copy());
+$recv($5)._add_($recv(final)._copy());
 $4=$recv($5)._yourself();
-return $recv($3)._replaceWith_($4);
+return $recv($2)._replace_with_($3,$4);
 };
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({final:final},$ctx1,1)});
 }));
 return closure;
-}, function($ctx1) {$ctx1.fill(self,"inlineClosure:",{anIRClosure:anIRClosure,closure:closure,statements:statements},$globals.IRReturnInliner)});
+}, function($ctx1) {$ctx1.fill(self,"inlineClosure:",{anIRClosure:anIRClosure,closure:closure,sequence:sequence,statements:statements},$globals.IRReturnInliner)});
 },
 args: ["anIRClosure"],
-source: "inlineClosure: anIRClosure\x0a\x09| closure statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09statements := closure sequence instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements last isReturn\x0a\x09\x09\x09ifFalse: [ statements last replaceWith: (IRReturn new\x0a\x09\x09\x09\x09add: statements last copy;\x0a\x09\x09\x09\x09yourself)] ].\x0a\x0a\x09^ closure",
+source: "inlineClosure: anIRClosure\x0a\x09| closure sequence statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09sequence := closure sequence.\x0a\x09statements := sequence dagChildren.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09| final |\x0a\x09\x09final := statements last.\x0a\x09\x09final yieldsValue ifTrue: [\x0a\x09\x09\x09sequence replace: final with: (IRReturn new\x0a\x09\x09\x09\x09add: final copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ closure",
 referencedClasses: ["IRReturn"],
-messageSends: ["inlineClosure:", "instructions", "sequence", "ifNotEmpty:", "ifFalse:", "isReturn", "last", "replaceWith:", "add:", "new", "copy", "yourself"]
+messageSends: ["inlineClosure:", "sequence", "dagChildren", "ifNotEmpty:", "last", "ifTrue:", "yieldsValue", "replace:with:", "add:", "new", "copy", "yourself"]
 }),
 $globals.IRReturnInliner);
 
@@ -44149,40 +44044,14 @@ selector: "inlineReturn:",
 protocol: 'inlining',
 fn: function (anIRReturn){
 var self=this;
-var return_;
 return $core.withContext(function($ctx1) {
-return_=self._inlinedReturn();
-$recv($recv(anIRReturn)._instructions())._do_((function(each){
-return $core.withContext(function($ctx2) {
-return $recv(return_)._add_(each);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-}));
-$recv(anIRReturn)._replaceWith_(return_);
-self._inlineSend_($recv(return_)._expression());
-return return_;
-}, function($ctx1) {$ctx1.fill(self,"inlineReturn:",{anIRReturn:anIRReturn,return_:return_},$globals.IRReturnInliner)});
+return self._inlineSend_andReplace_($recv(anIRReturn)._expression(),anIRReturn);
+}, function($ctx1) {$ctx1.fill(self,"inlineReturn:",{anIRReturn:anIRReturn},$globals.IRReturnInliner)});
 },
 args: ["anIRReturn"],
-source: "inlineReturn: anIRReturn\x0a\x09| return |\x0a\x09return := self inlinedReturn.\x0a\x09anIRReturn instructions do: [ :each |\x0a\x09\x09return add: each ].\x0a\x09anIRReturn replaceWith: return.\x0a\x09self inlineSend: return expression.\x0a\x09^ return",
+source: "inlineReturn: anIRReturn\x0a\x09^ self inlineSend: anIRReturn expression andReplace: anIRReturn",
 referencedClasses: [],
-messageSends: ["inlinedReturn", "do:", "instructions", "add:", "replaceWith:", "inlineSend:", "expression"]
-}),
-$globals.IRReturnInliner);
-
-$core.addMethod(
-$core.method({
-selector: "inlinedReturn",
-protocol: 'factory',
-fn: function (){
-var self=this;
-return $core.withContext(function($ctx1) {
-return $recv($globals.IRInlinedReturn)._new();
-}, function($ctx1) {$ctx1.fill(self,"inlinedReturn",{},$globals.IRReturnInliner)});
-},
-args: [],
-source: "inlinedReturn\x0a\x09^ IRInlinedReturn new",
-referencedClasses: ["IRInlinedReturn"],
-messageSends: ["new"]
+messageSends: ["inlineSend:andReplace:", "expression"]
 }),
 $globals.IRReturnInliner);
 
@@ -44252,10 +44121,99 @@ messageSends: ["new"]
 }),
 $globals.InliningCodeGenerator);
 
+$core.addMethod(
+$core.method({
+selector: "semanticAnalyzerClass",
+protocol: 'compiling',
+fn: function (){
+var self=this;
+return $globals.InliningSemanticAnalyzer;
+
+},
+args: [],
+source: "semanticAnalyzerClass\x0a\x09^ InliningSemanticAnalyzer",
+referencedClasses: ["InliningSemanticAnalyzer"],
+messageSends: []
+}),
+$globals.InliningCodeGenerator);
+
 
 
 $core.addClass('InliningError', $globals.SemanticError, [], 'Compiler-Inlining');
 $globals.InliningError.comment="Instances of InliningError are signaled when using an `InliningCodeGenerator`in a `Compiler`.";
+
+
+$core.addClass('InliningSemanticAnalyzer', $globals.SemanticAnalyzer, [], 'Compiler-Inlining');
+$core.addMethod(
+$core.method({
+selector: "visitSendNode:",
+protocol: 'visiting',
+fn: function (aNode){
+var self=this;
+return $core.withContext(function($ctx1) {
+var $1,$2,$3,$receiver;
+$1=$recv(aNode)._superSend();
+if(!$core.assert($1)){
+$2=$recv($recv($globals.IRSendInliner)._inlinedSelectors())._includes_($recv(aNode)._selector());
+if($core.assert($2)){
+$recv(aNode)._shouldBeInlined_(true);
+$3=$recv(aNode)._receiver();
+if(($receiver = $3) == null || $receiver.isNil){
+$3;
+} else {
+var receiver;
+receiver=$receiver;
+$recv(receiver)._shouldBeAliased_(true);
+};
+};
+};
+(
+$ctx1.supercall = true,
+($globals.InliningSemanticAnalyzer.superclass||$boot.nilAsClass).fn.prototype._visitSendNode_.apply($recv(self), [aNode]));
+$ctx1.supercall = false;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode},$globals.InliningSemanticAnalyzer)});
+},
+args: ["aNode"],
+source: "visitSendNode: aNode\x0a\x0a\x09aNode superSend ifFalse: [ \x0a\x09\x09(IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [\x0a\x09\x09\x09aNode shouldBeInlined: true.\x0a\x09\x09\x09aNode receiver ifNotNil: [ :receiver |\x0a\x09\x09\x09\x09receiver shouldBeAliased: true ] ] ].\x0a\x0a\x09super visitSendNode: aNode",
+referencedClasses: ["IRSendInliner"],
+messageSends: ["ifFalse:", "superSend", "ifTrue:", "includes:", "inlinedSelectors", "selector", "shouldBeInlined:", "ifNotNil:", "receiver", "shouldBeAliased:", "visitSendNode:"]
+}),
+$globals.InliningSemanticAnalyzer);
+
+
+$core.addMethod(
+$core.method({
+selector: "asInlinedBlockResult",
+protocol: '*Compiler-Inlining',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+return self._expression();
+}, function($ctx1) {$ctx1.fill(self,"asInlinedBlockResult",{},$globals.IRBlockReturn)});
+},
+args: [],
+source: "asInlinedBlockResult\x0a\x09^ self expression",
+referencedClasses: [],
+messageSends: ["expression"]
+}),
+$globals.IRBlockReturn);
+
+$core.addMethod(
+$core.method({
+selector: "asInlinedBlockResult",
+protocol: '*Compiler-Inlining',
+fn: function (){
+var self=this;
+return self;
+
+},
+args: [],
+source: "asInlinedBlockResult\x0a\x09^ self",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.IRInstruction);
 
 });
 
@@ -44452,7 +44410,7 @@ var context,sequenceNode;
 return $core.withContext(function($ctx1) {
 var $1,$2,$3;
 context=$recv(self["@outerContext"])._newInnerContext();
-$1=$recv($recv($recv(self["@node"])._nodes())._first())._copy();
+$1=$recv($recv($recv(self["@node"])._dagChildren())._first())._copy();
 $recv($1)._parent_(nil);
 sequenceNode=$recv($1)._yourself();
 $recv($recv(sequenceNode)._temps())._do_((function(each){
@@ -44482,9 +44440,9 @@ return $recv($recv(context)._interpreter())._pop();
 }, function($ctx1) {$ctx1.fill(self,"valueWithPossibleArguments:",{aCollection:aCollection,context:context,sequenceNode:sequenceNode},$globals.AIBlockClosure)});
 },
 args: ["aCollection"],
-source: "valueWithPossibleArguments: aCollection\x0a\x09| context sequenceNode |\x0a\x09context := outerContext newInnerContext.\x0a\x0a\x09\x22Interpret a copy of the sequence node to avoid creating a new AIBlockClosure\x22\x0a\x09sequenceNode := node nodes first copy\x0a\x09\x09parent: nil;\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09\x22Define locals in the context\x22\x0a\x09sequenceNode temps do: [ :each |\x0a\x09\x09context defineLocal: each ].\x0a\x09\x09\x0a\x09\x22Populate the arguments into the context locals\x22\x09\x0a\x09node parameters withIndexDo: [ :each :index |\x0a\x09\x09context defineLocal: each.\x0a\x09\x09context localAt: each put: (aCollection at: index ifAbsent: [ nil ]) ].\x0a\x0a\x09\x22Interpret the first node of the BlockSequenceNode\x22\x0a\x09context interpreter\x0a\x09\x09node: sequenceNode;\x0a\x09\x09enterNode;\x0a\x09\x09proceed.\x0a\x09\x09\x0a\x09outerContext interpreter\x0a\x09\x09setNonLocalReturnFromContext: context.\x0a\x09\x09\x0a\x09^ context interpreter pop",
+source: "valueWithPossibleArguments: aCollection\x0a\x09| context sequenceNode |\x0a\x09context := outerContext newInnerContext.\x0a\x0a\x09\x22Interpret a copy of the sequence node to avoid creating a new AIBlockClosure\x22\x0a\x09sequenceNode := node dagChildren first copy\x0a\x09\x09parent: nil;\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09\x22Define locals in the context\x22\x0a\x09sequenceNode temps do: [ :each |\x0a\x09\x09context defineLocal: each ].\x0a\x09\x09\x0a\x09\x22Populate the arguments into the context locals\x22\x09\x0a\x09node parameters withIndexDo: [ :each :index |\x0a\x09\x09context defineLocal: each.\x0a\x09\x09context localAt: each put: (aCollection at: index ifAbsent: [ nil ]) ].\x0a\x0a\x09\x22Interpret the first node of the BlockSequenceNode\x22\x0a\x09context interpreter\x0a\x09\x09node: sequenceNode;\x0a\x09\x09enterNode;\x0a\x09\x09proceed.\x0a\x09\x09\x0a\x09outerContext interpreter\x0a\x09\x09setNonLocalReturnFromContext: context.\x0a\x09\x09\x0a\x09^ context interpreter pop",
 referencedClasses: [],
-messageSends: ["newInnerContext", "parent:", "copy", "first", "nodes", "yourself", "do:", "temps", "defineLocal:", "withIndexDo:", "parameters", "localAt:put:", "at:ifAbsent:", "node:", "interpreter", "enterNode", "proceed", "setNonLocalReturnFromContext:", "pop"]
+messageSends: ["newInnerContext", "parent:", "copy", "first", "dagChildren", "yourself", "do:", "temps", "defineLocal:", "withIndexDo:", "parameters", "localAt:put:", "at:ifAbsent:", "node:", "interpreter", "enterNode", "proceed", "setNonLocalReturnFromContext:", "pop"]
 }),
 $globals.AIBlockClosure);
 
@@ -44548,11 +44506,13 @@ var $1,$2,$3,$receiver;
 $1=self._isBlockContext();
 if($core.assert($1)){
 $2=self._outerContext();
-return $recv($2)._ifNotNil_((function(context){
-return $core.withContext(function($ctx2) {
+if(($receiver = $2) == null || $receiver.isNil){
+return $2;
+} else {
+var context;
+context=$receiver;
 return $recv(context)._ast();
-}, function($ctx2) {$ctx2.fillBlock({context:context},$ctx1,2)});
-}));
+};
 };
 $3=self["@ast"];
 if(($receiver = $3) == null || $receiver.isNil){
@@ -45280,17 +45240,19 @@ fn: function (anInterpreter){
 var self=this;
 var currentNode;
 return $core.withContext(function($ctx1) {
-var $1,$2,$3,$6,$5,$4,$receiver;
+var $1,$2,$3,$4,$7,$6,$5,$receiver;
 $1=$recv($globals.ASTPCNodeVisitor)._new();
-$recv($1)._selector_(self._evaluatedSelector());
-$recv($1)._context_(self);
-$2=self._ast();
+$2=self._evaluatedSelector();
+$ctx1.sendIdx["evaluatedSelector"]=1;
+$recv($1)._selector_($2);
+$recv($1)._index_(self._sendIndexAt_(self._evaluatedSelector()));
+$3=self._ast();
 $ctx1.sendIdx["ast"]=1;
-$recv($1)._visit_($2);
+$recv($1)._visit_($3);
 currentNode=$recv($1)._currentNode();
-$3=$recv(self._ast())._sequenceNode();
-if(($receiver = $3) == null || $receiver.isNil){
-$3;
+$4=$recv(self._ast())._sequenceNode();
+if(($receiver = $4) == null || $receiver.isNil){
+$4;
 } else {
 var sequence;
 sequence=$receiver;
@@ -45302,11 +45264,11 @@ return self._defineLocal_(each);
 $ctx1.sendIdx["do:"]=1;
 };
 $recv(anInterpreter)._node_(currentNode);
-$6=self._innerContext();
+$7=self._innerContext();
 $ctx1.sendIdx["innerContext"]=1;
-$5=$recv($6)._arguments();
-$4=$recv($5)._reversed();
-$recv($4)._do_((function(each){
+$6=$recv($7)._arguments();
+$5=$recv($6)._reversed();
+$recv($5)._do_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(anInterpreter)._push_(each);
 $ctx2.sendIdx["push:"]=1;
@@ -45317,9 +45279,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"setupInterpreter:",{anInterpreter:anInterpreter,currentNode:currentNode},$globals.AIContext)});
 },
 args: ["anInterpreter"],
-source: "setupInterpreter: anInterpreter\x0a\x09| currentNode |\x0a\x09\x0a\x09\x22Retrieve the current node\x22\x0a\x09currentNode := ASTPCNodeVisitor new\x0a\x09\x09\x09selector: self evaluatedSelector;\x0a\x09\x09\x09context: self;\x0a\x09\x09\x09visit: self ast;\x0a\x09\x09\x09currentNode.\x0a\x09\x0a\x09\x22Define locals for the context\x22\x0a\x09self ast sequenceNode ifNotNil: [ :sequence |\x0a\x09\x09sequence temps do: [ :each |\x0a\x09\x09\x09self defineLocal: each ] ].\x0a\x09\x0a\x09anInterpreter node: currentNode.\x0a\x0a\x09\x22Push the send args and receiver to the interpreter stack\x22\x09\x0a\x09self innerContext arguments reversed do: [ :each | \x0a\x09\x09anInterpreter push: each ].\x0a\x09\x09\x0a\x09anInterpreter push: (self innerContext receiver)",
+source: "setupInterpreter: anInterpreter\x0a\x09| currentNode |\x0a\x09\x0a\x09\x22Retrieve the current node\x22\x0a\x09currentNode := ASTPCNodeVisitor new\x0a\x09\x09\x09selector: self evaluatedSelector;\x0a\x09\x09\x09index: (self sendIndexAt: self evaluatedSelector);\x0a\x09\x09\x09visit: self ast;\x0a\x09\x09\x09currentNode.\x0a\x09\x0a\x09\x22Define locals for the context\x22\x0a\x09self ast sequenceNode ifNotNil: [ :sequence |\x0a\x09\x09sequence temps do: [ :each |\x0a\x09\x09\x09self defineLocal: each ] ].\x0a\x09\x0a\x09anInterpreter node: currentNode.\x0a\x0a\x09\x22Push the send args and receiver to the interpreter stack\x22\x09\x0a\x09self innerContext arguments reversed do: [ :each | \x0a\x09\x09anInterpreter push: each ].\x0a\x09\x09\x0a\x09anInterpreter push: (self innerContext receiver)",
 referencedClasses: ["ASTPCNodeVisitor"],
-messageSends: ["selector:", "new", "evaluatedSelector", "context:", "visit:", "ast", "currentNode", "ifNotNil:", "sequenceNode", "do:", "temps", "defineLocal:", "node:", "reversed", "arguments", "innerContext", "push:", "receiver"]
+messageSends: ["selector:", "new", "evaluatedSelector", "index:", "sendIndexAt:", "visit:", "ast", "currentNode", "ifNotNil:", "sequenceNode", "do:", "temps", "defineLocal:", "node:", "reversed", "arguments", "innerContext", "push:", "receiver"]
 }),
 $globals.AIContext);
 
@@ -45887,14 +45849,14 @@ $globals.ASTEnterNode);
 
 $core.addMethod(
 $core.method({
-selector: "visitNode:",
+selector: "visitDagNode:",
 protocol: 'visiting',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
 var $early={};
 try {
-$recv($recv(aNode)._nodes())._ifEmpty_ifNotEmpty_((function(){
+$recv($recv(aNode)._dagChildren())._ifEmpty_ifNotEmpty_((function(){
 throw $early=[aNode];
 
 }),(function(nodes){
@@ -45905,12 +45867,12 @@ throw $early=[self._visit_($recv(nodes)._first())];
 return self;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
-}, function($ctx1) {$ctx1.fill(self,"visitNode:",{aNode:aNode},$globals.ASTEnterNode)});
+}, function($ctx1) {$ctx1.fill(self,"visitDagNode:",{aNode:aNode},$globals.ASTEnterNode)});
 },
 args: ["aNode"],
-source: "visitNode: aNode\x0a\x09aNode nodes\x0a\x09\x09ifEmpty: [ ^ aNode ]\x0a\x09\x09ifNotEmpty: [ :nodes | ^ self visit: nodes first ]",
+source: "visitDagNode: aNode\x0a\x09aNode dagChildren\x0a\x09\x09ifEmpty: [ ^ aNode ]\x0a\x09\x09ifNotEmpty: [ :nodes | ^ self visit: nodes first ]",
 referencedClasses: [],
-messageSends: ["ifEmpty:ifNotEmpty:", "nodes", "visit:", "first"]
+messageSends: ["ifEmpty:ifNotEmpty:", "dagChildren", "visit:", "first"]
 }),
 $globals.ASTEnterNode);
 
@@ -46716,6 +46678,22 @@ $globals.ASTInterpreter);
 
 $core.addMethod(
 $core.method({
+selector: "visitDagNode:",
+protocol: 'visiting',
+fn: function (aNode){
+var self=this;
+return self;
+
+},
+args: ["aNode"],
+source: "visitDagNode: aNode\x0a\x09\x22Do nothing by default. Especially, do not visit children recursively.\x22",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.ASTInterpreter);
+
+$core.addMethod(
+$core.method({
 selector: "visitDynamicArrayNode:",
 protocol: 'visiting',
 fn: function (aNode){
@@ -46723,7 +46701,7 @@ var self=this;
 var array;
 return $core.withContext(function($ctx1) {
 array=[];
-$recv($recv(aNode)._nodes())._do_((function(each){
+$recv($recv(aNode)._dagChildren())._do_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(array)._addFirst_(self._pop());
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -46733,9 +46711,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"visitDynamicArrayNode:",{aNode:aNode,array:array},$globals.ASTInterpreter)});
 },
 args: ["aNode"],
-source: "visitDynamicArrayNode: aNode\x0a\x09| array |\x0a\x09\x0a\x09array := #().\x0a\x09aNode nodes do: [ :each |\x0a\x09\x09array addFirst: self pop ].\x0a\x09\x0a\x09self push: array",
+source: "visitDynamicArrayNode: aNode\x0a\x09| array |\x0a\x09\x0a\x09array := #().\x0a\x09aNode dagChildren do: [ :each |\x0a\x09\x09array addFirst: self pop ].\x0a\x09\x0a\x09self push: array",
 referencedClasses: [],
-messageSends: ["do:", "nodes", "addFirst:", "pop", "push:"]
+messageSends: ["do:", "dagChildren", "addFirst:", "pop", "push:"]
 }),
 $globals.ASTInterpreter);
 
@@ -46748,7 +46726,7 @@ var self=this;
 var keyValueList;
 return $core.withContext(function($ctx1) {
 keyValueList=$recv($globals.OrderedCollection)._new();
-$recv($recv(aNode)._nodes())._do_((function(each){
+$recv($recv(aNode)._dagChildren())._do_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(keyValueList)._add_(self._pop());
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -46758,9 +46736,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"visitDynamicDictionaryNode:",{aNode:aNode,keyValueList:keyValueList},$globals.ASTInterpreter)});
 },
 args: ["aNode"],
-source: "visitDynamicDictionaryNode: aNode\x0a\x09| keyValueList |\x0a\x09\x0a\x09keyValueList := OrderedCollection new.\x0a\x09\x0a\x09aNode nodes do: [ :each | \x0a\x09\x09keyValueList add: self pop ].\x0a\x09\x0a\x09self push: (HashedCollection newFromPairs: keyValueList reversed)",
+source: "visitDynamicDictionaryNode: aNode\x0a\x09| keyValueList |\x0a\x09\x0a\x09keyValueList := OrderedCollection new.\x0a\x09\x0a\x09aNode dagChildren do: [ :each | \x0a\x09\x09keyValueList add: self pop ].\x0a\x09\x0a\x09self push: (HashedCollection newFromPairs: keyValueList reversed)",
 referencedClasses: ["OrderedCollection", "HashedCollection"],
-messageSends: ["new", "do:", "nodes", "add:", "pop", "push:", "newFromPairs:", "reversed"]
+messageSends: ["new", "do:", "dagChildren", "add:", "pop", "push:", "newFromPairs:", "reversed"]
 }),
 $globals.ASTInterpreter);
 
@@ -46780,22 +46758,6 @@ args: ["aNode"],
 source: "visitJSStatementNode: aNode\x0a\x09returned := true.\x0a\x09self returnValue: (self eval: aNode source)",
 referencedClasses: [],
 messageSends: ["returnValue:", "eval:", "source"]
-}),
-$globals.ASTInterpreter);
-
-$core.addMethod(
-$core.method({
-selector: "visitNode:",
-protocol: 'visiting',
-fn: function (aNode){
-var self=this;
-return self;
-
-},
-args: ["aNode"],
-source: "visitNode: aNode\x0a\x09\x22Do nothing by default. Especially, do not visit children recursively.\x22",
-referencedClasses: [],
-messageSends: []
 }),
 $globals.ASTInterpreter);
 
@@ -46947,41 +46909,8 @@ $core.addClass('ASTInterpreterError', $globals.Error, [], 'Compiler-Interpreter'
 $globals.ASTInterpreterError.comment="I get signaled when an AST interpreter is unable to interpret a node.";
 
 
-$core.addClass('ASTPCNodeVisitor', $globals.NodeVisitor, ['context', 'index', 'selector', 'currentNode'], 'Compiler-Interpreter');
+$core.addClass('ASTPCNodeVisitor', $globals.NodeVisitor, ['index', 'trackedIndex', 'selector', 'currentNode'], 'Compiler-Interpreter');
 $globals.ASTPCNodeVisitor.comment="I visit an AST until I get to the current node for the `context` and answer it.\x0a\x0a## API\x0a\x0aMy instances must be filled with a context object using `#context:`.\x0a\x0aAfter visiting the AST the current node is answered by `#currentNode`";
-$core.addMethod(
-$core.method({
-selector: "context",
-protocol: 'accessing',
-fn: function (){
-var self=this;
-return self["@context"];
-
-},
-args: [],
-source: "context\x0a\x09^ context",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.ASTPCNodeVisitor);
-
-$core.addMethod(
-$core.method({
-selector: "context:",
-protocol: 'accessing',
-fn: function (aContext){
-var self=this;
-self["@context"]=aContext;
-return self;
-
-},
-args: ["aContext"],
-source: "context: aContext\x0a\x09context := aContext",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.ASTPCNodeVisitor);
-
 $core.addMethod(
 $core.method({
 selector: "currentNode",
@@ -47000,19 +46929,19 @@ $globals.ASTPCNodeVisitor);
 
 $core.addMethod(
 $core.method({
-selector: "increaseIndex",
+selector: "increaseTrackedIndex",
 protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-self["@index"]=$recv(self._index()).__plus((1));
+self["@trackedIndex"]=$recv(self._trackedIndex()).__plus((1));
 return self;
-}, function($ctx1) {$ctx1.fill(self,"increaseIndex",{},$globals.ASTPCNodeVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"increaseTrackedIndex",{},$globals.ASTPCNodeVisitor)});
 },
 args: [],
-source: "increaseIndex\x0a\x09index := self index + 1",
+source: "increaseTrackedIndex\x0a\x09trackedIndex := self trackedIndex + 1",
 referencedClasses: [],
-messageSends: ["+", "index"]
+messageSends: ["+", "trackedIndex"]
 }),
 $globals.ASTPCNodeVisitor);
 
@@ -47022,21 +46951,30 @@ selector: "index",
 protocol: 'accessing',
 fn: function (){
 var self=this;
-return $core.withContext(function($ctx1) {
-var $1,$receiver;
-$1=self["@index"];
-if(($receiver = $1) == null || $receiver.isNil){
-self["@index"]=(0);
 return self["@index"];
-} else {
-return $1;
-};
-}, function($ctx1) {$ctx1.fill(self,"index",{},$globals.ASTPCNodeVisitor)});
+
 },
 args: [],
-source: "index\x0a\x09^ index ifNil: [ index := 0 ]",
+source: "index\x0a\x09^ index",
 referencedClasses: [],
-messageSends: ["ifNil:"]
+messageSends: []
+}),
+$globals.ASTPCNodeVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "index:",
+protocol: 'accessing',
+fn: function (aNumber){
+var self=this;
+self["@index"]=aNumber;
+return self;
+
+},
+args: ["aNumber"],
+source: "index: aNumber\x0a\x09index := aNumber",
+referencedClasses: [],
+messageSends: []
 }),
 $globals.ASTPCNodeVisitor);
 
@@ -47075,6 +47013,30 @@ $globals.ASTPCNodeVisitor);
 
 $core.addMethod(
 $core.method({
+selector: "trackedIndex",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+var $1,$receiver;
+$1=self["@trackedIndex"];
+if(($receiver = $1) == null || $receiver.isNil){
+self["@trackedIndex"]=(0);
+return self["@trackedIndex"];
+} else {
+return $1;
+};
+}, function($ctx1) {$ctx1.fill(self,"trackedIndex",{},$globals.ASTPCNodeVisitor)});
+},
+args: [],
+source: "trackedIndex\x0a\x09^ trackedIndex ifNil: [ trackedIndex := 0 ]",
+referencedClasses: [],
+messageSends: ["ifNil:"]
+}),
+$globals.ASTPCNodeVisitor);
+
+$core.addMethod(
+$core.method({
 selector: "visitJSStatementNode:",
 protocol: 'visiting',
 fn: function (aNode){
@@ -47096,39 +47058,94 @@ selector: "visitSendNode:",
 protocol: 'visiting',
 fn: function (aNode){
 var self=this;
-var sendIndex;
 return $core.withContext(function($ctx1) {
-var $1,$2,$4,$3,$5;
-$1=self._context();
-$2=self._selector();
-$ctx1.sendIdx["selector"]=1;
-sendIndex=$recv($1)._sendIndexAt_($2);
+var $2,$1,$3;
 (
 $ctx1.supercall = true,
 ($globals.ASTPCNodeVisitor.superclass||$boot.nilAsClass).fn.prototype._visitSendNode_.apply($recv(self), [aNode]));
 $ctx1.supercall = false;
-$4=self._selector();
-$ctx1.sendIdx["selector"]=2;
-$3=$recv($4).__eq($recv(aNode)._selector());
+$2=self._selector();
+$ctx1.sendIdx["selector"]=1;
+$1=$recv($2).__eq($recv(aNode)._selector());
 $ctx1.sendIdx["="]=1;
+if($core.assert($1)){
+$3=$recv(self._trackedIndex()).__eq(self._index());
 if($core.assert($3)){
-$5=$recv(self._index()).__eq(sendIndex);
-if($core.assert($5)){
 self["@currentNode"]=aNode;
 self["@currentNode"];
 };
-self._increaseIndex();
+self._increaseTrackedIndex();
 };
 return self;
-}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode,sendIndex:sendIndex},$globals.ASTPCNodeVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode},$globals.ASTPCNodeVisitor)});
 },
 args: ["aNode"],
-source: "visitSendNode: aNode\x0a\x09| sendIndex |\x0a\x09sendIndex := self context sendIndexAt: self selector.\x0a\x09\x0a\x09super visitSendNode: aNode.\x0a\x09\x0a\x09self selector = aNode selector ifTrue: [\x0a\x09\x09self index = sendIndex ifTrue: [ currentNode := aNode ].\x0a\x09\x09self increaseIndex ]",
+source: "visitSendNode: aNode\x0a\x09super visitSendNode: aNode.\x0a\x09\x0a\x09self selector = aNode selector ifTrue: [\x0a\x09\x09self trackedIndex = self index ifTrue: [ currentNode := aNode ].\x0a\x09\x09self increaseTrackedIndex ]",
 referencedClasses: [],
-messageSends: ["sendIndexAt:", "context", "selector", "visitSendNode:", "ifTrue:", "=", "index", "increaseIndex"]
+messageSends: ["visitSendNode:", "ifTrue:", "=", "selector", "trackedIndex", "index", "increaseTrackedIndex"]
 }),
 $globals.ASTPCNodeVisitor);
 
+
+$core.addMethod(
+$core.method({
+selector: "isLastChild",
+protocol: '*Compiler-Interpreter',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv($recv($recv(self._parent())._dagChildren())._last()).__eq(self);
+}, function($ctx1) {$ctx1.fill(self,"isLastChild",{},$globals.ASTNode)});
+},
+args: [],
+source: "isLastChild\x0a\x09^ self parent dagChildren last = self",
+referencedClasses: [],
+messageSends: ["=", "last", "dagChildren", "parent"]
+}),
+$globals.ASTNode);
+
+$core.addMethod(
+$core.method({
+selector: "isSteppingNode",
+protocol: '*Compiler-Interpreter',
+fn: function (){
+var self=this;
+return false;
+
+},
+args: [],
+source: "isSteppingNode\x0a\x09^ false",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.ASTNode);
+
+$core.addMethod(
+$core.method({
+selector: "nextSiblingNode:",
+protocol: '*Compiler-Interpreter',
+fn: function (aNode){
+var self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+var $early={};
+try {
+$1=self._dagChildren();
+$ctx1.sendIdx["dagChildren"]=1;
+return $recv($1)._at_ifAbsent_($recv($recv(self._dagChildren())._indexOf_(aNode)).__plus((1)),(function(){
+throw $early=[nil];
+
+}));
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"nextSiblingNode:",{aNode:aNode},$globals.ASTNode)});
+},
+args: ["aNode"],
+source: "nextSiblingNode: aNode\x0a\x09\x22Answer the next node after aNode or nil\x22\x0a\x09\x0a\x09^ self dagChildren \x0a\x09\x09at: (self dagChildren indexOf: aNode) + 1\x0a\x09\x09ifAbsent: [ ^ nil ]",
+referencedClasses: [],
+messageSends: ["at:ifAbsent:", "dagChildren", "+", "indexOf:"]
+}),
+$globals.ASTNode);
 
 $core.addMethod(
 $core.method({
@@ -47228,46 +47245,20 @@ $globals.JSStatementNode);
 
 $core.addMethod(
 $core.method({
-selector: "isSteppingNode",
+selector: "isCascadeSendNode",
 protocol: '*Compiler-Interpreter',
 fn: function (){
 var self=this;
-return false;
-
+return $core.withContext(function($ctx1) {
+return $recv(self._parent())._isCascadeNode();
+}, function($ctx1) {$ctx1.fill(self,"isCascadeSendNode",{},$globals.SendNode)});
 },
 args: [],
-source: "isSteppingNode\x0a\x09^ false",
+source: "isCascadeSendNode\x0a\x09^ self parent isCascadeNode",
 referencedClasses: [],
-messageSends: []
+messageSends: ["isCascadeNode", "parent"]
 }),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "nextSiblingNode:",
-protocol: '*Compiler-Interpreter',
-fn: function (aNode){
-var self=this;
-return $core.withContext(function($ctx1) {
-var $1;
-var $early={};
-try {
-$1=self._nodes();
-$ctx1.sendIdx["nodes"]=1;
-return $recv($1)._at_ifAbsent_($recv($recv(self._nodes())._indexOf_(aNode)).__plus((1)),(function(){
-throw $early=[nil];
-
-}));
-}
-catch(e) {if(e===$early)return e[0]; throw e}
-}, function($ctx1) {$ctx1.fill(self,"nextSiblingNode:",{aNode:aNode},$globals.Node)});
-},
-args: ["aNode"],
-source: "nextSiblingNode: aNode\x0a\x09\x22Answer the next node after aNode or nil\x22\x0a\x09\x0a\x09^ self nodes \x0a\x09\x09at: (self nodes indexOf: aNode) + 1\x0a\x09\x09ifAbsent: [ ^ nil ]",
-referencedClasses: [],
-messageSends: ["at:ifAbsent:", "nodes", "+", "indexOf:"]
-}),
-$globals.Node);
+$globals.SendNode);
 
 $core.addMethod(
 $core.method({
@@ -48735,19 +48726,16 @@ protocol: 'factory',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $1,$2;
+var $1;
 $1=$recv($globals.ASTPCNodeVisitor)._new();
-$ctx1.sendIdx["new"]=1;
-$2=$recv($recv($globals.AIContext)._new())._yourself();
-$ctx1.sendIdx["yourself"]=1;
-$recv($1)._context_($2);
+$recv($1)._index_((0));
 return $recv($1)._yourself();
 }, function($ctx1) {$ctx1.fill(self,"astPCNodeVisitor",{},$globals.ASTPCNodeVisitorTest)});
 },
 args: [],
-source: "astPCNodeVisitor\x0a\x09^ ASTPCNodeVisitor new\x0a\x09\x09context: (AIContext new\x0a\x09\x09\x09yourself);\x0a\x09\x09yourself",
-referencedClasses: ["ASTPCNodeVisitor", "AIContext"],
-messageSends: ["context:", "new", "yourself"]
+source: "astPCNodeVisitor\x0a\x09^ ASTPCNodeVisitor new\x0a\x09\x09index: 0;\x0a\x09\x09yourself",
+referencedClasses: ["ASTPCNodeVisitor"],
+messageSends: ["index:", "new", "yourself"]
 }),
 $globals.ASTPCNodeVisitorTest);
 
@@ -48758,26 +48746,48 @@ protocol: 'factory',
 fn: function (aString){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $1,$2;
+var $1;
 $1=$recv($globals.ASTPCNodeVisitor)._new();
-$ctx1.sendIdx["new"]=1;
 $recv($1)._selector_(aString);
-$2=$recv($recv($globals.AIContext)._new())._yourself();
-$ctx1.sendIdx["yourself"]=1;
-$recv($1)._context_($2);
+$recv($1)._index_((0));
 return $recv($1)._yourself();
 }, function($ctx1) {$ctx1.fill(self,"astPCNodeVisitorForSelector:",{aString:aString},$globals.ASTPCNodeVisitorTest)});
 },
 args: ["aString"],
-source: "astPCNodeVisitorForSelector: aString\x0a\x09^ ASTPCNodeVisitor new\x0a\x09\x09selector: aString;\x0a\x09\x09context: (AIContext new\x0a\x09\x09\x09yourself);\x0a\x09\x09yourself",
-referencedClasses: ["ASTPCNodeVisitor", "AIContext"],
-messageSends: ["selector:", "new", "context:", "yourself"]
+source: "astPCNodeVisitorForSelector: aString\x0a\x09^ ASTPCNodeVisitor new\x0a\x09\x09selector: aString;\x0a\x09\x09index: 0;\x0a\x09\x09yourself",
+referencedClasses: ["ASTPCNodeVisitor"],
+messageSends: ["selector:", "new", "index:", "yourself"]
 }),
 $globals.ASTPCNodeVisitorTest);
 
 $core.addMethod(
 $core.method({
 selector: "testJSStatementNode",
+protocol: 'tests',
+fn: function (){
+var self=this;
+var ast,visitor;
+return $core.withContext(function($ctx1) {
+var $3,$2,$1;
+ast=self._parse_forClass_("foo <inlineJS: 'consolee.log(1)'>",$globals.Object);
+$3=self._astPCNodeVisitor();
+$recv($3)._visit_(ast);
+$2=$recv($3)._currentNode();
+$1=$recv($2)._isJSStatementNode();
+self._assert_($1);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testJSStatementNode",{ast:ast,visitor:visitor},$globals.ASTPCNodeVisitorTest)});
+},
+args: [],
+source: "testJSStatementNode\x0a\x09| ast visitor |\x0a\x09\x0a\x09ast := self parse: 'foo <inlineJS: ''consolee.log(1)''>' forClass: Object.\x0a\x09self assert: (self astPCNodeVisitor\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) isJSStatementNode",
+referencedClasses: ["Object"],
+messageSends: ["parse:forClass:", "assert:", "isJSStatementNode", "visit:", "astPCNodeVisitor", "currentNode"]
+}),
+$globals.ASTPCNodeVisitorTest);
+
+$core.addMethod(
+$core.method({
+selector: "testLegacyJSStatementNode",
 protocol: 'tests',
 fn: function (){
 var self=this;
@@ -48791,10 +48801,10 @@ $2=$recv($3)._currentNode();
 $1=$recv($2)._isJSStatementNode();
 self._assert_($1);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"testJSStatementNode",{ast:ast,visitor:visitor},$globals.ASTPCNodeVisitorTest)});
+}, function($ctx1) {$ctx1.fill(self,"testLegacyJSStatementNode",{ast:ast,visitor:visitor},$globals.ASTPCNodeVisitorTest)});
 },
 args: [],
-source: "testJSStatementNode\x0a\x09| ast visitor |\x0a\x09\x0a\x09ast := self parse: 'foo <consolee.log(1)>' forClass: Object.\x0a\x09self assert: (self astPCNodeVisitor\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) isJSStatementNode",
+source: "testLegacyJSStatementNode\x0a\x09| ast visitor |\x0a\x09\x0a\x09ast := self parse: 'foo <consolee.log(1)>' forClass: Object.\x0a\x09self assert: (self astPCNodeVisitor\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) isJSStatementNode",
 referencedClasses: ["Object"],
 messageSends: ["parse:forClass:", "assert:", "isJSStatementNode", "visit:", "astPCNodeVisitor", "currentNode"]
 }),
@@ -48910,31 +48920,6 @@ args: [],
 source: "testNoMessageSend\x0a\x09| ast |\x0a\x09\x0a\x09ast := self parse: 'foo ^ self' forClass: Object.\x0a\x09self assert: (self astPCNodeVisitor\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) isNil",
 referencedClasses: ["Object"],
 messageSends: ["parse:forClass:", "assert:", "isNil", "visit:", "astPCNodeVisitor", "currentNode"]
-}),
-$globals.ASTPCNodeVisitorTest);
-
-$core.addMethod(
-$core.method({
-selector: "testPC",
-protocol: 'tests',
-fn: function (){
-var self=this;
-var ast,visitor;
-return $core.withContext(function($ctx1) {
-var $3,$2,$1;
-ast=self._parse_forClass_("foo <console.log(1)>",$globals.Object);
-$3=self._astPCNodeVisitor();
-$recv($3)._visit_(ast);
-$2=$recv($3)._currentNode();
-$1=$recv($2)._isJSStatementNode();
-self._assert_($1);
-return self;
-}, function($ctx1) {$ctx1.fill(self,"testPC",{ast:ast,visitor:visitor},$globals.ASTPCNodeVisitorTest)});
-},
-args: [],
-source: "testPC\x0a\x09| ast visitor |\x0a\x09\x0a\x09ast := self parse: 'foo <console.log(1)>' forClass: Object.\x0a\x09self assert: (self astPCNodeVisitor\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) isJSStatementNode",
-referencedClasses: ["Object"],
-messageSends: ["parse:forClass:", "assert:", "isJSStatementNode", "visit:", "astPCNodeVisitor", "currentNode"]
 }),
 $globals.ASTPCNodeVisitorTest);
 
@@ -49685,6 +49670,24 @@ $globals.CodeGeneratorTest);
 
 $core.addMethod(
 $core.method({
+selector: "testPragmaJSStatement",
+protocol: 'tests',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+self._should_return_("foo < inlineJS: 'return 2+3' >",(5));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testPragmaJSStatement",{},$globals.CodeGeneratorTest)});
+},
+args: [],
+source: "testPragmaJSStatement\x0a\x09self should: 'foo < inlineJS: ''return 2+3'' >' return: 5",
+referencedClasses: [],
+messageSends: ["should:return:"]
+}),
+$globals.CodeGeneratorTest);
+
+$core.addMethod(
+$core.method({
 selector: "testRootSuperSend",
 protocol: 'tests',
 fn: function (){
@@ -50415,8 +50418,8 @@ var $4,$3,$2,$1;
 src="foo | a | a + 1. [ | b | b := a ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
 $recv(self["@analyzer"])._visit_(ast);
-$4=$recv($recv($recv(ast)._nodes())._first())._nodes();
-$ctx1.sendIdx["nodes"]=1;
+$4=$recv($recv($recv(ast)._dagChildren())._first())._dagChildren();
+$ctx1.sendIdx["dagChildren"]=1;
 $3=$recv($4)._last();
 $2=$recv($3)._scope();
 $ctx1.sendIdx["scope"]=1;
@@ -50426,9 +50429,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testScope",{src:src,ast:ast},$globals.SemanticAnalyzerTest)});
 },
 args: [],
-source: "testScope\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ | b | b := a ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09self deny: ast nodes first nodes last scope == ast scope.",
+source: "testScope\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ | b | b := a ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09self deny: ast dagChildren first dagChildren last scope == ast scope.",
 referencedClasses: ["Smalltalk"],
-messageSends: ["parse:", "visit:", "deny:", "==", "scope", "last", "nodes", "first"]
+messageSends: ["parse:", "visit:", "deny:", "==", "scope", "last", "dagChildren", "first"]
 }),
 $globals.SemanticAnalyzerTest);
 
@@ -50444,15 +50447,15 @@ var $8,$7,$6,$5,$4,$3,$2,$1;
 src="foo | a | a + 1. [ [ | b | b := a ] ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
 $recv(self["@analyzer"])._visit_(ast);
-$8=$recv($recv($recv(ast)._nodes())._first())._nodes();
-$ctx1.sendIdx["nodes"]=3;
+$8=$recv($recv($recv(ast)._dagChildren())._first())._dagChildren();
+$ctx1.sendIdx["dagChildren"]=3;
 $7=$recv($8)._last();
-$6=$recv($7)._nodes();
-$ctx1.sendIdx["nodes"]=2;
+$6=$recv($7)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=2;
 $5=$recv($6)._first();
 $ctx1.sendIdx["first"]=2;
-$4=$recv($5)._nodes();
-$ctx1.sendIdx["nodes"]=1;
+$4=$recv($5)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=1;
 $3=$recv($4)._first();
 $ctx1.sendIdx["first"]=1;
 $2=$recv($3)._scope();
@@ -50463,9 +50466,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testScope2",{src:src,ast:ast},$globals.SemanticAnalyzerTest)});
 },
 args: [],
-source: "testScope2\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ [ | b | b := a ] ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09self deny: ast nodes first nodes last nodes first nodes first scope == ast scope.",
+source: "testScope2\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ [ | b | b := a ] ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09self deny: ast dagChildren first dagChildren last dagChildren first dagChildren first scope == ast scope.",
 referencedClasses: ["Smalltalk"],
-messageSends: ["parse:", "visit:", "deny:", "==", "scope", "first", "nodes", "last"]
+messageSends: ["parse:", "visit:", "deny:", "==", "scope", "first", "dagChildren", "last"]
 }),
 $globals.SemanticAnalyzerTest);
 
@@ -50487,15 +50490,15 @@ $1=$recv($2)._scopeLevel();
 $ctx1.sendIdx["scopeLevel"]=1;
 self._assert_equals_($1,(1));
 $ctx1.sendIdx["assert:equals:"]=1;
-$10=$recv($recv($recv(ast)._nodes())._first())._nodes();
-$ctx1.sendIdx["nodes"]=3;
+$10=$recv($recv($recv(ast)._dagChildren())._first())._dagChildren();
+$ctx1.sendIdx["dagChildren"]=3;
 $9=$recv($10)._last();
-$8=$recv($9)._nodes();
-$ctx1.sendIdx["nodes"]=2;
+$8=$recv($9)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=2;
 $7=$recv($8)._first();
 $ctx1.sendIdx["first"]=2;
-$6=$recv($7)._nodes();
-$ctx1.sendIdx["nodes"]=1;
+$6=$recv($7)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=1;
 $5=$recv($6)._first();
 $ctx1.sendIdx["first"]=1;
 $4=$recv($5)._scope();
@@ -50505,9 +50508,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testScopeLevel",{src:src,ast:ast},$globals.SemanticAnalyzerTest)});
 },
 args: [],
-source: "testScopeLevel\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ [ | b | b := a ] ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09self assert: ast scope scopeLevel equals: 1.\x0a\x09self assert: ast nodes first nodes last nodes first nodes first scope scopeLevel equals: 3",
+source: "testScopeLevel\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ [ | b | b := a ] ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09self assert: ast scope scopeLevel equals: 1.\x0a\x09self assert: ast dagChildren first dagChildren last dagChildren first dagChildren first scope scopeLevel equals: 3",
 referencedClasses: ["Smalltalk"],
-messageSends: ["parse:", "visit:", "assert:equals:", "scopeLevel", "scope", "first", "nodes", "last"]
+messageSends: ["parse:", "visit:", "assert:equals:", "scopeLevel", "scope", "first", "dagChildren", "last"]
 }),
 $globals.SemanticAnalyzerTest);
 
@@ -50686,12 +50689,12 @@ var $7,$6,$5,$4,$3,$2,$1,$15,$14,$13,$12,$11,$10,$9,$16,$8,$27,$26,$25,$24,$23,$
 src="foo | a | a + 1. [ | b | b := a ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
 $recv(self["@analyzer"])._visit_(ast);
-$7=$recv(ast)._nodes();
-$ctx1.sendIdx["nodes"]=2;
+$7=$recv(ast)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=2;
 $6=$recv($7)._first();
 $ctx1.sendIdx["first"]=2;
-$5=$recv($6)._nodes();
-$ctx1.sendIdx["nodes"]=1;
+$5=$recv($6)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=1;
 $4=$recv($5)._first();
 $ctx1.sendIdx["first"]=1;
 $3=$recv($4)._receiver();
@@ -50702,12 +50705,12 @@ $1=$recv($2)._isTempVar();
 $ctx1.sendIdx["isTempVar"]=1;
 self._assert_($1);
 $ctx1.sendIdx["assert:"]=1;
-$15=$recv(ast)._nodes();
-$ctx1.sendIdx["nodes"]=4;
+$15=$recv(ast)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=4;
 $14=$recv($15)._first();
 $ctx1.sendIdx["first"]=4;
-$13=$recv($14)._nodes();
-$ctx1.sendIdx["nodes"]=3;
+$13=$recv($14)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=3;
 $12=$recv($13)._first();
 $ctx1.sendIdx["first"]=3;
 $11=$recv($12)._receiver();
@@ -50721,20 +50724,20 @@ $8=$recv($9).__eq_eq($16);
 $ctx1.sendIdx["=="]=1;
 self._assert_($8);
 $ctx1.sendIdx["assert:"]=2;
-$27=$recv(ast)._nodes();
-$ctx1.sendIdx["nodes"]=8;
+$27=$recv(ast)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=8;
 $26=$recv($27)._first();
 $ctx1.sendIdx["first"]=7;
-$25=$recv($26)._nodes();
-$ctx1.sendIdx["nodes"]=7;
+$25=$recv($26)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=7;
 $24=$recv($25)._last();
 $ctx1.sendIdx["last"]=1;
-$23=$recv($24)._nodes();
-$ctx1.sendIdx["nodes"]=6;
+$23=$recv($24)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=6;
 $22=$recv($23)._first();
 $ctx1.sendIdx["first"]=6;
-$21=$recv($22)._nodes();
-$ctx1.sendIdx["nodes"]=5;
+$21=$recv($22)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=5;
 $20=$recv($21)._first();
 $ctx1.sendIdx["first"]=5;
 $19=$recv($20)._left();
@@ -50744,28 +50747,28 @@ $ctx1.sendIdx["binding"]=3;
 $17=$recv($18)._isTempVar();
 self._assert_($17);
 $ctx1.sendIdx["assert:"]=3;
-$39=$recv(ast)._nodes();
-$ctx1.sendIdx["nodes"]=12;
+$39=$recv(ast)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=12;
 $38=$recv($39)._first();
 $ctx1.sendIdx["first"]=10;
-$37=$recv($38)._nodes();
-$ctx1.sendIdx["nodes"]=11;
+$37=$recv($38)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=11;
 $36=$recv($37)._last();
 $ctx1.sendIdx["last"]=2;
-$35=$recv($36)._nodes();
-$ctx1.sendIdx["nodes"]=10;
+$35=$recv($36)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=10;
 $34=$recv($35)._first();
 $ctx1.sendIdx["first"]=9;
-$33=$recv($34)._nodes();
-$ctx1.sendIdx["nodes"]=9;
+$33=$recv($34)._dagChildren();
+$ctx1.sendIdx["dagChildren"]=9;
 $32=$recv($33)._first();
 $ctx1.sendIdx["first"]=8;
 $31=$recv($32)._left();
 $30=$recv($31)._binding();
 $29=$recv($30)._scope();
 $ctx1.sendIdx["scope"]=3;
-$42=$recv($recv($recv(ast)._nodes())._first())._nodes();
-$ctx1.sendIdx["nodes"]=13;
+$42=$recv($recv($recv(ast)._dagChildren())._first())._dagChildren();
+$ctx1.sendIdx["dagChildren"]=13;
 $41=$recv($42)._last();
 $40=$recv($41)._scope();
 $28=$recv($29).__eq_eq($40);
@@ -50774,9 +50777,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testVariablesLookup",{src:src,ast:ast},$globals.SemanticAnalyzerTest)});
 },
 args: [],
-source: "testVariablesLookup\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ | b | b := a ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09\x22Binding for `a` in the message send\x22\x0a\x09self assert: ast nodes first nodes first receiver binding isTempVar.\x0a\x09self assert: ast nodes first nodes first receiver binding scope == ast scope.\x0a\x0a\x09\x22Binding for `b`\x22\x0a\x09self assert: ast nodes first nodes last nodes first nodes first left binding isTempVar.\x0a\x09self assert: ast nodes first nodes last nodes first nodes first left binding scope == ast nodes first nodes last scope.",
+source: "testVariablesLookup\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ | b | b := a ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09\x22Binding for `a` in the message send\x22\x0a\x09self assert: ast dagChildren first dagChildren first receiver binding isTempVar.\x0a\x09self assert: ast dagChildren first dagChildren first receiver binding scope == ast scope.\x0a\x0a\x09\x22Binding for `b`\x22\x0a\x09self assert: ast dagChildren first dagChildren last dagChildren first dagChildren first left binding isTempVar.\x0a\x09self assert: ast dagChildren first dagChildren last dagChildren first dagChildren first left binding scope == ast dagChildren first dagChildren last scope.",
 referencedClasses: ["Smalltalk"],
-messageSends: ["parse:", "visit:", "assert:", "isTempVar", "binding", "receiver", "first", "nodes", "==", "scope", "left", "last"]
+messageSends: ["parse:", "visit:", "assert:", "isTempVar", "binding", "receiver", "first", "dagChildren", "==", "scope", "left", "last"]
 }),
 $globals.SemanticAnalyzerTest);
 
@@ -51346,20 +51349,20 @@ var self=this;
 return $core.withContext(function($ctx1) {
 
 	function TestConstructor(arg1, arg2, arg3) {}
-	TestConstructor.prototype.name = 'theTestPrototype';
+	TestConstructor.prototype.name = "theTestPrototype";
 
 	var wrappedConstructor = $recv(TestConstructor);
-	var result = wrappedConstructor._newWithValues_([1, 2, 3 ]);
+	var result = wrappedConstructor._newWithValues_([1, 2, 3]);
 	self._assert_(result instanceof TestConstructor);
-	self._assert_equals_(result.name, 'theTestPrototype');
+	self._assert_equals_(result.name, "theTestPrototype");
 
-	"newWithValues: cannot help if the argument list is wrong, and should warn that a mistake was made."
-	self._should_raise_(function () {wrappedConstructor._newWithValues_('single argument');}, $globals.Error);;
+	/* newWithValues: cannot help if the argument list is wrong, and should warn that a mistake was made. */
+	self._should_raise_(function () {wrappedConstructor._newWithValues_("single argument");}, $globals.Error);;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testNewWithValues",{},$globals.BlockClosureTest)});
 },
 args: [],
-source: "testNewWithValues\x0a<\x0a\x09function TestConstructor(arg1, arg2, arg3) {}\x0a\x09TestConstructor.prototype.name = 'theTestPrototype';\x0a\x0a\x09var wrappedConstructor = $recv(TestConstructor);\x0a\x09var result = wrappedConstructor._newWithValues_([1, 2, 3 ]);\x0a\x09self._assert_(result instanceof TestConstructor);\x0a\x09self._assert_equals_(result.name, 'theTestPrototype');\x0a\x0a\x09\x22newWithValues: cannot help if the argument list is wrong, and should warn that a mistake was made.\x22\x0a\x09self._should_raise_(function () {wrappedConstructor._newWithValues_('single argument');}, $globals.Error);\x0a>",
+source: "testNewWithValues\x0a<inlineJS: '\x0a\x09function TestConstructor(arg1, arg2, arg3) {}\x0a\x09TestConstructor.prototype.name = \x22theTestPrototype\x22;\x0a\x0a\x09var wrappedConstructor = $recv(TestConstructor);\x0a\x09var result = wrappedConstructor._newWithValues_([1, 2, 3]);\x0a\x09self._assert_(result instanceof TestConstructor);\x0a\x09self._assert_equals_(result.name, \x22theTestPrototype\x22);\x0a\x0a\x09/* newWithValues: cannot help if the argument list is wrong, and should warn that a mistake was made. */\x0a\x09self._should_raise_(function () {wrappedConstructor._newWithValues_(\x22single argument\x22);}, $globals.Error);\x0a'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -52334,7 +52337,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"jsConstructor",{},$globals.ClassTest)});
 },
 args: [],
-source: "jsConstructor\x0a\x09<\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09return Foo;\x0a\x09>",
+source: "jsConstructor\x0a\x09<inlineJS: '\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09return Foo;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -52583,7 +52586,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"trickyJsConstructor",{},$globals.ClassTest)});
 },
 args: [],
-source: "trickyJsConstructor\x0a\x09<\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09Foo.prototype._foo = function () {return \x22bar\x22;};\x0a\x09\x09return Foo;\x0a\x09>",
+source: "trickyJsConstructor\x0a\x09<inlineJS: '\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09Foo.prototype._foo = function () {return \x22bar\x22;};\x0a\x09\x09return Foo;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -57697,7 +57700,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"jsNull",{},$globals.JSObjectProxyTest)});
 },
 args: [],
-source: "jsNull\x0a\x09<return null>",
+source: "jsNull\x0a\x09<inlineJS: 'return null'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -57710,12 +57713,12 @@ protocol: 'accessing',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return {a: 1, b: function() {return 2;}, c: function(object) {return object;}, d: '', 'e': null, 'f': void 0};
+return {a: 1, b: function() {return 2;}, c: function(object) {return object;}, d: "", "e": null, "f": void 0};
 return self;
 }, function($ctx1) {$ctx1.fill(self,"jsObject",{},$globals.JSObjectProxyTest)});
 },
 args: [],
-source: "jsObject\x0a\x09<return {a: 1, b: function() {return 2;}, c: function(object) {return object;}, d: '', 'e': null, 'f': void 0}>",
+source: "jsObject\x0a\x09<inlineJS: \x0a\x09\x09'return {a: 1, b: function() {return 2;}, c: function(object) {return object;}, d: \x22\x22, \x22e\x22: null, \x22f\x22: void 0}'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -57733,7 +57736,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"jsUndefined",{},$globals.JSObjectProxyTest)});
 },
 args: [],
-source: "jsUndefined\x0a\x09<return>",
+source: "jsUndefined\x0a\x09<inlineJS: 'return'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -58388,12 +58391,12 @@ protocol: 'helpers',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-throw 'test';
+throw "test";
 return self;
 }, function($ctx1) {$ctx1.fill(self,"throwException",{},$globals.JavaScriptExceptionTest)});
 },
 args: [],
-source: "throwException\x0a\x09<throw 'test'>",
+source: "throwException\x0a\x09<inlineJS: 'throw \x22test\x22'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -60014,7 +60017,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"notDefined",{},$globals.ObjectTest)});
 },
 args: [],
-source: "notDefined\x0a\x09<return void 0;>",
+source: "notDefined\x0a\x09<inlineJS: 'return void 0;'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -62268,7 +62271,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"dirname",{},$globals.BaseFileManipulator)});
 },
 args: [],
-source: "dirname\x0a\x09<return __dirname>",
+source: "dirname\x0a\x09<inlineJS: 'return __dirname'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -62395,12 +62398,12 @@ protocol: 'private',
 fn: function (aString){
 var self=this;
 return $core.withContext(function($ctx1) {
-return (new Buffer(aString, 'base64').toString());
+return (new Buffer(aString, "base64").toString());
 return self;
 }, function($ctx1) {$ctx1.fill(self,"base64Decode:",{aString:aString},$globals.FileServer)});
 },
 args: ["aString"],
-source: "base64Decode: aString\x0a\x09<return (new Buffer(aString, 'base64').toString())>",
+source: "base64Decode: aString\x0a\x09<inlineJS: 'return (new Buffer(aString, \x22base64\x22).toString())'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -64665,9 +64668,6 @@ define('amber/kernel-runtime',[],function () {
         var installMethod = brikz.manipulation.installMethod;
         var installJSMethod = brikz.manipulation.installJSMethod;
 
-        /* Initialize a class in its class hierarchy. Handle both classes and
-         metaclasses. */
-
         var detachedRootClasses = [];
 
         function markClassDetachedRoot(klass) {
@@ -64678,6 +64678,9 @@ define('amber/kernel-runtime',[],function () {
         this.detachedRootClasses = function () {
             return detachedRootClasses;
         };
+
+        /* Initialize a class in its class hierarchy. Handle both classes and
+         metaclasses. */
 
         function initClassAndMetaclass(klass) {
             initClass(klass);
@@ -64900,9 +64903,10 @@ define('amber/kernel-runtime',[],function () {
 
         setClassConstructor(globals.MethodContext, SmalltalkMethodContext);
 
-        /* This is the current call context object. While it is publicly available,
-         Use smalltalk.getThisContext() instead which will answer a safe copy of
-         the current context */
+        /* This is the current call context object.
+         In Smalltalk code, it is accessible just by using 'thisContext' variable.
+         In JS code, use api.getThisContext() (see below).
+         */
 
         var thisContext = null;
 
@@ -65014,8 +65018,7 @@ define('amber/kernel-runtime',[],function () {
         var globals = brikz.smalltalkGlobals.globals;
         var nilAsReceiver = brikz.root.nilAsReceiver;
 
-        /* Handles unhandled errors during message sends */
-        // simply send the message and handle #dnu:
+        /* Send message programmatically. Used to implement #perform: & Co. */
 
         st.send2 = function (receiver, selector, args, klass) {
             var method, jsSelector = st.st2js(selector);
@@ -65046,6 +65049,13 @@ define('amber/kernel-runtime',[],function () {
                 return invokeDnuMethod(receiver, stSelector, args);
             }
             /* Call a method of a JS object, or answer a property if it exists.
+
+             Converts keyword-based selectors by using the first
+             keyword only, but keeping all message arguments.
+
+             Example:
+             "self do: aBlock with: anObject" -> "self.do(aBlock, anObject)"
+
              Else try wrapping a JSObjectProxy around the receiver. */
             var propertyName = st.st2prop(stSelector);
             if (!(propertyName in receiver)) {
@@ -65057,12 +65067,7 @@ define('amber/kernel-runtime',[],function () {
         /* If the object property is a function, then call it, except if it starts with
          an uppercase character (we probably want to answer the function itself in this
          case and send it #new from Amber).
-
-         Converts keyword-based selectors by using the first
-         keyword only, but keeping all message arguments.
-
-         Example:
-         "self do: aBlock with: anObject" -> "self.do(aBlock, anObject)" */
+         */
         function accessJavaScript(receiver, propertyName, args) {
             var propertyValue = receiver[propertyName];
             if (typeof propertyValue === "function" && !/^[A-Z]/.test(propertyName)) {
