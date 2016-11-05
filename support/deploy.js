@@ -7,6 +7,7 @@ define([
     'amber_core/Kernel-Classes',
     'amber_core/Kernel-Methods',
     'amber_core/Kernel-Collections',
+    'amber_core/Kernel-Dag',
     'amber_core/Kernel-Infrastructure',
     'amber_core/Kernel-Promises',
     'amber_core/Kernel-Exceptions',

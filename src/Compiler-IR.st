@@ -121,7 +121,7 @@ visitBlockNode: aNode
 			name: each name;
 			scope: aNode scope;
 			yourself) ].
-	aNode nodes do: [ :each | closure add: (self visit: each) ].
+	aNode dagChildren do: [ :each | closure add: (self visit: each) ].
 	^ closure
 !
 
@@ -129,12 +129,12 @@ visitBlockSequenceNode: aNode
 	^ self
 		withSequence: IRBlockSequence new
 		do: [
-			aNode nodes ifNotEmpty: [
-				aNode nodes allButLast do: [ :each |
+			aNode dagChildren ifNotEmpty: [
+				aNode dagChildren allButLast do: [ :each |
 					self sequence add: (self visitOrAlias: each) ].
-				aNode nodes last isReturnNode
-					ifFalse: [ self sequence add: (IRBlockReturn new add: (self visitOrAlias: aNode nodes last); yourself) ]
-					ifTrue: [ self sequence add: (self visitOrAlias: aNode nodes last) ] ]]
+				aNode dagChildren last isReturnNode
+					ifFalse: [ self sequence add: (IRBlockReturn new add: (self visitOrAlias: aNode dagChildren last); yourself) ]
+					ifTrue: [ self sequence add: (self visitOrAlias: aNode dagChildren last) ] ]]
 !
 
 visitCascadeNode: aNode
@@ -144,25 +144,25 @@ visitCascadeNode: aNode
 		| alias |
 		alias := self alias: receiver.
 		receiver := VariableNode new binding: alias variable ].
-	aNode nodes do: [ :each | each receiver: receiver ].
+	aNode dagChildren do: [ :each | each receiver: receiver ].
 
-	aNode nodes allButLast do: [ :each |
+	aNode dagChildren allButLast do: [ :each |
 		self sequence add: (self visit: each) ].
 
-	^ self visitOrAlias: aNode nodes last
+	^ self visitOrAlias: aNode dagChildren last
 !
 
 visitDynamicArrayNode: aNode
 	| array |
 	array := IRDynamicArray new.
-	(self aliasTemporally: aNode nodes) do: [ :each | array add: each ].
+	(self aliasTemporally: aNode dagChildren) do: [ :each | array add: each ].
 	^ array
 !
 
 visitDynamicDictionaryNode: aNode
 	| dictionary |
 	dictionary := IRDynamicDictionary new.
-	(self aliasTemporally: aNode nodes) do: [ :each | dictionary add: each ].
+	(self aliasTemporally: aNode dagChildren) do: [ :each | dictionary add: each ].
 	^ dictionary
 !
 
@@ -191,7 +191,7 @@ visitMethodNode: aNode
 			scope: aNode scope;
 			yourself) ].
 
-	aNode nodes do: [ :each | self method add: (self visit: each) ].
+	aNode dagChildren do: [ :each | self method add: (self visit: each) ].
 
 	aNode scope hasLocalReturn ifFalse: [self method
 		add: (IRReturn new
@@ -216,7 +216,7 @@ visitReturnNode: aNode
 		ifTrue: [ IRNonLocalReturn new ]
 		ifFalse: [ IRReturn new ].
 	return scope: aNode scope.
-	aNode nodes do: [ :each |
+	aNode dagChildren do: [ :each |
 		return add: (self visitOrAlias: each) ].
 	^ return
 !
@@ -228,7 +228,7 @@ visitSendNode: aNode
 		selector: aNode selector;
 		index: aNode index.
 	
-	(self aliasTemporally: aNode nodes) do: [ :each | send add: each ].
+	(self aliasTemporally: aNode dagChildren) do: [ :each | send add: each ].
 
 	^ send
 !
@@ -237,7 +237,7 @@ visitSequenceNode: aNode
 	^ self
 		withSequence: IRSequence new
 		do: [
-			aNode nodes do: [ :each | | instruction |
+			aNode dagChildren do: [ :each | | instruction |
 				instruction := self visitOrAlias: each.
 				instruction isVariable ifFalse: [
 					self sequence add: instruction ] ]]
@@ -255,18 +255,14 @@ visitVariableNode: aNode
 		yourself
 ! !
 
-Object subclass: #IRInstruction
-	instanceVariableNames: 'parent instructions'
+DagParentNode subclass: #IRInstruction
+	instanceVariableNames: 'parent'
 	package: 'Compiler-IR'!
 !IRInstruction commentStamp!
 I am the abstract root class of the IR (intermediate representation) instructions class hierarchy.
 The IR graph is used to emit JavaScript code using a JSStream.!
 
 !IRInstruction methodsFor: 'accessing'!
-
-instructions
-	^ instructions ifNil: [ instructions := OrderedCollection new ]
-!
 
 method
 	^ self parent method
@@ -289,17 +285,17 @@ scope
 
 add: anObject
 	anObject parent: self.
-	^ self instructions add: anObject
+	^ self dagChildren add: anObject
 !
 
 remove: anIRInstruction
-	self instructions remove: anIRInstruction
+	self dagChildren remove: anIRInstruction
 !
 
 replace: anIRInstruction with: anotherIRInstruction
 	anotherIRInstruction parent: self.
-	self instructions
-		at: (self instructions indexOf: anIRInstruction)
+	self dagChildren
+		at: (self dagChildren indexOf: anIRInstruction)
 		put: anotherIRInstruction
 !
 
@@ -345,12 +341,6 @@ yieldsValue
 	^ true
 ! !
 
-!IRInstruction methodsFor: 'visiting'!
-
-accept: aVisitor
-	^ aVisitor visitIRInstruction: self
-! !
-
 !IRInstruction class methodsFor: 'instance creation'!
 
 on: aBuilder
@@ -366,16 +356,16 @@ IRInstruction subclass: #IRAssignment
 !IRAssignment methodsFor: 'accessing'!
 
 left
-	^ self instructions first
+	^ self dagChildren first
 !
 
 right
-	^ self instructions last
+	^ self dagChildren last
 ! !
 
 !IRAssignment methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRAssignment: self
 ! !
 
@@ -385,7 +375,7 @@ IRInstruction subclass: #IRDynamicArray
 
 !IRDynamicArray methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRDynamicArray: self
 ! !
 
@@ -395,7 +385,7 @@ IRInstruction subclass: #IRDynamicDictionary
 
 !IRDynamicDictionary methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRDynamicDictionary: self
 ! !
 
@@ -447,7 +437,7 @@ scope: aScope
 !
 
 tempDeclarations
-	^ self instructions select: [ :each |
+	^ self dagChildren select: [ :each |
 		each isTempDeclaration ]
 ! !
 
@@ -458,7 +448,7 @@ IRClosureInstruction subclass: #IRClosure
 !IRClosure methodsFor: 'accessing'!
 
 sequence
-	^ self instructions last
+	^ self dagChildren last
 ! !
 
 !IRClosure methodsFor: 'testing'!
@@ -469,7 +459,7 @@ isClosure
 
 !IRClosure methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRClosure: self
 ! !
 
@@ -541,7 +531,7 @@ isMethod
 
 !IRMethod methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRMethod: self
 ! !
 
@@ -554,7 +544,7 @@ I am a local return instruction.!
 !IRReturn methodsFor: 'accessing'!
 
 expression
-	^ self instructions single
+	^ self dagChildren single
 !
 
 scope
@@ -569,7 +559,7 @@ yieldsValue
 
 !IRReturn methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRReturn: self
 ! !
 
@@ -581,7 +571,7 @@ Smalltalk blocks return their last statement. I am a implicit block return instr
 
 !IRBlockReturn methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRBlockReturn: self
 ! !
 
@@ -596,7 +586,7 @@ See `IRNonLocalReturnHandling` class.!
 
 !IRNonLocalReturn methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRNonLocalReturn: self
 ! !
 
@@ -622,7 +612,7 @@ isTempDeclaration
 
 !IRTempDeclaration methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRTempDeclaration: self
 ! !
 
@@ -635,7 +625,7 @@ I am a message send instruction.!
 !IRSend methodsFor: 'accessing'!
 
 arguments
-	^ self instructions allButFirst
+	^ self dagChildren allButFirst
 !
 
 index
@@ -647,7 +637,7 @@ index: anInteger
 !
 
 receiver
-	^ self instructions first
+	^ self dagChildren first
 !
 
 selector
@@ -672,7 +662,7 @@ isSuperSend
 
 !IRSend methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRSend: self
 ! !
 
@@ -688,7 +678,7 @@ isSequence
 
 !IRSequence methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRSequence: self
 ! !
 
@@ -698,7 +688,7 @@ IRSequence subclass: #IRBlockSequence
 
 !IRBlockSequence methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRBlockSequence: self
 ! !
 
@@ -726,7 +716,7 @@ needsBoxingAsReceiver
 
 !IRValue methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRValue: self
 ! !
 
@@ -758,7 +748,7 @@ needsBoxingAsReceiver
 
 !IRVariable methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRVariable: self
 ! !
 
@@ -778,22 +768,22 @@ source: aString
 
 !IRVerbatim methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	^ aVisitor visitIRVerbatim: self
 ! !
 
-Object subclass: #IRVisitor
+ParentFakingPathDagVisitor subclass: #IRVisitor
 	instanceVariableNames: ''
 	package: 'Compiler-IR'!
 
 !IRVisitor methodsFor: 'visiting'!
 
-visit: anIRInstruction
-	^ anIRInstruction accept: self
+visitDagNode: aNode
+	^ self visitDagNodeVariantSimple: aNode
 !
 
 visitIRAssignment: anIRAssignment
-	^ self visitIRInstruction: anIRAssignment
+	^ self visitDagNode: anIRAssignment
 !
 
 visitIRBlockReturn: anIRBlockReturn
@@ -805,15 +795,15 @@ visitIRBlockSequence: anIRBlockSequence
 !
 
 visitIRClosure: anIRClosure
-	^ self visitIRInstruction: anIRClosure
+	^ self visitDagNode: anIRClosure
 !
 
 visitIRDynamicArray: anIRDynamicArray
-	^ self visitIRInstruction: anIRDynamicArray
+	^ self visitDagNode: anIRDynamicArray
 !
 
 visitIRDynamicDictionary: anIRDynamicDictionary
-	^ self visitIRInstruction: anIRDynamicDictionary
+	^ self visitDagNode: anIRDynamicDictionary
 !
 
 visitIRInlinedClosure: anIRInlinedClosure
@@ -824,49 +814,44 @@ visitIRInlinedSequence: anIRInlinedSequence
 	^ self visitIRSequence: anIRInlinedSequence
 !
 
-visitIRInstruction: anIRInstruction
-	anIRInstruction instructions do: [ :each | self visit: each ].
-	^ anIRInstruction
-!
-
 visitIRMethod: anIRMethod
-	^ self visitIRInstruction: anIRMethod
+	^ self visitDagNode: anIRMethod
 !
 
 visitIRNonLocalReturn: anIRNonLocalReturn
-	^ self visitIRInstruction: anIRNonLocalReturn
+	^ self visitDagNode: anIRNonLocalReturn
 !
 
 visitIRNonLocalReturnHandling: anIRNonLocalReturnHandling
-	^ self visitIRInstruction: anIRNonLocalReturnHandling
+	^ self visitDagNode: anIRNonLocalReturnHandling
 !
 
 visitIRReturn: anIRReturn
-	^ self visitIRInstruction: anIRReturn
+	^ self visitDagNode: anIRReturn
 !
 
 visitIRSend: anIRSend
-	^ self visitIRInstruction: anIRSend
+	^ self visitDagNode: anIRSend
 !
 
 visitIRSequence: anIRSequence
-	^ self visitIRInstruction: anIRSequence
+	^ self visitDagNode: anIRSequence
 !
 
 visitIRTempDeclaration: anIRTempDeclaration
-	^ self visitIRInstruction: anIRTempDeclaration
+	^ self visitDagNode: anIRTempDeclaration
 !
 
 visitIRValue: anIRValue
-	^ self visitIRInstruction: anIRValue
+	^ self visitDagNode: anIRValue
 !
 
 visitIRVariable: anIRVariable
-	^ self visitIRInstruction: anIRVariable
+	^ self visitDagNode: anIRVariable
 !
 
 visitIRVerbatim: anIRVerbatim
-	^ self visitIRInstruction: anIRVerbatim
+	^ self visitDagNode: anIRVerbatim
 ! !
 
 IRVisitor subclass: #IRJSTranslator
@@ -923,13 +908,13 @@ visitIRClosure: anIRClosure
 
 visitIRDynamicArray: anIRDynamicArray
 	self
-		visitInstructionList: anIRDynamicArray instructions
+		visitInstructionList: anIRDynamicArray dagChildren
 		enclosedBetween: '[' and: ']'
 !
 
 visitIRDynamicDictionary: anIRDynamicDictionary
 	self
-		visitInstructionList: anIRDynamicDictionary instructions
+		visitInstructionList: anIRDynamicDictionary dagChildren
 		enclosedBetween: '$globals.HashedCollection._newFromPairs_([' and: '])'
 !
 
@@ -977,7 +962,7 @@ visitIRSend: anIRSend
 
 visitIRSequence: anIRSequence
 	self stream nextPutSequenceWith: [
-		anIRSequence instructions do: [ :each |
+		anIRSequence dagChildren do: [ :each |
 			self stream nextPutStatementWith: (self visit: each) ] ]
 !
 
@@ -1265,6 +1250,21 @@ nextPutVars: aCollection
 		stream nextPutAll: ';'; lf ]
 ! !
 
+!ASTNode methodsFor: '*Compiler-IR'!
+
+isReferenced
+	"Answer true if the receiver is referenced by other nodes.
+	Do not take sequences or assignments into account"
+	
+	^ (self parent isSequenceNode or: [
+		self parent isAssignmentNode ]) not
+!
+
+subtreeNeedsAliasing
+	^ self shouldBeAliased or: [
+		self dagChildren anySatisfy: [ :each | each subtreeNeedsAliasing ] ]
+! !
+
 !AssignmentNode methodsFor: '*Compiler-IR'!
 
 shouldBeAliased
@@ -1287,21 +1287,6 @@ subtreeNeedsAliasing
 
 subtreeNeedsAliasing
 	^ self parent isSequenceNode not
-! !
-
-!Node methodsFor: '*Compiler-IR'!
-
-isReferenced
-	"Answer true if the receiver is referenced by other nodes.
-	Do not take sequences or assignments into account"
-	
-	^ (self parent isSequenceNode or: [
-		self parent isAssignmentNode ]) not
-!
-
-subtreeNeedsAliasing
-	^ self shouldBeAliased or: [
-		self nodes anySatisfy: [ :each | each subtreeNeedsAliasing ] ]
 ! !
 
 !SendNode methodsFor: '*Compiler-IR'!

@@ -13,7 +13,7 @@ isInlined
 
 !IRInlinedClosure methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	aVisitor visitIRInlinedClosure: self
 ! !
 
@@ -40,7 +40,7 @@ isInlined
 
 !IRInlinedSend methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	aVisitor visitInlinedSend: self
 ! !
 
@@ -52,7 +52,7 @@ I represent an inlined `#ifFalse:` message send instruction.!
 
 !IRInlinedIfFalse methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	aVisitor visitIRInlinedIfFalse: self
 ! !
 
@@ -80,7 +80,7 @@ receiverInternalVariableName
 
 !IRInlinedIfNilIfNotNil methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	aVisitor visitIRInlinedIfNilIfNotNil: self
 ! !
 
@@ -92,7 +92,7 @@ I represent an inlined `#ifTrue:` message send instruction.!
 
 !IRInlinedIfTrue methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	aVisitor visitIRInlinedIfTrue: self
 ! !
 
@@ -104,7 +104,7 @@ I represent an inlined `#ifTrue:ifFalse:` message send instruction.!
 
 !IRInlinedIfTrueIfFalse methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	aVisitor visitIRInlinedIfTrueIfFalse: self
 ! !
 
@@ -122,7 +122,7 @@ isInlined
 
 !IRInlinedSequence methodsFor: 'visiting'!
 
-accept: aVisitor
+acceptDagVisitor: aVisitor
 	aVisitor visitIRInlinedSequence: self
 ! !
 
@@ -188,7 +188,7 @@ visitIRNonLocalReturn: anIRNonLocalReturn
 		localReturn := IRReturn new
 			scope: anIRNonLocalReturn scope;
 			yourself.
-		anIRNonLocalReturn instructions do: [ :each |
+		anIRNonLocalReturn dagChildren do: [ :each |
 			localReturn add: each ].
 		anIRNonLocalReturn replaceWith: localReturn.
 		^ self visitIRReturn: localReturn ].
@@ -218,16 +218,15 @@ I am a specialized JavaScript translator able to write inlined IR instructions t
 visitIRInlinedClosure: anIRInlinedClosure
 	self stream nextPutVars: (anIRInlinedClosure tempDeclarations collect: [ :each |
 		each name asVariableName ]).
-	anIRInlinedClosure instructions do: [ :each |
-		self visit: each ]
+	self visitAll: anIRInlinedClosure dagChildren
 !
 
 visitIRInlinedIfFalse: anIRInlinedIfFalse
 	self stream nextPutIf: [
 		self stream nextPutAll: '!!$core.assert('.
-		self visit: anIRInlinedIfFalse instructions first.
+		self visit: anIRInlinedIfFalse dagChildren first.
 		self stream nextPutAll: ')' ]
-		then: [ self visit: anIRInlinedIfFalse instructions last ]
+		then: [ self visit: anIRInlinedIfFalse dagChildren last ]
 !
 
 visitIRInlinedIfNilIfNotNil: anIRInlinedIfNilIfNotNil
@@ -236,32 +235,32 @@ visitIRInlinedIfNilIfNotNil: anIRInlinedIfNilIfNotNil
 			| recvVarName |
 			recvVarName := anIRInlinedIfNilIfNotNil receiverInternalVariableName.
 			self stream nextPutAll: '(', recvVarName, ' = '.
-			self visit: anIRInlinedIfNilIfNotNil instructions first.
+			self visit: anIRInlinedIfNilIfNotNil dagChildren first.
 			self stream nextPutAll: ') == null || ', recvVarName, '.isNil' ]
-		then: [ self visit: anIRInlinedIfNilIfNotNil instructions second ]
-		else: [ self visit: anIRInlinedIfNilIfNotNil instructions third ]
+		then: [ self visit: anIRInlinedIfNilIfNotNil dagChildren second ]
+		else: [ self visit: anIRInlinedIfNilIfNotNil dagChildren third ]
 !
 
 visitIRInlinedIfTrue: anIRInlinedIfTrue
 	self stream nextPutIf: [
 		self stream nextPutAll: '$core.assert('.
-		self visit: anIRInlinedIfTrue instructions first.
+		self visit: anIRInlinedIfTrue dagChildren first.
 		self stream nextPutAll: ')' ]
-		then: [ self visit: anIRInlinedIfTrue instructions last ]
+		then: [ self visit: anIRInlinedIfTrue dagChildren last ]
 !
 
 visitIRInlinedIfTrueIfFalse: anIRInlinedIfTrueIfFalse
 	self stream
 		nextPutIf: [
 			self stream nextPutAll: '$core.assert('.
-			self visit: anIRInlinedIfTrueIfFalse instructions first.
+			self visit: anIRInlinedIfTrueIfFalse dagChildren first.
 			self stream nextPutAll: ')' ]
-		then: [ self visit: anIRInlinedIfTrueIfFalse instructions second ]
-		else: [ self visit: anIRInlinedIfTrueIfFalse instructions third ]
+		then: [ self visit: anIRInlinedIfTrueIfFalse dagChildren second ]
+		else: [ self visit: anIRInlinedIfTrueIfFalse dagChildren third ]
 !
 
 visitIRInlinedSequence: anIRInlinedSequence
-	anIRInlinedSequence instructions do: [ :each |
+	anIRInlinedSequence dagChildren do: [ :each |
 		self stream nextPutStatementWith: [ self visit: each ]]
 ! !
 
@@ -382,7 +381,7 @@ inlineClosure: anIRClosure
 	inlinedClosure add: sequence.
 
 	"Get all the statements"
-	statements := anIRClosure sequence instructions.
+	statements := anIRClosure sequence dagChildren.
 	
 	statements ifNotEmpty: [
 		statements allButLast do: [ :each | sequence add: each ].
@@ -498,7 +497,7 @@ inlineClosure: anIRClosure
 
 	closure := super inlineClosure: anIRClosure.
 	sequence := closure sequence.
-	statements := sequence instructions.
+	statements := sequence dagChildren.
 	
 	statements ifNotEmpty: [
 		| final |
@@ -525,7 +524,7 @@ inlineClosure: anIRClosure
 
 	closure := super inlineClosure: anIRClosure.
 	sequence := closure sequence.
-	statements := sequence instructions.
+	statements := sequence dagChildren.
 	
 	statements ifNotEmpty: [
 		| final |

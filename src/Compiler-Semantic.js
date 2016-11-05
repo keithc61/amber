@@ -2248,7 +2248,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(aNode)._receiver_($recv($recv($recv(aNode)._nodes())._first())._receiver());
+$recv(aNode)._receiver_($recv($recv($recv(aNode)._dagChildren())._first())._receiver());
 (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -2264,10 +2264,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitCascadeNode: aNode\x0a\x09aNode receiver: aNode nodes first receiver.\x0a\x09super visitCascadeNode: aNode",
+source: "visitCascadeNode: aNode\x0a\x09aNode receiver: aNode dagChildren first receiver.\x0a\x09super visitCascadeNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["receiver:", "receiver", "first", "nodes", "visitCascadeNode:"]
+messageSends: ["receiver:", "receiver", "first", "dagChildren", "visitCascadeNode:"]
 }),
 $globals.SemanticAnalyzer);
 

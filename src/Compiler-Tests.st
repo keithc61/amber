@@ -685,7 +685,7 @@ testScope
 	ast := Smalltalk parse: src.
 	analyzer visit: ast.
 
-	self deny: ast nodes first nodes last scope == ast scope.
+	self deny: ast dagChildren first dagChildren last scope == ast scope.
 !
 
 testScope2
@@ -695,7 +695,7 @@ testScope2
 	ast := Smalltalk parse: src.
 	analyzer visit: ast.
 
-	self deny: ast nodes first nodes last nodes first nodes first scope == ast scope.
+	self deny: ast dagChildren first dagChildren last dagChildren first dagChildren first scope == ast scope.
 !
 
 testScopeLevel
@@ -706,7 +706,7 @@ testScopeLevel
 	analyzer visit: ast.
 
 	self assert: ast scope scopeLevel equals: 1.
-	self assert: ast nodes first nodes last nodes first nodes first scope scopeLevel equals: 3
+	self assert: ast dagChildren first dagChildren last dagChildren first dagChildren first scope scopeLevel equals: 3
 !
 
 testUnknownVariables
@@ -770,12 +770,12 @@ testVariablesLookup
 	analyzer visit: ast.
 
 	"Binding for `a` in the message send"
-	self assert: ast nodes first nodes first receiver binding isTempVar.
-	self assert: ast nodes first nodes first receiver binding scope == ast scope.
+	self assert: ast dagChildren first dagChildren first receiver binding isTempVar.
+	self assert: ast dagChildren first dagChildren first receiver binding scope == ast scope.
 
 	"Binding for `b`"
-	self assert: ast nodes first nodes last nodes first nodes first left binding isTempVar.
-	self assert: ast nodes first nodes last nodes first nodes first left binding scope == ast nodes first nodes last scope.
+	self assert: ast dagChildren first dagChildren last dagChildren first dagChildren first left binding isTempVar.
+	self assert: ast dagChildren first dagChildren last dagChildren first dagChildren first left binding scope == ast dagChildren first dagChildren last scope.
 ! !
 
 SemanticAnalyzerTest subclass: #AISemanticAnalyzerTest

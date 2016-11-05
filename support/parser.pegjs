@@ -60,13 +60,13 @@ dynamicArray   = "{" ws expressions:expressions? maybeDotsWs "}" {
                      return $globals.DynamicArrayNode._new()
                             ._location_(location())
                             ._source_(text())
-                            ._nodes_(expressions || []);
+                            ._dagChildren_(expressions || []);
                  }
 dynamicDictionary = "#{" ws expressions:associations? maybeDotsWs  "}" {
                         return $globals.DynamicDictionaryNode._new()
                                ._location_(location())
                                ._source_(text())
-                               ._nodes_(expressions || []);
+                               ._dagChildren_(expressions || []);
                     }
 pseudoVariable = val:(
                    'true' {return true;}
@@ -123,7 +123,7 @@ ret            = '^' ws expression:expression {
                      return $globals.ReturnNode._new()
                             ._location_(location())
                             ._source_(text())
-                            ._nodes_([expression]);
+                            ._dagChildren_([expression]);
                  }
   
 temps          = "|" vars:(ws variable:identifier {return variable;})* ws "|" {return vars;}
@@ -149,7 +149,7 @@ wsStSequenceWs    = ws temps:temps? maybeDotsWs statements:statementsWs? {
                             ._location_(location())
                             ._source_(text())
                             ._temps_(temps || [])
-                            ._nodes_(statements || []);
+                            ._dagChildren_(statements || []);
                  }
 
 jsSequence     = jsStatement
@@ -159,7 +159,7 @@ block          = '[' params:wsBlockParamList? sequence:wsSequenceWs? ']' {
                             ._location_(location())
                             ._source_(text())
                             ._parameters_(params || [])
-                            ._nodes_([sequence._asBlockSequenceNode()]);
+                            ._dagChildren_([sequence._asBlockSequenceNode()]);
                  }
 
 operand        = literal / reference / subexpression
@@ -248,7 +248,7 @@ cascade        = send:keywordSend & { return send._isSendNode(); } messages:(ws 
                      return $globals.CascadeNode._new()
                             ._location_(location())
                             ._source_(text())
-                            ._nodes_(messages);
+                            ._dagChildren_(messages);
                  }
 
 jsStatement    = pragmaJsStatement / legacyJsStatement
@@ -273,7 +273,7 @@ method         = pattern:(wsKeywordPattern / wsBinaryPattern / wsUnaryPattern) s
                              ._source_(text())
                              ._selector_(pattern[0])
                              ._arguments_(pattern[1])
-                             ._nodes_([sequence]);
+                             ._dagChildren_([sequence]);
                  }
 
 

@@ -12,7 +12,7 @@ $globals.IRInlinedClosure.comment="I represent an inlined closure instruction.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -22,12 +22,12 @@ return $core.withContext(function($ctx1) {
 $recv(aVisitor)._visitIRInlinedClosure_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedClosure)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRInlinedClosure)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09aVisitor visitIRInlinedClosure: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedClosure: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitIRInlinedClosure:"]
@@ -60,7 +60,7 @@ $globals.IRInlinedSend.comment="I am the abstract super class of inlined message
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -70,12 +70,12 @@ return $core.withContext(function($ctx1) {
 $recv(aVisitor)._visitInlinedSend_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedSend)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRInlinedSend)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09aVisitor visitInlinedSend: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitInlinedSend: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitInlinedSend:"]
@@ -126,7 +126,7 @@ $globals.IRInlinedIfFalse.comment="I represent an inlined `#ifFalse:` message se
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -136,12 +136,12 @@ return $core.withContext(function($ctx1) {
 $recv(aVisitor)._visitIRInlinedIfFalse_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedIfFalse)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRInlinedIfFalse)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09aVisitor visitIRInlinedIfFalse: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedIfFalse: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitIRInlinedIfFalse:"]
@@ -156,7 +156,7 @@ $globals.IRInlinedIfNilIfNotNil.comment="I represent an inlined `#ifNil:ifNotNil
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -166,12 +166,12 @@ return $core.withContext(function($ctx1) {
 $recv(aVisitor)._visitIRInlinedIfNilIfNotNil_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedIfNilIfNotNil)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRInlinedIfNilIfNotNil)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09aVisitor visitIRInlinedIfNilIfNotNil: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedIfNilIfNotNil: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitIRInlinedIfNilIfNotNil:"]
@@ -256,7 +256,7 @@ $globals.IRInlinedIfTrue.comment="I represent an inlined `#ifTrue:` message send
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -266,12 +266,12 @@ return $core.withContext(function($ctx1) {
 $recv(aVisitor)._visitIRInlinedIfTrue_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedIfTrue)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRInlinedIfTrue)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09aVisitor visitIRInlinedIfTrue: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedIfTrue: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitIRInlinedIfTrue:"]
@@ -286,7 +286,7 @@ $globals.IRInlinedIfTrueIfFalse.comment="I represent an inlined `#ifTrue:ifFalse
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -296,12 +296,12 @@ return $core.withContext(function($ctx1) {
 $recv(aVisitor)._visitIRInlinedIfTrueIfFalse_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedIfTrueIfFalse)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRInlinedIfTrueIfFalse)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09aVisitor visitIRInlinedIfTrueIfFalse: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedIfTrueIfFalse: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitIRInlinedIfTrueIfFalse:"]
@@ -316,7 +316,7 @@ $globals.IRInlinedSequence.comment="I represent a (block) sequence inside an inl
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "accept:",
+selector: "acceptDagVisitor:",
 protocol: 'visiting',
 fn: function (aVisitor){
 var self=this;
@@ -326,12 +326,12 @@ return $core.withContext(function($ctx1) {
 $recv(aVisitor)._visitIRInlinedSequence_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accept:",{aVisitor:aVisitor},$globals.IRInlinedSequence)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.IRInlinedSequence)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aVisitor"],
-source: "accept: aVisitor\x0a\x09aVisitor visitIRInlinedSequence: self",
+source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedSequence: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitIRInlinedSequence:"]
@@ -636,7 +636,7 @@ $6=$recv($globals.IRReturn)._new();
 $recv($6)._scope_($recv(anIRNonLocalReturn)._scope());
 localReturn=$recv($6)._yourself();
 localReturn;
-$recv($recv(anIRNonLocalReturn)._instructions())._do_((function(each){
+$recv($recv(anIRNonLocalReturn)._dagChildren())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -663,10 +663,10 @@ return $7;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRNonLocalReturn"],
-source: "visitIRNonLocalReturn: anIRNonLocalReturn\x0a\x09| localReturn |\x0a\x09anIRNonLocalReturn scope canInlineNonLocalReturns ifTrue: [\x0a\x09\x09anIRNonLocalReturn scope methodScope removeNonLocalReturn: anIRNonLocalReturn scope.\x0a\x09\x09localReturn := IRReturn new\x0a\x09\x09\x09scope: anIRNonLocalReturn scope;\x0a\x09\x09\x09yourself.\x0a\x09\x09anIRNonLocalReturn instructions do: [ :each |\x0a\x09\x09\x09localReturn add: each ].\x0a\x09\x09anIRNonLocalReturn replaceWith: localReturn.\x0a\x09\x09^ self visitIRReturn: localReturn ].\x0a\x09^ super visitIRNonLocalReturn: anIRNonLocalReturn",
+source: "visitIRNonLocalReturn: anIRNonLocalReturn\x0a\x09| localReturn |\x0a\x09anIRNonLocalReturn scope canInlineNonLocalReturns ifTrue: [\x0a\x09\x09anIRNonLocalReturn scope methodScope removeNonLocalReturn: anIRNonLocalReturn scope.\x0a\x09\x09localReturn := IRReturn new\x0a\x09\x09\x09scope: anIRNonLocalReturn scope;\x0a\x09\x09\x09yourself.\x0a\x09\x09anIRNonLocalReturn dagChildren do: [ :each |\x0a\x09\x09\x09localReturn add: each ].\x0a\x09\x09anIRNonLocalReturn replaceWith: localReturn.\x0a\x09\x09^ self visitIRReturn: localReturn ].\x0a\x09^ super visitIRNonLocalReturn: anIRNonLocalReturn",
 referencedClasses: ["IRReturn"],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:", "canInlineNonLocalReturns", "scope", "removeNonLocalReturn:", "methodScope", "scope:", "new", "yourself", "do:", "instructions", "add:", "replaceWith:", "visitIRReturn:", "visitIRNonLocalReturn:"]
+messageSends: ["ifTrue:", "canInlineNonLocalReturns", "scope", "removeNonLocalReturn:", "methodScope", "scope:", "new", "yourself", "do:", "dagChildren", "add:", "replaceWith:", "visitIRReturn:", "visitIRNonLocalReturn:"]
 }),
 $globals.IRInliner);
 
@@ -766,15 +766,7 @@ return $recv($recv(each)._name())._asVariableName();
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
 })));
-$recv($recv(anIRInlinedClosure)._instructions())._do_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return self._visit_(each);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
+self._visitAll_($recv(anIRInlinedClosure)._dagChildren());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitIRInlinedClosure:",{anIRInlinedClosure:anIRInlinedClosure},$globals.IRInliningJSTranslator)});
@@ -782,10 +774,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRInlinedClosure"],
-source: "visitIRInlinedClosure: anIRInlinedClosure\x0a\x09self stream nextPutVars: (anIRInlinedClosure tempDeclarations collect: [ :each |\x0a\x09\x09each name asVariableName ]).\x0a\x09anIRInlinedClosure instructions do: [ :each |\x0a\x09\x09self visit: each ]",
+source: "visitIRInlinedClosure: anIRInlinedClosure\x0a\x09self stream nextPutVars: (anIRInlinedClosure tempDeclarations collect: [ :each |\x0a\x09\x09each name asVariableName ]).\x0a\x09self visitAll: anIRInlinedClosure dagChildren",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["nextPutVars:", "stream", "collect:", "tempDeclarations", "asVariableName", "name", "do:", "instructions", "visit:"]
+messageSends: ["nextPutVars:", "stream", "collect:", "tempDeclarations", "asVariableName", "name", "visitAll:", "dagChildren"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -815,9 +807,9 @@ $recv($2)._nextPutAll_("!$core.assert(");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$4=$recv(anIRInlinedIfFalse)._instructions();
+$4=$recv(anIRInlinedIfFalse)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["instructions"]=1;
+$ctx2.sendIdx["dagChildren"]=1;
 //>>excludeEnd("ctx");
 $3=$recv($4)._first();
 self._visit_($3);
@@ -832,7 +824,7 @@ return $recv(self._stream())._nextPutAll_(")");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._visit_($recv($recv(anIRInlinedIfFalse)._instructions())._last());
+return self._visit_($recv($recv(anIRInlinedIfFalse)._dagChildren())._last());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
@@ -844,10 +836,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRInlinedIfFalse"],
-source: "visitIRInlinedIfFalse: anIRInlinedIfFalse\x0a\x09self stream nextPutIf: [\x0a\x09\x09self stream nextPutAll: '!$core.assert('.\x0a\x09\x09self visit: anIRInlinedIfFalse instructions first.\x0a\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfFalse instructions last ]",
+source: "visitIRInlinedIfFalse: anIRInlinedIfFalse\x0a\x09self stream nextPutIf: [\x0a\x09\x09self stream nextPutAll: '!$core.assert('.\x0a\x09\x09self visit: anIRInlinedIfFalse dagChildren first.\x0a\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfFalse dagChildren last ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["nextPutIf:then:", "stream", "nextPutAll:", "visit:", "first", "instructions", "last"]
+messageSends: ["nextPutIf:then:", "stream", "nextPutAll:", "visit:", "first", "dagChildren", "last"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -888,9 +880,9 @@ $recv($2)._nextPutAll_($3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$6=$recv(anIRInlinedIfNilIfNotNil)._instructions();
+$6=$recv(anIRInlinedIfNilIfNotNil)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["instructions"]=1;
+$ctx2.sendIdx["dagChildren"]=1;
 //>>excludeEnd("ctx");
 $5=$recv($6)._first();
 self._visit_($5);
@@ -910,9 +902,9 @@ return $recv($7)._nextPutAll_($8);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$10=$recv(anIRInlinedIfNilIfNotNil)._instructions();
+$10=$recv(anIRInlinedIfNilIfNotNil)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["instructions"]=2;
+$ctx2.sendIdx["dagChildren"]=2;
 //>>excludeEnd("ctx");
 $9=$recv($10)._second();
 return self._visit_($9);
@@ -926,7 +918,7 @@ $ctx2.sendIdx["visit:"]=2;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._visit_($recv($recv(anIRInlinedIfNilIfNotNil)._instructions())._third());
+return self._visit_($recv($recv(anIRInlinedIfNilIfNotNil)._dagChildren())._third());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
 //>>excludeEnd("ctx");
@@ -938,10 +930,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRInlinedIfNilIfNotNil"],
-source: "visitIRInlinedIfNilIfNotNil: anIRInlinedIfNilIfNotNil\x0a\x09self stream\x0a\x09\x09nextPutIf: [\x0a\x09\x09\x09| recvVarName |\x0a\x09\x09\x09recvVarName := anIRInlinedIfNilIfNotNil receiverInternalVariableName.\x0a\x09\x09\x09self stream nextPutAll: '(', recvVarName, ' = '.\x0a\x09\x09\x09self visit: anIRInlinedIfNilIfNotNil instructions first.\x0a\x09\x09\x09self stream nextPutAll: ') == null || ', recvVarName, '.isNil' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfNilIfNotNil instructions second ]\x0a\x09\x09else: [ self visit: anIRInlinedIfNilIfNotNil instructions third ]",
+source: "visitIRInlinedIfNilIfNotNil: anIRInlinedIfNilIfNotNil\x0a\x09self stream\x0a\x09\x09nextPutIf: [\x0a\x09\x09\x09| recvVarName |\x0a\x09\x09\x09recvVarName := anIRInlinedIfNilIfNotNil receiverInternalVariableName.\x0a\x09\x09\x09self stream nextPutAll: '(', recvVarName, ' = '.\x0a\x09\x09\x09self visit: anIRInlinedIfNilIfNotNil dagChildren first.\x0a\x09\x09\x09self stream nextPutAll: ') == null || ', recvVarName, '.isNil' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfNilIfNotNil dagChildren second ]\x0a\x09\x09else: [ self visit: anIRInlinedIfNilIfNotNil dagChildren third ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["nextPutIf:then:else:", "stream", "receiverInternalVariableName", "nextPutAll:", ",", "visit:", "first", "instructions", "second", "third"]
+messageSends: ["nextPutIf:then:else:", "stream", "receiverInternalVariableName", "nextPutAll:", ",", "visit:", "first", "dagChildren", "second", "third"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -971,9 +963,9 @@ $recv($2)._nextPutAll_("$core.assert(");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$4=$recv(anIRInlinedIfTrue)._instructions();
+$4=$recv(anIRInlinedIfTrue)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["instructions"]=1;
+$ctx2.sendIdx["dagChildren"]=1;
 //>>excludeEnd("ctx");
 $3=$recv($4)._first();
 self._visit_($3);
@@ -988,7 +980,7 @@ return $recv(self._stream())._nextPutAll_(")");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._visit_($recv($recv(anIRInlinedIfTrue)._instructions())._last());
+return self._visit_($recv($recv(anIRInlinedIfTrue)._dagChildren())._last());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
@@ -1000,10 +992,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRInlinedIfTrue"],
-source: "visitIRInlinedIfTrue: anIRInlinedIfTrue\x0a\x09self stream nextPutIf: [\x0a\x09\x09self stream nextPutAll: '$core.assert('.\x0a\x09\x09self visit: anIRInlinedIfTrue instructions first.\x0a\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfTrue instructions last ]",
+source: "visitIRInlinedIfTrue: anIRInlinedIfTrue\x0a\x09self stream nextPutIf: [\x0a\x09\x09self stream nextPutAll: '$core.assert('.\x0a\x09\x09self visit: anIRInlinedIfTrue dagChildren first.\x0a\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfTrue dagChildren last ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["nextPutIf:then:", "stream", "nextPutAll:", "visit:", "first", "instructions", "last"]
+messageSends: ["nextPutIf:then:", "stream", "nextPutAll:", "visit:", "first", "dagChildren", "last"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -1033,9 +1025,9 @@ $recv($2)._nextPutAll_("$core.assert(");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$4=$recv(anIRInlinedIfTrueIfFalse)._instructions();
+$4=$recv(anIRInlinedIfTrueIfFalse)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["instructions"]=1;
+$ctx2.sendIdx["dagChildren"]=1;
 //>>excludeEnd("ctx");
 $3=$recv($4)._first();
 self._visit_($3);
@@ -1050,9 +1042,9 @@ return $recv(self._stream())._nextPutAll_(")");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$6=$recv(anIRInlinedIfTrueIfFalse)._instructions();
+$6=$recv(anIRInlinedIfTrueIfFalse)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["instructions"]=2;
+$ctx2.sendIdx["dagChildren"]=2;
 //>>excludeEnd("ctx");
 $5=$recv($6)._second();
 return self._visit_($5);
@@ -1066,7 +1058,7 @@ $ctx2.sendIdx["visit:"]=2;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._visit_($recv($recv(anIRInlinedIfTrueIfFalse)._instructions())._third());
+return self._visit_($recv($recv(anIRInlinedIfTrueIfFalse)._dagChildren())._third());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
 //>>excludeEnd("ctx");
@@ -1078,10 +1070,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRInlinedIfTrueIfFalse"],
-source: "visitIRInlinedIfTrueIfFalse: anIRInlinedIfTrueIfFalse\x0a\x09self stream\x0a\x09\x09nextPutIf: [\x0a\x09\x09\x09self stream nextPutAll: '$core.assert('.\x0a\x09\x09\x09self visit: anIRInlinedIfTrueIfFalse instructions first.\x0a\x09\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfTrueIfFalse instructions second ]\x0a\x09\x09else: [ self visit: anIRInlinedIfTrueIfFalse instructions third ]",
+source: "visitIRInlinedIfTrueIfFalse: anIRInlinedIfTrueIfFalse\x0a\x09self stream\x0a\x09\x09nextPutIf: [\x0a\x09\x09\x09self stream nextPutAll: '$core.assert('.\x0a\x09\x09\x09self visit: anIRInlinedIfTrueIfFalse dagChildren first.\x0a\x09\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfTrueIfFalse dagChildren second ]\x0a\x09\x09else: [ self visit: anIRInlinedIfTrueIfFalse dagChildren third ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["nextPutIf:then:else:", "stream", "nextPutAll:", "visit:", "first", "instructions", "second", "third"]
+messageSends: ["nextPutIf:then:else:", "stream", "nextPutAll:", "visit:", "first", "dagChildren", "second", "third"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -1094,7 +1086,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($recv(anIRInlinedSequence)._instructions())._do_((function(each){
+$recv($recv(anIRInlinedSequence)._dagChildren())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -1118,10 +1110,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRInlinedSequence"],
-source: "visitIRInlinedSequence: anIRInlinedSequence\x0a\x09anIRInlinedSequence instructions do: [ :each |\x0a\x09\x09self stream nextPutStatementWith: [ self visit: each ]]",
+source: "visitIRInlinedSequence: anIRInlinedSequence\x0a\x09anIRInlinedSequence dagChildren do: [ :each |\x0a\x09\x09self stream nextPutStatementWith: [ self visit: each ]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["do:", "instructions", "nextPutStatementWith:", "stream", "visit:"]
+messageSends: ["do:", "dagChildren", "nextPutStatementWith:", "stream", "visit:"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -1490,7 +1482,7 @@ $recv(inlinedClosure)._add_(sequence);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["add:"]=6;
 //>>excludeEnd("ctx");
-statements=$recv($recv(anIRClosure)._sequence())._instructions();
+statements=$recv($recv(anIRClosure)._sequence())._dagChildren();
 $recv(statements)._ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -1519,10 +1511,10 @@ return inlinedClosure;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRClosure"],
-source: "inlineClosure: anIRClosure\x0a\x09| inlinedClosure sequence statements |\x0a\x0a\x09inlinedClosure := self inlinedClosure.\x0a\x09inlinedClosure \x0a\x09\x09scope: anIRClosure scope;\x0a\x09\x09parent: anIRClosure parent.\x0a\x0a\x09\x22Add the possible temp declarations\x22\x0a\x09anIRClosure tempDeclarations do: [ :each |\x0a\x09\x09\x09inlinedClosure add: each ].\x0a\x0a\x09\x22Add a block sequence\x22\x0a\x09sequence := self inlinedSequence.\x0a\x0a\x09\x22Map the closure arguments to the receiver of the message send\x22\x0a\x09anIRClosure arguments do: [ :each |\x0a\x09\x09inlinedClosure add: (IRTempDeclaration new name: each; yourself).\x0a\x09\x09sequence add: (IRAssignment new\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: each; yourself));\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: '$receiver'; yourself));\x0a\x09\x09\x09yourself) ].\x0a\x09\x09\x09\x0a\x09\x22To ensure the correct order of the closure instructions: first the temps then the sequence\x22\x0a\x09inlinedClosure add: sequence.\x0a\x0a\x09\x22Get all the statements\x22\x0a\x09statements := anIRClosure sequence instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements allButLast do: [ :each | sequence add: each ].\x0a\x0a\x09\x09\x22Inlined closures change local returns into result value itself\x22\x0a\x09\x09sequence add: statements last asInlinedBlockResult ].\x0a\x0a\x09^ inlinedClosure",
+source: "inlineClosure: anIRClosure\x0a\x09| inlinedClosure sequence statements |\x0a\x0a\x09inlinedClosure := self inlinedClosure.\x0a\x09inlinedClosure \x0a\x09\x09scope: anIRClosure scope;\x0a\x09\x09parent: anIRClosure parent.\x0a\x0a\x09\x22Add the possible temp declarations\x22\x0a\x09anIRClosure tempDeclarations do: [ :each |\x0a\x09\x09\x09inlinedClosure add: each ].\x0a\x0a\x09\x22Add a block sequence\x22\x0a\x09sequence := self inlinedSequence.\x0a\x0a\x09\x22Map the closure arguments to the receiver of the message send\x22\x0a\x09anIRClosure arguments do: [ :each |\x0a\x09\x09inlinedClosure add: (IRTempDeclaration new name: each; yourself).\x0a\x09\x09sequence add: (IRAssignment new\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: each; yourself));\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: '$receiver'; yourself));\x0a\x09\x09\x09yourself) ].\x0a\x09\x09\x09\x0a\x09\x22To ensure the correct order of the closure instructions: first the temps then the sequence\x22\x0a\x09inlinedClosure add: sequence.\x0a\x0a\x09\x22Get all the statements\x22\x0a\x09statements := anIRClosure sequence dagChildren.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements allButLast do: [ :each | sequence add: each ].\x0a\x0a\x09\x09\x22Inlined closures change local returns into result value itself\x22\x0a\x09\x09sequence add: statements last asInlinedBlockResult ].\x0a\x0a\x09^ inlinedClosure",
 referencedClasses: ["IRTempDeclaration", "IRAssignment", "IRVariable", "AliasVar"],
 //>>excludeEnd("ide");
-messageSends: ["inlinedClosure", "scope:", "scope", "parent:", "parent", "do:", "tempDeclarations", "add:", "inlinedSequence", "arguments", "name:", "new", "yourself", "variable:", "instructions", "sequence", "ifNotEmpty:", "allButLast", "asInlinedBlockResult", "last"]
+messageSends: ["inlinedClosure", "scope:", "scope", "parent:", "parent", "do:", "tempDeclarations", "add:", "inlinedSequence", "arguments", "name:", "new", "yourself", "variable:", "dagChildren", "sequence", "ifNotEmpty:", "allButLast", "asInlinedBlockResult", "last"]
 }),
 $globals.IRSendInliner);
 
@@ -1953,7 +1945,7 @@ $ctx1.supercall = true,
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 sequence=$recv(closure)._sequence();
-statements=$recv(sequence)._instructions();
+statements=$recv(sequence)._dagChildren();
 $recv(statements)._ifNotEmpty_((function(){
 var final;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1985,10 +1977,10 @@ return closure;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRClosure"],
-source: "inlineClosure: anIRClosure\x0a\x09| closure sequence statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09sequence := closure sequence.\x0a\x09statements := sequence instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09| final |\x0a\x09\x09final := statements last.\x0a\x09\x09final yieldsValue ifTrue: [\x0a\x09\x09\x09sequence replace: final with: (IRAssignment new\x0a\x09\x09\x09\x09add: self target;\x0a\x09\x09\x09\x09add: final copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ closure",
+source: "inlineClosure: anIRClosure\x0a\x09| closure sequence statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09sequence := closure sequence.\x0a\x09statements := sequence dagChildren.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09| final |\x0a\x09\x09final := statements last.\x0a\x09\x09final yieldsValue ifTrue: [\x0a\x09\x09\x09sequence replace: final with: (IRAssignment new\x0a\x09\x09\x09\x09add: self target;\x0a\x09\x09\x09\x09add: final copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ closure",
 referencedClasses: ["IRAssignment"],
 //>>excludeEnd("ide");
-messageSends: ["inlineClosure:", "sequence", "instructions", "ifNotEmpty:", "last", "ifTrue:", "yieldsValue", "replace:with:", "add:", "new", "target", "copy", "yourself"]
+messageSends: ["inlineClosure:", "sequence", "dagChildren", "ifNotEmpty:", "last", "ifTrue:", "yieldsValue", "replace:with:", "add:", "new", "target", "copy", "yourself"]
 }),
 $globals.IRAssignmentInliner);
 
@@ -2055,7 +2047,7 @@ $ctx1.supercall = true,
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 sequence=$recv(closure)._sequence();
-statements=$recv(sequence)._instructions();
+statements=$recv(sequence)._dagChildren();
 $recv(statements)._ifNotEmpty_((function(){
 var final;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2083,10 +2075,10 @@ return closure;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRClosure"],
-source: "inlineClosure: anIRClosure\x0a\x09| closure sequence statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09sequence := closure sequence.\x0a\x09statements := sequence instructions.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09| final |\x0a\x09\x09final := statements last.\x0a\x09\x09final yieldsValue ifTrue: [\x0a\x09\x09\x09sequence replace: final with: (IRReturn new\x0a\x09\x09\x09\x09add: final copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ closure",
+source: "inlineClosure: anIRClosure\x0a\x09| closure sequence statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09sequence := closure sequence.\x0a\x09statements := sequence dagChildren.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09| final |\x0a\x09\x09final := statements last.\x0a\x09\x09final yieldsValue ifTrue: [\x0a\x09\x09\x09sequence replace: final with: (IRReturn new\x0a\x09\x09\x09\x09add: final copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ closure",
 referencedClasses: ["IRReturn"],
 //>>excludeEnd("ide");
-messageSends: ["inlineClosure:", "sequence", "instructions", "ifNotEmpty:", "last", "ifTrue:", "yieldsValue", "replace:with:", "add:", "new", "copy", "yourself"]
+messageSends: ["inlineClosure:", "sequence", "dagChildren", "ifNotEmpty:", "last", "ifTrue:", "yieldsValue", "replace:with:", "add:", "new", "copy", "yourself"]
 }),
 $globals.IRReturnInliner);
 
