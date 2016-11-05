@@ -2205,12 +2205,80 @@ messageSends: ["new"]
 }),
 $globals.InliningCodeGenerator);
 
+$core.addMethod(
+$core.method({
+selector: "semanticAnalyzerClass",
+protocol: 'compiling',
+fn: function (){
+var self=this;
+return $globals.InliningSemanticAnalyzer;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "semanticAnalyzerClass\x0a\x09^ InliningSemanticAnalyzer",
+referencedClasses: ["InliningSemanticAnalyzer"],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.InliningCodeGenerator);
+
 
 
 $core.addClass('InliningError', $globals.SemanticError, [], 'Compiler-Inlining');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.InliningError.comment="Instances of InliningError are signaled when using an `InliningCodeGenerator`in a `Compiler`.";
 //>>excludeEnd("ide");
+
+
+$core.addClass('InliningSemanticAnalyzer', $globals.SemanticAnalyzer, [], 'Compiler-Inlining');
+$core.addMethod(
+$core.method({
+selector: "visitSendNode:",
+protocol: 'visiting',
+fn: function (aNode){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$3,$receiver;
+$1=$recv(aNode)._superSend();
+if(!$core.assert($1)){
+$2=$recv($recv($globals.IRSendInliner)._inlinedSelectors())._includes_($recv(aNode)._selector());
+if($core.assert($2)){
+$recv(aNode)._shouldBeInlined_(true);
+$3=$recv(aNode)._receiver();
+if(($receiver = $3) == null || $receiver.isNil){
+$3;
+} else {
+var receiver;
+receiver=$receiver;
+$recv(receiver)._shouldBeAliased_(true);
+};
+};
+};
+(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.InliningSemanticAnalyzer.superclass||$boot.nilAsClass).fn.prototype._visitSendNode_.apply($recv(self), [aNode]));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode},$globals.InliningSemanticAnalyzer)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNode"],
+source: "visitSendNode: aNode\x0a\x0a\x09aNode superSend ifFalse: [ \x0a\x09\x09(IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [\x0a\x09\x09\x09aNode shouldBeInlined: true.\x0a\x09\x09\x09aNode receiver ifNotNil: [ :receiver |\x0a\x09\x09\x09\x09receiver shouldBeAliased: true ] ] ].\x0a\x0a\x09super visitSendNode: aNode",
+referencedClasses: ["IRSendInliner"],
+//>>excludeEnd("ide");
+messageSends: ["ifFalse:", "superSend", "ifTrue:", "includes:", "inlinedSelectors", "selector", "shouldBeInlined:", "ifNotNil:", "receiver", "shouldBeAliased:", "visitSendNode:"]
+}),
+$globals.InliningSemanticAnalyzer);
+
 
 $core.addMethod(
 $core.method({

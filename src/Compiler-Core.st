@@ -65,9 +65,13 @@ irTranslator
 !
 
 semanticAnalyzer
-	^ (SemanticAnalyzer on: self currentClass)
+	^ (self semanticAnalyzerClass on: self currentClass)
 		thePackage: self currentPackage;
 		yourself
+!
+
+semanticAnalyzerClass
+	^ SemanticAnalyzer
 !
 
 translator

@@ -254,7 +254,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=$recv($globals.SemanticAnalyzer)._on_(self._currentClass());
+$1=$recv(self._semanticAnalyzerClass())._on_(self._currentClass());
 $recv($1)._thePackage_(self._currentPackage());
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -263,10 +263,28 @@ return $recv($1)._yourself();
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "semanticAnalyzer\x0a\x09^ (SemanticAnalyzer on: self currentClass)\x0a\x09\x09thePackage: self currentPackage;\x0a\x09\x09yourself",
+source: "semanticAnalyzer\x0a\x09^ (self semanticAnalyzerClass on: self currentClass)\x0a\x09\x09thePackage: self currentPackage;\x0a\x09\x09yourself",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["thePackage:", "on:", "semanticAnalyzerClass", "currentClass", "currentPackage", "yourself"]
+}),
+$globals.CodeGenerator);
+
+$core.addMethod(
+$core.method({
+selector: "semanticAnalyzerClass",
+protocol: 'compiling',
+fn: function (){
+var self=this;
+return $globals.SemanticAnalyzer;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "semanticAnalyzerClass\x0a\x09^ SemanticAnalyzer",
 referencedClasses: ["SemanticAnalyzer"],
 //>>excludeEnd("ide");
-messageSends: ["thePackage:", "on:", "currentClass", "currentPackage", "yourself"]
+messageSends: []
 }),
 $globals.CodeGenerator);
 

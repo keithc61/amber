@@ -2379,34 +2379,13 @@ var sends;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$4,$2,$5,$receiver;
-$1=$recv(aNode)._superSend();
-if(!$core.assert($1)){
-$3=$recv($globals.IRSendInliner)._inlinedSelectors();
-$4=$recv(aNode)._selector();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["selector"]=1;
-//>>excludeEnd("ctx");
-$2=$recv($3)._includes_($4);
-if($core.assert($2)){
-$recv(aNode)._shouldBeInlined_(true);
-$5=$recv(aNode)._receiver();
-if(($receiver = $5) == null || $receiver.isNil){
-$5;
-} else {
-var receiver;
-receiver=$receiver;
-$recv(receiver)._shouldBeAliased_(true);
-};
-};
-};
 sends=$recv(self._messageSends())._at_ifAbsentPut_($recv(aNode)._selector(),(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 return $recv($globals.OrderedCollection)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,4)});
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
 $recv(sends)._add_(aNode);
@@ -2426,10 +2405,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitSendNode: aNode\x0a\x0a\x09| sends |\x0a\x09aNode superSend ifFalse: [ \x0a\x09\x09(IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [\x0a\x09\x09\x09aNode shouldBeInlined: true.\x0a\x09\x09\x09aNode receiver ifNotNil: [ :receiver |\x0a\x09\x09\x09\x09receiver shouldBeAliased: true ] ] ].\x0a\x0a\x09sends := self messageSends at: aNode selector ifAbsentPut: [ OrderedCollection new ].\x0a\x09sends add: aNode.\x0a\x0a\x09aNode index: sends size.\x0a\x0a\x09super visitSendNode: aNode",
-referencedClasses: ["IRSendInliner", "OrderedCollection"],
+source: "visitSendNode: aNode\x0a\x0a\x09| sends |\x0a\x09sends := self messageSends at: aNode selector ifAbsentPut: [ OrderedCollection new ].\x0a\x09sends add: aNode.\x0a\x0a\x09aNode index: sends size.\x0a\x0a\x09super visitSendNode: aNode",
+referencedClasses: ["OrderedCollection"],
 //>>excludeEnd("ide");
-messageSends: ["ifFalse:", "superSend", "ifTrue:", "includes:", "inlinedSelectors", "selector", "shouldBeInlined:", "ifNotNil:", "receiver", "shouldBeAliased:", "at:ifAbsentPut:", "messageSends", "new", "add:", "index:", "size", "visitSendNode:"]
+messageSends: ["at:ifAbsentPut:", "messageSends", "selector", "new", "add:", "index:", "size", "visitSendNode:"]
 }),
 $globals.SemanticAnalyzer);
 
