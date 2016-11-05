@@ -1,6 +1,6 @@
 {
   "name": "grunt-init-amber",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "description": "grunt-init template for amber project",
   "main": "template.js",
   "scripts": {
