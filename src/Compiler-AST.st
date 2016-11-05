@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Compiler-AST'!
 Object subclass: #Node
-	instanceVariableNames: 'parent position source nodes shouldBeInlined shouldBeAliased'
+	instanceVariableNames: 'parent position source nodes shouldBeAliased'
 	package: 'Compiler-AST'!
 !Node commentStamp!
 I am the abstract root class of the abstract syntax tree.
@@ -91,14 +91,6 @@ shouldBeAliased: aBoolean
 	shouldBeAliased := aBoolean
 !
 
-shouldBeInlined
-	^ shouldBeInlined ifNil: [ false ]
-!
-
-shouldBeInlined: aBoolean
-	shouldBeInlined := aBoolean
-!
-
 size
 	^ self source size
 !
@@ -156,10 +148,6 @@ isJSStatementNode
 	^ false
 !
 
-isLastChild
-	^ self parent nodes last = self
-!
-
 isNavigationNode
 	"Answer true if the node can be navigated to"
 	
@@ -168,14 +156,6 @@ isNavigationNode
 
 isNode
 	^ true
-!
-
-isReferenced
-	"Answer true if the receiver is referenced by other nodes.
-	Do not take sequences or assignments into account"
-	
-	^ (self parent isSequenceNode or: [
-		self parent isAssignmentNode ]) not
 !
 
 isReturnNode
@@ -212,11 +192,6 @@ requiresSmalltalkContext
 	^ (self nodes 
 		detect: [ :each | each requiresSmalltalkContext ]
 		ifNone: [ nil ]) notNil
-!
-
-subtreeNeedsAliasing
-	^ (self shouldBeAliased or: [ self shouldBeInlined ]) or: [
-		self nodes anySatisfy: [ :each | each subtreeNeedsAliasing ] ]
 ! !
 
 !Node methodsFor: 'visiting'!
@@ -259,10 +234,6 @@ right: aNode
 
 isAssignmentNode
 	^ true
-!
-
-shouldBeAliased
-	^ super shouldBeAliased or: [ self isReferenced ]
 ! !
 
 !AssignmentNode methodsFor: 'visiting'!
@@ -299,10 +270,6 @@ scope: aLexicalScope
 
 isBlockNode
 	^ true
-!
-
-subtreeNeedsAliasing
-	^ self shouldBeAliased or: [ self shouldBeInlined ]
 ! !
 
 !BlockNode methodsFor: 'visiting'!
@@ -331,10 +298,6 @@ receiver: aNode
 
 isCascadeNode
 	^ true
-!
-
-subtreeNeedsAliasing
-	^ self parent isSequenceNode not
 ! !
 
 !CascadeNode methodsFor: 'visiting'!
@@ -501,7 +464,7 @@ accept: aVisitor
 ! !
 
 Node subclass: #SendNode
-	instanceVariableNames: 'selector arguments receiver index'
+	instanceVariableNames: 'selector arguments receiver index shouldBeInlined'
 	package: 'Compiler-AST'!
 !SendNode commentStamp!
 I represent an message send node.!
@@ -567,6 +530,14 @@ selector: aString
 	selector := aString
 !
 
+shouldBeInlined
+	^ shouldBeInlined ifNil: [ false ]
+!
+
+shouldBeInlined: aBoolean
+	shouldBeInlined := aBoolean
+!
+
 superSend
 	^ self receiver notNil and: [ self receiver isSuperKeyword ]
 ! !
@@ -587,10 +558,6 @@ valueForReceiver: anObject
 
 !SendNode methodsFor: 'testing'!
 
-isCascadeSendNode
-	^ self parent isCascadeNode
-!
-
 isNavigationNode
 	^ true
 !
@@ -601,20 +568,6 @@ isSendNode
 
 requiresSmalltalkContext
 	^ true
-!
-
-shouldBeAliased
-	"Because we keep track of send indexes, some send nodes need additional care for aliasing. 
-	See IRJSVisitor >> visitIRSend:"
-	
-	| sends |
-	
-	sends := (self method sendIndexes at: self selector) size.
-	
-	^ (super shouldBeAliased or: [
-		self isReferenced and: [
-			self index < sends or: [
-				self superSend ] ] ])
 ! !
 
 !SendNode methodsFor: 'visiting'!

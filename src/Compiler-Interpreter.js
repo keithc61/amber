@@ -3870,6 +3870,29 @@ $globals.JSStatementNode);
 
 $core.addMethod(
 $core.method({
+selector: "isLastChild",
+protocol: '*Compiler-Interpreter',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($recv($recv(self._parent())._nodes())._last()).__eq(self);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isLastChild",{},$globals.Node)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isLastChild\x0a\x09^ self parent nodes last = self",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["=", "last", "nodes", "parent"]
+}),
+$globals.Node);
+
+$core.addMethod(
+$core.method({
 selector: "isSteppingNode",
 protocol: '*Compiler-Interpreter',
 fn: function (){
@@ -3920,6 +3943,29 @@ referencedClasses: [],
 messageSends: ["at:ifAbsent:", "nodes", "+", "indexOf:"]
 }),
 $globals.Node);
+
+$core.addMethod(
+$core.method({
+selector: "isCascadeSendNode",
+protocol: '*Compiler-Interpreter',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._parent())._isCascadeNode();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isCascadeSendNode",{},$globals.SendNode)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isCascadeSendNode\x0a\x09^ self parent isCascadeNode",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["isCascadeNode", "parent"]
+}),
+$globals.SendNode);
 
 $core.addMethod(
 $core.method({

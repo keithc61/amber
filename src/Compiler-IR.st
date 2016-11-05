@@ -1265,9 +1265,62 @@ nextPutVars: aCollection
 		stream nextPutAll: ';'; lf ]
 ! !
 
+!AssignmentNode methodsFor: '*Compiler-IR'!
+
+shouldBeAliased
+	^ super shouldBeAliased or: [ self isReferenced ]
+! !
+
 !BlockClosure methodsFor: '*Compiler-IR'!
 
 appendToInstruction: anIRInstruction
 	anIRInstruction appendBlock: self
+! !
+
+!BlockNode methodsFor: '*Compiler-IR'!
+
+subtreeNeedsAliasing
+	^ self shouldBeAliased
+! !
+
+!CascadeNode methodsFor: '*Compiler-IR'!
+
+subtreeNeedsAliasing
+	^ self parent isSequenceNode not
+! !
+
+!Node methodsFor: '*Compiler-IR'!
+
+isReferenced
+	"Answer true if the receiver is referenced by other nodes.
+	Do not take sequences or assignments into account"
+	
+	^ (self parent isSequenceNode or: [
+		self parent isAssignmentNode ]) not
+!
+
+subtreeNeedsAliasing
+	^ self shouldBeAliased or: [
+		self nodes anySatisfy: [ :each | each subtreeNeedsAliasing ] ]
+! !
+
+!SendNode methodsFor: '*Compiler-IR'!
+
+shouldBeAliased
+	"Because we keep track of send indexes, some send nodes need additional care for aliasing. 
+	See IRJSVisitor >> visitIRSend:"
+	
+	| sends |
+	
+	sends := (self method sendIndexes at: self selector) size.
+	
+	^ (super shouldBeAliased or: [
+		self isReferenced and: [
+			self index < sends or: [
+				self superSend ] ] ])
+!
+
+subtreeNeedsAliasing
+	^ self shouldBeInlined or: [ super subtreeNeedsAliasing ]
 ! !
 

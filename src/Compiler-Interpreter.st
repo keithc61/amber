@@ -1011,6 +1011,10 @@ isSteppingNode
 
 !Node methodsFor: '*Compiler-Interpreter'!
 
+isLastChild
+	^ self parent nodes last = self
+!
+
 isSteppingNode
 	^ false
 !
@@ -1024,6 +1028,10 @@ nextSiblingNode: aNode
 ! !
 
 !SendNode methodsFor: '*Compiler-Interpreter'!
+
+isCascadeSendNode
+	^ self parent isCascadeNode
+!
 
 isSteppingNode
 	^ true

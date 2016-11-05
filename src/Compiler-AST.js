@@ -6,7 +6,7 @@ $core.addPackage('Compiler-AST');
 $core.packages["Compiler-AST"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-AST"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('Node', $globals.Object, ['parent', 'position', 'source', 'nodes', 'shouldBeInlined', 'shouldBeAliased'], 'Compiler-AST');
+$core.addClass('Node', $globals.Object, ['parent', 'position', 'source', 'nodes', 'shouldBeAliased'], 'Compiler-AST');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Node.comment="I am the abstract root class of the abstract syntax tree.\x0a\x0aConcrete classes should implement `#accept:` to allow visiting.\x0a\x0a`position` holds a point containing line and column number of the symbol location in the original source file.";
 //>>excludeEnd("ide");
@@ -238,29 +238,6 @@ $globals.Node);
 
 $core.addMethod(
 $core.method({
-selector: "isLastChild",
-protocol: 'testing',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($recv($recv(self._parent())._nodes())._last()).__eq(self);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isLastChild",{},$globals.Node)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isLastChild\x0a\x09^ self parent nodes last = self",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["=", "last", "nodes", "parent"]
-}),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
 selector: "isNavigationNode",
 protocol: 'testing',
 fn: function (){
@@ -292,44 +269,6 @@ source: "isNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
-}),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "isReferenced",
-protocol: 'testing',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $3,$2,$1;
-$3=self._parent();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["parent"]=1;
-//>>excludeEnd("ctx");
-$2=$recv($3)._isSequenceNode();
-$1=$recv($2)._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(self._parent())._isAssignmentNode();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-return $recv($1)._not();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isReferenced",{},$globals.Node)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isReferenced\x0a\x09\x22Answer true if the receiver is referenced by other nodes.\x0a\x09Do not take sequences or assignments into account\x22\x0a\x09\x0a\x09^ (self parent isSequenceNode or: [\x0a\x09\x09self parent isAssignmentNode ]) not",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["not", "or:", "isSequenceNode", "parent", "isAssignmentNode"]
 }),
 $globals.Node);
 
@@ -918,54 +857,6 @@ $globals.Node);
 
 $core.addMethod(
 $core.method({
-selector: "shouldBeInlined",
-protocol: 'accessing',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$receiver;
-$1=self["@shouldBeInlined"];
-if(($receiver = $1) == null || $receiver.isNil){
-return false;
-} else {
-return $1;
-};
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"shouldBeInlined",{},$globals.Node)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "shouldBeInlined\x0a\x09^ shouldBeInlined ifNil: [ false ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["ifNil:"]
-}),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "shouldBeInlined:",
-protocol: 'accessing',
-fn: function (aBoolean){
-var self=this;
-self["@shouldBeInlined"]=aBoolean;
-return self;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBoolean"],
-source: "shouldBeInlined: aBoolean\x0a\x09shouldBeInlined := aBoolean",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
 selector: "size",
 protocol: 'accessing',
 fn: function (){
@@ -1032,58 +923,6 @@ source: "source: aString\x0a\x09source := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
-}),
-$globals.Node);
-
-$core.addMethod(
-$core.method({
-selector: "subtreeNeedsAliasing",
-protocol: 'testing',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$recv($recv(self._shouldBeAliased())._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return self._shouldBeInlined();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-})))._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(self._nodes())._anySatisfy_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $recv(each)._subtreeNeedsAliasing();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,3)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["or:"]=1;
-//>>excludeEnd("ctx");
-return $1;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subtreeNeedsAliasing",{},$globals.Node)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "subtreeNeedsAliasing\x0a\x09^ (self shouldBeAliased or: [ self shouldBeInlined ]) or: [\x0a\x09\x09self nodes anySatisfy: [ :each | each subtreeNeedsAliasing ] ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["or:", "shouldBeAliased", "shouldBeInlined", "anySatisfy:", "nodes", "subtreeNeedsAliasing"]
 }),
 $globals.Node);
 
@@ -1243,46 +1082,6 @@ messageSends: ["parent:"]
 }),
 $globals.AssignmentNode);
 
-$core.addMethod(
-$core.method({
-selector: "shouldBeAliased",
-protocol: 'testing',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = true,
-//>>excludeEnd("ctx");
-($globals.AssignmentNode.superclass||$boot.nilAsClass).fn.prototype._shouldBeAliased.apply($recv(self), []));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = false;
-//>>excludeEnd("ctx");;
-return $recv($1)._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return self._isReferenced();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"shouldBeAliased",{},$globals.AssignmentNode)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "shouldBeAliased\x0a\x09^ super shouldBeAliased or: [ self isReferenced ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["or:", "shouldBeAliased", "isReferenced"]
-}),
-$globals.AssignmentNode);
-
 
 
 $core.addClass('BlockNode', $globals.Node, ['parameters', 'scope'], 'Compiler-AST');
@@ -1416,37 +1215,6 @@ messageSends: []
 }),
 $globals.BlockNode);
 
-$core.addMethod(
-$core.method({
-selector: "subtreeNeedsAliasing",
-protocol: 'testing',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self._shouldBeAliased())._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return self._shouldBeInlined();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subtreeNeedsAliasing",{},$globals.BlockNode)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "subtreeNeedsAliasing\x0a\x09^ self shouldBeAliased or: [ self shouldBeInlined ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["or:", "shouldBeAliased", "shouldBeInlined"]
-}),
-$globals.BlockNode);
-
 
 
 $core.addClass('CascadeNode', $globals.Node, ['receiver'], 'Compiler-AST');
@@ -1528,29 +1296,6 @@ source: "receiver: aNode\x0a\x09receiver := aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
-}),
-$globals.CascadeNode);
-
-$core.addMethod(
-$core.method({
-selector: "subtreeNeedsAliasing",
-protocol: 'testing',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($recv(self._parent())._isSequenceNode())._not();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subtreeNeedsAliasing",{},$globals.CascadeNode)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "subtreeNeedsAliasing\x0a\x09^ self parent isSequenceNode not",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["not", "isSequenceNode", "parent"]
 }),
 $globals.CascadeNode);
 
@@ -2129,7 +1874,7 @@ $globals.ReturnNode);
 
 
 
-$core.addClass('SendNode', $globals.Node, ['selector', 'arguments', 'receiver', 'index'], 'Compiler-AST');
+$core.addClass('SendNode', $globals.Node, ['selector', 'arguments', 'receiver', 'index', 'shouldBeInlined'], 'Compiler-AST');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SendNode.comment="I represent an message send node.";
 //>>excludeEnd("ide");
@@ -2292,29 +2037,6 @@ source: "index: anInteger\x0a\x09index := anInteger",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
-}),
-$globals.SendNode);
-
-$core.addMethod(
-$core.method({
-selector: "isCascadeSendNode",
-protocol: 'testing',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self._parent())._isCascadeNode();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isCascadeSendNode",{},$globals.SendNode)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isCascadeSendNode\x0a\x09^ self parent isCascadeNode",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["isCascadeNode", "parent"]
 }),
 $globals.SendNode);
 
@@ -2520,63 +2242,49 @@ $globals.SendNode);
 
 $core.addMethod(
 $core.method({
-selector: "shouldBeAliased",
-protocol: 'testing',
+selector: "shouldBeInlined",
+protocol: 'accessing',
 fn: function (){
 var self=this;
-var sends;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1;
-sends=$recv($recv($recv(self._method())._sendIndexes())._at_(self._selector()))._size();
-$2=(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = true,
-//>>excludeEnd("ctx");
-($globals.SendNode.superclass||$boot.nilAsClass).fn.prototype._shouldBeAliased.apply($recv(self), []));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = false;
-//>>excludeEnd("ctx");;
-$1=$recv($2)._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(self._isReferenced())._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $recv($recv(self._index()).__lt(sends))._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx4) {
-//>>excludeEnd("ctx");
-return self._superSend();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["or:"]=1;
-//>>excludeEnd("ctx");
+var $1,$receiver;
+$1=self["@shouldBeInlined"];
+if(($receiver = $1) == null || $receiver.isNil){
+return false;
+} else {
 return $1;
+};
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"shouldBeAliased",{sends:sends},$globals.SendNode)});
+}, function($ctx1) {$ctx1.fill(self,"shouldBeInlined",{},$globals.SendNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "shouldBeAliased\x0a\x09\x22Because we keep track of send indexes, some send nodes need additional care for aliasing. \x0a\x09See IRJSVisitor >> visitIRSend:\x22\x0a\x09\x0a\x09| sends |\x0a\x09\x0a\x09sends := (self method sendIndexes at: self selector) size.\x0a\x09\x0a\x09^ (super shouldBeAliased or: [\x0a\x09\x09self isReferenced and: [\x0a\x09\x09\x09self index < sends or: [\x0a\x09\x09\x09\x09self superSend ] ] ])",
+source: "shouldBeInlined\x0a\x09^ shouldBeInlined ifNil: [ false ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["size", "at:", "sendIndexes", "method", "selector", "or:", "shouldBeAliased", "and:", "isReferenced", "<", "index", "superSend"]
+messageSends: ["ifNil:"]
+}),
+$globals.SendNode);
+
+$core.addMethod(
+$core.method({
+selector: "shouldBeInlined:",
+protocol: 'accessing',
+fn: function (aBoolean){
+var self=this;
+self["@shouldBeInlined"]=aBoolean;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBoolean"],
+source: "shouldBeInlined: aBoolean\x0a\x09shouldBeInlined := aBoolean",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
 }),
 $globals.SendNode);
 
