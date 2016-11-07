@@ -3966,7 +3966,15 @@ return $recv($recv(anIRSequence)._dagChildren())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv(self._stream())._nextPutStatementWith_(self._visit_(each));
+return $recv(self._stream())._nextPutStatementWith_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return self._visit_(each);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
+//>>excludeEnd("ctx");
+}));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
 //>>excludeEnd("ctx");
@@ -3982,7 +3990,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSequence"],
-source: "visitIRSequence: anIRSequence\x0a\x09self stream nextPutSequenceWith: [\x0a\x09\x09anIRSequence dagChildren do: [ :each |\x0a\x09\x09\x09self stream nextPutStatementWith: (self visit: each) ] ]",
+source: "visitIRSequence: anIRSequence\x0a\x09self stream nextPutSequenceWith: [\x0a\x09\x09anIRSequence dagChildren do: [ :each |\x0a\x09\x09\x09self stream nextPutStatementWith: [ self visit: each ] ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["nextPutSequenceWith:", "stream", "do:", "dagChildren", "nextPutStatementWith:", "visit:"]
@@ -4353,7 +4361,7 @@ $globals.IRJSTranslator);
 
 
 
-$core.addClass('JSStream', $globals.Object, ['stream'], 'Compiler-IR');
+$core.addClass('JSStream', $globals.Object, ['stream', 'omitSemicolon'], 'Compiler-IR');
 $core.addMethod(
 $core.method({
 selector: "contents",
@@ -5013,6 +5021,7 @@ $ctx1.sendIdx["nextPutAll:"]=2;
 $recv($1)._lf();
 $recv(anotherBlock)._value();
 $recv(self["@stream"])._nextPutAll_("}");
+self._omitSemicolon_(true);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"nextPutIf:then:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.JSStream)});
@@ -5020,10 +5029,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock", "anotherBlock"],
-source: "nextPutIf: aBlock then: anotherBlock\x0a\x09stream nextPutAll: 'if('.\x0a\x09aBlock value.\x0a\x09stream nextPutAll: '){'; lf.\x0a\x09anotherBlock value.\x0a\x09stream nextPutAll: '}'",
+source: "nextPutIf: aBlock then: anotherBlock\x0a\x09stream nextPutAll: 'if('.\x0a\x09aBlock value.\x0a\x09stream nextPutAll: '){'; lf.\x0a\x09anotherBlock value.\x0a\x09stream nextPutAll: '}'.\x0a\x09self omitSemicolon: true",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["nextPutAll:", "value", "lf"]
+messageSends: ["nextPutAll:", "value", "lf", "omitSemicolon:"]
 }),
 $globals.JSStream);
 
@@ -5066,6 +5075,7 @@ $ctx1.sendIdx["nextPutAll:"]=3;
 $recv($3)._lf();
 $recv(elseBlock)._value();
 $recv(self["@stream"])._nextPutAll_("}");
+self._omitSemicolon_(true);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"nextPutIf:then:else:",{aBlock:aBlock,ifBlock:ifBlock,elseBlock:elseBlock},$globals.JSStream)});
@@ -5073,10 +5083,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock", "ifBlock", "elseBlock"],
-source: "nextPutIf: aBlock then: ifBlock else: elseBlock\x0a\x09stream nextPutAll: 'if('.\x0a\x09aBlock value.\x0a\x09stream nextPutAll: '){'; lf.\x0a\x09ifBlock value.\x0a\x09stream nextPutAll: '} else {'; lf.\x0a\x09elseBlock value.\x0a\x09stream nextPutAll: '}'",
+source: "nextPutIf: aBlock then: ifBlock else: elseBlock\x0a\x09stream nextPutAll: 'if('.\x0a\x09aBlock value.\x0a\x09stream nextPutAll: '){'; lf.\x0a\x09ifBlock value.\x0a\x09stream nextPutAll: '} else {'; lf.\x0a\x09elseBlock value.\x0a\x09stream nextPutAll: '}'.\x0a\x09self omitSemicolon: true",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["nextPutAll:", "value", "lf"]
+messageSends: ["nextPutAll:", "value", "lf", "omitSemicolon:"]
 }),
 $globals.JSStream);
 
@@ -5455,10 +5465,17 @@ var self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
+self._omitSemicolon_(false);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["omitSemicolon:"]=1;
+//>>excludeEnd("ctx");
 $recv(aBlock)._value();
-$1=self["@stream"];
-$recv($1)._nextPutAll_(";");
-$recv($1)._lf();
+$1=self._omitSemicolon();
+if(!$core.assert($1)){
+$recv(self["@stream"])._nextPutAll_(";");
+}
+self._omitSemicolon_(false);
+$recv(self["@stream"])._lf();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"nextPutStatementWith:",{aBlock:aBlock},$globals.JSStream)});
@@ -5466,10 +5483,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "nextPutStatementWith: aBlock\x0a\x09aBlock value.\x0a\x09stream nextPutAll: ';'; lf",
+source: "nextPutStatementWith: aBlock\x0a\x09self omitSemicolon: false.\x0a\x09aBlock value.\x0a\x09self omitSemicolon ifFalse: [ stream nextPutAll: ';' ].\x0a\x09self omitSemicolon: false.\x0a\x09stream lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["value", "nextPutAll:", "lf"]
+messageSends: ["omitSemicolon:", "value", "ifFalse:", "omitSemicolon", "nextPutAll:", "lf"]
 }),
 $globals.JSStream);
 
@@ -5532,6 +5549,43 @@ source: "nextPutVars: aCollection\x0a\x09aCollection ifNotEmpty: [\x0a\x09\x09st
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifNotEmpty:", "nextPutAll:", "do:separatedBy:", "lf"]
+}),
+$globals.JSStream);
+
+$core.addMethod(
+$core.method({
+selector: "omitSemicolon",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return self["@omitSemicolon"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "omitSemicolon\x0a\x09^ omitSemicolon",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.JSStream);
+
+$core.addMethod(
+$core.method({
+selector: "omitSemicolon:",
+protocol: 'accessing',
+fn: function (aBoolean){
+var self=this;
+self["@omitSemicolon"]=aBoolean;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBoolean"],
+source: "omitSemicolon: aBoolean\x0a\x09omitSemicolon := aBoolean",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
 }),
 $globals.JSStream);
 

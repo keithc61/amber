@@ -963,7 +963,7 @@ visitIRSend: anIRSend
 visitIRSequence: anIRSequence
 	self stream nextPutSequenceWith: [
 		anIRSequence dagChildren do: [ :each |
-			self stream nextPutStatementWith: (self visit: each) ] ]
+			self stream nextPutStatementWith: [ self visit: each ] ] ]
 !
 
 visitIRTempDeclaration: anIRTempDeclaration
@@ -1032,13 +1032,21 @@ visitSuperSend: anIRSend
 ! !
 
 Object subclass: #JSStream
-	instanceVariableNames: 'stream'
+	instanceVariableNames: 'stream omitSemicolon'
 	package: 'Compiler-IR'!
 
 !JSStream methodsFor: 'accessing'!
 
 contents
 	^ stream contents
+!
+
+omitSemicolon
+	^ omitSemicolon
+!
+
+omitSemicolon: aBoolean
+	omitSemicolon := aBoolean
 ! !
 
 !JSStream methodsFor: 'initialization'!
@@ -1162,7 +1170,8 @@ nextPutIf: aBlock then: anotherBlock
 	aBlock value.
 	stream nextPutAll: '){'; lf.
 	anotherBlock value.
-	stream nextPutAll: '}'
+	stream nextPutAll: '}'.
+	self omitSemicolon: true
 !
 
 nextPutIf: aBlock then: ifBlock else: elseBlock
@@ -1172,7 +1181,8 @@ nextPutIf: aBlock then: ifBlock else: elseBlock
 	ifBlock value.
 	stream nextPutAll: '} else {'; lf.
 	elseBlock value.
-	stream nextPutAll: '}'
+	stream nextPutAll: '}'.
+	self omitSemicolon: true
 !
 
 nextPutMethodDeclaration: aMethod with: aBlock
@@ -1237,8 +1247,11 @@ nextPutSequenceWith: aBlock
 !
 
 nextPutStatementWith: aBlock
+	self omitSemicolon: false.
 	aBlock value.
-	stream nextPutAll: ';'; lf
+	self omitSemicolon ifFalse: [ stream nextPutAll: ';' ].
+	self omitSemicolon: false.
+	stream lf
 !
 
 nextPutVars: aCollection
