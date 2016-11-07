@@ -84,6 +84,19 @@ source: aString
 	source := aString
 ! !
 
+!ASTNode methodsFor: 'building'!
+
+withTail: aCollection
+	^ aCollection inject: self into: [
+		:receiver :send | SendNode new
+			position: send position;
+			source: send source;
+			receiver: receiver;
+			selector: send selector;
+			arguments: send arguments;
+			yourself ]
+! !
+
 !ASTNode methodsFor: 'testing'!
 
 inPosition: aPoint
@@ -480,20 +493,6 @@ shouldBeInlined: aBoolean
 
 superSend
 	^ self receiver notNil and: [ self receiver isSuperKeyword ]
-! !
-
-!SendNode methodsFor: 'building'!
-
-valueForReceiver: anObject
-	^ SendNode new
-		position: self position;
-		source: self source;
-		receiver: (self receiver
-		ifNil: [ anObject ] 
-		ifNotNil: [ self receiver valueForReceiver: anObject ]);
-		selector: self selector;
-		arguments: self arguments;
-		yourself
 ! !
 
 !SendNode methodsFor: 'testing'!

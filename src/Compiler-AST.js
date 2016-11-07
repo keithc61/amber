@@ -718,6 +718,44 @@ messageSends: []
 }),
 $globals.ASTNode);
 
+$core.addMethod(
+$core.method({
+selector: "withTail:",
+protocol: 'building',
+fn: function (aCollection){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+return $recv(aCollection)._inject_into_(self,(function(receiver,send){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=$recv($globals.SendNode)._new();
+$recv($1)._position_($recv(send)._position());
+$recv($1)._source_($recv(send)._source());
+$recv($1)._receiver_(receiver);
+$recv($1)._selector_($recv(send)._selector());
+$recv($1)._arguments_($recv(send)._arguments());
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({receiver:receiver,send:send},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"withTail:",{aCollection:aCollection},$globals.ASTNode)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aCollection"],
+source: "withTail: aCollection\x0a\x09^ aCollection inject: self into: [\x0a\x09\x09:receiver :send | SendNode new\x0a\x09\x09\x09position: send position;\x0a\x09\x09\x09source: send source;\x0a\x09\x09\x09receiver: receiver;\x0a\x09\x09\x09selector: send selector;\x0a\x09\x09\x09arguments: send arguments;\x0a\x09\x09\x09yourself ]",
+referencedClasses: ["SendNode"],
+//>>excludeEnd("ide");
+messageSends: ["inject:into:", "position:", "new", "position", "source:", "source", "receiver:", "selector:", "selector", "arguments:", "arguments", "yourself"]
+}),
+$globals.ASTNode);
+
 
 
 $core.addClass('AssignmentNode', $globals.ASTNode, ['left', 'right'], 'Compiler-AST');
@@ -2039,45 +2077,6 @@ source: "superSend\x0a\x09^ self receiver notNil and: [ self receiver isSuperKey
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["and:", "notNil", "receiver", "isSuperKeyword"]
-}),
-$globals.SendNode);
-
-$core.addMethod(
-$core.method({
-selector: "valueForReceiver:",
-protocol: 'building',
-fn: function (anObject){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$3,$2,$receiver;
-$1=$recv($globals.SendNode)._new();
-$recv($1)._position_(self._position());
-$recv($1)._source_(self._source());
-$3=self._receiver();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["receiver"]=1;
-//>>excludeEnd("ctx");
-if(($receiver = $3) == null || $receiver.isNil){
-$2=anObject;
-} else {
-$2=$recv(self._receiver())._valueForReceiver_(anObject);
-};
-$recv($1)._receiver_($2);
-$recv($1)._selector_(self._selector());
-$recv($1)._arguments_(self._arguments());
-return $recv($1)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"valueForReceiver:",{anObject:anObject},$globals.SendNode)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anObject"],
-source: "valueForReceiver: anObject\x0a\x09^ SendNode new\x0a\x09\x09position: self position;\x0a\x09\x09source: self source;\x0a\x09\x09receiver: (self receiver\x0a\x09\x09ifNil: [ anObject ] \x0a\x09\x09ifNotNil: [ self receiver valueForReceiver: anObject ]);\x0a\x09\x09selector: self selector;\x0a\x09\x09arguments: self arguments;\x0a\x09\x09yourself",
-referencedClasses: ["SendNode"],
-//>>excludeEnd("ide");
-messageSends: ["position:", "new", "position", "source:", "source", "receiver:", "ifNil:ifNotNil:", "receiver", "valueForReceiver:", "selector:", "selector", "arguments:", "arguments", "yourself"]
 }),
 $globals.SendNode);
 

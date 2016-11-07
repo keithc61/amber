@@ -173,22 +173,8 @@ wsUnaryMessage   = ws selector:unarySelector !":" {
                             ._selector_(selector);
                  }
 
-wsUnaryTail      = message:wsUnaryMessage tail:wsUnaryTail? {
-                     if(tail) {
-                         return tail._valueForReceiver_(message);
-                     }
-                     else {
-                         return message;
-                     }
-                 }
-
-unarySend      = receiver:operand tail:wsUnaryTail? {
-                     if(tail) {
-                         return tail._valueForReceiver_(receiver);
-                     }
-                     else {
-                         return receiver;
-                     }
+unarySend      = receiver:operand tail:wsUnaryMessage* {
+					 return receiver._withTail_(tail);
                  }
 
 wsBinaryMessage  = ws selector:binarySelector ws arg:unarySend {
@@ -199,22 +185,8 @@ wsBinaryMessage  = ws selector:binarySelector ws arg:unarySend {
                             ._arguments_([arg]);
                  }
 
-wsBinaryTail     = message:wsBinaryMessage tail:wsBinaryTail? {
-                     if(tail) {
-                         return tail._valueForReceiver_(message);
-                      }
-                     else {
-                         return message;
-                     }
-                 }
-
-binarySend     = receiver:unarySend tail:wsBinaryTail? {
-                     if(tail) {
-                         return tail._valueForReceiver_(receiver);
-                     }
-                     else {
-                         return receiver;
-                     }
+binarySend     = receiver:unarySend tail:wsBinaryMessage* {
+					 return receiver._withTail_(tail);
                  }
 
 
@@ -233,12 +205,7 @@ wsKeywordMessage = pairs:(ws key:keyword ws arg:binarySend {return {key:key, arg
                  }
 
 keywordSend    = receiver:binarySend tail:wsKeywordMessage? {
-                     if(tail) {
-                         return tail._valueForReceiver_(receiver);
-                     }
-                     else {
-                         return receiver;
-                     }
+					 return tail ? receiver._withTail_([tail]) : receiver;
                  }
 
 wsMessage        = wsBinaryMessage / wsUnaryMessage / wsKeywordMessage
