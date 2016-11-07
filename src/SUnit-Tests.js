@@ -613,7 +613,7 @@ $3=$recv($recv(ann)._result()).__eq_eq(result);
 if($core.assert($3)){
 $4=$recv($recv(result)._runs()).__eq($recv(result)._total());
 return $recv($4)._ifTrue_(assertBlock);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({ann:ann},$ctx1,3)});
 //>>excludeEnd("ctx");
@@ -857,7 +857,7 @@ $2=$recv($recv(ann)._result()).__eq_eq(result);
 if($core.assert($2)){
 $3=$recv($recv(result)._runs()).__eq($recv(result)._total());
 return $recv($3)._ifTrue_(assertBlock);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({ann:ann},$ctx1,3)});
 //>>excludeEnd("ctx");

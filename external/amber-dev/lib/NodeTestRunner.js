@@ -180,7 +180,7 @@ self._throw_($20);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["throw:"]=1;
 //>>excludeEnd("ctx");
-};
+}
 $30=$recv(result)._errors();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["errors"]=2;
@@ -216,8 +216,8 @@ $33=$recv($34).__comma(" has errors!");
 $ctx2.sendIdx[","]=9;
 //>>excludeEnd("ctx");
 return self._throw_($33);
-};
-};
+}
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({ann:ann,result:result},$ctx1,3)});
 //>>excludeEnd("ctx");

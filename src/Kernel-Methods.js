@@ -327,7 +327,7 @@ if($core.assert($1)){
 return $recv(aBlock)._value_(smalltalkError);
 } else {
 return $recv(smalltalkError)._resignal();
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({error:error,smalltalkError:smalltalkError},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -873,7 +873,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(each)._includesSelector_(selector);
 if($core.assert($1)){
 throw $early=[true];
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -918,7 +918,7 @@ if(($receiver = $2) == null || $receiver.isNil){
 return false;
 } else {
 $2;
-};
+}
 return $recv($recv($recv(self._methodClass())._superclass())._lookupSelector_(self._selector()))._notNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isOverride",{superclass:superclass},$globals.CompiledMethod)});
@@ -996,7 +996,7 @@ return $1;
 var class_;
 class_=$receiver;
 return $recv(class_)._packageOfProtocol_(self._protocol());
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"package",{},$globals.CompiledMethod)});
 //>>excludeEnd("ctx");
@@ -1025,7 +1025,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return self._defaultProtocol();
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"protocol",{},$globals.CompiledMethod)});
 //>>excludeEnd("ctx");
@@ -1066,7 +1066,7 @@ var methodClass;
 methodClass=$receiver;
 $recv($recv(methodClass)._organization())._addElement_(aString);
 $recv(methodClass)._removeProtocolIfEmpty_(oldProtocol);
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"protocol:",{aString:aString,oldProtocol:oldProtocol},$globals.CompiledMethod)});
@@ -1189,7 +1189,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return "";
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"source",{},$globals.CompiledMethod)});
 //>>excludeEnd("ctx");
@@ -1294,7 +1294,7 @@ var $1;
 $1=$recv(self["@poolSize"]).__lt(self._maxPoolSize());
 if($core.assert($1)){
 self._addWorker();
-};
+}
 $recv(self["@queue"])._nextPut_(aBlock);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1387,7 +1387,7 @@ return self._addWorker();
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,5)});
 //>>excludeEnd("ctx");
 }));
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({block:block},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1420,7 +1420,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return self._defaultMaxPoolSize();
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"maxPoolSize",{},$globals.ForkPool)});
 //>>excludeEnd("ctx");
@@ -1471,7 +1471,7 @@ self["@default"]=self._new();
 return self["@default"];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"default",{},$globals.ForkPool.klass)});
 //>>excludeEnd("ctx");
@@ -2116,8 +2116,8 @@ $1=$recv($13).__comma(self._selector());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=5;
 //>>excludeEnd("ctx");
-};
-};
+}
+}
 return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"asString",{},$globals.MethodContext)});
@@ -2209,7 +2209,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(testBlock)._value_(context);
 if($core.assert($1)){
 throw $early=[context];
-};
+}
 context=$recv(context)._outerContext();
 return context;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2346,7 +2346,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return nil;
 } else {
 $1;
-};
+}
 $3=self._methodContext();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["methodContext"]=2;
@@ -2373,13 +2373,13 @@ supercall=false;
 var outer;
 outer=$receiver;
 supercall=$recv(outer)._supercall();
-};
+}
 $8=supercall;
 if($core.assert($8)){
 return $recv($recv($recv(method)._methodClass())._superclass())._lookupSelector_($recv(self._methodContext())._selector());
 } else {
 return method;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"method",{method:method,lookupClass:lookupClass,receiverClass:receiverClass,supercall:supercall},$globals.MethodContext)});
 //>>excludeEnd("ctx");
@@ -2406,7 +2406,7 @@ var $1,$2,$receiver;
 $1=self._isBlockContext();
 if(!$core.assert($1)){
 return self;
-};
+}
 $2=self._outerContext();
 if(($receiver = $2) == null || $receiver.isNil){
 return $2;
@@ -2414,7 +2414,7 @@ return $2;
 var outer;
 outer=$receiver;
 return $recv(outer)._methodContext();
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"methodContext",{},$globals.MethodContext)});
 //>>excludeEnd("ctx");
@@ -2519,7 +2519,7 @@ if($core.assert($1)){
 return $recv(self._outerContext())._receiver();
 } else {
 return self._basicReceiver();
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"receiver",{},$globals.MethodContext)});
 //>>excludeEnd("ctx");

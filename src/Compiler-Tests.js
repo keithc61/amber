@@ -537,7 +537,7 @@ if(($receiver = $3) == null || $receiver.isNil){
 return $3;
 } else {
 return $recv($recv(anObject)._class())._removeCompiledMethod_(method);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
 //>>excludeEnd("ctx");
@@ -1925,7 +1925,7 @@ return $recv(ctx)._defineLocal_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
-};
+}
 $recv(aDictionary)._keysAndValuesDo_((function(key,value){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -2061,7 +2061,7 @@ return $recv(ctx)._defineLocal_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
-};
+}
 $recv(aDictionary)._keysAndValuesDo_((function(key,value){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {

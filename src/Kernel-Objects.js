@@ -395,7 +395,7 @@ if($core.assert($1)){
 return true;
 } else {
 return $recv(self._class())._inheritsFrom_(aClass);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isKindOf:",{aClass:aClass},$globals.ProtoObject)});
 //>>excludeEnd("ctx");
@@ -549,7 +549,7 @@ if($core.assert($2)){
 $1="an ";
 } else {
 $1="a ";
-};
+}
 $recv(aStream)._nextPutAll_($1);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=1;
@@ -1769,7 +1769,7 @@ if($core.assert(self)){
 return $recv(aBlock)._value();
 } else {
 return false;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"and:",{aBlock:aBlock},$globals.Boolean)});
 //>>excludeEnd("ctx");
@@ -1796,7 +1796,7 @@ if($core.assert(self)){
 return (1);
 } else {
 return (0);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"asBit",{},$globals.Boolean)});
 //>>excludeEnd("ctx");
@@ -2045,7 +2045,7 @@ if($core.assert(self)){
 return true;
 } else {
 return $recv(aBlock)._value();
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"or:",{aBlock:aBlock},$globals.Boolean)});
 //>>excludeEnd("ctx");
@@ -4244,13 +4244,13 @@ var $1,$2;
 $1=self._isZero();
 if($core.assert($1)){
 return (0);
-};
+}
 $2=self._positive();
 if($core.assert($2)){
 return (1);
 } else {
 return (-1);
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"sign",{},$globals.Number)});
@@ -4471,7 +4471,7 @@ pos=(1);
 $1=$recv(step).__eq((0));
 if($core.assert($1)){
 self._error_("step must be non-zero");
-};
+}
 $2=$recv(step).__lt((0));
 if($core.assert($2)){
 $recv((function(){
@@ -4532,7 +4532,7 @@ return value;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,7)});
 //>>excludeEnd("ctx");
 }));
-};
+}
 return array;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"to:by:",{stop:stop,step:step,array:array,value:value,pos:pos},$globals.Number)});
@@ -4562,7 +4562,7 @@ value=self;
 $1=$recv(step).__eq((0));
 if($core.assert($1)){
 self._error_("step must be non-zero");
-};
+}
 $2=$recv(step).__lt((0));
 if($core.assert($2)){
 $recv((function(){
@@ -4613,7 +4613,7 @@ return value;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,7)});
 //>>excludeEnd("ctx");
 }));
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"to:by:do:",{stop:stop,step:step,aBlock:aBlock,value:value},$globals.Number)});
@@ -5274,7 +5274,7 @@ return $recv(self["@y"])._negative();
 }));
 if($core.assert($1)){
 $recv(aStream)._space();
-};
+}
 $recv(self["@y"])._printOn_(aStream);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

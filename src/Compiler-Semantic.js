@@ -137,7 +137,7 @@ self["@args"]=$recv($globals.Dictionary)._new();
 return self["@args"];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"args",{},$globals.LexicalScope)});
 //>>excludeEnd("ctx");
@@ -226,7 +226,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return (0);
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"blockIndex",{},$globals.LexicalScope)});
 //>>excludeEnd("ctx");
@@ -427,11 +427,11 @@ if(($receiver = $2) == null || $receiver.isNil){
 lookup=$2;
 } else {
 lookup=$recv(self._outerScope())._lookupVariable_(aNode);
-};
+}
 lookup;
 } else {
 $1;
-};
+}
 return lookup;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"lookupVariable:",{aNode:aNode,lookup:lookup},$globals.LexicalScope)});
@@ -464,7 +464,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return $1;
 } else {
 return $recv(self._outerScope())._methodScope();
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"methodScope",{},$globals.LexicalScope)});
 //>>excludeEnd("ctx");
@@ -593,7 +593,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return (1);
 } else {
 $1;
-};
+}
 $2=self._isInlined();
 if($core.assert($2)){
 $4=self._outerScope();
@@ -605,7 +605,7 @@ $3=$recv($4)._scopeLevel();
 $ctx1.sendIdx["scopeLevel"]=1;
 //>>excludeEnd("ctx");
 return $3;
-};
+}
 return $recv($recv(self._outerScope())._scopeLevel()).__plus((1));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"scopeLevel",{},$globals.LexicalScope)});
@@ -636,7 +636,7 @@ self["@temps"]=$recv($globals.Dictionary)._new();
 return self["@temps"];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"temps",{},$globals.LexicalScope)});
 //>>excludeEnd("ctx");
@@ -767,7 +767,7 @@ return nil;
 }));
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"bindingFor:",{aNode:aNode},$globals.MethodLexicalScope)});
 //>>excludeEnd("ctx");
@@ -861,7 +861,7 @@ self["@iVars"]=$recv($globals.Dictionary)._new();
 return self["@iVars"];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"iVars",{},$globals.MethodLexicalScope)});
 //>>excludeEnd("ctx");
@@ -908,7 +908,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return false;
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"localReturn",{},$globals.MethodLexicalScope)});
 //>>excludeEnd("ctx");
@@ -975,7 +975,7 @@ self["@nonLocalReturns"]=$recv($globals.OrderedCollection)._new();
 return self["@nonLocalReturns"];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"nonLocalReturns",{},$globals.MethodLexicalScope)});
 //>>excludeEnd("ctx");
@@ -1018,7 +1018,7 @@ return $recv($2)._at_put_(each,$3);
 }));
 } else {
 $1;
-};
+}
 return self["@pseudoVars"];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"pseudoVars",{},$globals.MethodLexicalScope)});
@@ -1075,7 +1075,7 @@ self["@unknownVariables"]=$recv($globals.OrderedCollection)._new();
 return self["@unknownVariables"];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"unknownVariables",{},$globals.MethodLexicalScope)});
 //>>excludeEnd("ctx");
@@ -1341,7 +1341,7 @@ if($core.assert($1)){
 $2=$recv($globals.InvalidAssignmentError)._new();
 $recv($2)._variableName_(self._name());
 $recv($2)._signal();
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"validateAssignment",{},$globals.ScopeVar)});
@@ -1737,7 +1737,7 @@ self["@classReferences"]=$recv($globals.Set)._new();
 return self["@classReferences"];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"classReferences",{},$globals.SemanticAnalyzer)});
 //>>excludeEnd("ctx");
@@ -1812,7 +1812,7 @@ $recv($2)._variableName_($3);
 $recv($2)._signal();
 } else {
 $recv($recv($recv(self["@currentScope"])._methodScope())._unknownVariables())._add_($recv(aNode)._value());
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"errorUnknownVariable:",{aNode:aNode,identifier:identifier},$globals.SemanticAnalyzer)});
@@ -1846,8 +1846,8 @@ packageKnownVars;
 $1=$recv(packageKnownVars)._includes_(aString);
 if($core.assert($1)){
 return false;
-};
-};
+}
+}
 $2=$recv($globals.Compiler)._new();
 $3=$recv("typeof ".__comma(aString)).__comma(" == \x22undefined\x22");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1883,7 +1883,7 @@ self["@messageSends"]=$recv($globals.Dictionary)._new();
 return self["@messageSends"];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"messageSends",{},$globals.SemanticAnalyzer)});
 //>>excludeEnd("ctx");
@@ -1985,7 +1985,7 @@ self["@blockIndex"]=(0);
 self["@blockIndex"];
 } else {
 $1;
-};
+}
 self["@blockIndex"]=$recv(self["@blockIndex"]).__plus((1));
 return self["@blockIndex"];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2017,7 +2017,7 @@ $1;
 } else {
 self["@currentScope"]=$recv(self["@currentScope"])._outerScope();
 self["@currentScope"];
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"popScope",{},$globals.SemanticAnalyzer)});
@@ -2146,7 +2146,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 $1;
 } else {
 self._errorShadowingVariable_(aString);
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"validateVariableScope:",{aString:aString},$globals.SemanticAnalyzer)});
@@ -2346,7 +2346,7 @@ if($core.assert($1)){
 $recv(self["@currentScope"])._localReturn_(true);
 } else {
 $recv($recv(self["@currentScope"])._methodScope())._addNonLocalReturn_(self["@currentScope"]);
-};
+}
 (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -2503,10 +2503,10 @@ $9=$recv($globals.UnknownVar)._new();
 $recv($9)._name_($recv(aNode)._value());
 binding=$recv($9)._yourself();
 binding;
-};
+}
 } else {
 $1;
-};
+}
 $recv(aNode)._binding_(binding);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

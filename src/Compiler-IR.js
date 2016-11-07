@@ -28,7 +28,7 @@ $2=self._visit_(aNode);
 $ctx1.sendIdx["visit:"]=1;
 //>>excludeEnd("ctx");
 return $2;
-};
+}
 $3=$recv($globals.IRVariable)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=1;
@@ -94,7 +94,7 @@ $1=$recv(each)._subtreeNeedsAliasing();
 if($core.assert($1)){
 threshold=i;
 return threshold;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each,i:i},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -113,7 +113,7 @@ if($core.assert($4)){
 $3=self._alias_(each);
 } else {
 $3=self._visit_(each);
-};
+}
 return $recv($2)._add_($3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each,i:i},$ctx1,3)});
@@ -186,7 +186,7 @@ self["@nextAlias"]=(0);
 self["@nextAlias"];
 } else {
 $1;
-};
+}
 self["@nextAlias"]=$recv(self["@nextAlias"]).__plus((1));
 return $recv(self["@nextAlias"])._asString();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -522,7 +522,7 @@ return $recv($10)._add_($11);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["add:"]=2;
 //>>excludeEnd("ctx");
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 //>>excludeEnd("ctx");
@@ -563,7 +563,7 @@ alias=self._alias_(receiver);
 alias;
 receiver=$recv($recv($globals.VariableNode)._new())._binding_($recv(alias)._variable());
 receiver;
-};
+}
 $2=$recv(aNode)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["dagChildren"]=1;
@@ -836,7 +836,7 @@ $23=$recv($globals.IRVerbatim)._new();
 $recv($23)._source_("");
 $22=$recv($23)._yourself();
 $recv($15)._add_($22);
-};
+}
 return self._method();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitMethodNode:",{aNode:aNode},$globals.IRASTTranslator)});
@@ -866,7 +866,7 @@ if($core.assert($1)){
 return self._alias_(aNode);
 } else {
 return self._visit_(aNode);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitOrAlias:",{aNode:aNode},$globals.IRASTTranslator)});
 //>>excludeEnd("ctx");
@@ -899,7 +899,7 @@ $ctx1.sendIdx["new"]=1;
 //>>excludeEnd("ctx");
 } else {
 return_=$recv($globals.IRReturn)._new();
-};
+}
 $recv(return_)._scope_($recv(aNode)._scope());
 $recv($recv(aNode)._dagChildren())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -986,7 +986,7 @@ instruction;
 $1=$recv(instruction)._isVariable();
 if(!$core.assert($1)){
 return $recv(self._sequence())._add_(instruction);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({each:each,instruction:instruction},$ctx2,2)});
 //>>excludeEnd("ctx");
@@ -1420,7 +1420,7 @@ return $1;
 var node;
 node=$receiver;
 return $recv(node)._scope();
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"scope",{},$globals.IRInstruction)});
 //>>excludeEnd("ctx");
@@ -1660,7 +1660,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return [];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"arguments",{},$globals.IRClosureInstruction)});
 //>>excludeEnd("ctx");
@@ -1742,7 +1742,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return false;
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"requiresSmalltalkContext",{},$globals.IRClosureInstruction)});
 //>>excludeEnd("ctx");
@@ -1987,7 +1987,7 @@ self["@internalVariables"]=$recv($globals.Set)._new();
 return self["@internalVariables"];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"internalVariables",{},$globals.IRMethod)});
 //>>excludeEnd("ctx");
@@ -2275,7 +2275,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return $recv(self._parent())._scope();
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"scope",{},$globals.IRReturn)});
 //>>excludeEnd("ctx");
@@ -3803,7 +3803,7 @@ $ctx4.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx4.supercall = false;
 //>>excludeEnd("ctx");;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
 //>>excludeEnd("ctx");
@@ -3925,11 +3925,11 @@ if($core.assert($1)){
 self._visitSuperSend_(anIRSend);
 } else {
 self._visitSend_(anIRSend);
-};
+}
 $2=$recv($recv(anIRSend)._index()).__lt(sends);
 if($core.assert($2)){
 $recv(self._stream())._nextPutSendIndexFor_(anIRSend);
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitIRSend:",{anIRSend:anIRSend,sends:sends,superclass:superclass},$globals.IRJSTranslator)});
@@ -4066,7 +4066,7 @@ $ctx1.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
 } else {
 $recv(self._stream())._nextPutAll_($recv($recv(anIRVariable)._variable())._alias());
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitIRVariable:",{anIRVariable:anIRVariable},$globals.IRJSTranslator)});
@@ -4188,7 +4188,7 @@ $2=self._visit_(anIRInstruction);
 $ctx1.sendIdx["visit:"]=1;
 //>>excludeEnd("ctx");
 return $2;
-};
+}
 $3=self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["stream"]=1;
@@ -4535,7 +4535,7 @@ $2=$recv(aBlock)._value();
 $ctx1.sendIdx["value"]=1;
 //>>excludeEnd("ctx");
 return $2;
-};
+}
 self._nextPutAll_("//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=1;
@@ -4774,7 +4774,7 @@ $2=$recv(aBlock)._value();
 $ctx1.sendIdx["value"]=1;
 //>>excludeEnd("ctx");
 return $2;
-};
+}
 self._nextPutAll_("//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=1;

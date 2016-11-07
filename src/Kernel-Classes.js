@@ -61,14 +61,14 @@ $5=$recv(aMethod)._protocol();
 $ctx1.sendIdx["protocol"]=2;
 //>>excludeEnd("ctx");
 $recv($4)._addElement_($5);
-};
+}
 self._basicAddCompiledMethod_(aMethod);
 $6=oldMethod;
 if(($receiver = $6) == null || $receiver.isNil){
 $6;
 } else {
 self._removeProtocolIfEmpty_($recv(oldMethod)._protocol());
-};
+}
 $7=oldMethod;
 if(($receiver = $7) == null || $receiver.isNil){
 $8=$recv($globals.MethodAdded)._new();
@@ -89,7 +89,7 @@ $10=$recv($globals.MethodModified)._new();
 $recv($10)._oldMethod_(oldMethod);
 $recv($10)._method_(aMethod);
 announcement=$recv($10)._yourself();
-};
+}
 $recv($recv($globals.SystemAnnouncer)._current())._announce_(announcement);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -125,7 +125,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 $1;
 } else {
 $recv(result)._addAll_($recv(self._superclass())._allInstanceVariableNames());
-};
+}
 return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"allInstanceVariableNames",{result:result},$globals.Behavior)});
@@ -261,7 +261,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return [];
 } else {
 $1;
-};
+}
 $3=self._superclass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["superclass"]=2;
@@ -414,7 +414,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return "";
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"comment",{},$globals.Behavior)});
 //>>excludeEnd("ctx");
@@ -571,7 +571,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return false;
 } else {
 $1;
-};
+}
 $3=self._superclass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["superclass"]=2;
@@ -718,7 +718,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(lookupClass)._includesSelector_(selector);
 if($core.assert($1)){
 throw $early=[$recv(lookupClass)._methodAt_(selector)];
-};
+}
 lookupClass=$recv(lookupClass)._superclass();
 return lookupClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1095,7 +1095,7 @@ var $1;
 $1=$recv(aString)._beginsWith_("*");
 if(!$core.assert($1)){
 return self._package();
-};
+}
 return $recv($globals.Package)._named_ifAbsent_($recv(aString)._allButFirst(),(function(){
 return nil;
 
@@ -1524,7 +1524,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return "Unclassified";
 } else {
 return $recv(self._package())._name();
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"category",{},$globals.Class)});
 //>>excludeEnd("ctx");
@@ -1719,7 +1719,7 @@ $ctx1.sendIdx["package"]=1;
 $1=$recv($2).__eq(aPackage);
 if($core.assert($1)){
 return self;
-};
+}
 oldPackage=self._package();
 self._basicAt_put_("pkg",aPackage);
 $3=$recv(oldPackage)._organization();
@@ -2260,8 +2260,8 @@ $recv(theClass)._package_(thePackage);
 $2=$recv($recv(theClass)._superclass()).__eq_eq(aClass);
 if(!$core.assert($2)){
 return self._migrateClassNamed_superclass_instanceVariableNames_package_(className,aClass,aCollection,packageName);
-};
-};
+}
+}
 return self._basicAddSubclassOf_named_instanceVariableNames_package_(aClass,className,aCollection,packageName);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"addSubclassOf:named:instanceVariableNames:package:",{aClass:aClass,className:className,aCollection:aCollection,packageName:packageName,theClass:theClass,thePackage:thePackage},$globals.ClassBuilder)});
@@ -2339,7 +2339,7 @@ var $1;
 $1=$recv(aClass)._isMetaclass();
 if(!$core.assert($1)){
 self._error_($recv($recv(aClass)._name()).__comma(" is not a metaclass"));
-};
+}
 $recv(aClass)._basicAt_put_("iVarNames",aCollection);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2857,7 +2857,7 @@ if(($receiver = packageName) == null || $receiver.isNil){
 $2="unclassified";
 } else {
 $2=packageName;
-};
+}
 newClass=self._addSubclassOf_named_instanceVariableNames_package_(aClass,className,$1,$2);
 $3=$recv($globals.SystemAnnouncer)._current();
 $5=$recv($globals.ClassAdded)._new();
@@ -2909,7 +2909,7 @@ $ctx2.sendIdx["add:"]=1;
 //>>excludeEnd("ctx");
 } else {
 return $recv(others)._add_(each);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");

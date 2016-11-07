@@ -62,7 +62,7 @@ $recv($9)._removeCompiledMethod_(method);
 $10=dirty;
 if($core.assert($10)){
 $recv($recv(self._class())._package())._beDirty();
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAddExtensionMethod",{method:method,dirty:dirty},$globals.AnnouncementSubscriptionTest)});
@@ -1310,28 +1310,28 @@ return $core.withContext(function($ctx1) {
 var $1,$2,$3,$4,$5,$6,$7,$8;
 if($core.assert(true)){
 $1="alternative block";
-};
+}
 self._assert_equals_($1,"alternative block");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=1;
 //>>excludeEnd("ctx");
 if(!$core.assert(true)){
 $2="alternative block";
-};
+}
 self._assert_equals_($2,nil);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=2;
 //>>excludeEnd("ctx");
 if($core.assert(false)){
 $3="alternative block";
-};
+}
 self._assert_equals_($3,nil);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=3;
 //>>excludeEnd("ctx");
 if(!$core.assert(false)){
 $4="alternative block";
-};
+}
 self._assert_equals_($4,"alternative block");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=4;
@@ -1340,7 +1340,7 @@ if($core.assert(false)){
 $5="alternative block";
 } else {
 $5="alternative block2";
-};
+}
 self._assert_equals_($5,"alternative block2");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=5;
@@ -1349,7 +1349,7 @@ if($core.assert(false)){
 $6="alternative block2";
 } else {
 $6="alternative block";
-};
+}
 self._assert_equals_($6,"alternative block");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=6;
@@ -1358,7 +1358,7 @@ if($core.assert(true)){
 $7="alternative block";
 } else {
 $7="alternative block2";
-};
+}
 self._assert_equals_($7,"alternative block");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=7;
@@ -1367,7 +1367,7 @@ if($core.assert(true)){
 $8="alternative block2";
 } else {
 $8="alternative block";
-};
+}
 self._assert_equals_($8,"alternative block2");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1399,7 +1399,7 @@ $ctx1.sendIdx["yourself"]=1;
 //>>excludeEnd("ctx");
 if($core.assert($2)){
 $1="alternative block";
-};
+}
 self._assert_equals_($1,"alternative block");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=1;
@@ -1410,7 +1410,7 @@ $ctx1.sendIdx["yourself"]=2;
 //>>excludeEnd("ctx");
 if(!$core.assert($4)){
 $3="alternative block";
-};
+}
 self._assert_equals_($3,nil);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=2;
@@ -1421,7 +1421,7 @@ $ctx1.sendIdx["yourself"]=3;
 //>>excludeEnd("ctx");
 if($core.assert($6)){
 $5="alternative block";
-};
+}
 self._assert_equals_($5,nil);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=3;
@@ -1432,7 +1432,7 @@ $ctx1.sendIdx["yourself"]=4;
 //>>excludeEnd("ctx");
 if(!$core.assert($8)){
 $7="alternative block";
-};
+}
 self._assert_equals_($7,"alternative block");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=4;
@@ -1445,7 +1445,7 @@ if($core.assert($10)){
 $9="alternative block";
 } else {
 $9="alternative block2";
-};
+}
 self._assert_equals_($9,"alternative block2");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=5;
@@ -1458,7 +1458,7 @@ if($core.assert($12)){
 $11="alternative block2";
 } else {
 $11="alternative block";
-};
+}
 self._assert_equals_($11,"alternative block");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=6;
@@ -1471,7 +1471,7 @@ if($core.assert($14)){
 $13="alternative block";
 } else {
 $13="alternative block2";
-};
+}
 self._assert_equals_($13,"alternative block");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=7;
@@ -1481,7 +1481,7 @@ if($core.assert($16)){
 $15="alternative block2";
 } else {
 $15="alternative block";
-};
+}
 self._assert_equals_($15,"alternative block2");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1875,7 +1875,7 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if($core.assert("")){
 } else {
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1938,7 +1938,7 @@ $1;
 $recv($globals.Smalltalk)._removeClass_(self["@theClass"]);
 self["@theClass"]=nil;
 self["@theClass"];
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"tearDown",{},$globals.ClassBuilderTest)});
@@ -2311,7 +2311,7 @@ $1;
 $recv($globals.Smalltalk)._removeClass_(self["@theClass"]);
 self["@theClass"]=nil;
 self["@theClass"];
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"tearDown",{},$globals.ClassTest)});
@@ -14013,7 +14013,7 @@ if(($receiver = $5) == null || $receiver.isNil){
 $4=true;
 } else {
 $4=$5;
-};
+}
 $3=$recv($4).__eq(true);
 self._deny_($3);
 $7=$recv($globals.Object)._new();
@@ -14024,7 +14024,7 @@ if(($receiver = $7) == null || $receiver.isNil){
 $6=$7;
 } else {
 $6=true;
-};
+}
 self._assert_equals_($6,true);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=1;
@@ -14037,7 +14037,7 @@ if(($receiver = $9) == null || $receiver.isNil){
 $8=false;
 } else {
 $8=true;
-};
+}
 self._assert_equals_($8,true);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=2;
@@ -14047,7 +14047,7 @@ if(($receiver = $11) == null || $receiver.isNil){
 $10=false;
 } else {
 $10=true;
-};
+}
 self._assert_equals_($10,true);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -15537,7 +15537,7 @@ if(($receiver = nil) == null || $receiver.isNil){
 $1=true;
 } else {
 $1=nil;
-};
+}
 self._assert_equals_($1,true);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=1;
@@ -15546,7 +15546,7 @@ if(($receiver = nil) == null || $receiver.isNil){
 $3=nil;
 } else {
 $3=true;
-};
+}
 $2=$recv($3).__eq(true);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["="]=1;
@@ -15559,13 +15559,13 @@ if(($receiver = nil) == null || $receiver.isNil){
 $4=true;
 } else {
 $4=false;
-};
+}
 self._assert_equals_($4,true);
 if(($receiver = nil) == null || $receiver.isNil){
 $6=false;
 } else {
 $6=true;
-};
+}
 $5=$recv($6).__eq(true);
 self._deny_($5);
 return self;

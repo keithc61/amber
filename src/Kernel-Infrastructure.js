@@ -27,7 +27,7 @@ $ctx1.sendIdx["class"]=1;
 $1=$recv($2).__eq_eq(self._class());
 if(!$core.assert($1)){
 return false;
-};
+}
 return $recv($globals.JSObjectProxy)._compareJSObjectOfProxy_withProxy_(self,anObject);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"=",{anObject:anObject},$globals.JSObjectProxy)});
@@ -213,7 +213,7 @@ $ctx1.supercall = false;
 var jsSelector;
 jsSelector=$receiver;
 return $recv($globals.JSObjectProxy)._forwardMessage_withArguments_ofProxy_(jsSelector,$recv(aMessage)._arguments(),self);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"doesNotUnderstand:",{aMessage:aMessage},$globals.JSObjectProxy)});
 //>>excludeEnd("ctx");
@@ -1083,7 +1083,7 @@ self._imports_(parsed);
 return self["@imports"];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"imports",{},$globals.Package)});
 //>>excludeEnd("ctx");
@@ -1144,7 +1144,7 @@ return $recv($recv($recv(each)._key()).__comma("=")).__comma($recv(each)._value(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx[","]=1;
 //>>excludeEnd("ctx");
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1245,7 +1245,7 @@ $ctx2.sendIdx["first"]=1;
 //>>excludeEnd("ctx");
 } else {
 return $recv($recv(split)._first()).__minus_gt($recv(split)._second());
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each,split:split},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1278,7 +1278,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return false;
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isDirty",{},$globals.Package)});
 //>>excludeEnd("ctx");
@@ -1674,7 +1674,7 @@ self["@transport"]=$recv($2)._yourself();
 return self["@transport"];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"transport",{},$globals.Package)});
 //>>excludeEnd("ctx");
@@ -1738,7 +1738,7 @@ self._error_("Imports must be Strings or Associations");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["error:"]=1;
 //>>excludeEnd("ctx");
-};
+}
 $5=$recv(import_)._key();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["key"]=1;
@@ -1753,12 +1753,12 @@ self._error_("Key and value must be Strings");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["error:"]=2;
 //>>excludeEnd("ctx");
-};
+}
 $6=$recv($recv(import_)._key())._match_("^[a-zA-Z][a-zA-Z0-9]*$");
 if(!$core.assert($6)){
 return self._error_("Keys must be identifiers");
-};
-};
+}
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({import_:import_},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1911,7 +1911,7 @@ return $recv(children)._add_(each);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["add:"]=1;
 //>>excludeEnd("ctx");
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2052,7 +2052,7 @@ $1;
 var theClass;
 theClass=$receiver;
 $recv($recv(theClass)._package())._beDirty();
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"onClassModification:",{anAnnouncement:anAnnouncement},$globals.PackageStateObserver)});
@@ -2084,7 +2084,7 @@ $1;
 var package_;
 package_=$receiver;
 $recv(package_)._beDirty();
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"onMethodModification:",{anAnnouncement:anAnnouncement},$globals.PackageStateObserver)});
@@ -2140,7 +2140,7 @@ $1;
 var package_;
 package_=$receiver;
 $recv(package_)._beDirty();
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"onProtocolModification:",{anAnnouncement:anAnnouncement},$globals.PackageStateObserver)});
@@ -2173,7 +2173,7 @@ self["@current"]=self._new();
 return self["@current"];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"current",{},$globals.PackageStateObserver.klass)});
 //>>excludeEnd("ctx");
@@ -2484,7 +2484,7 @@ if($core.assert($1)){
 return anObject;
 } else {
 return $recv($globals.JavaScriptException)._on_(anObject);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"asSmalltalkException:",{anObject:anObject},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
@@ -3168,7 +3168,7 @@ var $1,$2,$4,$3;
 $1=$recv(aClass)._isMetaclass();
 if($core.assert($1)){
 self._error_($recv($recv(aClass)._asString()).__comma(" is a Metaclass and cannot be removed!"));
-};
+}
 self._deleteClass_(aClass);
 $2=$recv($globals.SystemAnnouncer)._current();
 $4=$recv($globals.ClassRemoved)._new();
@@ -3264,7 +3264,7 @@ if(($receiver = $2) == null || $receiver.isNil){
 $2;
 } else {
 self._error_("Already exists a package called: ".__comma(newName));
-};
+}
 $recv(pkg)._name_(newName);
 self._basicRegisterPackage_(pkg);
 self._deletePackage_(packageName);
@@ -3368,7 +3368,7 @@ return self["@current"];
 } else {
 self._deprecatedAPI();
 return self["@current"];
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"current",{},$globals.SmalltalkImage.klass)});
 //>>excludeEnd("ctx");

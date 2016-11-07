@@ -42,7 +42,7 @@ if(($receiver = $globals.XMLHttpRequest) == null || $receiver.isNil){
 self._error_("XMLHttpRequest not available.");
 } else {
 return $recv($globals.XMLHttpRequest)._new();
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"newXhr",{},$globals.NodePlatform)});
@@ -71,7 +71,7 @@ var $1;
 $1=self._isFeasible();
 if($core.assert($1)){
 $recv($globals.Platform)._registerIfNone_(self._new());
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.NodePlatform.klass)});

@@ -88,7 +88,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 if(!$core.assert(aBoolean)){
 self._signalFailure_(aString);
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"assert:description:",{aBoolean:aBoolean,aString:aString},$globals.TestCase)});
@@ -161,7 +161,7 @@ return $core.withContext(function($ctx2) {
 $1=self._isAsync();
 if($core.assert($1)){
 return $recv(c)._execute_(aBlock);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -235,7 +235,7 @@ var $1;
 $1=self._isAsync();
 if(!$core.assert($1)){
 self._error_($recv(aString).__comma(" used without prior #timeout:"));
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"errorIfNotAsync:",{aString:aString},$globals.TestCase)});
@@ -558,7 +558,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 $1;
 } else {
 $recv(self["@asyncTimeout"])._clearTimeout();
-};
+}
 self["@asyncTimeout"]=(0);
 self["@asyncTimeout"]=$recv(self._async_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -599,7 +599,7 @@ selectors=self._testSelectors();
 $1=self._shouldInheritSelectors();
 if($core.assert($1)){
 $recv(selectors)._addAll_($recv(self._superclass())._allTestSelectors());
-};
+}
 return selectors;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"allTestSelectors",{selectors:selectors},$globals.TestCase.klass)});
@@ -835,11 +835,11 @@ $ctx3.sendIdx["isAsync"]=1;
 }));
 if($core.assert($1)){
 $recv(self["@testCase"])._finished();
-};
+}
 $2=$recv(self["@testCase"])._isAsync();
 if(!$core.assert($2)){
 return $recv(self["@testCase"])._tearDown();
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
@@ -983,7 +983,7 @@ $1=$recv(self["@testCase"])._isAsync();
 if(!$core.assert($1)){
 $recv(self["@result"])._increaseRuns();
 return $recv(self["@finished"])._value();
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
 //>>excludeEnd("ctx");
@@ -1301,7 +1301,7 @@ $ctx1.sendIdx["runs"]=1;
 $1=$recv($2).__eq_eq(self._total());
 if(!$core.assert($1)){
 return $recv(aBlock)._value_($recv(self._runs()).__plus((1)));
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"nextRunDo:",{aBlock:aBlock},$globals.TestResult)});
 //>>excludeEnd("ctx");
@@ -1581,7 +1581,7 @@ runs;
 $1=$recv(runs).__lt($recv(self["@result"])._total());
 if($core.assert($1)){
 return $recv(self._contextOf_($recv(runs).__plus((1))))._start();
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({runs:runs},$ctx1,1)});
 //>>excludeEnd("ctx");

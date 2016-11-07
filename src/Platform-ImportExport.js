@@ -32,8 +32,8 @@ if(($receiver = aClass) == null || $receiver.isNil){
 return "nil";
 } else {
 return $recv(aClass)._name();
-};
-};
+}
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"classNameFor:",{aClass:aClass},$globals.AbstractExporter)});
 //>>excludeEnd("ctx");
@@ -145,7 +145,7 @@ return $core.withContext(function($ctx3) {
 $3=$recv($recv(behavior)._protocols())._includes_(extensionName);
 if($core.assert($3)){
 return $recv(result)._add_($recv($globals.ExportMethodProtocol)._name_theClass_(extensionName,behavior));
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({behavior:behavior},$ctx2,3)});
 //>>excludeEnd("ctx");
@@ -810,7 +810,7 @@ return $core.withContext(function($ctx4) {
 $1=$recv(category).__eq("*".__comma(name));
 if($core.assert($1)){
 return $recv(map)._at_put_(category,methods);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx4) {$ctx4.fillBlock({category:category,methods:methods},$ctx3,3)});
 //>>excludeEnd("ctx");
@@ -876,7 +876,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(each)._match_("^\x5c*");
 if(!$core.assert($1)){
 return $recv(map)._at_put_(each,methods);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each,methods:methods},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1758,8 +1758,8 @@ if(($receiver = aClass) == null || $receiver.isNil){
 return "null";
 } else {
 return "$globals.".__comma($recv(aClass)._name());
-};
-};
+}
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"jsClassNameFor:",{aClass:aClass},$globals.Exporter)});
 //>>excludeEnd("ctx");
@@ -1913,7 +1913,7 @@ if($core.assert($1)){
 return $recv($recv(aPackage)._transport())._namespace();
 } else {
 return nil;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"amdNamespaceOfPackage:",{aPackage:aPackage},$globals.AmdExporter)});
 //>>excludeEnd("ctx");
@@ -2107,7 +2107,7 @@ $recv(namedImports)._add_($recv(each)._value());
 $ctx2.sendIdx["add:"]=2;
 //>>excludeEnd("ctx");
 return $recv(importVarNames)._add_($recv(each)._key());
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2193,8 +2193,8 @@ $recv(self["@stream"])._next();
 self["@last"]=$recv($recv(result)._contents())._trimBoth();
 $3=self["@last"];
 throw $early=[$3];
-};
-};
+}
+}
 return $recv(result)._nextPut_(char);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
@@ -2697,7 +2697,7 @@ if($core.assert($1)){
 lastEmpty=false;
 lastEmpty;
 return $recv(result)._scanFrom_(parser);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,5)});
 //>>excludeEnd("ctx");
@@ -2818,7 +2818,7 @@ return $recv($recv(xhr)._status()).__lt((300));
 //>>excludeEnd("ctx");
 }));
 return $recv($2)._ifTrue_ifFalse_(aBlock,anotherBlock);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -3290,7 +3290,7 @@ if($core.assert($2)){
 return pathWithout;
 } else {
 return path;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"commitPathStFor:",{aPackage:aPackage,path:path,pathWithout:pathWithout},$globals.AmdPackageHandler)});
 //>>excludeEnd("ctx");
@@ -3344,7 +3344,7 @@ $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
 $2=$recv($globals.Array)._with_($3);
 $recv(require)._value_($2);
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"load:",{aPackage:aPackage},$globals.AmdPackageHandler)});
@@ -3399,7 +3399,7 @@ return self._error_("AMD loader not present");
 var require;
 require=$receiver;
 return $recv($recv(require)._basicAt_("toUrl"))._value_(aString);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"toUrl:",{aString:aString},$globals.AmdPackageHandler)});
 //>>excludeEnd("ctx");
@@ -3793,7 +3793,7 @@ $ctx1.sendIdx["for:"]=1;
 return $1;
 } else {
 anObject;
-};
+}
 $2=self._for_($recv(anObject)._type());
 $recv($2)._setupFromJson_(anObject);
 return $recv($2)._yourself();
@@ -3834,7 +3834,7 @@ self["@registry"]=$globals.HashedCollection._newFromPairs_([]);
 self["@registry"];
 } else {
 self._register();
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.PackageTransport.klass)});
@@ -3891,7 +3891,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 $1;
 } else {
 $recv(self["@registry"])._at_put_($recv(aClass)._type(),aClass);
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"register:",{aClass:aClass},$globals.PackageTransport.klass)});
@@ -4062,7 +4062,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return self._defaultNamespace();
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"namespace",{},$globals.AmdPackageTransport)});
 //>>excludeEnd("ctx");

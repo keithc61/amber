@@ -152,7 +152,7 @@ return $recv($4).__tild_eq($recv(newChildren)._at_(i));
 throw $early=[aNode];
 
 }));
-};
+}
 $5=$recv(aNode)._copy();
 $recv($5)._dagChildren_(newChildren);
 return $recv($5)._yourself();
@@ -322,7 +322,7 @@ $ctx1.supercall = false;
 $1=$recv(aNode).__eq_eq(newNode);
 if(!$core.assert($1)){
 $recv(self["@path"])._at_put_($recv(self["@path"])._size(),newNode);
-};
+}
 return newNode;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitDagNodeVariantRedux:",{aNode:aNode,newNode:newNode},$globals.PathDagVisitor)});
@@ -517,7 +517,7 @@ self["@nodes"]=$recv($globals.Array)._new();
 return self["@nodes"];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"dagChildren",{},$globals.DagParentNode)});
 //>>excludeEnd("ctx");

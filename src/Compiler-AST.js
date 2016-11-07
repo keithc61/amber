@@ -323,7 +323,7 @@ return $1;
 var node;
 node=$receiver;
 return $recv(node)._method();
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"method",{},$globals.ASTNode)});
 //>>excludeEnd("ctx");
@@ -464,10 +464,10 @@ return $2;
 var node;
 node=$receiver;
 return $recv(node)._position();
-};
+}
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"position",{},$globals.ASTNode)});
 //>>excludeEnd("ctx");
@@ -614,7 +614,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return false;
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"shouldBeAliased",{},$globals.ASTNode)});
 //>>excludeEnd("ctx");
@@ -685,7 +685,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return "";
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"source",{},$globals.ASTNode)});
 //>>excludeEnd("ctx");
@@ -963,7 +963,7 @@ self["@parameters"]=$recv($globals.Array)._new();
 return self["@parameters"];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"parameters",{},$globals.BlockNode)});
 //>>excludeEnd("ctx");
@@ -1284,7 +1284,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return [];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"arguments",{},$globals.MethodNode)});
 //>>excludeEnd("ctx");
@@ -1525,7 +1525,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(each)._isSequenceNode();
 if($core.assert($1)){
 throw $early=[each];
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1735,7 +1735,7 @@ self["@arguments"]=[];
 return self["@arguments"];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"arguments",{},$globals.SendNode)});
 //>>excludeEnd("ctx");
@@ -1790,7 +1790,7 @@ $ctx1.sendIdx["arguments"]=1;
 return $recv($2)._copy();
 } else {
 $1;
-};
+}
 $3=$recv($globals.Array)._with_(self._receiver());
 $recv($3)._addAll_(self._arguments());
 return $recv($3)._yourself();
@@ -2010,7 +2010,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return false;
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"shouldBeInlined",{},$globals.SendNode)});
 //>>excludeEnd("ctx");
@@ -2208,7 +2208,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return [];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"temps",{},$globals.SequenceNode)});
 //>>excludeEnd("ctx");
@@ -2462,7 +2462,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return false;
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"assigned",{},$globals.VariableNode)});
 //>>excludeEnd("ctx");

@@ -28,7 +28,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 $1;
 } else {
 self._logErrorContext_($recv(anError)._context());
-};
+}
 self._logError_(anError);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -86,7 +86,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 $1;
 } else {
 self._logContext_($recv(aContext)._home());
-};
+}
 self._log_($recv(aContext)._asString());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -147,8 +147,8 @@ if(($receiver = $1) == null || $receiver.isNil){
 $1;
 } else {
 self._logContext_($recv(aContext)._home());
-};
-};
+}
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"logErrorContext:",{aContext:aContext},$globals.ConsoleErrorHandler)});
@@ -441,7 +441,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 $1;
 } else {
 $recv(protocols)._addAll_(self._availableProtocolsFor_($recv(aClass)._superclass()));
-};
+}
 return $recv($recv($recv(protocols)._asSet())._asArray())._sort();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"availableProtocolsFor:",{aClass:aClass,protocols:protocols},$globals.Environment)});
@@ -494,7 +494,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return self._error_("Invalid class name");
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"classNamed:",{aString:aString},$globals.Environment)});
 //>>excludeEnd("ctx");
@@ -661,7 +661,7 @@ $2=$recv("A class named ".__comma(aClassName)).__comma(" already exists");
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
 self._error_($2);
-};
+}
 $recv($recv($globals.ClassBuilder)._new())._copyClass_named_(aClass,aClassName);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -742,7 +742,7 @@ if($core.assert($1)){
 return $recv(exceptionBlock)._value_(exception);
 } else {
 return $recv(exception)._resignal();
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({exception:exception},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -802,11 +802,11 @@ if(($receiver = $1) == null || $receiver.isNil){
 self._error_("Invalid package name");
 } else {
 $1;
-};
+}
 $2=$recv(package_).__eq_eq($recv(aClass)._package());
 if($core.assert($2)){
 return self;
-};
+}
 $recv(aClass)._package_(package_);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -842,7 +842,7 @@ $ctx1.sendIdx["methodClass"]=1;
 $1=$recv($2).__eq_eq($3);
 if($core.assert($1)){
 return self;
-};
+}
 $5=$recv(aMethod)._methodClass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["methodClass"]=2;
@@ -851,7 +851,7 @@ $4=$recv($5)._isMetaclass();
 if($core.assert($4)){
 destinationClass=$recv(destinationClass)._class();
 destinationClass;
-};
+}
 $recv(destinationClass)._compile_protocol_($recv(aMethod)._source(),$recv(aMethod)._protocol());
 $recv($recv(aMethod)._methodClass())._removeCompiledMethod_(aMethod);
 return self;
@@ -1134,7 +1134,7 @@ $2=$recv("A class named ".__comma(aClassName)).__comma(" already exists");
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
 self._error_($2);
-};
+}
 $recv($recv($globals.ClassBuilder)._new())._renameClass_to_(aClass,aClassName);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1169,7 +1169,7 @@ $2=$recv("A package named ".__comma(aNewPackageName)).__comma(" already exists")
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
 self._error_($2);
-};
+}
 $recv($globals.Smalltalk)._renamePackage_to_(aPackageName,aNewPackageName);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1403,7 +1403,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 self._register_(anObject);
 } else {
 $1;
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"registerIfNone:",{anObject:anObject},$globals.Service.klass)});
@@ -1461,7 +1461,7 @@ var $1;
 $1=$recv(anError)._wasHandled();
 if($core.assert($1)){
 return self;
-};
+}
 return $recv(self._current())._handleError_(anError);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"handleUnhandledError:",{anError:anError},$globals.ErrorHandler.klass)});
@@ -2254,7 +2254,7 @@ label;
 } else {
 label=self._printString();
 label;
-};
+}
 $recv(anInspector)._setLabel_(label);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

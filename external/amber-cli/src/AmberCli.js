@@ -302,7 +302,7 @@ selector;
 } else {
 selector="help:";
 selector;
-};
+}
 return selector;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"selectorForCommandLineSwitch:",{aSwitch:aSwitch,command:command,selector:selector},$globals.AmberCli.klass)});
@@ -495,7 +495,7 @@ if(($receiver = err) == null || $receiver.isNil){
 return $recv(process)._exit();
 } else {
 return $recv(process)._exit_((111));
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -583,7 +583,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return $recv(self._class())._defaultBasePath();
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"basePath",{},$globals.FileServer)});
 //>>excludeEnd("ctx");
@@ -647,7 +647,7 @@ $recv(console)._warn_("    You can also specify a page to be served by default,"
 $ctx1.sendIdx["warn:"]=3;
 //>>excludeEnd("ctx");
 $recv(console)._warn_("    for all paths that do not map to a file, with --fallback-page.");
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"checkDirectoryLayout",{},$globals.FileServer)});
@@ -722,10 +722,10 @@ if($core.assert($1)){
 return self._respondDirectoryNamed_from_to_(filename,uri,aResponse);
 } else {
 return self._respondFileNamed_to_(filename,aResponse);
-};
+}
 } else {
 return self._respondNotFoundTo_(aResponse);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({aBoolean:aBoolean},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -784,7 +784,7 @@ $1=self._isAuthenticated_(aRequest);
 if(!$core.assert($1)){
 self._respondAuthenticationRequiredTo_(aResponse);
 return nil;
-};
+}
 file=".".__comma($recv(aRequest)._url());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=1;
@@ -848,7 +848,7 @@ return $core.withContext(function($ctx2) {
 $4=$recv(stream)._writable();
 if($core.assert($4)){
 return $recv(stream)._end();
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,5)});
 //>>excludeEnd("ctx");
@@ -887,7 +887,7 @@ $ctx1.sendIdx["="]=1;
 //>>excludeEnd("ctx");
 if($core.assert($1)){
 self._handlePUTRequest_respondTo_(aRequest,aResponse);
-};
+}
 $4=$recv(aRequest)._method();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["method"]=2;
@@ -898,11 +898,11 @@ $ctx1.sendIdx["="]=2;
 //>>excludeEnd("ctx");
 if($core.assert($3)){
 self._handleGETRequest_respondTo_(aRequest,aResponse);
-};
+}
 $5=$recv($recv(aRequest)._method()).__eq("OPTIONS");
 if($core.assert($5)){
 self._handleOPTIONSRequest_respondTo_(aRequest,aResponse);
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"handleRequest:respondTo:",{aRequest:aRequest,aResponse:aResponse},$globals.FileServer)});
@@ -1035,7 +1035,7 @@ $ctx1.sendIdx["and:"]=1;
 //>>excludeEnd("ctx");
 if($core.assert($1)){
 return true;
-};
+}
 $3=$recv($recv(aRequest)._headers())._at_("authorization");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["at:"]=1;
@@ -1044,7 +1044,7 @@ if(($receiver = $3) == null || $receiver.isNil){
 header="";
 } else {
 header=$3;
-};
+}
 $recv(header)._ifEmpty_ifNotEmpty_((function(){
 throw $early=[false];
 
@@ -1060,7 +1060,7 @@ if(($receiver = $4) == null || $receiver.isNil){
 token="";
 } else {
 token=$4;
-};
+}
 token;
 $5=$recv(token)._at_((2));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1092,7 +1092,7 @@ if($core.assert($6)){
 throw $early=[true];
 } else {
 throw $early=[false];
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,5)});
 //>>excludeEnd("ctx");
@@ -1271,13 +1271,13 @@ if(($receiver = $7) == null || $receiver.isNil){
 $6="";
 } else {
 $6=$7;
-};
+}
 $4=$recv($5).__comma($6);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=2;
 //>>excludeEnd("ctx");
 self._respondRedirect_to_($4,aResponse);
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"respondDirectoryNamed:from:to:",{aDirname:aDirname,aUrl:aUrl,aResponse:aResponse},$globals.FileServer)});
@@ -1324,11 +1324,11 @@ $4=$recv(type).__eq("application/javascript");
 if($core.assert($4)){
 type=$recv(type).__comma(";charset=utf-8");
 type;
-};
+}
 $recv(aResponse)._writeHead_options_((200),$globals.HashedCollection._newFromPairs_(["Content-Type",type]));
 $recv(aResponse)._write_encoding_(file,"binary");
 return $recv(aResponse)._end();
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({ex:ex,file:file},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1416,7 +1416,7 @@ $ctx1.sendIdx["fallbackPage"]=1;
 $1=$recv($2)._isNil();
 if(!$core.assert($1)){
 return self._respondFileNamed_to_(self._fallbackPage(),aResponse);
-};
+}
 $recv(aResponse)._writeHead_options_((404),$globals.HashedCollection._newFromPairs_(["Content-Type","text/html"]));
 $recv(aResponse)._write_("<html><body><p>404 Not found</p>");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1670,7 +1670,7 @@ return $recv($4)._warn_($5);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["warn:"]=1;
 //>>excludeEnd("ctx");
-};
+}
 } else {
 $8=console;
 $9=$recv("Warning: path at --base-path parameter ".__comma(self._basePath())).__comma(" does not exist.");
@@ -1678,7 +1678,7 @@ $9=$recv("Warning: path at --base-path parameter ".__comma(self._basePath())).__
 $ctx2.sendIdx[","]=3;
 //>>excludeEnd("ctx");
 return $recv($8)._warn_($9);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({err:err,stat:stat},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1847,7 +1847,7 @@ $recv($4)._log_($5);
 $ctx1.sendIdx["log:"]=3;
 //>>excludeEnd("ctx");
 return server;
-};
+}
 popFront=(function(args){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -1895,7 +1895,7 @@ $recv($7)._log_($8);
 $ctx2.sendIdx["log:"]=4;
 //>>excludeEnd("ctx");
 return $recv(console)._log_("Use any of the following ones: ".__comma(switches));
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,5)});
 //>>excludeEnd("ctx");
@@ -2010,7 +2010,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(each).__eq("--help");
 if($core.assert($1)){
 return $recv($globals.FileServer)._printHelp();
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2083,7 +2083,7 @@ self["@mimeTypes"]=self._defaultMimeTypes();
 return self["@mimeTypes"];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"mimeTypes",{},$globals.FileServer.klass)});
 //>>excludeEnd("ctx");
@@ -2201,7 +2201,7 @@ if($core.assert($3)){
 $2=nil;
 } else {
 $2=code;
-};
+}
 return $recv(aBlock)._value_($2);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({code:code},$ctx1,1)});
@@ -2278,7 +2278,7 @@ if($core.assert($3)){
 $2=nil;
 } else {
 $2=code;
-};
+}
 return $recv(aBlock)._value_($2);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({code:code},$ctx1,1)});
@@ -2324,7 +2324,7 @@ if($core.assert($3)){
 $2=nil;
 } else {
 $2=code;
-};
+}
 return $recv(aBlock)._value_($2);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({code:code},$ctx1,1)});
@@ -2437,7 +2437,7 @@ if($core.assert($5)){
 scriptPath=binSection;
 } else {
 scriptPath=$recv(binSection)._at_(anotherString);
-};
+}
 return $recv(self["@path"])._join_with_(modulePath,scriptPath);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"npmScriptForModule:named:",{aString:aString,anotherString:anotherString,modulePath:modulePath,packageJson:packageJson,binSection:binSection,scriptPath:scriptPath},$globals.Initer)});
@@ -2492,7 +2492,7 @@ $ctx5.sendIdx["log:"]=7;
 //>>excludeEnd("ctx");
 $recv($7)._log_(error4);
 return $recv(process)._exit_((104));
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx5) {$ctx5.fillBlock({error4:error4},$ctx4,10)});
 //>>excludeEnd("ctx");
@@ -2512,7 +2512,7 @@ return $recv(process)._exit_((103));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx4.sendIdx["exit:"]=3;
 //>>excludeEnd("ctx");
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx4) {$ctx4.fillBlock({error3:error3},$ctx3,7)});
 //>>excludeEnd("ctx");
@@ -2532,7 +2532,7 @@ return $recv(process)._exit_((102));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["exit:"]=2;
 //>>excludeEnd("ctx");
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({error2:error2},$ctx2,4)});
 //>>excludeEnd("ctx");
@@ -2552,7 +2552,7 @@ return $recv(process)._exit_((101));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["exit:"]=1;
 //>>excludeEnd("ctx");
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2624,7 +2624,7 @@ if(($receiver = name) == null || $receiver.isNil){
 varName=self._nextResultName();
 } else {
 varName=name;
-};
+}
 varName;
 self["@session"]=self._addVariableNamed_to_(varName,self["@session"]);
 self["@session"];
@@ -2637,7 +2637,7 @@ if(($receiver = expr) == null || $receiver.isNil){
 $3=buffer;
 } else {
 $3=expr;
-};
+}
 $1=$recv($2).__comma($3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx[","]=1;
@@ -2908,7 +2908,7 @@ if($core.assert($1)){
 return $recv(e)._resignal();
 } else {
 return $recv($recv(process)._stdout())._write_($recv(e)._jsStack());
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({e:e},$ctx2,3)});
 //>>excludeEnd("ctx");
@@ -2951,7 +2951,7 @@ $1=$recv(names)._includes_(aString);
 if($core.assert($1)){
 $recv(cmd)._value();
 throw $early=[true];
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({names:names,cmd:cmd},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -3032,7 +3032,7 @@ $2=$recv(aClass)._instanceVariableNames();
 $ctx1.sendIdx["instanceVariableNames"]=1;
 //>>excludeEnd("ctx");
 return $recv($2)._copyWithAll_(self._instanceVariableNamesFor_($recv(aClass)._superclass()));
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"instanceVariableNamesFor:",{aClass:aClass},$globals.Repl)});
 //>>excludeEnd("ctx");
@@ -3107,7 +3107,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 self["@resultCount"]=(1);
 } else {
 self["@resultCount"]=$recv(self["@resultCount"]).__plus((1));
-};
+}
 return "res".__comma($recv(self["@resultCount"])._asString());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"nextResultName",{},$globals.Repl)});
@@ -3143,7 +3143,7 @@ return $recv($recv(key)._name()).__eq("l");
 }));
 if($core.assert($1)){
 self._clearScreen();
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"onKeyPress:",{key:key},$globals.Repl)});
@@ -3198,7 +3198,7 @@ $ctx1.sendIdx["value:value:"]=1;
 //>>excludeEnd("ctx");
 } else {
 return $recv(aBlock)._value_value_(nil,nil);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"parseAssignment:do:",{aString:aString,aBlock:aBlock,assignment:assignment},$globals.Repl)});
 //>>excludeEnd("ctx");
@@ -3303,8 +3303,8 @@ if($core.assert($2)){
 $recv(show)._value_value_(buffer,$recv(self["@session"])._perform_(buffer));
 } else {
 self._assignNewVariable_do_(buffer,show);
-};
-};
+}
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"processLine:",{buffer:buffer,show:show},$globals.Repl)});
@@ -3457,7 +3457,7 @@ if(($receiver = key) == null || $receiver.isNil){
 return key;
 } else {
 return self._onKeyPress_(key);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({s:s,key:key},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -3535,7 +3535,7 @@ $7=$recv(aClass)._name();
 $ctx1.sendIdx["name"]=3;
 //>>excludeEnd("ctx");
 return $recv($7)._replaceRegexp_with_("\x5cd+$"._asRegexp(),$recv(counter)._asString());
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"subclassNameFor:",{aClass:aClass},$globals.Repl)});
 //>>excludeEnd("ctx");

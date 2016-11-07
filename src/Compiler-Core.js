@@ -146,7 +146,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return "";
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"source",{},$globals.AbstractCodeGenerator)});
 //>>excludeEnd("ctx");
@@ -336,7 +336,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return $globals.InliningCodeGenerator;
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"codeGeneratorClass",{},$globals.Compiler)});
 //>>excludeEnd("ctx");
@@ -757,7 +757,7 @@ return self._install_forClass_protocol_($recv(each)._source(),aClass,$recv(each)
 $1=$recv(aClass)._isMetaclass();
 if(!$core.assert($1)){
 self._recompile_($recv(aClass)._class());
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"recompile:",{aClass:aClass},$globals.Compiler)});
@@ -819,7 +819,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return "";
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"source",{},$globals.Compiler)});
 //>>excludeEnd("ctx");
@@ -1122,7 +1122,7 @@ if($core.assert($1)){
 return self.__comma("_");
 } else {
 return self;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"asVariableName",{},$globals.String)});
 //>>excludeEnd("ctx");

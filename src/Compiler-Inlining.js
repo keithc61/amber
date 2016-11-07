@@ -591,7 +591,7 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitIRAssignment:",{anIRAssignment:anIRAssignment},$globals.IRInliner)});
 //>>excludeEnd("ctx");
@@ -647,7 +647,7 @@ return $recv(localReturn)._add_(each);
 }));
 $recv(anIRNonLocalReturn)._replaceWith_(localReturn);
 return self._visitIRReturn_(localReturn);
-};
+}
 $7=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -692,7 +692,7 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitIRReturn:",{anIRReturn:anIRReturn},$globals.IRInliner)});
 //>>excludeEnd("ctx");
@@ -728,7 +728,7 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitIRSend:",{anIRSend:anIRSend},$globals.IRInliner)});
 //>>excludeEnd("ctx");
@@ -1612,11 +1612,11 @@ self._inliningError_("Message argument should be a block");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["inliningError:"]=1;
 //>>excludeEnd("ctx");
-};
+}
 $2=$recv($recv($recv(anIRInstruction)._arguments())._size()).__eq((0));
 if(!$core.assert($2)){
 self._inliningError_("Inlined block should have zero argument");
-};
+}
 inlinedClosure=$recv(self._translator())._visit_(self._inlineClosure_(anIRInstruction));
 $4=self._send();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1668,11 +1668,11 @@ self._inliningError_("Message argument should be a block");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["inliningError:"]=1;
 //>>excludeEnd("ctx");
-};
+}
 $2=$recv(anotherIRInstruction)._isClosure();
 if(!$core.assert($2)){
 self._inliningError_("Message argument should be a block");
-};
+}
 $3=self._translator();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["translator"]=1;
@@ -1873,7 +1873,7 @@ var $1;
 $1=$recv(self._inlinedSelectors())._includes_($recv(anIRSend)._selector());
 if(!$core.assert($1)){
 return false;
-};
+}
 return $recv($recv(anIRSend)._arguments())._allSatisfy_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -1965,7 +1965,7 @@ $ctx2.sendIdx["add:"]=1;
 $recv($5)._add_($recv(final)._copy());
 $4=$recv($5)._yourself();
 return $recv($2)._replace_with_($3,$4);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({final:final},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2063,7 +2063,7 @@ $5=$recv($globals.IRReturn)._new();
 $recv($5)._add_($recv(final)._copy());
 $4=$recv($5)._yourself();
 return $recv($2)._replace_with_($3,$4);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({final:final},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2246,9 +2246,9 @@ $3;
 var receiver;
 receiver=$receiver;
 $recv(receiver)._shouldBeAliased_(true);
-};
-};
-};
+}
+}
+}
 (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,

@@ -60,7 +60,7 @@ var $1;
 $1=self._handlesAnnouncement_(anAnnouncement);
 if($core.assert($1)){
 $recv(self._valuable())._value_(anAnnouncement);
-};
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"deliver:",{anAnnouncement:anAnnouncement},$globals.AnnouncementSubscription)});
@@ -103,7 +103,7 @@ return false;
 var class_;
 class_=$receiver;
 return $recv($recv($recv($globals.Smalltalk)._globals())._at_($recv($recv($recv(anAnnouncement)._class())._theNonMetaClass())._name()))._includesBehavior_(class_);
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"handlesAnnouncement:",{anAnnouncement:anAnnouncement},$globals.AnnouncementSubscription)});
 //>>excludeEnd("ctx");
@@ -584,7 +584,7 @@ $ctx1.supercall = false;
 return self["@current"];
 } else {
 return $1;
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"current",{},$globals.SystemAnnouncer.klass)});
 //>>excludeEnd("ctx");
@@ -1035,7 +1035,7 @@ return $1;
 var class_;
 class_=$receiver;
 return $recv(class_)._packageOfProtocol_(self._protocol());
-};
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"package",{},$globals.ProtocolAnnouncement)});
 //>>excludeEnd("ctx");
