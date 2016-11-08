@@ -1239,11 +1239,7 @@ nextPutSendIndexFor: anIRSend
 !
 
 nextPutSequenceWith: aBlock
-	"stream
-		nextPutAll: 'switch($core.thisContext.pc){'; lf."
-	aBlock value.
-	"stream
-		nextPutAll: '};'; lf"
+	aBlock value
 !
 
 nextPutStatementWith: aBlock

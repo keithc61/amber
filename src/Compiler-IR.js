@@ -5448,7 +5448,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "nextPutSequenceWith: aBlock\x0a\x09\x22stream\x0a\x09\x09nextPutAll: 'switch($core.thisContext.pc){'; lf.\x22\x0a\x09aBlock value.\x0a\x09\x22stream\x0a\x09\x09nextPutAll: '};'; lf\x22",
+source: "nextPutSequenceWith: aBlock\x0a\x09aBlock value",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["value"]
