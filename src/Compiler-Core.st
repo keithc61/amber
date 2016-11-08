@@ -38,6 +38,12 @@ source: aString
 !AbstractCodeGenerator methodsFor: 'compiling'!
 
 compileNode: aNode
+	^ self transformers
+		inject: aNode
+		into: [ :input :transformer | transformer visit: input ]
+!
+
+transformers
 	self subclassResponsibility
 ! !
 
@@ -49,16 +55,6 @@ I am a basic code generator. I generate a valid JavaScript output, but no not pe
 See `InliningCodeGenerator` for an optimized JavaScript code generation.!
 
 !CodeGenerator methodsFor: 'compiling'!
-
-compileNode: aNode
-	| ir stream |
-	self semanticAnalyzer visit: aNode.
-	ir := self translator visit: aNode.
-	^ self irTranslator
-		currentClass: self currentClass;
-		visit: ir;
-		contents
-!
 
 irTranslator
 	^ IRJSTranslator new
@@ -72,6 +68,14 @@ semanticAnalyzer
 
 semanticAnalyzerClass
 	^ SemanticAnalyzer
+!
+
+transformers
+	^ {
+		self semanticAnalyzer.
+		self translator.
+		self irTranslator currentClass: self currentClass; yourself
+	}
 !
 
 translator

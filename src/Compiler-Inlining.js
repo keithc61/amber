@@ -2073,46 +2073,6 @@ $globals.InliningCodeGenerator.comment="I am a specialized code generator that u
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "compileNode:",
-protocol: 'compiling',
-fn: function (aNode){
-var self=this;
-var ir,stream;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$recv(self._semanticAnalyzer())._visit_(aNode);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["visit:"]=1;
-//>>excludeEnd("ctx");
-ir=$recv(self._translator())._visit_(aNode);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["visit:"]=2;
-//>>excludeEnd("ctx");
-$recv(self._inliner())._visit_(ir);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["visit:"]=3;
-//>>excludeEnd("ctx");
-$1=self._irTranslator();
-$recv($1)._currentClass_(self._currentClass());
-$recv($1)._visit_(ir);
-return $recv($1)._contents();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"compileNode:",{aNode:aNode,ir:ir,stream:stream},$globals.InliningCodeGenerator)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode"],
-source: "compileNode: aNode\x0a\x09| ir stream |\x0a\x0a\x09self semanticAnalyzer visit: aNode.\x0a\x09ir := self translator visit: aNode.\x0a\x09self inliner visit: ir.\x0a\x0a\x09^ self irTranslator\x0a\x09\x09currentClass: self currentClass;\x0a\x09\x09visit: ir;\x0a\x09\x09contents",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["visit:", "semanticAnalyzer", "translator", "inliner", "currentClass:", "irTranslator", "currentClass", "contents"]
-}),
-$globals.InliningCodeGenerator);
-
-$core.addMethod(
-$core.method({
 selector: "inliner",
 protocol: 'compiling',
 fn: function (){
@@ -2172,6 +2132,36 @@ source: "semanticAnalyzerClass\x0a\x09^ InliningSemanticAnalyzer",
 referencedClasses: ["InliningSemanticAnalyzer"],
 //>>excludeEnd("ide");
 messageSends: []
+}),
+$globals.InliningCodeGenerator);
+
+$core.addMethod(
+$core.method({
+selector: "transformers",
+protocol: 'compiling',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$3,$5,$4;
+$1=self._semanticAnalyzer();
+$2=self._translator();
+$3=self._inliner();
+$5=self._irTranslator();
+$recv($5)._currentClass_(self._currentClass());
+$4=$recv($5)._yourself();
+return [$1,$2,$3,$4];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"transformers",{},$globals.InliningCodeGenerator)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "transformers\x0a\x09^ {\x0a\x09\x09self semanticAnalyzer.\x0a\x09\x09self translator.\x0a\x09\x09self inliner.\x0a\x09\x09self irTranslator currentClass: self currentClass; yourself\x0a\x09}",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["semanticAnalyzer", "translator", "inliner", "currentClass:", "irTranslator", "currentClass", "yourself"]
 }),
 $globals.InliningCodeGenerator);
 

@@ -544,19 +544,6 @@ I am a specialized code generator that uses inlining to produce more optimized J
 
 !InliningCodeGenerator methodsFor: 'compiling'!
 
-compileNode: aNode
-	| ir stream |
-
-	self semanticAnalyzer visit: aNode.
-	ir := self translator visit: aNode.
-	self inliner visit: ir.
-
-	^ self irTranslator
-		currentClass: self currentClass;
-		visit: ir;
-		contents
-!
-
 inliner
 	^ IRInliner new
 !
@@ -567,6 +554,15 @@ irTranslator
 
 semanticAnalyzerClass
 	^ InliningSemanticAnalyzer
+!
+
+transformers
+	^ {
+		self semanticAnalyzer.
+		self translator.
+		self inliner.
+		self irTranslator currentClass: self currentClass; yourself
+	}
 ! !
 
 SemanticError subclass: #InliningError

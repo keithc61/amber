@@ -935,7 +935,8 @@ visitIRMethod: anIRMethod
 						self stream nextPutNonLocalReturnHandlingWith: [
 							super visitIRMethod: anIRMethod ] ]
 					ifFalse: [ super visitIRMethod: anIRMethod ] ]]
-			arguments: anIRMethod arguments ]
+			arguments: anIRMethod arguments ].
+	^ self contents
 !
 
 visitIRNonLocalReturn: anIRNonLocalReturn

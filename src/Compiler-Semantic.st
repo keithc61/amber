@@ -570,7 +570,8 @@ visitMethodNode: aNode
 	aNode
 		classReferences: self classReferences;
 		sendIndexes: self messageSends.
-	self popScope
+	self popScope.
+	^ aNode
 !
 
 visitReturnNode: aNode
