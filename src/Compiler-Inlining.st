@@ -257,11 +257,6 @@ visitIRInlinedIfTrueIfFalse: anIRInlinedIfTrueIfFalse
 			self stream nextPutAll: ')' ]
 		then: [ self visit: anIRInlinedIfTrueIfFalse dagChildren second ]
 		else: [ self visit: anIRInlinedIfTrueIfFalse dagChildren third ]
-!
-
-visitIRInlinedSequence: anIRInlinedSequence
-	anIRInlinedSequence dagChildren do: [ :each |
-		self stream nextPutStatementWith: [ self visit: each ]]
 ! !
 
 Object subclass: #IRSendInliner

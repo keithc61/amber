@@ -1077,46 +1077,6 @@ messageSends: ["nextPutIf:then:else:", "stream", "nextPutAll:", "visit:", "first
 }),
 $globals.IRInliningJSTranslator);
 
-$core.addMethod(
-$core.method({
-selector: "visitIRInlinedSequence:",
-protocol: 'visiting',
-fn: function (anIRInlinedSequence){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv($recv(anIRInlinedSequence)._dagChildren())._do_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(self._stream())._nextPutStatementWith_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return self._visit_(each);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitIRInlinedSequence:",{anIRInlinedSequence:anIRInlinedSequence},$globals.IRInliningJSTranslator)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anIRInlinedSequence"],
-source: "visitIRInlinedSequence: anIRInlinedSequence\x0a\x09anIRInlinedSequence dagChildren do: [ :each |\x0a\x09\x09self stream nextPutStatementWith: [ self visit: each ]]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["do:", "dagChildren", "nextPutStatementWith:", "stream", "visit:"]
-}),
-$globals.IRInliningJSTranslator);
-
 
 
 $core.addClass('IRSendInliner', $globals.Object, ['send', 'translator'], 'Compiler-Inlining');

@@ -961,9 +961,8 @@ visitIRSend: anIRSend
 !
 
 visitIRSequence: anIRSequence
-	self stream nextPutSequenceWith: [
-		anIRSequence dagChildren do: [ :each |
-			self stream nextPutStatementWith: [ self visit: each ] ] ]
+	anIRSequence dagChildren do: [ :each |
+		self stream nextPutStatementWith: [ self visit: each ] ]
 !
 
 visitIRTempDeclaration: anIRTempDeclaration
@@ -1236,10 +1235,6 @@ nextPutSendIndexFor: anIRSend
 		nextPutAll: anIRSend index asString;
 		nextPutAll: ';'; lf;
 		nextPutAll: '//>>excludeEnd("ctx")'
-!
-
-nextPutSequenceWith: aBlock
-	aBlock value
 !
 
 nextPutStatementWith: aBlock

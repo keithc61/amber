@@ -3953,34 +3953,21 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=self._stream();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["stream"]=1;
-//>>excludeEnd("ctx");
-$recv($1)._nextPutSequenceWith_((function(){
+$recv($recv(anIRSequence)._dagChildren())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($recv(anIRSequence)._dagChildren())._do_((function(each){
+return $recv(self._stream())._nextPutStatementWith_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv(self._stream())._nextPutStatementWith_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx4) {
-//>>excludeEnd("ctx");
 return self._visit_(each);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
 return self;
@@ -3990,10 +3977,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSequence"],
-source: "visitIRSequence: anIRSequence\x0a\x09self stream nextPutSequenceWith: [\x0a\x09\x09anIRSequence dagChildren do: [ :each |\x0a\x09\x09\x09self stream nextPutStatementWith: [ self visit: each ] ] ]",
+source: "visitIRSequence: anIRSequence\x0a\x09anIRSequence dagChildren do: [ :each |\x0a\x09\x09self stream nextPutStatementWith: [ self visit: each ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["nextPutSequenceWith:", "stream", "do:", "dagChildren", "nextPutStatementWith:", "visit:"]
+messageSends: ["do:", "dagChildren", "nextPutStatementWith:", "stream", "visit:"]
 }),
 $globals.IRJSTranslator);
 
@@ -5428,30 +5415,6 @@ source: "nextPutSendIndexFor: anIRSend\x0a\x09self \x0a\x09\x09nextPutAll: ';'; 
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["nextPutAll:", "lf", "alias", "scope", "asJavascript", "selector", "asString", "index"]
-}),
-$globals.JSStream);
-
-$core.addMethod(
-$core.method({
-selector: "nextPutSequenceWith:",
-protocol: 'streaming',
-fn: function (aBlock){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv(aBlock)._value();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nextPutSequenceWith:",{aBlock:aBlock},$globals.JSStream)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "nextPutSequenceWith: aBlock\x0a\x09aBlock value",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["value"]
 }),
 $globals.JSStream);
 
