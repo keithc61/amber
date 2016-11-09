@@ -2187,24 +2187,42 @@ $globals.InliningCodeGenerator);
 
 $core.addMethod(
 $core.method({
-selector: "transformers",
+selector: "transformersDictionary",
 protocol: 'compiling',
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return [self._semanticAnalyzer(),self._preInliner(),self._translator(),self._inliner(),self._irTranslator()];
+var $1;
+$1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"transformers",{},$globals.InliningCodeGenerator)});
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.InliningCodeGenerator.superclass||$boot.nilAsClass).fn.prototype._transformersDictionary.apply($recv(self), []));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+$recv($1)._at_put_("3000-inlinerTagging",self._preInliner());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=1;
+//>>excludeEnd("ctx");
+$recv($1)._at_put_("6000-inliner",self._inliner());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=2;
+//>>excludeEnd("ctx");
+$recv($1)._at_put_("8000-irToJs",self._irTranslator());
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"transformersDictionary",{},$globals.InliningCodeGenerator)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "transformers\x0a\x09^ {\x0a\x09\x09self semanticAnalyzer.\x0a\x09\x09self preInliner.\x0a\x09\x09self translator.\x0a\x09\x09self inliner.\x0a\x09\x09self irTranslator\x0a\x09}",
+source: "transformersDictionary\x0a\x09^ super transformersDictionary\x0a\x09\x09at: '3000-inlinerTagging' put: self preInliner;\x0a\x09\x09at: '6000-inliner' put: self inliner;\x0a\x09\x09at: '8000-irToJs' put: self irTranslator;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["semanticAnalyzer", "preInliner", "translator", "inliner", "irTranslator"]
+messageSends: ["at:put:", "transformersDictionary", "preInliner", "inliner", "irTranslator", "yourself"]
 }),
 $globals.InliningCodeGenerator);
 

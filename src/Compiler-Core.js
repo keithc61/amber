@@ -192,18 +192,51 @@ selector: "transformers",
 protocol: 'compiling',
 fn: function (){
 var self=this;
+var dict;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+dict=self._transformersDictionary();
+return $recv($recv($recv($recv(dict)._keys())._asArray())._sort())._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(dict)._at_(each);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"transformers",{dict:dict},$globals.AbstractCodeGenerator)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "transformers\x0a\x09| dict |\x0a\x09dict := self transformersDictionary.\x0a\x09^ dict keys asArray sort collect: [ :each | dict at: each ] ",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["transformersDictionary", "collect:", "sort", "asArray", "keys", "at:"]
+}),
+$globals.AbstractCodeGenerator);
+
+$core.addMethod(
+$core.method({
+selector: "transformersDictionary",
+protocol: 'compiling',
+fn: function (){
+var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"transformers",{},$globals.AbstractCodeGenerator)});
+}, function($ctx1) {$ctx1.fill(self,"transformersDictionary",{},$globals.AbstractCodeGenerator)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "transformers\x0a\x09self subclassResponsibility",
+source: "transformersDictionary\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["subclassResponsibility"]
@@ -288,24 +321,35 @@ $globals.CodeGenerator);
 
 $core.addMethod(
 $core.method({
-selector: "transformers",
+selector: "transformersDictionary",
 protocol: 'compiling',
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return [self._semanticAnalyzer(),self._translator(),self._irTranslator()];
+var $1;
+$1=$recv($globals.Dictionary)._new();
+$recv($1)._at_put_("2000-semantic",self._semanticAnalyzer());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"transformers",{},$globals.CodeGenerator)});
+$ctx1.sendIdx["at:put:"]=1;
+//>>excludeEnd("ctx");
+$recv($1)._at_put_("5000-astToIr",self._translator());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=2;
+//>>excludeEnd("ctx");
+$recv($1)._at_put_("8000-irToJs",self._irTranslator());
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"transformersDictionary",{},$globals.CodeGenerator)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "transformers\x0a\x09^ {\x0a\x09\x09self semanticAnalyzer.\x0a\x09\x09self translator.\x0a\x09\x09self irTranslator\x0a\x09}",
-referencedClasses: [],
+source: "transformersDictionary\x0a\x09^ Dictionary new\x0a\x09\x09at: '2000-semantic' put: self semanticAnalyzer;\x0a\x09\x09at: '5000-astToIr' put: self translator;\x0a\x09\x09at: '8000-irToJs' put: self irTranslator;\x0a\x09\x09yourself",
+referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
-messageSends: ["semanticAnalyzer", "translator", "irTranslator"]
+messageSends: ["at:put:", "new", "semanticAnalyzer", "translator", "irTranslator", "yourself"]
 }),
 $globals.CodeGenerator);
 

@@ -44,6 +44,12 @@ compileNode: aNode
 !
 
 transformers
+	| dict |
+	dict := self transformersDictionary.
+	^ dict keys asArray sort collect: [ :each | dict at: each ]
+!
+
+transformersDictionary
 	self subclassResponsibility
 ! !
 
@@ -72,12 +78,12 @@ semanticAnalyzer
 		yourself
 !
 
-transformers
-	^ {
-		self semanticAnalyzer.
-		self translator.
-		self irTranslator
-	}
+transformersDictionary
+	^ Dictionary new
+		at: '2000-semantic' put: self semanticAnalyzer;
+		at: '5000-astToIr' put: self translator;
+		at: '8000-irToJs' put: self irTranslator;
+		yourself
 !
 
 translator

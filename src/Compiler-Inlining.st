@@ -573,14 +573,12 @@ preInliner
 	^ ASTPreInliner new
 !
 
-transformers
-	^ {
-		self semanticAnalyzer.
-		self preInliner.
-		self translator.
-		self inliner.
-		self irTranslator
-	}
+transformersDictionary
+	^ super transformersDictionary
+		at: '3000-inlinerTagging' put: self preInliner;
+		at: '6000-inliner' put: self inliner;
+		at: '8000-irToJs' put: self irTranslator;
+		yourself
 ! !
 
 SemanticError subclass: #InliningError
