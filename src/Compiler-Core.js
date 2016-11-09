@@ -225,17 +225,38 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($globals.IRJSTranslator)._new();
+var $1;
+$1=$recv(self._irTranslatorClass())._new();
+$recv($1)._currentClass_(self._currentClass());
+return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"irTranslator",{},$globals.CodeGenerator)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "irTranslator\x0a\x09^ IRJSTranslator new",
+source: "irTranslator\x0a\x09^ self irTranslatorClass new\x0a\x09\x09currentClass: self currentClass;\x0a\x09\x09yourself",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["currentClass:", "new", "irTranslatorClass", "currentClass", "yourself"]
+}),
+$globals.CodeGenerator);
+
+$core.addMethod(
+$core.method({
+selector: "irTranslatorClass",
+protocol: 'compiling',
+fn: function (){
+var self=this;
+return $globals.IRJSTranslator;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "irTranslatorClass\x0a\x09^ IRJSTranslator",
 referencedClasses: ["IRJSTranslator"],
 //>>excludeEnd("ide");
-messageSends: ["new"]
+messageSends: []
 }),
 $globals.CodeGenerator);
 
@@ -274,23 +295,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$3;
-$1=self._semanticAnalyzer();
-$2=self._translator();
-$4=self._irTranslator();
-$recv($4)._currentClass_(self._currentClass());
-$3=$recv($4)._yourself();
-return [$1,$2,$3];
+return [self._semanticAnalyzer(),self._translator(),self._irTranslator()];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"transformers",{},$globals.CodeGenerator)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "transformers\x0a\x09^ {\x0a\x09\x09self semanticAnalyzer.\x0a\x09\x09self translator.\x0a\x09\x09self irTranslator currentClass: self currentClass; yourself\x0a\x09}",
+source: "transformers\x0a\x09^ {\x0a\x09\x09self semanticAnalyzer.\x0a\x09\x09self translator.\x0a\x09\x09self irTranslator\x0a\x09}",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["semanticAnalyzer", "translator", "currentClass:", "irTranslator", "currentClass", "yourself"]
+messageSends: ["semanticAnalyzer", "translator", "irTranslator"]
 }),
 $globals.CodeGenerator);
 

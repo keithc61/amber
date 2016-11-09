@@ -2146,22 +2146,40 @@ $globals.InliningCodeGenerator);
 
 $core.addMethod(
 $core.method({
-selector: "irTranslator",
+selector: "irTranslatorClass",
+protocol: 'compiling',
+fn: function (){
+var self=this;
+return $globals.IRInliningJSTranslator;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "irTranslatorClass\x0a\x09^ IRInliningJSTranslator",
+referencedClasses: ["IRInliningJSTranslator"],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.InliningCodeGenerator);
+
+$core.addMethod(
+$core.method({
+selector: "preInliner",
 protocol: 'compiling',
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($globals.IRInliningJSTranslator)._new();
+return $recv($globals.ASTPreInliner)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"irTranslator",{},$globals.InliningCodeGenerator)});
+}, function($ctx1) {$ctx1.fill(self,"preInliner",{},$globals.InliningCodeGenerator)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "irTranslator\x0a\x09^ IRInliningJSTranslator new",
-referencedClasses: ["IRInliningJSTranslator"],
+source: "preInliner\x0a\x09^ ASTPreInliner new",
+referencedClasses: ["ASTPreInliner"],
 //>>excludeEnd("ide");
 messageSends: ["new"]
 }),
@@ -2176,25 +2194,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$6,$5;
-$1=self._semanticAnalyzer();
-$2=$recv($globals.ASTPreInliner)._new();
-$3=self._translator();
-$4=self._inliner();
-$6=self._irTranslator();
-$recv($6)._currentClass_(self._currentClass());
-$5=$recv($6)._yourself();
-return [$1,$2,$3,$4,$5];
+return [self._semanticAnalyzer(),self._preInliner(),self._translator(),self._inliner(),self._irTranslator()];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"transformers",{},$globals.InliningCodeGenerator)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "transformers\x0a\x09^ {\x0a\x09\x09self semanticAnalyzer.\x0a\x09\x09ASTPreInliner new.\x0a\x09\x09self translator.\x0a\x09\x09self inliner.\x0a\x09\x09self irTranslator currentClass: self currentClass; yourself\x0a\x09}",
-referencedClasses: ["ASTPreInliner"],
+source: "transformers\x0a\x09^ {\x0a\x09\x09self semanticAnalyzer.\x0a\x09\x09self preInliner.\x0a\x09\x09self translator.\x0a\x09\x09self inliner.\x0a\x09\x09self irTranslator\x0a\x09}",
+referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["semanticAnalyzer", "new", "translator", "inliner", "currentClass:", "irTranslator", "currentClass", "yourself"]
+messageSends: ["semanticAnalyzer", "preInliner", "translator", "inliner", "irTranslator"]
 }),
 $globals.InliningCodeGenerator);
 

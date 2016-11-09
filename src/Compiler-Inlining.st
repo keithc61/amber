@@ -565,17 +565,21 @@ inliner
 	^ IRInliner new
 !
 
-irTranslator
-	^ IRInliningJSTranslator new
+irTranslatorClass
+	^ IRInliningJSTranslator
+!
+
+preInliner
+	^ ASTPreInliner new
 !
 
 transformers
 	^ {
 		self semanticAnalyzer.
-		ASTPreInliner new.
+		self preInliner.
 		self translator.
 		self inliner.
-		self irTranslator currentClass: self currentClass; yourself
+		self irTranslator
 	}
 ! !
 

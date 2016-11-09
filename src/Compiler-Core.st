@@ -57,7 +57,13 @@ See `InliningCodeGenerator` for an optimized JavaScript code generation.!
 !CodeGenerator methodsFor: 'compiling'!
 
 irTranslator
-	^ IRJSTranslator new
+	^ self irTranslatorClass new
+		currentClass: self currentClass;
+		yourself
+!
+
+irTranslatorClass
+	^ IRJSTranslator
 !
 
 semanticAnalyzer
@@ -70,7 +76,7 @@ transformers
 	^ {
 		self semanticAnalyzer.
 		self translator.
-		self irTranslator currentClass: self currentClass; yourself
+		self irTranslator
 	}
 !
 
