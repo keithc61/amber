@@ -1,10 +1,60 @@
-define(["amber/boot", "amber_core/Compiler-Core", "amber_core/Compiler-IR", "amber_core/Compiler-Semantic", "amber_core/Kernel-Objects"], function($boot){"use strict";
+define(["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Core", "amber_core/Compiler-IR", "amber_core/Compiler-Semantic", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Compiler-Inlining');
 $core.packages["Compiler-Inlining"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-Inlining"].transport = {"type":"amd","amdNamespace":"amber_core"};
+
+$core.addClass('ASTPreInliner', $globals.NodeVisitor, [], 'Compiler-Inlining');
+$core.addMethod(
+$core.method({
+selector: "visitSendNode:",
+protocol: 'visiting',
+fn: function (aNode){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$3,$4,$receiver;
+$1=$recv(aNode)._superSend();
+if(!$core.assert($1)){
+$2=$recv($recv($globals.IRSendInliner)._inlinedSelectors())._includes_($recv(aNode)._selector());
+if($core.assert($2)){
+$recv(aNode)._shouldBeInlined_(true);
+$3=$recv(aNode)._receiver();
+if(($receiver = $3) == null || $receiver.isNil){
+$3;
+} else {
+var receiver;
+receiver=$receiver;
+$recv(receiver)._shouldBeAliased_(true);
+}
+}
+}
+$4=(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.ASTPreInliner.superclass||$boot.nilAsClass).fn.prototype._visitSendNode_.apply($recv(self), [aNode]));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+return $4;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode},$globals.ASTPreInliner)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNode"],
+source: "visitSendNode: aNode\x0a\x0a\x09aNode superSend ifFalse: [ \x0a\x09\x09(IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [\x0a\x09\x09\x09aNode shouldBeInlined: true.\x0a\x09\x09\x09aNode receiver ifNotNil: [ :receiver |\x0a\x09\x09\x09\x09receiver shouldBeAliased: true ] ] ].\x0a\x0a\x09^ super visitSendNode: aNode",
+referencedClasses: ["IRSendInliner"],
+//>>excludeEnd("ide");
+messageSends: ["ifFalse:", "superSend", "ifTrue:", "includes:", "inlinedSelectors", "selector", "shouldBeInlined:", "ifNotNil:", "receiver", "shouldBeAliased:", "visitSendNode:"]
+}),
+$globals.ASTPreInliner);
+
+
 
 $core.addClass('IRInlinedClosure', $globals.IRClosure, [], 'Compiler-Inlining');
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2119,24 +2169,6 @@ $globals.InliningCodeGenerator);
 
 $core.addMethod(
 $core.method({
-selector: "semanticAnalyzerClass",
-protocol: 'compiling',
-fn: function (){
-var self=this;
-return $globals.InliningSemanticAnalyzer;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "semanticAnalyzerClass\x0a\x09^ InliningSemanticAnalyzer",
-referencedClasses: ["InliningSemanticAnalyzer"],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.InliningCodeGenerator);
-
-$core.addMethod(
-$core.method({
 selector: "transformers",
 protocol: 'compiling',
 fn: function (){
@@ -2144,24 +2176,25 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$5,$4;
+var $1,$2,$3,$4,$6,$5;
 $1=self._semanticAnalyzer();
-$2=self._translator();
-$3=self._inliner();
-$5=self._irTranslator();
-$recv($5)._currentClass_(self._currentClass());
-$4=$recv($5)._yourself();
-return [$1,$2,$3,$4];
+$2=$recv($globals.ASTPreInliner)._new();
+$3=self._translator();
+$4=self._inliner();
+$6=self._irTranslator();
+$recv($6)._currentClass_(self._currentClass());
+$5=$recv($6)._yourself();
+return [$1,$2,$3,$4,$5];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"transformers",{},$globals.InliningCodeGenerator)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "transformers\x0a\x09^ {\x0a\x09\x09self semanticAnalyzer.\x0a\x09\x09self translator.\x0a\x09\x09self inliner.\x0a\x09\x09self irTranslator currentClass: self currentClass; yourself\x0a\x09}",
-referencedClasses: [],
+source: "transformers\x0a\x09^ {\x0a\x09\x09self semanticAnalyzer.\x0a\x09\x09ASTPreInliner new.\x0a\x09\x09self translator.\x0a\x09\x09self inliner.\x0a\x09\x09self irTranslator currentClass: self currentClass; yourself\x0a\x09}",
+referencedClasses: ["ASTPreInliner"],
 //>>excludeEnd("ide");
-messageSends: ["semanticAnalyzer", "translator", "inliner", "currentClass:", "irTranslator", "currentClass", "yourself"]
+messageSends: ["semanticAnalyzer", "new", "translator", "inliner", "currentClass:", "irTranslator", "currentClass", "yourself"]
 }),
 $globals.InliningCodeGenerator);
 

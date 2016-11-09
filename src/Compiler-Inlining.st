@@ -1,4 +1,21 @@
 Smalltalk createPackage: 'Compiler-Inlining'!
+NodeVisitor subclass: #ASTPreInliner
+	instanceVariableNames: ''
+	package: 'Compiler-Inlining'!
+
+!ASTPreInliner methodsFor: 'visiting'!
+
+visitSendNode: aNode
+
+	aNode superSend ifFalse: [ 
+		(IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [
+			aNode shouldBeInlined: true.
+			aNode receiver ifNotNil: [ :receiver |
+				receiver shouldBeAliased: true ] ] ].
+
+	^ super visitSendNode: aNode
+! !
+
 IRClosure subclass: #IRInlinedClosure
 	instanceVariableNames: ''
 	package: 'Compiler-Inlining'!
@@ -552,13 +569,10 @@ irTranslator
 	^ IRInliningJSTranslator new
 !
 
-semanticAnalyzerClass
-	^ InliningSemanticAnalyzer
-!
-
 transformers
 	^ {
 		self semanticAnalyzer.
+		ASTPreInliner new.
 		self translator.
 		self inliner.
 		self irTranslator currentClass: self currentClass; yourself
