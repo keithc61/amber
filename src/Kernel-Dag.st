@@ -10,6 +10,12 @@ they can reuse possible variants of implementation
 offered directly: `visitDagNodeVariantSimple:`
 and `visitDagNodeVariantRedux:`.!
 
+!AbstractDagVisitor methodsFor: 'evaluating'!
+
+value: anObject
+	^ self visit: anObject
+! !
+
 !AbstractDagVisitor methodsFor: 'visiting'!
 
 visit: aNode

@@ -40,7 +40,7 @@ source: aString
 compileNode: aNode
 	^ self transformers
 		inject: aNode
-		into: [ :input :transformer | transformer visit: input ]
+		into: [ :input :transformer | transformer value: input ]
 !
 
 transformers

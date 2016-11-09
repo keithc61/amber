@@ -23,7 +23,7 @@ return $recv(self._transformers())._inject_into_(aNode,(function(input,transform
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv(transformer)._visit_(input);
+return $recv(transformer)._value_(input);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({input:input,transformer:transformer},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -34,10 +34,10 @@ return $recv(transformer)._visit_(input);
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "compileNode: aNode\x0a\x09^ self transformers\x0a\x09\x09inject: aNode\x0a\x09\x09into: [ :input :transformer | transformer visit: input ]",
+source: "compileNode: aNode\x0a\x09^ self transformers\x0a\x09\x09inject: aNode\x0a\x09\x09into: [ :input :transformer | transformer value: input ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["inject:into:", "transformers", "visit:"]
+messageSends: ["inject:into:", "transformers", "value:"]
 }),
 $globals.AbstractCodeGenerator);
 

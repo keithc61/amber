@@ -12,6 +12,29 @@ $globals.AbstractDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
+selector: "value:",
+protocol: 'evaluating',
+fn: function (anObject){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._visit_(anObject);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject},$globals.AbstractDagVisitor)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "value: anObject\x0a\x09^ self visit: anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["visit:"]
+}),
+$globals.AbstractDagVisitor);
+
+$core.addMethod(
+$core.method({
 selector: "visit:",
 protocol: 'visiting',
 fn: function (aNode){
