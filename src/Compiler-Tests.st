@@ -330,6 +330,10 @@ testMessageSends
 	self should: 'foo ^ 1 to: 5 by: 2' return: #(1 3 5)
 !
 
+testMistypedPragmaJSStatement
+	self should: 'foo < inlineJS: ''return ''foo'''' >' receiver: receiver raise: ParseError
+!
+
 testMultipleSequences
 	self should: 'foo | a b c | a := 2. b := 3. c := a + b. ^ c * 6' return: 30
 !

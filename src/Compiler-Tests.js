@@ -1229,6 +1229,30 @@ $globals.CodeGeneratorTest);
 
 $core.addMethod(
 $core.method({
+selector: "testMistypedPragmaJSStatement",
+protocol: 'tests',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+self._should_receiver_raise_("foo < inlineJS: 'return 'foo'' >",self["@receiver"],$globals.ParseError);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testMistypedPragmaJSStatement",{},$globals.CodeGeneratorTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testMistypedPragmaJSStatement\x0a\x09self should: 'foo < inlineJS: ''return ''foo'''' >' receiver: receiver raise: ParseError",
+referencedClasses: ["ParseError"],
+//>>excludeEnd("ide");
+messageSends: ["should:receiver:raise:"]
+}),
+$globals.CodeGeneratorTest);
+
+$core.addMethod(
+$core.method({
 selector: "testMultipleSequences",
 protocol: 'tests',
 fn: function (){

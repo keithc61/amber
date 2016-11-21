@@ -220,7 +220,7 @@ cascade        = send:keywordSend & { return send._isSendNode(); } messages:(ws 
 
 jsStatement    = pragmaJsStatement / legacyJsStatement
 
-legacyJsStatement = "<" val:((">>" {return ">";} / [^>])*) ">" {
+legacyJsStatement = "<" val:((">>" {return ">";} / [^>])*) ">" & { return !/^\s*inlineJS/.test(val.join("")) } {
                      console.warn("Use of <...js code...> is deprecated, in:\n" + val.join(""));
                      return $globals.JSStatementNode._new()
                             ._location_(location())

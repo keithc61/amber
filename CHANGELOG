@@ -1,3 +1,12 @@
+21 November 2016 - Release 0.18.1
+===================================
+
+* Parser fails fast on mistyped inlineJS: form.
+  * Previously, it treated it as legacy form.
+
+Commits: https://lolg.it/amber/amber/commits/0.18.1.
+
+
 5 November 2016 - Release 0.18.0
 ===================================
 
