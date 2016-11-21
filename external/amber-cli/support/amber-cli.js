@@ -2343,7 +2343,7 @@ if($core.assert($1)){
 return true;
 } else {
 return $recv(self._class())._inheritsFrom_(aClass);
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"isKindOf:",{aClass:aClass},$globals.ProtoObject)});
 },
 args: ["aClass"],
@@ -2459,7 +2459,7 @@ if($core.assert($2)){
 $1="an ";
 } else {
 $1="a ";
-};
+}
 $recv(aStream)._nextPutAll_($1);
 $ctx1.sendIdx["nextPutAll:"]=1;
 $recv(aStream)._nextPutAll_($recv(self._class())._name());
@@ -3401,7 +3401,7 @@ if($core.assert(self)){
 return $recv(aBlock)._value();
 } else {
 return false;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"and:",{aBlock:aBlock},$globals.Boolean)});
 },
 args: ["aBlock"],
@@ -3422,7 +3422,7 @@ if($core.assert(self)){
 return (1);
 } else {
 return (0);
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"asBit",{},$globals.Boolean)});
 },
 args: [],
@@ -3621,7 +3621,7 @@ if($core.assert(self)){
 return true;
 } else {
 return $recv(aBlock)._value();
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"or:",{aBlock:aBlock},$globals.Boolean)});
 },
 args: ["aBlock"],
@@ -5278,13 +5278,13 @@ var $1,$2;
 $1=self._isZero();
 if($core.assert($1)){
 return (0);
-};
+}
 $2=self._positive();
 if($core.assert($2)){
 return (1);
 } else {
 return (-1);
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"sign",{},$globals.Number)});
 },
@@ -5445,7 +5445,7 @@ pos=(1);
 $1=$recv(step).__eq((0));
 if($core.assert($1)){
 self._error_("step must be non-zero");
-};
+}
 $2=$recv(step).__lt((0));
 if($core.assert($2)){
 $recv((function(){
@@ -5480,7 +5480,7 @@ value=$recv(value).__plus(step);
 return value;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,7)});
 }));
-};
+}
 return array;
 }, function($ctx1) {$ctx1.fill(self,"to:by:",{stop:stop,step:step,array:array,value:value,pos:pos},$globals.Number)});
 },
@@ -5504,7 +5504,7 @@ value=self;
 $1=$recv(step).__eq((0));
 if($core.assert($1)){
 self._error_("step must be non-zero");
-};
+}
 $2=$recv(step).__lt((0));
 if($core.assert($2)){
 $recv((function(){
@@ -5533,7 +5533,7 @@ value=$recv(value).__plus(step);
 return value;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,7)});
 }));
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"to:by:do:",{stop:stop,step:step,aBlock:aBlock,value:value},$globals.Number)});
 },
@@ -5988,7 +5988,7 @@ return $recv(self["@y"])._negative();
 }));
 if($core.assert($1)){
 $recv(aStream)._space();
-};
+}
 $recv(self["@y"])._printOn_(aStream);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.Point)});
@@ -6491,14 +6491,14 @@ $4=self._organization();
 $5=$recv(aMethod)._protocol();
 $ctx1.sendIdx["protocol"]=2;
 $recv($4)._addElement_($5);
-};
+}
 self._basicAddCompiledMethod_(aMethod);
 $6=oldMethod;
 if(($receiver = $6) == null || $receiver.isNil){
 $6;
 } else {
 self._removeProtocolIfEmpty_($recv(oldMethod)._protocol());
-};
+}
 $7=oldMethod;
 if(($receiver = $7) == null || $receiver.isNil){
 $8=$recv($globals.MethodAdded)._new();
@@ -6513,7 +6513,7 @@ $10=$recv($globals.MethodModified)._new();
 $recv($10)._oldMethod_(oldMethod);
 $recv($10)._method_(aMethod);
 announcement=$recv($10)._yourself();
-};
+}
 $recv($recv($globals.SystemAnnouncer)._current())._announce_(announcement);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"addCompiledMethod:",{aMethod:aMethod,oldMethod:oldMethod,announcement:announcement},$globals.Behavior)});
@@ -6541,7 +6541,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 $1;
 } else {
 $recv(result)._addAll_($recv(self._superclass())._allInstanceVariableNames());
-};
+}
 return result;
 }, function($ctx1) {$ctx1.fill(self,"allInstanceVariableNames",{result:result},$globals.Behavior)});
 },
@@ -6637,7 +6637,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return [];
 } else {
 $1;
-};
+}
 $3=self._superclass();
 $ctx1.sendIdx["superclass"]=2;
 $2=$recv($globals.OrderedCollection)._with_($3);
@@ -6748,7 +6748,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return "";
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"comment",{},$globals.Behavior)});
 },
 args: [],
@@ -6867,7 +6867,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return false;
 } else {
 $1;
-};
+}
 $3=self._superclass();
 $ctx1.sendIdx["superclass"]=2;
 $2=$recv(aClass).__eq_eq($3);
@@ -6976,7 +6976,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(lookupClass)._includesSelector_(selector);
 if($core.assert($1)){
 throw $early=[$recv(lookupClass)._methodAt_(selector)];
-};
+}
 lookupClass=$recv(lookupClass)._superclass();
 return lookupClass;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
@@ -7235,7 +7235,7 @@ var $1;
 $1=$recv(aString)._beginsWith_("*");
 if(!$core.assert($1)){
 return self._package();
-};
+}
 return $recv($globals.Package)._named_ifAbsent_($recv(aString)._allButFirst(),(function(){
 return nil;
 
@@ -7548,7 +7548,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return "Unclassified";
 } else {
 return $recv(self._package())._name();
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"category",{},$globals.Class)});
 },
 args: [],
@@ -7679,7 +7679,7 @@ $ctx1.sendIdx["package"]=1;
 $1=$recv($2).__eq(aPackage);
 if($core.assert($1)){
 return self;
-};
+}
 oldPackage=self._package();
 self._basicAt_put_("pkg",aPackage);
 $3=$recv(oldPackage)._organization();
@@ -8082,8 +8082,8 @@ $recv(theClass)._package_(thePackage);
 $2=$recv($recv(theClass)._superclass()).__eq_eq(aClass);
 if(!$core.assert($2)){
 return self._migrateClassNamed_superclass_instanceVariableNames_package_(className,aClass,aCollection,packageName);
-};
-};
+}
+}
 return self._basicAddSubclassOf_named_instanceVariableNames_package_(aClass,className,aCollection,packageName);
 }, function($ctx1) {$ctx1.fill(self,"addSubclassOf:named:instanceVariableNames:package:",{aClass:aClass,className:className,aCollection:aCollection,packageName:packageName,theClass:theClass,thePackage:thePackage},$globals.ClassBuilder)});
 },
@@ -8143,7 +8143,7 @@ var $1;
 $1=$recv(aClass)._isMetaclass();
 if(!$core.assert($1)){
 self._error_($recv($recv(aClass)._name()).__comma(" is not a metaclass"));
-};
+}
 $recv(aClass)._basicAt_put_("iVarNames",aCollection);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"basicClass:instanceVariables:",{aClass:aClass,aCollection:aCollection},$globals.ClassBuilder)});
@@ -8521,7 +8521,7 @@ if(($receiver = packageName) == null || $receiver.isNil){
 $2="unclassified";
 } else {
 $2=packageName;
-};
+}
 newClass=self._addSubclassOf_named_instanceVariableNames_package_(aClass,className,$1,$2);
 $3=$recv($globals.SystemAnnouncer)._current();
 $5=$recv($globals.ClassAdded)._new();
@@ -8561,7 +8561,7 @@ return $recv(children)._add_(each);
 $ctx2.sendIdx["add:"]=1;
 } else {
 return $recv(others)._add_(each);
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 self["@nodes"]=$recv(children)._collect_((function(each){
@@ -8971,7 +8971,7 @@ if($core.assert($1)){
 return $recv(aBlock)._value_(smalltalkError);
 } else {
 return $recv(smalltalkError)._resignal();
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({error:error,smalltalkError:smalltalkError},$ctx1,1)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"on:do:",{anErrorClass:anErrorClass,aBlock:aBlock},$globals.BlockClosure)});
@@ -9391,7 +9391,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(each)._includesSelector_(selector);
 if($core.assert($1)){
 throw $early=[true];
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 return false;
@@ -9424,7 +9424,7 @@ if(($receiver = $2) == null || $receiver.isNil){
 return false;
 } else {
 $2;
-};
+}
 return $recv($recv($recv(self._methodClass())._superclass())._lookupSelector_(self._selector()))._notNil();
 }, function($ctx1) {$ctx1.fill(self,"isOverride",{superclass:superclass},$globals.CompiledMethod)});
 },
@@ -9484,7 +9484,7 @@ return $1;
 var class_;
 class_=$receiver;
 return $recv(class_)._packageOfProtocol_(self._protocol());
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"package",{},$globals.CompiledMethod)});
 },
 args: [],
@@ -9507,7 +9507,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return self._defaultProtocol();
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"protocol",{},$globals.CompiledMethod)});
 },
 args: [],
@@ -9542,7 +9542,7 @@ var methodClass;
 methodClass=$receiver;
 $recv($recv(methodClass)._organization())._addElement_(aString);
 $recv(methodClass)._removeProtocolIfEmpty_(oldProtocol);
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"protocol:",{aString:aString,oldProtocol:oldProtocol},$globals.CompiledMethod)});
 },
@@ -9635,7 +9635,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return "";
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"source",{},$globals.CompiledMethod)});
 },
 args: [],
@@ -9714,7 +9714,7 @@ var $1;
 $1=$recv(self["@poolSize"]).__lt(self._maxPoolSize());
 if($core.assert($1)){
 self._addWorker();
-};
+}
 $recv(self["@queue"])._nextPut_(aBlock);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"fork:",{aBlock:aBlock},$globals.ForkPool)});
@@ -9781,7 +9781,7 @@ return $core.withContext(function($ctx3) {
 return self._addWorker();
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,5)});
 }));
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({block:block},$ctx1,1)});
 });
 }, function($ctx1) {$ctx1.fill(self,"makeWorker",{sentinel:sentinel},$globals.ForkPool)});
@@ -9806,7 +9806,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return self._defaultMaxPoolSize();
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"maxPoolSize",{},$globals.ForkPool)});
 },
 args: [],
@@ -9849,7 +9849,7 @@ self["@default"]=self._new();
 return self["@default"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"default",{},$globals.ForkPool.klass)});
 },
 args: [],
@@ -10330,8 +10330,8 @@ $13=$recv($14).__comma(") >> ");
 $ctx1.sendIdx[","]=6;
 $1=$recv($13).__comma(self._selector());
 $ctx1.sendIdx[","]=5;
-};
-};
+}
+}
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"asString",{},$globals.MethodContext)});
 },
@@ -10399,7 +10399,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(testBlock)._value_(context);
 if($core.assert($1)){
 throw $early=[context];
-};
+}
 context=$recv(context)._outerContext();
 return context;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
@@ -10502,7 +10502,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return nil;
 } else {
 $1;
-};
+}
 $3=self._methodContext();
 $ctx1.sendIdx["methodContext"]=2;
 $2=$recv($3)._receiver();
@@ -10521,13 +10521,13 @@ supercall=false;
 var outer;
 outer=$receiver;
 supercall=$recv(outer)._supercall();
-};
+}
 $8=supercall;
 if($core.assert($8)){
 return $recv($recv($recv(method)._methodClass())._superclass())._lookupSelector_($recv(self._methodContext())._selector());
 } else {
 return method;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"method",{method:method,lookupClass:lookupClass,receiverClass:receiverClass,supercall:supercall},$globals.MethodContext)});
 },
 args: [],
@@ -10548,7 +10548,7 @@ var $1,$2,$receiver;
 $1=self._isBlockContext();
 if(!$core.assert($1)){
 return self;
-};
+}
 $2=self._outerContext();
 if(($receiver = $2) == null || $receiver.isNil){
 return $2;
@@ -10556,7 +10556,7 @@ return $2;
 var outer;
 outer=$receiver;
 return $recv(outer)._methodContext();
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"methodContext",{},$globals.MethodContext)});
 },
 args: [],
@@ -10629,7 +10629,7 @@ if($core.assert($1)){
 return $recv(self._outerContext())._receiver();
 } else {
 return self._basicReceiver();
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"receiver",{},$globals.MethodContext)});
 },
 args: [],
@@ -11694,7 +11694,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(aBlock)._value_(each);
 if(!$core.assert($1)){
 throw $early=[false];
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 return true;
@@ -11754,7 +11754,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(aBlock)._value_(each);
 if($core.assert($1)){
 throw $early=[true];
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 return false;
@@ -12064,7 +12064,7 @@ if($core.assert($1)){
 return $recv(aBlock)._value();
 } else {
 return self;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"ifEmpty:",{aBlock:aBlock},$globals.Collection)});
 },
 args: ["aBlock"],
@@ -12087,7 +12087,7 @@ if($core.assert($1)){
 return $recv(aBlock)._value();
 } else {
 return $recv(anotherBlock)._value_(self);
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"ifEmpty:ifNotEmpty:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.Collection)});
 },
 args: ["aBlock", "anotherBlock"],
@@ -12110,7 +12110,7 @@ if($core.assert($1)){
 return $recv(aBlock)._value_(self);
 } else {
 return self;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"ifNotEmpty:",{aBlock:aBlock},$globals.Collection)});
 },
 args: ["aBlock"],
@@ -12133,7 +12133,7 @@ if($core.assert($1)){
 return $recv(aBlock)._value_(self);
 } else {
 return $recv(anotherBlock)._value();
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"ifNotEmpty:ifEmpty:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.Collection)});
 },
 args: ["aBlock", "anotherBlock"],
@@ -12211,7 +12211,7 @@ return $recv($recv(outputSet)._includes_(each))._not();
 }));
 if($core.assert($1)){
 return $recv(outputSet)._add_(each);
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 return $recv(self._class())._withAll_($recv(outputSet)._asArray());
@@ -12256,7 +12256,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(aBlock)._value_(item);
 if($core.assert($1)){
 throw $early=[false];
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({item:item},$ctx1,1)});
 }));
 return true;
@@ -12304,7 +12304,7 @@ $1=$recv(anObject).__eq(each);
 if($core.assert($1)){
 tally=$recv(tally).__plus((1));
 return tally;
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 return tally;
@@ -12432,7 +12432,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(aBlock)._value_(each);
 if($core.assert($1)){
 return $recv(stream)._nextPut_(each);
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 return $recv(stream)._contents();
@@ -12461,7 +12461,7 @@ $1=$recv(selectBlock)._value_(each);
 $ctx2.sendIdx["value:"]=1;
 if($core.assert($1)){
 return $recv(stream)._nextPut_($recv(collectBlock)._value_(each));
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 return $recv(stream)._contents();
@@ -12511,7 +12511,7 @@ $ctx2.sendIdx["error:"]=1;
 $1=$recv(self._size()).__gt((1));
 if($core.assert($1)){
 self._error_("Collection holds more than one element");
-};
+}
 return self._anyOne();
 }, function($ctx1) {$ctx1.fill(self,"single",{},$globals.Collection)});
 },
@@ -12876,14 +12876,14 @@ $1=$recv($2).__eq($recv(anAssocitativeCollection)._class());
 $ctx1.sendIdx["="]=1;
 if(!$core.assert($1)){
 return false;
-};
+}
 $4=self._size();
 $ctx1.sendIdx["size"]=1;
 $3=$recv($4).__eq($recv(anAssocitativeCollection)._size());
 $ctx1.sendIdx["="]=2;
 if(!$core.assert($3)){
 return false;
-};
+}
 $5=self._associations();
 $ctx1.sendIdx["associations"]=1;
 return $recv($5).__eq($recv(anAssocitativeCollection)._associations());
@@ -13052,7 +13052,7 @@ if($core.assert($1)){
 return $recv(aBlock)._value_(self._at_(aKey));
 } else {
 return $recv(anotherBlock)._value();
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{aKey:aKey,aBlock:aBlock,anotherBlock:anotherBlock},$globals.AssociativeCollection)});
 },
 args: ["aKey", "aBlock", "anotherBlock"],
@@ -13420,7 +13420,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(aBlock)._value_(value);
 if($core.assert($1)){
 return $recv(newDict)._at_put_(key,value);
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
 }));
 return newDict;
@@ -13588,7 +13588,7 @@ $ctx1.sendIdx["size"]=1;
 $1=$recv($2)._even();
 if(!$core.assert($1)){
 self._error_("#newFromPairs only accepts arrays of an even length");
-};
+}
 newCollection=self._new();
 $recv((1)._to_by_($recv(aCollection)._size(),(2)))._do_((function(each){
 return $core.withContext(function($ctx2) {
@@ -13695,7 +13695,7 @@ if($core.assert($1)){
 return $recv(aBlock)._value();
 } else {
 return $recv(self["@keys"])._at_(index);
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"indexOf:ifAbsent:",{anObject:anObject,aBlock:aBlock,index:index},$globals.Dictionary)});
 },
 args: ["anObject", "aBlock"],
@@ -13904,7 +13904,7 @@ if($core.assert($1)){
 return self._basicAt_(aKey);
 } else {
 return $recv(aBlock)._value();
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{aKey:aKey,aBlock:aBlock},$globals.HashedCollection)});
 },
 args: ["aKey", "aBlock"],
@@ -14079,13 +14079,13 @@ $ctx2.sendIdx["="]=2;
 }));
 if(!$core.assert($1)){
 return false;
-};
+}
 self._withIndexDo_((function(each,i){
 return $core.withContext(function($ctx2) {
 $5=$recv($recv(aCollection)._at_(i)).__eq(each);
 if(!$core.assert($5)){
 throw $early=[false];
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each,i:i},$ctx1,3)});
 }));
 return true;
@@ -14201,7 +14201,7 @@ $ctx1.sendIdx["size"]=2;
 $1=$recv($2).__lt($3);
 if($core.assert($1)){
 return false;
-};
+}
 return $recv(self._first_($recv(prefix)._size())).__eq(prefix);
 }, function($ctx1) {$ctx1.fill(self,"beginsWith:",{prefix:prefix},$globals.SequenceableCollection)});
 },
@@ -14292,7 +14292,7 @@ $ctx1.sendIdx["size"]=2;
 $1=$recv($2).__lt($3);
 if($core.assert($1)){
 return false;
-};
+}
 return $recv(self._last_($recv(suffix)._size())).__eq(suffix);
 }, function($ctx1) {$ctx1.fill(self,"endsWith:",{suffix:suffix},$globals.SequenceableCollection)});
 },
@@ -14331,7 +14331,7 @@ var $1;
 $1=$recv(self._size()).__lt(aNumber);
 if($core.assert($1)){
 self._error_("Invalid number of elements");
-};
+}
 return self._copyFrom_to_((1),aNumber);
 }, function($ctx1) {$ctx1.fill(self,"first:",{aNumber:aNumber},$globals.SequenceableCollection)});
 },
@@ -14477,7 +14477,7 @@ $ctx1.sendIdx["size"]=1;
 $1=$recv($2).__lt(aNumber);
 if($core.assert($1)){
 self._error_("Invalid number of elements");
-};
+}
 $5=self._size();
 $ctx1.sendIdx["size"]=2;
 $4=$recv($5).__minus(aNumber);
@@ -15046,7 +15046,7 @@ return $recv(aBlock)._value();
 } else {
 self._removeIndex_(index);
 return anObject;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{anObject:anObject,aBlock:aBlock,index:index},$globals.Array)});
 },
 args: ["anObject", "aBlock"],
@@ -15842,7 +15842,7 @@ var $1;
 $1=$recv(self._last()).__eq(":");
 if(!$core.assert($1)){
 return self.__comma(":");
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"asMutator",{},$globals.String)});
 },
@@ -16264,7 +16264,7 @@ if($core.assert($1)){
 $recv(aBlock)._value_value_value_(start,sz,sz);
 $ctx2.sendIdx["value:value:value:"]=1;
 throw $early=[self];
-};
+}
 $4=$recv(nextCR).__eq((0));
 $ctx2.sendIdx["="]=3;
 $3=$recv($4)._or_((function(){
@@ -16315,8 +16315,8 @@ start=(1).__plus(nextCR);
 start;
 nextCR=self._indexOf_startingAt_(cr,start);
 return nextCR;
-};
-};
+}
+}
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }));
 return self;
@@ -16350,7 +16350,7 @@ $2=lineCount;
 $1=$recv($2).__eq(anIndex);
 if($core.assert($1)){
 throw $early=[self._copyFrom_to_(start,endWithoutDelimiters)];
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({start:start,endWithoutDelimiters:endWithoutDelimiters,end:end},$ctx1,1)});
 }));
 return nil;
@@ -17077,19 +17077,19 @@ $1=$recv($2).__eq($recv(aCollection)._class());
 $ctx1.sendIdx["="]=1;
 if(!$core.assert($1)){
 return false;
-};
+}
 $4=self._size();
 $ctx1.sendIdx["size"]=1;
 $3=$recv($4).__eq($recv(aCollection)._size());
 if(!$core.assert($3)){
 return false;
-};
+}
 self._do_((function(each){
 return $core.withContext(function($ctx2) {
 $5=$recv(aCollection)._includes_(each);
 if(!$core.assert($5)){
 throw $early=[false];
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
 }));
 return true;
@@ -17134,7 +17134,7 @@ return object;
 var primitiveBucket;
 primitiveBucket=$receiver;
 return self._add_in_($recv(bucket)._first(),primitiveBucket);
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject,bucket:bucket},$globals.Set)});
 },
 args: ["anObject"],
@@ -17255,7 +17255,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(aBlock)._value_(each);
 if($core.assert($1)){
 throw $early=[each];
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 return $recv(anotherBlock)._value();
@@ -17320,7 +17320,7 @@ return $recv($2)._includes_($3);
 var primitiveBucket;
 primitiveBucket=$receiver;
 return self._includes_in_($recv(bucket)._first(),primitiveBucket);
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"includes:",{anObject:anObject,bucket:bucket},$globals.Set)});
 },
 args: ["anObject"],
@@ -17482,7 +17482,7 @@ return self["@size"];
 var primitiveBucket;
 primitiveBucket=$receiver;
 return self._remove_in_($recv(bucket)._first(),primitiveBucket);
-};
+}
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 }, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{anObject:anObject,aBlock:aBlock,bucket:bucket},$globals.Set)});
@@ -17554,7 +17554,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(aBlock)._value_(each);
 if($core.assert($1)){
 return $recv(collection)._add_(each);
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 return collection;
@@ -17719,7 +17719,7 @@ if($core.assert($1)){
 return nil;
 } else {
 return self._subclassResponsibility();
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"next",{},$globals.ProtoStream)});
 },
 args: [],
@@ -17818,7 +17818,7 @@ if($core.assert($1)){
 return nil;
 } else {
 return self._subclassResponsibility();
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"peek",{},$globals.ProtoStream)});
 },
 args: [],
@@ -18076,7 +18076,7 @@ $ctx1.sendIdx["position"]=1;
 $2=$recv($3).__plus((1));
 self._position_($2);
 return $recv(self["@collection"])._at_(self._position());
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"next",{},$globals.Stream)});
 },
 args: [],
@@ -18101,7 +18101,7 @@ return $core.withContext(function($ctx2) {
 $1=self._atEnd();
 if(!$core.assert($1)){
 return $recv(tempCollection)._add_(self._next());
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
 return tempCollection;
@@ -18152,7 +18152,7 @@ var $1;
 $1=self._atEnd();
 if(!$core.assert($1)){
 return $recv(self._collection())._at_($recv(self._position()).__plus((1)));
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"peek",{},$globals.Stream)});
 },
 args: [],
@@ -18176,7 +18176,7 @@ self["@position"]=(0);
 return self["@position"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"position",{},$globals.Stream)});
 },
 args: [],
@@ -18435,7 +18435,7 @@ $1=self._atEnd();
 if(!$core.assert($1)){
 tempCollection=$recv(tempCollection).__comma(self._next());
 return tempCollection;
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
 return tempCollection;
@@ -18508,7 +18508,7 @@ post;
 $12=$recv($recv(pre).__comma(aString)).__comma(post);
 $ctx1.sendIdx[","]=2;
 self._setCollection_($12);
-};
+}
 $14=self._position();
 $ctx1.sendIdx["position"]=3;
 $13=$recv($14).__plus($recv(aString)._size());
@@ -18648,7 +18648,7 @@ self["@read"]=[];
 self["@read"];
 self["@readIndex"]=(1);
 self["@readIndex"];
-};
+}
 throw $early=[$recv(aBlock)._value()];
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 }));
@@ -18801,6 +18801,23 @@ $core.addClass('AbstractDagVisitor', $globals.Object, [], 'Kernel-Dag');
 $globals.AbstractDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x0aConcrete classes should implement `visitDagNode:`,\x0athey can reuse possible variants of implementation\x0aoffered directly: `visitDagNodeVariantSimple:`\x0aand `visitDagNodeVariantRedux:`.";
 $core.addMethod(
 $core.method({
+selector: "value:",
+protocol: 'evaluating',
+fn: function (anObject){
+var self=this;
+return $core.withContext(function($ctx1) {
+return self._visit_(anObject);
+}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject},$globals.AbstractDagVisitor)});
+},
+args: ["anObject"],
+source: "value: anObject\x0a\x09^ self visit: anObject",
+referencedClasses: [],
+messageSends: ["visit:"]
+}),
+$globals.AbstractDagVisitor);
+
+$core.addMethod(
+$core.method({
 selector: "visit:",
 protocol: 'visiting',
 fn: function (aNode){
@@ -18901,7 +18918,7 @@ return $recv($4).__tild_eq($recv(newChildren)._at_(i));
 throw $early=[aNode];
 
 }));
-};
+}
 $5=$recv(aNode)._copy();
 $recv($5)._dagChildren_(newChildren);
 return $recv($5)._yourself();
@@ -19027,7 +19044,7 @@ $ctx1.supercall = false;
 $1=$recv(aNode).__eq_eq(newNode);
 if(!$core.assert($1)){
 $recv(self["@path"])._at_put_($recv(self["@path"])._size(),newNode);
-};
+}
 return newNode;
 }, function($ctx1) {$ctx1.fill(self,"visitDagNodeVariantRedux:",{aNode:aNode,newNode:newNode},$globals.PathDagVisitor)});
 },
@@ -19174,7 +19191,7 @@ self["@nodes"]=$recv($globals.Array)._new();
 return self["@nodes"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"dagChildren",{},$globals.DagParentNode)});
 },
 args: [],
@@ -19915,7 +19932,7 @@ $ctx1.sendIdx["class"]=1;
 $1=$recv($2).__eq_eq(self._class());
 if(!$core.assert($1)){
 return false;
-};
+}
 return $recv($globals.JSObjectProxy)._compareJSObjectOfProxy_withProxy_(self,anObject);
 }, function($ctx1) {$ctx1.fill(self,"=",{anObject:anObject},$globals.JSObjectProxy)});
 },
@@ -20059,7 +20076,7 @@ $ctx1.supercall = false;
 var jsSelector;
 jsSelector=$receiver;
 return $recv($globals.JSObjectProxy)._forwardMessage_withArguments_ofProxy_(jsSelector,$recv(aMessage)._arguments(),self);
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"doesNotUnderstand:",{aMessage:aMessage},$globals.JSObjectProxy)});
 },
 args: ["aMessage"],
@@ -20687,7 +20704,7 @@ self._imports_(parsed);
 return self["@imports"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"imports",{},$globals.Package)});
 },
 args: [],
@@ -20732,7 +20749,7 @@ return each;
 } else {
 return $recv($recv($recv(each)._key()).__comma("=")).__comma($recv(each)._value());
 $ctx2.sendIdx[","]=1;
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"importsAsJson",{},$globals.Package)});
@@ -20797,7 +20814,7 @@ return $recv(split)._first();
 $ctx2.sendIdx["first"]=1;
 } else {
 return $recv($recv(split)._first()).__minus_gt($recv(split)._second());
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each,split:split},$ctx1,1)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"importsFromJson:",{anArray:anArray},$globals.Package)});
@@ -20822,7 +20839,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return false;
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"isDirty",{},$globals.Package)});
 },
 args: [],
@@ -21100,7 +21117,7 @@ self["@transport"]=$recv($2)._yourself();
 return self["@transport"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"transport",{},$globals.Package)});
 },
 args: [],
@@ -21146,7 +21163,7 @@ $2=$recv(import_)._respondsTo_("key");
 if(!$core.assert($2)){
 self._error_("Imports must be Strings or Associations");
 $ctx2.sendIdx["error:"]=1;
-};
+}
 $5=$recv(import_)._key();
 $ctx2.sendIdx["key"]=1;
 $4=$recv($5)._isString();
@@ -21155,12 +21172,12 @@ $3=$recv($4).__and($recv($recv(import_)._value())._isString());
 if(!$core.assert($3)){
 self._error_("Key and value must be Strings");
 $ctx2.sendIdx["error:"]=2;
-};
+}
 $6=$recv($recv(import_)._key())._match_("^[a-zA-Z][a-zA-Z0-9]*$");
 if(!$core.assert($6)){
 return self._error_("Keys must be identifiers");
-};
-};
+}
+}
 }, function($ctx2) {$ctx2.fillBlock({import_:import_},$ctx1,1)});
 }));
 return self;
@@ -21273,7 +21290,7 @@ return $recv(others)._add_(each);
 } else {
 return $recv(children)._add_(each);
 $ctx2.sendIdx["add:"]=1;
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 $ctx1.sendIdx["do:"]=1;
@@ -21368,7 +21385,7 @@ $1;
 var theClass;
 theClass=$receiver;
 $recv($recv(theClass)._package())._beDirty();
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"onClassModification:",{anAnnouncement:anAnnouncement},$globals.PackageStateObserver)});
 },
@@ -21394,7 +21411,7 @@ $1;
 var package_;
 package_=$receiver;
 $recv(package_)._beDirty();
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"onMethodModification:",{anAnnouncement:anAnnouncement},$globals.PackageStateObserver)});
 },
@@ -21438,7 +21455,7 @@ $1;
 var package_;
 package_=$receiver;
 $recv(package_)._beDirty();
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"onProtocolModification:",{anAnnouncement:anAnnouncement},$globals.PackageStateObserver)});
 },
@@ -21465,7 +21482,7 @@ self["@current"]=self._new();
 return self["@current"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"current",{},$globals.PackageStateObserver.klass)});
 },
 args: [],
@@ -21702,7 +21719,7 @@ if($core.assert($1)){
 return anObject;
 } else {
 return $recv($globals.JavaScriptException)._on_(anObject);
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"asSmalltalkException:",{anObject:anObject},$globals.SmalltalkImage)});
 },
 args: ["anObject"],
@@ -22214,7 +22231,7 @@ var $1,$2,$4,$3;
 $1=$recv(aClass)._isMetaclass();
 if($core.assert($1)){
 self._error_($recv($recv(aClass)._asString()).__comma(" is a Metaclass and cannot be removed!"));
-};
+}
 self._deleteClass_(aClass);
 $2=$recv($globals.SystemAnnouncer)._current();
 $4=$recv($globals.ClassRemoved)._new();
@@ -22282,7 +22299,7 @@ if(($receiver = $2) == null || $receiver.isNil){
 $2;
 } else {
 self._error_("Already exists a package called: ".__comma(newName));
-};
+}
 $recv(pkg)._name_(newName);
 self._basicRegisterPackage_(pkg);
 self._deletePackage_(packageName);
@@ -22336,11 +22353,11 @@ selector: "version",
 protocol: 'accessing',
 fn: function (){
 var self=this;
-return "0.18.0";
+return "0.18.1";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.18.0'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.18.1'",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22366,7 +22383,7 @@ return self["@current"];
 } else {
 self._deprecatedAPI();
 return self["@current"];
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"current",{},$globals.SmalltalkImage.klass)});
 },
 args: [],
@@ -23088,7 +23105,7 @@ var $1;
 $1=self._handlesAnnouncement_(anAnnouncement);
 if($core.assert($1)){
 $recv(self._valuable())._value_(anAnnouncement);
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"deliver:",{anAnnouncement:anAnnouncement},$globals.AnnouncementSubscription)});
 },
@@ -23119,7 +23136,7 @@ return false;
 var class_;
 class_=$receiver;
 return $recv($recv($recv($globals.Smalltalk)._globals())._at_($recv($recv($recv(anAnnouncement)._class())._theNonMetaClass())._name()))._includesBehavior_(class_);
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"handlesAnnouncement:",{anAnnouncement:anAnnouncement},$globals.AnnouncementSubscription)});
 },
 args: ["anAnnouncement"],
@@ -23486,7 +23503,7 @@ $ctx1.supercall = false;
 return self["@current"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"current",{},$globals.SystemAnnouncer.klass)});
 },
 args: [],
@@ -23855,7 +23872,7 @@ return $1;
 var class_;
 class_=$receiver;
 return $recv(class_)._packageOfProtocol_(self._protocol());
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"package",{},$globals.ProtocolAnnouncement)});
 },
 args: [],
@@ -23966,7 +23983,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 $1;
 } else {
 self._logErrorContext_($recv(anError)._context());
-};
+}
 self._logError_(anError);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"handleError:",{anError:anError},$globals.ConsoleErrorHandler)});
@@ -24010,7 +24027,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 $1;
 } else {
 self._logContext_($recv(aContext)._home());
-};
+}
 self._log_($recv(aContext)._asString());
 return self;
 }, function($ctx1) {$ctx1.fill(self,"logContext:",{aContext:aContext},$globals.ConsoleErrorHandler)});
@@ -24057,8 +24074,8 @@ if(($receiver = $1) == null || $receiver.isNil){
 $1;
 } else {
 self._logContext_($recv(aContext)._home());
-};
-};
+}
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"logErrorContext:",{aContext:aContext},$globals.ConsoleErrorHandler)});
 },
@@ -24281,7 +24298,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 $1;
 } else {
 $recv(protocols)._addAll_(self._availableProtocolsFor_($recv(aClass)._superclass()));
-};
+}
 return $recv($recv($recv(protocols)._asSet())._asArray())._sort();
 }, function($ctx1) {$ctx1.fill(self,"availableProtocolsFor:",{aClass:aClass,protocols:protocols},$globals.Environment)});
 },
@@ -24322,7 +24339,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return self._error_("Invalid class name");
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"classNamed:",{aString:aString},$globals.Environment)});
 },
 args: ["aString"],
@@ -24443,7 +24460,7 @@ $1;
 $2=$recv("A class named ".__comma(aClassName)).__comma(" already exists");
 $ctx1.sendIdx[","]=1;
 self._error_($2);
-};
+}
 $recv($recv($globals.ClassBuilder)._new())._copyClass_named_(aClass,aClassName);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"copyClass:to:",{aClass:aClass,aClassName:aClassName},$globals.Environment)});
@@ -24504,7 +24521,7 @@ if($core.assert($1)){
 return $recv(exceptionBlock)._value_(exception);
 } else {
 return $recv(exception)._resignal();
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({exception:exception},$ctx1,1)});
 }));
 return self;
@@ -24550,11 +24567,11 @@ if(($receiver = $1) == null || $receiver.isNil){
 self._error_("Invalid package name");
 } else {
 $1;
-};
+}
 $2=$recv(package_).__eq_eq($recv(aClass)._package());
 if($core.assert($2)){
 return self;
-};
+}
 $recv(aClass)._package_(package_);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"moveClass:toPackage:",{aClass:aClass,aPackageName:aPackageName,package_:package_},$globals.Environment)});
@@ -24582,14 +24599,14 @@ $ctx1.sendIdx["methodClass"]=1;
 $1=$recv($2).__eq_eq($3);
 if($core.assert($1)){
 return self;
-};
+}
 $5=$recv(aMethod)._methodClass();
 $ctx1.sendIdx["methodClass"]=2;
 $4=$recv($5)._isMetaclass();
 if($core.assert($4)){
 destinationClass=$recv(destinationClass)._class();
 destinationClass;
-};
+}
 $recv(destinationClass)._compile_protocol_($recv(aMethod)._source(),$recv(aMethod)._protocol());
 $recv($recv(aMethod)._methodClass())._removeCompiledMethod_(aMethod);
 return self;
@@ -24800,7 +24817,7 @@ $1;
 $2=$recv("A class named ".__comma(aClassName)).__comma(" already exists");
 $ctx1.sendIdx[","]=1;
 self._error_($2);
-};
+}
 $recv($recv($globals.ClassBuilder)._new())._renameClass_to_(aClass,aClassName);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"renameClass:to:",{aClass:aClass,aClassName:aClassName},$globals.Environment)});
@@ -24827,7 +24844,7 @@ $1;
 $2=$recv("A package named ".__comma(aNewPackageName)).__comma(" already exists");
 $ctx1.sendIdx[","]=1;
 self._error_($2);
-};
+}
 $recv($globals.Smalltalk)._renamePackage_to_(aPackageName,aNewPackageName);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"renamePackage:to:",{aPackageName:aPackageName,aNewPackageName:aNewPackageName},$globals.Environment)});
@@ -25007,7 +25024,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 self._register_(anObject);
 } else {
 $1;
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"registerIfNone:",{anObject:anObject},$globals.Service.klass)});
 },
@@ -25051,7 +25068,7 @@ var $1;
 $1=$recv(anError)._wasHandled();
 if($core.assert($1)){
 return self;
-};
+}
 return $recv(self._current())._handleError_(anError);
 }, function($ctx1) {$ctx1.fill(self,"handleUnhandledError:",{anError:anError},$globals.ErrorHandler.klass)});
 },
@@ -25620,7 +25637,7 @@ label;
 } else {
 label=self._printString();
 label;
-};
+}
 $recv(anInspector)._setLabel_(label);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"inspectOn:",{anInspector:anInspector,label:label},$globals.String)});
@@ -25672,7 +25689,7 @@ if(($receiver = $globals.XMLHttpRequest) == null || $receiver.isNil){
 self._error_("XMLHttpRequest not available.");
 } else {
 return $recv($globals.XMLHttpRequest)._new();
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"newXhr",{},$globals.NodePlatform)});
 },
@@ -25695,7 +25712,7 @@ var $1;
 $1=self._isFeasible();
 if($core.assert($1)){
 $recv($globals.Platform)._registerIfNone_(self._new());
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.NodePlatform.klass)});
 },
@@ -25986,38 +26003,17 @@ $globals.SmalltalkParser = (function() {
                                     ._source_(text())
                                     ._selector_(selector);
                          },
-        peg$c112 = function(message, tail) {
-                             if(tail) {
-                                 return tail._valueForReceiver_(message);
-                             }
-                             else {
-                                 return message;
-                             }
+        peg$c112 = function(receiver, tail) {
+        					 return receiver._withTail_(tail);
                          },
-        peg$c113 = function(receiver, tail) {
-                             if(tail) {
-                                 return tail._valueForReceiver_(receiver);
-                             }
-                             else {
-                                 return receiver;
-                             }
-                         },
-        peg$c114 = function(selector, arg) {
+        peg$c113 = function(selector, arg) {
                              return $globals.SendNode._new()
                                     ._location_(location())
                                     ._source_(text())
                                     ._selector_(selector)
                                     ._arguments_([arg]);
                          },
-        peg$c115 = function(message, tail) {
-                             if(tail) {
-                                 return tail._valueForReceiver_(message);
-                              }
-                             else {
-                                 return message;
-                             }
-                         },
-        peg$c116 = function(pairs) {
+        peg$c114 = function(pairs) {
                              var selector = "";
                              var args = [];
                               for(var i = 0; i < pairs.length; i++) {
@@ -26030,26 +26026,30 @@ $globals.SmalltalkParser = (function() {
                                      ._selector_(selector)
                                      ._arguments_(args);
                          },
-        peg$c117 = function(send) { return send._isSendNode(); },
-        peg$c118 = ";",
-        peg$c119 = { type: "literal", value: ";", description: "\";\"" },
-        peg$c120 = function(send, mess) {return mess;},
-        peg$c121 = function(send, messages) {
+        peg$c115 = function(receiver, tail) {
+        					 return tail ? receiver._withTail_([tail]) : receiver;
+                         },
+        peg$c116 = function(send) { return send._isSendNode(); },
+        peg$c117 = ";",
+        peg$c118 = { type: "literal", value: ";", description: "\";\"" },
+        peg$c119 = function(send, mess) {return mess;},
+        peg$c120 = function(send, messages) {
                              messages.unshift(send);
                              return $globals.CascadeNode._new()
                                     ._location_(location())
                                     ._source_(text())
                                     ._dagChildren_(messages);
                          },
-        peg$c122 = "<",
-        peg$c123 = { type: "literal", value: "<", description: "\"<\"" },
-        peg$c124 = ">>",
-        peg$c125 = { type: "literal", value: ">>", description: "\">>\"" },
-        peg$c126 = function() {return ">";},
-        peg$c127 = /^[^>]/,
-        peg$c128 = { type: "class", value: "[^>]", description: "[^>]" },
-        peg$c129 = ">",
-        peg$c130 = { type: "literal", value: ">", description: "\">\"" },
+        peg$c121 = "<",
+        peg$c122 = { type: "literal", value: "<", description: "\"<\"" },
+        peg$c123 = ">>",
+        peg$c124 = { type: "literal", value: ">>", description: "\">>\"" },
+        peg$c125 = function() {return ">";},
+        peg$c126 = /^[^>]/,
+        peg$c127 = { type: "class", value: "[^>]", description: "[^>]" },
+        peg$c128 = ">",
+        peg$c129 = { type: "literal", value: ">", description: "\">\"" },
+        peg$c130 = function(val) { return !/^\s*inlineJS/.test(val.join("")) },
         peg$c131 = function(val) {
                              console.warn("Use of <...js code...> is deprecated, in:\n" + val.join(""));
                              return $globals.JSStatementNode._new()
@@ -26265,7 +26265,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsestart() {
       var s0;
 
-      var key    = peg$currPos * 63 + 0,
+      var key    = peg$currPos * 61 + 0,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26284,7 +26284,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseseparator() {
       var s0, s1;
 
-      var key    = peg$currPos * 63 + 1,
+      var key    = peg$currPos * 61 + 1,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26324,7 +26324,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsecomments() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 2,
+      var key    = peg$currPos * 61 + 2,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26450,7 +26450,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsews() {
       var s0, s1;
 
-      var key    = peg$currPos * 63 + 3,
+      var key    = peg$currPos * 61 + 3,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26480,7 +26480,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsemaybeDotsWs() {
       var s0, s1;
 
-      var key    = peg$currPos * 63 + 4,
+      var key    = peg$currPos * 61 + 4,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26528,7 +26528,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseidentifier() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 63 + 5,
+      var key    = peg$currPos * 61 + 5,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26585,7 +26585,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsekeyword() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 6,
+      var key    = peg$currPos * 61 + 6,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26625,7 +26625,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseselector() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 63 + 7,
+      var key    = peg$currPos * 61 + 7,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26682,7 +26682,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseclassName() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 63 + 8,
+      var key    = peg$currPos * 61 + 8,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26739,7 +26739,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsestring() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 9,
+      var key    = peg$currPos * 61 + 9,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26838,7 +26838,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsecharacter() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 10,
+      var key    = peg$currPos * 61 + 10,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26884,7 +26884,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsesymbol() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 11,
+      var key    = peg$currPos * 61 + 11,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26924,7 +26924,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebareSymbol() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 12,
+      var key    = peg$currPos * 61 + 12,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26961,7 +26961,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsenumber() {
       var s0, s1;
 
-      var key    = peg$currPos * 63 + 13,
+      var key    = peg$currPos * 61 + 13,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -26995,7 +26995,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsenumberExp() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 14,
+      var key    = peg$currPos * 61 + 14,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27049,7 +27049,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsehex() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 15,
+      var key    = peg$currPos * 61 + 15,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27125,7 +27125,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsefloat() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 63 + 16,
+      var key    = peg$currPos * 61 + 16,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27228,7 +27228,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseinteger() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 63 + 17,
+      var key    = peg$currPos * 61 + 17,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27292,7 +27292,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseliteralArray() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 18,
+      var key    = peg$currPos * 61 + 18,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27350,7 +27350,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebareLiteralArray() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 19,
+      var key    = peg$currPos * 61 + 19,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27408,7 +27408,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseliteralArrayElement() {
       var s0;
 
-      var key    = peg$currPos * 63 + 20,
+      var key    = peg$currPos * 61 + 20,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27433,7 +27433,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsLiteralArrayContents() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 21,
+      var key    = peg$currPos * 61 + 21,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27493,7 +27493,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsedynamicArray() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 63 + 22,
+      var key    = peg$currPos * 61 + 22,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27560,7 +27560,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsedynamicDictionary() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 63 + 23,
+      var key    = peg$currPos * 61 + 23,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27627,7 +27627,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsepseudoVariable() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 24,
+      var key    = peg$currPos * 61 + 24,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27694,7 +27694,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseparseTimeLiteral() {
       var s0;
 
-      var key    = peg$currPos * 63 + 25,
+      var key    = peg$currPos * 61 + 25,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27728,7 +27728,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseruntimeLiteral() {
       var s0;
 
-      var key    = peg$currPos * 63 + 26,
+      var key    = peg$currPos * 61 + 26,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27753,7 +27753,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseliteral() {
       var s0;
 
-      var key    = peg$currPos * 63 + 27,
+      var key    = peg$currPos * 61 + 27,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27775,7 +27775,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsevariable() {
       var s0, s1;
 
-      var key    = peg$currPos * 63 + 28,
+      var key    = peg$currPos * 61 + 28,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27800,7 +27800,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebinarySelector() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 29,
+      var key    = peg$currPos * 61 + 29,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27846,7 +27846,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsKeywordPattern() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 63 + 30,
+      var key    = peg$currPos * 61 + 30,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27934,7 +27934,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsBinaryPattern() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 31,
+      var key    = peg$currPos * 61 + 31,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -27980,7 +27980,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsUnaryPattern() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 32,
+      var key    = peg$currPos * 61 + 32,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28014,7 +28014,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseexpression() {
       var s0;
 
-      var key    = peg$currPos * 63 + 33,
+      var key    = peg$currPos * 61 + 33,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28039,7 +28039,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsExpressionsRest() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 34,
+      var key    = peg$currPos * 61 + 34,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28091,7 +28091,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseexpressions() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 63 + 35,
+      var key    = peg$currPos * 61 + 35,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28130,7 +28130,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseassignment() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 63 + 36,
+      var key    = peg$currPos * 61 + 36,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28188,7 +28188,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseret() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 63 + 37,
+      var key    = peg$currPos * 61 + 37,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28234,7 +28234,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsetemps() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 63 + 38,
+      var key    = peg$currPos * 61 + 38,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28327,7 +28327,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsBlockParamList() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 63 + 39,
+      var key    = peg$currPos * 61 + 39,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28448,7 +28448,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsesubexpression() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 63 + 40,
+      var key    = peg$currPos * 61 + 40,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28512,7 +28512,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsestatementsWs() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 63 + 41,
+      var key    = peg$currPos * 61 + 41,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28615,7 +28615,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsSequenceWs() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 63 + 42,
+      var key    = peg$currPos * 61 + 42,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28658,7 +28658,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsStSequenceWs() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 43,
+      var key    = peg$currPos * 61 + 43,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28710,7 +28710,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseblock() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 44,
+      var key    = peg$currPos * 61 + 44,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28774,7 +28774,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseoperand() {
       var s0;
 
-      var key    = peg$currPos * 63 + 45,
+      var key    = peg$currPos * 61 + 45,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28799,7 +28799,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsUnaryMessage() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 46,
+      var key    = peg$currPos * 61 + 46,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28851,10 +28851,10 @@ $globals.SmalltalkParser = (function() {
       return s0;
     }
 
-    function peg$parsewsUnaryTail() {
-      var s0, s1, s2;
+    function peg$parseunarySend() {
+      var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 63 + 47,
+      var key    = peg$currPos * 61 + 47,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28864,11 +28864,13 @@ $globals.SmalltalkParser = (function() {
       }
 
       s0 = peg$currPos;
-      s1 = peg$parsewsUnaryMessage();
+      s1 = peg$parseoperand();
       if (s1 !== peg$FAILED) {
-        s2 = peg$parsewsUnaryTail();
-        if (s2 === peg$FAILED) {
-          s2 = null;
+        s2 = [];
+        s3 = peg$parsewsUnaryMessage();
+        while (s3 !== peg$FAILED) {
+          s2.push(s3);
+          s3 = peg$parsewsUnaryMessage();
         }
         if (s2 !== peg$FAILED) {
           peg$savedPos = s0;
@@ -28888,47 +28890,10 @@ $globals.SmalltalkParser = (function() {
       return s0;
     }
 
-    function peg$parseunarySend() {
-      var s0, s1, s2;
-
-      var key    = peg$currPos * 63 + 48,
-          cached = peg$resultsCache[key];
-
-      if (cached) {
-        peg$currPos = cached.nextPos;
-
-        return cached.result;
-      }
-
-      s0 = peg$currPos;
-      s1 = peg$parseoperand();
-      if (s1 !== peg$FAILED) {
-        s2 = peg$parsewsUnaryTail();
-        if (s2 === peg$FAILED) {
-          s2 = null;
-        }
-        if (s2 !== peg$FAILED) {
-          peg$savedPos = s0;
-          s1 = peg$c113(s1, s2);
-          s0 = s1;
-        } else {
-          peg$currPos = s0;
-          s0 = peg$FAILED;
-        }
-      } else {
-        peg$currPos = s0;
-        s0 = peg$FAILED;
-      }
-
-      peg$resultsCache[key] = { nextPos: peg$currPos, result: s0 };
-
-      return s0;
-    }
-
     function peg$parsewsBinaryMessage() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 49,
+      var key    = peg$currPos * 61 + 48,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -28947,7 +28912,7 @@ $globals.SmalltalkParser = (function() {
             s4 = peg$parseunarySend();
             if (s4 !== peg$FAILED) {
               peg$savedPos = s0;
-              s1 = peg$c114(s2, s4);
+              s1 = peg$c113(s2, s4);
               s0 = s1;
             } else {
               peg$currPos = s0;
@@ -28971,47 +28936,10 @@ $globals.SmalltalkParser = (function() {
       return s0;
     }
 
-    function peg$parsewsBinaryTail() {
-      var s0, s1, s2;
-
-      var key    = peg$currPos * 63 + 50,
-          cached = peg$resultsCache[key];
-
-      if (cached) {
-        peg$currPos = cached.nextPos;
-
-        return cached.result;
-      }
-
-      s0 = peg$currPos;
-      s1 = peg$parsewsBinaryMessage();
-      if (s1 !== peg$FAILED) {
-        s2 = peg$parsewsBinaryTail();
-        if (s2 === peg$FAILED) {
-          s2 = null;
-        }
-        if (s2 !== peg$FAILED) {
-          peg$savedPos = s0;
-          s1 = peg$c115(s1, s2);
-          s0 = s1;
-        } else {
-          peg$currPos = s0;
-          s0 = peg$FAILED;
-        }
-      } else {
-        peg$currPos = s0;
-        s0 = peg$FAILED;
-      }
-
-      peg$resultsCache[key] = { nextPos: peg$currPos, result: s0 };
-
-      return s0;
-    }
-
     function peg$parsebinarySend() {
-      var s0, s1, s2;
+      var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 63 + 51,
+      var key    = peg$currPos * 61 + 49,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29023,13 +28951,15 @@ $globals.SmalltalkParser = (function() {
       s0 = peg$currPos;
       s1 = peg$parseunarySend();
       if (s1 !== peg$FAILED) {
-        s2 = peg$parsewsBinaryTail();
-        if (s2 === peg$FAILED) {
-          s2 = null;
+        s2 = [];
+        s3 = peg$parsewsBinaryMessage();
+        while (s3 !== peg$FAILED) {
+          s2.push(s3);
+          s3 = peg$parsewsBinaryMessage();
         }
         if (s2 !== peg$FAILED) {
           peg$savedPos = s0;
-          s1 = peg$c113(s1, s2);
+          s1 = peg$c112(s1, s2);
           s0 = s1;
         } else {
           peg$currPos = s0;
@@ -29048,7 +28978,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsKeywordMessage() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 63 + 52,
+      var key    = peg$currPos * 61 + 50,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29124,7 +29054,7 @@ $globals.SmalltalkParser = (function() {
       }
       if (s1 !== peg$FAILED) {
         peg$savedPos = s0;
-        s1 = peg$c116(s1);
+        s1 = peg$c114(s1);
       }
       s0 = s1;
 
@@ -29136,7 +29066,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsekeywordSend() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 53,
+      var key    = peg$currPos * 61 + 51,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29154,7 +29084,7 @@ $globals.SmalltalkParser = (function() {
         }
         if (s2 !== peg$FAILED) {
           peg$savedPos = s0;
-          s1 = peg$c113(s1, s2);
+          s1 = peg$c115(s1, s2);
           s0 = s1;
         } else {
           peg$currPos = s0;
@@ -29173,7 +29103,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsMessage() {
       var s0;
 
-      var key    = peg$currPos * 63 + 54,
+      var key    = peg$currPos * 61 + 52,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29198,7 +29128,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsecascade() {
       var s0, s1, s2, s3, s4, s5, s6, s7;
 
-      var key    = peg$currPos * 63 + 55,
+      var key    = peg$currPos * 61 + 53,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29211,7 +29141,7 @@ $globals.SmalltalkParser = (function() {
       s1 = peg$parsekeywordSend();
       if (s1 !== peg$FAILED) {
         peg$savedPos = peg$currPos;
-        s2 = peg$c117(s1);
+        s2 = peg$c116(s1);
         if (s2) {
           s2 = void 0;
         } else {
@@ -29223,17 +29153,17 @@ $globals.SmalltalkParser = (function() {
           s5 = peg$parsews();
           if (s5 !== peg$FAILED) {
             if (input.charCodeAt(peg$currPos) === 59) {
-              s6 = peg$c118;
+              s6 = peg$c117;
               peg$currPos++;
             } else {
               s6 = peg$FAILED;
-              if (peg$silentFails === 0) { peg$fail(peg$c119); }
+              if (peg$silentFails === 0) { peg$fail(peg$c118); }
             }
             if (s6 !== peg$FAILED) {
               s7 = peg$parsewsMessage();
               if (s7 !== peg$FAILED) {
                 peg$savedPos = s4;
-                s5 = peg$c120(s1, s7);
+                s5 = peg$c119(s1, s7);
                 s4 = s5;
               } else {
                 peg$currPos = s4;
@@ -29254,17 +29184,17 @@ $globals.SmalltalkParser = (function() {
               s5 = peg$parsews();
               if (s5 !== peg$FAILED) {
                 if (input.charCodeAt(peg$currPos) === 59) {
-                  s6 = peg$c118;
+                  s6 = peg$c117;
                   peg$currPos++;
                 } else {
                   s6 = peg$FAILED;
-                  if (peg$silentFails === 0) { peg$fail(peg$c119); }
+                  if (peg$silentFails === 0) { peg$fail(peg$c118); }
                 }
                 if (s6 !== peg$FAILED) {
                   s7 = peg$parsewsMessage();
                   if (s7 !== peg$FAILED) {
                     peg$savedPos = s4;
-                    s5 = peg$c120(s1, s7);
+                    s5 = peg$c119(s1, s7);
                     s4 = s5;
                   } else {
                     peg$currPos = s4;
@@ -29284,7 +29214,7 @@ $globals.SmalltalkParser = (function() {
           }
           if (s3 !== peg$FAILED) {
             peg$savedPos = s0;
-            s1 = peg$c121(s1, s3);
+            s1 = peg$c120(s1, s3);
             s0 = s1;
           } else {
             peg$currPos = s0;
@@ -29307,7 +29237,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsejsStatement() {
       var s0;
 
-      var key    = peg$currPos * 63 + 56,
+      var key    = peg$currPos * 61 + 54,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29329,7 +29259,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parselegacyJsStatement() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 57,
+      var key    = peg$currPos * 61 + 55,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29340,73 +29270,85 @@ $globals.SmalltalkParser = (function() {
 
       s0 = peg$currPos;
       if (input.charCodeAt(peg$currPos) === 60) {
-        s1 = peg$c122;
+        s1 = peg$c121;
         peg$currPos++;
       } else {
         s1 = peg$FAILED;
-        if (peg$silentFails === 0) { peg$fail(peg$c123); }
+        if (peg$silentFails === 0) { peg$fail(peg$c122); }
       }
       if (s1 !== peg$FAILED) {
         s2 = [];
         s3 = peg$currPos;
-        if (input.substr(peg$currPos, 2) === peg$c124) {
-          s4 = peg$c124;
+        if (input.substr(peg$currPos, 2) === peg$c123) {
+          s4 = peg$c123;
           peg$currPos += 2;
         } else {
           s4 = peg$FAILED;
-          if (peg$silentFails === 0) { peg$fail(peg$c125); }
+          if (peg$silentFails === 0) { peg$fail(peg$c124); }
         }
         if (s4 !== peg$FAILED) {
           peg$savedPos = s3;
-          s4 = peg$c126();
+          s4 = peg$c125();
         }
         s3 = s4;
         if (s3 === peg$FAILED) {
-          if (peg$c127.test(input.charAt(peg$currPos))) {
+          if (peg$c126.test(input.charAt(peg$currPos))) {
             s3 = input.charAt(peg$currPos);
             peg$currPos++;
           } else {
             s3 = peg$FAILED;
-            if (peg$silentFails === 0) { peg$fail(peg$c128); }
+            if (peg$silentFails === 0) { peg$fail(peg$c127); }
           }
         }
         while (s3 !== peg$FAILED) {
           s2.push(s3);
           s3 = peg$currPos;
-          if (input.substr(peg$currPos, 2) === peg$c124) {
-            s4 = peg$c124;
+          if (input.substr(peg$currPos, 2) === peg$c123) {
+            s4 = peg$c123;
             peg$currPos += 2;
           } else {
             s4 = peg$FAILED;
-            if (peg$silentFails === 0) { peg$fail(peg$c125); }
+            if (peg$silentFails === 0) { peg$fail(peg$c124); }
           }
           if (s4 !== peg$FAILED) {
             peg$savedPos = s3;
-            s4 = peg$c126();
+            s4 = peg$c125();
           }
           s3 = s4;
           if (s3 === peg$FAILED) {
-            if (peg$c127.test(input.charAt(peg$currPos))) {
+            if (peg$c126.test(input.charAt(peg$currPos))) {
               s3 = input.charAt(peg$currPos);
               peg$currPos++;
             } else {
               s3 = peg$FAILED;
-              if (peg$silentFails === 0) { peg$fail(peg$c128); }
+              if (peg$silentFails === 0) { peg$fail(peg$c127); }
             }
           }
         }
         if (s2 !== peg$FAILED) {
           if (input.charCodeAt(peg$currPos) === 62) {
-            s3 = peg$c129;
+            s3 = peg$c128;
             peg$currPos++;
           } else {
             s3 = peg$FAILED;
-            if (peg$silentFails === 0) { peg$fail(peg$c130); }
+            if (peg$silentFails === 0) { peg$fail(peg$c129); }
           }
           if (s3 !== peg$FAILED) {
-            peg$savedPos = s0;
-            s1 = peg$c131(s2);
-            s0 = s1;
+            peg$savedPos = peg$currPos;
+            s4 = peg$c130(s2);
+            if (s4) {
+              s4 = void 0;
+            } else {
+              s4 = peg$FAILED;
+            }
+            if (s4 !== peg$FAILED) {
+              peg$savedPos = s0;
+              s1 = peg$c131(s2);
+              s0 = s1;
+            } else {
+              peg$currPos = s0;
+              s0 = peg$FAILED;
+            }
           } else {
             peg$currPos = s0;
             s0 = peg$FAILED;
@@ -29428,7 +29370,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsepragmaJsStatement() {
       var s0, s1, s2, s3, s4, s5, s6, s7;
 
-      var key    = peg$currPos * 63 + 58,
+      var key    = peg$currPos * 61 + 56,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29439,11 +29381,11 @@ $globals.SmalltalkParser = (function() {
 
       s0 = peg$currPos;
       if (input.charCodeAt(peg$currPos) === 60) {
-        s1 = peg$c122;
+        s1 = peg$c121;
         peg$currPos++;
       } else {
         s1 = peg$FAILED;
-        if (peg$silentFails === 0) { peg$fail(peg$c123); }
+        if (peg$silentFails === 0) { peg$fail(peg$c122); }
       }
       if (s1 !== peg$FAILED) {
         s2 = peg$parsews();
@@ -29463,11 +29405,11 @@ $globals.SmalltalkParser = (function() {
                 s6 = peg$parsews();
                 if (s6 !== peg$FAILED) {
                   if (input.charCodeAt(peg$currPos) === 62) {
-                    s7 = peg$c129;
+                    s7 = peg$c128;
                     peg$currPos++;
                   } else {
                     s7 = peg$FAILED;
-                    if (peg$silentFails === 0) { peg$fail(peg$c130); }
+                    if (peg$silentFails === 0) { peg$fail(peg$c129); }
                   }
                   if (s7 !== peg$FAILED) {
                     peg$savedPos = s0;
@@ -29510,7 +29452,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsemethod() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 59,
+      var key    = peg$currPos * 61 + 57,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29553,7 +29495,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseassociationSend() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 60,
+      var key    = peg$currPos * 61 + 58,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29593,7 +29535,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsAssociationsRest() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 61,
+      var key    = peg$currPos * 61 + 59,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29645,7 +29587,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseassociations() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 63 + 62,
+      var key    = peg$currPos * 61 + 60,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29735,8 +29677,8 @@ if(($receiver = aClass) == null || $receiver.isNil){
 return "nil";
 } else {
 return $recv(aClass)._name();
-};
-};
+}
+}
 }, function($ctx1) {$ctx1.fill(self,"classNameFor:",{aClass:aClass},$globals.AbstractExporter)});
 },
 args: ["aClass"],
@@ -29814,7 +29756,7 @@ return $core.withContext(function($ctx3) {
 $3=$recv($recv(behavior)._protocols())._includes_(extensionName);
 if($core.assert($3)){
 return $recv(result)._add_($recv($globals.ExportMethodProtocol)._name_theClass_(extensionName,behavior));
-};
+}
 }, function($ctx3) {$ctx3.fillBlock({behavior:behavior},$ctx2,3)});
 }));
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
@@ -30245,7 +30187,7 @@ return $core.withContext(function($ctx4) {
 $1=$recv(category).__eq("*".__comma(name));
 if($core.assert($1)){
 return $recv(map)._at_put_(category,methods);
-};
+}
 }, function($ctx4) {$ctx4.fillBlock({category:category,methods:methods},$ctx3,3)});
 }));
 return $recv(result)._addAll_($recv($recv($recv(map)._keys())._sorted_((function(a,b){
@@ -30287,7 +30229,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(each)._match_("^\x5c*");
 if(!$core.assert($1)){
 return $recv(map)._at_put_(each,methods);
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each,methods:methods},$ctx1,1)});
 }));
 return $recv($recv($recv(map)._keys())._sorted_((function(a,b){
@@ -30825,8 +30767,8 @@ if(($receiver = aClass) == null || $receiver.isNil){
 return "null";
 } else {
 return "$globals.".__comma($recv(aClass)._name());
-};
-};
+}
+}
 }, function($ctx1) {$ctx1.fill(self,"jsClassNameFor:",{aClass:aClass},$globals.Exporter)});
 },
 args: ["aClass"],
@@ -30930,7 +30872,7 @@ if($core.assert($1)){
 return $recv($recv(aPackage)._transport())._namespace();
 } else {
 return nil;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"amdNamespaceOfPackage:",{aPackage:aPackage},$globals.AmdExporter)});
 },
 args: ["aPackage"],
@@ -31056,7 +30998,7 @@ $ctx2.sendIdx["add:"]=1;
 $recv(namedImports)._add_($recv(each)._value());
 $ctx2.sendIdx["add:"]=2;
 return $recv(importVarNames)._add_($recv(each)._key());
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 return $recv(importVarNames).__minus_gt($recv(namedImports).__comma(anonImports));
@@ -31120,8 +31062,8 @@ $recv(self["@stream"])._next();
 self["@last"]=$recv($recv(result)._contents())._trimBoth();
 $3=self["@last"];
 throw $early=[$3];
-};
-};
+}
+}
 return $recv(result)._nextPut_(char);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }));
@@ -31504,7 +31446,7 @@ if($core.assert($1)){
 lastEmpty=false;
 lastEmpty;
 return $recv(result)._scanFrom_(parser);
-};
+}
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,5)});
 }));
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
@@ -31593,7 +31535,7 @@ return $recv($recv(xhr)._status()).__lt((300));
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 }));
 return $recv($2)._ifTrue_ifFalse_(aBlock,anotherBlock);
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
 $recv(xhr)._send_(aString);
@@ -31935,7 +31877,7 @@ if($core.assert($2)){
 return pathWithout;
 } else {
 return path;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"commitPathStFor:",{aPackage:aPackage,path:path,pathWithout:pathWithout},$globals.AmdPackageHandler)});
 },
 args: ["aPackage"],
@@ -31979,7 +31921,7 @@ $3=$recv($recv(self._namespaceFor_(aPackage)).__comma("/")).__comma($recv(aPacka
 $ctx1.sendIdx[","]=1;
 $2=$recv($globals.Array)._with_($3);
 $recv(require)._value_($2);
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"load:",{aPackage:aPackage},$globals.AmdPackageHandler)});
 },
@@ -32022,7 +31964,7 @@ return self._error_("AMD loader not present");
 var require;
 require=$receiver;
 return $recv($recv(require)._basicAt_("toUrl"))._value_(aString);
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"toUrl:",{aString:aString},$globals.AmdPackageHandler)});
 },
 args: ["aString"],
@@ -32326,7 +32268,7 @@ $ctx1.sendIdx["for:"]=1;
 return $1;
 } else {
 anObject;
-};
+}
 $2=self._for_($recv(anObject)._type());
 $recv($2)._setupFromJson_(anObject);
 return $recv($2)._yourself();
@@ -32357,7 +32299,7 @@ self["@registry"]=$globals.HashedCollection._newFromPairs_([]);
 self["@registry"];
 } else {
 self._register();
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.PackageTransport.klass)});
 },
@@ -32400,7 +32342,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 $1;
 } else {
 $recv(self["@registry"])._at_put_($recv(aClass)._type(),aClass);
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"register:",{aClass:aClass},$globals.PackageTransport.klass)});
 },
@@ -32527,7 +32469,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return self._defaultNamespace();
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"namespace",{},$globals.AmdPackageTransport)});
 },
 args: [],
@@ -32836,14 +32778,17 @@ protocol: 'compiling',
 fn: function (aNode){
 var self=this;
 return $core.withContext(function($ctx1) {
-self._subclassResponsibility();
-return self;
+return $recv(self._transformers())._inject_into_(aNode,(function(input,transformer){
+return $core.withContext(function($ctx2) {
+return $recv(transformer)._value_(input);
+}, function($ctx2) {$ctx2.fillBlock({input:input,transformer:transformer},$ctx1,1)});
+}));
 }, function($ctx1) {$ctx1.fill(self,"compileNode:",{aNode:aNode},$globals.AbstractCodeGenerator)});
 },
 args: ["aNode"],
-source: "compileNode: aNode\x0a\x09self subclassResponsibility",
+source: "compileNode: aNode\x0a\x09^ self transformers\x0a\x09\x09inject: aNode\x0a\x09\x09into: [ :input :transformer | transformer value: input ]",
 referencedClasses: [],
-messageSends: ["subclassResponsibility"]
+messageSends: ["inject:into:", "transformers", "value:"]
 }),
 $globals.AbstractCodeGenerator);
 
@@ -32943,7 +32888,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return "";
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"source",{},$globals.AbstractCodeGenerator)});
 },
 args: [],
@@ -32970,36 +32915,51 @@ messageSends: []
 }),
 $globals.AbstractCodeGenerator);
 
+$core.addMethod(
+$core.method({
+selector: "transformers",
+protocol: 'compiling',
+fn: function (){
+var self=this;
+var dict;
+return $core.withContext(function($ctx1) {
+dict=self._transformersDictionary();
+return $recv($recv($recv($recv(dict)._keys())._asArray())._sort())._collect_((function(each){
+return $core.withContext(function($ctx2) {
+return $recv(dict)._at_(each);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"transformers",{dict:dict},$globals.AbstractCodeGenerator)});
+},
+args: [],
+source: "transformers\x0a\x09| dict |\x0a\x09dict := self transformersDictionary.\x0a\x09^ dict keys asArray sort collect: [ :each | dict at: each ]",
+referencedClasses: [],
+messageSends: ["transformersDictionary", "collect:", "sort", "asArray", "keys", "at:"]
+}),
+$globals.AbstractCodeGenerator);
+
+$core.addMethod(
+$core.method({
+selector: "transformersDictionary",
+protocol: 'compiling',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"transformersDictionary",{},$globals.AbstractCodeGenerator)});
+},
+args: [],
+source: "transformersDictionary\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.AbstractCodeGenerator);
+
 
 
 $core.addClass('CodeGenerator', $globals.AbstractCodeGenerator, [], 'Compiler-Core');
 $globals.CodeGenerator.comment="I am a basic code generator. I generate a valid JavaScript output, but no not perform any inlining.\x0aSee `InliningCodeGenerator` for an optimized JavaScript code generation.";
-$core.addMethod(
-$core.method({
-selector: "compileNode:",
-protocol: 'compiling',
-fn: function (aNode){
-var self=this;
-var ir,stream;
-return $core.withContext(function($ctx1) {
-var $1;
-$recv(self._semanticAnalyzer())._visit_(aNode);
-$ctx1.sendIdx["visit:"]=1;
-ir=$recv(self._translator())._visit_(aNode);
-$ctx1.sendIdx["visit:"]=2;
-$1=self._irTranslator();
-$recv($1)._currentClass_(self._currentClass());
-$recv($1)._visit_(ir);
-return $recv($1)._contents();
-}, function($ctx1) {$ctx1.fill(self,"compileNode:",{aNode:aNode,ir:ir,stream:stream},$globals.CodeGenerator)});
-},
-args: ["aNode"],
-source: "compileNode: aNode\x0a\x09| ir stream |\x0a\x09self semanticAnalyzer visit: aNode.\x0a\x09ir := self translator visit: aNode.\x0a\x09^ self irTranslator\x0a\x09\x09currentClass: self currentClass;\x0a\x09\x09visit: ir;\x0a\x09\x09contents",
-referencedClasses: [],
-messageSends: ["visit:", "semanticAnalyzer", "translator", "currentClass:", "irTranslator", "currentClass", "contents"]
-}),
-$globals.CodeGenerator);
-
 $core.addMethod(
 $core.method({
 selector: "irTranslator",
@@ -33007,13 +32967,32 @@ protocol: 'compiling',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return $recv($globals.IRJSTranslator)._new();
+var $1;
+$1=$recv(self._irTranslatorClass())._new();
+$recv($1)._currentClass_(self._currentClass());
+return $recv($1)._yourself();
 }, function($ctx1) {$ctx1.fill(self,"irTranslator",{},$globals.CodeGenerator)});
 },
 args: [],
-source: "irTranslator\x0a\x09^ IRJSTranslator new",
+source: "irTranslator\x0a\x09^ self irTranslatorClass new\x0a\x09\x09currentClass: self currentClass;\x0a\x09\x09yourself",
+referencedClasses: [],
+messageSends: ["currentClass:", "new", "irTranslatorClass", "currentClass", "yourself"]
+}),
+$globals.CodeGenerator);
+
+$core.addMethod(
+$core.method({
+selector: "irTranslatorClass",
+protocol: 'compiling',
+fn: function (){
+var self=this;
+return $globals.IRJSTranslator;
+
+},
+args: [],
+source: "irTranslatorClass\x0a\x09^ IRJSTranslator",
 referencedClasses: ["IRJSTranslator"],
-messageSends: ["new"]
+messageSends: []
 }),
 $globals.CodeGenerator);
 
@@ -33025,31 +33004,39 @@ fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$1=$recv(self._semanticAnalyzerClass())._on_(self._currentClass());
+$1=$recv($globals.SemanticAnalyzer)._on_(self._currentClass());
 $recv($1)._thePackage_(self._currentPackage());
 return $recv($1)._yourself();
 }, function($ctx1) {$ctx1.fill(self,"semanticAnalyzer",{},$globals.CodeGenerator)});
 },
 args: [],
-source: "semanticAnalyzer\x0a\x09^ (self semanticAnalyzerClass on: self currentClass)\x0a\x09\x09thePackage: self currentPackage;\x0a\x09\x09yourself",
-referencedClasses: [],
-messageSends: ["thePackage:", "on:", "semanticAnalyzerClass", "currentClass", "currentPackage", "yourself"]
+source: "semanticAnalyzer\x0a\x09^ (SemanticAnalyzer on: self currentClass)\x0a\x09\x09thePackage: self currentPackage;\x0a\x09\x09yourself",
+referencedClasses: ["SemanticAnalyzer"],
+messageSends: ["thePackage:", "on:", "currentClass", "currentPackage", "yourself"]
 }),
 $globals.CodeGenerator);
 
 $core.addMethod(
 $core.method({
-selector: "semanticAnalyzerClass",
+selector: "transformersDictionary",
 protocol: 'compiling',
 fn: function (){
 var self=this;
-return $globals.SemanticAnalyzer;
-
+return $core.withContext(function($ctx1) {
+var $1;
+$1=$recv($globals.Dictionary)._new();
+$recv($1)._at_put_("2000-semantic",self._semanticAnalyzer());
+$ctx1.sendIdx["at:put:"]=1;
+$recv($1)._at_put_("5000-astToIr",self._translator());
+$ctx1.sendIdx["at:put:"]=2;
+$recv($1)._at_put_("8000-irToJs",self._irTranslator());
+return $recv($1)._yourself();
+}, function($ctx1) {$ctx1.fill(self,"transformersDictionary",{},$globals.CodeGenerator)});
 },
 args: [],
-source: "semanticAnalyzerClass\x0a\x09^ SemanticAnalyzer",
-referencedClasses: ["SemanticAnalyzer"],
-messageSends: []
+source: "transformersDictionary\x0a\x09^ Dictionary new\x0a\x09\x09at: '2000-semantic' put: self semanticAnalyzer;\x0a\x09\x09at: '5000-astToIr' put: self translator;\x0a\x09\x09at: '8000-irToJs' put: self irTranslator;\x0a\x09\x09yourself",
+referencedClasses: ["Dictionary"],
+messageSends: ["at:put:", "new", "semanticAnalyzer", "translator", "irTranslator", "yourself"]
 }),
 $globals.CodeGenerator);
 
@@ -33091,7 +33078,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return $globals.InliningCodeGenerator;
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"codeGeneratorClass",{},$globals.Compiler)});
 },
 args: [],
@@ -33420,7 +33407,7 @@ return self._install_forClass_protocol_($recv(each)._source(),aClass,$recv(each)
 $1=$recv(aClass)._isMetaclass();
 if(!$core.assert($1)){
 self._recompile_($recv(aClass)._class());
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"recompile:",{aClass:aClass},$globals.Compiler)});
 },
@@ -33466,7 +33453,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return "";
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"source",{},$globals.Compiler)});
 },
 args: [],
@@ -33695,7 +33682,7 @@ if($core.assert($1)){
 return self.__comma("_");
 } else {
 return self;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"asVariableName",{},$globals.String)});
 },
 args: [],
@@ -33984,7 +33971,7 @@ return $1;
 var node;
 node=$receiver;
 return $recv(node)._method();
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"method",{},$globals.ASTNode)});
 },
 args: [],
@@ -34089,10 +34076,10 @@ return $2;
 var node;
 node=$receiver;
 return $recv(node)._position();
-};
+}
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"position",{},$globals.ASTNode)});
 },
 args: [],
@@ -34201,7 +34188,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return false;
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"shouldBeAliased",{},$globals.ASTNode)});
 },
 args: [],
@@ -34258,7 +34245,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return "";
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"source",{},$globals.ASTNode)});
 },
 args: [],
@@ -34282,6 +34269,34 @@ args: ["aString"],
 source: "source: aString\x0a\x09source := aString",
 referencedClasses: [],
 messageSends: []
+}),
+$globals.ASTNode);
+
+$core.addMethod(
+$core.method({
+selector: "withTail:",
+protocol: 'building',
+fn: function (aCollection){
+var self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+return $recv(aCollection)._inject_into_(self,(function(receiver,send){
+return $core.withContext(function($ctx2) {
+$1=$recv($globals.SendNode)._new();
+$recv($1)._position_($recv(send)._position());
+$recv($1)._source_($recv(send)._source());
+$recv($1)._receiver_(receiver);
+$recv($1)._selector_($recv(send)._selector());
+$recv($1)._arguments_($recv(send)._arguments());
+return $recv($1)._yourself();
+}, function($ctx2) {$ctx2.fillBlock({receiver:receiver,send:send},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"withTail:",{aCollection:aCollection},$globals.ASTNode)});
+},
+args: ["aCollection"],
+source: "withTail: aCollection\x0a\x09^ aCollection inject: self into: [\x0a\x09\x09:receiver :send | SendNode new\x0a\x09\x09\x09position: send position;\x0a\x09\x09\x09source: send source;\x0a\x09\x09\x09receiver: receiver;\x0a\x09\x09\x09selector: send selector;\x0a\x09\x09\x09arguments: send arguments;\x0a\x09\x09\x09yourself ]",
+referencedClasses: ["SendNode"],
+messageSends: ["inject:into:", "position:", "new", "position", "source:", "source", "receiver:", "selector:", "selector", "arguments:", "arguments", "yourself"]
 }),
 $globals.ASTNode);
 
@@ -34456,7 +34471,7 @@ self["@parameters"]=$recv($globals.Array)._new();
 return self["@parameters"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"parameters",{},$globals.BlockNode)});
 },
 args: [],
@@ -34715,7 +34730,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return [];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"arguments",{},$globals.MethodNode)});
 },
 args: [],
@@ -34922,7 +34937,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(each)._isSequenceNode();
 if($core.assert($1)){
 throw $early=[each];
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 return nil;
@@ -35092,7 +35107,7 @@ self["@arguments"]=[];
 return self["@arguments"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"arguments",{},$globals.SendNode)});
 },
 args: [],
@@ -35135,7 +35150,7 @@ $ctx1.sendIdx["arguments"]=1;
 return $recv($2)._copy();
 } else {
 $1;
-};
+}
 $3=$recv($globals.Array)._with_(self._receiver());
 $recv($3)._addAll_(self._arguments());
 return $recv($3)._yourself();
@@ -35325,7 +35340,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return false;
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"shouldBeInlined",{},$globals.SendNode)});
 },
 args: [],
@@ -35374,37 +35389,6 @@ args: [],
 source: "superSend\x0a\x09^ self receiver notNil and: [ self receiver isSuperKeyword ]",
 referencedClasses: [],
 messageSends: ["and:", "notNil", "receiver", "isSuperKeyword"]
-}),
-$globals.SendNode);
-
-$core.addMethod(
-$core.method({
-selector: "valueForReceiver:",
-protocol: 'building',
-fn: function (anObject){
-var self=this;
-return $core.withContext(function($ctx1) {
-var $1,$3,$2,$receiver;
-$1=$recv($globals.SendNode)._new();
-$recv($1)._position_(self._position());
-$recv($1)._source_(self._source());
-$3=self._receiver();
-$ctx1.sendIdx["receiver"]=1;
-if(($receiver = $3) == null || $receiver.isNil){
-$2=anObject;
-} else {
-$2=$recv(self._receiver())._valueForReceiver_(anObject);
-};
-$recv($1)._receiver_($2);
-$recv($1)._selector_(self._selector());
-$recv($1)._arguments_(self._arguments());
-return $recv($1)._yourself();
-}, function($ctx1) {$ctx1.fill(self,"valueForReceiver:",{anObject:anObject},$globals.SendNode)});
-},
-args: ["anObject"],
-source: "valueForReceiver: anObject\x0a\x09^ SendNode new\x0a\x09\x09position: self position;\x0a\x09\x09source: self source;\x0a\x09\x09receiver: (self receiver\x0a\x09\x09ifNil: [ anObject ] \x0a\x09\x09ifNotNil: [ self receiver valueForReceiver: anObject ]);\x0a\x09\x09selector: self selector;\x0a\x09\x09arguments: self arguments;\x0a\x09\x09yourself",
-referencedClasses: ["SendNode"],
-messageSends: ["position:", "new", "position", "source:", "source", "receiver:", "ifNil:ifNotNil:", "receiver", "valueForReceiver:", "selector:", "selector", "arguments:", "arguments", "yourself"]
 }),
 $globals.SendNode);
 
@@ -35514,7 +35498,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return [];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"temps",{},$globals.SequenceNode)});
 },
 args: [],
@@ -35716,7 +35700,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return false;
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"assigned",{},$globals.VariableNode)});
 },
 args: [],
@@ -36301,7 +36285,7 @@ self["@args"]=$recv($globals.Dictionary)._new();
 return self["@args"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"args",{},$globals.LexicalScope)});
 },
 args: [],
@@ -36362,7 +36346,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return (0);
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"blockIndex",{},$globals.LexicalScope)});
 },
 args: [],
@@ -36519,11 +36503,11 @@ if(($receiver = $2) == null || $receiver.isNil){
 lookup=$2;
 } else {
 lookup=$recv(self._outerScope())._lookupVariable_(aNode);
-};
+}
 lookup;
 } else {
 $1;
-};
+}
 return lookup;
 }, function($ctx1) {$ctx1.fill(self,"lookupVariable:",{aNode:aNode,lookup:lookup},$globals.LexicalScope)});
 },
@@ -36548,7 +36532,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return $1;
 } else {
 return $recv(self._outerScope())._methodScope();
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"methodScope",{},$globals.LexicalScope)});
 },
 args: [],
@@ -36655,7 +36639,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return (1);
 } else {
 $1;
-};
+}
 $2=self._isInlined();
 if($core.assert($2)){
 $4=self._outerScope();
@@ -36663,7 +36647,7 @@ $ctx1.sendIdx["outerScope"]=2;
 $3=$recv($4)._scopeLevel();
 $ctx1.sendIdx["scopeLevel"]=1;
 return $3;
-};
+}
 return $recv($recv(self._outerScope())._scopeLevel()).__plus((1));
 }, function($ctx1) {$ctx1.fill(self,"scopeLevel",{},$globals.LexicalScope)});
 },
@@ -36688,7 +36672,7 @@ self["@temps"]=$recv($globals.Dictionary)._new();
 return self["@temps"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"temps",{},$globals.LexicalScope)});
 },
 args: [],
@@ -36783,7 +36767,7 @@ return nil;
 }));
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"bindingFor:",{aNode:aNode},$globals.MethodLexicalScope)});
 },
 args: ["aNode"],
@@ -36857,7 +36841,7 @@ self["@iVars"]=$recv($globals.Dictionary)._new();
 return self["@iVars"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"iVars",{},$globals.MethodLexicalScope)});
 },
 args: [],
@@ -36896,7 +36880,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return false;
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"localReturn",{},$globals.MethodLexicalScope)});
 },
 args: [],
@@ -36953,7 +36937,7 @@ self["@nonLocalReturns"]=$recv($globals.OrderedCollection)._new();
 return self["@nonLocalReturns"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"nonLocalReturns",{},$globals.MethodLexicalScope)});
 },
 args: [],
@@ -36986,7 +36970,7 @@ return $recv($2)._at_put_(each,$3);
 }));
 } else {
 $1;
-};
+}
 return self["@pseudoVars"];
 }, function($ctx1) {$ctx1.fill(self,"pseudoVars",{},$globals.MethodLexicalScope)});
 },
@@ -37031,7 +37015,7 @@ self["@unknownVariables"]=$recv($globals.OrderedCollection)._new();
 return self["@unknownVariables"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"unknownVariables",{},$globals.MethodLexicalScope)});
 },
 args: [],
@@ -37257,7 +37241,7 @@ if($core.assert($1)){
 $2=$recv($globals.InvalidAssignmentError)._new();
 $recv($2)._variableName_(self._name());
 $recv($2)._signal();
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"validateAssignment",{},$globals.ScopeVar)});
 },
@@ -37581,7 +37565,7 @@ self["@classReferences"]=$recv($globals.Set)._new();
 return self["@classReferences"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"classReferences",{},$globals.SemanticAnalyzer)});
 },
 args: [],
@@ -37636,7 +37620,7 @@ $recv($2)._variableName_($3);
 $recv($2)._signal();
 } else {
 $recv($recv($recv(self["@currentScope"])._methodScope())._unknownVariables())._add_($recv(aNode)._value());
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"errorUnknownVariable:",{aNode:aNode,identifier:identifier},$globals.SemanticAnalyzer)});
 },
@@ -37664,8 +37648,8 @@ packageKnownVars;
 $1=$recv(packageKnownVars)._includes_(aString);
 if($core.assert($1)){
 return false;
-};
-};
+}
+}
 $2=$recv($globals.Compiler)._new();
 $3=$recv("typeof ".__comma(aString)).__comma(" == \x22undefined\x22");
 $ctx1.sendIdx[","]=1;
@@ -37693,7 +37677,7 @@ self["@messageSends"]=$recv($globals.Dictionary)._new();
 return self["@messageSends"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"messageSends",{},$globals.SemanticAnalyzer)});
 },
 args: [],
@@ -37771,7 +37755,7 @@ self["@blockIndex"]=(0);
 self["@blockIndex"];
 } else {
 $1;
-};
+}
 self["@blockIndex"]=$recv(self["@blockIndex"]).__plus((1));
 return self["@blockIndex"];
 }, function($ctx1) {$ctx1.fill(self,"nextBlockIndex",{},$globals.SemanticAnalyzer)});
@@ -37797,7 +37781,7 @@ $1;
 } else {
 self["@currentScope"]=$recv(self["@currentScope"])._outerScope();
 self["@currentScope"];
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"popScope",{},$globals.SemanticAnalyzer)});
 },
@@ -37906,7 +37890,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 $1;
 } else {
 self._errorShadowingVariable_(aString);
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"validateVariableScope:",{aString:aString},$globals.SemanticAnalyzer)});
 },
@@ -38022,11 +38006,11 @@ $ctx1.supercall = false;
 $recv(aNode)._classReferences_(self._classReferences());
 $recv(aNode)._sendIndexes_(self._messageSends());
 self._popScope();
-return self;
+return aNode;
 }, function($ctx1) {$ctx1.fill(self,"visitMethodNode:",{aNode:aNode},$globals.SemanticAnalyzer)});
 },
 args: ["aNode"],
-source: "visitMethodNode: aNode\x0a\x09self pushScope: self newMethodScope.\x0a\x09aNode scope: currentScope.\x0a\x09currentScope node: aNode.\x0a\x0a\x09self theClass allInstanceVariableNames do: [ :each |\x0a\x09\x09currentScope addIVar: each ].\x0a\x09aNode arguments do: [ :each |\x0a\x09\x09self validateVariableScope: each.\x0a\x09\x09currentScope addArg: each ].\x0a\x0a\x09super visitMethodNode: aNode.\x0a\x0a\x09aNode\x0a\x09\x09classReferences: self classReferences;\x0a\x09\x09sendIndexes: self messageSends.\x0a\x09self popScope",
+source: "visitMethodNode: aNode\x0a\x09self pushScope: self newMethodScope.\x0a\x09aNode scope: currentScope.\x0a\x09currentScope node: aNode.\x0a\x0a\x09self theClass allInstanceVariableNames do: [ :each |\x0a\x09\x09currentScope addIVar: each ].\x0a\x09aNode arguments do: [ :each |\x0a\x09\x09self validateVariableScope: each.\x0a\x09\x09currentScope addArg: each ].\x0a\x0a\x09super visitMethodNode: aNode.\x0a\x0a\x09aNode\x0a\x09\x09classReferences: self classReferences;\x0a\x09\x09sendIndexes: self messageSends.\x0a\x09self popScope.\x0a\x09^ aNode",
 referencedClasses: [],
 messageSends: ["pushScope:", "newMethodScope", "scope:", "node:", "do:", "allInstanceVariableNames", "theClass", "addIVar:", "arguments", "validateVariableScope:", "addArg:", "visitMethodNode:", "classReferences:", "classReferences", "sendIndexes:", "messageSends", "popScope"]
 }),
@@ -38046,7 +38030,7 @@ if($core.assert($1)){
 $recv(self["@currentScope"])._localReturn_(true);
 } else {
 $recv($recv(self["@currentScope"])._methodScope())._addNonLocalReturn_(self["@currentScope"]);
-};
+}
 (
 $ctx1.supercall = true,
 ($globals.SemanticAnalyzer.superclass||$boot.nilAsClass).fn.prototype._visitReturnNode_.apply($recv(self), [aNode]));
@@ -38153,10 +38137,10 @@ $9=$recv($globals.UnknownVar)._new();
 $recv($9)._name_($recv(aNode)._value());
 binding=$recv($9)._yourself();
 binding;
-};
+}
 } else {
 $1;
-};
+}
 $recv(aNode)._binding_(binding);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitVariableNode:",{aNode:aNode,binding:binding},$globals.SemanticAnalyzer)});
@@ -38387,7 +38371,7 @@ if($core.assert($1)){
 $2=self._visit_(aNode);
 $ctx1.sendIdx["visit:"]=1;
 return $2;
-};
+}
 $3=$recv($globals.IRVariable)._new();
 $ctx1.sendIdx["new"]=1;
 $5=$recv($globals.AliasVar)._new();
@@ -38433,7 +38417,7 @@ $1=$recv(each)._subtreeNeedsAliasing();
 if($core.assert($1)){
 threshold=i;
 return threshold;
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each,i:i},$ctx1,1)});
 }));
 $ctx1.sendIdx["withIndexDo:"]=1;
@@ -38446,7 +38430,7 @@ if($core.assert($4)){
 $3=self._alias_(each);
 } else {
 $3=self._visit_(each);
-};
+}
 return $recv($2)._add_($3);
 }, function($ctx2) {$ctx2.fillBlock({each:each,i:i},$ctx1,3)});
 }));
@@ -38507,7 +38491,7 @@ self["@nextAlias"]=(0);
 self["@nextAlias"];
 } else {
 $1;
-};
+}
 self["@nextAlias"]=$recv(self["@nextAlias"]).__plus((1));
 return $recv(self["@nextAlias"])._asString();
 }, function($ctx1) {$ctx1.fill(self,"nextAlias",{},$globals.IRASTTranslator)});
@@ -38749,7 +38733,7 @@ $ctx3.sendIdx["add:"]=3;
 $11=$recv($12)._yourself();
 return $recv($10)._add_($11);
 $ctx3.sendIdx["add:"]=2;
-};
+}
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 }));
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -38780,7 +38764,7 @@ alias=self._alias_(receiver);
 alias;
 receiver=$recv($recv($globals.VariableNode)._new())._binding_($recv(alias)._variable());
 receiver;
-};
+}
 $2=$recv(aNode)._dagChildren();
 $ctx1.sendIdx["dagChildren"]=1;
 $recv($2)._do_((function(each){
@@ -38955,7 +38939,7 @@ $23=$recv($globals.IRVerbatim)._new();
 $recv($23)._source_("");
 $22=$recv($23)._yourself();
 $recv($15)._add_($22);
-};
+}
 return self._method();
 }, function($ctx1) {$ctx1.fill(self,"visitMethodNode:",{aNode:aNode},$globals.IRASTTranslator)});
 },
@@ -38979,7 +38963,7 @@ if($core.assert($1)){
 return self._alias_(aNode);
 } else {
 return self._visit_(aNode);
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"visitOrAlias:",{aNode:aNode},$globals.IRASTTranslator)});
 },
 args: ["aNode"],
@@ -39004,7 +38988,7 @@ return_=$recv($globals.IRNonLocalReturn)._new();
 $ctx1.sendIdx["new"]=1;
 } else {
 return_=$recv($globals.IRReturn)._new();
-};
+}
 $recv(return_)._scope_($recv(aNode)._scope());
 $recv($recv(aNode)._dagChildren())._do_((function(each){
 return $core.withContext(function($ctx2) {
@@ -39067,7 +39051,7 @@ instruction;
 $1=$recv(instruction)._isVariable();
 if(!$core.assert($1)){
 return $recv(self._sequence())._add_(instruction);
-};
+}
 }, function($ctx3) {$ctx3.fillBlock({each:each,instruction:instruction},$ctx2,2)});
 }));
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -39417,7 +39401,7 @@ return $1;
 var node;
 node=$receiver;
 return $recv(node)._scope();
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"scope",{},$globals.IRInstruction)});
 },
 args: [],
@@ -39609,7 +39593,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return [];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"arguments",{},$globals.IRClosureInstruction)});
 },
 args: [],
@@ -39673,7 +39657,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return false;
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"requiresSmalltalkContext",{},$globals.IRClosureInstruction)});
 },
 args: [],
@@ -39864,7 +39848,7 @@ self["@internalVariables"]=$recv($globals.Set)._new();
 return self["@internalVariables"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"internalVariables",{},$globals.IRMethod)});
 },
 args: [],
@@ -40106,7 +40090,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return $recv(self._parent())._scope();
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"scope",{},$globals.IRReturn)});
 },
 args: [],
@@ -41262,20 +41246,20 @@ return (
 $ctx4.supercall = true,
 ($globals.IRJSTranslator.superclass||$boot.nilAsClass).fn.prototype._visitIRMethod_.apply($recv(self), [anIRMethod]));
 $ctx4.supercall = false;
-};
+}
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
 }));
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 }),$recv(anIRMethod)._arguments());
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
-return self;
+return self._contents();
 }, function($ctx1) {$ctx1.fill(self,"visitIRMethod:",{anIRMethod:anIRMethod},$globals.IRJSTranslator)});
 },
 args: ["anIRMethod"],
-source: "visitIRMethod: anIRMethod\x0a\x0a\x09self stream\x0a\x09\x09nextPutMethodDeclaration: anIRMethod\x0a\x09\x09with: [ self stream\x0a\x09\x09\x09nextPutFunctionWith: [\x0a\x09\x09\x09\x09self stream nextPutVars: (anIRMethod tempDeclarations collect: [ :each |\x0a\x09\x09\x09\x09\x09each name asVariableName ]).\x0a\x09\x09\x09\x09self stream nextPutContextFor: anIRMethod during: [\x0a\x09\x09\x09\x09\x09anIRMethod internalVariables ifNotEmpty: [ :internalVars |\x0a\x09\x09\x09\x09\x09\x09self stream nextPutVars: \x0a\x09\x09\x09\x09\x09\x09\x09(internalVars asSet collect: [ :each | each variable alias ]) ].\x0a\x09\x09\x09\x09anIRMethod scope hasNonLocalReturn\x0a\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09self stream nextPutNonLocalReturnHandlingWith: [\x0a\x09\x09\x09\x09\x09\x09\x09super visitIRMethod: anIRMethod ] ]\x0a\x09\x09\x09\x09\x09ifFalse: [ super visitIRMethod: anIRMethod ] ]]\x0a\x09\x09\x09arguments: anIRMethod arguments ]",
+source: "visitIRMethod: anIRMethod\x0a\x0a\x09self stream\x0a\x09\x09nextPutMethodDeclaration: anIRMethod\x0a\x09\x09with: [ self stream\x0a\x09\x09\x09nextPutFunctionWith: [\x0a\x09\x09\x09\x09self stream nextPutVars: (anIRMethod tempDeclarations collect: [ :each |\x0a\x09\x09\x09\x09\x09each name asVariableName ]).\x0a\x09\x09\x09\x09self stream nextPutContextFor: anIRMethod during: [\x0a\x09\x09\x09\x09\x09anIRMethod internalVariables ifNotEmpty: [ :internalVars |\x0a\x09\x09\x09\x09\x09\x09self stream nextPutVars: \x0a\x09\x09\x09\x09\x09\x09\x09(internalVars asSet collect: [ :each | each variable alias ]) ].\x0a\x09\x09\x09\x09anIRMethod scope hasNonLocalReturn\x0a\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09self stream nextPutNonLocalReturnHandlingWith: [\x0a\x09\x09\x09\x09\x09\x09\x09super visitIRMethod: anIRMethod ] ]\x0a\x09\x09\x09\x09\x09ifFalse: [ super visitIRMethod: anIRMethod ] ]]\x0a\x09\x09\x09arguments: anIRMethod arguments ].\x0a\x09^ self contents",
 referencedClasses: [],
-messageSends: ["nextPutMethodDeclaration:with:", "stream", "nextPutFunctionWith:arguments:", "nextPutVars:", "collect:", "tempDeclarations", "asVariableName", "name", "nextPutContextFor:during:", "ifNotEmpty:", "internalVariables", "asSet", "alias", "variable", "ifTrue:ifFalse:", "hasNonLocalReturn", "scope", "nextPutNonLocalReturnHandlingWith:", "visitIRMethod:", "arguments"]
+messageSends: ["nextPutMethodDeclaration:with:", "stream", "nextPutFunctionWith:arguments:", "nextPutVars:", "collect:", "tempDeclarations", "asVariableName", "name", "nextPutContextFor:during:", "ifNotEmpty:", "internalVariables", "asSet", "alias", "variable", "ifTrue:ifFalse:", "hasNonLocalReturn", "scope", "nextPutNonLocalReturnHandlingWith:", "visitIRMethod:", "arguments", "contents"]
 }),
 $globals.IRJSTranslator);
 
@@ -41344,11 +41328,11 @@ if($core.assert($1)){
 self._visitSuperSend_(anIRSend);
 } else {
 self._visitSend_(anIRSend);
-};
+}
 $2=$recv($recv(anIRSend)._index()).__lt(sends);
 if($core.assert($2)){
 $recv(self._stream())._nextPutSendIndexFor_(anIRSend);
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRSend:",{anIRSend:anIRSend,sends:sends,superclass:superclass},$globals.IRJSTranslator)});
 },
@@ -41366,25 +41350,22 @@ protocol: 'visiting',
 fn: function (anIRSequence){
 var self=this;
 return $core.withContext(function($ctx1) {
-var $1;
-$1=self._stream();
-$ctx1.sendIdx["stream"]=1;
-$recv($1)._nextPutSequenceWith_((function(){
+$recv($recv(anIRSequence)._dagChildren())._do_((function(each){
 return $core.withContext(function($ctx2) {
-return $recv($recv(anIRSequence)._dagChildren())._do_((function(each){
+return $recv(self._stream())._nextPutStatementWith_((function(){
 return $core.withContext(function($ctx3) {
-return $recv(self._stream())._nextPutStatementWith_(self._visit_(each));
-}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
+return self._visit_(each);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 }));
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRSequence:",{anIRSequence:anIRSequence},$globals.IRJSTranslator)});
 },
 args: ["anIRSequence"],
-source: "visitIRSequence: anIRSequence\x0a\x09self stream nextPutSequenceWith: [\x0a\x09\x09anIRSequence dagChildren do: [ :each |\x0a\x09\x09\x09self stream nextPutStatementWith: (self visit: each) ] ]",
+source: "visitIRSequence: anIRSequence\x0a\x09anIRSequence dagChildren do: [ :each |\x0a\x09\x09self stream nextPutStatementWith: [ self visit: each ] ]",
 referencedClasses: [],
-messageSends: ["nextPutSequenceWith:", "stream", "do:", "dagChildren", "nextPutStatementWith:", "visit:"]
+messageSends: ["do:", "dagChildren", "nextPutStatementWith:", "stream", "visit:"]
 }),
 $globals.IRJSTranslator);
 
@@ -41441,7 +41422,7 @@ $recv($4)._nextPutAll_("$core.getThisContext()");
 $ctx1.sendIdx["nextPutAll:"]=1;
 } else {
 $recv(self._stream())._nextPutAll_($recv($recv(anIRVariable)._variable())._alias());
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRVariable:",{anIRVariable:anIRVariable},$globals.IRJSTranslator)});
 },
@@ -41523,7 +41504,7 @@ if(!$core.assert($1)){
 $2=self._visit_(anIRInstruction);
 $ctx1.sendIdx["visit:"]=1;
 return $2;
-};
+}
 $3=self._stream();
 $ctx1.sendIdx["stream"]=1;
 $recv($3)._nextPutAll_("$recv(");
@@ -41630,7 +41611,7 @@ $globals.IRJSTranslator);
 
 
 
-$core.addClass('JSStream', $globals.Object, ['stream'], 'Compiler-IR');
+$core.addClass('JSStream', $globals.Object, ['stream', 'omitSemicolon'], 'Compiler-IR');
 $core.addMethod(
 $core.method({
 selector: "contents",
@@ -41758,7 +41739,7 @@ if(!$core.assert($1)){
 $2=$recv(aBlock)._value();
 $ctx1.sendIdx["value"]=1;
 return $2;
-};
+}
 self._nextPutAll_("//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);");
 $ctx1.sendIdx["nextPutAll:"]=1;
 self._lf();
@@ -41897,7 +41878,7 @@ if(!$core.assert($1)){
 $2=$recv(aBlock)._value();
 $ctx1.sendIdx["value"]=1;
 return $2;
-};
+}
 self._nextPutAll_("//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);");
 $ctx1.sendIdx["nextPutAll:"]=1;
 self._lf();
@@ -42040,13 +42021,14 @@ $ctx1.sendIdx["nextPutAll:"]=2;
 $recv($1)._lf();
 $recv(anotherBlock)._value();
 $recv(self["@stream"])._nextPutAll_("}");
+self._omitSemicolon_(true);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"nextPutIf:then:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.JSStream)});
 },
 args: ["aBlock", "anotherBlock"],
-source: "nextPutIf: aBlock then: anotherBlock\x0a\x09stream nextPutAll: 'if('.\x0a\x09aBlock value.\x0a\x09stream nextPutAll: '){'; lf.\x0a\x09anotherBlock value.\x0a\x09stream nextPutAll: '}'",
+source: "nextPutIf: aBlock then: anotherBlock\x0a\x09stream nextPutAll: 'if('.\x0a\x09aBlock value.\x0a\x09stream nextPutAll: '){'; lf.\x0a\x09anotherBlock value.\x0a\x09stream nextPutAll: '}'.\x0a\x09self omitSemicolon: true",
 referencedClasses: [],
-messageSends: ["nextPutAll:", "value", "lf"]
+messageSends: ["nextPutAll:", "value", "lf", "omitSemicolon:"]
 }),
 $globals.JSStream);
 
@@ -42075,13 +42057,14 @@ $ctx1.sendIdx["nextPutAll:"]=3;
 $recv($3)._lf();
 $recv(elseBlock)._value();
 $recv(self["@stream"])._nextPutAll_("}");
+self._omitSemicolon_(true);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"nextPutIf:then:else:",{aBlock:aBlock,ifBlock:ifBlock,elseBlock:elseBlock},$globals.JSStream)});
 },
 args: ["aBlock", "ifBlock", "elseBlock"],
-source: "nextPutIf: aBlock then: ifBlock else: elseBlock\x0a\x09stream nextPutAll: 'if('.\x0a\x09aBlock value.\x0a\x09stream nextPutAll: '){'; lf.\x0a\x09ifBlock value.\x0a\x09stream nextPutAll: '} else {'; lf.\x0a\x09elseBlock value.\x0a\x09stream nextPutAll: '}'",
+source: "nextPutIf: aBlock then: ifBlock else: elseBlock\x0a\x09stream nextPutAll: 'if('.\x0a\x09aBlock value.\x0a\x09stream nextPutAll: '){'; lf.\x0a\x09ifBlock value.\x0a\x09stream nextPutAll: '} else {'; lf.\x0a\x09elseBlock value.\x0a\x09stream nextPutAll: '}'.\x0a\x09self omitSemicolon: true",
 referencedClasses: [],
-messageSends: ["nextPutAll:", "value", "lf"]
+messageSends: ["nextPutAll:", "value", "lf", "omitSemicolon:"]
 }),
 $globals.JSStream);
 
@@ -42294,41 +42277,28 @@ $globals.JSStream);
 
 $core.addMethod(
 $core.method({
-selector: "nextPutSequenceWith:",
-protocol: 'streaming',
-fn: function (aBlock){
-var self=this;
-return $core.withContext(function($ctx1) {
-$recv(aBlock)._value();
-return self;
-}, function($ctx1) {$ctx1.fill(self,"nextPutSequenceWith:",{aBlock:aBlock},$globals.JSStream)});
-},
-args: ["aBlock"],
-source: "nextPutSequenceWith: aBlock\x0a\x09\x22stream\x0a\x09\x09nextPutAll: 'switch($core.thisContext.pc){'; lf.\x22\x0a\x09aBlock value.\x0a\x09\x22stream\x0a\x09\x09nextPutAll: '};'; lf\x22",
-referencedClasses: [],
-messageSends: ["value"]
-}),
-$globals.JSStream);
-
-$core.addMethod(
-$core.method({
 selector: "nextPutStatementWith:",
 protocol: 'streaming',
 fn: function (aBlock){
 var self=this;
 return $core.withContext(function($ctx1) {
 var $1;
+self._omitSemicolon_(false);
+$ctx1.sendIdx["omitSemicolon:"]=1;
 $recv(aBlock)._value();
-$1=self["@stream"];
-$recv($1)._nextPutAll_(";");
-$recv($1)._lf();
+$1=self._omitSemicolon();
+if(!$core.assert($1)){
+$recv(self["@stream"])._nextPutAll_(";");
+}
+self._omitSemicolon_(false);
+$recv(self["@stream"])._lf();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"nextPutStatementWith:",{aBlock:aBlock},$globals.JSStream)});
 },
 args: ["aBlock"],
-source: "nextPutStatementWith: aBlock\x0a\x09aBlock value.\x0a\x09stream nextPutAll: ';'; lf",
+source: "nextPutStatementWith: aBlock\x0a\x09self omitSemicolon: false.\x0a\x09aBlock value.\x0a\x09self omitSemicolon ifFalse: [ stream nextPutAll: ';' ].\x0a\x09self omitSemicolon: false.\x0a\x09stream lf",
 referencedClasses: [],
-messageSends: ["value", "nextPutAll:", "lf"]
+messageSends: ["omitSemicolon:", "value", "ifFalse:", "omitSemicolon", "nextPutAll:", "lf"]
 }),
 $globals.JSStream);
 
@@ -42367,6 +42337,39 @@ args: ["aCollection"],
 source: "nextPutVars: aCollection\x0a\x09aCollection ifNotEmpty: [\x0a\x09\x09stream nextPutAll: 'var '.\x0a\x09\x09aCollection\x0a\x09\x09\x09do: [ :each | stream nextPutAll: each ]\x0a\x09\x09\x09separatedBy: [ stream nextPutAll: ',' ].\x0a\x09\x09stream nextPutAll: ';'; lf ]",
 referencedClasses: [],
 messageSends: ["ifNotEmpty:", "nextPutAll:", "do:separatedBy:", "lf"]
+}),
+$globals.JSStream);
+
+$core.addMethod(
+$core.method({
+selector: "omitSemicolon",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return self["@omitSemicolon"];
+
+},
+args: [],
+source: "omitSemicolon\x0a\x09^ omitSemicolon",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.JSStream);
+
+$core.addMethod(
+$core.method({
+selector: "omitSemicolon:",
+protocol: 'accessing',
+fn: function (aBoolean){
+var self=this;
+self["@omitSemicolon"]=aBoolean;
+return self;
+
+},
+args: ["aBoolean"],
+source: "omitSemicolon: aBoolean\x0a\x09omitSemicolon := aBoolean",
+referencedClasses: [],
+messageSends: []
 }),
 $globals.JSStream);
 
@@ -42564,13 +42567,53 @@ $globals.SendNode);
 
 });
 
-define('amber_core/Compiler-Inlining',["amber/boot", "amber_core/Compiler-Core", "amber_core/Compiler-IR", "amber_core/Compiler-Semantic", "amber_core/Kernel-Objects"], function($boot){"use strict";
+define('amber_core/Compiler-Inlining',["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Core", "amber_core/Compiler-IR", "amber_core/Compiler-Semantic", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage('Compiler-Inlining');
 $core.packages["Compiler-Inlining"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-Inlining"].transport = {"type":"amd","amdNamespace":"amber_core"};
+
+$core.addClass('ASTPreInliner', $globals.NodeVisitor, [], 'Compiler-Inlining');
+$core.addMethod(
+$core.method({
+selector: "visitSendNode:",
+protocol: 'visiting',
+fn: function (aNode){
+var self=this;
+return $core.withContext(function($ctx1) {
+var $1,$2,$3,$4,$receiver;
+$1=$recv(aNode)._superSend();
+if(!$core.assert($1)){
+$2=$recv($recv($globals.IRSendInliner)._inlinedSelectors())._includes_($recv(aNode)._selector());
+if($core.assert($2)){
+$recv(aNode)._shouldBeInlined_(true);
+$3=$recv(aNode)._receiver();
+if(($receiver = $3) == null || $receiver.isNil){
+$3;
+} else {
+var receiver;
+receiver=$receiver;
+$recv(receiver)._shouldBeAliased_(true);
+}
+}
+}
+$4=(
+$ctx1.supercall = true,
+($globals.ASTPreInliner.superclass||$boot.nilAsClass).fn.prototype._visitSendNode_.apply($recv(self), [aNode]));
+$ctx1.supercall = false;
+return $4;
+}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode},$globals.ASTPreInliner)});
+},
+args: ["aNode"],
+source: "visitSendNode: aNode\x0a\x0a\x09aNode superSend ifFalse: [ \x0a\x09\x09(IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [\x0a\x09\x09\x09aNode shouldBeInlined: true.\x0a\x09\x09\x09aNode receiver ifNotNil: [ :receiver |\x0a\x09\x09\x09\x09receiver shouldBeAliased: true ] ] ].\x0a\x0a\x09^ super visitSendNode: aNode",
+referencedClasses: ["IRSendInliner"],
+messageSends: ["ifFalse:", "superSend", "ifTrue:", "includes:", "inlinedSelectors", "selector", "shouldBeInlined:", "ifNotNil:", "receiver", "shouldBeAliased:", "visitSendNode:"]
+}),
+$globals.ASTPreInliner);
+
+
 
 $core.addClass('IRInlinedClosure', $globals.IRClosure, [], 'Compiler-Inlining');
 $globals.IRInlinedClosure.comment="I represent an inlined closure instruction.";
@@ -43005,7 +43048,7 @@ return (
 $ctx1.supercall = true,
 ($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRAssignment_.apply($recv(self), [anIRAssignment]));
 $ctx1.supercall = false;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"visitIRAssignment:",{anIRAssignment:anIRAssignment},$globals.IRInliner)});
 },
 args: ["anIRAssignment"],
@@ -43045,7 +43088,7 @@ return $recv(localReturn)._add_(each);
 }));
 $recv(anIRNonLocalReturn)._replaceWith_(localReturn);
 return self._visitIRReturn_(localReturn);
-};
+}
 $7=(
 $ctx1.supercall = true,
 ($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRNonLocalReturn_.apply($recv(self), [anIRNonLocalReturn]));
@@ -43076,7 +43119,7 @@ return (
 $ctx1.supercall = true,
 ($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRReturn_.apply($recv(self), [anIRReturn]));
 $ctx1.supercall = false;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"visitIRReturn:",{anIRReturn:anIRReturn},$globals.IRInliner)});
 },
 args: ["anIRReturn"],
@@ -43102,7 +43145,7 @@ return (
 $ctx1.supercall = true,
 ($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRSend_.apply($recv(self), [anIRSend]));
 $ctx1.supercall = false;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"visitIRSend:",{anIRSend:anIRSend},$globals.IRInliner)});
 },
 args: ["anIRSend"],
@@ -43314,32 +43357,6 @@ args: ["anIRInlinedIfTrueIfFalse"],
 source: "visitIRInlinedIfTrueIfFalse: anIRInlinedIfTrueIfFalse\x0a\x09self stream\x0a\x09\x09nextPutIf: [\x0a\x09\x09\x09self stream nextPutAll: '$core.assert('.\x0a\x09\x09\x09self visit: anIRInlinedIfTrueIfFalse dagChildren first.\x0a\x09\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfTrueIfFalse dagChildren second ]\x0a\x09\x09else: [ self visit: anIRInlinedIfTrueIfFalse dagChildren third ]",
 referencedClasses: [],
 messageSends: ["nextPutIf:then:else:", "stream", "nextPutAll:", "visit:", "first", "dagChildren", "second", "third"]
-}),
-$globals.IRInliningJSTranslator);
-
-$core.addMethod(
-$core.method({
-selector: "visitIRInlinedSequence:",
-protocol: 'visiting',
-fn: function (anIRInlinedSequence){
-var self=this;
-return $core.withContext(function($ctx1) {
-$recv($recv(anIRInlinedSequence)._dagChildren())._do_((function(each){
-return $core.withContext(function($ctx2) {
-return $recv(self._stream())._nextPutStatementWith_((function(){
-return $core.withContext(function($ctx3) {
-return self._visit_(each);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-}));
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-}));
-return self;
-}, function($ctx1) {$ctx1.fill(self,"visitIRInlinedSequence:",{anIRInlinedSequence:anIRInlinedSequence},$globals.IRInliningJSTranslator)});
-},
-args: ["anIRInlinedSequence"],
-source: "visitIRInlinedSequence: anIRInlinedSequence\x0a\x09anIRInlinedSequence dagChildren do: [ :each |\x0a\x09\x09self stream nextPutStatementWith: [ self visit: each ]]",
-referencedClasses: [],
-messageSends: ["do:", "dagChildren", "nextPutStatementWith:", "stream", "visit:"]
 }),
 $globals.IRInliningJSTranslator);
 
@@ -43678,11 +43695,11 @@ $1=$recv(anIRInstruction)._isClosure();
 if(!$core.assert($1)){
 self._inliningError_("Message argument should be a block");
 $ctx1.sendIdx["inliningError:"]=1;
-};
+}
 $2=$recv($recv($recv(anIRInstruction)._arguments())._size()).__eq((0));
 if(!$core.assert($2)){
 self._inliningError_("Inlined block should have zero argument");
-};
+}
 inlinedClosure=$recv(self._translator())._visit_(self._inlineClosure_(anIRInstruction));
 $4=self._send();
 $ctx1.sendIdx["send"]=1;
@@ -43718,11 +43735,11 @@ $ctx1.sendIdx["isClosure"]=1;
 if(!$core.assert($1)){
 self._inliningError_("Message argument should be a block");
 $ctx1.sendIdx["inliningError:"]=1;
-};
+}
 $2=$recv(anotherIRInstruction)._isClosure();
 if(!$core.assert($2)){
 self._inliningError_("Message argument should be a block");
-};
+}
 $3=self._translator();
 $ctx1.sendIdx["translator"]=1;
 $4=self._inlineClosure_(anIRInstruction);
@@ -43881,7 +43898,7 @@ var $1;
 $1=$recv(self._inlinedSelectors())._includes_($recv(anIRSend)._selector());
 if(!$core.assert($1)){
 return false;
-};
+}
 return $recv($recv(anIRSend)._arguments())._allSatisfy_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(each)._isClosure();
@@ -43947,7 +43964,7 @@ $ctx2.sendIdx["add:"]=1;
 $recv($5)._add_($recv(final)._copy());
 $4=$recv($5)._yourself();
 return $recv($2)._replace_with_($3,$4);
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({final:final},$ctx1,1)});
 }));
 return closure;
@@ -44025,7 +44042,7 @@ $5=$recv($globals.IRReturn)._new();
 $recv($5)._add_($recv(final)._copy());
 $4=$recv($5)._yourself();
 return $recv($2)._replace_with_($3,$4);
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({final:final},$ctx1,1)});
 }));
 return closure;
@@ -44061,34 +44078,6 @@ $core.addClass('InliningCodeGenerator', $globals.CodeGenerator, [], 'Compiler-In
 $globals.InliningCodeGenerator.comment="I am a specialized code generator that uses inlining to produce more optimized JavaScript output";
 $core.addMethod(
 $core.method({
-selector: "compileNode:",
-protocol: 'compiling',
-fn: function (aNode){
-var self=this;
-var ir,stream;
-return $core.withContext(function($ctx1) {
-var $1;
-$recv(self._semanticAnalyzer())._visit_(aNode);
-$ctx1.sendIdx["visit:"]=1;
-ir=$recv(self._translator())._visit_(aNode);
-$ctx1.sendIdx["visit:"]=2;
-$recv(self._inliner())._visit_(ir);
-$ctx1.sendIdx["visit:"]=3;
-$1=self._irTranslator();
-$recv($1)._currentClass_(self._currentClass());
-$recv($1)._visit_(ir);
-return $recv($1)._contents();
-}, function($ctx1) {$ctx1.fill(self,"compileNode:",{aNode:aNode,ir:ir,stream:stream},$globals.InliningCodeGenerator)});
-},
-args: ["aNode"],
-source: "compileNode: aNode\x0a\x09| ir stream |\x0a\x0a\x09self semanticAnalyzer visit: aNode.\x0a\x09ir := self translator visit: aNode.\x0a\x09self inliner visit: ir.\x0a\x0a\x09^ self irTranslator\x0a\x09\x09currentClass: self currentClass;\x0a\x09\x09visit: ir;\x0a\x09\x09contents",
-referencedClasses: [],
-messageSends: ["visit:", "semanticAnalyzer", "translator", "inliner", "currentClass:", "irTranslator", "currentClass", "contents"]
-}),
-$globals.InliningCodeGenerator);
-
-$core.addMethod(
-$core.method({
 selector: "inliner",
 protocol: 'compiling',
 fn: function (){
@@ -44106,34 +44095,61 @@ $globals.InliningCodeGenerator);
 
 $core.addMethod(
 $core.method({
-selector: "irTranslator",
+selector: "irTranslatorClass",
+protocol: 'compiling',
+fn: function (){
+var self=this;
+return $globals.IRInliningJSTranslator;
+
+},
+args: [],
+source: "irTranslatorClass\x0a\x09^ IRInliningJSTranslator",
+referencedClasses: ["IRInliningJSTranslator"],
+messageSends: []
+}),
+$globals.InliningCodeGenerator);
+
+$core.addMethod(
+$core.method({
+selector: "preInliner",
 protocol: 'compiling',
 fn: function (){
 var self=this;
 return $core.withContext(function($ctx1) {
-return $recv($globals.IRInliningJSTranslator)._new();
-}, function($ctx1) {$ctx1.fill(self,"irTranslator",{},$globals.InliningCodeGenerator)});
+return $recv($globals.ASTPreInliner)._new();
+}, function($ctx1) {$ctx1.fill(self,"preInliner",{},$globals.InliningCodeGenerator)});
 },
 args: [],
-source: "irTranslator\x0a\x09^ IRInliningJSTranslator new",
-referencedClasses: ["IRInliningJSTranslator"],
+source: "preInliner\x0a\x09^ ASTPreInliner new",
+referencedClasses: ["ASTPreInliner"],
 messageSends: ["new"]
 }),
 $globals.InliningCodeGenerator);
 
 $core.addMethod(
 $core.method({
-selector: "semanticAnalyzerClass",
+selector: "transformersDictionary",
 protocol: 'compiling',
 fn: function (){
 var self=this;
-return $globals.InliningSemanticAnalyzer;
-
+return $core.withContext(function($ctx1) {
+var $1;
+$1=(
+$ctx1.supercall = true,
+($globals.InliningCodeGenerator.superclass||$boot.nilAsClass).fn.prototype._transformersDictionary.apply($recv(self), []));
+$ctx1.supercall = false;
+$recv($1)._at_put_("3000-inlinerTagging",self._preInliner());
+$ctx1.sendIdx["at:put:"]=1;
+$recv($1)._at_put_("6000-inliner",self._inliner());
+$ctx1.sendIdx["at:put:"]=2;
+$recv($1)._at_put_("8000-irToJs",self._irTranslator());
+return $recv($1)._yourself();
+}, function($ctx1) {$ctx1.fill(self,"transformersDictionary",{},$globals.InliningCodeGenerator)});
 },
 args: [],
-source: "semanticAnalyzerClass\x0a\x09^ InliningSemanticAnalyzer",
-referencedClasses: ["InliningSemanticAnalyzer"],
-messageSends: []
+source: "transformersDictionary\x0a\x09^ super transformersDictionary\x0a\x09\x09at: '3000-inlinerTagging' put: self preInliner;\x0a\x09\x09at: '6000-inliner' put: self inliner;\x0a\x09\x09at: '8000-irToJs' put: self irTranslator;\x0a\x09\x09yourself",
+referencedClasses: [],
+messageSends: ["at:put:", "transformersDictionary", "preInliner", "inliner", "irTranslator", "yourself"]
 }),
 $globals.InliningCodeGenerator);
 
@@ -44164,9 +44180,9 @@ $3;
 var receiver;
 receiver=$receiver;
 $recv(receiver)._shouldBeAliased_(true);
-};
-};
-};
+}
+}
+}
 (
 $ctx1.supercall = true,
 ($globals.InliningSemanticAnalyzer.superclass||$boot.nilAsClass).fn.prototype._visitSendNode_.apply($recv(self), [aNode]));
@@ -44512,14 +44528,14 @@ return $2;
 var context;
 context=$receiver;
 return $recv(context)._ast();
-};
-};
+}
+}
 $3=self["@ast"];
 if(($receiver = $3) == null || $receiver.isNil){
 self._initializeAST();
 } else {
 $3;
-};
+}
 return self["@ast"];
 }, function($ctx1) {$ctx1.fill(self,"ast",{},$globals.AIContext)});
 },
@@ -44686,7 +44702,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return (0);
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"index",{},$globals.AIContext)});
 },
 args: [],
@@ -44761,7 +44777,7 @@ if(($receiver = $2) == null || $receiver.isNil){
 $2;
 } else {
 self._outerContext_($recv(self._class())._fromMethodContext_($recv(aMethodContext)._outerContext()));
-};
+}
 $3=$recv(aMethodContext)._locals();
 $ctx1.sendIdx["locals"]=1;
 $recv($3)._keysAndValuesDo_((function(key,value){
@@ -44769,7 +44785,7 @@ return $core.withContext(function($ctx2) {
 return $recv(self._locals())._at_put_(key,value);
 }, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,3)});
 }));
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initializeFromMethodContext:",{aMethodContext:aMethodContext},$globals.AIContext)});
 },
@@ -44796,7 +44812,7 @@ if(($receiver = $2) == null || $receiver.isNil){
 $2;
 } else {
 self._setupInterpreter_(self["@interpreter"]);
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initializeInterpreter",{},$globals.AIContext)});
 },
@@ -44872,7 +44888,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 self._initializeInterpreter();
 } else {
 $1;
-};
+}
 return self["@interpreter"];
 }, function($ctx1) {$ctx1.fill(self,"interpreter",{},$globals.AIContext)});
 },
@@ -44996,7 +45012,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 self._initializeLocals();
 } else {
 $1;
-};
+}
 return self["@locals"];
 }, function($ctx1) {$ctx1.fill(self,"locals",{},$globals.AIContext)});
 },
@@ -45110,7 +45126,7 @@ $1;
 var context;
 context=$receiver;
 $recv(context)._innerContext_(self);
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"outerContext:",{anAIContext:anAIContext},$globals.AIContext)});
 },
@@ -45205,7 +45221,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return $recv($globals.Dictionary)._new();
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"sendIndexes",{},$globals.AIContext)});
 },
 args: [],
@@ -45262,7 +45278,7 @@ return self._defineLocal_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 }));
 $ctx1.sendIdx["do:"]=1;
-};
+}
 $recv(anInterpreter)._node_(currentNode);
 $7=self._innerContext();
 $ctx1.sendIdx["innerContext"]=1;
@@ -45298,7 +45314,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return false;
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"supercall",{},$globals.AIContext)});
 },
 args: [],
@@ -45487,7 +45503,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return true;
 } else {
 $1;
-};
+}
 return $recv($recv(self._interpreter())._atEnd())._and_((function(){
 return $core.withContext(function($ctx2) {
 return $recv(self._context())._isTopContext();
@@ -45550,7 +45566,7 @@ $1;
 var cxt;
 cxt=$receiver;
 $recv(cxt)._innerContext_(nil);
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"flushInnerContexts",{},$globals.ASTDebugger)});
 },
@@ -45576,7 +45592,7 @@ return $1;
 var ctx;
 ctx=$receiver;
 return $recv(ctx)._interpreter();
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"interpreter",{},$globals.ASTDebugger)});
 },
 args: [],
@@ -45617,7 +45633,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return $1;
 } else {
 return $recv(self._interpreter())._node();
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"node",{},$globals.ASTDebugger)});
 },
 args: [],
@@ -45650,14 +45666,14 @@ $4;
 var outerContext;
 outerContext=$receiver;
 self._context_(outerContext);
-};
+}
 $6=self._interpreter();
 $ctx1.sendIdx["interpreter"]=3;
 $5=$recv($6)._atEnd();
 if(!$core.assert($5)){
 $recv(self._interpreter())._skip();
-};
-};
+}
+}
 self._flushInnerContexts();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"onStep",{},$globals.ASTDebugger)});
@@ -45763,7 +45779,7 @@ $recv(self._interpreter())._stepOver();
 $2=self._interpreter();
 $ctx1.sendIdx["interpreter"]=1;
 $recv($2)._skip();
-};
+}
 self._onStep();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"stepOver",{},$globals.ASTDebugger)});
@@ -45945,7 +45961,7 @@ $ctx1.sendIdx["value"]=1;
 $recv($2)._instVarAt_put_($4,anObject);
 } else {
 $recv(self._context())._localAt_put_($recv(aNode)._value(),anObject);
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"assign:to:",{aNode:aNode,anObject:anObject},$globals.ASTInterpreter)});
 },
@@ -45967,7 +45983,7 @@ var $1;
 $1=self["@forceAtEnd"];
 if($core.assert($1)){
 return true;
-};
+}
 return $recv(self._hasReturned())._or_((function(){
 return $core.withContext(function($ctx2) {
 return $recv(self._node())._isNil();
@@ -46093,7 +46109,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return false;
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"hasReturned",{},$globals.ASTInterpreter)});
 },
 args: [],
@@ -46209,8 +46225,8 @@ nextNode=parent;
 var sibling;
 sibling=$receiver;
 nextNode=$recv($recv($globals.ASTEnterNode)._on_(self))._visit_(sibling);
-};
-};
+}
+}
 self._node_(nextNode);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"next",{nd:nd,nextNode:nextNode},$globals.ASTInterpreter)});
@@ -46378,7 +46394,7 @@ if($core.assert($1)){
 return self._returnValue();
 } else {
 return $recv(self._context())._receiver();
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"result",{},$globals.ASTInterpreter)});
 },
 args: [],
@@ -46434,7 +46450,7 @@ var $early={};
 try {
 if(!$core.assert(aBoolean)){
 return $recv(aMessage)._sendTo_(anObject);
-};
+}
 $2=$recv(anObject)._class();
 $ctx1.sendIdx["class"]=1;
 $1=$recv($2)._superclass();
@@ -46445,7 +46461,7 @@ $ctx1.sendIdx["messageNotUnderstood:receiver:"]=1;
 return $3;
 } else {
 $1;
-};
+}
 method=$recv($recv($recv($recv(anObject)._class())._superclass())._methodDictionary())._at_ifAbsent_($recv(aMessage)._selector(),(function(){
 return $core.withContext(function($ctx2) {
 throw $early=[self._messageNotUnderstood_receiver_(aMessage,anObject)];
@@ -46478,7 +46494,7 @@ if($core.assert($1)){
 self["@returned"]=true;
 self["@returned"];
 self._returnValue_($recv($recv(aContext)._interpreter())._returnValue());
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"setNonLocalReturnFromContext:",{aContext:aContext},$globals.ASTInterpreter)});
 },
@@ -46521,7 +46537,7 @@ self["@stack"]=$recv($globals.OrderedCollection)._new();
 return self["@stack"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"stack",{},$globals.ASTInterpreter)});
 },
 args: [],
@@ -46600,7 +46616,7 @@ if(!$core.assert($1)){
 $ctx1.supercall = true,
 ($globals.ASTInterpreter.superclass||$boot.nilAsClass).fn.prototype._visit_.apply($recv(self), [aNode]));
 $ctx1.supercall = false;
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visit:",{aNode:aNode},$globals.ASTInterpreter)});
 },
@@ -46806,7 +46822,7 @@ return $recv($recv(aNode)._isLastChild())._not();
 if(!$core.assert($1)){
 self._pop();
 self._push_(result);
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode,receiver:receiver,args:args,message:message,result:result},$globals.ASTInterpreter)});
 },
@@ -46860,7 +46876,7 @@ $ctx1.sendIdx["at:ifAbsent:"]=1;
 $3=self._push_($4);
 $ctx1.sendIdx["push:"]=1;
 return $3;
-};
+}
 $8=$recv($recv(aNode)._binding())._isInstanceVar();
 if($core.assert($8)){
 $10=self._context();
@@ -46888,10 +46904,10 @@ return $core.withContext(function($ctx3) {
 return $recv($recv($globals.Platform)._globals())._at_($recv(aNode)._value());
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,7)});
 }));
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,5)});
 }));
-};
+}
 self._push_($7);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitVariableNode:",{aNode:aNode},$globals.ASTInterpreter)});
@@ -47025,7 +47041,7 @@ self["@trackedIndex"]=(0);
 return self["@trackedIndex"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"trackedIndex",{},$globals.ASTPCNodeVisitor)});
 },
 args: [],
@@ -47073,9 +47089,9 @@ $3=$recv(self._trackedIndex()).__eq(self._index());
 if($core.assert($3)){
 self["@currentNode"]=aNode;
 self["@currentNode"];
-};
+}
 self._increaseTrackedIndex();
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode},$globals.ASTPCNodeVisitor)});
 },
@@ -47369,7 +47385,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 if(!$core.assert(aBoolean)){
 self._signalFailure_(aString);
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"assert:description:",{aBoolean:aBoolean,aString:aString},$globals.TestCase)});
 },
@@ -47422,7 +47438,7 @@ return $core.withContext(function($ctx2) {
 $1=self._isAsync();
 if($core.assert($1)){
 return $recv(c)._execute_(aBlock);
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 });
 }, function($ctx1) {$ctx1.fill(self,"async:",{aBlock:aBlock,c:c},$globals.TestCase)});
@@ -47480,7 +47496,7 @@ var $1;
 $1=self._isAsync();
 if(!$core.assert($1)){
 self._error_($recv(aString).__comma(" used without prior #timeout:"));
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"errorIfNotAsync:",{aString:aString},$globals.TestCase)});
 },
@@ -47733,7 +47749,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 $1;
 } else {
 $recv(self["@asyncTimeout"])._clearTimeout();
-};
+}
 self["@asyncTimeout"]=(0);
 self["@asyncTimeout"]=$recv(self._async_((function(){
 return $core.withContext(function($ctx2) {
@@ -47764,7 +47780,7 @@ selectors=self._testSelectors();
 $1=self._shouldInheritSelectors();
 if($core.assert($1)){
 $recv(selectors)._addAll_($recv(self._superclass())._allTestSelectors());
-};
+}
 return selectors;
 }, function($ctx1) {$ctx1.fill(self,"allTestSelectors",{selectors:selectors},$globals.TestCase.klass)});
 },
@@ -47936,11 +47952,11 @@ $ctx3.sendIdx["isAsync"]=1;
 }));
 if($core.assert($1)){
 $recv(self["@testCase"])._finished();
-};
+}
 $2=$recv(self["@testCase"])._isAsync();
 if(!$core.assert($2)){
 return $recv(self["@testCase"])._tearDown();
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }));
 return self;
@@ -48042,7 +48058,7 @@ $1=$recv(self["@testCase"])._isAsync();
 if(!$core.assert($1)){
 $recv(self["@result"])._increaseRuns();
 return $recv(self["@finished"])._value();
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
 }));
 return self;
@@ -48278,7 +48294,7 @@ $ctx1.sendIdx["runs"]=1;
 $1=$recv($2).__eq_eq(self._total());
 if(!$core.assert($1)){
 return $recv(aBlock)._value_($recv(self._runs()).__plus((1)));
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"nextRunDo:",{aBlock:aBlock},$globals.TestResult)});
 },
 args: ["aBlock"],
@@ -48486,7 +48502,7 @@ runs;
 $1=$recv(runs).__lt($recv(self["@result"])._total());
 if($core.assert($1)){
 return $recv(self._contextOf_($recv(runs).__plus((1))))._start();
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({runs:runs},$ctx1,1)});
 });
 return self;
@@ -49064,7 +49080,7 @@ if(($receiver = $3) == null || $receiver.isNil){
 return $3;
 } else {
 return $recv($recv(anObject)._class())._removeCompiledMethod_(method);
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
 }));
 return self;
@@ -49543,6 +49559,24 @@ args: [],
 source: "testMessageSends\x0a\x09self should: 'foo ^ 1 asString' return: '1'.\x0a\x0a\x09self should: 'foo ^ 1 + 1' return: 2.\x0a\x09self should: 'foo ^ 1 + 2 * 3' return: 9.\x0a\x0a\x09self should: 'foo ^ 1 to: 3' return: #(1 2 3).\x0a\x09self should: 'foo ^ 1 to: 5 by: 2' return: #(1 3 5)",
 referencedClasses: [],
 messageSends: ["should:return:"]
+}),
+$globals.CodeGeneratorTest);
+
+$core.addMethod(
+$core.method({
+selector: "testMistypedPragmaJSStatement",
+protocol: 'tests',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+self._should_receiver_raise_("foo < inlineJS: 'return 'foo'' >",self["@receiver"],$globals.ParseError);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testMistypedPragmaJSStatement",{},$globals.CodeGeneratorTest)});
+},
+args: [],
+source: "testMistypedPragmaJSStatement\x0a\x09self should: 'foo < inlineJS: ''return ''foo'''' >' receiver: receiver raise: ParseError",
+referencedClasses: ["ParseError"],
+messageSends: ["should:receiver:raise:"]
 }),
 $globals.CodeGeneratorTest);
 
@@ -50032,7 +50066,7 @@ return $core.withContext(function($ctx2) {
 return $recv(ctx)._defineLocal_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 }));
-};
+}
 $recv(aDictionary)._keysAndValuesDo_((function(key,value){
 return $core.withContext(function($ctx2) {
 return $recv(ctx)._localAt_put_(key,value);
@@ -50134,7 +50168,7 @@ return $core.withContext(function($ctx2) {
 return $recv(ctx)._defineLocal_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 }));
-};
+}
 $recv(aDictionary)._keysAndValuesDo_((function(key,value){
 return $core.withContext(function($ctx2) {
 return $recv(ctx)._localAt_put_(key,value);
@@ -50885,7 +50919,7 @@ $recv($9)._removeCompiledMethod_(method);
 $10=dirty;
 if($core.assert($10)){
 $recv($recv(self._class())._package())._beDirty();
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testAddExtensionMethod",{method:method,dirty:dirty},$globals.AnnouncementSubscriptionTest)});
 },
@@ -51717,50 +51751,50 @@ return $core.withContext(function($ctx1) {
 var $1,$2,$3,$4,$5,$6,$7,$8;
 if($core.assert(true)){
 $1="alternative block";
-};
+}
 self._assert_equals_($1,"alternative block");
 $ctx1.sendIdx["assert:equals:"]=1;
 if(!$core.assert(true)){
 $2="alternative block";
-};
+}
 self._assert_equals_($2,nil);
 $ctx1.sendIdx["assert:equals:"]=2;
 if($core.assert(false)){
 $3="alternative block";
-};
+}
 self._assert_equals_($3,nil);
 $ctx1.sendIdx["assert:equals:"]=3;
 if(!$core.assert(false)){
 $4="alternative block";
-};
+}
 self._assert_equals_($4,"alternative block");
 $ctx1.sendIdx["assert:equals:"]=4;
 if($core.assert(false)){
 $5="alternative block";
 } else {
 $5="alternative block2";
-};
+}
 self._assert_equals_($5,"alternative block2");
 $ctx1.sendIdx["assert:equals:"]=5;
 if($core.assert(false)){
 $6="alternative block2";
 } else {
 $6="alternative block";
-};
+}
 self._assert_equals_($6,"alternative block");
 $ctx1.sendIdx["assert:equals:"]=6;
 if($core.assert(true)){
 $7="alternative block";
 } else {
 $7="alternative block2";
-};
+}
 self._assert_equals_($7,"alternative block");
 $ctx1.sendIdx["assert:equals:"]=7;
 if($core.assert(true)){
 $8="alternative block2";
 } else {
 $8="alternative block";
-};
+}
 self._assert_equals_($8,"alternative block2");
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testIfTrueIfFalse",{},$globals.BooleanTest)});
@@ -51784,28 +51818,28 @@ $2=true._yourself();
 $ctx1.sendIdx["yourself"]=1;
 if($core.assert($2)){
 $1="alternative block";
-};
+}
 self._assert_equals_($1,"alternative block");
 $ctx1.sendIdx["assert:equals:"]=1;
 $4=true._yourself();
 $ctx1.sendIdx["yourself"]=2;
 if(!$core.assert($4)){
 $3="alternative block";
-};
+}
 self._assert_equals_($3,nil);
 $ctx1.sendIdx["assert:equals:"]=2;
 $6=false._yourself();
 $ctx1.sendIdx["yourself"]=3;
 if($core.assert($6)){
 $5="alternative block";
-};
+}
 self._assert_equals_($5,nil);
 $ctx1.sendIdx["assert:equals:"]=3;
 $8=false._yourself();
 $ctx1.sendIdx["yourself"]=4;
 if(!$core.assert($8)){
 $7="alternative block";
-};
+}
 self._assert_equals_($7,"alternative block");
 $ctx1.sendIdx["assert:equals:"]=4;
 $10=false._yourself();
@@ -51814,7 +51848,7 @@ if($core.assert($10)){
 $9="alternative block";
 } else {
 $9="alternative block2";
-};
+}
 self._assert_equals_($9,"alternative block2");
 $ctx1.sendIdx["assert:equals:"]=5;
 $12=false._yourself();
@@ -51823,7 +51857,7 @@ if($core.assert($12)){
 $11="alternative block2";
 } else {
 $11="alternative block";
-};
+}
 self._assert_equals_($11,"alternative block");
 $ctx1.sendIdx["assert:equals:"]=6;
 $14=true._yourself();
@@ -51832,7 +51866,7 @@ if($core.assert($14)){
 $13="alternative block";
 } else {
 $13="alternative block2";
-};
+}
 self._assert_equals_($13,"alternative block");
 $ctx1.sendIdx["assert:equals:"]=7;
 $16=true._yourself();
@@ -51840,7 +51874,7 @@ if($core.assert($16)){
 $15="alternative block2";
 } else {
 $15="alternative block";
-};
+}
 self._assert_equals_($15,"alternative block2");
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testIfTrueIfFalseWithBoxing",{},$globals.BooleanTest)});
@@ -52074,7 +52108,7 @@ self._should_raise_((function(){
 return $core.withContext(function($ctx2) {
 if($core.assert("")){
 } else {
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }),$globals.NonBooleanReceiver);
 return self;
@@ -52123,7 +52157,7 @@ $1;
 $recv($globals.Smalltalk)._removeClass_(self["@theClass"]);
 self["@theClass"]=nil;
 self["@theClass"];
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"tearDown",{},$globals.ClassBuilderTest)});
 },
@@ -52376,7 +52410,7 @@ $1;
 $recv($globals.Smalltalk)._removeClass_(self["@theClass"]);
 self["@theClass"]=nil;
 self["@theClass"];
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"tearDown",{},$globals.ClassTest)});
 },
@@ -60214,7 +60248,7 @@ if(($receiver = $5) == null || $receiver.isNil){
 $4=true;
 } else {
 $4=$5;
-};
+}
 $3=$recv($4).__eq(true);
 self._deny_($3);
 $7=$recv($globals.Object)._new();
@@ -60223,7 +60257,7 @@ if(($receiver = $7) == null || $receiver.isNil){
 $6=$7;
 } else {
 $6=true;
-};
+}
 self._assert_equals_($6,true);
 $ctx1.sendIdx["assert:equals:"]=1;
 $9=$recv($globals.Object)._new();
@@ -60232,7 +60266,7 @@ if(($receiver = $9) == null || $receiver.isNil){
 $8=false;
 } else {
 $8=true;
-};
+}
 self._assert_equals_($8,true);
 $ctx1.sendIdx["assert:equals:"]=2;
 $11=$recv($globals.Object)._new();
@@ -60240,7 +60274,7 @@ if(($receiver = $11) == null || $receiver.isNil){
 $10=false;
 } else {
 $10=true;
-};
+}
 self._assert_equals_($10,true);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testIfNil",{},$globals.ObjectTest)});
@@ -61268,14 +61302,14 @@ if(($receiver = nil) == null || $receiver.isNil){
 $1=true;
 } else {
 $1=nil;
-};
+}
 self._assert_equals_($1,true);
 $ctx1.sendIdx["assert:equals:"]=1;
 if(($receiver = nil) == null || $receiver.isNil){
 $3=nil;
 } else {
 $3=true;
-};
+}
 $2=$recv($3).__eq(true);
 $ctx1.sendIdx["="]=1;
 self._deny_($2);
@@ -61284,13 +61318,13 @@ if(($receiver = nil) == null || $receiver.isNil){
 $4=true;
 } else {
 $4=false;
-};
+}
 self._assert_equals_($4,true);
 if(($receiver = nil) == null || $receiver.isNil){
 $6=false;
 } else {
 $6=true;
-};
+}
 $5=$recv($6).__eq(true);
 self._deny_($5);
 return self;
@@ -61754,7 +61788,7 @@ $3=$recv($recv(ann)._result()).__eq_eq(result);
 if($core.assert($3)){
 $4=$recv($recv(result)._runs()).__eq($recv(result)._total());
 return $recv($4)._ifTrue_(assertBlock);
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({ann:ann},$ctx1,3)});
 }));
 $recv(runner)._run();
@@ -61920,7 +61954,7 @@ $2=$recv($recv(ann)._result()).__eq_eq(result);
 if($core.assert($2)){
 $3=$recv($recv(result)._runs()).__eq($recv(result)._total());
 return $recv($3)._ifTrue_(assertBlock);
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({ann:ann},$ctx1,3)});
 }));
 $recv(runner)._run();
@@ -62213,7 +62247,7 @@ selector;
 } else {
 selector="help:";
 selector;
-};
+}
 return selector;
 }, function($ctx1) {$ctx1.fill(self,"selectorForCommandLineSwitch:",{aSwitch:aSwitch,command:command,selector:selector},$globals.AmberCli.klass)});
 },
@@ -62356,7 +62390,7 @@ if(($receiver = err) == null || $receiver.isNil){
 return $recv(process)._exit();
 } else {
 return $recv(process)._exit_((111));
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,1)});
 }));
 return self;
@@ -62422,7 +62456,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 return $recv(self._class())._defaultBasePath();
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"basePath",{},$globals.FileServer)});
 },
 args: [],
@@ -62468,7 +62502,7 @@ $ctx1.sendIdx["warn:"]=2;
 $recv(console)._warn_("    You can also specify a page to be served by default,");
 $ctx1.sendIdx["warn:"]=3;
 $recv(console)._warn_("    for all paths that do not map to a file, with --fallback-page.");
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"checkDirectoryLayout",{},$globals.FileServer)});
 },
@@ -62531,10 +62565,10 @@ if($core.assert($1)){
 return self._respondDirectoryNamed_from_to_(filename,uri,aResponse);
 } else {
 return self._respondFileNamed_to_(filename,aResponse);
-};
+}
 } else {
 return self._respondNotFoundTo_(aResponse);
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({aBoolean:aBoolean},$ctx1,1)});
 }));
 return self;
@@ -62579,7 +62613,7 @@ $1=self._isAuthenticated_(aRequest);
 if(!$core.assert($1)){
 self._respondAuthenticationRequiredTo_(aResponse);
 return nil;
-};
+}
 file=".".__comma($recv(aRequest)._url());
 $ctx1.sendIdx[","]=1;
 stream=$recv(self["@fs"])._createWriteStream_(file);
@@ -62615,7 +62649,7 @@ return $core.withContext(function($ctx2) {
 $4=$recv(stream)._writable();
 if($core.assert($4)){
 return $recv(stream)._end();
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,5)});
 }));
 return self;
@@ -62642,18 +62676,18 @@ $1=$recv($2).__eq("PUT");
 $ctx1.sendIdx["="]=1;
 if($core.assert($1)){
 self._handlePUTRequest_respondTo_(aRequest,aResponse);
-};
+}
 $4=$recv(aRequest)._method();
 $ctx1.sendIdx["method"]=2;
 $3=$recv($4).__eq("GET");
 $ctx1.sendIdx["="]=2;
 if($core.assert($3)){
 self._handleGETRequest_respondTo_(aRequest,aResponse);
-};
+}
 $5=$recv($recv(aRequest)._method()).__eq("OPTIONS");
 if($core.assert($5)){
 self._handleOPTIONSRequest_respondTo_(aRequest,aResponse);
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"handleRequest:respondTo:",{aRequest:aRequest,aResponse:aResponse},$globals.FileServer)});
 },
@@ -62752,14 +62786,14 @@ return $recv(self["@password"])._isNil();
 $ctx1.sendIdx["and:"]=1;
 if($core.assert($1)){
 return true;
-};
+}
 $3=$recv($recv(aRequest)._headers())._at_("authorization");
 $ctx1.sendIdx["at:"]=1;
 if(($receiver = $3) == null || $receiver.isNil){
 header="";
 } else {
 header=$3;
-};
+}
 $recv(header)._ifEmpty_ifNotEmpty_((function(){
 throw $early=[false];
 
@@ -62771,7 +62805,7 @@ if(($receiver = $4) == null || $receiver.isNil){
 token="";
 } else {
 token=$4;
-};
+}
 token;
 $5=$recv(token)._at_((2));
 $ctx2.sendIdx["at:"]=2;
@@ -62793,7 +62827,7 @@ if($core.assert($6)){
 throw $early=[true];
 } else {
 throw $early=[false];
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,5)});
 }));
 return self;
@@ -62936,11 +62970,11 @@ if(($receiver = $7) == null || $receiver.isNil){
 $6="";
 } else {
 $6=$7;
-};
+}
 $4=$recv($5).__comma($6);
 $ctx1.sendIdx[","]=2;
 self._respondRedirect_to_($4,aResponse);
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"respondDirectoryNamed:from:to:",{aDirname:aDirname,aUrl:aUrl,aResponse:aResponse},$globals.FileServer)});
 },
@@ -62977,11 +63011,11 @@ $4=$recv(type).__eq("application/javascript");
 if($core.assert($4)){
 type=$recv(type).__comma(";charset=utf-8");
 type;
-};
+}
 $recv(aResponse)._writeHead_options_((200),$globals.HashedCollection._newFromPairs_(["Content-Type",type]));
 $recv(aResponse)._write_encoding_(file,"binary");
 return $recv(aResponse)._end();
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({ex:ex,file:file},$ctx1,1)});
 }));
 return self;
@@ -63047,7 +63081,7 @@ $ctx1.sendIdx["fallbackPage"]=1;
 $1=$recv($2)._isNil();
 if(!$core.assert($1)){
 return self._respondFileNamed_to_(self._fallbackPage(),aResponse);
-};
+}
 $recv(aResponse)._writeHead_options_((404),$globals.HashedCollection._newFromPairs_(["Content-Type","text/html"]));
 $recv(aResponse)._write_("<html><body><p>404 Not found</p>");
 $ctx1.sendIdx["write:"]=1;
@@ -63221,13 +63255,13 @@ $5=$recv($6).__comma(" is not a directory.");
 $ctx2.sendIdx[","]=1;
 return $recv($4)._warn_($5);
 $ctx2.sendIdx["warn:"]=1;
-};
+}
 } else {
 $8=console;
 $9=$recv("Warning: path at --base-path parameter ".__comma(self._basePath())).__comma(" does not exist.");
 $ctx2.sendIdx[","]=3;
 return $recv($8)._warn_($9);
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({err:err,stat:stat},$ctx1,1)});
 }));
 return self;
@@ -63344,7 +63378,7 @@ $ctx1.sendIdx[","]=2;
 $recv($4)._log_($5);
 $ctx1.sendIdx["log:"]=3;
 return server;
-};
+}
 popFront=(function(args){
 return $core.withContext(function($ctx2) {
 front=$recv(args)._first();
@@ -63376,7 +63410,7 @@ $ctx2.sendIdx[","]=3;
 $recv($7)._log_($8);
 $ctx2.sendIdx["log:"]=4;
 return $recv(console)._log_("Use any of the following ones: ".__comma(switches));
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,5)});
 }));
 return server;
@@ -63473,7 +63507,7 @@ return $core.withContext(function($ctx2) {
 $1=$recv(each).__eq("--help");
 if($core.assert($1)){
 return $recv($globals.FileServer)._printHelp();
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }),(function(){
 return $core.withContext(function($ctx2) {
@@ -63528,7 +63562,7 @@ self["@mimeTypes"]=self._defaultMimeTypes();
 return self["@mimeTypes"];
 } else {
 return $1;
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"mimeTypes",{},$globals.FileServer.klass)});
 },
 args: [],
@@ -63610,7 +63644,7 @@ if($core.assert($3)){
 $2=nil;
 } else {
 $2=code;
-};
+}
 return $recv(aBlock)._value_($2);
 }, function($ctx2) {$ctx2.fillBlock({code:code},$ctx1,1)});
 }));
@@ -63667,7 +63701,7 @@ if($core.assert($3)){
 $2=nil;
 } else {
 $2=code;
-};
+}
 return $recv(aBlock)._value_($2);
 }, function($ctx2) {$ctx2.fillBlock({code:code},$ctx1,1)});
 }));
@@ -63701,7 +63735,7 @@ if($core.assert($3)){
 $2=nil;
 } else {
 $2=code;
-};
+}
 return $recv(aBlock)._value_($2);
 }, function($ctx2) {$ctx2.fillBlock({code:code},$ctx1,1)});
 }));
@@ -63784,7 +63818,7 @@ if($core.assert($5)){
 scriptPath=binSection;
 } else {
 scriptPath=$recv(binSection)._at_(anotherString);
-};
+}
 return $recv(self["@path"])._join_with_(modulePath,scriptPath);
 }, function($ctx1) {$ctx1.fill(self,"npmScriptForModule:named:",{aString:aString,anotherString:anotherString,modulePath:modulePath,packageJson:packageJson,binSection:binSection,scriptPath:scriptPath},$globals.Initer)});
 },
@@ -63823,7 +63857,7 @@ $recv($7)._log_("grunt exec error:");
 $ctx5.sendIdx["log:"]=7;
 $recv($7)._log_(error4);
 return $recv(process)._exit_((104));
-};
+}
 }, function($ctx5) {$ctx5.fillBlock({error4:error4},$ctx4,10)});
 }));
 } else {
@@ -63835,7 +63869,7 @@ $ctx4.sendIdx["log:"]=6;
 $6;
 return $recv(process)._exit_((103));
 $ctx4.sendIdx["exit:"]=3;
-};
+}
 }, function($ctx4) {$ctx4.fillBlock({error3:error3},$ctx3,7)});
 }));
 } else {
@@ -63847,7 +63881,7 @@ $ctx3.sendIdx["log:"]=4;
 $4;
 return $recv(process)._exit_((102));
 $ctx3.sendIdx["exit:"]=2;
-};
+}
 }, function($ctx3) {$ctx3.fillBlock({error2:error2},$ctx2,4)});
 }));
 } else {
@@ -63859,7 +63893,7 @@ $ctx2.sendIdx["log:"]=2;
 $2;
 return $recv(process)._exit_((101));
 $ctx2.sendIdx["exit:"]=1;
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,1)});
 }));
 return self;
@@ -63913,7 +63947,7 @@ if(($receiver = name) == null || $receiver.isNil){
 varName=self._nextResultName();
 } else {
 varName=name;
-};
+}
 varName;
 self["@session"]=self._addVariableNamed_to_(varName,self["@session"]);
 self["@session"];
@@ -63924,7 +63958,7 @@ if(($receiver = expr) == null || $receiver.isNil){
 $3=buffer;
 } else {
 $3=expr;
-};
+}
 $1=$recv($2).__comma($3);
 $ctx3.sendIdx[","]=1;
 value=self._eval_on_($1,self["@session"]);
@@ -64115,7 +64149,7 @@ if($core.assert($1)){
 return $recv(e)._resignal();
 } else {
 return $recv($recv(process)._stdout())._write_($recv(e)._jsStack());
-};
+}
 }, function($ctx3) {$ctx3.fillBlock({e:e},$ctx2,3)});
 }));
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -64146,7 +64180,7 @@ $1=$recv(names)._includes_(aString);
 if($core.assert($1)){
 $recv(cmd)._value();
 throw $early=[true];
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({names:names,cmd:cmd},$ctx1,1)});
 }));
 return false;
@@ -64203,7 +64237,7 @@ return $recv(aClass)._instanceVariableNames();
 $2=$recv(aClass)._instanceVariableNames();
 $ctx1.sendIdx["instanceVariableNames"]=1;
 return $recv($2)._copyWithAll_(self._instanceVariableNamesFor_($recv(aClass)._superclass()));
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"instanceVariableNamesFor:",{aClass:aClass},$globals.Repl)});
 },
 args: ["aClass"],
@@ -64260,7 +64294,7 @@ if(($receiver = $1) == null || $receiver.isNil){
 self["@resultCount"]=(1);
 } else {
 self["@resultCount"]=$recv(self["@resultCount"]).__plus((1));
-};
+}
 return "res".__comma($recv(self["@resultCount"])._asString());
 }, function($ctx1) {$ctx1.fill(self,"nextResultName",{},$globals.Repl)});
 },
@@ -64286,7 +64320,7 @@ return $recv($recv(key)._name()).__eq("l");
 }));
 if($core.assert($1)){
 self._clearScreen();
-};
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"onKeyPress:",{key:key},$globals.Repl)});
 },
@@ -64323,7 +64357,7 @@ return $recv(aBlock)._value_value_($recv(assignment)._first(),$recv(assignment).
 $ctx1.sendIdx["value:value:"]=1;
 } else {
 return $recv(aBlock)._value_value_(nil,nil);
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"parseAssignment:do:",{aString:aString,aBlock:aBlock,assignment:assignment},$globals.Repl)});
 },
 args: ["aString", "aBlock"],
@@ -64400,8 +64434,8 @@ if($core.assert($2)){
 $recv(show)._value_value_(buffer,$recv(self["@session"])._perform_(buffer));
 } else {
 self._assignNewVariable_do_(buffer,show);
-};
-};
+}
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"processLine:",{buffer:buffer,show:show},$globals.Repl)});
 },
@@ -64512,7 +64546,7 @@ if(($receiver = key) == null || $receiver.isNil){
 return key;
 } else {
 return self._onKeyPress_(key);
-};
+}
 }, function($ctx2) {$ctx2.fillBlock({s:s,key:key},$ctx1,1)});
 }));
 return self;
@@ -64568,7 +64602,7 @@ counter;
 $7=$recv(aClass)._name();
 $ctx1.sendIdx["name"]=3;
 return $recv($7)._replaceRegexp_with_("\x5cd+$"._asRegexp(),$recv(counter)._asString());
-};
+}
 }, function($ctx1) {$ctx1.fill(self,"subclassNameFor:",{aClass:aClass},$globals.Repl)});
 },
 args: ["aClass"],

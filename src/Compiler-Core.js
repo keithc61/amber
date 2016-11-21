@@ -212,7 +212,7 @@ return $recv(dict)._at_(each);
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "transformers\x0a\x09| dict |\x0a\x09dict := self transformersDictionary.\x0a\x09^ dict keys asArray sort collect: [ :each | dict at: each ] ",
+source: "transformers\x0a\x09| dict |\x0a\x09dict := self transformersDictionary.\x0a\x09^ dict keys asArray sort collect: [ :each | dict at: each ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["transformersDictionary", "collect:", "sort", "asArray", "keys", "at:"]
