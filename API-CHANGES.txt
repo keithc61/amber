@@ -9,6 +9,12 @@
   + newDocumentFragment
   + newElement:
   + newTextNode:
++ CharacterArray >>
+  + asDomNode
++ Collection >>
+  + asDomNode
++ JSObjectProxy
+  + asDomNode
 
 
 0.18.1:

@@ -42,3 +42,26 @@ isFeasible
 '>
 ! !
 
+!CharacterArray methodsFor: '*Platform-DOM'!
+
+asDomNode
+	^ PlatformDom newTextNode: self asString
+! !
+
+!Collection methodsFor: '*Platform-DOM'!
+
+asDomNode
+	| fragment |
+	fragment := PlatformDom newDocumentFragment.
+	self do: [ :each | fragment appendChild: each asDomNode ].
+	^ fragment
+! !
+
+!JSObjectProxy methodsFor: '*Platform-DOM'!
+
+asDomNode
+	(PlatformDom isDomNode: jsObject)
+		ifTrue: [ ^ jsObject ]
+		ifFalse: [ ^ super asDomNode ]
+! !
+

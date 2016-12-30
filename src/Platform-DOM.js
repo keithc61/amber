@@ -1,4 +1,4 @@
-define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
+define(["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
@@ -140,5 +140,100 @@ referencedClasses: [],
 messageSends: []
 }),
 $globals.PlatformDom.klass);
+
+$core.addMethod(
+$core.method({
+selector: "asDomNode",
+protocol: '*Platform-DOM',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.PlatformDom)._newTextNode_(self._asString());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asDomNode",{},$globals.CharacterArray)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asDomNode\x0a\x09^ PlatformDom newTextNode: self asString",
+referencedClasses: ["PlatformDom"],
+//>>excludeEnd("ide");
+messageSends: ["newTextNode:", "asString"]
+}),
+$globals.CharacterArray);
+
+$core.addMethod(
+$core.method({
+selector: "asDomNode",
+protocol: '*Platform-DOM',
+fn: function (){
+var self=this;
+var fragment;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+fragment=$recv($globals.PlatformDom)._newDocumentFragment();
+self._do_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(fragment)._appendChild_($recv(each)._asDomNode());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return fragment;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asDomNode",{fragment:fragment},$globals.Collection)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asDomNode\x0a\x09| fragment |\x0a\x09fragment := PlatformDom newDocumentFragment.\x0a\x09self do: [ :each | fragment appendChild: each asDomNode ].\x0a\x09^ fragment",
+referencedClasses: ["PlatformDom"],
+//>>excludeEnd("ide");
+messageSends: ["newDocumentFragment", "do:", "appendChild:", "asDomNode"]
+}),
+$globals.Collection);
+
+$core.addMethod(
+$core.method({
+selector: "asDomNode",
+protocol: '*Platform-DOM',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+$1=$recv($globals.PlatformDom)._isDomNode_(self["@jsObject"]);
+if($core.assert($1)){
+return self["@jsObject"];
+} else {
+$2=(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.JSObjectProxy.superclass||$boot.nilAsClass).fn.prototype._asDomNode.apply($recv(self), []));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+return $2;
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asDomNode",{},$globals.JSObjectProxy)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asDomNode\x0a\x09(PlatformDom isDomNode: jsObject)\x0a\x09\x09ifTrue: [ ^ jsObject ]\x0a\x09\x09ifFalse: [ ^ super asDomNode ]",
+referencedClasses: ["PlatformDom"],
+//>>excludeEnd("ide");
+messageSends: ["ifTrue:ifFalse:", "isDomNode:", "asDomNode"]
+}),
+$globals.JSObjectProxy);
 
 });
