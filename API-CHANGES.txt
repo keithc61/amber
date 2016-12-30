@@ -1,3 +1,13 @@
+0.18.2:
+
+* Add Platform-DOM package with DOM-related stuff.
+  * Platform-DOM not loaded by default. Packages that will use it will import it.
+
++ PlatformDom class >>
+  + isFeasible
+  + isDomNode:
+
+
 0.18.1:
 
 + ASTNode >>

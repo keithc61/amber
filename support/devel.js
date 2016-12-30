@@ -5,6 +5,7 @@ define([
     './helpers', // pre-fetch, dep of ./deploy
     './deploy', // pre-fetch, dep of ./lang
     // --- packages of the development only Amber begin here ---
+    'amber_core/Platform-DOM',
     'amber_core/SUnit',
     'amber_core/Compiler-Tests',
     'amber_core/Kernel-Tests',

@@ -1,3 +1,11 @@
+31 December 2016 - Release 0.18.2
+===================================
+
+* DOM-related stuff in own package (not loaded by default, use imports:).
+
+Commits: https://lolg.it/amber/amber/commits/0.18.2.
+
+
 21 November 2016 - Release 0.18.1
 ===================================
 
