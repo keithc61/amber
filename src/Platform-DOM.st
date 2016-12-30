@@ -3,6 +3,20 @@ Object subclass: #PlatformDom
 	instanceVariableNames: ''
 	package: 'Platform-DOM'!
 
+!PlatformDom class methodsFor: 'node creation'!
+
+newDocumentFragment
+<inlineJS: 'return document.createDocumentFragment()'>
+!
+
+newElement: aString
+<inlineJS: 'return document.createElement(aString)'>
+!
+
+newTextNode: aString
+<inlineJS: 'return document.createTextNode(aString)'>
+! !
+
 !PlatformDom class methodsFor: 'testing'!
 
 isDomNode: anObject

@@ -69,4 +69,76 @@ messageSends: []
 }),
 $globals.PlatformDom.klass);
 
+$core.addMethod(
+$core.method({
+selector: "newDocumentFragment",
+protocol: 'node creation',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return document.createDocumentFragment();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"newDocumentFragment",{},$globals.PlatformDom.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "newDocumentFragment\x0a<inlineJS: 'return document.createDocumentFragment()'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.PlatformDom.klass);
+
+$core.addMethod(
+$core.method({
+selector: "newElement:",
+protocol: 'node creation',
+fn: function (aString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return document.createElement(aString);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"newElement:",{aString:aString},$globals.PlatformDom.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "newElement: aString\x0a<inlineJS: 'return document.createElement(aString)'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.PlatformDom.klass);
+
+$core.addMethod(
+$core.method({
+selector: "newTextNode:",
+protocol: 'node creation',
+fn: function (aString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return document.createTextNode(aString);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"newTextNode:",{aString:aString},$globals.PlatformDom.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "newTextNode: aString\x0a<inlineJS: 'return document.createTextNode(aString)'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.PlatformDom.klass);
+
 });

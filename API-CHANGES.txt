@@ -6,6 +6,9 @@
 + PlatformDom class >>
   + isFeasible
   + isDomNode:
+  + newDocumentFragment
+  + newElement:
+  + newTextNode:
 
 
 0.18.1:
