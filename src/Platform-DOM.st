@@ -79,3 +79,9 @@ asDomNode
 		ifFalse: [ ^ super asDomNode ]
 ! !
 
+!String methodsFor: '*Platform-DOM'!
+
+htmlTextContent
+<inlineJS: 'var d=document.createElement("div");d.innerHTML=self;return d.textContent||d.innerText;'>
+! !
+

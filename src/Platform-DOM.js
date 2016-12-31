@@ -308,4 +308,28 @@ messageSends: ["ifTrue:ifFalse:", "isDomNode:", "asDomNode"]
 }),
 $globals.JSObjectProxy);
 
+$core.addMethod(
+$core.method({
+selector: "htmlTextContent",
+protocol: '*Platform-DOM',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var d=document.createElement("div");d.innerHTML=self;return d.textContent||d.innerText;;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"htmlTextContent",{},$globals.String)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "htmlTextContent\x0a<inlineJS: 'var d=document.createElement(\x22div\x22);d.innerHTML=self;return d.textContent||d.innerText;'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.String);
+
 });
