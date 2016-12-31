@@ -3,7 +3,17 @@ Object subclass: #PlatformDom
 	instanceVariableNames: ''
 	package: 'Platform-DOM'!
 
+!PlatformDom class methodsFor: 'converting'!
+
+toArray: aDomList
+<inlineJS: 'return Array.prototype.slice.call(aDomList)'>
+! !
+
 !PlatformDom class methodsFor: 'node creation'!
+
+newCustomEvent: aString detail: anObject
+<inlineJS: 'return new CustomEvent(aString, {detail: anObject})'>
+!
 
 newDocumentFragment
 <inlineJS: 'return document.createDocumentFragment()'>

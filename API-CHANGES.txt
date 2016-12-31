@@ -9,6 +9,8 @@
   + newDocumentFragment
   + newElement:
   + newTextNode:
+  + newCustomEvent:detail:
+  + toArray:
 + CharacterArray >>
   + asDomNode
 + Collection >>

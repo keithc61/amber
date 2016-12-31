@@ -71,6 +71,30 @@ $globals.PlatformDom.klass);
 
 $core.addMethod(
 $core.method({
+selector: "newCustomEvent:detail:",
+protocol: 'node creation',
+fn: function (aString,anObject){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return new CustomEvent(aString, {detail: anObject});
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"newCustomEvent:detail:",{aString:aString,anObject:anObject},$globals.PlatformDom.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "anObject"],
+source: "newCustomEvent: aString detail: anObject\x0a<inlineJS: 'return new CustomEvent(aString, {detail: anObject})'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.PlatformDom.klass);
+
+$core.addMethod(
+$core.method({
 selector: "newDocumentFragment",
 protocol: 'node creation',
 fn: function (){
@@ -135,6 +159,30 @@ return self;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
 source: "newTextNode: aString\x0a<inlineJS: 'return document.createTextNode(aString)'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.PlatformDom.klass);
+
+$core.addMethod(
+$core.method({
+selector: "toArray:",
+protocol: 'converting',
+fn: function (aDomList){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return Array.prototype.slice.call(aDomList);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"toArray:",{aDomList:aDomList},$globals.PlatformDom.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aDomList"],
+source: "toArray: aDomList\x0a<inlineJS: 'return Array.prototype.slice.call(aDomList)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
