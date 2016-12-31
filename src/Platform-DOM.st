@@ -23,6 +23,10 @@ newElement: aString
 <inlineJS: 'return document.createElement(aString)'>
 !
 
+newElement: aString namespace: anotherString 
+<inlineJS: 'return document.createElementNS(anotherString,aString)'>
+!
+
 newTextNode: aString
 <inlineJS: 'return document.createTextNode(aString)'>
 ! !
