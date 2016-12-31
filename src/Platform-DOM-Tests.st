@@ -6,10 +6,11 @@ TestCase subclass: #PlatformDomTest
 !PlatformDomTest methodsFor: 'testing'!
 
 testEntityConversion
-	self assert: '&copy;' htmlTextContent equals: '©'
+	PlatformDom isFeasible ifTrue: [ self assert: '&copy;' htmlTextContent equals: '©' ]
 !
 
 testTextContentDoesNotRunScript
-	self shouldnt: [ '<script>throw new Error("Intentional")</script>' htmlTextContent ] raise: Error
+	PlatformDom isFeasible ifTrue: [
+		self shouldnt: [ '<script>throw new Error("Intentional")</script>' htmlTextContent ] raise: Error ]
 ! !
 
