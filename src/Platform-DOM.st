@@ -55,14 +55,14 @@ isFeasible
 !CharacterArray methodsFor: '*Platform-DOM'!
 
 asDomNode
-	^ PlatformDom newTextNode: self asString
+	^ document createTextNode: self asString
 ! !
 
 !Collection methodsFor: '*Platform-DOM'!
 
 asDomNode
 	| fragment |
-	fragment := PlatformDom newDocumentFragment.
+	fragment := document createDocumentFragment.
 	self do: [ :each | fragment appendChild: each asDomNode ].
 	^ fragment
 ! !

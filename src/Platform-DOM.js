@@ -198,17 +198,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($globals.PlatformDom)._newTextNode_(self._asString());
+return $recv(document)._createTextNode_(self._asString());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"asDomNode",{},$globals.CharacterArray)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asDomNode\x0a\x09^ PlatformDom newTextNode: self asString",
-referencedClasses: ["PlatformDom"],
+source: "asDomNode\x0a\x09^ document createTextNode: self asString",
+referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["newTextNode:", "asString"]
+messageSends: ["createTextNode:", "asString"]
 }),
 $globals.CharacterArray);
 
@@ -222,7 +222,7 @@ var fragment;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-fragment=$recv($globals.PlatformDom)._newDocumentFragment();
+fragment=$recv(document)._createDocumentFragment();
 self._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -239,10 +239,10 @@ return fragment;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asDomNode\x0a\x09| fragment |\x0a\x09fragment := PlatformDom newDocumentFragment.\x0a\x09self do: [ :each | fragment appendChild: each asDomNode ].\x0a\x09^ fragment",
-referencedClasses: ["PlatformDom"],
+source: "asDomNode\x0a\x09| fragment |\x0a\x09fragment := document createDocumentFragment.\x0a\x09self do: [ :each | fragment appendChild: each asDomNode ].\x0a\x09^ fragment",
+referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["newDocumentFragment", "do:", "appendChild:", "asDomNode"]
+messageSends: ["createDocumentFragment", "do:", "appendChild:", "asDomNode"]
 }),
 $globals.Collection);
 
