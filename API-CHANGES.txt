@@ -8,7 +8,6 @@
   + isDomNode:
   + newDocumentFragment
   + newElement:
-  + newElement:namespace:
   + newTextNode:
   + newCustomEvent:detail:
   + toArray:

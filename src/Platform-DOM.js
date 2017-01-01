@@ -143,30 +143,6 @@ $globals.PlatformDom.klass);
 
 $core.addMethod(
 $core.method({
-selector: "newElement:namespace:",
-protocol: 'node creation',
-fn: function (aString,anotherString){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return document.createElementNS(anotherString,aString);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"newElement:namespace:",{aString:aString,anotherString:anotherString},$globals.PlatformDom.klass)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString", "anotherString"],
-source: "newElement: aString namespace: anotherString \x0a<inlineJS: 'return document.createElementNS(anotherString,aString)'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.PlatformDom.klass);
-
-$core.addMethod(
-$core.method({
 selector: "newTextNode:",
 protocol: 'node creation',
 fn: function (aString){
