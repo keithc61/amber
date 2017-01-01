@@ -14,6 +14,8 @@
   + asDomNode
 + JSObjectProxy
   + asDomNode
++ String
+  + htmlTextContent
 
 
 0.18.1:
