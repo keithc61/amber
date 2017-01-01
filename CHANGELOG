@@ -2,9 +2,9 @@
 ===================================
 
 * DOM-related stuff in own package (not loaded by default, use imports:).
-* Accompanying libs updated and semver-bumped: Web, Domite.
+* Accompanying libs updated and semver-bumped: Web, Domite, Helios-* and IDE.
   * Silk is high-level enough so no bump neither b/c of inlineJS: nor b/c of DOM stuff needed.
-  * Wrapper-JQuery, Helios-* and IDE bump postponed.
+  * Wrapper-JQuery bump postponed.
 
 Commits: https://lolg.it/amber/amber/commits/0.18.2.
 
