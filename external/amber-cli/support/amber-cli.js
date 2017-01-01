@@ -22353,11 +22353,11 @@ selector: "version",
 protocol: 'accessing',
 fn: function (){
 var self=this;
-return "0.18.1";
+return "0.18.2";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.18.1'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.18.2'",
 referencedClasses: [],
 messageSends: []
 }),
@@ -47311,6 +47311,190 @@ define('amber/lang',[
     // --- packages for the Amber reflection end here ---
 ], function (amber) { return amber; });
 
+define('amber_core/Platform-DOM',["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
+$core.addPackage('Platform-DOM');
+$core.packages["Platform-DOM"].innerEval = function (expr) { return eval(expr); };
+$core.packages["Platform-DOM"].transport = {"type":"amd","amdNamespace":"amber_core"};
+
+$core.addClass('PlatformDom', $globals.Object, [], 'Platform-DOM');
+
+$core.addMethod(
+$core.method({
+selector: "isDomNode:",
+protocol: 'testing',
+fn: function (anObject){
+var self=this;
+return $core.withContext(function($ctx1) {
+
+	return anObject.nodeType > 0 &&
+		Object.prototype.toString.call(anObject) !== "[object Object]";
+return self;
+}, function($ctx1) {$ctx1.fill(self,"isDomNode:",{anObject:anObject},$globals.PlatformDom.klass)});
+},
+args: ["anObject"],
+source: "isDomNode: anObject\x0a<inlineJS: '\x0a\x09return anObject.nodeType > 0 &&\x0a\x09\x09Object.prototype.toString.call(anObject) !== \x22[object Object]\x22\x0a'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.PlatformDom.klass);
+
+$core.addMethod(
+$core.method({
+selector: "isFeasible",
+protocol: 'testing',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+
+  if (typeof document === "undefined") return false;
+  try {
+    var d = document.createElement("div"),
+	  f = document.createDocumentFragment(),
+	  t = document.createTextNode("Hello, Amber!");
+	f.appendChild(t);
+	d.insertBefore(f, null);
+	return d.innerHTML === "Hello, Amber!";
+  } catch (e) {
+    return false;
+  };
+return self;
+}, function($ctx1) {$ctx1.fill(self,"isFeasible",{},$globals.PlatformDom.klass)});
+},
+args: [],
+source: "isFeasible\x0a<inlineJS: '\x0a  if (typeof document === \x22undefined\x22) return false;\x0a  try {\x0a    var d = document.createElement(\x22div\x22),\x0a\x09  f = document.createDocumentFragment(),\x0a\x09  t = document.createTextNode(\x22Hello, Amber!\x22);\x0a\x09f.appendChild(t);\x0a\x09d.insertBefore(f, null);\x0a\x09return d.innerHTML === \x22Hello, Amber!\x22;\x0a  } catch (e) {\x0a    return false;\x0a  }\x0a'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.PlatformDom.klass);
+
+$core.addMethod(
+$core.method({
+selector: "newCustomEvent:detail:",
+protocol: 'creation',
+fn: function (aString,anObject){
+var self=this;
+return $core.withContext(function($ctx1) {
+return new CustomEvent(aString, {detail: anObject});
+return self;
+}, function($ctx1) {$ctx1.fill(self,"newCustomEvent:detail:",{aString:aString,anObject:anObject},$globals.PlatformDom.klass)});
+},
+args: ["aString", "anObject"],
+source: "newCustomEvent: aString detail: anObject\x0a<inlineJS: 'return new CustomEvent(aString, {detail: anObject})'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.PlatformDom.klass);
+
+$core.addMethod(
+$core.method({
+selector: "toArray:",
+protocol: 'converting',
+fn: function (aDomList){
+var self=this;
+return $core.withContext(function($ctx1) {
+return Array.prototype.slice.call(aDomList);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"toArray:",{aDomList:aDomList},$globals.PlatformDom.klass)});
+},
+args: ["aDomList"],
+source: "toArray: aDomList\x0a<inlineJS: 'return Array.prototype.slice.call(aDomList)'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.PlatformDom.klass);
+
+$core.addMethod(
+$core.method({
+selector: "asDomNode",
+protocol: '*Platform-DOM',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+return $recv(document)._createTextNode_(self._asString());
+}, function($ctx1) {$ctx1.fill(self,"asDomNode",{},$globals.CharacterArray)});
+},
+args: [],
+source: "asDomNode\x0a\x09^ document createTextNode: self asString",
+referencedClasses: [],
+messageSends: ["createTextNode:", "asString"]
+}),
+$globals.CharacterArray);
+
+$core.addMethod(
+$core.method({
+selector: "asDomNode",
+protocol: '*Platform-DOM',
+fn: function (){
+var self=this;
+var fragment;
+return $core.withContext(function($ctx1) {
+fragment=$recv(document)._createDocumentFragment();
+self._do_((function(each){
+return $core.withContext(function($ctx2) {
+return $recv(fragment)._appendChild_($recv(each)._asDomNode());
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}));
+return fragment;
+}, function($ctx1) {$ctx1.fill(self,"asDomNode",{fragment:fragment},$globals.Collection)});
+},
+args: [],
+source: "asDomNode\x0a\x09| fragment |\x0a\x09fragment := document createDocumentFragment.\x0a\x09self do: [ :each | fragment appendChild: each asDomNode ].\x0a\x09^ fragment",
+referencedClasses: [],
+messageSends: ["createDocumentFragment", "do:", "appendChild:", "asDomNode"]
+}),
+$globals.Collection);
+
+$core.addMethod(
+$core.method({
+selector: "asDomNode",
+protocol: '*Platform-DOM',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+var $1,$2;
+$1=$recv($globals.PlatformDom)._isDomNode_(self["@jsObject"]);
+if($core.assert($1)){
+return self["@jsObject"];
+} else {
+$2=(
+$ctx1.supercall = true,
+($globals.JSObjectProxy.superclass||$boot.nilAsClass).fn.prototype._asDomNode.apply($recv(self), []));
+$ctx1.supercall = false;
+return $2;
+}
+return self;
+}, function($ctx1) {$ctx1.fill(self,"asDomNode",{},$globals.JSObjectProxy)});
+},
+args: [],
+source: "asDomNode\x0a\x09(PlatformDom isDomNode: jsObject)\x0a\x09\x09ifTrue: [ ^ jsObject ]\x0a\x09\x09ifFalse: [ ^ super asDomNode ]",
+referencedClasses: ["PlatformDom"],
+messageSends: ["ifTrue:ifFalse:", "isDomNode:", "asDomNode"]
+}),
+$globals.JSObjectProxy);
+
+$core.addMethod(
+$core.method({
+selector: "htmlTextContent",
+protocol: '*Platform-DOM',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+var d=document.createElement("div");d.innerHTML=self;return d.textContent||d.innerText;;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"htmlTextContent",{},$globals.String)});
+},
+args: [],
+source: "htmlTextContent\x0a<inlineJS: 'var d=document.createElement(\x22div\x22);d.innerHTML=self;return d.textContent||d.innerText;'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.String);
+
+});
+
 define('amber_core/SUnit',["amber/boot", "amber_core/Kernel-Classes", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
@@ -61359,6 +61543,66 @@ $globals.UndefinedTest);
 
 });
 
+define('amber_core/Platform-DOM-Tests',["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
+$core.addPackage('Platform-DOM-Tests');
+$core.packages["Platform-DOM-Tests"].innerEval = function (expr) { return eval(expr); };
+$core.packages["Platform-DOM-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
+
+$core.addClass('PlatformDomTest', $globals.TestCase, ['fixtureDiv'], 'Platform-DOM-Tests');
+$core.addMethod(
+$core.method({
+selector: "testEntityConversion",
+protocol: 'testing',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=$recv($globals.PlatformDom)._isFeasible();
+if($core.assert($1)){
+self._assert_equals_("&copy;"._htmlTextContent(),"©");
+}
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testEntityConversion",{},$globals.PlatformDomTest)});
+},
+args: [],
+source: "testEntityConversion\x0a\x09PlatformDom isFeasible ifTrue: [ self assert: '&copy;' htmlTextContent equals: '©' ]",
+referencedClasses: ["PlatformDom"],
+messageSends: ["ifTrue:", "isFeasible", "assert:equals:", "htmlTextContent"]
+}),
+$globals.PlatformDomTest);
+
+$core.addMethod(
+$core.method({
+selector: "testTextContentDoesNotRunScript",
+protocol: 'testing',
+fn: function (){
+var self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=$recv($globals.PlatformDom)._isFeasible();
+if($core.assert($1)){
+self._shouldnt_raise_((function(){
+return $core.withContext(function($ctx2) {
+return "<script>throw new Error(\x22Intentional\x22)</script>"._htmlTextContent();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}),$globals.Error);
+}
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testTextContentDoesNotRunScript",{},$globals.PlatformDomTest)});
+},
+args: [],
+source: "testTextContentDoesNotRunScript\x0a\x09PlatformDom isFeasible ifTrue: [\x0a\x09\x09self shouldnt: [ '<script>throw new Error(\x22Intentional\x22)</script>' htmlTextContent ] raise: Error ]",
+referencedClasses: ["PlatformDom", "Error"],
+messageSends: ["ifTrue:", "isFeasible", "shouldnt:raise:", "htmlTextContent"]
+}),
+$globals.PlatformDomTest);
+
+
+});
+
 define('amber_core/SUnit-Tests',["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
@@ -62026,9 +62270,11 @@ define('amber/devel',[
     './helpers', // pre-fetch, dep of ./deploy
     './deploy', // pre-fetch, dep of ./lang
     // --- packages of the development only Amber begin here ---
+    'amber_core/Platform-DOM',
     'amber_core/SUnit',
     'amber_core/Compiler-Tests',
     'amber_core/Kernel-Tests',
+    'amber_core/Platform-DOM-Tests',
     'amber_core/SUnit-Tests'
     // --- packages of the development only Amber end here ---
 ], function (amber) { return amber; });
