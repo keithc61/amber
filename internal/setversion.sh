@@ -14,7 +14,7 @@ rm Kernel-Infrastructure.st.bak
 cd $AMBER_BASE
 internal/local-amberc -D src src/Kernel-Infrastructure.st
 # set version in all json files (bower, npm)
-for F in bower.json package.json; do
+for F in package.json; do
   cp $F $F.bak
   sed -e 's/"version": "[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}\(-.\{0,\}\)\{0,1\}"/"version": "'"$VERSION"'"/' $F.bak >$F
   rm $F.bak
