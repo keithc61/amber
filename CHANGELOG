@@ -1,7 +1,10 @@
-31 December 2016 - Release 0.18.2
+1 January 2017 - Release 0.18.2
 ===================================
 
 * DOM-related stuff in own package (not loaded by default, use imports:).
+* Accompanying libs updated and semver-bumped: Web, Domite.
+  * Silk is high-level enough so no bump neither b/c of inlineJS: nor b/c of DOM stuff needed.
+  * Wrapper-JQuery, Helios-* and IDE bump postponed.
 
 Commits: https://lolg.it/amber/amber/commits/0.18.2.
 
@@ -84,6 +87,8 @@ Commits: https://lolg.it/amber/amber/commits/0.16.0.
 * JS global Promise must be present.
   * If missing, you can polyfill with `bower install amber-compat-es2015 --save`.
 * JS Promise is wrapped in ST class Promise.
+* Accompanying libs updated and semver-bumped:
+  * Wrapper-JQuery, Web, Domite, Silk, IDE, Helios-*.
 
 Commits: https://github.com/amber-smalltalk/amber/compare/0.14.18...0.15.1.
 
