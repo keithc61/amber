@@ -13,18 +13,6 @@ toArray: aDomList
 
 newCustomEvent: aString detail: anObject
 <inlineJS: 'return new CustomEvent(aString, {detail: anObject})'>
-!
-
-newDocumentFragment
-<inlineJS: 'return document.createDocumentFragment()'>
-!
-
-newElement: aString
-<inlineJS: 'return document.createElement(aString)'>
-!
-
-newTextNode: aString
-<inlineJS: 'return document.createTextNode(aString)'>
 ! !
 
 !PlatformDom class methodsFor: 'testing'!

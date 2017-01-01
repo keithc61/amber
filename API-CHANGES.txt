@@ -6,9 +6,6 @@
 + PlatformDom class >>
   + isFeasible
   + isDomNode:
-  + newDocumentFragment
-  + newElement:
-  + newTextNode:
   + newCustomEvent:detail:
   + toArray:
 + CharacterArray >>
