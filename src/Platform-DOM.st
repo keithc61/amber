@@ -9,7 +9,7 @@ toArray: aDomList
 <inlineJS: 'return Array.prototype.slice.call(aDomList)'>
 ! !
 
-!PlatformDom class methodsFor: 'node creation'!
+!PlatformDom class methodsFor: 'creation'!
 
 newCustomEvent: aString detail: anObject
 <inlineJS: 'return new CustomEvent(aString, {detail: anObject})'>

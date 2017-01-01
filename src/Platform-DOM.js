@@ -72,7 +72,7 @@ $globals.PlatformDom.klass);
 $core.addMethod(
 $core.method({
 selector: "newCustomEvent:detail:",
-protocol: 'node creation',
+protocol: 'creation',
 fn: function (aString,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
