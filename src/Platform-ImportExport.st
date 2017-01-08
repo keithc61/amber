@@ -177,18 +177,19 @@ exportPackage: aPackage on: aStream
 		exportPackageImportsOf: aPackage on: aStream.
 	
 	aPackage sortedClasses do: [ :each |
-		self exportDefinitionOf: each on: aStream.
+		each exportBehaviorDefinitionTo: aStream using: self.
 		
 		self 
 			exportProtocols: (self ownMethodProtocolsOfClass: each)
 			on: aStream.
-			
-		self exportMetaDefinitionOf: each on: aStream.
 		
-		self 
-			exportProtocols: (self ownMethodProtocolsOfClass: each class)
-			on: aStream ].
+		each class isMetaclass ifTrue: [
+			each class exportBehaviorDefinitionTo: aStream using: self.
 			
+			self 
+				exportProtocols: (self ownMethodProtocolsOfClass: each class)
+				on: aStream ] ].
+	
 	self 
 		exportProtocols: (self extensionProtocolsOfPackage: aPackage)
 		on: aStream
@@ -341,13 +342,14 @@ exportPackage: aPackage on: aStream
 		exportPackageTransportOf: aPackage on: aStream.
 	
 	aPackage sortedClasses do: [ :each |
-		self exportDefinitionOf: each on: aStream.
+		each exportBehaviorDefinitionTo: aStream using: self.
 		each ownMethods do: [ :method |
 			self exportMethod: method on: aStream ].
-			
-		self exportMetaDefinitionOf: each on: aStream.
-		each class ownMethods do: [ :method |
-			self exportMethod: method on: aStream ] ].
+		
+		each class isMetaclass ifTrue: [
+			each class exportBehaviorDefinitionTo: aStream using: self.
+			each class ownMethods do: [ :method |
+				self exportMethod: method on: aStream ] ] ].
 			
 	(self extensionMethodsOfPackage: aPackage) do: [ :each |
 		self exportMethod: each on: aStream ].
@@ -1083,6 +1085,10 @@ commentStamp: aStamp prior: prior
 		^ self commentStamp
 !
 
+exportBehaviorDefinitionTo: aStream using: anExporter
+	self subclassResponsibility
+!
+
 methodsFor: aString
 	^ ClassProtocolReader new
 		class: self category: aString;
@@ -1092,6 +1098,18 @@ methodsFor: aString
 methodsFor: aString stamp: aStamp
 	"Added for file-in compatibility, ignores stamp."
 	^ self methodsFor: aString
+! !
+
+!Class methodsFor: '*Platform-ImportExport'!
+
+exportBehaviorDefinitionTo: aStream using: anExporter
+	anExporter exportDefinitionOf: self on: aStream
+! !
+
+!Metaclass methodsFor: '*Platform-ImportExport'!
+
+exportBehaviorDefinitionTo: aStream using: anExporter
+	anExporter exportMetaDefinitionOf: self instanceClass on: aStream
 ! !
 
 !Package methodsFor: '*Platform-ImportExport'!
