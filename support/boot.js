@@ -42,7 +42,7 @@
 define(['require', './brikz', './compatibility'], function (require, Brikz) {
     "use strict";
 
-    function inherits(child, parent) {
+    function inherits (child, parent) {
         child.prototype = Object.create(parent.prototype, {
             constructor: {
                 value: child,
@@ -52,7 +52,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         return child;
     }
 
-    function SmalltalkGlobalsBrik(brikz, st) {
+    function SmalltalkGlobalsBrik (brikz, st) {
         // jshint evil:true
         var jsGlobals = new Function("return this")();
         var globals = Object.create(jsGlobals);
@@ -61,23 +61,23 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         this.globals = globals;
     }
 
-    function RootBrik(brikz, st) {
+    function RootBrik (brikz, st) {
         /* Smalltalk foundational objects */
 
         /* SmalltalkRoot is the hidden root of the normal Amber hierarchy.
-          All objects including `ProtoObject` inherit from SmalltalkRoot.
-          Detached roots (eg. wrapped JS classes like Number or Date)
-          do not directly inherit from SmalltalkRoot, but employ a workaround.*/
-        function SmalltalkRoot() {
+         All objects including `ProtoObject` inherit from SmalltalkRoot.
+         Detached roots (eg. wrapped JS classes like Number or Date)
+         do not directly inherit from SmalltalkRoot, but employ a workaround.*/
+        function SmalltalkRoot () {
         }
 
-        function SmalltalkProtoObject() {
+        function SmalltalkProtoObject () {
         }
 
-        function SmalltalkObject() {
+        function SmalltalkObject () {
         }
 
-        function SmalltalkNil() {
+        function SmalltalkNil () {
         }
 
         inherits(SmalltalkProtoObject, SmalltalkRoot);
@@ -113,17 +113,17 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     }
 
     OrganizeBrik.deps = ["augments", "root"];
-    function OrganizeBrik(brikz, st) {
+    function OrganizeBrik (brikz, st) {
         var SmalltalkObject = brikz.root.Object;
 
-        function SmalltalkOrganizer() {
+        function SmalltalkOrganizer () {
         }
 
-        function SmalltalkPackageOrganizer() {
+        function SmalltalkPackageOrganizer () {
             this.elements = [];
         }
 
-        function SmalltalkClassOrganizer() {
+        function SmalltalkClassOrganizer () {
             this.elements = [];
         }
 
@@ -160,7 +160,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     }
 
     SelectorsBrik.deps = ["selectorConversion"];
-    function SelectorsBrik(brikz, st) {
+    function SelectorsBrik (brikz, st) {
         var selectorSet = Object.create(null);
         var selectors = this.selectors = [];
         var selectorPairs = this.selectorPairs = [];
@@ -181,11 +181,11 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     }
 
     PackagesBrik.deps = ["organize", "root"];
-    function PackagesBrik(brikz, st) {
+    function PackagesBrik (brikz, st) {
         var setupPackageOrganization = brikz.organize.setupPackageOrganization;
         var SmalltalkObject = brikz.root.Object;
 
-        function SmalltalkPackage() {
+        function SmalltalkPackage () {
         }
 
         inherits(SmalltalkPackage, SmalltalkObject);
@@ -202,7 +202,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
         /* Smalltalk package creation. To add a Package, use smalltalk.addPackage() */
 
-        function pkg(spec) {
+        function pkg (spec) {
             var that = new SmalltalkPackage();
             that.pkgName = spec.pkgName;
             setupPackageOrganization(that);
@@ -233,7 +233,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     }
 
     ClassesBrik.deps = ["organize", "root", "smalltalkGlobals"];
-    function ClassesBrik(brikz, st) {
+    function ClassesBrik (brikz, st) {
         var setupClassOrganization = brikz.organize.setupClassOrganization;
         var addOrganizationElement = brikz.organize.addOrganizationElement;
         var removeOrganizationElement = brikz.organize.removeOrganizationElement;
@@ -242,13 +242,13 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         var SmalltalkObject = brikz.root.Object;
         nilAsClass.klass = {fn: SmalltalkClass};
 
-        function SmalltalkBehavior() {
+        function SmalltalkBehavior () {
         }
 
-        function SmalltalkClass() {
+        function SmalltalkClass () {
         }
 
-        function SmalltalkMetaclass() {
+        function SmalltalkMetaclass () {
         }
 
         inherits(SmalltalkBehavior, SmalltalkObject);
@@ -284,7 +284,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
          should be added to the system, see smalltalk.addClass().
          Superclass linking is *not* handled here, see api.initialize()  */
 
-        function klass(spec) {
+        function klass (spec) {
             var setSuperClass = spec.superclass;
             if (!spec.superclass) {
                 spec.superclass = nilAsClass;
@@ -307,7 +307,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             return that;
         }
 
-        function metaclass(spec) {
+        function metaclass (spec) {
             var that = new SmalltalkMetaclass();
             that.fn = inherits(function () {
             }, spec.superclass.klass.fn);
@@ -317,7 +317,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             return that;
         }
 
-        function setupClass(klass, spec) {
+        function setupClass (klass, spec) {
             klass.iVarNames = spec.iVarNames || [];
             if (spec.pkg) {
                 klass.pkg = spec.pkg;
@@ -330,7 +330,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             });
         }
 
-        function wireKlass(klass) {
+        function wireKlass (klass) {
             Object.defineProperty(klass.fn.prototype, "klass", {
                 value: klass,
                 enumerable: false, configurable: true, writable: true
@@ -351,7 +351,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             return rawAddClass(pkgName, className, superclass, iVarNames, null);
         };
 
-        function rawAddClass(pkgName, className, superclass, iVarNames, fn) {
+        function rawAddClass (pkgName, className, superclass, iVarNames, fn) {
             var pkg = st.packages[pkgName];
 
             if (!pkg) {
@@ -394,13 +394,13 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             delete globals[klass.className];
         };
 
-        function addSubclass(klass) {
+        function addSubclass (klass) {
             if (klass.superclass) {
                 klass.superclass.subclasses.addElement(klass);
             }
         }
 
-        function removeSubclass(klass) {
+        function removeSubclass (klass) {
             if (klass.superclass) {
                 klass.superclass.subclasses.removeElement(klass);
             }
@@ -426,7 +426,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             return classes;
         };
 
-        function metaSubclasses(metaclass) {
+        function metaSubclasses (metaclass) {
             return metaclass.instanceClass.subclasses
                 .filter(function (each) {
                     return !each.meta;
@@ -450,12 +450,12 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     }
 
     MethodsBrik.deps = ["organize", "selectors", "root", "selectorConversion"];
-    function MethodsBrik(brikz, st) {
+    function MethodsBrik (brikz, st) {
         var addOrganizationElement = brikz.organize.addOrganizationElement;
         var registerSelector = brikz.selectors.registerSelector;
         var SmalltalkObject = brikz.root.Object;
 
-        function SmalltalkMethod() {
+        function SmalltalkMethod () {
         }
 
         inherits(SmalltalkMethod, SmalltalkObject);
@@ -497,7 +497,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
             var newSelectors = [];
 
-            function selectorInUse(stSelector) {
+            function selectorInUse (stSelector) {
                 var pair = registerSelector(stSelector);
                 if (pair) {
                     newSelectors.push(pair);
@@ -512,13 +512,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
 
         st.removeMethod = function (method, klass) {
-            if (klass !== method.methodClass) {
-                throw new Error(
-                    "Refusing to remove method " +
-                    method.methodClass.className + ">>" + method.selector +
-                    " from different class " +
-                    klass.className);
-            }
+            if (klass.methods[method.selector] !== method) return;
 
             delete klass.methods[method.selector];
 
@@ -529,7 +523,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
     }
 
-    function AugmentsBrik(brikz, st) {
+    function AugmentsBrik (brikz, st) {
         /* Array extensions */
 
         Array.prototype.addElement = function (el) {
@@ -550,7 +544,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     }
 
     SmalltalkInitBrik.deps = ["globals", "classes"];
-    function SmalltalkInitBrik(brikz, st) {
+    function SmalltalkInitBrik (brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
 
         var initialized = false;
@@ -581,7 +575,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
     }
 
-    function SelectorConversionBrik(brikz, st) {
+    function SelectorConversionBrik (brikz, st) {
         /* Convert a Smalltalk selector into a JS selector */
         st.st2js = function (string) {
             return '_' + string
@@ -612,11 +606,11 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             }
         };
 
-        function keywordJsToSt(selector) {
+        function keywordJsToSt (selector) {
             return selector.replace(/^_/, '').replace(/_/g, ':');
         }
 
-        function binaryJsToSt(selector) {
+        function binaryJsToSt (selector) {
             return selector
                 .replace(/^_/, '')
                 .replace(/_and/g, '&')
@@ -641,7 +635,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     }
 
     /* Adds AMD and requirejs related methods to the api */
-    function AMDBrik(brikz, st) {
+    function AMDBrik (brikz, st) {
         st.amdRequire = require;
         st.defaultTransportType = st.defaultTransportType || "amd";
         st.defaultAmdNamespace = st.defaultAmdNamespace || "amber_core";
@@ -650,7 +644,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     /* Defines asReceiver to be present at load time */
     /* (logically it belongs more to PrimitiveBrik) */
     AsReceiverBrik.deps = ["smalltalkGlobals", "root"];
-    function AsReceiverBrik(brikz, st) {
+    function AsReceiverBrik (brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
         var nilAsReceiver = brikz.root.nilAsReceiver;
 
