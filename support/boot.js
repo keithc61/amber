@@ -463,10 +463,10 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         st.metaSubclasses = metaSubclasses;
 
         st.traverseClassTree = function (klass, fn) {
-            var queue = [klass];
+            var queue = [klass], sentinel = {};
             for (var i = 0; i < queue.length; ++i) {
                 var item = queue[i];
-                fn(item);
+                if (fn(item, sentinel) === sentinel) continue;
                 var subclasses = item.meta ? metaSubclasses(item) : item.subclasses;
                 queue.push.apply(queue, subclasses);
             }

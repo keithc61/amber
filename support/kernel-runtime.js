@@ -163,15 +163,16 @@ define(function () {
         function propagateMethodChange(klass, method, exclude) {
             var selector = method.selector;
             var jsSelector = method.jsSelector;
-            st.traverseClassTree(klass, function (subclass) {
+            st.traverseClassTree(klass, function (subclass, sentinel) {
                 if (subclass != exclude) {
-                    initMethodInClass(subclass, selector, jsSelector);
+                    if (initMethodInClass(subclass, selector, jsSelector)) return sentinel;
                 }
             });
         }
 
         function initMethodInClass(klass, selector, jsSelector) {
-            if (klass.detachedRoot && !klass.methods[selector]) {
+            if (klass.methods[selector]) return true;
+            if (klass.detachedRoot) {
                 installJSMethod(klass.fn.prototype, jsSelector, klass.superclass.fn.prototype[jsSelector]);
             }
         }
