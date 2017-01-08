@@ -802,6 +802,98 @@ $globals.ChunkExporter);
 
 $core.addMethod(
 $core.method({
+selector: "exportTraitDefinitionOf:on:",
+protocol: 'output',
+fn: function (aClass,aStream){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1,$4,$3,$5,$6,$8,$7,$9;
+$2=self._classNameFor_(aClass);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["classNameFor:"]=1;
+//>>excludeEnd("ctx");
+$1="Trait named: #".__comma($2);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=1;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_($1);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["nextPutAll:"]=1;
+//>>excludeEnd("ctx");
+$recv(aStream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["lf"]=1;
+//>>excludeEnd("ctx");
+$recv(aStream)._tab();
+$4="package: '".__comma($recv(aClass)._category());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=3;
+//>>excludeEnd("ctx");
+$3=$recv($4).__comma("'!");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=2;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_($3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["nextPutAll:"]=2;
+//>>excludeEnd("ctx");
+$5=$recv(aStream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["lf"]=2;
+//>>excludeEnd("ctx");
+$6=$recv(aClass)._comment();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["comment"]=1;
+//>>excludeEnd("ctx");
+$recv($6)._ifNotEmpty_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$8="!".__comma(self._classNameFor_(aClass));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx[","]=5;
+//>>excludeEnd("ctx");
+$7=$recv($8).__comma(" commentStamp!");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx[","]=4;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_($7);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["nextPutAll:"]=3;
+//>>excludeEnd("ctx");
+$recv(aStream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["lf"]=3;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_($recv(self._chunkEscape_($recv(aClass)._comment())).__comma("!"));
+$9=$recv(aStream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["lf"]=4;
+//>>excludeEnd("ctx");
+return $9;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$recv(aStream)._lf();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"exportTraitDefinitionOf:on:",{aClass:aClass,aStream:aStream},$globals.ChunkExporter)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aClass", "aStream"],
+source: "exportTraitDefinitionOf: aClass on: aStream\x0a\x09\x22Chunk format.\x22\x0a\x0a\x09aStream\x0a\x09\x09nextPutAll: 'Trait named: #', (self classNameFor: aClass); lf;\x0a\x09\x09tab; nextPutAll: 'package: ''', aClass category, '''!'; lf.\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09nextPutAll: '!', (self classNameFor: aClass), ' commentStamp!';lf;\x0a\x09\x09nextPutAll: (self chunkEscape: aClass comment), '!';lf ].\x0a\x09aStream lf",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["nextPutAll:", ",", "classNameFor:", "lf", "tab", "category", "ifNotEmpty:", "comment", "chunkEscape:"]
+}),
+$globals.ChunkExporter);
+
+$core.addMethod(
+$core.method({
 selector: "extensionCategoriesOfPackage:",
 protocol: 'accessing',
 fn: function (aPackage){
@@ -1766,6 +1858,104 @@ source: "exportPackageTransportOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["nextPutAll:", "asJavascript", "name", "asJSONString", "transport", "lf"]
+}),
+$globals.Exporter);
+
+$core.addMethod(
+$core.method({
+selector: "exportTraitDefinitionOf:on:",
+protocol: 'output',
+fn: function (aClass,aStream){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1,$3,$4;
+$recv(aStream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["lf"]=1;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_("$core.addTrait(");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["nextPutAll:"]=1;
+//>>excludeEnd("ctx");
+$2="'".__comma(self._classNameFor_(aClass));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=2;
+//>>excludeEnd("ctx");
+$1=$recv($2).__comma("', '");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=1;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_($1);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["nextPutAll:"]=2;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_($recv($recv(aClass)._category()).__comma("'"));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["nextPutAll:"]=3;
+//>>excludeEnd("ctx");
+$3=$recv(aStream)._nextPutAll_(");");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["nextPutAll:"]=4;
+//>>excludeEnd("ctx");
+$4=$recv(aClass)._comment();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["comment"]=1;
+//>>excludeEnd("ctx");
+$recv($4)._ifNotEmpty_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv(aStream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["lf"]=2;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_("//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["nextPutAll:"]=5;
+//>>excludeEnd("ctx");
+$recv(aStream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["lf"]=3;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_(self._jsClassNameFor_(aClass));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["nextPutAll:"]=6;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_(".comment=");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["nextPutAll:"]=7;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_($recv($recv($recv(aClass)._comment())._crlfSanitized())._asJavascript());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["nextPutAll:"]=8;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_(";");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["nextPutAll:"]=9;
+//>>excludeEnd("ctx");
+$recv(aStream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["lf"]=4;
+//>>excludeEnd("ctx");
+return $recv(aStream)._nextPutAll_("//>>excludeEnd(\x22ide\x22);");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$recv(aStream)._lf();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"exportTraitDefinitionOf:on:",{aClass:aClass,aStream:aStream},$globals.Exporter)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aClass", "aStream"],
+source: "exportTraitDefinitionOf: aClass on: aStream\x0a\x09aStream\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: '$core.addTrait(';\x0a\x09\x09nextPutAll: '''', (self classNameFor: aClass), ''', ''';\x0a\x09\x09nextPutAll: aClass category, '''';\x0a\x09\x09nextPutAll: ');'.\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: (self jsClassNameFor: aClass);\x0a\x09\x09\x09nextPutAll: '.comment=';\x0a\x09\x09\x09nextPutAll: aClass comment crlfSanitized asJavascript;\x0a\x09\x09\x09nextPutAll: ';';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeEnd(\x22ide\x22);' ].\x0a\x09aStream lf",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["lf", "nextPutAll:", ",", "classNameFor:", "category", "ifNotEmpty:", "comment", "jsClassNameFor:", "asJavascript", "crlfSanitized"]
 }),
 $globals.Exporter);
 
@@ -4549,5 +4739,53 @@ referencedClasses: [],
 messageSends: ["loadFromNamespace:", "named:"]
 }),
 $globals.Package.klass);
+
+$core.addMethod(
+$core.method({
+selector: "exportBehaviorDefinitionTo:using:",
+protocol: '*Platform-ImportExport',
+fn: function (aStream,anExporter){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv(anExporter)._exportTraitDefinitionOf_on_(self,aStream);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"exportBehaviorDefinitionTo:using:",{aStream:aStream,anExporter:anExporter},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aStream", "anExporter"],
+source: "exportBehaviorDefinitionTo: aStream using: anExporter\x0a\x09anExporter exportTraitDefinitionOf: self on: aStream",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["exportTraitDefinitionOf:on:"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "exportBehaviorDefinitionTo:using:",
+protocol: '*Platform-ImportExport',
+fn: function (aStream,anExporter){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv(anExporter)._exportTraitDefinitionOf_on_(self,aStream);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"exportBehaviorDefinitionTo:using:",{aStream:aStream,anExporter:anExporter},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aStream", "anExporter"],
+source: "exportBehaviorDefinitionTo: aStream using: anExporter\x0a\x09anExporter exportTraitDefinitionOf: self on: aStream",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["exportTraitDefinitionOf:on:"]
+}),
+$globals.Trait);
 
 });

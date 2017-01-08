@@ -521,6 +521,55 @@ isMetaclass
 	^ true
 ! !
 
+Behavior subclass: #Trait
+	instanceVariableNames: ''
+	package: 'Kernel-Classes'!
+
+!Trait methodsFor: 'accessing'!
+
+category
+	^ self package ifNil: [ 'Unclassified' ] ifNotNil: [ self package name ]
+!
+
+classTag
+	^ 'trait'
+!
+
+definition
+	^ String streamContents: [ :stream |
+		stream
+			nextPutAll: 'Trait named: #';
+			nextPutAll: self name;
+			nextPutAll: String lf, String tab;
+			nextPutAll: 'package: ''';
+			nextPutAll: self category;
+			nextPutAll: '''' ]
+!
+
+package
+	^ self basicAt: 'pkg'
+!
+
+theMetaClass
+	^ Trait class
+!
+
+theNonMetaClass
+	^ self
+! !
+
+!Trait methodsFor: 'instance creation'!
+
+basicNew
+	self error: 'A trait cannot be instantiated.'
+! !
+
+!Trait class methodsFor: 'instance creation'!
+
+named: aString package: anotherString
+	<return $core.addTrait(aString, anotherString)>
+! !
+
 Object subclass: #ClassBuilder
 	instanceVariableNames: ''
 	package: 'Kernel-Classes'!

@@ -245,6 +245,9 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         function SmalltalkBehavior () {
         }
 
+        function SmalltalkTrait () {
+        }
+
         function SmalltalkClass () {
         }
 
@@ -252,12 +255,15 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         }
 
         inherits(SmalltalkBehavior, SmalltalkObject);
+        inherits(SmalltalkTrait, SmalltalkBehavior);
         inherits(SmalltalkClass, SmalltalkBehavior);
         inherits(SmalltalkMetaclass, SmalltalkBehavior);
 
         SmalltalkBehavior.prototype.toString = function () {
             return 'Smalltalk ' + this.className;
         };
+
+        SmalltalkTrait.prototype.trait = true;
 
         SmalltalkMetaclass.prototype.meta = true;
 
@@ -268,6 +274,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             addCoupledClass("Behavior", globals.Object, "Kernel-Classes", SmalltalkBehavior);
             addCoupledClass("Metaclass", globals.Behavior, "Kernel-Classes", SmalltalkMetaclass);
             addCoupledClass("Class", globals.Behavior, "Kernel-Classes", SmalltalkClass);
+            addCoupledClass("Trait", globals.Behavior, "Kernel-Classes", SmalltalkTrait);
 
             // Manually bootstrap the metaclass hierarchy
             globals.ProtoObject.klass.superclass = nilAsClass.klass = globals.Class;
@@ -283,6 +290,13 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
          created metaclass object. Newly created classes (not their metaclass)
          should be added to the system, see smalltalk.addClass().
          Superclass linking is *not* handled here, see api.initialize()  */
+
+        function trait (spec) {
+            var that = new SmalltalkTrait();
+            that.className = spec.className;
+            setupClass(that, spec);
+            return that;
+        }
 
         function klass (spec) {
             var setSuperClass = spec.superclass;
@@ -351,6 +365,10 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             return rawAddClass(pkgName, className, superclass, iVarNames, null);
         };
 
+        st.addTrait = function (className, pkgName) {
+            return rawAddClass(pkgName, className, "trait");
+        };
+
         function rawAddClass (pkgName, className, superclass, iVarNames, fn) {
             var pkg = st.packages[pkgName];
 
@@ -358,7 +376,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
                 throw new Error("Missing package " + pkgName);
             }
 
-            if (superclass == null || superclass.isNil) {
+            var isTrait = superclass === "trait";
+            if (isTrait || superclass == null || superclass.isNil) {
                 superclass = null;
             }
             var theClass = globals.hasOwnProperty(className) && globals[className];
@@ -370,7 +389,11 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
                     iVarNames = iVarNames || theClass.iVarNames;
                     st.removeClass(theClass);
                 }
-                theClass = globals[className] = klass({
+
+                theClass = globals[className] = isTrait ? trait({
+                    className: className,
+                    pkg: pkg
+                }) : klass({
                     className: className,
                     superclass: superclass,
                     pkg: pkg,
@@ -383,7 +406,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
             classes.addElement(theClass);
             addOrganizationElement(pkg, theClass);
-            if (st._classAdded) st._classAdded(theClass);
+            if (!isTrait && st._classAdded) st._classAdded(theClass);
+            if (isTrait && st._traitAdded) st._traitAdded(theClass);
             return theClass;
         }
 
@@ -507,7 +531,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             selectorInUse(method.selector);
             method.messageSends.forEach(selectorInUse);
 
-            if (st._methodAdded) st._methodAdded(method, klass);
+            if (!klass.trait && st._methodAdded) st._methodAdded(method, klass);
+            if (klass.trait && st._traitMethodAdded) st._traitMethodAdded(method, klass);
             if (st._selectorsAdded) st._selectorsAdded(newSelectors);
         };
 
@@ -516,7 +541,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
             delete klass.methods[method.selector];
 
-            if (st._methodRemoved) st._methodRemoved(method, klass);
+            if (!klass.trait && st._methodRemoved) st._methodRemoved(method, klass);
+            if (klass.trait && st._traitMethodRemoved) st._traitMethodRemoved(method, klass);
 
             // Do *not* delete protocols from here.
             // This is handled by #removeCompiledMethod

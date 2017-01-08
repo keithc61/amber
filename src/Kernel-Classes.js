@@ -2235,6 +2235,222 @@ $globals.Metaclass);
 
 
 
+$core.addClass('Trait', $globals.Behavior, [], 'Kernel-Classes');
+$core.addMethod(
+$core.method({
+selector: "basicNew",
+protocol: 'instance creation',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+self._error_("A trait cannot be instantiated.");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"basicNew",{},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "basicNew\x0a\x09self error: 'A trait cannot be instantiated.'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["error:"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "category",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$receiver;
+$1=self._package();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["package"]=1;
+//>>excludeEnd("ctx");
+if(($receiver = $1) == null || $receiver.isNil){
+return "Unclassified";
+} else {
+return $recv(self._package())._name();
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"category",{},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "category\x0a\x09^ self package ifNil: [ 'Unclassified' ] ifNotNil: [ self package name ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["ifNil:ifNotNil:", "package", "name"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "classTag",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return "trait";
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "classTag\x0a\x09^ 'trait'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "definition",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.String)._streamContents_((function(stream){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv(stream)._nextPutAll_("Trait named: #");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["nextPutAll:"]=1;
+//>>excludeEnd("ctx");
+$recv(stream)._nextPutAll_(self._name());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["nextPutAll:"]=2;
+//>>excludeEnd("ctx");
+$recv(stream)._nextPutAll_($recv($recv($globals.String)._lf()).__comma($recv($globals.String)._tab()));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["nextPutAll:"]=3;
+//>>excludeEnd("ctx");
+$recv(stream)._nextPutAll_("package: '");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["nextPutAll:"]=4;
+//>>excludeEnd("ctx");
+$recv(stream)._nextPutAll_(self._category());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["nextPutAll:"]=5;
+//>>excludeEnd("ctx");
+return $recv(stream)._nextPutAll_("'");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"definition",{},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "definition\x0a\x09^ String streamContents: [ :stream |\x0a\x09\x09stream\x0a\x09\x09\x09nextPutAll: 'Trait named: #';\x0a\x09\x09\x09nextPutAll: self name;\x0a\x09\x09\x09nextPutAll: String lf, String tab;\x0a\x09\x09\x09nextPutAll: 'package: ''';\x0a\x09\x09\x09nextPutAll: self category;\x0a\x09\x09\x09nextPutAll: '''' ]",
+referencedClasses: ["String"],
+//>>excludeEnd("ide");
+messageSends: ["streamContents:", "nextPutAll:", "name", ",", "lf", "tab", "category"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "package",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._basicAt_("pkg");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"package",{},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "package\x0a\x09^ self basicAt: 'pkg'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["basicAt:"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "theMetaClass",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.Trait)._class();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"theMetaClass",{},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "theMetaClass\x0a\x09^ Trait class",
+referencedClasses: ["Trait"],
+//>>excludeEnd("ide");
+messageSends: ["class"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "theNonMetaClass",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "theNonMetaClass\x0a\x09^ self",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Trait);
+
+
+$core.addMethod(
+$core.method({
+selector: "named:package:",
+protocol: 'instance creation',
+fn: function (aString,anotherString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $core.addTrait(aString, anotherString);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"named:package:",{aString:aString,anotherString:anotherString},$globals.Trait.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "anotherString"],
+source: "named: aString package: anotherString\x0a\x09<return $core.addTrait(aString, anotherString)>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Trait.klass);
+
+
 $core.addClass('ClassBuilder', $globals.Object, [], 'Kernel-Classes');
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassBuilder.comment="I am responsible for compiling new classes or modifying existing classes in the system.\x0a\x0aRather than using me directly to compile a class, use `Class >> subclass:instanceVariableNames:package:`.";

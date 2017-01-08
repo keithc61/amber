@@ -81,7 +81,9 @@ define(function () {
             }
         }
 
-        classes().forEach(initClassAndMetaclass);
+        classes().forEach(function (klass) {
+            if (!klass.trait) initClassAndMetaclass(klass);
+        });
 
         st._classAdded = initClassAndMetaclass;
 

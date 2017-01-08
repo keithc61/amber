@@ -230,6 +230,19 @@ exportProtocolPrologueOf: aProtocol on: aStream
 exportProtocols: aCollection on: aStream
 	aCollection do: [ :each |
 		self exportProtocol: each on: aStream ]
+!
+
+exportTraitDefinitionOf: aClass on: aStream
+	"Chunk format."
+
+	aStream
+		nextPutAll: 'Trait named: #', (self classNameFor: aClass); lf;
+		tab; nextPutAll: 'package: ''', aClass category, '''!!'; lf.
+	aClass comment ifNotEmpty: [
+		aStream
+		nextPutAll: '!!', (self classNameFor: aClass), ' commentStamp!!';lf;
+		nextPutAll: (self chunkEscape: aClass comment), '!!';lf ].
+	aStream lf
 ! !
 
 AbstractExporter subclass: #Exporter
@@ -410,6 +423,27 @@ exportPackageTransportOf: aPackage on: aStream
 		nextPutAll: aPackage transport asJSONString;
 		nextPutAll: ';';
 		lf
+!
+
+exportTraitDefinitionOf: aClass on: aStream
+	aStream
+		lf;
+		nextPutAll: '$core.addTrait(';
+		nextPutAll: '''', (self classNameFor: aClass), ''', ''';
+		nextPutAll: aClass category, '''';
+		nextPutAll: ');'.
+	aClass comment ifNotEmpty: [
+		aStream
+			lf;
+			nextPutAll: '//>>excludeStart("ide", pragmas.excludeIdeData);';
+			lf;
+			nextPutAll: (self jsClassNameFor: aClass);
+			nextPutAll: '.comment=';
+			nextPutAll: aClass comment crlfSanitized asJavascript;
+			nextPutAll: ';';
+			lf;
+			nextPutAll: '//>>excludeEnd("ide");' ].
+	aStream lf
 ! !
 
 Exporter subclass: #AmdExporter
@@ -1135,5 +1169,17 @@ load: aPackageName
 
 load: aPackageName fromNamespace: aString
 	(self named: aPackageName) loadFromNamespace: aString
+! !
+
+!Trait methodsFor: '*Platform-ImportExport'!
+
+exportBehaviorDefinitionTo: aStream using: anExporter
+	anExporter exportTraitDefinitionOf: self on: aStream
+! !
+
+!Trait methodsFor: '*Platform-ImportExport'!
+
+exportBehaviorDefinitionTo: aStream using: anExporter
+	anExporter exportTraitDefinitionOf: self on: aStream
 ! !
 
