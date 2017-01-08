@@ -121,6 +121,13 @@ chunkEscape: aString
 
 !ChunkExporter methodsFor: 'output'!
 
+exportBehavior: aBehavior on: aStream
+	aBehavior exportBehaviorDefinitionTo: aStream using: self.
+	self 
+		exportProtocols: (self ownMethodProtocolsOfClass: aBehavior)
+		on: aStream
+!
+
 exportCategoryEpilogueOf: aCategory on: aStream
 	aStream nextPutAll: ' !!'; lf; lf
 !
@@ -177,18 +184,9 @@ exportPackage: aPackage on: aStream
 		exportPackageImportsOf: aPackage on: aStream.
 	
 	aPackage sortedClasses do: [ :each |
-		each exportBehaviorDefinitionTo: aStream using: self.
-		
-		self 
-			exportProtocols: (self ownMethodProtocolsOfClass: each)
-			on: aStream.
-		
+		self exportBehavior: each on: aStream.
 		each class isMetaclass ifTrue: [
-			each class exportBehaviorDefinitionTo: aStream using: self.
-			
-			self 
-				exportProtocols: (self ownMethodProtocolsOfClass: each class)
-				on: aStream ] ].
+			self exportBehavior: each class on: aStream ] ].
 	
 	self 
 		exportProtocols: (self extensionProtocolsOfPackage: aPackage)
@@ -274,6 +272,12 @@ jsClassNameFor: aClass
 
 !Exporter methodsFor: 'output'!
 
+exportBehavior: aBehavior on: aStream
+	aBehavior exportBehaviorDefinitionTo: aStream using: self.
+	aBehavior ownMethods do: [ :method |
+		self exportMethod: method on: aStream ]
+!
+
 exportDefinitionOf: aClass on: aStream
 	aStream
 		lf;
@@ -342,14 +346,9 @@ exportPackage: aPackage on: aStream
 		exportPackageTransportOf: aPackage on: aStream.
 	
 	aPackage sortedClasses do: [ :each |
-		each exportBehaviorDefinitionTo: aStream using: self.
-		each ownMethods do: [ :method |
-			self exportMethod: method on: aStream ].
-		
+		self exportBehavior: each on: aStream.
 		each class isMetaclass ifTrue: [
-			each class exportBehaviorDefinitionTo: aStream using: self.
-			each class ownMethods do: [ :method |
-				self exportMethod: method on: aStream ] ] ].
+			self exportBehavior: each class on: aStream ] ].
 			
 	(self extensionMethodsOfPackage: aPackage) do: [ :each |
 		self exportMethod: each on: aStream ].
