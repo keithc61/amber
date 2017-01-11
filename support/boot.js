@@ -362,52 +362,47 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             if (typeof superclass == 'undefined' || superclass && superclass.isNil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
-            return rawAddClass(pkgName, className, superclass, iVarNames, null);
+            return rawAddClass(pkgName, "class", {className: className, superclass: superclass, iVarNames: iVarNames});
+        };
+
+        var classFactories = this.classFactories = {
+            "class": klass
         };
 
         st.addTrait = function (className, pkgName) {
-            return rawAddClass(pkgName, className, "trait");
+            return rawAddClass(pkgName, "trait", {className: className});
         };
+        classFactories.trait = trait;
 
-        function rawAddClass (pkgName, className, superclass, iVarNames, fn) {
-            var pkg = st.packages[pkgName];
+        function rawAddClass (pkgName, type, spec) {
+            spec.pkg = st.packages[pkgName];
 
-            if (!pkg) {
+            if (!spec.pkg) {
                 throw new Error("Missing package " + pkgName);
             }
 
-            var isTrait = superclass === "trait";
-            if (isTrait || superclass == null || superclass.isNil) {
-                superclass = null;
+            if (spec.superclass == null || spec.superclass.isNil) {
+                spec.superclass = null;
             }
-            var theClass = globals.hasOwnProperty(className) && globals[className];
-            if (theClass && theClass.superclass == superclass && !fn) {
-                if (iVarNames) theClass.iVarNames = iVarNames;
-                if (pkg) theClass.pkg = pkg;
+            var theClass = globals.hasOwnProperty(spec.className) && globals[spec.className];
+            if (theClass && theClass.superclass == spec.superclass && !spec.fn) {
+                if (spec.iVarNames) theClass.iVarNames = spec.iVarNames;
+                if (spec.pkg) theClass.pkg = spec.pkg;
             } else {
                 if (theClass) {
-                    iVarNames = iVarNames || theClass.iVarNames;
+                    spec.iVarNames = spec.iVarNames || theClass.iVarNames;
                     st.removeClass(theClass);
                 }
 
-                theClass = globals[className] = isTrait ? trait({
-                    className: className,
-                    pkg: pkg
-                }) : klass({
-                    className: className,
-                    superclass: superclass,
-                    pkg: pkg,
-                    iVarNames: iVarNames,
-                    fn: fn
-                });
+                theClass = globals[spec.className] = classFactories[type](spec);
 
                 addSubclass(theClass);
             }
 
             classes.addElement(theClass);
-            addOrganizationElement(pkg, theClass);
-            if (!isTrait && st._classAdded) st._classAdded(theClass);
-            if (isTrait && st._traitAdded) st._traitAdded(theClass);
+            addOrganizationElement(spec.pkg, theClass);
+            if (!theClass.trait && st._classAdded) st._classAdded(theClass);
+            if (theClass.trait && st._traitAdded) st._traitAdded(theClass);
             return theClass;
         }
 
@@ -434,7 +429,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
          and add it to the system.*/
 
         this.addCoupledClass = function (className, superclass, pkgName, fn) {
-            return rawAddClass(pkgName, className, superclass, null, fn);
+            return rawAddClass(pkgName, "class", {className: className, superclass: superclass, fn: fn});
         };
 
         /* Create an alias for an existing class */
