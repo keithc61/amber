@@ -242,6 +242,9 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         var SmalltalkObject = brikz.root.Object;
         nilAsClass.klass = {fn: SmalltalkClass};
 
+        function SmalltalkBehaviorBody () {
+        }
+
         function SmalltalkBehavior () {
         }
 
@@ -251,7 +254,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         function SmalltalkMetaclass () {
         }
 
-        inherits(SmalltalkBehavior, SmalltalkObject);
+        inherits(SmalltalkBehaviorBody, SmalltalkObject);
+        inherits(SmalltalkBehavior, SmalltalkBehaviorBody);
         inherits(SmalltalkClass, SmalltalkBehavior);
         inherits(SmalltalkMetaclass, SmalltalkBehavior);
 
@@ -279,7 +283,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             var globals = brikz.smalltalkGlobals.globals;
             var addCoupledClass = brikz.classes.addCoupledClass;
             st.addPackage("Kernel-Classes");
-            addCoupledClass("Behavior", globals.Object, "Kernel-Classes", SmalltalkBehavior);
+            addCoupledClass("BehaviorBody", globals.Object, "Kernel-Classes", SmalltalkBehaviorBody);
+            addCoupledClass("Behavior", globals.BehaviorBody, "Kernel-Classes", SmalltalkBehavior);
             addCoupledClass("Metaclass", globals.Behavior, "Kernel-Classes", SmalltalkMetaclass);
             addCoupledClass("Class", globals.Behavior, "Kernel-Classes", SmalltalkClass);
 

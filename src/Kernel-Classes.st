@@ -1,50 +1,18 @@
 Smalltalk createPackage: 'Kernel-Classes'!
-Object subclass: #Behavior
+Object subclass: #BehaviorBody
 	instanceVariableNames: ''
 	package: 'Kernel-Classes'!
-!Behavior commentStamp!
-I am the superclass of all class objects.
+!BehaviorBody commentStamp!
+I am the superclass of all behaviors.
 
-I define the protocol for creating instances of a class with `#basicNew` and `#new` (see `boot.js` for class constructors details).
+My instances hold the method dictionary.
 
-My instances know about the subclass/superclass relationships between classes, contain the description that instances are created from,
-and hold the method dictionary that's associated with each class.
+I also provides methods for compiling methods and examining the method dictionary.!
 
-I also provides methods for compiling methods, examining the method dictionary, and iterating over the class hierarchy.!
-
-!Behavior methodsFor: 'accessing'!
+!BehaviorBody methodsFor: 'accessing'!
 
 >> aString
 	^ self methodAt: aString
-!
-
-allInstanceVariableNames
-	| result |
-	result := self instanceVariableNames copy.
-	self superclass ifNotNil: [
-		result addAll: self superclass allInstanceVariableNames ].
-	^ result
-!
-
-allSelectors
-	^ self allSuperclasses
-		inject: self selectors
-		into: [ :acc :each | acc addAll: each selectors; yourself ]
-!
-
-allSubclasses
-	"Answer an collection of the receiver's and the receiver's descendent's subclasses. "
-
-	^ Array streamContents: [ :str | self allSubclassesDo: [ :each | str nextPut: each ] ]
-!
-
-allSuperclasses
-	
-	self superclass ifNil: [ ^ #() ].
-	
-	^ (OrderedCollection with: self superclass)
-		addAll: self superclass allSuperclasses;
-		yourself
 !
 
 comment
@@ -61,39 +29,6 @@ comment: aString
 
 definition
 	^ ''
-!
-
-instanceVariableNames
-	<inlineJS: 'return self.iVarNames'>
-!
-
-javascriptConstructor
-	"Answer the JS constructor used to instantiate. See boot.js"
-	
-	<inlineJS: 'return self.fn'>
-!
-
-javascriptConstructor: aJavaScriptFunction
-	"Set the JS constructor used to instantiate.
-	See the JS counter-part in boot.js `$core.setClassConstructor'"
-	
-	<inlineJS: '$core.setClassConstructor(self, aJavaScriptFunction);'>
-!
-
-lookupSelector: selector
-	"Look up the given selector in my methodDictionary.
-	Return the corresponding method if found.
-	Otherwise chase the superclass chain and try again.
-	Return nil if no method is found."
-	
-	| lookupClass |
-	
-	lookupClass := self.
-	[ lookupClass = nil ] whileFalse: [
-		(lookupClass includesSelector: selector)
-				ifTrue: [ ^ lookupClass methodAt: selector ].
-			lookupClass := lookupClass superclass ].
-	^ nil
 !
 
 methodAt: aString
@@ -172,10 +107,6 @@ protocols
 	^ self organization elements sorted
 !
 
-prototype
-	<inlineJS: 'return self.fn.prototype'>
-!
-
 removeProtocolIfEmpty: aString
 	self methods
 		detect: [ :each | each protocol = aString ]
@@ -186,27 +117,15 @@ selectors
 	^ self methodDictionary keys
 !
 
-subclasses
-	self subclassResponsibility
-!
-
-superclass
-	<inlineJS: 'return self.superclass'>
-!
-
 theMetaClass
 	self subclassResponsibility
 !
 
 theNonMetaClass
 	self subclassResponsibility
-!
-
-withAllSubclasses
-	^ (Array with: self) addAll: self allSubclasses; yourself
 ! !
 
-!Behavior methodsFor: 'compiling'!
+!BehaviorBody methodsFor: 'compiling'!
 
 addCompiledMethod: aMethod
 	| oldMethod announcement |
@@ -261,15 +180,7 @@ removeCompiledMethod: aMethod
 			yourself)
 ! !
 
-!Behavior methodsFor: 'enumerating'!
-
-allSubclassesDo: aBlock
-	"Evaluate the argument, aBlock, for each of the receiver's subclasses."
-
-<inlineJS: '$core.traverseClassTree(self, function(subclass) {
-	if (subclass !!== self) aBlock._value_(subclass);
-})'>
-!
+!BehaviorBody methodsFor: 'enumerating'!
 
 protocolsDo: aBlock
 	"Execute aBlock for each method protocol with
@@ -284,6 +195,138 @@ protocolsDo: aBlock
 		aBlock value: protocol value: (methodsByProtocol at: protocol) ]
 ! !
 
+!BehaviorBody methodsFor: 'private'!
+
+basicAddCompiledMethod: aMethod
+	<inlineJS: '$core.addMethod(aMethod, self)'>
+!
+
+basicRemoveCompiledMethod: aMethod
+	<inlineJS: '$core.removeMethod(aMethod,self)'>
+! !
+
+!BehaviorBody methodsFor: 'testing'!
+
+includesSelector: aString
+	^ self methodDictionary includesKey: aString
+! !
+
+BehaviorBody subclass: #Behavior
+	instanceVariableNames: ''
+	package: 'Kernel-Classes'!
+!Behavior commentStamp!
+I am the superclass of all class objects.
+
+In addition to BehaviorBody, I define superclass/subclass relationships and instantiation.
+
+I define the protocol for creating instances of a class with `#basicNew` and `#new` (see `boot.js` for class constructors details).
+
+My instances know about the subclass/superclass relationships between classes and contain the description that instances are created from.
+
+I also provide iterating over the class hierarchy.!
+
+!Behavior methodsFor: 'accessing'!
+
+allInstanceVariableNames
+	| result |
+	result := self instanceVariableNames copy.
+	self superclass ifNotNil: [
+		result addAll: self superclass allInstanceVariableNames ].
+	^ result
+!
+
+allSelectors
+	^ self allSuperclasses
+		inject: self selectors
+		into: [ :acc :each | acc addAll: each selectors; yourself ]
+!
+
+allSubclasses
+	"Answer an collection of the receiver's and the receiver's descendent's subclasses. "
+
+	^ Array streamContents: [ :str | self allSubclassesDo: [ :each | str nextPut: each ] ]
+!
+
+allSuperclasses
+	
+	self superclass ifNil: [ ^ #() ].
+	
+	^ (OrderedCollection with: self superclass)
+		addAll: self superclass allSuperclasses;
+		yourself
+!
+
+definition
+	^ ''
+!
+
+instanceVariableNames
+	<inlineJS: 'return self.iVarNames'>
+!
+
+javascriptConstructor
+	"Answer the JS constructor used to instantiate. See boot.js"
+	
+	<inlineJS: 'return self.fn'>
+!
+
+javascriptConstructor: aJavaScriptFunction
+	"Set the JS constructor used to instantiate.
+	See the JS counter-part in boot.js `$core.setClassConstructor'"
+	
+	<inlineJS: '$core.setClassConstructor(self, aJavaScriptFunction);'>
+!
+
+lookupSelector: selector
+	"Look up the given selector in my methodDictionary.
+	Return the corresponding method if found.
+	Otherwise chase the superclass chain and try again.
+	Return nil if no method is found."
+	
+	| lookupClass |
+	
+	lookupClass := self.
+	[ lookupClass = nil ] whileFalse: [
+		(lookupClass includesSelector: selector)
+				ifTrue: [ ^ lookupClass methodAt: selector ].
+			lookupClass := lookupClass superclass ].
+	^ nil
+!
+
+prototype
+	<inlineJS: 'return self.fn.prototype'>
+!
+
+subclasses
+	self subclassResponsibility
+!
+
+superclass
+	<inlineJS: 'return self.superclass'>
+!
+
+theMetaClass
+	self subclassResponsibility
+!
+
+theNonMetaClass
+	self subclassResponsibility
+!
+
+withAllSubclasses
+	^ (Array with: self) addAll: self allSubclasses; yourself
+! !
+
+!Behavior methodsFor: 'enumerating'!
+
+allSubclassesDo: aBlock
+	"Evaluate the argument, aBlock, for each of the receiver's subclasses."
+
+<inlineJS: '$core.traverseClassTree(self, function(subclass) {
+	if (subclass !!== self) aBlock._value_(subclass);
+})'>
+! !
+
 !Behavior methodsFor: 'instance creation'!
 
 basicNew
@@ -292,16 +335,6 @@ basicNew
 
 new
 	^ self basicNew initialize
-! !
-
-!Behavior methodsFor: 'private'!
-
-basicAddCompiledMethod: aMethod
-	<inlineJS: '$core.addMethod(aMethod, self)'>
-!
-
-basicRemoveCompiledMethod: aMethod
-	<inlineJS: '$core.removeMethod(aMethod,self)'>
 ! !
 
 !Behavior methodsFor: 'testing'!
@@ -314,10 +347,6 @@ canUnderstand: aSelector
 includesBehavior: aClass
 	^ self == aClass or: [
 			self inheritsFrom: aClass ]
-!
-
-includesSelector: aString
-	^ self methodDictionary includesKey: aString
 !
 
 inheritsFrom: aClass

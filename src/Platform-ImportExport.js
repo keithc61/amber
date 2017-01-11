@@ -4501,30 +4501,6 @@ $globals.Behavior);
 
 $core.addMethod(
 $core.method({
-selector: "exportBehaviorDefinitionTo:using:",
-protocol: '*Platform-ImportExport',
-fn: function (aStream,anExporter){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-self._subclassResponsibility();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"exportBehaviorDefinitionTo:using:",{aStream:aStream,anExporter:anExporter},$globals.Behavior)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aStream", "anExporter"],
-source: "exportBehaviorDefinitionTo: aStream using: anExporter\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["subclassResponsibility"]
-}),
-$globals.Behavior);
-
-$core.addMethod(
-$core.method({
 selector: "methodsFor:",
 protocol: '*Platform-ImportExport',
 fn: function (aString){
@@ -4571,6 +4547,30 @@ referencedClasses: [],
 messageSends: ["methodsFor:"]
 }),
 $globals.Behavior);
+
+$core.addMethod(
+$core.method({
+selector: "exportBehaviorDefinitionTo:using:",
+protocol: '*Platform-ImportExport',
+fn: function (aStream,anExporter){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"exportBehaviorDefinitionTo:using:",{aStream:aStream,anExporter:anExporter},$globals.BehaviorBody)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aStream", "anExporter"],
+source: "exportBehaviorDefinitionTo: aStream using: anExporter\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclassResponsibility"]
+}),
+$globals.BehaviorBody);
 
 $core.addMethod(
 $core.method({
