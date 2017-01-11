@@ -267,6 +267,30 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
         SmalltalkMetaclass.prototype.meta = true;
 
+        SmalltalkTrait.prototype.added = function () {
+            if (st._traitAdded) st._traitAdded(this);
+        };
+
+        SmalltalkTrait.prototype.methodAdded = function (method) {
+            if (st._traitMethodAdded) st._traitMethodAdded(method, this);
+        };
+
+        SmalltalkTrait.prototype.methodRemoved = function (method) {
+            if (st._traitMethodRemoved) st._traitMethodRemoved(method, this);
+        };
+
+        SmalltalkClass.prototype.added = function () {
+            if (st._classAdded) st._classAdded(this);
+        };
+
+        SmalltalkBehavior.prototype.methodAdded = function (method) {
+            if (st._methodAdded) st._methodAdded(method, this);
+        };
+
+        SmalltalkBehavior.prototype.methodRemoved = function (method) {
+            if (st._methodRemoved) st._methodRemoved(method, this);
+        };
+
         this.__init__ = function () {
             var globals = brikz.smalltalkGlobals.globals;
             var addCoupledClass = brikz.classes.addCoupledClass;
@@ -401,8 +425,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
             classes.addElement(theClass);
             addOrganizationElement(spec.pkg, theClass);
-            if (!theClass.trait && st._classAdded) st._classAdded(theClass);
-            if (theClass.trait && st._traitAdded) st._traitAdded(theClass);
+            theClass.added();
             return theClass;
         }
 
@@ -526,8 +549,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             selectorInUse(method.selector);
             method.messageSends.forEach(selectorInUse);
 
-            if (!klass.trait && st._methodAdded) st._methodAdded(method, klass);
-            if (klass.trait && st._traitMethodAdded) st._traitMethodAdded(method, klass);
+            klass.methodAdded(method);
             if (st._selectorsAdded) st._selectorsAdded(newSelectors);
         };
 
@@ -536,8 +558,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
             delete klass.methods[method.selector];
 
-            if (!klass.trait && st._methodRemoved) st._methodRemoved(method, klass);
-            if (klass.trait && st._traitMethodRemoved) st._traitMethodRemoved(method, klass);
+            klass.methodRemoved(method);
 
             // Do *not* delete protocols from here.
             // This is handled by #removeCompiledMethod
