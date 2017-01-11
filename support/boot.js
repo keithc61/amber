@@ -277,7 +277,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             if (st._methodRemoved) st._methodRemoved(method, this);
         };
 
-        this.Behavior = SmalltalkBehavior;
+        this.BehaviorBody = SmalltalkBehaviorBody;
 
         this.__init__ = function () {
             var globals = brikz.smalltalkGlobals.globals;
@@ -547,7 +547,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
     TraitsBrik.deps = ["classes"];
     function TraitsBrik (brikz, st) {
-        var SmalltalkBehavior = brikz.classes.Behavior;
+        var SmalltalkBehaviorBody = brikz.classes.BehaviorBody;
         var setupClass = brikz.classes.setupClass;
         var rawAddClass = brikz.classes.rawAddClass;
         var classFactories = brikz.classes.classFactories;
@@ -555,7 +555,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         function SmalltalkTrait () {
         }
 
-        inherits(SmalltalkTrait, SmalltalkBehavior);
+        inherits(SmalltalkTrait, SmalltalkBehaviorBody);
 
         SmalltalkTrait.prototype.trait = true;
 
@@ -575,7 +575,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             var globals = brikz.smalltalkGlobals.globals;
             var addCoupledClass = brikz.classes.addCoupledClass;
             st.addPackage("Kernel-Classes");
-            addCoupledClass("Trait", globals.Behavior, "Kernel-Classes", SmalltalkTrait);
+            addCoupledClass("Trait", globals.BehaviorBody, "Kernel-Classes", SmalltalkTrait);
         };
         this.__init__.once = true;
 

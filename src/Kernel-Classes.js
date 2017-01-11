@@ -2307,28 +2307,40 @@ $globals.Metaclass);
 
 
 
-$core.addClass('Trait', $globals.Behavior, [], 'Kernel-Classes');
+$core.addClass('Trait', $globals.BehaviorBody, [], 'Kernel-Classes');
 $core.addMethod(
 $core.method({
-selector: "basicNew",
-protocol: 'instance creation',
+selector: "allInstanceVariableNames",
+protocol: 'compiler compatibility',
 fn: function (){
 var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-self._error_("A trait cannot be instantiated.");
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicNew",{},$globals.Trait)});
-//>>excludeEnd("ctx");
+return [];
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "basicNew\x0a\x09self error: 'A trait cannot be instantiated.'",
+source: "allInstanceVariableNames\x0a\x09^ #()",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["error:"]
+messageSends: []
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "allSubclassesDo:",
+protocol: 'IDE compatibility',
+fn: function (aBlock){
+var self=this;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "allSubclassesDo: aBlock",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
 }),
 $globals.Trait);
 
@@ -2453,6 +2465,24 @@ source: "package\x0a\x09^ self basicAt: 'pkg'",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["basicAt:"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "superclass",
+protocol: 'IDE compatibility',
+fn: function (){
+var self=this;
+return nil;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "superclass\x0a\x09^ nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
 }),
 $globals.Trait);
 

@@ -550,9 +550,18 @@ isMetaclass
 	^ true
 ! !
 
-Behavior subclass: #Trait
+BehaviorBody subclass: #Trait
 	instanceVariableNames: ''
 	package: 'Kernel-Classes'!
+
+!Trait methodsFor: 'IDE compatibility'!
+
+allSubclassesDo: aBlock
+!
+
+superclass
+	^ nil
+! !
 
 !Trait methodsFor: 'accessing'!
 
@@ -587,10 +596,10 @@ theNonMetaClass
 	^ self
 ! !
 
-!Trait methodsFor: 'instance creation'!
+!Trait methodsFor: 'compiler compatibility'!
 
-basicNew
-	self error: 'A trait cannot be instantiated.'
+allInstanceVariableNames
+	^ #()
 ! !
 
 !Trait class methodsFor: 'instance creation'!
