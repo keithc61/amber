@@ -449,6 +449,12 @@ isTestClass
 			self isAbstract not ]
 ! !
 
+!BehaviorBody methodsFor: '*SUnit'!
+
+isTestClass
+	^ false
+! !
+
 !Package methodsFor: '*SUnit'!
 
 isTestPackage
