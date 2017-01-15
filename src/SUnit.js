@@ -688,6 +688,29 @@ $globals.TestCase.klass);
 
 $core.addMethod(
 $core.method({
+selector: "isTestClass",
+protocol: 'testing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._isAbstract())._not();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isTestClass",{},$globals.TestCase.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isTestClass\x0a\x09^ self isAbstract not",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["not", "isAbstract"]
+}),
+$globals.TestCase.klass);
+
+$core.addMethod(
+$core.method({
 selector: "lookupHierarchyRoot",
 protocol: 'accessing',
 fn: function (){
@@ -1743,37 +1766,6 @@ referencedClasses: [],
 messageSends: ["suite:", "new"]
 }),
 $globals.TestSuiteRunner.klass);
-
-$core.addMethod(
-$core.method({
-selector: "isTestClass",
-protocol: '*SUnit',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self._includesBehavior_($globals.TestCase))._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(self._isAbstract())._not();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isTestClass",{},$globals.Behavior)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isTestClass\x0a\x09^(self includesBehavior: TestCase) and: [ \x0a\x09\x09\x09self isAbstract not ]",
-referencedClasses: ["TestCase"],
-//>>excludeEnd("ide");
-messageSends: ["and:", "includesBehavior:", "not", "isAbstract"]
-}),
-$globals.Behavior);
 
 $core.addMethod(
 $core.method({

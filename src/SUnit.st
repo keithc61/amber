@@ -188,6 +188,10 @@ isAbstract
 	^ self name = 'TestCase'
 !
 
+isTestClass
+	^ self isAbstract not
+!
+
 shouldInheritSelectors
 	^ self ~= self lookupHierarchyRoot
 ! !
@@ -440,13 +444,6 @@ new
 
 on: aCollection
 	^ super new suite: aCollection
-! !
-
-!Behavior methodsFor: '*SUnit'!
-
-isTestClass
-	^(self includesBehavior: TestCase) and: [ 
-			self isAbstract not ]
 ! !
 
 !BehaviorBody methodsFor: '*SUnit'!
