@@ -282,6 +282,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         this.__init__ = function () {
             var globals = brikz.smalltalkGlobals.globals;
             var addCoupledClass = brikz.classes.addCoupledClass;
+            var nilSubclasses = [globals.ProtoObject];
             st.addPackage("Kernel-Classes");
             addCoupledClass("BehaviorBody", globals.Object, "Kernel-Classes", SmalltalkBehaviorBody);
             addCoupledClass("Behavior", globals.BehaviorBody, "Kernel-Classes", SmalltalkBehavior);
@@ -289,8 +290,11 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             addCoupledClass("Class", globals.Behavior, "Kernel-Classes", SmalltalkClass);
 
             // Manually bootstrap the metaclass hierarchy
-            globals.ProtoObject.klass.superclass = nilAsClass.klass = globals.Class;
-            addSubclass(globals.ProtoObject.klass);
+            nilAsClass.klass = globals.Class;
+            nilSubclasses.forEach(function (each) {
+                each.klass.superclass = globals.Class;
+                addSubclass(each.klass);
+            });
         };
         this.__init__.once = true;
 
