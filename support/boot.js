@@ -266,7 +266,13 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         SmalltalkMetaclass.prototype.meta = true;
 
         SmalltalkClass.prototype.added = function () {
+            addSubclass(this);
             if (st._classAdded) st._classAdded(this);
+        };
+
+        SmalltalkClass.prototype.removed = function () {
+            if (st._classRemoved) st._classRemoved(this);
+            removeSubclass(this);
         };
 
         SmalltalkBehavior.prototype.methodAdded = function (method) {
@@ -401,8 +407,6 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
                 }
 
                 theClass = globals[spec.className] = classFactories[type](spec);
-
-                addSubclass(theClass);
             }
 
             classes.addElement(theClass);
@@ -414,9 +418,9 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         this.rawAddClass = rawAddClass;
 
         st.removeClass = function (klass) {
+            klass.removed();
             removeOrganizationElement(klass.pkg, klass);
             classes.removeElement(klass);
-            removeSubclass(klass);
             delete globals[klass.className];
         };
 
@@ -565,6 +569,10 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
         SmalltalkTrait.prototype.added = function () {
             if (st._traitAdded) st._traitAdded(this);
+        };
+
+        SmalltalkTrait.prototype.removed = function () {
+            if (st._traitRemoved) st._traitRemoved(this);
         };
 
         SmalltalkTrait.prototype.methodAdded = function (method) {
