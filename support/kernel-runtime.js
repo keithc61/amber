@@ -52,10 +52,10 @@ define(function () {
         this.installJSMethod = installJSMethod;
     }
 
-    RuntimeClassesBrik.deps = ["selectors", "dnu", "classes", "manipulation"];
+    RuntimeClassesBrik.deps = ["selectors", "dnu", "behaviors", "classes", "manipulation"];
     function RuntimeClassesBrik(brikz, st) {
         var selectors = brikz.selectors;
-        var classes = brikz.classes.classes;
+        var classes = brikz.behaviors.classes;
         var wireKlass = brikz.classes.wireKlass;
         var installMethod = brikz.manipulation.installMethod;
         var installJSMethod = brikz.manipulation.installJSMethod;
