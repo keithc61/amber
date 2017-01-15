@@ -638,6 +638,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
         SmalltalkTrait.updateExistingFromSpec = function (trait, spec) {
             if (spec.pkg) trait.pkg = spec.pkg;
+            return true;
         };
 
         SmalltalkTrait.updateSpecFromExisting = function (trait, spec) {
