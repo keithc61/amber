@@ -313,7 +313,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
          should be added to the system, see smalltalk.addClass().
          Superclass linking is *not* handled here, see api.initialize()  */
 
-        function klass (spec) {
+        SmalltalkClass.make = function (spec) {
             var setSuperClass = spec.superclass;
             if (!spec.superclass) {
                 spec.superclass = nilAsClass;
@@ -326,15 +326,16 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
             that.fn = spec.fn || inherits(function () {
                 }, spec.superclass.fn);
+            that.iVarNames = spec.iVarNames || [];
             that.subclasses = [];
 
-            setupClass(that, spec);
+            setupBehavior(that, spec);
 
             that.className = spec.className;
             meta.className = spec.className + ' class';
             meta.superclass = spec.superclass.klass;
             return that;
-        }
+        };
 
         function metaclass (spec) {
             var that = new SmalltalkMetaclass();
@@ -342,12 +343,12 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             }, spec.superclass.klass.fn);
             wireKlass(that);
             that.instanceClass = new that.fn();
-            setupClass(that, {});
+            that.iVarNames = [];
+            setupBehavior(that, {});
             return that;
         }
 
-        function setupClass (klass, spec) {
-            klass.iVarNames = spec.iVarNames || [];
+        function setupBehavior (klass, spec) {
             if (spec.pkg) {
                 klass.pkg = spec.pkg;
             }
@@ -359,7 +360,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             });
         }
 
-        this.setupClass = setupClass;
+        this.setupBehavior = setupBehavior;
 
         function wireKlass (klass) {
             Object.defineProperty(klass.fn.prototype, "klass", {
@@ -379,11 +380,30 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             if (typeof superclass == 'undefined' || superclass && superclass.isNil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
-            return rawAddClass(pkgName, "class", {className: className, superclass: superclass, iVarNames: iVarNames});
+            return rawAddClass(pkgName, SmalltalkClass, {
+                className: className,
+                superclass: superclass,
+                iVarNames: iVarNames
+            });
         };
 
-        var classFactories = this.classFactories = {
-            "class": klass
+        SmalltalkClass.normalizeSpec = function (spec) {
+            if (spec.superclass == null || spec.superclass.isNil) {
+                spec.superclass = null;
+            }
+        };
+
+        SmalltalkClass.updateExistingFromSpec = function (theClass, spec) {
+            if (theClass.superclass == spec.superclass && !spec.fn) {
+                if (spec.iVarNames) theClass.iVarNames = spec.iVarNames;
+                if (spec.pkg) theClass.pkg = spec.pkg;
+                return true;
+            }
+            return false;
+        };
+
+        SmalltalkClass.updateSpecFromExisting = function (theClass, spec) {
+            spec.iVarNames = spec.iVarNames || theClass.iVarNames;
         };
 
         function rawAddClass (pkgName, type, spec) {
@@ -393,36 +413,38 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
                 throw new Error("Missing package " + pkgName);
             }
 
-            if (spec.superclass == null || spec.superclass.isNil) {
-                spec.superclass = null;
-            }
+            type.normalizeSpec(spec);
             var theClass = globals.hasOwnProperty(spec.className) && globals[spec.className];
-            if (theClass && theClass.superclass == spec.superclass && !spec.fn) {
-                if (spec.iVarNames) theClass.iVarNames = spec.iVarNames;
-                if (spec.pkg) theClass.pkg = spec.pkg;
-            } else {
+            if (!theClass || !type.updateExistingFromSpec(theClass, spec)) {
                 if (theClass) {
-                    spec.iVarNames = spec.iVarNames || theClass.iVarNames;
-                    st.removeClass(theClass);
+                    type.updateSpecFromExisting(theClass, spec);
+                    removeClass(theClass);
                 }
 
-                theClass = globals[spec.className] = classFactories[type](spec);
+                theClass = type.make(spec);
             }
 
-            classes.addElement(theClass);
-            addOrganizationElement(spec.pkg, theClass);
-            theClass.added();
+            addClass(theClass);
             return theClass;
         }
 
         this.rawAddClass = rawAddClass;
 
-        st.removeClass = function (klass) {
+        function addClass (klass) {
+            globals[klass.className] = klass;
+            classes.addElement(klass);
+            addOrganizationElement(klass.pkg, klass);
+            klass.added();
+        }
+
+        function removeClass (klass) {
             klass.removed();
             removeOrganizationElement(klass.pkg, klass);
             classes.removeElement(klass);
             delete globals[klass.className];
-        };
+        }
+
+        st.removeClass = removeClass;
 
         function addSubclass (klass) {
             if (klass.superclass) {
@@ -440,7 +462,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
          and add it to the system.*/
 
         this.addCoupledClass = function (className, superclass, pkgName, fn) {
-            return rawAddClass(pkgName, "class", {className: className, superclass: superclass, fn: fn});
+            return rawAddClass(pkgName, SmalltalkClass, {className: className, superclass: superclass, fn: fn});
         };
 
         /* Create an alias for an existing class */
@@ -556,9 +578,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     TraitsBrik.deps = ["classes"];
     function TraitsBrik (brikz, st) {
         var SmalltalkBehaviorBody = brikz.classes.BehaviorBody;
-        var setupClass = brikz.classes.setupClass;
+        var setupBehavior = brikz.classes.setupBehavior;
         var rawAddClass = brikz.classes.rawAddClass;
-        var classFactories = brikz.classes.classFactories;
 
         function SmalltalkTrait () {
         }
@@ -591,17 +612,25 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
         this.__init__.once = true;
 
-        function trait (spec) {
+        SmalltalkTrait.make = function (spec) {
             var that = new SmalltalkTrait();
             that.className = spec.className;
-            setupClass(that, spec);
+            setupBehavior(that, spec);
             return that;
-        }
+        };
 
-        classFactories.trait = trait;
+        SmalltalkTrait.normalizeSpec = function (spec) {
+        };
+
+        SmalltalkTrait.updateExistingFromSpec = function (theClass, spec) {
+            if (spec.pkg) theClass.pkg = spec.pkg;
+        };
+
+        SmalltalkTrait.updateSpecFromExisting = function (theClass, spec) {
+        };
 
         st.addTrait = function (className, pkgName) {
-            return rawAddClass(pkgName, "trait", {className: className});
+            return rawAddClass(pkgName, SmalltalkTrait, {className: className});
         };
     }
 
