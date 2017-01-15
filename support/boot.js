@@ -141,9 +141,9 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
         this.__init__.once = true;
 
-        this.setupClassOrganization = function (klass) {
-            klass.organization = new SmalltalkClassOrganizer();
-            klass.organization.theClass = klass;
+        this.setupClassOrganization = function (behaviorBody) {
+            behaviorBody.organization = new SmalltalkClassOrganizer();
+            behaviorBody.organization.theClass = behaviorBody;
         };
 
         this.setupPackageOrganization = function (pkg) {
@@ -259,19 +259,19 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
         var classes = [];
 
-        this.setupBehavior = function (klass, spec) {
+        this.setupBehavior = function (behaviorBody, spec) {
             if (spec.pkg) {
-                klass.pkg = spec.pkg;
+                behaviorBody.pkg = spec.pkg;
             }
 
-            setupClassOrganization(klass);
-            Object.defineProperty(klass, "methods", {
+            setupClassOrganization(behaviorBody);
+            Object.defineProperty(behaviorBody, "methods", {
                 value: Object.create(null),
                 enumerable: false, configurable: true, writable: true
             });
         };
 
-        this.rawAddClass = function (pkgName, type, spec) {
+        this.rawAddBehaviorBody = function (pkgName, type, spec) {
             spec.pkg = st.packages[pkgName];
 
             if (!spec.pkg) {
@@ -279,40 +279,40 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             }
 
             type.normalizeSpec(spec);
-            var theClass = globals.hasOwnProperty(spec.className) && globals[spec.className];
-            if (!theClass || !type.updateExistingFromSpec(theClass, spec)) {
-                if (theClass) {
-                    type.updateSpecFromExisting(theClass, spec);
-                    removeClass(theClass);
+            var behaviorBody = globals.hasOwnProperty(spec.className) && globals[spec.className];
+            if (!behaviorBody || !type.updateExistingFromSpec(behaviorBody, spec)) {
+                if (behaviorBody) {
+                    type.updateSpecFromExisting(behaviorBody, spec);
+                    removeBehaviorBody(behaviorBody);
                 }
 
-                theClass = type.make(spec);
+                behaviorBody = type.make(spec);
             }
 
-            addClass(theClass);
-            return theClass;
+            addBehaviorBody(behaviorBody);
+            return behaviorBody;
         };
 
-        function addClass (klass) {
-            globals[klass.className] = klass;
-            classes.addElement(klass);
-            addOrganizationElement(klass.pkg, klass);
-            klass.added();
+        function addBehaviorBody (behaviorBody) {
+            globals[behaviorBody.className] = behaviorBody;
+            classes.addElement(behaviorBody);
+            addOrganizationElement(behaviorBody.pkg, behaviorBody);
+            behaviorBody.added();
         }
 
-        function removeClass (klass) {
-            klass.removed();
-            removeOrganizationElement(klass.pkg, klass);
-            classes.removeElement(klass);
-            delete globals[klass.className];
+        function removeBehaviorBody (behaviorBody) {
+            behaviorBody.removed();
+            removeOrganizationElement(behaviorBody.pkg, behaviorBody);
+            classes.removeElement(behaviorBody);
+            delete globals[behaviorBody.className];
         }
 
-        this.removeClass = removeClass;
+        this.removeBehaviorBody = removeBehaviorBody;
 
         /* Create an alias for an existing class */
 
-        st.alias = function (klass, alias) {
-            globals[alias] = klass;
+        st.alias = function (behaviorBody, alias) {
+            globals[alias] = behaviorBody;
         };
 
         /* Answer all registered Smalltalk classes */
@@ -327,9 +327,9 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     function ClassesBrik (brikz, st) {
         var nilAsClass = brikz.root.nilAsClass;
         var SmalltalkBehaviorBody = brikz.behaviors.BehaviorBody;
-        var rawAddClass = brikz.behaviors.rawAddClass;
+        var rawAddBehaviorBody = brikz.behaviors.rawAddBehaviorBody;
         var setupBehavior = brikz.behaviors.setupBehavior;
-        var removeClass = brikz.behaviors.removeClass;
+        var removeBehaviorBody = brikz.behaviors.removeBehaviorBody;
         nilAsClass.klass = {fn: SmalltalkClass};
 
         function SmalltalkBehavior () {
@@ -445,7 +445,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             if (typeof superclass == 'undefined' || superclass && superclass.isNil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
-            return rawAddClass(pkgName, SmalltalkClass, {
+            return rawAddBehaviorBody(pkgName, SmalltalkClass, {
                 className: className,
                 superclass: superclass,
                 iVarNames: iVarNames
@@ -458,20 +458,20 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             }
         };
 
-        SmalltalkClass.updateExistingFromSpec = function (theClass, spec) {
-            if (theClass.superclass == spec.superclass && !spec.fn) {
-                if (spec.iVarNames) theClass.iVarNames = spec.iVarNames;
-                if (spec.pkg) theClass.pkg = spec.pkg;
+        SmalltalkClass.updateExistingFromSpec = function (klass, spec) {
+            if (klass.superclass == spec.superclass && !spec.fn) {
+                if (spec.iVarNames) klass.iVarNames = spec.iVarNames;
+                if (spec.pkg) klass.pkg = spec.pkg;
                 return true;
             }
             return false;
         };
 
-        SmalltalkClass.updateSpecFromExisting = function (theClass, spec) {
-            spec.iVarNames = spec.iVarNames || theClass.iVarNames;
+        SmalltalkClass.updateSpecFromExisting = function (klass, spec) {
+            spec.iVarNames = spec.iVarNames || klass.iVarNames;
         };
 
-        st.removeClass = removeClass;
+        st.removeClass = removeBehaviorBody;
 
         function addSubclass (klass) {
             if (klass.superclass) {
@@ -489,7 +489,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
          and add it to the system.*/
 
         this.addCoupledClass = function (className, superclass, pkgName, fn) {
-            return rawAddClass(pkgName, SmalltalkClass, {className: className, superclass: superclass, fn: fn});
+            return rawAddBehaviorBody(pkgName, SmalltalkClass, {className: className, superclass: superclass, fn: fn});
         };
 
         function metaSubclasses (metaclass) {
@@ -553,13 +553,13 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
         /* Add/remove a method to/from a class */
 
-        st.addMethod = function (method, klass) {
-            klass.methods[method.selector] = method;
-            method.methodClass = klass;
+        st.addMethod = function (method, behaviorBody) {
+            behaviorBody.methods[method.selector] = method;
+            method.methodClass = behaviorBody;
 
             // During the bootstrap, #addCompiledMethod is not used.
             // Therefore we populate the organizer here too
-            addOrganizationElement(klass, method.protocol);
+            addOrganizationElement(behaviorBody, method.protocol);
 
             var newSelectors = [];
 
@@ -573,16 +573,16 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             selectorInUse(method.selector);
             method.messageSends.forEach(selectorInUse);
 
-            klass.methodAdded(method);
+            behaviorBody.methodAdded(method);
             if (st._selectorsAdded) st._selectorsAdded(newSelectors);
         };
 
-        st.removeMethod = function (method, klass) {
-            if (klass.methods[method.selector] !== method) return;
+        st.removeMethod = function (method, behaviorBody) {
+            if (behaviorBody.methods[method.selector] !== method) return;
 
-            delete klass.methods[method.selector];
+            delete behaviorBody.methods[method.selector];
 
-            klass.methodRemoved(method);
+            behaviorBody.methodRemoved(method);
 
             // Do *not* delete protocols from here.
             // This is handled by #removeCompiledMethod
@@ -593,7 +593,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     function TraitsBrik (brikz, st) {
         var SmalltalkBehaviorBody = brikz.behaviors.BehaviorBody;
         var setupBehavior = brikz.behaviors.setupBehavior;
-        var rawAddClass = brikz.behaviors.rawAddClass;
+        var rawAddBehaviorBody = brikz.behaviors.rawAddBehaviorBody;
 
         function SmalltalkTrait () {
         }
@@ -636,15 +636,15 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         SmalltalkTrait.normalizeSpec = function (spec) {
         };
 
-        SmalltalkTrait.updateExistingFromSpec = function (theClass, spec) {
-            if (spec.pkg) theClass.pkg = spec.pkg;
+        SmalltalkTrait.updateExistingFromSpec = function (trait, spec) {
+            if (spec.pkg) trait.pkg = spec.pkg;
         };
 
-        SmalltalkTrait.updateSpecFromExisting = function (theClass, spec) {
+        SmalltalkTrait.updateSpecFromExisting = function (trait, spec) {
         };
 
         st.addTrait = function (className, pkgName) {
-            return rawAddClass(pkgName, SmalltalkTrait, {className: className});
+            return rawAddBehaviorBody(pkgName, SmalltalkTrait, {className: className});
         };
     }
 
