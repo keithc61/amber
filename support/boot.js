@@ -323,6 +323,140 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
     }
 
+    MethodsBrik.deps = ["organize", "selectors", "root", "selectorConversion"];
+    function MethodsBrik (brikz, st) {
+        var addOrganizationElement = brikz.organize.addOrganizationElement;
+        var registerSelector = brikz.selectors.registerSelector;
+        var SmalltalkObject = brikz.root.Object;
+
+        function SmalltalkMethod () {
+        }
+
+        inherits(SmalltalkMethod, SmalltalkObject);
+
+        this.__init__ = function () {
+            var globals = brikz.smalltalkGlobals.globals;
+            var addCoupledClass = brikz.classes.addCoupledClass;
+            st.addPackage("Kernel-Methods");
+            addCoupledClass("CompiledMethod", globals.Object, "Kernel-Methods", SmalltalkMethod);
+        };
+        this.__init__.once = true;
+
+        /* Smalltalk method object. To add a method to a class,
+         use api.addMethod() */
+
+        st.method = function (spec) {
+            var that = new SmalltalkMethod();
+            var selector = spec.selector;
+            that.selector = selector;
+            that.jsSelector = st.st2js(selector);
+            that.args = spec.args || {};
+            that.protocol = spec.protocol;
+            that.source = spec.source;
+            that.messageSends = spec.messageSends || [];
+            that.referencedClasses = spec.referencedClasses || [];
+            that.fn = spec.fn;
+            return that;
+        };
+
+        /* Add/remove a method to/from a class */
+
+        st.addMethod = function (method, behaviorBody) {
+            behaviorBody.methods[method.selector] = method;
+            method.methodClass = behaviorBody;
+
+            // During the bootstrap, #addCompiledMethod is not used.
+            // Therefore we populate the organizer here too
+            addOrganizationElement(behaviorBody, method.protocol);
+
+            var newSelectors = [];
+
+            function selectorInUse (stSelector) {
+                var pair = registerSelector(stSelector);
+                if (pair) {
+                    newSelectors.push(pair);
+                }
+            }
+
+            selectorInUse(method.selector);
+            method.messageSends.forEach(selectorInUse);
+
+            behaviorBody.methodAdded(method);
+            if (st._selectorsAdded) st._selectorsAdded(newSelectors);
+        };
+
+        st.removeMethod = function (method, behaviorBody) {
+            if (behaviorBody.methods[method.selector] !== method) return;
+
+            delete behaviorBody.methods[method.selector];
+
+            behaviorBody.methodRemoved(method);
+
+            // Do *not* delete protocols from here.
+            // This is handled by #removeCompiledMethod
+        };
+    }
+
+    TraitsBrik.deps = ["behaviors"];
+    function TraitsBrik (brikz, st) {
+        var SmalltalkBehaviorBody = brikz.behaviors.BehaviorBody;
+        var setupBehavior = brikz.behaviors.setupBehavior;
+        var rawAddBehaviorBody = brikz.behaviors.rawAddBehaviorBody;
+
+        function SmalltalkTrait () {
+        }
+
+        inherits(SmalltalkTrait, SmalltalkBehaviorBody);
+
+        SmalltalkTrait.prototype.trait = true;
+
+        SmalltalkTrait.prototype.added = function () {
+            if (st._traitAdded) st._traitAdded(this);
+        };
+
+        SmalltalkTrait.prototype.removed = function () {
+            if (st._traitRemoved) st._traitRemoved(this);
+        };
+
+        SmalltalkTrait.prototype.methodAdded = function (method) {
+            if (st._traitMethodAdded) st._traitMethodAdded(method, this);
+        };
+
+        SmalltalkTrait.prototype.methodRemoved = function (method) {
+            if (st._traitMethodRemoved) st._traitMethodRemoved(method, this);
+        };
+
+        this.__init__ = function () {
+            var globals = brikz.smalltalkGlobals.globals;
+            var addCoupledClass = brikz.classes.addCoupledClass;
+            st.addPackage("Kernel-Classes");
+            addCoupledClass("Trait", globals.BehaviorBody, "Kernel-Classes", SmalltalkTrait);
+        };
+        this.__init__.once = true;
+
+        SmalltalkTrait.make = function (spec) {
+            var that = new SmalltalkTrait();
+            that.className = spec.className;
+            setupBehavior(that, spec);
+            return that;
+        };
+
+        SmalltalkTrait.normalizeSpec = function (spec) {
+        };
+
+        SmalltalkTrait.updateExistingFromSpec = function (trait, spec) {
+            if (spec.pkg) trait.pkg = spec.pkg;
+            return true;
+        };
+
+        SmalltalkTrait.updateSpecFromExisting = function (trait, spec) {
+        };
+
+        st.addTrait = function (className, pkgName) {
+            return rawAddBehaviorBody(pkgName, SmalltalkTrait, {className: className});
+        };
+    }
+
     ClassesBrik.deps = ["root", "behaviors"];
     function ClassesBrik (brikz, st) {
         var nilAsClass = brikz.root.nilAsClass;
@@ -512,140 +646,6 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
                 var subclasses = item.meta ? metaSubclasses(item) : item.subclasses;
                 queue.push.apply(queue, subclasses);
             }
-        };
-    }
-
-    MethodsBrik.deps = ["organize", "selectors", "root", "selectorConversion"];
-    function MethodsBrik (brikz, st) {
-        var addOrganizationElement = brikz.organize.addOrganizationElement;
-        var registerSelector = brikz.selectors.registerSelector;
-        var SmalltalkObject = brikz.root.Object;
-
-        function SmalltalkMethod () {
-        }
-
-        inherits(SmalltalkMethod, SmalltalkObject);
-
-        this.__init__ = function () {
-            var globals = brikz.smalltalkGlobals.globals;
-            var addCoupledClass = brikz.classes.addCoupledClass;
-            st.addPackage("Kernel-Methods");
-            addCoupledClass("CompiledMethod", globals.Object, "Kernel-Methods", SmalltalkMethod);
-        };
-        this.__init__.once = true;
-
-        /* Smalltalk method object. To add a method to a class,
-         use api.addMethod() */
-
-        st.method = function (spec) {
-            var that = new SmalltalkMethod();
-            var selector = spec.selector;
-            that.selector = selector;
-            that.jsSelector = st.st2js(selector);
-            that.args = spec.args || {};
-            that.protocol = spec.protocol;
-            that.source = spec.source;
-            that.messageSends = spec.messageSends || [];
-            that.referencedClasses = spec.referencedClasses || [];
-            that.fn = spec.fn;
-            return that;
-        };
-
-        /* Add/remove a method to/from a class */
-
-        st.addMethod = function (method, behaviorBody) {
-            behaviorBody.methods[method.selector] = method;
-            method.methodClass = behaviorBody;
-
-            // During the bootstrap, #addCompiledMethod is not used.
-            // Therefore we populate the organizer here too
-            addOrganizationElement(behaviorBody, method.protocol);
-
-            var newSelectors = [];
-
-            function selectorInUse (stSelector) {
-                var pair = registerSelector(stSelector);
-                if (pair) {
-                    newSelectors.push(pair);
-                }
-            }
-
-            selectorInUse(method.selector);
-            method.messageSends.forEach(selectorInUse);
-
-            behaviorBody.methodAdded(method);
-            if (st._selectorsAdded) st._selectorsAdded(newSelectors);
-        };
-
-        st.removeMethod = function (method, behaviorBody) {
-            if (behaviorBody.methods[method.selector] !== method) return;
-
-            delete behaviorBody.methods[method.selector];
-
-            behaviorBody.methodRemoved(method);
-
-            // Do *not* delete protocols from here.
-            // This is handled by #removeCompiledMethod
-        };
-    }
-
-    TraitsBrik.deps = ["behaviors"];
-    function TraitsBrik (brikz, st) {
-        var SmalltalkBehaviorBody = brikz.behaviors.BehaviorBody;
-        var setupBehavior = brikz.behaviors.setupBehavior;
-        var rawAddBehaviorBody = brikz.behaviors.rawAddBehaviorBody;
-
-        function SmalltalkTrait () {
-        }
-
-        inherits(SmalltalkTrait, SmalltalkBehaviorBody);
-
-        SmalltalkTrait.prototype.trait = true;
-
-        SmalltalkTrait.prototype.added = function () {
-            if (st._traitAdded) st._traitAdded(this);
-        };
-
-        SmalltalkTrait.prototype.removed = function () {
-            if (st._traitRemoved) st._traitRemoved(this);
-        };
-
-        SmalltalkTrait.prototype.methodAdded = function (method) {
-            if (st._traitMethodAdded) st._traitMethodAdded(method, this);
-        };
-
-        SmalltalkTrait.prototype.methodRemoved = function (method) {
-            if (st._traitMethodRemoved) st._traitMethodRemoved(method, this);
-        };
-
-        this.__init__ = function () {
-            var globals = brikz.smalltalkGlobals.globals;
-            var addCoupledClass = brikz.classes.addCoupledClass;
-            st.addPackage("Kernel-Classes");
-            addCoupledClass("Trait", globals.BehaviorBody, "Kernel-Classes", SmalltalkTrait);
-        };
-        this.__init__.once = true;
-
-        SmalltalkTrait.make = function (spec) {
-            var that = new SmalltalkTrait();
-            that.className = spec.className;
-            setupBehavior(that, spec);
-            return that;
-        };
-
-        SmalltalkTrait.normalizeSpec = function (spec) {
-        };
-
-        SmalltalkTrait.updateExistingFromSpec = function (trait, spec) {
-            if (spec.pkg) trait.pkg = spec.pkg;
-            return true;
-        };
-
-        SmalltalkTrait.updateSpecFromExisting = function (trait, spec) {
-        };
-
-        st.addTrait = function (className, pkgName) {
-            return rawAddBehaviorBody(pkgName, SmalltalkTrait, {className: className});
         };
     }
 
