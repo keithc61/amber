@@ -134,6 +134,11 @@ define(function () {
         setClassConstructor(globals.RegularExpression, RegExp);
         setClassConstructor(globals.Error, Error);
         setClassConstructor(globals.Promise, Promise);
+
+        this.__init__ = function () {
+            st.alias(globals.Array, "OrderedCollection");
+            st.alias(globals.Date, "Time");
+        }
     }
 
     RuntimeMethodsBrik.deps = ["manipulation", "dnu", "runtimeClasses"];
@@ -479,6 +484,17 @@ define(function () {
         this.messageNotUnderstood = messageNotUnderstood;
     }
 
+    StartImageBrik.deps = ["frameBinding", "runtimeMethods", "runtime", "primitives"];
+    function StartImageBrik(brikz, st) {
+        this.__init__ = function () {
+            var classes = brikz.behaviors.classes;
+            classes().forEach(function (klass) {
+                klass._initialize();
+            });
+        };
+        this.__init__.once = true;
+    }
+
     /* Making smalltalk that can run */
 
     function configureWithRuntime(brikz) {
@@ -490,6 +506,7 @@ define(function () {
         brikz.messageSend = MessageSendBrik;
         brikz.runtime = RuntimeBrik;
         brikz.primitives = PrimitivesBrik;
+        brikz.startImage = StartImageBrik;
 
         brikz.rebuild();
     }

@@ -675,33 +675,18 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
     }
 
-    SmalltalkInitBrik.deps = ["globals", "classes"];
     function SmalltalkInitBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
-
         var initialized = false;
         var runtimeLoadedPromise = new Promise(function (resolve, reject) {
             require(['./kernel-runtime'], resolve, reject);
         });
 
-
         /* Smalltalk initialization. Called on page load */
 
         st.initialize = function () {
             return runtimeLoadedPromise.then(function (configureWithRuntime) {
-                if (initialized) {
-                    return;
-                }
-
+                if (initialized) return;
                 configureWithRuntime(brikz);
-
-                st.alias(globals.Array, "OrderedCollection");
-                st.alias(globals.Date, "Time");
-
-                st.classes().forEach(function (klass) {
-                    klass._initialize();
-                });
-
                 initialized = true;
             });
         };
