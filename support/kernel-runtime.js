@@ -120,7 +120,7 @@ define(function () {
         };
     }
 
-    FrameBindingBrik.deps=["globals", "runtimeClasses"];
+    FrameBindingBrik.deps=["smalltalkGlobals", "runtimeClasses"];
     function FrameBindingBrik(brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
         var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
