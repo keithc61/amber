@@ -3,12 +3,12 @@
 define(function () {
     "use strict";
 
-    DNUBrik.deps = ["selectors", "messageSend", "manipulation", "root"];
+    DNUBrik.deps = ["selectors", "messageSend", "manipulation", "classes"];
     function DNUBrik(brikz, st) {
         var selectorsBrik = brikz.selectors;
         var messageNotUnderstood = brikz.messageSend.messageNotUnderstood;
         var installJSMethod = brikz.manipulation.installJSMethod;
-        var nilAsClass = brikz.root.nilAsClass;
+        var nilAsClass = brikz.classes.nilAsClass;
 
         /* Method not implemented handlers */
 

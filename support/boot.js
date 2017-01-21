@@ -84,6 +84,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         inherits(SmalltalkObject, SmalltalkProtoObject);
         inherits(SmalltalkNil, SmalltalkObject);
 
+        this.Root = SmalltalkRoot;
         this.Object = SmalltalkObject;
         this.nilAsReceiver = new SmalltalkNil();
 
@@ -96,10 +97,6 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             value: true,
             enumerable: false, configurable: false, writable: false
         });
-
-        // Fake root class of the system.
-        // Effective superclass of all classes created with `nil subclass: ...`.
-        this.nilAsClass = {fn: SmalltalkRoot};
 
         this.__init__ = function () {
             var globals = brikz.smalltalkGlobals.globals;
@@ -456,12 +453,11 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
     ClassesBrik.deps = ["root", "behaviors"];
     function ClassesBrik (brikz, st) {
-        var nilAsClass = brikz.root.nilAsClass;
+        var SmalltalkRoot = brikz.root.Root;
         var SmalltalkBehaviorBody = brikz.behaviors.BehaviorBody;
         var buildBehaviorBody = brikz.behaviors.buildBehaviorBody;
         var setupBehavior = brikz.behaviors.setupBehavior;
         var removeBehaviorBody = brikz.behaviors.removeBehaviorBody;
-        nilAsClass.klass = {fn: SmalltalkClass};
 
         function SmalltalkBehavior () {
         }
@@ -475,6 +471,10 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         inherits(SmalltalkBehavior, SmalltalkBehaviorBody);
         inherits(SmalltalkClass, SmalltalkBehavior);
         inherits(SmalltalkMetaclass, SmalltalkBehavior);
+
+        // Fake root class of the system.
+        // Effective superclass of all classes created with `nil subclass: ...`.
+        var nilAsClass = this.nilAsClass = {fn: SmalltalkRoot, klass: {fn: SmalltalkClass}};
 
         SmalltalkBehavior.prototype.toString = function () {
             return 'Smalltalk ' + this.className;
@@ -806,8 +806,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         api: api,
         nil/* TODO deprecate */: brikz.root.nilAsReceiver,
         nilAsReceiver: brikz.root.nilAsReceiver,
-        dnu/* TODO deprecate */: brikz.root.nilAsClass,
-        nilAsClass: brikz.root.nilAsClass,
+        dnu/* TODO deprecate */: brikz.classes.nilAsClass,
+        nilAsClass: brikz.classes.nilAsClass,
         globals: brikz.smalltalkGlobals.globals,
         asReceiver: brikz.asReceiver.asReceiver
     };
