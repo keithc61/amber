@@ -259,9 +259,9 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
         var classes = [];
 
-        this.setupBehavior = function (behaviorBody, spec) {
-            if (spec.pkg) {
-                behaviorBody.pkg = spec.pkg;
+        this.setupBehavior = function (behaviorBody, pkg) {
+            if (pkg) {
+                behaviorBody.pkg = pkg;
             }
 
             setupClassOrganization(behaviorBody);
@@ -271,27 +271,25 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             });
         };
 
-        this.rawAddBehaviorBody = function (pkgName, type, spec) {
-            spec.pkg = st.packages[pkgName];
+        this.rawAddBehaviorBody = function (pkgName, builder) {
+            var pkg = st.packages[pkgName];
 
-            if (!spec.pkg) {
-                throw new Error("Missing package " + pkgName);
-            }
+            if (!pkg) throw new Error("Missing package " + pkgName);
 
-            type.normalizeSpec(spec);
-            var behaviorBody = globals.hasOwnProperty(spec.className) && globals[spec.className];
-            if (!behaviorBody || !type.updateExistingFromSpec(behaviorBody, spec)) {
-                if (behaviorBody) {
-                    type.updateSpecFromExisting(behaviorBody, spec);
-                    removeBehaviorBody(behaviorBody);
-                }
-
-                behaviorBody = type.make(spec);
-            }
-
+            var behaviorBody = makeBehaviorBody(builder, pkg);
             addBehaviorBody(behaviorBody);
             return behaviorBody;
         };
+
+        function makeBehaviorBody (builder, pkg) {
+            var behaviorBody = globals.hasOwnProperty(builder.className) && globals[builder.className];
+            if (!behaviorBody) return builder.make(pkg);
+            if (builder.updateExisting(behaviorBody, pkg)) return behaviorBody;
+
+            var rebuilder = builder.rebuilderForExisting(behaviorBody);
+            removeBehaviorBody(behaviorBody);
+            return makeBehaviorBody(rebuilder, pkg);
+        }
 
         function addBehaviorBody (behaviorBody) {
             globals[behaviorBody.className] = behaviorBody;
@@ -434,26 +432,27 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
         this.__init__.once = true;
 
-        SmalltalkTrait.make = function (spec) {
-            var that = new SmalltalkTrait();
-            that.className = spec.className;
-            setupBehavior(that, spec);
-            return that;
-        };
-
-        SmalltalkTrait.normalizeSpec = function (spec) {
-        };
-
-        SmalltalkTrait.updateExistingFromSpec = function (trait, spec) {
-            if (spec.pkg) trait.pkg = spec.pkg;
-            return true;
-        };
-
-        SmalltalkTrait.updateSpecFromExisting = function (trait, spec) {
-        };
+        function traitBuilder (className) {
+            return {
+                className: className,
+                make: function (pkg) {
+                    var that = new SmalltalkTrait();
+                    that.className = className;
+                    setupBehavior(that, pkg);
+                    return that;
+                },
+                updateExisting: function (trait) {
+                    if (pkg) trait.pkg = pkg;
+                    return true;
+                },
+                rebuilderForExisting: function (trait) {
+                    return traitBuilder(className);
+                }
+            };
+        }
 
         st.addTrait = function (className, pkgName) {
-            return rawAddBehaviorBody(pkgName, SmalltalkTrait, {className: className});
+            return rawAddBehaviorBody(pkgName, traitBuilder(className));
         };
     }
 
@@ -526,7 +525,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
          should be added to the system, see smalltalk.addClass().
          Superclass linking is *not* handled here, see api.initialize()  */
 
-        SmalltalkClass.make = function (spec) {
+        function klass (spec) {
             var setSuperClass = spec.superclass;
             if (!spec.superclass) {
                 spec.superclass = nilAsClass;
@@ -542,13 +541,13 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             that.iVarNames = spec.iVarNames || [];
             that.subclasses = [];
 
-            setupBehavior(that, spec);
+            setupBehavior(that, spec.pkg);
 
             that.className = spec.className;
             meta.className = spec.className + ' class';
             meta.superclass = spec.superclass.klass;
             return that;
-        };
+        }
 
         function metaclass (spec) {
             var that = new SmalltalkMetaclass();
@@ -557,7 +556,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             wireKlass(that);
             that.instanceClass = new that.fn();
             that.iVarNames = [];
-            setupBehavior(that, {});
+            setupBehavior(that);
             return that;
         }
 
@@ -579,31 +578,40 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             if (typeof superclass == 'undefined' || superclass && superclass.isNil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
-            return rawAddBehaviorBody(pkgName, SmalltalkClass, {
+            return rawAddBehaviorBody(pkgName, classBuilder(className, superclass, iVarNames));
+        };
+
+        function classBuilder (className, superclass, iVarNames, fn) {
+            if (superclass == null || superclass.isNil) {
+                superclass = null;
+            }
+            return {
                 className: className,
                 superclass: superclass,
-                iVarNames: iVarNames
-            });
-        };
-
-        SmalltalkClass.normalizeSpec = function (spec) {
-            if (spec.superclass == null || spec.superclass.isNil) {
-                spec.superclass = null;
-            }
-        };
-
-        SmalltalkClass.updateExistingFromSpec = function (klass, spec) {
-            if (klass.superclass == spec.superclass && !spec.fn) {
-                if (spec.iVarNames) klass.iVarNames = spec.iVarNames;
-                if (spec.pkg) klass.pkg = spec.pkg;
-                return true;
-            }
-            return false;
-        };
-
-        SmalltalkClass.updateSpecFromExisting = function (klass, spec) {
-            spec.iVarNames = spec.iVarNames || klass.iVarNames;
-        };
+                iVarNames: iVarNames,
+                fn: fn,
+                make: function (pkg) {
+                    return klass({
+                        className: className,
+                        pkg: pkg,
+                        superclass: superclass,
+                        iVarNames: iVarNames,
+                        fn: fn
+                    });
+                },
+                updateExisting: function (klass, pkg) {
+                    if (klass.superclass == superclass && !fn) {
+                        if (iVarNames) klass.iVarNames = iVarNames;
+                        if (pkg) klass.pkg = pkg;
+                        return true;
+                    }
+                    return false;
+                },
+                rebuilderForExisting: function (klass) {
+                    return classBuilder(className, superclass, iVarNames || klass.iVarNames, fn);
+                }
+            };
+        }
 
         st.removeClass = removeBehaviorBody;
 
@@ -623,7 +631,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
          and add it to the system.*/
 
         this.addCoupledClass = function (className, superclass, pkgName, fn) {
-            return rawAddBehaviorBody(pkgName, SmalltalkClass, {className: className, superclass: superclass, fn: fn});
+            return rawAddBehaviorBody(pkgName, classBuilder(className, superclass, null, fn));
         };
 
         function metaSubclasses (metaclass) {
