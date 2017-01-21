@@ -801,16 +801,17 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
     brikz.smalltalkGlobals = SmalltalkGlobalsBrik;
     brikz.root = RootBrik;
-    brikz.selectors = SelectorsBrik;
+    brikz.augments = AugmentsBrik;
     brikz.organize = OrganizeBrik;
     brikz.selectorConversion = SelectorConversionBrik;
+    brikz.selectors = SelectorsBrik;
     brikz.packages = PackagesBrik;
     brikz.behaviors = BehaviorsBrik;
-    brikz.classes = ClassesBrik;
     brikz.methods = MethodsBrik;
+
     brikz.traits = TraitsBrik;
+    brikz.classes = ClassesBrik;
     brikz.stInit = SmalltalkInitBrik;
-    brikz.augments = AugmentsBrik;
     brikz.nil = NilBrik;
     brikz.asReceiver = AsReceiverBrik;
     brikz.amd = AMDBrik;
