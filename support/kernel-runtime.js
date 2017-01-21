@@ -441,6 +441,12 @@ define(function () {
             );
         }
 
+        function wrapJavaScript (o) {
+            return globals.JSObjectProxy._on_(o);
+        }
+
+        st.wrapJavaScript = wrapJavaScript;
+
         /* Handles #dnu: *and* JavaScript method calls.
          if the receiver has no klass, we consider it a JS object (outside of the
          Amber system). Else assume that the receiver understands #doesNotUnderstand: */
@@ -459,7 +465,7 @@ define(function () {
              Else try wrapping a JSObjectProxy around the receiver. */
             var propertyName = st.st2prop(stSelector);
             if (!(propertyName in receiver)) {
-                return invokeDnuMethod(globals.JSObjectProxy._on_(receiver), stSelector, args);
+                return invokeDnuMethod(wrapJavaScript(receiver), stSelector, args);
             }
             return accessJavaScript(receiver, propertyName, args);
         }

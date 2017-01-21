@@ -760,9 +760,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
     /* Defines asReceiver to be present at load time */
     /* (logically it belongs more to PrimitiveBrik) */
-    AsReceiverBrik.deps = ["smalltalkGlobals", "root"];
+    AsReceiverBrik.deps = ["root"];
     function AsReceiverBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
         var nilAsReceiver = brikz.root.nilAsReceiver;
 
         /**
@@ -777,7 +776,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         this.asReceiver = function (o) {
             if (o == null) return nilAsReceiver;
             else if (o.klass != null) return o;
-            else return globals.JSObjectProxy._on_(o);
+            else return st.wrapJavaScript(o);
         };
     }
 
