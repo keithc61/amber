@@ -271,11 +271,9 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             });
         };
 
-        this.rawAddBehaviorBody = function (pkgName, builder) {
+        this.buildBehaviorBody = function (pkgName, builder) {
             var pkg = st.packages[pkgName];
-
             if (!pkg) throw new Error("Missing package " + pkgName);
-
             var behaviorBody = makeBehaviorBody(builder, pkg);
             addBehaviorBody(behaviorBody);
             return behaviorBody;
@@ -399,7 +397,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     function TraitsBrik (brikz, st) {
         var SmalltalkBehaviorBody = brikz.behaviors.BehaviorBody;
         var setupBehavior = brikz.behaviors.setupBehavior;
-        var rawAddBehaviorBody = brikz.behaviors.rawAddBehaviorBody;
+        var buildBehaviorBody = brikz.behaviors.buildBehaviorBody;
 
         function SmalltalkTrait () {
         }
@@ -452,7 +450,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         }
 
         st.addTrait = function (className, pkgName) {
-            return rawAddBehaviorBody(pkgName, traitBuilder(className));
+            return buildBehaviorBody(pkgName, traitBuilder(className));
         };
     }
 
@@ -460,7 +458,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     function ClassesBrik (brikz, st) {
         var nilAsClass = brikz.root.nilAsClass;
         var SmalltalkBehaviorBody = brikz.behaviors.BehaviorBody;
-        var rawAddBehaviorBody = brikz.behaviors.rawAddBehaviorBody;
+        var buildBehaviorBody = brikz.behaviors.buildBehaviorBody;
         var setupBehavior = brikz.behaviors.setupBehavior;
         var removeBehaviorBody = brikz.behaviors.removeBehaviorBody;
         nilAsClass.klass = {fn: SmalltalkClass};
@@ -578,7 +576,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             if (typeof superclass == 'undefined' || superclass && superclass.isNil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
-            return rawAddBehaviorBody(pkgName, classBuilder(className, superclass, iVarNames));
+            return buildBehaviorBody(pkgName, classBuilder(className, superclass, iVarNames));
         };
 
         function classBuilder (className, superclass, iVarNames, fn) {
@@ -631,7 +629,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
          and add it to the system.*/
 
         this.addCoupledClass = function (className, superclass, pkgName, fn) {
-            return rawAddBehaviorBody(pkgName, classBuilder(className, superclass, null, fn));
+            return buildBehaviorBody(pkgName, classBuilder(className, superclass, null, fn));
         };
 
         function metaSubclasses (metaclass) {
