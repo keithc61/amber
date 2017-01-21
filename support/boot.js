@@ -439,7 +439,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
                     setupBehavior(that, pkg);
                     return that;
                 },
-                updateExisting: function (trait) {
+                updateExisting: function (trait, pkg) {
                     if (pkg) trait.pkg = pkg;
                     return true;
                 },
