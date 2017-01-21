@@ -814,6 +814,37 @@ $globals.Collection);
 
 $core.addMethod(
 $core.method({
+selector: "copyWithout:",
+protocol: 'copying',
+fn: function (anObject){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._reject_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(each).__eq(anObject);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"copyWithout:",{anObject:anObject},$globals.Collection)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "copyWithout: anObject\x0a\x09\x22Answer a copy of the receiver that does not contain\x0a\x09any occurrences of anObject.\x22\x0a\x0a\x09^ self reject: [ :each | each = anObject ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["reject:", "="]
+}),
+$globals.Collection);
+
+$core.addMethod(
+$core.method({
 selector: "copyWithoutAll:",
 protocol: 'copying',
 fn: function (aCollection){

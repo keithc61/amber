@@ -1,3 +1,9 @@
+0.18.3:
+
++ Collection >>
+  + copyWithout:
+
+
 0.18.2:
 
 * Add Platform-DOM package with DOM-related stuff.

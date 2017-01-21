@@ -237,6 +237,13 @@ copyWithAll: aCollection
 	^ self copy addAll: aCollection; yourself
 !
 
+copyWithout: anObject
+	"Answer a copy of the receiver that does not contain
+	any occurrences of anObject."
+
+	^ self reject: [ :each | each = anObject ]
+!
+
 copyWithoutAll: aCollection
 	"Answer a copy of the receiver that does not contain any elements
 	equal to those in aCollection."
