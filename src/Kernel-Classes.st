@@ -589,7 +589,7 @@ package
 !
 
 theMetaClass
-	^ Trait class
+	^ nil
 !
 
 theNonMetaClass

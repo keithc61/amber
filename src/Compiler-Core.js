@@ -809,7 +809,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
+var $1,$2,$receiver;
 $recv($recv($recv(aClass)._methodDictionary())._values())._do_displayingProgress_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -819,9 +819,16 @@ return self._install_forClass_protocol_($recv(each)._source(),aClass,$recv(each)
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
 }),"Recompiling ".__comma($recv(aClass)._name()));
-$1=$recv(aClass)._isMetaclass();
-if(!$core.assert($1)){
-self._recompile_($recv(aClass)._theMetaClass());
+$1=$recv(aClass)._theMetaClass();
+if(($receiver = $1) == null || $receiver.isNil){
+$1;
+} else {
+var meta;
+meta=$receiver;
+$2=$recv(meta).__eq(aClass);
+if(!$core.assert($2)){
+self._recompile_(meta);
+}
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -830,10 +837,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
-source: "recompile: aClass\x0a\x09aClass methodDictionary values\x0a\x09\x09do: [ :each | \x0a\x09\x09\x09self \x0a\x09\x09\x09\x09install: each source \x0a\x09\x09\x09\x09forClass: aClass \x0a\x09\x09\x09\x09protocol: each protocol ]\x0a\x09\x09displayingProgress: 'Recompiling ', aClass name.\x0a\x09aClass isMetaclass ifFalse: [ self recompile: aClass theMetaClass ]",
+source: "recompile: aClass\x0a\x09aClass methodDictionary values\x0a\x09\x09do: [ :each | \x0a\x09\x09\x09self \x0a\x09\x09\x09\x09install: each source \x0a\x09\x09\x09\x09forClass: aClass \x0a\x09\x09\x09\x09protocol: each protocol ]\x0a\x09\x09displayingProgress: 'Recompiling ', aClass name.\x0a\x09aClass theMetaClass ifNotNil: [ :meta |\x0a\x09\x09meta = aClass ifFalse: [ self recompile: meta ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["do:displayingProgress:", "values", "methodDictionary", "install:forClass:protocol:", "source", "protocol", ",", "name", "ifFalse:", "isMetaclass", "recompile:", "theMetaClass"]
+messageSends: ["do:displayingProgress:", "values", "methodDictionary", "install:forClass:protocol:", "source", "protocol", ",", "name", "ifNotNil:", "theMetaClass", "ifFalse:", "=", "recompile:"]
 }),
 $globals.Compiler);
 

@@ -409,7 +409,9 @@ loadDependencyClasses
 	starCategoryName := '*', self name.
 	^ (self classes collect: [ :each | each superclass ]) asSet
 		remove: nil ifAbsent: [];
-		addAll: (Smalltalk classes select: [ :each | each protocols, each theMetaClass protocols includes: starCategoryName ]);
+		addAll: (Smalltalk classes select: [ :each |
+			each protocols, (each theMetaClass ifNil: [ #() ] ifNotNil: [ :meta | meta protocols])
+				includes: starCategoryName ]);
 		yourself
 ! !
 

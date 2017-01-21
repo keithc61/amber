@@ -2492,20 +2492,15 @@ selector: "theMetaClass",
 protocol: 'accessing',
 fn: function (){
 var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($globals.Trait)._class();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"theMetaClass",{},$globals.Trait)});
-//>>excludeEnd("ctx");
+return nil;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "theMetaClass\x0a\x09^ Trait class",
-referencedClasses: ["Trait"],
+source: "theMetaClass\x0a\x09^ nil",
+referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["class"]
+messageSends: []
 }),
 $globals.Trait);
 

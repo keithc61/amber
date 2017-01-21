@@ -35,7 +35,7 @@ extensionProtocolsOfPackage: aPackage
 	Not to shuffle diffs, classes are sorted by their name."
 	
 	(Smalltalk classes asArray sorted: [ :a :b | a name < b name ]) do: [ :each |
-		{each. each theMetaClass} do: [ :behavior |
+		({each. each theMetaClass} copyWithout: nil) do: [ :behavior |
 			(behavior protocols includes: extensionName) ifTrue: [
 				result add: (ExportMethodProtocol name: extensionName theClass: behavior) ] ] ].
 
@@ -185,8 +185,7 @@ exportPackage: aPackage on: aStream
 	
 	aPackage sortedClasses do: [ :each |
 		self exportBehavior: each on: aStream.
-		each class isMetaclass ifTrue: [
-			self exportBehavior: each theMetaClass on: aStream ] ].
+		each theMetaClass ifNotNil: [ :meta | self exportBehavior: meta on: aStream ] ].
 	
 	self 
 		exportProtocols: (self extensionProtocolsOfPackage: aPackage)
@@ -360,8 +359,7 @@ exportPackage: aPackage on: aStream
 	
 	aPackage sortedClasses do: [ :each |
 		self exportBehavior: each on: aStream.
-		each class isMetaclass ifTrue: [
-			self exportBehavior: each theMetaClass on: aStream ] ].
+		each theMetaClass ifNotNil: [ :meta | self exportBehavior: meta on: aStream ] ].
 			
 	(self extensionMethodsOfPackage: aPackage) do: [ :each |
 		self exportMethod: each on: aStream ].

@@ -233,7 +233,8 @@ recompile: aClass
 				forClass: aClass 
 				protocol: each protocol ]
 		displayingProgress: 'Recompiling ', aClass name.
-	aClass isMetaclass ifFalse: [ self recompile: aClass theMetaClass ]
+	aClass theMetaClass ifNotNil: [ :meta |
+		meta = aClass ifFalse: [ self recompile: meta ] ]
 !
 
 recompileAll
