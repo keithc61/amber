@@ -1388,7 +1388,7 @@ $5=$recv(each)._protocols();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["protocols"]=1;
 //>>excludeEnd("ctx");
-$4=$recv($5).__comma($recv($recv(each)._class())._protocols());
+$4=$recv($5).__comma($recv($recv(each)._theMetaClass())._protocols());
 return $recv($4)._includes_(starCategoryName);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
@@ -1401,10 +1401,10 @@ return $recv($1)._yourself();
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "loadDependencyClasses\x0a\x09\x22Returns classes needed at the time of loading a package.\x0a\x09These are all that are used to subclass\x0a\x09and to define an extension method\x22\x0a\x09\x0a\x09| starCategoryName |\x0a\x09starCategoryName := '*', self name.\x0a\x09^ (self classes collect: [ :each | each superclass ]) asSet\x0a\x09\x09remove: nil ifAbsent: [];\x0a\x09\x09addAll: (Smalltalk classes select: [ :each | each protocols, each class protocols includes: starCategoryName ]);\x0a\x09\x09yourself",
+source: "loadDependencyClasses\x0a\x09\x22Returns classes needed at the time of loading a package.\x0a\x09These are all that are used to subclass\x0a\x09and to define an extension method\x22\x0a\x09\x0a\x09| starCategoryName |\x0a\x09starCategoryName := '*', self name.\x0a\x09^ (self classes collect: [ :each | each superclass ]) asSet\x0a\x09\x09remove: nil ifAbsent: [];\x0a\x09\x09addAll: (Smalltalk classes select: [ :each | each protocols, each theMetaClass protocols includes: starCategoryName ]);\x0a\x09\x09yourself",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: [",", "name", "remove:ifAbsent:", "asSet", "collect:", "classes", "superclass", "addAll:", "select:", "includes:", "protocols", "class", "yourself"]
+messageSends: [",", "name", "remove:ifAbsent:", "asSet", "collect:", "classes", "superclass", "addAll:", "select:", "includes:", "protocols", "theMetaClass", "yourself"]
 }),
 $globals.Package);
 

@@ -169,7 +169,7 @@ moveMethod: aMethod toClass: aClassName
 	destinationClass == aMethod methodClass ifTrue: [ ^ self ].
 	
 	aMethod methodClass isMetaclass ifTrue: [ 
-		destinationClass := destinationClass class ].
+		destinationClass := destinationClass theMetaClass ].
 	
 	destinationClass 
 		compile: aMethod source

@@ -35,7 +35,7 @@ extensionProtocolsOfPackage: aPackage
 	Not to shuffle diffs, classes are sorted by their name."
 	
 	(Smalltalk classes asArray sorted: [ :a :b | a name < b name ]) do: [ :each |
-		{each. each class} do: [ :behavior |
+		{each. each theMetaClass} do: [ :behavior |
 			(behavior protocols includes: extensionName) ifTrue: [
 				result add: (ExportMethodProtocol name: extensionName theClass: behavior) ] ] ].
 
@@ -76,7 +76,7 @@ extensionCategoriesOfPackage: aPackage
 	name := aPackage name.
 	result := OrderedCollection new.
 	(Package sortedClasses: Smalltalk classes) do: [ :each |
-		{each. each class} do: [ :aClass |
+		{each. each theMetaClass} do: [ :aClass |
 			map := Dictionary new.
 			aClass protocolsDo: [ :category :methods |
 				category = ('*', name) ifTrue: [ map at: category put: methods ] ].
@@ -101,7 +101,7 @@ ownCategoriesOfClass: aClass
 ownCategoriesOfMetaClass: aClass
 	"Issue #143: sort protocol alphabetically"
 
-	^ self ownCategoriesOfClass: aClass class
+	^ self ownCategoriesOfClass: aClass theMetaClass
 !
 
 ownMethodProtocolsOfClass: aClass
@@ -162,7 +162,7 @@ exportMetaDefinitionOf: aClass on: aStream
 
 	aClass class instanceVariableNames ifNotEmpty: [ :classIvars |
 		aStream
-			nextPutAll: (self classNameFor: aClass class);
+			nextPutAll: (self classNameFor: aClass theMetaClass);
 			nextPutAll: ' instanceVariableNames: '''.
 		classIvars
 			do: [ :each | aStream nextPutAll: each ]
@@ -186,7 +186,7 @@ exportPackage: aPackage on: aStream
 	aPackage sortedClasses do: [ :each |
 		self exportBehavior: each on: aStream.
 		each class isMetaclass ifTrue: [
-			self exportBehavior: each class on: aStream ] ].
+			self exportBehavior: each theMetaClass on: aStream ] ].
 	
 	self 
 		exportProtocols: (self extensionProtocolsOfPackage: aPackage)
@@ -269,7 +269,7 @@ ownMethodsOfClass: aClass
 ownMethodsOfMetaClass: aClass
 	"Issue #143: sort methods alphabetically"
 
-	^ self ownMethodsOfClass: aClass class
+	^ self ownMethodsOfClass: aClass theMetaClass
 ! !
 
 !Exporter methodsFor: 'convenience'!
@@ -321,9 +321,9 @@ exportDefinitionOf: aClass on: aStream
 
 exportMetaDefinitionOf: aClass on: aStream
 	aStream lf.
-	aClass class instanceVariableNames ifNotEmpty: [ :classIvars |
+	aClass theMetaClass instanceVariableNames ifNotEmpty: [ :classIvars |
 		aStream
-		nextPutAll: (self jsClassNameFor: aClass class);
+		nextPutAll: (self jsClassNameFor: aClass theMetaClass);
 		nextPutAll: '.iVarNames = ['.
 		classIvars
 		do: [ :each | aStream nextPutAll: '''', each, '''' ]
@@ -361,7 +361,7 @@ exportPackage: aPackage on: aStream
 	aPackage sortedClasses do: [ :each |
 		self exportBehavior: each on: aStream.
 		each class isMetaclass ifTrue: [
-			self exportBehavior: each class on: aStream ] ].
+			self exportBehavior: each theMetaClass on: aStream ] ].
 			
 	(self extensionMethodsOfPackage: aPackage) do: [ :each |
 		self exportMethod: each on: aStream ].
@@ -1171,12 +1171,6 @@ load: aPackageName
 
 load: aPackageName fromNamespace: aString
 	(self named: aPackageName) loadFromNamespace: aString
-! !
-
-!Trait methodsFor: '*Platform-ImportExport'!
-
-exportBehaviorDefinitionTo: aStream using: anExporter
-	anExporter exportTraitDefinitionOf: self on: aStream
 ! !
 
 !Trait methodsFor: '*Platform-ImportExport'!

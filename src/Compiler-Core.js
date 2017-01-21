@@ -821,7 +821,7 @@ return self._install_forClass_protocol_($recv(each)._source(),aClass,$recv(each)
 }),"Recompiling ".__comma($recv(aClass)._name()));
 $1=$recv(aClass)._isMetaclass();
 if(!$core.assert($1)){
-self._recompile_($recv(aClass)._class());
+self._recompile_($recv(aClass)._theMetaClass());
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -830,10 +830,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
-source: "recompile: aClass\x0a\x09aClass methodDictionary values\x0a\x09\x09do: [ :each | \x0a\x09\x09\x09self \x0a\x09\x09\x09\x09install: each source \x0a\x09\x09\x09\x09forClass: aClass \x0a\x09\x09\x09\x09protocol: each protocol ]\x0a\x09\x09displayingProgress: 'Recompiling ', aClass name.\x0a\x09aClass isMetaclass ifFalse: [ self recompile: aClass class ]",
+source: "recompile: aClass\x0a\x09aClass methodDictionary values\x0a\x09\x09do: [ :each | \x0a\x09\x09\x09self \x0a\x09\x09\x09\x09install: each source \x0a\x09\x09\x09\x09forClass: aClass \x0a\x09\x09\x09\x09protocol: each protocol ]\x0a\x09\x09displayingProgress: 'Recompiling ', aClass name.\x0a\x09aClass isMetaclass ifFalse: [ self recompile: aClass theMetaClass ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["do:displayingProgress:", "values", "methodDictionary", "install:forClass:protocol:", "source", "protocol", ",", "name", "ifFalse:", "isMetaclass", "recompile:", "class"]
+messageSends: ["do:displayingProgress:", "values", "methodDictionary", "install:forClass:protocol:", "source", "protocol", ",", "name", "ifFalse:", "isMetaclass", "recompile:", "theMetaClass"]
 }),
 $globals.Compiler);
 

@@ -138,7 +138,7 @@ return $recv($2).__lt($recv(b)._name());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv([each,$recv(each)._class()])._do_((function(behavior){
+return $recv([each,$recv(each)._theMetaClass()])._do_((function(behavior){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -164,10 +164,10 @@ return result;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage"],
-source: "extensionProtocolsOfPackage: aPackage\x0a\x09| extensionName result |\x0a\x09\x0a\x09extensionName := '*', aPackage name.\x0a\x09result := OrderedCollection new.\x0a\x09\x0a\x09\x22The classes must be loaded since it is extensions only.\x0a\x09Therefore topological sorting (dependency resolution) does not matter here.\x0a\x09Not sorting topologically improves the speed by a number of magnitude.\x0a\x09\x0a\x09Not to shuffle diffs, classes are sorted by their name.\x22\x0a\x09\x0a\x09(Smalltalk classes asArray sorted: [ :a :b | a name < b name ]) do: [ :each |\x0a\x09\x09{each. each class} do: [ :behavior |\x0a\x09\x09\x09(behavior protocols includes: extensionName) ifTrue: [\x0a\x09\x09\x09\x09result add: (ExportMethodProtocol name: extensionName theClass: behavior) ] ] ].\x0a\x0a\x09^ result",
+source: "extensionProtocolsOfPackage: aPackage\x0a\x09| extensionName result |\x0a\x09\x0a\x09extensionName := '*', aPackage name.\x0a\x09result := OrderedCollection new.\x0a\x09\x0a\x09\x22The classes must be loaded since it is extensions only.\x0a\x09Therefore topological sorting (dependency resolution) does not matter here.\x0a\x09Not sorting topologically improves the speed by a number of magnitude.\x0a\x09\x0a\x09Not to shuffle diffs, classes are sorted by their name.\x22\x0a\x09\x0a\x09(Smalltalk classes asArray sorted: [ :a :b | a name < b name ]) do: [ :each |\x0a\x09\x09{each. each theMetaClass} do: [ :behavior |\x0a\x09\x09\x09(behavior protocols includes: extensionName) ifTrue: [\x0a\x09\x09\x09\x09result add: (ExportMethodProtocol name: extensionName theClass: behavior) ] ] ].\x0a\x0a\x09^ result",
 referencedClasses: ["OrderedCollection", "Smalltalk", "ExportMethodProtocol"],
 //>>excludeEnd("ide");
-messageSends: [",", "name", "new", "do:", "sorted:", "asArray", "classes", "<", "class", "ifTrue:", "includes:", "protocols", "add:", "name:theClass:"]
+messageSends: [",", "name", "new", "do:", "sorted:", "asArray", "classes", "<", "theMetaClass", "ifTrue:", "includes:", "protocols", "add:", "name:theClass:"]
 }),
 $globals.AbstractExporter);
 
@@ -439,25 +439,20 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1,$3;
-$2=$recv(aClass)._class();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["class"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._instanceVariableNames();
-$recv($1)._ifNotEmpty_((function(classIvars){
+var $1;
+$recv($recv($recv(aClass)._class())._instanceVariableNames())._ifNotEmpty_((function(classIvars){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_(self._classNameFor_($recv(aClass)._class()));
+$recv(aStream)._nextPutAll_(self._classNameFor_($recv(aClass)._theMetaClass()));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$3=$recv(aStream)._nextPutAll_(" instanceVariableNames: '");
+$1=$recv(aStream)._nextPutAll_(" instanceVariableNames: '");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["nextPutAll:"]=2;
 //>>excludeEnd("ctx");
-$3;
+$1;
 $recv(classIvars)._do_separatedBy_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
@@ -498,10 +493,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aStream"],
-source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x0a\x09aClass class instanceVariableNames ifNotEmpty: [ :classIvars |\x0a\x09\x09aStream\x0a\x09\x09\x09nextPutAll: (self classNameFor: aClass class);\x0a\x09\x09\x09nextPutAll: ' instanceVariableNames: '''.\x0a\x09\x09classIvars\x0a\x09\x09\x09do: [ :each | aStream nextPutAll: each ]\x0a\x09\x09\x09separatedBy: [ aStream nextPutAll: ' ' ].\x0a\x09\x09aStream\x0a\x09\x09\x09nextPutAll: '''!'; lf; lf ]",
+source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x0a\x09aClass class instanceVariableNames ifNotEmpty: [ :classIvars |\x0a\x09\x09aStream\x0a\x09\x09\x09nextPutAll: (self classNameFor: aClass theMetaClass);\x0a\x09\x09\x09nextPutAll: ' instanceVariableNames: '''.\x0a\x09\x09classIvars\x0a\x09\x09\x09do: [ :each | aStream nextPutAll: each ]\x0a\x09\x09\x09separatedBy: [ aStream nextPutAll: ' ' ].\x0a\x09\x09aStream\x0a\x09\x09\x09nextPutAll: '''!'; lf; lf ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifNotEmpty:", "instanceVariableNames", "class", "nextPutAll:", "classNameFor:", "do:separatedBy:", "lf"]
+messageSends: ["ifNotEmpty:", "instanceVariableNames", "class", "nextPutAll:", "classNameFor:", "theMetaClass", "do:separatedBy:", "lf"]
 }),
 $globals.ChunkExporter);
 
@@ -551,7 +546,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1;
+var $1;
 self._exportPackageDefinitionOf_on_(aPackage,aStream);
 self._exportPackageImportsOf_on_(aPackage,aStream);
 $recv($recv(aPackage)._sortedClasses())._do_((function(each){
@@ -562,13 +557,9 @@ self._exportBehavior_on_(each,aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["exportBehavior:on:"]=1;
 //>>excludeEnd("ctx");
-$2=$recv(each)._class();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["class"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._isMetaclass();
+$1=$recv($recv(each)._class())._isMetaclass();
 if($core.assert($1)){
-return self._exportBehavior_on_($recv(each)._class(),aStream);
+return self._exportBehavior_on_($recv(each)._theMetaClass(),aStream);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -582,10 +573,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage", "aStream"],
-source: "exportPackage: aPackage on: aStream\x0a\x0a\x09self\x0a\x09\x09exportPackageDefinitionOf: aPackage on: aStream;\x0a\x09\x09exportPackageImportsOf: aPackage on: aStream.\x0a\x09\x0a\x09aPackage sortedClasses do: [ :each |\x0a\x09\x09self exportBehavior: each on: aStream.\x0a\x09\x09each class isMetaclass ifTrue: [\x0a\x09\x09\x09self exportBehavior: each class on: aStream ] ].\x0a\x09\x0a\x09self \x0a\x09\x09exportProtocols: (self extensionProtocolsOfPackage: aPackage)\x0a\x09\x09on: aStream",
+source: "exportPackage: aPackage on: aStream\x0a\x0a\x09self\x0a\x09\x09exportPackageDefinitionOf: aPackage on: aStream;\x0a\x09\x09exportPackageImportsOf: aPackage on: aStream.\x0a\x09\x0a\x09aPackage sortedClasses do: [ :each |\x0a\x09\x09self exportBehavior: each on: aStream.\x0a\x09\x09each class isMetaclass ifTrue: [\x0a\x09\x09\x09self exportBehavior: each theMetaClass on: aStream ] ].\x0a\x09\x0a\x09self \x0a\x09\x09exportProtocols: (self extensionProtocolsOfPackage: aPackage)\x0a\x09\x09on: aStream",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["exportPackageDefinitionOf:on:", "exportPackageImportsOf:on:", "do:", "sortedClasses", "exportBehavior:on:", "ifTrue:", "isMetaclass", "class", "exportProtocols:on:", "extensionProtocolsOfPackage:"]
+messageSends: ["exportPackageDefinitionOf:on:", "exportPackageImportsOf:on:", "do:", "sortedClasses", "exportBehavior:on:", "ifTrue:", "isMetaclass", "class", "theMetaClass", "exportProtocols:on:", "extensionProtocolsOfPackage:"]
 }),
 $globals.ChunkExporter);
 
@@ -912,7 +903,7 @@ $recv($recv($globals.Package)._sortedClasses_($recv($globals.Smalltalk)._classes
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv([each,$recv(each)._class()])._do_((function(aClass){
+return $recv([each,$recv(each)._theMetaClass()])._do_((function(aClass){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -965,10 +956,10 @@ return result;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage"],
-source: "extensionCategoriesOfPackage: aPackage\x0a\x09\x22Issue #143: sort protocol alphabetically\x22\x0a\x0a\x09| name map result |\x0a\x09name := aPackage name.\x0a\x09result := OrderedCollection new.\x0a\x09(Package sortedClasses: Smalltalk classes) do: [ :each |\x0a\x09\x09{each. each class} do: [ :aClass |\x0a\x09\x09\x09map := Dictionary new.\x0a\x09\x09\x09aClass protocolsDo: [ :category :methods |\x0a\x09\x09\x09\x09category = ('*', name) ifTrue: [ map at: category put: methods ] ].\x0a\x09\x09\x09result addAll: ((map keys sorted: [ :a :b | a <= b ]) collect: [ :category |\x0a\x09\x09\x09\x09MethodCategory name: category theClass: aClass methods: (map at: category) ]) ] ].\x0a\x09^ result",
+source: "extensionCategoriesOfPackage: aPackage\x0a\x09\x22Issue #143: sort protocol alphabetically\x22\x0a\x0a\x09| name map result |\x0a\x09name := aPackage name.\x0a\x09result := OrderedCollection new.\x0a\x09(Package sortedClasses: Smalltalk classes) do: [ :each |\x0a\x09\x09{each. each theMetaClass} do: [ :aClass |\x0a\x09\x09\x09map := Dictionary new.\x0a\x09\x09\x09aClass protocolsDo: [ :category :methods |\x0a\x09\x09\x09\x09category = ('*', name) ifTrue: [ map at: category put: methods ] ].\x0a\x09\x09\x09result addAll: ((map keys sorted: [ :a :b | a <= b ]) collect: [ :category |\x0a\x09\x09\x09\x09MethodCategory name: category theClass: aClass methods: (map at: category) ]) ] ].\x0a\x09^ result",
 referencedClasses: ["OrderedCollection", "Package", "Smalltalk", "Dictionary", "MethodCategory"],
 //>>excludeEnd("ide");
-messageSends: ["name", "new", "do:", "sortedClasses:", "classes", "class", "protocolsDo:", "ifTrue:", "=", ",", "at:put:", "addAll:", "collect:", "sorted:", "keys", "<=", "name:theClass:methods:", "at:"]
+messageSends: ["name", "new", "do:", "sortedClasses:", "classes", "theMetaClass", "protocolsDo:", "ifTrue:", "=", ",", "at:put:", "addAll:", "collect:", "sorted:", "keys", "<=", "name:theClass:methods:", "at:"]
 }),
 $globals.ChunkExporter);
 
@@ -1035,17 +1026,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._ownCategoriesOfClass_($recv(aClass)._class());
+return self._ownCategoriesOfClass_($recv(aClass)._theMetaClass());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ownCategoriesOfMetaClass:",{aClass:aClass},$globals.ChunkExporter)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
-source: "ownCategoriesOfMetaClass: aClass\x0a\x09\x22Issue #143: sort protocol alphabetically\x22\x0a\x0a\x09^ self ownCategoriesOfClass: aClass class",
+source: "ownCategoriesOfMetaClass: aClass\x0a\x09\x22Issue #143: sort protocol alphabetically\x22\x0a\x0a\x09^ self ownCategoriesOfClass: aClass theMetaClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ownCategoriesOfClass:", "class"]
+messageSends: ["ownCategoriesOfClass:", "theMetaClass"]
 }),
 $globals.ChunkExporter);
 
@@ -1278,16 +1269,16 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=1;
 //>>excludeEnd("ctx");
-$2=$recv(aClass)._class();
+$2=$recv(aClass)._theMetaClass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["class"]=1;
+$ctx1.sendIdx["theMetaClass"]=1;
 //>>excludeEnd("ctx");
 $1=$recv($2)._instanceVariableNames();
 $recv($1)._ifNotEmpty_((function(classIvars){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_(self._jsClassNameFor_($recv(aClass)._class()));
+$recv(aStream)._nextPutAll_(self._jsClassNameFor_($recv(aClass)._theMetaClass()));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
@@ -1339,10 +1330,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aStream"],
-source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x09aStream lf.\x0a\x09aClass class instanceVariableNames ifNotEmpty: [ :classIvars |\x0a\x09\x09aStream\x0a\x09\x09nextPutAll: (self jsClassNameFor: aClass class);\x0a\x09\x09nextPutAll: '.iVarNames = ['.\x0a\x09\x09classIvars\x0a\x09\x09do: [ :each | aStream nextPutAll: '''', each, '''' ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ',' ].\x0a\x09\x09aStream nextPutAll: '];', String lf ]",
+source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x09aStream lf.\x0a\x09aClass theMetaClass instanceVariableNames ifNotEmpty: [ :classIvars |\x0a\x09\x09aStream\x0a\x09\x09nextPutAll: (self jsClassNameFor: aClass theMetaClass);\x0a\x09\x09nextPutAll: '.iVarNames = ['.\x0a\x09\x09classIvars\x0a\x09\x09do: [ :each | aStream nextPutAll: '''', each, '''' ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ',' ].\x0a\x09\x09aStream nextPutAll: '];', String lf ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["lf", "ifNotEmpty:", "instanceVariableNames", "class", "nextPutAll:", "jsClassNameFor:", "do:separatedBy:", ","]
+messageSends: ["lf", "ifNotEmpty:", "instanceVariableNames", "theMetaClass", "nextPutAll:", "jsClassNameFor:", "do:separatedBy:", ","]
 }),
 $globals.Exporter);
 
@@ -1549,7 +1540,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1;
+var $1;
 self._exportPackagePrologueOf_on_(aPackage,aStream);
 self._exportPackageDefinitionOf_on_(aPackage,aStream);
 self._exportPackageContextOf_on_(aPackage,aStream);
@@ -1563,13 +1554,9 @@ self._exportBehavior_on_(each,aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["exportBehavior:on:"]=1;
 //>>excludeEnd("ctx");
-$2=$recv(each)._class();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["class"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._isMetaclass();
+$1=$recv($recv(each)._class())._isMetaclass();
 if($core.assert($1)){
-return self._exportBehavior_on_($recv(each)._class(),aStream);
+return self._exportBehavior_on_($recv(each)._theMetaClass(),aStream);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -1595,10 +1582,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage", "aStream"],
-source: "exportPackage: aPackage on: aStream\x0a\x09\x0a\x09self \x0a\x09\x09exportPackagePrologueOf: aPackage on: aStream;\x0a\x09\x09exportPackageDefinitionOf: aPackage on: aStream;\x0a\x09\x09exportPackageContextOf: aPackage on: aStream;\x0a\x09\x09exportPackageImportsOf: aPackage on: aStream;\x0a\x09\x09exportPackageTransportOf: aPackage on: aStream.\x0a\x09\x0a\x09aPackage sortedClasses do: [ :each |\x0a\x09\x09self exportBehavior: each on: aStream.\x0a\x09\x09each class isMetaclass ifTrue: [\x0a\x09\x09\x09self exportBehavior: each class on: aStream ] ].\x0a\x09\x09\x09\x0a\x09(self extensionMethodsOfPackage: aPackage) do: [ :each |\x0a\x09\x09self exportMethod: each on: aStream ].\x0a\x09\x09\x0a\x09self exportPackageEpilogueOf: aPackage on: aStream",
+source: "exportPackage: aPackage on: aStream\x0a\x09\x0a\x09self \x0a\x09\x09exportPackagePrologueOf: aPackage on: aStream;\x0a\x09\x09exportPackageDefinitionOf: aPackage on: aStream;\x0a\x09\x09exportPackageContextOf: aPackage on: aStream;\x0a\x09\x09exportPackageImportsOf: aPackage on: aStream;\x0a\x09\x09exportPackageTransportOf: aPackage on: aStream.\x0a\x09\x0a\x09aPackage sortedClasses do: [ :each |\x0a\x09\x09self exportBehavior: each on: aStream.\x0a\x09\x09each class isMetaclass ifTrue: [\x0a\x09\x09\x09self exportBehavior: each theMetaClass on: aStream ] ].\x0a\x09\x09\x09\x0a\x09(self extensionMethodsOfPackage: aPackage) do: [ :each |\x0a\x09\x09self exportMethod: each on: aStream ].\x0a\x09\x09\x0a\x09self exportPackageEpilogueOf: aPackage on: aStream",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["exportPackagePrologueOf:on:", "exportPackageDefinitionOf:on:", "exportPackageContextOf:on:", "exportPackageImportsOf:on:", "exportPackageTransportOf:on:", "do:", "sortedClasses", "exportBehavior:on:", "ifTrue:", "isMetaclass", "class", "extensionMethodsOfPackage:", "exportMethod:on:", "exportPackageEpilogueOf:on:"]
+messageSends: ["exportPackagePrologueOf:on:", "exportPackageDefinitionOf:on:", "exportPackageContextOf:on:", "exportPackageImportsOf:on:", "exportPackageTransportOf:on:", "do:", "sortedClasses", "exportBehavior:on:", "ifTrue:", "isMetaclass", "class", "theMetaClass", "extensionMethodsOfPackage:", "exportMethod:on:", "exportPackageEpilogueOf:on:"]
 }),
 $globals.Exporter);
 
@@ -2048,17 +2035,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._ownMethodsOfClass_($recv(aClass)._class());
+return self._ownMethodsOfClass_($recv(aClass)._theMetaClass());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ownMethodsOfMetaClass:",{aClass:aClass},$globals.Exporter)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
-source: "ownMethodsOfMetaClass: aClass\x0a\x09\x22Issue #143: sort methods alphabetically\x22\x0a\x0a\x09^ self ownMethodsOfClass: aClass class",
+source: "ownMethodsOfMetaClass: aClass\x0a\x09\x22Issue #143: sort methods alphabetically\x22\x0a\x0a\x09^ self ownMethodsOfClass: aClass theMetaClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ownMethodsOfClass:", "class"]
+messageSends: ["ownMethodsOfClass:", "theMetaClass"]
 }),
 $globals.Exporter);
 
@@ -4739,30 +4726,6 @@ referencedClasses: [],
 messageSends: ["loadFromNamespace:", "named:"]
 }),
 $globals.Package.klass);
-
-$core.addMethod(
-$core.method({
-selector: "exportBehaviorDefinitionTo:using:",
-protocol: '*Platform-ImportExport',
-fn: function (aStream,anExporter){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv(anExporter)._exportTraitDefinitionOf_on_(self,aStream);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"exportBehaviorDefinitionTo:using:",{aStream:aStream,anExporter:anExporter},$globals.Trait)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aStream", "anExporter"],
-source: "exportBehaviorDefinitionTo: aStream using: anExporter\x0a\x09anExporter exportTraitDefinitionOf: self on: aStream",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["exportTraitDefinitionOf:on:"]
-}),
-$globals.Trait);
 
 $core.addMethod(
 $core.method({
