@@ -77,26 +77,11 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         function SmalltalkObject () {
         }
 
-        function SmalltalkNil () {
-        }
-
         inherits(SmalltalkProtoObject, SmalltalkRoot);
         inherits(SmalltalkObject, SmalltalkProtoObject);
-        inherits(SmalltalkNil, SmalltalkObject);
 
         this.Root = SmalltalkRoot;
         this.Object = SmalltalkObject;
-        this.nilAsReceiver = new SmalltalkNil();
-
-        // Adds an `isNil` property to the `nil` object.  When sending
-        // nil objects from one environment to another, doing
-        // `anObject == nil` (in JavaScript) does not always answer
-        // true as the referenced nil object might come from the other
-        // environment.
-        Object.defineProperty(this.nilAsReceiver, 'isNil', {
-            value: true,
-            enumerable: false, configurable: false, writable: false
-        });
 
         this.__init__ = function () {
             var globals = brikz.smalltalkGlobals.globals;
@@ -104,7 +89,6 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             st.addPackage("Kernel-Objects");
             addCoupledClass("ProtoObject", undefined, "Kernel-Objects", SmalltalkProtoObject);
             addCoupledClass("Object", globals.ProtoObject, "Kernel-Objects", SmalltalkObject);
-            addCoupledClass("UndefinedObject", globals.Object, "Kernel-Objects", SmalltalkNil);
         };
         this.__init__.once = true;
     }
@@ -758,11 +742,41 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         st.defaultAmdNamespace = st.defaultAmdNamespace || "amber_core";
     }
 
+    NilBrik.deps = ["root"];
+    function NilBrik (brikz, st) {
+        var SmalltalkObject = brikz.root.Object;
+
+        function SmalltalkNil () {
+        }
+
+        inherits(SmalltalkNil, SmalltalkObject);
+
+        this.nilAsReceiver = new SmalltalkNil();
+
+        // Adds an `isNil` property to the `nil` object.  When sending
+        // nil objects from one environment to another, doing
+        // `anObject == nil` (in JavaScript) does not always answer
+        // true as the referenced nil object might come from the other
+        // environment.
+        Object.defineProperty(this.nilAsReceiver, 'isNil', {
+            value: true,
+            enumerable: false, configurable: false, writable: false
+        });
+
+        this.__init__ = function () {
+            var globals = brikz.smalltalkGlobals.globals;
+            var addCoupledClass = brikz.classes.addCoupledClass;
+            st.addPackage("Kernel-Objects");
+            addCoupledClass("UndefinedObject", globals.Object, "Kernel-Objects", SmalltalkNil);
+        };
+        this.__init__.once = true;
+    }
+
     /* Defines asReceiver to be present at load time */
     /* (logically it belongs more to PrimitiveBrik) */
-    AsReceiverBrik.deps = ["root"];
+    AsReceiverBrik.deps = ["nil"];
     function AsReceiverBrik (brikz, st) {
-        var nilAsReceiver = brikz.root.nilAsReceiver;
+        var nilAsReceiver = brikz.nil.nilAsReceiver;
 
         /**
          * This function is used all over the compiled amber code.
@@ -797,6 +811,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     brikz.traits = TraitsBrik;
     brikz.stInit = SmalltalkInitBrik;
     brikz.augments = AugmentsBrik;
+    brikz.nil = NilBrik;
     brikz.asReceiver = AsReceiverBrik;
     brikz.amd = AMDBrik;
 
@@ -804,8 +819,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
     return {
         api: api,
-        nil/* TODO deprecate */: brikz.root.nilAsReceiver,
-        nilAsReceiver: brikz.root.nilAsReceiver,
+        nil/* TODO deprecate */: brikz.nil.nilAsReceiver,
+        nilAsReceiver: brikz.nil.nilAsReceiver,
         dnu/* TODO deprecate */: brikz.classes.nilAsClass,
         nilAsClass: brikz.classes.nilAsClass,
         globals: brikz.smalltalkGlobals.globals,
