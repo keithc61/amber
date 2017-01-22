@@ -353,9 +353,7 @@ classes
 !
 
 setupClasses
-	self classes
-		do: [ :each | ClassBuilder new setupClass: each ];
-		do: [ :each | each initialize ]
+	self classes do: [ :each | each initialize ]
 !
 
 sortedClasses
