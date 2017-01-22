@@ -184,7 +184,7 @@ Use `#addElement:` and `#removeElement:` to manipulate instances.!
 !Organizer methodsFor: 'accessing'!
 
 addElement: anObject
-	<inlineJS: 'self.elements.addElement(anObject)'>
+	<inlineJS: '$core.addElement(self.elements, anObject)'>
 !
 
 elements
@@ -192,7 +192,7 @@ elements
 !
 
 removeElement: anObject
-	<inlineJS: 'self.elements.removeElement(anObject)'>
+	<inlineJS: '$core.removeElement(self.elements, anObject)'>
 ! !
 
 Organizer subclass: #ClassOrganizer

@@ -1,7 +1,12 @@
 0.18.3:
 
+* Move {add,remove}Element from Array.prototype to kernel API.
+
 + Collection >>
   + copyWithout:
++ amber/boot api >>
+  + addElement
+  + removeElement
 
 
 0.18.2:

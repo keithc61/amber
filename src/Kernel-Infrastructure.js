@@ -544,7 +544,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self.elements.addElement(anObject);
+$core.addElement(self.elements, anObject);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"addElement:",{anObject:anObject},$globals.Organizer)});
@@ -552,7 +552,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "addElement: anObject\x0a\x09<inlineJS: 'self.elements.addElement(anObject)'>",
+source: "addElement: anObject\x0a\x09<inlineJS: '$core.addElement(self.elements, anObject)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -591,7 +591,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self.elements.removeElement(anObject);
+$core.removeElement(self.elements, anObject);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"removeElement:",{anObject:anObject},$globals.Organizer)});
@@ -599,7 +599,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "removeElement: anObject\x0a\x09<inlineJS: 'self.elements.removeElement(anObject)'>",
+source: "removeElement: anObject\x0a\x09<inlineJS: '$core.removeElement(self.elements, anObject)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

@@ -96,6 +96,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     OrganizeBrik.deps = ["augments", "root"];
     function OrganizeBrik (brikz, st) {
         var SmalltalkObject = brikz.root.Object;
+        var addElement = brikz.augments.addElement;
+        var removeElement = brikz.augments.removeElement;
 
         function SmalltalkOrganizer () {
         }
@@ -132,11 +134,11 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
 
         this.addOrganizationElement = function (owner, element) {
-            owner.organization.elements.addElement(element);
+            addElement(owner.organization.elements, element);
         };
 
         this.removeOrganizationElement = function (owner, element) {
-            owner.organization.elements.removeElement(element);
+            removeElement(owner.organization.elements, element);
         };
     }
 
@@ -213,13 +215,15 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
     }
 
-    BehaviorsBrik.deps = ["organize", "root", "smalltalkGlobals"];
+    BehaviorsBrik.deps = ["organize", "root", "smalltalkGlobals", "augments"];
     function BehaviorsBrik (brikz, st) {
         var setupClassOrganization = brikz.organize.setupClassOrganization;
         var addOrganizationElement = brikz.organize.addOrganizationElement;
         var removeOrganizationElement = brikz.organize.removeOrganizationElement;
         var globals = brikz.smalltalkGlobals.globals;
         var SmalltalkObject = brikz.root.Object;
+        var addElement = brikz.augments.addElement;
+        var removeElement = brikz.augments.removeElement;
 
         function SmalltalkBehaviorBody () {
         }
@@ -272,7 +276,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
         function addBehaviorBody (behaviorBody) {
             globals[behaviorBody.className] = behaviorBody;
-            classes.addElement(behaviorBody);
+            addElement(classes, behaviorBody);
             addOrganizationElement(behaviorBody.pkg, behaviorBody);
             behaviorBody.added();
         }
@@ -280,7 +284,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         function removeBehaviorBody (behaviorBody) {
             behaviorBody.removed();
             removeOrganizationElement(behaviorBody.pkg, behaviorBody);
-            classes.removeElement(behaviorBody);
+            removeElement(classes, behaviorBody);
             delete globals[behaviorBody.className];
         }
 
@@ -435,13 +439,15 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
     }
 
-    ClassesBrik.deps = ["root", "behaviors"];
+    ClassesBrik.deps = ["root", "behaviors", "augments"];
     function ClassesBrik (brikz, st) {
         var SmalltalkRoot = brikz.root.Root;
         var SmalltalkBehaviorBody = brikz.behaviors.BehaviorBody;
         var buildBehaviorBody = brikz.behaviors.buildBehaviorBody;
         var setupBehavior = brikz.behaviors.setupBehavior;
         var removeBehaviorBody = brikz.behaviors.removeBehaviorBody;
+        var addElement = brikz.augments.addElement;
+        var removeElement = brikz.augments.removeElement;
 
         function SmalltalkBehavior () {
         }
@@ -599,13 +605,13 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
         function addSubclass (klass) {
             if (klass.superclass) {
-                klass.superclass.subclasses.addElement(klass);
+                addElement(klass.superclass.subclasses, klass);
             }
         }
 
         function removeSubclass (klass) {
             if (klass.superclass) {
-                klass.superclass.subclasses.removeElement(klass);
+                removeElement(klass.superclass.subclasses, klass);
             }
         }
 
@@ -642,19 +648,19 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     function AugmentsBrik (brikz, st) {
         /* Array extensions */
 
-        Array.prototype.addElement = function (el) {
+        st.addElement = this.addElement = function (array, el) {
             if (typeof el === 'undefined') {
                 return;
             }
-            if (this.indexOf(el) == -1) {
-                this.push(el);
+            if (array.indexOf(el) === -1) {
+                array.push(el);
             }
         };
 
-        Array.prototype.removeElement = function (el) {
-            var i = this.indexOf(el);
+        st.removeElement = this.removeElement = function (array, el) {
+            var i = array.indexOf(el);
             if (i !== -1) {
-                this.splice(i, 1);
+                array.splice(i, 1);
             }
         };
     }
