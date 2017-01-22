@@ -195,6 +195,14 @@ protocolsDo: aBlock
 		aBlock value: protocol value: (methodsByProtocol at: protocol) ]
 ! !
 
+!BehaviorBody methodsFor: 'printing'!
+
+printOn: aStream
+	self name
+		ifNil: [ super printOn: aStream ]
+		ifNotNil: [ :name | aStream nextPutAll: name ]
+! !
+
 !BehaviorBody methodsFor: 'private'!
 
 basicAddCompiledMethod: aMethod
@@ -472,12 +480,6 @@ asJavascript
 	^ '$globals.', self name
 ! !
 
-!Class methodsFor: 'printing'!
-
-printOn: aStream
-	aStream nextPutAll: self name
-! !
-
 !Class methodsFor: 'testing'!
 
 isClass
@@ -514,6 +516,10 @@ instanceVariableNames: aCollection
 		class: self instanceVariableNames: aCollection
 !
 
+name
+	^ self instanceClass name, ' class'
+!
+
 package
 	^ self instanceClass package
 !
@@ -534,14 +540,6 @@ theNonMetaClass
 
 asJavascript
 	^ '$globals.', self instanceClass name, '.klass'
-! !
-
-!Metaclass methodsFor: 'printing'!
-
-printOn: aStream
-	aStream
-		nextPutAll: self instanceClass name;
-		nextPutAll: ' class'
 ! !
 
 !Metaclass methodsFor: 'testing'!

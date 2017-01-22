@@ -627,6 +627,45 @@ $globals.BehaviorBody);
 
 $core.addMethod(
 $core.method({
+selector: "printOn:",
+protocol: 'printing',
+fn: function (aStream){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$receiver;
+$1=self._name();
+if(($receiver = $1) == null || $receiver.isNil){
+(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.BehaviorBody.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($recv(self), [aStream]));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+} else {
+var name;
+name=$receiver;
+$recv(aStream)._nextPutAll_(name);
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.BehaviorBody)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aStream"],
+source: "printOn: aStream\x0a\x09self name\x0a\x09\x09ifNil: [ super printOn: aStream ]\x0a\x09\x09ifNotNil: [ :name | aStream nextPutAll: name ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["ifNil:ifNotNil:", "name", "printOn:", "nextPutAll:"]
+}),
+$globals.BehaviorBody);
+
+$core.addMethod(
+$core.method({
 selector: "protocols",
 protocol: 'accessing',
 fn: function (){
@@ -1822,30 +1861,6 @@ $globals.Class);
 
 $core.addMethod(
 $core.method({
-selector: "printOn:",
-protocol: 'printing',
-fn: function (aStream){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_(self._name());
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.Class)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aStream"],
-source: "printOn: aStream\x0a\x09aStream nextPutAll: self name",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["nextPutAll:", "name"]
-}),
-$globals.Class);
-
-$core.addMethod(
-$core.method({
 selector: "rename:",
 protocol: 'accessing',
 fn: function (aString){
@@ -2191,6 +2206,29 @@ $globals.Metaclass);
 
 $core.addMethod(
 $core.method({
+selector: "name",
+protocol: 'accessing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($recv(self._instanceClass())._name()).__comma(" class");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"name",{},$globals.Metaclass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "name\x0a\x09^ self instanceClass name, ' class'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: [",", "name", "instanceClass"]
+}),
+$globals.Metaclass);
+
+$core.addMethod(
+$core.method({
 selector: "package",
 protocol: 'accessing',
 fn: function (){
@@ -2209,34 +2247,6 @@ source: "package\x0a\x09^ self instanceClass package",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["package", "instanceClass"]
-}),
-$globals.Metaclass);
-
-$core.addMethod(
-$core.method({
-selector: "printOn:",
-protocol: 'printing',
-fn: function (aStream){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_($recv(self._instanceClass())._name());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=1;
-//>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_(" class");
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.Metaclass)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aStream"],
-source: "printOn: aStream\x0a\x09aStream\x0a\x09\x09nextPutAll: self instanceClass name;\x0a\x09\x09nextPutAll: ' class'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["nextPutAll:", "name", "instanceClass"]
 }),
 $globals.Metaclass);
 

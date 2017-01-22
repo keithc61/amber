@@ -387,6 +387,10 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
         inherits(SmalltalkTrait, SmalltalkBehaviorBody);
 
+        SmalltalkTrait.prototype.toString = function () {
+            return 'Smalltalk Trait ' + this.className;
+        };
+
         SmalltalkTrait.prototype.trait = true;
 
         SmalltalkTrait.prototype.added = function () {
@@ -464,8 +468,12 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         // Effective superclass of all classes created with `nil subclass: ...`.
         var nilAsClass = this.nilAsClass = {fn: SmalltalkRoot, klass: {fn: SmalltalkClass}};
 
-        SmalltalkBehavior.prototype.toString = function () {
+        SmalltalkClass.prototype.toString = function () {
             return 'Smalltalk ' + this.className;
+        };
+
+        SmalltalkMetaclass.prototype.toString = function () {
+            return 'Smalltalk Metaclass ' + this.instanceClass.className;
         };
 
         SmalltalkMetaclass.prototype.meta = true;
@@ -530,7 +538,6 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             setupBehavior(that, spec.pkg);
 
             that.className = spec.className;
-            meta.className = spec.className + ' class';
             meta.superclass = spec.superclass.klass;
             return that;
         }
