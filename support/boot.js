@@ -93,11 +93,11 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         this.__init__.once = true;
     }
 
-    OrganizeBrik.deps = ["augments", "root"];
+    OrganizeBrik.deps = ["arraySet", "root"];
     function OrganizeBrik (brikz, st) {
         var SmalltalkObject = brikz.root.Object;
-        var addElement = brikz.augments.addElement;
-        var removeElement = brikz.augments.removeElement;
+        var addElement = brikz.arraySet.addElement;
+        var removeElement = brikz.arraySet.removeElement;
 
         function SmalltalkOrganizer () {
         }
@@ -215,15 +215,15 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
     }
 
-    BehaviorsBrik.deps = ["organize", "root", "smalltalkGlobals", "augments"];
+    BehaviorsBrik.deps = ["organize", "root", "smalltalkGlobals", "arraySet"];
     function BehaviorsBrik (brikz, st) {
         var setupClassOrganization = brikz.organize.setupClassOrganization;
         var addOrganizationElement = brikz.organize.addOrganizationElement;
         var removeOrganizationElement = brikz.organize.removeOrganizationElement;
         var globals = brikz.smalltalkGlobals.globals;
         var SmalltalkObject = brikz.root.Object;
-        var addElement = brikz.augments.addElement;
-        var removeElement = brikz.augments.removeElement;
+        var addElement = brikz.arraySet.addElement;
+        var removeElement = brikz.arraySet.removeElement;
 
         function SmalltalkBehaviorBody () {
         }
@@ -439,15 +439,15 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
     }
 
-    ClassesBrik.deps = ["root", "behaviors", "augments"];
+    ClassesBrik.deps = ["root", "behaviors", "arraySet"];
     function ClassesBrik (brikz, st) {
         var SmalltalkRoot = brikz.root.Root;
         var SmalltalkBehaviorBody = brikz.behaviors.BehaviorBody;
         var buildBehaviorBody = brikz.behaviors.buildBehaviorBody;
         var setupBehavior = brikz.behaviors.setupBehavior;
         var removeBehaviorBody = brikz.behaviors.removeBehaviorBody;
-        var addElement = brikz.augments.addElement;
-        var removeElement = brikz.augments.removeElement;
+        var addElement = brikz.arraySet.addElement;
+        var removeElement = brikz.arraySet.removeElement;
 
         function SmalltalkBehavior () {
         }
@@ -645,9 +645,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
     }
 
-    function AugmentsBrik (brikz, st) {
-        /* Array extensions */
-
+    function ArraySetBrik (brikz, st) {
         st.addElement = this.addElement = function (array, el) {
             if (typeof el === 'undefined') {
                 return;
@@ -807,7 +805,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
 
     brikz.smalltalkGlobals = SmalltalkGlobalsBrik;
     brikz.root = RootBrik;
-    brikz.augments = AugmentsBrik;
+    brikz.arraySet = ArraySetBrik;
     brikz.organize = OrganizeBrik;
     brikz.selectorConversion = SelectorConversionBrik;
     brikz.selectors = SelectorsBrik;
