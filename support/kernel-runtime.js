@@ -63,8 +63,10 @@ define(function () {
         var detachedRootClasses = [];
 
         function markClassDetachedRoot(klass) {
-            detachedRootClasses.addElement(klass);
             klass.detachedRoot = true;
+            detachedRootClasses = classes().filter(function (klass) {
+                return klass.detachedRoot;
+            });
         }
 
         this.detachedRootClasses = function () {
