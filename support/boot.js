@@ -198,10 +198,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
          If package already exists we still update the properties of it. */
 
         st.addPackage = function (pkgName, properties) {
-            if (!pkgName) {
-                return null;
-            }
-            if (!(st.packages[pkgName])) {
+            if (!pkgName) return null;
+            if (!st.packages[pkgName]) {
                 st.packages[pkgName] = pkg({
                     pkgName: pkgName,
                     properties: properties
