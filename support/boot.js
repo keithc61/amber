@@ -64,6 +64,8 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     function RootBrik (brikz, st) {
         /* Smalltalk foundational objects */
 
+        var coreFns = this.coreFns = {};
+
         /* SmalltalkRoot is the hidden root of the normal Amber hierarchy.
          All objects including `ProtoObject` inherit from SmalltalkRoot.
          Detached roots (eg. wrapped JS classes like Number or Date)
@@ -77,25 +79,17 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         function SmalltalkObject () {
         }
 
-        inherits(SmalltalkProtoObject, SmalltalkRoot);
-        inherits(SmalltalkObject, SmalltalkProtoObject);
+        coreFns.ProtoObject = inherits(SmalltalkProtoObject, SmalltalkRoot);
+        coreFns.Object = inherits(SmalltalkObject, SmalltalkProtoObject);
 
         this.Root = SmalltalkRoot;
         this.Object = SmalltalkObject;
-
-        this.__init__ = function () {
-            var globals = brikz.smalltalkGlobals.globals;
-            var addCoupledClass = brikz.classes.addCoupledClass;
-            st.addPackage("Kernel-Objects");
-            addCoupledClass("ProtoObject", undefined, "Kernel-Objects", SmalltalkProtoObject);
-            addCoupledClass("Object", globals.ProtoObject, "Kernel-Objects", SmalltalkObject);
-        };
-        this.__init__.once = true;
     }
 
     OrganizeBrik.deps = ["arraySet", "root"];
     function OrganizeBrik (brikz, st) {
         var SmalltalkObject = brikz.root.Object;
+        var coreFns = brikz.root.coreFns;
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
 
@@ -110,19 +104,9 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             this.elements = [];
         }
 
-        inherits(SmalltalkOrganizer, SmalltalkObject);
-        inherits(SmalltalkPackageOrganizer, SmalltalkOrganizer);
-        inherits(SmalltalkClassOrganizer, SmalltalkOrganizer);
-
-        this.__init__ = function () {
-            var globals = brikz.smalltalkGlobals.globals;
-            var addCoupledClass = brikz.classes.addCoupledClass;
-            st.addPackage("Kernel-Infrastructure");
-            addCoupledClass("Organizer", globals.Object, "Kernel-Infrastructure", SmalltalkOrganizer);
-            addCoupledClass("PackageOrganizer", globals.Organizer, "Kernel-Infrastructure", SmalltalkPackageOrganizer);
-            addCoupledClass("ClassOrganizer", globals.Organizer, "Kernel-Infrastructure", SmalltalkClassOrganizer);
-        };
-        this.__init__.once = true;
+        coreFns.Organizer = inherits(SmalltalkOrganizer, SmalltalkObject);
+        coreFns.PackageOrganizer = inherits(SmalltalkPackageOrganizer, SmalltalkOrganizer);
+        coreFns.ClassOrganizer = inherits(SmalltalkClassOrganizer, SmalltalkOrganizer);
 
         this.setupClassOrganization = function (behaviorBody) {
             behaviorBody.organization = new SmalltalkClassOrganizer();
@@ -167,19 +151,12 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     function PackagesBrik (brikz, st) {
         var setupPackageOrganization = brikz.organize.setupPackageOrganization;
         var SmalltalkObject = brikz.root.Object;
+        var coreFns = brikz.root.coreFns;
 
         function SmalltalkPackage () {
         }
 
-        inherits(SmalltalkPackage, SmalltalkObject);
-
-        this.__init__ = function () {
-            var globals = brikz.smalltalkGlobals.globals;
-            var addCoupledClass = brikz.classes.addCoupledClass;
-            st.addPackage("Kernel-Infrastructure");
-            addCoupledClass("Package", globals.Object, "Kernel-Infrastructure", SmalltalkPackage);
-        };
-        this.__init__.once = true;
+        coreFns.Package = inherits(SmalltalkPackage, SmalltalkObject);
 
         st.packages = {};
 
@@ -220,23 +197,16 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         var removeOrganizationElement = brikz.organize.removeOrganizationElement;
         var globals = brikz.smalltalkGlobals.globals;
         var SmalltalkObject = brikz.root.Object;
+        var coreFns = brikz.root.coreFns;
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
 
         function SmalltalkBehaviorBody () {
         }
 
-        inherits(SmalltalkBehaviorBody, SmalltalkObject);
+        coreFns.BehaviorBody = inherits(SmalltalkBehaviorBody, SmalltalkObject);
 
         this.BehaviorBody = SmalltalkBehaviorBody;
-
-        this.__init__ = function () {
-            var globals = brikz.smalltalkGlobals.globals;
-            var addCoupledClass = brikz.classes.addCoupledClass;
-            st.addPackage("Kernel-Classes");
-            addCoupledClass("BehaviorBody", globals.Object, "Kernel-Classes", SmalltalkBehaviorBody);
-        };
-        this.__init__.once = true;
 
         /* Smalltalk classes */
 
@@ -307,19 +277,12 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         var addOrganizationElement = brikz.organize.addOrganizationElement;
         var registerSelector = brikz.selectors.registerSelector;
         var SmalltalkObject = brikz.root.Object;
+        var coreFns = brikz.root.coreFns;
 
         function SmalltalkMethod () {
         }
 
-        inherits(SmalltalkMethod, SmalltalkObject);
-
-        this.__init__ = function () {
-            var globals = brikz.smalltalkGlobals.globals;
-            var addCoupledClass = brikz.classes.addCoupledClass;
-            st.addPackage("Kernel-Methods");
-            addCoupledClass("CompiledMethod", globals.Object, "Kernel-Methods", SmalltalkMethod);
-        };
-        this.__init__.once = true;
+        coreFns.CompiledMethod = inherits(SmalltalkMethod, SmalltalkObject);
 
         /* Smalltalk method object. To add a method to a class,
          use api.addMethod() */
@@ -376,8 +339,9 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
     }
 
-    TraitsBrik.deps = ["behaviors"];
+    TraitsBrik.deps = ["behaviors", "root"];
     function TraitsBrik (brikz, st) {
+        var coreFns = brikz.root.coreFns;
         var SmalltalkBehaviorBody = brikz.behaviors.BehaviorBody;
         var setupBehavior = brikz.behaviors.setupBehavior;
         var buildBehaviorBody = brikz.behaviors.buildBehaviorBody;
@@ -385,7 +349,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         function SmalltalkTrait () {
         }
 
-        inherits(SmalltalkTrait, SmalltalkBehaviorBody);
+        coreFns.Trait = inherits(SmalltalkTrait, SmalltalkBehaviorBody);
 
         SmalltalkTrait.prototype.toString = function () {
             return 'Smalltalk Trait ' + this.className;
@@ -408,14 +372,6 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         SmalltalkTrait.prototype.methodRemoved = function (method) {
             if (st._traitMethodRemoved) st._traitMethodRemoved(method, this);
         };
-
-        this.__init__ = function () {
-            var globals = brikz.smalltalkGlobals.globals;
-            var addCoupledClass = brikz.classes.addCoupledClass;
-            st.addPackage("Kernel-Classes");
-            addCoupledClass("Trait", globals.BehaviorBody, "Kernel-Classes", SmalltalkTrait);
-        };
-        this.__init__.once = true;
 
         function traitBuilder (className) {
             return {
@@ -441,9 +397,11 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
     }
 
-    ClassesBrik.deps = ["root", "behaviors", "arraySet"];
+    ClassesBrik.deps = ["root", "behaviors", "arraySet", "smalltalkGlobals"];
     function ClassesBrik (brikz, st) {
         var SmalltalkRoot = brikz.root.Root;
+        var coreFns = brikz.root.coreFns;
+        var globals = brikz.smalltalkGlobals.globals;
         var SmalltalkBehaviorBody = brikz.behaviors.BehaviorBody;
         var buildBehaviorBody = brikz.behaviors.buildBehaviorBody;
         var setupBehavior = brikz.behaviors.setupBehavior;
@@ -460,9 +418,9 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         function SmalltalkMetaclass () {
         }
 
-        inherits(SmalltalkBehavior, SmalltalkBehaviorBody);
-        inherits(SmalltalkClass, SmalltalkBehavior);
-        inherits(SmalltalkMetaclass, SmalltalkBehavior);
+        coreFns.Behavior = inherits(SmalltalkBehavior, SmalltalkBehaviorBody);
+        coreFns.Class = inherits(SmalltalkClass, SmalltalkBehavior);
+        coreFns.Metaclass = inherits(SmalltalkMetaclass, SmalltalkBehavior);
 
         // Fake root class of the system.
         // Effective superclass of all classes created with `nil subclass: ...`.
@@ -496,23 +454,14 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             if (st._methodRemoved) st._methodRemoved(method, this);
         };
 
-        this.__init__ = function () {
-            var globals = brikz.smalltalkGlobals.globals;
-            var addCoupledClass = brikz.classes.addCoupledClass;
+        this.bootstrapHierarchy = function () {
             var nilSubclasses = [globals.ProtoObject];
-            st.addPackage("Kernel-Classes");
-            addCoupledClass("Behavior", globals.BehaviorBody, "Kernel-Classes", SmalltalkBehavior);
-            addCoupledClass("Metaclass", globals.Behavior, "Kernel-Classes", SmalltalkMetaclass);
-            addCoupledClass("Class", globals.Behavior, "Kernel-Classes", SmalltalkClass);
-
-            // Manually bootstrap the metaclass hierarchy
             nilAsClass.klass = globals.Class;
             nilSubclasses.forEach(function (each) {
                 each.klass.superclass = globals.Class;
                 addSubclass(each.klass);
             });
         };
-        this.__init__.once = true;
 
         /* Smalltalk class creation. A class is an instance of an automatically
          created metaclass object. Newly created classes (not their metaclass)
@@ -571,7 +520,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             if (typeof superclass == 'undefined' || superclass && superclass.isNil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
-            return buildBehaviorBody(pkgName, classBuilder(className, superclass, iVarNames));
+            return buildBehaviorBody(pkgName, classBuilder(className, superclass, iVarNames, coreFns[className]));
         };
 
         function classBuilder (className, superclass, iVarNames, fn) {
@@ -620,13 +569,6 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             }
         }
 
-        /* Create a new class coupling with a JavaScript constructor,
-         and add it to the system.*/
-
-        this.addCoupledClass = function (className, superclass, pkgName, fn) {
-            return buildBehaviorBody(pkgName, classBuilder(className, superclass, null, fn));
-        };
-
         function metaSubclasses (metaclass) {
             return metaclass.instanceClass.subclasses
                 .filter(function (each) {
@@ -668,7 +610,10 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         };
     }
 
+    SmalltalkInitBrik.deps = ["classes"];
     function SmalltalkInitBrik (brikz, st) {
+        var bootstrapHierarchy = brikz.classes.bootstrapHierarchy;
+
         var initialized = false;
         var runtimeLoadedPromise = new Promise(function (resolve, reject) {
             require(['./kernel-runtime'], resolve, reject);
@@ -679,6 +624,7 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
         st.initialize = function () {
             return runtimeLoadedPromise.then(function (configureWithRuntime) {
                 if (initialized) return;
+                bootstrapHierarchy();
                 configureWithRuntime(brikz);
                 initialized = true;
             });
@@ -754,11 +700,12 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
     NilBrik.deps = ["root"];
     function NilBrik (brikz, st) {
         var SmalltalkObject = brikz.root.Object;
+        var coreFns = brikz.root.coreFns;
 
         function SmalltalkNil () {
         }
 
-        inherits(SmalltalkNil, SmalltalkObject);
+        coreFns.UndefinedObject = inherits(SmalltalkNil, SmalltalkObject);
 
         this.nilAsReceiver = new SmalltalkNil();
 
@@ -771,14 +718,6 @@ define(['require', './brikz', './compatibility'], function (require, Brikz) {
             value: true,
             enumerable: false, configurable: false, writable: false
         });
-
-        this.__init__ = function () {
-            var globals = brikz.smalltalkGlobals.globals;
-            var addCoupledClass = brikz.classes.addCoupledClass;
-            st.addPackage("Kernel-Objects");
-            addCoupledClass("UndefinedObject", globals.Object, "Kernel-Objects", SmalltalkNil);
-        };
-        this.__init__.once = true;
     }
 
     /* Defines asReceiver to be present at load time */
