@@ -214,10 +214,7 @@ define(['./compatibility'], function () {
 
         this.setupBehavior = function (behaviorBody) {
             setupClassOrganization(behaviorBody);
-            Object.defineProperty(behaviorBody, "methods", {
-                value: Object.create(null),
-                enumerable: false, configurable: true, writable: true
-            });
+            behaviorBody.methods = Object.create(null);
         };
 
         this.buildBehaviorBody = function (pkgName, builder) {

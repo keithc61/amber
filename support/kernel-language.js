@@ -52,6 +52,14 @@ define(['./compatibility'], function () {
         return child;
     }
 
+    function defineMethod (klass, name, method) {
+        Object.defineProperty(klass.prototype, name, {
+            value: method,
+            enumerable: false, configurable: true, writable: true
+        });
+        return defineMethod;
+    }
+
     TraitsBrik.deps = ["behaviors", "root"];
     function TraitsBrik (brikz, st) {
         var coreFns = brikz.root.coreFns;
@@ -64,27 +72,24 @@ define(['./compatibility'], function () {
 
         coreFns.Trait = inherits(SmalltalkTrait, SmalltalkBehaviorBody);
 
-        SmalltalkTrait.prototype.toString = function () {
-            return 'Smalltalk Trait ' + this.className;
-        };
-
         SmalltalkTrait.prototype.trait = true;
 
-        SmalltalkTrait.prototype.added = function () {
+        defineMethod
+        (SmalltalkTrait, "toString", function () {
+            return 'Smalltalk Trait ' + this.className;
+        })
+        (SmalltalkTrait, "added", function () {
             if (st._traitAdded) st._traitAdded(this);
-        };
-
-        SmalltalkTrait.prototype.removed = function () {
+        })
+        (SmalltalkTrait, "removed", function () {
             if (st._traitRemoved) st._traitRemoved(this);
-        };
-
-        SmalltalkTrait.prototype.methodAdded = function (method) {
+        })
+        (SmalltalkTrait, "methodAdded", function (method) {
             if (st._traitMethodAdded) st._traitMethodAdded(method, this);
-        };
-
-        SmalltalkTrait.prototype.methodRemoved = function (method) {
+        })
+        (SmalltalkTrait, "methodRemoved", function (method) {
             if (st._traitMethodRemoved) st._traitMethodRemoved(method, this);
-        };
+        });
 
         function traitBuilder (className) {
             return {
@@ -140,33 +145,29 @@ define(['./compatibility'], function () {
         // Effective superclass of all classes created with `nil subclass: ...`.
         var nilAsClass = this.nilAsClass = {fn: SmalltalkRoot, klass: {fn: SmalltalkClass}};
 
-        SmalltalkClass.prototype.toString = function () {
-            return 'Smalltalk ' + this.className;
-        };
-
-        SmalltalkMetaclass.prototype.toString = function () {
-            return 'Smalltalk Metaclass ' + this.instanceClass.className;
-        };
-
         SmalltalkMetaclass.prototype.meta = true;
 
-        SmalltalkClass.prototype.added = function () {
+        defineMethod
+        (SmalltalkClass, "toString", function () {
+            return 'Smalltalk ' + this.className;
+        })
+        (SmalltalkMetaclass, "toString", function () {
+            return 'Smalltalk Metaclass ' + this.instanceClass.className;
+        })
+        (SmalltalkClass, "added", function () {
             addSubclass(this);
             if (st._classAdded) st._classAdded(this);
-        };
-
-        SmalltalkClass.prototype.removed = function () {
+        })
+        (SmalltalkClass, "removed", function () {
             if (st._classRemoved) st._classRemoved(this);
             removeSubclass(this);
-        };
-
-        SmalltalkBehavior.prototype.methodAdded = function (method) {
+        })
+        (SmalltalkBehavior, "methodAdded", function (method) {
             if (st._methodAdded) st._methodAdded(method, this);
-        };
-
-        SmalltalkBehavior.prototype.methodRemoved = function (method) {
+        })
+        (SmalltalkBehavior, "methodRemoved", function (method) {
             if (st._methodRemoved) st._methodRemoved(method, this);
-        };
+        });
 
         this.bootstrapHierarchy = function () {
             var nilSubclasses = [globals.ProtoObject];

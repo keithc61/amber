@@ -3,6 +3,14 @@
 define(function () {
     "use strict";
 
+    function defineMethod(klass, name, method) {
+        Object.defineProperty(klass.prototype, name, {
+            value: method,
+            enumerable: false, configurable: true, writable: true
+        });
+        return defineMethod;
+    }
+
     DNUBrik.deps = ["selectors", "messageSend", "manipulation", "classes"];
     function DNUBrik(brikz, st) {
         var selectorsBrik = brikz.selectors;
@@ -268,7 +276,8 @@ define(function () {
         SmalltalkMethodContext.prototype.selector = null;
         SmalltalkMethodContext.prototype.lookupClass = null;
 
-        SmalltalkMethodContext.prototype.fill = function (receiver, selector, locals, lookupClass) {
+        defineMethod
+        (SmalltalkMethodContext, "fill", function (receiver, selector, locals, lookupClass) {
             this.receiver = receiver;
             this.selector = selector;
             this.locals = locals || {};
@@ -276,24 +285,21 @@ define(function () {
             if (this.homeContext) {
                 this.homeContext.evaluatedSelector = selector;
             }
-        };
-
-        SmalltalkMethodContext.prototype.fillBlock = function (locals, ctx, index) {
+        })
+        (SmalltalkMethodContext, "fillBlock", function (locals, ctx, index) {
             this.locals = locals || {};
             this.outerContext = ctx;
             this.index = index || 0;
-        };
-
-        SmalltalkMethodContext.prototype.init = function () {
+        })
+        (SmalltalkMethodContext, "init", function () {
             var home = this.homeContext;
             if (home) {
                 home.init();
             }
 
             this.setup(this);
-        };
-
-        SmalltalkMethodContext.prototype.method = function () {
+        })
+        (SmalltalkMethodContext, "method", function () {
             var method;
             var lookup = this.lookupClass || this.receiver.klass;
             while (!method && lookup) {
@@ -301,7 +307,7 @@ define(function () {
                 lookup = lookup.superclass;
             }
             return method;
-        };
+        });
 
         setClassConstructor(globals.MethodContext, SmalltalkMethodContext);
 
