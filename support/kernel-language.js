@@ -242,9 +242,6 @@ define(['./compatibility'], function () {
             }
             return {
                 className: className,
-                superclass: superclass,
-                iVarNames: iVarNames,
-                fn: fn,
                 make: function (pkg) {
                     return klass({
                         className: className,
