@@ -186,31 +186,32 @@ define(['./compatibility'], function () {
             if (!spec.superclass) {
                 spec.superclass = nilAsClass;
             }
-
             var meta = metaclass(spec);
             var that = meta.instanceClass;
 
             that.superclass = setSuperClass;
-
             that.fn = spec.fn || inherits(function () {
                 }, spec.superclass.fn);
             that.iVarNames = spec.iVarNames || [];
+
+            that.className = spec.className;
             that.subclasses = [];
 
             setupBehavior(that, spec.pkg);
-
-            that.className = spec.className;
-            meta.superclass = spec.superclass.klass;
             return that;
         }
 
         function metaclass (spec) {
             var that = new SmalltalkMetaclass();
+
+            that.superclass = spec.superclass.klass;
             that.fn = inherits(function () {
-            }, spec.superclass.klass.fn);
-            wireKlass(that);
-            that.instanceClass = new that.fn();
+            }, that.superclass.fn);
             that.iVarNames = [];
+
+            that.instanceClass = new that.fn();
+
+            wireKlass(that);
             setupBehavior(that);
             return that;
         }
