@@ -192,7 +192,6 @@ define(['./compatibility'], function () {
 
     BehaviorsBrik.deps = ["organize", "root", "smalltalkGlobals", "arraySet"];
     function BehaviorsBrik (brikz, st) {
-        var setupClassOrganization = brikz.organize.setupClassOrganization;
         var addOrganizationElement = brikz.organize.addOrganizationElement;
         var removeOrganizationElement = brikz.organize.removeOrganizationElement;
         var globals = brikz.smalltalkGlobals.globals;
@@ -211,12 +210,6 @@ define(['./compatibility'], function () {
         /* Smalltalk classes */
 
         var classes = [];
-
-        this.setupBehavior = function (behaviorBody) {
-            setupClassOrganization(behaviorBody);
-            behaviorBody.localMethods = Object.create(null);
-            behaviorBody.methods = Object.create(null);
-        };
 
         this.buildBehaviorBody = function (pkgName, builder) {
             var pkg = st.packages[pkgName];
@@ -266,10 +259,10 @@ define(['./compatibility'], function () {
         };
     }
 
-    MethodsBrik.deps = ["organize", "selectors", "root", "selectorConversion"];
+    MethodsBrik.deps = ["composition", "selectors", "root", "selectorConversion"];
     function MethodsBrik (brikz, st) {
-        var addOrganizationElement = brikz.organize.addOrganizationElement;
         var registerSelector = brikz.selectors.registerSelector;
+        var updateMethod = brikz.composition.updateMethod;
         var SmalltalkObject = brikz.root.Object;
         var coreFns = brikz.root.coreFns;
 
@@ -307,16 +300,6 @@ define(['./compatibility'], function () {
             updateMethod(method.selector, behaviorBody);
         };
 
-        function addMethod (method, behaviorBody) {
-            behaviorBody.methods[method.selector] = method;
-
-            // During the bootstrap, #addCompiledMethod is not used.
-            // Therefore we populate the organizer here too
-            addOrganizationElement(behaviorBody, method.protocol);
-
-            behaviorBody.methodAdded(method);
-        }
-
         function registerNewSelectors (method) {
             var newSelectors = [];
 
@@ -338,6 +321,28 @@ define(['./compatibility'], function () {
             delete behaviorBody.localMethods[method.selector];
             updateMethod(method.selector, behaviorBody);
         };
+    }
+
+    MethodCompositionBrik.deps = ["organize"];
+    function MethodCompositionBrik (brikz, st) {
+        var setupClassOrganization = brikz.organize.setupClassOrganization;
+        var addOrganizationElement = brikz.organize.addOrganizationElement;
+
+        this.setupMethods = function (behaviorBody) {
+            setupClassOrganization(behaviorBody);
+            behaviorBody.localMethods = Object.create(null);
+            behaviorBody.methods = Object.create(null);
+        };
+
+        function addMethod (method, behaviorBody) {
+            behaviorBody.methods[method.selector] = method;
+
+            // During the bootstrap, #addCompiledMethod is not used.
+            // Therefore we populate the organizer here too
+            addOrganizationElement(behaviorBody, method.protocol);
+
+            behaviorBody.methodAdded(method);
+        }
 
         function removeMethod (method, behaviorBody) {
             delete behaviorBody.methods[method.selector];
@@ -348,7 +353,7 @@ define(['./compatibility'], function () {
             // This is handled by #removeCompiledMethod
         }
 
-        function updateMethod (selector, behaviorBody) {
+        this.updateMethod = function (selector, behaviorBody) {
             var oldMethod = behaviorBody.methods[selector],
                 newMethod = behaviorBody.localMethods[selector];
             if (oldMethod == null && newMethod == null) {
@@ -358,7 +363,7 @@ define(['./compatibility'], function () {
             if (newMethod === oldMethod) return;
             if (newMethod != null) addMethod(newMethod, behaviorBody);
             else removeMethod(oldMethod, behaviorBody);
-        }
+        };
     }
 
     function ArraySetBrik (brikz, st) {
@@ -450,6 +455,7 @@ define(['./compatibility'], function () {
         brikz.selectorConversion = SelectorConversionBrik;
         brikz.selectors = SelectorsBrik;
         brikz.packages = PackagesBrik;
+        brikz.composition = MethodCompositionBrik;
         brikz.behaviors = BehaviorsBrik;
         brikz.methods = MethodsBrik;
 

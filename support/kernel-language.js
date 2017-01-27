@@ -60,11 +60,11 @@ define(['./compatibility'], function () {
         return defineMethod;
     }
 
-    TraitsBrik.deps = ["behaviors", "root"];
+    TraitsBrik.deps = ["behaviors", "composition", "root"];
     function TraitsBrik (brikz, st) {
         var coreFns = brikz.root.coreFns;
         var SmalltalkBehaviorBody = brikz.behaviors.BehaviorBody;
-        var setupBehavior = brikz.behaviors.setupBehavior;
+        var setupMethods = brikz.composition.setupMethods;
         var buildBehaviorBody = brikz.behaviors.buildBehaviorBody;
 
         function SmalltalkTrait () {
@@ -98,7 +98,7 @@ define(['./compatibility'], function () {
                     var that = new SmalltalkTrait();
                     that.className = className;
                     that.pkg = pkg;
-                    setupBehavior(that);
+                    setupMethods(that);
                     return that;
                 },
                 updateExisting: function (trait, pkg) {
@@ -116,14 +116,14 @@ define(['./compatibility'], function () {
         };
     }
 
-    ClassesBrik.deps = ["root", "behaviors", "arraySet", "smalltalkGlobals"];
+    ClassesBrik.deps = ["root", "behaviors", "composition", "arraySet", "smalltalkGlobals"];
     function ClassesBrik (brikz, st) {
         var SmalltalkRoot = brikz.root.Root;
         var coreFns = brikz.root.coreFns;
         var globals = brikz.smalltalkGlobals.globals;
         var SmalltalkBehaviorBody = brikz.behaviors.BehaviorBody;
         var buildBehaviorBody = brikz.behaviors.buildBehaviorBody;
-        var setupBehavior = brikz.behaviors.setupBehavior;
+        var setupMethods = brikz.composition.setupMethods;
         var removeBehaviorBody = brikz.behaviors.removeBehaviorBody;
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
@@ -200,7 +200,7 @@ define(['./compatibility'], function () {
             that.pkg = spec.pkg;
             that.subclasses = [];
 
-            setupBehavior(that);
+            setupMethods(that);
             return that;
         }
 
@@ -215,7 +215,7 @@ define(['./compatibility'], function () {
             that.instanceClass = new that.fn();
 
             wireKlass(that);
-            setupBehavior(that);
+            setupMethods(that);
             return that;
         }
 
