@@ -305,13 +305,6 @@ define(['./compatibility'], function () {
         };
     }
 
-    /* Adds AMD and requirejs related methods to the api */
-    function AMDBrik (brikz, st) {
-        st.amdRequire = require;
-        st.defaultTransportType = st.defaultTransportType || "amd";
-        st.defaultAmdNamespace = st.defaultAmdNamespace || "amber_core";
-    }
-
     NilBrik.deps = ["root"];
     function NilBrik (brikz, st) {
         var SmalltalkObject = brikz.root.Object;
@@ -364,7 +357,6 @@ define(['./compatibility'], function () {
         brikz.classes = ClassesBrik;
         brikz.nil = NilBrik;
         brikz.asReceiver = AsReceiverBrik;
-        brikz.amd = AMDBrik;
 
         brikz.rebuild();
     }
