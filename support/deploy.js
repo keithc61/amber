@@ -17,4 +17,6 @@ define([
     'amber_core/Platform-Services',
     'amber/Platform'
     // --- packages of the core Amber end here ---
-], function (amber) { return amber; });
+], function (amber) {
+    return amber;
+});

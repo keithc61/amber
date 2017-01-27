@@ -3,7 +3,7 @@
 define(function () {
     "use strict";
 
-    function defineMethod(klass, name, method) {
+    function defineMethod (klass, name, method) {
         Object.defineProperty(klass.prototype, name, {
             value: method,
             enumerable: false, configurable: true, writable: true
@@ -12,7 +12,7 @@ define(function () {
     }
 
     DNUBrik.deps = ["selectors", "messageSend", "manipulation", "classes"];
-    function DNUBrik(brikz, st) {
+    function DNUBrik (brikz, st) {
         var selectorsBrik = brikz.selectors;
         var messageNotUnderstood = brikz.messageSend.messageNotUnderstood;
         var installJSMethod = brikz.manipulation.installJSMethod;
@@ -20,7 +20,7 @@ define(function () {
 
         /* Method not implemented handlers */
 
-        function makeDnuHandler(pair, targetClasses) {
+        function makeDnuHandler (pair, targetClasses) {
             var jsSelector = pair.js;
             var fn = createHandler(pair.st);
             installJSMethod(nilAsClass.fn.prototype, jsSelector, fn);
@@ -33,7 +33,7 @@ define(function () {
 
         /* Dnu handler method */
 
-        function createHandler(stSelector) {
+        function createHandler (stSelector) {
             return function () {
                 return messageNotUnderstood(this, stSelector, arguments);
             };
@@ -44,15 +44,15 @@ define(function () {
         });
     }
 
-    function ManipulationBrik(brikz, st) {
-        function installJSMethod(obj, jsSelector, fn) {
+    function ManipulationBrik (brikz, st) {
+        function installJSMethod (obj, jsSelector, fn) {
             Object.defineProperty(obj, jsSelector, {
                 value: fn,
                 enumerable: false, configurable: true, writable: true
             });
         }
 
-        function installMethod(method, klass) {
+        function installMethod (method, klass) {
             installJSMethod(klass.fn.prototype, method.jsSelector, method.fn);
         }
 
@@ -61,7 +61,7 @@ define(function () {
     }
 
     RuntimeClassesBrik.deps = ["selectors", "dnu", "behaviors", "classes", "manipulation"];
-    function RuntimeClassesBrik(brikz, st) {
+    function RuntimeClassesBrik (brikz, st) {
         var selectors = brikz.selectors;
         var classes = brikz.behaviors.classes;
         var wireKlass = brikz.classes.wireKlass;
@@ -70,7 +70,7 @@ define(function () {
 
         var detachedRootClasses = [];
 
-        function markClassDetachedRoot(klass) {
+        function markClassDetachedRoot (klass) {
             klass.detachedRoot = true;
             detachedRootClasses = classes().filter(function (klass) {
                 return klass.detachedRoot;
@@ -84,7 +84,7 @@ define(function () {
         /* Initialize a class in its class hierarchy. Handle both classes and
          metaclasses. */
 
-        function initClassAndMetaclass(klass) {
+        function initClassAndMetaclass (klass) {
             initClass(klass);
             if (klass.klass && !klass.meta) {
                 initClass(klass.klass);
@@ -97,7 +97,7 @@ define(function () {
 
         st._classAdded = initClassAndMetaclass;
 
-        function initClass(klass) {
+        function initClass (klass) {
             wireKlass(klass);
             if (klass.detachedRoot) {
                 copySuperclass(klass);
@@ -105,7 +105,7 @@ define(function () {
             installMethods(klass);
         }
 
-        function copySuperclass(klass) {
+        function copySuperclass (klass) {
             var myproto = klass.fn.prototype,
                 superproto = klass.superclass.fn.prototype;
             selectors.selectorPairs.forEach(function (selectorPair) {
@@ -114,7 +114,7 @@ define(function () {
             });
         }
 
-        function installMethods(klass) {
+        function installMethods (klass) {
             var methods = klass.methods;
             Object.keys(methods).forEach(function (selector) {
                 installMethod(methods[selector], klass);
@@ -130,8 +130,8 @@ define(function () {
         };
     }
 
-    FrameBindingBrik.deps=["smalltalkGlobals", "runtimeClasses"];
-    function FrameBindingBrik(brikz, st) {
+    FrameBindingBrik.deps = ["smalltalkGlobals", "runtimeClasses"];
+    function FrameBindingBrik (brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
         var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
 
@@ -152,7 +152,7 @@ define(function () {
     }
 
     RuntimeMethodsBrik.deps = ["manipulation", "dnu", "runtimeClasses"];
-    function RuntimeMethodsBrik(brikz, st) {
+    function RuntimeMethodsBrik (brikz, st) {
         var installMethod = brikz.manipulation.installMethod;
         var installJSMethod = brikz.manipulation.installJSMethod;
         var makeDnuHandler = brikz.dnu.makeDnuHandler;
@@ -175,7 +175,7 @@ define(function () {
             propagateMethodChange(klass, method, null);
         };
 
-        function propagateMethodChange(klass, method, exclude) {
+        function propagateMethodChange (klass, method, exclude) {
             var selector = method.selector;
             var jsSelector = method.jsSelector;
             st.traverseClassTree(klass, function (subclass, sentinel) {
@@ -185,7 +185,7 @@ define(function () {
             });
         }
 
-        function initMethodInClass(klass, selector, jsSelector) {
+        function initMethodInClass (klass, selector, jsSelector) {
             if (klass.methods[selector]) return true;
             if (klass.detachedRoot) {
                 installJSMethod(klass.fn.prototype, jsSelector, klass.superclass.fn.prototype[jsSelector]);
@@ -194,7 +194,7 @@ define(function () {
     }
 
     PrimitivesBrik.deps = ["smalltalkGlobals"];
-    function PrimitivesBrik(brikz, st) {
+    function PrimitivesBrik (brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
 
 
@@ -257,11 +257,11 @@ define(function () {
     }
 
     RuntimeBrik.deps = ["selectorConversion", "smalltalkGlobals", "runtimeClasses"];
-    function RuntimeBrik(brikz, st) {
+    function RuntimeBrik (brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
         var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
 
-        function SmalltalkMethodContext(home, setup) {
+        function SmalltalkMethodContext (home, setup) {
             this.sendIdx = {};
             this.homeContext = home;
             this.setup = setup || function () {
@@ -327,12 +327,12 @@ define(function () {
         };
 
         /*
-           Runs worker function so that error handler is not set up
-           if there isn't one. This is accomplished by unconditional
-           wrapping inside a context of a simulated `nil seamlessDoIt` call,
-           which then stops error handler setup (see st.withContext above).
-           The effect is, $core.seamless(fn)'s exceptions are not
-           handed into ST error handler and caller should process them.
+         Runs worker function so that error handler is not set up
+         if there isn't one. This is accomplished by unconditional
+         wrapping inside a context of a simulated `nil seamlessDoIt` call,
+         which then stops error handler setup (see st.withContext above).
+         The effect is, $core.seamless(fn)'s exceptions are not
+         handed into ST error handler and caller should process them.
          */
         st.seamless = function (worker) {
             return inContext(worker, function (ctx) {
@@ -340,7 +340,7 @@ define(function () {
             });
         };
 
-        function inContextWithErrorHandling(worker, setup) {
+        function inContextWithErrorHandling (worker, setup) {
             try {
                 return inContext(worker, setup);
             } catch (error) {
@@ -352,7 +352,7 @@ define(function () {
             }
         }
 
-        function inContext(worker, setup) {
+        function inContext (worker, setup) {
             var oldContext = thisContext;
             thisContext = new SmalltalkMethodContext(thisContext, setup);
             var result = worker(thisContext);
@@ -364,7 +364,7 @@ define(function () {
 
          In case of a RangeError, stub the stack after 100 contexts to
          avoid another RangeError later when the stack is manipulated. */
-        function wrappedError(error) {
+        function wrappedError (error) {
             var errorWrapper = globals.JavaScriptException._on_(error);
             // Add the error to the context, so it is visible in the stack
             try {
@@ -380,7 +380,7 @@ define(function () {
         }
 
         /* Stub the context stack after 100 contexts */
-        function stubContextStack(context) {
+        function stubContextStack (context) {
             var currentContext = context;
             var contexts = 0;
             while (contexts < 100) {
@@ -394,7 +394,7 @@ define(function () {
             }
         }
 
-        function isRangeError(error) {
+        function isRangeError (error) {
             return error instanceof RangeError;
         }
 
@@ -402,7 +402,7 @@ define(function () {
         /* Handles Smalltalk errors. Triggers the registered ErrorHandler
          (See the Smalltalk class ErrorHandler and its subclasses */
 
-        function handleError(error) {
+        function handleError (error) {
             if (!error.smalltalkError) {
                 error = wrappedError(error);
             }
@@ -422,7 +422,7 @@ define(function () {
     }
 
     MessageSendBrik.deps = ["smalltalkGlobals", "selectorConversion", "root"];
-    function MessageSendBrik(brikz, st) {
+    function MessageSendBrik (brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
         var nilAsReceiver = brikz.root.nilAsReceiver;
 
@@ -441,7 +441,7 @@ define(function () {
             }
         };
 
-        function invokeDnuMethod(receiver, stSelector, args) {
+        function invokeDnuMethod (receiver, stSelector, args) {
             return receiver._doesNotUnderstand_(
                 globals.Message._new()
                     ._selector_(stSelector)
@@ -458,7 +458,7 @@ define(function () {
         /* Handles #dnu: *and* JavaScript method calls.
          if the receiver has no klass, we consider it a JS object (outside of the
          Amber system). Else assume that the receiver understands #doesNotUnderstand: */
-        function messageNotUnderstood(receiver, stSelector, args) {
+        function messageNotUnderstood (receiver, stSelector, args) {
             if (receiver.klass != null && !receiver.allowJavaScriptCalls) {
                 return invokeDnuMethod(receiver, stSelector, args);
             }
@@ -482,7 +482,7 @@ define(function () {
          an uppercase character (we probably want to answer the function itself in this
          case and send it #new from Amber).
          */
-        function accessJavaScript(receiver, propertyName, args) {
+        function accessJavaScript (receiver, propertyName, args) {
             var propertyValue = receiver[propertyName];
             if (typeof propertyValue === "function" && !/^[A-Z]/.test(propertyName)) {
                 return propertyValue.apply(receiver, args || []);
@@ -499,7 +499,7 @@ define(function () {
     }
 
     StartImageBrik.deps = ["frameBinding", "runtimeMethods", "runtime", "primitives"];
-    function StartImageBrik(brikz, st) {
+    function StartImageBrik (brikz, st) {
         this.__init__ = function () {
             var classes = brikz.behaviors.classes;
             classes().forEach(function (klass) {
@@ -511,7 +511,7 @@ define(function () {
 
     /* Making smalltalk that can run */
 
-    function configureWithRuntime(brikz) {
+    function configureWithRuntime (brikz) {
         brikz.dnu = DNUBrik;
         brikz.manipulation = ManipulationBrik;
         brikz.runtimeClasses = RuntimeClassesBrik;

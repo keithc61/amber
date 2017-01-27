@@ -14,4 +14,6 @@ define([
     'amber_core/Platform-DOM-Tests',
     'amber_core/SUnit-Tests'
     // --- packages of the development only Amber end here ---
-], function (amber) { return amber; });
+], function (amber) {
+    return amber;
+});

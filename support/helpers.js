@@ -26,14 +26,14 @@ define(["amber/boot", "require"], function (boot, require) {
         enumerable: true, configurable: true, writable: false
     });
 
-    function mixinToSettings(source) {
+    function mixinToSettings (source) {
         var settings = globals.SmalltalkSettings;
         Object.keys(source).forEach(function (key) {
             settings[key] = source[key];
         });
     }
 
-    function settingsInLocalStorage() {
+    function settingsInLocalStorage () {
         //jshint evil:true
         var global = new Function('return this')(),
             storage = 'localStorage' in global && global.localStorage;
