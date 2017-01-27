@@ -298,9 +298,12 @@ define(['./compatibility'], function () {
         /* Add/remove a method to/from a class */
 
         st.addMethod = function (method, behaviorBody) {
-            behaviorBody.localMethods[method.selector] = method;
+            if (method.methodClass != null) {
+                throw new Error("addMethod: Method " + method.selector + " already bound to " + method.methodClass);
+            }
             method.methodClass = behaviorBody;
             registerNewSelectors(method);
+            behaviorBody.localMethods[method.selector] = method;
             updateMethod(method.selector, behaviorBody);
         };
 
