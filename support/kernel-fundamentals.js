@@ -214,6 +214,7 @@ define(['./compatibility'], function () {
 
         this.setupBehavior = function (behaviorBody) {
             setupClassOrganization(behaviorBody);
+            behaviorBody.localMethods = Object.create(null);
             behaviorBody.methods = Object.create(null);
         };
 
@@ -297,8 +298,13 @@ define(['./compatibility'], function () {
         /* Add/remove a method to/from a class */
 
         st.addMethod = function (method, behaviorBody) {
-            behaviorBody.methods[method.selector] = method;
+            behaviorBody.localMethods[method.selector] = method;
             method.methodClass = behaviorBody;
+            updateMethod(method.selector, behaviorBody);
+        };
+
+        function addMethod (method, behaviorBody) {
+            behaviorBody.methods[method.selector] = method;
 
             // During the bootstrap, #addCompiledMethod is not used.
             // Therefore we populate the organizer here too
@@ -318,18 +324,35 @@ define(['./compatibility'], function () {
 
             behaviorBody.methodAdded(method);
             if (st._selectorsAdded) st._selectorsAdded(newSelectors);
-        };
+        }
 
         st.removeMethod = function (method, behaviorBody) {
-            if (behaviorBody.methods[method.selector] !== method) return;
+            if (behaviorBody.localMethods[method.selector] !== method) return;
 
+            delete behaviorBody.localMethods[method.selector];
+            updateMethod(method.selector, behaviorBody);
+        };
+
+        function removeMethod (method, behaviorBody) {
             delete behaviorBody.methods[method.selector];
 
             behaviorBody.methodRemoved(method);
 
             // Do *not* delete protocols from here.
             // This is handled by #removeCompiledMethod
-        };
+        }
+
+        function updateMethod (selector, behaviorBody) {
+            var oldMethod = behaviorBody.methods[selector],
+                newMethod = behaviorBody.localMethods[selector];
+            if (oldMethod == null && newMethod == null) {
+                console.warn("Removal of nonexistent method " + behaviorBody + " >> " + selector);
+                return;
+            }
+            if (newMethod === oldMethod) return;
+            if (newMethod != null) addMethod(newMethod, behaviorBody);
+            else removeMethod(oldMethod, behaviorBody);
+        }
     }
 
     function ArraySetBrik (brikz, st) {
