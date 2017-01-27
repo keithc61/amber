@@ -92,7 +92,8 @@ define(['./compatibility'], function () {
                 make: function (pkg) {
                     var that = new SmalltalkTrait();
                     that.className = className;
-                    setupBehavior(that, pkg);
+                    that.pkg = pkg;
+                    setupBehavior(that);
                     return that;
                 },
                 updateExisting: function (trait, pkg) {
@@ -195,9 +196,10 @@ define(['./compatibility'], function () {
             that.iVarNames = spec.iVarNames || [];
 
             that.className = spec.className;
+            that.pkg = spec.pkg;
             that.subclasses = [];
 
-            setupBehavior(that, spec.pkg);
+            setupBehavior(that);
             return that;
         }
 

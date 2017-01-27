@@ -212,11 +212,7 @@ define(['./compatibility'], function () {
 
         var classes = [];
 
-        this.setupBehavior = function (behaviorBody, pkg) {
-            if (pkg) {
-                behaviorBody.pkg = pkg;
-            }
-
+        this.setupBehavior = function (behaviorBody) {
             setupClassOrganization(behaviorBody);
             Object.defineProperty(behaviorBody, "methods", {
                 value: Object.create(null),
