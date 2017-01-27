@@ -300,6 +300,7 @@ define(['./compatibility'], function () {
         st.addMethod = function (method, behaviorBody) {
             behaviorBody.localMethods[method.selector] = method;
             method.methodClass = behaviorBody;
+            registerNewSelectors(method);
             updateMethod(method.selector, behaviorBody);
         };
 
@@ -310,6 +311,10 @@ define(['./compatibility'], function () {
             // Therefore we populate the organizer here too
             addOrganizationElement(behaviorBody, method.protocol);
 
+            behaviorBody.methodAdded(method);
+        }
+
+        function registerNewSelectors (method) {
             var newSelectors = [];
 
             function selectorInUse (stSelector) {
@@ -321,8 +326,6 @@ define(['./compatibility'], function () {
 
             selectorInUse(method.selector);
             method.messageSends.forEach(selectorInUse);
-
-            behaviorBody.methodAdded(method);
             if (st._selectorsAdded) st._selectorsAdded(newSelectors);
         }
 
