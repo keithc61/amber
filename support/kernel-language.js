@@ -253,7 +253,7 @@ define(['./compatibility'], function () {
                     });
                 },
                 updateExisting: function (klass, pkg) {
-                    if (klass.superclass == superclass && !fn) {
+                    if (klass.superclass == superclass && (!fn || fn === klass.fn)) {
                         if (iVarNames) klass.iVarNames = iVarNames;
                         if (pkg) klass.pkg = pkg;
                         return true;
