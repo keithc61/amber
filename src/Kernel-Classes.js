@@ -1676,84 +1676,41 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$3,$1,$4,$5;
+var $1;
 return $recv($globals.String)._streamContents_((function(stream){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_($recv(self._superclass())._asString());
+$recv(self._superclass())._printOn_(stream);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["printOn:"]=1;
+//>>excludeEnd("ctx");
+$recv(stream)._nextPutAll_(" subclass: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_(" subclass: #");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=2;
-//>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_(self._name());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=3;
-//>>excludeEnd("ctx");
-$2=$recv($globals.String)._lf();
+$recv(self._name())._asSymbolPrintOn_(stream);
+$recv(stream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=1;
 //>>excludeEnd("ctx");
-$3=$recv($globals.String)._tab();
+$recv(stream)._tab();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["tab"]=1;
 //>>excludeEnd("ctx");
-$1=$recv($2).__comma($3);
+$1=$recv(stream)._nextPutAll_("instanceVariableNames: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=1;
+$ctx2.sendIdx["nextPutAll:"]=2;
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_($1);
+$1;
+$recv(" "._join_(self._instanceVariableNames()))._printOn_(stream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=4;
+$ctx2.sendIdx["printOn:"]=2;
 //>>excludeEnd("ctx");
-$4=$recv(stream)._nextPutAll_("instanceVariableNames: '");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=5;
-//>>excludeEnd("ctx");
-$4;
-$recv(self._instanceVariableNames())._do_separatedBy_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $recv(stream)._nextPutAll_(each);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["nextPutAll:"]=6;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
-//>>excludeEnd("ctx");
-}),(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $recv(stream)._nextPutAll_(" ");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["nextPutAll:"]=7;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
-//>>excludeEnd("ctx");
-}));
-$5=$recv("'".__comma($recv($globals.String)._lf())).__comma($recv($globals.String)._tab());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=2;
-//>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_($5);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=8;
-//>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_("package: '");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=9;
-//>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_(self._category());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=10;
-//>>excludeEnd("ctx");
-return $recv(stream)._nextPutAll_("'");
+$recv(stream)._lf();
+$recv(stream)._tab();
+$recv(stream)._nextPutAll_("package: ");
+return $recv(self._category())._printOn_(stream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1764,10 +1721,10 @@ return $recv(stream)._nextPutAll_("'");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream |\x0a\x09\x09stream\x0a\x09\x09\x09nextPutAll: self superclass asString;\x0a\x09\x09\x09nextPutAll: ' subclass: #';\x0a\x09\x09\x09nextPutAll: self name;\x0a\x09\x09\x09nextPutAll: String lf, String tab;\x0a\x09\x09\x09nextPutAll: 'instanceVariableNames: '''.\x0a\x09\x09self instanceVariableNames\x0a\x09\x09\x09do: [ :each | stream nextPutAll: each ]\x0a\x09\x09\x09separatedBy: [ stream nextPutAll: ' ' ].\x0a\x09\x09stream\x0a\x09\x09\x09nextPutAll: '''', String lf, String tab;\x0a\x09\x09\x09nextPutAll: 'package: ''';\x0a\x09\x09\x09nextPutAll: self category;\x0a\x09\x09\x09nextPutAll: '''' ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream |\x0a\x09\x09self superclass printOn: stream.\x0a\x09\x09stream nextPutAll: ' subclass: '.\x0a\x09\x09self name asSymbolPrintOn: stream.\x0a\x09\x09stream lf; tab; nextPutAll: 'instanceVariableNames: '.\x0a\x09\x09(' ' join: self instanceVariableNames) printOn: stream.\x0a\x09\x09stream lf; tab; nextPutAll: 'package: '.\x0a\x09\x09self category printOn: stream ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "nextPutAll:", "asString", "superclass", "name", ",", "lf", "tab", "do:separatedBy:", "instanceVariableNames", "category"]
+messageSends: ["streamContents:", "printOn:", "superclass", "nextPutAll:", "asSymbolPrintOn:", "name", "lf", "tab", "join:", "instanceVariableNames", "category"]
 }),
 $globals.Class);
 
@@ -2083,44 +2040,16 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 return $recv($globals.String)._streamContents_((function(stream){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_(self._asString());
+self._printOn_(stream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=1;
+$ctx2.sendIdx["printOn:"]=1;
 //>>excludeEnd("ctx");
-$1=$recv(stream)._nextPutAll_(" instanceVariableNames: '");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=2;
-//>>excludeEnd("ctx");
-$1;
-$recv(self._instanceVariableNames())._do_separatedBy_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $recv(stream)._nextPutAll_(each);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["nextPutAll:"]=3;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
-//>>excludeEnd("ctx");
-}),(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $recv(stream)._nextPutAll_(" ");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["nextPutAll:"]=4;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
-//>>excludeEnd("ctx");
-}));
-return $recv(stream)._nextPutAll_("'");
+$recv(stream)._nextPutAll_(" instanceVariableNames: ");
+return $recv(" "._join_(self._instanceVariableNames()))._printOn_(stream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2131,10 +2060,10 @@ return $recv(stream)._nextPutAll_("'");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream |\x0a\x09\x09stream\x0a\x09\x09\x09nextPutAll: self asString;\x0a\x09\x09\x09nextPutAll: ' instanceVariableNames: '''.\x0a\x09\x09self instanceVariableNames\x0a\x09\x09\x09do: [ :each | stream nextPutAll: each ]\x0a\x09\x09\x09separatedBy: [ stream nextPutAll: ' ' ].\x0a\x09\x09stream nextPutAll: '''' ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream |\x0a\x09\x09self printOn: stream.\x0a\x09\x09stream nextPutAll: ' instanceVariableNames: '.\x0a\x09\x09(' ' join: self instanceVariableNames) printOn: stream ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "nextPutAll:", "asString", "do:separatedBy:", "instanceVariableNames"]
+messageSends: ["streamContents:", "printOn:", "nextPutAll:", "join:", "instanceVariableNames"]
 }),
 $globals.Metaclass);
 
@@ -2417,27 +2346,15 @@ return $recv($globals.String)._streamContents_((function(stream){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_("Trait named: #");
+$recv(stream)._nextPutAll_("Trait named: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_(self._name());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=2;
-//>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_($recv($recv($globals.String)._lf()).__comma($recv($globals.String)._tab()));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=3;
-//>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_("package: '");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=4;
-//>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_(self._category());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=5;
-//>>excludeEnd("ctx");
-return $recv(stream)._nextPutAll_("'");
+$recv(self._name())._asSymbolPrintOn_(stream);
+$recv(stream)._lf();
+$recv(stream)._tab();
+$recv(stream)._nextPutAll_("package: ");
+return $recv(self._category())._printOn_(stream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2448,10 +2365,10 @@ return $recv(stream)._nextPutAll_("'");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream |\x0a\x09\x09stream\x0a\x09\x09\x09nextPutAll: 'Trait named: #';\x0a\x09\x09\x09nextPutAll: self name;\x0a\x09\x09\x09nextPutAll: String lf, String tab;\x0a\x09\x09\x09nextPutAll: 'package: ''';\x0a\x09\x09\x09nextPutAll: self category;\x0a\x09\x09\x09nextPutAll: '''' ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream |\x0a\x09\x09stream nextPutAll: 'Trait named: '.\x0a\x09\x09self name asSymbolPrintOn: stream.\x0a\x09\x09stream lf; tab; nextPutAll: 'package: '.\x0a\x09\x09self category printOn: stream ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "nextPutAll:", "name", ",", "lf", "tab", "category"]
+messageSends: ["streamContents:", "nextPutAll:", "asSymbolPrintOn:", "name", "lf", "tab", "printOn:", "category"]
 }),
 $globals.Trait);
 

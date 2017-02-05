@@ -393,20 +393,13 @@ classTag
 
 definition
 	^ String streamContents: [ :stream |
-		stream
-			nextPutAll: self superclass asString;
-			nextPutAll: ' subclass: #';
-			nextPutAll: self name;
-			nextPutAll: String lf, String tab;
-			nextPutAll: 'instanceVariableNames: '''.
-		self instanceVariableNames
-			do: [ :each | stream nextPutAll: each ]
-			separatedBy: [ stream nextPutAll: ' ' ].
-		stream
-			nextPutAll: '''', String lf, String tab;
-			nextPutAll: 'package: ''';
-			nextPutAll: self category;
-			nextPutAll: '''' ]
+		self superclass printOn: stream.
+		stream nextPutAll: ' subclass: '.
+		self name asSymbolPrintOn: stream.
+		stream lf; tab; nextPutAll: 'instanceVariableNames: '.
+		(' ' join: self instanceVariableNames) printOn: stream.
+		stream lf; tab; nextPutAll: 'package: '.
+		self category printOn: stream ]
 !
 
 package
@@ -498,13 +491,9 @@ My instances are metaclasses, one for each real class, and have a single instanc
 
 definition
 	^ String streamContents: [ :stream |
-		stream
-			nextPutAll: self asString;
-			nextPutAll: ' instanceVariableNames: '''.
-		self instanceVariableNames
-			do: [ :each | stream nextPutAll: each ]
-			separatedBy: [ stream nextPutAll: ' ' ].
-		stream nextPutAll: '''' ]
+		self printOn: stream.
+		stream nextPutAll: ' instanceVariableNames: '.
+		(' ' join: self instanceVariableNames) printOn: stream ]
 !
 
 instanceClass
@@ -573,13 +562,10 @@ classTag
 
 definition
 	^ String streamContents: [ :stream |
-		stream
-			nextPutAll: 'Trait named: #';
-			nextPutAll: self name;
-			nextPutAll: String lf, String tab;
-			nextPutAll: 'package: ''';
-			nextPutAll: self category;
-			nextPutAll: '''' ]
+		stream nextPutAll: 'Trait named: '.
+		self name asSymbolPrintOn: stream.
+		stream lf; tab; nextPutAll: 'package: '.
+		self category printOn: stream ]
 !
 
 package

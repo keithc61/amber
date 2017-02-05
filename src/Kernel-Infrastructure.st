@@ -273,30 +273,21 @@ beDirty
 classTemplate
 	^ String streamContents: [ :stream |
 		stream
-			nextPutAll: 'Object';
-			nextPutAll: ' subclass: #NameOfSubclass';
-			nextPutAll: String lf, String tab;
-			nextPutAll: 'instanceVariableNames: '''''.
-		stream
-			nextPutAll: '''', String lf, String tab;
-			nextPutAll: 'package: ''';
-			nextPutAll: self name;
-			nextPutAll: '''' ]
+			nextPutAll: 'Object subclass: #NameOfSubclass'; lf;
+			tab; nextPutAll: 'instanceVariableNames: '''''; lf;
+			tab; nextPutAll: 'package: '.
+		self name printOn: stream ]
 !
 
 definition
 	^ String streamContents: [ :stream |
 		stream 
-			nextPutAll: self class name;
-			nextPutAll: String lf, String tab;
-			nextPutAll: 'named: ';
-			nextPutAll: '''', self name, '''';
-			nextPutAll: String lf, String tab;
-			nextPutAll: 'imports: ';
-			nextPutAll: self importsDefinition;
-			nextPutAll: String lf, String tab;
-			nextPutAll: 'transport: (';
-			nextPutAll: self transport definition, ')' ]
+			nextPutAll: self class name; lf;
+			tab; nextPutAll: 'named: '.
+		self name printOn: stream.
+		stream lf;
+			tab; nextPutAll: 'imports: '; nextPutAll: self importsDefinition; lf;
+			tab; nextPutAll: 'transport: ('; nextPutAll: self transport definition, ')' ]
 !
 
 imports
