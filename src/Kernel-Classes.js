@@ -2285,6 +2285,29 @@ $globals.Trait);
 
 $core.addMethod(
 $core.method({
+selector: "asJavascript",
+protocol: 'converting',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return "$globals.".__comma(self._name());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asJavascript",{},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asJavascript\x0a\x09^ '$globals.', self name",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: [",", "name"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
 selector: "category",
 protocol: 'accessing',
 fn: function (){

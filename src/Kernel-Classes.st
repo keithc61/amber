@@ -586,6 +586,12 @@ allInstanceVariableNames
 	^ #()
 ! !
 
+!Trait methodsFor: 'converting'!
+
+asJavascript
+	^ '$globals.', self name
+! !
+
 !Trait class methodsFor: 'instance creation'!
 
 named: aString package: anotherString
