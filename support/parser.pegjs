@@ -7,13 +7,14 @@ maybeDotsWs = ("." / separator / comments)*
 identifier     = first:[a-zA-Z] others:[a-zA-Z0-9]* {return first + others.join("");}
 keyword        = first:identifier last:":" {return first + last;}
 className      = first:[A-Z] others:[a-zA-Z0-9]* {return first + others.join("");}
-string         = "'" val:(("''" {return "'";} / [^'])*) "'" {
+string         = contents:rawString {
                      return $globals.ValueNode._new()
                             ._location_(location())
                             ._source_(text())
-                            ._value_(val.join(""));
+                            ._value_(contents);
                  }
-character      = "$" char:. 
+rawString         = "'" val:(("''" {return "'";} / [^'])*) "'" {return val.join("");}
+character      = "$" char:.
                   {
                       return $globals.ValueNode._new()
                              ._location_(location())
@@ -21,7 +22,7 @@ character      = "$" char:.
                              ._value_(char);
                   }
 symbol         = "#" rest:bareSymbol {return rest;}
-bareSymbol         = val:(keywords:keyword+ {return keywords.join("");} / binarySelector / unarySelector / node:string {return node._value();})
+bareSymbol         = val:(keywords:keyword+ {return keywords.join("");} / binarySelector / unarySelector / rawString)
                   {
                       return $globals.ValueNode._new()
                              ._location_(location())
@@ -226,10 +227,10 @@ legacyJsStatement = "<" val:((">>" {return ">";} / [^>])*) ">" & { return !/^\s*
                             ._source_(val.join(""))
                  }
 
-pragmaJsStatement = "<" ws "inlineJS:" ws val:string ws ">" {
+pragmaJsStatement = "<" ws "inlineJS:" ws val:rawString ws ">" {
                      return $globals.JSStatementNode._new()
                             ._location_(location())
-                            ._source_(val._value())
+                            ._source_(val)
                  }
 
 
