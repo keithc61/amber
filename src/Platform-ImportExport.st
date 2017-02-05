@@ -274,17 +274,6 @@ ownMethodsOfMetaClass: aClass
 	^ self ownMethodsOfClass: aClass theMetaClass
 ! !
 
-!Exporter methodsFor: 'convenience'!
-
-jsClassNameFor: aClass
-	^ aClass isMetaclass
-		ifTrue: [ (self jsClassNameFor: aClass instanceClass), '.klass' ]
-		ifFalse: [
-			aClass
-				ifNil: [ 'null' ]
-				ifNotNil: [ '$globals.', aClass name ] ]
-! !
-
 !Exporter methodsFor: 'output'!
 
 exportBehavior: aBehavior on: aStream
@@ -297,22 +286,20 @@ exportDefinitionOf: aClass on: aStream
 	aStream
 		lf;
 		nextPutAll: '$core.addClass(';
-		nextPutAll: '''', (self classNameFor: aClass), ''', ';
-		nextPutAll: (self jsClassNameFor: aClass superclass);
-		nextPutAll: ', ['.
-	aClass instanceVariableNames
-		do: [ :each | aStream nextPutAll: '''', each, '''' ]
-		separatedBy: [ aStream nextPutAll: ', ' ].
-	aStream
-		nextPutAll: '], ''';
-		nextPutAll: aClass category, '''';
+		nextPutAll: (self classNameFor: aClass) asJavascript;
+		nextPutAll: ', ';
+		nextPutAll: (aClass superclass ifNil: [ 'null' ] ifNotNil: [ :superclass | superclass asJavascript ]);
+		nextPutAll: ', ';
+		nextPutAll: aClass instanceVariableNames asJavascript;
+		nextPutAll: ', ';
+		nextPutAll: aClass category asJavascript;
 		nextPutAll: ');'.
 	aClass comment ifNotEmpty: [
 		aStream
 			lf;
 			nextPutAll: '//>>excludeStart("ide", pragmas.excludeIdeData);';
 			lf;
-			nextPutAll: (self jsClassNameFor: aClass);
+			nextPutAll: aClass asJavascript;
 			nextPutAll: '.comment=';
 			nextPutAll: aClass comment crlfSanitized asJavascript;
 			nextPutAll: ';';
@@ -325,12 +312,11 @@ exportMetaDefinitionOf: aClass on: aStream
 	aStream lf.
 	aClass theMetaClass instanceVariableNames ifNotEmpty: [ :classIvars |
 		aStream
-		nextPutAll: (self jsClassNameFor: aClass theMetaClass);
-		nextPutAll: '.iVarNames = ['.
-		classIvars
-		do: [ :each | aStream nextPutAll: '''', each, '''' ]
-		separatedBy: [ aStream nextPutAll: ',' ].
-		aStream nextPutAll: '];', String lf ]
+		nextPutAll: aClass theMetaClass asJavascript;
+		nextPutAll: '.iVarNames = ';
+		nextPutAll: classIvars asJavascript;
+		nextPutAll: ';';
+		lf ]
 !
 
 exportMethod: aMethod on: aStream
@@ -338,7 +324,7 @@ exportMethod: aMethod on: aStream
 		nextPutAll: '$core.addMethod(';lf;
 		nextPutAll: '$core.method({';lf;
 		nextPutAll: 'selector: ', aMethod selector asJavascript, ',';lf;
-		nextPutAll: 'protocol: ''', aMethod protocol, ''',';lf;
+		nextPutAll: 'protocol: ', aMethod protocol asJavascript, ',';lf;
 		nextPutAll: 'fn: ', aMethod fn compiledSource, ',';lf;
 		nextPutAll: '//>>excludeStart("ide", pragmas.excludeIdeData);';lf;
 		nextPutAll: 'args: ', aMethod arguments asJavascript, ','; lf;
@@ -347,7 +333,7 @@ exportMethod: aMethod on: aStream
 		nextPutAll: '//>>excludeEnd("ide");';lf;
 		nextPutAll: 'messageSends: ', aMethod messageSends asJavascript;lf;
 		nextPutAll: '}),';lf;
-		nextPutAll: (self jsClassNameFor: aMethod methodClass);
+		nextPutAll: aMethod methodClass asJavascript;
 		nextPutAll: ');';lf;lf
 !
 
@@ -393,7 +379,8 @@ exportPackageContextOf: aPackage on: aStream
 exportPackageDefinitionOf: aPackage on: aStream
 	aStream
 		nextPutAll: '$core.addPackage(';
-		nextPutAll: '''', aPackage name, ''');';
+		nextPutAll: aPackage name asJavascript;
+		nextPutAll: ');';
 		lf
 !
 
@@ -430,15 +417,16 @@ exportTraitDefinitionOf: aClass on: aStream
 	aStream
 		lf;
 		nextPutAll: '$core.addTrait(';
-		nextPutAll: '''', (self classNameFor: aClass), ''', ''';
-		nextPutAll: aClass category, '''';
+		nextPutAll: (self classNameFor: aClass) asJavascript;
+		nextPutAll: ', ';
+		nextPutAll: aClass category asJavascript;
 		nextPutAll: ');'.
 	aClass comment ifNotEmpty: [
 		aStream
 			lf;
 			nextPutAll: '//>>excludeStart("ide", pragmas.excludeIdeData);';
 			lf;
-			nextPutAll: (self jsClassNameFor: aClass);
+			nextPutAll: aClass asJavascript;
 			nextPutAll: '.comment=';
 			nextPutAll: aClass comment crlfSanitized asJavascript;
 			nextPutAll: ';';

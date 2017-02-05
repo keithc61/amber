@@ -2,18 +2,18 @@ define(["amber/boot", "amber_core/Kernel-Classes", "amber_core/Kernel-Exceptions
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Platform-ImportExport');
+$core.addPackage("Platform-ImportExport");
 $core.packages["Platform-ImportExport"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Platform-ImportExport"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('AbstractExporter', $globals.Object, [], 'Platform-ImportExport');
+$core.addClass("AbstractExporter", $globals.Object, [], "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AbstractExporter.comment="I am an abstract exporter for Amber source code.\x0a\x0a## API\x0a\x0aUse `#exportPackage:on:` to export a given package on a Stream.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "classNameFor:",
-protocol: 'convenience',
+protocol: "convenience",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -50,7 +50,7 @@ $globals.AbstractExporter);
 $core.addMethod(
 $core.method({
 selector: "exportPackage:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aPackage,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -74,7 +74,7 @@ $globals.AbstractExporter);
 $core.addMethod(
 $core.method({
 selector: "extensionMethodsOfPackage:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackage){
 var self=this;
 var result;
@@ -108,7 +108,7 @@ $globals.AbstractExporter);
 $core.addMethod(
 $core.method({
 selector: "extensionProtocolsOfPackage:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackage){
 var self=this;
 var extensionName,result;
@@ -173,14 +173,14 @@ $globals.AbstractExporter);
 
 
 
-$core.addClass('ChunkExporter', $globals.AbstractExporter, [], 'Platform-ImportExport');
+$core.addClass("ChunkExporter", $globals.AbstractExporter, [], "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ChunkExporter.comment="I am an exporter dedicated to outputting Amber source code in the classic Smalltalk chunk format.\x0a\x0aI do not output any compiled code.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "chunkEscape:",
-protocol: 'convenience',
+protocol: "convenience",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -203,7 +203,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "exportBehavior:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aBehavior,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -228,7 +228,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "exportCategoryEpilogueOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aCategory,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -257,7 +257,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "exportCategoryPrologueOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aCategory,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -291,7 +291,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "exportDefinitionOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aClass,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -401,7 +401,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "exportMetaDefinitionOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aClass,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -449,7 +449,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "exportMethod:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aMethod,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -486,7 +486,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "exportPackage:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aPackage,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -533,7 +533,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "exportPackageDefinitionOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aPackage,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -563,7 +563,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "exportPackageImportsOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aPackage,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -609,7 +609,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "exportProtocol:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aProtocol,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -643,7 +643,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "exportProtocolEpilogueOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aProtocol,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -672,7 +672,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "exportProtocolPrologueOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aProtocol,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -706,7 +706,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "exportProtocols:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aCollection,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -738,7 +738,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "exportTraitDefinitionOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aClass,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -824,7 +824,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "extensionCategoriesOfPackage:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackage){
 var self=this;
 var name,map,result;
@@ -904,7 +904,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "ownCategoriesOfClass:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 var map;
@@ -958,7 +958,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "ownCategoriesOfMetaClass:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -981,7 +981,7 @@ $globals.ChunkExporter);
 $core.addMethod(
 $core.method({
 selector: "ownMethodProtocolsOfClass:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1011,14 +1011,14 @@ $globals.ChunkExporter);
 
 
 
-$core.addClass('Exporter', $globals.AbstractExporter, [], 'Platform-ImportExport');
+$core.addClass("Exporter", $globals.AbstractExporter, [], "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Exporter.comment="I am responsible for outputting Amber code into a JavaScript string.\x0a\x0aThe generated output is enough to reconstruct the exported data, including Smalltalk source code and other metadata.\x0a\x0a## Use case\x0a\x0aI am typically used to save code outside of the Amber runtime (committing to disk, etc.).";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "exportBehavior:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aBehavior,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1051,13 +1051,13 @@ $globals.Exporter);
 $core.addMethod(
 $core.method({
 selector: "exportDefinitionOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aClass,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1,$3,$4,$6,$5,$7,$8;
+var $1,$3,$2,$4,$5,$6,$7,$8,$receiver;
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=1;
@@ -1066,78 +1066,66 @@ $recv(aStream)._nextPutAll_("$core.addClass(");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$2="'".__comma(self._classNameFor_(aClass));
+$1=$recv(self._classNameFor_(aClass))._asJavascript();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=2;
-//>>excludeEnd("ctx");
-$1=$recv($2).__comma("', ");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
+$ctx1.sendIdx["asJavascript"]=1;
 //>>excludeEnd("ctx");
 $recv(aStream)._nextPutAll_($1);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=2;
 //>>excludeEnd("ctx");
-$3=self._jsClassNameFor_($recv(aClass)._superclass());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["jsClassNameFor:"]=1;
-//>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_($3);
+$recv(aStream)._nextPutAll_(", ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=3;
 //>>excludeEnd("ctx");
-$4=$recv(aStream)._nextPutAll_(", [");
+$3=$recv(aClass)._superclass();
+if(($receiver = $3) == null || $receiver.isNil){
+$2="null";
+} else {
+var superclass;
+superclass=$receiver;
+$2=$recv(superclass)._asJavascript();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["asJavascript"]=2;
+//>>excludeEnd("ctx");
+}
+$recv(aStream)._nextPutAll_($2);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=4;
 //>>excludeEnd("ctx");
-$recv($recv(aClass)._instanceVariableNames())._do_separatedBy_((function(each){
+$recv(aStream)._nextPutAll_(", ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
+$ctx1.sendIdx["nextPutAll:"]=5;
 //>>excludeEnd("ctx");
-$6="'".__comma(each);
+$4=$recv($recv(aClass)._instanceVariableNames())._asJavascript();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=4;
+$ctx1.sendIdx["asJavascript"]=3;
 //>>excludeEnd("ctx");
-$5=$recv($6).__comma("'");
+$recv(aStream)._nextPutAll_($4);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=3;
+$ctx1.sendIdx["nextPutAll:"]=6;
 //>>excludeEnd("ctx");
-return $recv(aStream)._nextPutAll_($5);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=5;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}),(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(aStream)._nextPutAll_(", ");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=6;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
-$recv(aStream)._nextPutAll_("], '");
+$recv(aStream)._nextPutAll_(", ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=7;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_($recv($recv(aClass)._category()).__comma("'"));
+$5=$recv($recv(aClass)._category())._asJavascript();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["asJavascript"]=4;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_($5);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=8;
 //>>excludeEnd("ctx");
-$7=$recv(aStream)._nextPutAll_(");");
+$6=$recv(aStream)._nextPutAll_(");");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=9;
 //>>excludeEnd("ctx");
-$8=$recv(aClass)._comment();
+$7=$recv(aClass)._comment();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["comment"]=1;
 //>>excludeEnd("ctx");
-$recv($8)._ifNotEmpty_((function(){
+$recv($7)._ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -1153,7 +1141,11 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=3;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_(self._jsClassNameFor_(aClass));
+$8=$recv(aClass)._asJavascript();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["asJavascript"]=5;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_($8);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["nextPutAll:"]=11;
 //>>excludeEnd("ctx");
@@ -1186,23 +1178,23 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aStream"],
-source: "exportDefinitionOf: aClass on: aStream\x0a\x09aStream\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: '$core.addClass(';\x0a\x09\x09nextPutAll: '''', (self classNameFor: aClass), ''', ';\x0a\x09\x09nextPutAll: (self jsClassNameFor: aClass superclass);\x0a\x09\x09nextPutAll: ', ['.\x0a\x09aClass instanceVariableNames\x0a\x09\x09do: [ :each | aStream nextPutAll: '''', each, '''' ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ', ' ].\x0a\x09aStream\x0a\x09\x09nextPutAll: '], ''';\x0a\x09\x09nextPutAll: aClass category, '''';\x0a\x09\x09nextPutAll: ');'.\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: (self jsClassNameFor: aClass);\x0a\x09\x09\x09nextPutAll: '.comment=';\x0a\x09\x09\x09nextPutAll: aClass comment crlfSanitized asJavascript;\x0a\x09\x09\x09nextPutAll: ';';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeEnd(\x22ide\x22);' ].\x0a\x09aStream lf",
+source: "exportDefinitionOf: aClass on: aStream\x0a\x09aStream\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: '$core.addClass(';\x0a\x09\x09nextPutAll: (self classNameFor: aClass) asJavascript;\x0a\x09\x09nextPutAll: ', ';\x0a\x09\x09nextPutAll: (aClass superclass ifNil: [ 'null' ] ifNotNil: [ :superclass | superclass asJavascript ]);\x0a\x09\x09nextPutAll: ', ';\x0a\x09\x09nextPutAll: aClass instanceVariableNames asJavascript;\x0a\x09\x09nextPutAll: ', ';\x0a\x09\x09nextPutAll: aClass category asJavascript;\x0a\x09\x09nextPutAll: ');'.\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: aClass asJavascript;\x0a\x09\x09\x09nextPutAll: '.comment=';\x0a\x09\x09\x09nextPutAll: aClass comment crlfSanitized asJavascript;\x0a\x09\x09\x09nextPutAll: ';';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeEnd(\x22ide\x22);' ].\x0a\x09aStream lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["lf", "nextPutAll:", ",", "classNameFor:", "jsClassNameFor:", "superclass", "do:separatedBy:", "instanceVariableNames", "category", "ifNotEmpty:", "comment", "asJavascript", "crlfSanitized"]
+messageSends: ["lf", "nextPutAll:", "asJavascript", "classNameFor:", "ifNil:ifNotNil:", "superclass", "instanceVariableNames", "category", "ifNotEmpty:", "comment", "crlfSanitized"]
 }),
 $globals.Exporter);
 
 $core.addMethod(
 $core.method({
 selector: "exportMetaDefinitionOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aClass,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1,$3,$5,$4;
+var $2,$1,$3;
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=1;
@@ -1216,47 +1208,24 @@ $recv($1)._ifNotEmpty_((function(classIvars){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_(self._jsClassNameFor_($recv(aClass)._theMetaClass()));
+$3=$recv($recv(aClass)._theMetaClass())._asJavascript();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["asJavascript"]=1;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_($3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$3=$recv(aStream)._nextPutAll_(".iVarNames = [");
+$recv(aStream)._nextPutAll_(".iVarNames = ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["nextPutAll:"]=2;
 //>>excludeEnd("ctx");
-$3;
-$recv(classIvars)._do_separatedBy_((function(each){
+$recv(aStream)._nextPutAll_($recv(classIvars)._asJavascript());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
+$ctx2.sendIdx["nextPutAll:"]=3;
 //>>excludeEnd("ctx");
-$5="'".__comma(each);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx[","]=2;
-//>>excludeEnd("ctx");
-$4=$recv($5).__comma("'");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx[","]=1;
-//>>excludeEnd("ctx");
-return $recv(aStream)._nextPutAll_($4);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["nextPutAll:"]=3;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
-//>>excludeEnd("ctx");
-}),(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $recv(aStream)._nextPutAll_(",");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["nextPutAll:"]=4;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
-//>>excludeEnd("ctx");
-}));
-return $recv(aStream)._nextPutAll_("];".__comma($recv($globals.String)._lf()));
+$recv(aStream)._nextPutAll_(";");
+return $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({classIvars:classIvars},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1268,23 +1237,23 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aStream"],
-source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x09aStream lf.\x0a\x09aClass theMetaClass instanceVariableNames ifNotEmpty: [ :classIvars |\x0a\x09\x09aStream\x0a\x09\x09nextPutAll: (self jsClassNameFor: aClass theMetaClass);\x0a\x09\x09nextPutAll: '.iVarNames = ['.\x0a\x09\x09classIvars\x0a\x09\x09do: [ :each | aStream nextPutAll: '''', each, '''' ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ',' ].\x0a\x09\x09aStream nextPutAll: '];', String lf ]",
-referencedClasses: ["String"],
+source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x09aStream lf.\x0a\x09aClass theMetaClass instanceVariableNames ifNotEmpty: [ :classIvars |\x0a\x09\x09aStream\x0a\x09\x09nextPutAll: aClass theMetaClass asJavascript;\x0a\x09\x09nextPutAll: '.iVarNames = ';\x0a\x09\x09nextPutAll: classIvars asJavascript;\x0a\x09\x09nextPutAll: ';';\x0a\x09\x09lf ]",
+referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["lf", "ifNotEmpty:", "instanceVariableNames", "theMetaClass", "nextPutAll:", "jsClassNameFor:", "do:separatedBy:", ","]
+messageSends: ["lf", "ifNotEmpty:", "instanceVariableNames", "theMetaClass", "nextPutAll:", "asJavascript"]
 }),
 $globals.Exporter);
 
 $core.addMethod(
 $core.method({
 selector: "exportMethod:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aMethod,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $3,$2,$1,$5,$4,$7,$6,$10,$9,$8,$13,$12,$11,$16,$15,$14;
+var $3,$2,$1,$6,$5,$4,$8,$7,$11,$10,$9,$14,$13,$12,$17,$16,$15,$19,$18;
 $recv(aStream)._nextPutAll_("$core.addMethod(");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=1;
@@ -1321,11 +1290,15 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=3;
 //>>excludeEnd("ctx");
-$5="protocol: '".__comma($recv(aMethod)._protocol());
+$6=$recv($recv(aMethod)._protocol())._asJavascript();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["asJavascript"]=2;
+//>>excludeEnd("ctx");
+$5="protocol: ".__comma($6);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=4;
 //>>excludeEnd("ctx");
-$4=$recv($5).__comma("',");
+$4=$recv($5).__comma(",");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=3;
 //>>excludeEnd("ctx");
@@ -1337,15 +1310,15 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=4;
 //>>excludeEnd("ctx");
-$7="fn: ".__comma($recv($recv(aMethod)._fn())._compiledSource());
+$8="fn: ".__comma($recv($recv(aMethod)._fn())._compiledSource());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=6;
 //>>excludeEnd("ctx");
-$6=$recv($7).__comma(",");
+$7=$recv($8).__comma(",");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=5;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_($6);
+$recv(aStream)._nextPutAll_($7);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=5;
 //>>excludeEnd("ctx");
@@ -1361,19 +1334,19 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=6;
 //>>excludeEnd("ctx");
-$10=$recv($recv(aMethod)._arguments())._asJavascript();
+$11=$recv($recv(aMethod)._arguments())._asJavascript();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["asJavascript"]=2;
+$ctx1.sendIdx["asJavascript"]=3;
 //>>excludeEnd("ctx");
-$9="args: ".__comma($10);
+$10="args: ".__comma($11);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=8;
 //>>excludeEnd("ctx");
-$8=$recv($9).__comma(",");
+$9=$recv($10).__comma(",");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=7;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_($8);
+$recv(aStream)._nextPutAll_($9);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=7;
 //>>excludeEnd("ctx");
@@ -1381,19 +1354,19 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=7;
 //>>excludeEnd("ctx");
-$13=$recv($recv(aMethod)._source())._asJavascript();
+$14=$recv($recv(aMethod)._source())._asJavascript();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["asJavascript"]=3;
+$ctx1.sendIdx["asJavascript"]=4;
 //>>excludeEnd("ctx");
-$12="source: ".__comma($13);
+$13="source: ".__comma($14);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=10;
 //>>excludeEnd("ctx");
-$11=$recv($12).__comma(",");
+$12=$recv($13).__comma(",");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=9;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_($11);
+$recv(aStream)._nextPutAll_($12);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=8;
 //>>excludeEnd("ctx");
@@ -1401,19 +1374,19 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=8;
 //>>excludeEnd("ctx");
-$16=$recv($recv(aMethod)._referencedClasses())._asJavascript();
+$17=$recv($recv(aMethod)._referencedClasses())._asJavascript();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["asJavascript"]=4;
+$ctx1.sendIdx["asJavascript"]=5;
 //>>excludeEnd("ctx");
-$15="referencedClasses: ".__comma($16);
+$16="referencedClasses: ".__comma($17);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=12;
 //>>excludeEnd("ctx");
-$14=$recv($15).__comma(",");
+$15=$recv($16).__comma(",");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=11;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_($14);
+$recv(aStream)._nextPutAll_($15);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=9;
 //>>excludeEnd("ctx");
@@ -1429,7 +1402,12 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=10;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_("messageSends: ".__comma($recv($recv(aMethod)._messageSends())._asJavascript()));
+$19=$recv($recv(aMethod)._messageSends())._asJavascript();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["asJavascript"]=6;
+//>>excludeEnd("ctx");
+$18="messageSends: ".__comma($19);
+$recv(aStream)._nextPutAll_($18);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=11;
 //>>excludeEnd("ctx");
@@ -1445,7 +1423,7 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=12;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_(self._jsClassNameFor_($recv(aMethod)._methodClass()));
+$recv(aStream)._nextPutAll_($recv($recv(aMethod)._methodClass())._asJavascript());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=13;
 //>>excludeEnd("ctx");
@@ -1462,17 +1440,17 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aMethod", "aStream"],
-source: "exportMethod: aMethod on: aStream\x0a\x09aStream\x0a\x09\x09nextPutAll: '$core.addMethod(';lf;\x0a\x09\x09nextPutAll: '$core.method({';lf;\x0a\x09\x09nextPutAll: 'selector: ', aMethod selector asJavascript, ',';lf;\x0a\x09\x09nextPutAll: 'protocol: ''', aMethod protocol, ''',';lf;\x0a\x09\x09nextPutAll: 'fn: ', aMethod fn compiledSource, ',';lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);';lf;\x0a\x09\x09nextPutAll: 'args: ', aMethod arguments asJavascript, ','; lf;\x0a\x09\x09nextPutAll: 'source: ', aMethod source asJavascript, ',';lf;\x0a\x09\x09nextPutAll: 'referencedClasses: ', aMethod referencedClasses asJavascript, ',';lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ide\x22);';lf;\x0a\x09\x09nextPutAll: 'messageSends: ', aMethod messageSends asJavascript;lf;\x0a\x09\x09nextPutAll: '}),';lf;\x0a\x09\x09nextPutAll: (self jsClassNameFor: aMethod methodClass);\x0a\x09\x09nextPutAll: ');';lf;lf",
+source: "exportMethod: aMethod on: aStream\x0a\x09aStream\x0a\x09\x09nextPutAll: '$core.addMethod(';lf;\x0a\x09\x09nextPutAll: '$core.method({';lf;\x0a\x09\x09nextPutAll: 'selector: ', aMethod selector asJavascript, ',';lf;\x0a\x09\x09nextPutAll: 'protocol: ', aMethod protocol asJavascript, ',';lf;\x0a\x09\x09nextPutAll: 'fn: ', aMethod fn compiledSource, ',';lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);';lf;\x0a\x09\x09nextPutAll: 'args: ', aMethod arguments asJavascript, ','; lf;\x0a\x09\x09nextPutAll: 'source: ', aMethod source asJavascript, ',';lf;\x0a\x09\x09nextPutAll: 'referencedClasses: ', aMethod referencedClasses asJavascript, ',';lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ide\x22);';lf;\x0a\x09\x09nextPutAll: 'messageSends: ', aMethod messageSends asJavascript;lf;\x0a\x09\x09nextPutAll: '}),';lf;\x0a\x09\x09nextPutAll: aMethod methodClass asJavascript;\x0a\x09\x09nextPutAll: ');';lf;lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["nextPutAll:", "lf", ",", "asJavascript", "selector", "protocol", "compiledSource", "fn", "arguments", "source", "referencedClasses", "messageSends", "jsClassNameFor:", "methodClass"]
+messageSends: ["nextPutAll:", "lf", ",", "asJavascript", "selector", "protocol", "compiledSource", "fn", "arguments", "source", "referencedClasses", "messageSends", "methodClass"]
 }),
 $globals.Exporter);
 
 $core.addMethod(
 $core.method({
 selector: "exportPackage:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aPackage,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1534,7 +1512,7 @@ $globals.Exporter);
 $core.addMethod(
 $core.method({
 selector: "exportPackageBodyBlockPrologueOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aPackage,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1575,7 +1553,7 @@ $globals.Exporter);
 $core.addMethod(
 $core.method({
 selector: "exportPackageContextOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aPackage,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1616,22 +1594,21 @@ $globals.Exporter);
 $core.addMethod(
 $core.method({
 selector: "exportPackageDefinitionOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aPackage,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 $recv(aStream)._nextPutAll_("$core.addPackage(");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$1=$recv("'".__comma($recv(aPackage)._name())).__comma("');");
+$recv(aStream)._nextPutAll_($recv($recv(aPackage)._name())._asJavascript());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
+$ctx1.sendIdx["nextPutAll:"]=2;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_($1);
+$recv(aStream)._nextPutAll_(");");
 $recv(aStream)._lf();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1640,17 +1617,17 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage", "aStream"],
-source: "exportPackageDefinitionOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09nextPutAll: '$core.addPackage(';\x0a\x09\x09nextPutAll: '''', aPackage name, ''');';\x0a\x09\x09lf",
+source: "exportPackageDefinitionOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09nextPutAll: '$core.addPackage(';\x0a\x09\x09nextPutAll: aPackage name asJavascript;\x0a\x09\x09nextPutAll: ');';\x0a\x09\x09lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["nextPutAll:", ",", "name", "lf"]
+messageSends: ["nextPutAll:", "asJavascript", "name", "lf"]
 }),
 $globals.Exporter);
 
 $core.addMethod(
 $core.method({
 selector: "exportPackageEpilogueOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aPackage,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1674,7 +1651,7 @@ $globals.Exporter);
 $core.addMethod(
 $core.method({
 selector: "exportPackageImportsOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aPackage,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1728,7 +1705,7 @@ $globals.Exporter);
 $core.addMethod(
 $core.method({
 selector: "exportPackagePrologueOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aPackage,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1752,7 +1729,7 @@ $globals.Exporter);
 $core.addMethod(
 $core.method({
 selector: "exportPackageTransportOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aPackage,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1793,13 +1770,13 @@ $globals.Exporter);
 $core.addMethod(
 $core.method({
 selector: "exportTraitDefinitionOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aClass,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1,$3,$4;
+var $1,$2,$3,$4,$5;
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=1;
@@ -1808,25 +1785,29 @@ $recv(aStream)._nextPutAll_("$core.addTrait(");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$2="'".__comma(self._classNameFor_(aClass));
+$1=$recv(self._classNameFor_(aClass))._asJavascript();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=2;
-//>>excludeEnd("ctx");
-$1=$recv($2).__comma("', '");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
+$ctx1.sendIdx["asJavascript"]=1;
 //>>excludeEnd("ctx");
 $recv(aStream)._nextPutAll_($1);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=2;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_($recv($recv(aClass)._category()).__comma("'"));
+$recv(aStream)._nextPutAll_(", ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=3;
 //>>excludeEnd("ctx");
-$3=$recv(aStream)._nextPutAll_(");");
+$2=$recv($recv(aClass)._category())._asJavascript();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["asJavascript"]=2;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_($2);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=4;
+//>>excludeEnd("ctx");
+$3=$recv(aStream)._nextPutAll_(");");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["nextPutAll:"]=5;
 //>>excludeEnd("ctx");
 $4=$recv(aClass)._comment();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1842,27 +1823,31 @@ $ctx2.sendIdx["lf"]=2;
 //>>excludeEnd("ctx");
 $recv(aStream)._nextPutAll_("//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=5;
+$ctx2.sendIdx["nextPutAll:"]=6;
 //>>excludeEnd("ctx");
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=3;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_(self._jsClassNameFor_(aClass));
+$5=$recv(aClass)._asJavascript();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=6;
+$ctx2.sendIdx["asJavascript"]=3;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_(".comment=");
+$recv(aStream)._nextPutAll_($5);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["nextPutAll:"]=7;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_($recv($recv($recv(aClass)._comment())._crlfSanitized())._asJavascript());
+$recv(aStream)._nextPutAll_(".comment=");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["nextPutAll:"]=8;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_(";");
+$recv(aStream)._nextPutAll_($recv($recv($recv(aClass)._comment())._crlfSanitized())._asJavascript());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["nextPutAll:"]=9;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_(";");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["nextPutAll:"]=10;
 //>>excludeEnd("ctx");
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1881,53 +1866,17 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aStream"],
-source: "exportTraitDefinitionOf: aClass on: aStream\x0a\x09aStream\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: '$core.addTrait(';\x0a\x09\x09nextPutAll: '''', (self classNameFor: aClass), ''', ''';\x0a\x09\x09nextPutAll: aClass category, '''';\x0a\x09\x09nextPutAll: ');'.\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: (self jsClassNameFor: aClass);\x0a\x09\x09\x09nextPutAll: '.comment=';\x0a\x09\x09\x09nextPutAll: aClass comment crlfSanitized asJavascript;\x0a\x09\x09\x09nextPutAll: ';';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeEnd(\x22ide\x22);' ].\x0a\x09aStream lf",
+source: "exportTraitDefinitionOf: aClass on: aStream\x0a\x09aStream\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: '$core.addTrait(';\x0a\x09\x09nextPutAll: (self classNameFor: aClass) asJavascript;\x0a\x09\x09nextPutAll: ', ';\x0a\x09\x09nextPutAll: aClass category asJavascript;\x0a\x09\x09nextPutAll: ');'.\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: aClass asJavascript;\x0a\x09\x09\x09nextPutAll: '.comment=';\x0a\x09\x09\x09nextPutAll: aClass comment crlfSanitized asJavascript;\x0a\x09\x09\x09nextPutAll: ';';\x0a\x09\x09\x09lf;\x0a\x09\x09\x09nextPutAll: '//>>excludeEnd(\x22ide\x22);' ].\x0a\x09aStream lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["lf", "nextPutAll:", ",", "classNameFor:", "category", "ifNotEmpty:", "comment", "jsClassNameFor:", "asJavascript", "crlfSanitized"]
-}),
-$globals.Exporter);
-
-$core.addMethod(
-$core.method({
-selector: "jsClassNameFor:",
-protocol: 'convenience',
-fn: function (aClass){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$receiver;
-$1=$recv(aClass)._isMetaclass();
-if($core.assert($1)){
-return $recv(self._jsClassNameFor_($recv(aClass)._instanceClass())).__comma(".klass");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
-//>>excludeEnd("ctx");
-} else {
-if(($receiver = aClass) == null || $receiver.isNil){
-return "null";
-} else {
-return "$globals.".__comma($recv(aClass)._name());
-}
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"jsClassNameFor:",{aClass:aClass},$globals.Exporter)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aClass"],
-source: "jsClassNameFor: aClass\x0a\x09^ aClass isMetaclass\x0a\x09\x09ifTrue: [ (self jsClassNameFor: aClass instanceClass), '.klass' ]\x0a\x09\x09ifFalse: [\x0a\x09\x09\x09aClass\x0a\x09\x09\x09\x09ifNil: [ 'null' ]\x0a\x09\x09\x09\x09ifNotNil: [ '$globals.', aClass name ] ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["ifTrue:ifFalse:", "isMetaclass", ",", "jsClassNameFor:", "instanceClass", "ifNil:ifNotNil:", "name"]
+messageSends: ["lf", "nextPutAll:", "asJavascript", "classNameFor:", "category", "ifNotEmpty:", "comment", "crlfSanitized"]
 }),
 $globals.Exporter);
 
 $core.addMethod(
 $core.method({
 selector: "ownMethodsOfClass:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1971,7 +1920,7 @@ $globals.Exporter);
 $core.addMethod(
 $core.method({
 selector: "ownMethodsOfMetaClass:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1993,14 +1942,14 @@ $globals.Exporter);
 
 
 
-$core.addClass('AmdExporter', $globals.Exporter, ['namespace'], 'Platform-ImportExport');
+$core.addClass("AmdExporter", $globals.Exporter, ["namespace"], "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AmdExporter.comment="I am used to export Packages in an AMD (Asynchronous Module Definition) JavaScript format.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "amdNamesOfPackages:",
-protocol: 'private',
+protocol: "private",
 fn: function (anArray){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2047,7 +1996,7 @@ $globals.AmdExporter);
 $core.addMethod(
 $core.method({
 selector: "amdNamespaceOfPackage:",
-protocol: 'private',
+protocol: "private",
 fn: function (aPackage){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2081,7 +2030,7 @@ $globals.AmdExporter);
 $core.addMethod(
 $core.method({
 selector: "exportPackageEpilogueOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aPackage,aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2106,7 +2055,7 @@ $globals.AmdExporter);
 $core.addMethod(
 $core.method({
 selector: "exportPackagePrologueOf:on:",
-protocol: 'output',
+protocol: "output",
 fn: function (aPackage,aStream){
 var self=this;
 var importsForOutput,loadDependencies,pragmaStart,pragmaEnd;
@@ -2231,7 +2180,7 @@ $globals.AmdExporter);
 $core.addMethod(
 $core.method({
 selector: "importsForOutput:",
-protocol: 'private',
+protocol: "private",
 fn: function (aPackage){
 var self=this;
 var namedImports,anonImports,importVarNames;
@@ -2279,14 +2228,14 @@ $globals.AmdExporter);
 
 
 
-$core.addClass('ChunkParser', $globals.Object, ['stream', 'last'], 'Platform-ImportExport');
+$core.addClass("ChunkParser", $globals.Object, ["stream", "last"], "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ChunkParser.comment="I am responsible for parsing aStream contents in the chunk format.\x0a\x0a## API\x0a\x0a    ChunkParser new\x0a        stream: aStream;\x0a        nextChunk";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "last",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@last"];
@@ -2304,7 +2253,7 @@ $globals.ChunkParser);
 $core.addMethod(
 $core.method({
 selector: "nextChunk",
-protocol: 'reading',
+protocol: "reading",
 fn: function (){
 var self=this;
 var char,result,chunk;
@@ -2372,7 +2321,7 @@ $globals.ChunkParser);
 $core.addMethod(
 $core.method({
 selector: "stream:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aStream){
 var self=this;
 self["@stream"]=aStream;
@@ -2392,7 +2341,7 @@ $globals.ChunkParser);
 $core.addMethod(
 $core.method({
 selector: "on:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2413,14 +2362,14 @@ messageSends: ["stream:", "new"]
 $globals.ChunkParser.klass);
 
 
-$core.addClass('ClassCommentReader', $globals.Object, ['class'], 'Platform-ImportExport');
+$core.addClass("ClassCommentReader", $globals.Object, ["class"], "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassCommentReader.comment="I provide a mechanism for retrieving class comments stored on a file.\x0a\x0aSee also `ClassCategoryReader`.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "class:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 self["@class"]=aClass;
@@ -2439,7 +2388,7 @@ $globals.ClassCommentReader);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2470,7 +2419,7 @@ $globals.ClassCommentReader);
 $core.addMethod(
 $core.method({
 selector: "scanFrom:",
-protocol: 'fileIn',
+protocol: "fileIn",
 fn: function (aChunkParser){
 var self=this;
 var chunk;
@@ -2504,7 +2453,7 @@ $globals.ClassCommentReader);
 $core.addMethod(
 $core.method({
 selector: "setComment:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2527,14 +2476,14 @@ $globals.ClassCommentReader);
 
 
 
-$core.addClass('ClassProtocolReader', $globals.Object, ['class', 'category'], 'Platform-ImportExport');
+$core.addClass("ClassProtocolReader", $globals.Object, ["class", "category"], "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassProtocolReader.comment="I provide a mechanism for retrieving class descriptions stored on a file in the Smalltalk chunk format.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "class:category:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass,aString){
 var self=this;
 self["@class"]=aClass;
@@ -2554,7 +2503,7 @@ $globals.ClassProtocolReader);
 $core.addMethod(
 $core.method({
 selector: "compileMethod:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2578,7 +2527,7 @@ $globals.ClassProtocolReader);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2609,7 +2558,7 @@ $globals.ClassProtocolReader);
 $core.addMethod(
 $core.method({
 selector: "scanFrom:",
-protocol: 'fileIn',
+protocol: "fileIn",
 fn: function (aChunkParser){
 var self=this;
 var chunk;
@@ -2651,14 +2600,14 @@ $globals.ClassProtocolReader);
 
 
 
-$core.addClass('ExportMethodProtocol', $globals.Object, ['name', 'theClass'], 'Platform-ImportExport');
+$core.addClass("ExportMethodProtocol", $globals.Object, ["name", "theClass"], "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ExportMethodProtocol.comment="I am an abstraction for a method protocol in a class / metaclass.\x0a\x0aI know of my class, name and methods.\x0aI am used when exporting a package.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "methods",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2694,7 +2643,7 @@ $globals.ExportMethodProtocol);
 $core.addMethod(
 $core.method({
 selector: "name",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@name"];
@@ -2712,7 +2661,7 @@ $globals.ExportMethodProtocol);
 $core.addMethod(
 $core.method({
 selector: "name:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@name"]=aString;
@@ -2731,7 +2680,7 @@ $globals.ExportMethodProtocol);
 $core.addMethod(
 $core.method({
 selector: "theClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@theClass"];
@@ -2749,7 +2698,7 @@ $globals.ExportMethodProtocol);
 $core.addMethod(
 $core.method({
 selector: "theClass:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 self["@theClass"]=aClass;
@@ -2769,7 +2718,7 @@ $globals.ExportMethodProtocol);
 $core.addMethod(
 $core.method({
 selector: "name:theClass:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aString,aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2794,14 +2743,14 @@ messageSends: ["name:", "new", "theClass:", "yourself"]
 $globals.ExportMethodProtocol.klass);
 
 
-$core.addClass('Importer', $globals.Object, ['lastSection', 'lastChunk'], 'Platform-ImportExport');
+$core.addClass("Importer", $globals.Object, ["lastSection", "lastChunk"], "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Importer.comment="I can import Amber code from a string in the chunk format.\x0a\x0a## API\x0a\x0a    Importer new import: aString";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "import:",
-protocol: 'fileIn',
+protocol: "fileIn",
 fn: function (aStream){
 var self=this;
 var chunk,result,parser,lastEmpty;
@@ -2890,7 +2839,7 @@ $globals.Importer);
 $core.addMethod(
 $core.method({
 selector: "lastChunk",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@lastChunk"];
@@ -2908,7 +2857,7 @@ $globals.Importer);
 $core.addMethod(
 $core.method({
 selector: "lastSection",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@lastSection"];
@@ -2925,20 +2874,20 @@ $globals.Importer);
 
 
 
-$core.addClass('PackageCommitError', $globals.Error, [], 'Platform-ImportExport');
+$core.addClass("PackageCommitError", $globals.Error, [], "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageCommitError.comment="I get signaled when an attempt to commit a package has failed.";
 //>>excludeEnd("ide");
 
 
-$core.addClass('PackageHandler', $globals.Object, [], 'Platform-ImportExport');
+$core.addClass("PackageHandler", $globals.Object, [], "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageHandler.comment="I am responsible for handling package loading and committing.\x0a\x0aI should not be used directly. Instead, use the corresponding `Package` methods.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "ajaxPutAt:data:onSuccess:onError:",
-protocol: 'private',
+protocol: "private",
 fn: function (aURL,aString,aBlock,anotherBlock){
 var self=this;
 var xhr;
@@ -2992,7 +2941,7 @@ $globals.PackageHandler);
 $core.addMethod(
 $core.method({
 selector: "chunkContentsFor:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackage){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3023,7 +2972,7 @@ $globals.PackageHandler);
 $core.addMethod(
 $core.method({
 selector: "chunkExporter",
-protocol: 'factory',
+protocol: "factory",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3046,7 +2995,7 @@ $globals.PackageHandler);
 $core.addMethod(
 $core.method({
 selector: "chunkExporterClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return $globals.ChunkExporter;
@@ -3064,7 +3013,7 @@ $globals.PackageHandler);
 $core.addMethod(
 $core.method({
 selector: "commit:",
-protocol: 'committing',
+protocol: "committing",
 fn: function (aPackage){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3105,7 +3054,7 @@ $globals.PackageHandler);
 $core.addMethod(
 $core.method({
 selector: "commit:onSuccess:onError:",
-protocol: 'committing',
+protocol: "committing",
 fn: function (aPackage,aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3146,7 +3095,7 @@ $globals.PackageHandler);
 $core.addMethod(
 $core.method({
 selector: "commitJsFileFor:onSuccess:onError:",
-protocol: 'committing',
+protocol: "committing",
 fn: function (aPackage,aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3179,7 +3128,7 @@ $globals.PackageHandler);
 $core.addMethod(
 $core.method({
 selector: "commitPathJsFor:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackage){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3203,7 +3152,7 @@ $globals.PackageHandler);
 $core.addMethod(
 $core.method({
 selector: "commitPathStFor:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackage){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3227,7 +3176,7 @@ $globals.PackageHandler);
 $core.addMethod(
 $core.method({
 selector: "commitStFileFor:onSuccess:onError:",
-protocol: 'committing',
+protocol: "committing",
 fn: function (aPackage,aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3260,7 +3209,7 @@ $globals.PackageHandler);
 $core.addMethod(
 $core.method({
 selector: "contentsFor:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackage){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3291,7 +3240,7 @@ $globals.PackageHandler);
 $core.addMethod(
 $core.method({
 selector: "exporter",
-protocol: 'factory',
+protocol: "factory",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3314,7 +3263,7 @@ $globals.PackageHandler);
 $core.addMethod(
 $core.method({
 selector: "exporterClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3338,7 +3287,7 @@ $globals.PackageHandler);
 $core.addMethod(
 $core.method({
 selector: "load:",
-protocol: 'loading',
+protocol: "loading",
 fn: function (aPackage){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3362,7 +3311,7 @@ $globals.PackageHandler);
 $core.addMethod(
 $core.method({
 selector: "onCommitError:",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (anError){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3392,14 +3341,14 @@ $globals.PackageHandler);
 
 
 
-$core.addClass('AmdPackageHandler', $globals.PackageHandler, [], 'Platform-ImportExport');
+$core.addClass("AmdPackageHandler", $globals.PackageHandler, [], "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AmdPackageHandler.comment="I am responsible for handling package loading and committing.\x0a\x0aI should not be used directly. Instead, use the corresponding `Package` methods.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "commitPathJsFor:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackage){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3422,7 +3371,7 @@ $globals.AmdPackageHandler);
 $core.addMethod(
 $core.method({
 selector: "commitPathStFor:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackage){
 var self=this;
 var path,pathWithout;
@@ -3458,7 +3407,7 @@ $globals.AmdPackageHandler);
 $core.addMethod(
 $core.method({
 selector: "exporterClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return $globals.AmdExporter;
@@ -3476,7 +3425,7 @@ $globals.AmdPackageHandler);
 $core.addMethod(
 $core.method({
 selector: "load:",
-protocol: 'loading',
+protocol: "loading",
 fn: function (aPackage){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3513,7 +3462,7 @@ $globals.AmdPackageHandler);
 $core.addMethod(
 $core.method({
 selector: "namespaceFor:",
-protocol: 'committing',
+protocol: "committing",
 fn: function (aPackage){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3536,7 +3485,7 @@ $globals.AmdPackageHandler);
 $core.addMethod(
 $core.method({
 selector: "toUrl:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3568,7 +3517,7 @@ $globals.AmdPackageHandler);
 $core.addMethod(
 $core.method({
 selector: "defaultNamespace",
-protocol: 'commit paths',
+protocol: "commit paths",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3591,7 +3540,7 @@ $globals.AmdPackageHandler.klass);
 $core.addMethod(
 $core.method({
 selector: "defaultNamespace:",
-protocol: 'commit paths',
+protocol: "commit paths",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3613,14 +3562,14 @@ messageSends: ["defaultAmdNamespace:"]
 $globals.AmdPackageHandler.klass);
 
 
-$core.addClass('PackageTransport', $globals.Object, ['package'], 'Platform-ImportExport');
+$core.addClass("PackageTransport", $globals.Object, ["package"], "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageTransport.comment="I represent the transport mechanism used to commit a package.\x0a\x0aMy concrete subclasses have a `#handler` to which committing is delegated.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "asJSON",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3643,7 +3592,7 @@ $globals.PackageTransport);
 $core.addMethod(
 $core.method({
 selector: "commit",
-protocol: 'committing',
+protocol: "committing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3667,7 +3616,7 @@ $globals.PackageTransport);
 $core.addMethod(
 $core.method({
 selector: "commitHandler",
-protocol: 'factory',
+protocol: "factory",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3690,7 +3639,7 @@ $globals.PackageTransport);
 $core.addMethod(
 $core.method({
 selector: "commitHandlerClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3714,7 +3663,7 @@ $globals.PackageTransport);
 $core.addMethod(
 $core.method({
 selector: "commitOnSuccess:onError:",
-protocol: 'committing',
+protocol: "committing",
 fn: function (aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3738,7 +3687,7 @@ $globals.PackageTransport);
 $core.addMethod(
 $core.method({
 selector: "definition",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return "";
@@ -3756,7 +3705,7 @@ $globals.PackageTransport);
 $core.addMethod(
 $core.method({
 selector: "load",
-protocol: 'loading',
+protocol: "loading",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3780,7 +3729,7 @@ $globals.PackageTransport);
 $core.addMethod(
 $core.method({
 selector: "package",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@package"];
@@ -3798,7 +3747,7 @@ $globals.PackageTransport);
 $core.addMethod(
 $core.method({
 selector: "package:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackage){
 var self=this;
 self["@package"]=aPackage;
@@ -3817,7 +3766,7 @@ $globals.PackageTransport);
 $core.addMethod(
 $core.method({
 selector: "setupFromJson:",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (anObject){
 var self=this;
 return self;
@@ -3835,7 +3784,7 @@ $globals.PackageTransport);
 $core.addMethod(
 $core.method({
 selector: "type",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3856,11 +3805,11 @@ messageSends: ["type", "class"]
 $globals.PackageTransport);
 
 
-$globals.PackageTransport.klass.iVarNames = ['registry'];
+$globals.PackageTransport.klass.iVarNames = ["registry"];
 $core.addMethod(
 $core.method({
 selector: "classRegisteredFor:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3883,7 +3832,7 @@ $globals.PackageTransport.klass);
 $core.addMethod(
 $core.method({
 selector: "defaultType",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3906,7 +3855,7 @@ $globals.PackageTransport.klass);
 $core.addMethod(
 $core.method({
 selector: "for:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3929,7 +3878,7 @@ $globals.PackageTransport.klass);
 $core.addMethod(
 $core.method({
 selector: "fromJson:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3964,7 +3913,7 @@ $globals.PackageTransport.klass);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4003,7 +3952,7 @@ $globals.PackageTransport.klass);
 $core.addMethod(
 $core.method({
 selector: "register",
-protocol: 'registration',
+protocol: "registration",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4027,7 +3976,7 @@ $globals.PackageTransport.klass);
 $core.addMethod(
 $core.method({
 selector: "register:",
-protocol: 'registration',
+protocol: "registration",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4060,7 +4009,7 @@ $globals.PackageTransport.klass);
 $core.addMethod(
 $core.method({
 selector: "type",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return nil;
@@ -4076,14 +4025,14 @@ messageSends: []
 $globals.PackageTransport.klass);
 
 
-$core.addClass('AmdPackageTransport', $globals.PackageTransport, ['namespace'], 'Platform-ImportExport');
+$core.addClass("AmdPackageTransport", $globals.PackageTransport, ["namespace"], "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AmdPackageTransport.comment="I am the default transport for committing packages.\x0a\x0aSee `AmdExporter` and `AmdPackageHandler`.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "asJSON",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4116,7 +4065,7 @@ $globals.AmdPackageTransport);
 $core.addMethod(
 $core.method({
 selector: "commitHandlerClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return $globals.AmdPackageHandler;
@@ -4134,7 +4083,7 @@ $globals.AmdPackageTransport);
 $core.addMethod(
 $core.method({
 selector: "defaultNamespace",
-protocol: 'defaults',
+protocol: "defaults",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4157,7 +4106,7 @@ $globals.AmdPackageTransport);
 $core.addMethod(
 $core.method({
 selector: "definition",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4193,7 +4142,7 @@ $globals.AmdPackageTransport);
 $core.addMethod(
 $core.method({
 selector: "namespace",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4222,7 +4171,7 @@ $globals.AmdPackageTransport);
 $core.addMethod(
 $core.method({
 selector: "namespace:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@namespace"]=aString;
@@ -4241,7 +4190,7 @@ $globals.AmdPackageTransport);
 $core.addMethod(
 $core.method({
 selector: "printOn:",
-protocol: 'printing',
+protocol: "printing",
 fn: function (aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4281,7 +4230,7 @@ $globals.AmdPackageTransport);
 $core.addMethod(
 $core.method({
 selector: "setPath:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4305,7 +4254,7 @@ $globals.AmdPackageTransport);
 $core.addMethod(
 $core.method({
 selector: "setupFromJson:",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4330,7 +4279,7 @@ $globals.AmdPackageTransport);
 $core.addMethod(
 $core.method({
 selector: "namespace:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4356,7 +4305,7 @@ $globals.AmdPackageTransport.klass);
 $core.addMethod(
 $core.method({
 selector: "type",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return "amd";
@@ -4374,7 +4323,7 @@ $globals.AmdPackageTransport.klass);
 $core.addMethod(
 $core.method({
 selector: "commentStamp",
-protocol: '*Platform-ImportExport',
+protocol: "*Platform-ImportExport",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4400,7 +4349,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "commentStamp:prior:",
-protocol: '*Platform-ImportExport',
+protocol: "*Platform-ImportExport",
 fn: function (aStamp,prior){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4423,7 +4372,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "methodsFor:",
-protocol: '*Platform-ImportExport',
+protocol: "*Platform-ImportExport",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4449,7 +4398,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "methodsFor:stamp:",
-protocol: '*Platform-ImportExport',
+protocol: "*Platform-ImportExport",
 fn: function (aString,aStamp){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4472,7 +4421,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "exportBehaviorDefinitionTo:using:",
-protocol: '*Platform-ImportExport',
+protocol: "*Platform-ImportExport",
 fn: function (aStream,anExporter){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4496,7 +4445,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "exportBehaviorDefinitionTo:using:",
-protocol: '*Platform-ImportExport',
+protocol: "*Platform-ImportExport",
 fn: function (aStream,anExporter){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4520,7 +4469,7 @@ $globals.Class);
 $core.addMethod(
 $core.method({
 selector: "exportBehaviorDefinitionTo:using:",
-protocol: '*Platform-ImportExport',
+protocol: "*Platform-ImportExport",
 fn: function (aStream,anExporter){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4544,7 +4493,7 @@ $globals.Metaclass);
 $core.addMethod(
 $core.method({
 selector: "commit",
-protocol: '*Platform-ImportExport',
+protocol: "*Platform-ImportExport",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4567,7 +4516,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "load",
-protocol: '*Platform-ImportExport',
+protocol: "*Platform-ImportExport",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4590,7 +4539,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "loadFromNamespace:",
-protocol: '*Platform-ImportExport',
+protocol: "*Platform-ImportExport",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4616,7 +4565,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "load:",
-protocol: '*Platform-ImportExport',
+protocol: "*Platform-ImportExport",
 fn: function (aPackageName){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4640,7 +4589,7 @@ $globals.Package.klass);
 $core.addMethod(
 $core.method({
 selector: "load:fromNamespace:",
-protocol: '*Platform-ImportExport',
+protocol: "*Platform-ImportExport",
 fn: function (aPackageName,aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4664,7 +4613,7 @@ $globals.Package.klass);
 $core.addMethod(
 $core.method({
 selector: "exportBehaviorDefinitionTo:using:",
-protocol: '*Platform-ImportExport',
+protocol: "*Platform-ImportExport",
 fn: function (aStream,anExporter){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
