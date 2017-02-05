@@ -1436,8 +1436,19 @@ errorReadOnly
 
 !CharacterArray methodsFor: 'printing'!
 
+asSymbolPrintOn: aStream
+	aStream nextPutAll: '#'.
+	self asString isSelector
+		ifTrue: [ aStream nextPut: self ]
+		ifFalse: [ self printOn: aStream ]
+!
+
 printOn: aStream
 	self asString printOn: aStream
+!
+
+symbolPrintString
+	^ String streamContents: [ :str | self asSymbolPrintOn: str ]
 ! !
 
 !CharacterArray methodsFor: 'streaming'!
@@ -1779,6 +1790,12 @@ isCapitalized
 
 isImmutable
 	^ true
+!
+
+isSelector
+<inlineJS:
+	'return !!!!self.match(/^([a-zA-Z][a-zA-Z0-9]*|[\\+*/=><,@%~|&-]+|([a-zA-Z][a-zA-Z0-9]*\:)+)$/)'
+>
 !
 
 isString

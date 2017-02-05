@@ -5728,6 +5728,37 @@ $globals.CharacterArray);
 
 $core.addMethod(
 $core.method({
+selector: "asSymbolPrintOn:",
+protocol: 'printing',
+fn: function (aStream){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$recv(aStream)._nextPutAll_("#");
+$1=$recv(self._asString())._isSelector();
+if($core.assert($1)){
+$recv(aStream)._nextPut_(self);
+} else {
+self._printOn_(aStream);
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asSymbolPrintOn:",{aStream:aStream},$globals.CharacterArray)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aStream"],
+source: "asSymbolPrintOn: aStream\x0a\x09aStream nextPutAll: '#'.\x0a\x09self asString isSelector\x0a\x09\x09ifTrue: [ aStream nextPut: self ]\x0a\x09\x09ifFalse: [ self printOn: aStream ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["nextPutAll:", "ifTrue:ifFalse:", "isSelector", "asString", "nextPut:", "printOn:"]
+}),
+$globals.CharacterArray);
+
+$core.addMethod(
+$core.method({
 selector: "asUppercase",
 protocol: 'converting',
 fn: function (){
@@ -5866,6 +5897,37 @@ source: "remove: anObject\x0a\x09self errorReadOnly",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["errorReadOnly"]
+}),
+$globals.CharacterArray);
+
+$core.addMethod(
+$core.method({
+selector: "symbolPrintString",
+protocol: 'printing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.String)._streamContents_((function(str){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return self._asSymbolPrintOn_(str);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({str:str},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"symbolPrintString",{},$globals.CharacterArray)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "symbolPrintString\x0a\x09^ String streamContents: [ :str | self asSymbolPrintOn: str ]",
+referencedClasses: ["String"],
+//>>excludeEnd("ide");
+messageSends: ["streamContents:", "asSymbolPrintOn:"]
 }),
 $globals.CharacterArray);
 
@@ -6589,6 +6651,30 @@ return true;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "isImmutable\x0a\x09^ true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "isSelector",
+protocol: 'testing',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return !!self.match(/^([a-zA-Z][a-zA-Z0-9]*|[\\+*/=><,@%~|&-]+|([a-zA-Z][a-zA-Z0-9]*\:)+)$/);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isSelector",{},$globals.String)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isSelector\x0a<inlineJS:\x0a\x09'return !!self.match(/^([a-zA-Z][a-zA-Z0-9]*|[\x5c\x5c+*/=><,@%~|&-]+|([a-zA-Z][a-zA-Z0-9]*\x5c:)+)$/)'\x0a>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

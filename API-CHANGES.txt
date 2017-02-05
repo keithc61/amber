@@ -8,6 +8,11 @@
   + addElement
   + removeElement
   + wrapJavaScript
++ CharacterArray >>
+  + asSymbolPrintOn:
+  + symbolPrintString
++ String >>
+  + isSelector
 
 - Association >>
   - importsString
