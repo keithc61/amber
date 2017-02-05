@@ -286,7 +286,7 @@ exportDefinitionOf: aClass on: aStream
 	aStream
 		lf;
 		nextPutAll: '$core.addClass(';
-		nextPutAll: (self classNameFor: aClass) asJavascript;
+		nextPutAll: aClass name asJavascript;
 		nextPutAll: ', ';
 		nextPutAll: (aClass superclass ifNil: [ 'null' ] ifNotNil: [ :superclass | superclass asJavascript ]);
 		nextPutAll: ', ';
@@ -417,7 +417,7 @@ exportTraitDefinitionOf: aClass on: aStream
 	aStream
 		lf;
 		nextPutAll: '$core.addTrait(';
-		nextPutAll: (self classNameFor: aClass) asJavascript;
+		nextPutAll: aClass name asJavascript;
 		nextPutAll: ', ';
 		nextPutAll: aClass category asJavascript;
 		nextPutAll: ');'.
