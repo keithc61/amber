@@ -6,7 +6,6 @@ ws             = (separator / comments)*
 maybeDotsWs = ("." / separator / comments)*
 identifier     = first:[a-zA-Z] others:[a-zA-Z0-9]* {return first + others.join("");}
 keyword        = first:identifier last:":" {return first + last;}
-selector      = first:[a-zA-Z] others:[a-zA-Z0-9\:]* {return first + others.join("");}
 className      = first:[A-Z] others:[a-zA-Z0-9]* {return first + others.join("");}
 string         = "'" val:(("''" {return "'";} / [^'])*) "'" {
                      return $globals.ValueNode._new()
@@ -22,7 +21,7 @@ character      = "$" char:.
                              ._value_(char);
                   }
 symbol         = "#" rest:bareSymbol {return rest;}
-bareSymbol         = val:(selector / binarySelector / node:string {return node._value();})
+bareSymbol         = val:(keywords:keyword+ {return keywords.join("");} / binarySelector / unarySelector / node:string {return node._value();})
                   {
                       return $globals.ValueNode._new()
                              ._location_(location())
