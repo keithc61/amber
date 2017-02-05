@@ -8,7 +8,6 @@ define(function () {
             value: method,
             enumerable: false, configurable: true, writable: true
         });
-        return defineMethod;
     }
 
     DNUBrik.deps = ["selectors", "messageSend", "manipulation", "classes"];
@@ -276,8 +275,7 @@ define(function () {
         SmalltalkMethodContext.prototype.selector = null;
         SmalltalkMethodContext.prototype.lookupClass = null;
 
-        defineMethod
-        (SmalltalkMethodContext, "fill", function (receiver, selector, locals, lookupClass) {
+        defineMethod(SmalltalkMethodContext, "fill", function (receiver, selector, locals, lookupClass) {
             this.receiver = receiver;
             this.selector = selector;
             this.locals = locals || {};
@@ -285,21 +283,21 @@ define(function () {
             if (this.homeContext) {
                 this.homeContext.evaluatedSelector = selector;
             }
-        })
-        (SmalltalkMethodContext, "fillBlock", function (locals, ctx, index) {
+        });
+        defineMethod(SmalltalkMethodContext, "fillBlock", function (locals, ctx, index) {
             this.locals = locals || {};
             this.outerContext = ctx;
             this.index = index || 0;
-        })
-        (SmalltalkMethodContext, "init", function () {
+        });
+        defineMethod(SmalltalkMethodContext, "init", function () {
             var home = this.homeContext;
             if (home) {
                 home.init();
             }
 
             this.setup(this);
-        })
-        (SmalltalkMethodContext, "method", function () {
+        });
+        defineMethod(SmalltalkMethodContext, "method", function () {
             var method;
             var lookup = this.lookupClass || this.receiver.klass;
             while (!method && lookup) {

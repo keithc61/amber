@@ -57,7 +57,6 @@ define(['./compatibility'], function () {
             value: method,
             enumerable: false, configurable: true, writable: true
         });
-        return defineMethod;
     }
 
     TraitsBrik.deps = ["behaviors", "composition", "root"];
@@ -74,20 +73,19 @@ define(['./compatibility'], function () {
 
         SmalltalkTrait.prototype.trait = true;
 
-        defineMethod
-        (SmalltalkTrait, "toString", function () {
+        defineMethod(SmalltalkTrait, "toString", function () {
             return 'Smalltalk Trait ' + this.className;
-        })
-        (SmalltalkTrait, "added", function () {
+        });
+        defineMethod(SmalltalkTrait, "added", function () {
             if (st._traitAdded) st._traitAdded(this);
-        })
-        (SmalltalkTrait, "removed", function () {
+        });
+        defineMethod(SmalltalkTrait, "removed", function () {
             if (st._traitRemoved) st._traitRemoved(this);
-        })
-        (SmalltalkTrait, "methodAdded", function (method) {
+        });
+        defineMethod(SmalltalkTrait, "methodAdded", function (method) {
             if (st._traitMethodAdded) st._traitMethodAdded(method, this);
-        })
-        (SmalltalkTrait, "methodRemoved", function (method) {
+        });
+        defineMethod(SmalltalkTrait, "methodRemoved", function (method) {
             if (st._traitMethodRemoved) st._traitMethodRemoved(method, this);
         });
 
@@ -147,25 +145,24 @@ define(['./compatibility'], function () {
 
         SmalltalkMetaclass.prototype.meta = true;
 
-        defineMethod
-        (SmalltalkClass, "toString", function () {
+        defineMethod(SmalltalkClass, "toString", function () {
             return 'Smalltalk ' + this.className;
-        })
-        (SmalltalkMetaclass, "toString", function () {
+        });
+        defineMethod(SmalltalkMetaclass, "toString", function () {
             return 'Smalltalk Metaclass ' + this.instanceClass.className;
-        })
-        (SmalltalkClass, "added", function () {
+        });
+        defineMethod(SmalltalkClass, "added", function () {
             addSubclass(this);
             if (st._classAdded) st._classAdded(this);
-        })
-        (SmalltalkClass, "removed", function () {
+        });
+        defineMethod(SmalltalkClass, "removed", function () {
             if (st._classRemoved) st._classRemoved(this);
             removeSubclass(this);
-        })
-        (SmalltalkBehavior, "methodAdded", function (method) {
+        });
+        defineMethod(SmalltalkBehavior, "methodAdded", function (method) {
             if (st._methodAdded) st._methodAdded(method, this);
-        })
-        (SmalltalkBehavior, "methodRemoved", function (method) {
+        });
+        defineMethod(SmalltalkBehavior, "methodRemoved", function (method) {
             if (st._methodRemoved) st._methodRemoved(method, this);
         });
 
