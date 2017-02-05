@@ -9,6 +9,11 @@
   + removeElement
   + wrapJavaScript
 
+- Association >>
+  - importsString
+- String >>
+  - importsString
+
 
 0.18.2:
 

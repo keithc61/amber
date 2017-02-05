@@ -1183,7 +1183,7 @@ $recv(self._sortedImportsAsArray())._do_separatedBy_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv(stream)._nextPutAll_($recv(each)._importsString());
+return $recv(stream)._nextPutAll_($recv(each)._printString());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["nextPutAll:"]=2;
 //>>excludeEnd("ctx");
@@ -1213,10 +1213,10 @@ return $recv(stream)._nextPutAll_("}");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "importsDefinition\x0a\x09^ String streamContents: [ :stream |\x0a\x09\x09stream nextPutAll: '{'.\x0a\x09\x09self sortedImportsAsArray\x0a\x09\x09\x09do: [ :each | stream nextPutAll: each importsString ]\x0a\x09\x09\x09separatedBy: [ stream nextPutAll: '. ' ].\x0a\x09\x09stream nextPutAll: '}' ]",
+source: "importsDefinition\x0a\x09^ String streamContents: [ :stream |\x0a\x09\x09stream nextPutAll: '{'.\x0a\x09\x09self sortedImportsAsArray\x0a\x09\x09\x09do: [ :each | stream nextPutAll: each printString ]\x0a\x09\x09\x09separatedBy: [ stream nextPutAll: '. ' ].\x0a\x09\x09stream nextPutAll: '}' ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "nextPutAll:", "do:separatedBy:", "sortedImportsAsArray", "importsString"]
+messageSends: ["streamContents:", "nextPutAll:", "do:separatedBy:", "sortedImportsAsArray", "printString"]
 }),
 $globals.Package);
 
@@ -3428,39 +3428,6 @@ $globals.SmalltalkImage.klass);
 
 $core.addMethod(
 $core.method({
-selector: "importsString",
-protocol: '*Kernel-Infrastructure',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $3,$2,$1;
-$3=$recv(self._key())._importsString();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["importsString"]=1;
-//>>excludeEnd("ctx");
-$2=$recv($3).__comma(" -> ");
-$1=$recv($2).__comma($recv(self._value())._importsString());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
-//>>excludeEnd("ctx");
-return $1;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"importsString",{},$globals.Association)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "importsString\x0a\x09\x22This is for use by package exporter.\x0a\x09It can fail for non-string keys and values.\x22\x0a\x0a\x09^ self key importsString, ' -> ', self value importsString",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: [",", "importsString", "key", "value"]
-}),
-$globals.Association);
-
-$core.addMethod(
-$core.method({
 selector: "asJavaScriptPropertyName",
 protocol: '*Kernel-Infrastructure',
 fn: function (){
@@ -3526,34 +3493,6 @@ source: "asSettingIfAbsent: aDefaultValue\x0a\x09\x22Answer aSetting dedicated t
 referencedClasses: ["Setting"],
 //>>excludeEnd("ide");
 messageSends: ["at:ifAbsent:"]
-}),
-$globals.String);
-
-$core.addMethod(
-$core.method({
-selector: "importsString",
-protocol: '*Kernel-Infrastructure',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$recv("'".__comma(self._replace_with_("'","''"))).__comma("'");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
-//>>excludeEnd("ctx");
-return $1;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"importsString",{},$globals.String)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "importsString\x0a\x09\x22Answer receiver as Smalltalk expression\x22\x0a\x09^ '''', (self replace: '''' with: ''''''), ''''",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: [",", "replace:with:"]
 }),
 $globals.String);
 

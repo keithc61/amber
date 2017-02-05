@@ -316,7 +316,7 @@ importsDefinition
 	^ String streamContents: [ :stream |
 		stream nextPutAll: '{'.
 		self sortedImportsAsArray
-			do: [ :each | stream nextPutAll: each importsString ]
+			do: [ :each | stream nextPutAll: each printString ]
 			separatedBy: [ stream nextPutAll: '. ' ].
 		stream nextPutAll: '}' ]
 !
@@ -941,15 +941,6 @@ new
 	self shouldNotImplement
 ! !
 
-!Association methodsFor: '*Kernel-Infrastructure'!
-
-importsString
-	"This is for use by package exporter.
-	It can fail for non-string keys and values."
-
-	^ self key importsString, ' -> ', self value importsString
-! !
-
 !String methodsFor: '*Kernel-Infrastructure'!
 
 asJavaScriptPropertyName
@@ -966,11 +957,6 @@ asSettingIfAbsent: aDefaultValue
 	"Answer aSetting dedicated to locally store a value using this string as key.
 	Make this setting to have aDefaultValue."
 	^ Setting at: self ifAbsent: aDefaultValue
-!
-
-importsString
-	"Answer receiver as Smalltalk expression"
-	^ '''', (self replace: '''' with: ''''''), ''''
 !
 
 settingValue

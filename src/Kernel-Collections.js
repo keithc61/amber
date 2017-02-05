@@ -7065,7 +7065,7 @@ $recv(aStream)._nextPutAll_("'");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_(self);
+$recv(aStream)._nextPutAll_(self._replace_with_("'","''"));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=2;
 //>>excludeEnd("ctx");
@@ -7077,10 +7077,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aStream"],
-source: "printOn: aStream\x0a\x09aStream \x0a\x09\x09nextPutAll: '''';\x0a\x09\x09nextPutAll: self;\x0a\x09\x09nextPutAll: ''''",
+source: "printOn: aStream\x0a\x09aStream \x0a\x09\x09nextPutAll: '''';\x0a\x09\x09nextPutAll: (self replace: '''' with: '''''');\x0a\x09\x09nextPutAll: ''''",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["nextPutAll:"]
+messageSends: ["nextPutAll:", "replace:with:"]
 }),
 $globals.String);
 

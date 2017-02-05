@@ -1637,7 +1637,7 @@ printNl
 printOn: aStream
 	aStream 
 		nextPutAll: '''';
-		nextPutAll: self;
+		nextPutAll: (self replace: '''' with: '''''');
 		nextPutAll: ''''
 ! !
 
