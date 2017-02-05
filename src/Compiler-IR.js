@@ -2,18 +2,18 @@ define(["amber/boot", "amber_core/Compiler-AST", "amber_core/Kernel-Dag", "amber
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Compiler-IR');
+$core.addPackage("Compiler-IR");
 $core.packages["Compiler-IR"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-IR"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('IRASTTranslator', $globals.NodeVisitor, ['source', 'theClass', 'method', 'sequence', 'nextAlias'], 'Compiler-IR');
+$core.addClass("IRASTTranslator", $globals.NodeVisitor, ["source", "theClass", "method", "sequence", "nextAlias"], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRASTTranslator.comment="I am the AST (abstract syntax tree) visitor responsible for building the intermediate representation graph.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "alias:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 var variable;
@@ -77,7 +77,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "aliasTemporally:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aCollection){
 var self=this;
 var threshold,result;
@@ -136,7 +136,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "method",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@method"];
@@ -154,7 +154,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "method:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anIRMethod){
 var self=this;
 self["@method"]=anIRMethod;
@@ -173,7 +173,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "nextAlias",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -205,7 +205,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "sequence",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@sequence"];
@@ -223,7 +223,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "sequence:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anIRSequence){
 var self=this;
 self["@sequence"]=anIRSequence;
@@ -242,7 +242,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "source",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@source"];
@@ -260,7 +260,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "source:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@source"]=aString;
@@ -279,7 +279,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "theClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@theClass"];
@@ -297,7 +297,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "theClass:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 self["@theClass"]=aClass;
@@ -316,7 +316,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitAssignmentNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 var left,right,assignment;
@@ -358,7 +358,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitBlockNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 var closure;
@@ -436,7 +436,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitBlockSequenceNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -547,7 +547,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitCascadeNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 var receiver;
@@ -611,7 +611,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitDynamicArrayNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 var array;
@@ -645,7 +645,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitDynamicDictionaryNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 var dictionary;
@@ -679,7 +679,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitJSStatementNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -705,7 +705,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitMethodNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -854,7 +854,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitOrAlias:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -883,7 +883,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitReturnNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 var return_;
@@ -927,7 +927,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitSendNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 var send;
@@ -965,7 +965,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitSequenceNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1011,7 +1011,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitValueNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1037,7 +1037,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitVariableNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1063,7 +1063,7 @@ $globals.IRASTTranslator);
 $core.addMethod(
 $core.method({
 selector: "withSequence:do:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aSequence,aBlock){
 var self=this;
 var outerSequence;
@@ -1093,14 +1093,14 @@ $globals.IRASTTranslator);
 
 
 
-$core.addClass('IRInstruction', $globals.DagParentNode, ['parent'], 'Compiler-IR');
+$core.addClass("IRInstruction", $globals.DagParentNode, ["parent"], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInstruction.comment="I am the abstract root class of the IR (intermediate representation) instructions class hierarchy.\x0aThe IR graph is used to emit JavaScript code using a JSStream.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "add:",
-protocol: 'building',
+protocol: "building",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1124,7 +1124,7 @@ $globals.IRInstruction);
 $core.addMethod(
 $core.method({
 selector: "isClosure",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1142,7 +1142,7 @@ $globals.IRInstruction);
 $core.addMethod(
 $core.method({
 selector: "isInlined",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1160,7 +1160,7 @@ $globals.IRInstruction);
 $core.addMethod(
 $core.method({
 selector: "isMethod",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1178,7 +1178,7 @@ $globals.IRInstruction);
 $core.addMethod(
 $core.method({
 selector: "isSend",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1196,7 +1196,7 @@ $globals.IRInstruction);
 $core.addMethod(
 $core.method({
 selector: "isSequence",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1214,7 +1214,7 @@ $globals.IRInstruction);
 $core.addMethod(
 $core.method({
 selector: "isTempDeclaration",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1232,7 +1232,7 @@ $globals.IRInstruction);
 $core.addMethod(
 $core.method({
 selector: "isVariable",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1250,7 +1250,7 @@ $globals.IRInstruction);
 $core.addMethod(
 $core.method({
 selector: "method",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1273,7 +1273,7 @@ $globals.IRInstruction);
 $core.addMethod(
 $core.method({
 selector: "needsBoxingAsReceiver",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -1291,7 +1291,7 @@ $globals.IRInstruction);
 $core.addMethod(
 $core.method({
 selector: "parent",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@parent"];
@@ -1309,7 +1309,7 @@ $globals.IRInstruction);
 $core.addMethod(
 $core.method({
 selector: "parent:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anIRInstruction){
 var self=this;
 self["@parent"]=anIRInstruction;
@@ -1328,7 +1328,7 @@ $globals.IRInstruction);
 $core.addMethod(
 $core.method({
 selector: "remove:",
-protocol: 'building',
+protocol: "building",
 fn: function (anIRInstruction){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1352,7 +1352,7 @@ $globals.IRInstruction);
 $core.addMethod(
 $core.method({
 selector: "replace:with:",
-protocol: 'building',
+protocol: "building",
 fn: function (anIRInstruction,anotherIRInstruction){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1382,7 +1382,7 @@ $globals.IRInstruction);
 $core.addMethod(
 $core.method({
 selector: "replaceWith:",
-protocol: 'building',
+protocol: "building",
 fn: function (anIRInstruction){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1406,7 +1406,7 @@ $globals.IRInstruction);
 $core.addMethod(
 $core.method({
 selector: "scope",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1437,7 +1437,7 @@ $globals.IRInstruction);
 $core.addMethod(
 $core.method({
 selector: "yieldsValue",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -1456,7 +1456,7 @@ $globals.IRInstruction);
 $core.addMethod(
 $core.method({
 selector: "on:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aBuilder){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1480,11 +1480,11 @@ messageSends: ["builder:", "new", "yourself"]
 $globals.IRInstruction.klass);
 
 
-$core.addClass('IRAssignment', $globals.IRInstruction, [], 'Compiler-IR');
+$core.addClass("IRAssignment", $globals.IRInstruction, [], "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1507,7 +1507,7 @@ $globals.IRAssignment);
 $core.addMethod(
 $core.method({
 selector: "left",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1530,7 +1530,7 @@ $globals.IRAssignment);
 $core.addMethod(
 $core.method({
 selector: "right",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1552,11 +1552,11 @@ $globals.IRAssignment);
 
 
 
-$core.addClass('IRDynamicArray', $globals.IRInstruction, [], 'Compiler-IR');
+$core.addClass("IRDynamicArray", $globals.IRInstruction, [], "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1578,11 +1578,11 @@ $globals.IRDynamicArray);
 
 
 
-$core.addClass('IRDynamicDictionary', $globals.IRInstruction, [], 'Compiler-IR');
+$core.addClass("IRDynamicDictionary", $globals.IRInstruction, [], "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1604,11 +1604,11 @@ $globals.IRDynamicDictionary);
 
 
 
-$core.addClass('IRScopedInstruction', $globals.IRInstruction, ['scope'], 'Compiler-IR');
+$core.addClass("IRScopedInstruction", $globals.IRInstruction, ["scope"], "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "scope",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@scope"];
@@ -1626,7 +1626,7 @@ $globals.IRScopedInstruction);
 $core.addMethod(
 $core.method({
 selector: "scope:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aScope){
 var self=this;
 self["@scope"]=aScope;
@@ -1644,11 +1644,11 @@ $globals.IRScopedInstruction);
 
 
 
-$core.addClass('IRClosureInstruction', $globals.IRScopedInstruction, ['arguments', 'requiresSmalltalkContext'], 'Compiler-IR');
+$core.addClass("IRClosureInstruction", $globals.IRScopedInstruction, ["arguments", "requiresSmalltalkContext"], "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "arguments",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1677,7 +1677,7 @@ $globals.IRClosureInstruction);
 $core.addMethod(
 $core.method({
 selector: "arguments:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aCollection){
 var self=this;
 self["@arguments"]=aCollection;
@@ -1696,7 +1696,7 @@ $globals.IRClosureInstruction);
 $core.addMethod(
 $core.method({
 selector: "locals",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1730,7 +1730,7 @@ $globals.IRClosureInstruction);
 $core.addMethod(
 $core.method({
 selector: "requiresSmalltalkContext",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1759,7 +1759,7 @@ $globals.IRClosureInstruction);
 $core.addMethod(
 $core.method({
 selector: "requiresSmalltalkContext:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anObject){
 var self=this;
 self["@requiresSmalltalkContext"]=anObject;
@@ -1778,7 +1778,7 @@ $globals.IRClosureInstruction);
 $core.addMethod(
 $core.method({
 selector: "scope:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aScope){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1810,7 +1810,7 @@ $globals.IRClosureInstruction);
 $core.addMethod(
 $core.method({
 selector: "tempDeclarations",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1840,11 +1840,11 @@ $globals.IRClosureInstruction);
 
 
 
-$core.addClass('IRClosure', $globals.IRClosureInstruction, [], 'Compiler-IR');
+$core.addClass("IRClosure", $globals.IRClosureInstruction, [], "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1867,7 +1867,7 @@ $globals.IRClosure);
 $core.addMethod(
 $core.method({
 selector: "isClosure",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -1885,7 +1885,7 @@ $globals.IRClosure);
 $core.addMethod(
 $core.method({
 selector: "sequence",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1907,14 +1907,14 @@ $globals.IRClosure);
 
 
 
-$core.addClass('IRMethod', $globals.IRClosureInstruction, ['theClass', 'source', 'selector', 'classReferences', 'sendIndexes', 'requiresSmalltalkContext', 'internalVariables'], 'Compiler-IR');
+$core.addClass("IRMethod", $globals.IRClosureInstruction, ["theClass", "source", "selector", "classReferences", "sendIndexes", "requiresSmalltalkContext", "internalVariables"], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRMethod.comment="I am a method instruction";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1937,7 +1937,7 @@ $globals.IRMethod);
 $core.addMethod(
 $core.method({
 selector: "classReferences",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@classReferences"];
@@ -1955,7 +1955,7 @@ $globals.IRMethod);
 $core.addMethod(
 $core.method({
 selector: "classReferences:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aCollection){
 var self=this;
 self["@classReferences"]=aCollection;
@@ -1974,7 +1974,7 @@ $globals.IRMethod);
 $core.addMethod(
 $core.method({
 selector: "internalVariables",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2004,7 +2004,7 @@ $globals.IRMethod);
 $core.addMethod(
 $core.method({
 selector: "isMethod",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -2022,7 +2022,7 @@ $globals.IRMethod);
 $core.addMethod(
 $core.method({
 selector: "messageSends",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2045,7 +2045,7 @@ $globals.IRMethod);
 $core.addMethod(
 $core.method({
 selector: "method",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self;
@@ -2063,7 +2063,7 @@ $globals.IRMethod);
 $core.addMethod(
 $core.method({
 selector: "selector",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@selector"];
@@ -2081,7 +2081,7 @@ $globals.IRMethod);
 $core.addMethod(
 $core.method({
 selector: "selector:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@selector"]=aString;
@@ -2100,7 +2100,7 @@ $globals.IRMethod);
 $core.addMethod(
 $core.method({
 selector: "sendIndexes",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@sendIndexes"];
@@ -2118,7 +2118,7 @@ $globals.IRMethod);
 $core.addMethod(
 $core.method({
 selector: "sendIndexes:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aDictionary){
 var self=this;
 self["@sendIndexes"]=aDictionary;
@@ -2137,7 +2137,7 @@ $globals.IRMethod);
 $core.addMethod(
 $core.method({
 selector: "source",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@source"];
@@ -2155,7 +2155,7 @@ $globals.IRMethod);
 $core.addMethod(
 $core.method({
 selector: "source:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@source"]=aString;
@@ -2174,7 +2174,7 @@ $globals.IRMethod);
 $core.addMethod(
 $core.method({
 selector: "theClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@theClass"];
@@ -2192,7 +2192,7 @@ $globals.IRMethod);
 $core.addMethod(
 $core.method({
 selector: "theClass:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 self["@theClass"]=aClass;
@@ -2210,14 +2210,14 @@ $globals.IRMethod);
 
 
 
-$core.addClass('IRReturn', $globals.IRScopedInstruction, [], 'Compiler-IR');
+$core.addClass("IRReturn", $globals.IRScopedInstruction, [], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRReturn.comment="I am a local return instruction.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2240,7 +2240,7 @@ $globals.IRReturn);
 $core.addMethod(
 $core.method({
 selector: "expression",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2263,7 +2263,7 @@ $globals.IRReturn);
 $core.addMethod(
 $core.method({
 selector: "scope",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2292,7 +2292,7 @@ $globals.IRReturn);
 $core.addMethod(
 $core.method({
 selector: "yieldsValue",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -2309,14 +2309,14 @@ $globals.IRReturn);
 
 
 
-$core.addClass('IRBlockReturn', $globals.IRReturn, [], 'Compiler-IR');
+$core.addClass("IRBlockReturn", $globals.IRReturn, [], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRBlockReturn.comment="Smalltalk blocks return their last statement. I am a implicit block return instruction.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2338,14 +2338,14 @@ $globals.IRBlockReturn);
 
 
 
-$core.addClass('IRNonLocalReturn', $globals.IRReturn, [], 'Compiler-IR');
+$core.addClass("IRNonLocalReturn", $globals.IRReturn, [], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRNonLocalReturn.comment="I am a non local return instruction.\x0aNon local returns are handled using a try/catch JavaScript statement.\x0a\x0aSee `IRNonLocalReturnHandling` class.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2367,11 +2367,11 @@ $globals.IRNonLocalReturn);
 
 
 
-$core.addClass('IRTempDeclaration', $globals.IRScopedInstruction, ['name'], 'Compiler-IR');
+$core.addClass("IRTempDeclaration", $globals.IRScopedInstruction, ["name"], "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2394,7 +2394,7 @@ $globals.IRTempDeclaration);
 $core.addMethod(
 $core.method({
 selector: "isTempDeclaration",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -2412,7 +2412,7 @@ $globals.IRTempDeclaration);
 $core.addMethod(
 $core.method({
 selector: "name",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@name"];
@@ -2430,7 +2430,7 @@ $globals.IRTempDeclaration);
 $core.addMethod(
 $core.method({
 selector: "name:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@name"]=aString;
@@ -2448,14 +2448,14 @@ $globals.IRTempDeclaration);
 
 
 
-$core.addClass('IRSend', $globals.IRInstruction, ['selector', 'index'], 'Compiler-IR');
+$core.addClass("IRSend", $globals.IRInstruction, ["selector", "index"], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRSend.comment="I am a message send instruction.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2478,7 +2478,7 @@ $globals.IRSend);
 $core.addMethod(
 $core.method({
 selector: "arguments",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2501,7 +2501,7 @@ $globals.IRSend);
 $core.addMethod(
 $core.method({
 selector: "index",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@index"];
@@ -2519,7 +2519,7 @@ $globals.IRSend);
 $core.addMethod(
 $core.method({
 selector: "index:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anInteger){
 var self=this;
 self["@index"]=anInteger;
@@ -2538,7 +2538,7 @@ $globals.IRSend);
 $core.addMethod(
 $core.method({
 selector: "isSend",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -2556,7 +2556,7 @@ $globals.IRSend);
 $core.addMethod(
 $core.method({
 selector: "isSuperSend",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 var receiver;
@@ -2589,7 +2589,7 @@ $globals.IRSend);
 $core.addMethod(
 $core.method({
 selector: "receiver",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2612,7 +2612,7 @@ $globals.IRSend);
 $core.addMethod(
 $core.method({
 selector: "selector",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@selector"];
@@ -2630,7 +2630,7 @@ $globals.IRSend);
 $core.addMethod(
 $core.method({
 selector: "selector:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@selector"]=aString;
@@ -2648,11 +2648,11 @@ $globals.IRSend);
 
 
 
-$core.addClass('IRSequence', $globals.IRInstruction, [], 'Compiler-IR');
+$core.addClass("IRSequence", $globals.IRInstruction, [], "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2675,7 +2675,7 @@ $globals.IRSequence);
 $core.addMethod(
 $core.method({
 selector: "isSequence",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -2692,11 +2692,11 @@ $globals.IRSequence);
 
 
 
-$core.addClass('IRBlockSequence', $globals.IRSequence, [], 'Compiler-IR');
+$core.addClass("IRBlockSequence", $globals.IRSequence, [], "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2718,14 +2718,14 @@ $globals.IRBlockSequence);
 
 
 
-$core.addClass('IRValue', $globals.IRInstruction, ['value'], 'Compiler-IR');
+$core.addClass("IRValue", $globals.IRInstruction, ["value"], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRValue.comment="I am the simplest possible instruction. I represent a value.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2748,7 +2748,7 @@ $globals.IRValue);
 $core.addMethod(
 $core.method({
 selector: "needsBoxingAsReceiver",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -2766,7 +2766,7 @@ $globals.IRValue);
 $core.addMethod(
 $core.method({
 selector: "value",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@value"];
@@ -2784,7 +2784,7 @@ $globals.IRValue);
 $core.addMethod(
 $core.method({
 selector: "value:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@value"]=aString;
@@ -2802,14 +2802,14 @@ $globals.IRValue);
 
 
 
-$core.addClass('IRVariable', $globals.IRInstruction, ['variable'], 'Compiler-IR');
+$core.addClass("IRVariable", $globals.IRInstruction, ["variable"], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRVariable.comment="I am a variable instruction.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2832,7 +2832,7 @@ $globals.IRVariable);
 $core.addMethod(
 $core.method({
 selector: "isVariable",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -2850,7 +2850,7 @@ $globals.IRVariable);
 $core.addMethod(
 $core.method({
 selector: "needsBoxingAsReceiver",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2873,7 +2873,7 @@ $globals.IRVariable);
 $core.addMethod(
 $core.method({
 selector: "variable",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@variable"];
@@ -2891,7 +2891,7 @@ $globals.IRVariable);
 $core.addMethod(
 $core.method({
 selector: "variable:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aScopeVariable){
 var self=this;
 self["@variable"]=aScopeVariable;
@@ -2909,11 +2909,11 @@ $globals.IRVariable);
 
 
 
-$core.addClass('IRVerbatim', $globals.IRInstruction, ['source'], 'Compiler-IR');
+$core.addClass("IRVerbatim", $globals.IRInstruction, ["source"], "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2936,7 +2936,7 @@ $globals.IRVerbatim);
 $core.addMethod(
 $core.method({
 selector: "source",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@source"];
@@ -2954,7 +2954,7 @@ $globals.IRVerbatim);
 $core.addMethod(
 $core.method({
 selector: "source:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@source"]=aString;
@@ -2972,11 +2972,11 @@ $globals.IRVerbatim);
 
 
 
-$core.addClass('IRVisitor', $globals.ParentFakingPathDagVisitor, [], 'Compiler-IR');
+$core.addClass("IRVisitor", $globals.ParentFakingPathDagVisitor, [], "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "visitDagNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2999,7 +2999,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRAssignment:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRAssignment){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3022,7 +3022,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRBlockReturn:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRBlockReturn){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3045,7 +3045,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRBlockSequence:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRBlockSequence){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3068,7 +3068,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRClosure:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRClosure){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3091,7 +3091,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRDynamicArray:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRDynamicArray){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3114,7 +3114,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRDynamicDictionary:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRDynamicDictionary){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3137,7 +3137,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRInlinedClosure:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRInlinedClosure){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3160,7 +3160,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRInlinedSequence:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRInlinedSequence){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3183,7 +3183,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRMethod:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRMethod){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3206,7 +3206,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRNonLocalReturn:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRNonLocalReturn){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3229,7 +3229,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRNonLocalReturnHandling:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRNonLocalReturnHandling){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3252,7 +3252,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRReturn:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRReturn){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3275,7 +3275,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRSend:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRSend){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3298,7 +3298,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRSequence:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRSequence){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3321,7 +3321,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRTempDeclaration:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRTempDeclaration){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3344,7 +3344,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRValue:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRValue){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3367,7 +3367,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRVariable:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRVariable){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3390,7 +3390,7 @@ $globals.IRVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitIRVerbatim:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRVerbatim){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3412,11 +3412,11 @@ $globals.IRVisitor);
 
 
 
-$core.addClass('IRJSTranslator', $globals.IRVisitor, ['stream', 'currentClass'], 'Compiler-IR');
+$core.addClass("IRJSTranslator", $globals.IRVisitor, ["stream", "currentClass"], "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "contents",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3439,7 +3439,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "currentClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@currentClass"];
@@ -3457,7 +3457,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "currentClass:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 self["@currentClass"]=aClass;
@@ -3476,7 +3476,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3508,7 +3508,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "stream",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@stream"];
@@ -3526,7 +3526,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "stream:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aStream){
 var self=this;
 self["@stream"]=aStream;
@@ -3545,7 +3545,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitIRAssignment:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRAssignment){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3588,7 +3588,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitIRClosure:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRClosure){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3653,7 +3653,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitIRDynamicArray:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRDynamicArray){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3677,7 +3677,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitIRDynamicDictionary:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRDynamicDictionary){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3701,7 +3701,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitIRMethod:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRMethod){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3833,7 +3833,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitIRNonLocalReturn:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRNonLocalReturn){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3872,7 +3872,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitIRReturn:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRReturn){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3911,7 +3911,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitIRSend:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRSend){
 var self=this;
 var sends,superclass;
@@ -3947,7 +3947,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitIRSequence:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRSequence){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3987,7 +3987,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitIRTempDeclaration:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRTempDeclaration){
 var self=this;
 return self;
@@ -4005,7 +4005,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitIRValue:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRValue){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4029,7 +4029,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitIRVariable:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRVariable){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4071,7 +4071,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitIRVerbatim:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRVerbatim){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4108,7 +4108,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitInstructionList:enclosedBetween:and:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anArray,aString,anotherString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4161,7 +4161,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitReceiver:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRInstruction){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4203,7 +4203,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitSend:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRSend){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4229,7 +4229,7 @@ $globals.IRJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitSuperSend:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRSend){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4348,11 +4348,11 @@ $globals.IRJSTranslator);
 
 
 
-$core.addClass('JSStream', $globals.Object, ['stream', 'omitSemicolon'], 'Compiler-IR');
+$core.addClass("JSStream", $globals.Object, ["stream", "omitSemicolon"], "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "contents",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4375,7 +4375,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4407,7 +4407,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "lf",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4431,7 +4431,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "nextPut:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4455,7 +4455,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "nextPutAll:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4479,7 +4479,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "nextPutAssignLhs:rhs:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4508,7 +4508,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "nextPutBlockContextFor:during:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (anIRClosure,aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4686,7 +4686,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "nextPutClosureWith:arguments:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (aBlock,anArray){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4747,7 +4747,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "nextPutContextFor:during:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (aMethod,aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4915,7 +4915,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "nextPutFunctionWith:arguments:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (aBlock,anArray){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4985,7 +4985,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "nextPutIf:then:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5026,7 +5026,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "nextPutIf:then:else:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (aBlock,ifBlock,elseBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5080,7 +5080,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "nextPutMethodDeclaration:with:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (aMethod,aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5249,7 +5249,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "nextPutNonLocalReturnHandlingWith:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5302,7 +5302,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "nextPutNonLocalReturnWith:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5331,7 +5331,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "nextPutReturnWith:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5356,7 +5356,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "nextPutSendIndexFor:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (anIRSend){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5421,7 +5421,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "nextPutStatementWith:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5456,7 +5456,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "nextPutVars:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5518,7 +5518,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "omitSemicolon",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@omitSemicolon"];
@@ -5536,7 +5536,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "omitSemicolon:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aBoolean){
 var self=this;
 self["@omitSemicolon"]=aBoolean;
@@ -5556,7 +5556,7 @@ $globals.JSStream);
 $core.addMethod(
 $core.method({
 selector: "isReferenced",
-protocol: '*Compiler-IR',
+protocol: "*Compiler-IR",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5594,7 +5594,7 @@ $globals.ASTNode);
 $core.addMethod(
 $core.method({
 selector: "subtreeNeedsAliasing",
-protocol: '*Compiler-IR',
+protocol: "*Compiler-IR",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5633,7 +5633,7 @@ $globals.ASTNode);
 $core.addMethod(
 $core.method({
 selector: "shouldBeAliased",
-protocol: '*Compiler-IR',
+protocol: "*Compiler-IR",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5673,7 +5673,7 @@ $globals.AssignmentNode);
 $core.addMethod(
 $core.method({
 selector: "appendToInstruction:",
-protocol: '*Compiler-IR',
+protocol: "*Compiler-IR",
 fn: function (anIRInstruction){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5697,7 +5697,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "subtreeNeedsAliasing",
-protocol: '*Compiler-IR',
+protocol: "*Compiler-IR",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5720,7 +5720,7 @@ $globals.BlockNode);
 $core.addMethod(
 $core.method({
 selector: "subtreeNeedsAliasing",
-protocol: '*Compiler-IR',
+protocol: "*Compiler-IR",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5743,7 +5743,7 @@ $globals.CascadeNode);
 $core.addMethod(
 $core.method({
 selector: "shouldBeAliased",
-protocol: '*Compiler-IR',
+protocol: "*Compiler-IR",
 fn: function (){
 var self=this;
 var sends;
@@ -5805,7 +5805,7 @@ $globals.SendNode);
 $core.addMethod(
 $core.method({
 selector: "subtreeNeedsAliasing",
-protocol: '*Compiler-IR',
+protocol: "*Compiler-IR",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

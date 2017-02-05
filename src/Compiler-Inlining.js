@@ -2,15 +2,15 @@ define(["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Core", "am
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Compiler-Inlining');
+$core.addPackage("Compiler-Inlining");
 $core.packages["Compiler-Inlining"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-Inlining"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('ASTPreInliner', $globals.NodeVisitor, [], 'Compiler-Inlining');
+$core.addClass("ASTPreInliner", $globals.NodeVisitor, [], "Compiler-Inlining");
 $core.addMethod(
 $core.method({
 selector: "visitSendNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -56,14 +56,14 @@ $globals.ASTPreInliner);
 
 
 
-$core.addClass('IRInlinedClosure', $globals.IRClosure, [], 'Compiler-Inlining');
+$core.addClass("IRInlinedClosure", $globals.IRClosure, [], "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInlinedClosure.comment="I represent an inlined closure instruction.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -87,7 +87,7 @@ $globals.IRInlinedClosure);
 $core.addMethod(
 $core.method({
 selector: "isInlined",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -104,14 +104,14 @@ $globals.IRInlinedClosure);
 
 
 
-$core.addClass('IRInlinedSend', $globals.IRSend, [], 'Compiler-Inlining');
+$core.addClass("IRInlinedSend", $globals.IRSend, [], "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInlinedSend.comment="I am the abstract super class of inlined message send instructions.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -135,7 +135,7 @@ $globals.IRInlinedSend);
 $core.addMethod(
 $core.method({
 selector: "internalVariables",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return [];
@@ -153,7 +153,7 @@ $globals.IRInlinedSend);
 $core.addMethod(
 $core.method({
 selector: "isInlined",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -170,14 +170,14 @@ $globals.IRInlinedSend);
 
 
 
-$core.addClass('IRInlinedIfFalse', $globals.IRInlinedSend, [], 'Compiler-Inlining');
+$core.addClass("IRInlinedIfFalse", $globals.IRInlinedSend, [], "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInlinedIfFalse.comment="I represent an inlined `#ifFalse:` message send instruction.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -200,14 +200,14 @@ $globals.IRInlinedIfFalse);
 
 
 
-$core.addClass('IRInlinedIfNilIfNotNil', $globals.IRInlinedSend, [], 'Compiler-Inlining');
+$core.addClass("IRInlinedIfNilIfNotNil", $globals.IRInlinedSend, [], "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInlinedIfNilIfNotNil.comment="I represent an inlined `#ifNil:ifNotNil:` message send instruction.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -231,7 +231,7 @@ $globals.IRInlinedIfNilIfNotNil);
 $core.addMethod(
 $core.method({
 selector: "internalVariables",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -254,7 +254,7 @@ $globals.IRInlinedIfNilIfNotNil);
 $core.addMethod(
 $core.method({
 selector: "receiverInternalVariable",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -283,7 +283,7 @@ $globals.IRInlinedIfNilIfNotNil);
 $core.addMethod(
 $core.method({
 selector: "receiverInternalVariableName",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return "$receiver";
@@ -300,14 +300,14 @@ $globals.IRInlinedIfNilIfNotNil);
 
 
 
-$core.addClass('IRInlinedIfTrue', $globals.IRInlinedSend, [], 'Compiler-Inlining');
+$core.addClass("IRInlinedIfTrue", $globals.IRInlinedSend, [], "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInlinedIfTrue.comment="I represent an inlined `#ifTrue:` message send instruction.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -330,14 +330,14 @@ $globals.IRInlinedIfTrue);
 
 
 
-$core.addClass('IRInlinedIfTrueIfFalse', $globals.IRInlinedSend, [], 'Compiler-Inlining');
+$core.addClass("IRInlinedIfTrueIfFalse", $globals.IRInlinedSend, [], "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInlinedIfTrueIfFalse.comment="I represent an inlined `#ifTrue:ifFalse:` message send instruction.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -360,14 +360,14 @@ $globals.IRInlinedIfTrueIfFalse);
 
 
 
-$core.addClass('IRInlinedSequence', $globals.IRBlockSequence, [], 'Compiler-Inlining');
+$core.addClass("IRInlinedSequence", $globals.IRBlockSequence, [], "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInlinedSequence.comment="I represent a (block) sequence inside an inlined closure instruction (instance of `IRInlinedClosure`).";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -391,7 +391,7 @@ $globals.IRInlinedSequence);
 $core.addMethod(
 $core.method({
 selector: "isInlined",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -408,14 +408,14 @@ $globals.IRInlinedSequence);
 
 
 
-$core.addClass('IRInliner', $globals.IRVisitor, [], 'Compiler-Inlining');
+$core.addClass("IRInliner", $globals.IRVisitor, [], "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInliner.comment="I visit an IR tree, inlining message sends and block closures.\x0a\x0aMessage selectors that can be inlined are answered by `IRSendInliner >> #inlinedSelectors`";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "assignmentInliner",
-protocol: 'factory',
+protocol: "factory",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -441,7 +441,7 @@ $globals.IRInliner);
 $core.addMethod(
 $core.method({
 selector: "returnInliner",
-protocol: 'factory',
+protocol: "factory",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -467,7 +467,7 @@ $globals.IRInliner);
 $core.addMethod(
 $core.method({
 selector: "sendInliner",
-protocol: 'factory',
+protocol: "factory",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -493,7 +493,7 @@ $globals.IRInliner);
 $core.addMethod(
 $core.method({
 selector: "shouldInlineAssignment:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (anIRAssignment){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -542,7 +542,7 @@ $globals.IRInliner);
 $core.addMethod(
 $core.method({
 selector: "shouldInlineReturn:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (anIRReturn){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -591,7 +591,7 @@ $globals.IRInliner);
 $core.addMethod(
 $core.method({
 selector: "shouldInlineSend:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (anIRSend){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -622,7 +622,7 @@ $globals.IRInliner);
 $core.addMethod(
 $core.method({
 selector: "visitIRAssignment:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRAssignment){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -658,7 +658,7 @@ $globals.IRInliner);
 $core.addMethod(
 $core.method({
 selector: "visitIRNonLocalReturn:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRNonLocalReturn){
 var self=this;
 var localReturn;
@@ -723,7 +723,7 @@ $globals.IRInliner);
 $core.addMethod(
 $core.method({
 selector: "visitIRReturn:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRReturn){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -759,7 +759,7 @@ $globals.IRInliner);
 $core.addMethod(
 $core.method({
 selector: "visitIRSend:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRSend){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -794,14 +794,14 @@ $globals.IRInliner);
 
 
 
-$core.addClass('IRInliningJSTranslator', $globals.IRJSTranslator, [], 'Compiler-Inlining');
+$core.addClass("IRInliningJSTranslator", $globals.IRJSTranslator, [], "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInliningJSTranslator.comment="I am a specialized JavaScript translator able to write inlined IR instructions to JavaScript stream (`JSStream` instance).";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "visitIRInlinedClosure:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRInlinedClosure){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -834,7 +834,7 @@ $globals.IRInliningJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitIRInlinedIfFalse:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRInlinedIfFalse){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -896,7 +896,7 @@ $globals.IRInliningJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitIRInlinedIfNilIfNotNil:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRInlinedIfNilIfNotNil){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -990,7 +990,7 @@ $globals.IRInliningJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitIRInlinedIfTrue:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRInlinedIfTrue){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1052,7 +1052,7 @@ $globals.IRInliningJSTranslator);
 $core.addMethod(
 $core.method({
 selector: "visitIRInlinedIfTrueIfFalse:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (anIRInlinedIfTrueIfFalse){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1129,14 +1129,14 @@ $globals.IRInliningJSTranslator);
 
 
 
-$core.addClass('IRSendInliner', $globals.Object, ['send', 'translator'], 'Compiler-Inlining');
+$core.addClass("IRSendInliner", $globals.Object, ["send", "translator"], "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRSendInliner.comment="I inline some message sends and block closure arguments. I heavily rely on #perform: to dispatch inlining methods.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "ifFalse:",
-protocol: 'inlining',
+protocol: "inlining",
 fn: function (anIRInstruction){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1159,7 +1159,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "ifFalse:ifTrue:",
-protocol: 'inlining',
+protocol: "inlining",
 fn: function (anIRInstruction,anotherIRInstruction){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1182,7 +1182,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "ifNil:",
-protocol: 'inlining',
+protocol: "inlining",
 fn: function (anIRInstruction){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1227,7 +1227,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "ifNil:ifNotNil:",
-protocol: 'inlining',
+protocol: "inlining",
 fn: function (anIRInstruction,anotherIRInstruction){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1250,7 +1250,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "ifNotNil:",
-protocol: 'inlining',
+protocol: "inlining",
 fn: function (anIRInstruction){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1295,7 +1295,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "ifNotNil:ifNil:",
-protocol: 'inlining',
+protocol: "inlining",
 fn: function (anIRInstruction,anotherIRInstruction){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1318,7 +1318,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "ifTrue:",
-protocol: 'inlining',
+protocol: "inlining",
 fn: function (anIRInstruction){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1341,7 +1341,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "ifTrue:ifFalse:",
-protocol: 'inlining',
+protocol: "inlining",
 fn: function (anIRInstruction,anotherIRInstruction){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1364,7 +1364,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "inlineClosure:",
-protocol: 'inlining',
+protocol: "inlining",
 fn: function (anIRClosure){
 var self=this;
 var inlinedClosure,sequence,statements;
@@ -1531,7 +1531,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "inlineSend:",
-protocol: 'inlining',
+protocol: "inlining",
 fn: function (anIRSend){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1561,7 +1561,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "inlineSend:andReplace:",
-protocol: 'private',
+protocol: "private",
 fn: function (anIRSend,anIRInstruction){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1585,7 +1585,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "inlinedClosure",
-protocol: 'factory',
+protocol: "factory",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1608,7 +1608,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "inlinedSend:withBlock:",
-protocol: 'private',
+protocol: "private",
 fn: function (inlinedSend,anIRInstruction){
 var self=this;
 var inlinedClosure;
@@ -1661,7 +1661,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "inlinedSend:withBlock:withBlock:",
-protocol: 'private',
+protocol: "private",
 fn: function (inlinedSend,anIRInstruction,anotherIRInstruction){
 var self=this;
 var inlinedClosure1,inlinedClosure2;
@@ -1733,7 +1733,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "inlinedSequence",
-protocol: 'factory',
+protocol: "factory",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1756,7 +1756,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "inliningError:",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1780,7 +1780,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "send",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@send"];
@@ -1798,7 +1798,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "send:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anIRSend){
 var self=this;
 self["@send"]=anIRSend;
@@ -1817,7 +1817,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "translator",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@translator"];
@@ -1835,7 +1835,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "translator:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anASTTranslator){
 var self=this;
 self["@translator"]=anASTTranslator;
@@ -1855,7 +1855,7 @@ $globals.IRSendInliner);
 $core.addMethod(
 $core.method({
 selector: "inlinedSelectors",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return ["ifTrue:", "ifFalse:", "ifTrue:ifFalse:", "ifFalse:ifTrue:", "ifNil:", "ifNotNil:", "ifNil:ifNotNil:", "ifNotNil:ifNil:"];
@@ -1873,7 +1873,7 @@ $globals.IRSendInliner.klass);
 $core.addMethod(
 $core.method({
 selector: "shouldInline:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anIRSend){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1907,14 +1907,14 @@ messageSends: ["ifFalse:", "includes:", "inlinedSelectors", "selector", "allSati
 $globals.IRSendInliner.klass);
 
 
-$core.addClass('IRAssignmentInliner', $globals.IRSendInliner, ['target'], 'Compiler-Inlining');
+$core.addClass("IRAssignmentInliner", $globals.IRSendInliner, ["target"], "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRAssignmentInliner.comment="I inline message sends together with assignments by moving them around into the inline closure instructions.\x0a\x0a##Example\x0a\x0a\x09foo\x0a\x09\x09| a |\x0a\x09\x09a := true ifTrue: [ 1 ]\x0a\x0aWill produce:\x0a\x0a\x09if($core.assert(true) {\x0a\x09\x09a = 1;\x0a\x09};";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "inlineAssignment:",
-protocol: 'inlining',
+protocol: "inlining",
 fn: function (anIRAssignment){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1938,7 +1938,7 @@ $globals.IRAssignmentInliner);
 $core.addMethod(
 $core.method({
 selector: "inlineClosure:",
-protocol: 'inlining',
+protocol: "inlining",
 fn: function (anIRClosure){
 var self=this;
 var closure,sequence,statements;
@@ -1997,7 +1997,7 @@ $globals.IRAssignmentInliner);
 $core.addMethod(
 $core.method({
 selector: "target",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@target"];
@@ -2015,7 +2015,7 @@ $globals.IRAssignmentInliner);
 $core.addMethod(
 $core.method({
 selector: "target:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anObject){
 var self=this;
 self["@target"]=anObject;
@@ -2033,14 +2033,14 @@ $globals.IRAssignmentInliner);
 
 
 
-$core.addClass('IRReturnInliner', $globals.IRSendInliner, [], 'Compiler-Inlining');
+$core.addClass("IRReturnInliner", $globals.IRSendInliner, [], "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRReturnInliner.comment="I inline message sends with inlined closure together with a return instruction.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "inlineClosure:",
-protocol: 'inlining',
+protocol: "inlining",
 fn: function (anIRClosure){
 var self=this;
 var closure,sequence,statements;
@@ -2095,7 +2095,7 @@ $globals.IRReturnInliner);
 $core.addMethod(
 $core.method({
 selector: "inlineReturn:",
-protocol: 'inlining',
+protocol: "inlining",
 fn: function (anIRReturn){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2117,14 +2117,14 @@ $globals.IRReturnInliner);
 
 
 
-$core.addClass('InliningCodeGenerator', $globals.CodeGenerator, [], 'Compiler-Inlining');
+$core.addClass("InliningCodeGenerator", $globals.CodeGenerator, [], "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.InliningCodeGenerator.comment="I am a specialized code generator that uses inlining to produce more optimized JavaScript output";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "inliner",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2147,7 +2147,7 @@ $globals.InliningCodeGenerator);
 $core.addMethod(
 $core.method({
 selector: "irTranslatorClass",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (){
 var self=this;
 return $globals.IRInliningJSTranslator;
@@ -2165,7 +2165,7 @@ $globals.InliningCodeGenerator);
 $core.addMethod(
 $core.method({
 selector: "preInliner",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2188,7 +2188,7 @@ $globals.InliningCodeGenerator);
 $core.addMethod(
 $core.method({
 selector: "transformersDictionary",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2228,17 +2228,17 @@ $globals.InliningCodeGenerator);
 
 
 
-$core.addClass('InliningError', $globals.SemanticError, [], 'Compiler-Inlining');
+$core.addClass("InliningError", $globals.SemanticError, [], "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.InliningError.comment="Instances of InliningError are signaled when using an `InliningCodeGenerator`in a `Compiler`.";
 //>>excludeEnd("ide");
 
 
-$core.addClass('InliningSemanticAnalyzer', $globals.SemanticAnalyzer, [], 'Compiler-Inlining');
+$core.addClass("InliningSemanticAnalyzer", $globals.SemanticAnalyzer, [], "Compiler-Inlining");
 $core.addMethod(
 $core.method({
 selector: "visitSendNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2286,7 +2286,7 @@ $globals.InliningSemanticAnalyzer);
 $core.addMethod(
 $core.method({
 selector: "asInlinedBlockResult",
-protocol: '*Compiler-Inlining',
+protocol: "*Compiler-Inlining",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2309,7 +2309,7 @@ $globals.IRBlockReturn);
 $core.addMethod(
 $core.method({
 selector: "asInlinedBlockResult",
-protocol: '*Compiler-Inlining',
+protocol: "*Compiler-Inlining",
 fn: function (){
 var self=this;
 return self;

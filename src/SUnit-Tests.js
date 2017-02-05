@@ -2,18 +2,18 @@ define(["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('SUnit-Tests');
+$core.addPackage("SUnit-Tests");
 $core.packages["SUnit-Tests"].innerEval = function (expr) { return eval(expr); };
 $core.packages["SUnit-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('ExampleSetTest', $globals.TestCase, ['empty', 'full'], 'SUnit-Tests');
+$core.addClass("ExampleSetTest", $globals.TestCase, ["empty", "full"], "SUnit-Tests");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ExampleSetTest.comment="ExampleSetTest is taken from Pharo 1.4.\x0a\x0aTHe purpose of this class is to demonstrate a simple use case of the test framework.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "setUp",
-protocol: 'running',
+protocol: "running",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -38,7 +38,7 @@ $globals.ExampleSetTest);
 $core.addMethod(
 $core.method({
 selector: "testAdd",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -63,7 +63,7 @@ $globals.ExampleSetTest);
 $core.addMethod(
 $core.method({
 selector: "testGrow",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -88,7 +88,7 @@ $globals.ExampleSetTest);
 $core.addMethod(
 $core.method({
 selector: "testIllegal",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -132,7 +132,7 @@ $globals.ExampleSetTest);
 $core.addMethod(
 $core.method({
 selector: "testIncludes",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -165,7 +165,7 @@ $globals.ExampleSetTest);
 $core.addMethod(
 $core.method({
 selector: "testOccurrences",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -207,7 +207,7 @@ $globals.ExampleSetTest);
 $core.addMethod(
 $core.method({
 selector: "testRemove",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -237,11 +237,11 @@ $globals.ExampleSetTest);
 
 
 
-$core.addClass('SUnitAsyncTest', $globals.TestCase, ['flag'], 'SUnit-Tests');
+$core.addClass("SUnitAsyncTest", $globals.TestCase, ["flag"], "SUnit-Tests");
 $core.addMethod(
 $core.method({
 selector: "fakeError",
-protocol: 'helpers',
+protocol: "helpers",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -277,7 +277,7 @@ $globals.SUnitAsyncTest);
 $core.addMethod(
 $core.method({
 selector: "fakeErrorFailingInTearDown",
-protocol: 'helpers',
+protocol: "helpers",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -311,7 +311,7 @@ $globals.SUnitAsyncTest);
 $core.addMethod(
 $core.method({
 selector: "fakeFailure",
-protocol: 'helpers',
+protocol: "helpers",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -347,7 +347,7 @@ $globals.SUnitAsyncTest);
 $core.addMethod(
 $core.method({
 selector: "fakeMultipleTimeoutFailing",
-protocol: 'helpers',
+protocol: "helpers",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -400,7 +400,7 @@ $globals.SUnitAsyncTest);
 $core.addMethod(
 $core.method({
 selector: "fakeMultipleTimeoutPassing",
-protocol: 'helpers',
+protocol: "helpers",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -453,7 +453,7 @@ $globals.SUnitAsyncTest);
 $core.addMethod(
 $core.method({
 selector: "fakeTimeout",
-protocol: 'helpers',
+protocol: "helpers",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -486,7 +486,7 @@ $globals.SUnitAsyncTest);
 $core.addMethod(
 $core.method({
 selector: "selectorSetOf:",
-protocol: 'private',
+protocol: "private",
 fn: function (aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -517,7 +517,7 @@ $globals.SUnitAsyncTest);
 $core.addMethod(
 $core.method({
 selector: "setUp",
-protocol: 'running',
+protocol: "running",
 fn: function (){
 var self=this;
 self["@flag"]="ok";
@@ -536,7 +536,7 @@ $globals.SUnitAsyncTest);
 $core.addMethod(
 $core.method({
 selector: "tearDown",
-protocol: 'running',
+protocol: "running",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -560,7 +560,7 @@ $globals.SUnitAsyncTest);
 $core.addMethod(
 $core.method({
 selector: "testAsyncErrorsAndFailures",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var suite,runner,result,assertBlock;
@@ -636,7 +636,7 @@ $globals.SUnitAsyncTest);
 $core.addMethod(
 $core.method({
 selector: "testAsyncNeedsTimeout",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -686,7 +686,7 @@ $globals.SUnitAsyncTest);
 $core.addMethod(
 $core.method({
 selector: "testFinishedNeedsTimeout",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -731,7 +731,7 @@ $globals.SUnitAsyncTest);
 $core.addMethod(
 $core.method({
 selector: "testIsAsyncReturnsCorrectValues",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -771,7 +771,7 @@ $globals.SUnitAsyncTest);
 $core.addMethod(
 $core.method({
 selector: "testPass",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -808,7 +808,7 @@ $globals.SUnitAsyncTest);
 $core.addMethod(
 $core.method({
 selector: "testTimeouts",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var suite,runner,result,assertBlock;
@@ -880,7 +880,7 @@ $globals.SUnitAsyncTest);
 $core.addMethod(
 $core.method({
 selector: "testTwoAsyncPassesWithFinishedOnlyOneIsRun",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var x;

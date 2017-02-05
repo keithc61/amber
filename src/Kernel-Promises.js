@@ -2,18 +2,18 @@ define(["amber/boot", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Obj
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Kernel-Promises');
+$core.addPackage("Kernel-Promises");
 $core.packages["Kernel-Promises"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Promises"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('Thenable', $globals.Object, [], 'Kernel-Promises');
+$core.addClass("Thenable", $globals.Object, [], "Kernel-Promises");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Thenable.comment="I am the abstract base class for Promises.\x0a\x0aMy subclasses should wrap existing JS implementations.\x0a\x0aI contain methods that wrap Promises/A+ `.then` behaviour.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "catch:",
-protocol: 'promises',
+protocol: "promises",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -39,7 +39,7 @@ $globals.Thenable);
 $core.addMethod(
 $core.method({
 selector: "on:do:",
-protocol: 'promises',
+protocol: "promises",
 fn: function (aClass,aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -66,7 +66,7 @@ $globals.Thenable);
 $core.addMethod(
 $core.method({
 selector: "on:do:catch:",
-protocol: 'promises',
+protocol: "promises",
 fn: function (aClass,aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -93,7 +93,7 @@ $globals.Thenable);
 $core.addMethod(
 $core.method({
 selector: "then:",
-protocol: 'promises',
+protocol: "promises",
 fn: function (aBlockOrArray){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -132,7 +132,7 @@ $globals.Thenable);
 $core.addMethod(
 $core.method({
 selector: "then:catch:",
-protocol: 'promises',
+protocol: "promises",
 fn: function (aBlockOrArray,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -155,7 +155,7 @@ $globals.Thenable);
 $core.addMethod(
 $core.method({
 selector: "then:on:do:",
-protocol: 'promises',
+protocol: "promises",
 fn: function (aBlockOrArray,aClass,aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -178,7 +178,7 @@ $globals.Thenable);
 $core.addMethod(
 $core.method({
 selector: "then:on:do:catch:",
-protocol: 'promises',
+protocol: "promises",
 fn: function (aBlockOrArray,aClass,aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -200,12 +200,12 @@ $globals.Thenable);
 
 
 
-$core.addClass('Promise', $globals.Thenable, [], 'Kernel-Promises');
+$core.addClass("Promise", $globals.Thenable, [], "Kernel-Promises");
 
 $core.addMethod(
 $core.method({
 selector: "all:",
-protocol: 'composites',
+protocol: "composites",
 fn: function (aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -229,7 +229,7 @@ $globals.Promise.klass);
 $core.addMethod(
 $core.method({
 selector: "any:",
-protocol: 'composites',
+protocol: "composites",
 fn: function (aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -253,7 +253,7 @@ $globals.Promise.klass);
 $core.addMethod(
 $core.method({
 selector: "forBlock:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -276,7 +276,7 @@ $globals.Promise.klass);
 $core.addMethod(
 $core.method({
 selector: "new",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -300,7 +300,7 @@ $globals.Promise.klass);
 $core.addMethod(
 $core.method({
 selector: "new:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -327,7 +327,7 @@ $globals.Promise.klass);
 $core.addMethod(
 $core.method({
 selector: "signal:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -351,7 +351,7 @@ $globals.Promise.klass);
 $core.addMethod(
 $core.method({
 selector: "value:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -375,7 +375,7 @@ $globals.Promise.klass);
 $core.addMethod(
 $core.method({
 selector: "catch:",
-protocol: '*Kernel-Promises',
+protocol: "*Kernel-Promises",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -407,7 +407,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "on:do:",
-protocol: '*Kernel-Promises',
+protocol: "*Kernel-Promises",
 fn: function (aClass,aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -439,7 +439,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "on:do:catch:",
-protocol: '*Kernel-Promises',
+protocol: "*Kernel-Promises",
 fn: function (aClass,aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -471,7 +471,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "then:",
-protocol: '*Kernel-Promises',
+protocol: "*Kernel-Promises",
 fn: function (aBlockOrArray){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -503,7 +503,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "then:catch:",
-protocol: '*Kernel-Promises',
+protocol: "*Kernel-Promises",
 fn: function (aBlockOrArray,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -535,7 +535,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "then:on:do:",
-protocol: '*Kernel-Promises',
+protocol: "*Kernel-Promises",
 fn: function (aBlockOrArray,aClass,aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -567,7 +567,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "then:on:do:catch:",
-protocol: '*Kernel-Promises',
+protocol: "*Kernel-Promises",
 fn: function (aBlockOrArray,aClass,aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

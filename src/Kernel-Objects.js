@@ -2,18 +2,18 @@ define(["amber/boot"], function($boot){"use strict";
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Kernel-Objects');
+$core.addPackage("Kernel-Objects");
 $core.packages["Kernel-Objects"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Objects"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('ProtoObject', null, [], 'Kernel-Objects');
+$core.addClass("ProtoObject", null, [], "Kernel-Objects");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ProtoObject.comment="I implement the basic behavior required for any object in Amber.\x0a\x0aIn most cases, subclassing `ProtoObject` is wrong and `Object` should be used instead. However subclassing `ProtoObject` can be useful in some special cases like proxy implementations.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "=",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -36,7 +36,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "==",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -60,7 +60,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "asString",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -83,7 +83,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "class",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -107,7 +107,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "doesNotUnderstand:",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (aMessage){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -135,7 +135,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "evaluate:on:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (aString,anEvaluator){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -158,7 +158,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "identityHash",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -188,7 +188,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "ifNil:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aBlock){
 var self=this;
 return self;
@@ -206,7 +206,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "ifNil:ifNotNil:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -229,7 +229,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "ifNotNil:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -252,7 +252,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "ifNotNil:ifNil:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -275,7 +275,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 return self;
@@ -293,7 +293,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "inspect",
-protocol: 'inspecting',
+protocol: "inspecting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -317,7 +317,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "inspectOn:",
-protocol: 'inspecting',
+protocol: "inspecting",
 fn: function (anInspector){
 var self=this;
 return self;
@@ -335,7 +335,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "instVarAt:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -359,7 +359,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "instVarAt:put:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -383,7 +383,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "isKindOf:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -412,7 +412,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "isNil",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -430,7 +430,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "isSameInstanceAs:",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -458,7 +458,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "notNil",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -481,7 +481,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "perform:",
-protocol: 'message handling',
+protocol: "message handling",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -504,7 +504,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "perform:withArguments:",
-protocol: 'message handling',
+protocol: "message handling",
 fn: function (aString,aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -528,7 +528,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "printOn:",
-protocol: 'printing',
+protocol: "printing",
 fn: function (aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -572,7 +572,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "printString",
-protocol: 'printing',
+protocol: "printing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -603,7 +603,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "yourself",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self;
@@ -621,7 +621,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "~=",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -649,7 +649,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "~~",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -673,7 +673,7 @@ $globals.ProtoObject);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 return self;
@@ -689,14 +689,14 @@ messageSends: []
 $globals.ProtoObject.klass);
 
 
-$core.addClass('Object', $globals.ProtoObject, [], 'Kernel-Objects');
+$core.addClass("Object", $globals.ProtoObject, [], "Kernel-Objects");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Object.comment="**I am the root of the Smalltalk class system**. With the exception of unual subclasses of `ProtoObject`, all other classes in the system are subclasses of me.\x0a\x0aI provide default behavior common to all normal objects (some of it inherited from `ProtoObject`), such as:\x0a\x0a- accessing\x0a- copying\x0a- comparison\x0a- error handling\x0a- message sending\x0a- reflection\x0a\x0aAlso utility messages that all objects should respond to are defined here.\x0a\x0aI have no instance variable.\x0a\x0a##Access\x0a\x0aInstance variables can be accessed with `#instVarAt:` and `#instVarAt:put:`. `#instanceVariableNames` answers a collection of all instance variable names.\x0aAccessing JavaScript properties of an object is done through `#basicAt:`, `#basicAt:put:` and `basicDelete:`.\x0a\x0a##Copying\x0a\x0aCopying an object is handled by `#copy` and `#deepCopy`. The first one performs a shallow copy of the receiver, while the second one performs a deep copy.\x0aThe hook method `#postCopy` can be overriden in subclasses to copy fields as necessary to complete the full copy. It will be sent by the copy of the receiver.\x0a\x0a##Comparison\x0a\x0aI understand equality `#=` and identity `#==` comparison.\x0a\x0a##Error handling\x0a\x0a- `#halt` is the typical message to use for inserting breakpoints during debugging.\x0a- `#error:` throws a generic error exception\x0a- `#doesNotUnderstand:` handles the fact that there was an attempt to send the given message to the receiver but the receiver does not understand this message.\x0a\x09Overriding this message can be useful to implement proxies for example.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "->",
-protocol: 'converting',
+protocol: "converting",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -719,7 +719,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "asJSON",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 var variables;
@@ -753,7 +753,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "asJSONString",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -776,7 +776,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "asJavascript",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -799,7 +799,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "basicAt:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -823,7 +823,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "basicAt:put:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -847,7 +847,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "basicDelete:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -871,7 +871,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "basicPerform:",
-protocol: 'message handling',
+protocol: "message handling",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -894,7 +894,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "basicPerform:withArguments:",
-protocol: 'message handling',
+protocol: "message handling",
 fn: function (aString,aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -918,7 +918,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "browse",
-protocol: 'browsing',
+protocol: "browsing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -942,7 +942,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "copy",
-protocol: 'copying',
+protocol: "copying",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -965,7 +965,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "deepCopy",
-protocol: 'copying',
+protocol: "copying",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -997,7 +997,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "deprecatedAPI",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1045,7 +1045,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "deprecatedAPI:",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1097,7 +1097,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "error:",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1121,7 +1121,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "halt",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1145,7 +1145,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "in:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (aValuable){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1168,7 +1168,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "isBehavior",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1186,7 +1186,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "isBoolean",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1204,7 +1204,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "isClass",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1222,7 +1222,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "isCompiledMethod",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1240,7 +1240,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "isImmutable",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1258,7 +1258,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "isMemberOf:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1281,7 +1281,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "isMetaclass",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1299,7 +1299,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "isNumber",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1317,7 +1317,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "isPackage",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1335,7 +1335,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "isParseFailure",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1353,7 +1353,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "isString",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1371,7 +1371,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "isSymbol",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -1389,7 +1389,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "postCopy",
-protocol: 'copying',
+protocol: "copying",
 fn: function (){
 var self=this;
 return self;
@@ -1407,7 +1407,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "putOn:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1431,7 +1431,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "respondsTo:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aSelector){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1454,7 +1454,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "shallowCopy",
-protocol: 'copying',
+protocol: "copying",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1486,7 +1486,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "shouldNotImplement",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1510,7 +1510,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "size",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1534,7 +1534,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "subclassResponsibility",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1558,7 +1558,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "value",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1583,7 +1583,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "accessorProtocolWith:",
-protocol: 'helios',
+protocol: "helios",
 fn: function (aGenerator){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1607,7 +1607,7 @@ $globals.Object.klass);
 $core.addMethod(
 $core.method({
 selector: "accessorsSourceCodesWith:",
-protocol: 'helios',
+protocol: "helios",
 fn: function (aGenerator){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1631,7 +1631,7 @@ $globals.Object.klass);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 return self;
@@ -1649,7 +1649,7 @@ $globals.Object.klass);
 $core.addMethod(
 $core.method({
 selector: "initializeProtocolWith:",
-protocol: 'helios',
+protocol: "helios",
 fn: function (aGenerator){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1673,7 +1673,7 @@ $globals.Object.klass);
 $core.addMethod(
 $core.method({
 selector: "initializeSourceCodesWith:",
-protocol: 'helios',
+protocol: "helios",
 fn: function (aGenerator){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1695,14 +1695,14 @@ messageSends: ["initializeForObject"]
 $globals.Object.klass);
 
 
-$core.addClass('Boolean', $globals.Object, [], 'Kernel-Objects');
+$core.addClass("Boolean", $globals.Object, [], "Kernel-Objects");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Boolean.comment="I define the protocol for logic testing operations and conditional control structures for the logical values (see the `controlling` protocol).\x0a\x0aI have two instances, `true` and `false`.\x0a\x0aI am directly mapped to JavaScript Boolean. The `true` and `false` objects are the JavaScript boolean objects.\x0a\x0a## Usage Example:\x0a\x0a    aBoolean not ifTrue: [ ... ] ifFalse: [ ... ]";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "&",
-protocol: 'controlling',
+protocol: "controlling",
 fn: function (aBoolean){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1732,7 +1732,7 @@ $globals.Boolean);
 $core.addMethod(
 $core.method({
 selector: "==",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (aBoolean){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1759,7 +1759,7 @@ $globals.Boolean);
 $core.addMethod(
 $core.method({
 selector: "and:",
-protocol: 'controlling',
+protocol: "controlling",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1786,7 +1786,7 @@ $globals.Boolean);
 $core.addMethod(
 $core.method({
 selector: "asBit",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1813,7 +1813,7 @@ $globals.Boolean);
 $core.addMethod(
 $core.method({
 selector: "asJSON",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 return self;
@@ -1831,7 +1831,7 @@ $globals.Boolean);
 $core.addMethod(
 $core.method({
 selector: "asString",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1855,7 +1855,7 @@ $globals.Boolean);
 $core.addMethod(
 $core.method({
 selector: "deepCopy",
-protocol: 'copying',
+protocol: "copying",
 fn: function (){
 var self=this;
 return self;
@@ -1873,7 +1873,7 @@ $globals.Boolean);
 $core.addMethod(
 $core.method({
 selector: "ifFalse:",
-protocol: 'controlling',
+protocol: "controlling",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1898,7 +1898,7 @@ $globals.Boolean);
 $core.addMethod(
 $core.method({
 selector: "ifFalse:ifTrue:",
-protocol: 'controlling',
+protocol: "controlling",
 fn: function (aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1921,7 +1921,7 @@ $globals.Boolean);
 $core.addMethod(
 $core.method({
 selector: "ifTrue:",
-protocol: 'controlling',
+protocol: "controlling",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1946,7 +1946,7 @@ $globals.Boolean);
 $core.addMethod(
 $core.method({
 selector: "ifTrue:ifFalse:",
-protocol: 'controlling',
+protocol: "controlling",
 fn: function (aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1976,7 +1976,7 @@ $globals.Boolean);
 $core.addMethod(
 $core.method({
 selector: "isBoolean",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -1994,7 +1994,7 @@ $globals.Boolean);
 $core.addMethod(
 $core.method({
 selector: "isImmutable",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -2012,7 +2012,7 @@ $globals.Boolean);
 $core.addMethod(
 $core.method({
 selector: "not",
-protocol: 'controlling',
+protocol: "controlling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2035,7 +2035,7 @@ $globals.Boolean);
 $core.addMethod(
 $core.method({
 selector: "or:",
-protocol: 'controlling',
+protocol: "controlling",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2062,7 +2062,7 @@ $globals.Boolean);
 $core.addMethod(
 $core.method({
 selector: "printOn:",
-protocol: 'printing',
+protocol: "printing",
 fn: function (aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2086,7 +2086,7 @@ $globals.Boolean);
 $core.addMethod(
 $core.method({
 selector: "shallowCopy",
-protocol: 'copying',
+protocol: "copying",
 fn: function (){
 var self=this;
 return self;
@@ -2104,7 +2104,7 @@ $globals.Boolean);
 $core.addMethod(
 $core.method({
 selector: "|",
-protocol: 'controlling',
+protocol: "controlling",
 fn: function (aBoolean){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2133,14 +2133,14 @@ $globals.Boolean);
 
 
 
-$core.addClass('Date', $globals.Object, [], 'Kernel-Objects');
+$core.addClass("Date", $globals.Object, [], "Kernel-Objects");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Date.comment="I am used to work with both dates and times. Therefore `Date today` and `Date now` are both valid in\x0aAmber and answer the same date object.\x0a\x0aDate directly maps to the `Date()` JavaScript constructor, and Amber date objects are JavaScript date objects.\x0a\x0a## API\x0a\x0aThe class-side `instance creation` protocol contains some convenience methods for creating date/time objects such as `#fromSeconds:`.\x0a\x0aArithmetic and comparison is supported (see the `comparing` and `arithmetic` protocols).\x0a\x0aThe `converting` protocol provides convenience methods for various convertions (to numbers, strings, etc.).";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "+",
-protocol: 'arithmetic',
+protocol: "arithmetic",
 fn: function (aDate){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2164,7 +2164,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "-",
-protocol: 'arithmetic',
+protocol: "arithmetic",
 fn: function (aDate){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2188,7 +2188,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "<",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (aDate){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2212,7 +2212,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "<=",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (aDate){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2236,7 +2236,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "=",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (aDate){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2280,7 +2280,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: ">",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (aDate){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2304,7 +2304,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: ">=",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (aDate){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2328,7 +2328,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "asDateString",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2352,7 +2352,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "asLocaleString",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2376,7 +2376,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "asMilliseconds",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2399,7 +2399,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "asNumber",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2422,7 +2422,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "asString",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2446,7 +2446,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "asTimeString",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2470,7 +2470,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "day",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2493,7 +2493,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "day:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2517,7 +2517,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "dayOfMonth",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2541,7 +2541,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "dayOfMonth:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2565,7 +2565,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "dayOfWeek",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2589,7 +2589,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "dayOfWeek:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2613,7 +2613,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "hours",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2637,7 +2637,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "hours:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2661,7 +2661,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "milliseconds",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2685,7 +2685,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "milliseconds:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2709,7 +2709,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "minutes",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2733,7 +2733,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "minutes:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2757,7 +2757,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "month",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2781,7 +2781,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "month:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2805,7 +2805,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "printOn:",
-protocol: 'printing',
+protocol: "printing",
 fn: function (aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2829,7 +2829,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "seconds",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2853,7 +2853,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "seconds:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2877,7 +2877,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "time",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2901,7 +2901,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "time:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2925,7 +2925,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "year",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2949,7 +2949,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "year:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2974,7 +2974,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "classTag",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return "magnitude";
@@ -2992,7 +2992,7 @@ $globals.Date.klass);
 $core.addMethod(
 $core.method({
 selector: "fromMilliseconds:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3015,7 +3015,7 @@ $globals.Date.klass);
 $core.addMethod(
 $core.method({
 selector: "fromSeconds:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3038,7 +3038,7 @@ $globals.Date.klass);
 $core.addMethod(
 $core.method({
 selector: "fromString:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3061,7 +3061,7 @@ $globals.Date.klass);
 $core.addMethod(
 $core.method({
 selector: "millisecondsToRun:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aBlock){
 var self=this;
 var t;
@@ -3090,7 +3090,7 @@ $globals.Date.klass);
 $core.addMethod(
 $core.method({
 selector: "new:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3114,7 +3114,7 @@ $globals.Date.klass);
 $core.addMethod(
 $core.method({
 selector: "now",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3137,7 +3137,7 @@ $globals.Date.klass);
 $core.addMethod(
 $core.method({
 selector: "today",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3158,14 +3158,14 @@ messageSends: ["new"]
 $globals.Date.klass);
 
 
-$core.addClass('Number', $globals.Object, [], 'Kernel-Objects');
+$core.addClass("Number", $globals.Object, [], "Kernel-Objects");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Number.comment="I am the Amber representation for all numbers.\x0aI am directly mapped to JavaScript Number.\x0a\x0a## API\x0a\x0aI provide all necessary methods for arithmetic operations, comparison, conversion and so on with numbers.\x0a\x0aMy instances can also be used to evaluate a block a fixed number of times:\x0a\x0a\x095 timesRepeat: [ Transcript show: 'This will be printed 5 times'; cr ].\x0a\x09\x0a\x091 to: 5 do: [ :aNumber| Transcript show: aNumber asString; cr ].\x0a\x09\x0a\x091 to: 10 by: 2 do: [ :aNumber| Transcript show: aNumber asString; cr ].";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "&",
-protocol: 'converting',
+protocol: "converting",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3189,7 +3189,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "*",
-protocol: 'arithmetic',
+protocol: "arithmetic",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3213,7 +3213,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "**",
-protocol: 'mathematical functions',
+protocol: "mathematical functions",
 fn: function (exponent){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3236,7 +3236,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "+",
-protocol: 'arithmetic',
+protocol: "arithmetic",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3260,7 +3260,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "-",
-protocol: 'arithmetic',
+protocol: "arithmetic",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3284,7 +3284,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "/",
-protocol: 'arithmetic',
+protocol: "arithmetic",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3308,7 +3308,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "//",
-protocol: 'arithmetic',
+protocol: "arithmetic",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3331,7 +3331,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "<",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3355,7 +3355,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "<=",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3379,7 +3379,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "==",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3406,7 +3406,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: ">",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3430,7 +3430,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: ">=",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3454,7 +3454,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "@",
-protocol: 'converting',
+protocol: "converting",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3477,7 +3477,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "\x5c\x5c",
-protocol: 'arithmetic',
+protocol: "arithmetic",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3501,7 +3501,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "abs",
-protocol: 'arithmetic',
+protocol: "arithmetic",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3525,7 +3525,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "arcCos",
-protocol: 'mathematical functions',
+protocol: "mathematical functions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3549,7 +3549,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "arcSin",
-protocol: 'mathematical functions',
+protocol: "mathematical functions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3573,7 +3573,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "arcTan",
-protocol: 'mathematical functions',
+protocol: "mathematical functions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3597,7 +3597,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "asJSON",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 return self;
@@ -3615,7 +3615,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "asJavascript",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3643,7 +3643,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "asNumber",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 return self;
@@ -3661,7 +3661,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "asPoint",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3684,7 +3684,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "asString",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3708,7 +3708,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "atRandom",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3731,7 +3731,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "ceiling",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3755,7 +3755,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "copy",
-protocol: 'copying',
+protocol: "copying",
 fn: function (){
 var self=this;
 return self;
@@ -3773,7 +3773,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "cos",
-protocol: 'mathematical functions',
+protocol: "mathematical functions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3797,7 +3797,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "deepCopy",
-protocol: 'copying',
+protocol: "copying",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3820,7 +3820,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "even",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3843,7 +3843,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "floor",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3867,7 +3867,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "isImmutable",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -3885,7 +3885,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "isNumber",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -3903,7 +3903,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "isZero",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3926,7 +3926,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "ln",
-protocol: 'mathematical functions',
+protocol: "mathematical functions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3950,7 +3950,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "log",
-protocol: 'mathematical functions',
+protocol: "mathematical functions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3974,7 +3974,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "log:",
-protocol: 'mathematical functions',
+protocol: "mathematical functions",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3998,7 +3998,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "max:",
-protocol: 'arithmetic',
+protocol: "arithmetic",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4022,7 +4022,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "min:",
-protocol: 'arithmetic',
+protocol: "arithmetic",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4046,7 +4046,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "negated",
-protocol: 'arithmetic',
+protocol: "arithmetic",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4069,7 +4069,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "negative",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4092,7 +4092,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "odd",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4115,7 +4115,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "positive",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4138,7 +4138,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "printOn:",
-protocol: 'printing',
+protocol: "printing",
 fn: function (aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4162,7 +4162,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "printShowingDecimalPlaces:",
-protocol: 'printing',
+protocol: "printing",
 fn: function (placesDesired){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4186,7 +4186,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "raisedTo:",
-protocol: 'mathematical functions',
+protocol: "mathematical functions",
 fn: function (exponent){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4210,7 +4210,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "rounded",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4234,7 +4234,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "sign",
-protocol: 'mathematical functions',
+protocol: "mathematical functions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4268,7 +4268,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "sin",
-protocol: 'mathematical functions',
+protocol: "mathematical functions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4292,7 +4292,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "sqrt",
-protocol: 'mathematical functions',
+protocol: "mathematical functions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4316,7 +4316,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "squared",
-protocol: 'mathematical functions',
+protocol: "mathematical functions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4339,7 +4339,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "tan",
-protocol: 'mathematical functions',
+protocol: "mathematical functions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4363,7 +4363,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "timesRepeat:",
-protocol: 'enumerating',
+protocol: "enumerating",
 fn: function (aBlock){
 var self=this;
 var count;
@@ -4407,7 +4407,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "to:",
-protocol: 'converting',
+protocol: "converting",
 fn: function (aNumber){
 var self=this;
 var array,first,last,count;
@@ -4457,7 +4457,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "to:by:",
-protocol: 'converting',
+protocol: "converting",
 fn: function (stop,step){
 var self=this;
 var array,value,pos;
@@ -4550,7 +4550,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "to:by:do:",
-protocol: 'enumerating',
+protocol: "enumerating",
 fn: function (stop,step,aBlock){
 var self=this;
 var value;
@@ -4631,7 +4631,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "to:do:",
-protocol: 'enumerating',
+protocol: "enumerating",
 fn: function (stop,aBlock){
 var self=this;
 var nextValue;
@@ -4675,7 +4675,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "truncated",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4705,7 +4705,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "|",
-protocol: 'converting',
+protocol: "converting",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4730,7 +4730,7 @@ $globals.Number);
 $core.addMethod(
 $core.method({
 selector: "classTag",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return "magnitude";
@@ -4748,7 +4748,7 @@ $globals.Number.klass);
 $core.addMethod(
 $core.method({
 selector: "e",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4772,7 +4772,7 @@ $globals.Number.klass);
 $core.addMethod(
 $core.method({
 selector: "pi",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4794,14 +4794,14 @@ messageSends: []
 $globals.Number.klass);
 
 
-$core.addClass('Point', $globals.Object, ['x', 'y'], 'Kernel-Objects');
+$core.addClass("Point", $globals.Object, ["x", "y"], "Kernel-Objects");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Point.comment="I represent an x-y pair of numbers usually designating a geometric coordinate.\x0a\x0a## API\x0a\x0aInstances are traditionally created using the binary `#@` message to a number:\x0a\x0a\x09100@120\x0a\x0aPoints can then be arithmetically manipulated:\x0a\x0a\x09100@100 + (10@10)\x0a\x0a...or for example:\x0a\x0a\x09(100@100) * 2\x0a\x0a**NOTE:** Creating a point with a negative y-value will need a space after `@` in order to avoid a parsing error:\x0a\x0a\x09100@ -100 \x22but 100@-100 would not parse\x22";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "*",
-protocol: 'arithmetic',
+protocol: "arithmetic",
 fn: function (aPoint){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4843,7 +4843,7 @@ $globals.Point);
 $core.addMethod(
 $core.method({
 selector: "+",
-protocol: 'arithmetic',
+protocol: "arithmetic",
 fn: function (aPoint){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4885,7 +4885,7 @@ $globals.Point);
 $core.addMethod(
 $core.method({
 selector: "-",
-protocol: 'arithmetic',
+protocol: "arithmetic",
 fn: function (aPoint){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4927,7 +4927,7 @@ $globals.Point);
 $core.addMethod(
 $core.method({
 selector: "/",
-protocol: 'arithmetic',
+protocol: "arithmetic",
 fn: function (aPoint){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4969,7 +4969,7 @@ $globals.Point);
 $core.addMethod(
 $core.method({
 selector: "<",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (aPoint){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5013,7 +5013,7 @@ $globals.Point);
 $core.addMethod(
 $core.method({
 selector: "<=",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (aPoint){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5057,7 +5057,7 @@ $globals.Point);
 $core.addMethod(
 $core.method({
 selector: "=",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (aPoint){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5110,7 +5110,7 @@ $globals.Point);
 $core.addMethod(
 $core.method({
 selector: ">",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (aPoint){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5154,7 +5154,7 @@ $globals.Point);
 $core.addMethod(
 $core.method({
 selector: ">=",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (aPoint){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5198,7 +5198,7 @@ $globals.Point);
 $core.addMethod(
 $core.method({
 selector: "asPoint",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 return self;
@@ -5216,7 +5216,7 @@ $globals.Point);
 $core.addMethod(
 $core.method({
 selector: "dist:",
-protocol: 'transforming',
+protocol: "transforming",
 fn: function (aPoint){
 var self=this;
 var dx,dy;
@@ -5251,7 +5251,7 @@ $globals.Point);
 $core.addMethod(
 $core.method({
 selector: "printOn:",
-protocol: 'printing',
+protocol: "printing",
 fn: function (aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5293,7 +5293,7 @@ $globals.Point);
 $core.addMethod(
 $core.method({
 selector: "translateBy:",
-protocol: 'transforming',
+protocol: "transforming",
 fn: function (delta){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5321,7 +5321,7 @@ $globals.Point);
 $core.addMethod(
 $core.method({
 selector: "x",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@x"];
@@ -5339,7 +5339,7 @@ $globals.Point);
 $core.addMethod(
 $core.method({
 selector: "x:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aNumber){
 var self=this;
 self["@x"]=aNumber;
@@ -5358,7 +5358,7 @@ $globals.Point);
 $core.addMethod(
 $core.method({
 selector: "y",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@y"];
@@ -5376,7 +5376,7 @@ $globals.Point);
 $core.addMethod(
 $core.method({
 selector: "y:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aNumber){
 var self=this;
 self["@y"]=aNumber;
@@ -5396,7 +5396,7 @@ $globals.Point);
 $core.addMethod(
 $core.method({
 selector: "classTag",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return "magnitude";
@@ -5414,7 +5414,7 @@ $globals.Point.klass);
 $core.addMethod(
 $core.method({
 selector: "x:y:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aNumber,anotherNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5439,14 +5439,14 @@ messageSends: ["x:", "new", "y:", "yourself"]
 $globals.Point.klass);
 
 
-$core.addClass('Random', $globals.Object, [], 'Kernel-Objects');
+$core.addClass("Random", $globals.Object, [], "Kernel-Objects");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Random.comment="I an used to generate a random number and I am implemented as a trivial wrapper around javascript `Math.random()`.\x0a\x0a## API\x0a\x0aThe typical use case it to use the `#next` method like the following:\x0a\x0a\x09Random new next\x0a\x0aThis will return a float x where x < 1 and x > 0. If you want a random integer from 1 to 10 you can use `#atRandom`\x0a\x0a\x0910 atRandom\x0a\x0aA random number in a specific interval can be obtained with the following:\x0a\x0a\x09(3 to: 7) atRandom\x0a\x0aBe aware that `#to:` does not create an Interval as in other Smalltalk implementations but in fact an `Array` of numbers, so it's better to use:\x0a\x0a\x095 atRandom + 2\x0a\x0aSince `#atRandom` is implemented in `SequencableCollection` you can easy pick an element at random:\x0a\x0a\x09#('a' 'b' 'c') atRandom\x0a\x0aAs well as letter from a `String`:\x0a\x0a\x09'abc' atRandom\x0a\x0aSince Amber does not have Characters this will return a `String` of length 1 like for example `'b'`.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "next",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5470,7 +5470,7 @@ $globals.Random);
 $core.addMethod(
 $core.method({
 selector: "next:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anInteger){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5500,14 +5500,14 @@ $globals.Random);
 
 
 
-$core.addClass('UndefinedObject', $globals.Object, [], 'Kernel-Objects');
+$core.addClass("UndefinedObject", $globals.Object, [], "Kernel-Objects");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.UndefinedObject.comment="I describe the behavior of my sole instance, `nil`. `nil` represents a prior value for variables that have not been initialized, or for results which are meaningless.\x0a\x0a`nil` is the Smalltalk equivalent of the `undefined` JavaScript object.\x0a\x0a__note:__ When sending messages to the `undefined` JavaScript object, it will be replaced by `nil`.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "asJSON",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 return null;
@@ -5525,7 +5525,7 @@ $globals.UndefinedObject);
 $core.addMethod(
 $core.method({
 selector: "deepCopy",
-protocol: 'copying',
+protocol: "copying",
 fn: function (){
 var self=this;
 return self;
@@ -5543,7 +5543,7 @@ $globals.UndefinedObject);
 $core.addMethod(
 $core.method({
 selector: "ifNil:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5568,7 +5568,7 @@ $globals.UndefinedObject);
 $core.addMethod(
 $core.method({
 selector: "ifNil:ifNotNil:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5591,7 +5591,7 @@ $globals.UndefinedObject);
 $core.addMethod(
 $core.method({
 selector: "ifNotNil:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aBlock){
 var self=this;
 return self;
@@ -5609,7 +5609,7 @@ $globals.UndefinedObject);
 $core.addMethod(
 $core.method({
 selector: "ifNotNil:ifNil:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5632,7 +5632,7 @@ $globals.UndefinedObject);
 $core.addMethod(
 $core.method({
 selector: "isImmutable",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -5650,7 +5650,7 @@ $globals.UndefinedObject);
 $core.addMethod(
 $core.method({
 selector: "isNil",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -5668,7 +5668,7 @@ $globals.UndefinedObject);
 $core.addMethod(
 $core.method({
 selector: "notNil",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return false;
@@ -5686,7 +5686,7 @@ $globals.UndefinedObject);
 $core.addMethod(
 $core.method({
 selector: "printOn:",
-protocol: 'printing',
+protocol: "printing",
 fn: function (aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5710,7 +5710,7 @@ $globals.UndefinedObject);
 $core.addMethod(
 $core.method({
 selector: "shallowCopy",
-protocol: 'copying',
+protocol: "copying",
 fn: function (){
 var self=this;
 return self;
@@ -5728,7 +5728,7 @@ $globals.UndefinedObject);
 $core.addMethod(
 $core.method({
 selector: "subclass:instanceVariableNames:",
-protocol: 'class creation',
+protocol: "class creation",
 fn: function (aString,anotherString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5751,7 +5751,7 @@ $globals.UndefinedObject);
 $core.addMethod(
 $core.method({
 selector: "subclass:instanceVariableNames:category:",
-protocol: 'class creation',
+protocol: "class creation",
 fn: function (aString,aString2,aString3){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5774,7 +5774,7 @@ $globals.UndefinedObject);
 $core.addMethod(
 $core.method({
 selector: "subclass:instanceVariableNames:classVariableNames:poolDictionaries:category:",
-protocol: 'class creation',
+protocol: "class creation",
 fn: function (aString,aString2,classVars,pools,aString3){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5797,7 +5797,7 @@ $globals.UndefinedObject);
 $core.addMethod(
 $core.method({
 selector: "subclass:instanceVariableNames:package:",
-protocol: 'class creation',
+protocol: "class creation",
 fn: function (aString,aString2,aString3){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5821,7 +5821,7 @@ $globals.UndefinedObject);
 $core.addMethod(
 $core.method({
 selector: "new",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

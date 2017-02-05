@@ -2,15 +2,15 @@ define(["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Platform-DOM-Tests');
+$core.addPackage("Platform-DOM-Tests");
 $core.packages["Platform-DOM-Tests"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Platform-DOM-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('PlatformDomTest', $globals.TestCase, ['fixtureDiv'], 'Platform-DOM-Tests');
+$core.addClass("PlatformDomTest", $globals.TestCase, ["fixtureDiv"], "Platform-DOM-Tests");
 $core.addMethod(
 $core.method({
 selector: "testEntityConversion",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -38,7 +38,7 @@ $globals.PlatformDomTest);
 $core.addMethod(
 $core.method({
 selector: "testTextContentDoesNotRunScript",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

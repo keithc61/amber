@@ -2,16 +2,16 @@ define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict"
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('NodeTestRunner');
+$core.addPackage("NodeTestRunner");
 $core.packages["NodeTestRunner"].innerEval = function (expr) { return eval(expr); };
 $core.packages["NodeTestRunner"].transport = {"type":"amd","amdNamespace":"amber_devkit"};
 
-$core.addClass('NodeTestRunner', $globals.Object, [], 'NodeTestRunner');
+$core.addClass("NodeTestRunner", $globals.Object, [], "NodeTestRunner");
 
 $core.addMethod(
 $core.method({
 selector: "main",
-protocol: 'not yet classified',
+protocol: "not yet classified",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -35,7 +35,7 @@ $globals.NodeTestRunner.klass);
 $core.addMethod(
 $core.method({
 selector: "runTestSuite",
-protocol: 'not yet classified',
+protocol: "not yet classified",
 fn: function (){
 var self=this;
 var suite,worker;

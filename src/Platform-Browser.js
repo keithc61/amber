@@ -2,18 +2,18 @@ define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict"
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Platform-Browser');
+$core.addPackage("Platform-Browser");
 $core.packages["Platform-Browser"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Platform-Browser"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('BrowserPlatform', $globals.Object, [], 'Platform-Browser');
+$core.addClass("BrowserPlatform", $globals.Object, [], "Platform-Browser");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.BrowserPlatform.comment="I am `Platform` service implementation for browser.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "globals",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return window;
@@ -31,7 +31,7 @@ $globals.BrowserPlatform);
 $core.addMethod(
 $core.method({
 selector: "newXhr",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -61,7 +61,7 @@ $globals.BrowserPlatform);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -89,7 +89,7 @@ $globals.BrowserPlatform.klass);
 $core.addMethod(
 $core.method({
 selector: "isFeasible",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -111,14 +111,14 @@ messageSends: []
 $globals.BrowserPlatform.klass);
 
 
-$core.addClass('BrowserTerminal', $globals.Object, [], 'Platform-Browser');
+$core.addClass("BrowserTerminal", $globals.Object, [], "Platform-Browser");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.BrowserTerminal.comment="I am `Terminal` service implementation for browser.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "alert:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -141,7 +141,7 @@ $globals.BrowserTerminal);
 $core.addMethod(
 $core.method({
 selector: "confirm:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -164,7 +164,7 @@ $globals.BrowserTerminal);
 $core.addMethod(
 $core.method({
 selector: "prompt:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -187,7 +187,7 @@ $globals.BrowserTerminal);
 $core.addMethod(
 $core.method({
 selector: "prompt:default:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aString,defaultString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -211,7 +211,7 @@ $globals.BrowserTerminal);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -239,7 +239,7 @@ $globals.BrowserTerminal.klass);
 $core.addMethod(
 $core.method({
 selector: "isFeasible",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -263,7 +263,7 @@ $globals.BrowserTerminal.klass);
 $core.addMethod(
 $core.method({
 selector: "postMessageTo:",
-protocol: '*Platform-Browser',
+protocol: "*Platform-Browser",
 fn: function (aFrame){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -286,7 +286,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "postMessageTo:origin:",
-protocol: '*Platform-Browser',
+protocol: "*Platform-Browser",
 fn: function (aFrame,aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

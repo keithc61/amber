@@ -2,18 +2,18 @@ define(["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Except
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Compiler-Core');
+$core.addPackage("Compiler-Core");
 $core.packages["Compiler-Core"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-Core"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('AbstractCodeGenerator', $globals.Object, ['currentClass', 'currentPackage', 'source'], 'Compiler-Core');
+$core.addClass("AbstractCodeGenerator", $globals.Object, ["currentClass", "currentPackage", "source"], "Compiler-Core");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AbstractCodeGenerator.comment="I am the abstract super class of all code generators and provide their common API.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "compileNode:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -44,7 +44,7 @@ $globals.AbstractCodeGenerator);
 $core.addMethod(
 $core.method({
 selector: "currentClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@currentClass"];
@@ -62,7 +62,7 @@ $globals.AbstractCodeGenerator);
 $core.addMethod(
 $core.method({
 selector: "currentClass:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 self["@currentClass"]=aClass;
@@ -81,7 +81,7 @@ $globals.AbstractCodeGenerator);
 $core.addMethod(
 $core.method({
 selector: "currentPackage",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@currentPackage"];
@@ -99,7 +99,7 @@ $globals.AbstractCodeGenerator);
 $core.addMethod(
 $core.method({
 selector: "currentPackage:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anObject){
 var self=this;
 self["@currentPackage"]=anObject;
@@ -118,7 +118,7 @@ $globals.AbstractCodeGenerator);
 $core.addMethod(
 $core.method({
 selector: "pseudoVariables",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -141,7 +141,7 @@ $globals.AbstractCodeGenerator);
 $core.addMethod(
 $core.method({
 selector: "source",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -170,7 +170,7 @@ $globals.AbstractCodeGenerator);
 $core.addMethod(
 $core.method({
 selector: "source:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@source"]=aString;
@@ -189,7 +189,7 @@ $globals.AbstractCodeGenerator);
 $core.addMethod(
 $core.method({
 selector: "transformers",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (){
 var self=this;
 var dict;
@@ -222,7 +222,7 @@ $globals.AbstractCodeGenerator);
 $core.addMethod(
 $core.method({
 selector: "transformersDictionary",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -245,14 +245,14 @@ $globals.AbstractCodeGenerator);
 
 
 
-$core.addClass('CodeGenerator', $globals.AbstractCodeGenerator, [], 'Compiler-Core');
+$core.addClass("CodeGenerator", $globals.AbstractCodeGenerator, [], "Compiler-Core");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.CodeGenerator.comment="I am a basic code generator. I generate a valid JavaScript output, but no not perform any inlining.\x0aSee `InliningCodeGenerator` for an optimized JavaScript code generation.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "irTranslator",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -278,7 +278,7 @@ $globals.CodeGenerator);
 $core.addMethod(
 $core.method({
 selector: "irTranslatorClass",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (){
 var self=this;
 return $globals.IRJSTranslator;
@@ -296,7 +296,7 @@ $globals.CodeGenerator);
 $core.addMethod(
 $core.method({
 selector: "semanticAnalyzer",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -322,7 +322,7 @@ $globals.CodeGenerator);
 $core.addMethod(
 $core.method({
 selector: "transformersDictionary",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -356,7 +356,7 @@ $globals.CodeGenerator);
 $core.addMethod(
 $core.method({
 selector: "translator",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -382,14 +382,14 @@ $globals.CodeGenerator);
 
 
 
-$core.addClass('Compiler', $globals.Object, ['currentClass', 'currentPackage', 'source', 'unknownVariables', 'codeGeneratorClass'], 'Compiler-Core');
+$core.addClass("Compiler", $globals.Object, ["currentClass", "currentPackage", "source", "unknownVariables", "codeGeneratorClass"], "Compiler-Core");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Compiler.comment="I provide the public interface for compiling Amber source code into JavaScript.\x0a\x0aThe code generator used to produce JavaScript can be plugged with `#codeGeneratorClass`.\x0aThe default code generator is an instance of `InlinedCodeGenerator`";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "codeGeneratorClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -418,7 +418,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "codeGeneratorClass:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 self["@codeGeneratorClass"]=aClass;
@@ -437,7 +437,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "compile:forClass:protocol:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aString,aClass,anotherString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -461,7 +461,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "compileExpression:on:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aString,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -489,7 +489,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "compileNode:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aNode){
 var self=this;
 var generator,result;
@@ -521,7 +521,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "compileNode:forClass:package:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aNode,aClass,aPackage){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -546,7 +546,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "currentClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@currentClass"];
@@ -564,7 +564,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "currentClass:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 self["@currentClass"]=aClass;
@@ -583,7 +583,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "currentPackage",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@currentPackage"];
@@ -601,7 +601,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "currentPackage:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anObject){
 var self=this;
 self["@currentPackage"]=anObject;
@@ -620,7 +620,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "eval:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -644,7 +644,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "eval:forPackage:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aString,aPackage){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -670,7 +670,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "evaluateExpression:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -693,7 +693,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "evaluateExpression:on:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aString,anObject){
 var self=this;
 var result,method;
@@ -727,7 +727,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "install:forClass:protocol:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aString,aBehavior,anotherString){
 var self=this;
 var compiledMethod;
@@ -752,7 +752,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "parse:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -775,7 +775,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "parseExpression:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -803,7 +803,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "recompile:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -847,7 +847,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "recompileAll",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -879,7 +879,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "source",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -908,7 +908,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "source:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@source"]=aString;
@@ -927,7 +927,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "unknownVariables",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@unknownVariables"];
@@ -945,7 +945,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "unknownVariables:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aCollection){
 var self=this;
 self["@unknownVariables"]=aCollection;
@@ -965,7 +965,7 @@ $globals.Compiler);
 $core.addMethod(
 $core.method({
 selector: "recompile:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -989,7 +989,7 @@ $globals.Compiler.klass);
 $core.addMethod(
 $core.method({
 selector: "recompileAll",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1019,26 +1019,26 @@ messageSends: ["do:", "classes", "recompile:"]
 $globals.Compiler.klass);
 
 
-$core.addClass('CompilerError', $globals.Error, [], 'Compiler-Core');
+$core.addClass("CompilerError", $globals.Error, [], "Compiler-Core");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.CompilerError.comment="I am the common superclass of all compiling errors.";
 //>>excludeEnd("ide");
 
 
-$core.addClass('DoIt', $globals.Object, [], 'Compiler-Core');
+$core.addClass("DoIt", $globals.Object, [], "Compiler-Core");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.DoIt.comment="`DoIt` is the class used to compile and evaluate expressions. See `Compiler >> evaluateExpression:`.";
 //>>excludeEnd("ide");
 
 
-$core.addClass('Evaluator', $globals.Object, [], 'Compiler-Core');
+$core.addClass("Evaluator", $globals.Object, [], "Compiler-Core");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Evaluator.comment="I evaluate code against a receiver, dispatching #evaluate:on: to the receiver.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "evaluate:context:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (aString,aContext){
 var self=this;
 var compiler,ast;
@@ -1089,7 +1089,7 @@ $globals.Evaluator);
 $core.addMethod(
 $core.method({
 selector: "evaluate:for:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (aString,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1112,7 +1112,7 @@ $globals.Evaluator);
 $core.addMethod(
 $core.method({
 selector: "evaluate:receiver:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (aString,anObject){
 var self=this;
 var compiler;
@@ -1159,7 +1159,7 @@ $globals.Evaluator);
 $core.addMethod(
 $core.method({
 selector: "evaluate:for:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aString,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1182,7 +1182,7 @@ $globals.Evaluator.klass);
 $core.addMethod(
 $core.method({
 selector: "asVariableName",
-protocol: '*Compiler-Core',
+protocol: "*Compiler-Core",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

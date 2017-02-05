@@ -2,18 +2,18 @@ define(["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Semantic",
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Compiler-Interpreter');
+$core.addPackage("Compiler-Interpreter");
 $core.packages["Compiler-Interpreter"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-Interpreter"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('AIBlockClosure', $globals.BlockClosure, ['node', 'outerContext'], 'Compiler-Interpreter');
+$core.addClass("AIBlockClosure", $globals.BlockClosure, ["node", "outerContext"], "Compiler-Interpreter");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AIBlockClosure.comment="I am a special `BlockClosure` subclass used by an interpreter to interpret a block node.\x0a\x0aWhile I am polymorphic with `BlockClosure`, some methods such as `#new` will raise interpretation errors. Unlike a `BlockClosure`, my instance are not JavaScript functions.\x0a\x0aEvaluating an instance will result in interpreting the `node` instance variable (instance of `BlockNode`).";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "applyTo:arguments:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (anObject,aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -37,7 +37,7 @@ $globals.AIBlockClosure);
 $core.addMethod(
 $core.method({
 selector: "compiledSource",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return "[ AST Block closure ]";
@@ -55,7 +55,7 @@ $globals.AIBlockClosure);
 $core.addMethod(
 $core.method({
 selector: "currySelf",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -79,7 +79,7 @@ $globals.AIBlockClosure);
 $core.addMethod(
 $core.method({
 selector: "initializeWithContext:node:",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (aContext,aNode){
 var self=this;
 self["@node"]=aNode;
@@ -99,7 +99,7 @@ $globals.AIBlockClosure);
 $core.addMethod(
 $core.method({
 selector: "interpreterError",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -123,7 +123,7 @@ $globals.AIBlockClosure);
 $core.addMethod(
 $core.method({
 selector: "numArgs",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -146,7 +146,7 @@ $globals.AIBlockClosure);
 $core.addMethod(
 $core.method({
 selector: "value",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -169,7 +169,7 @@ $globals.AIBlockClosure);
 $core.addMethod(
 $core.method({
 selector: "value:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (anArgument){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -192,7 +192,7 @@ $globals.AIBlockClosure);
 $core.addMethod(
 $core.method({
 selector: "value:value:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (firstArgument,secondArgument){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -215,7 +215,7 @@ $globals.AIBlockClosure);
 $core.addMethod(
 $core.method({
 selector: "value:value:value:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (firstArgument,secondArgument,thirdArgument){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -238,7 +238,7 @@ $globals.AIBlockClosure);
 $core.addMethod(
 $core.method({
 selector: "valueWithPossibleArguments:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (aCollection){
 var self=this;
 var context,sequenceNode;
@@ -305,7 +305,7 @@ $globals.AIBlockClosure);
 $core.addMethod(
 $core.method({
 selector: "forContext:node:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aContext,aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -329,14 +329,14 @@ messageSends: ["initializeWithContext:node:", "new", "yourself"]
 $globals.AIBlockClosure.klass);
 
 
-$core.addClass('AIContext', $globals.MethodContext, ['outerContext', 'innerContext', 'pc', 'locals', 'selector', 'index', 'sendIndexes', 'evaluatedSelector', 'ast', 'interpreter', 'supercall'], 'Compiler-Interpreter');
+$core.addClass("AIContext", $globals.MethodContext, ["outerContext", "innerContext", "pc", "locals", "selector", "index", "sendIndexes", "evaluatedSelector", "ast", "interpreter", "supercall"], "Compiler-Interpreter");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AIContext.comment="I am like a `MethodContext`, used by the `ASTInterpreter`.\x0aUnlike a `MethodContext`, my instances are not read-only.\x0a\x0aWhen debugging, my instances are created by copying the current `MethodContext` (thisContext)";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "arguments",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -375,7 +375,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "ast",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -416,7 +416,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "basicLocalAt:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -439,7 +439,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "basicLocalAt:put:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -463,7 +463,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "basicReceiver",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -486,7 +486,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "defineLocal:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -510,7 +510,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "evaluate:on:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (aString,anEvaluator){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -533,7 +533,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "evaluateNode:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -562,7 +562,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "evaluatedSelector",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@evaluatedSelector"];
@@ -580,7 +580,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "evaluatedSelector:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@evaluatedSelector"]=aString;
@@ -599,7 +599,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "index",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -628,7 +628,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "index:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anInteger){
 var self=this;
 self["@index"]=anInteger;
@@ -647,7 +647,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "initializeAST",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -677,7 +677,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "initializeFromMethodContext:",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (aMethodContext){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -736,7 +736,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "initializeInterpreter",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -769,7 +769,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "initializeLocals",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -794,7 +794,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "innerContext",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@innerContext"];
@@ -812,7 +812,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "innerContext:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anAIContext){
 var self=this;
 self["@innerContext"]=anAIContext;
@@ -831,7 +831,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "interpreter",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -861,7 +861,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "interpreter:",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (anInterpreter){
 var self=this;
 self["@interpreter"]=anInterpreter;
@@ -880,7 +880,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "isTopContext",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -903,7 +903,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "localAt:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 var context;
@@ -928,7 +928,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "localAt:ifAbsent:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString,aBlock){
 var self=this;
 var context;
@@ -965,7 +965,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "localAt:put:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString,anObject){
 var self=this;
 var context;
@@ -991,7 +991,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "locals",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1021,7 +1021,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "lookupContextForLocal:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1052,7 +1052,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "lookupContextForLocal:ifNone:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString,aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1096,7 +1096,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "newInnerContext",
-protocol: 'factory',
+protocol: "factory",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1122,7 +1122,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "outerContext",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@outerContext"];
@@ -1140,7 +1140,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "outerContext:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anAIContext){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1173,7 +1173,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "receiver:",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1197,7 +1197,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "selector",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@selector"];
@@ -1215,7 +1215,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "selector:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@selector"]=aString;
@@ -1234,7 +1234,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "sendIndexAt:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1260,7 +1260,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "sendIndexes",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1289,7 +1289,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "sendIndexes:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aDictionary){
 var self=this;
 self["@sendIndexes"]=aDictionary;
@@ -1308,7 +1308,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "setupInterpreter:",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (anInterpreter){
 var self=this;
 var currentNode;
@@ -1385,7 +1385,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "supercall",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1414,7 +1414,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "supercall:",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (aBoolean){
 var self=this;
 self["@supercall"]=aBoolean;
@@ -1433,7 +1433,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "variableNotFound",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1458,7 +1458,7 @@ $globals.AIContext);
 $core.addMethod(
 $core.method({
 selector: "fromMethodContext:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aMethodContext){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1482,14 +1482,14 @@ messageSends: ["initializeFromMethodContext:", "new", "yourself"]
 $globals.AIContext.klass);
 
 
-$core.addClass('AISemanticAnalyzer', $globals.SemanticAnalyzer, ['context'], 'Compiler-Interpreter');
+$core.addClass("AISemanticAnalyzer", $globals.SemanticAnalyzer, ["context"], "Compiler-Interpreter");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AISemanticAnalyzer.comment="I perform the same semantic analysis than `SemanticAnalyzer`, with the difference that provided an `AIContext` context, variables are bound with the context variables.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "context",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@context"];
@@ -1507,7 +1507,7 @@ $globals.AISemanticAnalyzer);
 $core.addMethod(
 $core.method({
 selector: "context:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anAIContext){
 var self=this;
 self["@context"]=anAIContext;
@@ -1526,7 +1526,7 @@ $globals.AISemanticAnalyzer);
 $core.addMethod(
 $core.method({
 selector: "visitVariableNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1571,14 +1571,14 @@ $globals.AISemanticAnalyzer);
 
 
 
-$core.addClass('ASTContextVar', $globals.ScopeVar, ['context'], 'Compiler-Interpreter');
+$core.addClass("ASTContextVar", $globals.ScopeVar, ["context"], "Compiler-Interpreter");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ASTContextVar.comment="I am a variable defined in a `context`.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "context",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@context"];
@@ -1596,7 +1596,7 @@ $globals.ASTContextVar);
 $core.addMethod(
 $core.method({
 selector: "context:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anObject){
 var self=this;
 self["@context"]=anObject;
@@ -1614,14 +1614,14 @@ $globals.ASTContextVar);
 
 
 
-$core.addClass('ASTDebugger', $globals.Object, ['interpreter', 'context', 'result'], 'Compiler-Interpreter');
+$core.addClass("ASTDebugger", $globals.Object, ["interpreter", "context", "result"], "Compiler-Interpreter");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ASTDebugger.comment="I am a stepping debugger interface for Amber code.\x0aI internally use an instance of `ASTInterpreter` to actually step through node and interpret them.\x0a\x0aMy instances are created from an `AIContext` with `ASTDebugger class >> context:`.\x0aThey hold an `AIContext` instance internally, recursive copy of the `MethodContext`.\x0a\x0a## API\x0a\x0aUse the methods of the `'stepping'` protocol to do stepping.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "atEnd",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1662,7 +1662,7 @@ $globals.ASTDebugger);
 $core.addMethod(
 $core.method({
 selector: "context",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@context"];
@@ -1680,7 +1680,7 @@ $globals.ASTDebugger);
 $core.addMethod(
 $core.method({
 selector: "context:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aContext){
 var self=this;
 self["@context"]=aContext;
@@ -1699,7 +1699,7 @@ $globals.ASTDebugger);
 $core.addMethod(
 $core.method({
 selector: "flushInnerContexts",
-protocol: 'actions',
+protocol: "actions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1731,7 +1731,7 @@ $globals.ASTDebugger);
 $core.addMethod(
 $core.method({
 selector: "interpreter",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1762,7 +1762,7 @@ $globals.ASTDebugger);
 $core.addMethod(
 $core.method({
 selector: "method",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1785,7 +1785,7 @@ $globals.ASTDebugger);
 $core.addMethod(
 $core.method({
 selector: "node",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1817,7 +1817,7 @@ $globals.ASTDebugger);
 $core.addMethod(
 $core.method({
 selector: "onStep",
-protocol: 'private',
+protocol: "private",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1873,7 +1873,7 @@ $globals.ASTDebugger);
 $core.addMethod(
 $core.method({
 selector: "proceed",
-protocol: 'stepping',
+protocol: "stepping",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1913,7 +1913,7 @@ $globals.ASTDebugger);
 $core.addMethod(
 $core.method({
 selector: "restart",
-protocol: 'stepping',
+protocol: "stepping",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1938,7 +1938,7 @@ $globals.ASTDebugger);
 $core.addMethod(
 $core.method({
 selector: "result",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@result"];
@@ -1956,7 +1956,7 @@ $globals.ASTDebugger);
 $core.addMethod(
 $core.method({
 selector: "stepInto",
-protocol: 'stepping',
+protocol: "stepping",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1980,7 +1980,7 @@ $globals.ASTDebugger);
 $core.addMethod(
 $core.method({
 selector: "stepOver",
-protocol: 'stepping',
+protocol: "stepping",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2016,7 +2016,7 @@ $globals.ASTDebugger);
 $core.addMethod(
 $core.method({
 selector: "context:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aContext){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2040,11 +2040,11 @@ messageSends: ["context:", "new", "yourself"]
 $globals.ASTDebugger.klass);
 
 
-$core.addClass('ASTEnterNode', $globals.NodeVisitor, ['interpreter'], 'Compiler-Interpreter');
+$core.addClass("ASTEnterNode", $globals.NodeVisitor, ["interpreter"], "Compiler-Interpreter");
 $core.addMethod(
 $core.method({
 selector: "interpreter",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@interpreter"];
@@ -2062,7 +2062,7 @@ $globals.ASTEnterNode);
 $core.addMethod(
 $core.method({
 selector: "interpreter:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anObject){
 var self=this;
 self["@interpreter"]=anObject;
@@ -2081,7 +2081,7 @@ $globals.ASTEnterNode);
 $core.addMethod(
 $core.method({
 selector: "visitBlockNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 return aNode;
@@ -2099,7 +2099,7 @@ $globals.ASTEnterNode);
 $core.addMethod(
 $core.method({
 selector: "visitDagNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2138,7 +2138,7 @@ $globals.ASTEnterNode);
 $core.addMethod(
 $core.method({
 selector: "visitSequenceNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2180,7 +2180,7 @@ $globals.ASTEnterNode);
 $core.addMethod(
 $core.method({
 selector: "on:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (anInterpreter){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2204,14 +2204,14 @@ messageSends: ["interpreter:", "new", "yourself"]
 $globals.ASTEnterNode.klass);
 
 
-$core.addClass('ASTInterpreter', $globals.NodeVisitor, ['node', 'context', 'stack', 'returnValue', 'returned', 'forceAtEnd'], 'Compiler-Interpreter');
+$core.addClass("ASTInterpreter", $globals.NodeVisitor, ["node", "context", "stack", "returnValue", "returned", "forceAtEnd"], "Compiler-Interpreter");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ASTInterpreter.comment="I visit an AST, interpreting (evaluating) nodes one after the other, using a small stack machine.\x0a\x0a## API\x0a\x0aWhile my instances should be used from within an `ASTDebugger`, which provides a more high level interface,\x0ayou can use methods from the `interpreting` protocol:\x0a\x0a- `#step` evaluates the current `node` only\x0a- `#stepOver` evaluates the AST from the current `node` up to the next stepping node (most likely the next send node)\x0a- `#proceed` evaluates eagerly the AST\x0a- `#restart` select the first node of the AST\x0a- `#skip` skips the current node, moving to the next one if any";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "assign:to:",
-protocol: 'private',
+protocol: "private",
 fn: function (aNode,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2250,7 +2250,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "atEnd",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2286,7 +2286,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "context",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@context"];
@@ -2304,7 +2304,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "context:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aContext){
 var self=this;
 self["@context"]=aContext;
@@ -2323,7 +2323,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "enterNode",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2347,7 +2347,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "eval:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString){
 var self=this;
 var source,function_;
@@ -2426,7 +2426,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "hasReturned",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2455,7 +2455,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2487,7 +2487,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "interpret",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2511,7 +2511,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "messageFromSendNode:arguments:",
-protocol: 'private',
+protocol: "private",
 fn: function (aSendNode,aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2538,7 +2538,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "messageNotUnderstood:receiver:",
-protocol: 'private',
+protocol: "private",
 fn: function (aMessage,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2566,7 +2566,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "next",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (){
 var self=this;
 var nd,nextNode;
@@ -2608,7 +2608,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "node",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@node"];
@@ -2626,7 +2626,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "node:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aNode){
 var self=this;
 self["@node"]=aNode;
@@ -2645,7 +2645,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "peek",
-protocol: 'stack',
+protocol: "stack",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2681,7 +2681,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "pop",
-protocol: 'stack',
+protocol: "stack",
 fn: function (){
 var self=this;
 var peekedValue;
@@ -2707,7 +2707,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "proceed",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2747,7 +2747,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "push:",
-protocol: 'stack',
+protocol: "stack",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2770,7 +2770,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "restart",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2795,7 +2795,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "result",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2824,7 +2824,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "returnValue",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@returnValue"];
@@ -2842,7 +2842,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "returnValue:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anObject){
 var self=this;
 self["@returnValue"]=anObject;
@@ -2861,7 +2861,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "sendMessage:to:superSend:",
-protocol: 'private',
+protocol: "private",
 fn: function (aMessage,anObject,aBoolean){
 var self=this;
 var method;
@@ -2919,7 +2919,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "setNonLocalReturnFromContext:",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (aContext){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2953,7 +2953,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "skip",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2977,7 +2977,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "stack",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3007,7 +3007,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "step",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3032,7 +3032,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "stepOver",
-protocol: 'interpreting',
+protocol: "interpreting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3090,7 +3090,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "visit:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3125,7 +3125,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "visitAssignmentNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 var poppedValue;
@@ -3156,7 +3156,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "visitBlockNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 var block;
@@ -3182,7 +3182,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "visitBlockSequenceNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3214,7 +3214,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "visitDagNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 return self;
@@ -3232,7 +3232,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "visitDynamicArrayNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 var array;
@@ -3267,7 +3267,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "visitDynamicDictionaryNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 var keyValueList;
@@ -3302,7 +3302,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "visitJSStatementNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3327,7 +3327,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "visitReturnNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3352,7 +3352,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "visitSendNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 var receiver,args,message,result;
@@ -3405,7 +3405,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "visitValueNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3429,7 +3429,7 @@ $globals.ASTInterpreter);
 $core.addMethod(
 $core.method({
 selector: "visitVariableNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3536,20 +3536,20 @@ $globals.ASTInterpreter);
 
 
 
-$core.addClass('ASTInterpreterError', $globals.Error, [], 'Compiler-Interpreter');
+$core.addClass("ASTInterpreterError", $globals.Error, [], "Compiler-Interpreter");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ASTInterpreterError.comment="I get signaled when an AST interpreter is unable to interpret a node.";
 //>>excludeEnd("ide");
 
 
-$core.addClass('ASTPCNodeVisitor', $globals.NodeVisitor, ['index', 'trackedIndex', 'selector', 'currentNode'], 'Compiler-Interpreter');
+$core.addClass("ASTPCNodeVisitor", $globals.NodeVisitor, ["index", "trackedIndex", "selector", "currentNode"], "Compiler-Interpreter");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ASTPCNodeVisitor.comment="I visit an AST until I get to the current node for the `context` and answer it.\x0a\x0a## API\x0a\x0aMy instances must be filled with a context object using `#context:`.\x0a\x0aAfter visiting the AST the current node is answered by `#currentNode`";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "currentNode",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@currentNode"];
@@ -3567,7 +3567,7 @@ $globals.ASTPCNodeVisitor);
 $core.addMethod(
 $core.method({
 selector: "increaseTrackedIndex",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3591,7 +3591,7 @@ $globals.ASTPCNodeVisitor);
 $core.addMethod(
 $core.method({
 selector: "index",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@index"];
@@ -3609,7 +3609,7 @@ $globals.ASTPCNodeVisitor);
 $core.addMethod(
 $core.method({
 selector: "index:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aNumber){
 var self=this;
 self["@index"]=aNumber;
@@ -3628,7 +3628,7 @@ $globals.ASTPCNodeVisitor);
 $core.addMethod(
 $core.method({
 selector: "selector",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@selector"];
@@ -3646,7 +3646,7 @@ $globals.ASTPCNodeVisitor);
 $core.addMethod(
 $core.method({
 selector: "selector:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@selector"]=aString;
@@ -3665,7 +3665,7 @@ $globals.ASTPCNodeVisitor);
 $core.addMethod(
 $core.method({
 selector: "trackedIndex",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3695,7 +3695,7 @@ $globals.ASTPCNodeVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitJSStatementNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 self["@currentNode"]=aNode;
@@ -3714,7 +3714,7 @@ $globals.ASTPCNodeVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitSendNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3763,7 +3763,7 @@ $globals.ASTPCNodeVisitor);
 $core.addMethod(
 $core.method({
 selector: "isLastChild",
-protocol: '*Compiler-Interpreter',
+protocol: "*Compiler-Interpreter",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3786,7 +3786,7 @@ $globals.ASTNode);
 $core.addMethod(
 $core.method({
 selector: "isSteppingNode",
-protocol: '*Compiler-Interpreter',
+protocol: "*Compiler-Interpreter",
 fn: function (){
 var self=this;
 return false;
@@ -3804,7 +3804,7 @@ $globals.ASTNode);
 $core.addMethod(
 $core.method({
 selector: "nextSiblingNode:",
-protocol: '*Compiler-Interpreter',
+protocol: "*Compiler-Interpreter",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3839,7 +3839,7 @@ $globals.ASTNode);
 $core.addMethod(
 $core.method({
 selector: "isSteppingNode",
-protocol: '*Compiler-Interpreter',
+protocol: "*Compiler-Interpreter",
 fn: function (){
 var self=this;
 return true;
@@ -3857,7 +3857,7 @@ $globals.AssignmentNode);
 $core.addMethod(
 $core.method({
 selector: "isSteppingNode",
-protocol: '*Compiler-Interpreter',
+protocol: "*Compiler-Interpreter",
 fn: function (){
 var self=this;
 return true;
@@ -3875,7 +3875,7 @@ $globals.BlockNode);
 $core.addMethod(
 $core.method({
 selector: "nextSiblingNode:",
-protocol: '*Compiler-Interpreter',
+protocol: "*Compiler-Interpreter",
 fn: function (aNode){
 var self=this;
 return nil;
@@ -3893,7 +3893,7 @@ $globals.BlockNode);
 $core.addMethod(
 $core.method({
 selector: "isSteppingNode",
-protocol: '*Compiler-Interpreter',
+protocol: "*Compiler-Interpreter",
 fn: function (){
 var self=this;
 return true;
@@ -3911,7 +3911,7 @@ $globals.DynamicArrayNode);
 $core.addMethod(
 $core.method({
 selector: "isSteppingNode",
-protocol: '*Compiler-Interpreter',
+protocol: "*Compiler-Interpreter",
 fn: function (){
 var self=this;
 return true;
@@ -3929,7 +3929,7 @@ $globals.DynamicDictionaryNode);
 $core.addMethod(
 $core.method({
 selector: "isSteppingNode",
-protocol: '*Compiler-Interpreter',
+protocol: "*Compiler-Interpreter",
 fn: function (){
 var self=this;
 return true;
@@ -3947,7 +3947,7 @@ $globals.JSStatementNode);
 $core.addMethod(
 $core.method({
 selector: "isCascadeSendNode",
-protocol: '*Compiler-Interpreter',
+protocol: "*Compiler-Interpreter",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3970,7 +3970,7 @@ $globals.SendNode);
 $core.addMethod(
 $core.method({
 selector: "isSteppingNode",
-protocol: '*Compiler-Interpreter',
+protocol: "*Compiler-Interpreter",
 fn: function (){
 var self=this;
 return true;

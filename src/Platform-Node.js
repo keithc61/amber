@@ -2,18 +2,18 @@ define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict"
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Platform-Node');
+$core.addPackage("Platform-Node");
 $core.packages["Platform-Node"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Platform-Node"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('NodePlatform', $globals.Object, [], 'Platform-Node');
+$core.addClass("NodePlatform", $globals.Object, [], "Platform-Node");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.NodePlatform.comment="I am `Platform` service implementation for node-like environment.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "globals",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return global;
@@ -31,7 +31,7 @@ $globals.NodePlatform);
 $core.addMethod(
 $core.method({
 selector: "newXhr",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -61,7 +61,7 @@ $globals.NodePlatform);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -89,7 +89,7 @@ $globals.NodePlatform.klass);
 $core.addMethod(
 $core.method({
 selector: "isFeasible",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

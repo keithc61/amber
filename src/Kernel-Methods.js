@@ -2,18 +2,18 @@ define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict"
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Kernel-Methods');
+$core.addPackage("Kernel-Methods");
 $core.packages["Kernel-Methods"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Methods"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('BlockClosure', $globals.Object, [], 'Kernel-Methods');
+$core.addClass("BlockClosure", $globals.Object, [], "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.BlockClosure.comment="I represent a lexical closure.\x0aI am is directly mapped to JavaScript Function.\x0a\x0a## API\x0a\x0a1. Evaluation\x0a\x0a    My instances get evaluated with the `#value*` methods in the 'evaluating' protocol.\x0a\x0a    Example: ` [ :x | x + 1 ] value: 3 \x22Answers 4\x22 `\x0a\x0a2. Control structures\x0a\x0a    Blocks are used (together with `Boolean`) for control structures (methods in the `controlling` protocol).\x0a\x0a    Example: `aBlock whileTrue: [ ... ]`\x0a\x0a3. Error handling\x0a\x0a    I provide the `#on:do:` method for handling exceptions.\x0a\x0a    Example: ` aBlock on: MessageNotUnderstood do: [ :ex | ... ] `";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "applyTo:arguments:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (anObject,aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -37,7 +37,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "asCompiledMethod:",
-protocol: 'converting',
+protocol: "converting",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -61,7 +61,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "compiledSource",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -85,7 +85,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "currySelf",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -115,7 +115,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "ensure:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -139,7 +139,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "fork",
-protocol: 'timeout/interval',
+protocol: "timeout/interval",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -163,7 +163,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "new",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -187,7 +187,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "newValue:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -210,7 +210,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "newValue:value:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (anObject,anObject2){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -233,7 +233,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "newValue:value:value:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (anObject,anObject2,anObject3){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -256,7 +256,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "newWithValues:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -284,7 +284,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "numArgs",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -308,7 +308,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "on:do:",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (anErrorClass,aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -348,7 +348,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "receiver",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return nil;
@@ -366,7 +366,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "timeToRun",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -389,7 +389,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "tryCatch:",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -421,7 +421,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "value",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -445,7 +445,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "value:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (anArg){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -469,7 +469,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "value:value:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (firstArg,secondArg){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -493,7 +493,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "value:value:value:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (firstArg,secondArg,thirdArg){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -517,7 +517,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "valueWithInterval:",
-protocol: 'timeout/interval',
+protocol: "timeout/interval",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -544,7 +544,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "valueWithPossibleArguments:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -568,7 +568,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "valueWithTimeout:",
-protocol: 'timeout/interval',
+protocol: "timeout/interval",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -595,7 +595,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "whileFalse",
-protocol: 'controlling',
+protocol: "controlling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -621,7 +621,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "whileFalse:",
-protocol: 'controlling',
+protocol: "controlling",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -645,7 +645,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "whileTrue",
-protocol: 'controlling',
+protocol: "controlling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -671,7 +671,7 @@ $globals.BlockClosure);
 $core.addMethod(
 $core.method({
 selector: "whileTrue:",
-protocol: 'controlling',
+protocol: "controlling",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -694,14 +694,14 @@ $globals.BlockClosure);
 
 
 
-$core.addClass('CompiledMethod', $globals.Object, [], 'Kernel-Methods');
+$core.addClass("CompiledMethod", $globals.Object, [], "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.CompiledMethod.comment="I represent a class method of the system. I hold the source and compiled code of a class method.\x0a\x0a## API\x0aMy instances can be accessed using `Behavior >> #methodAt:`\x0a\x0a    Object methodAt: 'asString'\x0a\x0aSource code access:\x0a\x0a\x09(String methodAt: 'lines') source\x0a\x0aReferenced classes:\x0a\x0a\x09(String methodAt: 'lines') referencedClasses\x0a\x0aMessages sent from an instance:\x0a\x09\x0a\x09(String methodAt: 'lines') messageSends";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "arguments",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -725,7 +725,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "browse",
-protocol: 'browsing',
+protocol: "browsing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -749,7 +749,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "category",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -772,7 +772,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "defaultProtocol",
-protocol: 'defaults',
+protocol: "defaults",
 fn: function (){
 var self=this;
 return "as yet unclassified";
@@ -790,7 +790,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "fn",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -813,7 +813,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "fn:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -837,7 +837,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "isCompiledMethod",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -855,7 +855,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "isOverridden",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 var selector;
@@ -897,7 +897,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "isOverride",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 var superclass;
@@ -936,7 +936,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "messageSends",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -959,7 +959,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "methodClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -982,7 +982,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "package",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1013,7 +1013,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "protocol",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1042,7 +1042,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "protocol:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 var oldProtocol;
@@ -1084,7 +1084,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "referencedClasses",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1107,7 +1107,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "selector",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1130,7 +1130,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "selector:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1154,7 +1154,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "sendTo:arguments:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (anObject,aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1177,7 +1177,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "source",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1206,7 +1206,7 @@ $globals.CompiledMethod);
 $core.addMethod(
 $core.method({
 selector: "source:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1229,14 +1229,14 @@ $globals.CompiledMethod);
 
 
 
-$core.addClass('ForkPool', $globals.Object, ['poolSize', 'maxPoolSize', 'queue', 'worker'], 'Kernel-Methods');
+$core.addClass("ForkPool", $globals.Object, ["poolSize", "maxPoolSize", "queue", "worker"], "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ForkPool.comment="I am responsible for handling forked blocks.\x0aThe pool size sets the maximum concurrent forked blocks.\x0a\x0a## API\x0a\x0aThe default instance is accessed with `#default`.\x0aThe maximum concurrent forked blocks can be set with `#maxPoolSize:`.\x0a\x0aForking is done via `BlockClosure >> #fork`";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "addWorker",
-protocol: 'private',
+protocol: "private",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1261,7 +1261,7 @@ $globals.ForkPool);
 $core.addMethod(
 $core.method({
 selector: "defaultMaxPoolSize",
-protocol: 'defaults',
+protocol: "defaults",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1284,7 +1284,7 @@ $globals.ForkPool);
 $core.addMethod(
 $core.method({
 selector: "fork:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1313,7 +1313,7 @@ $globals.ForkPool);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1347,7 +1347,7 @@ $globals.ForkPool);
 $core.addMethod(
 $core.method({
 selector: "makeWorker",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 var sentinel;
@@ -1408,7 +1408,7 @@ $globals.ForkPool);
 $core.addMethod(
 $core.method({
 selector: "maxPoolSize",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1437,7 +1437,7 @@ $globals.ForkPool);
 $core.addMethod(
 $core.method({
 selector: "maxPoolSize:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anInteger){
 var self=this;
 self["@maxPoolSize"]=anInteger;
@@ -1454,11 +1454,11 @@ messageSends: []
 $globals.ForkPool);
 
 
-$globals.ForkPool.klass.iVarNames = ['default'];
+$globals.ForkPool.klass.iVarNames = ["default"];
 $core.addMethod(
 $core.method({
 selector: "default",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1488,7 +1488,7 @@ $globals.ForkPool.klass);
 $core.addMethod(
 $core.method({
 selector: "defaultMaxPoolSize",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return (100);
@@ -1506,7 +1506,7 @@ $globals.ForkPool.klass);
 $core.addMethod(
 $core.method({
 selector: "resetDefault",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 self["@default"]=nil;
@@ -1523,14 +1523,14 @@ messageSends: []
 $globals.ForkPool.klass);
 
 
-$core.addClass('Message', $globals.Object, ['selector', 'arguments'], 'Kernel-Methods');
+$core.addClass("Message", $globals.Object, ["selector", "arguments"], "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Message.comment="In general, the system does not use instances of me for efficiency reasons.\x0aHowever, when a message is not understood by its receiver, the interpreter will make up an instance of it in order to capture the information involved in an actual message transmission.\x0aThis instance is sent it as an argument with the message `#doesNotUnderstand:` to the receiver.\x0a\x0aSee boot.js, `messageNotUnderstood` and its counterpart `Object >> #doesNotUnderstand:`\x0a\x0a## API\x0a\x0aBesides accessing methods, `#sendTo:` provides a convenient way to send a message to an object.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "arguments",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@arguments"];
@@ -1548,7 +1548,7 @@ $globals.Message);
 $core.addMethod(
 $core.method({
 selector: "arguments:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anArray){
 var self=this;
 self["@arguments"]=anArray;
@@ -1567,7 +1567,7 @@ $globals.Message);
 $core.addMethod(
 $core.method({
 selector: "printOn:",
-protocol: 'printing',
+protocol: "printing",
 fn: function (aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1607,7 +1607,7 @@ $globals.Message);
 $core.addMethod(
 $core.method({
 selector: "selector",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@selector"];
@@ -1625,7 +1625,7 @@ $globals.Message);
 $core.addMethod(
 $core.method({
 selector: "selector:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@selector"]=aString;
@@ -1644,7 +1644,7 @@ $globals.Message);
 $core.addMethod(
 $core.method({
 selector: "sendTo:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1668,7 +1668,7 @@ $globals.Message);
 $core.addMethod(
 $core.method({
 selector: "selector:arguments:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aString,anArray){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1693,14 +1693,14 @@ messageSends: ["selector:", "new", "arguments:", "yourself"]
 $globals.Message.klass);
 
 
-$core.addClass('MessageSend', $globals.Object, ['receiver', 'message'], 'Kernel-Methods');
+$core.addClass("MessageSend", $globals.Object, ["receiver", "message"], "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MessageSend.comment="I encapsulate message sends to objects. Arguments can be either predefined or supplied when the message send is performed. \x0a\x0a## API\x0a\x0aUse `#value` to perform a message send with its predefined arguments and `#value:*` if additonal arguments have to supplied.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "arguments",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1723,7 +1723,7 @@ $globals.MessageSend);
 $core.addMethod(
 $core.method({
 selector: "arguments:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1747,7 +1747,7 @@ $globals.MessageSend);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1779,7 +1779,7 @@ $globals.MessageSend);
 $core.addMethod(
 $core.method({
 selector: "printOn:",
-protocol: 'printing',
+protocol: "printing",
 fn: function (aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1827,7 +1827,7 @@ $globals.MessageSend);
 $core.addMethod(
 $core.method({
 selector: "receiver",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@receiver"];
@@ -1845,7 +1845,7 @@ $globals.MessageSend);
 $core.addMethod(
 $core.method({
 selector: "receiver:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anObject){
 var self=this;
 self["@receiver"]=anObject;
@@ -1864,7 +1864,7 @@ $globals.MessageSend);
 $core.addMethod(
 $core.method({
 selector: "selector",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1887,7 +1887,7 @@ $globals.MessageSend);
 $core.addMethod(
 $core.method({
 selector: "selector:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1911,7 +1911,7 @@ $globals.MessageSend);
 $core.addMethod(
 $core.method({
 selector: "value",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1934,7 +1934,7 @@ $globals.MessageSend);
 $core.addMethod(
 $core.method({
 selector: "value:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1960,7 +1960,7 @@ $globals.MessageSend);
 $core.addMethod(
 $core.method({
 selector: "value:value:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (firstArgument,secondArgument){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1986,7 +1986,7 @@ $globals.MessageSend);
 $core.addMethod(
 $core.method({
 selector: "value:value:value:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (firstArgument,secondArgument,thirdArgument){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2012,7 +2012,7 @@ $globals.MessageSend);
 $core.addMethod(
 $core.method({
 selector: "valueWithPossibleArguments:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2035,14 +2035,14 @@ $globals.MessageSend);
 
 
 
-$core.addClass('MethodContext', $globals.Object, [], 'Kernel-Methods');
+$core.addClass("MethodContext", $globals.Object, [], "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodContext.comment="I hold all the dynamic state associated with the execution of either a method activation resulting from a message send. I am used to build the call stack while debugging.\x0a\x0aMy instances are JavaScript `SmalltalkMethodContext` objects defined in `boot.js`.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "asString",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2135,7 +2135,7 @@ $globals.MethodContext);
 $core.addMethod(
 $core.method({
 selector: "basicReceiver",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2159,7 +2159,7 @@ $globals.MethodContext);
 $core.addMethod(
 $core.method({
 selector: "evaluatedSelector",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2183,7 +2183,7 @@ $globals.MethodContext);
 $core.addMethod(
 $core.method({
 selector: "findContextSuchThat:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (testBlock){
 var self=this;
 var context;
@@ -2235,7 +2235,7 @@ $globals.MethodContext);
 $core.addMethod(
 $core.method({
 selector: "home",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2259,7 +2259,7 @@ $globals.MethodContext);
 $core.addMethod(
 $core.method({
 selector: "index",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2283,7 +2283,7 @@ $globals.MethodContext);
 $core.addMethod(
 $core.method({
 selector: "isBlockContext",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2306,7 +2306,7 @@ $globals.MethodContext);
 $core.addMethod(
 $core.method({
 selector: "locals",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2330,7 +2330,7 @@ $globals.MethodContext);
 $core.addMethod(
 $core.method({
 selector: "method",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 var method,lookupClass,receiverClass,supercall;
@@ -2396,7 +2396,7 @@ $globals.MethodContext);
 $core.addMethod(
 $core.method({
 selector: "methodContext",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2431,7 +2431,7 @@ $globals.MethodContext);
 $core.addMethod(
 $core.method({
 selector: "outerContext",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2455,7 +2455,7 @@ $globals.MethodContext);
 $core.addMethod(
 $core.method({
 selector: "printOn:",
-protocol: 'printing',
+protocol: "printing",
 fn: function (aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2495,7 +2495,7 @@ $globals.MethodContext);
 $core.addMethod(
 $core.method({
 selector: "receiver",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2536,7 +2536,7 @@ $globals.MethodContext);
 $core.addMethod(
 $core.method({
 selector: "selector",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2566,7 +2566,7 @@ $globals.MethodContext);
 $core.addMethod(
 $core.method({
 selector: "sendIndexAt:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aSelector){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2590,7 +2590,7 @@ $globals.MethodContext);
 $core.addMethod(
 $core.method({
 selector: "sendIndexes",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2614,7 +2614,7 @@ $globals.MethodContext);
 $core.addMethod(
 $core.method({
 selector: "supercall",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2637,7 +2637,7 @@ $globals.MethodContext);
 
 
 
-$core.addClass('NativeFunction', $globals.Object, [], 'Kernel-Methods');
+$core.addClass("NativeFunction", $globals.Object, [], "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.NativeFunction.comment="I am a wrapper around native functions, such as `WebSocket`.\x0aFor 'normal' functions (whose constructor is the JavaScript `Function` object), use `BlockClosure`.\x0a\x0a## API\x0a\x0aSee the class-side `instance creation` methods for instance creation.\x0a\x0aCreated instances will most probably be instance of `JSObjectProxy`.\x0a\x0a## Usage example:\x0a\x0a\x09| ws |\x0a\x09ws := NativeFunction constructor: 'WebSocket' value: 'ws://localhost'.\x0a\x09ws at: 'onopen' put: [ ws send: 'hey there from Amber' ]";
 //>>excludeEnd("ide");
@@ -2645,7 +2645,7 @@ $globals.NativeFunction.comment="I am a wrapper around native functions, such as
 $core.addMethod(
 $core.method({
 selector: "constructorNamed:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2672,7 +2672,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "constructorNamed:value:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aString,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2699,7 +2699,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "constructorNamed:value:value:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aString,anObject,anObject2){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2726,7 +2726,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "constructorNamed:value:value:value:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aString,anObject,anObject2,anObject3){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2753,7 +2753,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "constructorOf:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (nativeFunc){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2779,7 +2779,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "constructorOf:value:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (nativeFunc,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2805,7 +2805,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "constructorOf:value:value:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (nativeFunc,anObject,anObject2){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2831,7 +2831,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "constructorOf:value:value:value:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (nativeFunc,anObject,anObject2,anObject3){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2857,7 +2857,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "exists:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2880,7 +2880,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "functionNamed:",
-protocol: 'function calling',
+protocol: "function calling",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2907,7 +2907,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "functionNamed:value:",
-protocol: 'function calling',
+protocol: "function calling",
 fn: function (aString,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2934,7 +2934,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "functionNamed:value:value:",
-protocol: 'function calling',
+protocol: "function calling",
 fn: function (aString,anObject,anObject2){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2961,7 +2961,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "functionNamed:value:value:value:",
-protocol: 'function calling',
+protocol: "function calling",
 fn: function (aString,anObject,anObject2,anObject3){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2988,7 +2988,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "functionNamed:valueWithArgs:",
-protocol: 'function calling',
+protocol: "function calling",
 fn: function (aString,args){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3015,7 +3015,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "functionOf:",
-protocol: 'function calling',
+protocol: "function calling",
 fn: function (nativeFunc){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3041,7 +3041,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "functionOf:value:",
-protocol: 'function calling',
+protocol: "function calling",
 fn: function (nativeFunc,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3067,7 +3067,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "functionOf:value:value:",
-protocol: 'function calling',
+protocol: "function calling",
 fn: function (nativeFunc,anObject,anObject2){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3093,7 +3093,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "functionOf:value:value:value:",
-protocol: 'function calling',
+protocol: "function calling",
 fn: function (nativeFunc,anObject,anObject2,anObject3){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3119,7 +3119,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "functionOf:valueWithArgs:",
-protocol: 'function calling',
+protocol: "function calling",
 fn: function (nativeFunc,args){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3145,7 +3145,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "methodOf:this:",
-protocol: 'method calling',
+protocol: "method calling",
 fn: function (nativeFunc,thisObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3171,7 +3171,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "methodOf:this:value:",
-protocol: 'method calling',
+protocol: "method calling",
 fn: function (nativeFunc,thisObject,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3197,7 +3197,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "methodOf:this:value:value:",
-protocol: 'method calling',
+protocol: "method calling",
 fn: function (nativeFunc,thisObject,anObject,anObject2){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3223,7 +3223,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "methodOf:this:value:value:value:",
-protocol: 'method calling',
+protocol: "method calling",
 fn: function (nativeFunc,thisObject,anObject,anObject2,anObject3){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3249,7 +3249,7 @@ $globals.NativeFunction.klass);
 $core.addMethod(
 $core.method({
 selector: "methodOf:this:valueWithArgs:",
-protocol: 'method calling',
+protocol: "method calling",
 fn: function (nativeFunc,thisObject,args){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3273,14 +3273,14 @@ messageSends: []
 $globals.NativeFunction.klass);
 
 
-$core.addClass('Timeout', $globals.Object, ['rawTimeout'], 'Kernel-Methods');
+$core.addClass("Timeout", $globals.Object, ["rawTimeout"], "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Timeout.comment="I am wrapping the returns from `set{Timeout,Interval}`.\x0a\x0a## Motivation\x0a\x0aNumber suffices in browsers, but node.js returns an object.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "clearInterval",
-protocol: 'timeout/interval',
+protocol: "timeout/interval",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3307,7 +3307,7 @@ $globals.Timeout);
 $core.addMethod(
 $core.method({
 selector: "clearTimeout",
-protocol: 'timeout/interval',
+protocol: "timeout/interval",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3334,7 +3334,7 @@ $globals.Timeout);
 $core.addMethod(
 $core.method({
 selector: "rawTimeout:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anObject){
 var self=this;
 self["@rawTimeout"]=anObject;
@@ -3354,7 +3354,7 @@ $globals.Timeout);
 $core.addMethod(
 $core.method({
 selector: "on:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

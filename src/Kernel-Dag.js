@@ -2,18 +2,18 @@ define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict"
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Kernel-Dag');
+$core.addPackage("Kernel-Dag");
 $core.packages["Kernel-Dag"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Dag"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('AbstractDagVisitor', $globals.Object, [], 'Kernel-Dag');
+$core.addClass("AbstractDagVisitor", $globals.Object, [], "Kernel-Dag");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AbstractDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x0aConcrete classes should implement `visitDagNode:`,\x0athey can reuse possible variants of implementation\x0aoffered directly: `visitDagNodeVariantSimple:`\x0aand `visitDagNodeVariantRedux:`.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "value:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -36,7 +36,7 @@ $globals.AbstractDagVisitor);
 $core.addMethod(
 $core.method({
 selector: "visit:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -59,7 +59,7 @@ $globals.AbstractDagVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitAll:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -90,7 +90,7 @@ $globals.AbstractDagVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitAllChildren:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aDagNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -113,7 +113,7 @@ $globals.AbstractDagVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitDagNode:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -137,7 +137,7 @@ $globals.AbstractDagVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitDagNodeVariantRedux:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 var newChildren,oldChildren;
@@ -197,7 +197,7 @@ $globals.AbstractDagVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitDagNodeVariantSimple:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -220,14 +220,14 @@ $globals.AbstractDagVisitor);
 
 
 
-$core.addClass('PathDagVisitor', $globals.AbstractDagVisitor, ['path'], 'Kernel-Dag');
+$core.addClass("PathDagVisitor", $globals.AbstractDagVisitor, ["path"], "Kernel-Dag");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PathDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x0aI hold the path of ancestors up to actual node\x0ain `self path`.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -259,7 +259,7 @@ $globals.PathDagVisitor);
 $core.addMethod(
 $core.method({
 selector: "path",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@path"];
@@ -277,7 +277,7 @@ $globals.PathDagVisitor);
 $core.addMethod(
 $core.method({
 selector: "visit:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 var oldPath,result;
@@ -326,7 +326,7 @@ $globals.PathDagVisitor);
 $core.addMethod(
 $core.method({
 selector: "visitDagNodeVariantRedux:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aNode){
 var self=this;
 var newNode;
@@ -362,14 +362,14 @@ $globals.PathDagVisitor);
 
 
 
-$core.addClass('DagNode', $globals.Object, [], 'Kernel-Dag');
+$core.addClass("DagNode", $globals.Object, [], "Kernel-Dag");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.DagNode.comment="I am the abstract root class of any directed acyclic graph.\x0a\x0aConcrete classes should implement `dagChildren` and `dagChildren:`\x0ato get / set direct successor nodes (aka child nodes / subnodes).";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aVisitor){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -392,7 +392,7 @@ $globals.DagNode);
 $core.addMethod(
 $core.method({
 selector: "allDagChildren",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 var allNodes;
@@ -431,7 +431,7 @@ $globals.DagNode);
 $core.addMethod(
 $core.method({
 selector: "dagChildren",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -455,7 +455,7 @@ $globals.DagNode);
 $core.addMethod(
 $core.method({
 selector: "dagChildren:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -479,7 +479,7 @@ $globals.DagNode);
 $core.addMethod(
 $core.method({
 selector: "isDagNode",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -496,14 +496,14 @@ $globals.DagNode);
 
 
 
-$core.addClass('DagParentNode', $globals.DagNode, ['nodes'], 'Kernel-Dag');
+$core.addClass("DagParentNode", $globals.DagNode, ["nodes"], "Kernel-Dag");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.DagParentNode.comment="I am `DagNode` that stores a collection of its children,\x0alazy initialized to empty array.\x0a\x0aI can `addDagChild:` to add a child.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "addDagChild:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aDagNode){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -527,7 +527,7 @@ $globals.DagParentNode);
 $core.addMethod(
 $core.method({
 selector: "dagChildren",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -557,7 +557,7 @@ $globals.DagParentNode);
 $core.addMethod(
 $core.method({
 selector: "dagChildren:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aCollection){
 var self=this;
 self["@nodes"]=aCollection;
@@ -575,14 +575,14 @@ $globals.DagParentNode);
 
 
 
-$core.addClass('DagSink', $globals.DagNode, ['nodes'], 'Kernel-Dag');
+$core.addClass("DagSink", $globals.DagNode, ["nodes"], "Kernel-Dag");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.DagSink.comment="I am `DagNode` with no direct successors.\x0a\x0aSending `dagChildren:` with empty collection is legal.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "dagChildren",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return [];
@@ -600,7 +600,7 @@ $globals.DagSink);
 $core.addMethod(
 $core.method({
 selector: "dagChildren:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -633,7 +633,7 @@ $globals.DagSink);
 $core.addMethod(
 $core.method({
 selector: "isDagNode",
-protocol: '*Kernel-Dag',
+protocol: "*Kernel-Dag",
 fn: function (){
 var self=this;
 return false;

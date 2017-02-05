@@ -2,18 +2,18 @@ define(["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Except
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Kernel-Infrastructure');
+$core.addPackage("Kernel-Infrastructure");
 $core.packages["Kernel-Infrastructure"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Infrastructure"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('JSObjectProxy', $globals.ProtoObject, ['jsObject'], 'Kernel-Infrastructure');
+$core.addClass("JSObjectProxy", $globals.ProtoObject, ["jsObject"], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.JSObjectProxy.comment="I handle sending messages to JavaScript objects, making  JavaScript object accessing from Amber fully transparent.\x0aMy instances make intensive use of `#doesNotUnderstand:`.\x0a\x0aMy instances are automatically created by Amber whenever a message is sent to a JavaScript object.\x0a\x0a## Usage examples\x0a\x0aJSObjectProxy objects are instanciated by Amber when a Smalltalk message is sent to a JavaScript object.\x0a\x0a\x09window alert: 'hello world'.\x0a\x09window inspect.\x0a\x09(window jQuery: 'body') append: 'hello world'\x0a\x0aAmber messages sends are converted to JavaScript function calls or object property access _(in this order)_. If n one of them match, a `MessageNotUnderstood` error will be thrown.\x0a\x0a## Message conversion rules\x0a\x0a- `someUser name` becomes `someUser.name`\x0a- `someUser name: 'John'` becomes `someUser name = \x22John\x22`\x0a- `console log: 'hello world'` becomes `console.log('hello world')`\x0a- `(window jQuery: 'foo') css: 'background' color: 'red'` becomes `window.jQuery('foo').css('background', 'red')`\x0a\x0a__Note:__ For keyword-based messages, only the first keyword is kept: `window foo: 1 bar: 2` is equivalent to `window foo: 1 baz: 2`.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "=",
-protocol: 'comparing',
+protocol: "comparing",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -45,7 +45,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "asJSON",
-protocol: 'enumerating',
+protocol: "enumerating",
 fn: function (){
 var self=this;
 return self["@jsObject"];
@@ -63,7 +63,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "at:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -87,7 +87,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "at:ifAbsent:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString,aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -114,7 +114,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "at:ifPresent:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString,aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -141,7 +141,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "at:ifPresent:ifAbsent:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString,aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -168,7 +168,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "at:put:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -192,7 +192,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "doesNotUnderstand:",
-protocol: 'proxy',
+protocol: "proxy",
 fn: function (aMessage){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -230,7 +230,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "in:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aValuable){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -253,7 +253,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "jsObject",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@jsObject"];
@@ -271,7 +271,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "keysAndValuesDo:",
-protocol: 'enumerating',
+protocol: "enumerating",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -300,7 +300,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "printOn:",
-protocol: 'printing',
+protocol: "printing",
 fn: function (aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -324,7 +324,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "printString",
-protocol: 'printing',
+protocol: "printing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -353,7 +353,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "putOn:",
-protocol: 'streaming',
+protocol: "streaming",
 fn: function (aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -378,7 +378,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "addObjectVariablesTo:ofProxy:",
-protocol: 'proxy',
+protocol: "proxy",
 fn: function (aDictionary,aProxy){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -407,7 +407,7 @@ $globals.JSObjectProxy.klass);
 $core.addMethod(
 $core.method({
 selector: "compareJSObjectOfProxy:withProxy:",
-protocol: 'proxy',
+protocol: "proxy",
 fn: function (aProxy,anotherProxy){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -433,7 +433,7 @@ $globals.JSObjectProxy.klass);
 $core.addMethod(
 $core.method({
 selector: "forwardMessage:withArguments:ofProxy:",
-protocol: 'proxy',
+protocol: "proxy",
 fn: function (aString,anArray,aProxy){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -459,7 +459,7 @@ $globals.JSObjectProxy.klass);
 $core.addMethod(
 $core.method({
 selector: "jsObject:ofProxy:",
-protocol: 'proxy',
+protocol: "proxy",
 fn: function (aJSObject,aProxy){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -483,7 +483,7 @@ $globals.JSObjectProxy.klass);
 $core.addMethod(
 $core.method({
 selector: "lookupProperty:ofProxy:",
-protocol: 'proxy',
+protocol: "proxy",
 fn: function (aString,aProxy){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -507,7 +507,7 @@ $globals.JSObjectProxy.klass);
 $core.addMethod(
 $core.method({
 selector: "on:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aJSObject){
 var self=this;
 var instance;
@@ -531,14 +531,14 @@ messageSends: ["new", "jsObject:ofProxy:"]
 $globals.JSObjectProxy.klass);
 
 
-$core.addClass('Organizer', $globals.Object, [], 'Kernel-Infrastructure');
+$core.addClass("Organizer", $globals.Object, [], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Organizer.comment="I represent categorization information. \x0a\x0a## API\x0a\x0aUse `#addElement:` and `#removeElement:` to manipulate instances.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "addElement:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -562,7 +562,7 @@ $globals.Organizer);
 $core.addMethod(
 $core.method({
 selector: "elements",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -585,7 +585,7 @@ $globals.Organizer);
 $core.addMethod(
 $core.method({
 selector: "removeElement:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -608,14 +608,14 @@ $globals.Organizer);
 
 
 
-$core.addClass('ClassOrganizer', $globals.Organizer, [], 'Kernel-Infrastructure');
+$core.addClass("ClassOrganizer", $globals.Organizer, [], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassOrganizer.comment="I am an organizer specific to classes. I hold method categorization information for classes.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "addElement:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -653,7 +653,7 @@ $globals.ClassOrganizer);
 $core.addMethod(
 $core.method({
 selector: "removeElement:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -691,7 +691,7 @@ $globals.ClassOrganizer);
 $core.addMethod(
 $core.method({
 selector: "theClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -714,20 +714,20 @@ $globals.ClassOrganizer);
 
 
 
-$core.addClass('PackageOrganizer', $globals.Organizer, [], 'Kernel-Infrastructure');
+$core.addClass("PackageOrganizer", $globals.Organizer, [], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageOrganizer.comment="I am an organizer specific to packages. I hold classes categorization information.";
 //>>excludeEnd("ide");
 
 
-$core.addClass('Package', $globals.Object, ['transport', 'imports', 'dirty'], 'Kernel-Infrastructure');
+$core.addClass("Package", $globals.Object, ["transport", "imports", "dirty"], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Package.comment="I am similar to a \x22class category\x22 typically found in other Smalltalks like Pharo or Squeak. Amber does not have class categories anymore, it had in the beginning but now each class in the system knows which package it belongs to.\x0a\x0aEach package has a name and can be queried for its classes, but it will then resort to a reverse scan of all classes to find them.\x0a\x0a## API\x0a\x0aPackages are manipulated through \x22Smalltalk current\x22, like for example finding one based on a name or with `Package class >> #name` directly:\x0a\x0a    Smalltalk current packageAt: 'Kernel'\x0a    Package named: 'Kernel'\x0a\x0aA package differs slightly from a Monticello package which can span multiple class categories using a naming convention based on hyphenation. But just as in Monticello a package supports \x22class extensions\x22 so a package can define behaviors in foreign classes using a naming convention for method categories where the category starts with an asterisk and then the name of the owning package follows.\x0a\x0aYou can fetch a package from the server:\x0a\x0a\x09Package load: 'Additional-Examples'";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "basicImports",
-protocol: 'private',
+protocol: "private",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -751,7 +751,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "basicName:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -775,7 +775,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "basicTransport",
-protocol: 'private',
+protocol: "private",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -799,7 +799,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "beClean",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -829,7 +829,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "beDirty",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -859,7 +859,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "classTemplate",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -909,7 +909,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "classes",
-protocol: 'classes',
+protocol: "classes",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -932,7 +932,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "definition",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1008,7 +1008,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "imports",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1041,7 +1041,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "imports:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anArray){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1066,7 +1066,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "importsAsJson",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1106,7 +1106,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "importsDefinition",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1164,7 +1164,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "importsFromJson:",
-protocol: 'converting',
+protocol: "converting",
 fn: function (anArray){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1207,7 +1207,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "isDirty",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1236,7 +1236,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "isPackage",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -1254,7 +1254,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "loadDependencies",
-protocol: 'dependencies',
+protocol: "dependencies",
 fn: function (){
 var self=this;
 var classes,packages;
@@ -1292,7 +1292,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "loadDependencyClasses",
-protocol: 'dependencies',
+protocol: "dependencies",
 fn: function (){
 var self=this;
 var starCategoryName;
@@ -1360,7 +1360,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "name",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1384,7 +1384,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "name:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1409,7 +1409,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "organization",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1432,7 +1432,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "printOn:",
-protocol: 'printing',
+protocol: "printing",
 fn: function (aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1472,7 +1472,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "setupClasses",
-protocol: 'classes',
+protocol: "classes",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1504,7 +1504,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "sortedClasses",
-protocol: 'classes',
+protocol: "classes",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1527,7 +1527,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "sortedImportsAsArray",
-protocol: 'private',
+protocol: "private",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1594,7 +1594,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "transport",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1626,7 +1626,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "transport:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackageTransport){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1651,7 +1651,7 @@ $globals.Package);
 $core.addMethod(
 $core.method({
 selector: "validateImports:",
-protocol: 'validation',
+protocol: "validation",
 fn: function (aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1713,11 +1713,11 @@ messageSends: ["do:", "ifFalse:", "isString", "respondsTo:", "error:", "&", "key
 $globals.Package);
 
 
-$globals.Package.klass.iVarNames = ['defaultCommitPathJs','defaultCommitPathSt'];
+$globals.Package.klass.iVarNames = ["defaultCommitPathJs", "defaultCommitPathSt"];
 $core.addMethod(
 $core.method({
 selector: "named:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackageName){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1748,7 +1748,7 @@ $globals.Package.klass);
 $core.addMethod(
 $core.method({
 selector: "named:ifAbsent:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackageName,aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1771,7 +1771,7 @@ $globals.Package.klass);
 $core.addMethod(
 $core.method({
 selector: "named:imports:transport:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackageName,anArray,aTransport){
 var self=this;
 var package_;
@@ -1798,7 +1798,7 @@ $globals.Package.klass);
 $core.addMethod(
 $core.method({
 selector: "named:transport:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackageName,aTransport){
 var self=this;
 var package_;
@@ -1824,7 +1824,7 @@ $globals.Package.klass);
 $core.addMethod(
 $core.method({
 selector: "sortedClasses:",
-protocol: 'sorting',
+protocol: "sorting",
 fn: function (classes){
 var self=this;
 var children,others,nodes,expandedClasses;
@@ -1905,14 +1905,14 @@ messageSends: ["do:", "ifFalse:ifTrue:", "includes:", "superclass", "add:", "col
 $globals.Package.klass);
 
 
-$core.addClass('PackageStateObserver', $globals.Object, [], 'Kernel-Infrastructure');
+$core.addClass("PackageStateObserver", $globals.Object, [], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageStateObserver.comment="My current instance listens for any changes in the system that might affect the state of a package (being dirty).";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "announcer",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1935,7 +1935,7 @@ $globals.PackageStateObserver);
 $core.addMethod(
 $core.method({
 selector: "observeSystem",
-protocol: 'actions',
+protocol: "actions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1973,7 +1973,7 @@ $globals.PackageStateObserver);
 $core.addMethod(
 $core.method({
 selector: "onClassModification:",
-protocol: 'reactions',
+protocol: "reactions",
 fn: function (anAnnouncement){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2005,7 +2005,7 @@ $globals.PackageStateObserver);
 $core.addMethod(
 $core.method({
 selector: "onMethodModification:",
-protocol: 'reactions',
+protocol: "reactions",
 fn: function (anAnnouncement){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2037,7 +2037,7 @@ $globals.PackageStateObserver);
 $core.addMethod(
 $core.method({
 selector: "onPackageAdded:",
-protocol: 'reactions',
+protocol: "reactions",
 fn: function (anAnnouncement){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2061,7 +2061,7 @@ $globals.PackageStateObserver);
 $core.addMethod(
 $core.method({
 selector: "onProtocolModification:",
-protocol: 'reactions',
+protocol: "reactions",
 fn: function (anAnnouncement){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2091,11 +2091,11 @@ messageSends: ["ifNotNil:", "package", "beDirty"]
 $globals.PackageStateObserver);
 
 
-$globals.PackageStateObserver.klass.iVarNames = ['current'];
+$globals.PackageStateObserver.klass.iVarNames = ["current"];
 $core.addMethod(
 $core.method({
 selector: "current",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2125,7 +2125,7 @@ $globals.PackageStateObserver.klass);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2147,20 +2147,20 @@ messageSends: ["observeSystem", "current"]
 $globals.PackageStateObserver.klass);
 
 
-$core.addClass('ParseError', $globals.Error, [], 'Kernel-Infrastructure');
+$core.addClass("ParseError", $globals.Error, [], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ParseError.comment="Instance of ParseError are signaled on any parsing error.\x0aSee `Smalltalk >> #parse:`";
 //>>excludeEnd("ide");
 
 
-$core.addClass('Setting', $globals.Object, ['key', 'value', 'defaultValue'], 'Kernel-Infrastructure');
+$core.addClass("Setting", $globals.Object, ["key", "value", "defaultValue"], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Setting.comment="I represent a setting **stored** at `Smalltalk settings`. \x0aIn the current implementation, `Smalltalk settings` is an object persisted in the localStorage.\x0a\x0a## API\x0a\x0aA `Setting` value can be read using `value` and set using `value:`.\x0a\x0aSettings are accessed with `'key' asSetting` or `'key' asSettingIfAbsent: aDefaultValue`.\x0a\x0aTo read the value of a setting you can also use the convenience:\x0a\x0a`theValueSet :=  'any.characteristic' settingValue` \x0a\x0aor with a default using:\x0a\x0a `theEnsuredValueSet := 'any.characteristic' settingValueIfAbsent: true`";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "defaultValue",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@defaultValue"];
@@ -2178,7 +2178,7 @@ $globals.Setting);
 $core.addMethod(
 $core.method({
 selector: "defaultValue:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aStringifiableObject){
 var self=this;
 self["@defaultValue"]=aStringifiableObject;
@@ -2197,7 +2197,7 @@ $globals.Setting);
 $core.addMethod(
 $core.method({
 selector: "key",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@key"];
@@ -2215,7 +2215,7 @@ $globals.Setting);
 $core.addMethod(
 $core.method({
 selector: "key:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@key"]=aString;
@@ -2234,7 +2234,7 @@ $globals.Setting);
 $core.addMethod(
 $core.method({
 selector: "value",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2265,7 +2265,7 @@ $globals.Setting);
 $core.addMethod(
 $core.method({
 selector: "value:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aStringifiableObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2289,7 +2289,7 @@ $globals.Setting);
 $core.addMethod(
 $core.method({
 selector: "at:ifAbsent:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aString,aDefaultValue){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2323,7 +2323,7 @@ $globals.Setting.klass);
 $core.addMethod(
 $core.method({
 selector: "new",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2345,14 +2345,14 @@ messageSends: ["shouldNotImplement"]
 $globals.Setting.klass);
 
 
-$core.addClass('SmalltalkImage', $globals.Object, [], 'Kernel-Infrastructure');
+$core.addClass("SmalltalkImage", $globals.Object, [], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SmalltalkImage.comment="I represent the Smalltalk system, wrapping\x0aoperations of variable `$core` declared in `support/boot.js`.\x0a\x0a## API\x0a\x0aI have only one instance, accessed with global variable `Smalltalk`.\x0a\x0a## Classes\x0a\x0aClasses can be accessed using the following methods:\x0a\x0a- `#classes` answers the full list of Smalltalk classes in the system\x0a- `#globals #at:` answers a specific global (usually, a class) or `nil`\x0a\x0a## Packages\x0a\x0aPackages can be accessed using the following methods:\x0a\x0a- `#packages` answers the full list of packages\x0a- `#packageAt:` answers a specific package or `nil`\x0a\x0a## Parsing\x0a\x0aThe `#parse:` method is used to parse Amber source code.\x0aIt requires the `Compiler` package and the `support/parser.js` parser file in order to work.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "addGlobalJsVariable:",
-protocol: 'globals',
+protocol: "globals",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2376,7 +2376,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "amdRequire",
-protocol: 'accessing amd',
+protocol: "accessing amd",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2399,7 +2399,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "asSmalltalkException:",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2436,7 +2436,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "basicCreatePackage:",
-protocol: 'private',
+protocol: "private",
 fn: function (packageName){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2460,7 +2460,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "basicParse:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2483,7 +2483,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "basicRegisterPackage:",
-protocol: 'private',
+protocol: "private",
 fn: function (aPackage){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2507,7 +2507,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "cancelOptOut:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2531,7 +2531,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "classes",
-protocol: 'classes',
+protocol: "classes",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2555,7 +2555,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "core",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2579,7 +2579,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "createPackage:",
-protocol: 'packages',
+protocol: "packages",
 fn: function (packageName){
 var self=this;
 var package_,announcement;
@@ -2609,7 +2609,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "defaultAmdNamespace",
-protocol: 'accessing amd',
+protocol: "accessing amd",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2632,7 +2632,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "defaultAmdNamespace:",
-protocol: 'accessing amd',
+protocol: "accessing amd",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2656,7 +2656,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "deleteClass:",
-protocol: 'private',
+protocol: "private",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2680,7 +2680,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "deleteGlobalJsVariable:",
-protocol: 'globals',
+protocol: "globals",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2706,7 +2706,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "deletePackage:",
-protocol: 'private',
+protocol: "private",
 fn: function (packageName){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2730,7 +2730,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "existsJsGlobal:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2759,7 +2759,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "globalJsVariables",
-protocol: 'globals',
+protocol: "globals",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2783,7 +2783,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "globals",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2807,7 +2807,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "includesKey:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aKey){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2831,7 +2831,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "isSmalltalkObject:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2855,7 +2855,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "optOut:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2879,7 +2879,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "packageAt:",
-protocol: 'packages',
+protocol: "packages",
 fn: function (packageName){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2903,7 +2903,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "packageAt:ifAbsent:",
-protocol: 'packages',
+protocol: "packages",
 fn: function (packageName,aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2928,7 +2928,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "packages",
-protocol: 'packages',
+protocol: "packages",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2956,7 +2956,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "parse:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 var result;
@@ -3001,7 +3001,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "parseError:parsing:",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (anException,aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3051,7 +3051,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "pseudoVariableNames",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return ["self", "super", "nil", "true", "false", "thisContext"];
@@ -3069,7 +3069,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "readJSObject:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3093,7 +3093,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "removeClass:",
-protocol: 'classes',
+protocol: "classes",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3127,7 +3127,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "removePackage:",
-protocol: 'packages',
+protocol: "packages",
 fn: function (packageName){
 var self=this;
 var pkg;
@@ -3170,7 +3170,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "renamePackage:to:",
-protocol: 'packages',
+protocol: "packages",
 fn: function (packageName,newName){
 var self=this;
 var pkg;
@@ -3220,7 +3220,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "reservedWords",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3244,7 +3244,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "settings",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return $globals.SmalltalkSettings;
@@ -3262,7 +3262,7 @@ $globals.SmalltalkImage);
 $core.addMethod(
 $core.method({
 selector: "version",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return "0.19.0-pre";
@@ -3278,11 +3278,11 @@ messageSends: []
 $globals.SmalltalkImage);
 
 
-$globals.SmalltalkImage.klass.iVarNames = ['current'];
+$globals.SmalltalkImage.klass.iVarNames = ["current"];
 $core.addMethod(
 $core.method({
 selector: "current",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3320,7 +3320,7 @@ $globals.SmalltalkImage.klass);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 var st;
@@ -3346,7 +3346,7 @@ $globals.SmalltalkImage.klass);
 $core.addMethod(
 $core.method({
 selector: "new",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3370,7 +3370,7 @@ $globals.SmalltalkImage.klass);
 $core.addMethod(
 $core.method({
 selector: "asJavaScriptPropertyName",
-protocol: '*Kernel-Infrastructure',
+protocol: "*Kernel-Infrastructure",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3394,7 +3394,7 @@ $globals.String);
 $core.addMethod(
 $core.method({
 selector: "asSetting",
-protocol: '*Kernel-Infrastructure',
+protocol: "*Kernel-Infrastructure",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3417,7 +3417,7 @@ $globals.String);
 $core.addMethod(
 $core.method({
 selector: "asSettingIfAbsent:",
-protocol: '*Kernel-Infrastructure',
+protocol: "*Kernel-Infrastructure",
 fn: function (aDefaultValue){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3440,7 +3440,7 @@ $globals.String);
 $core.addMethod(
 $core.method({
 selector: "settingValue",
-protocol: '*Kernel-Infrastructure',
+protocol: "*Kernel-Infrastructure",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3463,7 +3463,7 @@ $globals.String);
 $core.addMethod(
 $core.method({
 selector: "settingValue:",
-protocol: '*Kernel-Infrastructure',
+protocol: "*Kernel-Infrastructure",
 fn: function (aValue){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3486,7 +3486,7 @@ $globals.String);
 $core.addMethod(
 $core.method({
 selector: "settingValueIfAbsent:",
-protocol: '*Kernel-Infrastructure',
+protocol: "*Kernel-Infrastructure",
 fn: function (aDefaultValue){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

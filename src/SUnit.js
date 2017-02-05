@@ -2,18 +2,18 @@ define(["amber/boot", "amber_core/Kernel-Classes", "amber_core/Kernel-Exceptions
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('SUnit');
+$core.addPackage("SUnit");
 $core.packages["SUnit"].innerEval = function (expr) { return eval(expr); };
 $core.packages["SUnit"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('ResultAnnouncement', $globals.Object, ['result'], 'SUnit');
+$core.addClass("ResultAnnouncement", $globals.Object, ["result"], "SUnit");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ResultAnnouncement.comment="I get signaled when a `TestCase` has been run.\x0a\x0aMy instances hold the result (instance of `TestResult`) of the test run.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "result",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@result"];
@@ -31,7 +31,7 @@ $globals.ResultAnnouncement);
 $core.addMethod(
 $core.method({
 selector: "result:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aTestResult){
 var self=this;
 self["@result"]=aTestResult;
@@ -49,14 +49,14 @@ $globals.ResultAnnouncement);
 
 
 
-$core.addClass('TestCase', $globals.Object, ['testSelector', 'asyncTimeout', 'context'], 'SUnit');
+$core.addClass("TestCase", $globals.Object, ["testSelector", "asyncTimeout", "context"], "SUnit");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.TestCase.comment="I am an implementation of the command pattern to run a test.\x0a\x0a## API\x0a\x0aMy instances are created with the class method `#selector:`,\x0apassing the symbol that names the method to be executed when the test case runs.\x0a\x0aWhen you discover a new fixture, subclass `TestCase` and create a `#test...` method for the first test.\x0aAs that method develops and more `#test...` methods are added, you will find yourself refactoring temps\x0ainto instance variables for the objects in the fixture and overriding `#setUp` to initialize these variables.\x0aAs required, override `#tearDown` to nil references, release objects and deallocate.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "assert:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aBoolean){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -80,7 +80,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "assert:description:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aBoolean,aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -106,7 +106,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "assert:equals:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (actual,expected){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -144,7 +144,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "async:",
-protocol: 'async',
+protocol: "async",
 fn: function (aBlock){
 var self=this;
 var c;
@@ -182,7 +182,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "context:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aRunningTestContext){
 var self=this;
 self["@context"]=aRunningTestContext;
@@ -201,7 +201,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "deny:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aBoolean){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -225,7 +225,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "errorIfNotAsync:",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -253,7 +253,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "finished",
-protocol: 'async',
+protocol: "async",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -278,7 +278,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "isAsync",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -301,7 +301,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "performTest",
-protocol: 'running',
+protocol: "running",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -326,7 +326,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "runCase",
-protocol: 'running',
+protocol: "running",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -350,7 +350,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "selector",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@testSelector"];
@@ -368,7 +368,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "setTestSelector:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aSelector){
 var self=this;
 self["@testSelector"]=aSelector;
@@ -387,7 +387,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "setUp",
-protocol: 'running',
+protocol: "running",
 fn: function (){
 var self=this;
 return self;
@@ -405,7 +405,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "should:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -429,7 +429,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "should:raise:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aBlock,anExceptionClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -465,7 +465,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "shouldnt:raise:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aBlock,anExceptionClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -501,7 +501,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "signalFailure:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -528,7 +528,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "tearDown",
-protocol: 'running',
+protocol: "running",
 fn: function (){
 var self=this;
 return self;
@@ -546,7 +546,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "timeout:",
-protocol: 'async',
+protocol: "async",
 fn: function (aNumber){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -587,7 +587,7 @@ $globals.TestCase);
 $core.addMethod(
 $core.method({
 selector: "allTestSelectors",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 var selectors;
@@ -617,7 +617,7 @@ $globals.TestCase.klass);
 $core.addMethod(
 $core.method({
 selector: "buildSuite",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -648,7 +648,7 @@ $globals.TestCase.klass);
 $core.addMethod(
 $core.method({
 selector: "classTag",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return "test";
@@ -666,7 +666,7 @@ $globals.TestCase.klass);
 $core.addMethod(
 $core.method({
 selector: "isAbstract",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -689,7 +689,7 @@ $globals.TestCase.klass);
 $core.addMethod(
 $core.method({
 selector: "isTestClass",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -712,7 +712,7 @@ $globals.TestCase.klass);
 $core.addMethod(
 $core.method({
 selector: "lookupHierarchyRoot",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return $globals.TestCase;
@@ -730,7 +730,7 @@ $globals.TestCase.klass);
 $core.addMethod(
 $core.method({
 selector: "selector:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aSelector){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -756,7 +756,7 @@ $globals.TestCase.klass);
 $core.addMethod(
 $core.method({
 selector: "shouldInheritSelectors",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -779,7 +779,7 @@ $globals.TestCase.klass);
 $core.addMethod(
 $core.method({
 selector: "testSelectors",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -808,14 +808,14 @@ messageSends: ["select:", "keys", "methodDictionary", "match:"]
 $globals.TestCase.klass);
 
 
-$core.addClass('TestContext', $globals.Object, ['testCase'], 'SUnit');
+$core.addClass("TestContext", $globals.Object, ["testCase"], "SUnit");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.TestContext.comment="I govern running a particular test case.\x0a\x0aMy main added value is `#execute:` method which runs a block as a part of test case (restores context, nilling it afterwards, cleaning/calling `#tearDown` as appropriate for sync/async scenario).";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "execute:",
-protocol: 'running',
+protocol: "running",
 fn: function (aBlock){
 var self=this;
 var failed;
@@ -884,7 +884,7 @@ $globals.TestContext);
 $core.addMethod(
 $core.method({
 selector: "start",
-protocol: 'running',
+protocol: "running",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -917,7 +917,7 @@ $globals.TestContext);
 $core.addMethod(
 $core.method({
 selector: "testCase:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aTestCase){
 var self=this;
 self["@testCase"]=aTestCase;
@@ -937,7 +937,7 @@ $globals.TestContext);
 $core.addMethod(
 $core.method({
 selector: "testCase:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aTestCase){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -961,14 +961,14 @@ messageSends: ["testCase:", "new", "yourself"]
 $globals.TestContext.klass);
 
 
-$core.addClass('ReportingTestContext', $globals.TestContext, ['finished', 'result'], 'SUnit');
+$core.addClass("ReportingTestContext", $globals.TestContext, ["finished", "result"], "SUnit");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ReportingTestContext.comment="I add `TestResult` reporting to `TestContext`.\x0a\x0aErrors are caught and save into a `TestResult`,\x0aWhen test case is finished (which can be later for async tests), a callback block is executed; this is used by a `TestSuiteRunner`.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "execute:",
-protocol: 'running',
+protocol: "running",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1028,7 +1028,7 @@ $globals.ReportingTestContext);
 $core.addMethod(
 $core.method({
 selector: "finished:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aBlock){
 var self=this;
 self["@finished"]=aBlock;
@@ -1047,7 +1047,7 @@ $globals.ReportingTestContext);
 $core.addMethod(
 $core.method({
 selector: "result:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aTestResult){
 var self=this;
 self["@result"]=aTestResult;
@@ -1066,7 +1066,7 @@ $globals.ReportingTestContext);
 $core.addMethod(
 $core.method({
 selector: "withErrorReporting:",
-protocol: 'private',
+protocol: "private",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1118,7 +1118,7 @@ $globals.ReportingTestContext);
 $core.addMethod(
 $core.method({
 selector: "testCase:result:finished:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aTestCase,aTestResult,aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1150,20 +1150,20 @@ messageSends: ["result:", "testCase:", "finished:", "yourself"]
 $globals.ReportingTestContext.klass);
 
 
-$core.addClass('TestFailure', $globals.Error, [], 'SUnit');
+$core.addClass("TestFailure", $globals.Error, [], "SUnit");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.TestFailure.comment="I am raised when the boolean parameter of an #`assert:` or `#deny:` call is the opposite of what the assertion claims.\x0a\x0aThe test framework distinguishes between failures and errors.\x0aA failure is an event whose possibiity is explicitly anticipated and checked for in an assertion,\x0awhereas an error is an unanticipated problem like a division by 0 or an index out of bounds.";
 //>>excludeEnd("ide");
 
 
-$core.addClass('TestResult', $globals.Object, ['timestamp', 'runs', 'errors', 'failures', 'total'], 'SUnit');
+$core.addClass("TestResult", $globals.Object, ["timestamp", "runs", "errors", "failures", "total"], "SUnit");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.TestResult.comment="I implement the collecting parameter pattern for running a bunch of tests.\x0a\x0aMy instances hold tests that have run, sorted into the result categories of passed, failures and errors.\x0a\x0a`TestResult` is an interesting object to subclass or substitute. `#runCase:` is the external protocol you need to reproduce";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "addError:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anError){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1187,7 +1187,7 @@ $globals.TestResult);
 $core.addMethod(
 $core.method({
 selector: "addFailure:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aFailure){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1211,7 +1211,7 @@ $globals.TestResult);
 $core.addMethod(
 $core.method({
 selector: "errors",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@errors"];
@@ -1229,7 +1229,7 @@ $globals.TestResult);
 $core.addMethod(
 $core.method({
 selector: "failures",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@failures"];
@@ -1247,7 +1247,7 @@ $globals.TestResult);
 $core.addMethod(
 $core.method({
 selector: "increaseRuns",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1271,7 +1271,7 @@ $globals.TestResult);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1310,7 +1310,7 @@ $globals.TestResult);
 $core.addMethod(
 $core.method({
 selector: "nextRunDo:",
-protocol: 'running',
+protocol: "running",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1341,7 +1341,7 @@ $globals.TestResult);
 $core.addMethod(
 $core.method({
 selector: "runCase:",
-protocol: 'running',
+protocol: "running",
 fn: function (aTestCase){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1401,7 +1401,7 @@ $globals.TestResult);
 $core.addMethod(
 $core.method({
 selector: "runs",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@runs"];
@@ -1419,7 +1419,7 @@ $globals.TestResult);
 $core.addMethod(
 $core.method({
 selector: "status",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1464,7 +1464,7 @@ $globals.TestResult);
 $core.addMethod(
 $core.method({
 selector: "timestamp",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@timestamp"];
@@ -1482,7 +1482,7 @@ $globals.TestResult);
 $core.addMethod(
 $core.method({
 selector: "total",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@total"];
@@ -1500,7 +1500,7 @@ $globals.TestResult);
 $core.addMethod(
 $core.method({
 selector: "total:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aNumber){
 var self=this;
 self["@total"]=aNumber;
@@ -1518,14 +1518,14 @@ $globals.TestResult);
 
 
 
-$core.addClass('TestSuiteRunner', $globals.Object, ['suite', 'result', 'announcer', 'runNextTest'], 'SUnit');
+$core.addClass("TestSuiteRunner", $globals.Object, ["suite", "result", "announcer", "runNextTest"], "SUnit");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.TestSuiteRunner.comment="I am responsible for running a collection (`suite`) of tests.\x0a\x0a## API\x0a\x0aInstances should be created using the class-side `#on:` method, taking a collection of tests to run as parameter.\x0aTo run the test suite, use `#run`.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "announcer",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@announcer"];
@@ -1543,7 +1543,7 @@ $globals.TestSuiteRunner);
 $core.addMethod(
 $core.method({
 selector: "contextOf:",
-protocol: 'private',
+protocol: "private",
 fn: function (anInteger){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1574,7 +1574,7 @@ $globals.TestSuiteRunner);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1626,7 +1626,7 @@ $globals.TestSuiteRunner);
 $core.addMethod(
 $core.method({
 selector: "result",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@result"];
@@ -1644,7 +1644,7 @@ $globals.TestSuiteRunner);
 $core.addMethod(
 $core.method({
 selector: "resume",
-protocol: 'actions',
+protocol: "actions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1669,7 +1669,7 @@ $globals.TestSuiteRunner);
 $core.addMethod(
 $core.method({
 selector: "run",
-protocol: 'actions',
+protocol: "actions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1694,7 +1694,7 @@ $globals.TestSuiteRunner);
 $core.addMethod(
 $core.method({
 selector: "suite:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aCollection){
 var self=this;
 self["@suite"]=aCollection;
@@ -1714,7 +1714,7 @@ $globals.TestSuiteRunner);
 $core.addMethod(
 $core.method({
 selector: "new",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1738,7 +1738,7 @@ $globals.TestSuiteRunner.klass);
 $core.addMethod(
 $core.method({
 selector: "on:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1770,7 +1770,7 @@ $globals.TestSuiteRunner.klass);
 $core.addMethod(
 $core.method({
 selector: "isTestClass",
-protocol: '*SUnit',
+protocol: "*SUnit",
 fn: function (){
 var self=this;
 return false;
@@ -1788,7 +1788,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "isTestPackage",
-protocol: '*SUnit',
+protocol: "*SUnit",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

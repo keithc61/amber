@@ -2,18 +2,18 @@ define(["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Infras
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Platform-Services');
+$core.addPackage("Platform-Services");
 $core.packages["Platform-Services"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Platform-Services"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('ConsoleErrorHandler', $globals.Object, [], 'Platform-Services');
+$core.addClass("ConsoleErrorHandler", $globals.Object, [], "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ConsoleErrorHandler.comment="I am manage Smalltalk errors, displaying the stack in the console.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "handleError:",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (anError){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -47,7 +47,7 @@ $globals.ConsoleErrorHandler);
 $core.addMethod(
 $core.method({
 selector: "log:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -71,7 +71,7 @@ $globals.ConsoleErrorHandler);
 $core.addMethod(
 $core.method({
 selector: "logContext:",
-protocol: 'private',
+protocol: "private",
 fn: function (aContext){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -105,7 +105,7 @@ $globals.ConsoleErrorHandler);
 $core.addMethod(
 $core.method({
 selector: "logError:",
-protocol: 'private',
+protocol: "private",
 fn: function (anError){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -129,7 +129,7 @@ $globals.ConsoleErrorHandler);
 $core.addMethod(
 $core.method({
 selector: "logErrorContext:",
-protocol: 'private',
+protocol: "private",
 fn: function (aContext){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -164,11 +164,11 @@ messageSends: ["ifNotNil:", "home", "logContext:"]
 $globals.ConsoleErrorHandler);
 
 
-$globals.ConsoleErrorHandler.klass.iVarNames = ['current'];
+$globals.ConsoleErrorHandler.klass.iVarNames = ["current"];
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -190,14 +190,14 @@ messageSends: ["registerIfNone:", "new"]
 $globals.ConsoleErrorHandler.klass);
 
 
-$core.addClass('ConsoleTranscript', $globals.Object, ['textarea'], 'Platform-Services');
+$core.addClass("ConsoleTranscript", $globals.Object, ["textarea"], "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ConsoleTranscript.comment="I am a specific transcript emitting to the JavaScript console.\x0a\x0aIf no other transcript is registered, I am the default.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "clear",
-protocol: 'printing',
+protocol: "printing",
 fn: function (){
 var self=this;
 return self;
@@ -215,7 +215,7 @@ $globals.ConsoleTranscript);
 $core.addMethod(
 $core.method({
 selector: "cr",
-protocol: 'printing',
+protocol: "printing",
 fn: function (){
 var self=this;
 return self;
@@ -233,7 +233,7 @@ $globals.ConsoleTranscript);
 $core.addMethod(
 $core.method({
 selector: "open",
-protocol: 'actions',
+protocol: "actions",
 fn: function (){
 var self=this;
 return self;
@@ -251,7 +251,7 @@ $globals.ConsoleTranscript);
 $core.addMethod(
 $core.method({
 selector: "show:",
-protocol: 'printing',
+protocol: "printing",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -276,7 +276,7 @@ $globals.ConsoleTranscript);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -298,14 +298,14 @@ messageSends: ["registerIfNone:", "new"]
 $globals.ConsoleTranscript.klass);
 
 
-$core.addClass('Environment', $globals.Object, [], 'Platform-Services');
+$core.addClass("Environment", $globals.Object, [], "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Environment.comment="I provide an unified entry point to manipulate Amber packages, classes and methods.\x0a\x0aTypical use cases include IDEs, remote access and restricting browsing.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "addInstVarNamed:to:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aString,aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -339,7 +339,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "allSelectors",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -362,7 +362,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "availableClassNames",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -393,7 +393,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "availablePackageNames",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -424,7 +424,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "availableProtocolsFor:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 var protocols;
@@ -459,7 +459,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "classBuilder",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -482,7 +482,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "classNamed:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -511,7 +511,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "classes",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -534,7 +534,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "commitPackage:onSuccess:onError:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aPackage,aBlock,anotherBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -558,7 +558,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "compileClassComment:for:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aString,aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -582,7 +582,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "compileClassDefinition:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -622,7 +622,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "compileMethod:for:protocol:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (sourceCode,class_,protocol){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -645,7 +645,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "copyClass:to:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aClass,aClassName){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -680,7 +680,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "doItReceiver",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -703,7 +703,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "evaluate:for:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (aString,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -726,7 +726,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "evaluate:on:do:",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (aBlock,anErrorClass,exceptionBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -764,7 +764,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "inspect:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -788,7 +788,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "moveClass:toPackage:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aClass,aPackageName){
 var self=this;
 var package_;
@@ -825,7 +825,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "moveMethod:toClass:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aMethod,aClassName){
 var self=this;
 var destinationClass;
@@ -871,7 +871,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "moveMethod:toProtocol:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aMethod,aProtocol){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -895,7 +895,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "packages",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -918,7 +918,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "registerErrorHandler:",
-protocol: 'services',
+protocol: "services",
 fn: function (anErrorHandler){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -942,7 +942,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "registerFinder:",
-protocol: 'services',
+protocol: "services",
 fn: function (aFinder){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -966,7 +966,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "registerInspector:",
-protocol: 'services',
+protocol: "services",
 fn: function (anInspector){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -990,7 +990,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "registerProgressHandler:",
-protocol: 'services',
+protocol: "services",
 fn: function (aProgressHandler){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1014,7 +1014,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "registerTranscript:",
-protocol: 'services',
+protocol: "services",
 fn: function (aTranscript){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1038,7 +1038,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "removeClass:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1062,7 +1062,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "removeMethod:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aMethod){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1086,7 +1086,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "removeProtocol:from:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aString,aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1118,7 +1118,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "renameClass:to:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aClass,aClassName){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1153,7 +1153,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "renamePackage:to:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aPackageName,aNewPackageName){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1188,7 +1188,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "renameProtocol:to:in:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aString,anotherString,aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1220,7 +1220,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "setClassCommentOf:to:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (aClass,aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1244,7 +1244,7 @@ $globals.Environment);
 $core.addMethod(
 $core.method({
 selector: "systemAnnouncer",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1266,14 +1266,14 @@ $globals.Environment);
 
 
 
-$core.addClass('NullProgressHandler', $globals.Object, [], 'Platform-Services');
+$core.addClass("NullProgressHandler", $globals.Object, [], "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.NullProgressHandler.comment="I am the default progress handler. I do not display any progress, and simply iterate over the collection.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "do:on:displaying:",
-protocol: 'progress handling',
+protocol: "progress handling",
 fn: function (aBlock,aCollection,aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1295,11 +1295,11 @@ messageSends: ["do:"]
 $globals.NullProgressHandler);
 
 
-$globals.NullProgressHandler.klass.iVarNames = ['current'];
+$globals.NullProgressHandler.klass.iVarNames = ["current"];
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1321,16 +1321,16 @@ messageSends: ["registerIfNone:", "new"]
 $globals.NullProgressHandler.klass);
 
 
-$core.addClass('Service', $globals.Object, [], 'Platform-Services');
+$core.addClass("Service", $globals.Object, [], "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Service.comment="I implement the basic behavior for class registration to a service.\x0a\x0aSee the `Transcript` class for a concrete service.\x0a\x0a## API\x0a\x0aUse class-side methods `#register:` and `#registerIfNone:` to register classes to a specific service.";
 //>>excludeEnd("ide");
 
-$globals.Service.klass.iVarNames = ['current'];
+$globals.Service.klass.iVarNames = ["current"];
 $core.addMethod(
 $core.method({
 selector: "current",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@current"];
@@ -1348,7 +1348,7 @@ $globals.Service.klass);
 $core.addMethod(
 $core.method({
 selector: "new",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1372,7 +1372,7 @@ $globals.Service.klass);
 $core.addMethod(
 $core.method({
 selector: "register:",
-protocol: 'registration',
+protocol: "registration",
 fn: function (anObject){
 var self=this;
 self["@current"]=anObject;
@@ -1391,7 +1391,7 @@ $globals.Service.klass);
 $core.addMethod(
 $core.method({
 selector: "registerIfNone:",
-protocol: 'registration',
+protocol: "registration",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1419,7 +1419,7 @@ messageSends: ["ifNil:", "current", "register:"]
 $globals.Service.klass);
 
 
-$core.addClass('ErrorHandler', $globals.Service, [], 'Platform-Services');
+$core.addClass("ErrorHandler", $globals.Service, [], "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ErrorHandler.comment="I am the service used to handle Smalltalk errors.\x0aSee `boot.js` `handleError()` function.\x0a\x0aRegistered service instances must implement `#handleError:` to perform an action on the thrown exception.";
 //>>excludeEnd("ide");
@@ -1427,7 +1427,7 @@ $globals.ErrorHandler.comment="I am the service used to handle Smalltalk errors.
 $core.addMethod(
 $core.method({
 selector: "handleError:",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (anError){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1451,7 +1451,7 @@ $globals.ErrorHandler.klass);
 $core.addMethod(
 $core.method({
 selector: "handleUnhandledError:",
-protocol: 'error handling',
+protocol: "error handling",
 fn: function (anError){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1477,7 +1477,7 @@ messageSends: ["ifTrue:", "wasHandled", "handleError:", "current"]
 $globals.ErrorHandler.klass);
 
 
-$core.addClass('Finder', $globals.Service, [], 'Platform-Services');
+$core.addClass("Finder", $globals.Service, [], "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Finder.comment="I am the service responsible for finding classes/methods.\x0a__There is no default finder.__\x0a\x0a## API\x0a\x0aUse `#browse` on an object to find it.";
 //>>excludeEnd("ide");
@@ -1485,7 +1485,7 @@ $globals.Finder.comment="I am the service responsible for finding classes/method
 $core.addMethod(
 $core.method({
 selector: "findClass:",
-protocol: 'finding',
+protocol: "finding",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1508,7 +1508,7 @@ $globals.Finder.klass);
 $core.addMethod(
 $core.method({
 selector: "findMethod:",
-protocol: 'finding',
+protocol: "finding",
 fn: function (aCompiledMethod){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1531,7 +1531,7 @@ $globals.Finder.klass);
 $core.addMethod(
 $core.method({
 selector: "findString:",
-protocol: 'finding',
+protocol: "finding",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1552,7 +1552,7 @@ messageSends: ["findString:", "current"]
 $globals.Finder.klass);
 
 
-$core.addClass('Inspector', $globals.Service, [], 'Platform-Services');
+$core.addClass("Inspector", $globals.Service, [], "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Inspector.comment="I am the service responsible for inspecting objects.\x0a\x0aThe default inspector object is the transcript.";
 //>>excludeEnd("ide");
@@ -1560,7 +1560,7 @@ $globals.Inspector.comment="I am the service responsible for inspecting objects.
 $core.addMethod(
 $core.method({
 selector: "inspect:",
-protocol: 'inspecting',
+protocol: "inspecting",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1581,7 +1581,7 @@ messageSends: ["inspect:", "current"]
 $globals.Inspector.klass);
 
 
-$core.addClass('Platform', $globals.Service, [], 'Platform-Services');
+$core.addClass("Platform", $globals.Service, [], "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Platform.comment="I am bridge to JS environment.\x0a\x0a## API\x0a\x0a    Platform globals. \x22JS global object\x22\x0a    Platform newXHR \x22new XMLHttpRequest() or its shim\x22";
 //>>excludeEnd("ide");
@@ -1589,7 +1589,7 @@ $globals.Platform.comment="I am bridge to JS environment.\x0a\x0a## API\x0a\x0a 
 $core.addMethod(
 $core.method({
 selector: "globals",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1612,7 +1612,7 @@ $globals.Platform.klass);
 $core.addMethod(
 $core.method({
 selector: "newXhr",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1633,7 +1633,7 @@ messageSends: ["newXhr", "current"]
 $globals.Platform.klass);
 
 
-$core.addClass('ProgressHandler', $globals.Service, [], 'Platform-Services');
+$core.addClass("ProgressHandler", $globals.Service, [], "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ProgressHandler.comment="I am used to manage progress in collection iterations, see `SequenceableCollection >> #do:displayingProgress:`.\x0a\x0aRegistered instances must implement `#do:on:displaying:`.\x0a\x0aThe default behavior is to simply iterate over the collection, using `NullProgressHandler`.";
 //>>excludeEnd("ide");
@@ -1641,7 +1641,7 @@ $globals.ProgressHandler.comment="I am used to manage progress in collection ite
 $core.addMethod(
 $core.method({
 selector: "do:on:displaying:",
-protocol: 'progress handling',
+protocol: "progress handling",
 fn: function (aBlock,aCollection,aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1663,7 +1663,7 @@ messageSends: ["do:on:displaying:", "current"]
 $globals.ProgressHandler.klass);
 
 
-$core.addClass('Terminal', $globals.Service, [], 'Platform-Services');
+$core.addClass("Terminal", $globals.Service, [], "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Terminal.comment="I am UI interface service.\x0a\x0a## API\x0a\x0a    Terminal alert: 'Hey, there is a problem'.\x0a    Terminal confirm: 'Affirmative?'.\x0a    Terminal prompt: 'Your name:'.";
 //>>excludeEnd("ide");
@@ -1671,7 +1671,7 @@ $globals.Terminal.comment="I am UI interface service.\x0a\x0a## API\x0a\x0a    T
 $core.addMethod(
 $core.method({
 selector: "alert:",
-protocol: 'dialogs',
+protocol: "dialogs",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1694,7 +1694,7 @@ $globals.Terminal.klass);
 $core.addMethod(
 $core.method({
 selector: "confirm:",
-protocol: 'dialogs',
+protocol: "dialogs",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1717,7 +1717,7 @@ $globals.Terminal.klass);
 $core.addMethod(
 $core.method({
 selector: "prompt:",
-protocol: 'dialogs',
+protocol: "dialogs",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1740,7 +1740,7 @@ $globals.Terminal.klass);
 $core.addMethod(
 $core.method({
 selector: "prompt:default:",
-protocol: 'dialogs',
+protocol: "dialogs",
 fn: function (aString,defaultString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1761,7 +1761,7 @@ messageSends: ["prompt:default:", "current"]
 $globals.Terminal.klass);
 
 
-$core.addClass('Transcript', $globals.Service, [], 'Platform-Services');
+$core.addClass("Transcript", $globals.Service, [], "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Transcript.comment="I am a facade for Transcript actions.\x0a\x0aI delegate actions to the currently registered transcript.\x0a\x0a## API\x0a\x0a    Transcript \x0a        show: 'hello world';\x0a        cr;\x0a        show: anObject.";
 //>>excludeEnd("ide");
@@ -1769,7 +1769,7 @@ $globals.Transcript.comment="I am a facade for Transcript actions.\x0a\x0aI dele
 $core.addMethod(
 $core.method({
 selector: "clear",
-protocol: 'printing',
+protocol: "printing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1793,7 +1793,7 @@ $globals.Transcript.klass);
 $core.addMethod(
 $core.method({
 selector: "cr",
-protocol: 'printing',
+protocol: "printing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1817,7 +1817,7 @@ $globals.Transcript.klass);
 $core.addMethod(
 $core.method({
 selector: "inspect:",
-protocol: 'printing',
+protocol: "printing",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1841,7 +1841,7 @@ $globals.Transcript.klass);
 $core.addMethod(
 $core.method({
 selector: "open",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1865,7 +1865,7 @@ $globals.Transcript.klass);
 $core.addMethod(
 $core.method({
 selector: "show:",
-protocol: 'printing',
+protocol: "printing",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1889,7 +1889,7 @@ $globals.Transcript.klass);
 $core.addMethod(
 $core.method({
 selector: "inspectOn:",
-protocol: '*Platform-Services',
+protocol: "*Platform-Services",
 fn: function (anInspector){
 var self=this;
 var variables;
@@ -1933,7 +1933,7 @@ $globals.AssociativeCollection);
 $core.addMethod(
 $core.method({
 selector: "inspectOn:",
-protocol: '*Platform-Services',
+protocol: "*Platform-Services",
 fn: function (anInspector){
 var self=this;
 var variables;
@@ -1973,7 +1973,7 @@ $globals.Collection);
 $core.addMethod(
 $core.method({
 selector: "inspectOn:",
-protocol: '*Platform-Services',
+protocol: "*Platform-Services",
 fn: function (anInspector){
 var self=this;
 var variables;
@@ -2029,7 +2029,7 @@ $globals.Date);
 $core.addMethod(
 $core.method({
 selector: "inspectOn:",
-protocol: '*Platform-Services',
+protocol: "*Platform-Services",
 fn: function (anInspector){
 var self=this;
 var variables;
@@ -2058,7 +2058,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "inspectOn:",
-protocol: '*Platform-Services',
+protocol: "*Platform-Services",
 fn: function (anInspector){
 var self=this;
 var variables;
@@ -2114,7 +2114,7 @@ $globals.MethodContext);
 $core.addMethod(
 $core.method({
 selector: "inspectOn:",
-protocol: '*Platform-Services',
+protocol: "*Platform-Services",
 fn: function (anInspector){
 var self=this;
 var variables;
@@ -2154,7 +2154,7 @@ $globals.Object);
 $core.addMethod(
 $core.method({
 selector: "do:displayingProgress:",
-protocol: '*Platform-Services',
+protocol: "*Platform-Services",
 fn: function (aBlock,aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2178,7 +2178,7 @@ $globals.SequenceableCollection);
 $core.addMethod(
 $core.method({
 selector: "inspectOn:",
-protocol: '*Platform-Services',
+protocol: "*Platform-Services",
 fn: function (anInspector){
 var self=this;
 var variables,i;
@@ -2221,7 +2221,7 @@ $globals.Set);
 $core.addMethod(
 $core.method({
 selector: "inspectOn:",
-protocol: '*Platform-Services',
+protocol: "*Platform-Services",
 fn: function (anInspector){
 var self=this;
 var label;

@@ -2,11 +2,11 @@ define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict"
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('AmberCli');
+$core.addPackage("AmberCli");
 $core.packages["AmberCli"].innerEval = function (expr) { return eval(expr); };
 $core.packages["AmberCli"].transport = {"type":"amd","amdNamespace":"amber_cli"};
 
-$core.addClass('AmberCli', $globals.Object, [], 'AmberCli');
+$core.addClass("AmberCli", $globals.Object, [], "AmberCli");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AmberCli.comment="I am the Amber CLI (CommandLine Interface) tool which runs on Node.js.\x0a\x0aMy responsibility is to start different Amber programs like the FileServer or the Repl.\x0aWhich program to start is determined by the first commandline parameters passed to the AmberCli executable.\x0aUse `help` to get a list of all available options.\x0aAny further commandline parameters are passed to the specific program.\x0a\x0a## Commands\x0a\x0aNew commands can be added by creating a class side method in the `commands` protocol which takes one parameter.\x0aThis parameter is an array of all commandline options + values passed on to the program.\x0aAny `camelCaseCommand` is transformed into a commandline parameter of the form `camel-case-command` and vice versa.";
 //>>excludeEnd("ide");
@@ -14,7 +14,7 @@ $globals.AmberCli.comment="I am the Amber CLI (CommandLine Interface) tool which
 $core.addMethod(
 $core.method({
 selector: "commandLineSwitches",
-protocol: 'commandline',
+protocol: "commandline",
 fn: function (){
 var self=this;
 var switches;
@@ -68,7 +68,7 @@ $globals.AmberCli.klass);
 $core.addMethod(
 $core.method({
 selector: "config:",
-protocol: 'commands',
+protocol: "commands",
 fn: function (args){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -92,7 +92,7 @@ $globals.AmberCli.klass);
 $core.addMethod(
 $core.method({
 selector: "handleArguments:",
-protocol: 'commandline',
+protocol: "commandline",
 fn: function (args){
 var self=this;
 var selector;
@@ -124,7 +124,7 @@ $globals.AmberCli.klass);
 $core.addMethod(
 $core.method({
 selector: "help:",
-protocol: 'commands',
+protocol: "commands",
 fn: function (args){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -157,7 +157,7 @@ $globals.AmberCli.klass);
 $core.addMethod(
 $core.method({
 selector: "init:",
-protocol: 'commands',
+protocol: "commands",
 fn: function (args){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -181,7 +181,7 @@ $globals.AmberCli.klass);
 $core.addMethod(
 $core.method({
 selector: "main",
-protocol: 'startup',
+protocol: "startup",
 fn: function (){
 var self=this;
 var args,packageJSON;
@@ -256,7 +256,7 @@ $globals.AmberCli.klass);
 $core.addMethod(
 $core.method({
 selector: "repl:",
-protocol: 'commands',
+protocol: "commands",
 fn: function (args){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -279,7 +279,7 @@ $globals.AmberCli.klass);
 $core.addMethod(
 $core.method({
 selector: "selectorForCommandLineSwitch:",
-protocol: 'commandline',
+protocol: "commandline",
 fn: function (aSwitch){
 var self=this;
 var command,selector;
@@ -320,7 +320,7 @@ $globals.AmberCli.klass);
 $core.addMethod(
 $core.method({
 selector: "serve:",
-protocol: 'commands',
+protocol: "commands",
 fn: function (args){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -343,7 +343,7 @@ $globals.AmberCli.klass);
 $core.addMethod(
 $core.method({
 selector: "version:",
-protocol: 'commands',
+protocol: "commands",
 fn: function (arguments_){
 var self=this;
 return self;
@@ -359,11 +359,11 @@ messageSends: []
 $globals.AmberCli.klass);
 
 
-$core.addClass('BaseFileManipulator', $globals.Object, ['path', 'fs'], 'AmberCli');
+$core.addClass("BaseFileManipulator", $globals.Object, ["path", "fs"], "AmberCli");
 $core.addMethod(
 $core.method({
 selector: "dirname",
-protocol: 'private',
+protocol: "private",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -387,7 +387,7 @@ $globals.BaseFileManipulator);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -423,7 +423,7 @@ $globals.BaseFileManipulator);
 $core.addMethod(
 $core.method({
 selector: "rootDirname",
-protocol: 'private',
+protocol: "private",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -445,11 +445,11 @@ $globals.BaseFileManipulator);
 
 
 
-$core.addClass('Configurator', $globals.BaseFileManipulator, [], 'AmberCli');
+$core.addClass("Configurator", $globals.BaseFileManipulator, [], "AmberCli");
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -480,7 +480,7 @@ $globals.Configurator);
 $core.addMethod(
 $core.method({
 selector: "start",
-protocol: 'action',
+protocol: "action",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -517,7 +517,7 @@ $globals.Configurator);
 $core.addMethod(
 $core.method({
 selector: "writeConfigThenDo:",
-protocol: 'action',
+protocol: "action",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -540,14 +540,14 @@ $globals.Configurator);
 
 
 
-$core.addClass('FileServer', $globals.BaseFileManipulator, ['http', 'url', 'host', 'port', 'basePath', 'util', 'username', 'password', 'fallbackPage'], 'AmberCli');
+$core.addClass("FileServer", $globals.BaseFileManipulator, ["http", "url", "host", "port", "basePath", "util", "username", "password", "fallbackPage"], "AmberCli");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.FileServer.comment="I am the Amber Smalltalk FileServer.\x0aMy runtime requirement is a functional Node.js executable.\x0a\x0aTo start a FileServer instance on port `4000` use the following code:\x0a\x0a    FileServer new start\x0a\x0aA parameterized instance can be created with the following code:\x0a\x0a    FileServer createServerWithArguments: options\x0a\x0aHere, `options` is an array of commandline style strings each followed by a value e.g. `#('--port', '6000', '--host', '0.0.0.0')`.\x0aA list of all available parameters can be printed to the commandline by passing `--help` as parameter.\x0aSee the `Options` section for further details on how options are mapped to instance methods.\x0a\x0aAfter startup FileServer checks if the directory layout required by Amber is present and logs a warning on absence.\x0a\x0a\x0a## Options\x0a\x0aEach option is of the form `--some-option-string` which is transformed into a selector of the format `someOptionString:`.\x0aThe trailing `--` gets removed, each `-[a-z]` gets transformed into the according uppercase letter, and a `:` is appended to create a selector which takes a single argument.\x0aAfterwards, the selector gets executed on the `FileServer` instance with the value following in the options array as parameter.\x0a\x0a## Adding new commandline parameters\x0a\x0aAdding new commandline parameters to `FileServer` is as easy as adding a new single parameter method to the `accessing` protocol.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "base64Decode:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -571,7 +571,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "basePath",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -600,7 +600,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "basePath:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -625,7 +625,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "checkDirectoryLayout",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -665,7 +665,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "fallbackPage",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@fallbackPage"];
@@ -683,7 +683,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "fallbackPage:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@fallbackPage"]=aString;
@@ -702,7 +702,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "handleGETRequest:respondTo:",
-protocol: 'request handling',
+protocol: "request handling",
 fn: function (aRequest,aResponse){
 var self=this;
 var uri,filename;
@@ -747,7 +747,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "handleOPTIONSRequest:respondTo:",
-protocol: 'request handling',
+protocol: "request handling",
 fn: function (aRequest,aResponse){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -772,7 +772,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "handlePUTRequest:respondTo:",
-protocol: 'request handling',
+protocol: "request handling",
 fn: function (aRequest,aResponse){
 var self=this;
 var file,stream;
@@ -870,7 +870,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "handleRequest:respondTo:",
-protocol: 'request handling',
+protocol: "request handling",
 fn: function (aRequest,aResponse){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -920,7 +920,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "host",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@host"];
@@ -938,7 +938,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "host:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (hostname){
 var self=this;
 self["@host"]=hostname;
@@ -957,7 +957,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1007,7 +1007,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "isAuthenticated:",
-protocol: 'private',
+protocol: "private",
 fn: function (aRequest){
 var self=this;
 var header,token,auth,parts;
@@ -1116,7 +1116,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "password:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPassword){
 var self=this;
 self["@password"]=aPassword;
@@ -1135,7 +1135,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "port",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@port"];
@@ -1153,7 +1153,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "port:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aNumber){
 var self=this;
 self["@port"]=aNumber;
@@ -1172,7 +1172,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "require:",
-protocol: 'private',
+protocol: "private",
 fn: function (aModuleString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1195,7 +1195,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "respondAuthenticationRequiredTo:",
-protocol: 'request handling',
+protocol: "request handling",
 fn: function (aResponse){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1221,7 +1221,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "respondCreatedTo:",
-protocol: 'request handling',
+protocol: "request handling",
 fn: function (aResponse){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1246,7 +1246,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "respondDirectoryNamed:from:to:",
-protocol: 'request handling',
+protocol: "request handling",
 fn: function (aDirname,aUrl,aResponse){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1295,7 +1295,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "respondFileNamed:to:",
-protocol: 'request handling',
+protocol: "request handling",
 fn: function (aFilename,aResponse){
 var self=this;
 var type,filename;
@@ -1350,7 +1350,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "respondInternalErrorTo:",
-protocol: 'request handling',
+protocol: "request handling",
 fn: function (aResponse){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1376,7 +1376,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "respondNotCreatedTo:",
-protocol: 'request handling',
+protocol: "request handling",
 fn: function (aResponse){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1402,7 +1402,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "respondNotFoundTo:",
-protocol: 'request handling',
+protocol: "request handling",
 fn: function (aResponse){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1457,7 +1457,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "respondOKTo:",
-protocol: 'request handling',
+protocol: "request handling",
 fn: function (aResponse){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1482,7 +1482,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "respondRedirect:to:",
-protocol: 'request handling',
+protocol: "request handling",
 fn: function (aString,aResponse){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1507,7 +1507,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "start",
-protocol: 'starting',
+protocol: "starting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1590,7 +1590,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "startOn:",
-protocol: 'starting',
+protocol: "starting",
 fn: function (aPort){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1615,7 +1615,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "username:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aUsername){
 var self=this;
 self["@username"]=aUsername;
@@ -1634,7 +1634,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "validateBasePath",
-protocol: 'private',
+protocol: "private",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1700,7 +1700,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "withBasePath:",
-protocol: 'private',
+protocol: "private",
 fn: function (aBaseRelativePath){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1723,7 +1723,7 @@ $globals.FileServer);
 $core.addMethod(
 $core.method({
 selector: "writeData:toFileNamed:",
-protocol: 'private',
+protocol: "private",
 fn: function (data,aFilename){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1745,11 +1745,11 @@ messageSends: ["log:"]
 $globals.FileServer);
 
 
-$globals.FileServer.klass.iVarNames = ['mimeTypes'];
+$globals.FileServer.klass.iVarNames = ["mimeTypes"];
 $core.addMethod(
 $core.method({
 selector: "commandLineSwitches",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 var switches;
@@ -1806,7 +1806,7 @@ $globals.FileServer.klass);
 $core.addMethod(
 $core.method({
 selector: "createServerWithArguments:",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (options){
 var self=this;
 var server,popFront,front,optionName,optionValue,switches;
@@ -1919,7 +1919,7 @@ $globals.FileServer.klass);
 $core.addMethod(
 $core.method({
 selector: "defaultBasePath",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return "./";
@@ -1937,7 +1937,7 @@ $globals.FileServer.klass);
 $core.addMethod(
 $core.method({
 selector: "defaultHost",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return "127.0.0.1";
@@ -1955,7 +1955,7 @@ $globals.FileServer.klass);
 $core.addMethod(
 $core.method({
 selector: "defaultMimeTypes",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return $globals.HashedCollection._newFromPairs_(["%","application/x-trash","323","text/h323","abw","application/x-abiword","ai","application/postscript","aif","audio/x-aiff","aifc","audio/x-aiff","aiff","audio/x-aiff","alc","chemical/x-alchemy","art","image/x-jg","asc","text/plain","asf","video/x-ms-asf","asn","chemical/x-ncbi-asn1-spec","aso","chemical/x-ncbi-asn1-binary","asx","video/x-ms-asf","au","audio/basic","avi","video/x-msvideo","b","chemical/x-molconn-Z","bak","application/x-trash","bat","application/x-msdos-program","bcpio","application/x-bcpio","bib","text/x-bibtex","bin","application/octet-stream","bmp","image/x-ms-bmp","book","application/x-maker","bsd","chemical/x-crossfire","c","text/x-csrc","c++","text/x-c++src","c3d","chemical/x-chem3d","cac","chemical/x-cache","cache","chemical/x-cache","cascii","chemical/x-cactvs-binary","cat","application/vnd.ms-pki.seccat","cbin","chemical/x-cactvs-binary","cc","text/x-c++src","cdf","application/x-cdf","cdr","image/x-coreldraw","cdt","image/x-coreldrawtemplate","cdx","chemical/x-cdx","cdy","application/vnd.cinderella","cef","chemical/x-cxf","cer","chemical/x-cerius","chm","chemical/x-chemdraw","chrt","application/x-kchart","cif","chemical/x-cif","class","application/java-vm","cls","text/x-tex","cmdf","chemical/x-cmdf","cml","chemical/x-cml","cod","application/vnd.rim.cod","com","application/x-msdos-program","cpa","chemical/x-compass","cpio","application/x-cpio","cpp","text/x-c++src","cpt","image/x-corelphotopaint","crl","application/x-pkcs7-crl","crt","application/x-x509-ca-cert","csf","chemical/x-cache-csf","csh","text/x-csh","csm","chemical/x-csml","csml","chemical/x-csml","css","text/css","csv","text/comma-separated-values","ctab","chemical/x-cactvs-binary","ctx","chemical/x-ctx","cu","application/cu-seeme","cub","chemical/x-gaussian-cube","cxf","chemical/x-cxf","cxx","text/x-c++src","dat","chemical/x-mopac-input","dcr","application/x-director","deb","application/x-debian-package","dif","video/dv","diff","text/plain","dir","application/x-director","djv","image/vnd.djvu","djvu","image/vnd.djvu","dl","video/dl","dll","application/x-msdos-program","dmg","application/x-apple-diskimage","dms","application/x-dms","doc","application/msword","dot","application/msword","dv","video/dv","dvi","application/x-dvi","dx","chemical/x-jcamp-dx","dxr","application/x-director","emb","chemical/x-embl-dl-nucleotide","embl","chemical/x-embl-dl-nucleotide","ent","chemical/x-pdb","eps","application/postscript","etx","text/x-setext","exe","application/x-msdos-program","ez","application/andrew-inset","fb","application/x-maker","fbdoc","application/x-maker","fch","chemical/x-gaussian-checkpoint","fchk","chemical/x-gaussian-checkpoint","fig","application/x-xfig","flac","application/x-flac","fli","video/fli","fm","application/x-maker","frame","application/x-maker","frm","application/x-maker","gal","chemical/x-gaussian-log","gam","chemical/x-gamess-input","gamin","chemical/x-gamess-input","gau","chemical/x-gaussian-input","gcd","text/x-pcs-gcd","gcf","application/x-graphing-calculator","gcg","chemical/x-gcg8-sequence","gen","chemical/x-genbank","gf","application/x-tex-gf","gif","image/gif","gjc","chemical/x-gaussian-input","gjf","chemical/x-gaussian-input","gl","video/gl","gnumeric","application/x-gnumeric","gpt","chemical/x-mopac-graph","gsf","application/x-font","gsm","audio/x-gsm","gtar","application/x-gtar","h","text/x-chdr","h++","text/x-c++hdr","hdf","application/x-hdf","hh","text/x-c++hdr","hin","chemical/x-hin","hpp","text/x-c++hdr","hqx","application/mac-binhex40","hs","text/x-haskell","hta","application/hta","htc","text/x-component","htm","text/html","html","text/html","hxx","text/x-c++hdr","ica","application/x-ica","ice","x-conference/x-cooltalk","ico","image/x-icon","ics","text/calendar","icz","text/calendar","ief","image/ief","iges","model/iges","igs","model/iges","iii","application/x-iphone","inp","chemical/x-gamess-input","ins","application/x-internet-signup","iso","application/x-iso9660-image","isp","application/x-internet-signup","ist","chemical/x-isostar","istr","chemical/x-isostar","jad","text/vnd.sun.j2me.app-descriptor","jar","application/java-archive","java","text/x-java","jdx","chemical/x-jcamp-dx","jmz","application/x-jmol","jng","image/x-jng","jnlp","application/x-java-jnlp-file","jpe","image/jpeg","jpeg","image/jpeg","jpg","image/jpeg","js","application/javascript","kar","audio/midi","key","application/pgp-keys","kil","application/x-killustrator","kin","chemical/x-kinemage","kpr","application/x-kpresenter","kpt","application/x-kpresenter","ksp","application/x-kspread","kwd","application/x-kword","kwt","application/x-kword","latex","application/x-latex","lha","application/x-lha","lhs","text/x-literate-haskell","lsf","video/x-la-asf","lsx","video/x-la-asf","ltx","text/x-tex","lzh","application/x-lzh","lzx","application/x-lzx","m3u","audio/x-mpegurl","m4a","audio/mpeg","maker","application/x-maker","man","application/x-troff-man","mcif","chemical/x-mmcif","mcm","chemical/x-macmolecule","mdb","application/msaccess","me","application/x-troff-me","mesh","model/mesh","mid","audio/midi","midi","audio/midi","mif","application/x-mif","mm","application/x-freemind","mmd","chemical/x-macromodel-input","mmf","application/vnd.smaf","mml","text/mathml","mmod","chemical/x-macromodel-input","mng","video/x-mng","moc","text/x-moc","mol","chemical/x-mdl-molfile","mol2","chemical/x-mol2","moo","chemical/x-mopac-out","mop","chemical/x-mopac-input","mopcrt","chemical/x-mopac-input","mov","video/quicktime","movie","video/x-sgi-movie","mp2","audio/mpeg","mp3","audio/mpeg","mp4","video/mp4","mpc","chemical/x-mopac-input","mpe","video/mpeg","mpeg","video/mpeg","mpega","audio/mpeg","mpg","video/mpeg","mpga","audio/mpeg","ms","application/x-troff-ms","msh","model/mesh","msi","application/x-msi","mvb","chemical/x-mopac-vib","mxu","video/vnd.mpegurl","nb","application/mathematica","nc","application/x-netcdf","nwc","application/x-nwc","o","application/x-object","oda","application/oda","odb","application/vnd.oasis.opendocument.database","odc","application/vnd.oasis.opendocument.chart","odf","application/vnd.oasis.opendocument.formula","odg","application/vnd.oasis.opendocument.graphics","odi","application/vnd.oasis.opendocument.image","odm","application/vnd.oasis.opendocument.text-master","odp","application/vnd.oasis.opendocument.presentation","ods","application/vnd.oasis.opendocument.spreadsheet","odt","application/vnd.oasis.opendocument.text","ogg","application/ogg","old","application/x-trash","oth","application/vnd.oasis.opendocument.text-web","oza","application/x-oz-application","p","text/x-pascal","p7r","application/x-pkcs7-certreqresp","pac","application/x-ns-proxy-autoconfig","pas","text/x-pascal","pat","image/x-coreldrawpattern","pbm","image/x-portable-bitmap","pcf","application/x-font","pcf.Z","application/x-font","pcx","image/pcx","pdb","chemical/x-pdb","pdf","application/pdf","pfa","application/x-font","pfb","application/x-font","pgm","image/x-portable-graymap","pgn","application/x-chess-pgn","pgp","application/pgp-signature","pk","application/x-tex-pk","pl","text/x-perl","pls","audio/x-scpls","pm","text/x-perl","png","image/png","pnm","image/x-portable-anymap","pot","text/plain","ppm","image/x-portable-pixmap","pps","application/vnd.ms-powerpoint","ppt","application/vnd.ms-powerpoint","prf","application/pics-rules","prt","chemical/x-ncbi-asn1-ascii","ps","application/postscript","psd","image/x-photoshop","psp","text/x-psp","py","text/x-python","pyc","application/x-python-code","pyo","application/x-python-code","qt","video/quicktime","qtl","application/x-quicktimeplayer","ra","audio/x-realaudio","ram","audio/x-pn-realaudio","rar","application/rar","ras","image/x-cmu-raster","rd","chemical/x-mdl-rdfile","rdf","application/rdf+xml","rgb","image/x-rgb","rm","audio/x-pn-realaudio","roff","application/x-troff","ros","chemical/x-rosdal","rpm","application/x-redhat-package-manager","rss","application/rss+xml","rtf","text/rtf","rtx","text/richtext","rxn","chemical/x-mdl-rxnfile","sct","text/scriptlet","sd","chemical/x-mdl-sdfile","sd2","audio/x-sd2","sda","application/vnd.stardivision.draw","sdc","application/vnd.stardivision.calc","sdd","application/vnd.stardivision.impress","sdf","chemical/x-mdl-sdfile","sdp","application/vnd.stardivision.impress","sdw","application/vnd.stardivision.writer","ser","application/java-serialized-object","sgf","application/x-go-sgf","sgl","application/vnd.stardivision.writer-global","sh","text/x-sh","shar","application/x-shar","shtml","text/html","sid","audio/prs.sid","sik","application/x-trash","silo","model/mesh","sis","application/vnd.symbian.install","sit","application/x-stuffit","skd","application/x-koan","skm","application/x-koan","skp","application/x-koan","skt","application/x-koan","smf","application/vnd.stardivision.math","smi","application/smil","smil","application/smil","snd","audio/basic","spc","chemical/x-galactic-spc","spl","application/x-futuresplash","src","application/x-wais-source","stc","application/vnd.sun.xml.calc.template","std","application/vnd.sun.xml.draw.template","sti","application/vnd.sun.xml.impress.template","stl","application/vnd.ms-pki.stl","stw","application/vnd.sun.xml.writer.template","sty","text/x-tex","sv4cpio","application/x-sv4cpio","sv4crc","application/x-sv4crc","svg","image/svg+xml","svgz","image/svg+xml","sw","chemical/x-swissprot","swf","application/x-shockwave-flash","swfl","application/x-shockwave-flash","sxc","application/vnd.sun.xml.calc","sxd","application/vnd.sun.xml.draw","sxg","application/vnd.sun.xml.writer.global","sxi","application/vnd.sun.xml.impress","sxm","application/vnd.sun.xml.math","sxw","application/vnd.sun.xml.writer","t","application/x-troff","tar","application/x-tar","taz","application/x-gtar","tcl","text/x-tcl","tex","text/x-tex","texi","application/x-texinfo","texinfo","application/x-texinfo","text","text/plain","tgf","chemical/x-mdl-tgf","tgz","application/x-gtar","tif","image/tiff","tiff","image/tiff","tk","text/x-tcl","tm","text/texmacs","torrent","application/x-bittorrent","tr","application/x-troff","ts","text/texmacs","tsp","application/dsptype","tsv","text/tab-separated-values","txt","text/plain","udeb","application/x-debian-package","uls","text/iuls","ustar","application/x-ustar","val","chemical/x-ncbi-asn1-binary","vcd","application/x-cdlink","vcf","text/x-vcard","vcs","text/x-vcalendar","vmd","chemical/x-vmd","vms","chemical/x-vamas-iso14976","vor","application/vnd.stardivision.writer","vrm","x-world/x-vrml","vrml","x-world/x-vrml","vsd","application/vnd.visio","wad","application/x-doom","wav","audio/x-wav","wax","audio/x-ms-wax","wbmp","image/vnd.wap.wbmp","wbxml","application/vnd.wap.wbxml","wk","application/x-123","wm","video/x-ms-wm","wma","audio/x-ms-wma","wmd","application/x-ms-wmd","wml","text/vnd.wap.wml","wmlc","application/vnd.wap.wmlc","wmls","text/vnd.wap.wmlscript","wmlsc","application/vnd.wap.wmlscriptc","wmv","video/x-ms-wmv","wmx","video/x-ms-wmx","wmz","application/x-ms-wmz","wp5","application/wordperfect5.1","wpd","application/wordperfect","wrl","x-world/x-vrml","wsc","text/scriptlet","wvx","video/x-ms-wvx","wz","application/x-wingz","xbm","image/x-xbitmap","xcf","application/x-xcf","xht","application/xhtml+xml","xhtml","application/xhtml+xml","xlb","application/vnd.ms-excel","xls","application/vnd.ms-excel","xlt","application/vnd.ms-excel","xml","application/xml","xpi","application/x-xpinstall","xpm","image/x-xpixmap","xsl","application/xml","xtel","chemical/x-xtel","xul","application/vnd.mozilla.xul+xml","xwd","image/x-xwindowdump","xyz","chemical/x-xyz","zip","application/zip","zmt","chemical/x-mopac-input","~","application/x-trash"]);
@@ -1973,7 +1973,7 @@ $globals.FileServer.klass);
 $core.addMethod(
 $core.method({
 selector: "defaultPort",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return (4000);
@@ -1991,7 +1991,7 @@ $globals.FileServer.klass);
 $core.addMethod(
 $core.method({
 selector: "main",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 var fileServer,args;
@@ -2044,7 +2044,7 @@ $globals.FileServer.klass);
 $core.addMethod(
 $core.method({
 selector: "mimeTypeFor:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2070,7 +2070,7 @@ $globals.FileServer.klass);
 $core.addMethod(
 $core.method({
 selector: "mimeTypes",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2100,7 +2100,7 @@ $globals.FileServer.klass);
 $core.addMethod(
 $core.method({
 selector: "printHelp",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2140,7 +2140,7 @@ $globals.FileServer.klass);
 $core.addMethod(
 $core.method({
 selector: "selectorForCommandLineSwitch:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aSwitch){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2174,11 +2174,11 @@ messageSends: [",", "replace:with:", "asUppercase", "second"]
 $globals.FileServer.klass);
 
 
-$core.addClass('Initer', $globals.BaseFileManipulator, ['childProcess', 'nmPath'], 'AmberCli');
+$core.addClass("Initer", $globals.BaseFileManipulator, ["childProcess", "nmPath"], "AmberCli");
 $core.addMethod(
 $core.method({
 selector: "bowerInstallThenDo:",
-protocol: 'action',
+protocol: "action",
 fn: function (aBlock){
 var self=this;
 var child;
@@ -2224,7 +2224,7 @@ $globals.Initer);
 $core.addMethod(
 $core.method({
 selector: "finishMessage",
-protocol: 'action',
+protocol: "action",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2251,7 +2251,7 @@ $globals.Initer);
 $core.addMethod(
 $core.method({
 selector: "gruntInitThenDo:",
-protocol: 'action',
+protocol: "action",
 fn: function (aBlock){
 var self=this;
 var child,sanitizedTemplatePath;
@@ -2301,7 +2301,7 @@ $globals.Initer);
 $core.addMethod(
 $core.method({
 selector: "gruntThenDo:",
-protocol: 'action',
+protocol: "action",
 fn: function (aBlock){
 var self=this;
 var child;
@@ -2347,7 +2347,7 @@ $globals.Initer);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2380,7 +2380,7 @@ $globals.Initer);
 $core.addMethod(
 $core.method({
 selector: "npmInstallThenDo:",
-protocol: 'action',
+protocol: "action",
 fn: function (aBlock){
 var self=this;
 var child;
@@ -2411,7 +2411,7 @@ $globals.Initer);
 $core.addMethod(
 $core.method({
 selector: "npmScriptForModule:named:",
-protocol: 'npm',
+protocol: "npm",
 fn: function (aString,anotherString){
 var self=this;
 var modulePath,packageJson,binSection,scriptPath;
@@ -2455,7 +2455,7 @@ $globals.Initer);
 $core.addMethod(
 $core.method({
 selector: "start",
-protocol: 'action',
+protocol: "action",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2573,14 +2573,14 @@ $globals.Initer);
 
 
 
-$core.addClass('Repl', $globals.Object, ['readline', 'interface', 'util', 'session', 'resultCount', 'commands'], 'AmberCli');
+$core.addClass("Repl", $globals.Object, ["readline", "interface", "util", "session", "resultCount", "commands"], "AmberCli");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Repl.comment="I am a class representing a REPL (Read Evaluate Print Loop) and provide a command line interface to Amber Smalltalk.\x0aOn the prompt you can type Amber statements which will be evaluated after pressing <Enter>.\x0aThe evaluation is comparable with executing a 'DoIt' in a workspace.\x0a\x0aMy runtime requirement is a functional Node.js executable with working Readline support.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "addVariableNamed:to:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString,anObject){
 var self=this;
 var newClass,newObject;
@@ -2608,7 +2608,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "assignNewVariable:do:",
-protocol: 'private',
+protocol: "private",
 fn: function (buffer,aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2679,7 +2679,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "clearScreen",
-protocol: 'actions',
+protocol: "actions",
 fn: function (){
 var self=this;
 var esc,cls;
@@ -2715,7 +2715,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "close",
-protocol: 'actions',
+protocol: "actions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2739,7 +2739,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "commands",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@commands"];
@@ -2757,7 +2757,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "createInterface",
-protocol: 'actions',
+protocol: "actions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2806,7 +2806,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "encapsulateVariable:withValue:in:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString,anObject,aClass){
 var self=this;
 var compiler;
@@ -2855,7 +2855,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "eval:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (buffer){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2878,7 +2878,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "eval:on:",
-protocol: 'actions',
+protocol: "actions",
 fn: function (buffer,anObject){
 var self=this;
 var result;
@@ -2934,7 +2934,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "executeCommand:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2975,7 +2975,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3013,7 +3013,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "instanceVariableNamesFor:",
-protocol: 'private',
+protocol: "private",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3049,7 +3049,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "isIdentifier:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3072,7 +3072,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "isVariableDefined:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3095,7 +3095,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "nextResultName",
-protocol: 'private',
+protocol: "private",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3125,7 +3125,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "onKeyPress:",
-protocol: 'private',
+protocol: "private",
 fn: function (key){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3161,7 +3161,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "parseAssignment:do:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString,aBlock){
 var self=this;
 var assignment;
@@ -3215,7 +3215,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "presentResultNamed:withValue:",
-protocol: 'private',
+protocol: "private",
 fn: function (varName,value){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3254,7 +3254,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "printWelcome",
-protocol: 'actions',
+protocol: "actions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3279,7 +3279,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "processLine:",
-protocol: 'private',
+protocol: "private",
 fn: function (buffer){
 var self=this;
 var show;
@@ -3322,7 +3322,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "prompt",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return "amber >> ";
@@ -3340,7 +3340,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "setPreviousVariablesFor:from:",
-protocol: 'private',
+protocol: "private",
 fn: function (newObject,oldObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3372,7 +3372,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "setPrompt",
-protocol: 'actions',
+protocol: "actions",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3396,7 +3396,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "setupCommands",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3442,7 +3442,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "setupHotkeys",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3479,7 +3479,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "subclass:withVariable:",
-protocol: 'private',
+protocol: "private",
 fn: function (aClass,varName){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3502,7 +3502,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "subclassNameFor:",
-protocol: 'private',
+protocol: "private",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3553,7 +3553,7 @@ $globals.Repl);
 $core.addMethod(
 $core.method({
 selector: "main",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

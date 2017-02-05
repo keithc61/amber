@@ -2,18 +2,18 @@ define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict"
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Kernel-Announcements');
+$core.addPackage("Kernel-Announcements");
 $core.packages["Kernel-Announcements"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Announcements"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('AnnouncementSubscription', $globals.Object, ['valuable', 'announcementClass'], 'Kernel-Announcements');
+$core.addClass("AnnouncementSubscription", $globals.Object, ["valuable", "announcementClass"], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AnnouncementSubscription.comment="I am a single entry in a subscription registry of an `Announcer`.\x0aSeveral subscriptions by the same object is possible.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "announcementClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@announcementClass"];
@@ -31,7 +31,7 @@ $globals.AnnouncementSubscription);
 $core.addMethod(
 $core.method({
 selector: "announcementClass:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 self["@announcementClass"]=aClass;
@@ -50,7 +50,7 @@ $globals.AnnouncementSubscription);
 $core.addMethod(
 $core.method({
 selector: "deliver:",
-protocol: 'announcing',
+protocol: "announcing",
 fn: function (anAnnouncement){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -78,7 +78,7 @@ $globals.AnnouncementSubscription);
 $core.addMethod(
 $core.method({
 selector: "handlesAnnouncement:",
-protocol: 'announcing',
+protocol: "announcing",
 fn: function (anAnnouncement){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -120,7 +120,7 @@ $globals.AnnouncementSubscription);
 $core.addMethod(
 $core.method({
 selector: "receiver",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -143,7 +143,7 @@ $globals.AnnouncementSubscription);
 $core.addMethod(
 $core.method({
 selector: "valuable",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@valuable"];
@@ -161,7 +161,7 @@ $globals.AnnouncementSubscription);
 $core.addMethod(
 $core.method({
 selector: "valuable:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aValuable){
 var self=this;
 self["@valuable"]=aValuable;
@@ -179,14 +179,14 @@ $globals.AnnouncementSubscription);
 
 
 
-$core.addClass('AnnouncementValuable', $globals.Object, ['valuable', 'receiver'], 'Kernel-Announcements');
+$core.addClass("AnnouncementValuable", $globals.Object, ["valuable", "receiver"], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AnnouncementValuable.comment="I wrap `valuable` objects (typically instances of `BlockClosure`) with a `receiver` to be able to unregister subscriptions based on a `receiver`.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "receiver",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@receiver"];
@@ -204,7 +204,7 @@ $globals.AnnouncementValuable);
 $core.addMethod(
 $core.method({
 selector: "receiver:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anObject){
 var self=this;
 self["@receiver"]=anObject;
@@ -223,7 +223,7 @@ $globals.AnnouncementValuable);
 $core.addMethod(
 $core.method({
 selector: "valuable",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@valuable"];
@@ -241,7 +241,7 @@ $globals.AnnouncementValuable);
 $core.addMethod(
 $core.method({
 selector: "valuable:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anObject){
 var self=this;
 self["@valuable"]=anObject;
@@ -260,7 +260,7 @@ $globals.AnnouncementValuable);
 $core.addMethod(
 $core.method({
 selector: "value",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -283,7 +283,7 @@ $globals.AnnouncementValuable);
 $core.addMethod(
 $core.method({
 selector: "value:",
-protocol: 'evaluating',
+protocol: "evaluating",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -305,14 +305,14 @@ $globals.AnnouncementValuable);
 
 
 
-$core.addClass('Announcer', $globals.Object, ['registry', 'subscriptions'], 'Kernel-Announcements');
+$core.addClass("Announcer", $globals.Object, ["registry", "subscriptions"], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Announcer.comment="I hold annoncement subscriptions (instances of `AnnouncementSubscription`) in a private registry.\x0aI announce (trigger) announces, which are then dispatched to all subscriptions.\x0a\x0aThe code is based on the announcements as [described by Vassili Bykov](http://www.cincomsmalltalk.com/userblogs/vbykov/blogView?searchCategory=Announcements%20Framework).\x0a\x0a## API\x0a\x0aUse `#announce:` to trigger an announcement.\x0a\x0aUse `#on:do:` or `#on:send:to:` to register subscriptions.\x0a\x0aWhen using `#on:send:to:`, unregistration can be done with `#unregister:`.\x0a\x0a## Usage example:\x0a\x0a    SystemAnnouncer current\x0a        on: ClassAdded\x0a        do: [ :ann | window alert: ann theClass name, ' added' ].";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "announce:",
-protocol: 'announcing',
+protocol: "announcing",
 fn: function (anAnnouncement){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -344,7 +344,7 @@ $globals.Announcer);
 $core.addMethod(
 $core.method({
 selector: "initialize",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -376,7 +376,7 @@ $globals.Announcer);
 $core.addMethod(
 $core.method({
 selector: "on:do:",
-protocol: 'subscribing',
+protocol: "subscribing",
 fn: function (aClass,aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -400,7 +400,7 @@ $globals.Announcer);
 $core.addMethod(
 $core.method({
 selector: "on:do:for:",
-protocol: 'subscribing',
+protocol: "subscribing",
 fn: function (aClass,aBlock,aReceiver){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -444,7 +444,7 @@ $globals.Announcer);
 $core.addMethod(
 $core.method({
 selector: "on:doOnce:",
-protocol: 'subscribing',
+protocol: "subscribing",
 fn: function (aClass,aBlock){
 var self=this;
 var subscription;
@@ -483,7 +483,7 @@ $globals.Announcer);
 $core.addMethod(
 $core.method({
 selector: "on:send:to:",
-protocol: 'subscribing',
+protocol: "subscribing",
 fn: function (aClass,aSelector,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -524,7 +524,7 @@ $globals.Announcer);
 $core.addMethod(
 $core.method({
 selector: "unsubscribe:",
-protocol: 'subscribing',
+protocol: "subscribing",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -555,16 +555,16 @@ $globals.Announcer);
 
 
 
-$core.addClass('SystemAnnouncer', $globals.Announcer, [], 'Kernel-Announcements');
+$core.addClass("SystemAnnouncer", $globals.Announcer, [], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SystemAnnouncer.comment="My unique instance is the global announcer handling all Amber system-related announces.\x0a\x0a## API\x0a\x0aAccess to the unique instance is done via `#current`";
 //>>excludeEnd("ide");
 
-$globals.SystemAnnouncer.klass.iVarNames = ['current'];
+$globals.SystemAnnouncer.klass.iVarNames = ["current"];
 $core.addMethod(
 $core.method({
 selector: "current",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -601,7 +601,7 @@ $globals.SystemAnnouncer.klass);
 $core.addMethod(
 $core.method({
 selector: "new",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -623,7 +623,7 @@ messageSends: ["shouldNotImplement"]
 $globals.SystemAnnouncer.klass);
 
 
-$core.addClass('SystemAnnouncement', $globals.Object, [], 'Kernel-Announcements');
+$core.addClass("SystemAnnouncement", $globals.Object, [], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SystemAnnouncement.comment="I am the superclass of all system announcements";
 //>>excludeEnd("ide");
@@ -631,7 +631,7 @@ $globals.SystemAnnouncement.comment="I am the superclass of all system announcem
 $core.addMethod(
 $core.method({
 selector: "classTag",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return "announcement";
@@ -647,14 +647,14 @@ messageSends: []
 $globals.SystemAnnouncement.klass);
 
 
-$core.addClass('ClassAnnouncement', $globals.SystemAnnouncement, ['theClass'], 'Kernel-Announcements');
+$core.addClass("ClassAnnouncement", $globals.SystemAnnouncement, ["theClass"], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassAnnouncement.comment="I am the abstract superclass of class-related announcements.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "theClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@theClass"];
@@ -672,7 +672,7 @@ $globals.ClassAnnouncement);
 $core.addMethod(
 $core.method({
 selector: "theClass:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 self["@theClass"]=aClass;
@@ -690,32 +690,32 @@ $globals.ClassAnnouncement);
 
 
 
-$core.addClass('ClassAdded', $globals.ClassAnnouncement, [], 'Kernel-Announcements');
+$core.addClass("ClassAdded", $globals.ClassAnnouncement, [], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassAdded.comment="I am emitted when a class is added to the system.\x0aSee ClassBuilder >> #addSubclassOf:... methods";
 //>>excludeEnd("ide");
 
 
-$core.addClass('ClassCommentChanged', $globals.ClassAnnouncement, [], 'Kernel-Announcements');
+$core.addClass("ClassCommentChanged", $globals.ClassAnnouncement, [], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassCommentChanged.comment="I am emitted when the comment of a class changes. (Behavior >> #comment)";
 //>>excludeEnd("ide");
 
 
-$core.addClass('ClassDefinitionChanged', $globals.ClassAnnouncement, [], 'Kernel-Announcements');
+$core.addClass("ClassDefinitionChanged", $globals.ClassAnnouncement, [], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassDefinitionChanged.comment="I am emitted when the definition of a class changes.\x0aSee ClassBuilder >> #class:instanceVariableNames:";
 //>>excludeEnd("ide");
 
 
-$core.addClass('ClassMigrated', $globals.ClassAnnouncement, ['oldClass'], 'Kernel-Announcements');
+$core.addClass("ClassMigrated", $globals.ClassAnnouncement, ["oldClass"], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassMigrated.comment="I am emitted when a class is migrated.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "oldClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@oldClass"];
@@ -733,7 +733,7 @@ $globals.ClassMigrated);
 $core.addMethod(
 $core.method({
 selector: "oldClass:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 self["@oldClass"]=aClass;
@@ -751,14 +751,14 @@ $globals.ClassMigrated);
 
 
 
-$core.addClass('ClassMoved', $globals.ClassAnnouncement, ['oldPackage'], 'Kernel-Announcements');
+$core.addClass("ClassMoved", $globals.ClassAnnouncement, ["oldPackage"], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassMoved.comment="I am emitted when a class is moved from one package to another.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "oldPackage",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@oldPackage"];
@@ -776,7 +776,7 @@ $globals.ClassMoved);
 $core.addMethod(
 $core.method({
 selector: "oldPackage:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackage){
 var self=this;
 self["@oldPackage"]=aPackage;
@@ -794,26 +794,26 @@ $globals.ClassMoved);
 
 
 
-$core.addClass('ClassRemoved', $globals.ClassAnnouncement, [], 'Kernel-Announcements');
+$core.addClass("ClassRemoved", $globals.ClassAnnouncement, [], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassRemoved.comment="I am emitted when a class is removed.\x0aSee Smalltalk >> #removeClass:";
 //>>excludeEnd("ide");
 
 
-$core.addClass('ClassRenamed', $globals.ClassAnnouncement, [], 'Kernel-Announcements');
+$core.addClass("ClassRenamed", $globals.ClassAnnouncement, [], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassRenamed.comment="I am emitted when a class is renamed.\x0aSee ClassBuilder >> #renameClass:to:";
 //>>excludeEnd("ide");
 
 
-$core.addClass('MethodAnnouncement', $globals.SystemAnnouncement, ['method'], 'Kernel-Announcements');
+$core.addClass("MethodAnnouncement", $globals.SystemAnnouncement, ["method"], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodAnnouncement.comment="I am the abstract superclass of method-related announcements.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "method",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@method"];
@@ -831,7 +831,7 @@ $globals.MethodAnnouncement);
 $core.addMethod(
 $core.method({
 selector: "method:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aCompiledMethod){
 var self=this;
 self["@method"]=aCompiledMethod;
@@ -849,20 +849,20 @@ $globals.MethodAnnouncement);
 
 
 
-$core.addClass('MethodAdded', $globals.MethodAnnouncement, [], 'Kernel-Announcements');
+$core.addClass("MethodAdded", $globals.MethodAnnouncement, [], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodAdded.comment="I am emitted when a `CompiledMethod` is added to a class.";
 //>>excludeEnd("ide");
 
 
-$core.addClass('MethodModified', $globals.MethodAnnouncement, ['oldMethod'], 'Kernel-Announcements');
+$core.addClass("MethodModified", $globals.MethodAnnouncement, ["oldMethod"], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodModified.comment="I am emitted when a `CompiledMethod` is modified (a new method is installed). I hold a reference to the old method being replaced.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "oldMethod",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@oldMethod"];
@@ -880,7 +880,7 @@ $globals.MethodModified);
 $core.addMethod(
 $core.method({
 selector: "oldMethod:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aMethod){
 var self=this;
 self["@oldMethod"]=aMethod;
@@ -898,14 +898,14 @@ $globals.MethodModified);
 
 
 
-$core.addClass('MethodMoved', $globals.MethodAnnouncement, ['oldProtocol'], 'Kernel-Announcements');
+$core.addClass("MethodMoved", $globals.MethodAnnouncement, ["oldProtocol"], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodMoved.comment="I am emitted when a `CompiledMethod` is moved to another protocol. I hold a refernce to the old protocol of the method.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "oldProtocol",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@oldProtocol"];
@@ -923,7 +923,7 @@ $globals.MethodMoved);
 $core.addMethod(
 $core.method({
 selector: "oldProtocol:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@oldProtocol"]=aString;
@@ -941,20 +941,20 @@ $globals.MethodMoved);
 
 
 
-$core.addClass('MethodRemoved', $globals.MethodAnnouncement, [], 'Kernel-Announcements');
+$core.addClass("MethodRemoved", $globals.MethodAnnouncement, [], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodRemoved.comment="I am emitted when a `CompiledMethod` is removed from a class.";
 //>>excludeEnd("ide");
 
 
-$core.addClass('PackageAnnouncement', $globals.SystemAnnouncement, ['package'], 'Kernel-Announcements');
+$core.addClass("PackageAnnouncement", $globals.SystemAnnouncement, ["package"], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageAnnouncement.comment="I am the abstract superclass of package-related announcements.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "package",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@package"];
@@ -972,7 +972,7 @@ $globals.PackageAnnouncement);
 $core.addMethod(
 $core.method({
 selector: "package:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackage){
 var self=this;
 self["@package"]=aPackage;
@@ -990,38 +990,38 @@ $globals.PackageAnnouncement);
 
 
 
-$core.addClass('PackageAdded', $globals.PackageAnnouncement, [], 'Kernel-Announcements');
+$core.addClass("PackageAdded", $globals.PackageAnnouncement, [], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageAdded.comment="I am emitted when a `Package` is added to the system.";
 //>>excludeEnd("ide");
 
 
-$core.addClass('PackageClean', $globals.PackageAnnouncement, [], 'Kernel-Announcements');
+$core.addClass("PackageClean", $globals.PackageAnnouncement, [], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageClean.comment="I am emitted when a package is committed and becomes clean.";
 //>>excludeEnd("ide");
 
 
-$core.addClass('PackageDirty', $globals.PackageAnnouncement, [], 'Kernel-Announcements');
+$core.addClass("PackageDirty", $globals.PackageAnnouncement, [], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageDirty.comment="I am emitted when a package becomes dirty.";
 //>>excludeEnd("ide");
 
 
-$core.addClass('PackageRemoved', $globals.PackageAnnouncement, [], 'Kernel-Announcements');
+$core.addClass("PackageRemoved", $globals.PackageAnnouncement, [], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageRemoved.comment="I am emitted when a `Package` is removed from the system.";
 //>>excludeEnd("ide");
 
 
-$core.addClass('ProtocolAnnouncement', $globals.SystemAnnouncement, ['theClass', 'protocol'], 'Kernel-Announcements');
+$core.addClass("ProtocolAnnouncement", $globals.SystemAnnouncement, ["theClass", "protocol"], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ProtocolAnnouncement.comment="I am the abstract superclass of protocol-related announcements.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "package",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1052,7 +1052,7 @@ $globals.ProtocolAnnouncement);
 $core.addMethod(
 $core.method({
 selector: "protocol",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@protocol"];
@@ -1070,7 +1070,7 @@ $globals.ProtocolAnnouncement);
 $core.addMethod(
 $core.method({
 selector: "protocol:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 self["@protocol"]=aString;
@@ -1089,7 +1089,7 @@ $globals.ProtocolAnnouncement);
 $core.addMethod(
 $core.method({
 selector: "theClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@theClass"];
@@ -1107,7 +1107,7 @@ $globals.ProtocolAnnouncement);
 $core.addMethod(
 $core.method({
 selector: "theClass:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 self["@theClass"]=aClass;
@@ -1125,13 +1125,13 @@ $globals.ProtocolAnnouncement);
 
 
 
-$core.addClass('ProtocolAdded', $globals.ProtocolAnnouncement, [], 'Kernel-Announcements');
+$core.addClass("ProtocolAdded", $globals.ProtocolAnnouncement, [], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ProtocolAdded.comment="I am emitted when a protocol is added to a class.";
 //>>excludeEnd("ide");
 
 
-$core.addClass('ProtocolRemoved', $globals.ProtocolAnnouncement, [], 'Kernel-Announcements');
+$core.addClass("ProtocolRemoved", $globals.ProtocolAnnouncement, [], "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ProtocolRemoved.comment="I am emitted when a protocol is removed from a class.";
 //>>excludeEnd("ide");

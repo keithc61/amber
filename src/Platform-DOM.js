@@ -2,16 +2,16 @@ define(["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Infras
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Platform-DOM');
+$core.addPackage("Platform-DOM");
 $core.packages["Platform-DOM"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Platform-DOM"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('PlatformDom', $globals.Object, [], 'Platform-DOM');
+$core.addClass("PlatformDom", $globals.Object, [], "Platform-DOM");
 
 $core.addMethod(
 $core.method({
 selector: "isDomNode:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -37,7 +37,7 @@ $globals.PlatformDom.klass);
 $core.addMethod(
 $core.method({
 selector: "isFeasible",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -72,7 +72,7 @@ $globals.PlatformDom.klass);
 $core.addMethod(
 $core.method({
 selector: "newCustomEvent:detail:",
-protocol: 'creation',
+protocol: "creation",
 fn: function (aString,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -96,7 +96,7 @@ $globals.PlatformDom.klass);
 $core.addMethod(
 $core.method({
 selector: "toArray:",
-protocol: 'converting',
+protocol: "converting",
 fn: function (aDomList){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -120,7 +120,7 @@ $globals.PlatformDom.klass);
 $core.addMethod(
 $core.method({
 selector: "asDomNode",
-protocol: '*Platform-DOM',
+protocol: "*Platform-DOM",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -143,7 +143,7 @@ $globals.CharacterArray);
 $core.addMethod(
 $core.method({
 selector: "asDomNode",
-protocol: '*Platform-DOM',
+protocol: "*Platform-DOM",
 fn: function (){
 var self=this;
 var fragment;
@@ -177,7 +177,7 @@ $globals.Collection);
 $core.addMethod(
 $core.method({
 selector: "asDomNode",
-protocol: '*Platform-DOM',
+protocol: "*Platform-DOM",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -215,7 +215,7 @@ $globals.JSObjectProxy);
 $core.addMethod(
 $core.method({
 selector: "htmlTextContent",
-protocol: '*Platform-DOM',
+protocol: "*Platform-DOM",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

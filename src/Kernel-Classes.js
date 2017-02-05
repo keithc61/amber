@@ -2,18 +2,18 @@ define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict"
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Kernel-Classes');
+$core.addPackage("Kernel-Classes");
 $core.packages["Kernel-Classes"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Classes"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('BehaviorBody', $globals.Object, [], 'Kernel-Classes');
+$core.addClass("BehaviorBody", $globals.Object, [], "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.BehaviorBody.comment="I am the superclass of all behaviors.\x0a\x0aMy instances hold the method dictionary.\x0a\x0aI also provides methods for compiling methods and examining the method dictionary.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: ">>",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -36,7 +36,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "addCompiledMethod:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aMethod){
 var self=this;
 var oldMethod,announcement;
@@ -108,7 +108,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "basicAddCompiledMethod:",
-protocol: 'private',
+protocol: "private",
 fn: function (aMethod){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -132,7 +132,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "basicRemoveCompiledMethod:",
-protocol: 'private',
+protocol: "private",
 fn: function (aMethod){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -156,7 +156,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "comment",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -185,7 +185,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "comment:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -215,7 +215,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "compile:protocol:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aString,anotherString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -238,7 +238,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "definition",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return "";
@@ -256,7 +256,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "includesSelector:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -279,7 +279,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "methodAt:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -302,7 +302,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "methodDictionary",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -333,7 +333,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "methodTemplate",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -421,7 +421,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "methods",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -444,7 +444,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "methodsInProtocol:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -475,7 +475,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "name",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -499,7 +499,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "organization",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -522,7 +522,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "ownMethods",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -566,7 +566,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "ownProtocols",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -597,7 +597,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "packageOfProtocol:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -628,7 +628,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "printOn:",
-protocol: 'printing',
+protocol: "printing",
 fn: function (aStream){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -667,7 +667,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "protocols",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -690,7 +690,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "protocolsDo:",
-protocol: 'enumerating',
+protocol: "enumerating",
 fn: function (aBlock){
 var self=this;
 var methodsByProtocol;
@@ -744,7 +744,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "recompile",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -767,7 +767,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "removeCompiledMethod:",
-protocol: 'compiling',
+protocol: "compiling",
 fn: function (aMethod){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -798,7 +798,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "removeProtocolIfEmpty:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -838,7 +838,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "selectors",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -861,7 +861,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "theMetaClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -885,7 +885,7 @@ $globals.BehaviorBody);
 $core.addMethod(
 $core.method({
 selector: "theNonMetaClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -908,14 +908,14 @@ $globals.BehaviorBody);
 
 
 
-$core.addClass('Behavior', $globals.BehaviorBody, [], 'Kernel-Classes');
+$core.addClass("Behavior", $globals.BehaviorBody, [], "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Behavior.comment="I am the superclass of all class objects.\x0a\x0aIn addition to BehaviorBody, I define superclass/subclass relationships and instantiation.\x0a\x0aI define the protocol for creating instances of a class with `#basicNew` and `#new` (see `boot.js` for class constructors details).\x0a\x0aMy instances know about the subclass/superclass relationships between classes and contain the description that instances are created from.\x0a\x0aI also provide iterating over the class hierarchy.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "allInstanceVariableNames",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 var result;
@@ -950,7 +950,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "allSelectors",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -988,7 +988,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "allSubclasses",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1027,7 +1027,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "allSubclassesDo:",
-protocol: 'enumerating',
+protocol: "enumerating",
 fn: function (aBlock){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1053,7 +1053,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "allSuperclasses",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1092,7 +1092,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "basicNew",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1116,7 +1116,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "canUnderstand:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aSelector){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1161,7 +1161,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "definition",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return "";
@@ -1179,7 +1179,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "includesBehavior:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1210,7 +1210,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "inheritsFrom:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1256,7 +1256,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "instanceVariableNames",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1280,7 +1280,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "isBehavior",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -1298,7 +1298,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "javascriptConstructor",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1322,7 +1322,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "javascriptConstructor:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aJavaScriptFunction){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1346,7 +1346,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "lookupSelector:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (selector){
 var self=this;
 var lookupClass;
@@ -1398,7 +1398,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "new",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1421,7 +1421,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "prototype",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1445,7 +1445,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "subclasses",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1469,7 +1469,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "superclass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1493,7 +1493,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "theMetaClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1517,7 +1517,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "theNonMetaClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1541,7 +1541,7 @@ $globals.Behavior);
 $core.addMethod(
 $core.method({
 selector: "withAllSubclasses",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1566,14 +1566,14 @@ $globals.Behavior);
 
 
 
-$core.addClass('Class', $globals.Behavior, [], 'Kernel-Classes');
+$core.addClass("Class", $globals.Behavior, [], "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Class.comment="I am __the__ class object.\x0a\x0aMy instances are the classes of the system.\x0aClass creation is done throught a `ClassBuilder` instance.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "asJavascript",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1596,7 +1596,7 @@ $globals.Class);
 $core.addMethod(
 $core.method({
 selector: "browse",
-protocol: 'browsing',
+protocol: "browsing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1620,7 +1620,7 @@ $globals.Class);
 $core.addMethod(
 $core.method({
 selector: "category",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1652,7 +1652,7 @@ $globals.Class);
 $core.addMethod(
 $core.method({
 selector: "classTag",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return "class";
@@ -1670,7 +1670,7 @@ $globals.Class);
 $core.addMethod(
 $core.method({
 selector: "definition",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1731,7 +1731,7 @@ $globals.Class);
 $core.addMethod(
 $core.method({
 selector: "isClass",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -1749,7 +1749,7 @@ $globals.Class);
 $core.addMethod(
 $core.method({
 selector: "package",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1772,7 +1772,7 @@ $globals.Class);
 $core.addMethod(
 $core.method({
 selector: "package:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aPackage){
 var self=this;
 var oldPackage;
@@ -1819,7 +1819,7 @@ $globals.Class);
 $core.addMethod(
 $core.method({
 selector: "rename:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1843,7 +1843,7 @@ $globals.Class);
 $core.addMethod(
 $core.method({
 selector: "subclass:instanceVariableNames:",
-protocol: 'class creation',
+protocol: "class creation",
 fn: function (aString,anotherString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1866,7 +1866,7 @@ $globals.Class);
 $core.addMethod(
 $core.method({
 selector: "subclass:instanceVariableNames:category:",
-protocol: 'class creation',
+protocol: "class creation",
 fn: function (aString,aString2,aString3){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1889,7 +1889,7 @@ $globals.Class);
 $core.addMethod(
 $core.method({
 selector: "subclass:instanceVariableNames:classVariableNames:poolDictionaries:category:",
-protocol: 'class creation',
+protocol: "class creation",
 fn: function (aString,aString2,classVars,pools,aString3){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1912,7 +1912,7 @@ $globals.Class);
 $core.addMethod(
 $core.method({
 selector: "subclass:instanceVariableNames:package:",
-protocol: 'class creation',
+protocol: "class creation",
 fn: function (aString,aString2,aString3){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1935,7 +1935,7 @@ $globals.Class);
 $core.addMethod(
 $core.method({
 selector: "subclasses",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1959,7 +1959,7 @@ $globals.Class);
 $core.addMethod(
 $core.method({
 selector: "theMetaClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1982,7 +1982,7 @@ $globals.Class);
 $core.addMethod(
 $core.method({
 selector: "theNonMetaClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self;
@@ -1999,14 +1999,14 @@ $globals.Class);
 
 
 
-$core.addClass('Metaclass', $globals.Behavior, [], 'Kernel-Classes');
+$core.addClass("Metaclass", $globals.Behavior, [], "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Metaclass.comment="I am the root of the class hierarchy.\x0a\x0aMy instances are metaclasses, one for each real class, and have a single instance, which they hold onto: the class that they are the metaclass of.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "asJavascript",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2034,7 +2034,7 @@ $globals.Metaclass);
 $core.addMethod(
 $core.method({
 selector: "definition",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2070,7 +2070,7 @@ $globals.Metaclass);
 $core.addMethod(
 $core.method({
 selector: "instanceClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2094,7 +2094,7 @@ $globals.Metaclass);
 $core.addMethod(
 $core.method({
 selector: "instanceVariableNames:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2118,7 +2118,7 @@ $globals.Metaclass);
 $core.addMethod(
 $core.method({
 selector: "isMetaclass",
-protocol: 'testing',
+protocol: "testing",
 fn: function (){
 var self=this;
 return true;
@@ -2136,7 +2136,7 @@ $globals.Metaclass);
 $core.addMethod(
 $core.method({
 selector: "name",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2159,7 +2159,7 @@ $globals.Metaclass);
 $core.addMethod(
 $core.method({
 selector: "package",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2182,7 +2182,7 @@ $globals.Metaclass);
 $core.addMethod(
 $core.method({
 selector: "subclasses",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2206,7 +2206,7 @@ $globals.Metaclass);
 $core.addMethod(
 $core.method({
 selector: "theMetaClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self;
@@ -2224,7 +2224,7 @@ $globals.Metaclass);
 $core.addMethod(
 $core.method({
 selector: "theNonMetaClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2246,11 +2246,11 @@ $globals.Metaclass);
 
 
 
-$core.addClass('Trait', $globals.BehaviorBody, [], 'Kernel-Classes');
+$core.addClass("Trait", $globals.BehaviorBody, [], "Kernel-Classes");
 $core.addMethod(
 $core.method({
 selector: "allInstanceVariableNames",
-protocol: 'compiler compatibility',
+protocol: "compiler compatibility",
 fn: function (){
 var self=this;
 return [];
@@ -2268,7 +2268,7 @@ $globals.Trait);
 $core.addMethod(
 $core.method({
 selector: "allSubclassesDo:",
-protocol: 'IDE compatibility',
+protocol: "IDE compatibility",
 fn: function (aBlock){
 var self=this;
 return self;
@@ -2286,7 +2286,7 @@ $globals.Trait);
 $core.addMethod(
 $core.method({
 selector: "asJavascript",
-protocol: 'converting',
+protocol: "converting",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2309,7 +2309,7 @@ $globals.Trait);
 $core.addMethod(
 $core.method({
 selector: "category",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2341,7 +2341,7 @@ $globals.Trait);
 $core.addMethod(
 $core.method({
 selector: "classTag",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return "trait";
@@ -2359,7 +2359,7 @@ $globals.Trait);
 $core.addMethod(
 $core.method({
 selector: "definition",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2398,7 +2398,7 @@ $globals.Trait);
 $core.addMethod(
 $core.method({
 selector: "package",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2421,7 +2421,7 @@ $globals.Trait);
 $core.addMethod(
 $core.method({
 selector: "superclass",
-protocol: 'IDE compatibility',
+protocol: "IDE compatibility",
 fn: function (){
 var self=this;
 return nil;
@@ -2439,7 +2439,7 @@ $globals.Trait);
 $core.addMethod(
 $core.method({
 selector: "theMetaClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return nil;
@@ -2457,7 +2457,7 @@ $globals.Trait);
 $core.addMethod(
 $core.method({
 selector: "theNonMetaClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self;
@@ -2476,7 +2476,7 @@ $globals.Trait);
 $core.addMethod(
 $core.method({
 selector: "named:package:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aString,anotherString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2498,14 +2498,14 @@ messageSends: []
 $globals.Trait.klass);
 
 
-$core.addClass('ClassBuilder', $globals.Object, [], 'Kernel-Classes');
+$core.addClass("ClassBuilder", $globals.Object, [], "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassBuilder.comment="I am responsible for compiling new classes or modifying existing classes in the system.\x0a\x0aRather than using me directly to compile a class, use `Class >> subclass:instanceVariableNames:package:`.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "addSubclassOf:named:instanceVariableNames:package:",
-protocol: 'class definition',
+protocol: "class definition",
 fn: function (aClass,className,aCollection,packageName){
 var self=this;
 var theClass,thePackage;
@@ -2542,7 +2542,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "basicAddSubclassOf:named:instanceVariableNames:package:",
-protocol: 'private',
+protocol: "private",
 fn: function (aClass,aString,aCollection,packageName){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2568,7 +2568,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "basicClass:instanceVariableNames:",
-protocol: 'private',
+protocol: "private",
 fn: function (aClass,aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2592,7 +2592,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "basicClass:instanceVariables:",
-protocol: 'private',
+protocol: "private",
 fn: function (aClass,aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2621,7 +2621,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "basicRemoveClass:",
-protocol: 'private',
+protocol: "private",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2645,7 +2645,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "basicRenameClass:to:",
-protocol: 'private',
+protocol: "private",
 fn: function (aClass,aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2673,7 +2673,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "basicSwapClassNames:with:",
-protocol: 'private',
+protocol: "private",
 fn: function (aClass,anotherClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2701,7 +2701,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "class:instanceVariableNames:",
-protocol: 'class definition',
+protocol: "class definition",
 fn: function (aClass,ivarNames){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2731,7 +2731,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "copyClass:named:",
-protocol: 'copying',
+protocol: "copying",
 fn: function (aClass,className){
 var self=this;
 var newClass;
@@ -2763,7 +2763,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "copyClass:to:",
-protocol: 'copying',
+protocol: "copying",
 fn: function (aClass,anotherClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2843,7 +2843,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "installMethod:forClass:protocol:",
-protocol: 'method definition',
+protocol: "method definition",
 fn: function (aCompiledMethod,aBehavior,aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2868,7 +2868,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "instanceVariableNamesFor:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2899,7 +2899,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "migrateClass:superclass:",
-protocol: 'class migration',
+protocol: "class migration",
 fn: function (aClass,anotherClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2927,7 +2927,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "migrateClassNamed:superclass:instanceVariableNames:package:",
-protocol: 'class migration',
+protocol: "class migration",
 fn: function (className,aClass,aCollection,packageName){
 var self=this;
 var oldClass,newClass,tmp;
@@ -3003,7 +3003,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "rawRenameClass:to:",
-protocol: 'private',
+protocol: "private",
 fn: function (aClass,aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3029,7 +3029,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "renameClass:to:",
-protocol: 'class migration',
+protocol: "class migration",
 fn: function (aClass,className){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3060,7 +3060,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "setupClass:",
-protocol: 'public',
+protocol: "public",
 fn: function (aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3084,7 +3084,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "superclass:subclass:",
-protocol: 'class definition',
+protocol: "class definition",
 fn: function (aClass,className){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3107,7 +3107,7 @@ $globals.ClassBuilder);
 $core.addMethod(
 $core.method({
 selector: "superclass:subclass:instanceVariableNames:package:",
-protocol: 'class definition',
+protocol: "class definition",
 fn: function (aClass,className,ivarNames,packageName){
 var self=this;
 var newClass;
@@ -3143,14 +3143,14 @@ $globals.ClassBuilder);
 
 
 
-$core.addClass('ClassSorterNode', $globals.Object, ['theClass', 'level', 'nodes'], 'Kernel-Classes');
+$core.addClass("ClassSorterNode", $globals.Object, ["theClass", "level", "nodes"], "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassSorterNode.comment="I provide an algorithm for sorting classes alphabetically.\x0a\x0aSee [Issue #143](https://lolg.it/amber/amber/issues/143).";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "getNodesFrom:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aCollection){
 var self=this;
 var children,others;
@@ -3203,7 +3203,7 @@ $globals.ClassSorterNode);
 $core.addMethod(
 $core.method({
 selector: "level",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@level"];
@@ -3221,7 +3221,7 @@ $globals.ClassSorterNode);
 $core.addMethod(
 $core.method({
 selector: "level:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (anInteger){
 var self=this;
 self["@level"]=anInteger;
@@ -3240,7 +3240,7 @@ $globals.ClassSorterNode);
 $core.addMethod(
 $core.method({
 selector: "nodes",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@nodes"];
@@ -3258,7 +3258,7 @@ $globals.ClassSorterNode);
 $core.addMethod(
 $core.method({
 selector: "theClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return self["@theClass"];
@@ -3276,7 +3276,7 @@ $globals.ClassSorterNode);
 $core.addMethod(
 $core.method({
 selector: "theClass:",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (aClass){
 var self=this;
 self["@theClass"]=aClass;
@@ -3295,7 +3295,7 @@ $globals.ClassSorterNode);
 $core.addMethod(
 $core.method({
 selector: "traverseClassesWith:",
-protocol: 'visiting',
+protocol: "visiting",
 fn: function (aCollection){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3350,7 +3350,7 @@ $globals.ClassSorterNode);
 $core.addMethod(
 $core.method({
 selector: "on:classes:level:",
-protocol: 'instance creation',
+protocol: "instance creation",
 fn: function (aClass,aCollection,anInteger){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

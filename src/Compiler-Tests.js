@@ -2,15 +2,15 @@ define(["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage('Compiler-Tests');
+$core.addPackage("Compiler-Tests");
 $core.packages["Compiler-Tests"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass('ASTParsingTest', $globals.TestCase, [], 'Compiler-Tests');
+$core.addClass("ASTParsingTest", $globals.TestCase, [], "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "analyze:forClass:",
-protocol: 'convenience',
+protocol: "convenience",
 fn: function (aNode,aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -34,7 +34,7 @@ $globals.ASTParsingTest);
 $core.addMethod(
 $core.method({
 selector: "parse:",
-protocol: 'parsing',
+protocol: "parsing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -57,7 +57,7 @@ $globals.ASTParsingTest);
 $core.addMethod(
 $core.method({
 selector: "parse:forClass:",
-protocol: 'parsing',
+protocol: "parsing",
 fn: function (aString,aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -79,11 +79,11 @@ $globals.ASTParsingTest);
 
 
 
-$core.addClass('ASTPCNodeVisitorTest', $globals.ASTParsingTest, [], 'Compiler-Tests');
+$core.addClass("ASTPCNodeVisitorTest", $globals.ASTParsingTest, [], "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "astPCNodeVisitor",
-protocol: 'factory',
+protocol: "factory",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -109,7 +109,7 @@ $globals.ASTPCNodeVisitorTest);
 $core.addMethod(
 $core.method({
 selector: "astPCNodeVisitorForSelector:",
-protocol: 'factory',
+protocol: "factory",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -136,7 +136,7 @@ $globals.ASTPCNodeVisitorTest);
 $core.addMethod(
 $core.method({
 selector: "testJSStatementNode",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var ast,visitor;
@@ -167,7 +167,7 @@ $globals.ASTPCNodeVisitorTest);
 $core.addMethod(
 $core.method({
 selector: "testLegacyJSStatementNode",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var ast,visitor;
@@ -198,7 +198,7 @@ $globals.ASTPCNodeVisitorTest);
 $core.addMethod(
 $core.method({
 selector: "testMessageSend",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var ast;
@@ -229,7 +229,7 @@ $globals.ASTPCNodeVisitorTest);
 $core.addMethod(
 $core.method({
 selector: "testMessageSendWithBlocks",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var ast;
@@ -260,7 +260,7 @@ $globals.ASTPCNodeVisitorTest);
 $core.addMethod(
 $core.method({
 selector: "testMessageSendWithInlining",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var ast;
@@ -316,7 +316,7 @@ $globals.ASTPCNodeVisitorTest);
 $core.addMethod(
 $core.method({
 selector: "testNoMessageSend",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var ast;
@@ -346,11 +346,11 @@ $globals.ASTPCNodeVisitorTest);
 
 
 
-$core.addClass('ASTPositionTest', $globals.ASTParsingTest, [], 'Compiler-Tests');
+$core.addClass("ASTPositionTest", $globals.ASTParsingTest, [], "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "testNodeAtPosition",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var node;
@@ -424,11 +424,11 @@ $globals.ASTPositionTest);
 
 
 
-$core.addClass('CodeGeneratorTest', $globals.ASTParsingTest, ['receiver'], 'Compiler-Tests');
+$core.addClass("CodeGeneratorTest", $globals.ASTParsingTest, ["receiver"], "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "codeGeneratorClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return $globals.CodeGenerator;
@@ -446,7 +446,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "compiler",
-protocol: 'factory',
+protocol: "factory",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -472,7 +472,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "setUp",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -496,7 +496,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "should:receiver:raise:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aString,anObject,anErrorClass){
 var self=this;
 var method,result;
@@ -559,7 +559,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "should:receiver:return:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aString,anObject,aResult){
 var self=this;
 var method,result;
@@ -594,7 +594,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "should:return:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aString,anObject){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -617,7 +617,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "tearDown",
-protocol: 'initialization',
+protocol: "initialization",
 fn: function (){
 var self=this;
 return self;
@@ -635,7 +635,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testAssignment",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -667,7 +667,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testBackslashSelectors",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -695,7 +695,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testBlockReturn",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -727,7 +727,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testCascades",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -751,7 +751,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testCascadesInDynamicArray",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -775,7 +775,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testCascadesInDynamicDictioary",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -799,7 +799,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testCascadesInSend",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -823,7 +823,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testCascadesWithInlining",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -851,7 +851,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testDynamicArrayElementsOrdered",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -879,7 +879,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testDynamicDictionaryElementsOrdered",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -903,7 +903,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testDynamicDictionaryWithMoreArrows",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -933,7 +933,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testGlobalVar",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -965,7 +965,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testInnerTemporalDependentElementsOrdered",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1038,7 +1038,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testJSStatement",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1062,7 +1062,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testLexicalScope",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1086,7 +1086,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testLiterals",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1150,7 +1150,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testLocalReturn",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1190,7 +1190,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testMessageSends",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1230,7 +1230,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testMistypedPragmaJSStatement",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1254,7 +1254,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testMultipleSequences",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1278,7 +1278,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testMutableLiterals",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1302,7 +1302,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testNestedIfTrue",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1338,7 +1338,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testNestedSends",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1362,7 +1362,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testNonLocalReturn",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1398,7 +1398,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testPascalCaseGlobal",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1426,7 +1426,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testPragmaJSStatement",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1450,7 +1450,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testRootSuperSend",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1474,7 +1474,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testSendReceiverAndArgumentsOrdered",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1502,7 +1502,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testSuperSend",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1526,7 +1526,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testTempVariables",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1570,7 +1570,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testThisContext",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1594,7 +1594,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testifFalse",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1630,7 +1630,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testifFalseIfTrue",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1666,7 +1666,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testifNil",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1702,7 +1702,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testifNilIfNotNil",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1738,7 +1738,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testifNotNil",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1774,7 +1774,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testifNotNilWithArgument",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1818,7 +1818,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testifTrue",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1854,7 +1854,7 @@ $globals.CodeGeneratorTest);
 $core.addMethod(
 $core.method({
 selector: "testifTrueIfFalse",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1889,11 +1889,11 @@ $globals.CodeGeneratorTest);
 
 
 
-$core.addClass('ASTInterpreterTest', $globals.CodeGeneratorTest, [], 'Compiler-Tests');
+$core.addClass("ASTInterpreterTest", $globals.CodeGeneratorTest, [], "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "analyze:forClass:",
-protocol: 'parsing',
+protocol: "parsing",
 fn: function (aNode,aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1917,7 +1917,7 @@ $globals.ASTInterpreterTest);
 $core.addMethod(
 $core.method({
 selector: "interpret:receiver:withArguments:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString,anObject,aDictionary){
 var self=this;
 var ctx,ast,interpreter;
@@ -1981,7 +1981,7 @@ $globals.ASTInterpreterTest);
 $core.addMethod(
 $core.method({
 selector: "parse:",
-protocol: 'parsing',
+protocol: "parsing",
 fn: function (aString){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2004,7 +2004,7 @@ $globals.ASTInterpreterTest);
 $core.addMethod(
 $core.method({
 selector: "parse:forClass:",
-protocol: 'parsing',
+protocol: "parsing",
 fn: function (aString,aClass){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2027,7 +2027,7 @@ $globals.ASTInterpreterTest);
 $core.addMethod(
 $core.method({
 selector: "should:receiver:return:",
-protocol: 'testing',
+protocol: "testing",
 fn: function (aString,anObject,aResult){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2050,11 +2050,11 @@ $globals.ASTInterpreterTest);
 
 
 
-$core.addClass('ASTDebuggerTest', $globals.ASTInterpreterTest, [], 'Compiler-Tests');
+$core.addClass("ASTDebuggerTest", $globals.ASTInterpreterTest, [], "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "interpret:receiver:withArguments:",
-protocol: 'private',
+protocol: "private",
 fn: function (aString,anObject,aDictionary){
 var self=this;
 var ctx,ast,debugger_;
@@ -2125,11 +2125,11 @@ $globals.ASTDebuggerTest);
 
 
 
-$core.addClass('InliningCodeGeneratorTest', $globals.CodeGeneratorTest, [], 'Compiler-Tests');
+$core.addClass("InliningCodeGeneratorTest", $globals.CodeGeneratorTest, [], "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "codeGeneratorClass",
-protocol: 'accessing',
+protocol: "accessing",
 fn: function (){
 var self=this;
 return $globals.InliningCodeGenerator;
@@ -2146,11 +2146,11 @@ $globals.InliningCodeGeneratorTest);
 
 
 
-$core.addClass('ScopeVarTest', $globals.TestCase, [], 'Compiler-Tests');
+$core.addClass("ScopeVarTest", $globals.TestCase, [], "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "testClassRefVar",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var node;
@@ -2188,7 +2188,7 @@ $globals.ScopeVarTest);
 $core.addMethod(
 $core.method({
 selector: "testInstanceVar",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var node,scope;
@@ -2222,7 +2222,7 @@ $globals.ScopeVarTest);
 $core.addMethod(
 $core.method({
 selector: "testPseudoVar",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var node,pseudoVars;
@@ -2264,7 +2264,7 @@ $globals.ScopeVarTest);
 $core.addMethod(
 $core.method({
 selector: "testTempVar",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var node,scope;
@@ -2298,7 +2298,7 @@ $globals.ScopeVarTest);
 $core.addMethod(
 $core.method({
 selector: "testUnknownVar",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var node;
@@ -2329,11 +2329,11 @@ $globals.ScopeVarTest);
 
 
 
-$core.addClass('SemanticAnalyzerTest', $globals.TestCase, ['analyzer'], 'Compiler-Tests');
+$core.addClass("SemanticAnalyzerTest", $globals.TestCase, ["analyzer"], "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "setUp",
-protocol: 'running',
+protocol: "running",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2357,7 +2357,7 @@ $globals.SemanticAnalyzerTest);
 $core.addMethod(
 $core.method({
 selector: "testAssignment",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var src,ast;
@@ -2392,7 +2392,7 @@ $globals.SemanticAnalyzerTest);
 $core.addMethod(
 $core.method({
 selector: "testNonLocalReturn",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var src,ast;
@@ -2420,7 +2420,7 @@ $globals.SemanticAnalyzerTest);
 $core.addMethod(
 $core.method({
 selector: "testNonLocalReturn2",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var src,ast;
@@ -2448,7 +2448,7 @@ $globals.SemanticAnalyzerTest);
 $core.addMethod(
 $core.method({
 selector: "testScope",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var src,ast;
@@ -2487,7 +2487,7 @@ $globals.SemanticAnalyzerTest);
 $core.addMethod(
 $core.method({
 selector: "testScope2",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var src,ast;
@@ -2542,7 +2542,7 @@ $globals.SemanticAnalyzerTest);
 $core.addMethod(
 $core.method({
 selector: "testScopeLevel",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var src,ast;
@@ -2606,7 +2606,7 @@ $globals.SemanticAnalyzerTest);
 $core.addMethod(
 $core.method({
 selector: "testUnknownVariables",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var src,ast;
@@ -2641,7 +2641,7 @@ $globals.SemanticAnalyzerTest);
 $core.addMethod(
 $core.method({
 selector: "testUnknownVariablesWithScope",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var src,ast;
@@ -2676,7 +2676,7 @@ $globals.SemanticAnalyzerTest);
 $core.addMethod(
 $core.method({
 selector: "testVariableShadowing",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var src,ast;
@@ -2703,7 +2703,7 @@ $globals.SemanticAnalyzerTest);
 $core.addMethod(
 $core.method({
 selector: "testVariableShadowing2",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var src,ast;
@@ -2738,7 +2738,7 @@ $globals.SemanticAnalyzerTest);
 $core.addMethod(
 $core.method({
 selector: "testVariableShadowing3",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var src,ast;
@@ -2765,7 +2765,7 @@ $globals.SemanticAnalyzerTest);
 $core.addMethod(
 $core.method({
 selector: "testVariableShadowing4",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var src,ast;
@@ -2792,7 +2792,7 @@ $globals.SemanticAnalyzerTest);
 $core.addMethod(
 $core.method({
 selector: "testVariableShadowing5",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var src,ast;
@@ -2827,7 +2827,7 @@ $globals.SemanticAnalyzerTest);
 $core.addMethod(
 $core.method({
 selector: "testVariablesLookup",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var src,ast;
@@ -3014,11 +3014,11 @@ $globals.SemanticAnalyzerTest);
 
 
 
-$core.addClass('AISemanticAnalyzerTest', $globals.SemanticAnalyzerTest, [], 'Compiler-Tests');
+$core.addClass("AISemanticAnalyzerTest", $globals.SemanticAnalyzerTest, [], "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "setUp",
-protocol: 'running',
+protocol: "running",
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3053,7 +3053,7 @@ $globals.AISemanticAnalyzerTest);
 $core.addMethod(
 $core.method({
 selector: "testContextVariables",
-protocol: 'tests',
+protocol: "tests",
 fn: function (){
 var self=this;
 var src,ast;
