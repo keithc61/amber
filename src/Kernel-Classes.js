@@ -2465,7 +2465,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anotherString"],
-source: "named: aString package: anotherString\x0a\x09<return $core.addTrait(aString, anotherString)>",
+source: "named: aString package: anotherString\x0a\x09<inlineJS: 'return $core.addTrait(aString, anotherString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

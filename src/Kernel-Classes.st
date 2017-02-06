@@ -586,7 +586,7 @@ asJavascript
 !Trait class methodsFor: 'instance creation'!
 
 named: aString package: anotherString
-	<return $core.addTrait(aString, anotherString)>
+	<inlineJS: 'return $core.addTrait(aString, anotherString)'>
 ! !
 
 Object subclass: #ClassBuilder
