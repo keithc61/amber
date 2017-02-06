@@ -1300,28 +1300,6 @@ I describe the behavior of my sole instance, `nil`. `nil` represents a prior val
 
 __note:__ When sending messages to the `undefined` JavaScript object, it will be replaced by `nil`.!
 
-!UndefinedObject methodsFor: 'class creation'!
-
-subclass: aString instanceVariableNames: anotherString
-	"Kept for file-in compatibility."
-	^ self subclass: aString instanceVariableNames: anotherString package: nil
-!
-
-subclass: aString instanceVariableNames: aString2 category: aString3
-	"Kept for file-in compatibility."
-	^ self subclass: aString instanceVariableNames: aString2 package: aString3
-!
-
-subclass: aString instanceVariableNames: aString2 classVariableNames: classVars poolDictionaries: pools category: aString3
-	"Kept for file-in compatibility. ignores class variables and pools."
-	^ self subclass: aString instanceVariableNames: aString2 package: aString3
-!
-
-subclass: aString instanceVariableNames: aString2 package: aString3
-	^ ClassBuilder new
-		superclass: self subclass: aString asString instanceVariableNames: aString2 package: aString3
-! !
-
 !UndefinedObject methodsFor: 'converting'!
 
 asJSON

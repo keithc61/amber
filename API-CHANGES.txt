@@ -5,10 +5,13 @@
   * Represents named holder of methods; hierarchy and instantiation left to Behavior.
 * Add class Trait as subclass of BehaviorBody.
 
++ BehaviorBody >>
+  + setTraitComposition:
 + Trait
   + allInstanceVariableNames
   + allSubclassesDo:
   + asJavascript
+  + asTraitComposition
   + category
   + classTag
   + definition
@@ -19,6 +22,8 @@
   + exportBehaviorDefinitionTo:using:
 + Collection >>
   + copyWithout:
++ Array >>
+  + asTraitComposition
 + amber/boot api >>
   + addElement
   + removeElement
@@ -31,6 +36,20 @@
 + StringStream >>
   + print:
   + printSymbol:
++ Class >>
+  + subClass:
+  + subClass:uses:
+  + subClass:uses:instanceVariables:
+  + subClass:uses:instanceVariables:category:
+  + subClass:uses:instanceVariables:classVariables:poolDictionaries:category:
+  + subClass:uses:instanceVariables:package:
++ UndefinedObject >>
+  + subClass:
+  + subClass:uses:
+  + subClass:uses:instanceVariables:
+  + subClass:uses:instanceVariables:category:
+  + subClass:uses:instanceVariables:classVariables:poolDictionaries:category:
+  + subClass:uses:instanceVariables:package:
 
 - Association >>
   - importsString

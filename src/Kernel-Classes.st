@@ -175,6 +175,10 @@ removeCompiledMethod: aMethod
 		announce: (MethodRemoved new
 			method: aMethod;
 			yourself)
+!
+
+setTraitComposition: aTraitComposition
+	"not implemented yet, noop atm"
 ! !
 
 !BehaviorBody methodsFor: 'enumerating'!
@@ -440,6 +444,11 @@ browse
 
 !Class methodsFor: 'class creation'!
 
+subclass: aString 
+	"Kept for file-in compatibility."
+	^ self subclass: aString instanceVariableNames: '' package: nil
+!
+
 subclass: aString instanceVariableNames: anotherString
 	"Kept for file-in compatibility."
 	^ self subclass: aString instanceVariableNames: anotherString package: nil
@@ -458,6 +467,33 @@ subclass: aString instanceVariableNames: aString2 classVariableNames: classVars 
 subclass: aString instanceVariableNames: aString2 package: aString3
 	^ ClassBuilder new
 		superclass: self subclass: aString asString instanceVariableNames: aString2 package: aString3
+!
+
+subclass: aString uses: aTraitCompositionDescription 
+	"Kept for file-in compatibility."
+	^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: '' package: nil
+!
+
+subclass: aString uses: aTraitCompositionDescription instanceVariableNames: anotherString
+	"Kept for file-in compatibility."
+	^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: anotherString package: nil
+!
+
+subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 category: aString3
+	"Kept for file-in compatibility."
+	^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3
+!
+
+subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 classVariableNames: classVars poolDictionaries: pools category: aString3
+	"Kept for file-in compatibility. ignores class variables and pools."
+	^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3
+!
+
+subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3
+	| cls |
+	cls := self subclass: aString instanceVariableNames: aString2 package: aString3.
+	cls setTraitComposition: aTraitCompositionDescription asTraitComposition.
+	^ cls
 ! !
 
 !Class methodsFor: 'converting'!
@@ -581,6 +617,10 @@ allInstanceVariableNames
 
 asJavascript
 	^ '$globals.', self name
+!
+
+asTraitComposition
+	^ { self } asTraitComposition
 ! !
 
 !Trait class methodsFor: 'instance creation'!
@@ -868,5 +908,66 @@ on: aClass classes: aCollection level: anInteger
 		level: anInteger;
 		getNodesFrom: aCollection;
 		yourself
+! !
+
+!Array methodsFor: '*Kernel-Classes'!
+
+asTraitComposition
+	"not implemented yet, noop atm"
+	^ nil
+! !
+
+!UndefinedObject methodsFor: '*Kernel-Classes'!
+
+subclass: aString 
+	"Kept for file-in compatibility."
+	^ self subclass: aString instanceVariableNames: '' package: nil
+!
+
+subclass: aString instanceVariableNames: anotherString
+	"Kept for file-in compatibility."
+	^ self subclass: aString instanceVariableNames: anotherString package: nil
+!
+
+subclass: aString instanceVariableNames: aString2 category: aString3
+	"Kept for file-in compatibility."
+	^ self subclass: aString instanceVariableNames: aString2 package: aString3
+!
+
+subclass: aString instanceVariableNames: aString2 classVariableNames: classVars poolDictionaries: pools category: aString3
+	"Kept for file-in compatibility. ignores class variables and pools."
+	^ self subclass: aString instanceVariableNames: aString2 package: aString3
+!
+
+subclass: aString instanceVariableNames: aString2 package: aString3
+	^ ClassBuilder new
+		superclass: self subclass: aString asString instanceVariableNames: aString2 package: aString3
+!
+
+subclass: aString uses: aTraitCompositionDescription 
+	"Kept for file-in compatibility."
+	^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: '' package: nil
+!
+
+subclass: aString uses: aTraitCompositionDescription instanceVariableNames: anotherString
+	"Kept for file-in compatibility."
+	^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: anotherString package: nil
+!
+
+subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 category: aString3
+	"Kept for file-in compatibility."
+	^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3
+!
+
+subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 classVariableNames: classVars poolDictionaries: pools category: aString3
+	"Kept for file-in compatibility. ignores class variables and pools."
+	^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3
+!
+
+subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3
+	| cls |
+	cls := self subclass: aString instanceVariableNames: aString2 package: aString3.
+	cls setTraitComposition: aTraitCompositionDescription asTraitComposition.
+	^ cls
 ! !
 

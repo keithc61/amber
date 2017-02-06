@@ -1,4 +1,4 @@
-define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
+define(["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
@@ -832,6 +832,24 @@ source: "selectors\x0a\x09^ self methodDictionary keys",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["keys", "methodDictionary"]
+}),
+$globals.BehaviorBody);
+
+$core.addMethod(
+$core.method({
+selector: "setTraitComposition:",
+protocol: "compiling",
+fn: function (aTraitComposition){
+var self=this;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aTraitComposition"],
+source: "setTraitComposition: aTraitComposition\x0a\x09\x22not implemented yet, noop atm\x22",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
 }),
 $globals.BehaviorBody);
 
@@ -1817,6 +1835,29 @@ $globals.Class);
 
 $core.addMethod(
 $core.method({
+selector: "subclass:",
+protocol: "class creation",
+fn: function (aString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._subclass_instanceVariableNames_package_(aString,"",nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"subclass:",{aString:aString},$globals.Class)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "subclass: aString \x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString instanceVariableNames: '' package: nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclass:instanceVariableNames:package:"]
+}),
+$globals.Class);
+
+$core.addMethod(
+$core.method({
 selector: "subclass:instanceVariableNames:",
 protocol: "class creation",
 fn: function (aString,anotherString){
@@ -1904,6 +1945,124 @@ source: "subclass: aString instanceVariableNames: aString2 package: aString3\x0a
 referencedClasses: ["ClassBuilder"],
 //>>excludeEnd("ide");
 messageSends: ["superclass:subclass:instanceVariableNames:package:", "new", "asString"]
+}),
+$globals.Class);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:uses:",
+protocol: "class creation",
+fn: function (aString,aTraitCompositionDescription){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,"",nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription},$globals.Class)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aTraitCompositionDescription"],
+source: "subclass: aString uses: aTraitCompositionDescription \x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: '' package: nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclass:uses:instanceVariableNames:package:"]
+}),
+$globals.Class);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:uses:instanceVariableNames:",
+protocol: "class creation",
+fn: function (aString,aTraitCompositionDescription,anotherString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,anotherString,nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,anotherString:anotherString},$globals.Class)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aTraitCompositionDescription", "anotherString"],
+source: "subclass: aString uses: aTraitCompositionDescription instanceVariableNames: anotherString\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: anotherString package: nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclass:uses:instanceVariableNames:package:"]
+}),
+$globals.Class);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:uses:instanceVariableNames:category:",
+protocol: "class creation",
+fn: function (aString,aTraitCompositionDescription,aString2,aString3){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,aString2,aString3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:category:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aString2:aString2,aString3:aString3},$globals.Class)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aTraitCompositionDescription", "aString2", "aString3"],
+source: "subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 category: aString3\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclass:uses:instanceVariableNames:package:"]
+}),
+$globals.Class);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:uses:instanceVariableNames:classVariableNames:poolDictionaries:category:",
+protocol: "class creation",
+fn: function (aString,aTraitCompositionDescription,aString2,classVars,pools,aString3){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,aString2,aString3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:classVariableNames:poolDictionaries:category:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aString2:aString2,classVars:classVars,pools:pools,aString3:aString3},$globals.Class)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aTraitCompositionDescription", "aString2", "classVars", "pools", "aString3"],
+source: "subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 classVariableNames: classVars poolDictionaries: pools category: aString3\x0a\x09\x22Kept for file-in compatibility. ignores class variables and pools.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclass:uses:instanceVariableNames:package:"]
+}),
+$globals.Class);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:uses:instanceVariableNames:package:",
+protocol: "class creation",
+fn: function (aString,aTraitCompositionDescription,aString2,aString3){
+var self=this;
+var cls;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+cls=self._subclass_instanceVariableNames_package_(aString,aString2,aString3);
+$recv(cls)._setTraitComposition_($recv(aTraitCompositionDescription)._asTraitComposition());
+return cls;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:package:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aString2:aString2,aString3:aString3,cls:cls},$globals.Class)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aTraitCompositionDescription", "aString2", "aString3"],
+source: "subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3\x0a\x09| cls |\x0a\x09cls := self subclass: aString instanceVariableNames: aString2 package: aString3.\x0a\x09cls setTraitComposition: aTraitCompositionDescription asTraitComposition.\x0a\x09^ cls",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclass:instanceVariableNames:package:", "setTraitComposition:", "asTraitComposition"]
 }),
 $globals.Class);
 
@@ -2278,6 +2437,29 @@ source: "asJavascript\x0a\x09^ '$globals.', self name",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: [",", "name"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "asTraitComposition",
+protocol: "converting",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv([self])._asTraitComposition();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asTraitComposition",{},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asTraitComposition\x0a\x09^ { self } asTraitComposition",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["asTraitComposition"]
 }),
 $globals.Trait);
 
@@ -3349,5 +3531,256 @@ referencedClasses: [],
 messageSends: ["theClass:", "new", "level:", "getNodesFrom:", "yourself"]
 }),
 $globals.ClassSorterNode.klass);
+
+$core.addMethod(
+$core.method({
+selector: "asTraitComposition",
+protocol: "*Kernel-Classes",
+fn: function (){
+var self=this;
+return nil;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asTraitComposition\x0a\x09\x22not implemented yet, noop atm\x22\x0a\x09^ nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Array);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:",
+protocol: "*Kernel-Classes",
+fn: function (aString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._subclass_instanceVariableNames_package_(aString,"",nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"subclass:",{aString:aString},$globals.UndefinedObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "subclass: aString \x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString instanceVariableNames: '' package: nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclass:instanceVariableNames:package:"]
+}),
+$globals.UndefinedObject);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:instanceVariableNames:",
+protocol: "*Kernel-Classes",
+fn: function (aString,anotherString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._subclass_instanceVariableNames_package_(aString,anotherString,nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:",{aString:aString,anotherString:anotherString},$globals.UndefinedObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "anotherString"],
+source: "subclass: aString instanceVariableNames: anotherString\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString instanceVariableNames: anotherString package: nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclass:instanceVariableNames:package:"]
+}),
+$globals.UndefinedObject);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:instanceVariableNames:category:",
+protocol: "*Kernel-Classes",
+fn: function (aString,aString2,aString3){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._subclass_instanceVariableNames_package_(aString,aString2,aString3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:category:",{aString:aString,aString2:aString2,aString3:aString3},$globals.UndefinedObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aString2", "aString3"],
+source: "subclass: aString instanceVariableNames: aString2 category: aString3\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString instanceVariableNames: aString2 package: aString3",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclass:instanceVariableNames:package:"]
+}),
+$globals.UndefinedObject);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:instanceVariableNames:classVariableNames:poolDictionaries:category:",
+protocol: "*Kernel-Classes",
+fn: function (aString,aString2,classVars,pools,aString3){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._subclass_instanceVariableNames_package_(aString,aString2,aString3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:classVariableNames:poolDictionaries:category:",{aString:aString,aString2:aString2,classVars:classVars,pools:pools,aString3:aString3},$globals.UndefinedObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aString2", "classVars", "pools", "aString3"],
+source: "subclass: aString instanceVariableNames: aString2 classVariableNames: classVars poolDictionaries: pools category: aString3\x0a\x09\x22Kept for file-in compatibility. ignores class variables and pools.\x22\x0a\x09^ self subclass: aString instanceVariableNames: aString2 package: aString3",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclass:instanceVariableNames:package:"]
+}),
+$globals.UndefinedObject);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:instanceVariableNames:package:",
+protocol: "*Kernel-Classes",
+fn: function (aString,aString2,aString3){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($recv($globals.ClassBuilder)._new())._superclass_subclass_instanceVariableNames_package_(self,$recv(aString)._asString(),aString2,aString3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:package:",{aString:aString,aString2:aString2,aString3:aString3},$globals.UndefinedObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aString2", "aString3"],
+source: "subclass: aString instanceVariableNames: aString2 package: aString3\x0a\x09^ ClassBuilder new\x0a\x09\x09superclass: self subclass: aString asString instanceVariableNames: aString2 package: aString3",
+referencedClasses: ["ClassBuilder"],
+//>>excludeEnd("ide");
+messageSends: ["superclass:subclass:instanceVariableNames:package:", "new", "asString"]
+}),
+$globals.UndefinedObject);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:uses:",
+protocol: "*Kernel-Classes",
+fn: function (aString,aTraitCompositionDescription){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,"",nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription},$globals.UndefinedObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aTraitCompositionDescription"],
+source: "subclass: aString uses: aTraitCompositionDescription \x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: '' package: nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclass:uses:instanceVariableNames:package:"]
+}),
+$globals.UndefinedObject);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:uses:instanceVariableNames:",
+protocol: "*Kernel-Classes",
+fn: function (aString,aTraitCompositionDescription,anotherString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,anotherString,nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,anotherString:anotherString},$globals.UndefinedObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aTraitCompositionDescription", "anotherString"],
+source: "subclass: aString uses: aTraitCompositionDescription instanceVariableNames: anotherString\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: anotherString package: nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclass:uses:instanceVariableNames:package:"]
+}),
+$globals.UndefinedObject);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:uses:instanceVariableNames:category:",
+protocol: "*Kernel-Classes",
+fn: function (aString,aTraitCompositionDescription,aString2,aString3){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,aString2,aString3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:category:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aString2:aString2,aString3:aString3},$globals.UndefinedObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aTraitCompositionDescription", "aString2", "aString3"],
+source: "subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 category: aString3\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclass:uses:instanceVariableNames:package:"]
+}),
+$globals.UndefinedObject);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:uses:instanceVariableNames:classVariableNames:poolDictionaries:category:",
+protocol: "*Kernel-Classes",
+fn: function (aString,aTraitCompositionDescription,aString2,classVars,pools,aString3){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,aString2,aString3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:classVariableNames:poolDictionaries:category:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aString2:aString2,classVars:classVars,pools:pools,aString3:aString3},$globals.UndefinedObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aTraitCompositionDescription", "aString2", "classVars", "pools", "aString3"],
+source: "subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 classVariableNames: classVars poolDictionaries: pools category: aString3\x0a\x09\x22Kept for file-in compatibility. ignores class variables and pools.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclass:uses:instanceVariableNames:package:"]
+}),
+$globals.UndefinedObject);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:uses:instanceVariableNames:package:",
+protocol: "*Kernel-Classes",
+fn: function (aString,aTraitCompositionDescription,aString2,aString3){
+var self=this;
+var cls;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+cls=self._subclass_instanceVariableNames_package_(aString,aString2,aString3);
+$recv(cls)._setTraitComposition_($recv(aTraitCompositionDescription)._asTraitComposition());
+return cls;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:package:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aString2:aString2,aString3:aString3,cls:cls},$globals.UndefinedObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aTraitCompositionDescription", "aString2", "aString3"],
+source: "subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3\x0a\x09| cls |\x0a\x09cls := self subclass: aString instanceVariableNames: aString2 package: aString3.\x0a\x09cls setTraitComposition: aTraitCompositionDescription asTraitComposition.\x0a\x09^ cls",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclass:instanceVariableNames:package:", "setTraitComposition:", "asTraitComposition"]
+}),
+$globals.UndefinedObject);
 
 });
