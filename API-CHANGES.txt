@@ -13,6 +13,8 @@
   + symbolPrintString
 + String >>
   + isSelector
++ StringStream >>
+  + print:
 
 - Association >>
   - importsString

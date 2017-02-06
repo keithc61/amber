@@ -9900,6 +9900,30 @@ $globals.StringStream);
 
 $core.addMethod(
 $core.method({
+selector: "print:",
+protocol: "writing",
+fn: function (anObject){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv(anObject)._printOn_(self);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"print:",{anObject:anObject},$globals.StringStream)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "print: anObject\x0a\x09anObject printOn: self",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["printOn:"]
+}),
+$globals.StringStream);
+
+$core.addMethod(
+$core.method({
 selector: "space",
 protocol: "writing",
 fn: function (){

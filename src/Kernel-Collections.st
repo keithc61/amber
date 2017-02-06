@@ -2356,6 +2356,10 @@ nextPutString: aString
 	self nextPutAll: aString
 !
 
+print: anObject
+	anObject printOn: self
+!
+
 space
 	self nextPut: ' '
 !
