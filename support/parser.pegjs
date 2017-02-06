@@ -56,13 +56,13 @@ wsLiteralArrayContents   = lits:(ws lit:literalArrayElement {return lit._value()
                      return $globals.ValueNode._new()
                             ._value_(lits);
                  }
-dynamicArray   = "{" ws expressions:expressions? maybeDotsWs "}" {
+dynamicArray   = "{" expressions:wsExpressions? maybeDotsWs "}" {
                      return $globals.DynamicArrayNode._new()
                             ._location_(location())
                             ._source_(text())
                             ._dagChildren_(expressions || []);
                  }
-dynamicDictionary = "#{" ws expressions:associations? maybeDotsWs  "}" {
+dynamicDictionary = "#{" expressions:wsAssociations? maybeDotsWs  "}" {
                         return $globals.DynamicDictionaryNode._new()
                                ._location_(location())
                                ._source_(text())
@@ -109,7 +109,7 @@ wsUnaryPattern   = ws selector:unarySelector {return [selector, []];}
 expression     = assignment / cascade / keywordSend
 
 wsExpressionsRest = ws "." maybeDotsWs expression:expression {return expression;}
-expressions    = first:expression others:wsExpressionsRest* { return [first].concat(others); }
+wsExpressions    = maybeDotsWs first:expression others:wsExpressionsRest* { return [first].concat(others); }
 
 assignment     = variable:variable ws ':=' ws expression:expression {
                      return $globals.AssignmentNode._new()
@@ -132,19 +132,19 @@ wsBlockParamList = params:((ws ":" ws param:identifier {return param;})+) ws "|"
 
 subexpression  = '(' ws expression:expression ws ')' {return expression;}
 
-statementsWs     = ret:ret maybeDotsWs {return [ret];}
-                 / exps:expressions ws "." maybeDotsWs ret:ret maybeDotsWs {
+wsStatementsWs     = maybeDotsWs ret:ret maybeDotsWs {return [ret];}
+                 / exps:wsExpressions ws "." maybeDotsWs ret:ret maybeDotsWs {
                        var expressions = exps;
                        expressions.push(ret);
                        return expressions;
                    }
-                 / expressions:expressions? maybeDotsWs {
+                 / expressions:wsExpressions? maybeDotsWs {
                        return expressions || [];
                    }
 
 wsSequenceWs       = (ws js:jsSequence ws { return js; }) / wsStSequenceWs
 
-wsStSequenceWs    = ws temps:temps? maybeDotsWs statements:statementsWs? {
+wsStSequenceWs    = ws temps:temps? statements:wsStatementsWs? {
                      return $globals.SequenceNode._new()
                             ._location_(location())
                             ._source_(text())
@@ -247,4 +247,4 @@ method         = pattern:(wsKeywordPattern / wsBinaryPattern / wsUnaryPattern) s
 associationSend     = send:binarySend & { return send._isSendNode() && send._selector() === "->" } { return [send._receiver(), send._arguments()[0]]; }
 
 wsAssociationsRest = ws "." maybeDotsWs expression:associationSend {return expression;}
-associations    = first:associationSend others:wsAssociationsRest* { return first.concat.apply(first, others); }
+wsAssociations    = maybeDotsWs first:associationSend others:wsAssociationsRest* { return first.concat.apply(first, others); }
