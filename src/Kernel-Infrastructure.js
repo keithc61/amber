@@ -972,25 +972,13 @@ $recv(stream)._tab();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["tab"]=2;
 //>>excludeEnd("ctx");
-$recv(stream)._write_("imports: ");
+$recv(stream)._write_(["imports: ",self._importsDefinition()]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["write:"]=3;
 //>>excludeEnd("ctx");
-$recv(stream)._write_(self._importsDefinition());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["write:"]=4;
-//>>excludeEnd("ctx");
 $recv(stream)._lf();
 $recv(stream)._tab();
-$recv(stream)._write_("transport: (");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["write:"]=5;
-//>>excludeEnd("ctx");
-$recv(stream)._write_($recv(self._transport())._definition());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["write:"]=6;
-//>>excludeEnd("ctx");
-return $recv(stream)._write_(")");
+return $recv(stream)._write_(["transport: (",$recv(self._transport())._definition(),")"]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1001,7 +989,7 @@ return $recv(stream)._write_(")");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09write: self class name; lf;\x0a\x09\x09tab; write: 'named: '; print: self name; lf;\x0a\x09\x09tab; write: 'imports: '; write: self importsDefinition; lf;\x0a\x09\x09tab; write: 'transport: ('; write: self transport definition; write: ')' ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09write: self class name; lf;\x0a\x09\x09tab; write: 'named: '; print: self name; lf;\x0a\x09\x09tab; write: { 'imports: '. self importsDefinition }; lf;\x0a\x09\x09tab; write: { 'transport: ('. self transport definition. ')' } ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
 messageSends: ["streamContents:", "write:", "name", "class", "lf", "tab", "print:", "importsDefinition", "definition", "transport"]

@@ -281,8 +281,8 @@ definition
 	^ String streamContents: [ :stream | stream
 		write: self class name; lf;
 		tab; write: 'named: '; print: self name; lf;
-		tab; write: 'imports: '; write: self importsDefinition; lf;
-		tab; write: 'transport: ('; write: self transport definition; write: ')' ]
+		tab; write: { 'imports: '. self importsDefinition }; lf;
+		tab; write: { 'transport: ('. self transport definition. ')' } ]
 !
 
 imports

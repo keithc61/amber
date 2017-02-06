@@ -149,7 +149,7 @@ exportDefinitionOf: aClass on: aStream
 		lf.
 	aClass comment ifNotEmpty: [ aStream
 		write: '!!'; print: aClass; write: ' commentStamp!!'; lf;
-		write: (self chunkEscape: aClass comment), '!!'; lf ].
+		write: { self chunkEscape: aClass comment. '!!' }; lf ].
 	aStream lf
 !
 
@@ -195,9 +195,7 @@ exportPackageImportsOf: aPackage on: aStream
 	aPackage imports ifNotEmpty: [ :imports | aStream
 		write: '(Smalltalk packageAt: ';
 		print: aPackage name;
-		write: ') imports: ';
-		write: (self chunkEscape: aPackage importsDefinition);
-		write: '!!';
+		write: { ') imports: '. self chunkEscape: aPackage importsDefinition. '!!' };
 		lf ]
 !
 
@@ -235,7 +233,7 @@ exportTraitDefinitionOf: aClass on: aStream
 	aClass comment ifNotEmpty: [
 		aStream
 		write: '!!'; print: aClass; write: ' commentStamp!!'; lf;
-		write: (self chunkEscape: aClass comment), '!!'; lf ].
+		write: { self chunkEscape: aClass comment. '!!' }; lf ].
 	aStream lf
 ! !
 
@@ -1017,7 +1015,7 @@ commitHandlerClass
 
 definition
 	^ String streamContents: [ :stream | stream 
-		write: self class name; write: ' namespace: '; print: self namespace ]
+		write: { self class name. ' namespace: ' }; print: self namespace ]
 !
 
 namespace
