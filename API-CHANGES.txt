@@ -18,6 +18,8 @@
   - importsString
 - String >>
   - importsString
+- Exporter >>
+  - jsClassNameFor:
 
 
 0.18.2:
