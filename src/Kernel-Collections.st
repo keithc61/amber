@@ -2360,6 +2360,10 @@ print: anObject
 	anObject printOn: self
 !
 
+printSymbol: anObject
+	anObject asSymbolPrintOn: self
+!
+
 space
 	self nextPut: ' '
 !

@@ -42,17 +42,6 @@ extensionProtocolsOfPackage: aPackage
 	^ result
 ! !
 
-!AbstractExporter methodsFor: 'convenience'!
-
-classNameFor: aClass
-	^ aClass isMetaclass
-		ifTrue: [ aClass instanceClass name, ' class' ]
-		ifFalse: [
-			aClass
-				ifNil: [ 'nil' ]
-				ifNotNil: [ aClass name ] ]
-! !
-
 !AbstractExporter methodsFor: 'output'!
 
 exportPackage: aPackage on: aStream
@@ -134,40 +123,43 @@ exportCategoryEpilogueOf: aCategory on: aStream
 
 exportCategoryPrologueOf: aCategory on: aStream
 	aStream
-		nextPutAll: '!!', (self classNameFor: aCategory theClass);
-		nextPutAll: ' methodsFor: '.
-	aCategory name printOn: aStream.
-	aStream nextPutAll: '!!'
+		write: '!!';
+		print: aCategory theClass;
+		write: ' methodsFor: ';
+		print: aCategory;
+		write: '!!'
 !
 
 exportDefinitionOf: aClass on: aStream
 	"Chunk format."
 
 	aStream
-		nextPutAll: (self classNameFor: aClass superclass);
-		nextPutAll: ' subclass: '.
-	(self classNameFor: aClass) asSymbolPrintOn: aStream.
-	aStream lf; tab; nextPutAll: 'instanceVariableNames: '.
-	(' ' join: aClass instanceVariableNames) printOn: aStream.
-	aStream lf;	tab; nextPutAll: 'package: '.
-	aClass category printOn: aStream.
-	aStream nextPutAll: '!!'; lf.
-	aClass comment ifNotEmpty: [
-		aStream
-		nextPutAll: '!!', (self classNameFor: aClass), ' commentStamp!!';lf;
-		nextPutAll: (self chunkEscape: aClass comment), '!!';lf ].
+		print: aClass superclass;
+		write: ' subclass: ';
+		printSymbol: aClass name;
+		lf;
+		tab;
+		write: 'instanceVariableNames: ';
+		print: (' ' join: aClass instanceVariableNames);
+		lf;
+		tab;
+		write: 'package: ';
+		print: aClass category;
+		write: '!!';
+		lf.
+	aClass comment ifNotEmpty: [ aStream
+		write: '!!'; print: aClass; write: ' commentStamp!!'; lf;
+		write: (self chunkEscape: aClass comment), '!!'; lf ].
 	aStream lf
 !
 
 exportMetaDefinitionOf: aClass on: aStream
 
-	aClass class instanceVariableNames ifNotEmpty: [ :classIvars |
-		aStream
-			nextPutAll: (self classNameFor: aClass theMetaClass);
-			nextPutAll: ' instanceVariableNames: '.
-		(' ' join: classIvars) printOn: aStream.
-		aStream
-			nextPutAll: '!!'; lf; lf ]
+	aClass class instanceVariableNames ifNotEmpty: [ :classIvars | aStream
+		print: aClass theMetaClass;
+		write: ' instanceVariableNames: ';
+		print: (' ' join: classIvars);
+		write: '!!'; lf; lf ]
 !
 
 exportMethod: aMethod on: aStream
@@ -192,20 +184,21 @@ exportPackage: aPackage on: aStream
 !
 
 exportPackageDefinitionOf: aPackage on: aStream
-	aStream	nextPutAll: 'Smalltalk createPackage: '.
-	aPackage name printOn: aStream.
-	aStream nextPutAll: '!!'; lf
+	aStream
+		write: 'Smalltalk createPackage: ';
+		print: aPackage name;
+		write: '!!';
+		lf
 !
 
 exportPackageImportsOf: aPackage on: aStream
-	aPackage imports ifNotEmpty: [ :imports |
-		aStream nextPutAll: '(Smalltalk packageAt: '.
-		aPackage name printOn: aStream.
-		aStream
-			nextPutAll: ') imports: ';
-			nextPutAll: (self chunkEscape: aPackage importsDefinition);
-			nextPutAll: '!!';
-			lf ]
+	aPackage imports ifNotEmpty: [ :imports | aStream
+		write: '(Smalltalk packageAt: ';
+		print: aPackage name;
+		write: ') imports: ';
+		write: (self chunkEscape: aPackage importsDefinition);
+		write: '!!';
+		lf ]
 !
 
 exportProtocol: aProtocol on: aStream
@@ -221,10 +214,11 @@ exportProtocolEpilogueOf: aProtocol on: aStream
 
 exportProtocolPrologueOf: aProtocol on: aStream
 	aStream
-		nextPutAll: '!!', (self classNameFor: aProtocol theClass);
-		nextPutAll: ' methodsFor: '.
-		aProtocol name printOn: aStream.
-		aStream nextPutAll: '!!'
+		write: '!!';
+		print: aProtocol theClass;
+		write: ' methodsFor: ';
+		print: aProtocol name;
+		write: '!!'
 !
 
 exportProtocols: aCollection on: aStream
@@ -235,15 +229,13 @@ exportProtocols: aCollection on: aStream
 exportTraitDefinitionOf: aClass on: aStream
 	"Chunk format."
 
-	aStream nextPutAll: 'Trait named: '.
-	(self classNameFor: aClass) asSymbolPrintOn: aStream.
-	aStream lf; tab; nextPutAll: 'package: '.
-	aClass category printOn: aStream.
-	aStream nextPutAll: '!!'; lf.
+	aStream
+		write: 'Trait named: '; printSymbol: aClass name; lf;
+		tab; write: 'package: '; print:	aClass category; write: '!!'; lf.
 	aClass comment ifNotEmpty: [
 		aStream
-		nextPutAll: '!!', (self classNameFor: aClass), ' commentStamp!!';lf;
-		nextPutAll: (self chunkEscape: aClass comment), '!!';lf ].
+		write: '!!'; print: aClass; write: ' commentStamp!!'; lf;
+		write: (self chunkEscape: aClass comment), '!!'; lf ].
 	aStream lf
 ! !
 
@@ -1024,11 +1016,8 @@ commitHandlerClass
 !
 
 definition
-	^ String streamContents: [ :stream |
-		stream 
-			nextPutAll: self class name;
-			nextPutAll: ' namespace: '.
-		self namespace printOn: stream ]
+	^ String streamContents: [ :stream | stream 
+		write: self class name; write: ' namespace: '; print: self namespace ]
 !
 
 namespace

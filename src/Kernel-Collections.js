@@ -9924,6 +9924,30 @@ $globals.StringStream);
 
 $core.addMethod(
 $core.method({
+selector: "printSymbol:",
+protocol: "writing",
+fn: function (anObject){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv(anObject)._asSymbolPrintOn_(self);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"printSymbol:",{anObject:anObject},$globals.StringStream)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "printSymbol: anObject\x0a\x09anObject asSymbolPrintOn: self",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["asSymbolPrintOn:"]
+}),
+$globals.StringStream);
+
+$core.addMethod(
+$core.method({
 selector: "space",
 protocol: "writing",
 fn: function (){

@@ -392,14 +392,10 @@ classTag
 !
 
 definition
-	^ String streamContents: [ :stream |
-		self superclass printOn: stream.
-		stream nextPutAll: ' subclass: '.
-		self name asSymbolPrintOn: stream.
-		stream lf; tab; nextPutAll: 'instanceVariableNames: '.
-		(' ' join: self instanceVariableNames) printOn: stream.
-		stream lf; tab; nextPutAll: 'package: '.
-		self category printOn: stream ]
+	^ String streamContents: [ :stream | stream
+		print: self superclass; write: ' subclass: '; printSymbol: self name; lf;
+		tab; write: 'instanceVariableNames: '; print: (' ' join: self instanceVariableNames); lf;
+		tab; write: 'package: '; print: self category ]
 !
 
 package
@@ -490,10 +486,10 @@ My instances are metaclasses, one for each real class, and have a single instanc
 !Metaclass methodsFor: 'accessing'!
 
 definition
-	^ String streamContents: [ :stream |
-		self printOn: stream.
-		stream nextPutAll: ' instanceVariableNames: '.
-		(' ' join: self instanceVariableNames) printOn: stream ]
+	^ String streamContents: [ :stream | stream
+		print: self;
+		write: ' instanceVariableNames: ';
+		print: (' ' join: self instanceVariableNames) ]
 !
 
 instanceClass
@@ -561,11 +557,9 @@ classTag
 !
 
 definition
-	^ String streamContents: [ :stream |
-		stream nextPutAll: 'Trait named: '.
-		self name asSymbolPrintOn: stream.
-		stream lf; tab; nextPutAll: 'package: '.
-		self category printOn: stream ]
+	^ String streamContents: [ :stream | stream
+		write: 'Trait named: '; printSymbol: self name; lf;
+		tab; write: 'package: '; print: self category ]
 !
 
 package

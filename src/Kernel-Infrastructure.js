@@ -869,9 +869,9 @@ return $recv($globals.String)._streamContents_((function(stream){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_("Object subclass: #NameOfSubclass");
+$recv(stream)._write_("Object subclass: #NameOfSubclass");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=1;
+$ctx2.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
 $recv(stream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -881,14 +881,14 @@ $recv(stream)._tab();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["tab"]=1;
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_("instanceVariableNames: ''");
+$recv(stream)._write_("instanceVariableNames: ''");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=2;
+$ctx2.sendIdx["write:"]=2;
 //>>excludeEnd("ctx");
 $recv(stream)._lf();
 $recv(stream)._tab();
-$recv(stream)._nextPutAll_("package: ");
-return $recv(self._name())._printOn_(stream);
+$recv(stream)._write_("package: ");
+return $recv(stream)._print_(self._name());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -899,10 +899,10 @@ return $recv(self._name())._printOn_(stream);
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "classTemplate\x0a\x09^ String streamContents: [ :stream |\x0a\x09\x09stream\x0a\x09\x09\x09nextPutAll: 'Object subclass: #NameOfSubclass'; lf;\x0a\x09\x09\x09tab; nextPutAll: 'instanceVariableNames: '''''; lf;\x0a\x09\x09\x09tab; nextPutAll: 'package: '.\x0a\x09\x09self name printOn: stream ]",
+source: "classTemplate\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09write: 'Object subclass: #NameOfSubclass'; lf;\x0a\x09\x09tab; write: 'instanceVariableNames: '''''; lf;\x0a\x09\x09tab; write: 'package: '; print: self name ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "nextPutAll:", "lf", "tab", "printOn:", "name"]
+messageSends: ["streamContents:", "write:", "lf", "tab", "print:", "name"]
 }),
 $globals.Package);
 
@@ -938,7 +938,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1;
 return $recv($globals.String)._streamContents_((function(stream){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -947,9 +947,9 @@ $1=$recv(self._class())._name();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["name"]=1;
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_($1);
+$recv(stream)._write_($1);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=1;
+$ctx2.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
 $recv(stream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -959,12 +959,11 @@ $recv(stream)._tab();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["tab"]=1;
 //>>excludeEnd("ctx");
-$2=$recv(stream)._nextPutAll_("named: ");
+$recv(stream)._write_("named: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=2;
+$ctx2.sendIdx["write:"]=2;
 //>>excludeEnd("ctx");
-$2;
-$recv(self._name())._printOn_(stream);
+$recv(stream)._print_(self._name());
 $recv(stream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=2;
@@ -973,21 +972,25 @@ $recv(stream)._tab();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["tab"]=2;
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_("imports: ");
+$recv(stream)._write_("imports: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=3;
+$ctx2.sendIdx["write:"]=3;
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_(self._importsDefinition());
+$recv(stream)._write_(self._importsDefinition());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=4;
+$ctx2.sendIdx["write:"]=4;
 //>>excludeEnd("ctx");
 $recv(stream)._lf();
 $recv(stream)._tab();
-$recv(stream)._nextPutAll_("transport: (");
+$recv(stream)._write_("transport: (");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=5;
+$ctx2.sendIdx["write:"]=5;
 //>>excludeEnd("ctx");
-return $recv(stream)._nextPutAll_($recv($recv(self._transport())._definition()).__comma(")"));
+$recv(stream)._write_($recv(self._transport())._definition());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["write:"]=6;
+//>>excludeEnd("ctx");
+return $recv(stream)._write_(")");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -998,10 +1001,10 @@ return $recv(stream)._nextPutAll_($recv($recv(self._transport())._definition()).
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream |\x0a\x09\x09stream \x0a\x09\x09\x09nextPutAll: self class name; lf;\x0a\x09\x09\x09tab; nextPutAll: 'named: '.\x0a\x09\x09self name printOn: stream.\x0a\x09\x09stream lf;\x0a\x09\x09\x09tab; nextPutAll: 'imports: '; nextPutAll: self importsDefinition; lf;\x0a\x09\x09\x09tab; nextPutAll: 'transport: ('; nextPutAll: self transport definition, ')' ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09write: self class name; lf;\x0a\x09\x09tab; write: 'named: '; print: self name; lf;\x0a\x09\x09tab; write: 'imports: '; write: self importsDefinition; lf;\x0a\x09\x09tab; write: 'transport: ('; write: self transport definition; write: ')' ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "nextPutAll:", "name", "class", "lf", "tab", "printOn:", "importsDefinition", ",", "definition", "transport"]
+messageSends: ["streamContents:", "write:", "name", "class", "lf", "tab", "print:", "importsDefinition", "definition", "transport"]
 }),
 $globals.Package);
 

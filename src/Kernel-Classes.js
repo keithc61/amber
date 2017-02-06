@@ -1676,20 +1676,19 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 return $recv($globals.String)._streamContents_((function(stream){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv(self._superclass())._printOn_(stream);
+$recv(stream)._print_(self._superclass());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["printOn:"]=1;
+$ctx2.sendIdx["print:"]=1;
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_(" subclass: ");
+$recv(stream)._write_(" subclass: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=1;
+$ctx2.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
-$recv(self._name())._asSymbolPrintOn_(stream);
+$recv(stream)._printSymbol_(self._name());
 $recv(stream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=1;
@@ -1698,19 +1697,18 @@ $recv(stream)._tab();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["tab"]=1;
 //>>excludeEnd("ctx");
-$1=$recv(stream)._nextPutAll_("instanceVariableNames: ");
+$recv(stream)._write_("instanceVariableNames: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=2;
+$ctx2.sendIdx["write:"]=2;
 //>>excludeEnd("ctx");
-$1;
-$recv(" "._join_(self._instanceVariableNames()))._printOn_(stream);
+$recv(stream)._print_(" "._join_(self._instanceVariableNames()));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["printOn:"]=2;
+$ctx2.sendIdx["print:"]=2;
 //>>excludeEnd("ctx");
 $recv(stream)._lf();
 $recv(stream)._tab();
-$recv(stream)._nextPutAll_("package: ");
-return $recv(self._category())._printOn_(stream);
+$recv(stream)._write_("package: ");
+return $recv(stream)._print_(self._category());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1721,10 +1719,10 @@ return $recv(self._category())._printOn_(stream);
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream |\x0a\x09\x09self superclass printOn: stream.\x0a\x09\x09stream nextPutAll: ' subclass: '.\x0a\x09\x09self name asSymbolPrintOn: stream.\x0a\x09\x09stream lf; tab; nextPutAll: 'instanceVariableNames: '.\x0a\x09\x09(' ' join: self instanceVariableNames) printOn: stream.\x0a\x09\x09stream lf; tab; nextPutAll: 'package: '.\x0a\x09\x09self category printOn: stream ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self superclass; write: ' subclass: '; printSymbol: self name; lf;\x0a\x09\x09tab; write: 'instanceVariableNames: '; print: (' ' join: self instanceVariableNames); lf;\x0a\x09\x09tab; write: 'package: '; print: self category ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "printOn:", "superclass", "nextPutAll:", "asSymbolPrintOn:", "name", "lf", "tab", "join:", "instanceVariableNames", "category"]
+messageSends: ["streamContents:", "print:", "superclass", "write:", "printSymbol:", "name", "lf", "tab", "join:", "instanceVariableNames", "category"]
 }),
 $globals.Class);
 
@@ -2044,12 +2042,12 @@ return $recv($globals.String)._streamContents_((function(stream){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-self._printOn_(stream);
+$recv(stream)._print_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["printOn:"]=1;
+$ctx2.sendIdx["print:"]=1;
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_(" instanceVariableNames: ");
-return $recv(" "._join_(self._instanceVariableNames()))._printOn_(stream);
+$recv(stream)._write_(" instanceVariableNames: ");
+return $recv(stream)._print_(" "._join_(self._instanceVariableNames()));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2060,10 +2058,10 @@ return $recv(" "._join_(self._instanceVariableNames()))._printOn_(stream);
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream |\x0a\x09\x09self printOn: stream.\x0a\x09\x09stream nextPutAll: ' instanceVariableNames: '.\x0a\x09\x09(' ' join: self instanceVariableNames) printOn: stream ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self;\x0a\x09\x09write: ' instanceVariableNames: ';\x0a\x09\x09print: (' ' join: self instanceVariableNames) ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "printOn:", "nextPutAll:", "join:", "instanceVariableNames"]
+messageSends: ["streamContents:", "print:", "write:", "join:", "instanceVariableNames"]
 }),
 $globals.Metaclass);
 
@@ -2369,15 +2367,15 @@ return $recv($globals.String)._streamContents_((function(stream){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_("Trait named: ");
+$recv(stream)._write_("Trait named: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=1;
+$ctx2.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
-$recv(self._name())._asSymbolPrintOn_(stream);
+$recv(stream)._printSymbol_(self._name());
 $recv(stream)._lf();
 $recv(stream)._tab();
-$recv(stream)._nextPutAll_("package: ");
-return $recv(self._category())._printOn_(stream);
+$recv(stream)._write_("package: ");
+return $recv(stream)._print_(self._category());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2388,10 +2386,10 @@ return $recv(self._category())._printOn_(stream);
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream |\x0a\x09\x09stream nextPutAll: 'Trait named: '.\x0a\x09\x09self name asSymbolPrintOn: stream.\x0a\x09\x09stream lf; tab; nextPutAll: 'package: '.\x0a\x09\x09self category printOn: stream ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09write: 'Trait named: '; printSymbol: self name; lf;\x0a\x09\x09tab; write: 'package: '; print: self category ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "nextPutAll:", "asSymbolPrintOn:", "name", "lf", "tab", "printOn:", "category"]
+messageSends: ["streamContents:", "write:", "printSymbol:", "name", "lf", "tab", "print:", "category"]
 }),
 $globals.Trait);
 

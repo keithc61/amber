@@ -15,11 +15,14 @@
   + isSelector
 + StringStream >>
   + print:
+  + printSymbol:
 
 - Association >>
   - importsString
 - String >>
   - importsString
+- AbstractExporter
+  - classNameFor:
 - Exporter >>
   - jsClassNameFor:
 
