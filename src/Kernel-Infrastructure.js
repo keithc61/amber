@@ -1107,18 +1107,15 @@ return $recv($globals.String)._streamContents_((function(stream){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_("{");
+$recv(stream)._write_("{");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=1;
+$ctx2.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
 $recv(self._sortedImportsAsArray())._do_separatedBy_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv(stream)._nextPutAll_($recv(each)._printString());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["nextPutAll:"]=2;
-//>>excludeEnd("ctx");
+return $recv(stream)._print_(each);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
 //>>excludeEnd("ctx");
@@ -1126,15 +1123,15 @@ $ctx3.sendIdx["nextPutAll:"]=2;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv(stream)._nextPutAll_(". ");
+return $recv(stream)._write_(". ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["nextPutAll:"]=3;
+$ctx3.sendIdx["write:"]=2;
 //>>excludeEnd("ctx");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 //>>excludeEnd("ctx");
 }));
-return $recv(stream)._nextPutAll_("}");
+return $recv(stream)._write_("}");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1145,10 +1142,10 @@ return $recv(stream)._nextPutAll_("}");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "importsDefinition\x0a\x09^ String streamContents: [ :stream |\x0a\x09\x09stream nextPutAll: '{'.\x0a\x09\x09self sortedImportsAsArray\x0a\x09\x09\x09do: [ :each | stream nextPutAll: each printString ]\x0a\x09\x09\x09separatedBy: [ stream nextPutAll: '. ' ].\x0a\x09\x09stream nextPutAll: '}' ]",
+source: "importsDefinition\x0a\x09^ String streamContents: [ :stream |\x0a\x09\x09stream write: '{'.\x0a\x09\x09self sortedImportsAsArray\x0a\x09\x09\x09do: [ :each | stream print: each ]\x0a\x09\x09\x09separatedBy: [ stream write: '. ' ].\x0a\x09\x09stream write: '}' ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "nextPutAll:", "do:separatedBy:", "sortedImportsAsArray", "printString"]
+messageSends: ["streamContents:", "write:", "do:separatedBy:", "sortedImportsAsArray", "print:"]
 }),
 $globals.Package);
 

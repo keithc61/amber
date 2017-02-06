@@ -339,68 +339,45 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$3,$1,$6,$7,$5,$8,$4;
 return $recv($globals.String)._streamContents_((function(stream){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_("messageSelectorAndArgumentNames");
+$recv(stream)._write_("messageSelectorAndArgumentNames");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=1;
+$ctx2.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
-$2=$recv($globals.String)._lf();
+$recv(stream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=1;
 //>>excludeEnd("ctx");
-$3=$recv($globals.String)._tab();
+$recv(stream)._tab();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["tab"]=1;
 //>>excludeEnd("ctx");
-$1=$recv($2).__comma($3);
+$recv(stream)._write_("\x22comment stating purpose of message\x22");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=1;
+$ctx2.sendIdx["write:"]=2;
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_($1);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=2;
-//>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_("\x22comment stating purpose of message\x22");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=3;
-//>>excludeEnd("ctx");
-$6=$recv($globals.String)._lf();
+$recv(stream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=2;
 //>>excludeEnd("ctx");
-$7=$recv($globals.String)._lf();
+$recv(stream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=3;
 //>>excludeEnd("ctx");
-$5=$recv($6).__comma($7);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=3;
-//>>excludeEnd("ctx");
-$8=$recv($globals.String)._tab();
+$recv(stream)._tab();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["tab"]=2;
 //>>excludeEnd("ctx");
-$4=$recv($5).__comma($8);
+$recv(stream)._write_("| temporary variable names |");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=2;
+$ctx2.sendIdx["write:"]=3;
 //>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_($4);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=4;
-//>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_("| temporary variable names |");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=5;
-//>>excludeEnd("ctx");
-$recv(stream)._nextPutAll_($recv($recv($globals.String)._lf()).__comma($recv($globals.String)._tab()));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["nextPutAll:"]=6;
-//>>excludeEnd("ctx");
-return $recv(stream)._nextPutAll_("statements");
+$recv(stream)._lf();
+$recv(stream)._tab();
+return $recv(stream)._write_("statements");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -411,10 +388,10 @@ return $recv(stream)._nextPutAll_("statements");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "methodTemplate\x0a\x09^ String streamContents: [ :stream |\x0a\x09\x09stream \x0a\x09\x09\x09nextPutAll: 'messageSelectorAndArgumentNames';\x0a\x09\x09\x09nextPutAll: String lf, String tab;\x0a\x09\x09\x09nextPutAll: '\x22comment stating purpose of message\x22';\x0a\x09\x09\x09nextPutAll: String lf, String lf, String tab;\x0a\x09\x09\x09nextPutAll: '| temporary variable names |';\x0a\x09\x09\x09nextPutAll: String lf, String tab;\x0a\x09\x09\x09nextPutAll: 'statements' ]",
+source: "methodTemplate\x0a\x09^ String streamContents: [ :stream | stream \x0a\x09\x09write: 'messageSelectorAndArgumentNames'; lf;\x0a\x09\x09tab; write: '\x22comment stating purpose of message\x22'; lf;\x0a\x09\x09lf;\x0a\x09\x09tab; write: '| temporary variable names |'; lf;\x0a\x09\x09tab; write: 'statements' ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "nextPutAll:", ",", "lf", "tab"]
+messageSends: ["streamContents:", "write:", "lf", "tab"]
 }),
 $globals.BehaviorBody);
 

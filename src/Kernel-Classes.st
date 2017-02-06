@@ -47,15 +47,12 @@ methodDictionary
 !
 
 methodTemplate
-	^ String streamContents: [ :stream |
-		stream 
-			nextPutAll: 'messageSelectorAndArgumentNames';
-			nextPutAll: String lf, String tab;
-			nextPutAll: '"comment stating purpose of message"';
-			nextPutAll: String lf, String lf, String tab;
-			nextPutAll: '| temporary variable names |';
-			nextPutAll: String lf, String tab;
-			nextPutAll: 'statements' ]
+	^ String streamContents: [ :stream | stream 
+		write: 'messageSelectorAndArgumentNames'; lf;
+		tab; write: '"comment stating purpose of message"'; lf;
+		lf;
+		tab; write: '| temporary variable names |'; lf;
+		tab; write: 'statements' ]
 !
 
 methods

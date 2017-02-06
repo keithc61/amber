@@ -118,7 +118,7 @@ exportBehavior: aBehavior on: aStream
 !
 
 exportCategoryEpilogueOf: aCategory on: aStream
-	aStream nextPutAll: ' !!'; lf; lf
+	aStream write: ' !!'; lf; lf
 !
 
 exportCategoryPrologueOf: aCategory on: aStream
@@ -164,8 +164,8 @@ exportMetaDefinitionOf: aClass on: aStream
 
 exportMethod: aMethod on: aStream
 	aStream
-		lf; lf; nextPutAll: (self chunkEscape: aMethod source); lf;
-		nextPutAll: '!!'
+		lf; lf; write: (self chunkEscape: aMethod source); lf;
+		write: '!!'
 !
 
 exportPackage: aPackage on: aStream
@@ -207,7 +207,7 @@ exportProtocol: aProtocol on: aStream
 !
 
 exportProtocolEpilogueOf: aProtocol on: aStream
-	aStream nextPutAll: ' !!'; lf; lf
+	aStream write: ' !!'; lf; lf
 !
 
 exportProtocolPrologueOf: aProtocol on: aStream
@@ -275,56 +275,44 @@ exportBehavior: aBehavior on: aStream
 exportDefinitionOf: aClass on: aStream
 	aStream
 		lf;
-		nextPutAll: '$core.addClass(';
-		nextPutAll: aClass name asJavascript;
-		nextPutAll: ', ';
-		nextPutAll: (aClass superclass ifNil: [ 'null' ] ifNotNil: [ :superclass | superclass asJavascript ]);
-		nextPutAll: ', ';
-		nextPutAll: aClass instanceVariableNames asJavascript;
-		nextPutAll: ', ';
-		nextPutAll: aClass category asJavascript;
-		nextPutAll: ');'.
+		write: {
+			'$core.addClass('.
+			aClass name asJavascript. ', '.
+			aClass superclass ifNil: [ 'null' ] ifNotNil: [ :superclass | superclass asJavascript ]. ', '.
+			aClass instanceVariableNames asJavascript. ', '.
+			aClass category asJavascript.
+			');' }.
 	aClass comment ifNotEmpty: [
 		aStream
 			lf;
-			nextPutAll: '//>>excludeStart("ide", pragmas.excludeIdeData);';
-			lf;
-			nextPutAll: aClass asJavascript;
-			nextPutAll: '.comment=';
-			nextPutAll: aClass comment crlfSanitized asJavascript;
-			nextPutAll: ';';
-			lf;
-			nextPutAll: '//>>excludeEnd("ide");' ].
+			write: '//>>excludeStart("ide", pragmas.excludeIdeData);'; lf;
+			write: { aClass asJavascript. '.comment='. aClass comment crlfSanitized asJavascript. ';' }; lf;
+			write: '//>>excludeEnd("ide");' ].
 	aStream lf
 !
 
 exportMetaDefinitionOf: aClass on: aStream
 	aStream lf.
-	aClass theMetaClass instanceVariableNames ifNotEmpty: [ :classIvars |
-		aStream
-		nextPutAll: aClass theMetaClass asJavascript;
-		nextPutAll: '.iVarNames = ';
-		nextPutAll: classIvars asJavascript;
-		nextPutAll: ';';
+	aClass theMetaClass instanceVariableNames ifNotEmpty: [ :classIvars | aStream
+		write: { aClass theMetaClass asJavascript. '.iVarNames = '. classIvars asJavascript. ';' };
 		lf ]
 !
 
 exportMethod: aMethod on: aStream
 	aStream
-		nextPutAll: '$core.addMethod(';lf;
-		nextPutAll: '$core.method({';lf;
-		nextPutAll: 'selector: ', aMethod selector asJavascript, ',';lf;
-		nextPutAll: 'protocol: ', aMethod protocol asJavascript, ',';lf;
-		nextPutAll: 'fn: ', aMethod fn compiledSource, ',';lf;
-		nextPutAll: '//>>excludeStart("ide", pragmas.excludeIdeData);';lf;
-		nextPutAll: 'args: ', aMethod arguments asJavascript, ','; lf;
-		nextPutAll: 'source: ', aMethod source asJavascript, ',';lf;
-		nextPutAll: 'referencedClasses: ', aMethod referencedClasses asJavascript, ',';lf;
-		nextPutAll: '//>>excludeEnd("ide");';lf;
-		nextPutAll: 'messageSends: ', aMethod messageSends asJavascript;lf;
-		nextPutAll: '}),';lf;
-		nextPutAll: aMethod methodClass asJavascript;
-		nextPutAll: ');';lf;lf
+		write: '$core.addMethod('; lf;
+		write: '$core.method({'; lf;
+		write: { 'selector: '. aMethod selector asJavascript. ',' }; lf;
+		write: { 'protocol: '. aMethod protocol asJavascript. ',' }; lf;
+		write: { 'fn: '. aMethod fn compiledSource. ',' }; lf;
+		write: '//>>excludeStart("ide", pragmas.excludeIdeData);'; lf;
+		write: { 'args: '. aMethod arguments asJavascript. ',' }; lf;
+		write: { 'source: '. aMethod source asJavascript. ',' }; lf;
+		write: { 'referencedClasses: '. aMethod referencedClasses asJavascript. ',' }; lf;
+		write: '//>>excludeEnd("ide");'; lf;
+		write: { 'messageSends: '. aMethod messageSends asJavascript }; lf;
+		write: '}),'; lf;
+		write: { aMethod methodClass asJavascript. ');' }; lf; lf
 !
 
 exportPackage: aPackage on: aStream
@@ -348,29 +336,25 @@ exportPackage: aPackage on: aStream
 
 exportPackageBodyBlockPrologueOf: aPackage on: aStream
 	aStream
-		nextPutAll: 'if(!!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;';
-		lf;
-		nextPutAll: 'var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;';
-		lf;
-		nextPutAll: 'if(!!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;';
-		lf
+		write: 'if(!!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;'; lf;
+		write: 'var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;'; lf;
+		write: 'if(!!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;'; lf
 !
 
 exportPackageContextOf: aPackage on: aStream
 	aStream
-		nextPutAll: '$core.packages[';
-		nextPutAll: aPackage name asJavascript;
-		nextPutAll: '].innerEval = ';
-		nextPutAll: 'function (expr) { return eval(expr); }';
-		nextPutAll: ';';
+		write: {
+			'$core.packages['.
+			aPackage name asJavascript.
+			'].innerEval = '.
+			'function (expr) { return eval(expr); }'.
+			';' };
 		lf
 !
 
 exportPackageDefinitionOf: aPackage on: aStream
 	aStream
-		nextPutAll: '$core.addPackage(';
-		nextPutAll: aPackage name asJavascript;
-		nextPutAll: ');';
+		write: { '$core.addPackage('. aPackage name asJavascript. ');' };
 		lf
 !
 
@@ -381,11 +365,12 @@ exportPackageEpilogueOf: aPackage on: aStream
 exportPackageImportsOf: aPackage on: aStream
 	aPackage importsAsJson ifNotEmpty: [ :imports |
 		aStream
-			nextPutAll: '$core.packages[';
-			nextPutAll: aPackage name asJavascript;
-			nextPutAll: '].imports = ';
-			nextPutAll: imports asJavascript;
-			nextPutAll: ';';
+			write: {
+				'$core.packages['.
+				aPackage name asJavascript.
+				'].imports = '.
+				imports asJavascript.
+				';' };
 			lf ]
 !
 
@@ -395,33 +380,29 @@ exportPackagePrologueOf: aPackage on: aStream
 
 exportPackageTransportOf: aPackage on: aStream
 	aStream
-		nextPutAll: '$core.packages[';
-		nextPutAll: aPackage name asJavascript;
-		nextPutAll: '].transport = ';
-		nextPutAll: aPackage transport asJSONString;
-		nextPutAll: ';';
+		write: {
+			'$core.packages['.
+			aPackage name asJavascript.
+			'].transport = '.
+			aPackage transport asJSONString.
+			';' };
 		lf
 !
 
 exportTraitDefinitionOf: aClass on: aStream
 	aStream
 		lf;
-		nextPutAll: '$core.addTrait(';
-		nextPutAll: aClass name asJavascript;
-		nextPutAll: ', ';
-		nextPutAll: aClass category asJavascript;
-		nextPutAll: ');'.
+		write: {
+			'$core.addTrait('.
+			aClass name asJavascript. ', '.
+			aClass category asJavascript.
+			');' }.
 	aClass comment ifNotEmpty: [
 		aStream
 			lf;
-			nextPutAll: '//>>excludeStart("ide", pragmas.excludeIdeData);';
-			lf;
-			nextPutAll: aClass asJavascript;
-			nextPutAll: '.comment=';
-			nextPutAll: aClass comment crlfSanitized asJavascript;
-			nextPutAll: ';';
-			lf;
-			nextPutAll: '//>>excludeEnd("ide");' ].
+			write: '//>>excludeStart("ide", pragmas.excludeIdeData);'; lf;
+			write: { aClass asJavascript. '.comment='. aClass comment crlfSanitized asJavascript. ';' }; lf;
+			write: '//>>excludeEnd("ide");' ].
 	aStream lf
 ! !
 
@@ -435,7 +416,7 @@ I am used to export Packages in an AMD (Asynchronous Module Definition) JavaScri
 
 exportPackageEpilogueOf: aPackage on: aStream
 	aStream
-		nextPutAll: '});';
+		write: '});';
 		lf
 !
 
@@ -449,15 +430,16 @@ exportPackagePrologueOf: aPackage on: aStream
 		pragmaStart := String lf, '//>>excludeStart("imports", pragmas.excludeImports);', String lf.
 		pragmaEnd := String lf, '//>>excludeEnd("imports");', String lf ].
 	aStream
-		nextPutAll: 'define(';
-		nextPutAll: (((
-			(#('amber/boot' ':1:'), importsForOutput value, #(':2:'), loadDependencies asArray sorted) asJavascript)
-			replace: ',\s*["'']:1:["'']' with: pragmaStart) replace: ',\s*["'']:2:["'']' with: pragmaEnd);
-		nextPutAll: ', function(';
-		nextPutAll: (((
-			(#('$boot' ':1:'), importsForOutput key, #(':2:')) join: ',')
-			replace: ',\s*:1:' with: pragmaStart) replace: ',\s*:2:' with: pragmaEnd);
-		nextPutAll: '){"use strict";';
+		write: {
+			'define('.
+			((#('amber/boot' ':1:'), importsForOutput value, #(':2:'), loadDependencies asArray sorted) asJavascript
+				replace: ',\s*["'']:1:["'']' with: pragmaStart)
+				replace: ',\s*["'']:2:["'']' with: pragmaEnd.
+			', function('.
+			((((#('$boot' ':1:'), importsForOutput key, #(':2:')) join: ',') 
+				replace: ',\s*:1:' with: pragmaStart)
+				replace: ',\s*:2:' with: pragmaEnd).
+			'){"use strict";' };
 		lf.
 	self exportPackageBodyBlockPrologueOf: aPackage on: aStream
 ! !

@@ -300,11 +300,11 @@ imports: anArray
 
 importsDefinition
 	^ String streamContents: [ :stream |
-		stream nextPutAll: '{'.
+		stream write: '{'.
 		self sortedImportsAsArray
-			do: [ :each | stream nextPutAll: each printString ]
-			separatedBy: [ stream nextPutAll: '. ' ].
-		stream nextPutAll: '}' ]
+			do: [ :each | stream print: each ]
+			separatedBy: [ stream write: '. ' ].
+		stream write: '}' ]
 !
 
 name
