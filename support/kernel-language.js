@@ -176,40 +176,54 @@ define(['./compatibility'], function () {
          should be added to the system, see smalltalk.addClass().
          Superclass linking is *not* handled here, see api.initialize()  */
 
-        function klass (spec) {
-            var setSuperClass = spec.superclass;
-            if (!spec.superclass) {
-                spec.superclass = nilAsClass;
+        function classBuilder (className, superclass, iVarNames, fn) {
+            var logicalSuperclass = superclass;
+            if (superclass == null || superclass.isNil) {
+                superclass = nilAsClass;
+                logicalSuperclass = null;
             }
-            var meta = metaclass(spec);
-            var that = meta.instanceClass;
 
-            that.superclass = setSuperClass;
-            that.fn = spec.fn || inherits(function () {
-                }, spec.superclass.fn);
-            that.iVarNames = spec.iVarNames || [];
+            function klass (pkg) {
+                var that = metaclass().instanceClass;
 
-            that.className = spec.className;
-            that.pkg = spec.pkg;
-            that.subclasses = [];
+                that.superclass = logicalSuperclass;
+                that.fn = fn || inherits(function () {
+                    }, superclass.fn);
+                that.iVarNames = iVarNames || [];
 
-            setupMethods(that);
-            return that;
-        }
+                that.className = className;
+                that.pkg = pkg;
+                that.subclasses = [];
 
-        function metaclass (spec) {
-            var that = new SmalltalkMetaclass();
+                setupMethods(that);
+                return that;
+            }
 
-            that.superclass = spec.superclass.klass;
-            that.fn = inherits(function () {
-            }, that.superclass.fn);
-            that.iVarNames = [];
+            function metaclass () {
+                var that = new SmalltalkMetaclass();
 
-            that.instanceClass = new that.fn();
+                that.superclass = superclass.klass;
+                that.fn = inherits(function () {
+                }, that.superclass.fn);
+                that.iVarNames = [];
 
-            wireKlass(that);
-            setupMethods(that);
-            return that;
+                that.instanceClass = new that.fn();
+
+                wireKlass(that);
+                setupMethods(that);
+                return that;
+            }
+
+            return {
+                className: className,
+                make: klass,
+                updateExisting: function (klass, pkg) {
+                    if (klass.superclass == superclass && (!fn || fn === klass.fn)) {
+                        if (iVarNames) klass.iVarNames = iVarNames;
+                        if (pkg) klass.pkg = pkg;
+                    } else throw new Error("Incompatible change of class: " + klass.className);
+                }
+            };
         }
 
         function wireKlass (klass) {
@@ -232,30 +246,6 @@ define(['./compatibility'], function () {
             }
             return buildBehaviorBody(pkgName, classBuilder(className, superclass, iVarNames, coreFns[className]));
         };
-
-        function classBuilder (className, superclass, iVarNames, fn) {
-            if (superclass == null || superclass.isNil) {
-                superclass = null;
-            }
-            return {
-                className: className,
-                make: function (pkg) {
-                    return klass({
-                        className: className,
-                        pkg: pkg,
-                        superclass: superclass,
-                        iVarNames: iVarNames,
-                        fn: fn
-                    });
-                },
-                updateExisting: function (klass, pkg) {
-                    if (klass.superclass == superclass && (!fn || fn === klass.fn)) {
-                        if (iVarNames) klass.iVarNames = iVarNames;
-                        if (pkg) klass.pkg = pkg;
-                    } else throw new Error("Incompatible change of class: " + klass.className);
-                }
-            };
-        }
 
         st.removeClass = removeBehaviorBody;
 
