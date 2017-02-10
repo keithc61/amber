@@ -214,20 +214,17 @@ define(['./compatibility'], function () {
         this.buildBehaviorBody = function (pkgName, builder) {
             var pkg = st.packages[pkgName];
             if (!pkg) throw new Error("Missing package " + pkgName);
-            var behaviorBody = makeBehaviorBody(builder, pkg);
+
+            var behaviorBody = globals.hasOwnProperty(builder.className) && globals[builder.className];
+            if (behaviorBody) {
+                builder.updateExisting(behaviorBody, pkg);
+            } else {
+                behaviorBody = builder.make(pkg);
+            }
+
             addBehaviorBody(behaviorBody);
             return behaviorBody;
         };
-
-        function makeBehaviorBody (builder, pkg) {
-            var behaviorBody = globals.hasOwnProperty(builder.className) && globals[builder.className];
-            if (!behaviorBody) return builder.make(pkg);
-            if (builder.updateExisting(behaviorBody, pkg)) return behaviorBody;
-
-            var rebuilder = builder.rebuilderForExisting(behaviorBody);
-            removeBehaviorBody(behaviorBody);
-            return makeBehaviorBody(rebuilder, pkg);
-        }
 
         function addBehaviorBody (behaviorBody) {
             globals[behaviorBody.className] = behaviorBody;

@@ -101,10 +101,6 @@ define(['./compatibility'], function () {
                 },
                 updateExisting: function (trait, pkg) {
                     if (pkg) trait.pkg = pkg;
-                    return true;
-                },
-                rebuilderForExisting: function (trait) {
-                    return traitBuilder(className);
                 }
             };
         }
@@ -256,12 +252,7 @@ define(['./compatibility'], function () {
                     if (klass.superclass == superclass && (!fn || fn === klass.fn)) {
                         if (iVarNames) klass.iVarNames = iVarNames;
                         if (pkg) klass.pkg = pkg;
-                        return true;
-                    }
-                    return false;
-                },
-                rebuilderForExisting: function (klass) {
-                    return classBuilder(className, superclass, iVarNames || klass.iVarNames, fn);
+                    } else throw new Error("Incompatible change of class: " + klass.className);
                 }
             };
         }
