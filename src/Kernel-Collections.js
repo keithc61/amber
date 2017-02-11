@@ -2963,6 +2963,47 @@ $globals.AssociativeCollection);
 
 $core.addMethod(
 $core.method({
+selector: "select:thenCollect:",
+protocol: "enumerating",
+fn: function (selectBlock,collectBlock){
+var self=this;
+var newDict;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+newDict=$recv(self._class())._new();
+self._keysAndValuesDo_((function(key,value){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=$recv(selectBlock)._value_(value);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["value:"]=1;
+//>>excludeEnd("ctx");
+if($core.assert($1)){
+return $recv(newDict)._at_put_(key,$recv(collectBlock)._value_(value));
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return newDict;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"select:thenCollect:",{selectBlock:selectBlock,collectBlock:collectBlock,newDict:newDict},$globals.AssociativeCollection)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["selectBlock", "collectBlock"],
+source: "select: selectBlock thenCollect: collectBlock\x0a\x09| newDict |\x0a\x09newDict := self class new.\x0a\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09(selectBlock value: value) ifTrue: [ newDict at: key put: (collectBlock value: value) ]].\x0a\x09^ newDict",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["new", "class", "keysAndValuesDo:", "ifTrue:", "value:", "at:put:"]
+}),
+$globals.AssociativeCollection);
+
+$core.addMethod(
+$core.method({
 selector: "shallowCopy",
 protocol: "copying",
 fn: function (){
@@ -8597,6 +8638,47 @@ return collection;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
 source: "select: aBlock\x0a\x09| collection |\x0a\x09collection := self class new.\x0a\x09self do: [ :each |\x0a\x09\x09(aBlock value: each) ifTrue: [\x0a\x09\x09\x09collection add: each ] ].\x0a\x09^ collection",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["new", "class", "do:", "ifTrue:", "value:", "add:"]
+}),
+$globals.Set);
+
+$core.addMethod(
+$core.method({
+selector: "select:thenCollect:",
+protocol: "enumerating",
+fn: function (selectBlock,collectBlock){
+var self=this;
+var collection;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+collection=$recv(self._class())._new();
+self._do_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=$recv(selectBlock)._value_(each);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["value:"]=1;
+//>>excludeEnd("ctx");
+if($core.assert($1)){
+return $recv(collection)._add_($recv(collectBlock)._value_(each));
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return collection;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"select:thenCollect:",{selectBlock:selectBlock,collectBlock:collectBlock,collection:collection},$globals.Set)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["selectBlock", "collectBlock"],
+source: "select: selectBlock thenCollect: collectBlock\x0a\x09| collection |\x0a\x09collection := self class new.\x0a\x09self do: [ :each |\x0a\x09\x09(selectBlock value: each) ifTrue: [\x0a\x09\x09\x09collection add: (collectBlock value: each) ] ].\x0a\x09^ collection",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["new", "class", "do:", "ifTrue:", "value:", "add:"]

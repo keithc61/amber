@@ -4603,6 +4603,107 @@ $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
+selector: "testSelectThenCollect",
+protocol: "tests",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1,$4,$3,$6,$5,$7,$9,$8;
+$2=self._collection();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["collection"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2)._select_thenCollect_((function(){
+return false;
+
+}),"isString");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["select:thenCollect:"]=1;
+//>>excludeEnd("ctx");
+$4=self._collectionClass();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["collectionClass"]=1;
+//>>excludeEnd("ctx");
+$3=$recv($4)._new();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["new"]=1;
+//>>excludeEnd("ctx");
+self._assert_equals_($1,$3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+$6=self._collection();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["collection"]=2;
+//>>excludeEnd("ctx");
+$5=$recv($6)._select_thenCollect_((function(){
+return true;
+
+}),(function(x){
+return x;
+
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["select:thenCollect:"]=2;
+//>>excludeEnd("ctx");
+$7=self._collection();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["collection"]=3;
+//>>excludeEnd("ctx");
+self._assert_equals_($5,$7);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+$8=$recv(self._collection())._select_thenCollect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$9=self._sampleNewValue();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["sampleNewValue"]=1;
+//>>excludeEnd("ctx");
+return $recv(each).__eq($9);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,4)});
+//>>excludeEnd("ctx");
+}),(function(x){
+return x;
+
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["select:thenCollect:"]=3;
+//>>excludeEnd("ctx");
+self._assert_equals_($8,$recv(self._collectionClass())._new());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=3;
+//>>excludeEnd("ctx");
+self._assert_equals_($recv(self._collectionWithNewValue())._select_thenCollect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(each).__tild_eq(self._sampleNewValue());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,6)});
+//>>excludeEnd("ctx");
+}),"printString"),self._collectionOfPrintStrings());
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testSelectThenCollect",{},$globals.CollectionTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSelectThenCollect\x0a\x09self assert: (self collection select: [ false ] thenCollect: #isString) equals: self collectionClass new.\x0a\x09self assert: (self collection select: [ true ] thenCollect: [:x|x]) equals: self collection.\x0a\x09self assert: (self collection select: [ :each | each = self sampleNewValue ] thenCollect: [:x|x]) equals: self collectionClass new.\x0a\x09self assert: (self collectionWithNewValue select: [ :each | each ~= self sampleNewValue ] thenCollect: #printString) equals: self collectionOfPrintStrings",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["assert:equals:", "select:thenCollect:", "collection", "new", "collectionClass", "=", "sampleNewValue", "collectionWithNewValue", "~=", "collectionOfPrintStrings"]
+}),
+$globals.CollectionTest);
+
+$core.addMethod(
+$core.method({
 selector: "testSingle",
 protocol: "tests",
 fn: function (){

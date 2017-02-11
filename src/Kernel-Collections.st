@@ -712,6 +712,14 @@ select: aBlock
 	^ newDict
 !
 
+select: selectBlock thenCollect: collectBlock
+	| newDict |
+	newDict := self class new.
+	self keysAndValuesDo: [ :key :value |
+		(selectBlock value: value) ifTrue: [ newDict at: key put: (collectBlock value: value) ]].
+	^ newDict
+!
+
 valuesDo: aBlock
 	self subclassResponsibility
 !
@@ -1982,6 +1990,15 @@ select: aBlock
 	self do: [ :each |
 		(aBlock value: each) ifTrue: [
 			collection add: each ] ].
+	^ collection
+!
+
+select: selectBlock thenCollect: collectBlock
+	| collection |
+	collection := self class new.
+	self do: [ :each |
+		(selectBlock value: each) ifTrue: [
+			collection add: (collectBlock value: each) ] ].
 	^ collection
 ! !
 

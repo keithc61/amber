@@ -779,6 +779,13 @@ testSelect
 	self assert: (self collectionWithNewValue select: [ :each | each ~= self sampleNewValue ]) equals: self collection
 !
 
+testSelectThenCollect
+	self assert: (self collection select: [ false ] thenCollect: #isString) equals: self collectionClass new.
+	self assert: (self collection select: [ true ] thenCollect: [:x|x]) equals: self collection.
+	self assert: (self collection select: [ :each | each = self sampleNewValue ] thenCollect: [:x|x]) equals: self collectionClass new.
+	self assert: (self collectionWithNewValue select: [ :each | each ~= self sampleNewValue ] thenCollect: #printString) equals: self collectionOfPrintStrings
+!
+
 testSingle
 	self should: [ self collectionClass new single ] raise: Error.
 	self should: [ self collection single ] raise: Error.
