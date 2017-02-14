@@ -2383,6 +2383,52 @@ $globals.Metaclass);
 $core.addClass("Trait", $globals.BehaviorBody, [], "Kernel-Classes");
 $core.addMethod(
 $core.method({
+selector: "-",
+protocol: "composition",
+fn: function (anArray){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._asTraitTransformation()).__minus(anArray);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"-",{anArray:anArray},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anArray"],
+source: "- anArray\x0a\x09^ self asTraitTransformation - anArray",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["-", "asTraitTransformation"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "@",
+protocol: "composition",
+fn: function (anArrayOfAssociations){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._asTraitTransformation()).__at(anArrayOfAssociations);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"@",{anArrayOfAssociations:anArrayOfAssociations},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anArrayOfAssociations"],
+source: "@ anArrayOfAssociations\x0a\x09^ self asTraitTransformation @ anArrayOfAssociations",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["@", "asTraitTransformation"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
 selector: "allInstanceVariableNames",
 protocol: "compiler compatibility",
 fn: function (){
@@ -2449,17 +2495,40 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv([self])._asTraitComposition();
+return $recv(self._asTraitTransformation())._asTraitComposition();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"asTraitComposition",{},$globals.Trait)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asTraitComposition\x0a\x09^ { self } asTraitComposition",
+source: "asTraitComposition\x0a\x09^ self asTraitTransformation asTraitComposition",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["asTraitComposition"]
+messageSends: ["asTraitComposition", "asTraitTransformation"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "asTraitTransformation",
+protocol: "converting",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.TraitTransformation)._on_(self);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asTraitTransformation",{},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asTraitTransformation\x0a\x09^ TraitTransformation on: self",
+referencedClasses: ["TraitTransformation"],
+//>>excludeEnd("ide");
+messageSends: ["on:"]
 }),
 $globals.Trait);
 
@@ -3532,21 +3601,620 @@ messageSends: ["theClass:", "new", "level:", "getNodesFrom:", "yourself"]
 }),
 $globals.ClassSorterNode.klass);
 
+
+$core.addClass("TraitTransformation", $globals.Object, ["trait", "aliases", "exclusions"], "Kernel-Classes");
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.TraitTransformation.comment="I am a single step in trait composition.\x0a\x0aI represent one trait including its aliases and exclusions.";
+//>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "-",
+protocol: "composition",
+fn: function (anArray){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=self._copy();
+$recv($1)._addExclusions_(anArray);
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"-",{anArray:anArray},$globals.TraitTransformation)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anArray"],
+source: "- anArray\x0a\x09^ self copy addExclusions: anArray; yourself",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["addExclusions:", "copy", "yourself"]
+}),
+$globals.TraitTransformation);
+
+$core.addMethod(
+$core.method({
+selector: "@",
+protocol: "composition",
+fn: function (anArrayOfAssociations){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=self._copy();
+$recv($1)._addAliases_(anArrayOfAssociations);
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"@",{anArrayOfAssociations:anArrayOfAssociations},$globals.TraitTransformation)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anArrayOfAssociations"],
+source: "@ anArrayOfAssociations\x0a\x09^ self copy addAliases: anArrayOfAssociations; yourself",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["addAliases:", "copy", "yourself"]
+}),
+$globals.TraitTransformation);
+
+$core.addMethod(
+$core.method({
+selector: "addAliases:",
+protocol: "accessing",
+fn: function (anArrayOfAssociations){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv(anArrayOfAssociations)._do_((function(each){
+var key;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+key=$recv(each)._key();
+key;
+return $recv(self["@aliases"])._at_ifPresent_ifAbsent_(key,(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return self._error_("Cannot use same alias name twice.");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(self["@aliases"])._at_put_(key,$recv(each)._value());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each,key:key},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return anArrayOfAssociations;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"addAliases:",{anArrayOfAssociations:anArrayOfAssociations},$globals.TraitTransformation)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anArrayOfAssociations"],
+source: "addAliases: anArrayOfAssociations\x0a\x09anArrayOfAssociations do: [ :each |\x0a\x09\x09| key |\x0a\x09\x09key := each key.\x0a\x09\x09aliases at: key\x0a\x09\x09\x09ifPresent: [ self error: 'Cannot use same alias name twice.' ]\x0a\x09\x09\x09ifAbsent: [ aliases at: key put: each value ] ].\x0a\x09^ anArrayOfAssociations",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["do:", "key", "at:ifPresent:ifAbsent:", "error:", "at:put:", "value"]
+}),
+$globals.TraitTransformation);
+
+$core.addMethod(
+$core.method({
+selector: "addExclusions:",
+protocol: "accessing",
+fn: function (anArray){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv(self["@exclusions"])._addAll_(anArray);
+return anArray;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"addExclusions:",{anArray:anArray},$globals.TraitTransformation)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anArray"],
+source: "addExclusions: anArray\x0a\x09exclusions addAll: anArray.\x0a\x09^ anArray",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["addAll:"]
+}),
+$globals.TraitTransformation);
+
+$core.addMethod(
+$core.method({
+selector: "aliases",
+protocol: "accessing",
+fn: function (){
+var self=this;
+return self["@aliases"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "aliases\x0a\x09^ aliases",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TraitTransformation);
+
+$core.addMethod(
+$core.method({
+selector: "asJSON",
+protocol: "converting",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $globals.HashedCollection._newFromPairs_(["trait",self._trait(),"aliases",self._aliases(),"exclusions",$recv($recv(self._exclusions())._asArray())._sorted()]);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asJSON",{},$globals.TraitTransformation)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asJSON\x0a\x09^ #{\x0a\x09\x09'trait' -> self trait.\x0a\x09\x09'aliases' -> self aliases.\x0a\x09\x09'exclusions' -> self exclusions asArray sorted }",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["trait", "aliases", "sorted", "asArray", "exclusions"]
+}),
+$globals.TraitTransformation);
+
+$core.addMethod(
+$core.method({
+selector: "asJavascript",
+protocol: "converting",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$3,$1;
+return $recv($globals.String)._streamContents_((function(str){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$2=$recv(self._trait())._asJavascript();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["asJavascript"]=1;
+//>>excludeEnd("ctx");
+$3=$recv(self._aliases())._ifNotEmpty_((function(al){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return [", aliases: ",$recv(al)._asJSONString()];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({al:al},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["ifNotEmpty:"]=1;
+//>>excludeEnd("ctx");
+$1=["{trait: ",$2,$3,$recv(self._exclusions())._ifNotEmpty_((function(ex){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return [", exclusions: ",$recv($recv($recv(ex)._asArray())._sorted())._asJavascript()];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({ex:ex},$ctx2,3)});
+//>>excludeEnd("ctx");
+})),"}"];
+return $recv(str)._write_($1);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({str:str},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asJavascript",{},$globals.TraitTransformation)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asJavascript\x0a\x09^ String streamContents: [ :str | str write: {\x0a\x09\x09'{trait: ' . self trait asJavascript.\x0a\x09\x09self aliases ifNotEmpty: [ :al |\x0a\x09\x09\x09{', aliases: '. al asJSONString} ].\x0a\x09\x09self exclusions ifNotEmpty: [ :ex |\x0a\x09\x09\x09{', exclusions: '. ex asArray sorted asJavascript} ].\x0a\x09\x09'}' } ]",
+referencedClasses: ["String"],
+//>>excludeEnd("ide");
+messageSends: ["streamContents:", "write:", "asJavascript", "trait", "ifNotEmpty:", "aliases", "asJSONString", "exclusions", "sorted", "asArray"]
+}),
+$globals.TraitTransformation);
+
+$core.addMethod(
+$core.method({
+selector: "asTraitComposition",
+protocol: "converting",
+fn: function (){
+var self=this;
+return [self];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asTraitComposition\x0a\x09^ { self }",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TraitTransformation);
+
+$core.addMethod(
+$core.method({
+selector: "asTraitTransformation",
+protocol: "converting",
+fn: function (){
+var self=this;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asTraitTransformation\x0a\x09^ self",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TraitTransformation);
+
+$core.addMethod(
+$core.method({
+selector: "definition",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.String)._streamContents_((function(str){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv(str)._write_("(");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["write:"]=1;
+//>>excludeEnd("ctx");
+$recv(str)._print_(self._trait());
+$recv(self._aliases())._ifNotEmpty_((function(al){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$recv(str)._write_(" @ {");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["write:"]=2;
+//>>excludeEnd("ctx");
+$recv($recv(al)._associations())._do_separatedBy_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+$recv(str)._printSymbol_($recv(each)._key());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx4.sendIdx["printSymbol:"]=1;
+//>>excludeEnd("ctx");
+$recv(str)._write_(" -> ");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx4.sendIdx["write:"]=3;
+//>>excludeEnd("ctx");
+return $recv(str)._printSymbol_($recv(each)._value());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({each:each},$ctx3,3)});
+//>>excludeEnd("ctx");
+}),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $recv(str)._write_(". ");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx4.sendIdx["write:"]=4;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["do:separatedBy:"]=1;
+//>>excludeEnd("ctx");
+return $recv(str)._write_("}");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["write:"]=5;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({al:al},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["ifNotEmpty:"]=1;
+//>>excludeEnd("ctx");
+$recv(self._exclusions())._ifNotEmpty_((function(ex){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$recv(str)._write_(" - #(");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["write:"]=6;
+//>>excludeEnd("ctx");
+$recv($recv($recv(ex)._asArray())._sorted())._do_separatedBy_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $recv(str)._write_($recv($recv(each)._symbolPrintString())._allButFirst());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx4.sendIdx["write:"]=7;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({each:each},$ctx3,6)});
+//>>excludeEnd("ctx");
+}),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $recv(str)._space();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,7)});
+//>>excludeEnd("ctx");
+}));
+return $recv(str)._write_(")");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["write:"]=8;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({ex:ex},$ctx2,5)});
+//>>excludeEnd("ctx");
+}));
+return $recv(str)._write_(")");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({str:str},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"definition",{},$globals.TraitTransformation)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "definition\x0a\x09^ String streamContents: [ :str |\x0a\x09\x09str write: '('; print: self trait.\x0a\x09\x09self aliases ifNotEmpty: [ :al |\x0a\x09\x09\x09str write: ' @ {'.\x0a\x09\x09\x09al associations\x0a\x09\x09\x09\x09do: [ :each | str printSymbol: each key; write: ' -> '; printSymbol: each value ]\x0a\x09\x09\x09\x09separatedBy: [ str write: '. ' ].\x0a\x09\x09\x09str write: '}' ].\x0a\x09\x09self exclusions ifNotEmpty: [ :ex |\x0a\x09\x09\x09str write: ' - #('.\x0a\x09\x09\x09ex asArray sorted \x0a\x09\x09\x09\x09do: [ :each | str write: each symbolPrintString allButFirst ]\x0a\x09\x09\x09\x09separatedBy: [ str space ].\x0a\x09\x09\x09str write: ')' ].\x0a\x09\x09str write: ')' ]",
+referencedClasses: ["String"],
+//>>excludeEnd("ide");
+messageSends: ["streamContents:", "write:", "print:", "trait", "ifNotEmpty:", "aliases", "do:separatedBy:", "associations", "printSymbol:", "key", "value", "exclusions", "sorted", "asArray", "allButFirst", "symbolPrintString", "space"]
+}),
+$globals.TraitTransformation);
+
+$core.addMethod(
+$core.method({
+selector: "exclusions",
+protocol: "accessing",
+fn: function (){
+var self=this;
+return self["@exclusions"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "exclusions\x0a\x09^ exclusions",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TraitTransformation);
+
+$core.addMethod(
+$core.method({
+selector: "initialize",
+protocol: "initialization",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.TraitTransformation.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+self["@aliases"]=$globals.HashedCollection._newFromPairs_([]);
+self["@exclusions"]=$recv($globals.Set)._new();
+self["@trait"]=nil;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.TraitTransformation)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "initialize\x0a\x09super initialize.\x0a\x0a\x09aliases := #{}.\x0a\x09exclusions := Set new.\x0a\x09trait := nil",
+referencedClasses: ["Set"],
+//>>excludeEnd("ide");
+messageSends: ["initialize", "new"]
+}),
+$globals.TraitTransformation);
+
+$core.addMethod(
+$core.method({
+selector: "postCopy",
+protocol: "copying",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+self["@aliases"]=$recv(self["@aliases"])._copy();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["copy"]=1;
+//>>excludeEnd("ctx");
+self["@exclusions"]=$recv(self["@exclusions"])._copy();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"postCopy",{},$globals.TraitTransformation)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "postCopy\x0a\x09aliases := aliases copy.\x0a\x09exclusions := exclusions copy",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["copy"]
+}),
+$globals.TraitTransformation);
+
+$core.addMethod(
+$core.method({
+selector: "trait",
+protocol: "accessing",
+fn: function (){
+var self=this;
+return self["@trait"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "trait\x0a\x09^ trait",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TraitTransformation);
+
+$core.addMethod(
+$core.method({
+selector: "trait:",
+protocol: "accessing",
+fn: function (anObject){
+var self=this;
+self["@trait"]=anObject;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "trait: anObject\x0a\x09trait := anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TraitTransformation);
+
+
+$core.addMethod(
+$core.method({
+selector: "fromJSON:",
+protocol: "instance creation",
+fn: function (aJSObject){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$4,$3,$2;
+$1=(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.TraitTransformation.klass.superclass||$boot.nilAsClass).fn.prototype._new.apply($recv(self), []));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+$recv($1)._trait_($recv(aJSObject)._at_("trait"));
+$4=$recv(aJSObject)._at_ifAbsent_("aliases",(function(){
+return $globals.HashedCollection._newFromPairs_([]);
+
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:ifAbsent:"]=1;
+//>>excludeEnd("ctx");
+$3=$recv($globals.Smalltalk)._readJSObject_($4);
+$2=$recv($3)._associations();
+$recv($1)._addAliases_($2);
+$recv($1)._addExclusions_($recv(aJSObject)._at_ifAbsent_("exclusions",(function(){
+return [];
+
+})));
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"fromJSON:",{aJSObject:aJSObject},$globals.TraitTransformation.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aJSObject"],
+source: "fromJSON: aJSObject\x0a\x09^ super new\x0a\x09\x09trait: (aJSObject at: #trait);\x0a\x09\x09addAliases: (Smalltalk readJSObject: (aJSObject at: #aliases ifAbsent: [#{}])) associations;\x0a\x09\x09addExclusions: (aJSObject at: #exclusions ifAbsent: [#()]);\x0a\x09\x09yourself",
+referencedClasses: ["Smalltalk"],
+//>>excludeEnd("ide");
+messageSends: ["trait:", "new", "at:", "addAliases:", "associations", "readJSObject:", "at:ifAbsent:", "addExclusions:", "yourself"]
+}),
+$globals.TraitTransformation.klass);
+
+$core.addMethod(
+$core.method({
+selector: "on:",
+protocol: "instance creation",
+fn: function (aTrait){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.TraitTransformation.klass.superclass||$boot.nilAsClass).fn.prototype._new.apply($recv(self), []));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+$recv($1)._trait_(aTrait);
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"on:",{aTrait:aTrait},$globals.TraitTransformation.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aTrait"],
+source: "on: aTrait\x0a\x09^ super new trait: aTrait; yourself",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["trait:", "new", "yourself"]
+}),
+$globals.TraitTransformation.klass);
+
 $core.addMethod(
 $core.method({
 selector: "asTraitComposition",
 protocol: "*Kernel-Classes",
 fn: function (){
 var self=this;
-return nil;
-
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(each)._asTraitTransformation();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asTraitComposition",{},$globals.Array)});
+//>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asTraitComposition\x0a\x09\x22not implemented yet, noop atm\x22\x0a\x09^ nil",
+source: "asTraitComposition\x0a\x09\x22not implemented yet, noop atm\x22\x0a\x09^ self collect: [ :each | each asTraitTransformation ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["collect:", "asTraitTransformation"]
 }),
 $globals.Array);
 

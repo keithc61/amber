@@ -613,6 +613,16 @@ allInstanceVariableNames
 	^ #()
 ! !
 
+!Trait methodsFor: 'composition'!
+
+- anArray
+	^ self asTraitTransformation - anArray
+!
+
+@ anArrayOfAssociations
+	^ self asTraitTransformation @ anArrayOfAssociations
+! !
+
 !Trait methodsFor: 'converting'!
 
 asJavascript
@@ -620,7 +630,11 @@ asJavascript
 !
 
 asTraitComposition
-	^ { self } asTraitComposition
+	^ self asTraitTransformation asTraitComposition
+!
+
+asTraitTransformation
+	^ TraitTransformation on: self
 ! !
 
 !Trait class methodsFor: 'instance creation'!
@@ -910,11 +924,138 @@ on: aClass classes: aCollection level: anInteger
 		yourself
 ! !
 
+Object subclass: #TraitTransformation
+	instanceVariableNames: 'trait aliases exclusions'
+	package: 'Kernel-Classes'!
+!TraitTransformation commentStamp!
+I am a single step in trait composition.
+
+I represent one trait including its aliases and exclusions.!
+
+!TraitTransformation methodsFor: 'accessing'!
+
+addAliases: anArrayOfAssociations
+	anArrayOfAssociations do: [ :each |
+		| key |
+		key := each key.
+		aliases at: key
+			ifPresent: [ self error: 'Cannot use same alias name twice.' ]
+			ifAbsent: [ aliases at: key put: each value ] ].
+	^ anArrayOfAssociations
+!
+
+addExclusions: anArray
+	exclusions addAll: anArray.
+	^ anArray
+!
+
+aliases
+	^ aliases
+!
+
+definition
+	^ String streamContents: [ :str |
+		str write: '('; print: self trait.
+		self aliases ifNotEmpty: [ :al |
+			str write: ' @ {'.
+			al associations
+				do: [ :each | str printSymbol: each key; write: ' -> '; printSymbol: each value ]
+				separatedBy: [ str write: '. ' ].
+			str write: '}' ].
+		self exclusions ifNotEmpty: [ :ex |
+			str write: ' - #('.
+			ex asArray sorted 
+				do: [ :each | str write: each symbolPrintString allButFirst ]
+				separatedBy: [ str space ].
+			str write: ')' ].
+		str write: ')' ]
+!
+
+exclusions
+	^ exclusions
+!
+
+trait
+	^ trait
+!
+
+trait: anObject
+	trait := anObject
+! !
+
+!TraitTransformation methodsFor: 'composition'!
+
+- anArray
+	^ self copy addExclusions: anArray; yourself
+!
+
+@ anArrayOfAssociations
+	^ self copy addAliases: anArrayOfAssociations; yourself
+! !
+
+!TraitTransformation methodsFor: 'converting'!
+
+asJSON
+	^ #{
+		'trait' -> self trait.
+		'aliases' -> self aliases.
+		'exclusions' -> self exclusions asArray sorted }
+!
+
+asJavascript
+	^ String streamContents: [ :str | str write: {
+		'{trait: ' . self trait asJavascript.
+		self aliases ifNotEmpty: [ :al |
+			{', aliases: '. al asJSONString} ].
+		self exclusions ifNotEmpty: [ :ex |
+			{', exclusions: '. ex asArray sorted asJavascript} ].
+		'}' } ]
+!
+
+asTraitComposition
+	^ { self }
+!
+
+asTraitTransformation
+	^ self
+! !
+
+!TraitTransformation methodsFor: 'copying'!
+
+postCopy
+	aliases := aliases copy.
+	exclusions := exclusions copy
+! !
+
+!TraitTransformation methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+
+	aliases := #{}.
+	exclusions := Set new.
+	trait := nil
+! !
+
+!TraitTransformation class methodsFor: 'instance creation'!
+
+fromJSON: aJSObject
+	^ super new
+		trait: (aJSObject at: #trait);
+		addAliases: (Smalltalk readJSObject: (aJSObject at: #aliases ifAbsent: [#{}])) associations;
+		addExclusions: (aJSObject at: #exclusions ifAbsent: [#()]);
+		yourself
+!
+
+on: aTrait
+	^ super new trait: aTrait; yourself
+! !
+
 !Array methodsFor: '*Kernel-Classes'!
 
 asTraitComposition
 	"not implemented yet, noop atm"
-	^ nil
+	^ self collect: [ :each | each asTraitTransformation ]
 ! !
 
 !UndefinedObject methodsFor: '*Kernel-Classes'!

@@ -4,6 +4,7 @@
 * New superclass of Behavior named BehaviorBody, pushed up some methods.
   * Represents named holder of methods; hierarchy and instantiation left to Behavior.
 * Add class Trait as subclass of BehaviorBody.
+* Add class TraitTransformation.
 
 + BehaviorBody >>
   + setTraitComposition:
@@ -20,6 +21,22 @@
   + theMetaClass
   + theNonMetaClass
   + exportBehaviorDefinitionTo:using:
++ TraitTransformation
+  + -
+  + @
+  + addAliases:
+  + addExclusions:
+  + aliases
+  + asJSON
+  + asJavascript
+  + asTraitComposition
+  + asTraitTransformation
+  + definition
+  + exclusions
+  + initialize
+  + postCopy
+  + trait
+  + trait:
 + Collection >>
   + copyWithout:
 + Array >>
