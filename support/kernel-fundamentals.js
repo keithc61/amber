@@ -327,6 +327,7 @@ define(['./compatibility'], function () {
 
         this.setupMethods = function (behaviorBody) {
             setupClassOrganization(behaviorBody);
+            behaviorBody.traitComposition = [];
             behaviorBody.localMethods = Object.create(null);
             behaviorBody.methods = Object.create(null);
         };
@@ -350,7 +351,40 @@ define(['./compatibility'], function () {
             // This is handled by #removeCompiledMethod
         }
 
-        this.updateMethod = function (selector, behaviorBody) {
+        function applyTraitTransformation(traitTransformation, obj) {
+            // TODO not implemented yet, noop atm
+            return obj;
+        }
+
+        function buildCompositionChain (traitComposition) {
+            return traitComposition.reduce(function (soFar, each) {
+                return applyTraitTransformation(each, Object.create(soFar));
+            }, null);
+        }
+
+        st.setTraitComposition = function (traitComposition, behaviorBody) {
+            var oldLocalMethods = behaviorBody.localMethods,
+                newLocalMethods = Object.create(buildCompositionChain(traitComposition));
+            Object.keys(oldLocalMethods).forEach(function (selector) {
+                newLocalMethods[selector] = oldLocalMethods[selector];
+            });
+            behaviorBody.localMethods = newLocalMethods;
+            for (var selector in newLocalMethods) {
+                updateMethod(selector, behaviorBody);
+            }
+            for (var selector in oldLocalMethods) {
+                updateMethod(selector, behaviorBody);
+            }
+            behaviorBody.traitComposition.forEach(function (each) {
+                each.trait.removeUser(behaviorBody);
+            });
+            behaviorBody.traitComposition = traitComposition;
+            behaviorBody.traitComposition.forEach(function (each) {
+                each.trait.addUser(behaviorBody);
+            });
+        };
+
+        function updateMethod (selector, behaviorBody) {
             var oldMethod = behaviorBody.methods[selector],
                 newMethod = behaviorBody.localMethods[selector];
             if (oldMethod == null && newMethod == null) {
@@ -360,7 +394,9 @@ define(['./compatibility'], function () {
             if (newMethod === oldMethod) return;
             if (newMethod != null) addMethod(newMethod, behaviorBody);
             else removeMethod(oldMethod, behaviorBody);
-        };
+        }
+
+        this.updateMethod = updateMethod;
     }
 
     function ArraySetBrik (brikz, st) {

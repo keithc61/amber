@@ -841,12 +841,18 @@ selector: "setTraitComposition:",
 protocol: "compiling",
 fn: function (aTraitComposition){
 var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$core.setTraitComposition(aTraitComposition._asJSON(), self);
 return self;
-
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"setTraitComposition:",{aTraitComposition:aTraitComposition},$globals.BehaviorBody)});
+//>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aTraitComposition"],
-source: "setTraitComposition: aTraitComposition\x0a\x09\x22not implemented yet, noop atm\x22",
+source: "setTraitComposition: aTraitComposition\x0a\x09<inlineJS: '$core.setTraitComposition(aTraitComposition._asJSON(), self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -898,6 +904,103 @@ source: "theNonMetaClass\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["subclassResponsibility"]
+}),
+$globals.BehaviorBody);
+
+$core.addMethod(
+$core.method({
+selector: "traitComposition",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._basicAt_("traitComposition"))._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($globals.TraitTransformation)._fromJSON_(each);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"traitComposition",{},$globals.BehaviorBody)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "traitComposition\x0a\x09^ (self basicAt: 'traitComposition') collect: [ :each | TraitTransformation fromJSON: each ]",
+referencedClasses: ["TraitTransformation"],
+//>>excludeEnd("ide");
+messageSends: ["collect:", "basicAt:", "fromJSON:"]
+}),
+$globals.BehaviorBody);
+
+$core.addMethod(
+$core.method({
+selector: "usesDefinition",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._traitComposition())._ifNotEmpty_((function(traitComposition){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($globals.String)._streamContents_((function(str){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$recv(str)._write_("uses: {");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["write:"]=1;
+//>>excludeEnd("ctx");
+$recv(traitComposition)._do_separatedBy_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $recv(str)._write_($recv(each)._definition());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx4.sendIdx["write:"]=2;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({each:each},$ctx3,3)});
+//>>excludeEnd("ctx");
+}),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $recv(str)._write_(". ");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx4.sendIdx["write:"]=3;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
+//>>excludeEnd("ctx");
+}));
+return $recv(str)._write_("}");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({str:str},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({traitComposition:traitComposition},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"usesDefinition",{},$globals.BehaviorBody)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "usesDefinition\x0a\x09^ self traitComposition ifNotEmpty: [ :traitComposition |\x0a\x09\x09String streamContents: [ :str |\x0a\x09\x09\x09str write: 'uses: {'.\x0a\x09\x09\x09traitComposition\x0a\x09\x09\x09\x09do: [ :each | str write: each definition ]\x0a\x09\x09\x09\x09separatedBy: [ str write: '. ' ].\x0a\x09\x09\x09str write: '}' ] ]",
+referencedClasses: ["String"],
+//>>excludeEnd("ide");
+messageSends: ["ifNotEmpty:", "traitComposition", "streamContents:", "write:", "do:separatedBy:", "definition"]
 }),
 $globals.BehaviorBody);
 
@@ -1671,6 +1774,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1,$2;
 return $recv($globals.String)._streamContents_((function(stream){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -1688,13 +1792,33 @@ $recv(stream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=1;
 //>>excludeEnd("ctx");
+$recv(stream)._write_($recv(self._usesDefinition())._ifNotEmpty_((function(uses){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$1=$recv($globals.String)._tab();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["tab"]=1;
+//>>excludeEnd("ctx");
+$2=$recv($globals.String)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["lf"]=2;
+//>>excludeEnd("ctx");
+return [$1,uses,$2];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({uses:uses},$ctx2,2)});
+//>>excludeEnd("ctx");
+})));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["write:"]=2;
+//>>excludeEnd("ctx");
 $recv(stream)._tab();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["tab"]=1;
+$ctx2.sendIdx["tab"]=2;
 //>>excludeEnd("ctx");
 $recv(stream)._write_("instanceVariableNames: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["write:"]=2;
+$ctx2.sendIdx["write:"]=3;
 //>>excludeEnd("ctx");
 $recv(stream)._print_(" "._join_(self._instanceVariableNames()));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1714,10 +1838,10 @@ return $recv(stream)._print_(self._category());
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self superclass; write: ' subclass: '; printSymbol: self name; lf;\x0a\x09\x09tab; write: 'instanceVariableNames: '; print: (' ' join: self instanceVariableNames); lf;\x0a\x09\x09tab; write: 'package: '; print: self category ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self superclass; write: ' subclass: '; printSymbol: self name; lf;\x0a\x09\x09write: (self usesDefinition ifNotEmpty: [ :uses | { String tab. uses. String lf }]);\x0a\x09\x09tab; write: 'instanceVariableNames: '; print: (' ' join: self instanceVariableNames); lf;\x0a\x09\x09tab; write: 'package: '; print: self category ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "print:", "superclass", "write:", "printSymbol:", "name", "lf", "tab", "join:", "instanceVariableNames", "category"]
+messageSends: ["streamContents:", "print:", "superclass", "write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "usesDefinition", "tab", "join:", "instanceVariableNames", "category"]
 }),
 $globals.Class);
 
@@ -3903,10 +4027,6 @@ return $recv($globals.String)._streamContents_((function(str){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv(str)._write_("(");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["write:"]=1;
-//>>excludeEnd("ctx");
 $recv(str)._print_(self._trait());
 $recv(self._aliases())._ifNotEmpty_((function(al){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3914,7 +4034,7 @@ return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 $recv(str)._write_(" @ {");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["write:"]=2;
+$ctx3.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
 $recv($recv(al)._associations())._do_separatedBy_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3926,7 +4046,7 @@ $ctx4.sendIdx["printSymbol:"]=1;
 //>>excludeEnd("ctx");
 $recv(str)._write_(" -> ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["write:"]=3;
+$ctx4.sendIdx["write:"]=2;
 //>>excludeEnd("ctx");
 return $recv(str)._printSymbol_($recv(each)._value());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3938,7 +4058,7 @@ return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
 return $recv(str)._write_(". ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["write:"]=4;
+$ctx4.sendIdx["write:"]=3;
 //>>excludeEnd("ctx");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
@@ -3949,7 +4069,7 @@ $ctx3.sendIdx["do:separatedBy:"]=1;
 //>>excludeEnd("ctx");
 return $recv(str)._write_("}");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["write:"]=5;
+$ctx3.sendIdx["write:"]=4;
 //>>excludeEnd("ctx");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({al:al},$ctx2,2)});
@@ -3958,13 +4078,13 @@ $ctx3.sendIdx["write:"]=5;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["ifNotEmpty:"]=1;
 //>>excludeEnd("ctx");
-$recv(self._exclusions())._ifNotEmpty_((function(ex){
+return $recv(self._exclusions())._ifNotEmpty_((function(ex){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 $recv(str)._write_(" - #(");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["write:"]=6;
+$ctx3.sendIdx["write:"]=5;
 //>>excludeEnd("ctx");
 $recv($recv($recv(ex)._asArray())._sorted())._do_separatedBy_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3972,7 +4092,7 @@ return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
 return $recv(str)._write_($recv($recv(each)._symbolPrintString())._allButFirst());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["write:"]=7;
+$ctx4.sendIdx["write:"]=6;
 //>>excludeEnd("ctx");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx4) {$ctx4.fillBlock({each:each},$ctx3,6)});
@@ -3988,13 +4108,9 @@ return $recv(str)._space();
 }));
 return $recv(str)._write_(")");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["write:"]=8;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({ex:ex},$ctx2,5)});
 //>>excludeEnd("ctx");
 }));
-return $recv(str)._write_(")");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({str:str},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -4005,10 +4121,10 @@ return $recv(str)._write_(")");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :str |\x0a\x09\x09str write: '('; print: self trait.\x0a\x09\x09self aliases ifNotEmpty: [ :al |\x0a\x09\x09\x09str write: ' @ {'.\x0a\x09\x09\x09al associations\x0a\x09\x09\x09\x09do: [ :each | str printSymbol: each key; write: ' -> '; printSymbol: each value ]\x0a\x09\x09\x09\x09separatedBy: [ str write: '. ' ].\x0a\x09\x09\x09str write: '}' ].\x0a\x09\x09self exclusions ifNotEmpty: [ :ex |\x0a\x09\x09\x09str write: ' - #('.\x0a\x09\x09\x09ex asArray sorted \x0a\x09\x09\x09\x09do: [ :each | str write: each symbolPrintString allButFirst ]\x0a\x09\x09\x09\x09separatedBy: [ str space ].\x0a\x09\x09\x09str write: ')' ].\x0a\x09\x09str write: ')' ]",
+source: "definition\x0a\x09^ String streamContents: [ :str |\x0a\x09\x09str print: self trait.\x0a\x09\x09self aliases ifNotEmpty: [ :al |\x0a\x09\x09\x09str write: ' @ {'.\x0a\x09\x09\x09al associations\x0a\x09\x09\x09\x09do: [ :each | str printSymbol: each key; write: ' -> '; printSymbol: each value ]\x0a\x09\x09\x09\x09separatedBy: [ str write: '. ' ].\x0a\x09\x09\x09str write: '}' ].\x0a\x09\x09self exclusions ifNotEmpty: [ :ex |\x0a\x09\x09\x09str write: ' - #('.\x0a\x09\x09\x09ex asArray sorted \x0a\x09\x09\x09\x09do: [ :each | str write: each symbolPrintString allButFirst ]\x0a\x09\x09\x09\x09separatedBy: [ str space ].\x0a\x09\x09\x09str write: ')' ] ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "write:", "print:", "trait", "ifNotEmpty:", "aliases", "do:separatedBy:", "associations", "printSymbol:", "key", "value", "exclusions", "sorted", "asArray", "allButFirst", "symbolPrintString", "space"]
+messageSends: ["streamContents:", "print:", "trait", "ifNotEmpty:", "aliases", "write:", "do:separatedBy:", "associations", "printSymbol:", "key", "value", "exclusions", "sorted", "asArray", "allButFirst", "symbolPrintString", "space"]
 }),
 $globals.TraitTransformation);
 

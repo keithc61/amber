@@ -120,6 +120,20 @@ theMetaClass
 
 theNonMetaClass
 	self subclassResponsibility
+!
+
+traitComposition
+	^ (self basicAt: 'traitComposition') collect: [ :each | TraitTransformation fromJSON: each ]
+!
+
+usesDefinition
+	^ self traitComposition ifNotEmpty: [ :traitComposition |
+		String streamContents: [ :str |
+			str write: 'uses: {'.
+			traitComposition
+				do: [ :each | str write: each definition ]
+				separatedBy: [ str write: '. ' ].
+			str write: '}' ] ]
 ! !
 
 !BehaviorBody methodsFor: 'compiling'!
@@ -178,7 +192,7 @@ removeCompiledMethod: aMethod
 !
 
 setTraitComposition: aTraitComposition
-	"not implemented yet, noop atm"
+	<inlineJS: '$core.setTraitComposition(aTraitComposition._asJSON(), self)'>
 ! !
 
 !BehaviorBody methodsFor: 'enumerating'!
@@ -395,6 +409,7 @@ classTag
 definition
 	^ String streamContents: [ :stream | stream
 		print: self superclass; write: ' subclass: '; printSymbol: self name; lf;
+		write: (self usesDefinition ifNotEmpty: [ :uses | { String tab. uses. String lf }]);
 		tab; write: 'instanceVariableNames: '; print: (' ' join: self instanceVariableNames); lf;
 		tab; write: 'package: '; print: self category ]
 !
@@ -959,7 +974,7 @@ aliases
 
 definition
 	^ String streamContents: [ :str |
-		str write: '('; print: self trait.
+		str print: self trait.
 		self aliases ifNotEmpty: [ :al |
 			str write: ' @ {'.
 			al associations
@@ -971,8 +986,7 @@ definition
 			ex asArray sorted 
 				do: [ :each | str write: each symbolPrintString allButFirst ]
 				separatedBy: [ str space ].
-			str write: ')' ].
-		str write: ')' ]
+			str write: ')' ] ]
 !
 
 exclusions
