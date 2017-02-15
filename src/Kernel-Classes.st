@@ -605,6 +605,10 @@ theMetaClass
 
 theNonMetaClass
 	^ self
+!
+
+traitUsers
+	^ (self basicAt: 'traitUsers') copy
 ! !
 
 !Trait methodsFor: 'compiler compatibility'!

@@ -2698,6 +2698,29 @@ messageSends: []
 }),
 $globals.Trait);
 
+$core.addMethod(
+$core.method({
+selector: "traitUsers",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._basicAt_("traitUsers"))._copy();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"traitUsers",{},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "traitUsers\x0a\x09^ (self basicAt: 'traitUsers') copy",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["copy", "basicAt:"]
+}),
+$globals.Trait);
+
 
 $core.addMethod(
 $core.method({

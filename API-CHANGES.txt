@@ -21,6 +21,7 @@
   + theMetaClass
   + theNonMetaClass
   + exportBehaviorDefinitionTo:using:
+  + traitUsers
 + TraitTransformation
   + -
   + @

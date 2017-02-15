@@ -59,12 +59,14 @@ define(['./compatibility'], function () {
         });
     }
 
-    TraitsBrik.deps = ["behaviors", "composition", "root"];
+    TraitsBrik.deps = ["behaviors", "composition", "arraySet", "root"];
     function TraitsBrik (brikz, st) {
         var coreFns = brikz.root.coreFns;
         var SmalltalkBehaviorBody = brikz.behaviors.BehaviorBody;
         var setupMethods = brikz.composition.setupMethods;
         var buildBehaviorBody = brikz.behaviors.buildBehaviorBody;
+        var addElement = brikz.arraySet.addElement;
+        var removeElement = brikz.arraySet.removeElement;
 
         function SmalltalkTrait () {
         }
@@ -88,6 +90,12 @@ define(['./compatibility'], function () {
         defineMethod(SmalltalkTrait, "methodRemoved", function (method) {
             if (st._traitMethodRemoved) st._traitMethodRemoved(method, this);
         });
+        defineMethod(SmalltalkTrait, "addUser", function (behaviorBody) {
+            addElement(this.traitUsers, behaviorBody);
+        });
+        defineMethod(SmalltalkTrait, "removeUser", function (behaviorBody) {
+            removeElement(this.traitUsers, behaviorBody);
+        });
 
         function traitBuilder (className) {
             return {
@@ -96,6 +104,7 @@ define(['./compatibility'], function () {
                     var that = new SmalltalkTrait();
                     that.className = className;
                     that.pkg = pkg;
+                    that.traitUsers = [];
                     setupMethods(that);
                     return that;
                 },
