@@ -607,6 +607,7 @@ classTag
 definition
 	^ String streamContents: [ :stream | stream
 		write: 'Trait named: '; printSymbol: self name; lf;
+		write: (self usesDefinition ifNotEmpty: [ :uses | { String tab. uses. String lf }]);
 		tab; write: 'package: '; print: self category ]
 !
 
@@ -660,6 +661,13 @@ asTraitTransformation
 
 named: aString package: anotherString
 	<inlineJS: 'return $core.addTrait(aString, anotherString)'>
+!
+
+named: aString uses: aTraitCompositionDescription package: anotherString
+	| trait |
+	trait := self named: aString package: anotherString.
+	trait setTraitComposition: aTraitCompositionDescription asTraitComposition.
+	^ trait
 ! !
 
 Object subclass: #ClassBuilder

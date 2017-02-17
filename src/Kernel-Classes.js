@@ -2715,6 +2715,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1;
 return $recv($globals.String)._streamContents_((function(stream){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -2725,6 +2726,25 @@ $ctx2.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
 $recv(stream)._printSymbol_(self._name());
 $recv(stream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["lf"]=1;
+//>>excludeEnd("ctx");
+$recv(stream)._write_($recv(self._usesDefinition())._ifNotEmpty_((function(uses){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$1=$recv($globals.String)._tab();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["tab"]=1;
+//>>excludeEnd("ctx");
+return [$1,uses,$recv($globals.String)._lf()];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({uses:uses},$ctx2,2)});
+//>>excludeEnd("ctx");
+})));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["write:"]=2;
+//>>excludeEnd("ctx");
 $recv(stream)._tab();
 $recv(stream)._write_("package: ");
 return $recv(stream)._print_(self._category());
@@ -2738,10 +2758,10 @@ return $recv(stream)._print_(self._category());
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09write: 'Trait named: '; printSymbol: self name; lf;\x0a\x09\x09tab; write: 'package: '; print: self category ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09write: 'Trait named: '; printSymbol: self name; lf;\x0a\x09\x09write: (self usesDefinition ifNotEmpty: [ :uses | { String tab. uses. String lf }]);\x0a\x09\x09tab; write: 'package: '; print: self category ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "write:", "printSymbol:", "name", "lf", "tab", "print:", "category"]
+messageSends: ["streamContents:", "write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "usesDefinition", "tab", "print:", "category"]
 }),
 $globals.Trait);
 
@@ -2867,6 +2887,32 @@ source: "named: aString package: anotherString\x0a\x09<inlineJS: 'return $core.a
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
+}),
+$globals.Trait.klass);
+
+$core.addMethod(
+$core.method({
+selector: "named:uses:package:",
+protocol: "instance creation",
+fn: function (aString,aTraitCompositionDescription,anotherString){
+var self=this;
+var trait;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+trait=self._named_package_(aString,anotherString);
+$recv(trait)._setTraitComposition_($recv(aTraitCompositionDescription)._asTraitComposition());
+return trait;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"named:uses:package:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,anotherString:anotherString,trait:trait},$globals.Trait.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aTraitCompositionDescription", "anotherString"],
+source: "named: aString uses: aTraitCompositionDescription package: anotherString\x0a\x09| trait |\x0a\x09trait := self named: aString package: anotherString.\x0a\x09trait setTraitComposition: aTraitCompositionDescription asTraitComposition.\x0a\x09^ trait",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["named:package:", "setTraitComposition:", "asTraitComposition"]
 }),
 $globals.Trait.klass);
 
