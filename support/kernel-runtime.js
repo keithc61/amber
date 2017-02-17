@@ -196,7 +196,6 @@ define(function () {
     function PrimitivesBrik (brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
 
-
         var oid = 0;
         /* Unique ID number generator */
         st.nextId = function () {
