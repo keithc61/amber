@@ -2298,6 +2298,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1,$2;
 return $recv($globals.String)._streamContents_((function(stream){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -2306,7 +2307,30 @@ $recv(stream)._print_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["print:"]=1;
 //>>excludeEnd("ctx");
-$recv(stream)._write_(" instanceVariableNames: ");
+$recv(stream)._write_($recv(self._usesDefinition())._ifEmpty_ifNotEmpty_((function(){
+return " ";
+
+}),(function(uses){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$1=$recv($globals.String)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["lf"]=1;
+//>>excludeEnd("ctx");
+$2=$recv($globals.String)._tab();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["tab"]=1;
+//>>excludeEnd("ctx");
+return [$1,$2,uses,$recv($globals.String)._lf(),$recv($globals.String)._tab()];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({uses:uses},$ctx2,3)});
+//>>excludeEnd("ctx");
+})));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["write:"]=1;
+//>>excludeEnd("ctx");
+$recv(stream)._write_("instanceVariableNames: ");
 return $recv(stream)._print_(" "._join_(self._instanceVariableNames()));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
@@ -2318,10 +2342,10 @@ return $recv(stream)._print_(" "._join_(self._instanceVariableNames()));
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self;\x0a\x09\x09write: ' instanceVariableNames: ';\x0a\x09\x09print: (' ' join: self instanceVariableNames) ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self;\x0a\x09\x09write: (self usesDefinition ifEmpty: [' '] ifNotEmpty: [ :uses | { String lf. String tab. uses. String lf. String tab }]);\x0a\x09\x09write: 'instanceVariableNames: ';\x0a\x09\x09print: (' ' join: self instanceVariableNames) ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "print:", "write:", "join:", "instanceVariableNames"]
+messageSends: ["streamContents:", "print:", "write:", "ifEmpty:ifNotEmpty:", "usesDefinition", "lf", "tab", "join:", "instanceVariableNames"]
 }),
 $globals.Metaclass);
 
@@ -2366,7 +2390,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aCollection"],
-source: "instanceVariableNames: aCollection\x0a\x09ClassBuilder new\x0a\x09\x09class: self instanceVariableNames: aCollection",
+source: "instanceVariableNames: aCollection\x0a\x09ClassBuilder new\x0a\x09\x09class: self instanceVariableNames: aCollection.\x0a\x09^ self",
 referencedClasses: ["ClassBuilder"],
 //>>excludeEnd("ide");
 messageSends: ["class:instanceVariableNames:", "new"]
@@ -2499,6 +2523,32 @@ source: "theNonMetaClass\x0a\x09^ self instanceClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["instanceClass"]
+}),
+$globals.Metaclass);
+
+$core.addMethod(
+$core.method({
+selector: "uses:instanceVariableNames:",
+protocol: "accessing",
+fn: function (aTraitCompositionDescription,aCollection){
+var self=this;
+var metaclass;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+metaclass=self._instanceVariableNames_(aCollection);
+$recv(metaclass)._setTraitComposition_($recv(aTraitCompositionDescription)._asTraitComposition());
+return metaclass;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"uses:instanceVariableNames:",{aTraitCompositionDescription:aTraitCompositionDescription,aCollection:aCollection,metaclass:metaclass},$globals.Metaclass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aTraitCompositionDescription", "aCollection"],
+source: "uses: aTraitCompositionDescription instanceVariableNames: aCollection\x0a\x09| metaclass |\x0a\x09metaclass := self instanceVariableNames: aCollection.\x0a\x09metaclass setTraitComposition: aTraitCompositionDescription asTraitComposition.\x0a\x09^ metaclass",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["instanceVariableNames:", "setTraitComposition:", "asTraitComposition"]
 }),
 $globals.Metaclass);
 

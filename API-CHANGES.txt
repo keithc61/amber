@@ -71,6 +71,8 @@
   + subClass:uses:instanceVariables:category:
   + subClass:uses:instanceVariables:classVariables:poolDictionaries:category:
   + subClass:uses:instanceVariables:package:
++ Metaclass >>
+  + uses:instanceVariableNames:
 
 - Association >>
   - importsString

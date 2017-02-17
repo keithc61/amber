@@ -536,7 +536,8 @@ My instances are metaclasses, one for each real class, and have a single instanc
 definition
 	^ String streamContents: [ :stream | stream
 		print: self;
-		write: ' instanceVariableNames: ';
+		write: (self usesDefinition ifEmpty: [' '] ifNotEmpty: [ :uses | { String lf. String tab. uses. String lf. String tab }]);
+		write: 'instanceVariableNames: ';
 		print: (' ' join: self instanceVariableNames) ]
 !
 
@@ -546,7 +547,8 @@ instanceClass
 
 instanceVariableNames: aCollection
 	ClassBuilder new
-		class: self instanceVariableNames: aCollection
+		class: self instanceVariableNames: aCollection.
+	^ self
 !
 
 name
@@ -567,6 +569,13 @@ theMetaClass
 
 theNonMetaClass
 	^ self instanceClass
+!
+
+uses: aTraitCompositionDescription instanceVariableNames: aCollection
+	| metaclass |
+	metaclass := self instanceVariableNames: aCollection.
+	metaclass setTraitComposition: aTraitCompositionDescription asTraitComposition.
+	^ metaclass
 ! !
 
 !Metaclass methodsFor: 'converting'!
