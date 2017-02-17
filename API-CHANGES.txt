@@ -57,6 +57,8 @@
 + StringStream >>
   + print:
   + printSymbol:
++ Package >>
+  + traitCompositions
 + Class >>
   + subClass:
   + subClass:uses:

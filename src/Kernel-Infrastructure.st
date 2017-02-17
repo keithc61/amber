@@ -387,16 +387,27 @@ loadDependencies
 loadDependencyClasses
 	"Returns classes needed at the time of loading a package.
 	These are all that are used to subclass
-	and to define an extension method"
+	and to define an extension method
+	as well as all traits used"
 	
 	| starCategoryName |
 	starCategoryName := '*', self name.
 	^ (self classes collect: [ :each | each superclass ]) asSet
-		remove: nil ifAbsent: [];
 		addAll: (Smalltalk classes select: [ :each |
 			each protocols, (each theMetaClass ifNil: [ #() ] ifNotNil: [ :meta | meta protocols])
 				includes: starCategoryName ]);
+		addAll: (Array streamContents: [ :as | self traitCompositions valuesDo: [ :each | as write: (each collect: [ :eachTT | eachTT trait ])]]);
+		remove: nil ifAbsent: [];
 		yourself
+!
+
+traitCompositions
+	| traitCompositions |
+	traitCompositions := Dictionary new.
+	self classes do: [ :each |
+		traitCompositions at: each put: each traitComposition.
+		each theMetaClass ifNotNil: [ :meta | traitCompositions at: meta put: meta traitComposition ] ].
+	^ traitCompositions reject: [ :each | each isEmpty ]
 ! !
 
 !Package methodsFor: 'printing'!

@@ -137,7 +137,10 @@ exportDefinitionOf: aClass on: aStream
 		print: aClass superclass;
 		write: ' subclass: ';
 		printSymbol: aClass name;
-		lf;
+		lf.
+	aClass traitComposition
+		ifNotEmpty: [ aStream tab; write: aClass usesDefinition; lf ].
+	aStream
 		tab;
 		write: 'instanceVariableNames: ';
 		print: (' ' join: aClass instanceVariableNames);
@@ -155,11 +158,20 @@ exportDefinitionOf: aClass on: aStream
 
 exportMetaDefinitionOf: aClass on: aStream
 
-	aClass class instanceVariableNames ifNotEmpty: [ :classIvars | aStream
-		print: aClass theMetaClass;
-		write: ' instanceVariableNames: ';
-		print: (' ' join: classIvars);
-		write: '!!'; lf; lf ]
+	| classIvars classTraitComposition |
+	classIvars := aClass class instanceVariableNames.
+	classTraitComposition := aClass class traitComposition.
+
+	(classIvars notEmpty or: [classTraitComposition notEmpty]) ifTrue: [
+		aStream
+			print: aClass theMetaClass.
+		classTraitComposition
+			ifEmpty: [ aStream space ]
+			ifNotEmpty: [ aStream lf; tab; write: aClass class usesDefinition; lf; tab ].
+		aStream
+			write: 'instanceVariableNames: ';
+			print: (' ' join: classIvars);
+			write: '!!'; lf; lf ]
 !
 
 exportMethod: aMethod on: aStream
@@ -228,7 +240,10 @@ exportTraitDefinitionOf: aClass on: aStream
 	"Chunk format."
 
 	aStream
-		write: 'Trait named: '; printSymbol: aClass name; lf;
+		write: 'Trait named: '; printSymbol: aClass name; lf.
+	aClass traitComposition
+		ifNotEmpty: [ aStream tab; write: aClass usesDefinition; lf ].
+	aStream
 		tab; write: 'package: '; print:	aClass category; write: '!!'; lf.
 	aClass comment ifNotEmpty: [
 		aStream
@@ -328,6 +343,8 @@ exportPackage: aPackage on: aStream
 		self exportBehavior: each on: aStream.
 		each theMetaClass ifNotNil: [ :meta | self exportBehavior: meta on: aStream ] ].
 			
+	self exportPackageTraitCompositionsOf: aPackage on: aStream.
+
 	(self extensionMethodsOfPackage: aPackage) do: [ :each |
 		self exportMethod: each on: aStream ].
 		
@@ -378,6 +395,12 @@ exportPackagePrologueOf: aPackage on: aStream
 	self subclassResponsibility
 !
 
+exportPackageTraitCompositionsOf: aPackage on: aStream
+	aPackage traitCompositions ifNotEmpty: [ :traitCompositions |
+		traitCompositions keysAndValuesDo: [ :key :value | self exportTraitComposition: value of: key on: aStream ].
+		aStream lf ]
+!
+
 exportPackageTransportOf: aPackage on: aStream
 	aStream
 		write: {
@@ -387,6 +410,16 @@ exportPackageTransportOf: aPackage on: aStream
 			aPackage transport asJSONString.
 			';' };
 		lf
+!
+
+exportTraitComposition: aTraitComposition of: aBehavior on: aStream
+	aStream write: {
+		'$core.setTraitComposition('.
+		aTraitComposition asJavascript.
+		', '.
+		aBehavior asJavascript.
+		');' };
+	lf
 !
 
 exportTraitDefinitionOf: aClass on: aStream

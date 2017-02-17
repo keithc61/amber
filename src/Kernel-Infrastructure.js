@@ -1305,10 +1305,10 @@ return $recv(each)._superclass();
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["collect:"]=1;
+//>>excludeEnd("ctx");
 $1=$recv($2)._asSet();
-$recv($1)._remove_ifAbsent_(nil,(function(){
-
-}));
 $recv($1)._addAll_($recv($recv($globals.Smalltalk)._classes())._select_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -1328,9 +1328,40 @@ $6=$recv(meta)._protocols();
 $4=$recv($5).__comma($6);
 return $recv($4)._includes_(starCategoryName);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 //>>excludeEnd("ctx");
 })));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["addAll:"]=1;
+//>>excludeEnd("ctx");
+$recv($1)._addAll_($recv($globals.Array)._streamContents_((function(as){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(self._traitCompositions())._valuesDo_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(as)._write_($recv(each)._collect_((function(eachTT){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $recv(eachTT)._trait();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({eachTT:eachTT},$ctx3,7)});
+//>>excludeEnd("ctx");
+})));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,6)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({as:as},$ctx1,5)});
+//>>excludeEnd("ctx");
+})));
+$recv($1)._remove_ifAbsent_(nil,(function(){
+
+}));
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"loadDependencyClasses",{starCategoryName:starCategoryName},$globals.Package)});
@@ -1338,10 +1369,10 @@ return $recv($1)._yourself();
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "loadDependencyClasses\x0a\x09\x22Returns classes needed at the time of loading a package.\x0a\x09These are all that are used to subclass\x0a\x09and to define an extension method\x22\x0a\x09\x0a\x09| starCategoryName |\x0a\x09starCategoryName := '*', self name.\x0a\x09^ (self classes collect: [ :each | each superclass ]) asSet\x0a\x09\x09remove: nil ifAbsent: [];\x0a\x09\x09addAll: (Smalltalk classes select: [ :each |\x0a\x09\x09\x09each protocols, (each theMetaClass ifNil: [ #() ] ifNotNil: [ :meta | meta protocols])\x0a\x09\x09\x09\x09includes: starCategoryName ]);\x0a\x09\x09yourself",
-referencedClasses: ["Smalltalk"],
+source: "loadDependencyClasses\x0a\x09\x22Returns classes needed at the time of loading a package.\x0a\x09These are all that are used to subclass\x0a\x09and to define an extension method\x0a\x09as well as all traits used\x22\x0a\x09\x0a\x09| starCategoryName |\x0a\x09starCategoryName := '*', self name.\x0a\x09^ (self classes collect: [ :each | each superclass ]) asSet\x0a\x09\x09addAll: (Smalltalk classes select: [ :each |\x0a\x09\x09\x09each protocols, (each theMetaClass ifNil: [ #() ] ifNotNil: [ :meta | meta protocols])\x0a\x09\x09\x09\x09includes: starCategoryName ]);\x0a\x09\x09addAll: (Array streamContents: [ :as | self traitCompositions valuesDo: [ :each | as write: (each collect: [ :eachTT | eachTT trait ])]]);\x0a\x09\x09remove: nil ifAbsent: [];\x0a\x09\x09yourself",
+referencedClasses: ["Smalltalk", "Array"],
 //>>excludeEnd("ide");
-messageSends: [",", "name", "remove:ifAbsent:", "asSet", "collect:", "classes", "superclass", "addAll:", "select:", "includes:", "protocols", "ifNil:ifNotNil:", "theMetaClass", "yourself"]
+messageSends: [",", "name", "addAll:", "asSet", "collect:", "classes", "superclass", "select:", "includes:", "protocols", "ifNil:ifNotNil:", "theMetaClass", "streamContents:", "valuesDo:", "traitCompositions", "write:", "trait", "remove:ifAbsent:", "yourself"]
 }),
 $globals.Package);
 
@@ -1576,6 +1607,65 @@ source: "sortedImportsAsArray\x0a\x09\x22Answer imports sorted first by type (as
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["sorted:", "asArray", "imports", "or:", "&", "not", "isString", "and:", "=", "<=", "value"]
+}),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
+selector: "traitCompositions",
+protocol: "dependencies",
+fn: function (){
+var self=this;
+var traitCompositions;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$3,$receiver;
+traitCompositions=$recv($globals.Dictionary)._new();
+$recv(self._classes())._do_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=traitCompositions;
+$2=$recv(each)._traitComposition();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["traitComposition"]=1;
+//>>excludeEnd("ctx");
+$recv($1)._at_put_(each,$2);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["at:put:"]=1;
+//>>excludeEnd("ctx");
+$3=$recv(each)._theMetaClass();
+if(($receiver = $3) == null || $receiver.isNil){
+return $3;
+} else {
+var meta;
+meta=$receiver;
+return $recv(traitCompositions)._at_put_(meta,$recv(meta)._traitComposition());
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return $recv(traitCompositions)._reject_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(each)._isEmpty();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"traitCompositions",{traitCompositions:traitCompositions},$globals.Package)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "traitCompositions\x0a\x09| traitCompositions |\x0a\x09traitCompositions := Dictionary new.\x0a\x09self classes do: [ :each |\x0a\x09\x09traitCompositions at: each put: each traitComposition.\x0a\x09\x09each theMetaClass ifNotNil: [ :meta | traitCompositions at: meta put: meta traitComposition ] ].\x0a\x09^ traitCompositions reject: [ :each | each isEmpty ]",
+referencedClasses: ["Dictionary"],
+//>>excludeEnd("ide");
+messageSends: ["new", "do:", "classes", "at:put:", "traitComposition", "ifNotNil:", "theMetaClass", "reject:", "isEmpty"]
 }),
 $globals.Package);
 

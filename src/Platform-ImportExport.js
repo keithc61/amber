@@ -263,7 +263,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1,$2,$3,$4,$5;
 $recv(aStream)._print_($recv(aClass)._superclass());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["print:"]=1;
@@ -273,17 +273,41 @@ $recv(aStream)._write_(" subclass: ");
 $ctx1.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
 $recv(aStream)._printSymbol_($recv(aClass)._name());
-$recv(aStream)._lf();
+$1=$recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=1;
 //>>excludeEnd("ctx");
+$recv($recv(aClass)._traitComposition())._ifNotEmpty_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
 $recv(aStream)._tab();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["tab"]=1;
+$ctx2.sendIdx["tab"]=1;
+//>>excludeEnd("ctx");
+$recv(aStream)._write_($recv(aClass)._usesDefinition());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["write:"]=2;
+//>>excludeEnd("ctx");
+$2=$recv(aStream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["lf"]=2;
+//>>excludeEnd("ctx");
+return $2;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["ifNotEmpty:"]=1;
+//>>excludeEnd("ctx");
+$recv(aStream)._tab();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["tab"]=2;
 //>>excludeEnd("ctx");
 $recv(aStream)._write_("instanceVariableNames: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["write:"]=2;
+$ctx1.sendIdx["write:"]=3;
 //>>excludeEnd("ctx");
 $recv(aStream)._print_(" "._join_($recv(aClass)._instanceVariableNames()));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -291,12 +315,12 @@ $ctx1.sendIdx["print:"]=2;
 //>>excludeEnd("ctx");
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lf"]=2;
+$ctx1.sendIdx["lf"]=3;
 //>>excludeEnd("ctx");
 $recv(aStream)._tab();
 $recv(aStream)._write_("package: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["write:"]=3;
+$ctx1.sendIdx["write:"]=4;
 //>>excludeEnd("ctx");
 $recv(aStream)._print_($recv(aClass)._category());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -304,41 +328,41 @@ $ctx1.sendIdx["print:"]=3;
 //>>excludeEnd("ctx");
 $recv(aStream)._write_("!");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["write:"]=4;
+$ctx1.sendIdx["write:"]=5;
 //>>excludeEnd("ctx");
-$1=$recv(aStream)._lf();
+$3=$recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lf"]=3;
+$ctx1.sendIdx["lf"]=4;
 //>>excludeEnd("ctx");
-$2=$recv(aClass)._comment();
+$4=$recv(aClass)._comment();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["comment"]=1;
 //>>excludeEnd("ctx");
-$recv($2)._ifNotEmpty_((function(){
+$recv($4)._ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $recv(aStream)._write_("!");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["write:"]=5;
+$ctx2.sendIdx["write:"]=6;
 //>>excludeEnd("ctx");
 $recv(aStream)._print_(aClass);
 $recv(aStream)._write_(" commentStamp!");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["write:"]=6;
+$ctx2.sendIdx["write:"]=7;
 //>>excludeEnd("ctx");
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["lf"]=4;
-//>>excludeEnd("ctx");
-$recv(aStream)._write_([self._chunkEscape_($recv(aClass)._comment()),"!"]);
-$3=$recv(aStream)._lf();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=5;
 //>>excludeEnd("ctx");
-return $3;
+$recv(aStream)._write_([self._chunkEscape_($recv(aClass)._comment()),"!"]);
+$5=$recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+$ctx2.sendIdx["lf"]=6;
+//>>excludeEnd("ctx");
+return $5;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
 $recv(aStream)._lf();
@@ -349,10 +373,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aStream"],
-source: "exportDefinitionOf: aClass on: aStream\x0a\x09\x22Chunk format.\x22\x0a\x0a\x09aStream\x0a\x09\x09print: aClass superclass;\x0a\x09\x09write: ' subclass: ';\x0a\x09\x09printSymbol: aClass name;\x0a\x09\x09lf;\x0a\x09\x09tab;\x0a\x09\x09write: 'instanceVariableNames: ';\x0a\x09\x09print: (' ' join: aClass instanceVariableNames);\x0a\x09\x09lf;\x0a\x09\x09tab;\x0a\x09\x09write: 'package: ';\x0a\x09\x09print: aClass category;\x0a\x09\x09write: '!';\x0a\x09\x09lf.\x0a\x09aClass comment ifNotEmpty: [ aStream\x0a\x09\x09write: '!'; print: aClass; write: ' commentStamp!'; lf;\x0a\x09\x09write: { self chunkEscape: aClass comment. '!' }; lf ].\x0a\x09aStream lf",
+source: "exportDefinitionOf: aClass on: aStream\x0a\x09\x22Chunk format.\x22\x0a\x0a\x09aStream\x0a\x09\x09print: aClass superclass;\x0a\x09\x09write: ' subclass: ';\x0a\x09\x09printSymbol: aClass name;\x0a\x09\x09lf.\x0a\x09aClass traitComposition\x0a\x09\x09ifNotEmpty: [ aStream tab; write: aClass usesDefinition; lf ].\x0a\x09aStream\x0a\x09\x09tab;\x0a\x09\x09write: 'instanceVariableNames: ';\x0a\x09\x09print: (' ' join: aClass instanceVariableNames);\x0a\x09\x09lf;\x0a\x09\x09tab;\x0a\x09\x09write: 'package: ';\x0a\x09\x09print: aClass category;\x0a\x09\x09write: '!';\x0a\x09\x09lf.\x0a\x09aClass comment ifNotEmpty: [ aStream\x0a\x09\x09write: '!'; print: aClass; write: ' commentStamp!'; lf;\x0a\x09\x09write: { self chunkEscape: aClass comment. '!' }; lf ].\x0a\x09aStream lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["print:", "superclass", "write:", "printSymbol:", "name", "lf", "tab", "join:", "instanceVariableNames", "category", "ifNotEmpty:", "comment", "chunkEscape:"]
+messageSends: ["print:", "superclass", "write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "traitComposition", "tab", "usesDefinition", "join:", "instanceVariableNames", "category", "comment", "chunkEscape:"]
 }),
 $globals.ChunkExporter);
 
@@ -362,43 +386,95 @@ selector: "exportMetaDefinitionOf:on:",
 protocol: "output",
 fn: function (aClass,aStream){
 var self=this;
+var classIvars,classTraitComposition;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($recv($recv(aClass)._class())._instanceVariableNames())._ifNotEmpty_((function(classIvars){
+var $1,$2,$4,$3;
+$1=$recv(aClass)._class();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["class"]=1;
+//>>excludeEnd("ctx");
+classIvars=$recv($1)._instanceVariableNames();
+$2=$recv(aClass)._class();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["class"]=2;
+//>>excludeEnd("ctx");
+classTraitComposition=$recv($2)._traitComposition();
+$4=$recv(classIvars)._notEmpty();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["notEmpty"]=1;
+//>>excludeEnd("ctx");
+$3=$recv($4)._or_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
+return $recv(classTraitComposition)._notEmpty();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+if($core.assert($3)){
 $recv(aStream)._print_($recv(aClass)._theMetaClass());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["print:"]=1;
+$ctx1.sendIdx["print:"]=1;
 //>>excludeEnd("ctx");
-$recv(aStream)._write_(" instanceVariableNames: ");
+$recv(classTraitComposition)._ifEmpty_ifNotEmpty_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(aStream)._space();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+//>>excludeEnd("ctx");
+}),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv(aStream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["lf"]=1;
+//>>excludeEnd("ctx");
+$recv(aStream)._tab();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["tab"]=1;
+//>>excludeEnd("ctx");
+$recv(aStream)._write_($recv($recv(aClass)._class())._usesDefinition());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["write:"]=1;
+//>>excludeEnd("ctx");
+$recv(aStream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["lf"]=2;
+//>>excludeEnd("ctx");
+return $recv(aStream)._tab();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,4)});
+//>>excludeEnd("ctx");
+}));
+$recv(aStream)._write_("instanceVariableNames: ");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["write:"]=2;
 //>>excludeEnd("ctx");
 $recv(aStream)._print_(" "._join_(classIvars));
 $recv(aStream)._write_("!");
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["lf"]=1;
+$ctx1.sendIdx["lf"]=3;
 //>>excludeEnd("ctx");
-return $recv(aStream)._lf();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({classIvars:classIvars},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+$recv(aStream)._lf();
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"exportMetaDefinitionOf:on:",{aClass:aClass,aStream:aStream},$globals.ChunkExporter)});
+}, function($ctx1) {$ctx1.fill(self,"exportMetaDefinitionOf:on:",{aClass:aClass,aStream:aStream,classIvars:classIvars,classTraitComposition:classTraitComposition},$globals.ChunkExporter)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aStream"],
-source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x0a\x09aClass class instanceVariableNames ifNotEmpty: [ :classIvars | aStream\x0a\x09\x09print: aClass theMetaClass;\x0a\x09\x09write: ' instanceVariableNames: ';\x0a\x09\x09print: (' ' join: classIvars);\x0a\x09\x09write: '!'; lf; lf ]",
+source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x0a\x09| classIvars classTraitComposition |\x0a\x09classIvars := aClass class instanceVariableNames.\x0a\x09classTraitComposition := aClass class traitComposition.\x0a\x0a\x09(classIvars notEmpty or: [classTraitComposition notEmpty]) ifTrue: [\x0a\x09\x09aStream\x0a\x09\x09\x09print: aClass theMetaClass.\x0a\x09\x09classTraitComposition\x0a\x09\x09\x09ifEmpty: [ aStream space ]\x0a\x09\x09\x09ifNotEmpty: [ aStream lf; tab; write: aClass class usesDefinition; lf; tab ].\x0a\x09\x09aStream\x0a\x09\x09\x09write: 'instanceVariableNames: ';\x0a\x09\x09\x09print: (' ' join: classIvars);\x0a\x09\x09\x09write: '!'; lf; lf ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifNotEmpty:", "instanceVariableNames", "class", "print:", "theMetaClass", "write:", "join:", "lf"]
+messageSends: ["instanceVariableNames", "class", "traitComposition", "ifTrue:", "or:", "notEmpty", "print:", "theMetaClass", "ifEmpty:ifNotEmpty:", "space", "lf", "tab", "write:", "usesDefinition", "join:"]
 }),
 $globals.ChunkExporter);
 
@@ -695,20 +771,44 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1,$2,$3,$4,$5;
 $recv(aStream)._write_("Trait named: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
 $recv(aStream)._printSymbol_($recv(aClass)._name());
-$recv(aStream)._lf();
+$1=$recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=1;
+//>>excludeEnd("ctx");
+$recv($recv(aClass)._traitComposition())._ifNotEmpty_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv(aStream)._tab();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["tab"]=1;
+//>>excludeEnd("ctx");
+$recv(aStream)._write_($recv(aClass)._usesDefinition());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["write:"]=2;
+//>>excludeEnd("ctx");
+$2=$recv(aStream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["lf"]=2;
+//>>excludeEnd("ctx");
+return $2;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["ifNotEmpty:"]=1;
 //>>excludeEnd("ctx");
 $recv(aStream)._tab();
 $recv(aStream)._write_("package: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["write:"]=2;
+$ctx1.sendIdx["write:"]=3;
 //>>excludeEnd("ctx");
 $recv(aStream)._print_($recv(aClass)._category());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -716,41 +816,41 @@ $ctx1.sendIdx["print:"]=1;
 //>>excludeEnd("ctx");
 $recv(aStream)._write_("!");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["write:"]=3;
+$ctx1.sendIdx["write:"]=4;
 //>>excludeEnd("ctx");
-$1=$recv(aStream)._lf();
+$3=$recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lf"]=2;
+$ctx1.sendIdx["lf"]=3;
 //>>excludeEnd("ctx");
-$2=$recv(aClass)._comment();
+$4=$recv(aClass)._comment();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["comment"]=1;
 //>>excludeEnd("ctx");
-$recv($2)._ifNotEmpty_((function(){
+$recv($4)._ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $recv(aStream)._write_("!");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["write:"]=4;
+$ctx2.sendIdx["write:"]=5;
 //>>excludeEnd("ctx");
 $recv(aStream)._print_(aClass);
 $recv(aStream)._write_(" commentStamp!");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["write:"]=5;
+$ctx2.sendIdx["write:"]=6;
 //>>excludeEnd("ctx");
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["lf"]=3;
-//>>excludeEnd("ctx");
-$recv(aStream)._write_([self._chunkEscape_($recv(aClass)._comment()),"!"]);
-$3=$recv(aStream)._lf();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=4;
 //>>excludeEnd("ctx");
-return $3;
+$recv(aStream)._write_([self._chunkEscape_($recv(aClass)._comment()),"!"]);
+$5=$recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+$ctx2.sendIdx["lf"]=5;
+//>>excludeEnd("ctx");
+return $5;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
 $recv(aStream)._lf();
@@ -761,10 +861,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aStream"],
-source: "exportTraitDefinitionOf: aClass on: aStream\x0a\x09\x22Chunk format.\x22\x0a\x0a\x09aStream\x0a\x09\x09write: 'Trait named: '; printSymbol: aClass name; lf;\x0a\x09\x09tab; write: 'package: '; print:\x09aClass category; write: '!'; lf.\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09write: '!'; print: aClass; write: ' commentStamp!'; lf;\x0a\x09\x09write: { self chunkEscape: aClass comment. '!' }; lf ].\x0a\x09aStream lf",
+source: "exportTraitDefinitionOf: aClass on: aStream\x0a\x09\x22Chunk format.\x22\x0a\x0a\x09aStream\x0a\x09\x09write: 'Trait named: '; printSymbol: aClass name; lf.\x0a\x09aClass traitComposition\x0a\x09\x09ifNotEmpty: [ aStream tab; write: aClass usesDefinition; lf ].\x0a\x09aStream\x0a\x09\x09tab; write: 'package: '; print:\x09aClass category; write: '!'; lf.\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09write: '!'; print: aClass; write: ' commentStamp!'; lf;\x0a\x09\x09write: { self chunkEscape: aClass comment. '!' }; lf ].\x0a\x09aStream lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["write:", "printSymbol:", "name", "lf", "tab", "print:", "category", "ifNotEmpty:", "comment", "chunkEscape:"]
+messageSends: ["write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "traitComposition", "tab", "usesDefinition", "print:", "category", "comment", "chunkEscape:"]
 }),
 $globals.ChunkExporter);
 
@@ -1332,6 +1432,7 @@ return self._exportBehavior_on_(meta,aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["do:"]=1;
 //>>excludeEnd("ctx");
+self._exportPackageTraitCompositionsOf_on_(aPackage,aStream);
 $recv(self._extensionMethodsOfPackage_(aPackage))._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -1349,10 +1450,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage", "aStream"],
-source: "exportPackage: aPackage on: aStream\x0a\x09\x0a\x09self \x0a\x09\x09exportPackagePrologueOf: aPackage on: aStream;\x0a\x09\x09exportPackageDefinitionOf: aPackage on: aStream;\x0a\x09\x09exportPackageContextOf: aPackage on: aStream;\x0a\x09\x09exportPackageImportsOf: aPackage on: aStream;\x0a\x09\x09exportPackageTransportOf: aPackage on: aStream.\x0a\x09\x0a\x09aPackage sortedClasses do: [ :each |\x0a\x09\x09self exportBehavior: each on: aStream.\x0a\x09\x09each theMetaClass ifNotNil: [ :meta | self exportBehavior: meta on: aStream ] ].\x0a\x09\x09\x09\x0a\x09(self extensionMethodsOfPackage: aPackage) do: [ :each |\x0a\x09\x09self exportMethod: each on: aStream ].\x0a\x09\x09\x0a\x09self exportPackageEpilogueOf: aPackage on: aStream",
+source: "exportPackage: aPackage on: aStream\x0a\x09\x0a\x09self \x0a\x09\x09exportPackagePrologueOf: aPackage on: aStream;\x0a\x09\x09exportPackageDefinitionOf: aPackage on: aStream;\x0a\x09\x09exportPackageContextOf: aPackage on: aStream;\x0a\x09\x09exportPackageImportsOf: aPackage on: aStream;\x0a\x09\x09exportPackageTransportOf: aPackage on: aStream.\x0a\x09\x0a\x09aPackage sortedClasses do: [ :each |\x0a\x09\x09self exportBehavior: each on: aStream.\x0a\x09\x09each theMetaClass ifNotNil: [ :meta | self exportBehavior: meta on: aStream ] ].\x0a\x09\x09\x09\x0a\x09self exportPackageTraitCompositionsOf: aPackage on: aStream.\x0a\x0a\x09(self extensionMethodsOfPackage: aPackage) do: [ :each |\x0a\x09\x09self exportMethod: each on: aStream ].\x0a\x09\x09\x0a\x09self exportPackageEpilogueOf: aPackage on: aStream",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["exportPackagePrologueOf:on:", "exportPackageDefinitionOf:on:", "exportPackageContextOf:on:", "exportPackageImportsOf:on:", "exportPackageTransportOf:on:", "do:", "sortedClasses", "exportBehavior:on:", "ifNotNil:", "theMetaClass", "extensionMethodsOfPackage:", "exportMethod:on:", "exportPackageEpilogueOf:on:"]
+messageSends: ["exportPackagePrologueOf:on:", "exportPackageDefinitionOf:on:", "exportPackageContextOf:on:", "exportPackageImportsOf:on:", "exportPackageTransportOf:on:", "do:", "sortedClasses", "exportBehavior:on:", "ifNotNil:", "theMetaClass", "exportPackageTraitCompositionsOf:on:", "extensionMethodsOfPackage:", "exportMethod:on:", "exportPackageEpilogueOf:on:"]
 }),
 $globals.Exporter);
 
@@ -1536,6 +1637,47 @@ $globals.Exporter);
 
 $core.addMethod(
 $core.method({
+selector: "exportPackageTraitCompositionsOf:on:",
+protocol: "output",
+fn: function (aPackage,aStream){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv($recv(aPackage)._traitCompositions())._ifNotEmpty_((function(traitCompositions){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv(traitCompositions)._keysAndValuesDo_((function(key,value){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return self._exportTraitComposition_of_on_(value,key,aStream);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({key:key,value:value},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+return $recv(aStream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({traitCompositions:traitCompositions},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"exportPackageTraitCompositionsOf:on:",{aPackage:aPackage,aStream:aStream},$globals.Exporter)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aPackage", "aStream"],
+source: "exportPackageTraitCompositionsOf: aPackage on: aStream\x0a\x09aPackage traitCompositions ifNotEmpty: [ :traitCompositions |\x0a\x09\x09traitCompositions keysAndValuesDo: [ :key :value | self exportTraitComposition: value of: key on: aStream ].\x0a\x09\x09aStream lf ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["ifNotEmpty:", "traitCompositions", "keysAndValuesDo:", "exportTraitComposition:of:on:", "lf"]
+}),
+$globals.Exporter);
+
+$core.addMethod(
+$core.method({
 selector: "exportPackageTransportOf:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
@@ -1556,6 +1698,37 @@ source: "exportPackageTransportOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["write:", "asJavascript", "name", "asJSONString", "transport", "lf"]
+}),
+$globals.Exporter);
+
+$core.addMethod(
+$core.method({
+selector: "exportTraitComposition:of:on:",
+protocol: "output",
+fn: function (aTraitComposition,aBehavior,aStream){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1;
+$2=$recv(aTraitComposition)._asJavascript();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["asJavascript"]=1;
+//>>excludeEnd("ctx");
+$1=["$core.setTraitComposition(",$2,", ",$recv(aBehavior)._asJavascript(),");"];
+$recv(aStream)._write_($1);
+$recv(aStream)._lf();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"exportTraitComposition:of:on:",{aTraitComposition:aTraitComposition,aBehavior:aBehavior,aStream:aStream},$globals.Exporter)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aTraitComposition", "aBehavior", "aStream"],
+source: "exportTraitComposition: aTraitComposition of: aBehavior on: aStream\x0a\x09aStream write: {\x0a\x09\x09'$core.setTraitComposition('.\x0a\x09\x09aTraitComposition asJavascript.\x0a\x09\x09', '.\x0a\x09\x09aBehavior asJavascript.\x0a\x09\x09');' };\x0a\x09lf",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["write:", "asJavascript", "lf"]
 }),
 $globals.Exporter);
 
