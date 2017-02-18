@@ -227,7 +227,7 @@ define(['./compatibility'], function () {
                 className: className,
                 make: klass,
                 updateExisting: function (klass, pkg) {
-                    if (klass.superclass == superclass && (!fn || fn === klass.fn)) {
+                    if (klass.superclass == logicalSuperclass && (!fn || fn === klass.fn)) {
                         if (iVarNames) klass.iVarNames = iVarNames;
                         if (pkg) klass.pkg = pkg;
                     } else throw new Error("Incompatible change of class: " + klass.className);
