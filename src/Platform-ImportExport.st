@@ -138,8 +138,8 @@ exportDefinitionOf: aClass on: aStream
 		write: ' subclass: ';
 		printSymbol: aClass name;
 		lf.
-	aClass traitComposition
-		ifNotEmpty: [ aStream tab; write: aClass usesDefinition; lf ].
+	"aClass traitComposition
+		ifNotEmpty: [ aStream tab; write: {'uses: '. aClass traitCompositionDefinition}; lf ]."
 	aStream
 		tab;
 		write: 'instanceVariableNames: ';
@@ -162,12 +162,12 @@ exportMetaDefinitionOf: aClass on: aStream
 	classIvars := aClass class instanceVariableNames.
 	classTraitComposition := aClass class traitComposition.
 
-	(classIvars notEmpty or: [classTraitComposition notEmpty]) ifTrue: [
+	(classIvars notEmpty "or: [classTraitComposition notEmpty]") ifTrue: [
 		aStream
 			print: aClass theMetaClass.
-		classTraitComposition
+		aStream space. "classTraitComposition
 			ifEmpty: [ aStream space ]
-			ifNotEmpty: [ aStream lf; tab; write: aClass class usesDefinition; lf; tab ].
+			ifNotEmpty: [ aStream lf; tab; write: {'uses: '. aClass class traitCompositionDefinition}; lf; tab ]."
 		aStream
 			write: 'instanceVariableNames: ';
 			print: (' ' join: classIvars);
@@ -190,6 +190,8 @@ exportPackage: aPackage on: aStream
 		self exportBehavior: each on: aStream.
 		each theMetaClass ifNotNil: [ :meta | self exportBehavior: meta on: aStream ] ].
 	
+	self exportPackageTraitCompositionsOf: aPackage on: aStream.
+
 	self 
 		exportProtocols: (self extensionProtocolsOfPackage: aPackage)
 		on: aStream
@@ -209,6 +211,12 @@ exportPackageImportsOf: aPackage on: aStream
 		print: aPackage name;
 		write: { ') imports: '. self chunkEscape: aPackage importsDefinition. '!!' };
 		lf ]
+!
+
+exportPackageTraitCompositionsOf: aPackage on: aStream
+	aPackage traitCompositions ifNotEmpty: [ :traitCompositions |
+		traitCompositions keysAndValuesDo: [ :key :value | self exportTraitComposition: value of: key on: aStream ].
+		aStream write: '!! !!'; lf; lf ]
 !
 
 exportProtocol: aProtocol on: aStream
@@ -237,13 +245,22 @@ exportProtocols: aCollection on: aStream
 		self exportProtocol: each on: aStream ]
 !
 
+exportTraitComposition: aTraitComposition of: aBehavior on: aStream
+	aStream 
+		print: aBehavior;
+		write: ' setTraitComposition: ';
+		write: aBehavior traitCompositionDefinition;
+		write: ' asTraitComposition!!';
+		lf
+!
+
 exportTraitDefinitionOf: aClass on: aStream
 	"Chunk format."
 
 	aStream
 		write: 'Trait named: '; printSymbol: aClass name; lf.
-	aClass traitComposition
-		ifNotEmpty: [ aStream tab; write: aClass usesDefinition; lf ].
+	"aClass traitComposition
+		ifNotEmpty: [ aStream tab; write: {'uses: '. aClass traitCompositionDefinition}; lf ]."
 	aStream
 		tab; write: 'package: '; print:	aClass category; write: '!!'; lf.
 	aClass comment ifNotEmpty: [

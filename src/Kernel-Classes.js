@@ -971,7 +971,7 @@ $globals.BehaviorBody);
 
 $core.addMethod(
 $core.method({
-selector: "usesDefinition",
+selector: "traitCompositionDefinition",
 protocol: "accessing",
 fn: function (){
 var self=this;
@@ -986,7 +986,7 @@ return $recv($globals.String)._streamContents_((function(str){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-$recv(str)._write_("uses: {");
+$recv(str)._write_("{");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
@@ -1023,12 +1023,12 @@ return $recv(str)._write_("}");
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"usesDefinition",{},$globals.BehaviorBody)});
+}, function($ctx1) {$ctx1.fill(self,"traitCompositionDefinition",{},$globals.BehaviorBody)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "usesDefinition\x0a\x09^ self traitComposition ifNotEmpty: [ :traitComposition |\x0a\x09\x09String streamContents: [ :str |\x0a\x09\x09\x09str write: 'uses: {'.\x0a\x09\x09\x09traitComposition\x0a\x09\x09\x09\x09do: [ :each | str write: each definition ]\x0a\x09\x09\x09\x09separatedBy: [ str write: '. ' ].\x0a\x09\x09\x09str write: '}' ] ]",
+source: "traitCompositionDefinition\x0a\x09^ self traitComposition ifNotEmpty: [ :traitComposition |\x0a\x09\x09String streamContents: [ :str |\x0a\x09\x09\x09str write: '{'.\x0a\x09\x09\x09traitComposition\x0a\x09\x09\x09\x09do: [ :each | str write: each definition ]\x0a\x09\x09\x09\x09separatedBy: [ str write: '. ' ].\x0a\x09\x09\x09str write: '}' ] ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
 messageSends: ["ifNotEmpty:", "traitComposition", "streamContents:", "write:", "do:separatedBy:", "definition"]
@@ -1823,7 +1823,7 @@ $recv(stream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=1;
 //>>excludeEnd("ctx");
-$recv(stream)._write_($recv(self._usesDefinition())._ifNotEmpty_((function(uses){
+$recv(stream)._write_($recv(self._traitCompositionDefinition())._ifNotEmpty_((function(tcd){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -1835,9 +1835,9 @@ $2=$recv($globals.String)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["lf"]=2;
 //>>excludeEnd("ctx");
-return [$1,uses,$2];
+return [$1,"uses: ",tcd,$2];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({uses:uses},$ctx2,2)});
+}, function($ctx3) {$ctx3.fillBlock({tcd:tcd},$ctx2,2)});
 //>>excludeEnd("ctx");
 })));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1869,10 +1869,10 @@ return $recv(stream)._print_(self._category());
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self superclass; write: ' subclass: '; printSymbol: self name; lf;\x0a\x09\x09write: (self usesDefinition ifNotEmpty: [ :uses | { String tab. uses. String lf }]);\x0a\x09\x09tab; write: 'instanceVariableNames: '; print: (' ' join: self instanceVariableNames); lf;\x0a\x09\x09tab; write: 'package: '; print: self category ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self superclass; write: ' subclass: '; printSymbol: self name; lf;\x0a\x09\x09write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);\x0a\x09\x09tab; write: 'instanceVariableNames: '; print: (' ' join: self instanceVariableNames); lf;\x0a\x09\x09tab; write: 'package: '; print: self category ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "print:", "superclass", "write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "usesDefinition", "tab", "join:", "instanceVariableNames", "category"]
+messageSends: ["streamContents:", "print:", "superclass", "write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "traitCompositionDefinition", "tab", "join:", "instanceVariableNames", "category"]
 }),
 $globals.Class);
 
@@ -2338,10 +2338,10 @@ $recv(stream)._print_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["print:"]=1;
 //>>excludeEnd("ctx");
-$recv(stream)._write_($recv(self._usesDefinition())._ifEmpty_ifNotEmpty_((function(){
+$recv(stream)._write_($recv(self._traitCompositionDefinition())._ifEmpty_ifNotEmpty_((function(){
 return " ";
 
-}),(function(uses){
+}),(function(tcd){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -2353,9 +2353,9 @@ $2=$recv($globals.String)._tab();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["tab"]=1;
 //>>excludeEnd("ctx");
-return [$1,$2,uses,$recv($globals.String)._lf(),$recv($globals.String)._tab()];
+return [$1,$2,"uses: ",tcd,$recv($globals.String)._lf(),$recv($globals.String)._tab()];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({uses:uses},$ctx2,3)});
+}, function($ctx3) {$ctx3.fillBlock({tcd:tcd},$ctx2,3)});
 //>>excludeEnd("ctx");
 })));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2373,10 +2373,10 @@ return $recv(stream)._print_(" "._join_(self._instanceVariableNames()));
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self;\x0a\x09\x09write: (self usesDefinition ifEmpty: [' '] ifNotEmpty: [ :uses | { String lf. String tab. uses. String lf. String tab }]);\x0a\x09\x09write: 'instanceVariableNames: ';\x0a\x09\x09print: (' ' join: self instanceVariableNames) ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self;\x0a\x09\x09write: (self traitCompositionDefinition\x0a\x09\x09\x09ifEmpty: [' ']\x0a\x09\x09\x09ifNotEmpty: [ :tcd | { String lf. String tab. 'uses: '. tcd. String lf. String tab }]);\x0a\x09\x09write: 'instanceVariableNames: ';\x0a\x09\x09print: (' ' join: self instanceVariableNames) ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "print:", "write:", "ifEmpty:ifNotEmpty:", "usesDefinition", "lf", "tab", "join:", "instanceVariableNames"]
+messageSends: ["streamContents:", "print:", "write:", "ifEmpty:ifNotEmpty:", "traitCompositionDefinition", "lf", "tab", "join:", "instanceVariableNames"]
 }),
 $globals.Metaclass);
 
@@ -2810,7 +2810,7 @@ $recv(stream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=1;
 //>>excludeEnd("ctx");
-$recv(stream)._write_($recv(self._usesDefinition())._ifNotEmpty_((function(uses){
+$recv(stream)._write_($recv(self._traitCompositionDefinition())._ifNotEmpty_((function(tcd){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -2818,9 +2818,9 @@ $1=$recv($globals.String)._tab();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["tab"]=1;
 //>>excludeEnd("ctx");
-return [$1,uses,$recv($globals.String)._lf()];
+return [$1,"uses: ",tcd,$recv($globals.String)._lf()];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({uses:uses},$ctx2,2)});
+}, function($ctx3) {$ctx3.fillBlock({tcd:tcd},$ctx2,2)});
 //>>excludeEnd("ctx");
 })));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2839,10 +2839,10 @@ return $recv(stream)._print_(self._category());
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09write: 'Trait named: '; printSymbol: self name; lf;\x0a\x09\x09write: (self usesDefinition ifNotEmpty: [ :uses | { String tab. uses. String lf }]);\x0a\x09\x09tab; write: 'package: '; print: self category ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09write: 'Trait named: '; printSymbol: self name; lf;\x0a\x09\x09write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);\x0a\x09\x09tab; write: 'package: '; print: self category ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "usesDefinition", "tab", "print:", "category"]
+messageSends: ["streamContents:", "write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "traitCompositionDefinition", "tab", "print:", "category"]
 }),
 $globals.Trait);
 

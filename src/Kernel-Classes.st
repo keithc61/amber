@@ -131,10 +131,10 @@ traitComposition
 	^ (self basicAt: 'traitComposition') collect: [ :each | TraitTransformation fromJSON: each ]
 !
 
-usesDefinition
+traitCompositionDefinition
 	^ self traitComposition ifNotEmpty: [ :traitComposition |
 		String streamContents: [ :str |
-			str write: 'uses: {'.
+			str write: '{'.
 			traitComposition
 				do: [ :each | str write: each definition ]
 				separatedBy: [ str write: '. ' ].
@@ -414,7 +414,7 @@ classTag
 definition
 	^ String streamContents: [ :stream | stream
 		print: self superclass; write: ' subclass: '; printSymbol: self name; lf;
-		write: (self usesDefinition ifNotEmpty: [ :uses | { String tab. uses. String lf }]);
+		write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);
 		tab; write: 'instanceVariableNames: '; print: (' ' join: self instanceVariableNames); lf;
 		tab; write: 'package: '; print: self category ]
 !
@@ -541,7 +541,9 @@ My instances are metaclasses, one for each real class, and have a single instanc
 definition
 	^ String streamContents: [ :stream | stream
 		print: self;
-		write: (self usesDefinition ifEmpty: [' '] ifNotEmpty: [ :uses | { String lf. String tab. uses. String lf. String tab }]);
+		write: (self traitCompositionDefinition
+			ifEmpty: [' ']
+			ifNotEmpty: [ :tcd | { String lf. String tab. 'uses: '. tcd. String lf. String tab }]);
 		write: 'instanceVariableNames: ';
 		print: (' ' join: self instanceVariableNames) ]
 !
@@ -621,7 +623,7 @@ classTag
 definition
 	^ String streamContents: [ :stream | stream
 		write: 'Trait named: '; printSymbol: self name; lf;
-		write: (self usesDefinition ifNotEmpty: [ :uses | { String tab. uses. String lf }]);
+		write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);
 		tab; write: 'package: '; print: self category ]
 !
 

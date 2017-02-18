@@ -8,6 +8,7 @@
 
 + BehaviorBody >>
   + setTraitComposition:
+  + traitCompositionDefinition
 + Trait
   + allInstanceVariableNames
   + allSubclassesDo:
