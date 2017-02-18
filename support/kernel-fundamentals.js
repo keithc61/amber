@@ -351,8 +351,20 @@ define(['./compatibility'], function () {
             // This is handled by #removeCompiledMethod
         }
 
-        function applyTraitTransformation(traitTransformation, obj) {
-            // TODO not implemented yet, noop atm
+        function applyTraitTransformation (traitTransformation, obj) {
+            var traitMethods = traitTransformation.trait.methods;
+            Object.keys(traitMethods).forEach(function (selector) {
+                obj[selector] = traitMethods[selector];
+            });
+            var traitAliases = traitTransformation.aliases || {};
+            Object.keys(traitAliases).forEach(function (aliasSelector) {
+                var aliasedMethod = traitMethods[traitAliases[aliasSelector]];
+                if (aliasedMethod) obj[aliasSelector] = aliasedMethod;
+            });
+            var traitExclusions = traitExclusions || [];
+            traitExclusions.forEach(function (selector) {
+                delete obj[selector];
+            });
             return obj;
         }
 
