@@ -212,10 +212,11 @@ exportPackageImportsOf: aPackage on: aStream
 !
 
 exportProtocol: aProtocol on: aStream
-	self exportProtocolPrologueOf: aProtocol on: aStream.
-	aProtocol methods do: [ :method | 
-		self exportMethod: method on: aStream ].
-	self exportProtocolEpilogueOf: aProtocol on: aStream
+	aProtocol ownMethods ifNotEmpty: [ :methods |
+		self exportProtocolPrologueOf: aProtocol on: aStream.
+		methods do: [ :method | 
+			self exportMethod: method on: aStream ].
+		self exportProtocolEpilogueOf: aProtocol on: aStream ]
 !
 
 exportProtocolEpilogueOf: aProtocol on: aStream
@@ -653,6 +654,11 @@ name
 
 name: aString
 	name := aString
+!
+
+ownMethods
+	^ (self theClass ownMethodsInProtocol: self name)
+		sorted: [ :a :b | a selector <= b selector ]
 !
 
 theClass

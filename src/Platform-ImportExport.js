@@ -639,17 +639,25 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._exportProtocolPrologueOf_on_(aProtocol,aStream);
-$recv($recv(aProtocol)._methods())._do_((function(method){
+$recv($recv(aProtocol)._ownMethods())._ifNotEmpty_((function(methods){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
+self._exportProtocolPrologueOf_on_(aProtocol,aStream);
+$recv(methods)._do_((function(method){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
 return self._exportMethod_on_(method,aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({method:method},$ctx1,1)});
+}, function($ctx3) {$ctx3.fillBlock({method:method},$ctx2,2)});
 //>>excludeEnd("ctx");
 }));
-self._exportProtocolEpilogueOf_on_(aProtocol,aStream);
+return self._exportProtocolEpilogueOf_on_(aProtocol,aStream);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({methods:methods},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"exportProtocol:on:",{aProtocol:aProtocol,aStream:aStream},$globals.ChunkExporter)});
@@ -657,10 +665,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aProtocol", "aStream"],
-source: "exportProtocol: aProtocol on: aStream\x0a\x09self exportProtocolPrologueOf: aProtocol on: aStream.\x0a\x09aProtocol methods do: [ :method | \x0a\x09\x09self exportMethod: method on: aStream ].\x0a\x09self exportProtocolEpilogueOf: aProtocol on: aStream",
+source: "exportProtocol: aProtocol on: aStream\x0a\x09aProtocol ownMethods ifNotEmpty: [ :methods |\x0a\x09\x09self exportProtocolPrologueOf: aProtocol on: aStream.\x0a\x09\x09methods do: [ :method | \x0a\x09\x09\x09self exportMethod: method on: aStream ].\x0a\x09\x09self exportProtocolEpilogueOf: aProtocol on: aStream ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["exportProtocolPrologueOf:on:", "do:", "methods", "exportMethod:on:", "exportProtocolEpilogueOf:on:"]
+messageSends: ["ifNotEmpty:", "ownMethods", "exportProtocolPrologueOf:on:", "do:", "exportMethod:on:", "exportProtocolEpilogueOf:on:"]
 }),
 $globals.ChunkExporter);
 
@@ -2598,6 +2606,42 @@ source: "name: aString\x0a\x09name := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
+}),
+$globals.ExportMethodProtocol);
+
+$core.addMethod(
+$core.method({
+selector: "ownMethods",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+return $recv($recv(self._theClass())._ownMethodsInProtocol_(self._name()))._sorted_((function(a,b){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=$recv(a)._selector();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["selector"]=1;
+//>>excludeEnd("ctx");
+return $recv($1).__lt_eq($recv(b)._selector());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({a:a,b:b},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"ownMethods",{},$globals.ExportMethodProtocol)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "ownMethods\x0a\x09^ (self theClass ownMethodsInProtocol: self name)\x0a\x09\x09sorted: [ :a :b | a selector <= b selector ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["sorted:", "ownMethodsInProtocol:", "theClass", "name", "<=", "selector"]
 }),
 $globals.ExportMethodProtocol);
 

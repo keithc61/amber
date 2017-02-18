@@ -72,12 +72,17 @@ organization
 !
 
 ownMethods
-	"Answer the methods of the receiver that are not package extensions"
+	"Answer the methods of the receiver that are not package extensions
+	nor obtained via trait composition"
 
 	^ (self ownProtocols 
 		inject: OrderedCollection new
-		into: [ :acc :each | acc, (self methodsInProtocol: each) ])
+		into: [ :acc :each | acc, (self ownMethodsInProtocol: each) ])
 			sorted: [ :a :b | a selector <= b selector ]
+!
+
+ownMethodsInProtocol: aString
+	^ (self methodsInProtocol: aString) select: [ :each | each methodClass = self ]
 !
 
 ownProtocols
