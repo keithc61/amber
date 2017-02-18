@@ -1103,7 +1103,7 @@ namespace: aString
 		yourself
 ! !
 
-!Behavior methodsFor: '*Platform-ImportExport'!
+!BehaviorBody methodsFor: '*Platform-ImportExport'!
 
 commentStamp
 	^ ClassCommentReader new
@@ -1115,6 +1115,10 @@ commentStamp: aStamp prior: prior
 		^ self commentStamp
 !
 
+exportBehaviorDefinitionTo: aStream using: anExporter
+	self subclassResponsibility
+!
+
 methodsFor: aString
 	^ ClassProtocolReader new
 		class: self category: aString;
@@ -1124,12 +1128,6 @@ methodsFor: aString
 methodsFor: aString stamp: aStamp
 	"Added for file-in compatibility, ignores stamp."
 	^ self methodsFor: aString
-! !
-
-!BehaviorBody methodsFor: '*Platform-ImportExport'!
-
-exportBehaviorDefinitionTo: aStream using: anExporter
-	self subclassResponsibility
 ! !
 
 !Class methodsFor: '*Platform-ImportExport'!

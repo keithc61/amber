@@ -4298,7 +4298,7 @@ $1=$recv($globals.ClassCommentReader)._new();
 $recv($1)._class_(self);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"commentStamp",{},$globals.Behavior)});
+}, function($ctx1) {$ctx1.fill(self,"commentStamp",{},$globals.BehaviorBody)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4308,7 +4308,7 @@ referencedClasses: ["ClassCommentReader"],
 //>>excludeEnd("ide");
 messageSends: ["class:", "new", "yourself"]
 }),
-$globals.Behavior);
+$globals.BehaviorBody);
 
 $core.addMethod(
 $core.method({
@@ -4321,7 +4321,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return self._commentStamp();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"commentStamp:prior:",{aStamp:aStamp,prior:prior},$globals.Behavior)});
+}, function($ctx1) {$ctx1.fill(self,"commentStamp:prior:",{aStamp:aStamp,prior:prior},$globals.BehaviorBody)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4331,56 +4331,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["commentStamp"]
 }),
-$globals.Behavior);
-
-$core.addMethod(
-$core.method({
-selector: "methodsFor:",
-protocol: "*Platform-ImportExport",
-fn: function (aString){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$recv($globals.ClassProtocolReader)._new();
-$recv($1)._class_category_(self,aString);
-return $recv($1)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"methodsFor:",{aString:aString},$globals.Behavior)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "methodsFor: aString\x0a\x09^ ClassProtocolReader new\x0a\x09\x09class: self category: aString;\x0a\x09\x09yourself",
-referencedClasses: ["ClassProtocolReader"],
-//>>excludeEnd("ide");
-messageSends: ["class:category:", "new", "yourself"]
-}),
-$globals.Behavior);
-
-$core.addMethod(
-$core.method({
-selector: "methodsFor:stamp:",
-protocol: "*Platform-ImportExport",
-fn: function (aString,aStamp){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self._methodsFor_(aString);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"methodsFor:stamp:",{aString:aString,aStamp:aStamp},$globals.Behavior)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString", "aStamp"],
-source: "methodsFor: aString stamp: aStamp\x0a\x09\x22Added for file-in compatibility, ignores stamp.\x22\x0a\x09^ self methodsFor: aString",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["methodsFor:"]
-}),
-$globals.Behavior);
+$globals.BehaviorBody);
 
 $core.addMethod(
 $core.method({
@@ -4403,6 +4354,55 @@ source: "exportBehaviorDefinitionTo: aStream using: anExporter\x0a\x09self subcl
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["subclassResponsibility"]
+}),
+$globals.BehaviorBody);
+
+$core.addMethod(
+$core.method({
+selector: "methodsFor:",
+protocol: "*Platform-ImportExport",
+fn: function (aString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($globals.ClassProtocolReader)._new();
+$recv($1)._class_category_(self,aString);
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"methodsFor:",{aString:aString},$globals.BehaviorBody)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "methodsFor: aString\x0a\x09^ ClassProtocolReader new\x0a\x09\x09class: self category: aString;\x0a\x09\x09yourself",
+referencedClasses: ["ClassProtocolReader"],
+//>>excludeEnd("ide");
+messageSends: ["class:category:", "new", "yourself"]
+}),
+$globals.BehaviorBody);
+
+$core.addMethod(
+$core.method({
+selector: "methodsFor:stamp:",
+protocol: "*Platform-ImportExport",
+fn: function (aString,aStamp){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._methodsFor_(aString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"methodsFor:stamp:",{aString:aString,aStamp:aStamp},$globals.BehaviorBody)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aStamp"],
+source: "methodsFor: aString stamp: aStamp\x0a\x09\x22Added for file-in compatibility, ignores stamp.\x22\x0a\x09^ self methodsFor: aString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["methodsFor:"]
 }),
 $globals.BehaviorBody);
 
