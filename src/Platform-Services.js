@@ -878,6 +878,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $recv(aMethod)._protocol_(aProtocol);
+$recv($recv(aMethod)._methodClass())._compile_protocol_($recv(aMethod)._source(),$recv(aMethod)._protocol());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"moveMethod:toProtocol:",{aMethod:aMethod,aProtocol:aProtocol},$globals.Environment)});
@@ -885,10 +886,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aMethod", "aProtocol"],
-source: "moveMethod: aMethod toProtocol: aProtocol\x0a\x09aMethod protocol: aProtocol",
+source: "moveMethod: aMethod toProtocol: aProtocol\x0a\x09aMethod protocol: aProtocol.\x0a\x0a\x09aMethod methodClass\x0a\x09\x09compile: aMethod source\x0a\x09\x09protocol: aMethod protocol",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["protocol:"]
+messageSends: ["protocol:", "compile:protocol:", "methodClass", "source", "protocol"]
 }),
 $globals.Environment);
 

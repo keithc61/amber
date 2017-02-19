@@ -179,7 +179,11 @@ moveMethod: aMethod toClass: aClassName
 !
 
 moveMethod: aMethod toProtocol: aProtocol
-	aMethod protocol: aProtocol
+	aMethod protocol: aProtocol.
+
+	aMethod methodClass
+		compile: aMethod source
+		protocol: aMethod protocol
 !
 
 removeClass: aClass
