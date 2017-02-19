@@ -693,7 +693,7 @@ asTraitTransformation
 !Trait class methodsFor: 'instance creation'!
 
 named: aString package: anotherString
-	<inlineJS: 'return $core.addTrait(aString, anotherString)'>
+	^ ClassBuilder new addTraitNamed: aString package: anotherString
 !
 
 named: aString uses: aTraitCompositionDescription package: anotherString
@@ -727,17 +727,31 @@ addSubclassOf: aClass named: className instanceVariableNames: aCollection packag
 	
 	theClass ifNotNil: [
 		theClass package: thePackage.
-		theClass superclass == aClass ifFalse: [
-			^ self
+		theClass superclass == aClass
+			ifFalse: [ ^ self
 				migrateClassNamed: className
 				superclass: aClass
 				instanceVariableNames: aCollection
-				package: packageName ] ].
+				package: packageName ]
+			ifTrue: [ ^ theClass recompile; yourself ] ].
 		
 	^ self
 		basicAddSubclassOf: aClass
 		named: className
 		instanceVariableNames: aCollection
+		package: packageName
+!
+
+addTraitNamed: traitName package: packageName
+	| theTrait thePackage |
+	
+	theTrait := Smalltalk globals at: traitName.
+	thePackage := Package named: packageName.
+	
+	theTrait ifNotNil: [ ^ theTrait package: thePackage; recompile; yourself ].
+		
+	^ self
+		basicAddTraitNamed: traitName
 		package: packageName
 !
 
@@ -878,6 +892,10 @@ basicAddSubclassOf: aClass named: aString instanceVariableNames: aCollection pac
 	<inlineJS: '
 		return $core.addClass(aString, aClass, aCollection, packageName);
 	'>
+!
+
+basicAddTraitNamed: aString package: anotherString
+	<inlineJS: 'return $core.addTrait(aString, anotherString)'>
 !
 
 basicClass: aClass instanceVariableNames: aString

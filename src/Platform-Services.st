@@ -159,7 +159,8 @@ moveClass: aClass toPackage: aPackageName
 	package ifNil: [ self error: 'Invalid package name' ].
 	package == aClass package ifTrue: [ ^ self ].
 	
-	aClass package: package
+	aClass package: package.
+	aClass recompile
 !
 
 moveMethod: aMethod toClass: aClassName

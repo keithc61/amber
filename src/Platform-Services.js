@@ -808,6 +808,7 @@ if($core.assert($2)){
 return self;
 }
 $recv(aClass)._package_(package_);
+$recv(aClass)._recompile();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"moveClass:toPackage:",{aClass:aClass,aPackageName:aPackageName,package_:package_},$globals.Environment)});
@@ -815,10 +816,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aPackageName"],
-source: "moveClass: aClass toPackage: aPackageName\x0a\x09| package |\x0a\x09\x0a\x09package := Package named: aPackageName.\x0a\x09package ifNil: [ self error: 'Invalid package name' ].\x0a\x09package == aClass package ifTrue: [ ^ self ].\x0a\x09\x0a\x09aClass package: package",
+source: "moveClass: aClass toPackage: aPackageName\x0a\x09| package |\x0a\x09\x0a\x09package := Package named: aPackageName.\x0a\x09package ifNil: [ self error: 'Invalid package name' ].\x0a\x09package == aClass package ifTrue: [ ^ self ].\x0a\x09\x0a\x09aClass package: package.\x0a\x09aClass recompile",
 referencedClasses: ["Package"],
 //>>excludeEnd("ide");
-messageSends: ["named:", "ifNil:", "error:", "ifTrue:", "==", "package", "package:"]
+messageSends: ["named:", "ifNil:", "error:", "ifTrue:", "==", "package", "package:", "recompile"]
 }),
 $globals.Environment);
 

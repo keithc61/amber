@@ -3003,18 +3003,17 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $core.addTrait(aString, anotherString);
-return self;
+return $recv($recv($globals.ClassBuilder)._new())._addTraitNamed_package_(aString,anotherString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"named:package:",{aString:aString,anotherString:anotherString},$globals.Trait.klass)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anotherString"],
-source: "named: aString package: anotherString\x0a\x09<inlineJS: 'return $core.addTrait(aString, anotherString)'>",
-referencedClasses: [],
+source: "named: aString package: anotherString\x0a\x09^ ClassBuilder new addTraitNamed: aString package: anotherString",
+referencedClasses: ["ClassBuilder"],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["addTraitNamed:package:", "new"]
 }),
 $globals.Trait.klass);
 
@@ -3059,7 +3058,7 @@ var theClass,thePackage;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $1,$2,$3,$receiver;
 theClass=$recv($recv($globals.Smalltalk)._globals())._at_(className);
 thePackage=$recv($globals.Package)._named_(packageName);
 $1=theClass;
@@ -3068,7 +3067,11 @@ $1;
 } else {
 $recv(theClass)._package_(thePackage);
 $2=$recv($recv(theClass)._superclass()).__eq_eq(aClass);
-if(!$core.assert($2)){
+if($core.assert($2)){
+$3=theClass;
+$recv($3)._recompile();
+return $recv($3)._yourself();
+} else {
 return self._migrateClassNamed_superclass_instanceVariableNames_package_(className,aClass,aCollection,packageName);
 }
 }
@@ -3079,10 +3082,46 @@ return self._basicAddSubclassOf_named_instanceVariableNames_package_(aClass,clas
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "className", "aCollection", "packageName"],
-source: "addSubclassOf: aClass named: className instanceVariableNames: aCollection package: packageName\x0a\x09| theClass thePackage |\x0a\x09\x0a\x09theClass := Smalltalk globals at: className.\x0a\x09thePackage := Package named: packageName.\x0a\x09\x0a\x09theClass ifNotNil: [\x0a\x09\x09theClass package: thePackage.\x0a\x09\x09theClass superclass == aClass ifFalse: [\x0a\x09\x09\x09^ self\x0a\x09\x09\x09\x09migrateClassNamed: className\x0a\x09\x09\x09\x09superclass: aClass\x0a\x09\x09\x09\x09instanceVariableNames: aCollection\x0a\x09\x09\x09\x09package: packageName ] ].\x0a\x09\x09\x0a\x09^ self\x0a\x09\x09basicAddSubclassOf: aClass\x0a\x09\x09named: className\x0a\x09\x09instanceVariableNames: aCollection\x0a\x09\x09package: packageName",
+source: "addSubclassOf: aClass named: className instanceVariableNames: aCollection package: packageName\x0a\x09| theClass thePackage |\x0a\x09\x0a\x09theClass := Smalltalk globals at: className.\x0a\x09thePackage := Package named: packageName.\x0a\x09\x0a\x09theClass ifNotNil: [\x0a\x09\x09theClass package: thePackage.\x0a\x09\x09theClass superclass == aClass\x0a\x09\x09\x09ifFalse: [ ^ self\x0a\x09\x09\x09\x09migrateClassNamed: className\x0a\x09\x09\x09\x09superclass: aClass\x0a\x09\x09\x09\x09instanceVariableNames: aCollection\x0a\x09\x09\x09\x09package: packageName ]\x0a\x09\x09\x09ifTrue: [ ^ theClass recompile; yourself ] ].\x0a\x09\x09\x0a\x09^ self\x0a\x09\x09basicAddSubclassOf: aClass\x0a\x09\x09named: className\x0a\x09\x09instanceVariableNames: aCollection\x0a\x09\x09package: packageName",
 referencedClasses: ["Smalltalk", "Package"],
 //>>excludeEnd("ide");
-messageSends: ["at:", "globals", "named:", "ifNotNil:", "package:", "ifFalse:", "==", "superclass", "migrateClassNamed:superclass:instanceVariableNames:package:", "basicAddSubclassOf:named:instanceVariableNames:package:"]
+messageSends: ["at:", "globals", "named:", "ifNotNil:", "package:", "ifFalse:ifTrue:", "==", "superclass", "migrateClassNamed:superclass:instanceVariableNames:package:", "recompile", "yourself", "basicAddSubclassOf:named:instanceVariableNames:package:"]
+}),
+$globals.ClassBuilder);
+
+$core.addMethod(
+$core.method({
+selector: "addTraitNamed:package:",
+protocol: "class definition",
+fn: function (traitName,packageName){
+var self=this;
+var theTrait,thePackage;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$receiver;
+theTrait=$recv($recv($globals.Smalltalk)._globals())._at_(traitName);
+thePackage=$recv($globals.Package)._named_(packageName);
+$1=theTrait;
+if(($receiver = $1) == null || $receiver.isNil){
+$1;
+} else {
+$2=theTrait;
+$recv($2)._package_(thePackage);
+$recv($2)._recompile();
+return $recv($2)._yourself();
+}
+return self._basicAddTraitNamed_package_(traitName,packageName);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"addTraitNamed:package:",{traitName:traitName,packageName:packageName,theTrait:theTrait,thePackage:thePackage},$globals.ClassBuilder)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["traitName", "packageName"],
+source: "addTraitNamed: traitName package: packageName\x0a\x09| theTrait thePackage |\x0a\x09\x0a\x09theTrait := Smalltalk globals at: traitName.\x0a\x09thePackage := Package named: packageName.\x0a\x09\x0a\x09theTrait ifNotNil: [ ^ theTrait package: thePackage; recompile; yourself ].\x0a\x09\x09\x0a\x09^ self\x0a\x09\x09basicAddTraitNamed: traitName\x0a\x09\x09package: packageName",
+referencedClasses: ["Smalltalk", "Package"],
+//>>excludeEnd("ide");
+messageSends: ["at:", "globals", "named:", "ifNotNil:", "package:", "recompile", "yourself", "basicAddTraitNamed:package:"]
 }),
 $globals.ClassBuilder);
 
@@ -3106,6 +3145,30 @@ return self;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aString", "aCollection", "packageName"],
 source: "basicAddSubclassOf: aClass named: aString instanceVariableNames: aCollection package: packageName\x0a\x09<inlineJS: '\x0a\x09\x09return $core.addClass(aString, aClass, aCollection, packageName);\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.ClassBuilder);
+
+$core.addMethod(
+$core.method({
+selector: "basicAddTraitNamed:package:",
+protocol: "private",
+fn: function (aString,anotherString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $core.addTrait(aString, anotherString);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"basicAddTraitNamed:package:",{aString:aString,anotherString:anotherString},$globals.ClassBuilder)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "anotherString"],
+source: "basicAddTraitNamed: aString package: anotherString\x0a\x09<inlineJS: 'return $core.addTrait(aString, anotherString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
