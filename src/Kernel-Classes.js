@@ -107,6 +107,24 @@ $globals.BehaviorBody);
 
 $core.addMethod(
 $core.method({
+selector: "allSubclassesDo:",
+protocol: "enumerating",
+fn: function (aBlock){
+var self=this;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "allSubclassesDo: aBlock\x0a\x09\x22Default for non-classes; to be able to send #allSubclassesDo: to any class / trait.\x22",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.BehaviorBody);
+
+$core.addMethod(
+$core.method({
 selector: "basicAddCompiledMethod:",
 protocol: "private",
 fn: function (aMethod){
@@ -241,15 +259,21 @@ selector: "definition",
 protocol: "accessing",
 fn: function (){
 var self=this;
-return "";
-
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"definition",{},$globals.BehaviorBody)});
+//>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ ''",
+source: "definition\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["subclassResponsibility"]
 }),
 $globals.BehaviorBody);
 
@@ -892,6 +916,24 @@ $globals.BehaviorBody);
 
 $core.addMethod(
 $core.method({
+selector: "superclass",
+protocol: "accessing",
+fn: function (){
+var self=this;
+return nil;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "superclass\x0a\x09\x22Default for non-classes; to be able to send #superclass to any class / trait.\x22\x0a\x09^ nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.BehaviorBody);
+
+$core.addMethod(
+$core.method({
 selector: "theMetaClass",
 protocol: "accessing",
 fn: function (){
@@ -1032,6 +1074,24 @@ source: "traitCompositionDefinition\x0a\x09^ self traitComposition ifNotEmpty: [
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
 messageSends: ["ifNotEmpty:", "traitComposition", "streamContents:", "write:", "do:separatedBy:", "definition"]
+}),
+$globals.BehaviorBody);
+
+$core.addMethod(
+$core.method({
+selector: "traitUsers",
+protocol: "accessing",
+fn: function (){
+var self=this;
+return [];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "traitUsers\x0a\x09\x22Default for non-traits; to be able to send #traitUsers to any class / trait\x22\x0a\x09^ #()",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
 }),
 $globals.BehaviorBody);
 
@@ -1284,24 +1344,6 @@ source: "canUnderstand: aSelector\x0a\x09^ (self includesSelector: aSelector asS
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["or:", "includesSelector:", "asString", "and:", "notNil", "superclass", "canUnderstand:"]
-}),
-$globals.Behavior);
-
-$core.addMethod(
-$core.method({
-selector: "definition",
-protocol: "accessing",
-fn: function (){
-var self=this;
-return "";
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "definition\x0a\x09^ ''",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
 }),
 $globals.Behavior);
 
@@ -2652,24 +2694,6 @@ $globals.Trait);
 
 $core.addMethod(
 $core.method({
-selector: "allSubclassesDo:",
-protocol: "IDE compatibility",
-fn: function (aBlock){
-var self=this;
-return self;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "allSubclassesDo: aBlock",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Trait);
-
-$core.addMethod(
-$core.method({
 selector: "asJavascript",
 protocol: "converting",
 fn: function (){
@@ -2913,24 +2937,6 @@ source: "package: aPackage\x0a\x09| oldPackage |\x0a\x09\x0a\x09self package = a
 referencedClasses: ["SystemAnnouncer", "ClassMoved"],
 //>>excludeEnd("ide");
 messageSends: ["ifTrue:", "=", "package", "basicAt:put:", "removeElement:", "organization", "addElement:", "announce:", "current", "theClass:", "new", "oldPackage:", "yourself"]
-}),
-$globals.Trait);
-
-$core.addMethod(
-$core.method({
-selector: "superclass",
-protocol: "IDE compatibility",
-fn: function (){
-var self=this;
-return nil;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "superclass\x0a\x09^ nil",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
 }),
 $globals.Trait);
 

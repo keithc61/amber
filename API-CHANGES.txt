@@ -9,6 +9,9 @@
 + BehaviorBody >>
   + setTraitComposition:
   + traitCompositionDefinition
+  + traitUsers
+  + allSubclassesDo:
+  + superclass
 + Trait
   + allInstanceVariableNames
   + allSubclassesDo:

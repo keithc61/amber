@@ -28,7 +28,7 @@ comment: aString
 !
 
 definition
-	^ ''
+	self subclassResponsibility
 !
 
 methodAt: aString
@@ -119,6 +119,11 @@ selectors
 	^ self methodDictionary keys
 !
 
+superclass
+	"Default for non-classes; to be able to send #superclass to any class / trait."
+	^ nil
+!
+
 theMetaClass
 	self subclassResponsibility
 !
@@ -139,6 +144,11 @@ traitCompositionDefinition
 				do: [ :each | str write: each definition ]
 				separatedBy: [ str write: '. ' ].
 			str write: '}' ] ]
+!
+
+traitUsers
+	"Default for non-traits; to be able to send #traitUsers to any class / trait"
+	^ #()
 ! !
 
 !BehaviorBody methodsFor: 'compiling'!
@@ -201,6 +211,10 @@ setTraitComposition: aTraitComposition
 ! !
 
 !BehaviorBody methodsFor: 'enumerating'!
+
+allSubclassesDo: aBlock
+	"Default for non-classes; to be able to send #allSubclassesDo: to any class / trait."
+!
 
 protocolsDo: aBlock
 	"Execute aBlock for each method protocol with
@@ -282,10 +296,6 @@ allSuperclasses
 	^ (OrderedCollection with: self superclass)
 		addAll: self superclass allSuperclasses;
 		yourself
-!
-
-definition
-	^ ''
 !
 
 instanceVariableNames
@@ -600,15 +610,6 @@ isMetaclass
 BehaviorBody subclass: #Trait
 	instanceVariableNames: ''
 	package: 'Kernel-Classes'!
-
-!Trait methodsFor: 'IDE compatibility'!
-
-allSubclassesDo: aBlock
-!
-
-superclass
-	^ nil
-! !
 
 !Trait methodsFor: 'accessing'!
 
