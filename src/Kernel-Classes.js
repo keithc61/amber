@@ -3379,7 +3379,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5,$7,$6,$9,$8;
+var $1,$3,$2,$4,$5,$6,$7,$9,$8,$11,$10,$13,$14,$12;
 $recv(anotherClass)._comment_($recv(aClass)._comment());
 $1=$recv(aClass)._methodDictionary();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3389,22 +3389,32 @@ $recv($1)._valuesDo_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2=$recv($globals.Compiler)._new();
+$3=$recv(each)._methodClass();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["methodClass"]=1;
+//>>excludeEnd("ctx");
+$2=$recv($3).__eq(aClass);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["="]=1;
+//>>excludeEnd("ctx");
+if($core.assert($2)){
+$4=$recv($globals.Compiler)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["new"]=1;
 //>>excludeEnd("ctx");
-$3=$recv(each)._source();
+$5=$recv(each)._source();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["source"]=1;
 //>>excludeEnd("ctx");
-$4=$recv(each)._protocol();
+$6=$recv(each)._protocol();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["protocol"]=1;
 //>>excludeEnd("ctx");
-return $recv($2)._install_forClass_protocol_($3,anotherClass,$4);
+return $recv($4)._install_forClass_protocol_($5,anotherClass,$6);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["install:forClass:protocol:"]=1;
 //>>excludeEnd("ctx");
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -3412,28 +3422,36 @@ $ctx2.sendIdx["install:forClass:protocol:"]=1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["valuesDo:"]=1;
 //>>excludeEnd("ctx");
-$5=$recv(anotherClass)._class();
+$7=$recv(anotherClass)._class();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["class"]=1;
 //>>excludeEnd("ctx");
-$7=$recv(aClass)._class();
+$9=$recv(aClass)._class();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["class"]=2;
 //>>excludeEnd("ctx");
-$6=$recv($7)._instanceVariableNames();
-self._basicClass_instanceVariables_($5,$6);
-$9=$recv(aClass)._class();
+$8=$recv($9)._instanceVariableNames();
+self._basicClass_instanceVariables_($7,$8);
+$11=$recv(aClass)._class();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["class"]=3;
 //>>excludeEnd("ctx");
-$8=$recv($9)._methodDictionary();
-$recv($8)._valuesDo_((function(each){
+$10=$recv($11)._methodDictionary();
+$recv($10)._valuesDo_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($recv($globals.Compiler)._new())._install_forClass_protocol_($recv(each)._source(),$recv(anotherClass)._class(),$recv(each)._protocol());
+$13=$recv(each)._methodClass();
+$14=$recv(aClass)._class();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+$ctx2.sendIdx["class"]=4;
+//>>excludeEnd("ctx");
+$12=$recv($13).__eq($14);
+if($core.assert($12)){
+return $recv($recv($globals.Compiler)._new())._install_forClass_protocol_($recv(each)._source(),$recv(anotherClass)._class(),$recv(each)._protocol());
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
 //>>excludeEnd("ctx");
 }));
 return self;
@@ -3443,10 +3461,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "anotherClass"],
-source: "copyClass: aClass to: anotherClass\x0a\x0a\x09anotherClass comment: aClass comment.\x0a\x0a\x09aClass methodDictionary valuesDo: [ :each |\x0a\x09\x09Compiler new install: each source forClass: anotherClass protocol: each protocol ].\x0a\x0a\x09self basicClass: anotherClass class instanceVariables: aClass class instanceVariableNames.\x0a\x0a\x09aClass class methodDictionary valuesDo: [ :each |\x0a\x09\x09Compiler new install: each source forClass: anotherClass class protocol: each protocol ]",
+source: "copyClass: aClass to: anotherClass\x0a\x0a\x09anotherClass comment: aClass comment.\x0a\x0a\x09aClass methodDictionary valuesDo: [ :each |\x0a\x09\x09each methodClass = aClass ifTrue: [\x0a\x09\x09\x09Compiler new install: each source forClass: anotherClass protocol: each protocol ] ].\x0a\x0a\x09self basicClass: anotherClass class instanceVariables: aClass class instanceVariableNames.\x0a\x0a\x09aClass class methodDictionary valuesDo: [ :each |\x0a\x09\x09each methodClass = aClass class ifTrue: [\x0a\x09\x09\x09Compiler new install: each source forClass: anotherClass class protocol: each protocol ] ]",
 referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
-messageSends: ["comment:", "comment", "valuesDo:", "methodDictionary", "install:forClass:protocol:", "new", "source", "protocol", "basicClass:instanceVariables:", "class", "instanceVariableNames"]
+messageSends: ["comment:", "comment", "valuesDo:", "methodDictionary", "ifTrue:", "=", "methodClass", "install:forClass:protocol:", "new", "source", "protocol", "basicClass:instanceVariables:", "class", "instanceVariableNames"]
 }),
 $globals.ClassBuilder);
 

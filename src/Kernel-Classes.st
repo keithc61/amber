@@ -870,12 +870,14 @@ copyClass: aClass to: anotherClass
 	anotherClass comment: aClass comment.
 
 	aClass methodDictionary valuesDo: [ :each |
-		Compiler new install: each source forClass: anotherClass protocol: each protocol ].
+		each methodClass = aClass ifTrue: [
+			Compiler new install: each source forClass: anotherClass protocol: each protocol ] ].
 
 	self basicClass: anotherClass class instanceVariables: aClass class instanceVariableNames.
 
 	aClass class methodDictionary valuesDo: [ :each |
-		Compiler new install: each source forClass: anotherClass class protocol: each protocol ]
+		each methodClass = aClass class ifTrue: [
+			Compiler new install: each source forClass: anotherClass class protocol: each protocol ] ]
 ! !
 
 !ClassBuilder methodsFor: 'method definition'!
