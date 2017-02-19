@@ -1097,6 +1097,10 @@ do: aBlock
 	'>
 !
 
+reverseDo: aBlock
+	self reversed do: aBlock
+!
+
 with: anotherCollection do: aBlock
 	<inlineJS: '
 		self = self._numericallyIndexable();

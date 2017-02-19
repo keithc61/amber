@@ -4514,6 +4514,30 @@ $globals.SequenceableCollection);
 
 $core.addMethod(
 $core.method({
+selector: "reverseDo:",
+protocol: "enumerating",
+fn: function (aBlock){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv(self._reversed())._do_(aBlock);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"reverseDo:",{aBlock:aBlock},$globals.SequenceableCollection)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "reverseDo: aBlock\x0a\x09self reversed do: aBlock",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["do:", "reversed"]
+}),
+$globals.SequenceableCollection);
+
+$core.addMethod(
+$core.method({
 selector: "reversed",
 protocol: "converting",
 fn: function (){

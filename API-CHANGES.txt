@@ -45,6 +45,8 @@
   + trait:
 + Collection >>
   + copyWithout:
++ SequenceableCollection >>
+  + reverseDo:
 + Array >>
   + asTraitComposition
 + amber/boot api >>
