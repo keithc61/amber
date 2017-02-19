@@ -1,3 +1,12 @@
+? February 2017 - Release 0.18.3
+===================================
+
+* Traits, with a few limitations and incomplete IDE support.
+* Methods / classes / traits are recompiled when moved (fix #1142, #1170).
+
+Commits: https://lolg.it/amber/amber/commits/0.18.3.
+
+
 1 January 2017 - Release 0.18.2
 ===================================
 
