@@ -2871,6 +2871,53 @@ $globals.Trait);
 
 $core.addMethod(
 $core.method({
+selector: "package:",
+protocol: "accessing",
+fn: function (aPackage){
+var self=this;
+var oldPackage;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1,$3,$4,$6,$5;
+$2=self._package();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["package"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2).__eq(aPackage);
+if($core.assert($1)){
+return self;
+}
+oldPackage=self._package();
+self._basicAt_put_("pkg",aPackage);
+$3=$recv(oldPackage)._organization();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["organization"]=1;
+//>>excludeEnd("ctx");
+$recv($3)._removeElement_(self);
+$recv($recv(aPackage)._organization())._addElement_(self);
+$4=$recv($globals.SystemAnnouncer)._current();
+$6=$recv($globals.ClassMoved)._new();
+$recv($6)._theClass_(self);
+$recv($6)._oldPackage_(oldPackage);
+$5=$recv($6)._yourself();
+$recv($4)._announce_($5);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"package:",{aPackage:aPackage,oldPackage:oldPackage},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aPackage"],
+source: "package: aPackage\x0a\x09| oldPackage |\x0a\x09\x0a\x09self package = aPackage ifTrue: [ ^ self ].\x0a\x09\x0a\x09oldPackage := self package.\x0a\x09\x0a\x09self basicAt: 'pkg' put: aPackage.\x0a\x09oldPackage organization removeElement: self.\x0a\x09aPackage organization addElement: self.\x0a\x0a\x09SystemAnnouncer current announce: (ClassMoved new\x0a\x09\x09theClass: self;\x0a\x09\x09oldPackage: oldPackage;\x0a\x09\x09yourself)",
+referencedClasses: ["SystemAnnouncer", "ClassMoved"],
+//>>excludeEnd("ide");
+messageSends: ["ifTrue:", "=", "package", "basicAt:put:", "removeElement:", "organization", "addElement:", "announce:", "current", "theClass:", "new", "oldPackage:", "yourself"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
 selector: "superclass",
 protocol: "IDE compatibility",
 fn: function (){

@@ -23,6 +23,7 @@
   + theNonMetaClass
   + exportBehaviorDefinitionTo:using:
   + traitUsers
+  + package:
 + Trait class >>
   + named:package:
   + named:uses:package:
