@@ -420,7 +420,7 @@ testClassMigrationWithSubclasses
 	self assert: (ObjectMock2 subclasses includes: ObjectMock3).
 	self assert: (ObjectMock3 subclasses includes: ObjectMock4).
 	
-	ObjectMock allSubclasses do: [ :each | Smalltalk removeClass: each ]
+	ObjectMock allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ]
 !
 
 testInstanceVariableNames
@@ -446,7 +446,10 @@ setUp
 !
 
 tearDown
-	theClass ifNotNil: [ Smalltalk removeClass: theClass. theClass := nil ]
+	theClass ifNotNil: [
+		theClass allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ].
+		Smalltalk removeClass: theClass.
+		theClass := nil ]
 !
 
 trickyJsConstructor

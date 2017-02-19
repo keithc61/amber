@@ -2192,7 +2192,7 @@ self._assert_($3);
 $ctx1.sendIdx["assert:"]=2;
 //>>excludeEnd("ctx");
 self._assert_($recv($recv($globals.ObjectMock3)._subclasses())._includes_($globals.ObjectMock4));
-$recv($recv($globals.ObjectMock)._allSubclasses())._do_((function(each){
+$recv($recv($globals.ObjectMock)._allSubclasses())._reverseDo_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -2208,10 +2208,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testClassMigrationWithSubclasses\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 subclass: 'ObjectMock3' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09ObjectMock3 subclass: 'ObjectMock4' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2')\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: (ObjectMock subclasses includes: ObjectMock2).\x0a\x09self assert: (ObjectMock2 subclasses includes: ObjectMock3).\x0a\x09self assert: (ObjectMock3 subclasses includes: ObjectMock4).\x0a\x09\x0a\x09ObjectMock allSubclasses do: [ :each | Smalltalk removeClass: each ]",
+source: "testClassMigrationWithSubclasses\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 subclass: 'ObjectMock3' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09ObjectMock3 subclass: 'ObjectMock4' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2')\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: (ObjectMock subclasses includes: ObjectMock2).\x0a\x09self assert: (ObjectMock2 subclasses includes: ObjectMock3).\x0a\x09self assert: (ObjectMock3 subclasses includes: ObjectMock4).\x0a\x09\x0a\x09ObjectMock allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ]",
 referencedClasses: ["ObjectMock", "ObjectMock2", "ObjectMock3", "Smalltalk", "ObjectMock4"],
 //>>excludeEnd("ide");
-messageSends: ["copyClass:named:", "subclass:instanceVariableNames:package:", "at:", "globals", "assert:", "includes:", "subclasses", "do:", "allSubclasses", "removeClass:"]
+messageSends: ["copyClass:named:", "subclass:instanceVariableNames:package:", "at:", "globals", "assert:", "includes:", "subclasses", "reverseDo:", "allSubclasses", "removeClass:"]
 }),
 $globals.ClassBuilderTest);
 
@@ -2308,6 +2308,18 @@ $1=self["@theClass"];
 if(($receiver = $1) == null || $receiver.isNil){
 $1;
 } else {
+$recv($recv(self["@theClass"])._allSubclasses())._reverseDo_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($globals.Smalltalk)._removeClass_(each);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["removeClass:"]=1;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
 $recv($globals.Smalltalk)._removeClass_(self["@theClass"]);
 self["@theClass"]=nil;
 self["@theClass"];
@@ -2319,10 +2331,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "tearDown\x0a\x09theClass ifNotNil: [ Smalltalk removeClass: theClass. theClass := nil ]",
+source: "tearDown\x0a\x09theClass ifNotNil: [\x0a\x09\x09theClass allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ].\x0a\x09\x09Smalltalk removeClass: theClass.\x0a\x09\x09theClass := nil ]",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["ifNotNil:", "removeClass:"]
+messageSends: ["ifNotNil:", "reverseDo:", "allSubclasses", "removeClass:"]
 }),
 $globals.ClassTest);
 
