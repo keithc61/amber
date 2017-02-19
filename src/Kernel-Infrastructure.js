@@ -3177,22 +3177,47 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$3;
+var $1,$2,$5,$4,$3,$6,$8,$7;
 $1=$recv(aClass)._isMetaclass();
 if($core.assert($1)){
-self._error_($recv($recv(aClass)._asString()).__comma(" is a Metaclass and cannot be removed!"));
+$2=$recv($recv(aClass)._asString()).__comma(" is a Metaclass and cannot be removed!");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=1;
+//>>excludeEnd("ctx");
+self._error_($2);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["error:"]=1;
+//>>excludeEnd("ctx");
 }
+$recv(aClass)._allSubclassesDo_((function(subclass){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$5=$recv(aClass)._name();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["name"]=1;
+//>>excludeEnd("ctx");
+$4=$recv($5).__comma(" has a subclass: ");
+$3=$recv($4).__comma($recv(subclass)._name());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx[","]=2;
+//>>excludeEnd("ctx");
+return self._error_($3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({subclass:subclass},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
 self._deleteClass_(aClass);
 $recv(aClass)._setTraitComposition_([]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["setTraitComposition:"]=1;
 //>>excludeEnd("ctx");
 $recv($recv(aClass)._class())._setTraitComposition_([]);
-$2=$recv($globals.SystemAnnouncer)._current();
-$4=$recv($globals.ClassRemoved)._new();
-$recv($4)._theClass_(aClass);
-$3=$recv($4)._yourself();
-$recv($2)._announce_($3);
+$6=$recv($globals.SystemAnnouncer)._current();
+$8=$recv($globals.ClassRemoved)._new();
+$recv($8)._theClass_(aClass);
+$7=$recv($8)._yourself();
+$recv($6)._announce_($7);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"removeClass:",{aClass:aClass},$globals.SmalltalkImage)});
@@ -3200,10 +3225,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
-source: "removeClass: aClass\x0a\x09aClass isMetaclass ifTrue: [ self error: aClass asString, ' is a Metaclass and cannot be removed!' ].\x0a\x09\x0a\x09self deleteClass: aClass.\x0a\x09aClass setTraitComposition: #().\x0a\x09aClass class setTraitComposition: #().\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassRemoved new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
+source: "removeClass: aClass\x0a\x09aClass isMetaclass ifTrue: [ self error: aClass asString, ' is a Metaclass and cannot be removed!' ].\x0a\x09aClass allSubclassesDo: [ :subclass | self error: aClass name, ' has a subclass: ', subclass name ].\x0a\x09\x0a\x09self deleteClass: aClass.\x0a\x09aClass setTraitComposition: #().\x0a\x09aClass class setTraitComposition: #().\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassRemoved new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassRemoved"],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:", "isMetaclass", "error:", ",", "asString", "deleteClass:", "setTraitComposition:", "class", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["ifTrue:", "isMetaclass", "error:", ",", "asString", "allSubclassesDo:", "name", "deleteClass:", "setTraitComposition:", "class", "announce:", "current", "theClass:", "new", "yourself"]
 }),
 $globals.SmalltalkImage);
 

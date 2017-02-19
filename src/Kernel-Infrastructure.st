@@ -779,6 +779,7 @@ classes
 
 removeClass: aClass
 	aClass isMetaclass ifTrue: [ self error: aClass asString, ' is a Metaclass and cannot be removed!!' ].
+	aClass allSubclassesDo: [ :subclass | self error: aClass name, ' has a subclass: ', subclass name ].
 	
 	self deleteClass: aClass.
 	aClass setTraitComposition: #().
