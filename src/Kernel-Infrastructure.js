@@ -3183,6 +3183,11 @@ if($core.assert($1)){
 self._error_($recv($recv(aClass)._asString()).__comma(" is a Metaclass and cannot be removed!"));
 }
 self._deleteClass_(aClass);
+$recv(aClass)._setTraitComposition_([]);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["setTraitComposition:"]=1;
+//>>excludeEnd("ctx");
+$recv($recv(aClass)._class())._setTraitComposition_([]);
 $2=$recv($globals.SystemAnnouncer)._current();
 $4=$recv($globals.ClassRemoved)._new();
 $recv($4)._theClass_(aClass);
@@ -3195,10 +3200,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
-source: "removeClass: aClass\x0a\x09aClass isMetaclass ifTrue: [ self error: aClass asString, ' is a Metaclass and cannot be removed!' ].\x0a\x09\x0a\x09self deleteClass: aClass.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassRemoved new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
+source: "removeClass: aClass\x0a\x09aClass isMetaclass ifTrue: [ self error: aClass asString, ' is a Metaclass and cannot be removed!' ].\x0a\x09\x0a\x09self deleteClass: aClass.\x0a\x09aClass setTraitComposition: #().\x0a\x09aClass class setTraitComposition: #().\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassRemoved new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassRemoved"],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:", "isMetaclass", "error:", ",", "asString", "deleteClass:", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["ifTrue:", "isMetaclass", "error:", ",", "asString", "deleteClass:", "setTraitComposition:", "class", "announce:", "current", "theClass:", "new", "yourself"]
 }),
 $globals.SmalltalkImage);
 

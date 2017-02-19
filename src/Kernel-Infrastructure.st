@@ -781,6 +781,8 @@ removeClass: aClass
 	aClass isMetaclass ifTrue: [ self error: aClass asString, ' is a Metaclass and cannot be removed!!' ].
 	
 	self deleteClass: aClass.
+	aClass setTraitComposition: #().
+	aClass class setTraitComposition: #().
 	
 	SystemAnnouncer current
 		announce: (ClassRemoved new
