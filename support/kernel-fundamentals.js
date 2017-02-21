@@ -361,7 +361,7 @@ define(['./compatibility'], function () {
                 var aliasedMethod = traitMethods[traitAliases[aliasSelector]];
                 if (aliasedMethod) obj[aliasSelector] = aliasedMethod;
             });
-            var traitExclusions = traitExclusions || [];
+            var traitExclusions = traitTransformation.exclusions || [];
             traitExclusions.forEach(function (selector) {
                 delete obj[selector];
             });
