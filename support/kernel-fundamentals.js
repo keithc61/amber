@@ -360,6 +360,7 @@ define(['./compatibility'], function () {
             Object.keys(traitAliases).forEach(function (aliasSelector) {
                 var aliasedMethod = traitMethods[traitAliases[aliasSelector]];
                 if (aliasedMethod) obj[aliasSelector] = aliasedMethod;
+                else delete obj[aliasSelector];
             });
             var traitExclusions = traitTransformation.exclusions || [];
             traitExclusions.forEach(function (selector) {
