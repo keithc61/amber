@@ -37,4 +37,4 @@ rm package.json.bak
 git add package.json
 git commit -a -m "Working on $VERF"
 git push
-git push $VER
+echo git push origin $VER
