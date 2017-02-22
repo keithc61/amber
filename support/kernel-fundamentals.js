@@ -425,6 +425,55 @@ define(['./compatibility'], function () {
         }
 
         this.updateMethod = updateMethod;
+
+        function aliasesOfSelector (selector, traitAliases) {
+            if (!traitAliases) return [selector];
+            var result = Object.keys(traitAliases).filter(function (aliasSelector) {
+                return traitAliases[aliasSelector] === selector
+            });
+            if (!traitAliases[selector]) result.push(selector);
+            return result;
+        }
+
+        function applyTraitMethodAddition (selector, method, traitTransformation, obj) {
+            var changes = aliasesOfSelector(selector, traitTransformation.aliases);
+            changes.forEach(function (aliasSelector) {
+                obj[aliasSelector] = aliased(aliasSelector, method);
+            });
+            var traitExclusions = traitTransformation.exclusions;
+            if (traitExclusions && traitExclusions.indexOf(selector) !== -1) {
+                delete obj[selector];
+            }
+            return changes;
+        }
+
+        function applyTraitMethodDeletion (selector, traitTransformation, obj) {
+            var changes = aliasesOfSelector(selector, traitTransformation.aliases);
+            changes.forEach(function (aliasSelector) {
+                delete obj[aliasSelector];
+            });
+            return changes;
+        }
+
+        function traitMethodChanged (selector, method, trait, behaviorBody) {
+            var traitComposition = behaviorBody.traitComposition,
+                chain = behaviorBody.localMethods,
+                changes = [];
+            for (var i = traitComposition.length - 1; i >= 0; --i) {
+                chain = Object.getPrototypeOf(chain);
+                var traitTransformation = traitComposition[i];
+                if (traitTransformation.trait !== trait) continue;
+                changes.push.apply(changes, method ?
+                    applyTraitMethodAddition(selector, method, traitTransformation, chain) :
+                    applyTraitMethodDeletion(selector, traitTransformation, chain));
+            }
+            // assert(chain === null);
+            changes.forEach(function (each) {
+                updateMethod(each, behaviorBody);
+            });
+        }
+
+        this.traitMethodChanged = traitMethodChanged;
     }
 
     function ArraySetBrik (brikz, st) {

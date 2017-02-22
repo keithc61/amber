@@ -64,6 +64,7 @@ define(['./compatibility'], function () {
         var coreFns = brikz.root.coreFns;
         var SmalltalkBehaviorBody = brikz.behaviors.BehaviorBody;
         var setupMethods = brikz.composition.setupMethods;
+        var traitMethodChanged = brikz.composition.traitMethodChanged;
         var buildBehaviorBody = brikz.behaviors.buildBehaviorBody;
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
@@ -85,9 +86,17 @@ define(['./compatibility'], function () {
             if (st._traitRemoved) st._traitRemoved(this);
         });
         defineMethod(SmalltalkTrait, "methodAdded", function (method) {
+            var self = this;
+            this.traitUsers.forEach(function (each) {
+                traitMethodChanged(method.selector, method, self, each);
+            });
             if (st._traitMethodAdded) st._traitMethodAdded(method, this);
         });
         defineMethod(SmalltalkTrait, "methodRemoved", function (method) {
+            var self = this;
+            this.traitUsers.forEach(function (each) {
+                traitMethodChanged(method.selector, null, self, each);
+            });
             if (st._traitMethodRemoved) st._traitMethodRemoved(method, this);
         });
         defineMethod(SmalltalkTrait, "addUser", function (behaviorBody) {
