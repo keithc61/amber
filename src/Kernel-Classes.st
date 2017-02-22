@@ -15,6 +15,11 @@ I also provides methods for compiling methods and examining the method dictionar
 	^ self methodAt: aString
 !
 
+allInstanceVariableNames
+	"Default for non-classes; to be able to send #allInstanceVariableNames to any class / trait."
+	^ #()
+!
+
 comment
 	^ (self basicAt: 'comment') ifNil: [ '' ]
 !
@@ -659,12 +664,6 @@ theNonMetaClass
 
 traitUsers
 	^ (self basicAt: 'traitUsers') copy
-! !
-
-!Trait methodsFor: 'compiler compatibility'!
-
-allInstanceVariableNames
-	^ #()
 ! !
 
 !Trait methodsFor: 'composition'!

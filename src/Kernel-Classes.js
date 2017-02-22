@@ -107,6 +107,24 @@ $globals.BehaviorBody);
 
 $core.addMethod(
 $core.method({
+selector: "allInstanceVariableNames",
+protocol: "accessing",
+fn: function (){
+var self=this;
+return [];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "allInstanceVariableNames\x0a\x09\x22Default for non-classes; to be able to send #allInstanceVariableNames to any class / trait.\x22\x0a\x09^ #()",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.BehaviorBody);
+
+$core.addMethod(
+$core.method({
 selector: "allSubclassesDo:",
 protocol: "enumerating",
 fn: function (aBlock){
@@ -2671,24 +2689,6 @@ source: "@ anArrayOfAssociations\x0a\x09^ self asTraitTransformation @ anArrayOf
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["@", "asTraitTransformation"]
-}),
-$globals.Trait);
-
-$core.addMethod(
-$core.method({
-selector: "allInstanceVariableNames",
-protocol: "compiler compatibility",
-fn: function (){
-var self=this;
-return [];
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "allInstanceVariableNames\x0a\x09^ #()",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
 }),
 $globals.Trait);
 
