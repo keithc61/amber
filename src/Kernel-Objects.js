@@ -59,6 +59,54 @@ $globals.ProtoObject);
 
 $core.addMethod(
 $core.method({
+selector: "asJSON",
+protocol: "converting",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+self._deprecatedAPI_("Use #asJavaScriptObject instead.");
+return self._asJavaScriptObject();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asJSON",{},$globals.ProtoObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asJSON\x0a\x09self deprecatedAPI: 'Use #asJavaScriptObject instead.'.\x0a\x09^ self asJavaScriptObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["deprecatedAPI:", "asJavaScriptObject"]
+}),
+$globals.ProtoObject);
+
+$core.addMethod(
+$core.method({
+selector: "asJavascript",
+protocol: "converting",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+self._deprecatedAPI_("Use #asJavaScriptSource instead.");
+return self._asJavaScriptSource();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asJavascript",{},$globals.ProtoObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asJavascript\x0a\x09self deprecatedAPI: 'Use #asJavaScriptSource instead.'.\x0a\x09^ self asJavaScriptSource",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["deprecatedAPI:", "asJavaScriptSource"]
+}),
+$globals.ProtoObject);
+
+$core.addMethod(
+$core.method({
 selector: "asString",
 protocol: "converting",
 fn: function (){
@@ -718,7 +766,30 @@ $globals.Object);
 
 $core.addMethod(
 $core.method({
-selector: "asJSON",
+selector: "asJSONString",
+protocol: "converting",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.JSON)._stringify_(self._asJavaScriptObject());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asJSONString",{},$globals.Object)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asJSONString\x0a\x09^ JSON stringify: self asJavaScriptObject",
+referencedClasses: ["JSON"],
+//>>excludeEnd("ide");
+messageSends: ["stringify:", "asJavaScriptObject"]
+}),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "asJavaScriptObject",
 protocol: "converting",
 fn: function (){
 var self=this;
@@ -731,51 +802,28 @@ $recv($recv(self._class())._allInstanceVariableNames())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv(variables)._at_put_(each,$recv(self._instVarAt_(each))._asJSON());
+return $recv(variables)._at_put_(each,$recv(self._instVarAt_(each))._asJavaScriptObject());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
 return variables;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJSON",{variables:variables},$globals.Object)});
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptObject",{variables:variables},$globals.Object)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJSON\x0a\x09| variables |\x0a\x09variables := HashedCollection new.\x0a\x09self class allInstanceVariableNames do: [ :each |\x0a\x09\x09variables at: each put: (self instVarAt: each) asJSON ].\x0a\x09^ variables",
+source: "asJavaScriptObject\x0a\x09| variables |\x0a\x09variables := HashedCollection new.\x0a\x09self class allInstanceVariableNames do: [ :each |\x0a\x09\x09variables at: each put: (self instVarAt: each) asJavaScriptObject ].\x0a\x09^ variables",
 referencedClasses: ["HashedCollection"],
 //>>excludeEnd("ide");
-messageSends: ["new", "do:", "allInstanceVariableNames", "class", "at:put:", "asJSON", "instVarAt:"]
+messageSends: ["new", "do:", "allInstanceVariableNames", "class", "at:put:", "asJavaScriptObject", "instVarAt:"]
 }),
 $globals.Object);
 
 $core.addMethod(
 $core.method({
-selector: "asJSONString",
-protocol: "converting",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($globals.JSON)._stringify_(self._asJSON());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJSONString",{},$globals.Object)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "asJSONString\x0a\x09^ JSON stringify: self asJSON",
-referencedClasses: ["JSON"],
-//>>excludeEnd("ide");
-messageSends: ["stringify:", "asJSON"]
-}),
-$globals.Object);
-
-$core.addMethod(
-$core.method({
-selector: "asJavascript",
+selector: "asJavaScriptSource",
 protocol: "converting",
 fn: function (){
 var self=this;
@@ -784,12 +832,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return self._asString();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJavascript",{},$globals.Object)});
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{},$globals.Object)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJavascript\x0a\x09^ self asString",
+source: "asJavaScriptSource\x0a\x09^ self asString",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["asString"]
@@ -1812,7 +1860,7 @@ $globals.Boolean);
 
 $core.addMethod(
 $core.method({
-selector: "asJSON",
+selector: "asJavaScriptObject",
 protocol: "converting",
 fn: function (){
 var self=this;
@@ -1821,7 +1869,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJSON\x0a\x09^ self",
+source: "asJavaScriptObject\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3596,7 +3644,7 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
-selector: "asJSON",
+selector: "asJavaScriptObject",
 protocol: "converting",
 fn: function (){
 var self=this;
@@ -3605,7 +3653,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJSON\x0a\x09^ self",
+source: "asJavaScriptObject\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3614,7 +3662,7 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
-selector: "asJavascript",
+selector: "asJavaScriptSource",
 protocol: "converting",
 fn: function (){
 var self=this;
@@ -3628,12 +3676,12 @@ $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
 return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJavascript",{},$globals.Number)});
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{},$globals.Number)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJavascript\x0a\x09^ '(', self printString, ')'",
+source: "asJavaScriptSource\x0a\x09^ '(', self printString, ')'",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: [",", "printString"]
@@ -5506,7 +5554,7 @@ $globals.UndefinedObject.comment="I describe the behavior of my sole instance, `
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "asJSON",
+selector: "asJavaScriptObject",
 protocol: "converting",
 fn: function (){
 var self=this;
@@ -5515,7 +5563,7 @@ return null;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJSON\x0a\x09^ null",
+source: "asJavaScriptObject\x0a\x09^ null",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

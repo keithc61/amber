@@ -212,7 +212,7 @@ removeCompiledMethod: aMethod
 !
 
 setTraitComposition: aTraitComposition
-	<inlineJS: '$core.setTraitComposition(aTraitComposition._asJSON(), self)'>
+	<inlineJS: '$core.setTraitComposition(aTraitComposition._asJavaScriptObject(), self)'>
 ! !
 
 !BehaviorBody methodsFor: 'enumerating'!
@@ -533,7 +533,7 @@ subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aStr
 
 !Class methodsFor: 'converting'!
 
-asJavascript
+asJavaScriptSource
 	^ '$globals.', self name
 ! !
 
@@ -602,7 +602,7 @@ uses: aTraitCompositionDescription instanceVariableNames: aCollection
 
 !Metaclass methodsFor: 'converting'!
 
-asJavascript
+asJavaScriptSource
 	^ '$globals.', self instanceClass name, '.klass'
 ! !
 
@@ -678,7 +678,7 @@ traitUsers
 
 !Trait methodsFor: 'converting'!
 
-asJavascript
+asJavaScriptSource
 	^ '$globals.', self name
 !
 
@@ -1076,20 +1076,20 @@ trait: anObject
 
 !TraitTransformation methodsFor: 'converting'!
 
-asJSON
+asJavaScriptObject
 	^ #{
 		'trait' -> self trait.
 		'aliases' -> self aliases.
 		'exclusions' -> self exclusions asArray sorted }
 !
 
-asJavascript
+asJavaScriptSource
 	^ String streamContents: [ :str | str write: {
-		'{trait: ' . self trait asJavascript.
+		'{trait: '. self trait asJavaScriptSource.
 		self aliases ifNotEmpty: [ :al |
 			{', aliases: '. al asJSONString} ].
 		self exclusions ifNotEmpty: [ :ex |
-			{', exclusions: '. ex asArray sorted asJavascript} ].
+			{', exclusions: '. ex asArray sorted asJavaScriptSource} ].
 		'}' } ]
 !
 

@@ -60,6 +60,16 @@ isSameInstanceAs: anObject
 
 !ProtoObject methodsFor: 'converting'!
 
+asJSON
+	self deprecatedAPI: 'Use #asJavaScriptObject instead.'.
+	^ self asJavaScriptObject
+!
+
+asJavascript
+	self deprecatedAPI: 'Use #asJavaScriptSource instead.'.
+	^ self asJavaScriptSource
+!
+
 asString
 	^ self printString
 ! !
@@ -228,19 +238,19 @@ browse
 	^ Association key: self value: anObject
 !
 
-asJSON
+asJSONString
+	^ JSON stringify: self asJavaScriptObject
+!
+
+asJavaScriptObject
 	| variables |
 	variables := HashedCollection new.
 	self class allInstanceVariableNames do: [ :each |
-		variables at: each put: (self instVarAt: each) asJSON ].
+		variables at: each put: (self instVarAt: each) asJavaScriptObject ].
 	^ variables
 !
 
-asJSONString
-	^ JSON stringify: self asJSON
-!
-
-asJavascript
+asJavaScriptSource
 	^ self asString
 ! !
 
@@ -508,7 +518,7 @@ asBit
 	^ self ifTrue: [ 1 ] ifFalse: [ 0 ]
 !
 
-asJSON
+asJavaScriptObject
 	^ self
 !
 
@@ -854,11 +864,11 @@ negated
 	^ Point x: self y: aNumber
 !
 
-asJSON
+asJavaScriptObject
 	^ self
 !
 
-asJavascript
+asJavaScriptSource
 	^ '(', self printString, ')'
 !
 
@@ -1302,7 +1312,7 @@ __note:__ When sending messages to the `undefined` JavaScript object, it will be
 
 !UndefinedObject methodsFor: 'converting'!
 
-asJSON
+asJavaScriptObject
 	^ null
 ! !
 

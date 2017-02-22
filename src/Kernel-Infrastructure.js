@@ -44,8 +44,8 @@ $globals.JSObjectProxy);
 
 $core.addMethod(
 $core.method({
-selector: "asJSON",
-protocol: "enumerating",
+selector: "asJavaScriptObject",
+protocol: "converting",
 fn: function (){
 var self=this;
 return self["@jsObject"];
@@ -53,7 +53,7 @@ return self["@jsObject"];
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJSON\x0a\x09\x22Answers the receiver in a stringyfy-friendly fashion\x22\x0a\x0a\x09^ jsObject",
+source: "asJavaScriptObject\x0a\x09\x22Answers the receiver in a stringify-friendly fashion\x22\x0a\x0a\x09^ jsObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

@@ -209,8 +209,8 @@ asArray
 	^ Array withAll: self
 !
 
-asJSON
-	^ self asArray collect: [ :each | each asJSON ]
+asJavaScriptObject
+	^ self asArray collect: [ :each | each asJavaScriptObject ]
 !
 
 asOrderedCollection
@@ -642,11 +642,11 @@ asHashedCollection
 	^ HashedCollection from: self associations
 !
 
-asJSON
+asJavaScriptObject
 	| hash |
 	hash := HashedCollection new.
 	self keysAndValuesDo: [ :key :value |
-		hash at: key put: value asJSON ].
+		hash at: key put: value asJavaScriptObject ].
 	^ hash
 ! !
 
@@ -1271,8 +1271,8 @@ removeLast
 
 !Array methodsFor: 'converting'!
 
-asJavascript
-	^ '[', ((self collect: [:each | each asJavascript ]) join: ', '), ']'
+asJavaScriptSource
+	^ '[', ((self collect: [:each | each asJavaScriptSource ]) join: ', '), ']'
 !
 
 reversed
@@ -1542,15 +1542,15 @@ size
 
 !String methodsFor: 'converting'!
 
-asJSON
-	^ self
-!
-
 asJavaScriptMethodName
 	<inlineJS: 'return $core.st2js(self)'>
 !
 
-asJavascript
+asJavaScriptObject
+	^ self
+!
+
+asJavaScriptSource
 	<inlineJS: '
 		if(self.search(/^[a-zA-Z0-9_:.$ ]*$/) == -1)
 			return "\"" + self.replace(/[\x00-\x1f"\\\x7f-\x9f]/g, function(ch){var c=ch.charCodeAt(0);return "\\x"+("0"+c.toString(16)).slice(-2)}) + "\"";

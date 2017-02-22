@@ -77,13 +77,15 @@ jsObject
 	^ JSObjectProxy compareJSObjectOfProxy: self withProxy: anObject
 ! !
 
-!JSObjectProxy methodsFor: 'enumerating'!
+!JSObjectProxy methodsFor: 'converting'!
 
-asJSON
-	"Answers the receiver in a stringyfy-friendly fashion"
+asJavaScriptObject
+	"Answers the receiver in a stringify-friendly fashion"
 
 	^ jsObject
-!
+! !
+
+!JSObjectProxy methodsFor: 'enumerating'!
 
 keysAndValuesDo: aBlock
 	<inlineJS: '

@@ -917,7 +917,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$core.setTraitComposition(aTraitComposition._asJSON(), self);
+$core.setTraitComposition(aTraitComposition._asJavaScriptObject(), self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setTraitComposition:",{aTraitComposition:aTraitComposition},$globals.BehaviorBody)});
@@ -925,7 +925,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aTraitComposition"],
-source: "setTraitComposition: aTraitComposition\x0a\x09<inlineJS: '$core.setTraitComposition(aTraitComposition._asJSON(), self)'>",
+source: "setTraitComposition: aTraitComposition\x0a\x09<inlineJS: '$core.setTraitComposition(aTraitComposition._asJavaScriptObject(), self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -1761,7 +1761,7 @@ $globals.Class.comment="I am __the__ class object.\x0a\x0aMy instances are the c
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "asJavascript",
+selector: "asJavaScriptSource",
 protocol: "converting",
 fn: function (){
 var self=this;
@@ -1770,12 +1770,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return "$globals.".__comma(self._name());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJavascript",{},$globals.Class)});
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{},$globals.Class)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJavascript\x0a\x09^ '$globals.', self name",
+source: "asJavaScriptSource\x0a\x09^ '$globals.', self name",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: [",", "name"]
@@ -2354,7 +2354,7 @@ $globals.Metaclass.comment="I am the root of the class hierarchy.\x0a\x0aMy inst
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "asJavascript",
+selector: "asJavaScriptSource",
 protocol: "converting",
 fn: function (){
 var self=this;
@@ -2368,12 +2368,12 @@ $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
 return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJavascript",{},$globals.Metaclass)});
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{},$globals.Metaclass)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJavascript\x0a\x09^ '$globals.', self instanceClass name, '.klass'",
+source: "asJavaScriptSource\x0a\x09^ '$globals.', self instanceClass name, '.klass'",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: [",", "name", "instanceClass"]
@@ -2694,7 +2694,7 @@ $globals.Trait);
 
 $core.addMethod(
 $core.method({
-selector: "asJavascript",
+selector: "asJavaScriptSource",
 protocol: "converting",
 fn: function (){
 var self=this;
@@ -2703,12 +2703,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return "$globals.".__comma(self._name());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJavascript",{},$globals.Trait)});
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{},$globals.Trait)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJavascript\x0a\x09^ '$globals.', self name",
+source: "asJavaScriptSource\x0a\x09^ '$globals.', self name",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: [",", "name"]
@@ -4180,7 +4180,7 @@ $globals.TraitTransformation);
 
 $core.addMethod(
 $core.method({
-selector: "asJSON",
+selector: "asJavaScriptObject",
 protocol: "converting",
 fn: function (){
 var self=this;
@@ -4189,12 +4189,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $globals.HashedCollection._newFromPairs_(["trait",self._trait(),"aliases",self._aliases(),"exclusions",$recv($recv(self._exclusions())._asArray())._sorted()]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJSON",{},$globals.TraitTransformation)});
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptObject",{},$globals.TraitTransformation)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJSON\x0a\x09^ #{\x0a\x09\x09'trait' -> self trait.\x0a\x09\x09'aliases' -> self aliases.\x0a\x09\x09'exclusions' -> self exclusions asArray sorted }",
+source: "asJavaScriptObject\x0a\x09^ #{\x0a\x09\x09'trait' -> self trait.\x0a\x09\x09'aliases' -> self aliases.\x0a\x09\x09'exclusions' -> self exclusions asArray sorted }",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["trait", "aliases", "sorted", "asArray", "exclusions"]
@@ -4203,7 +4203,7 @@ $globals.TraitTransformation);
 
 $core.addMethod(
 $core.method({
-selector: "asJavascript",
+selector: "asJavaScriptSource",
 protocol: "converting",
 fn: function (){
 var self=this;
@@ -4215,9 +4215,9 @@ return $recv($globals.String)._streamContents_((function(str){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2=$recv(self._trait())._asJavascript();
+$2=$recv(self._trait())._asJavaScriptSource();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["asJavascript"]=1;
+$ctx2.sendIdx["asJavaScriptSource"]=1;
 //>>excludeEnd("ctx");
 $3=$recv(self._aliases())._ifNotEmpty_((function(al){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4235,7 +4235,7 @@ $1=["{trait: ",$2,$3,$recv(self._exclusions())._ifNotEmpty_((function(ex){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return [", exclusions: ",$recv($recv($recv(ex)._asArray())._sorted())._asJavascript()];
+return [", exclusions: ",$recv($recv($recv(ex)._asArray())._sorted())._asJavaScriptSource()];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({ex:ex},$ctx2,3)});
 //>>excludeEnd("ctx");
@@ -4246,15 +4246,15 @@ return $recv(str)._write_($1);
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJavascript",{},$globals.TraitTransformation)});
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{},$globals.TraitTransformation)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJavascript\x0a\x09^ String streamContents: [ :str | str write: {\x0a\x09\x09'{trait: ' . self trait asJavascript.\x0a\x09\x09self aliases ifNotEmpty: [ :al |\x0a\x09\x09\x09{', aliases: '. al asJSONString} ].\x0a\x09\x09self exclusions ifNotEmpty: [ :ex |\x0a\x09\x09\x09{', exclusions: '. ex asArray sorted asJavascript} ].\x0a\x09\x09'}' } ]",
+source: "asJavaScriptSource\x0a\x09^ String streamContents: [ :str | str write: {\x0a\x09\x09'{trait: '. self trait asJavaScriptSource.\x0a\x09\x09self aliases ifNotEmpty: [ :al |\x0a\x09\x09\x09{', aliases: '. al asJSONString} ].\x0a\x09\x09self exclusions ifNotEmpty: [ :ex |\x0a\x09\x09\x09{', exclusions: '. ex asArray sorted asJavaScriptSource} ].\x0a\x09\x09'}' } ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "write:", "asJavascript", "trait", "ifNotEmpty:", "aliases", "asJSONString", "exclusions", "sorted", "asArray"]
+messageSends: ["streamContents:", "write:", "asJavaScriptSource", "trait", "ifNotEmpty:", "aliases", "asJSONString", "exclusions", "sorted", "asArray"]
 }),
 $globals.TraitTransformation);
 

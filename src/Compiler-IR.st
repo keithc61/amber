@@ -973,7 +973,7 @@ visitIRTempDeclaration: anIRTempDeclaration
 !
 
 visitIRValue: anIRValue
-	self stream nextPutAll: anIRValue value asJavascript
+	self stream nextPutAll: anIRValue value asJavaScriptSource
 !
 
 visitIRVariable: anIRVariable
@@ -1017,7 +1017,7 @@ visitSuperSend: anIRSend
 		nextPutAll: '//>>excludeStart("ctx", pragmas.excludeDebugContexts);'; lf;
 		nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;
 		nextPutAll: '//>>excludeEnd("ctx");'; lf;
-		nextPutAll: '(', self currentClass asJavascript;
+		nextPutAll: '(', self currentClass asJavaScriptSource;
 		nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';
 		nextPutAll: anIRSend selector asJavaScriptMethodName, '.apply(';
 		nextPutAll: '$recv(self), '.
@@ -1136,7 +1136,7 @@ nextPutContextFor: aMethod during: aBlock
 		nextPutAll: '//>>excludeStart("ctx", pragmas.excludeDebugContexts);';
 		lf;
 		nextPutAll: '}, function(', aMethod scope alias, ') {', aMethod scope alias;
-		nextPutAll: '.fill(self,', aMethod selector asJavascript, ',{'.
+		nextPutAll: '.fill(self,', aMethod selector asJavaScriptSource, ',{'.
 
 	aMethod locals
 		do: [ :each |
@@ -1148,7 +1148,7 @@ nextPutContextFor: aMethod during: aBlock
 	
 	self
 		nextPutAll: '},';
-		nextPutAll: aMethod theClass asJavascript;
+		nextPutAll: aMethod theClass asJavaScriptSource;
 		nextPutAll: ')});';
 		lf;
 		nextPutAll: '//>>excludeEnd("ctx");'
@@ -1188,16 +1188,16 @@ nextPutIf: aBlock then: ifBlock else: elseBlock
 nextPutMethodDeclaration: aMethod with: aBlock
 	stream
 		nextPutAll: '$core.method({'; lf;
-		nextPutAll: 'selector: ', aMethod selector asJavascript, ','; lf;
-		nextPutAll: 'source: ', aMethod source asJavascript, ',';lf.
+		nextPutAll: 'selector: ', aMethod selector asJavaScriptSource, ','; lf;
+		nextPutAll: 'source: ', aMethod source asJavaScriptSource, ',';lf.
 	aBlock value.
 	stream
 		nextPutAll: ',', String lf, 'messageSends: ';
-		nextPutAll: aMethod messageSends asArray asJavascript, ','; lf;
-		nextPutAll: 'args: ', (aMethod arguments collect: [ :each | each value ]) asArray asJavascript, ','; lf;
+		nextPutAll: aMethod messageSends asArray asJavaScriptSource, ','; lf;
+		nextPutAll: 'args: ', (aMethod arguments collect: [ :each | each value ]) asArray asJavaScriptSource, ','; lf;
 		nextPutAll: 'referencedClasses: ['.
 	aMethod classReferences
-		do: [ :each | stream nextPutAll: each asJavascript ]
+		do: [ :each | stream nextPutAll: each asJavaScriptSource ]
 		separatedBy: [ stream nextPutAll: ',' ].
 	stream
 		nextPutAll: ']';
@@ -1231,7 +1231,7 @@ nextPutSendIndexFor: anIRSend
 		nextPutAll: '//>>excludeStart("ctx", pragmas.excludeDebugContexts);'; lf;
 		nextPutAll: anIRSend scope alias;
 		nextPutAll: '.sendIdx[';
-		nextPutAll: anIRSend selector asJavascript;
+		nextPutAll: anIRSend selector asJavaScriptSource;
 		nextPutAll: ']=';
 		nextPutAll: anIRSend index asString;
 		nextPutAll: ';'; lf;

@@ -310,16 +310,16 @@ exportDefinitionOf: aClass on: aStream
 		lf;
 		write: {
 			'$core.addClass('.
-			aClass name asJavascript. ', '.
-			aClass superclass ifNil: [ 'null' ] ifNotNil: [ :superclass | superclass asJavascript ]. ', '.
-			aClass instanceVariableNames asJavascript. ', '.
-			aClass category asJavascript.
+			aClass name asJavaScriptSource. ', '.
+			aClass superclass ifNil: [ 'null' ] ifNotNil: [ :superclass | superclass asJavaScriptSource ]. ', '.
+			aClass instanceVariableNames asJavaScriptSource. ', '.
+			aClass category asJavaScriptSource.
 			');' }.
 	aClass comment ifNotEmpty: [
 		aStream
 			lf;
 			write: '//>>excludeStart("ide", pragmas.excludeIdeData);'; lf;
-			write: { aClass asJavascript. '.comment='. aClass comment crlfSanitized asJavascript. ';' }; lf;
+			write: { aClass asJavaScriptSource. '.comment='. aClass comment crlfSanitized asJavaScriptSource. ';' }; lf;
 			write: '//>>excludeEnd("ide");' ].
 	aStream lf
 !
@@ -327,7 +327,7 @@ exportDefinitionOf: aClass on: aStream
 exportMetaDefinitionOf: aClass on: aStream
 	aStream lf.
 	aClass theMetaClass instanceVariableNames ifNotEmpty: [ :classIvars | aStream
-		write: { aClass theMetaClass asJavascript. '.iVarNames = '. classIvars asJavascript. ';' };
+		write: { aClass theMetaClass asJavaScriptSource. '.iVarNames = '. classIvars asJavaScriptSource. ';' };
 		lf ]
 !
 
@@ -335,17 +335,17 @@ exportMethod: aMethod on: aStream
 	aStream
 		write: '$core.addMethod('; lf;
 		write: '$core.method({'; lf;
-		write: { 'selector: '. aMethod selector asJavascript. ',' }; lf;
-		write: { 'protocol: '. aMethod protocol asJavascript. ',' }; lf;
+		write: { 'selector: '. aMethod selector asJavaScriptSource. ',' }; lf;
+		write: { 'protocol: '. aMethod protocol asJavaScriptSource. ',' }; lf;
 		write: { 'fn: '. aMethod fn compiledSource. ',' }; lf;
 		write: '//>>excludeStart("ide", pragmas.excludeIdeData);'; lf;
-		write: { 'args: '. aMethod arguments asJavascript. ',' }; lf;
-		write: { 'source: '. aMethod source asJavascript. ',' }; lf;
-		write: { 'referencedClasses: '. aMethod referencedClasses asJavascript. ',' }; lf;
+		write: { 'args: '. aMethod arguments asJavaScriptSource. ',' }; lf;
+		write: { 'source: '. aMethod source asJavaScriptSource. ',' }; lf;
+		write: { 'referencedClasses: '. aMethod referencedClasses asJavaScriptSource. ',' }; lf;
 		write: '//>>excludeEnd("ide");'; lf;
-		write: { 'messageSends: '. aMethod messageSends asJavascript }; lf;
+		write: { 'messageSends: '. aMethod messageSends asJavaScriptSource }; lf;
 		write: '}),'; lf;
-		write: { aMethod methodClass asJavascript. ');' }; lf; lf
+		write: { aMethod methodClass asJavaScriptSource. ');' }; lf; lf
 !
 
 exportPackage: aPackage on: aStream
@@ -380,7 +380,7 @@ exportPackageContextOf: aPackage on: aStream
 	aStream
 		write: {
 			'$core.packages['.
-			aPackage name asJavascript.
+			aPackage name asJavaScriptSource.
 			'].innerEval = '.
 			'function (expr) { return eval(expr); }'.
 			';' };
@@ -389,7 +389,7 @@ exportPackageContextOf: aPackage on: aStream
 
 exportPackageDefinitionOf: aPackage on: aStream
 	aStream
-		write: { '$core.addPackage('. aPackage name asJavascript. ');' };
+		write: { '$core.addPackage('. aPackage name asJavaScriptSource. ');' };
 		lf
 !
 
@@ -402,9 +402,9 @@ exportPackageImportsOf: aPackage on: aStream
 		aStream
 			write: {
 				'$core.packages['.
-				aPackage name asJavascript.
+				aPackage name asJavaScriptSource.
 				'].imports = '.
-				imports asJavascript.
+				imports asJavaScriptSource.
 				';' };
 			lf ]
 !
@@ -423,7 +423,7 @@ exportPackageTransportOf: aPackage on: aStream
 	aStream
 		write: {
 			'$core.packages['.
-			aPackage name asJavascript.
+			aPackage name asJavaScriptSource.
 			'].transport = '.
 			aPackage transport asJSONString.
 			';' };
@@ -433,9 +433,9 @@ exportPackageTransportOf: aPackage on: aStream
 exportTraitComposition: aTraitComposition of: aBehavior on: aStream
 	aStream write: {
 		'$core.setTraitComposition('.
-		aTraitComposition asJavascript.
+		aTraitComposition asJavaScriptSource.
 		', '.
-		aBehavior asJavascript.
+		aBehavior asJavaScriptSource.
 		');' };
 	lf
 !
@@ -445,14 +445,14 @@ exportTraitDefinitionOf: aClass on: aStream
 		lf;
 		write: {
 			'$core.addTrait('.
-			aClass name asJavascript. ', '.
-			aClass category asJavascript.
+			aClass name asJavaScriptSource. ', '.
+			aClass category asJavaScriptSource.
 			');' }.
 	aClass comment ifNotEmpty: [
 		aStream
 			lf;
 			write: '//>>excludeStart("ide", pragmas.excludeIdeData);'; lf;
-			write: { aClass asJavascript. '.comment='. aClass comment crlfSanitized asJavascript. ';' }; lf;
+			write: { aClass asJavaScriptSource. '.comment='. aClass comment crlfSanitized asJavaScriptSource. ';' }; lf;
 			write: '//>>excludeEnd("ide");' ].
 	aStream lf
 ! !
@@ -483,7 +483,7 @@ exportPackagePrologueOf: aPackage on: aStream
 	aStream
 		write: {
 			'define('.
-			((#('amber/boot' ':1:'), importsForOutput value, #(':2:'), loadDependencies asArray sorted) asJavascript
+			((#('amber/boot' ':1:'), importsForOutput value, #(':2:'), loadDependencies asArray sorted) asJavaScriptSource
 				replace: ',\s*["'']:1:["'']' with: pragmaStart)
 				replace: ',\s*["'']:2:["'']' with: pragmaEnd.
 			', function('.
@@ -964,7 +964,7 @@ commitOnSuccess: aBlock onError: anotherBlock
 
 !PackageTransport methodsFor: 'converting'!
 
-asJSON
+asJavaScriptObject
 	^ #{ 'type' -> self type }
 ! !
 
@@ -1078,8 +1078,8 @@ setPath: aString
 
 !AmdPackageTransport methodsFor: 'converting'!
 
-asJSON
-	^ super asJSON
+asJavaScriptObject
+	^ super asJavaScriptObject
 		at: 'amdNamespace' put: self namespace;
 		yourself
 ! !

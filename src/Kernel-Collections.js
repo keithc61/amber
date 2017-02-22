@@ -651,7 +651,7 @@ $globals.Collection);
 
 $core.addMethod(
 $core.method({
-selector: "asJSON",
+selector: "asJavaScriptObject",
 protocol: "converting",
 fn: function (){
 var self=this;
@@ -662,21 +662,21 @@ return $recv(self._asArray())._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv(each)._asJSON();
+return $recv(each)._asJavaScriptObject();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJSON",{},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptObject",{},$globals.Collection)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJSON\x0a\x09^ self asArray collect: [ :each | each asJSON ]",
+source: "asJavaScriptObject\x0a\x09^ self asArray collect: [ :each | each asJavaScriptObject ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["collect:", "asArray", "asJSON"]
+messageSends: ["collect:", "asArray", "asJavaScriptObject"]
 }),
 $globals.Collection);
 
@@ -2309,7 +2309,7 @@ $globals.AssociativeCollection);
 
 $core.addMethod(
 $core.method({
-selector: "asJSON",
+selector: "asJavaScriptObject",
 protocol: "converting",
 fn: function (){
 var self=this;
@@ -2322,22 +2322,22 @@ self._keysAndValuesDo_((function(key,value){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv(hash)._at_put_(key,$recv(value)._asJSON());
+return $recv(hash)._at_put_(key,$recv(value)._asJavaScriptObject());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
 return hash;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJSON",{hash:hash},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptObject",{hash:hash},$globals.AssociativeCollection)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJSON\x0a\x09| hash |\x0a\x09hash := HashedCollection new.\x0a\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09hash at: key put: value asJSON ].\x0a\x09^ hash",
+source: "asJavaScriptObject\x0a\x09| hash |\x0a\x09hash := HashedCollection new.\x0a\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09hash at: key put: value asJavaScriptObject ].\x0a\x09^ hash",
 referencedClasses: ["HashedCollection"],
 //>>excludeEnd("ide");
-messageSends: ["new", "keysAndValuesDo:", "at:put:", "asJSON"]
+messageSends: ["new", "keysAndValuesDo:", "at:put:", "asJavaScriptObject"]
 }),
 $globals.AssociativeCollection);
 
@@ -4888,7 +4888,7 @@ $globals.Array);
 
 $core.addMethod(
 $core.method({
-selector: "asJavascript",
+selector: "asJavaScriptSource",
 protocol: "converting",
 fn: function (){
 var self=this;
@@ -4900,7 +4900,7 @@ $1=$recv("[".__comma($recv(self._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv(each)._asJavascript();
+return $recv(each)._asJavaScriptSource();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -4910,15 +4910,15 @@ $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
 return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJavascript",{},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{},$globals.Array)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJavascript\x0a\x09^ '[', ((self collect: [:each | each asJavascript ]) join: ', '), ']'",
+source: "asJavaScriptSource\x0a\x09^ '[', ((self collect: [:each | each asJavaScriptSource ]) join: ', '), ']'",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: [",", "join:", "collect:", "asJavascript"]
+messageSends: [",", "join:", "collect:", "asJavaScriptSource"]
 }),
 $globals.Array);
 
@@ -6199,24 +6199,6 @@ $globals.String);
 
 $core.addMethod(
 $core.method({
-selector: "asJSON",
-protocol: "converting",
-fn: function (){
-var self=this;
-return self;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "asJSON\x0a\x09^ self",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.String);
-
-$core.addMethod(
-$core.method({
 selector: "asJavaScriptMethodName",
 protocol: "converting",
 fn: function (){
@@ -6241,7 +6223,25 @@ $globals.String);
 
 $core.addMethod(
 $core.method({
-selector: "asJavascript",
+selector: "asJavaScriptObject",
+protocol: "converting",
+fn: function (){
+var self=this;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asJavaScriptObject\x0a\x09^ self",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "asJavaScriptSource",
 protocol: "converting",
 fn: function (){
 var self=this;
@@ -6256,12 +6256,12 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJavascript",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{},$globals.String)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJavascript\x0a\x09<inlineJS: '\x0a\x09\x09if(self.search(/^[a-zA-Z0-9_:.$ ]*$/) == -1)\x0a\x09\x09\x09return \x22\x5c\x22\x22 + self.replace(/[\x5cx00-\x5cx1f\x22\x5c\x5c\x5cx7f-\x5cx9f]/g, function(ch){var c=ch.charCodeAt(0);return \x22\x5c\x5cx\x22+(\x220\x22+c.toString(16)).slice(-2)}) + \x22\x5c\x22\x22;\x0a\x09\x09else\x0a\x09\x09\x09return \x22\x5c\x22\x22 + self + \x22\x5c\x22\x22;\x0a\x09'>",
+source: "asJavaScriptSource\x0a\x09<inlineJS: '\x0a\x09\x09if(self.search(/^[a-zA-Z0-9_:.$ ]*$/) == -1)\x0a\x09\x09\x09return \x22\x5c\x22\x22 + self.replace(/[\x5cx00-\x5cx1f\x22\x5c\x5c\x5cx7f-\x5cx9f]/g, function(ch){var c=ch.charCodeAt(0);return \x22\x5c\x5cx\x22+(\x220\x22+c.toString(16)).slice(-2)}) + \x22\x5c\x22\x22;\x0a\x09\x09else\x0a\x09\x09\x09return \x22\x5c\x22\x22 + self + \x22\x5c\x22\x22;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
