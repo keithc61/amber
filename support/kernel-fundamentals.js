@@ -366,7 +366,8 @@ define(['./compatibility'], function () {
             return result;
         }
 
-        function applyTraitTransformation (traitTransformation, obj) {
+        function fillTraitTransformation (traitTransformation, obj) {
+            // assert(Object.getOwnProperties(obj).length === 0)
             var traitMethods = traitTransformation.trait.methods;
             Object.keys(traitMethods).forEach(function (selector) {
                 obj[selector] = traitMethods[selector];
@@ -375,7 +376,7 @@ define(['./compatibility'], function () {
             Object.keys(traitAliases).forEach(function (aliasSelector) {
                 var aliasedMethod = traitMethods[traitAliases[aliasSelector]];
                 if (aliasedMethod) obj[aliasSelector] = aliased(aliasSelector, aliasedMethod);
-                else delete obj[aliasSelector];
+                // else delete obj[aliasSelector]; // semantically correct; optimized away
             });
             var traitExclusions = traitTransformation.exclusions || [];
             traitExclusions.forEach(function (selector) {
@@ -386,7 +387,7 @@ define(['./compatibility'], function () {
 
         function buildCompositionChain (traitComposition) {
             return traitComposition.reduce(function (soFar, each) {
-                return applyTraitTransformation(each, Object.create(soFar));
+                return fillTraitTransformation(each, Object.create(soFar));
             }, null);
         }
 
