@@ -372,16 +372,20 @@ define(['./compatibility'], function () {
             Object.keys(traitMethods).forEach(function (selector) {
                 obj[selector] = traitMethods[selector];
             });
-            var traitAliases = traitTransformation.aliases || {};
-            Object.keys(traitAliases).forEach(function (aliasSelector) {
-                var aliasedMethod = traitMethods[traitAliases[aliasSelector]];
-                if (aliasedMethod) obj[aliasSelector] = aliased(aliasSelector, aliasedMethod);
-                // else delete obj[aliasSelector]; // semantically correct; optimized away
-            });
-            var traitExclusions = traitTransformation.exclusions || [];
-            traitExclusions.forEach(function (selector) {
-                delete obj[selector];
-            });
+            var traitAliases = traitTransformation.aliases;
+            if (traitAliases) {
+                Object.keys(traitAliases).forEach(function (aliasSelector) {
+                    var aliasedMethod = traitMethods[traitAliases[aliasSelector]];
+                    if (aliasedMethod) obj[aliasSelector] = aliased(aliasSelector, aliasedMethod);
+                    // else delete obj[aliasSelector]; // semantically correct; optimized away
+                });
+            }
+            var traitExclusions = traitTransformation.exclusions;
+            if (traitExclusions) {
+                traitExclusions.forEach(function (selector) {
+                    delete obj[selector];
+                });
+            }
             return obj;
         }
 
@@ -442,8 +446,10 @@ define(['./compatibility'], function () {
                 obj[aliasSelector] = aliased(aliasSelector, method);
             });
             var traitExclusions = traitTransformation.exclusions;
-            if (traitExclusions && traitExclusions.indexOf(selector) !== -1) {
-                delete obj[selector];
+            if (traitExclusions) {
+                traitExclusions.forEach(function (selector) {
+                    delete obj[selector];
+                });
             }
             return changes;
         }
