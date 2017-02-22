@@ -351,6 +351,21 @@ define(['./compatibility'], function () {
             // This is handled by #removeCompiledMethod
         }
 
+        function aliased (selector, method) {
+            if (method.selector === selector) return method;
+            var result = st.method({
+                selector: selector,
+                args: method.args,
+                protocol: method.protocol,
+                source: '"Aliased as ' + selector + '"\n' + method.source,
+                messageSends: method.messageSends,
+                referencesClasses: method.referencedClasses,
+                fn: method.fn
+            });
+            result.methodClass = method.methodClass;
+            return result;
+        }
+
         function applyTraitTransformation (traitTransformation, obj) {
             var traitMethods = traitTransformation.trait.methods;
             Object.keys(traitMethods).forEach(function (selector) {
@@ -359,7 +374,7 @@ define(['./compatibility'], function () {
             var traitAliases = traitTransformation.aliases || {};
             Object.keys(traitAliases).forEach(function (aliasSelector) {
                 var aliasedMethod = traitMethods[traitAliases[aliasSelector]];
-                if (aliasedMethod) obj[aliasSelector] = aliasedMethod;
+                if (aliasedMethod) obj[aliasSelector] = aliased(aliasSelector, aliasedMethod);
                 else delete obj[aliasSelector];
             });
             var traitExclusions = traitTransformation.exclusions || [];
