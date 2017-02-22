@@ -366,6 +366,12 @@ define(['./compatibility'], function () {
             return result;
         }
 
+        function deleteKeysFrom (keys, obj) {
+            keys.forEach(function (each) {
+                delete obj[each];
+            });
+        }
+
         function fillTraitTransformation (traitTransformation, obj) {
             // assert(Object.getOwnProperties(obj).length === 0)
             var traitMethods = traitTransformation.trait.methods;
@@ -382,9 +388,7 @@ define(['./compatibility'], function () {
             }
             var traitExclusions = traitTransformation.exclusions;
             if (traitExclusions) {
-                traitExclusions.forEach(function (selector) {
-                    delete obj[selector];
-                });
+                deleteKeysFrom(traitExclusions, obj);
             }
             return obj;
         }
@@ -447,18 +451,14 @@ define(['./compatibility'], function () {
             });
             var traitExclusions = traitTransformation.exclusions;
             if (traitExclusions) {
-                traitExclusions.forEach(function (selector) {
-                    delete obj[selector];
-                });
+                deleteKeysFrom(traitExclusions, obj);
             }
             return changes;
         }
 
         function applyTraitMethodDeletion (selector, traitTransformation, obj) {
             var changes = aliasesOfSelector(selector, traitTransformation.aliases);
-            changes.forEach(function (aliasSelector) {
-                delete obj[aliasSelector];
-            });
+            deleteKeysFrom(changes, obj);
             return changes;
         }
 
