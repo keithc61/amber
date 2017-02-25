@@ -9,28 +9,6 @@ My instances hold the method dictionary.
 
 I also provides methods for compiling methods and examining the method dictionary.!
 
-!BehaviorBody methodsFor: 'accessing'!
-
-definition
-	self subclassResponsibility
-!
-
-theMetaClass
-	self subclassResponsibility
-!
-
-theNonMetaClass
-	self subclassResponsibility
-! !
-
-!BehaviorBody methodsFor: 'printing'!
-
-printOn: aStream
-	self name
-		ifNil: [ super printOn: aStream ]
-		ifNotNil: [ :name | aStream nextPutAll: name ]
-! !
-
 BehaviorBody subclass: #Behavior
 	instanceVariableNames: ''
 	package: 'Kernel-Classes'!
@@ -715,6 +693,10 @@ allInstanceVariableNames
 	^ #()
 !
 
+name
+	^ nil
+!
+
 superclass
 	"Default for non-classes; to be able to send #superclass to any class / trait."
 	^ nil
@@ -729,6 +711,14 @@ traitUsers
 
 allSubclassesDo: aBlock
 	"Default for non-classes; to be able to send #allSubclassesDo: to any class / trait."
+! !
+
+!TBehaviorDefaults methodsFor: 'printing'!
+
+printOn: aStream
+	self name
+		ifNil: [ super printOn: aStream ]
+		ifNotNil: [ :name | aStream nextPutAll: name ]
 ! !
 
 Trait named: #TBehaviorProvider
@@ -945,6 +935,11 @@ category
 	^ self package ifNil: [ 'Unclassified' ] ifNotNil: [ self package name ]
 !
 
+classTag
+	"Every master behavior should define a class tag."
+	^ self subclassResponsibility
+!
+
 comment
 	^ (self basicAt: 'comment') ifNil: [ '' ]
 !
@@ -958,7 +953,7 @@ comment: aString
 !
 
 name
-	<inlineJS: 'return self.className || null'>
+	<inlineJS: 'return self.className'>
 !
 
 package

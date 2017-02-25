@@ -1120,12 +1120,6 @@ namespace: aString
 		yourself
 ! !
 
-!BehaviorBody methodsFor: '*Platform-ImportExport'!
-
-exportBehaviorDefinitionTo: aStream using: anExporter
-	self subclassResponsibility
-! !
-
 !Class methodsFor: '*Platform-ImportExport'!
 
 exportBehaviorDefinitionTo: aStream using: anExporter

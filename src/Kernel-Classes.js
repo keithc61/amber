@@ -10,117 +10,6 @@ $core.addClass("BehaviorBody", $globals.Object, [], "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.BehaviorBody.comment="I am the superclass of all behaviors.\x0a\x0aMy instances hold the method dictionary.\x0a\x0aI also provides methods for compiling methods and examining the method dictionary.";
 //>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "definition",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-self._subclassResponsibility();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"definition",{},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "definition\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["subclassResponsibility"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "printOn:",
-protocol: "printing",
-fn: function (aStream){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$receiver;
-$1=self._name();
-if(($receiver = $1) == null || $receiver.isNil){
-(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = true,
-//>>excludeEnd("ctx");
-($globals.BehaviorBody.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($recv(self), [aStream]));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = false;
-//>>excludeEnd("ctx");;
-} else {
-var name;
-name=$receiver;
-$recv(aStream)._nextPutAll_(name);
-}
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aStream"],
-source: "printOn: aStream\x0a\x09self name\x0a\x09\x09ifNil: [ super printOn: aStream ]\x0a\x09\x09ifNotNil: [ :name | aStream nextPutAll: name ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["ifNil:ifNotNil:", "name", "printOn:", "nextPutAll:"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "theMetaClass",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-self._subclassResponsibility();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"theMetaClass",{},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "theMetaClass\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["subclassResponsibility"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "theNonMetaClass",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-self._subclassResponsibility();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"theNonMetaClass",{},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "theNonMetaClass\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["subclassResponsibility"]
-}),
-$globals.BehaviorBody);
-
 
 
 $core.addClass("Behavior", $globals.BehaviorBody, [], "Kernel-Classes");
@@ -2766,6 +2655,63 @@ $globals.TBehaviorDefaults);
 
 $core.addMethod(
 $core.method({
+selector: "name",
+protocol: "accessing",
+fn: function (){
+var self=this;
+return nil;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "name\x0a\x09^ nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TBehaviorDefaults);
+
+$core.addMethod(
+$core.method({
+selector: "printOn:",
+protocol: "printing",
+fn: function (aStream){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$receiver;
+$1=self._name();
+if(($receiver = $1) == null || $receiver.isNil){
+(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.TBehaviorDefaults.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($recv(self), [aStream]));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+} else {
+var name;
+name=$receiver;
+$recv(aStream)._nextPutAll_(name);
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.TBehaviorDefaults)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aStream"],
+source: "printOn: aStream\x0a\x09self name\x0a\x09\x09ifNil: [ super printOn: aStream ]\x0a\x09\x09ifNotNil: [ :name | aStream nextPutAll: name ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["ifNil:ifNotNil:", "name", "printOn:", "nextPutAll:"]
+}),
+$globals.TBehaviorDefaults);
+
+$core.addMethod(
+$core.method({
 selector: "superclass",
 protocol: "accessing",
 fn: function (){
@@ -3728,6 +3674,29 @@ $globals.TMasterBehavior);
 
 $core.addMethod(
 $core.method({
+selector: "classTag",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._subclassResponsibility();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"classTag",{},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "classTag\x0a\x09\x22Every master behavior should define a class tag.\x22\x0a\x09^ self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
 selector: "comment",
 protocol: "accessing",
 fn: function (){
@@ -3794,7 +3763,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self.className || null;
+return self.className;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"name",{},$globals.TMasterBehavior)});
@@ -3802,7 +3771,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "name\x0a\x09<inlineJS: 'return self.className || null'>",
+source: "name\x0a\x09<inlineJS: 'return self.className'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

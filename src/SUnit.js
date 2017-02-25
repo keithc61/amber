@@ -1783,7 +1783,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.BehaviorBody);
+$globals.TBehaviorDefaults);
 
 $core.addMethod(
 $core.method({
@@ -1815,5 +1815,41 @@ referencedClasses: [],
 messageSends: ["anySatisfy:", "classes", "isTestClass"]
 }),
 $globals.Package);
+
+$core.addMethod(
+$core.method({
+selector: "isTestClass",
+protocol: "*SUnit",
+fn: function (){
+var self=this;
+return false;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isTestClass\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TBehaviorDefaults);
+
+$core.addMethod(
+$core.method({
+selector: "isTestClass",
+protocol: "*SUnit",
+fn: function (){
+var self=this;
+return false;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isTestClass\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TBehaviorDefaults);
 
 });
