@@ -1,15 +1,5 @@
 Smalltalk createPackage: 'Kernel-Classes'!
-Object subclass: #BehaviorBody
-	instanceVariableNames: ''
-	package: 'Kernel-Classes'!
-!BehaviorBody commentStamp!
-I am the superclass of all behaviors.
-
-My instances hold the method dictionary.
-
-I also provides methods for compiling methods and examining the method dictionary.!
-
-BehaviorBody subclass: #Behavior
+Object subclass: #Behavior
 	instanceVariableNames: ''
 	package: 'Kernel-Classes'!
 !Behavior commentStamp!
@@ -320,64 +310,6 @@ asJavaScriptSource
 
 isMetaclass
 	^ true
-! !
-
-BehaviorBody subclass: #Trait
-	instanceVariableNames: ''
-	package: 'Kernel-Classes'!
-
-!Trait methodsFor: 'accessing'!
-
-classTag
-	^ 'trait'
-!
-
-definition
-	^ String streamContents: [ :stream | stream
-		write: 'Trait named: '; printSymbol: self name; lf;
-		write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);
-		tab; write: 'package: '; print: self category ]
-!
-
-theMetaClass
-	^ nil
-!
-
-traitUsers
-	^ (self basicAt: 'traitUsers') copy
-! !
-
-!Trait methodsFor: 'composition'!
-
-- anArray
-	^ self asTraitTransformation - anArray
-!
-
-@ anArrayOfAssociations
-	^ self asTraitTransformation @ anArrayOfAssociations
-! !
-
-!Trait methodsFor: 'converting'!
-
-asTraitComposition
-	^ self asTraitTransformation asTraitComposition
-!
-
-asTraitTransformation
-	^ TraitTransformation on: self
-! !
-
-!Trait class methodsFor: 'instance creation'!
-
-named: aString package: anotherString
-	^ ClassBuilder new addTraitNamed: aString package: anotherString
-!
-
-named: aString uses: aTraitCompositionDescription package: anotherString
-	| trait |
-	trait := self named: aString package: anotherString.
-	trait setTraitComposition: aTraitCompositionDescription asTraitComposition.
-	^ trait
 ! !
 
 Object subclass: #ClassBuilder
@@ -991,6 +923,64 @@ browse
 
 asJavaScriptSource
 	^ '$globals.', self name
+! !
+
+Object subclass: #Trait
+	instanceVariableNames: ''
+	package: 'Kernel-Classes'!
+
+!Trait methodsFor: 'accessing'!
+
+classTag
+	^ 'trait'
+!
+
+definition
+	^ String streamContents: [ :stream | stream
+		write: 'Trait named: '; printSymbol: self name; lf;
+		write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);
+		tab; write: 'package: '; print: self category ]
+!
+
+theMetaClass
+	^ nil
+!
+
+traitUsers
+	^ (self basicAt: 'traitUsers') copy
+! !
+
+!Trait methodsFor: 'composition'!
+
+- anArray
+	^ self asTraitTransformation - anArray
+!
+
+@ anArrayOfAssociations
+	^ self asTraitTransformation @ anArrayOfAssociations
+! !
+
+!Trait methodsFor: 'converting'!
+
+asTraitComposition
+	^ self asTraitTransformation asTraitComposition
+!
+
+asTraitTransformation
+	^ TraitTransformation on: self
+! !
+
+!Trait class methodsFor: 'instance creation'!
+
+named: aString package: anotherString
+	^ ClassBuilder new addTraitNamed: aString package: anotherString
+!
+
+named: aString uses: aTraitCompositionDescription package: anotherString
+	| trait |
+	trait := self named: aString package: anotherString.
+	trait setTraitComposition: aTraitCompositionDescription asTraitComposition.
+	^ trait
 ! !
 
 Object subclass: #TraitTransformation

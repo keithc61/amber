@@ -62,7 +62,7 @@ define(['./compatibility'], function () {
     TraitsBrik.deps = ["behaviors", "composition", "arraySet", "root"];
     function TraitsBrik (brikz, st) {
         var coreFns = brikz.root.coreFns;
-        var SmalltalkBehaviorBody = brikz.behaviors.BehaviorBody;
+        var SmalltalkObject = brikz.root.Object;
         var setupMethods = brikz.composition.setupMethods;
         var traitMethodChanged = brikz.composition.traitMethodChanged;
         var buildBehaviorBody = brikz.behaviors.buildBehaviorBody;
@@ -72,7 +72,7 @@ define(['./compatibility'], function () {
         function SmalltalkTrait () {
         }
 
-        coreFns.Trait = inherits(SmalltalkTrait, SmalltalkBehaviorBody);
+        coreFns.Trait = inherits(SmalltalkTrait, SmalltalkObject);
 
         SmalltalkTrait.prototype.trait = true;
 
@@ -133,7 +133,7 @@ define(['./compatibility'], function () {
         var SmalltalkRoot = brikz.root.Root;
         var coreFns = brikz.root.coreFns;
         var globals = brikz.smalltalkGlobals.globals;
-        var SmalltalkBehaviorBody = brikz.behaviors.BehaviorBody;
+        var SmalltalkObject = brikz.root.Object;
         var buildBehaviorBody = brikz.behaviors.buildBehaviorBody;
         var setupMethods = brikz.composition.setupMethods;
         var removeBehaviorBody = brikz.behaviors.removeBehaviorBody;
@@ -149,7 +149,7 @@ define(['./compatibility'], function () {
         function SmalltalkMetaclass () {
         }
 
-        coreFns.Behavior = inherits(SmalltalkBehavior, SmalltalkBehaviorBody);
+        coreFns.Behavior = inherits(SmalltalkBehavior, SmalltalkObject);
         coreFns.Class = inherits(SmalltalkClass, SmalltalkBehavior);
         coreFns.Metaclass = inherits(SmalltalkMetaclass, SmalltalkBehavior);
 

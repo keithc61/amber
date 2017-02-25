@@ -6,13 +6,7 @@ $core.addPackage("Kernel-Classes");
 $core.packages["Kernel-Classes"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Classes"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass("BehaviorBody", $globals.Object, [], "Kernel-Classes");
-//>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.BehaviorBody.comment="I am the superclass of all behaviors.\x0a\x0aMy instances hold the method dictionary.\x0a\x0aI also provides methods for compiling methods and examining the method dictionary.";
-//>>excludeEnd("ide");
-
-
-$core.addClass("Behavior", $globals.BehaviorBody, [], "Kernel-Classes");
+$core.addClass("Behavior", $globals.Object, [], "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Behavior.comment="I am the superclass of all class objects.\x0a\x0aIn addition to BehaviorBody, I define superclass/subclass relationships and instantiation.\x0a\x0aI define the protocol for creating instances of a class with `#basicNew` and `#new` (see `boot.js` for class constructors details).\x0a\x0aMy instances know about the subclass/superclass relationships between classes and contain the description that instances are created from.\x0a\x0aI also provide iterating over the class hierarchy.";
 //>>excludeEnd("ide");
@@ -1373,268 +1367,6 @@ messageSends: ["instanceVariableNames:", "setTraitComposition:", "asTraitComposi
 }),
 $globals.Metaclass);
 
-
-
-$core.addClass("Trait", $globals.BehaviorBody, [], "Kernel-Classes");
-$core.addMethod(
-$core.method({
-selector: "-",
-protocol: "composition",
-fn: function (anArray){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self._asTraitTransformation()).__minus(anArray);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"-",{anArray:anArray},$globals.Trait)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anArray"],
-source: "- anArray\x0a\x09^ self asTraitTransformation - anArray",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["-", "asTraitTransformation"]
-}),
-$globals.Trait);
-
-$core.addMethod(
-$core.method({
-selector: "@",
-protocol: "composition",
-fn: function (anArrayOfAssociations){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self._asTraitTransformation()).__at(anArrayOfAssociations);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"@",{anArrayOfAssociations:anArrayOfAssociations},$globals.Trait)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anArrayOfAssociations"],
-source: "@ anArrayOfAssociations\x0a\x09^ self asTraitTransformation @ anArrayOfAssociations",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["@", "asTraitTransformation"]
-}),
-$globals.Trait);
-
-$core.addMethod(
-$core.method({
-selector: "asTraitComposition",
-protocol: "converting",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self._asTraitTransformation())._asTraitComposition();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asTraitComposition",{},$globals.Trait)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "asTraitComposition\x0a\x09^ self asTraitTransformation asTraitComposition",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["asTraitComposition", "asTraitTransformation"]
-}),
-$globals.Trait);
-
-$core.addMethod(
-$core.method({
-selector: "asTraitTransformation",
-protocol: "converting",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($globals.TraitTransformation)._on_(self);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asTraitTransformation",{},$globals.Trait)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "asTraitTransformation\x0a\x09^ TraitTransformation on: self",
-referencedClasses: ["TraitTransformation"],
-//>>excludeEnd("ide");
-messageSends: ["on:"]
-}),
-$globals.Trait);
-
-$core.addMethod(
-$core.method({
-selector: "classTag",
-protocol: "accessing",
-fn: function (){
-var self=this;
-return "trait";
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "classTag\x0a\x09^ 'trait'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Trait);
-
-$core.addMethod(
-$core.method({
-selector: "definition",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-return $recv($globals.String)._streamContents_((function(stream){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$recv(stream)._write_("Trait named: ");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["write:"]=1;
-//>>excludeEnd("ctx");
-$recv(stream)._printSymbol_(self._name());
-$recv(stream)._lf();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["lf"]=1;
-//>>excludeEnd("ctx");
-$recv(stream)._write_($recv(self._traitCompositionDefinition())._ifNotEmpty_((function(tcd){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-$1=$recv($globals.String)._tab();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["tab"]=1;
-//>>excludeEnd("ctx");
-return [$1,"uses: ",tcd,$recv($globals.String)._lf()];
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({tcd:tcd},$ctx2,2)});
-//>>excludeEnd("ctx");
-})));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["write:"]=2;
-//>>excludeEnd("ctx");
-$recv(stream)._tab();
-$recv(stream)._write_("package: ");
-return $recv(stream)._print_(self._category());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"definition",{},$globals.Trait)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09write: 'Trait named: '; printSymbol: self name; lf;\x0a\x09\x09write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);\x0a\x09\x09tab; write: 'package: '; print: self category ]",
-referencedClasses: ["String"],
-//>>excludeEnd("ide");
-messageSends: ["streamContents:", "write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "traitCompositionDefinition", "tab", "print:", "category"]
-}),
-$globals.Trait);
-
-$core.addMethod(
-$core.method({
-selector: "theMetaClass",
-protocol: "accessing",
-fn: function (){
-var self=this;
-return nil;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "theMetaClass\x0a\x09^ nil",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Trait);
-
-$core.addMethod(
-$core.method({
-selector: "traitUsers",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self._basicAt_("traitUsers"))._copy();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"traitUsers",{},$globals.Trait)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "traitUsers\x0a\x09^ (self basicAt: 'traitUsers') copy",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["copy", "basicAt:"]
-}),
-$globals.Trait);
-
-
-$core.addMethod(
-$core.method({
-selector: "named:package:",
-protocol: "instance creation",
-fn: function (aString,anotherString){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($recv($globals.ClassBuilder)._new())._addTraitNamed_package_(aString,anotherString);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"named:package:",{aString:aString,anotherString:anotherString},$globals.Trait.klass)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString", "anotherString"],
-source: "named: aString package: anotherString\x0a\x09^ ClassBuilder new addTraitNamed: aString package: anotherString",
-referencedClasses: ["ClassBuilder"],
-//>>excludeEnd("ide");
-messageSends: ["addTraitNamed:package:", "new"]
-}),
-$globals.Trait.klass);
-
-$core.addMethod(
-$core.method({
-selector: "named:uses:package:",
-protocol: "instance creation",
-fn: function (aString,aTraitCompositionDescription,anotherString){
-var self=this;
-var trait;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-trait=self._named_package_(aString,anotherString);
-$recv(trait)._setTraitComposition_($recv(aTraitCompositionDescription)._asTraitComposition());
-return trait;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"named:uses:package:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,anotherString:anotherString,trait:trait},$globals.Trait.klass)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString", "aTraitCompositionDescription", "anotherString"],
-source: "named: aString uses: aTraitCompositionDescription package: anotherString\x0a\x09| trait |\x0a\x09trait := self named: aString package: anotherString.\x0a\x09trait setTraitComposition: aTraitCompositionDescription asTraitComposition.\x0a\x09^ trait",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["named:package:", "setTraitComposition:", "asTraitComposition"]
-}),
-$globals.Trait.klass);
 
 
 $core.addClass("ClassBuilder", $globals.Object, [], "Kernel-Classes");
@@ -3865,6 +3597,268 @@ referencedClasses: [],
 messageSends: []
 }),
 $globals.TMasterBehavior);
+
+
+$core.addClass("Trait", $globals.Object, [], "Kernel-Classes");
+$core.addMethod(
+$core.method({
+selector: "-",
+protocol: "composition",
+fn: function (anArray){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._asTraitTransformation()).__minus(anArray);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"-",{anArray:anArray},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anArray"],
+source: "- anArray\x0a\x09^ self asTraitTransformation - anArray",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["-", "asTraitTransformation"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "@",
+protocol: "composition",
+fn: function (anArrayOfAssociations){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._asTraitTransformation()).__at(anArrayOfAssociations);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"@",{anArrayOfAssociations:anArrayOfAssociations},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anArrayOfAssociations"],
+source: "@ anArrayOfAssociations\x0a\x09^ self asTraitTransformation @ anArrayOfAssociations",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["@", "asTraitTransformation"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "asTraitComposition",
+protocol: "converting",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._asTraitTransformation())._asTraitComposition();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asTraitComposition",{},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asTraitComposition\x0a\x09^ self asTraitTransformation asTraitComposition",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["asTraitComposition", "asTraitTransformation"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "asTraitTransformation",
+protocol: "converting",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.TraitTransformation)._on_(self);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asTraitTransformation",{},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asTraitTransformation\x0a\x09^ TraitTransformation on: self",
+referencedClasses: ["TraitTransformation"],
+//>>excludeEnd("ide");
+messageSends: ["on:"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "classTag",
+protocol: "accessing",
+fn: function (){
+var self=this;
+return "trait";
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "classTag\x0a\x09^ 'trait'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "definition",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+return $recv($globals.String)._streamContents_((function(stream){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv(stream)._write_("Trait named: ");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["write:"]=1;
+//>>excludeEnd("ctx");
+$recv(stream)._printSymbol_(self._name());
+$recv(stream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["lf"]=1;
+//>>excludeEnd("ctx");
+$recv(stream)._write_($recv(self._traitCompositionDefinition())._ifNotEmpty_((function(tcd){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$1=$recv($globals.String)._tab();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["tab"]=1;
+//>>excludeEnd("ctx");
+return [$1,"uses: ",tcd,$recv($globals.String)._lf()];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({tcd:tcd},$ctx2,2)});
+//>>excludeEnd("ctx");
+})));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["write:"]=2;
+//>>excludeEnd("ctx");
+$recv(stream)._tab();
+$recv(stream)._write_("package: ");
+return $recv(stream)._print_(self._category());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"definition",{},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09write: 'Trait named: '; printSymbol: self name; lf;\x0a\x09\x09write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);\x0a\x09\x09tab; write: 'package: '; print: self category ]",
+referencedClasses: ["String"],
+//>>excludeEnd("ide");
+messageSends: ["streamContents:", "write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "traitCompositionDefinition", "tab", "print:", "category"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "theMetaClass",
+protocol: "accessing",
+fn: function (){
+var self=this;
+return nil;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "theMetaClass\x0a\x09^ nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "traitUsers",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._basicAt_("traitUsers"))._copy();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"traitUsers",{},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "traitUsers\x0a\x09^ (self basicAt: 'traitUsers') copy",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["copy", "basicAt:"]
+}),
+$globals.Trait);
+
+
+$core.addMethod(
+$core.method({
+selector: "named:package:",
+protocol: "instance creation",
+fn: function (aString,anotherString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($recv($globals.ClassBuilder)._new())._addTraitNamed_package_(aString,anotherString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"named:package:",{aString:aString,anotherString:anotherString},$globals.Trait.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "anotherString"],
+source: "named: aString package: anotherString\x0a\x09^ ClassBuilder new addTraitNamed: aString package: anotherString",
+referencedClasses: ["ClassBuilder"],
+//>>excludeEnd("ide");
+messageSends: ["addTraitNamed:package:", "new"]
+}),
+$globals.Trait.klass);
+
+$core.addMethod(
+$core.method({
+selector: "named:uses:package:",
+protocol: "instance creation",
+fn: function (aString,aTraitCompositionDescription,anotherString){
+var self=this;
+var trait;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+trait=self._named_package_(aString,anotherString);
+$recv(trait)._setTraitComposition_($recv(aTraitCompositionDescription)._asTraitComposition());
+return trait;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"named:uses:package:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,anotherString:anotherString,trait:trait},$globals.Trait.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aTraitCompositionDescription", "anotherString"],
+source: "named: aString uses: aTraitCompositionDescription package: anotherString\x0a\x09| trait |\x0a\x09trait := self named: aString package: anotherString.\x0a\x09trait setTraitComposition: aTraitCompositionDescription asTraitComposition.\x0a\x09^ trait",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["named:package:", "setTraitComposition:", "asTraitComposition"]
+}),
+$globals.Trait.klass);
 
 
 $core.addClass("TraitTransformation", $globals.Object, ["trait", "aliases", "exclusions"], "Kernel-Classes");

@@ -200,13 +200,6 @@ define(['./compatibility'], function () {
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
 
-        function SmalltalkBehaviorBody () {
-        }
-
-        coreFns.BehaviorBody = inherits(SmalltalkBehaviorBody, SmalltalkObject);
-
-        this.BehaviorBody = SmalltalkBehaviorBody;
-
         /* Smalltalk classes */
 
         var classes = [];
