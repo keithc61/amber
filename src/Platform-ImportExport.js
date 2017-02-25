@@ -4271,55 +4271,6 @@ $globals.AmdPackageTransport.klass);
 
 $core.addMethod(
 $core.method({
-selector: "commentStamp",
-protocol: "*Platform-ImportExport",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$recv($globals.ClassCommentReader)._new();
-$recv($1)._class_(self);
-return $recv($1)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"commentStamp",{},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "commentStamp\x0a\x09^ ClassCommentReader new\x0a\x09class: self;\x0a\x09yourself",
-referencedClasses: ["ClassCommentReader"],
-//>>excludeEnd("ide");
-messageSends: ["class:", "new", "yourself"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "commentStamp:prior:",
-protocol: "*Platform-ImportExport",
-fn: function (aStamp,prior){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self._commentStamp();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"commentStamp:prior:",{aStamp:aStamp,prior:prior},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aStamp", "prior"],
-source: "commentStamp: aStamp prior: prior\x0a\x09\x09^ self commentStamp",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["commentStamp"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
 selector: "exportBehaviorDefinitionTo:using:",
 protocol: "*Platform-ImportExport",
 fn: function (aStream,anExporter){
@@ -4390,6 +4341,55 @@ referencedClasses: [],
 messageSends: ["methodsFor:"]
 }),
 $globals.BehaviorBody);
+
+$core.addMethod(
+$core.method({
+selector: "commentStamp",
+protocol: "*Platform-ImportExport",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($globals.ClassCommentReader)._new();
+$recv($1)._class_(self);
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"commentStamp",{},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "commentStamp\x0a\x09^ ClassCommentReader new\x0a\x09class: self;\x0a\x09yourself",
+referencedClasses: ["ClassCommentReader"],
+//>>excludeEnd("ide");
+messageSends: ["class:", "new", "yourself"]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
+selector: "commentStamp:prior:",
+protocol: "*Platform-ImportExport",
+fn: function (aStamp,prior){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._commentStamp();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"commentStamp:prior:",{aStamp:aStamp,prior:prior},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aStamp", "prior"],
+source: "commentStamp: aStamp prior: prior\x0a\x09\x09^ self commentStamp",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["commentStamp"]
+}),
+$globals.TMasterBehavior);
 
 $core.addMethod(
 $core.method({
@@ -4558,6 +4558,104 @@ referencedClasses: [],
 messageSends: ["loadFromNamespace:", "named:"]
 }),
 $globals.Package.klass);
+
+$core.addMethod(
+$core.method({
+selector: "commentStamp",
+protocol: "*Platform-ImportExport",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($globals.ClassCommentReader)._new();
+$recv($1)._class_(self);
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"commentStamp",{},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "commentStamp\x0a\x09^ ClassCommentReader new\x0a\x09class: self;\x0a\x09yourself",
+referencedClasses: ["ClassCommentReader"],
+//>>excludeEnd("ide");
+messageSends: ["class:", "new", "yourself"]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
+selector: "commentStamp:prior:",
+protocol: "*Platform-ImportExport",
+fn: function (aStamp,prior){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._commentStamp();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"commentStamp:prior:",{aStamp:aStamp,prior:prior},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aStamp", "prior"],
+source: "commentStamp: aStamp prior: prior\x0a\x09\x09^ self commentStamp",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["commentStamp"]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
+selector: "commentStamp",
+protocol: "*Platform-ImportExport",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($globals.ClassCommentReader)._new();
+$recv($1)._class_(self);
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"commentStamp",{},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "commentStamp\x0a\x09^ ClassCommentReader new\x0a\x09class: self;\x0a\x09yourself",
+referencedClasses: ["ClassCommentReader"],
+//>>excludeEnd("ide");
+messageSends: ["class:", "new", "yourself"]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
+selector: "commentStamp:prior:",
+protocol: "*Platform-ImportExport",
+fn: function (aStamp,prior){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._commentStamp();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"commentStamp:prior:",{aStamp:aStamp,prior:prior},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aStamp", "prior"],
+source: "commentStamp: aStamp prior: prior\x0a\x09\x09^ self commentStamp",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["commentStamp"]
+}),
+$globals.TMasterBehavior);
 
 $core.addMethod(
 $core.method({

@@ -191,65 +191,6 @@ $globals.BehaviorBody);
 
 $core.addMethod(
 $core.method({
-selector: "comment",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$receiver;
-$1=self._basicAt_("comment");
-if(($receiver = $1) == null || $receiver.isNil){
-return "";
-} else {
-return $1;
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"comment",{},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "comment\x0a\x09^ (self basicAt: 'comment') ifNil: [ '' ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["ifNil:", "basicAt:"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "comment:",
-protocol: "accessing",
-fn: function (aString){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$3,$2;
-self._basicAt_put_("comment",aString);
-$1=$recv($globals.SystemAnnouncer)._current();
-$3=$recv($globals.ClassCommentChanged)._new();
-$recv($3)._theClass_(self);
-$2=$recv($3)._yourself();
-$recv($1)._announce_($2);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"comment:",{aString:aString},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "comment: aString\x0a\x09self basicAt: 'comment' put: aString.\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassCommentChanged new\x0a\x09\x09\x09theClass: self;\x0a\x09\x09\x09yourself)",
-referencedClasses: ["SystemAnnouncer", "ClassCommentChanged"],
-//>>excludeEnd("ide");
-messageSends: ["basicAt:put:", "announce:", "current", "theClass:", "new", "yourself"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
 selector: "compile:protocol:",
 protocol: "compiling",
 fn: function (aString,anotherString){
@@ -488,30 +429,6 @@ source: "methodsInProtocol: aString\x0a\x09^ self methods select: [ :each | each
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["select:", "methods", "=", "protocol"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "name",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.className || nil;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"name",{},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "name\x0a\x09<inlineJS: 'return self.className || nil'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
 }),
 $globals.BehaviorBody);
 
@@ -1761,85 +1678,6 @@ $globals.Class.comment="I am __the__ class object.\x0a\x0aMy instances are the c
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "asJavaScriptSource",
-protocol: "converting",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return "$globals.".__comma(self._name());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{},$globals.Class)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "asJavaScriptSource\x0a\x09^ '$globals.', self name",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: [",", "name"]
-}),
-$globals.Class);
-
-$core.addMethod(
-$core.method({
-selector: "browse",
-protocol: "browsing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv($globals.Finder)._findClass_(self);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"browse",{},$globals.Class)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "browse\x0a\x09Finder findClass: self",
-referencedClasses: ["Finder"],
-//>>excludeEnd("ide");
-messageSends: ["findClass:"]
-}),
-$globals.Class);
-
-$core.addMethod(
-$core.method({
-selector: "category",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$receiver;
-$1=self._package();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["package"]=1;
-//>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
-return "Unclassified";
-} else {
-return $recv(self._package())._name();
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"category",{},$globals.Class)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "category\x0a\x09^ self package ifNil: [ 'Unclassified' ] ifNotNil: [ self package name ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["ifNil:ifNotNil:", "package", "name"]
-}),
-$globals.Class);
-
-$core.addMethod(
-$core.method({
 selector: "classTag",
 protocol: "accessing",
 fn: function (){
@@ -1951,76 +1789,6 @@ source: "isClass\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
-}),
-$globals.Class);
-
-$core.addMethod(
-$core.method({
-selector: "package",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self._basicAt_("pkg");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"package",{},$globals.Class)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "package\x0a\x09^ self basicAt: 'pkg'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["basicAt:"]
-}),
-$globals.Class);
-
-$core.addMethod(
-$core.method({
-selector: "package:",
-protocol: "accessing",
-fn: function (aPackage){
-var self=this;
-var oldPackage;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $2,$1,$3,$4,$6,$5;
-$2=self._package();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["package"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2).__eq(aPackage);
-if($core.assert($1)){
-return self;
-}
-oldPackage=self._package();
-self._basicAt_put_("pkg",aPackage);
-$3=$recv(oldPackage)._organization();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["organization"]=1;
-//>>excludeEnd("ctx");
-$recv($3)._removeElement_(self);
-$recv($recv(aPackage)._organization())._addElement_(self);
-$4=$recv($globals.SystemAnnouncer)._current();
-$6=$recv($globals.ClassMoved)._new();
-$recv($6)._theClass_(self);
-$recv($6)._oldPackage_(oldPackage);
-$5=$recv($6)._yourself();
-$recv($4)._announce_($5);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"package:",{aPackage:aPackage,oldPackage:oldPackage},$globals.Class)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aPackage"],
-source: "package: aPackage\x0a\x09| oldPackage |\x0a\x09\x0a\x09self package = aPackage ifTrue: [ ^ self ].\x0a\x09\x0a\x09oldPackage := self package.\x0a\x09\x0a\x09self basicAt: 'pkg' put: aPackage.\x0a\x09oldPackage organization removeElement: self.\x0a\x09aPackage organization addElement: self.\x0a\x0a\x09SystemAnnouncer current announce: (ClassMoved new\x0a\x09\x09theClass: self;\x0a\x09\x09oldPackage: oldPackage;\x0a\x09\x09yourself)",
-referencedClasses: ["SystemAnnouncer", "ClassMoved"],
-//>>excludeEnd("ide");
-messageSends: ["ifTrue:", "=", "package", "basicAt:put:", "removeElement:", "organization", "addElement:", "announce:", "current", "theClass:", "new", "oldPackage:", "yourself"]
 }),
 $globals.Class);
 
@@ -2325,24 +2093,6 @@ source: "theMetaClass\x0a\x09^ self class",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["class"]
-}),
-$globals.Class);
-
-$core.addMethod(
-$core.method({
-selector: "theNonMetaClass",
-protocol: "accessing",
-fn: function (){
-var self=this;
-return self;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "theNonMetaClass\x0a\x09^ self",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
 }),
 $globals.Class);
 
@@ -2694,29 +2444,6 @@ $globals.Trait);
 
 $core.addMethod(
 $core.method({
-selector: "asJavaScriptSource",
-protocol: "converting",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return "$globals.".__comma(self._name());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{},$globals.Trait)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "asJavaScriptSource\x0a\x09^ '$globals.', self name",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: [",", "name"]
-}),
-$globals.Trait);
-
-$core.addMethod(
-$core.method({
 selector: "asTraitComposition",
 protocol: "converting",
 fn: function (){
@@ -2758,38 +2485,6 @@ source: "asTraitTransformation\x0a\x09^ TraitTransformation on: self",
 referencedClasses: ["TraitTransformation"],
 //>>excludeEnd("ide");
 messageSends: ["on:"]
-}),
-$globals.Trait);
-
-$core.addMethod(
-$core.method({
-selector: "category",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$receiver;
-$1=self._package();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["package"]=1;
-//>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
-return "Unclassified";
-} else {
-return $recv(self._package())._name();
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"category",{},$globals.Trait)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "category\x0a\x09^ self package ifNil: [ 'Unclassified' ] ifNotNil: [ self package name ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["ifNil:ifNotNil:", "package", "name"]
 }),
 $globals.Trait);
 
@@ -2872,76 +2567,6 @@ $globals.Trait);
 
 $core.addMethod(
 $core.method({
-selector: "package",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self._basicAt_("pkg");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"package",{},$globals.Trait)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "package\x0a\x09^ self basicAt: 'pkg'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["basicAt:"]
-}),
-$globals.Trait);
-
-$core.addMethod(
-$core.method({
-selector: "package:",
-protocol: "accessing",
-fn: function (aPackage){
-var self=this;
-var oldPackage;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $2,$1,$3,$4,$6,$5;
-$2=self._package();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["package"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2).__eq(aPackage);
-if($core.assert($1)){
-return self;
-}
-oldPackage=self._package();
-self._basicAt_put_("pkg",aPackage);
-$3=$recv(oldPackage)._organization();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["organization"]=1;
-//>>excludeEnd("ctx");
-$recv($3)._removeElement_(self);
-$recv($recv(aPackage)._organization())._addElement_(self);
-$4=$recv($globals.SystemAnnouncer)._current();
-$6=$recv($globals.ClassMoved)._new();
-$recv($6)._theClass_(self);
-$recv($6)._oldPackage_(oldPackage);
-$5=$recv($6)._yourself();
-$recv($4)._announce_($5);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"package:",{aPackage:aPackage,oldPackage:oldPackage},$globals.Trait)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aPackage"],
-source: "package: aPackage\x0a\x09| oldPackage |\x0a\x09\x0a\x09self package = aPackage ifTrue: [ ^ self ].\x0a\x09\x0a\x09oldPackage := self package.\x0a\x09\x0a\x09self basicAt: 'pkg' put: aPackage.\x0a\x09oldPackage organization removeElement: self.\x0a\x09aPackage organization addElement: self.\x0a\x0a\x09SystemAnnouncer current announce: (ClassMoved new\x0a\x09\x09theClass: self;\x0a\x09\x09oldPackage: oldPackage;\x0a\x09\x09yourself)",
-referencedClasses: ["SystemAnnouncer", "ClassMoved"],
-//>>excludeEnd("ide");
-messageSends: ["ifTrue:", "=", "package", "basicAt:put:", "removeElement:", "organization", "addElement:", "announce:", "current", "theClass:", "new", "oldPackage:", "yourself"]
-}),
-$globals.Trait);
-
-$core.addMethod(
-$core.method({
 selector: "theMetaClass",
 protocol: "accessing",
 fn: function (){
@@ -2952,24 +2577,6 @@ return nil;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "theMetaClass\x0a\x09^ nil",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Trait);
-
-$core.addMethod(
-$core.method({
-selector: "theNonMetaClass",
-protocol: "accessing",
-fn: function (){
-var self=this;
-return self;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "theNonMetaClass\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4029,6 +3636,261 @@ messageSends: ["theClass:", "new", "level:", "getNodesFrom:", "yourself"]
 $globals.ClassSorterNode.klass);
 
 
+$core.addTrait("TMasterBehavior", "Kernel-Classes");
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.TMasterBehavior.comment="I am the behavior on the instance-side of the browser.\x0a\x0aI define things like package, category, name, comment etc.\x0aas opposed to derived behaviors (metaclass, class trait, ...)\x0athat relate to me.";
+//>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "asJavaScriptSource",
+protocol: "converting",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return "$globals.".__comma(self._name());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asJavaScriptSource\x0a\x09^ '$globals.', self name",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: [",", "name"]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
+selector: "browse",
+protocol: "browsing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv($globals.Finder)._findClass_(self);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"browse",{},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "browse\x0a\x09Finder findClass: self",
+referencedClasses: ["Finder"],
+//>>excludeEnd("ide");
+messageSends: ["findClass:"]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
+selector: "category",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$receiver;
+$1=self._package();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["package"]=1;
+//>>excludeEnd("ctx");
+if(($receiver = $1) == null || $receiver.isNil){
+return "Unclassified";
+} else {
+return $recv(self._package())._name();
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"category",{},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "category\x0a\x09^ self package ifNil: [ 'Unclassified' ] ifNotNil: [ self package name ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["ifNil:ifNotNil:", "package", "name"]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
+selector: "comment",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$receiver;
+$1=self._basicAt_("comment");
+if(($receiver = $1) == null || $receiver.isNil){
+return "";
+} else {
+return $1;
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"comment",{},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "comment\x0a\x09^ (self basicAt: 'comment') ifNil: [ '' ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["ifNil:", "basicAt:"]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
+selector: "comment:",
+protocol: "accessing",
+fn: function (aString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$3,$2;
+self._basicAt_put_("comment",aString);
+$1=$recv($globals.SystemAnnouncer)._current();
+$3=$recv($globals.ClassCommentChanged)._new();
+$recv($3)._theClass_(self);
+$2=$recv($3)._yourself();
+$recv($1)._announce_($2);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"comment:",{aString:aString},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "comment: aString\x0a\x09self basicAt: 'comment' put: aString.\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassCommentChanged new\x0a\x09\x09\x09theClass: self;\x0a\x09\x09\x09yourself)",
+referencedClasses: ["SystemAnnouncer", "ClassCommentChanged"],
+//>>excludeEnd("ide");
+messageSends: ["basicAt:put:", "announce:", "current", "theClass:", "new", "yourself"]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
+selector: "name",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self.className || null;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"name",{},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "name\x0a\x09<inlineJS: 'return self.className || null'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
+selector: "package",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._basicAt_("pkg");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"package",{},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "package\x0a\x09^ self basicAt: 'pkg'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["basicAt:"]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
+selector: "package:",
+protocol: "accessing",
+fn: function (aPackage){
+var self=this;
+var oldPackage;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1,$3,$4,$6,$5;
+$2=self._package();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["package"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2).__eq(aPackage);
+if($core.assert($1)){
+return self;
+}
+oldPackage=self._package();
+self._basicAt_put_("pkg",aPackage);
+$3=$recv(oldPackage)._organization();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["organization"]=1;
+//>>excludeEnd("ctx");
+$recv($3)._removeElement_(self);
+$recv($recv(aPackage)._organization())._addElement_(self);
+$4=$recv($globals.SystemAnnouncer)._current();
+$6=$recv($globals.ClassMoved)._new();
+$recv($6)._theClass_(self);
+$recv($6)._oldPackage_(oldPackage);
+$5=$recv($6)._yourself();
+$recv($4)._announce_($5);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"package:",{aPackage:aPackage,oldPackage:oldPackage},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aPackage"],
+source: "package: aPackage\x0a\x09| oldPackage |\x0a\x09\x0a\x09self package = aPackage ifTrue: [ ^ self ].\x0a\x09\x0a\x09oldPackage := self package.\x0a\x09\x0a\x09self basicAt: 'pkg' put: aPackage.\x0a\x09oldPackage organization removeElement: self.\x0a\x09aPackage organization addElement: self.\x0a\x0a\x09SystemAnnouncer current announce: (ClassMoved new\x0a\x09\x09theClass: self;\x0a\x09\x09oldPackage: oldPackage;\x0a\x09\x09yourself)",
+referencedClasses: ["SystemAnnouncer", "ClassMoved"],
+//>>excludeEnd("ide");
+messageSends: ["ifTrue:", "=", "package", "basicAt:put:", "removeElement:", "organization", "addElement:", "announce:", "current", "theClass:", "new", "oldPackage:", "yourself"]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
+selector: "theNonMetaClass",
+protocol: "accessing",
+fn: function (){
+var self=this;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "theNonMetaClass\x0a\x09^ self",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TMasterBehavior);
+
+
 $core.addClass("TraitTransformation", $globals.Object, ["trait", "aliases", "exclusions"], "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.TraitTransformation.comment="I am a single step in trait composition.\x0a\x0aI represent one trait including its aliases and exclusions.";
@@ -4605,6 +4467,9 @@ referencedClasses: [],
 messageSends: ["trait:", "new", "yourself"]
 }),
 $globals.TraitTransformation.klass);
+
+$core.setTraitComposition([{trait: $globals.TMasterBehavior}], $globals.Class);
+$core.setTraitComposition([{trait: $globals.TMasterBehavior}], $globals.Trait);
 
 $core.addMethod(
 $core.method({

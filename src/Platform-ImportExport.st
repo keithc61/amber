@@ -1122,16 +1122,6 @@ namespace: aString
 
 !BehaviorBody methodsFor: '*Platform-ImportExport'!
 
-commentStamp
-	^ ClassCommentReader new
-	class: self;
-	yourself
-!
-
-commentStamp: aStamp prior: prior
-		^ self commentStamp
-!
-
 exportBehaviorDefinitionTo: aStream using: anExporter
 	self subclassResponsibility
 !
@@ -1183,6 +1173,18 @@ load: aPackageName
 
 load: aPackageName fromNamespace: aString
 	(self named: aPackageName) loadFromNamespace: aString
+! !
+
+!TMasterBehavior methodsFor: '*Platform-ImportExport'!
+
+commentStamp
+	^ ClassCommentReader new
+	class: self;
+	yourself
+!
+
+commentStamp: aStamp prior: prior
+		^ self commentStamp
 ! !
 
 !Trait methodsFor: '*Platform-ImportExport'!

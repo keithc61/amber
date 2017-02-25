@@ -20,18 +20,6 @@ allInstanceVariableNames
 	^ #()
 !
 
-comment
-	^ (self basicAt: 'comment') ifNil: [ '' ]
-!
-
-comment: aString
-	self basicAt: 'comment' put: aString.
-	SystemAnnouncer current
-		announce: (ClassCommentChanged new
-			theClass: self;
-			yourself)
-!
-
 definition
 	self subclassResponsibility
 !
@@ -66,10 +54,6 @@ methods
 
 methodsInProtocol: aString
 	^ self methods select: [ :each | each protocol = aString ]
-!
-
-name
-	<inlineJS: 'return self.className || nil'>
 !
 
 organization
@@ -414,10 +398,6 @@ Class creation is done throught a `ClassBuilder` instance.!
 
 !Class methodsFor: 'accessing'!
 
-category
-	^ self package ifNil: [ 'Unclassified' ] ifNotNil: [ self package name ]
-!
-
 classTag
 	"Returns a tag or general category for this class.
 	Typically used to help tools do some reflection.
@@ -434,27 +414,6 @@ definition
 		tab; write: 'package: '; print: self category ]
 !
 
-package
-	^ self basicAt: 'pkg'
-!
-
-package: aPackage
-	| oldPackage |
-	
-	self package = aPackage ifTrue: [ ^ self ].
-	
-	oldPackage := self package.
-	
-	self basicAt: 'pkg' put: aPackage.
-	oldPackage organization removeElement: self.
-	aPackage organization addElement: self.
-
-	SystemAnnouncer current announce: (ClassMoved new
-		theClass: self;
-		oldPackage: oldPackage;
-		yourself)
-!
-
 rename: aString
 	ClassBuilder new renameClass: self to: aString
 !
@@ -465,16 +424,6 @@ subclasses
 
 theMetaClass
 	^ self class
-!
-
-theNonMetaClass
-	^ self
-! !
-
-!Class methodsFor: 'browsing'!
-
-browse
-	Finder findClass: self
 ! !
 
 !Class methodsFor: 'class creation'!
@@ -529,12 +478,6 @@ subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aStr
 	cls := self subclass: aString instanceVariableNames: aString2 package: aString3.
 	cls setTraitComposition: aTraitCompositionDescription asTraitComposition.
 	^ cls
-! !
-
-!Class methodsFor: 'converting'!
-
-asJavaScriptSource
-	^ '$globals.', self name
 ! !
 
 !Class methodsFor: 'testing'!
@@ -618,10 +561,6 @@ BehaviorBody subclass: #Trait
 
 !Trait methodsFor: 'accessing'!
 
-category
-	^ self package ifNil: [ 'Unclassified' ] ifNotNil: [ self package name ]
-!
-
 classTag
 	^ 'trait'
 !
@@ -633,33 +572,8 @@ definition
 		tab; write: 'package: '; print: self category ]
 !
 
-package
-	^ self basicAt: 'pkg'
-!
-
-package: aPackage
-	| oldPackage |
-	
-	self package = aPackage ifTrue: [ ^ self ].
-	
-	oldPackage := self package.
-	
-	self basicAt: 'pkg' put: aPackage.
-	oldPackage organization removeElement: self.
-	aPackage organization addElement: self.
-
-	SystemAnnouncer current announce: (ClassMoved new
-		theClass: self;
-		oldPackage: oldPackage;
-		yourself)
-!
-
 theMetaClass
 	^ nil
-!
-
-theNonMetaClass
-	^ self
 !
 
 traitUsers
@@ -677,10 +591,6 @@ traitUsers
 ! !
 
 !Trait methodsFor: 'converting'!
-
-asJavaScriptSource
-	^ '$globals.', self name
-!
 
 asTraitComposition
 	^ self asTraitTransformation asTraitComposition
@@ -1006,6 +916,74 @@ on: aClass classes: aCollection level: anInteger
 		yourself
 ! !
 
+Trait named: #TMasterBehavior
+	package: 'Kernel-Classes'!
+!TMasterBehavior commentStamp!
+I am the behavior on the instance-side of the browser.
+
+I define things like package, category, name, comment etc.
+as opposed to derived behaviors (metaclass, class trait, ...)
+that relate to me.!
+
+!TMasterBehavior methodsFor: 'accessing'!
+
+category
+	^ self package ifNil: [ 'Unclassified' ] ifNotNil: [ self package name ]
+!
+
+comment
+	^ (self basicAt: 'comment') ifNil: [ '' ]
+!
+
+comment: aString
+	self basicAt: 'comment' put: aString.
+	SystemAnnouncer current
+		announce: (ClassCommentChanged new
+			theClass: self;
+			yourself)
+!
+
+name
+	<inlineJS: 'return self.className || null'>
+!
+
+package
+	^ self basicAt: 'pkg'
+!
+
+package: aPackage
+	| oldPackage |
+	
+	self package = aPackage ifTrue: [ ^ self ].
+	
+	oldPackage := self package.
+	
+	self basicAt: 'pkg' put: aPackage.
+	oldPackage organization removeElement: self.
+	aPackage organization addElement: self.
+
+	SystemAnnouncer current announce: (ClassMoved new
+		theClass: self;
+		oldPackage: oldPackage;
+		yourself)
+!
+
+theNonMetaClass
+	^ self
+! !
+
+!TMasterBehavior methodsFor: 'browsing'!
+
+browse
+	Finder findClass: self
+! !
+
+!TMasterBehavior methodsFor: 'converting'!
+
+asJavaScriptSource
+	^ '$globals.', self name
+! !
+
 Object subclass: #TraitTransformation
 	instanceVariableNames: 'trait aliases exclusions'
 	package: 'Kernel-Classes'!
@@ -1130,6 +1108,10 @@ fromJSON: aJSObject
 
 on: aTrait
 	^ super new trait: aTrait; yourself
+! !
+
+Class setTraitComposition: {TMasterBehavior} asTraitComposition!
+Trait setTraitComposition: {TMasterBehavior} asTraitComposition!
 ! !
 
 !Array methodsFor: '*Kernel-Classes'!
