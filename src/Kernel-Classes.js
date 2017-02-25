@@ -107,42 +107,6 @@ $globals.BehaviorBody);
 
 $core.addMethod(
 $core.method({
-selector: "allInstanceVariableNames",
-protocol: "accessing",
-fn: function (){
-var self=this;
-return [];
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "allInstanceVariableNames\x0a\x09\x22Default for non-classes; to be able to send #allInstanceVariableNames to any class / trait.\x22\x0a\x09^ #()",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "allSubclassesDo:",
-protocol: "enumerating",
-fn: function (aBlock){
-var self=this;
-return self;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "allSubclassesDo: aBlock\x0a\x09\x22Default for non-classes; to be able to send #allSubclassesDo: to any class / trait.\x22",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
 selector: "basicAddCompiledMethod:",
 protocol: "private",
 fn: function (aMethod){
@@ -851,24 +815,6 @@ $globals.BehaviorBody);
 
 $core.addMethod(
 $core.method({
-selector: "superclass",
-protocol: "accessing",
-fn: function (){
-var self=this;
-return nil;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "superclass\x0a\x09\x22Default for non-classes; to be able to send #superclass to any class / trait.\x22\x0a\x09^ nil",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
 selector: "theMetaClass",
 protocol: "accessing",
 fn: function (){
@@ -1009,24 +955,6 @@ source: "traitCompositionDefinition\x0a\x09^ self traitComposition ifNotEmpty: [
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
 messageSends: ["ifNotEmpty:", "traitComposition", "streamContents:", "write:", "do:separatedBy:", "definition"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "traitUsers",
-protocol: "accessing",
-fn: function (){
-var self=this;
-return [];
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "traitUsers\x0a\x09\x22Default for non-traits; to be able to send #traitUsers to any class / trait\x22\x0a\x09^ #()",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
 }),
 $globals.BehaviorBody);
 
@@ -3636,6 +3564,80 @@ messageSends: ["theClass:", "new", "level:", "getNodesFrom:", "yourself"]
 $globals.ClassSorterNode.klass);
 
 
+$core.addTrait("TBehaviorDefaults", "Kernel-Classes");
+$core.addMethod(
+$core.method({
+selector: "allInstanceVariableNames",
+protocol: "accessing",
+fn: function (){
+var self=this;
+return [];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "allInstanceVariableNames\x0a\x09\x22Default for non-classes; to be able to send #allInstanceVariableNames to any class / trait.\x22\x0a\x09^ #()",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TBehaviorDefaults);
+
+$core.addMethod(
+$core.method({
+selector: "allSubclassesDo:",
+protocol: "enumerating",
+fn: function (aBlock){
+var self=this;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "allSubclassesDo: aBlock\x0a\x09\x22Default for non-classes; to be able to send #allSubclassesDo: to any class / trait.\x22",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TBehaviorDefaults);
+
+$core.addMethod(
+$core.method({
+selector: "superclass",
+protocol: "accessing",
+fn: function (){
+var self=this;
+return nil;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "superclass\x0a\x09\x22Default for non-classes; to be able to send #superclass to any class / trait.\x22\x0a\x09^ nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TBehaviorDefaults);
+
+$core.addMethod(
+$core.method({
+selector: "traitUsers",
+protocol: "accessing",
+fn: function (){
+var self=this;
+return [];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "traitUsers\x0a\x09\x22Default for non-traits; to be able to send #traitUsers to any class / trait\x22\x0a\x09^ #()",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TBehaviorDefaults);
+
+
 $core.addTrait("TMasterBehavior", "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.TMasterBehavior.comment="I am the behavior on the instance-side of the browser.\x0a\x0aI define things like package, category, name, comment etc.\x0aas opposed to derived behaviors (metaclass, class trait, ...)\x0athat relate to me.";
@@ -4468,8 +4470,9 @@ messageSends: ["trait:", "new", "yourself"]
 }),
 $globals.TraitTransformation.klass);
 
+$core.setTraitComposition([{trait: $globals.TBehaviorDefaults}], $globals.Behavior);
 $core.setTraitComposition([{trait: $globals.TMasterBehavior}], $globals.Class);
-$core.setTraitComposition([{trait: $globals.TMasterBehavior}], $globals.Trait);
+$core.setTraitComposition([{trait: $globals.TBehaviorDefaults}, {trait: $globals.TMasterBehavior}], $globals.Trait);
 
 $core.addMethod(
 $core.method({

@@ -15,11 +15,6 @@ I also provides methods for compiling methods and examining the method dictionar
 	^ self methodAt: aString
 !
 
-allInstanceVariableNames
-	"Default for non-classes; to be able to send #allInstanceVariableNames to any class / trait."
-	^ #()
-!
-
 definition
 	self subclassResponsibility
 !
@@ -108,11 +103,6 @@ selectors
 	^ self methodDictionary keys
 !
 
-superclass
-	"Default for non-classes; to be able to send #superclass to any class / trait."
-	^ nil
-!
-
 theMetaClass
 	self subclassResponsibility
 !
@@ -133,11 +123,6 @@ traitCompositionDefinition
 				do: [ :each | str write: each definition ]
 				separatedBy: [ str write: '. ' ].
 			str write: '}' ] ]
-!
-
-traitUsers
-	"Default for non-traits; to be able to send #traitUsers to any class / trait"
-	^ #()
 ! !
 
 !BehaviorBody methodsFor: 'compiling'!
@@ -200,10 +185,6 @@ setTraitComposition: aTraitComposition
 ! !
 
 !BehaviorBody methodsFor: 'enumerating'!
-
-allSubclassesDo: aBlock
-	"Default for non-classes; to be able to send #allSubclassesDo: to any class / trait."
-!
 
 protocolsDo: aBlock
 	"Execute aBlock for each method protocol with
@@ -916,6 +897,32 @@ on: aClass classes: aCollection level: anInteger
 		yourself
 ! !
 
+Trait named: #TBehaviorDefaults
+	package: 'Kernel-Classes'!
+
+!TBehaviorDefaults methodsFor: 'accessing'!
+
+allInstanceVariableNames
+	"Default for non-classes; to be able to send #allInstanceVariableNames to any class / trait."
+	^ #()
+!
+
+superclass
+	"Default for non-classes; to be able to send #superclass to any class / trait."
+	^ nil
+!
+
+traitUsers
+	"Default for non-traits; to be able to send #traitUsers to any class / trait"
+	^ #()
+! !
+
+!TBehaviorDefaults methodsFor: 'enumerating'!
+
+allSubclassesDo: aBlock
+	"Default for non-classes; to be able to send #allSubclassesDo: to any class / trait."
+! !
+
 Trait named: #TMasterBehavior
 	package: 'Kernel-Classes'!
 !TMasterBehavior commentStamp!
@@ -1110,8 +1117,9 @@ on: aTrait
 	^ super new trait: aTrait; yourself
 ! !
 
+Behavior setTraitComposition: {TBehaviorDefaults} asTraitComposition!
 Class setTraitComposition: {TMasterBehavior} asTraitComposition!
-Trait setTraitComposition: {TMasterBehavior} asTraitComposition!
+Trait setTraitComposition: {TBehaviorDefaults. TMasterBehavior} asTraitComposition!
 ! !
 
 !Array methodsFor: '*Kernel-Classes'!
