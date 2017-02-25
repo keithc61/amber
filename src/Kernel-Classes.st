@@ -11,96 +11,8 @@ I also provides methods for compiling methods and examining the method dictionar
 
 !BehaviorBody methodsFor: 'accessing'!
 
->> aString
-	^ self methodAt: aString
-!
-
 definition
 	self subclassResponsibility
-!
-
-methodAt: aString
-	^ self methodDictionary at: aString
-!
-
-methodDictionary
-	<inlineJS: 'var dict = $globals.HashedCollection._new();
-	var methods = self.methods;
-	Object.keys(methods).forEach(function(i) {
-		if(methods[i].selector) {
-			dict._at_put_(methods[i].selector, methods[i]);
-		}
-	});
-	return dict'>
-!
-
-methodTemplate
-	^ String streamContents: [ :stream | stream 
-		write: 'messageSelectorAndArgumentNames'; lf;
-		tab; write: '"comment stating purpose of message"'; lf;
-		lf;
-		tab; write: '| temporary variable names |'; lf;
-		tab; write: 'statements' ]
-!
-
-methods
-	^ self methodDictionary values
-!
-
-methodsInProtocol: aString
-	^ self methods select: [ :each | each protocol = aString ]
-!
-
-organization
-	^ self basicAt: 'organization'
-!
-
-ownMethods
-	"Answer the methods of the receiver that are not package extensions
-	nor obtained via trait composition"
-
-	^ (self ownProtocols 
-		inject: OrderedCollection new
-		into: [ :acc :each | acc, (self ownMethodsInProtocol: each) ])
-			sorted: [ :a :b | a selector <= b selector ]
-!
-
-ownMethodsInProtocol: aString
-	^ (self methodsInProtocol: aString) select: [ :each | each methodClass = self ]
-!
-
-ownProtocols
-	"Answer the protocols of the receiver that are not package extensions"
-
-	^ self protocols reject: [ :each |
-		each match: '^\*' ]
-!
-
-packageOfProtocol: aString
-	"Answer the package the method of receiver belongs to:
-	- if it is an extension method, answer the corresponding package
-	- else answer the receiver's package"
-	
-	(aString beginsWith: '*') ifFalse: [
-		^ self package ].
-		
-	^ Package 
-		named: aString allButFirst
-		ifAbsent: [ nil ]
-!
-
-protocols
-	^ self organization elements sorted
-!
-
-removeProtocolIfEmpty: aString
-	self methods
-		detect: [ :each | each protocol = aString ]
-		ifNone: [ self organization removeElement: aString ]
-!
-
-selectors
-	^ self methodDictionary keys
 !
 
 theMetaClass
@@ -109,94 +21,6 @@ theMetaClass
 
 theNonMetaClass
 	self subclassResponsibility
-!
-
-traitComposition
-	^ (self basicAt: 'traitComposition') collect: [ :each | TraitTransformation fromJSON: each ]
-!
-
-traitCompositionDefinition
-	^ self traitComposition ifNotEmpty: [ :traitComposition |
-		String streamContents: [ :str |
-			str write: '{'.
-			traitComposition
-				do: [ :each | str write: each definition ]
-				separatedBy: [ str write: '. ' ].
-			str write: '}' ] ]
-! !
-
-!BehaviorBody methodsFor: 'compiling'!
-
-addCompiledMethod: aMethod
-	| oldMethod announcement |
-	
-	oldMethod := self methodDictionary
-		at: aMethod selector
-		ifAbsent: [ nil ].
-	
-	(self protocols includes: aMethod protocol)
-		ifFalse: [ self organization addElement: aMethod protocol ].
-
-	self basicAddCompiledMethod: aMethod.
-	
-	oldMethod ifNotNil: [
-		self removeProtocolIfEmpty: oldMethod protocol ].
-	
-	announcement := oldMethod
-		ifNil: [
-			MethodAdded new
-					method: aMethod;
-					yourself ]
-		ifNotNil: [
-			MethodModified new
-					oldMethod: oldMethod;
-					method: aMethod;
-					yourself ].
-					
-					
-	SystemAnnouncer current
-				announce: announcement
-!
-
-compile: aString protocol: anotherString
-	^ Compiler new
-		install: aString
-		forClass: self
-		protocol: anotherString
-!
-
-recompile
-	^ Compiler new recompile: self
-!
-
-removeCompiledMethod: aMethod
-	self basicRemoveCompiledMethod: aMethod.
-	
-	self removeProtocolIfEmpty: aMethod protocol.
-	
-	SystemAnnouncer current
-		announce: (MethodRemoved new
-			method: aMethod;
-			yourself)
-!
-
-setTraitComposition: aTraitComposition
-	<inlineJS: '$core.setTraitComposition(aTraitComposition._asJavaScriptObject(), self)'>
-! !
-
-!BehaviorBody methodsFor: 'enumerating'!
-
-protocolsDo: aBlock
-	"Execute aBlock for each method protocol with
-	its collection of methods in the sort order of protocol name."
-
-	| methodsByProtocol |
-	methodsByProtocol := HashedCollection new.
-	self methodDictionary valuesDo: [ :m |
-		(methodsByProtocol at: m protocol ifAbsentPut: [ Array new ])
-			add: m ].
-	self protocols do: [ :protocol |
-		aBlock value: protocol value: (methodsByProtocol at: protocol) ]
 ! !
 
 !BehaviorBody methodsFor: 'printing'!
@@ -205,22 +29,6 @@ printOn: aStream
 	self name
 		ifNil: [ super printOn: aStream ]
 		ifNotNil: [ :name | aStream nextPutAll: name ]
-! !
-
-!BehaviorBody methodsFor: 'private'!
-
-basicAddCompiledMethod: aMethod
-	<inlineJS: '$core.addMethod(aMethod, self)'>
-!
-
-basicRemoveCompiledMethod: aMethod
-	<inlineJS: '$core.removeMethod(aMethod,self)'>
-! !
-
-!BehaviorBody methodsFor: 'testing'!
-
-includesSelector: aString
-	^ self methodDictionary includesKey: aString
 ! !
 
 BehaviorBody subclass: #Behavior
@@ -923,6 +731,205 @@ allSubclassesDo: aBlock
 	"Default for non-classes; to be able to send #allSubclassesDo: to any class / trait."
 ! !
 
+Trait named: #TBehaviorProvider
+	package: 'Kernel-Classes'!
+!TBehaviorProvider commentStamp!
+I have method dictionary and organization.!
+
+!TBehaviorProvider methodsFor: 'accessing'!
+
+>> aString
+	^ self methodAt: aString
+!
+
+methodAt: aString
+	^ self methodDictionary at: aString
+!
+
+methodDictionary
+	<inlineJS: 'var dict = $globals.HashedCollection._new();
+	var methods = self.methods;
+	Object.keys(methods).forEach(function(i) {
+		if(methods[i].selector) {
+			dict._at_put_(methods[i].selector, methods[i]);
+		}
+	});
+	return dict'>
+!
+
+methodTemplate
+	^ String streamContents: [ :stream | stream 
+		write: 'messageSelectorAndArgumentNames'; lf;
+		tab; write: '"comment stating purpose of message"'; lf;
+		lf;
+		tab; write: '| temporary variable names |'; lf;
+		tab; write: 'statements' ]
+!
+
+methods
+	^ self methodDictionary values
+!
+
+methodsInProtocol: aString
+	^ self methods select: [ :each | each protocol = aString ]
+!
+
+organization
+	^ self basicAt: 'organization'
+!
+
+ownMethods
+	"Answer the methods of the receiver that are not package extensions
+	nor obtained via trait composition"
+
+	^ (self ownProtocols 
+		inject: OrderedCollection new
+		into: [ :acc :each | acc, (self ownMethodsInProtocol: each) ])
+			sorted: [ :a :b | a selector <= b selector ]
+!
+
+ownMethodsInProtocol: aString
+	^ (self methodsInProtocol: aString) select: [ :each | each methodClass = self ]
+!
+
+ownProtocols
+	"Answer the protocols of the receiver that are not package extensions"
+
+	^ self protocols reject: [ :each |
+		each match: '^\*' ]
+!
+
+packageOfProtocol: aString
+	"Answer the package the method of receiver belongs to:
+	- if it is an extension method, answer the corresponding package
+	- else answer the receiver's package"
+	
+	(aString beginsWith: '*') ifFalse: [
+		^ self package ].
+		
+	^ Package 
+		named: aString allButFirst
+		ifAbsent: [ nil ]
+!
+
+protocols
+	^ self organization elements sorted
+!
+
+removeProtocolIfEmpty: aString
+	self methods
+		detect: [ :each | each protocol = aString ]
+		ifNone: [ self organization removeElement: aString ]
+!
+
+selectors
+	^ self methodDictionary keys
+!
+
+traitComposition
+	^ (self basicAt: 'traitComposition') collect: [ :each | TraitTransformation fromJSON: each ]
+!
+
+traitCompositionDefinition
+	^ self traitComposition ifNotEmpty: [ :traitComposition |
+		String streamContents: [ :str |
+			str write: '{'.
+			traitComposition
+				do: [ :each | str write: each definition ]
+				separatedBy: [ str write: '. ' ].
+			str write: '}' ] ]
+! !
+
+!TBehaviorProvider methodsFor: 'compiling'!
+
+addCompiledMethod: aMethod
+	| oldMethod announcement |
+	
+	oldMethod := self methodDictionary
+		at: aMethod selector
+		ifAbsent: [ nil ].
+	
+	(self protocols includes: aMethod protocol)
+		ifFalse: [ self organization addElement: aMethod protocol ].
+
+	self basicAddCompiledMethod: aMethod.
+	
+	oldMethod ifNotNil: [
+		self removeProtocolIfEmpty: oldMethod protocol ].
+	
+	announcement := oldMethod
+		ifNil: [
+			MethodAdded new
+					method: aMethod;
+					yourself ]
+		ifNotNil: [
+			MethodModified new
+					oldMethod: oldMethod;
+					method: aMethod;
+					yourself ].
+					
+					
+	SystemAnnouncer current
+				announce: announcement
+!
+
+compile: aString protocol: anotherString
+	^ Compiler new
+		install: aString
+		forClass: self
+		protocol: anotherString
+!
+
+recompile
+	^ Compiler new recompile: self
+!
+
+removeCompiledMethod: aMethod
+	self basicRemoveCompiledMethod: aMethod.
+	
+	self removeProtocolIfEmpty: aMethod protocol.
+	
+	SystemAnnouncer current
+		announce: (MethodRemoved new
+			method: aMethod;
+			yourself)
+!
+
+setTraitComposition: aTraitComposition
+	<inlineJS: '$core.setTraitComposition(aTraitComposition._asJavaScriptObject(), self)'>
+! !
+
+!TBehaviorProvider methodsFor: 'enumerating'!
+
+protocolsDo: aBlock
+	"Execute aBlock for each method protocol with
+	its collection of methods in the sort order of protocol name."
+
+	| methodsByProtocol |
+	methodsByProtocol := HashedCollection new.
+	self methodDictionary valuesDo: [ :m |
+		(methodsByProtocol at: m protocol ifAbsentPut: [ Array new ])
+			add: m ].
+	self protocols do: [ :protocol |
+		aBlock value: protocol value: (methodsByProtocol at: protocol) ]
+! !
+
+!TBehaviorProvider methodsFor: 'private'!
+
+basicAddCompiledMethod: aMethod
+	<inlineJS: '$core.addMethod(aMethod, self)'>
+!
+
+basicRemoveCompiledMethod: aMethod
+	<inlineJS: '$core.removeMethod(aMethod,self)'>
+! !
+
+!TBehaviorProvider methodsFor: 'testing'!
+
+includesSelector: aString
+	^ self methodDictionary includesKey: aString
+! !
+
 Trait named: #TMasterBehavior
 	package: 'Kernel-Classes'!
 !TMasterBehavior commentStamp!
@@ -1117,9 +1124,9 @@ on: aTrait
 	^ super new trait: aTrait; yourself
 ! !
 
-Behavior setTraitComposition: {TBehaviorDefaults} asTraitComposition!
+Behavior setTraitComposition: {TBehaviorDefaults. TBehaviorProvider} asTraitComposition!
 Class setTraitComposition: {TMasterBehavior} asTraitComposition!
-Trait setTraitComposition: {TBehaviorDefaults. TMasterBehavior} asTraitComposition!
+Trait setTraitComposition: {TBehaviorDefaults. TBehaviorProvider. TMasterBehavior} asTraitComposition!
 ! !
 
 !Array methodsFor: '*Kernel-Classes'!

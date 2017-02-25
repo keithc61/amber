@@ -12,172 +12,6 @@ $globals.BehaviorBody.comment="I am the superclass of all behaviors.\x0a\x0aMy i
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: ">>",
-protocol: "accessing",
-fn: function (aString){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self._methodAt_(aString);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,">>",{aString:aString},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: ">> aString\x0a\x09^ self methodAt: aString",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["methodAt:"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "addCompiledMethod:",
-protocol: "compiling",
-fn: function (aMethod){
-var self=this;
-var oldMethod,announcement;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $2,$3,$1,$4,$5,$6,$7,$8,$9,$10,$receiver;
-oldMethod=$recv(self._methodDictionary())._at_ifAbsent_($recv(aMethod)._selector(),(function(){
-return nil;
-
-}));
-$2=self._protocols();
-$3=$recv(aMethod)._protocol();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["protocol"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._includes_($3);
-if(!$core.assert($1)){
-$4=self._organization();
-$5=$recv(aMethod)._protocol();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["protocol"]=2;
-//>>excludeEnd("ctx");
-$recv($4)._addElement_($5);
-}
-self._basicAddCompiledMethod_(aMethod);
-$6=oldMethod;
-if(($receiver = $6) == null || $receiver.isNil){
-$6;
-} else {
-self._removeProtocolIfEmpty_($recv(oldMethod)._protocol());
-}
-$7=oldMethod;
-if(($receiver = $7) == null || $receiver.isNil){
-$8=$recv($globals.MethodAdded)._new();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["new"]=1;
-//>>excludeEnd("ctx");
-$recv($8)._method_(aMethod);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["method:"]=1;
-//>>excludeEnd("ctx");
-$9=$recv($8)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["yourself"]=1;
-//>>excludeEnd("ctx");
-announcement=$9;
-} else {
-$10=$recv($globals.MethodModified)._new();
-$recv($10)._oldMethod_(oldMethod);
-$recv($10)._method_(aMethod);
-announcement=$recv($10)._yourself();
-}
-$recv($recv($globals.SystemAnnouncer)._current())._announce_(announcement);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"addCompiledMethod:",{aMethod:aMethod,oldMethod:oldMethod,announcement:announcement},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aMethod"],
-source: "addCompiledMethod: aMethod\x0a\x09| oldMethod announcement |\x0a\x09\x0a\x09oldMethod := self methodDictionary\x0a\x09\x09at: aMethod selector\x0a\x09\x09ifAbsent: [ nil ].\x0a\x09\x0a\x09(self protocols includes: aMethod protocol)\x0a\x09\x09ifFalse: [ self organization addElement: aMethod protocol ].\x0a\x0a\x09self basicAddCompiledMethod: aMethod.\x0a\x09\x0a\x09oldMethod ifNotNil: [\x0a\x09\x09self removeProtocolIfEmpty: oldMethod protocol ].\x0a\x09\x0a\x09announcement := oldMethod\x0a\x09\x09ifNil: [\x0a\x09\x09\x09MethodAdded new\x0a\x09\x09\x09\x09\x09method: aMethod;\x0a\x09\x09\x09\x09\x09yourself ]\x0a\x09\x09ifNotNil: [\x0a\x09\x09\x09MethodModified new\x0a\x09\x09\x09\x09\x09oldMethod: oldMethod;\x0a\x09\x09\x09\x09\x09method: aMethod;\x0a\x09\x09\x09\x09\x09yourself ].\x0a\x09\x09\x09\x09\x09\x0a\x09\x09\x09\x09\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09\x09\x09announce: announcement",
-referencedClasses: ["MethodAdded", "MethodModified", "SystemAnnouncer"],
-//>>excludeEnd("ide");
-messageSends: ["at:ifAbsent:", "methodDictionary", "selector", "ifFalse:", "includes:", "protocols", "protocol", "addElement:", "organization", "basicAddCompiledMethod:", "ifNotNil:", "removeProtocolIfEmpty:", "ifNil:ifNotNil:", "method:", "new", "yourself", "oldMethod:", "announce:", "current"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "basicAddCompiledMethod:",
-protocol: "private",
-fn: function (aMethod){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$core.addMethod(aMethod, self);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicAddCompiledMethod:",{aMethod:aMethod},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aMethod"],
-source: "basicAddCompiledMethod: aMethod\x0a\x09<inlineJS: '$core.addMethod(aMethod, self)'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "basicRemoveCompiledMethod:",
-protocol: "private",
-fn: function (aMethod){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$core.removeMethod(aMethod,self);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicRemoveCompiledMethod:",{aMethod:aMethod},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aMethod"],
-source: "basicRemoveCompiledMethod: aMethod\x0a\x09<inlineJS: '$core.removeMethod(aMethod,self)'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "compile:protocol:",
-protocol: "compiling",
-fn: function (aString,anotherString){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($recv($globals.Compiler)._new())._install_forClass_protocol_(aString,self,anotherString);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"compile:protocol:",{aString:aString,anotherString:anotherString},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString", "anotherString"],
-source: "compile: aString protocol: anotherString\x0a\x09^ Compiler new\x0a\x09\x09install: aString\x0a\x09\x09forClass: self\x0a\x09\x09protocol: anotherString",
-referencedClasses: ["Compiler"],
-//>>excludeEnd("ide");
-messageSends: ["install:forClass:protocol:", "new"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
 selector: "definition",
 protocol: "accessing",
 fn: function (){
@@ -197,362 +31,6 @@ source: "definition\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["subclassResponsibility"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "includesSelector:",
-protocol: "testing",
-fn: function (aString){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self._methodDictionary())._includesKey_(aString);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"includesSelector:",{aString:aString},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "includesSelector: aString\x0a\x09^ self methodDictionary includesKey: aString",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["includesKey:", "methodDictionary"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "methodAt:",
-protocol: "accessing",
-fn: function (aString){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self._methodDictionary())._at_(aString);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"methodAt:",{aString:aString},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "methodAt: aString\x0a\x09^ self methodDictionary at: aString",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["at:", "methodDictionary"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "methodDictionary",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var dict = $globals.HashedCollection._new();
-	var methods = self.methods;
-	Object.keys(methods).forEach(function(i) {
-		if(methods[i].selector) {
-			dict._at_put_(methods[i].selector, methods[i]);
-		}
-	});
-	return dict;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"methodDictionary",{},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "methodDictionary\x0a\x09<inlineJS: 'var dict = $globals.HashedCollection._new();\x0a\x09var methods = self.methods;\x0a\x09Object.keys(methods).forEach(function(i) {\x0a\x09\x09if(methods[i].selector) {\x0a\x09\x09\x09dict._at_put_(methods[i].selector, methods[i]);\x0a\x09\x09}\x0a\x09});\x0a\x09return dict'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "methodTemplate",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($globals.String)._streamContents_((function(stream){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$recv(stream)._write_("messageSelectorAndArgumentNames");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["write:"]=1;
-//>>excludeEnd("ctx");
-$recv(stream)._lf();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["lf"]=1;
-//>>excludeEnd("ctx");
-$recv(stream)._tab();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["tab"]=1;
-//>>excludeEnd("ctx");
-$recv(stream)._write_("\x22comment stating purpose of message\x22");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["write:"]=2;
-//>>excludeEnd("ctx");
-$recv(stream)._lf();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["lf"]=2;
-//>>excludeEnd("ctx");
-$recv(stream)._lf();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["lf"]=3;
-//>>excludeEnd("ctx");
-$recv(stream)._tab();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["tab"]=2;
-//>>excludeEnd("ctx");
-$recv(stream)._write_("| temporary variable names |");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["write:"]=3;
-//>>excludeEnd("ctx");
-$recv(stream)._lf();
-$recv(stream)._tab();
-return $recv(stream)._write_("statements");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"methodTemplate",{},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "methodTemplate\x0a\x09^ String streamContents: [ :stream | stream \x0a\x09\x09write: 'messageSelectorAndArgumentNames'; lf;\x0a\x09\x09tab; write: '\x22comment stating purpose of message\x22'; lf;\x0a\x09\x09lf;\x0a\x09\x09tab; write: '| temporary variable names |'; lf;\x0a\x09\x09tab; write: 'statements' ]",
-referencedClasses: ["String"],
-//>>excludeEnd("ide");
-messageSends: ["streamContents:", "write:", "lf", "tab"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "methods",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self._methodDictionary())._values();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"methods",{},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "methods\x0a\x09^ self methodDictionary values",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["values", "methodDictionary"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "methodsInProtocol:",
-protocol: "accessing",
-fn: function (aString){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self._methods())._select_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($recv(each)._protocol()).__eq(aString);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"methodsInProtocol:",{aString:aString},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "methodsInProtocol: aString\x0a\x09^ self methods select: [ :each | each protocol = aString ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["select:", "methods", "=", "protocol"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "organization",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self._basicAt_("organization");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"organization",{},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "organization\x0a\x09^ self basicAt: 'organization'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["basicAt:"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "ownMethods",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-return $recv($recv(self._ownProtocols())._inject_into_($recv($globals.OrderedCollection)._new(),(function(acc,each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(acc).__comma(self._ownMethodsInProtocol_(each));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({acc:acc,each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-})))._sorted_((function(a,b){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$1=$recv(a)._selector();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["selector"]=1;
-//>>excludeEnd("ctx");
-return $recv($1).__lt_eq($recv(b)._selector());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({a:a,b:b},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"ownMethods",{},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "ownMethods\x0a\x09\x22Answer the methods of the receiver that are not package extensions\x0a\x09nor obtained via trait composition\x22\x0a\x0a\x09^ (self ownProtocols \x0a\x09\x09inject: OrderedCollection new\x0a\x09\x09into: [ :acc :each | acc, (self ownMethodsInProtocol: each) ])\x0a\x09\x09\x09sorted: [ :a :b | a selector <= b selector ]",
-referencedClasses: ["OrderedCollection"],
-//>>excludeEnd("ide");
-messageSends: ["sorted:", "inject:into:", "ownProtocols", "new", ",", "ownMethodsInProtocol:", "<=", "selector"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "ownMethodsInProtocol:",
-protocol: "accessing",
-fn: function (aString){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self._methodsInProtocol_(aString))._select_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($recv(each)._methodClass()).__eq(self);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"ownMethodsInProtocol:",{aString:aString},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "ownMethodsInProtocol: aString\x0a\x09^ (self methodsInProtocol: aString) select: [ :each | each methodClass = self ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["select:", "methodsInProtocol:", "=", "methodClass"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "ownProtocols",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self._protocols())._reject_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(each)._match_("^\x5c*");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"ownProtocols",{},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "ownProtocols\x0a\x09\x22Answer the protocols of the receiver that are not package extensions\x22\x0a\x0a\x09^ self protocols reject: [ :each |\x0a\x09\x09each match: '^\x5c*' ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["reject:", "protocols", "match:"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "packageOfProtocol:",
-protocol: "accessing",
-fn: function (aString){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$recv(aString)._beginsWith_("*");
-if(!$core.assert($1)){
-return self._package();
-}
-return $recv($globals.Package)._named_ifAbsent_($recv(aString)._allButFirst(),(function(){
-return nil;
-
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"packageOfProtocol:",{aString:aString},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "packageOfProtocol: aString\x0a\x09\x22Answer the package the method of receiver belongs to:\x0a\x09- if it is an extension method, answer the corresponding package\x0a\x09- else answer the receiver's package\x22\x0a\x09\x0a\x09(aString beginsWith: '*') ifFalse: [\x0a\x09\x09^ self package ].\x0a\x09\x09\x0a\x09^ Package \x0a\x09\x09named: aString allButFirst\x0a\x09\x09ifAbsent: [ nil ]",
-referencedClasses: ["Package"],
-//>>excludeEnd("ide");
-messageSends: ["ifFalse:", "beginsWith:", "package", "named:ifAbsent:", "allButFirst"]
 }),
 $globals.BehaviorBody);
 
@@ -592,224 +70,6 @@ source: "printOn: aStream\x0a\x09self name\x0a\x09\x09ifNil: [ super printOn: aS
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifNil:ifNotNil:", "name", "printOn:", "nextPutAll:"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "protocols",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($recv(self._organization())._elements())._sorted();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"protocols",{},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "protocols\x0a\x09^ self organization elements sorted",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["sorted", "elements", "organization"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "protocolsDo:",
-protocol: "enumerating",
-fn: function (aBlock){
-var self=this;
-var methodsByProtocol;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-methodsByProtocol=$recv($globals.HashedCollection)._new();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["new"]=1;
-//>>excludeEnd("ctx");
-$recv(self._methodDictionary())._valuesDo_((function(m){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($recv(methodsByProtocol)._at_ifAbsentPut_($recv(m)._protocol(),(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $recv($globals.Array)._new();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-})))._add_(m);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-$recv(self._protocols())._do_((function(protocol){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(aBlock)._value_value_(protocol,$recv(methodsByProtocol)._at_(protocol));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({protocol:protocol},$ctx1,3)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"protocolsDo:",{aBlock:aBlock,methodsByProtocol:methodsByProtocol},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "protocolsDo: aBlock\x0a\x09\x22Execute aBlock for each method protocol with\x0a\x09its collection of methods in the sort order of protocol name.\x22\x0a\x0a\x09| methodsByProtocol |\x0a\x09methodsByProtocol := HashedCollection new.\x0a\x09self methodDictionary valuesDo: [ :m |\x0a\x09\x09(methodsByProtocol at: m protocol ifAbsentPut: [ Array new ])\x0a\x09\x09\x09add: m ].\x0a\x09self protocols do: [ :protocol |\x0a\x09\x09aBlock value: protocol value: (methodsByProtocol at: protocol) ]",
-referencedClasses: ["HashedCollection", "Array"],
-//>>excludeEnd("ide");
-messageSends: ["new", "valuesDo:", "methodDictionary", "add:", "at:ifAbsentPut:", "protocol", "do:", "protocols", "value:value:", "at:"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "recompile",
-protocol: "compiling",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($recv($globals.Compiler)._new())._recompile_(self);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"recompile",{},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "recompile\x0a\x09^ Compiler new recompile: self",
-referencedClasses: ["Compiler"],
-//>>excludeEnd("ide");
-messageSends: ["recompile:", "new"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "removeCompiledMethod:",
-protocol: "compiling",
-fn: function (aMethod){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$3,$2;
-self._basicRemoveCompiledMethod_(aMethod);
-self._removeProtocolIfEmpty_($recv(aMethod)._protocol());
-$1=$recv($globals.SystemAnnouncer)._current();
-$3=$recv($globals.MethodRemoved)._new();
-$recv($3)._method_(aMethod);
-$2=$recv($3)._yourself();
-$recv($1)._announce_($2);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"removeCompiledMethod:",{aMethod:aMethod},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aMethod"],
-source: "removeCompiledMethod: aMethod\x0a\x09self basicRemoveCompiledMethod: aMethod.\x0a\x09\x0a\x09self removeProtocolIfEmpty: aMethod protocol.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (MethodRemoved new\x0a\x09\x09\x09method: aMethod;\x0a\x09\x09\x09yourself)",
-referencedClasses: ["SystemAnnouncer", "MethodRemoved"],
-//>>excludeEnd("ide");
-messageSends: ["basicRemoveCompiledMethod:", "removeProtocolIfEmpty:", "protocol", "announce:", "current", "method:", "new", "yourself"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "removeProtocolIfEmpty:",
-protocol: "accessing",
-fn: function (aString){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv(self._methods())._detect_ifNone_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($recv(each)._protocol()).__eq(aString);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}),(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(self._organization())._removeElement_(aString);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"removeProtocolIfEmpty:",{aString:aString},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "removeProtocolIfEmpty: aString\x0a\x09self methods\x0a\x09\x09detect: [ :each | each protocol = aString ]\x0a\x09\x09ifNone: [ self organization removeElement: aString ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["detect:ifNone:", "methods", "=", "protocol", "removeElement:", "organization"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "selectors",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self._methodDictionary())._keys();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"selectors",{},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "selectors\x0a\x09^ self methodDictionary keys",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["keys", "methodDictionary"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "setTraitComposition:",
-protocol: "compiling",
-fn: function (aTraitComposition){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$core.setTraitComposition(aTraitComposition._asJavaScriptObject(), self);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"setTraitComposition:",{aTraitComposition:aTraitComposition},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aTraitComposition"],
-source: "setTraitComposition: aTraitComposition\x0a\x09<inlineJS: '$core.setTraitComposition(aTraitComposition._asJavaScriptObject(), self)'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
 }),
 $globals.BehaviorBody);
 
@@ -858,103 +118,6 @@ source: "theNonMetaClass\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["subclassResponsibility"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "traitComposition",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self._basicAt_("traitComposition"))._collect_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($globals.TraitTransformation)._fromJSON_(each);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"traitComposition",{},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "traitComposition\x0a\x09^ (self basicAt: 'traitComposition') collect: [ :each | TraitTransformation fromJSON: each ]",
-referencedClasses: ["TraitTransformation"],
-//>>excludeEnd("ide");
-messageSends: ["collect:", "basicAt:", "fromJSON:"]
-}),
-$globals.BehaviorBody);
-
-$core.addMethod(
-$core.method({
-selector: "traitCompositionDefinition",
-protocol: "accessing",
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self._traitComposition())._ifNotEmpty_((function(traitComposition){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($globals.String)._streamContents_((function(str){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-$recv(str)._write_("{");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["write:"]=1;
-//>>excludeEnd("ctx");
-$recv(traitComposition)._do_separatedBy_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx4) {
-//>>excludeEnd("ctx");
-return $recv(str)._write_($recv(each)._definition());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["write:"]=2;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({each:each},$ctx3,3)});
-//>>excludeEnd("ctx");
-}),(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx4) {
-//>>excludeEnd("ctx");
-return $recv(str)._write_(". ");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["write:"]=3;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
-//>>excludeEnd("ctx");
-}));
-return $recv(str)._write_("}");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({str:str},$ctx2,2)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({traitComposition:traitComposition},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"traitCompositionDefinition",{},$globals.BehaviorBody)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "traitCompositionDefinition\x0a\x09^ self traitComposition ifNotEmpty: [ :traitComposition |\x0a\x09\x09String streamContents: [ :str |\x0a\x09\x09\x09str write: '{'.\x0a\x09\x09\x09traitComposition\x0a\x09\x09\x09\x09do: [ :each | str write: each definition ]\x0a\x09\x09\x09\x09separatedBy: [ str write: '. ' ].\x0a\x09\x09\x09str write: '}' ] ]",
-referencedClasses: ["String"],
-//>>excludeEnd("ide");
-messageSends: ["ifNotEmpty:", "traitComposition", "streamContents:", "write:", "do:separatedBy:", "definition"]
 }),
 $globals.BehaviorBody);
 
@@ -3638,6 +2801,848 @@ messageSends: []
 $globals.TBehaviorDefaults);
 
 
+$core.addTrait("TBehaviorProvider", "Kernel-Classes");
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.TBehaviorProvider.comment="I have method dictionary and organization.";
+//>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: ">>",
+protocol: "accessing",
+fn: function (aString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._methodAt_(aString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,">>",{aString:aString},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: ">> aString\x0a\x09^ self methodAt: aString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["methodAt:"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "addCompiledMethod:",
+protocol: "compiling",
+fn: function (aMethod){
+var self=this;
+var oldMethod,announcement;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$3,$1,$4,$5,$6,$7,$8,$9,$10,$receiver;
+oldMethod=$recv(self._methodDictionary())._at_ifAbsent_($recv(aMethod)._selector(),(function(){
+return nil;
+
+}));
+$2=self._protocols();
+$3=$recv(aMethod)._protocol();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["protocol"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2)._includes_($3);
+if(!$core.assert($1)){
+$4=self._organization();
+$5=$recv(aMethod)._protocol();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["protocol"]=2;
+//>>excludeEnd("ctx");
+$recv($4)._addElement_($5);
+}
+self._basicAddCompiledMethod_(aMethod);
+$6=oldMethod;
+if(($receiver = $6) == null || $receiver.isNil){
+$6;
+} else {
+self._removeProtocolIfEmpty_($recv(oldMethod)._protocol());
+}
+$7=oldMethod;
+if(($receiver = $7) == null || $receiver.isNil){
+$8=$recv($globals.MethodAdded)._new();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["new"]=1;
+//>>excludeEnd("ctx");
+$recv($8)._method_(aMethod);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["method:"]=1;
+//>>excludeEnd("ctx");
+$9=$recv($8)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["yourself"]=1;
+//>>excludeEnd("ctx");
+announcement=$9;
+} else {
+$10=$recv($globals.MethodModified)._new();
+$recv($10)._oldMethod_(oldMethod);
+$recv($10)._method_(aMethod);
+announcement=$recv($10)._yourself();
+}
+$recv($recv($globals.SystemAnnouncer)._current())._announce_(announcement);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"addCompiledMethod:",{aMethod:aMethod,oldMethod:oldMethod,announcement:announcement},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aMethod"],
+source: "addCompiledMethod: aMethod\x0a\x09| oldMethod announcement |\x0a\x09\x0a\x09oldMethod := self methodDictionary\x0a\x09\x09at: aMethod selector\x0a\x09\x09ifAbsent: [ nil ].\x0a\x09\x0a\x09(self protocols includes: aMethod protocol)\x0a\x09\x09ifFalse: [ self organization addElement: aMethod protocol ].\x0a\x0a\x09self basicAddCompiledMethod: aMethod.\x0a\x09\x0a\x09oldMethod ifNotNil: [\x0a\x09\x09self removeProtocolIfEmpty: oldMethod protocol ].\x0a\x09\x0a\x09announcement := oldMethod\x0a\x09\x09ifNil: [\x0a\x09\x09\x09MethodAdded new\x0a\x09\x09\x09\x09\x09method: aMethod;\x0a\x09\x09\x09\x09\x09yourself ]\x0a\x09\x09ifNotNil: [\x0a\x09\x09\x09MethodModified new\x0a\x09\x09\x09\x09\x09oldMethod: oldMethod;\x0a\x09\x09\x09\x09\x09method: aMethod;\x0a\x09\x09\x09\x09\x09yourself ].\x0a\x09\x09\x09\x09\x09\x0a\x09\x09\x09\x09\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09\x09\x09announce: announcement",
+referencedClasses: ["MethodAdded", "MethodModified", "SystemAnnouncer"],
+//>>excludeEnd("ide");
+messageSends: ["at:ifAbsent:", "methodDictionary", "selector", "ifFalse:", "includes:", "protocols", "protocol", "addElement:", "organization", "basicAddCompiledMethod:", "ifNotNil:", "removeProtocolIfEmpty:", "ifNil:ifNotNil:", "method:", "new", "yourself", "oldMethod:", "announce:", "current"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "basicAddCompiledMethod:",
+protocol: "private",
+fn: function (aMethod){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$core.addMethod(aMethod, self);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"basicAddCompiledMethod:",{aMethod:aMethod},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aMethod"],
+source: "basicAddCompiledMethod: aMethod\x0a\x09<inlineJS: '$core.addMethod(aMethod, self)'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "basicRemoveCompiledMethod:",
+protocol: "private",
+fn: function (aMethod){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$core.removeMethod(aMethod,self);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"basicRemoveCompiledMethod:",{aMethod:aMethod},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aMethod"],
+source: "basicRemoveCompiledMethod: aMethod\x0a\x09<inlineJS: '$core.removeMethod(aMethod,self)'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "compile:protocol:",
+protocol: "compiling",
+fn: function (aString,anotherString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($recv($globals.Compiler)._new())._install_forClass_protocol_(aString,self,anotherString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"compile:protocol:",{aString:aString,anotherString:anotherString},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "anotherString"],
+source: "compile: aString protocol: anotherString\x0a\x09^ Compiler new\x0a\x09\x09install: aString\x0a\x09\x09forClass: self\x0a\x09\x09protocol: anotherString",
+referencedClasses: ["Compiler"],
+//>>excludeEnd("ide");
+messageSends: ["install:forClass:protocol:", "new"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "includesSelector:",
+protocol: "testing",
+fn: function (aString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._methodDictionary())._includesKey_(aString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"includesSelector:",{aString:aString},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "includesSelector: aString\x0a\x09^ self methodDictionary includesKey: aString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["includesKey:", "methodDictionary"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "methodAt:",
+protocol: "accessing",
+fn: function (aString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._methodDictionary())._at_(aString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"methodAt:",{aString:aString},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "methodAt: aString\x0a\x09^ self methodDictionary at: aString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["at:", "methodDictionary"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "methodDictionary",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var dict = $globals.HashedCollection._new();
+	var methods = self.methods;
+	Object.keys(methods).forEach(function(i) {
+		if(methods[i].selector) {
+			dict._at_put_(methods[i].selector, methods[i]);
+		}
+	});
+	return dict;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"methodDictionary",{},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "methodDictionary\x0a\x09<inlineJS: 'var dict = $globals.HashedCollection._new();\x0a\x09var methods = self.methods;\x0a\x09Object.keys(methods).forEach(function(i) {\x0a\x09\x09if(methods[i].selector) {\x0a\x09\x09\x09dict._at_put_(methods[i].selector, methods[i]);\x0a\x09\x09}\x0a\x09});\x0a\x09return dict'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "methodTemplate",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.String)._streamContents_((function(stream){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv(stream)._write_("messageSelectorAndArgumentNames");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["write:"]=1;
+//>>excludeEnd("ctx");
+$recv(stream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["lf"]=1;
+//>>excludeEnd("ctx");
+$recv(stream)._tab();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["tab"]=1;
+//>>excludeEnd("ctx");
+$recv(stream)._write_("\x22comment stating purpose of message\x22");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["write:"]=2;
+//>>excludeEnd("ctx");
+$recv(stream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["lf"]=2;
+//>>excludeEnd("ctx");
+$recv(stream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["lf"]=3;
+//>>excludeEnd("ctx");
+$recv(stream)._tab();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["tab"]=2;
+//>>excludeEnd("ctx");
+$recv(stream)._write_("| temporary variable names |");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["write:"]=3;
+//>>excludeEnd("ctx");
+$recv(stream)._lf();
+$recv(stream)._tab();
+return $recv(stream)._write_("statements");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"methodTemplate",{},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "methodTemplate\x0a\x09^ String streamContents: [ :stream | stream \x0a\x09\x09write: 'messageSelectorAndArgumentNames'; lf;\x0a\x09\x09tab; write: '\x22comment stating purpose of message\x22'; lf;\x0a\x09\x09lf;\x0a\x09\x09tab; write: '| temporary variable names |'; lf;\x0a\x09\x09tab; write: 'statements' ]",
+referencedClasses: ["String"],
+//>>excludeEnd("ide");
+messageSends: ["streamContents:", "write:", "lf", "tab"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "methods",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._methodDictionary())._values();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"methods",{},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "methods\x0a\x09^ self methodDictionary values",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["values", "methodDictionary"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "methodsInProtocol:",
+protocol: "accessing",
+fn: function (aString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._methods())._select_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($recv(each)._protocol()).__eq(aString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"methodsInProtocol:",{aString:aString},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "methodsInProtocol: aString\x0a\x09^ self methods select: [ :each | each protocol = aString ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["select:", "methods", "=", "protocol"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "organization",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self._basicAt_("organization");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"organization",{},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "organization\x0a\x09^ self basicAt: 'organization'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["basicAt:"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "ownMethods",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+return $recv($recv(self._ownProtocols())._inject_into_($recv($globals.OrderedCollection)._new(),(function(acc,each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(acc).__comma(self._ownMethodsInProtocol_(each));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({acc:acc,each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+})))._sorted_((function(a,b){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=$recv(a)._selector();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["selector"]=1;
+//>>excludeEnd("ctx");
+return $recv($1).__lt_eq($recv(b)._selector());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({a:a,b:b},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"ownMethods",{},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "ownMethods\x0a\x09\x22Answer the methods of the receiver that are not package extensions\x0a\x09nor obtained via trait composition\x22\x0a\x0a\x09^ (self ownProtocols \x0a\x09\x09inject: OrderedCollection new\x0a\x09\x09into: [ :acc :each | acc, (self ownMethodsInProtocol: each) ])\x0a\x09\x09\x09sorted: [ :a :b | a selector <= b selector ]",
+referencedClasses: ["OrderedCollection"],
+//>>excludeEnd("ide");
+messageSends: ["sorted:", "inject:into:", "ownProtocols", "new", ",", "ownMethodsInProtocol:", "<=", "selector"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "ownMethodsInProtocol:",
+protocol: "accessing",
+fn: function (aString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._methodsInProtocol_(aString))._select_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($recv(each)._methodClass()).__eq(self);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"ownMethodsInProtocol:",{aString:aString},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "ownMethodsInProtocol: aString\x0a\x09^ (self methodsInProtocol: aString) select: [ :each | each methodClass = self ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["select:", "methodsInProtocol:", "=", "methodClass"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "ownProtocols",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._protocols())._reject_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(each)._match_("^\x5c*");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"ownProtocols",{},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "ownProtocols\x0a\x09\x22Answer the protocols of the receiver that are not package extensions\x22\x0a\x0a\x09^ self protocols reject: [ :each |\x0a\x09\x09each match: '^\x5c*' ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["reject:", "protocols", "match:"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "packageOfProtocol:",
+protocol: "accessing",
+fn: function (aString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv(aString)._beginsWith_("*");
+if(!$core.assert($1)){
+return self._package();
+}
+return $recv($globals.Package)._named_ifAbsent_($recv(aString)._allButFirst(),(function(){
+return nil;
+
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"packageOfProtocol:",{aString:aString},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "packageOfProtocol: aString\x0a\x09\x22Answer the package the method of receiver belongs to:\x0a\x09- if it is an extension method, answer the corresponding package\x0a\x09- else answer the receiver's package\x22\x0a\x09\x0a\x09(aString beginsWith: '*') ifFalse: [\x0a\x09\x09^ self package ].\x0a\x09\x09\x0a\x09^ Package \x0a\x09\x09named: aString allButFirst\x0a\x09\x09ifAbsent: [ nil ]",
+referencedClasses: ["Package"],
+//>>excludeEnd("ide");
+messageSends: ["ifFalse:", "beginsWith:", "package", "named:ifAbsent:", "allButFirst"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "protocols",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($recv(self._organization())._elements())._sorted();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"protocols",{},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "protocols\x0a\x09^ self organization elements sorted",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["sorted", "elements", "organization"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "protocolsDo:",
+protocol: "enumerating",
+fn: function (aBlock){
+var self=this;
+var methodsByProtocol;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+methodsByProtocol=$recv($globals.HashedCollection)._new();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["new"]=1;
+//>>excludeEnd("ctx");
+$recv(self._methodDictionary())._valuesDo_((function(m){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($recv(methodsByProtocol)._at_ifAbsentPut_($recv(m)._protocol(),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($globals.Array)._new();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+})))._add_(m);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$recv(self._protocols())._do_((function(protocol){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(aBlock)._value_value_(protocol,$recv(methodsByProtocol)._at_(protocol));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({protocol:protocol},$ctx1,3)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"protocolsDo:",{aBlock:aBlock,methodsByProtocol:methodsByProtocol},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "protocolsDo: aBlock\x0a\x09\x22Execute aBlock for each method protocol with\x0a\x09its collection of methods in the sort order of protocol name.\x22\x0a\x0a\x09| methodsByProtocol |\x0a\x09methodsByProtocol := HashedCollection new.\x0a\x09self methodDictionary valuesDo: [ :m |\x0a\x09\x09(methodsByProtocol at: m protocol ifAbsentPut: [ Array new ])\x0a\x09\x09\x09add: m ].\x0a\x09self protocols do: [ :protocol |\x0a\x09\x09aBlock value: protocol value: (methodsByProtocol at: protocol) ]",
+referencedClasses: ["HashedCollection", "Array"],
+//>>excludeEnd("ide");
+messageSends: ["new", "valuesDo:", "methodDictionary", "add:", "at:ifAbsentPut:", "protocol", "do:", "protocols", "value:value:", "at:"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "recompile",
+protocol: "compiling",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($recv($globals.Compiler)._new())._recompile_(self);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"recompile",{},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "recompile\x0a\x09^ Compiler new recompile: self",
+referencedClasses: ["Compiler"],
+//>>excludeEnd("ide");
+messageSends: ["recompile:", "new"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "removeCompiledMethod:",
+protocol: "compiling",
+fn: function (aMethod){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$3,$2;
+self._basicRemoveCompiledMethod_(aMethod);
+self._removeProtocolIfEmpty_($recv(aMethod)._protocol());
+$1=$recv($globals.SystemAnnouncer)._current();
+$3=$recv($globals.MethodRemoved)._new();
+$recv($3)._method_(aMethod);
+$2=$recv($3)._yourself();
+$recv($1)._announce_($2);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"removeCompiledMethod:",{aMethod:aMethod},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aMethod"],
+source: "removeCompiledMethod: aMethod\x0a\x09self basicRemoveCompiledMethod: aMethod.\x0a\x09\x0a\x09self removeProtocolIfEmpty: aMethod protocol.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (MethodRemoved new\x0a\x09\x09\x09method: aMethod;\x0a\x09\x09\x09yourself)",
+referencedClasses: ["SystemAnnouncer", "MethodRemoved"],
+//>>excludeEnd("ide");
+messageSends: ["basicRemoveCompiledMethod:", "removeProtocolIfEmpty:", "protocol", "announce:", "current", "method:", "new", "yourself"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "removeProtocolIfEmpty:",
+protocol: "accessing",
+fn: function (aString){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv(self._methods())._detect_ifNone_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($recv(each)._protocol()).__eq(aString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(self._organization())._removeElement_(aString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"removeProtocolIfEmpty:",{aString:aString},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "removeProtocolIfEmpty: aString\x0a\x09self methods\x0a\x09\x09detect: [ :each | each protocol = aString ]\x0a\x09\x09ifNone: [ self organization removeElement: aString ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["detect:ifNone:", "methods", "=", "protocol", "removeElement:", "organization"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "selectors",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._methodDictionary())._keys();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"selectors",{},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "selectors\x0a\x09^ self methodDictionary keys",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["keys", "methodDictionary"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "setTraitComposition:",
+protocol: "compiling",
+fn: function (aTraitComposition){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$core.setTraitComposition(aTraitComposition._asJavaScriptObject(), self);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"setTraitComposition:",{aTraitComposition:aTraitComposition},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aTraitComposition"],
+source: "setTraitComposition: aTraitComposition\x0a\x09<inlineJS: '$core.setTraitComposition(aTraitComposition._asJavaScriptObject(), self)'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "traitComposition",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._basicAt_("traitComposition"))._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($globals.TraitTransformation)._fromJSON_(each);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"traitComposition",{},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "traitComposition\x0a\x09^ (self basicAt: 'traitComposition') collect: [ :each | TraitTransformation fromJSON: each ]",
+referencedClasses: ["TraitTransformation"],
+//>>excludeEnd("ide");
+messageSends: ["collect:", "basicAt:", "fromJSON:"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "traitCompositionDefinition",
+protocol: "accessing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._traitComposition())._ifNotEmpty_((function(traitComposition){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($globals.String)._streamContents_((function(str){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$recv(str)._write_("{");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["write:"]=1;
+//>>excludeEnd("ctx");
+$recv(traitComposition)._do_separatedBy_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $recv(str)._write_($recv(each)._definition());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx4.sendIdx["write:"]=2;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({each:each},$ctx3,3)});
+//>>excludeEnd("ctx");
+}),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $recv(str)._write_(". ");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx4.sendIdx["write:"]=3;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
+//>>excludeEnd("ctx");
+}));
+return $recv(str)._write_("}");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({str:str},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({traitComposition:traitComposition},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"traitCompositionDefinition",{},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "traitCompositionDefinition\x0a\x09^ self traitComposition ifNotEmpty: [ :traitComposition |\x0a\x09\x09String streamContents: [ :str |\x0a\x09\x09\x09str write: '{'.\x0a\x09\x09\x09traitComposition\x0a\x09\x09\x09\x09do: [ :each | str write: each definition ]\x0a\x09\x09\x09\x09separatedBy: [ str write: '. ' ].\x0a\x09\x09\x09str write: '}' ] ]",
+referencedClasses: ["String"],
+//>>excludeEnd("ide");
+messageSends: ["ifNotEmpty:", "traitComposition", "streamContents:", "write:", "do:separatedBy:", "definition"]
+}),
+$globals.TBehaviorProvider);
+
+
 $core.addTrait("TMasterBehavior", "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.TMasterBehavior.comment="I am the behavior on the instance-side of the browser.\x0a\x0aI define things like package, category, name, comment etc.\x0aas opposed to derived behaviors (metaclass, class trait, ...)\x0athat relate to me.";
@@ -4470,9 +4475,9 @@ messageSends: ["trait:", "new", "yourself"]
 }),
 $globals.TraitTransformation.klass);
 
-$core.setTraitComposition([{trait: $globals.TBehaviorDefaults}], $globals.Behavior);
+$core.setTraitComposition([{trait: $globals.TBehaviorDefaults}, {trait: $globals.TBehaviorProvider}], $globals.Behavior);
 $core.setTraitComposition([{trait: $globals.TMasterBehavior}], $globals.Class);
-$core.setTraitComposition([{trait: $globals.TBehaviorDefaults}, {trait: $globals.TMasterBehavior}], $globals.Trait);
+$core.setTraitComposition([{trait: $globals.TBehaviorDefaults}, {trait: $globals.TBehaviorProvider}, {trait: $globals.TMasterBehavior}], $globals.Trait);
 
 $core.addMethod(
 $core.method({
