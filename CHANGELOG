@@ -2,6 +2,7 @@
 ===================================
 
 * Removed BehaviorBody in favour of traits TBehaviorDefaults and TBehaviorProvider.
+* Move Thenable class to TThenable trait.
 
 Commits: https://lolg.it/amber/amber/commits/0.19.0.
 

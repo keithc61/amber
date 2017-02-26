@@ -1,76 +1,5 @@
 Smalltalk createPackage: 'Kernel-Promises'!
-Object subclass: #Thenable
-	instanceVariableNames: ''
-	package: 'Kernel-Promises'!
-!Thenable commentStamp!
-I am the abstract base class for Promises.
-
-My subclasses should wrap existing JS implementations.
-
-I contain methods that wrap Promises/A+ `.then` behaviour.!
-
-!Thenable methodsFor: 'promises'!
-
-catch: aBlock
-<inlineJS: 'return self.then(null, function (err) {return $core.seamless(function () {
-    return aBlock._value_(err);
-})})'>
-!
-
-on: aClass do: aBlock
-<inlineJS: 'return self.then(null, function (err) {return $core.seamless(function () {
-    if (err._isKindOf_(aClass)) return aBlock._value_(err);
-    else throw err;
-})})'>
-!
-
-on: aClass do: aBlock catch: anotherBlock
-<inlineJS: 'return self.then(null, function (err) {return $core.seamless(function () {
-    try { if (err._isKindOf_(aClass)) return aBlock._value_(err); } catch (e) { err = e; }
-    return anotherBlock._value_(err);
-})})'>
-!
-
-then: aBlockOrArray
-"Accepts a block or array of blocks.
-Each of blocks in the array or the singleton one is
-used in .then call to a promise, to accept a result
-and transform it to the result for the next one.
-In case a block has more than one argument
-and result is an array, first n-1 elements of the array
-are put into additional arguments beyond the first.
-The first argument always contains the result as-is."
-<inlineJS: '
-var array = Array.isArray(aBlockOrArray) ? aBlockOrArray : [aBlockOrArray];
-return array.reduce(function (soFar, aBlock) {
-    return soFar.then(typeof aBlock === "function" && aBlock.length > 1 ?
-        function (result) {return $core.seamless(function () {
-            if (Array.isArray(result)) {
-                return aBlock._valueWithPossibleArguments_([result].concat(result.slice(0, aBlock.length-1)));
-            } else {
-                return aBlock._value_(result);
-            }
-        })} :
-        function (result) {return $core.seamless(function () {
-            return aBlock._value_(result);
-        })}
-    );
-}, self)'>
-!
-
-then: aBlockOrArray catch: anotherBlock
-	^ (self then: aBlockOrArray) catch: anotherBlock
-!
-
-then: aBlockOrArray on: aClass do: aBlock
-	^ (self then: aBlockOrArray) on: aClass do: aBlock
-!
-
-then: aBlockOrArray on: aClass do: aBlock catch: anotherBlock
-	^ ((self then: aBlockOrArray) on: aClass do: aBlock) catch: anotherBlock
-! !
-
-Thenable subclass: #Promise
+Object subclass: #Promise
 	instanceVariableNames: ''
 	package: 'Kernel-Promises'!
 
@@ -120,6 +49,70 @@ signal: anObject
 value: anObject
 "Returns a Promise resolved with anObject."
 <inlineJS: 'return $recv(anObject)._in_(function (x) {return Promise.resolve(x)})'>
+! !
+
+Trait named: #TThenable
+	package: 'Kernel-Promises'!
+
+!TThenable methodsFor: 'promises'!
+
+catch: aBlock
+<inlineJS: 'return self.then(null, function (err) {return $core.seamless(function () {
+    return aBlock._value_(err);
+})})'>
+!
+
+on: aClass do: aBlock
+<inlineJS: 'return self.then(null, function (err) {return $core.seamless(function () {
+    if (err._isKindOf_(aClass)) return aBlock._value_(err);
+    else throw err;
+})})'>
+!
+
+on: aClass do: aBlock catch: anotherBlock
+	^ (self on: aClass do: aBlock) catch: anotherBlock
+!
+
+then: aBlockOrArray
+"Accepts a block or array of blocks.
+Each of blocks in the array or the singleton one is
+used in .then call to a promise, to accept a result
+and transform it to the result for the next one.
+In case a block has more than one argument
+and result is an array, first n-1 elements of the array
+are put into additional arguments beyond the first.
+The first argument always contains the result as-is."
+<inlineJS: '
+var array = Array.isArray(aBlockOrArray) ? aBlockOrArray : [aBlockOrArray];
+return array.reduce(function (soFar, aBlock) {
+    return soFar.then(typeof aBlock === "function" && aBlock.length > 1 ?
+        function (result) {return $core.seamless(function () {
+            if (Array.isArray(result)) {
+                return aBlock._valueWithPossibleArguments_([result].concat(result.slice(0, aBlock.length-1)));
+            } else {
+                return aBlock._value_(result);
+            }
+        })} :
+        function (result) {return $core.seamless(function () {
+            return aBlock._value_(result);
+        })}
+    );
+}, self)'>
+!
+
+then: aBlockOrArray catch: anotherBlock
+	^ (self then: aBlockOrArray) catch: anotherBlock
+!
+
+then: aBlockOrArray on: aClass do: aBlock
+	^ (self then: aBlockOrArray) on: aClass do: aBlock
+!
+
+then: aBlockOrArray on: aClass do: aBlock catch: anotherBlock
+	^ ((self then: aBlockOrArray) on: aClass do: aBlock) catch: anotherBlock
+! !
+
+Promise setTraitComposition: {TThenable} asTraitComposition!
 ! !
 
 !JSObjectProxy methodsFor: '*Kernel-Promises'!

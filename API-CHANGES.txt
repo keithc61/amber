@@ -1,3 +1,8 @@
+0.19.0:
+
+* Remove class Thenable, add trait TThenable.
+
+
 0.18.3:
 
 * Move {add,remove}Element from Array.prototype to kernel API.
