@@ -111,6 +111,26 @@ printString
 	'>
 ! !
 
+!JSObjectProxy methodsFor: 'promises'!
+
+catch: aBlock
+(NativeFunction isNativeFunction: (self at: #then))
+	ifTrue: [ ^ (TThenable >> #catch:) sendTo: jsObject arguments: {aBlock} ]
+	ifFalse: [ ^ super catch: aBlock ]
+!
+
+on: aClass do: aBlock
+(NativeFunction isNativeFunction: (self at: #then))
+	ifTrue: [ ^ (TThenable >> #on:do:) sendTo: jsObject arguments: {aClass. aBlock} ]
+	ifFalse: [ ^ super on: aClass do: aBlock ]
+!
+
+then: aBlockOrArray
+(NativeFunction isNativeFunction: (self at: #then))
+	ifTrue: [ ^ (TThenable >> #then:) sendTo: jsObject arguments: {aBlockOrArray} ]
+	ifFalse: [ ^ super then: aBlockOrArray ]
+! !
+
 !JSObjectProxy methodsFor: 'proxy'!
 
 doesNotUnderstand: aMessage
@@ -942,6 +962,9 @@ current
 
 new
 	self shouldNotImplement
+! !
+
+JSObjectProxy setTraitComposition: {TThenable} asTraitComposition!
 ! !
 
 !String methodsFor: '*Kernel-Infrastructure'!
