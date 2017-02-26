@@ -2,6 +2,9 @@
 
 * Remove class Thenable, add trait TThenable.
 
++ NativeFunction class >>
+  + isNativeFunction:
+
 
 0.18.3:
 

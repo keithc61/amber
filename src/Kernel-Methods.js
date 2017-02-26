@@ -3144,6 +3144,30 @@ $globals.NativeFunction.klass);
 
 $core.addMethod(
 $core.method({
+selector: "isNativeFunction:",
+protocol: "testing",
+fn: function (anObject){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return typeof anObject === "function";
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isNativeFunction:",{anObject:anObject},$globals.NativeFunction.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "isNativeFunction: anObject\x0a\x09<inlineJS: 'return typeof anObject === \x22function\x22'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.NativeFunction.klass);
+
+$core.addMethod(
+$core.method({
 selector: "methodOf:this:",
 protocol: "method calling",
 fn: function (nativeFunc,thisObject){
