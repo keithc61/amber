@@ -944,6 +944,12 @@ new
 	self shouldNotImplement
 ! !
 
+!ProtoStream methodsFor: '*Kernel-Infrastructure'!
+
+nextPutJSObject: aJSObject
+	self nextPut: aJSObject
+! !
+
 !String methodsFor: '*Kernel-Infrastructure'!
 
 asJavaScriptPropertyName
