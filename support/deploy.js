@@ -5,6 +5,7 @@ define([
     './kernel-language', // pre-fetch, dep of ./boot
     './boot', // pre-fetch, dep of ./helpers
     // --- packages of the core Amber begin here ---
+    'amber_core/Kernel-Helpers',
     'amber_core/Kernel-Objects',
     'amber_core/Kernel-Classes',
     'amber_core/Kernel-Methods',

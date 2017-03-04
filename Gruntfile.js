@@ -44,7 +44,8 @@ module.exports = function (grunt) {
             },
             amber: {
                 output_dir: 'src',
-                src: ['src/Kernel-Objects.st', 'src/Kernel-Classes.st', 'src/Kernel-Methods.st', 'src/Kernel-Collections.st',
+                src: ['src/Kernel-Helpers.st',
+                    'src/Kernel-Objects.st', 'src/Kernel-Classes.st', 'src/Kernel-Methods.st', 'src/Kernel-Collections.st',
                     'src/Kernel-Infrastructure.st', 'src/Kernel-Promises.st', 'src/Kernel-Exceptions.st', 'src/Kernel-Announcements.st',
                     'src/Platform-Services.st', 'src/Platform-ImportExport.st', 'src/Platform-Browser.st', 'src/Platform-Node.st',
                     'src/Platform-DOM.st',

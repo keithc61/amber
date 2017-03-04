@@ -1,4 +1,4 @@
-define(["amber/boot"], function($boot){"use strict";
+define(["amber/boot", "amber_core/Kernel-Helpers"], function($boot){"use strict";
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
@@ -5797,5 +5797,7 @@ referencedClasses: [],
 messageSends: ["error:"]
 }),
 $globals.UndefinedObject.klass);
+
+$core.setTraitComposition([{trait: $globals.TSubclassable}], $globals.UndefinedObject);
 
 });
