@@ -17,7 +17,7 @@ extensionMethodsOfPackage: aPackage
 	result := OrderedCollection new.
 	
 	(self extensionProtocolsOfPackage: aPackage) do: [ :each |
-		result addAll: each methods ].
+		result addAll: each ownMethods ].
 		
 	^ result
 !

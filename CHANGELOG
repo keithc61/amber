@@ -7,6 +7,14 @@
 Commits: https://lolg.it/amber/amber/commits/0.19.0.
 
 
+?? March 2017 - Release 0.18.4
+===================================
+
+* Fix export of extension trait methods.
+
+Commits: https://lolg.it/amber/amber/commits/0.18.4.
+
+
 22 February 2017 - Release 0.18.3
 ===================================
 
