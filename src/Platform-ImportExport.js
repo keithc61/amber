@@ -49,7 +49,7 @@ $recv(self._extensionProtocolsOfPackage_(aPackage))._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv(result)._addAll_($recv(each)._methods());
+return $recv(result)._addAll_($recv(each)._ownMethods());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -61,10 +61,10 @@ return result;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage"],
-source: "extensionMethodsOfPackage: aPackage\x0a\x09| result |\x0a\x09\x0a\x09result := OrderedCollection new.\x0a\x09\x0a\x09(self extensionProtocolsOfPackage: aPackage) do: [ :each |\x0a\x09\x09result addAll: each methods ].\x0a\x09\x09\x0a\x09^ result",
+source: "extensionMethodsOfPackage: aPackage\x0a\x09| result |\x0a\x09\x0a\x09result := OrderedCollection new.\x0a\x09\x0a\x09(self extensionProtocolsOfPackage: aPackage) do: [ :each |\x0a\x09\x09result addAll: each ownMethods ].\x0a\x09\x09\x0a\x09^ result",
 referencedClasses: ["OrderedCollection"],
 //>>excludeEnd("ide");
-messageSends: ["new", "do:", "extensionProtocolsOfPackage:", "addAll:", "methods"]
+messageSends: ["new", "do:", "extensionProtocolsOfPackage:", "addAll:", "ownMethods"]
 }),
 $globals.AbstractExporter);
 
