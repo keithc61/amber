@@ -13392,24 +13392,6 @@ $globals.ProtoStream);
 
 $core.addMethod(
 $core.method({
-selector: "nextPutJSObject:",
-protocol: "writing",
-fn: function (aJSObject){
-var self=this;
-return $core.withContext(function($ctx1) {
-self._nextPut_(aJSObject);
-return self;
-}, function($ctx1) {$ctx1.fill(self,"nextPutJSObject:",{aJSObject:aJSObject},$globals.ProtoStream)});
-},
-args: ["aJSObject"],
-source: "nextPutJSObject: aJSObject\x0a\x09self nextPut: aJSObject",
-referencedClasses: [],
-messageSends: ["nextPut:"]
-}),
-$globals.ProtoStream);
-
-$core.addMethod(
-$core.method({
 selector: "nextPutString:",
 protocol: "writing",
 fn: function (aString){
@@ -24207,11 +24189,11 @@ selector: "version",
 protocol: "accessing",
 fn: function (){
 var self=this;
-return "0.18.3";
+return "0.18.4";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.18.3'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.18.4'",
 referencedClasses: [],
 messageSends: []
 }),
@@ -24284,6 +24266,24 @@ referencedClasses: [],
 messageSends: ["shouldNotImplement"]
 }),
 $globals.SmalltalkImage.klass);
+
+$core.addMethod(
+$core.method({
+selector: "nextPutJSObject:",
+protocol: "*Kernel-Infrastructure",
+fn: function (aJSObject){
+var self=this;
+return $core.withContext(function($ctx1) {
+self._nextPut_(aJSObject);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"nextPutJSObject:",{aJSObject:aJSObject},$globals.ProtoStream)});
+},
+args: ["aJSObject"],
+source: "nextPutJSObject: aJSObject\x0a\x09self nextPut: aJSObject",
+referencedClasses: [],
+messageSends: ["nextPut:"]
+}),
+$globals.ProtoStream);
 
 $core.addMethod(
 $core.method({
@@ -31484,16 +31484,16 @@ return $core.withContext(function($ctx1) {
 result=$recv($globals.OrderedCollection)._new();
 $recv(self._extensionProtocolsOfPackage_(aPackage))._do_((function(each){
 return $core.withContext(function($ctx2) {
-return $recv(result)._addAll_($recv(each)._methods());
+return $recv(result)._addAll_($recv(each)._ownMethods());
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 return result;
 }, function($ctx1) {$ctx1.fill(self,"extensionMethodsOfPackage:",{aPackage:aPackage,result:result},$globals.AbstractExporter)});
 },
 args: ["aPackage"],
-source: "extensionMethodsOfPackage: aPackage\x0a\x09| result |\x0a\x09\x0a\x09result := OrderedCollection new.\x0a\x09\x0a\x09(self extensionProtocolsOfPackage: aPackage) do: [ :each |\x0a\x09\x09result addAll: each methods ].\x0a\x09\x09\x0a\x09^ result",
+source: "extensionMethodsOfPackage: aPackage\x0a\x09| result |\x0a\x09\x0a\x09result := OrderedCollection new.\x0a\x09\x0a\x09(self extensionProtocolsOfPackage: aPackage) do: [ :each |\x0a\x09\x09result addAll: each ownMethods ].\x0a\x09\x09\x0a\x09^ result",
 referencedClasses: ["OrderedCollection"],
-messageSends: ["new", "do:", "extensionProtocolsOfPackage:", "addAll:", "methods"]
+messageSends: ["new", "do:", "extensionProtocolsOfPackage:", "addAll:", "ownMethods"]
 }),
 $globals.AbstractExporter);
 
