@@ -4,9 +4,9 @@ separator      = [ \t\v\f\u00A0\uFEFF\n\r\u2028\u2029]+
 comments       = ('"' [^"]* '"')+
 ws             = (separator / comments)*
 maybeDotsWs = ("." / separator / comments)*
-identifier     = first:[a-zA-Z] others:[a-zA-Z0-9]* {return first + others.join("");}
-keyword        = first:identifier last:":" {return first + last;}
-className      = first:[A-Z] others:[a-zA-Z0-9]* {return first + others.join("");}
+identifier     = $([a-zA-Z] [a-zA-Z0-9]*)
+keyword        = $(identifier ":")
+className      = $([A-Z] [a-zA-Z0-9]*)
 string         = contents:rawString {
                      return $globals.ValueNode._new()
                             ._location_(location())
@@ -22,7 +22,7 @@ character      = "$" char:.
                              ._value_(char);
                   }
 symbol         = "#" rest:bareSymbol {return rest;}
-bareSymbol         = val:(keywords:keyword+ {return keywords.join("");} / binarySelector / unarySelector / rawString)
+bareSymbol         = val:($(keyword+) / binarySelector / unarySelector / rawString)
                   {
                       return $globals.ValueNode._new()
                              ._location_(location())
@@ -35,10 +35,10 @@ number         = n:(numberExp / hex / float / integer) {
                             ._source_(text())
                             ._value_(n);
                  }
-numberExp      = n:((float / integer) "e" integer) {return parseFloat(n.join(""));}
-hex            = neg:"-"? "16r" num:[0-9a-fA-F]+ {return parseInt(((neg || '') + num.join("")), 16);}
-float          = neg:"-"? digits:[0-9]+ "." dec:[0-9]+ {return parseFloat(((neg || '') + digits.join("") + "." + dec.join("")), 10);}
-integer        = neg:"-"? digits:[0-9]+ {return (parseInt((neg || '') + digits.join(""), 10));}
+numberExp      = n:$((float / integer) "e" integer) {return parseFloat(n);}
+hex            = neg:"-"? "16r" num:$[0-9a-fA-F]+ {return parseInt(((neg || '') + num), 16);}
+float          = n:$("-"? [0-9]+ "." [0-9]+) {return parseFloat(n, 10);}
+integer        = n:$("-"? [0-9]+) {return parseInt(n, 10);}
 
 literalArray   = "#(" rest:wsLiteralArrayContents ws ")" {
     return rest
@@ -91,7 +91,7 @@ variable       = identifier:identifier {
 
 reference      = variable
 
-binarySelector = bin:[\\+*/=><,@%~|&-]+ {return bin.join("");}
+binarySelector = $[\\+*/=><,@%~|&-]+
 unarySelector  = identifier
 
 wsKeywordPattern = pairs:(ws key:keyword ws arg:identifier {return {key:key, arg:arg};})+ {
