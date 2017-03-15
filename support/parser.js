@@ -38,8 +38,8 @@ $globals.SmalltalkParser = (function() {
         peg$startRuleFunctions = { start: peg$parsestart },
         peg$startRuleFunction  = peg$parsestart,
 
-        peg$c0 = /^[ \t\x0B\f\xA0\uFEFF\n\r\u2028\u2029]/,
-        peg$c1 = { type: "class", value: "[ \\t\\v\\f\\u00A0\\uFEFF\\n\\r\\u2028\\u2029]", description: "[ \\t\\v\\f\\u00A0\\uFEFF\\n\\r\\u2028\\u2029]" },
+        peg$c0 = /^[ \t\x0B\f\xA0\u1680\u2000-\u200A\u202F\u205F\u3000\uFEFF\n\r\u2028\u2029]/,
+        peg$c1 = { type: "class", value: "[ \\t\\v\\f\\u00A0\\u1680\\u2000-\\u200A\\u202F\\u205F\\u3000\\uFEFF\\n\\r\\u2028\\u2029]", description: "[ \\t\\v\\f\\u00A0\\u1680\\u2000-\\u200A\\u202F\\u205F\\u3000\\uFEFF\\n\\r\\u2028\\u2029]" },
         peg$c2 = "\"",
         peg$c3 = { type: "literal", value: "\"", description: "\"\\\"\"" },
         peg$c4 = /^[^"]/,

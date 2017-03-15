@@ -1,6 +1,6 @@
 start = method
 
-separator      = [ \t\v\f\u00A0\uFEFF\n\r\u2028\u2029]+
+separator      = [ \t\v\f\u00A0\u1680\u2000-\u200A\u202F\u205F\u3000\uFEFF\n\r\u2028\u2029]+
 comments       = ('"' [^"]* '"')+
 ws             = (separator / comments)*
 maybeDotsWs = ("." / separator / comments)*
