@@ -15,11 +15,11 @@ keyword = $(identifier ':')
 
 className = $([A-Z] [a-zA-Z0-9]*)
 
-string = contents:rawString {
+string = val:rawString {
 	return $globals.ValueNode._new()
 		._location_(location())
 		._source_(text())
-		._value_(contents);
+		._value_(val);
 }
 
 rawString = '\'' val:(('\'\'' {return '\'';} / [^'])*) '\'' {return val.join('');}
@@ -40,11 +40,11 @@ bareSymbol = val:($(keyword+) / binarySelector / unarySelector / rawString) {
 		._value_(val);
 }
 
-number = n:rawNumber {
+number = val:rawNumber {
 	return $globals.ValueNode._new()
 		._location_(location())
 		._source_(text())
-		._value_(n);
+		._value_(val);
 }
 
 rawNumber = numberExp / hex / float / integer
