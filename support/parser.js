@@ -64,10 +64,10 @@ $globals.SmalltalkParser = (function() {
         peg$c18 = { type: "literal", value: "'", description: "\"'\"" },
         peg$c19 = "''",
         peg$c20 = { type: "literal", value: "''", description: "\"''\"" },
-        peg$c21 = function() {return "'";},
+        peg$c21 = function() {return '\'';},
         peg$c22 = /^[^']/,
         peg$c23 = { type: "class", value: "[^']", description: "[^']" },
-        peg$c24 = function(val) {return val.join("");},
+        peg$c24 = function(val) {return val.join('');},
         peg$c25 = "$",
         peg$c26 = { type: "literal", value: "$", description: "\"$\"" },
         peg$c27 = { type: "any", description: "any character" },
@@ -161,7 +161,7 @@ $globals.SmalltalkParser = (function() {
         peg$c76 = { type: "class", value: "[\\\\+*/=><,@%~|&-]", description: "[\\\\+*/=><,@%~|&-]" },
         peg$c77 = function(key, arg) {return {key:key, arg:arg};},
         peg$c78 = function(pairs) {
-        		var selector = "";
+        		var selector = '';
         		var params = [];
         		for(var i = 0; i < pairs.length; i++) {
         			selector += pairs[i].key;
@@ -249,7 +249,7 @@ $globals.SmalltalkParser = (function() {
         		._arguments_([arg]);
         },
         peg$c108 = function(pairs) {
-        		var selector = "";
+        		var selector = '';
         		var args = [];
         		for(var i = 0; i < pairs.length; i++) {
         			selector += pairs[i].key;
@@ -279,17 +279,17 @@ $globals.SmalltalkParser = (function() {
         peg$c116 = { type: "literal", value: "<", description: "\"<\"" },
         peg$c117 = ">>",
         peg$c118 = { type: "literal", value: ">>", description: "\">>\"" },
-        peg$c119 = function() {return ">";},
+        peg$c119 = function() {return '>';},
         peg$c120 = /^[^>]/,
         peg$c121 = { type: "class", value: "[^>]", description: "[^>]" },
         peg$c122 = ">",
         peg$c123 = { type: "literal", value: ">", description: "\">\"" },
-        peg$c124 = function(val) {return !/^\s*inlineJS/.test(val.join(""));},
+        peg$c124 = function(val) {return !/^\s*inlineJS/.test(val.join(''));},
         peg$c125 = function(val) {
-        		console.warn("Use of <...js code...> is deprecated, in:\n" + val.join(""));
+        		console.warn('Use of <...js code...> is deprecated, in:\n' + val.join(''));
         		return $globals.JSStatementNode._new()
         			._location_(location())
-        			._source_(val.join(""))
+        			._source_(val.join(''))
         	},
         peg$c126 = "inlineJS:",
         peg$c127 = { type: "literal", value: "inlineJS:", description: "\"inlineJS:\"" },
@@ -306,7 +306,7 @@ $globals.SmalltalkParser = (function() {
         			._arguments_(pattern[1])
         			._dagChildren_([sequence]);
         	},
-        peg$c130 = function(send) { return send._isSendNode() && send._selector() === "->" },
+        peg$c130 = function(send) { return send._isSendNode() && send._selector() === '->' },
         peg$c131 = function(send) {
         		return [send._receiver(), send._arguments()[0]];
         	},

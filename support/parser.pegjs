@@ -7,11 +7,11 @@ comments = ('"' [^"]* '"')+
 
 ws = (separator / comments)*
 
-maybeDotsWs = ("." / separator / comments)*
+maybeDotsWs = ('.' / separator / comments)*
 
 identifier = $([a-zA-Z] [a-zA-Z0-9]*)
 
-keyword = $(identifier ":")
+keyword = $(identifier ':')
 
 className = $([A-Z] [a-zA-Z0-9]*)
 
@@ -22,16 +22,16 @@ string = contents:rawString {
 		._value_(contents);
 }
 
-rawString = "'" val:(("''" {return "'";} / [^'])*) "'" {return val.join("");}
+rawString = '\'' val:(('\'\'' {return '\'';} / [^'])*) '\'' {return val.join('');}
 
-character = "$" char:. {
+character = '$' char:. {
 	return $globals.ValueNode._new()
 		._location_(location())
 		._source_(text())
 		._value_(char);
 }
 
-symbol = "#" rest:bareSymbol {return rest;}
+symbol = '#' rest:bareSymbol {return rest;}
 
 bareSymbol = val:($(keyword+) / binarySelector / unarySelector / rawString) {
 	return $globals.ValueNode._new()
@@ -49,23 +49,23 @@ number = n:rawNumber {
 
 rawNumber = numberExp / hex / float / integer
 
-numberExp = n:$((float / integer) "e" integer) {return parseFloat(n);}
+numberExp = n:$((float / integer) 'e' integer) {return parseFloat(n);}
 
-hex = neg:"-"? "16r" num:$[0-9a-fA-F]+ {
+hex = neg:'-'? '16r' num:$[0-9a-fA-F]+ {
 	return parseInt(((neg || '') + num), 16);
 }
 
-float = n:$("-"? [0-9]+ "." [0-9]+) {return parseFloat(n, 10);}
+float = n:$('-'? [0-9]+ '.' [0-9]+) {return parseFloat(n, 10);}
 
-integer = n:$("-"? [0-9]+) {return parseInt(n, 10);}
+integer = n:$('-'? [0-9]+) {return parseInt(n, 10);}
 
-literalArray = "#(" rest:wsLiteralArrayContents ws ")" {
+literalArray = '#(' rest:wsLiteralArrayContents ws ')' {
 	return rest
 		._location_(location())
 		._source_(text());
 }
 
-bareLiteralArray = "(" rest:wsLiteralArrayContents ws ")" {
+bareLiteralArray = '(' rest:wsLiteralArrayContents ws ')' {
 	return rest
 		._location_(location())
 		._source_(text());
@@ -79,14 +79,14 @@ wsLiteralArrayContents =
 			._value_(lits);
 	}
 
-dynamicArray = "{" expressions:wsExpressions? maybeDotsWs "}" {
+dynamicArray = '{' expressions:wsExpressions? maybeDotsWs '}' {
 	return $globals.DynamicArrayNode._new()
 		._location_(location())
 		._source_(text())
 		._dagChildren_(expressions || []);
 }
 
-dynamicDictionary = "#{" expressions:wsAssociations? maybeDotsWs  "}" {
+dynamicDictionary = '#{' expressions:wsAssociations? maybeDotsWs  '}' {
 	return $globals.DynamicDictionaryNode._new()
 		._location_(location())
 		._source_(text())
@@ -126,7 +126,7 @@ unarySelector = identifier
 
 wsKeywordPattern =
 	pairs:(ws key:keyword ws arg:identifier {return {key:key, arg:arg};})+ {
-		var selector = "";
+		var selector = '';
 		var params = [];
 		for(var i = 0; i < pairs.length; i++) {
 			selector += pairs[i].key;
@@ -143,7 +143,7 @@ wsUnaryPattern = ws selector:unarySelector {return [selector, []];}
 
 expression = assignment / cascade / keywordSend
 
-wsExpressionsRest = ws "." maybeDotsWs expression:expression {
+wsExpressionsRest = ws '.' maybeDotsWs expression:expression {
 	return expression;
 }
 
@@ -166,12 +166,12 @@ ret = '^' ws expression:expression {
 		._dagChildren_([expression]);
 }
   
-temps = "|" vars:(ws variable:identifier {return variable;})* ws "|" {
+temps = '|' vars:(ws variable:identifier {return variable;})* ws '|' {
 	return vars;
 }
 
 wsBlockParamList =
-	params:((ws ":" ws param:identifier {return param;})+) ws "|" {
+	params:((ws ':' ws param:identifier {return param;})+) ws '|' {
 		return params;
 	}
 
@@ -181,7 +181,7 @@ subexpression = '(' ws expression:expression ws ')' {
 
 wsStatementsWs =
 	maybeDotsWs ret:ret maybeDotsWs {return [ret];} /
-	exps:wsExpressions ws "." maybeDotsWs ret:ret maybeDotsWs {
+	exps:wsExpressions ws '.' maybeDotsWs ret:ret maybeDotsWs {
 		var expressions = exps;
 		expressions.push(ret);
 		return expressions;
@@ -210,7 +210,7 @@ block = '[' params:wsBlockParamList? sequence:wsSequenceWs? ']' {
 
 operand = literal / reference / subexpression
 
-wsUnaryMessage = ws selector:unarySelector !":" {
+wsUnaryMessage = ws selector:unarySelector !':' {
 	return $globals.SendNode._new()
 		._location_(location())
 		._source_(text())
@@ -235,7 +235,7 @@ binarySend = receiver:unarySend tail:wsBinaryMessage* {
 
 wsKeywordMessage =
 	pairs:(ws key:keyword ws arg:binarySend {return {key:key, arg:arg};})+ {
-		var selector = "";
+		var selector = '';
 		var args = [];
 		for(var i = 0; i < pairs.length; i++) {
 			selector += pairs[i].key;
@@ -256,7 +256,7 @@ wsMessage = wsBinaryMessage / wsUnaryMessage / wsKeywordMessage
 
 cascade =
 	send:keywordSend & {return send._isSendNode();}
-	messages:(ws ";" mess:wsMessage {return mess;})+ {
+	messages:(ws ';' mess:wsMessage {return mess;})+ {
 		messages.unshift(send);
 		return $globals.CascadeNode._new()
 			._location_(location())
@@ -267,15 +267,15 @@ cascade =
 jsStatement = pragmaJsStatement / legacyJsStatement
 
 legacyJsStatement =
-	"<" val:((">>" {return ">";} / [^>])*) ">"
-	& {return !/^\s*inlineJS/.test(val.join(""));} {
-		console.warn("Use of <...js code...> is deprecated, in:\n" + val.join(""));
+	'<' val:(('>>' {return '>';} / [^>])*) '>'
+	& {return !/^\s*inlineJS/.test(val.join(''));} {
+		console.warn('Use of <...js code...> is deprecated, in:\n' + val.join(''));
 		return $globals.JSStatementNode._new()
 			._location_(location())
-			._source_(val.join(""))
+			._source_(val.join(''))
 	}
 
-pragmaJsStatement = "<" ws "inlineJS:" ws val:rawString ws ">" {
+pragmaJsStatement = '<' ws 'inlineJS:' ws val:rawString ws '>' {
 	return $globals.JSStatementNode._new()
 		._location_(location())
 		._source_(val)
@@ -294,11 +294,11 @@ method =
 
 associationSend =
 	send:binarySend
-	& { return send._isSendNode() && send._selector() === "->" } {
+	& { return send._isSendNode() && send._selector() === '->' } {
 		return [send._receiver(), send._arguments()[0]];
 	}
 
-wsAssociationsRest = ws "." maybeDotsWs expression:associationSend {
+wsAssociationsRest = ws '.' maybeDotsWs expression:associationSend {
 	return expression;
 }
 
