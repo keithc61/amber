@@ -40,12 +40,14 @@ bareSymbol = val:($(keyword+) / binarySelector / unarySelector / rawString) {
 		._value_(val);
 }
 
-number = n:(numberExp / hex / float / integer) {
+number = n:rawNumber {
 	return $globals.ValueNode._new()
 		._location_(location())
 		._source_(text())
 		._value_(n);
 }
+
+rawNumber = numberExp / hex / float / integer
 
 numberExp = n:$((float / integer) "e" integer) {return parseFloat(n);}
 

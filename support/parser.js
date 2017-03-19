@@ -504,7 +504,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsestart() {
       var s0;
 
-      var key    = peg$currPos * 61 + 0,
+      var key    = peg$currPos * 62 + 0,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -523,7 +523,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseseparator() {
       var s0, s1;
 
-      var key    = peg$currPos * 61 + 1,
+      var key    = peg$currPos * 62 + 1,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -563,7 +563,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsecomments() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 2,
+      var key    = peg$currPos * 62 + 2,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -689,7 +689,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsews() {
       var s0, s1;
 
-      var key    = peg$currPos * 61 + 3,
+      var key    = peg$currPos * 62 + 3,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -719,7 +719,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsemaybeDotsWs() {
       var s0, s1;
 
-      var key    = peg$currPos * 61 + 4,
+      var key    = peg$currPos * 62 + 4,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -767,7 +767,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseidentifier() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 5,
+      var key    = peg$currPos * 62 + 5,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -829,7 +829,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsekeyword() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 61 + 6,
+      var key    = peg$currPos * 62 + 6,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -874,7 +874,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseclassName() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 7,
+      var key    = peg$currPos * 62 + 7,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -936,7 +936,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsestring() {
       var s0, s1;
 
-      var key    = peg$currPos * 61 + 8,
+      var key    = peg$currPos * 62 + 8,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -961,7 +961,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parserawString() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 9,
+      var key    = peg$currPos * 62 + 9,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -1060,7 +1060,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsecharacter() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 10,
+      var key    = peg$currPos * 62 + 10,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -1106,7 +1106,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsesymbol() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 11,
+      var key    = peg$currPos * 62 + 11,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -1146,7 +1146,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebareSymbol() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 61 + 12,
+      var key    = peg$currPos * 62 + 12,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -1195,7 +1195,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsenumber() {
       var s0, s1;
 
-      var key    = peg$currPos * 61 + 13,
+      var key    = peg$currPos * 62 + 13,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -1205,16 +1205,7 @@ $globals.SmalltalkParser = (function() {
       }
 
       s0 = peg$currPos;
-      s1 = peg$parsenumberExp();
-      if (s1 === peg$FAILED) {
-        s1 = peg$parsehex();
-        if (s1 === peg$FAILED) {
-          s1 = peg$parsefloat();
-          if (s1 === peg$FAILED) {
-            s1 = peg$parseinteger();
-          }
-        }
-      }
+      s1 = peg$parserawNumber();
       if (s1 !== peg$FAILED) {
         peg$savedPos = s0;
         s1 = peg$c33(s1);
@@ -1226,10 +1217,38 @@ $globals.SmalltalkParser = (function() {
       return s0;
     }
 
+    function peg$parserawNumber() {
+      var s0;
+
+      var key    = peg$currPos * 62 + 14,
+          cached = peg$resultsCache[key];
+
+      if (cached) {
+        peg$currPos = cached.nextPos;
+
+        return cached.result;
+      }
+
+      s0 = peg$parsenumberExp();
+      if (s0 === peg$FAILED) {
+        s0 = peg$parsehex();
+        if (s0 === peg$FAILED) {
+          s0 = peg$parsefloat();
+          if (s0 === peg$FAILED) {
+            s0 = peg$parseinteger();
+          }
+        }
+      }
+
+      peg$resultsCache[key] = { nextPos: peg$currPos, result: s0 };
+
+      return s0;
+    }
+
     function peg$parsenumberExp() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 61 + 14,
+      var key    = peg$currPos * 62 + 15,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -1289,7 +1308,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsehex() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 61 + 15,
+      var key    = peg$currPos * 62 + 16,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -1371,7 +1390,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsefloat() {
       var s0, s1, s2, s3, s4, s5, s6, s7;
 
-      var key    = peg$currPos * 61 + 16,
+      var key    = peg$currPos * 62 + 17,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -1485,7 +1504,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseinteger() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 61 + 17,
+      var key    = peg$currPos * 62 + 18,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -1560,7 +1579,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseliteralArray() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 18,
+      var key    = peg$currPos * 62 + 19,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -1618,7 +1637,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebareLiteralArray() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 19,
+      var key    = peg$currPos * 62 + 20,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -1676,7 +1695,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseliteralArrayElement() {
       var s0;
 
-      var key    = peg$currPos * 61 + 20,
+      var key    = peg$currPos * 62 + 21,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -1701,7 +1720,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsLiteralArrayContents() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 21,
+      var key    = peg$currPos * 62 + 22,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -1761,7 +1780,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsedynamicArray() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 22,
+      var key    = peg$currPos * 62 + 23,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -1822,7 +1841,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsedynamicDictionary() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 23,
+      var key    = peg$currPos * 62 + 24,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -1883,7 +1902,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsepseudoVariable() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 24,
+      var key    = peg$currPos * 62 + 25,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -1950,7 +1969,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseparseTimeLiteral() {
       var s0;
 
-      var key    = peg$currPos * 61 + 25,
+      var key    = peg$currPos * 62 + 26,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -1984,7 +2003,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseruntimeLiteral() {
       var s0;
 
-      var key    = peg$currPos * 61 + 26,
+      var key    = peg$currPos * 62 + 27,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2009,7 +2028,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseliteral() {
       var s0;
 
-      var key    = peg$currPos * 61 + 27,
+      var key    = peg$currPos * 62 + 28,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2031,7 +2050,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsevariable() {
       var s0, s1;
 
-      var key    = peg$currPos * 61 + 28,
+      var key    = peg$currPos * 62 + 29,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2056,7 +2075,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebinarySelector() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 29,
+      var key    = peg$currPos * 62 + 30,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2102,7 +2121,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsKeywordPattern() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 61 + 30,
+      var key    = peg$currPos * 62 + 31,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2190,7 +2209,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsBinaryPattern() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 31,
+      var key    = peg$currPos * 62 + 32,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2236,7 +2255,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsUnaryPattern() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 32,
+      var key    = peg$currPos * 62 + 33,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2270,7 +2289,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseexpression() {
       var s0;
 
-      var key    = peg$currPos * 61 + 33,
+      var key    = peg$currPos * 62 + 34,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2295,7 +2314,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsExpressionsRest() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 34,
+      var key    = peg$currPos * 62 + 35,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2347,7 +2366,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsExpressions() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 35,
+      var key    = peg$currPos * 62 + 36,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2392,7 +2411,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseassignment() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 61 + 36,
+      var key    = peg$currPos * 62 + 37,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2450,7 +2469,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseret() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 61 + 37,
+      var key    = peg$currPos * 62 + 38,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2496,7 +2515,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsetemps() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 61 + 38,
+      var key    = peg$currPos * 62 + 39,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2589,7 +2608,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsBlockParamList() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 61 + 39,
+      var key    = peg$currPos * 62 + 40,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2710,7 +2729,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsesubexpression() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 61 + 40,
+      var key    = peg$currPos * 62 + 41,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2774,7 +2793,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsStatementsWs() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 61 + 41,
+      var key    = peg$currPos * 62 + 42,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2883,7 +2902,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsSequenceWs() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 61 + 42,
+      var key    = peg$currPos * 62 + 43,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2926,7 +2945,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsStSequenceWs() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 61 + 43,
+      var key    = peg$currPos * 62 + 44,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -2972,7 +2991,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseblock() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 44,
+      var key    = peg$currPos * 62 + 45,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -3036,7 +3055,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseoperand() {
       var s0;
 
-      var key    = peg$currPos * 61 + 45,
+      var key    = peg$currPos * 62 + 46,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -3061,7 +3080,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsUnaryMessage() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 46,
+      var key    = peg$currPos * 62 + 47,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -3116,7 +3135,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseunarySend() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 61 + 47,
+      var key    = peg$currPos * 62 + 48,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -3155,7 +3174,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsBinaryMessage() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 48,
+      var key    = peg$currPos * 62 + 49,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -3201,7 +3220,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebinarySend() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 61 + 49,
+      var key    = peg$currPos * 62 + 50,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -3240,7 +3259,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsKeywordMessage() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 61 + 50,
+      var key    = peg$currPos * 62 + 51,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -3328,7 +3347,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsekeywordSend() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 51,
+      var key    = peg$currPos * 62 + 52,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -3365,7 +3384,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsMessage() {
       var s0;
 
-      var key    = peg$currPos * 61 + 52,
+      var key    = peg$currPos * 62 + 53,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -3390,7 +3409,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsecascade() {
       var s0, s1, s2, s3, s4, s5, s6, s7;
 
-      var key    = peg$currPos * 61 + 53,
+      var key    = peg$currPos * 62 + 54,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -3499,7 +3518,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsejsStatement() {
       var s0;
 
-      var key    = peg$currPos * 61 + 54,
+      var key    = peg$currPos * 62 + 55,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -3521,7 +3540,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parselegacyJsStatement() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 55,
+      var key    = peg$currPos * 62 + 56,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -3632,7 +3651,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsepragmaJsStatement() {
       var s0, s1, s2, s3, s4, s5, s6, s7;
 
-      var key    = peg$currPos * 61 + 56,
+      var key    = peg$currPos * 62 + 57,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -3714,7 +3733,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsemethod() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 57,
+      var key    = peg$currPos * 62 + 58,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -3757,7 +3776,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseassociationSend() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 61 + 58,
+      var key    = peg$currPos * 62 + 59,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -3797,7 +3816,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsAssociationsRest() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 59,
+      var key    = peg$currPos * 62 + 60,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -3849,7 +3868,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsAssociations() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 61 + 60,
+      var key    = peg$currPos * 62 + 61,
           cached = peg$resultsCache[key];
 
       if (cached) {
