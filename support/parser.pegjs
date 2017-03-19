@@ -96,7 +96,7 @@ dynamicDictionary = '#{' expressions:wsAssociations? maybeDotsWs  '}' {
 pseudoVariable = val:(
 	'true' {return true;} /
 	'false' {return false;} /
-	'nil' {return nil;}
+	'nil' {return null;}
 ) {
 	return $globals.ValueNode._new()
 		._location_(location())

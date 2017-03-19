@@ -1,5 +1,5 @@
 define(['./boot'], function($boot) {
-var $globals = $boot.globals, nil = $boot.nilAsReceiver;
+var $globals = $boot.globals;
 $globals.SmalltalkParser = (function() {
   "use strict";
 
@@ -150,7 +150,7 @@ $globals.SmalltalkParser = (function() {
         peg$c70 = function() {return false;},
         peg$c71 = "nil",
         peg$c72 = { type: "literal", value: "nil", description: "\"nil\"" },
-        peg$c73 = function() {return nil;},
+        peg$c73 = function() {return null;},
         peg$c74 = function(identifier) {
         	return $globals.VariableNode._new()
         		._location_(location())
