@@ -3073,25 +3073,23 @@ $1;
 } else {
 $recv(theClass)._package_(thePackage);
 $2=$recv($recv(theClass)._superclass()).__eq_eq(aClass);
-if($core.assert($2)){
-$3=theClass;
-$recv($3)._recompile();
-return $recv($3)._yourself();
-} else {
+if(!$core.assert($2)){
 return self._migrateClassNamed_superclass_instanceVariableNames_package_(className,aClass,aCollection,packageName);
 }
 }
-return self._basicAddSubclassOf_named_instanceVariableNames_package_(aClass,className,aCollection,packageName);
+$3=self._basicAddSubclassOf_named_instanceVariableNames_package_(aClass,className,aCollection,packageName);
+$recv($3)._recompile();
+return $recv($3)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"addSubclassOf:named:instanceVariableNames:package:",{aClass:aClass,className:className,aCollection:aCollection,packageName:packageName,theClass:theClass,thePackage:thePackage},$globals.ClassBuilder)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "className", "aCollection", "packageName"],
-source: "addSubclassOf: aClass named: className instanceVariableNames: aCollection package: packageName\x0a\x09| theClass thePackage |\x0a\x09\x0a\x09theClass := Smalltalk globals at: className.\x0a\x09thePackage := Package named: packageName.\x0a\x09\x0a\x09theClass ifNotNil: [\x0a\x09\x09theClass package: thePackage.\x0a\x09\x09theClass superclass == aClass\x0a\x09\x09\x09ifFalse: [ ^ self\x0a\x09\x09\x09\x09migrateClassNamed: className\x0a\x09\x09\x09\x09superclass: aClass\x0a\x09\x09\x09\x09instanceVariableNames: aCollection\x0a\x09\x09\x09\x09package: packageName ]\x0a\x09\x09\x09ifTrue: [ ^ theClass recompile; yourself ] ].\x0a\x09\x09\x0a\x09^ self\x0a\x09\x09basicAddSubclassOf: aClass\x0a\x09\x09named: className\x0a\x09\x09instanceVariableNames: aCollection\x0a\x09\x09package: packageName",
+source: "addSubclassOf: aClass named: className instanceVariableNames: aCollection package: packageName\x0a\x09| theClass thePackage |\x0a\x09\x0a\x09theClass := Smalltalk globals at: className.\x0a\x09thePackage := Package named: packageName.\x0a\x09\x0a\x09theClass ifNotNil: [\x0a\x09\x09theClass package: thePackage.\x0a\x09\x09theClass superclass == aClass\x0a\x09\x09\x09ifFalse: [ ^ self\x0a\x09\x09\x09\x09migrateClassNamed: className\x0a\x09\x09\x09\x09superclass: aClass\x0a\x09\x09\x09\x09instanceVariableNames: aCollection\x0a\x09\x09\x09\x09package: packageName ] ].\x0a\x09\x09\x0a\x09^ (self\x0a\x09\x09basicAddSubclassOf: aClass\x0a\x09\x09named: className\x0a\x09\x09instanceVariableNames: aCollection\x0a\x09\x09package: packageName) recompile; yourself",
 referencedClasses: ["Smalltalk", "Package"],
 //>>excludeEnd("ide");
-messageSends: ["at:", "globals", "named:", "ifNotNil:", "package:", "ifFalse:ifTrue:", "==", "superclass", "migrateClassNamed:superclass:instanceVariableNames:package:", "recompile", "yourself", "basicAddSubclassOf:named:instanceVariableNames:package:"]
+messageSends: ["at:", "globals", "named:", "ifNotNil:", "package:", "ifFalse:", "==", "superclass", "migrateClassNamed:superclass:instanceVariableNames:package:", "recompile", "basicAddSubclassOf:named:instanceVariableNames:package:", "yourself"]
 }),
 $globals.ClassBuilder);
 
