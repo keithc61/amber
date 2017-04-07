@@ -2,6 +2,7 @@
 ===================================
 
 * Fix inability to change ivars.
+* Wrapper-JQuery bumped to use inlineJS: syntax.
 
 Commits: https://lolg.it/amber/amber/commits/0.18.5.
 
