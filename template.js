@@ -164,7 +164,7 @@ exports.template = function (grunt, init, done) {
                 "silk": "^0.2.3"
             },
             "devDependencies": {
-                "amber-contrib-legacy": "^0.4.1",
+                "amber-contrib-legacy": "^0.4.2",
                 "amber-ide-starter-dialog": "^0.1.0",
                 "helios": "^0.7.1"
             }
