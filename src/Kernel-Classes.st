@@ -287,14 +287,13 @@ addSubclassOf: aClass named: className instanceVariableNames: aCollection packag
 				migrateClassNamed: className
 				superclass: aClass
 				instanceVariableNames: aCollection
-				package: packageName ]
-			ifTrue: [ ^ theClass recompile; yourself ] ].
+				package: packageName ] ].
 		
-	^ self
+	^ (self
 		basicAddSubclassOf: aClass
 		named: className
 		instanceVariableNames: aCollection
-		package: packageName
+		package: packageName) recompile; yourself
 !
 
 addTraitNamed: traitName package: packageName

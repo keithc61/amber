@@ -2194,8 +2194,10 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=(
+var $1,$2,$receiver;
+$1=self["@transformersDictionary"];
+if(($receiver = $1) == null || $receiver.isNil){
+$2=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
@@ -2203,26 +2205,30 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$recv($1)._at_put_("3000-inlinerTagging",self._preInliner());
+$recv($2)._at_put_("3000-inlinerTagging",self._preInliner());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["at:put:"]=1;
 //>>excludeEnd("ctx");
-$recv($1)._at_put_("6000-inliner",self._inliner());
+$recv($2)._at_put_("6000-inliner",self._inliner());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["at:put:"]=2;
 //>>excludeEnd("ctx");
-$recv($1)._at_put_("8000-irToJs",self._irTranslator());
-return $recv($1)._yourself();
+$recv($2)._at_put_("8000-irToJs",self._irTranslator());
+self["@transformersDictionary"]=$recv($2)._yourself();
+return self["@transformersDictionary"];
+} else {
+return $1;
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"transformersDictionary",{},$globals.InliningCodeGenerator)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "transformersDictionary\x0a\x09^ super transformersDictionary\x0a\x09\x09at: '3000-inlinerTagging' put: self preInliner;\x0a\x09\x09at: '6000-inliner' put: self inliner;\x0a\x09\x09at: '8000-irToJs' put: self irTranslator;\x0a\x09\x09yourself",
+source: "transformersDictionary\x0a\x09^ transformersDictionary ifNil: [ transformersDictionary := super transformersDictionary\x0a\x09\x09at: '3000-inlinerTagging' put: self preInliner;\x0a\x09\x09at: '6000-inliner' put: self inliner;\x0a\x09\x09at: '8000-irToJs' put: self irTranslator;\x0a\x09\x09yourself ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["at:put:", "transformersDictionary", "preInliner", "inliner", "irTranslator", "yourself"]
+messageSends: ["ifNil:", "at:put:", "transformersDictionary", "preInliner", "inliner", "irTranslator", "yourself"]
 }),
 $globals.InliningCodeGenerator);
 

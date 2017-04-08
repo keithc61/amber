@@ -967,6 +967,12 @@ new
 JSObjectProxy setTraitComposition: {TThenable} asTraitComposition!
 ! !
 
+!ProtoStream methodsFor: '*Kernel-Infrastructure'!
+
+nextPutJSObject: aJSObject
+	self nextPut: aJSObject
+! !
+
 !String methodsFor: '*Kernel-Infrastructure'!
 
 asJavaScriptPropertyName

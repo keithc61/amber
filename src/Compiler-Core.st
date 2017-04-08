@@ -54,7 +54,7 @@ transformersDictionary
 ! !
 
 AbstractCodeGenerator subclass: #CodeGenerator
-	instanceVariableNames: ''
+	instanceVariableNames: 'transformersDictionary'
 	package: 'Compiler-Core'!
 !CodeGenerator commentStamp!
 I am a basic code generator. I generate a valid JavaScript output, but no not perform any inlining.
@@ -79,11 +79,11 @@ semanticAnalyzer
 !
 
 transformersDictionary
-	^ Dictionary new
+	^ transformersDictionary ifNil: [ transformersDictionary := Dictionary new
 		at: '2000-semantic' put: self semanticAnalyzer;
 		at: '5000-astToIr' put: self translator;
 		at: '8000-irToJs' put: self irTranslator;
-		yourself
+		yourself ]
 !
 
 translator

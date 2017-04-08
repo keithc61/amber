@@ -574,11 +574,11 @@ preInliner
 !
 
 transformersDictionary
-	^ super transformersDictionary
+	^ transformersDictionary ifNil: [ transformersDictionary := super transformersDictionary
 		at: '3000-inlinerTagging' put: self preInliner;
 		at: '6000-inliner' put: self inliner;
 		at: '8000-irToJs' put: self irTranslator;
-		yourself
+		yourself ]
 ! !
 
 SemanticError subclass: #InliningError

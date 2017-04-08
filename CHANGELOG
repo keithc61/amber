@@ -7,7 +7,16 @@
 Commits: https://lolg.it/amber/amber/commits/0.19.0.
 
 
-?? March 2017 - Release 0.18.4
+7 April 2017 - Release 0.18.5
+===================================
+
+* Fix inability to change ivars.
+* Wrapper-JQuery bumped to use inlineJS: syntax.
+
+Commits: https://lolg.it/amber/amber/commits/0.18.5.
+
+
+5 March 2017 - Release 0.18.4
 ===================================
 
 * Fix export of extension trait methods.

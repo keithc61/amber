@@ -3612,6 +3612,30 @@ $core.setTraitComposition([{trait: $globals.TThenable}], $globals.JSObjectProxy)
 
 $core.addMethod(
 $core.method({
+selector: "nextPutJSObject:",
+protocol: "*Kernel-Infrastructure",
+fn: function (aJSObject){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+self._nextPut_(aJSObject);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"nextPutJSObject:",{aJSObject:aJSObject},$globals.ProtoStream)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aJSObject"],
+source: "nextPutJSObject: aJSObject\x0a\x09self nextPut: aJSObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["nextPut:"]
+}),
+$globals.ProtoStream);
+
+$core.addMethod(
+$core.method({
 selector: "asJavaScriptPropertyName",
 protocol: "*Kernel-Infrastructure",
 fn: function (){
