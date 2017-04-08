@@ -806,7 +806,9 @@ asSmalltalkException: anObject
 !
 
 parseError: anException parsing: aString
-	^ ParseError new messageText: 'Parse error on line ', (anException basicAt: 'line') ,' column ' , (anException basicAt: 'column') ,' : Unexpected character ', (anException basicAt: 'found')
+	| pos |
+	pos := (anException basicAt: 'location') start.
+	^ ParseError new messageText: 'Parse error on line ', pos line ,' column ' , pos column ,' : Unexpected character ', (anException basicAt: 'found')
 ! !
 
 !SmalltalkImage methodsFor: 'globals'!
