@@ -94,7 +94,7 @@ translator
 ! !
 
 Object subclass: #Compiler
-	instanceVariableNames: 'currentClass currentPackage source unknownVariables codeGeneratorClass'
+	instanceVariableNames: 'currentClass currentPackage source codeGeneratorClass'
 	package: 'Compiler-Core'!
 !Compiler commentStamp!
 I provide the public interface for compiling Amber source code into JavaScript.
@@ -134,14 +134,6 @@ source
 
 source: aString
 	source := aString
-!
-
-unknownVariables
-	^ unknownVariables
-!
-
-unknownVariables: aCollection
-	unknownVariables := aCollection
 ! !
 
 !Compiler methodsFor: 'compiling'!
@@ -169,7 +161,6 @@ compileNode: aNode
 		currentClass: self currentClass;
 		currentPackage: self currentPackage.
 	result := generator compileNode: aNode.
-	self unknownVariables: #().
 	^ result
 !
 

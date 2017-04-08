@@ -388,7 +388,7 @@ $globals.CodeGenerator);
 
 
 
-$core.addClass("Compiler", $globals.Object, ["currentClass", "currentPackage", "source", "unknownVariables", "codeGeneratorClass"], "Compiler-Core");
+$core.addClass("Compiler", $globals.Object, ["currentClass", "currentPackage", "source", "codeGeneratorClass"], "Compiler-Core");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Compiler.comment="I provide the public interface for compiling Amber source code into JavaScript.\x0a\x0aThe code generator used to produce JavaScript can be plugged with `#codeGeneratorClass`.\x0aThe default code generator is an instance of `InlinedCodeGenerator`";
 //>>excludeEnd("ide");
@@ -509,7 +509,6 @@ $recv($1)._source_(self._source());
 $recv($1)._currentClass_(self._currentClass());
 $recv($1)._currentPackage_(self._currentPackage());
 result=$recv(generator)._compileNode_(aNode);
-self._unknownVariables_([]);
 return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"compileNode:",{aNode:aNode,generator:generator,result:result},$globals.Compiler)});
@@ -517,10 +516,10 @@ return result;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "compileNode: aNode\x0a\x09| generator result |\x0a\x09generator := self codeGeneratorClass new.\x0a\x09generator\x0a\x09\x09source: self source;\x0a\x09\x09currentClass: self currentClass;\x0a\x09\x09currentPackage: self currentPackage.\x0a\x09result := generator compileNode: aNode.\x0a\x09self unknownVariables: #().\x0a\x09^ result",
+source: "compileNode: aNode\x0a\x09| generator result |\x0a\x09generator := self codeGeneratorClass new.\x0a\x09generator\x0a\x09\x09source: self source;\x0a\x09\x09currentClass: self currentClass;\x0a\x09\x09currentPackage: self currentPackage.\x0a\x09result := generator compileNode: aNode.\x0a\x09^ result",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["new", "codeGeneratorClass", "source:", "source", "currentClass:", "currentClass", "currentPackage:", "currentPackage", "compileNode:", "unknownVariables:"]
+messageSends: ["new", "codeGeneratorClass", "source:", "source", "currentClass:", "currentClass", "currentPackage:", "currentPackage", "compileNode:"]
 }),
 $globals.Compiler);
 
@@ -930,43 +929,6 @@ return self;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
 source: "source: aString\x0a\x09source := aString",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Compiler);
-
-$core.addMethod(
-$core.method({
-selector: "unknownVariables",
-protocol: "accessing",
-fn: function (){
-var self=this;
-return self["@unknownVariables"];
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "unknownVariables\x0a\x09^ unknownVariables",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Compiler);
-
-$core.addMethod(
-$core.method({
-selector: "unknownVariables:",
-protocol: "accessing",
-fn: function (aCollection){
-var self=this;
-self["@unknownVariables"]=aCollection;
-return self;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aCollection"],
-source: "unknownVariables: aCollection\x0a\x09unknownVariables := aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
