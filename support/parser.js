@@ -3003,9 +3003,6 @@ $globals.SmalltalkParser = (function() {
         }
         if (s2 !== peg$FAILED) {
           s3 = peg$parsewsSequenceWs();
-          if (s3 === peg$FAILED) {
-            s3 = null;
-          }
           if (s3 !== peg$FAILED) {
             if (input.charCodeAt(peg$currPos) === 93) {
               s4 = peg$c100;
@@ -3740,9 +3737,6 @@ $globals.SmalltalkParser = (function() {
       }
       if (s1 !== peg$FAILED) {
         s2 = peg$parsewsSequenceWs();
-        if (s2 === peg$FAILED) {
-          s2 = null;
-        }
         if (s2 !== peg$FAILED) {
           peg$savedPos = s0;
           s1 = peg$c127(s1, s2);
