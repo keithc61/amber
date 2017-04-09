@@ -452,27 +452,16 @@ define(function () {
 
         st.wrapJavaScript = wrapJavaScript;
 
-        /* Handles #dnu: *and* JavaScript method calls.
+        /* Handles #dnu:.
          if the receiver has no klass, we consider it a JS object (outside of the
-         Amber system). Else assume that the receiver understands #doesNotUnderstand: */
+         Amber system) and wrap it.
+         Else assume that the receiver understands #doesNotUnderstand: */
         function messageNotUnderstood (receiver, stSelector, args) {
             if (receiver.klass != null && !receiver.allowJavaScriptCalls) {
                 return invokeDnuMethod(receiver, stSelector, args);
-            }
-            /* Call a method of a JS object, or answer a property if it exists.
-
-             Converts keyword-based selectors by using the first
-             keyword only, but keeping all message arguments.
-
-             Example:
-             "self do: aBlock with: anObject" -> "self.do(aBlock, anObject)"
-
-             Else try wrapping a JSObjectProxy around the receiver. */
-            var propertyName = st.st2prop(stSelector);
-            if (!(propertyName in receiver)) {
+            } else {
                 return invokeDnuMethod(wrapJavaScript(receiver), stSelector, args);
             }
-            return accessJavaScript(receiver, propertyName, args);
         }
 
         /* If the object property is a function, then call it, except if it starts with
