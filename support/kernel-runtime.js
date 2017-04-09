@@ -426,11 +426,10 @@ define(function () {
         /* Send message programmatically. Used to implement #perform: & Co. */
 
         st.send2 = function (receiver, selector, args, klass) {
-            var method, jsSelector = st.st2js(selector);
             if (receiver == null) {
                 receiver = nilAsReceiver;
             }
-            method = klass ? klass.fn.prototype[jsSelector] : receiver.klass && receiver[jsSelector];
+            var method = klass ? klass.fn.prototype[st.st2js(selector)] : receiver.klass && receiver[st.st2js(selector)];
             if (method) {
                 return method.apply(receiver, args || []);
             } else {
