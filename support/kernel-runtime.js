@@ -438,30 +438,19 @@ define(function () {
             }
         };
 
-        function invokeDnuMethod (receiver, stSelector, args) {
-            return receiver._doesNotUnderstand_(
-                globals.Message._new()
-                    ._selector_(stSelector)
-                    ._arguments_([].slice.call(args))
-            );
-        }
-
         function wrapJavaScript (o) {
             return globals.JSObjectProxy._on_(o);
         }
 
         st.wrapJavaScript = wrapJavaScript;
 
-        /* Handles #dnu:.
-         if the receiver has no klass, we consider it a JS object (outside of the
-         Amber system) and wrap it.
-         Else assume that the receiver understands #doesNotUnderstand: */
+        /* Handles #dnu:. Calls #doesNotUnderstand:. */
         function messageNotUnderstood (receiver, stSelector, args) {
-            if (!receiver.allowJavaScriptCalls) {
-                return invokeDnuMethod(receiver, stSelector, args);
-            } else {
-                return invokeDnuMethod(wrapJavaScript(receiver), stSelector, args);
-            }
+            return receiver._doesNotUnderstand_(
+                globals.Message._new()
+                    ._selector_(stSelector)
+                    ._arguments_([].slice.call(args))
+            );
         }
 
         /* If the object property is a function, then call it, except if it starts with
