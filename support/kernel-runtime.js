@@ -434,7 +434,7 @@ define(function () {
             if (method) {
                 return method.apply(receiver, args || []);
             } else {
-                return messageNotUnderstood(receiver, selector, args);
+                return messageNotUnderstood(receiver.klass ? receiver : wrapJavaScript(receiver), selector, args);
             }
         };
 
@@ -457,7 +457,7 @@ define(function () {
          Amber system) and wrap it.
          Else assume that the receiver understands #doesNotUnderstand: */
         function messageNotUnderstood (receiver, stSelector, args) {
-            if (receiver.klass != null && !receiver.allowJavaScriptCalls) {
+            if (!receiver.allowJavaScriptCalls) {
                 return invokeDnuMethod(receiver, stSelector, args);
             } else {
                 return invokeDnuMethod(wrapJavaScript(receiver), stSelector, args);
