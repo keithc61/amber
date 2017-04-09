@@ -425,15 +425,15 @@ define(function () {
 
         /* Send message programmatically. Used to implement #perform: & Co. */
 
-        st.send2 = function (receiver, selector, args, klass) {
-            if (receiver == null) {
-                receiver = nilAsReceiver;
+        st.send2 = function (self, selector, args, klass) {
+            if (self == null) {
+                self = nilAsReceiver;
             }
-            var method = klass ? klass.fn.prototype[st.st2js(selector)] : receiver.klass && receiver[st.st2js(selector)];
+            var method = klass ? klass.fn.prototype[st.st2js(selector)] : self.klass && self[st.st2js(selector)];
             if (method) {
-                return method.apply(receiver, args || []);
+                return method.apply(self, args || []);
             } else {
-                return messageNotUnderstood(receiver.klass ? receiver : wrapJavaScript(receiver), selector, args);
+                return messageNotUnderstood(self.klass ? self : wrapJavaScript(self), selector, args);
             }
         };
 
@@ -456,13 +456,13 @@ define(function () {
          an uppercase character (we probably want to answer the function itself in this
          case and send it #new from Amber).
          */
-        function accessJavaScript (receiver, propertyName, args) {
-            var propertyValue = receiver[propertyName];
+        function accessJavaScript (self, propertyName, args) {
+            var propertyValue = self[propertyName];
             if (typeof propertyValue === "function" && !/^[A-Z]/.test(propertyName)) {
-                return propertyValue.apply(receiver, args || []);
+                return propertyValue.apply(self, args || []);
             } else if (args.length > 0) {
-                receiver[propertyName] = args[0];
-                return receiver;
+                self[propertyName] = args[0];
+                return self;
             } else {
                 return propertyValue;
             }
