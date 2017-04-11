@@ -1467,7 +1467,7 @@ $1=self._new();
 $recv($1)._builder_(aBuilder);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{aBuilder:aBuilder},$globals.IRInstruction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{aBuilder:aBuilder},$globals.IRInstruction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1477,7 +1477,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["builder:", "new", "yourself"]
 }),
-$globals.IRInstruction.klass);
+$globals.IRInstruction.a$cls);
 
 
 $core.addClass("IRAssignment", $globals.IRInstruction, [], "Compiler-IR");

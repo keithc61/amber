@@ -164,7 +164,7 @@ messageSends: ["ifNotNil:", "home", "logContext:"]
 $globals.ConsoleErrorHandler);
 
 
-$globals.ConsoleErrorHandler.klass.iVarNames = ["current"];
+$globals.ConsoleErrorHandler.a$cls.iVarNames = ["current"];
 $core.addMethod(
 $core.method({
 selector: "initialize",
@@ -177,7 +177,7 @@ return $core.withContext(function($ctx1) {
 $recv($globals.ErrorHandler)._registerIfNone_(self._new());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.ConsoleErrorHandler.klass)});
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.ConsoleErrorHandler.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -187,7 +187,7 @@ referencedClasses: ["ErrorHandler"],
 //>>excludeEnd("ide");
 messageSends: ["registerIfNone:", "new"]
 }),
-$globals.ConsoleErrorHandler.klass);
+$globals.ConsoleErrorHandler.a$cls);
 
 
 $core.addClass("ConsoleTranscript", $globals.Object, ["textarea"], "Platform-Services");
@@ -285,7 +285,7 @@ return $core.withContext(function($ctx1) {
 $recv($globals.Transcript)._registerIfNone_(self._new());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.ConsoleTranscript.klass)});
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.ConsoleTranscript.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -295,7 +295,7 @@ referencedClasses: ["Transcript"],
 //>>excludeEnd("ide");
 messageSends: ["registerIfNone:", "new"]
 }),
-$globals.ConsoleTranscript.klass);
+$globals.ConsoleTranscript.a$cls);
 
 
 $core.addClass("Environment", $globals.Object, [], "Platform-Services");
@@ -1297,7 +1297,7 @@ messageSends: ["do:"]
 $globals.NullProgressHandler);
 
 
-$globals.NullProgressHandler.klass.iVarNames = ["current"];
+$globals.NullProgressHandler.a$cls.iVarNames = ["current"];
 $core.addMethod(
 $core.method({
 selector: "initialize",
@@ -1310,7 +1310,7 @@ return $core.withContext(function($ctx1) {
 $recv($globals.ProgressHandler)._registerIfNone_(self._new());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.NullProgressHandler.klass)});
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.NullProgressHandler.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1320,7 +1320,7 @@ referencedClasses: ["ProgressHandler"],
 //>>excludeEnd("ide");
 messageSends: ["registerIfNone:", "new"]
 }),
-$globals.NullProgressHandler.klass);
+$globals.NullProgressHandler.a$cls);
 
 
 $core.addClass("Service", $globals.Object, [], "Platform-Services");
@@ -1328,7 +1328,7 @@ $core.addClass("Service", $globals.Object, [], "Platform-Services");
 $globals.Service.comment="I implement the basic behavior for class registration to a service.\x0a\x0aSee the `Transcript` class for a concrete service.\x0a\x0a## API\x0a\x0aUse class-side methods `#register:` and `#registerIfNone:` to register classes to a specific service.";
 //>>excludeEnd("ide");
 
-$globals.Service.klass.iVarNames = ["current"];
+$globals.Service.a$cls.iVarNames = ["current"];
 $core.addMethod(
 $core.method({
 selector: "current",
@@ -1345,7 +1345,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Service.klass);
+$globals.Service.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1359,7 +1359,7 @@ return $core.withContext(function($ctx1) {
 self._shouldNotImplement();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"new",{},$globals.Service.klass)});
+}, function($ctx1) {$ctx1.fill(self,"new",{},$globals.Service.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1369,7 +1369,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["shouldNotImplement"]
 }),
-$globals.Service.klass);
+$globals.Service.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1388,7 +1388,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Service.klass);
+$globals.Service.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1408,7 +1408,7 @@ $1;
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"registerIfNone:",{anObject:anObject},$globals.Service.klass)});
+}, function($ctx1) {$ctx1.fill(self,"registerIfNone:",{anObject:anObject},$globals.Service.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1418,7 +1418,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifNil:", "current", "register:"]
 }),
-$globals.Service.klass);
+$globals.Service.a$cls);
 
 
 $core.addClass("ErrorHandler", $globals.Service, [], "Platform-Services");
@@ -1438,7 +1438,7 @@ return $core.withContext(function($ctx1) {
 self._handleUnhandledError_(anError);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"handleError:",{anError:anError},$globals.ErrorHandler.klass)});
+}, function($ctx1) {$ctx1.fill(self,"handleError:",{anError:anError},$globals.ErrorHandler.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1448,7 +1448,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["handleUnhandledError:"]
 }),
-$globals.ErrorHandler.klass);
+$globals.ErrorHandler.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1466,7 +1466,7 @@ return self;
 }
 return $recv(self._current())._handleError_(anError);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"handleUnhandledError:",{anError:anError},$globals.ErrorHandler.klass)});
+}, function($ctx1) {$ctx1.fill(self,"handleUnhandledError:",{anError:anError},$globals.ErrorHandler.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1476,7 +1476,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifTrue:", "wasHandled", "handleError:", "current"]
 }),
-$globals.ErrorHandler.klass);
+$globals.ErrorHandler.a$cls);
 
 
 $core.addClass("Finder", $globals.Service, [], "Platform-Services");
@@ -1495,7 +1495,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._current())._findClass_(aClass);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"findClass:",{aClass:aClass},$globals.Finder.klass)});
+}, function($ctx1) {$ctx1.fill(self,"findClass:",{aClass:aClass},$globals.Finder.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1505,7 +1505,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["findClass:", "current"]
 }),
-$globals.Finder.klass);
+$globals.Finder.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1518,7 +1518,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._current())._findMethod_(aCompiledMethod);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"findMethod:",{aCompiledMethod:aCompiledMethod},$globals.Finder.klass)});
+}, function($ctx1) {$ctx1.fill(self,"findMethod:",{aCompiledMethod:aCompiledMethod},$globals.Finder.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1528,7 +1528,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["findMethod:", "current"]
 }),
-$globals.Finder.klass);
+$globals.Finder.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1541,7 +1541,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._current())._findString_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"findString:",{aString:aString},$globals.Finder.klass)});
+}, function($ctx1) {$ctx1.fill(self,"findString:",{aString:aString},$globals.Finder.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1551,7 +1551,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["findString:", "current"]
 }),
-$globals.Finder.klass);
+$globals.Finder.a$cls);
 
 
 $core.addClass("Inspector", $globals.Service, [], "Platform-Services");
@@ -1570,7 +1570,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._current())._inspect_(anObject);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"inspect:",{anObject:anObject},$globals.Inspector.klass)});
+}, function($ctx1) {$ctx1.fill(self,"inspect:",{anObject:anObject},$globals.Inspector.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1580,7 +1580,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["inspect:", "current"]
 }),
-$globals.Inspector.klass);
+$globals.Inspector.a$cls);
 
 
 $core.addClass("Platform", $globals.Service, [], "Platform-Services");
@@ -1599,7 +1599,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._current())._globals();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"globals",{},$globals.Platform.klass)});
+}, function($ctx1) {$ctx1.fill(self,"globals",{},$globals.Platform.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1609,7 +1609,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["globals", "current"]
 }),
-$globals.Platform.klass);
+$globals.Platform.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1622,7 +1622,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._current())._newXhr();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"newXhr",{},$globals.Platform.klass)});
+}, function($ctx1) {$ctx1.fill(self,"newXhr",{},$globals.Platform.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1632,7 +1632,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["newXhr", "current"]
 }),
-$globals.Platform.klass);
+$globals.Platform.a$cls);
 
 
 $core.addClass("ProgressHandler", $globals.Service, [], "Platform-Services");
@@ -1652,7 +1652,7 @@ return $core.withContext(function($ctx1) {
 $recv(self._current())._do_on_displaying_(aBlock,aCollection,aString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"do:on:displaying:",{aBlock:aBlock,aCollection:aCollection,aString:aString},$globals.ProgressHandler.klass)});
+}, function($ctx1) {$ctx1.fill(self,"do:on:displaying:",{aBlock:aBlock,aCollection:aCollection,aString:aString},$globals.ProgressHandler.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1662,7 +1662,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["do:on:displaying:", "current"]
 }),
-$globals.ProgressHandler.klass);
+$globals.ProgressHandler.a$cls);
 
 
 $core.addClass("Terminal", $globals.Service, [], "Platform-Services");
@@ -1681,7 +1681,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._current())._alert_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"alert:",{aString:aString},$globals.Terminal.klass)});
+}, function($ctx1) {$ctx1.fill(self,"alert:",{aString:aString},$globals.Terminal.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1691,7 +1691,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["alert:", "current"]
 }),
-$globals.Terminal.klass);
+$globals.Terminal.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1704,7 +1704,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._current())._confirm_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"confirm:",{aString:aString},$globals.Terminal.klass)});
+}, function($ctx1) {$ctx1.fill(self,"confirm:",{aString:aString},$globals.Terminal.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1714,7 +1714,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["confirm:", "current"]
 }),
-$globals.Terminal.klass);
+$globals.Terminal.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1727,7 +1727,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._current())._prompt_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"prompt:",{aString:aString},$globals.Terminal.klass)});
+}, function($ctx1) {$ctx1.fill(self,"prompt:",{aString:aString},$globals.Terminal.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1737,7 +1737,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["prompt:", "current"]
 }),
-$globals.Terminal.klass);
+$globals.Terminal.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1750,7 +1750,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._current())._prompt_default_(aString,defaultString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"prompt:default:",{aString:aString,defaultString:defaultString},$globals.Terminal.klass)});
+}, function($ctx1) {$ctx1.fill(self,"prompt:default:",{aString:aString,defaultString:defaultString},$globals.Terminal.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1760,7 +1760,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["prompt:default:", "current"]
 }),
-$globals.Terminal.klass);
+$globals.Terminal.a$cls);
 
 
 $core.addClass("Transcript", $globals.Service, [], "Platform-Services");
@@ -1780,7 +1780,7 @@ return $core.withContext(function($ctx1) {
 $recv(self._current())._clear();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"clear",{},$globals.Transcript.klass)});
+}, function($ctx1) {$ctx1.fill(self,"clear",{},$globals.Transcript.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1790,7 +1790,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["clear", "current"]
 }),
-$globals.Transcript.klass);
+$globals.Transcript.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1804,7 +1804,7 @@ return $core.withContext(function($ctx1) {
 $recv(self._current())._show_($recv($globals.String)._cr());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"cr",{},$globals.Transcript.klass)});
+}, function($ctx1) {$ctx1.fill(self,"cr",{},$globals.Transcript.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1814,7 +1814,7 @@ referencedClasses: ["String"],
 //>>excludeEnd("ide");
 messageSends: ["show:", "current", "cr"]
 }),
-$globals.Transcript.klass);
+$globals.Transcript.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1828,7 +1828,7 @@ return $core.withContext(function($ctx1) {
 self._show_(anObject);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"inspect:",{anObject:anObject},$globals.Transcript.klass)});
+}, function($ctx1) {$ctx1.fill(self,"inspect:",{anObject:anObject},$globals.Transcript.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1838,7 +1838,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["show:"]
 }),
-$globals.Transcript.klass);
+$globals.Transcript.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1852,7 +1852,7 @@ return $core.withContext(function($ctx1) {
 $recv(self._current())._open();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"open",{},$globals.Transcript.klass)});
+}, function($ctx1) {$ctx1.fill(self,"open",{},$globals.Transcript.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1862,7 +1862,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["open", "current"]
 }),
-$globals.Transcript.klass);
+$globals.Transcript.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1876,7 +1876,7 @@ return $core.withContext(function($ctx1) {
 $recv(self._current())._show_(anObject);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"show:",{anObject:anObject},$globals.Transcript.klass)});
+}, function($ctx1) {$ctx1.fill(self,"show:",{anObject:anObject},$globals.Transcript.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1886,7 +1886,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["show:", "current"]
 }),
-$globals.Transcript.klass);
+$globals.Transcript.a$cls);
 
 $core.addMethod(
 $core.method({

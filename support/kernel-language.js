@@ -155,7 +155,7 @@ define(['./compatibility'], function () {
 
         // Fake root class of the system.
         // Effective superclass of all classes created with `nil subclass: ...`.
-        var nilAsClass = this.nilAsClass = {fn: SmalltalkRoot, klass: {fn: SmalltalkClass}};
+        var nilAsClass = this.nilAsClass = {fn: SmalltalkRoot, a$cls: {fn: SmalltalkClass}, klass: {fn: SmalltalkClass}};
 
         SmalltalkMetaclass.prototype.meta = true;
 
@@ -182,10 +182,10 @@ define(['./compatibility'], function () {
 
         this.bootstrapHierarchy = function () {
             var nilSubclasses = [globals.ProtoObject];
-            nilAsClass.klass = globals.Class;
+            nilAsClass.a$cls = nilAsClass.klass = globals.Class;
             nilSubclasses.forEach(function (each) {
-                each.klass.superclass = globals.Class;
-                addSubclass(each.klass);
+                each.a$cls.superclass = globals.Class;
+                addSubclass(each.a$cls);
             });
         };
 
@@ -220,7 +220,7 @@ define(['./compatibility'], function () {
             function metaclass () {
                 var that = new SmalltalkMetaclass();
 
-                that.superclass = superclass.klass;
+                that.superclass = superclass.a$cls;
                 that.fn = inherits(function () {
                 }, that.superclass.fn);
                 that.iVarNames = [];
@@ -245,6 +245,10 @@ define(['./compatibility'], function () {
         }
 
         function wireKlass (klass) {
+            Object.defineProperty(klass.fn.prototype, "a$cls", {
+                value: klass,
+                enumerable: false, configurable: true, writable: true
+            });
             Object.defineProperty(klass.fn.prototype, "klass", {
                 value: klass,
                 enumerable: false, configurable: true, writable: true
@@ -285,7 +289,7 @@ define(['./compatibility'], function () {
                     return !each.meta;
                 })
                 .map(function (each) {
-                    return each.klass;
+                    return each.a$cls;
                 });
         }
 
@@ -346,7 +350,7 @@ define(['./compatibility'], function () {
          */
         this.asReceiver = function (o) {
             if (o == null) return nilAsReceiver;
-            else if (o.klass != null) return o;
+            else if (o.a$cls != null) return o;
             else return st.wrapJavaScript(o);
         };
     }

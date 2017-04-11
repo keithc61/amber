@@ -137,7 +137,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self.klass;
+return self.a$cls;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"class",{},$globals.ProtoObject)});
@@ -145,7 +145,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "class\x0a\x09<inlineJS: 'return self.klass'>",
+source: "class\x0a\x09<inlineJS: 'return self.a$cls'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -734,7 +734,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.ProtoObject.klass);
+$globals.ProtoObject.a$cls);
 
 
 $core.addClass("Object", $globals.ProtoObject, [], "Kernel-Objects");
@@ -1020,7 +1020,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var copy = self.klass._new();
+		var copy = self.a$cls._new();
 		Object.keys(self).forEach(function (i) {
 		if(/^@.+/.test(i)) {
 			copy[i] = self[i]._deepCopy();
@@ -1035,7 +1035,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "deepCopy\x0a\x09<inlineJS: '\x0a\x09\x09var copy = self.klass._new();\x0a\x09\x09Object.keys(self).forEach(function (i) {\x0a\x09\x09if(/^@.+/.test(i)) {\x0a\x09\x09\x09copy[i] = self[i]._deepCopy();\x0a\x09\x09}\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09'>",
+source: "deepCopy\x0a\x09<inlineJS: '\x0a\x09\x09var copy = self.a$cls._new();\x0a\x09\x09Object.keys(self).forEach(function (i) {\x0a\x09\x09if(/^@.+/.test(i)) {\x0a\x09\x09\x09copy[i] = self[i]._deepCopy();\x0a\x09\x09}\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -1509,7 +1509,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var copy = self.klass._new();
+		var copy = self.a$cls._new();
 		Object.keys(self).forEach(function(i) {
 		if(/^@.+/.test(i)) {
 			copy[i] = self[i];
@@ -1524,7 +1524,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "shallowCopy\x0a\x09<inlineJS: '\x0a\x09\x09var copy = self.klass._new();\x0a\x09\x09Object.keys(self).forEach(function(i) {\x0a\x09\x09if(/^@.+/.test(i)) {\x0a\x09\x09\x09copy[i] = self[i];\x0a\x09\x09}\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09'>",
+source: "shallowCopy\x0a\x09<inlineJS: '\x0a\x09\x09var copy = self.a$cls._new();\x0a\x09\x09Object.keys(self).forEach(function(i) {\x0a\x09\x09if(/^@.+/.test(i)) {\x0a\x09\x09\x09copy[i] = self[i];\x0a\x09\x09}\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -1640,7 +1640,7 @@ return $core.withContext(function($ctx1) {
 $recv(aGenerator)._accessorProtocolForObject();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accessorProtocolWith:",{aGenerator:aGenerator},$globals.Object.klass)});
+}, function($ctx1) {$ctx1.fill(self,"accessorProtocolWith:",{aGenerator:aGenerator},$globals.Object.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1650,7 +1650,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["accessorProtocolForObject"]
 }),
-$globals.Object.klass);
+$globals.Object.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1664,7 +1664,7 @@ return $core.withContext(function($ctx1) {
 $recv(aGenerator)._accessorsForObject();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"accessorsSourceCodesWith:",{aGenerator:aGenerator},$globals.Object.klass)});
+}, function($ctx1) {$ctx1.fill(self,"accessorsSourceCodesWith:",{aGenerator:aGenerator},$globals.Object.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1674,7 +1674,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["accessorsForObject"]
 }),
-$globals.Object.klass);
+$globals.Object.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1692,7 +1692,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Object.klass);
+$globals.Object.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1706,7 +1706,7 @@ return $core.withContext(function($ctx1) {
 $recv(aGenerator)._initializeProtocolForObject();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initializeProtocolWith:",{aGenerator:aGenerator},$globals.Object.klass)});
+}, function($ctx1) {$ctx1.fill(self,"initializeProtocolWith:",{aGenerator:aGenerator},$globals.Object.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1716,7 +1716,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["initializeProtocolForObject"]
 }),
-$globals.Object.klass);
+$globals.Object.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1730,7 +1730,7 @@ return $core.withContext(function($ctx1) {
 $recv(aGenerator)._initializeForObject();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initializeSourceCodesWith:",{aGenerator:aGenerator},$globals.Object.klass)});
+}, function($ctx1) {$ctx1.fill(self,"initializeSourceCodesWith:",{aGenerator:aGenerator},$globals.Object.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1740,7 +1740,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["initializeForObject"]
 }),
-$globals.Object.klass);
+$globals.Object.a$cls);
 
 
 $core.addClass("Boolean", $globals.Object, [], "Kernel-Objects");
@@ -3035,7 +3035,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Date.klass);
+$globals.Date.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3048,7 +3048,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return self._new_(aNumber);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromMilliseconds:",{aNumber:aNumber},$globals.Date.klass)});
+}, function($ctx1) {$ctx1.fill(self,"fromMilliseconds:",{aNumber:aNumber},$globals.Date.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3058,7 +3058,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["new:"]
 }),
-$globals.Date.klass);
+$globals.Date.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3071,7 +3071,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return self._fromMilliseconds_($recv(aNumber).__star((1000)));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromSeconds:",{aNumber:aNumber},$globals.Date.klass)});
+}, function($ctx1) {$ctx1.fill(self,"fromSeconds:",{aNumber:aNumber},$globals.Date.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3081,7 +3081,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["fromMilliseconds:", "*"]
 }),
-$globals.Date.klass);
+$globals.Date.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3094,7 +3094,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return self._new_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromString:",{aString:aString},$globals.Date.klass)});
+}, function($ctx1) {$ctx1.fill(self,"fromString:",{aString:aString},$globals.Date.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3104,7 +3104,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["new:"]
 }),
-$globals.Date.klass);
+$globals.Date.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3123,7 +3123,7 @@ $ctx1.sendIdx["now"]=1;
 $recv(aBlock)._value();
 return $recv($recv($globals.Date)._now()).__minus(t);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"millisecondsToRun:",{aBlock:aBlock,t:t},$globals.Date.klass)});
+}, function($ctx1) {$ctx1.fill(self,"millisecondsToRun:",{aBlock:aBlock,t:t},$globals.Date.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3133,7 +3133,7 @@ referencedClasses: ["Date"],
 //>>excludeEnd("ide");
 messageSends: ["now", "value", "-"]
 }),
-$globals.Date.klass);
+$globals.Date.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3147,7 +3147,7 @@ return $core.withContext(function($ctx1) {
 return new Date(anObject);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"new:",{anObject:anObject},$globals.Date.klass)});
+}, function($ctx1) {$ctx1.fill(self,"new:",{anObject:anObject},$globals.Date.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3157,7 +3157,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Date.klass);
+$globals.Date.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3170,7 +3170,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return self._today();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"now",{},$globals.Date.klass)});
+}, function($ctx1) {$ctx1.fill(self,"now",{},$globals.Date.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3180,7 +3180,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["today"]
 }),
-$globals.Date.klass);
+$globals.Date.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3193,7 +3193,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return self._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"today",{},$globals.Date.klass)});
+}, function($ctx1) {$ctx1.fill(self,"today",{},$globals.Date.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3203,7 +3203,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["new"]
 }),
-$globals.Date.klass);
+$globals.Date.a$cls);
 
 
 $core.addClass("Number", $globals.Object, [], "Kernel-Objects");
@@ -4791,7 +4791,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Number.klass);
+$globals.Number.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -4805,7 +4805,7 @@ return $core.withContext(function($ctx1) {
 return Math.E;;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"e",{},$globals.Number.klass)});
+}, function($ctx1) {$ctx1.fill(self,"e",{},$globals.Number.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4815,7 +4815,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Number.klass);
+$globals.Number.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -4829,7 +4829,7 @@ return $core.withContext(function($ctx1) {
 return Math.PI;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"pi",{},$globals.Number.klass)});
+}, function($ctx1) {$ctx1.fill(self,"pi",{},$globals.Number.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4839,7 +4839,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Number.klass);
+$globals.Number.a$cls);
 
 
 $core.addClass("Point", $globals.Object, ["x", "y"], "Kernel-Objects");
@@ -5457,7 +5457,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Point.klass);
+$globals.Point.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -5474,7 +5474,7 @@ $recv($1)._x_(aNumber);
 $recv($1)._y_(anotherNumber);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"x:y:",{aNumber:aNumber,anotherNumber:anotherNumber},$globals.Point.klass)});
+}, function($ctx1) {$ctx1.fill(self,"x:y:",{aNumber:aNumber,anotherNumber:anotherNumber},$globals.Point.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5484,7 +5484,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["x:", "new", "y:", "yourself"]
 }),
-$globals.Point.klass);
+$globals.Point.a$cls);
 
 
 $core.addClass("Random", $globals.Object, [], "Kernel-Objects");
@@ -5786,7 +5786,7 @@ return $core.withContext(function($ctx1) {
 self._error_("You cannot create new instances of UndefinedObject. Use nil");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"new",{},$globals.UndefinedObject.klass)});
+}, function($ctx1) {$ctx1.fill(self,"new",{},$globals.UndefinedObject.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5796,6 +5796,6 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["error:"]
 }),
-$globals.UndefinedObject.klass);
+$globals.UndefinedObject.a$cls);
 
 });

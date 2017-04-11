@@ -316,7 +316,7 @@ $1=self._new();
 $recv($1)._initializeWithContext_node_(aContext,aNode);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"forContext:node:",{aContext:aContext,aNode:aNode},$globals.AIBlockClosure.klass)});
+}, function($ctx1) {$ctx1.fill(self,"forContext:node:",{aContext:aContext,aNode:aNode},$globals.AIBlockClosure.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -326,7 +326,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["initializeWithContext:node:", "new", "yourself"]
 }),
-$globals.AIBlockClosure.klass);
+$globals.AIBlockClosure.a$cls);
 
 
 $core.addClass("AIContext", $globals.MethodContext, ["outerContext", "innerContext", "pc", "locals", "selector", "index", "sendIndexes", "evaluatedSelector", "ast", "interpreter", "supercall"], "Compiler-Interpreter");
@@ -1469,7 +1469,7 @@ $1=self._new();
 $recv($1)._initializeFromMethodContext_(aMethodContext);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromMethodContext:",{aMethodContext:aMethodContext},$globals.AIContext.klass)});
+}, function($ctx1) {$ctx1.fill(self,"fromMethodContext:",{aMethodContext:aMethodContext},$globals.AIContext.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1479,7 +1479,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["initializeFromMethodContext:", "new", "yourself"]
 }),
-$globals.AIContext.klass);
+$globals.AIContext.a$cls);
 
 
 $core.addClass("AISemanticAnalyzer", $globals.SemanticAnalyzer, ["context"], "Compiler-Interpreter");
@@ -2027,7 +2027,7 @@ $1=self._new();
 $recv($1)._context_(aContext);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"context:",{aContext:aContext},$globals.ASTDebugger.klass)});
+}, function($ctx1) {$ctx1.fill(self,"context:",{aContext:aContext},$globals.ASTDebugger.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2037,7 +2037,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["context:", "new", "yourself"]
 }),
-$globals.ASTDebugger.klass);
+$globals.ASTDebugger.a$cls);
 
 
 $core.addClass("ASTEnterNode", $globals.NodeVisitor, ["interpreter"], "Compiler-Interpreter");
@@ -2191,7 +2191,7 @@ $1=self._new();
 $recv($1)._interpreter_(anInterpreter);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{anInterpreter:anInterpreter},$globals.ASTEnterNode.klass)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{anInterpreter:anInterpreter},$globals.ASTEnterNode.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2201,7 +2201,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["interpreter:", "new", "yourself"]
 }),
-$globals.ASTEnterNode.klass);
+$globals.ASTEnterNode.a$cls);
 
 
 $core.addClass("ASTInterpreter", $globals.NodeVisitor, ["node", "context", "stack", "returnValue", "returned", "forceAtEnd"], "Compiler-Interpreter");

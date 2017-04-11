@@ -10,7 +10,7 @@ In most cases, subclassing `ProtoObject` is wrong and `Object` should be used in
 !ProtoObject methodsFor: 'accessing'!
 
 class
-	<inlineJS: 'return self.klass'>
+	<inlineJS: 'return self.a$cls'>
 !
 
 identityHash
@@ -262,7 +262,7 @@ copy
 
 deepCopy
 	<inlineJS: '
-		var copy = self.klass._new();
+		var copy = self.a$cls._new();
 		Object.keys(self).forEach(function (i) {
 		if(/^@.+/.test(i)) {
 			copy[i] = self[i]._deepCopy();
@@ -277,7 +277,7 @@ postCopy
 
 shallowCopy
 	<inlineJS: '
-		var copy = self.klass._new();
+		var copy = self.a$cls._new();
 		Object.keys(self).forEach(function(i) {
 		if(/^@.+/.test(i)) {
 			copy[i] = self[i];

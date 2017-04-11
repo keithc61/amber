@@ -22,7 +22,7 @@ return $core.withContext(function($ctx1) {
 		Object.prototype.toString.call(anObject) !== "[object Object]";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isDomNode:",{anObject:anObject},$globals.PlatformDom.klass)});
+}, function($ctx1) {$ctx1.fill(self,"isDomNode:",{anObject:anObject},$globals.PlatformDom.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -32,7 +32,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.PlatformDom.klass);
+$globals.PlatformDom.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -57,7 +57,7 @@ return $core.withContext(function($ctx1) {
   };
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isFeasible",{},$globals.PlatformDom.klass)});
+}, function($ctx1) {$ctx1.fill(self,"isFeasible",{},$globals.PlatformDom.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -67,7 +67,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.PlatformDom.klass);
+$globals.PlatformDom.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -81,7 +81,7 @@ return $core.withContext(function($ctx1) {
 return new CustomEvent(aString, {detail: anObject});
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"newCustomEvent:detail:",{aString:aString,anObject:anObject},$globals.PlatformDom.klass)});
+}, function($ctx1) {$ctx1.fill(self,"newCustomEvent:detail:",{aString:aString,anObject:anObject},$globals.PlatformDom.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -91,7 +91,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.PlatformDom.klass);
+$globals.PlatformDom.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -105,7 +105,7 @@ return $core.withContext(function($ctx1) {
 return Array.prototype.slice.call(aDomList);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"toArray:",{aDomList:aDomList},$globals.PlatformDom.klass)});
+}, function($ctx1) {$ctx1.fill(self,"toArray:",{aDomList:aDomList},$globals.PlatformDom.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -115,7 +115,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.PlatformDom.klass);
+$globals.PlatformDom.a$cls);
 
 $core.addMethod(
 $core.method({

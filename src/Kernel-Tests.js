@@ -4823,7 +4823,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.CollectionTest.klass);
+$globals.CollectionTest.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -4836,7 +4836,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._collectionClass())._isNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isAbstract",{},$globals.CollectionTest.klass)});
+}, function($ctx1) {$ctx1.fill(self,"isAbstract",{},$globals.CollectionTest.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4846,7 +4846,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["isNil", "collectionClass"]
 }),
-$globals.CollectionTest.klass);
+$globals.CollectionTest.a$cls);
 
 
 $core.addClass("IndexableCollectionTest", $globals.CollectionTest, [], "Kernel-Tests");
@@ -6707,7 +6707,7 @@ referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.DictionaryTest.klass);
+$globals.DictionaryTest.a$cls);
 
 
 $core.addClass("HashedCollectionTest", $globals.AssociativeCollectionTest, [], "Kernel-Tests");
@@ -6896,7 +6896,7 @@ referencedClasses: ["HashedCollection"],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.HashedCollectionTest.klass);
+$globals.HashedCollectionTest.a$cls);
 
 
 $core.addClass("SequenceableCollectionTest", $globals.IndexableCollectionTest, [], "Kernel-Tests");
@@ -8149,7 +8149,7 @@ referencedClasses: ["Array"],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.ArrayTest.klass);
+$globals.ArrayTest.a$cls);
 
 
 $core.addClass("StringTest", $globals.SequenceableCollectionTest, [], "Kernel-Tests");
@@ -9298,7 +9298,7 @@ referencedClasses: ["String"],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.StringTest.klass);
+$globals.StringTest.a$cls);
 
 
 $core.addClass("SetTest", $globals.CollectionTest, [], "Kernel-Tests");
@@ -10030,7 +10030,7 @@ referencedClasses: ["Set"],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.SetTest.klass);
+$globals.SetTest.a$cls);
 
 
 $core.addClass("ConsoleTranscriptTest", $globals.TestCase, [], "Kernel-Tests");
@@ -15318,7 +15318,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.StreamTest.klass);
+$globals.StreamTest.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -15331,7 +15331,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._collectionClass())._isNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isAbstract",{},$globals.StreamTest.klass)});
+}, function($ctx1) {$ctx1.fill(self,"isAbstract",{},$globals.StreamTest.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -15341,7 +15341,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["isNil", "collectionClass"]
 }),
-$globals.StreamTest.klass);
+$globals.StreamTest.a$cls);
 
 
 $core.addClass("ArrayStreamTest", $globals.StreamTest, [], "Kernel-Tests");
@@ -15385,7 +15385,7 @@ referencedClasses: ["Array"],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.ArrayStreamTest.klass);
+$globals.ArrayStreamTest.a$cls);
 
 
 $core.addClass("StringStreamTest", $globals.StreamTest, [], "Kernel-Tests");
@@ -15424,7 +15424,7 @@ referencedClasses: ["String"],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.StringStreamTest.klass);
+$globals.StringStreamTest.a$cls);
 
 
 $core.addClass("UndefinedTest", $globals.TestCase, [], "Kernel-Tests");

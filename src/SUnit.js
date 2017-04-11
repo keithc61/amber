@@ -602,7 +602,7 @@ $recv(selectors)._addAll_($recv(self._superclass())._allTestSelectors());
 }
 return selectors;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"allTestSelectors",{selectors:selectors},$globals.TestCase.klass)});
+}, function($ctx1) {$ctx1.fill(self,"allTestSelectors",{selectors:selectors},$globals.TestCase.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -612,7 +612,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["testSelectors", "ifTrue:", "shouldInheritSelectors", "addAll:", "allTestSelectors", "superclass"]
 }),
-$globals.TestCase.klass);
+$globals.TestCase.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -633,7 +633,7 @@ return self._selector_(each);
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"buildSuite",{},$globals.TestCase.klass)});
+}, function($ctx1) {$ctx1.fill(self,"buildSuite",{},$globals.TestCase.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -643,7 +643,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["collect:", "allTestSelectors", "selector:"]
 }),
-$globals.TestCase.klass);
+$globals.TestCase.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -661,7 +661,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.TestCase.klass);
+$globals.TestCase.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -674,7 +674,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._name()).__eq("TestCase");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isAbstract",{},$globals.TestCase.klass)});
+}, function($ctx1) {$ctx1.fill(self,"isAbstract",{},$globals.TestCase.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -684,7 +684,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["=", "name"]
 }),
-$globals.TestCase.klass);
+$globals.TestCase.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -697,7 +697,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._isAbstract())._not();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isTestClass",{},$globals.TestCase.klass)});
+}, function($ctx1) {$ctx1.fill(self,"isTestClass",{},$globals.TestCase.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -707,7 +707,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["not", "isAbstract"]
 }),
-$globals.TestCase.klass);
+$globals.TestCase.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -725,7 +725,7 @@ referencedClasses: ["TestCase"],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.TestCase.klass);
+$globals.TestCase.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -741,7 +741,7 @@ $1=self._new();
 $recv($1)._setTestSelector_(aSelector);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"selector:",{aSelector:aSelector},$globals.TestCase.klass)});
+}, function($ctx1) {$ctx1.fill(self,"selector:",{aSelector:aSelector},$globals.TestCase.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -751,7 +751,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["setTestSelector:", "new", "yourself"]
 }),
-$globals.TestCase.klass);
+$globals.TestCase.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -764,7 +764,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return self.__tild_eq(self._lookupHierarchyRoot());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"shouldInheritSelectors",{},$globals.TestCase.klass)});
+}, function($ctx1) {$ctx1.fill(self,"shouldInheritSelectors",{},$globals.TestCase.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -774,7 +774,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["~=", "lookupHierarchyRoot"]
 }),
-$globals.TestCase.klass);
+$globals.TestCase.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -795,7 +795,7 @@ return $recv(each)._match_("^test");
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testSelectors",{},$globals.TestCase.klass)});
+}, function($ctx1) {$ctx1.fill(self,"testSelectors",{},$globals.TestCase.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -805,7 +805,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["select:", "keys", "methodDictionary", "match:"]
 }),
-$globals.TestCase.klass);
+$globals.TestCase.a$cls);
 
 
 $core.addClass("TestContext", $globals.Object, ["testCase"], "SUnit");
@@ -948,7 +948,7 @@ $1=self._new();
 $recv($1)._testCase_(aTestCase);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testCase:",{aTestCase:aTestCase},$globals.TestContext.klass)});
+}, function($ctx1) {$ctx1.fill(self,"testCase:",{aTestCase:aTestCase},$globals.TestContext.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -958,7 +958,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["testCase:", "new", "yourself"]
 }),
-$globals.TestContext.klass);
+$globals.TestContext.a$cls);
 
 
 $core.addClass("ReportingTestContext", $globals.TestContext, ["finished", "result"], "SUnit");
@@ -1129,7 +1129,7 @@ $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.ReportingTestContext.klass.superclass||$boot.nilAsClass).fn.prototype._testCase_.apply($recv(self), [aTestCase]));
+($globals.ReportingTestContext.a$cls.superclass||$boot.nilAsClass).fn.prototype._testCase_.apply($recv(self), [aTestCase]));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -1137,7 +1137,7 @@ $recv($1)._result_(aTestResult);
 $recv($1)._finished_(aBlock);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testCase:result:finished:",{aTestCase:aTestCase,aTestResult:aTestResult,aBlock:aBlock},$globals.ReportingTestContext.klass)});
+}, function($ctx1) {$ctx1.fill(self,"testCase:result:finished:",{aTestCase:aTestCase,aTestResult:aTestResult,aBlock:aBlock},$globals.ReportingTestContext.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1147,7 +1147,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["result:", "testCase:", "finished:", "yourself"]
 }),
-$globals.ReportingTestContext.klass);
+$globals.ReportingTestContext.a$cls);
 
 
 $core.addClass("TestFailure", $globals.Error, [], "SUnit");
@@ -1723,7 +1723,7 @@ return $core.withContext(function($ctx1) {
 self._shouldNotImplement();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"new",{},$globals.TestSuiteRunner.klass)});
+}, function($ctx1) {$ctx1.fill(self,"new",{},$globals.TestSuiteRunner.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1733,7 +1733,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["shouldNotImplement"]
 }),
-$globals.TestSuiteRunner.klass);
+$globals.TestSuiteRunner.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1749,13 +1749,13 @@ $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.TestSuiteRunner.klass.superclass||$boot.nilAsClass).fn.prototype._new.apply($recv(self), []));
+($globals.TestSuiteRunner.a$cls.superclass||$boot.nilAsClass).fn.prototype._new.apply($recv(self), []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 return $recv($1)._suite_(aCollection);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{aCollection:aCollection},$globals.TestSuiteRunner.klass)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{aCollection:aCollection},$globals.TestSuiteRunner.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1765,7 +1765,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["suite:", "new"]
 }),
-$globals.TestSuiteRunner.klass);
+$globals.TestSuiteRunner.a$cls);
 
 $core.addMethod(
 $core.method({

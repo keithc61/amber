@@ -85,8 +85,8 @@ define(function () {
 
         function initClassAndMetaclass (klass) {
             initClass(klass);
-            if (klass.klass && !klass.meta) {
-                initClass(klass.klass);
+            if (klass.a$cls && !klass.meta) {
+                initClass(klass.a$cls);
             }
         }
 
@@ -298,7 +298,7 @@ define(function () {
         });
         defineMethod(SmalltalkMethodContext, "method", function () {
             var method;
-            var lookup = this.lookupClass || this.receiver.klass;
+            var lookup = this.lookupClass || this.receiver.a$cls;
             while (!method && lookup) {
                 method = lookup.methods[st.js2st(this.selector)];
                 lookup = lookup.superclass;
@@ -429,11 +429,11 @@ define(function () {
             if (self == null) {
                 self = nilAsReceiver;
             }
-            var method = klass ? klass.fn.prototype[st.st2js(selector)] : self.klass && self[st.st2js(selector)];
+            var method = klass ? klass.fn.prototype[st.st2js(selector)] : self.a$cls && self[st.st2js(selector)];
             if (method) {
                 return method.apply(self, args || []);
             } else {
-                return messageNotUnderstood(self.klass ? self : wrapJavaScript(self), selector, args);
+                return messageNotUnderstood(self.a$cls ? self : wrapJavaScript(self), selector, args);
             }
         };
 

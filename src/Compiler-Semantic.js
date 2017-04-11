@@ -1371,7 +1371,7 @@ $1=self._new();
 $recv($1)._name_(aString);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{aString:aString},$globals.ScopeVar.klass)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{aString:aString},$globals.ScopeVar.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1381,7 +1381,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["name:", "new", "yourself"]
 }),
-$globals.ScopeVar.klass);
+$globals.ScopeVar.a$cls);
 
 
 $core.addClass("AliasVar", $globals.ScopeVar, ["node"], "Compiler-Semantic");
@@ -2537,7 +2537,7 @@ $1=self._new();
 $recv($1)._theClass_(aClass);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{aClass:aClass},$globals.SemanticAnalyzer.klass)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{aClass:aClass},$globals.SemanticAnalyzer.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2547,7 +2547,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["theClass:", "new", "yourself"]
 }),
-$globals.SemanticAnalyzer.klass);
+$globals.SemanticAnalyzer.a$cls);
 
 
 $core.addClass("SemanticError", $globals.CompilerError, [], "Compiler-Semantic");

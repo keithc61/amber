@@ -948,7 +948,7 @@ return $core.withContext(function($ctx1) {
 $recv(self._new())._recompile_(aClass);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"recompile:",{aClass:aClass},$globals.Compiler.klass)});
+}, function($ctx1) {$ctx1.fill(self,"recompile:",{aClass:aClass},$globals.Compiler.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -958,7 +958,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["recompile:", "new"]
 }),
-$globals.Compiler.klass);
+$globals.Compiler.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -980,7 +980,7 @@ return self._recompile_(each);
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"recompileAll",{},$globals.Compiler.klass)});
+}, function($ctx1) {$ctx1.fill(self,"recompileAll",{},$globals.Compiler.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -990,7 +990,7 @@ referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 messageSends: ["do:", "classes", "recompile:"]
 }),
-$globals.Compiler.klass);
+$globals.Compiler.a$cls);
 
 
 $core.addClass("CompilerError", $globals.Error, [], "Compiler-Core");
@@ -1141,7 +1141,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._new())._evaluate_for_(aString,anObject);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"evaluate:for:",{aString:aString,anObject:anObject},$globals.Evaluator.klass)});
+}, function($ctx1) {$ctx1.fill(self,"evaluate:for:",{aString:aString,anObject:anObject},$globals.Evaluator.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1151,7 +1151,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["evaluate:for:", "new"]
 }),
-$globals.Evaluator.klass);
+$globals.Evaluator.a$cls);
 
 $core.addMethod(
 $core.method({

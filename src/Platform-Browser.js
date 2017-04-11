@@ -74,7 +74,7 @@ $recv($globals.Platform)._registerIfNone_(self._new());
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.BrowserPlatform.klass)});
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.BrowserPlatform.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -84,7 +84,7 @@ referencedClasses: ["Platform"],
 //>>excludeEnd("ide");
 messageSends: ["ifTrue:", "isFeasible", "registerIfNone:", "new"]
 }),
-$globals.BrowserPlatform.klass);
+$globals.BrowserPlatform.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -98,7 +98,7 @@ return $core.withContext(function($ctx1) {
 return typeof window !== "undefined";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isFeasible",{},$globals.BrowserPlatform.klass)});
+}, function($ctx1) {$ctx1.fill(self,"isFeasible",{},$globals.BrowserPlatform.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -108,7 +108,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.BrowserPlatform.klass);
+$globals.BrowserPlatform.a$cls);
 
 
 $core.addClass("BrowserTerminal", $globals.Object, [], "Platform-Browser");
@@ -224,7 +224,7 @@ $recv($globals.Terminal)._registerIfNone_(self._new());
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.BrowserTerminal.klass)});
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.BrowserTerminal.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -234,7 +234,7 @@ referencedClasses: ["Terminal"],
 //>>excludeEnd("ide");
 messageSends: ["ifTrue:", "isFeasible", "registerIfNone:", "new"]
 }),
-$globals.BrowserTerminal.klass);
+$globals.BrowserTerminal.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -248,7 +248,7 @@ return $core.withContext(function($ctx1) {
 return typeof window !== "undefined";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isFeasible",{},$globals.BrowserTerminal.klass)});
+}, function($ctx1) {$ctx1.fill(self,"isFeasible",{},$globals.BrowserTerminal.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -258,7 +258,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.BrowserTerminal.klass);
+$globals.BrowserTerminal.a$cls);
 
 $core.addMethod(
 $core.method({

@@ -2074,7 +2074,7 @@ classNameOf: anObject
 	"Answer the class name of `anObject`, or `undefined` 
 	if `anObject` is not an Smalltalk object"
 	
-	<inlineJS: 'return anObject.klass !!= null && anObject.klass.className'>
+	<inlineJS: 'return anObject.a$cls !!= null && anObject.a$cls.className'>
 !
 
 includes: anObject in: anotherObject

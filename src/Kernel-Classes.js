@@ -2362,7 +2362,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=$recv("$globals.".__comma($recv(self._instanceClass())._name())).__comma(".klass");
+$1=$recv("$globals.".__comma($recv(self._instanceClass())._name())).__comma(".a$cls");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
@@ -2373,7 +2373,7 @@ return $1;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJavaScriptSource\x0a\x09^ '$globals.', self instanceClass name, '.klass'",
+source: "asJavaScriptSource\x0a\x09^ '$globals.', self instanceClass name, '.a$cls'",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: [",", "name", "instanceClass"]
@@ -3011,7 +3011,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($recv($globals.ClassBuilder)._new())._addTraitNamed_package_(aString,anotherString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"named:package:",{aString:aString,anotherString:anotherString},$globals.Trait.klass)});
+}, function($ctx1) {$ctx1.fill(self,"named:package:",{aString:aString,anotherString:anotherString},$globals.Trait.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3021,7 +3021,7 @@ referencedClasses: ["ClassBuilder"],
 //>>excludeEnd("ide");
 messageSends: ["addTraitNamed:package:", "new"]
 }),
-$globals.Trait.klass);
+$globals.Trait.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3037,7 +3037,7 @@ trait=self._named_package_(aString,anotherString);
 $recv(trait)._setTraitComposition_($recv(aTraitCompositionDescription)._asTraitComposition());
 return trait;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"named:uses:package:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,anotherString:anotherString,trait:trait},$globals.Trait.klass)});
+}, function($ctx1) {$ctx1.fill(self,"named:uses:package:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,anotherString:anotherString,trait:trait},$globals.Trait.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3047,7 +3047,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["named:package:", "setTraitComposition:", "asTraitComposition"]
 }),
-$globals.Trait.klass);
+$globals.Trait.a$cls);
 
 
 $core.addClass("ClassBuilder", $globals.Object, [], "Kernel-Classes");
@@ -4014,7 +4014,7 @@ $recv($1)._level_(anInteger);
 $recv($1)._getNodesFrom_(aCollection);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:classes:level:",{aClass:aClass,aCollection:aCollection,anInteger:anInteger},$globals.ClassSorterNode.klass)});
+}, function($ctx1) {$ctx1.fill(self,"on:classes:level:",{aClass:aClass,aCollection:aCollection,anInteger:anInteger},$globals.ClassSorterNode.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4024,7 +4024,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["theClass:", "new", "level:", "getNodesFrom:", "yourself"]
 }),
-$globals.ClassSorterNode.klass);
+$globals.ClassSorterNode.a$cls);
 
 
 $core.addClass("TraitTransformation", $globals.Object, ["trait", "aliases", "exclusions"], "Kernel-Classes");
@@ -4538,7 +4538,7 @@ $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.TraitTransformation.klass.superclass||$boot.nilAsClass).fn.prototype._new.apply($recv(self), []));
+($globals.TraitTransformation.a$cls.superclass||$boot.nilAsClass).fn.prototype._new.apply($recv(self), []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -4559,7 +4559,7 @@ return [];
 })));
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromJSON:",{aJSObject:aJSObject},$globals.TraitTransformation.klass)});
+}, function($ctx1) {$ctx1.fill(self,"fromJSON:",{aJSObject:aJSObject},$globals.TraitTransformation.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4569,7 +4569,7 @@ referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 messageSends: ["trait:", "new", "at:", "addAliases:", "associations", "readJSObject:", "at:ifAbsent:", "addExclusions:", "yourself"]
 }),
-$globals.TraitTransformation.klass);
+$globals.TraitTransformation.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -4585,14 +4585,14 @@ $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.TraitTransformation.klass.superclass||$boot.nilAsClass).fn.prototype._new.apply($recv(self), []));
+($globals.TraitTransformation.a$cls.superclass||$boot.nilAsClass).fn.prototype._new.apply($recv(self), []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 $recv($1)._trait_(aTrait);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{aTrait:aTrait},$globals.TraitTransformation.klass)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{aTrait:aTrait},$globals.TraitTransformation.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4602,7 +4602,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["trait:", "new", "yourself"]
 }),
-$globals.TraitTransformation.klass);
+$globals.TraitTransformation.a$cls);
 
 $core.addMethod(
 $core.method({

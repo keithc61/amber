@@ -151,7 +151,7 @@ addObjectVariablesTo: aDictionary ofProxy: aProxy
 
 compareJSObjectOfProxy: aProxy withProxy: anotherProxy
 <inlineJS: '
-	var anotherJSObject = anotherProxy.klass ? anotherProxy["@jsObject"] : anotherProxy;
+	var anotherJSObject = anotherProxy.a$cls ? anotherProxy["@jsObject"] : anotherProxy;
 	return aProxy["@jsObject"] === anotherJSObject
 '>
 !
@@ -696,13 +696,13 @@ It requires the `Compiler` package and the `support/parser.js` parser file in or
 !SmalltalkImage methodsFor: 'accessing'!
 
 cancelOptOut: anObject
-	"A Smalltalk object has a 'klass' property.
+	"A Smalltalk object has a 'a$cls' property.
 	If this property is shadowed for anObject by optOut:,
 	the object is treated as plain JS object.
 	This removes the shadow and anObject is Smalltalk object
 	again if it was before."
 	
-	<inlineJS: 'delete anObject.klass'>
+	<inlineJS: 'delete anObject.klass; delete anObject.a$cls;'>
 !
 
 core
@@ -718,11 +718,11 @@ includesKey: aKey
 !
 
 optOut: anObject
-	"A Smalltalk object has a 'klass' property.
+	"A Smalltalk object has a 'a$cls' property.
 	This shadows the property for anObject.
 	The object is treated as plain JS object following this."
 	
-	<inlineJS: 'anObject.klass = null'>
+	<inlineJS: 'anObject.klass = null; anObject.a$cls = null'>
 !
 
 parse: aString
@@ -920,10 +920,10 @@ existsJsGlobal: aString
 !
 
 isSmalltalkObject: anObject
-	"Consider anObject a Smalltalk object if it has a 'klass' property.
+	"Consider anObject a Smalltalk object if it has a 'a$cls' property.
 	Note that this may be unaccurate"
 	
-	<inlineJS: 'return anObject.klass !!= null'>
+	<inlineJS: 'return anObject.a$cls !!= null'>
 ! !
 
 SmalltalkImage class instanceVariableNames: 'current'!

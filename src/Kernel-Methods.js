@@ -1454,7 +1454,7 @@ messageSends: []
 $globals.ForkPool);
 
 
-$globals.ForkPool.klass.iVarNames = ["default"];
+$globals.ForkPool.a$cls.iVarNames = ["default"];
 $core.addMethod(
 $core.method({
 selector: "default",
@@ -1473,7 +1473,7 @@ return self["@default"];
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"default",{},$globals.ForkPool.klass)});
+}, function($ctx1) {$ctx1.fill(self,"default",{},$globals.ForkPool.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1483,7 +1483,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifNil:", "new"]
 }),
-$globals.ForkPool.klass);
+$globals.ForkPool.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1501,7 +1501,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.ForkPool.klass);
+$globals.ForkPool.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1520,7 +1520,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.ForkPool.klass);
+$globals.ForkPool.a$cls);
 
 
 $core.addClass("Message", $globals.Object, ["selector", "arguments"], "Kernel-Methods");
@@ -1680,7 +1680,7 @@ $recv($1)._selector_(aString);
 $recv($1)._arguments_(anArray);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"selector:arguments:",{aString:aString,anArray:anArray},$globals.Message.klass)});
+}, function($ctx1) {$ctx1.fill(self,"selector:arguments:",{aString:aString,anArray:anArray},$globals.Message.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1690,7 +1690,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["selector:", "new", "arguments:", "yourself"]
 }),
-$globals.Message.klass);
+$globals.Message.a$cls);
 
 
 $core.addClass("MessageSend", $globals.Object, ["receiver", "message"], "Kernel-Methods");
@@ -2657,7 +2657,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"constructorNamed:",{aString:aString},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"constructorNamed:",{aString:aString},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2667,7 +2667,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -2684,7 +2684,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"constructorNamed:value:",{aString:aString,anObject:anObject},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"constructorNamed:value:",{aString:aString,anObject:anObject},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2694,7 +2694,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -2711,7 +2711,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"constructorNamed:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"constructorNamed:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2721,7 +2721,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -2738,7 +2738,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"constructorNamed:value:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"constructorNamed:value:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2748,7 +2748,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -2764,7 +2764,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"constructorOf:",{nativeFunc:nativeFunc},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"constructorOf:",{nativeFunc:nativeFunc},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2774,7 +2774,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -2790,7 +2790,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"constructorOf:value:",{nativeFunc:nativeFunc,anObject:anObject},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"constructorOf:value:",{nativeFunc:nativeFunc,anObject:anObject},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2800,7 +2800,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -2816,7 +2816,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"constructorOf:value:value:",{nativeFunc:nativeFunc,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"constructorOf:value:value:",{nativeFunc:nativeFunc,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2826,7 +2826,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -2842,7 +2842,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"constructorOf:value:value:value:",{nativeFunc:nativeFunc,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"constructorOf:value:value:value:",{nativeFunc:nativeFunc,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2852,7 +2852,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -2865,7 +2865,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($globals.Smalltalk)._existsJsGlobal_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"exists:",{aString:aString},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"exists:",{aString:aString},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2875,7 +2875,7 @@ referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 messageSends: ["existsJsGlobal:"]
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -2892,7 +2892,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"functionNamed:",{aString:aString},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"functionNamed:",{aString:aString},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2902,7 +2902,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -2919,7 +2919,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"functionNamed:value:",{aString:aString,anObject:anObject},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"functionNamed:value:",{aString:aString,anObject:anObject},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2929,7 +2929,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -2946,7 +2946,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"functionNamed:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"functionNamed:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2956,7 +2956,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -2973,7 +2973,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"functionNamed:value:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"functionNamed:value:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2983,7 +2983,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3000,7 +3000,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"functionNamed:valueWithArgs:",{aString:aString,args:args},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"functionNamed:valueWithArgs:",{aString:aString,args:args},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3010,7 +3010,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3026,7 +3026,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"functionOf:",{nativeFunc:nativeFunc},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"functionOf:",{nativeFunc:nativeFunc},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3036,7 +3036,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3052,7 +3052,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"functionOf:value:",{nativeFunc:nativeFunc,anObject:anObject},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"functionOf:value:",{nativeFunc:nativeFunc,anObject:anObject},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3062,7 +3062,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3078,7 +3078,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"functionOf:value:value:",{nativeFunc:nativeFunc,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"functionOf:value:value:",{nativeFunc:nativeFunc,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3088,7 +3088,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3104,7 +3104,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"functionOf:value:value:value:",{nativeFunc:nativeFunc,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"functionOf:value:value:value:",{nativeFunc:nativeFunc,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3114,7 +3114,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3130,7 +3130,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"functionOf:valueWithArgs:",{nativeFunc:nativeFunc,args:args},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"functionOf:valueWithArgs:",{nativeFunc:nativeFunc,args:args},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3140,7 +3140,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3156,7 +3156,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"methodOf:this:",{nativeFunc:nativeFunc,thisObject:thisObject},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"methodOf:this:",{nativeFunc:nativeFunc,thisObject:thisObject},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3166,7 +3166,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3182,7 +3182,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"methodOf:this:value:",{nativeFunc:nativeFunc,thisObject:thisObject,anObject:anObject},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"methodOf:this:value:",{nativeFunc:nativeFunc,thisObject:thisObject,anObject:anObject},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3192,7 +3192,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3208,7 +3208,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"methodOf:this:value:value:",{nativeFunc:nativeFunc,thisObject:thisObject,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"methodOf:this:value:value:",{nativeFunc:nativeFunc,thisObject:thisObject,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3218,7 +3218,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3234,7 +3234,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"methodOf:this:value:value:value:",{nativeFunc:nativeFunc,thisObject:thisObject,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"methodOf:this:value:value:value:",{nativeFunc:nativeFunc,thisObject:thisObject,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3244,7 +3244,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3260,7 +3260,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"methodOf:this:valueWithArgs:",{nativeFunc:nativeFunc,thisObject:thisObject,args:args},$globals.NativeFunction.klass)});
+}, function($ctx1) {$ctx1.fill(self,"methodOf:this:valueWithArgs:",{nativeFunc:nativeFunc,thisObject:thisObject,args:args},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3270,7 +3270,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NativeFunction.klass);
+$globals.NativeFunction.a$cls);
 
 
 $core.addClass("Timeout", $globals.Object, ["rawTimeout"], "Kernel-Methods");
@@ -3365,7 +3365,7 @@ $1=self._new();
 $recv($1)._rawTimeout_(anObject);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{anObject:anObject},$globals.Timeout.klass)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{anObject:anObject},$globals.Timeout.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3375,6 +3375,6 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["rawTimeout:", "new", "yourself"]
 }),
-$globals.Timeout.klass);
+$globals.Timeout.a$cls);
 
 });

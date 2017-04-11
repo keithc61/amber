@@ -2266,7 +2266,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._new())._stream_(aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{aStream:aStream},$globals.ChunkParser.klass)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{aStream:aStream},$globals.ChunkParser.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2276,7 +2276,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["stream:", "new"]
 }),
-$globals.ChunkParser.klass);
+$globals.ChunkParser.a$cls);
 
 
 $core.addClass("ClassCommentReader", $globals.Object, ["class"], "Platform-ImportExport");
@@ -2683,7 +2683,7 @@ $recv($1)._name_(aString);
 $recv($1)._theClass_(aClass);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"name:theClass:",{aString:aString,aClass:aClass},$globals.ExportMethodProtocol.klass)});
+}, function($ctx1) {$ctx1.fill(self,"name:theClass:",{aString:aString,aClass:aClass},$globals.ExportMethodProtocol.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2693,7 +2693,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["name:", "new", "theClass:", "yourself"]
 }),
-$globals.ExportMethodProtocol.klass);
+$globals.ExportMethodProtocol.a$cls);
 
 
 $core.addClass("Importer", $globals.Object, ["lastSection", "lastChunk"], "Platform-ImportExport");
@@ -3478,7 +3478,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($globals.Smalltalk)._defaultAmdNamespace();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"defaultNamespace",{},$globals.AmdPackageHandler.klass)});
+}, function($ctx1) {$ctx1.fill(self,"defaultNamespace",{},$globals.AmdPackageHandler.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3488,7 +3488,7 @@ referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 messageSends: ["defaultAmdNamespace"]
 }),
-$globals.AmdPackageHandler.klass);
+$globals.AmdPackageHandler.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3502,7 +3502,7 @@ return $core.withContext(function($ctx1) {
 $recv($globals.Smalltalk)._defaultAmdNamespace_(aString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"defaultNamespace:",{aString:aString},$globals.AmdPackageHandler.klass)});
+}, function($ctx1) {$ctx1.fill(self,"defaultNamespace:",{aString:aString},$globals.AmdPackageHandler.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3512,7 +3512,7 @@ referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 messageSends: ["defaultAmdNamespace:"]
 }),
-$globals.AmdPackageHandler.klass);
+$globals.AmdPackageHandler.a$cls);
 
 
 $core.addClass("PackageTransport", $globals.Object, ["package"], "Platform-ImportExport");
@@ -3758,7 +3758,7 @@ messageSends: ["type", "class"]
 $globals.PackageTransport);
 
 
-$globals.PackageTransport.klass.iVarNames = ["registry"];
+$globals.PackageTransport.a$cls.iVarNames = ["registry"];
 $core.addMethod(
 $core.method({
 selector: "classRegisteredFor:",
@@ -3770,7 +3770,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self["@registry"])._at_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"classRegisteredFor:",{aString:aString},$globals.PackageTransport.klass)});
+}, function($ctx1) {$ctx1.fill(self,"classRegisteredFor:",{aString:aString},$globals.PackageTransport.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3780,7 +3780,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["at:"]
 }),
-$globals.PackageTransport.klass);
+$globals.PackageTransport.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3793,7 +3793,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($globals.AmdPackageTransport)._type();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"defaultType",{},$globals.PackageTransport.klass)});
+}, function($ctx1) {$ctx1.fill(self,"defaultType",{},$globals.PackageTransport.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3803,7 +3803,7 @@ referencedClasses: ["AmdPackageTransport"],
 //>>excludeEnd("ide");
 messageSends: ["type"]
 }),
-$globals.PackageTransport.klass);
+$globals.PackageTransport.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3816,7 +3816,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._classRegisteredFor_(aString))._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"for:",{aString:aString},$globals.PackageTransport.klass)});
+}, function($ctx1) {$ctx1.fill(self,"for:",{aString:aString},$globals.PackageTransport.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3826,7 +3826,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["new", "classRegisteredFor:"]
 }),
-$globals.PackageTransport.klass);
+$globals.PackageTransport.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3851,7 +3851,7 @@ $2=self._for_($recv(anObject)._type());
 $recv($2)._setupFromJson_(anObject);
 return $recv($2)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromJson:",{anObject:anObject},$globals.PackageTransport.klass)});
+}, function($ctx1) {$ctx1.fill(self,"fromJson:",{anObject:anObject},$globals.PackageTransport.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3861,7 +3861,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifNil:", "for:", "defaultType", "setupFromJson:", "type", "yourself"]
 }),
-$globals.PackageTransport.klass);
+$globals.PackageTransport.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3877,7 +3877,7 @@ var $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.PackageTransport.klass.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
+($globals.PackageTransport.a$cls.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -3890,7 +3890,7 @@ self._register();
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.PackageTransport.klass)});
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.PackageTransport.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3900,7 +3900,7 @@ referencedClasses: ["PackageTransport"],
 //>>excludeEnd("ide");
 messageSends: ["initialize", "ifTrue:ifFalse:", "==", "register"]
 }),
-$globals.PackageTransport.klass);
+$globals.PackageTransport.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3914,7 +3914,7 @@ return $core.withContext(function($ctx1) {
 $recv($globals.PackageTransport)._register_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"register",{},$globals.PackageTransport.klass)});
+}, function($ctx1) {$ctx1.fill(self,"register",{},$globals.PackageTransport.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3924,7 +3924,7 @@ referencedClasses: ["PackageTransport"],
 //>>excludeEnd("ide");
 messageSends: ["register:"]
 }),
-$globals.PackageTransport.klass);
+$globals.PackageTransport.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3947,7 +3947,7 @@ $recv(self["@registry"])._at_put_($recv(aClass)._type(),aClass);
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"register:",{aClass:aClass},$globals.PackageTransport.klass)});
+}, function($ctx1) {$ctx1.fill(self,"register:",{aClass:aClass},$globals.PackageTransport.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3957,7 +3957,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifNotNil:", "type", "at:put:"]
 }),
-$globals.PackageTransport.klass);
+$globals.PackageTransport.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3975,7 +3975,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.PackageTransport.klass);
+$globals.PackageTransport.a$cls);
 
 
 $core.addClass("AmdPackageTransport", $globals.PackageTransport, ["namespace"], "Platform-ImportExport");
@@ -4239,7 +4239,7 @@ $1=self._new();
 $recv($1)._namespace_(aString);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"namespace:",{aString:aString},$globals.AmdPackageTransport.klass)});
+}, function($ctx1) {$ctx1.fill(self,"namespace:",{aString:aString},$globals.AmdPackageTransport.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4249,7 +4249,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["namespace:", "new", "yourself"]
 }),
-$globals.AmdPackageTransport.klass);
+$globals.AmdPackageTransport.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -4267,7 +4267,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.AmdPackageTransport.klass);
+$globals.AmdPackageTransport.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -4523,7 +4523,7 @@ return $core.withContext(function($ctx1) {
 $recv(self._named_(aPackageName))._load();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"load:",{aPackageName:aPackageName},$globals.Package.klass)});
+}, function($ctx1) {$ctx1.fill(self,"load:",{aPackageName:aPackageName},$globals.Package.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4533,7 +4533,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["load", "named:"]
 }),
-$globals.Package.klass);
+$globals.Package.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -4547,7 +4547,7 @@ return $core.withContext(function($ctx1) {
 $recv(self._named_(aPackageName))._loadFromNamespace_(aString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"load:fromNamespace:",{aPackageName:aPackageName,aString:aString},$globals.Package.klass)});
+}, function($ctx1) {$ctx1.fill(self,"load:fromNamespace:",{aPackageName:aPackageName,aString:aString},$globals.Package.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4557,7 +4557,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["loadFromNamespace:", "named:"]
 }),
-$globals.Package.klass);
+$globals.Package.a$cls);
 
 $core.addMethod(
 $core.method({

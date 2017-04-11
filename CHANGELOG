@@ -2,6 +2,7 @@
 ===================================
 
 * Internal `.isNil` deprecated in favour of `.a$nil`.
+* Internal `.klass` deprecated in favour of `.a$cls`.
 
 Commits: https://lolg.it/amber/amber/commits/0.18.6.
 

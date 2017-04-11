@@ -1868,7 +1868,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.IRSendInliner.klass);
+$globals.IRSendInliner.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1894,7 +1894,7 @@ return $recv(each)._isClosure();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"shouldInline:",{anIRSend:anIRSend},$globals.IRSendInliner.klass)});
+}, function($ctx1) {$ctx1.fill(self,"shouldInline:",{anIRSend:anIRSend},$globals.IRSendInliner.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1904,7 +1904,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifFalse:", "includes:", "inlinedSelectors", "selector", "allSatisfy:", "arguments", "isClosure"]
 }),
-$globals.IRSendInliner.klass);
+$globals.IRSendInliner.a$cls);
 
 
 $core.addClass("IRAssignmentInliner", $globals.IRSendInliner, ["target"], "Compiler-Inlining");

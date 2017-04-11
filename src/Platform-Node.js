@@ -74,7 +74,7 @@ $recv($globals.Platform)._registerIfNone_(self._new());
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.NodePlatform.klass)});
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.NodePlatform.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -84,7 +84,7 @@ referencedClasses: ["Platform"],
 //>>excludeEnd("ide");
 messageSends: ["ifTrue:", "isFeasible", "registerIfNone:", "new"]
 }),
-$globals.NodePlatform.klass);
+$globals.NodePlatform.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -98,7 +98,7 @@ return $core.withContext(function($ctx1) {
 return typeof global !== "undefined";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isFeasible",{},$globals.NodePlatform.klass)});
+}, function($ctx1) {$ctx1.fill(self,"isFeasible",{},$globals.NodePlatform.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -108,6 +108,6 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.NodePlatform.klass);
+$globals.NodePlatform.a$cls);
 
 });
