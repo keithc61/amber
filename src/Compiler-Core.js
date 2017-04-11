@@ -149,7 +149,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@source"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return "";
 } else {
 return $1;
@@ -330,7 +330,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$receiver;
 $1=self["@transformersDictionary"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $2=$recv($globals.Dictionary)._new();
 $recv($2)._at_put_("2000-semantic",self._semanticAnalyzer());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -403,7 +403,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@codeGeneratorClass"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return $globals.InliningCodeGenerator;
 } else {
 return $1;
@@ -831,7 +831,7 @@ return self._install_forClass_protocol_($recv(each)._source(),aClass,$recv(each)
 //>>excludeEnd("ctx");
 }),"Recompiling ".__comma($recv(aClass)._name()));
 $2=$recv(aClass)._theMetaClass();
-if(($receiver = $2) == null || $receiver.isNil){
+if(($receiver = $2) == null || $receiver.a$nil){
 $2;
 } else {
 var meta;
@@ -898,7 +898,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@source"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return "";
 } else {
 return $1;

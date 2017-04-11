@@ -23,7 +23,7 @@ $2=$recv($recv($globals.IRSendInliner)._inlinedSelectors())._includes_($recv(aNo
 if($core.assert($2)){
 $recv(aNode)._shouldBeInlined_(true);
 $3=$recv(aNode)._receiver();
-if(($receiver = $3) == null || $receiver.isNil){
+if(($receiver = $3) == null || $receiver.a$nil){
 $3;
 } else {
 var receiver;
@@ -940,7 +940,7 @@ self._visit_($5);
 $ctx2.sendIdx["visit:"]=1;
 //>>excludeEnd("ctx");
 $7=self._stream();
-$8=$recv(") == null || ".__comma(recvVarName)).__comma(".isNil");
+$8=$recv(") == null || ".__comma(recvVarName)).__comma(".a$nil");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx[","]=3;
 //>>excludeEnd("ctx");
@@ -980,7 +980,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRInlinedIfNilIfNotNil"],
-source: "visitIRInlinedIfNilIfNotNil: anIRInlinedIfNilIfNotNil\x0a\x09self stream\x0a\x09\x09nextPutIf: [\x0a\x09\x09\x09| recvVarName |\x0a\x09\x09\x09recvVarName := anIRInlinedIfNilIfNotNil receiverInternalVariableName.\x0a\x09\x09\x09self stream nextPutAll: '(', recvVarName, ' = '.\x0a\x09\x09\x09self visit: anIRInlinedIfNilIfNotNil dagChildren first.\x0a\x09\x09\x09self stream nextPutAll: ') == null || ', recvVarName, '.isNil' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfNilIfNotNil dagChildren second ]\x0a\x09\x09else: [ self visit: anIRInlinedIfNilIfNotNil dagChildren third ]",
+source: "visitIRInlinedIfNilIfNotNil: anIRInlinedIfNilIfNotNil\x0a\x09self stream\x0a\x09\x09nextPutIf: [\x0a\x09\x09\x09| recvVarName |\x0a\x09\x09\x09recvVarName := anIRInlinedIfNilIfNotNil receiverInternalVariableName.\x0a\x09\x09\x09self stream nextPutAll: '(', recvVarName, ' = '.\x0a\x09\x09\x09self visit: anIRInlinedIfNilIfNotNil dagChildren first.\x0a\x09\x09\x09self stream nextPutAll: ') == null || ', recvVarName, '.a$nil' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfNilIfNotNil dagChildren second ]\x0a\x09\x09else: [ self visit: anIRInlinedIfNilIfNotNil dagChildren third ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["nextPutIf:then:else:", "stream", "receiverInternalVariableName", "nextPutAll:", ",", "visit:", "first", "dagChildren", "second", "third"]
@@ -2196,7 +2196,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$receiver;
 $1=self["@transformersDictionary"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $2=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -2257,7 +2257,7 @@ $2=$recv($recv($globals.IRSendInliner)._inlinedSelectors())._includes_($recv(aNo
 if($core.assert($2)){
 $recv(aNode)._shouldBeInlined_(true);
 $3=$recv(aNode)._receiver();
-if(($receiver = $3) == null || $receiver.isNil){
+if(($receiver = $3) == null || $receiver.a$nil){
 $3;
 } else {
 var receiver;

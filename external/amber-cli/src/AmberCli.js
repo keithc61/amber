@@ -491,7 +491,7 @@ self._writeConfigThenDo_((function(err){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(($receiver = err) == null || $receiver.isNil){
+if(($receiver = err) == null || $receiver.a$nil){
 return $recv(process)._exit();
 } else {
 return $recv(process)._exit_((111));
@@ -579,7 +579,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@basePath"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return $recv(self._class())._defaultBasePath();
 } else {
 return $1;
@@ -1040,7 +1040,7 @@ $3=$recv($recv(aRequest)._headers())._at_("authorization");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["at:"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $3) == null || $receiver.isNil){
+if(($receiver = $3) == null || $receiver.a$nil){
 header="";
 } else {
 header=$3;
@@ -1056,7 +1056,7 @@ $4=$recv(header)._tokenize_(" ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["tokenize:"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $4) == null || $receiver.isNil){
+if(($receiver = $4) == null || $receiver.a$nil){
 token="";
 } else {
 token=$4;
@@ -1267,7 +1267,7 @@ self._respondFileNamed_to_($3,aResponse);
 } else {
 $5=$recv($recv(aUrl)._pathname()).__comma("/");
 $7=$recv(aUrl)._search();
-if(($receiver = $7) == null || $receiver.isNil){
+if(($receiver = $7) == null || $receiver.a$nil){
 $6="";
 } else {
 $6=$7;
@@ -1650,7 +1650,7 @@ $recv($1)._stat_then_($2,(function(err,stat){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(($receiver = err) == null || $receiver.isNil){
+if(($receiver = err) == null || $receiver.a$nil){
 $3=$recv(stat)._isDirectory();
 if(!$core.assert($3)){
 $4=console;
@@ -2078,7 +2078,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@mimeTypes"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@mimeTypes"]=self._defaultMimeTypes();
 return self["@mimeTypes"];
 } else {
@@ -2466,22 +2466,22 @@ self._gruntInitThenDo_((function(error){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(($receiver = error) == null || $receiver.isNil){
+if(($receiver = error) == null || $receiver.a$nil){
 return self._bowerInstallThenDo_((function(error2){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-if(($receiver = error2) == null || $receiver.isNil){
+if(($receiver = error2) == null || $receiver.a$nil){
 return self._npmInstallThenDo_((function(error3){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
-if(($receiver = error3) == null || $receiver.isNil){
+if(($receiver = error3) == null || $receiver.a$nil){
 return self._gruntThenDo_((function(error4){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx5) {
 //>>excludeEnd("ctx");
-if(($receiver = error4) == null || $receiver.isNil){
+if(($receiver = error4) == null || $receiver.a$nil){
 self._finishMessage();
 return $recv(process)._exit();
 } else {
@@ -2620,7 +2620,7 @@ var varName,value;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(($receiver = name) == null || $receiver.isNil){
+if(($receiver = name) == null || $receiver.a$nil){
 varName=self._nextResultName();
 } else {
 varName=name;
@@ -2633,7 +2633,7 @@ $recv((function(){
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 $2=$recv(varName).__comma(" := ");
-if(($receiver = expr) == null || $receiver.isNil){
+if(($receiver = expr) == null || $receiver.a$nil){
 $3=buffer;
 } else {
 $3=expr;
@@ -3024,7 +3024,7 @@ $1=$recv(aClass)._superclass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["superclass"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return $recv(aClass)._instanceVariableNames();
 } else {
 $2=$recv(aClass)._instanceVariableNames();
@@ -3103,7 +3103,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@resultCount"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@resultCount"]=(1);
 } else {
 self["@resultCount"]=$recv(self["@resultCount"]).__plus((1));
@@ -3453,7 +3453,7 @@ $recv($recv(process)._stdin())._on_do_("keypress",(function(s,key){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(($receiver = key) == null || $receiver.isNil){
+if(($receiver = key) == null || $receiver.a$nil){
 return key;
 } else {
 return self._onKeyPress_(key);
@@ -3517,7 +3517,7 @@ $1=$recv($2)._matchesOf_("\x5cd+$");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["matchesOf:"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return $recv($recv(aClass)._name()).__comma("2");
 } else {
 var counter;

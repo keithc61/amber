@@ -2056,7 +2056,7 @@ bucketsOfElement: anObject
 	
 	<inlineJS: '
 		// include nil to well-known objects under "boolean" fastBucket
-		if (anObject == null || anObject.isNil) return [ null, self[''@fastBuckets''].boolean ];
+		if (anObject == null || anObject.a$nil) return [ null, self[''@fastBuckets''].boolean ];
 		
 		var prim = anObject.valueOf();
 		if (typeof prim === "object" || typeof prim === "function" || !!self[''@fastBuckets''][typeof prim]) {

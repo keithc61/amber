@@ -914,7 +914,7 @@ superclass=$recv($1)._superclass();
 $ctx1.sendIdx["superclass"]=1;
 //>>excludeEnd("ctx");
 $2=superclass;
-if(($receiver = $2) == null || $receiver.isNil){
+if(($receiver = $2) == null || $receiver.a$nil){
 return false;
 } else {
 $2;
@@ -990,7 +990,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self._methodClass();
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return $1;
 } else {
 var class_;
@@ -1021,7 +1021,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self._basicAt_("protocol");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return self._defaultProtocol();
 } else {
 return $1;
@@ -1059,7 +1059,7 @@ $recv($3)._oldProtocol_(oldProtocol);
 $2=$recv($3)._yourself();
 $recv($1)._announce_($2);
 $4=self._methodClass();
-if(($receiver = $4) == null || $receiver.isNil){
+if(($receiver = $4) == null || $receiver.a$nil){
 $4;
 } else {
 var methodClass;
@@ -1185,7 +1185,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self._basicAt_("source");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return "";
 } else {
 return $1;
@@ -1416,7 +1416,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@maxPoolSize"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return self._defaultMaxPoolSize();
 } else {
 return $1;
@@ -1466,7 +1466,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@default"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@default"]=self._new();
 return self["@default"];
 } else {
@@ -2342,7 +2342,7 @@ $1=self._methodContext();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["methodContext"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return nil;
 } else {
 $1;
@@ -2367,7 +2367,7 @@ method=$recv($4)._lookupSelector_($5);
 $ctx1.sendIdx["lookupSelector:"]=1;
 //>>excludeEnd("ctx");
 $7=self._outerContext();
-if(($receiver = $7) == null || $receiver.isNil){
+if(($receiver = $7) == null || $receiver.a$nil){
 supercall=false;
 } else {
 var outer;
@@ -2408,7 +2408,7 @@ if(!$core.assert($1)){
 return self;
 }
 $2=self._outerContext();
-if(($receiver = $2) == null || $receiver.isNil){
+if(($receiver = $2) == null || $receiver.a$nil){
 return $2;
 } else {
 var outer;

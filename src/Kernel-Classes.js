@@ -64,13 +64,13 @@ $recv($4)._addElement_($5);
 }
 self._basicAddCompiledMethod_(aMethod);
 $6=oldMethod;
-if(($receiver = $6) == null || $receiver.isNil){
+if(($receiver = $6) == null || $receiver.a$nil){
 $6;
 } else {
 self._removeProtocolIfEmpty_($recv(oldMethod)._protocol());
 }
 $7=oldMethod;
-if(($receiver = $7) == null || $receiver.isNil){
+if(($receiver = $7) == null || $receiver.a$nil){
 $8=$recv($globals.MethodAdded)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=1;
@@ -200,7 +200,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self._basicAt_("comment");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return "";
 } else {
 return $1;
@@ -686,7 +686,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self._name();
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -1135,7 +1135,7 @@ $1=self._superclass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["superclass"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
 $recv(result)._addAll_($recv(self._superclass())._allInstanceVariableNames());
@@ -1271,7 +1271,7 @@ $1=self._superclass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["superclass"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return [];
 } else {
 $1;
@@ -1410,7 +1410,7 @@ $1=self._superclass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["superclass"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
 $1;
@@ -1820,7 +1820,7 @@ $1=self._package();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["package"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return "Unclassified";
 } else {
 return $recv(self._package())._name();
@@ -2775,7 +2775,7 @@ $1=self._package();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["package"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return "Unclassified";
 } else {
 return $recv(self._package())._name();
@@ -3068,7 +3068,7 @@ var $1,$2,$3,$receiver;
 theClass=$recv($recv($globals.Smalltalk)._globals())._at_(className);
 thePackage=$recv($globals.Package)._named_(packageName);
 $1=theClass;
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
 $recv(theClass)._package_(thePackage);
@@ -3107,7 +3107,7 @@ var $1,$2,$receiver;
 theTrait=$recv($recv($globals.Smalltalk)._globals())._at_(traitName);
 thePackage=$recv($globals.Package)._named_(packageName);
 $1=theTrait;
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
 $2=theTrait;
@@ -3767,7 +3767,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$3,$5,$4,$receiver;
 $1=self._instanceVariableNamesFor_(ivarNames);
-if(($receiver = packageName) == null || $receiver.isNil){
+if(($receiver = packageName) == null || $receiver.a$nil){
 $2="unclassified";
 } else {
 $2=packageName;

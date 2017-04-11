@@ -38,7 +38,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $receiver;
-if(($receiver = $globals.XMLHttpRequest) == null || $receiver.isNil){
+if(($receiver = $globals.XMLHttpRequest) == null || $receiver.a$nil){
 self._error_("XMLHttpRequest not available.");
 } else {
 return $recv($globals.XMLHttpRequest)._new();

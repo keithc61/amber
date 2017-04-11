@@ -200,7 +200,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=$recv($globals.JSObjectProxy)._lookupProperty_ofProxy_($recv($recv(aMessage)._selector())._asJavaScriptPropertyName(),self);
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -1007,7 +1007,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@imports"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 var parsed;
 parsed=self._importsFromJson_(self._basicImports());
 parsed;
@@ -1203,7 +1203,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@dirty"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
 return $1;
@@ -1318,7 +1318,7 @@ $5=$recv(each)._protocols();
 $ctx2.sendIdx["protocols"]=1;
 //>>excludeEnd("ctx");
 $7=$recv(each)._theMetaClass();
-if(($receiver = $7) == null || $receiver.isNil){
+if(($receiver = $7) == null || $receiver.a$nil){
 $6=[];
 } else {
 var meta;
@@ -1636,7 +1636,7 @@ $recv($1)._at_put_(each,$2);
 $ctx2.sendIdx["at:put:"]=1;
 //>>excludeEnd("ctx");
 $3=$recv(each)._theMetaClass();
-if(($receiver = $3) == null || $receiver.isNil){
+if(($receiver = $3) == null || $receiver.a$nil){
 return $3;
 } else {
 var meta;
@@ -1680,7 +1680,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$receiver;
 $1=self["@transport"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $2=$recv($globals.PackageTransport)._fromJson_(self._basicTransport());
 $recv($2)._package_(self);
 self["@transport"]=$recv($2)._yourself();
@@ -2059,7 +2059,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=$recv(anAnnouncement)._theClass();
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
 var theClass;
@@ -2091,7 +2091,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=$recv($recv(anAnnouncement)._method())._package();
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
 var package_;
@@ -2147,7 +2147,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=$recv(anAnnouncement)._package();
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
 var package_;
@@ -2181,7 +2181,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@current"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@current"]=self._new();
 return self["@current"];
 } else {
@@ -3319,7 +3319,7 @@ $ctx2.sendIdx["error:"]=1;
 //>>excludeEnd("ctx");
 }));
 $2=self._packageAt_(newName);
-if(($receiver = $2) == null || $receiver.isNil){
+if(($receiver = $2) == null || $receiver.a$nil){
 $2;
 } else {
 self._error_("Already exists a package called: ".__comma(newName));
@@ -3414,7 +3414,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@current"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@current"]=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,

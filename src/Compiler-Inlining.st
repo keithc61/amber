@@ -253,7 +253,7 @@ visitIRInlinedIfNilIfNotNil: anIRInlinedIfNilIfNotNil
 			recvVarName := anIRInlinedIfNilIfNotNil receiverInternalVariableName.
 			self stream nextPutAll: '(', recvVarName, ' = '.
 			self visit: anIRInlinedIfNilIfNotNil dagChildren first.
-			self stream nextPutAll: ') == null || ', recvVarName, '.isNil' ]
+			self stream nextPutAll: ') == null || ', recvVarName, '.a$nil' ]
 		then: [ self visit: anIRInlinedIfNilIfNotNil dagChildren second ]
 		else: [ self visit: anIRInlinedIfNilIfNotNil dagChildren third ]
 !

@@ -464,7 +464,7 @@ self._exportBehavior_on_(each,aStream);
 $ctx2.sendIdx["exportBehavior:on:"]=1;
 //>>excludeEnd("ctx");
 $1=$recv(each)._theMetaClass();
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return $1;
 } else {
 var meta;
@@ -1107,7 +1107,7 @@ $3=$recv($recv(aClass)._name())._asJavaScriptSource();
 $ctx1.sendIdx["asJavaScriptSource"]=1;
 //>>excludeEnd("ctx");
 $5=$recv(aClass)._superclass();
-if(($receiver = $5) == null || $receiver.isNil){
+if(($receiver = $5) == null || $receiver.a$nil){
 $4="null";
 } else {
 var superclass;
@@ -1411,7 +1411,7 @@ self._exportBehavior_on_(each,aStream);
 $ctx2.sendIdx["exportBehavior:on:"]=1;
 //>>excludeEnd("ctx");
 $1=$recv(each)._theMetaClass();
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return $1;
 } else {
 var meta;
@@ -3386,7 +3386,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2,$receiver;
 $1=$recv($globals.Smalltalk)._amdRequire();
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self._error_("AMD loader not present");
 } else {
 var require;
@@ -3446,7 +3446,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=$recv($globals.Smalltalk)._amdRequire();
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return self._error_("AMD loader not present");
 } else {
 var require;
@@ -3838,7 +3838,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$receiver;
-if(($receiver = anObject) == null || $receiver.isNil){
+if(($receiver = anObject) == null || $receiver.a$nil){
 $1=self._for_(self._defaultType());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["for:"]=1;
@@ -3940,7 +3940,7 @@ $1=$recv(aClass)._type();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["type"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
 $recv(self["@registry"])._at_put_($recv(aClass)._type(),aClass);
@@ -4099,7 +4099,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@namespace"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return self._defaultNamespace();
 } else {
 return $1;

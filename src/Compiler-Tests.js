@@ -533,7 +533,7 @@ return $recv(self["@receiver"])._perform_($recv(method)._selector());
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $3=method;
-if(($receiver = $3) == null || $receiver.isNil){
+if(($receiver = $3) == null || $receiver.a$nil){
 return $3;
 } else {
 return $recv($recv(anObject)._class())._removeCompiledMethod_(method);
@@ -1935,7 +1935,7 @@ $recv($1)._receiver_(anObject);
 $recv($1)._interpreter_(interpreter);
 ctx=$recv($1)._yourself();
 $2=$recv(ast)._sequenceNode();
-if(($receiver = $2) == null || $receiver.isNil){
+if(($receiver = $2) == null || $receiver.a$nil){
 $2;
 } else {
 var sequence;
@@ -2071,7 +2071,7 @@ $recv($1)._interpreter_($recv($globals.ASTInterpreter)._new());
 ctx=$recv($1)._yourself();
 ast=self._parse_forClass_(aString,$recv(anObject)._class());
 $2=$recv(ast)._sequenceNode();
-if(($receiver = $2) == null || $receiver.isNil){
+if(($receiver = $2) == null || $receiver.a$nil){
 $2;
 } else {
 var sequence;

@@ -196,7 +196,7 @@ define(['./compatibility'], function () {
 
         function classBuilder (className, superclass, iVarNames, fn) {
             var logicalSuperclass = superclass;
-            if (superclass == null || superclass.isNil) {
+            if (superclass == null || superclass.a$nil) {
                 superclass = nilAsClass;
                 logicalSuperclass = null;
             }
@@ -259,7 +259,7 @@ define(['./compatibility'], function () {
         st.addClass = function (className, superclass, iVarNames, pkgName) {
             // While subclassing nil is allowed, it might be an error, so
             // warn about it.
-            if (typeof superclass == 'undefined' || superclass && superclass.isNil) {
+            if (typeof superclass == 'undefined' || superclass && superclass.a$nil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
             return buildBehaviorBody(pkgName, classBuilder(className, superclass, iVarNames, coreFns[className]));
@@ -314,11 +314,15 @@ define(['./compatibility'], function () {
 
         this.nilAsReceiver = new SmalltalkNil();
 
-        // Adds an `isNil` property to the `nil` object.  When sending
+        // Adds an `a$nil` (and legacy `isNil`) property to the `nil` object.  When sending
         // nil objects from one environment to another, doing
         // `anObject == nil` (in JavaScript) does not always answer
         // true as the referenced nil object might come from the other
         // environment.
+        Object.defineProperty(this.nilAsReceiver, 'a$nil', {
+            value: true,
+            enumerable: false, configurable: false, writable: false
+        });
         Object.defineProperty(this.nilAsReceiver, 'isNil', {
             value: true,
             enumerable: false, configurable: false, writable: false
