@@ -316,7 +316,7 @@ $1=self._new();
 $recv($1)._initializeWithContext_node_(aContext,aNode);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"forContext:node:",{aContext:aContext,aNode:aNode},$globals.AIBlockClosure.klass)});
+}, function($ctx1) {$ctx1.fill(self,"forContext:node:",{aContext:aContext,aNode:aNode},$globals.AIBlockClosure.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -326,7 +326,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["initializeWithContext:node:", "new", "yourself"]
 }),
-$globals.AIBlockClosure.klass);
+$globals.AIBlockClosure.a$cls);
 
 
 $core.addClass("AIContext", $globals.MethodContext, ["outerContext", "innerContext", "pc", "locals", "selector", "index", "sendIndexes", "evaluatedSelector", "ast", "interpreter", "supercall"], "Compiler-Interpreter");
@@ -385,7 +385,7 @@ var $1,$2,$3,$receiver;
 $1=self._isBlockContext();
 if($core.assert($1)){
 $2=self._outerContext();
-if(($receiver = $2) == null || $receiver.isNil){
+if(($receiver = $2) == null || $receiver.a$nil){
 return $2;
 } else {
 var context;
@@ -394,7 +394,7 @@ return $recv(context)._ast();
 }
 }
 $3=self["@ast"];
-if(($receiver = $3) == null || $receiver.isNil){
+if(($receiver = $3) == null || $receiver.a$nil){
 self._initializeAST();
 } else {
 $3;
@@ -607,7 +607,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@index"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return (0);
 } else {
 return $1;
@@ -694,13 +694,13 @@ $1=$recv(aMethodContext)._outerContext();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["outerContext"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
 var outer;
 outer=$receiver;
 $2=$recv(outer)._methodContext();
-if(($receiver = $2) == null || $receiver.isNil){
+if(($receiver = $2) == null || $receiver.a$nil){
 $2;
 } else {
 self._outerContext_($recv(self._class())._fromMethodContext_($recv(aMethodContext)._outerContext()));
@@ -747,7 +747,7 @@ $1=$recv($globals.ASTInterpreter)._new();
 $recv($1)._context_(self);
 self["@interpreter"]=$recv($1)._yourself();
 $2=self._innerContext();
-if(($receiver = $2) == null || $receiver.isNil){
+if(($receiver = $2) == null || $receiver.a$nil){
 $2;
 } else {
 self._setupInterpreter_(self["@interpreter"]);
@@ -839,7 +839,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@interpreter"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self._initializeInterpreter();
 } else {
 $1;
@@ -999,7 +999,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@locals"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self._initializeLocals();
 } else {
 $1;
@@ -1149,7 +1149,7 @@ return $core.withContext(function($ctx1) {
 var $1,$receiver;
 self["@outerContext"]=anAIContext;
 $1=self["@outerContext"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
 var context;
@@ -1268,7 +1268,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@sendIndexes"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return $recv($globals.Dictionary)._new();
 } else {
 return $1;
@@ -1330,7 +1330,7 @@ $ctx1.sendIdx["ast"]=1;
 $recv($1)._visit_($3);
 currentNode=$recv($1)._currentNode();
 $4=$recv(self._ast())._sequenceNode();
-if(($receiver = $4) == null || $receiver.isNil){
+if(($receiver = $4) == null || $receiver.a$nil){
 $4;
 } else {
 var sequence;
@@ -1393,7 +1393,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@supercall"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
 return $1;
@@ -1469,7 +1469,7 @@ $1=self._new();
 $recv($1)._initializeFromMethodContext_(aMethodContext);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromMethodContext:",{aMethodContext:aMethodContext},$globals.AIContext.klass)});
+}, function($ctx1) {$ctx1.fill(self,"fromMethodContext:",{aMethodContext:aMethodContext},$globals.AIContext.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1479,7 +1479,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["initializeFromMethodContext:", "new", "yourself"]
 }),
-$globals.AIContext.klass);
+$globals.AIContext.a$cls);
 
 
 $core.addClass("AISemanticAnalyzer", $globals.SemanticAnalyzer, ["context"], "Compiler-Interpreter");
@@ -1632,7 +1632,7 @@ $1=self._context();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["context"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return true;
 } else {
 $1;
@@ -1707,7 +1707,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self._context();
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
 var cxt;
@@ -1739,7 +1739,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self._context();
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return $1;
 } else {
 var ctx;
@@ -1796,7 +1796,7 @@ $1=self._interpreter();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["interpreter"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return $1;
 } else {
 return $recv(self._interpreter())._node();
@@ -1839,7 +1839,7 @@ $ctx1.sendIdx["atEnd"]=1;
 //>>excludeEnd("ctx");
 if($core.assert($2)){
 $4=$recv(self._context())._outerContext();
-if(($receiver = $4) == null || $receiver.isNil){
+if(($receiver = $4) == null || $receiver.a$nil){
 $4;
 } else {
 var outerContext;
@@ -2027,7 +2027,7 @@ $1=self._new();
 $recv($1)._context_(aContext);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"context:",{aContext:aContext},$globals.ASTDebugger.klass)});
+}, function($ctx1) {$ctx1.fill(self,"context:",{aContext:aContext},$globals.ASTDebugger.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2037,7 +2037,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["context:", "new", "yourself"]
 }),
-$globals.ASTDebugger.klass);
+$globals.ASTDebugger.a$cls);
 
 
 $core.addClass("ASTEnterNode", $globals.NodeVisitor, ["interpreter"], "Compiler-Interpreter");
@@ -2191,7 +2191,7 @@ $1=self._new();
 $recv($1)._interpreter_(anInterpreter);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{anInterpreter:anInterpreter},$globals.ASTEnterNode.klass)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{anInterpreter:anInterpreter},$globals.ASTEnterNode.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2201,7 +2201,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["interpreter:", "new", "yourself"]
 }),
-$globals.ASTEnterNode.klass);
+$globals.ASTEnterNode.a$cls);
 
 
 $core.addClass("ASTInterpreter", $globals.NodeVisitor, ["node", "context", "stack", "returnValue", "returned", "forceAtEnd"], "Compiler-Interpreter");
@@ -2434,7 +2434,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@returned"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
 return $1;
@@ -2576,13 +2576,13 @@ return $core.withContext(function($ctx1) {
 var $1,$2,$receiver;
 nd=self._node();
 $1=$recv(nd)._parent();
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 nextNode=$1;
 } else {
 var parent;
 parent=$receiver;
 $2=$recv(parent)._nextSiblingNode_(nd);
-if(($receiver = $2) == null || $receiver.isNil){
+if(($receiver = $2) == null || $receiver.a$nil){
 nextNode=parent;
 } else {
 var sibling;
@@ -2882,7 +2882,7 @@ $1=$recv($2)._superclass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["superclass"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $3=self._messageNotUnderstood_receiver_(aMessage,anObject);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["messageNotUnderstood:receiver:"]=1;
@@ -2985,7 +2985,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@stack"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@stack"]=$recv($globals.OrderedCollection)._new();
 return self["@stack"];
 } else {
@@ -3673,7 +3673,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@trackedIndex"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@trackedIndex"]=(0);
 return self["@trackedIndex"];
 } else {

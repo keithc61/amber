@@ -20,7 +20,7 @@ return $core.withContext(function($ctx1) {
 return Promise.all($recv(aCollection)._asArray());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"all:",{aCollection:aCollection},$globals.Promise.klass)});
+}, function($ctx1) {$ctx1.fill(self,"all:",{aCollection:aCollection},$globals.Promise.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -30,7 +30,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Promise.klass);
+$globals.Promise.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -44,7 +44,7 @@ return $core.withContext(function($ctx1) {
 return Promise.race($recv(aCollection)._asArray());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"any:",{aCollection:aCollection},$globals.Promise.klass)});
+}, function($ctx1) {$ctx1.fill(self,"any:",{aCollection:aCollection},$globals.Promise.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -54,7 +54,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Promise.klass);
+$globals.Promise.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -67,7 +67,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._new())._then_(aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"forBlock:",{aBlock:aBlock},$globals.Promise.klass)});
+}, function($ctx1) {$ctx1.fill(self,"forBlock:",{aBlock:aBlock},$globals.Promise.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -77,7 +77,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["then:", "new"]
 }),
-$globals.Promise.klass);
+$globals.Promise.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -91,7 +91,7 @@ return $core.withContext(function($ctx1) {
 return Promise.resolve();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"new",{},$globals.Promise.klass)});
+}, function($ctx1) {$ctx1.fill(self,"new",{},$globals.Promise.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -101,7 +101,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Promise.klass);
+$globals.Promise.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -118,7 +118,7 @@ return new Promise(function (resolve, reject) {
 });
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"new:",{aBlock:aBlock},$globals.Promise.klass)});
+}, function($ctx1) {$ctx1.fill(self,"new:",{aBlock:aBlock},$globals.Promise.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -128,7 +128,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Promise.klass);
+$globals.Promise.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -142,7 +142,7 @@ return $core.withContext(function($ctx1) {
 return $recv(anObject)._in_(function (x) {return Promise.reject(x)});
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"signal:",{anObject:anObject},$globals.Promise.klass)});
+}, function($ctx1) {$ctx1.fill(self,"signal:",{anObject:anObject},$globals.Promise.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -152,7 +152,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Promise.klass);
+$globals.Promise.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -166,7 +166,7 @@ return $core.withContext(function($ctx1) {
 return $recv(anObject)._in_(function (x) {return Promise.resolve(x)});
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject},$globals.Promise.klass)});
+}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject},$globals.Promise.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -176,7 +176,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Promise.klass);
+$globals.Promise.a$cls);
 
 
 $core.addTrait("TThenable", "Kernel-Promises");

@@ -2056,7 +2056,7 @@ bucketsOfElement: anObject
 	
 	<inlineJS: '
 		// include nil to well-known objects under "boolean" fastBucket
-		if (anObject == null || anObject.isNil) return [ null, self[''@fastBuckets''].boolean ];
+		if (anObject == null || anObject.a$nil) return [ null, self[''@fastBuckets''].boolean ];
 		
 		var prim = anObject.valueOf();
 		if (typeof prim === "object" || typeof prim === "function" || !!self[''@fastBuckets''][typeof prim]) {
@@ -2074,7 +2074,7 @@ classNameOf: anObject
 	"Answer the class name of `anObject`, or `undefined` 
 	if `anObject` is not an Smalltalk object"
 	
-	<inlineJS: 'return anObject.klass !!= null && anObject.klass.className'>
+	<inlineJS: 'return anObject.a$cls !!= null && anObject.a$cls.className'>
 !
 
 includes: anObject in: anotherObject

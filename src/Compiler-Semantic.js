@@ -132,7 +132,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@args"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@args"]=$recv($globals.Dictionary)._new();
 return self["@args"];
 } else {
@@ -222,7 +222,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@blockIndex"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return (0);
 } else {
 return $1;
@@ -418,12 +418,12 @@ return $core.withContext(function($ctx1) {
 var $1,$2,$receiver;
 lookup=self._bindingFor_(aNode);
 $1=lookup;
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $2=self._outerScope();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["outerScope"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $2) == null || $receiver.isNil){
+if(($receiver = $2) == null || $receiver.a$nil){
 lookup=$2;
 } else {
 lookup=$recv(self._outerScope())._lookupVariable_(aNode);
@@ -460,7 +460,7 @@ $1=self._outerScope();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["outerScope"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return $1;
 } else {
 return $recv(self._outerScope())._methodScope();
@@ -589,7 +589,7 @@ $1=self._outerScope();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["outerScope"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return (1);
 } else {
 $1;
@@ -631,7 +631,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@temps"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@temps"]=$recv($globals.Dictionary)._new();
 return self["@temps"];
 } else {
@@ -760,7 +760,7 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return $recv(self._iVars())._at_ifAbsent_($recv(aNode)._value(),(function(){
 return nil;
 
@@ -856,7 +856,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@iVars"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@iVars"]=$recv($globals.Dictionary)._new();
 return self["@iVars"];
 } else {
@@ -904,7 +904,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@localReturn"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
 return $1;
@@ -970,7 +970,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@nonLocalReturns"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@nonLocalReturns"]=$recv($globals.OrderedCollection)._new();
 return self["@nonLocalReturns"];
 } else {
@@ -1000,7 +1000,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$4,$3,$receiver;
 $1=self["@pseudoVars"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@pseudoVars"]=$recv($globals.Dictionary)._new();
 self["@pseudoVars"];
 $recv($recv($globals.Smalltalk)._pseudoVariableNames())._do_((function(each){
@@ -1070,7 +1070,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@unknownVariables"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@unknownVariables"]=$recv($globals.OrderedCollection)._new();
 return self["@unknownVariables"];
 } else {
@@ -1371,7 +1371,7 @@ $1=self._new();
 $recv($1)._name_(aString);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{aString:aString},$globals.ScopeVar.klass)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{aString:aString},$globals.ScopeVar.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1381,7 +1381,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["name:", "new", "yourself"]
 }),
-$globals.ScopeVar.klass);
+$globals.ScopeVar.a$cls);
 
 
 $core.addClass("AliasVar", $globals.ScopeVar, ["node"], "Compiler-Semantic");
@@ -1732,7 +1732,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@classReferences"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@classReferences"]=$recv($globals.Set)._new();
 return self["@classReferences"];
 } else {
@@ -1837,7 +1837,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$3,$receiver;
-if(($receiver = aPackage) == null || $receiver.isNil){
+if(($receiver = aPackage) == null || $receiver.a$nil){
 aPackage;
 } else {
 var packageKnownVars;
@@ -1878,7 +1878,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@messageSends"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@messageSends"]=$recv($globals.Dictionary)._new();
 return self["@messageSends"];
 } else {
@@ -1980,7 +1980,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@blockIndex"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@blockIndex"]=(0);
 self["@blockIndex"];
 } else {
@@ -2012,7 +2012,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@currentScope"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
 self["@currentScope"]=$recv(self["@currentScope"])._outerScope();
@@ -2142,7 +2142,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=$recv(self["@currentScope"])._lookupVariable_(aString);
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
 self._errorShadowingVariable_(aString);
@@ -2466,7 +2466,7 @@ return $core.withContext(function($ctx1) {
 var $1,$3,$2,$4,$5,$6,$7,$8,$9,$receiver;
 binding=$recv(self["@currentScope"])._lookupVariable_(aNode);
 $1=binding;
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $3=$recv(aNode)._value();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["value"]=1;
@@ -2537,7 +2537,7 @@ $1=self._new();
 $recv($1)._theClass_(aClass);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{aClass:aClass},$globals.SemanticAnalyzer.klass)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{aClass:aClass},$globals.SemanticAnalyzer.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2547,7 +2547,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["theClass:", "new", "yourself"]
 }),
-$globals.SemanticAnalyzer.klass);
+$globals.SemanticAnalyzer.a$cls);
 
 
 $core.addClass("SemanticError", $globals.CompilerError, [], "Compiler-Semantic");

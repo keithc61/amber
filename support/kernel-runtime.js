@@ -85,8 +85,8 @@ define(function () {
 
         function initClassAndMetaclass (klass) {
             initClass(klass);
-            if (klass.klass && !klass.meta) {
-                initClass(klass.klass);
+            if (klass.a$cls && !klass.meta) {
+                initClass(klass.a$cls);
             }
         }
 
@@ -298,7 +298,7 @@ define(function () {
         });
         defineMethod(SmalltalkMethodContext, "method", function () {
             var method;
-            var lookup = this.lookupClass || this.receiver.klass;
+            var lookup = this.lookupClass || this.receiver.a$cls;
             while (!method && lookup) {
                 method = lookup.methods[st.js2st(this.selector)];
                 lookup = lookup.superclass;
@@ -425,26 +425,17 @@ define(function () {
 
         /* Send message programmatically. Used to implement #perform: & Co. */
 
-        st.send2 = function (receiver, selector, args, klass) {
-            var method, jsSelector = st.st2js(selector);
-            if (receiver == null) {
-                receiver = nilAsReceiver;
+        st.send2 = function (self, selector, args, klass) {
+            if (self == null) {
+                self = nilAsReceiver;
             }
-            method = klass ? klass.fn.prototype[jsSelector] : receiver.klass && receiver[jsSelector];
+            var method = klass ? klass.fn.prototype[st.st2js(selector)] : self.a$cls && self[st.st2js(selector)];
             if (method) {
-                return method.apply(receiver, args || []);
+                return method.apply(self, args || []);
             } else {
-                return messageNotUnderstood(receiver, selector, args);
+                return messageNotUnderstood(self.a$cls ? self : wrapJavaScript(self), selector, args);
             }
         };
-
-        function invokeDnuMethod (receiver, stSelector, args) {
-            return receiver._doesNotUnderstand_(
-                globals.Message._new()
-                    ._selector_(stSelector)
-                    ._arguments_([].slice.call(args))
-            );
-        }
 
         function wrapJavaScript (o) {
             return globals.JSObjectProxy._on_(o);
@@ -452,40 +443,26 @@ define(function () {
 
         st.wrapJavaScript = wrapJavaScript;
 
-        /* Handles #dnu: *and* JavaScript method calls.
-         if the receiver has no klass, we consider it a JS object (outside of the
-         Amber system). Else assume that the receiver understands #doesNotUnderstand: */
+        /* Handles #dnu:. Calls #doesNotUnderstand:. */
         function messageNotUnderstood (receiver, stSelector, args) {
-            if (receiver.klass != null && !receiver.allowJavaScriptCalls) {
-                return invokeDnuMethod(receiver, stSelector, args);
-            }
-            /* Call a method of a JS object, or answer a property if it exists.
-
-             Converts keyword-based selectors by using the first
-             keyword only, but keeping all message arguments.
-
-             Example:
-             "self do: aBlock with: anObject" -> "self.do(aBlock, anObject)"
-
-             Else try wrapping a JSObjectProxy around the receiver. */
-            var propertyName = st.st2prop(stSelector);
-            if (!(propertyName in receiver)) {
-                return invokeDnuMethod(wrapJavaScript(receiver), stSelector, args);
-            }
-            return accessJavaScript(receiver, propertyName, args);
+            return receiver._doesNotUnderstand_(
+                globals.Message._new()
+                    ._selector_(stSelector)
+                    ._arguments_([].slice.call(args))
+            );
         }
 
         /* If the object property is a function, then call it, except if it starts with
          an uppercase character (we probably want to answer the function itself in this
          case and send it #new from Amber).
          */
-        function accessJavaScript (receiver, propertyName, args) {
-            var propertyValue = receiver[propertyName];
+        function accessJavaScript (self, propertyName, args) {
+            var propertyValue = self[propertyName];
             if (typeof propertyValue === "function" && !/^[A-Z]/.test(propertyName)) {
-                return propertyValue.apply(receiver, args || []);
+                return propertyValue.apply(self, args || []);
             } else if (args.length > 0) {
-                receiver[propertyName] = args[0];
-                return receiver;
+                self[propertyName] = args[0];
+                return self;
             } else {
                 return propertyValue;
             }

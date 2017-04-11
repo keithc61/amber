@@ -97,7 +97,7 @@ $1=$recv($2)._at_($3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["at:"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
 var class_;
@@ -560,7 +560,7 @@ $core.addClass("SystemAnnouncer", $globals.Announcer, [], "Kernel-Announcements"
 $globals.SystemAnnouncer.comment="My unique instance is the global announcer handling all Amber system-related announces.\x0a\x0a## API\x0a\x0aAccess to the unique instance is done via `#current`";
 //>>excludeEnd("ide");
 
-$globals.SystemAnnouncer.klass.iVarNames = ["current"];
+$globals.SystemAnnouncer.a$cls.iVarNames = ["current"];
 $core.addMethod(
 $core.method({
 selector: "current",
@@ -572,12 +572,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@current"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@current"]=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.SystemAnnouncer.klass.superclass||$boot.nilAsClass).fn.prototype._new.apply($recv(self), []));
+($globals.SystemAnnouncer.a$cls.superclass||$boot.nilAsClass).fn.prototype._new.apply($recv(self), []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -586,7 +586,7 @@ return self["@current"];
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"current",{},$globals.SystemAnnouncer.klass)});
+}, function($ctx1) {$ctx1.fill(self,"current",{},$globals.SystemAnnouncer.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -596,7 +596,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifNil:", "new"]
 }),
-$globals.SystemAnnouncer.klass);
+$globals.SystemAnnouncer.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -610,7 +610,7 @@ return $core.withContext(function($ctx1) {
 self._shouldNotImplement();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"new",{},$globals.SystemAnnouncer.klass)});
+}, function($ctx1) {$ctx1.fill(self,"new",{},$globals.SystemAnnouncer.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -620,7 +620,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["shouldNotImplement"]
 }),
-$globals.SystemAnnouncer.klass);
+$globals.SystemAnnouncer.a$cls);
 
 
 $core.addClass("SystemAnnouncement", $globals.Object, [], "Kernel-Announcements");
@@ -644,7 +644,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.SystemAnnouncement.klass);
+$globals.SystemAnnouncement.a$cls);
 
 
 $core.addClass("ClassAnnouncement", $globals.SystemAnnouncement, ["theClass"], "Kernel-Announcements");
@@ -1029,7 +1029,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self._theClass();
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return $1;
 } else {
 var class_;

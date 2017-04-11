@@ -385,7 +385,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Error.klass);
+$globals.Error.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -398,7 +398,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._new())._signal();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"signal",{},$globals.Error.klass)});
+}, function($ctx1) {$ctx1.fill(self,"signal",{},$globals.Error.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -408,7 +408,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["signal", "new"]
 }),
-$globals.Error.klass);
+$globals.Error.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -421,7 +421,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._new())._signal_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"signal:",{aString:aString},$globals.Error.klass)});
+}, function($ctx1) {$ctx1.fill(self,"signal:",{aString:aString},$globals.Error.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -431,7 +431,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["signal:", "new"]
 }),
-$globals.Error.klass);
+$globals.Error.a$cls);
 
 
 $core.addClass("Halt", $globals.Error, [], "Kernel-Exceptions");
@@ -622,7 +622,7 @@ $1=self._new();
 $recv($1)._exception_(anException);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{anException:anException},$globals.JavaScriptException.klass)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{anException:anException},$globals.JavaScriptException.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -632,7 +632,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["exception:", "new", "yourself"]
 }),
-$globals.JavaScriptException.klass);
+$globals.JavaScriptException.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -649,7 +649,7 @@ $recv($1)._exception_(anException);
 $recv($1)._context_(aMethodContext);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:context:",{anException:anException,aMethodContext:aMethodContext},$globals.JavaScriptException.klass)});
+}, function($ctx1) {$ctx1.fill(self,"on:context:",{anException:anException,aMethodContext:aMethodContext},$globals.JavaScriptException.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -659,7 +659,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["exception:", "new", "context:", "yourself"]
 }),
-$globals.JavaScriptException.klass);
+$globals.JavaScriptException.a$cls);
 
 
 $core.addClass("MessageNotUnderstood", $globals.Error, ["message", "receiver"], "Kernel-Exceptions");

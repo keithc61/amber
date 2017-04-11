@@ -20,7 +20,7 @@ return $core.withContext(function($ctx1) {
 self._runTestSuite();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"main",{},$globals.NodeTestRunner.klass)});
+}, function($ctx1) {$ctx1.fill(self,"main",{},$globals.NodeTestRunner.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -30,7 +30,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["runTestSuite"]
 }),
-$globals.NodeTestRunner.klass);
+$globals.NodeTestRunner.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -225,7 +225,7 @@ return self._throw_($33);
 $recv(worker)._run();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"runTestSuite",{suite:suite,worker:worker},$globals.NodeTestRunner.klass)});
+}, function($ctx1) {$ctx1.fill(self,"runTestSuite",{suite:suite,worker:worker},$globals.NodeTestRunner.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -235,6 +235,6 @@ referencedClasses: ["OrderedCollection", "TestCase", "TestSuiteRunner", "ResultA
 //>>excludeEnd("ide");
 messageSends: ["new", "do:", "select:", "allSubclasses", "not", "isAbstract", "addAll:", "buildSuite", "on:", "on:do:", "announcer", "result", "ifTrue:", "=", "runs", "total", "log:", ",", "asString", "size", "failures", "errors", "ifFalse:", "isEmpty", "runCase", "first", "throw:", "name", "class", "selector", "run"]
 }),
-$globals.NodeTestRunner.klass);
+$globals.NodeTestRunner.a$cls);
 
 });

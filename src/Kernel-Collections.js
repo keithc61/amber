@@ -193,7 +193,7 @@ $recv($1)._key_(aKey);
 $recv($1)._value_(aValue);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"key:value:",{aKey:aKey,aValue:aValue},$globals.Association.klass)});
+}, function($ctx1) {$ctx1.fill(self,"key:value:",{aKey:aKey,aValue:aValue},$globals.Association.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -203,7 +203,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["key:", "new", "value:", "yourself"]
 }),
-$globals.Association.klass);
+$globals.Association.a$cls);
 
 
 $core.addClass("BucketStore", $globals.Object, ["buckets", "hashBlock"], "Kernel-Collections");
@@ -383,7 +383,7 @@ $1=self._new();
 $recv($1)._hashBlock_(aBlock);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"hashBlock:",{aBlock:aBlock},$globals.BucketStore.klass)});
+}, function($ctx1) {$ctx1.fill(self,"hashBlock:",{aBlock:aBlock},$globals.BucketStore.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -393,7 +393,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["hashBlock:", "new", "yourself"]
 }),
-$globals.BucketStore.klass);
+$globals.BucketStore.a$cls);
 
 
 $core.addClass("ArrayBucketStore", $globals.BucketStore, [], "Kernel-Collections");
@@ -1733,7 +1733,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Collection.klass);
+$globals.Collection.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1746,7 +1746,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return self._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"new:",{anInteger:anInteger},$globals.Collection.klass)});
+}, function($ctx1) {$ctx1.fill(self,"new:",{anInteger:anInteger},$globals.Collection.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1756,7 +1756,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["new"]
 }),
-$globals.Collection.klass);
+$globals.Collection.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1772,7 +1772,7 @@ $1=self._new();
 $recv($1)._add_(anObject);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"with:",{anObject:anObject},$globals.Collection.klass)});
+}, function($ctx1) {$ctx1.fill(self,"with:",{anObject:anObject},$globals.Collection.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1782,7 +1782,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["add:", "new", "yourself"]
 }),
-$globals.Collection.klass);
+$globals.Collection.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1802,7 +1802,7 @@ $ctx1.sendIdx["add:"]=1;
 $recv($1)._add_(anotherObject);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"with:with:",{anObject:anObject,anotherObject:anotherObject},$globals.Collection.klass)});
+}, function($ctx1) {$ctx1.fill(self,"with:with:",{anObject:anObject,anotherObject:anotherObject},$globals.Collection.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1812,7 +1812,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["add:", "new", "yourself"]
 }),
-$globals.Collection.klass);
+$globals.Collection.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1836,7 +1836,7 @@ $ctx1.sendIdx["add:"]=2;
 $recv($1)._add_(thirdObject);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"with:with:with:",{firstObject:firstObject,secondObject:secondObject,thirdObject:thirdObject},$globals.Collection.klass)});
+}, function($ctx1) {$ctx1.fill(self,"with:with:with:",{firstObject:firstObject,secondObject:secondObject,thirdObject:thirdObject},$globals.Collection.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1846,7 +1846,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["add:", "new", "yourself"]
 }),
-$globals.Collection.klass);
+$globals.Collection.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1862,7 +1862,7 @@ $1=self._new();
 $recv($1)._addAll_(aCollection);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"withAll:",{aCollection:aCollection},$globals.Collection.klass)});
+}, function($ctx1) {$ctx1.fill(self,"withAll:",{aCollection:aCollection},$globals.Collection.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1872,7 +1872,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["addAll:", "new", "yourself"]
 }),
-$globals.Collection.klass);
+$globals.Collection.a$cls);
 
 
 $core.addClass("IndexableCollection", $globals.Collection, [], "Kernel-Collections");
@@ -3162,7 +3162,7 @@ return $recv(newCollection)._add_(each);
 }));
 return newCollection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"from:",{aCollection:aCollection,newCollection:newCollection},$globals.AssociativeCollection.klass)});
+}, function($ctx1) {$ctx1.fill(self,"from:",{aCollection:aCollection,newCollection:newCollection},$globals.AssociativeCollection.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3172,7 +3172,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["new", "do:", "add:"]
 }),
-$globals.AssociativeCollection.klass);
+$globals.AssociativeCollection.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3185,7 +3185,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return self._from_(aCollection);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromPairs:",{aCollection:aCollection},$globals.AssociativeCollection.klass)});
+}, function($ctx1) {$ctx1.fill(self,"fromPairs:",{aCollection:aCollection},$globals.AssociativeCollection.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3195,7 +3195,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["from:"]
 }),
-$globals.AssociativeCollection.klass);
+$globals.AssociativeCollection.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -3233,7 +3233,7 @@ return $recv($3)._at_put_($4,$recv(aCollection)._at_($recv(each).__plus((1))));
 }));
 return newCollection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"newFromPairs:",{aCollection:aCollection,newCollection:newCollection},$globals.AssociativeCollection.klass)});
+}, function($ctx1) {$ctx1.fill(self,"newFromPairs:",{aCollection:aCollection,newCollection:newCollection},$globals.AssociativeCollection.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3243,7 +3243,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifFalse:", "even", "size", "error:", "new", "do:", "to:by:", "at:put:", "at:", "+"]
 }),
-$globals.AssociativeCollection.klass);
+$globals.AssociativeCollection.a$cls);
 
 
 $core.addClass("Dictionary", $globals.AssociativeCollection, ["keys", "values"], "Kernel-Collections");
@@ -4778,7 +4778,7 @@ referencedClasses: ["Stream"],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.SequenceableCollection.klass);
+$globals.SequenceableCollection.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -4794,7 +4794,7 @@ stream=$recv(self._streamClass())._on_(self._new());
 $recv(aBlock)._value_(stream);
 return $recv(stream)._contents();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"streamContents:",{aBlock:aBlock,stream:stream},$globals.SequenceableCollection.klass)});
+}, function($ctx1) {$ctx1.fill(self,"streamContents:",{aBlock:aBlock,stream:stream},$globals.SequenceableCollection.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4804,7 +4804,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["on:", "streamClass", "new", "value:", "contents"]
 }),
-$globals.SequenceableCollection.klass);
+$globals.SequenceableCollection.a$cls);
 
 
 $core.addClass("Array", $globals.SequenceableCollection, [], "Kernel-Collections");
@@ -5503,7 +5503,7 @@ return $core.withContext(function($ctx1) {
 return new Array(anInteger);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"new:",{anInteger:anInteger},$globals.Array.klass)});
+}, function($ctx1) {$ctx1.fill(self,"new:",{anInteger:anInteger},$globals.Array.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5513,7 +5513,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.Array.klass);
+$globals.Array.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -5529,7 +5529,7 @@ $1=self._new_((1));
 $recv($1)._at_put_((1),anObject);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"with:",{anObject:anObject},$globals.Array.klass)});
+}, function($ctx1) {$ctx1.fill(self,"with:",{anObject:anObject},$globals.Array.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5539,7 +5539,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["at:put:", "new:", "yourself"]
 }),
-$globals.Array.klass);
+$globals.Array.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -5559,7 +5559,7 @@ $ctx1.sendIdx["at:put:"]=1;
 $recv($1)._at_put_((2),anObject2);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"with:with:",{anObject:anObject,anObject2:anObject2},$globals.Array.klass)});
+}, function($ctx1) {$ctx1.fill(self,"with:with:",{anObject:anObject,anObject2:anObject2},$globals.Array.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5569,7 +5569,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["at:put:", "new:", "yourself"]
 }),
-$globals.Array.klass);
+$globals.Array.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -5593,7 +5593,7 @@ $ctx1.sendIdx["at:put:"]=2;
 $recv($1)._at_put_((3),anObject3);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"with:with:with:",{anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.Array.klass)});
+}, function($ctx1) {$ctx1.fill(self,"with:with:with:",{anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.Array.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5603,7 +5603,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["at:put:", "new:", "yourself"]
 }),
-$globals.Array.klass);
+$globals.Array.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -5630,7 +5630,7 @@ return index;
 }));
 return instance;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"withAll:",{aCollection:aCollection,instance:instance,index:index},$globals.Array.klass)});
+}, function($ctx1) {$ctx1.fill(self,"withAll:",{aCollection:aCollection,instance:instance,index:index},$globals.Array.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5640,7 +5640,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["new:", "size", "do:", "at:put:", "+"]
 }),
-$globals.Array.klass);
+$globals.Array.a$cls);
 
 
 $core.addClass("CharacterArray", $globals.SequenceableCollection, [], "Kernel-Collections");
@@ -6009,7 +6009,7 @@ return $core.withContext(function($ctx1) {
 self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromString:",{aString:aString},$globals.CharacterArray.klass)});
+}, function($ctx1) {$ctx1.fill(self,"fromString:",{aString:aString},$globals.CharacterArray.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6019,7 +6019,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["subclassResponsibility"]
 }),
-$globals.CharacterArray.klass);
+$globals.CharacterArray.a$cls);
 
 
 $core.addClass("String", $globals.CharacterArray, [], "Kernel-Collections");
@@ -7701,7 +7701,7 @@ return $core.withContext(function($ctx1) {
 return "\r";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"cr",{},$globals.String.klass)});
+}, function($ctx1) {$ctx1.fill(self,"cr",{},$globals.String.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7711,7 +7711,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.String.klass);
+$globals.String.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -7725,7 +7725,7 @@ return $core.withContext(function($ctx1) {
 return "\r\n";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"crlf",{},$globals.String.klass)});
+}, function($ctx1) {$ctx1.fill(self,"crlf",{},$globals.String.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7735,7 +7735,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.String.klass);
+$globals.String.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -7748,7 +7748,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return self._fromCharCode_((27));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"esc",{},$globals.String.klass)});
+}, function($ctx1) {$ctx1.fill(self,"esc",{},$globals.String.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7758,7 +7758,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["fromCharCode:"]
 }),
-$globals.String.klass);
+$globals.String.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -7772,7 +7772,7 @@ return $core.withContext(function($ctx1) {
 return String.fromCharCode(anInteger);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromCharCode:",{anInteger:anInteger},$globals.String.klass)});
+}, function($ctx1) {$ctx1.fill(self,"fromCharCode:",{anInteger:anInteger},$globals.String.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7782,7 +7782,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.String.klass);
+$globals.String.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -7796,7 +7796,7 @@ return $core.withContext(function($ctx1) {
 return String(aString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromString:",{aString:aString},$globals.String.klass)});
+}, function($ctx1) {$ctx1.fill(self,"fromString:",{aString:aString},$globals.String.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7806,7 +7806,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.String.klass);
+$globals.String.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -7820,7 +7820,7 @@ return $core.withContext(function($ctx1) {
 return "\n";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"lf",{},$globals.String.klass)});
+}, function($ctx1) {$ctx1.fill(self,"lf",{},$globals.String.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7830,7 +7830,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.String.klass);
+$globals.String.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -7844,7 +7844,7 @@ return $core.withContext(function($ctx1) {
 return (Math.random()*(22/32)+(10/32)).toString(32).slice(2);;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"random",{},$globals.String.klass)});
+}, function($ctx1) {$ctx1.fill(self,"random",{},$globals.String.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7854,7 +7854,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.String.klass);
+$globals.String.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -7879,7 +7879,7 @@ return $recv(aString)._includesSubString_(result);
 }))._whileTrue();
 return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"randomNotIn:",{aString:aString,result:result},$globals.String.klass)});
+}, function($ctx1) {$ctx1.fill(self,"randomNotIn:",{aString:aString,result:result},$globals.String.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7889,7 +7889,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["whileTrue", "random", "includesSubString:"]
 }),
-$globals.String.klass);
+$globals.String.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -7903,7 +7903,7 @@ return $core.withContext(function($ctx1) {
 return " ";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"space",{},$globals.String.klass)});
+}, function($ctx1) {$ctx1.fill(self,"space",{},$globals.String.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7913,7 +7913,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.String.klass);
+$globals.String.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -7931,7 +7931,7 @@ referencedClasses: ["StringStream"],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.String.klass);
+$globals.String.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -7945,7 +7945,7 @@ return $core.withContext(function($ctx1) {
 return "\t";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"tab",{},$globals.String.klass)});
+}, function($ctx1) {$ctx1.fill(self,"tab",{},$globals.String.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7955,7 +7955,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.String.klass);
+$globals.String.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -7969,7 +7969,7 @@ return $core.withContext(function($ctx1) {
 return String.fromCharCode(aUTFCharCode);;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"value:",{aUTFCharCode:aUTFCharCode},$globals.String.klass)});
+}, function($ctx1) {$ctx1.fill(self,"value:",{aUTFCharCode:aUTFCharCode},$globals.String.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7979,7 +7979,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.String.klass);
+$globals.String.a$cls);
 
 
 $core.addClass("Set", $globals.Collection, ["defaultBucket", "slowBucketStores", "fastBuckets", "size"], "Kernel-Collections");
@@ -8058,7 +8058,7 @@ return $core.withContext(function($ctx1) {
 var $1,$receiver;
 bucket=self._bucketsOfElement_(anObject);
 $1=$recv(bucket)._second();
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 var object,slowBucket;
 object=$recv(bucket)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -8137,7 +8137,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
 		// include nil to well-known objects under "boolean" fastBucket
-		if (anObject == null || anObject.isNil) return [ null, self['@fastBuckets'].boolean ];
+		if (anObject == null || anObject.a$nil) return [ null, self['@fastBuckets'].boolean ];
 		
 		var prim = anObject.valueOf();
 		if (typeof prim === "object" || typeof prim === "function" || !self['@fastBuckets'][typeof prim]) {
@@ -8156,7 +8156,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "bucketsOfElement: anObject\x0a\x09\x22Find the appropriate bucket for `anObject`.\x0a\x09For optimization purposes, directly answer an array with: \x0a\x09- the object to be store\x0a\x09- the primitive bucket\x0a\x09- the slow bucket\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09// include nil to well-known objects under \x22boolean\x22 fastBucket\x0a\x09\x09if (anObject == null || anObject.isNil) return [ null, self[''@fastBuckets''].boolean ];\x0a\x09\x09\x0a\x09\x09var prim = anObject.valueOf();\x0a\x09\x09if (typeof prim === \x22object\x22 || typeof prim === \x22function\x22 || !self[''@fastBuckets''][typeof prim]) {\x0a\x09\x09\x09var bucket = null;\x0a\x09\x09\x09self[''@slowBucketStores''].some(function (store) {\x0a\x09\x09\x09\x09return bucket = store._bucketOfElement_(anObject);\x0a\x09\x09\x09});\x0a\x09\x09\x09return [ anObject, null, bucket || self[''@defaultBucket''] ];\x0a\x09\x09}\x0a\x09\x09return [ prim, self[''@fastBuckets''][typeof prim] ];\x0a\x09'>",
+source: "bucketsOfElement: anObject\x0a\x09\x22Find the appropriate bucket for `anObject`.\x0a\x09For optimization purposes, directly answer an array with: \x0a\x09- the object to be store\x0a\x09- the primitive bucket\x0a\x09- the slow bucket\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09// include nil to well-known objects under \x22boolean\x22 fastBucket\x0a\x09\x09if (anObject == null || anObject.a$nil) return [ null, self[''@fastBuckets''].boolean ];\x0a\x09\x09\x0a\x09\x09var prim = anObject.valueOf();\x0a\x09\x09if (typeof prim === \x22object\x22 || typeof prim === \x22function\x22 || !self[''@fastBuckets''][typeof prim]) {\x0a\x09\x09\x09var bucket = null;\x0a\x09\x09\x09self[''@slowBucketStores''].some(function (store) {\x0a\x09\x09\x09\x09return bucket = store._bucketOfElement_(anObject);\x0a\x09\x09\x09});\x0a\x09\x09\x09return [ anObject, null, bucket || self[''@defaultBucket''] ];\x0a\x09\x09}\x0a\x09\x09return [ prim, self[''@fastBuckets''][typeof prim] ];\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -8172,7 +8172,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return anObject.klass != null && anObject.klass.className;
+return anObject.a$cls != null && anObject.a$cls.className;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"classNameOf:",{anObject:anObject},$globals.Set)});
@@ -8180,7 +8180,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "classNameOf: anObject\x0a\x09\x22Answer the class name of `anObject`, or `undefined` \x0a\x09if `anObject` is not an Smalltalk object\x22\x0a\x09\x0a\x09<inlineJS: 'return anObject.klass != null && anObject.klass.className'>",
+source: "classNameOf: anObject\x0a\x09\x22Answer the class name of `anObject`, or `undefined` \x0a\x09if `anObject` is not an Smalltalk object\x22\x0a\x09\x0a\x09<inlineJS: 'return anObject.a$cls != null && anObject.a$cls.className'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -8310,7 +8310,7 @@ return $core.withContext(function($ctx1) {
 var $1,$2,$3,$receiver;
 bucket=self._bucketsOfElement_(anObject);
 $1=$recv(bucket)._second();
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $2=$recv(bucket)._third();
 $3=$recv(bucket)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -8536,7 +8536,7 @@ var $early={};
 try {
 bucket=self._bucketsOfElement_(anObject);
 $1=$recv(bucket)._second();
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $2=$recv(bucket)._third();
 $3=$recv(bucket)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -9174,7 +9174,7 @@ $recv($1)._setCollection_(aCollection);
 $recv($1)._setStreamSize_($recv(aCollection)._size());
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{aCollection:aCollection},$globals.ProtoStream.klass)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{aCollection:aCollection},$globals.ProtoStream.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9184,7 +9184,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["setCollection:", "new", "setStreamSize:", "size", "yourself"]
 }),
-$globals.ProtoStream.klass);
+$globals.ProtoStream.a$cls);
 
 
 $core.addClass("Stream", $globals.ProtoStream, ["collection", "position", "streamSize"], "Kernel-Collections");
@@ -9485,7 +9485,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@position"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@position"]=(0);
 return self["@position"];
 } else {
@@ -9715,7 +9715,7 @@ $recv($1)._setCollection_(aCollection);
 $recv($1)._setStreamSize_($recv(aCollection)._size());
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{aCollection:aCollection},$globals.Stream.klass)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{aCollection:aCollection},$globals.Stream.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9725,7 +9725,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["setCollection:", "new", "setStreamSize:", "size", "yourself"]
 }),
-$globals.Stream.klass);
+$globals.Stream.a$cls);
 
 
 $core.addClass("StringStream", $globals.Stream, [], "Kernel-Collections");
@@ -10325,7 +10325,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return self._fromString_flag_(aString,"");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromString:",{aString:aString},$globals.RegularExpression.klass)});
+}, function($ctx1) {$ctx1.fill(self,"fromString:",{aString:aString},$globals.RegularExpression.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10335,7 +10335,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["fromString:flag:"]
 }),
-$globals.RegularExpression.klass);
+$globals.RegularExpression.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -10349,7 +10349,7 @@ return $core.withContext(function($ctx1) {
 return new RegExp(aString, anotherString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromString:flag:",{aString:aString,anotherString:anotherString},$globals.RegularExpression.klass)});
+}, function($ctx1) {$ctx1.fill(self,"fromString:flag:",{aString:aString,anotherString:anotherString},$globals.RegularExpression.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10359,6 +10359,6 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.RegularExpression.klass);
+$globals.RegularExpression.a$cls);
 
 });

@@ -53,7 +53,7 @@ return $recv($recv($recv(each)._allButLast())._replace_with_("([A-Z])","-$1"))._
 }));
 return switches;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"commandLineSwitches",{switches:switches},$globals.AmberCli.klass)});
+}, function($ctx1) {$ctx1.fill(self,"commandLineSwitches",{switches:switches},$globals.AmberCli.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -63,7 +63,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["collect:", "methodsInProtocol:", "class", "selector", "select:", "match:", "asLowercase", "replace:with:", "allButLast"]
 }),
-$globals.AmberCli.klass);
+$globals.AmberCli.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -77,7 +77,7 @@ return $core.withContext(function($ctx1) {
 $recv($recv($globals.Configurator)._new())._start();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"config:",{args:args},$globals.AmberCli.klass)});
+}, function($ctx1) {$ctx1.fill(self,"config:",{args:args},$globals.AmberCli.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -87,7 +87,7 @@ referencedClasses: ["Configurator"],
 //>>excludeEnd("ide");
 messageSends: ["start", "new"]
 }),
-$globals.AmberCli.klass);
+$globals.AmberCli.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -109,7 +109,7 @@ $recv(args)._remove_($recv(args)._first());
 self._perform_withArguments_(selector,$recv($globals.Array)._with_(args));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"handleArguments:",{args:args,selector:selector},$globals.AmberCli.klass)});
+}, function($ctx1) {$ctx1.fill(self,"handleArguments:",{args:args,selector:selector},$globals.AmberCli.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -119,7 +119,7 @@ referencedClasses: ["Array"],
 //>>excludeEnd("ide");
 messageSends: ["selectorForCommandLineSwitch:", "first", "remove:", "perform:withArguments:", "with:"]
 }),
-$globals.AmberCli.klass);
+$globals.AmberCli.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -142,7 +142,7 @@ return $recv(console)._log_(each);
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"help:",{args:args},$globals.AmberCli.klass)});
+}, function($ctx1) {$ctx1.fill(self,"help:",{args:args},$globals.AmberCli.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -152,7 +152,7 @@ referencedClasses: ["Transcript"],
 //>>excludeEnd("ide");
 messageSends: ["show:", "do:", "commandLineSwitches", "log:"]
 }),
-$globals.AmberCli.klass);
+$globals.AmberCli.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -166,7 +166,7 @@ return $core.withContext(function($ctx1) {
 $recv($recv($globals.Initer)._new())._start();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"init:",{args:args},$globals.AmberCli.klass)});
+}, function($ctx1) {$ctx1.fill(self,"init:",{args:args},$globals.AmberCli.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -176,7 +176,7 @@ referencedClasses: ["Initer"],
 //>>excludeEnd("ide");
 messageSends: ["start", "new"]
 }),
-$globals.AmberCli.klass);
+$globals.AmberCli.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -241,7 +241,7 @@ return self;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"main",{args:args,packageJSON:packageJSON},$globals.AmberCli.klass)});
+}, function($ctx1) {$ctx1.fill(self,"main",{args:args,packageJSON:packageJSON},$globals.AmberCli.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -251,7 +251,7 @@ referencedClasses: ["Transcript", "Smalltalk"],
 //>>excludeEnd("ide");
 messageSends: ["value:", "show:", ",", "version", "node", "versions", "argv", "removeFrom:to:", "ifEmpty:ifNotEmpty:", "help:", "handleArguments:"]
 }),
-$globals.AmberCli.klass);
+$globals.AmberCli.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -264,7 +264,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($recv($globals.Repl)._new())._createInterface();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"repl:",{args:args},$globals.AmberCli.klass)});
+}, function($ctx1) {$ctx1.fill(self,"repl:",{args:args},$globals.AmberCli.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -274,7 +274,7 @@ referencedClasses: ["Repl"],
 //>>excludeEnd("ide");
 messageSends: ["createInterface", "new"]
 }),
-$globals.AmberCli.klass);
+$globals.AmberCli.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -305,7 +305,7 @@ selector;
 }
 return selector;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"selectorForCommandLineSwitch:",{aSwitch:aSwitch,command:command,selector:selector},$globals.AmberCli.klass)});
+}, function($ctx1) {$ctx1.fill(self,"selectorForCommandLineSwitch:",{aSwitch:aSwitch,command:command,selector:selector},$globals.AmberCli.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -315,7 +315,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifTrue:ifFalse:", "includes:", "commandLineSwitches", ",", "replace:with:", "asUppercase", "second"]
 }),
-$globals.AmberCli.klass);
+$globals.AmberCli.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -328,7 +328,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($recv($globals.FileServer)._createServerWithArguments_(args))._start();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"serve:",{args:args},$globals.AmberCli.klass)});
+}, function($ctx1) {$ctx1.fill(self,"serve:",{args:args},$globals.AmberCli.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -338,7 +338,7 @@ referencedClasses: ["FileServer"],
 //>>excludeEnd("ide");
 messageSends: ["start", "createServerWithArguments:"]
 }),
-$globals.AmberCli.klass);
+$globals.AmberCli.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -356,7 +356,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.AmberCli.klass);
+$globals.AmberCli.a$cls);
 
 
 $core.addClass("BaseFileManipulator", $globals.Object, ["path", "fs"], "AmberCli");
@@ -491,7 +491,7 @@ self._writeConfigThenDo_((function(err){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(($receiver = err) == null || $receiver.isNil){
+if(($receiver = err) == null || $receiver.a$nil){
 return $recv(process)._exit();
 } else {
 return $recv(process)._exit_((111));
@@ -579,7 +579,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@basePath"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return $recv(self._class())._defaultBasePath();
 } else {
 return $1;
@@ -1040,7 +1040,7 @@ $3=$recv($recv(aRequest)._headers())._at_("authorization");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["at:"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $3) == null || $receiver.isNil){
+if(($receiver = $3) == null || $receiver.a$nil){
 header="";
 } else {
 header=$3;
@@ -1056,7 +1056,7 @@ $4=$recv(header)._tokenize_(" ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["tokenize:"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $4) == null || $receiver.isNil){
+if(($receiver = $4) == null || $receiver.a$nil){
 token="";
 } else {
 token=$4;
@@ -1267,7 +1267,7 @@ self._respondFileNamed_to_($3,aResponse);
 } else {
 $5=$recv($recv(aUrl)._pathname()).__comma("/");
 $7=$recv(aUrl)._search();
-if(($receiver = $7) == null || $receiver.isNil){
+if(($receiver = $7) == null || $receiver.a$nil){
 $6="";
 } else {
 $6=$7;
@@ -1650,7 +1650,7 @@ $recv($1)._stat_then_($2,(function(err,stat){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(($receiver = err) == null || $receiver.isNil){
+if(($receiver = err) == null || $receiver.a$nil){
 $3=$recv(stat)._isDirectory();
 if(!$core.assert($3)){
 $4=console;
@@ -1745,7 +1745,7 @@ messageSends: ["log:"]
 $globals.FileServer);
 
 
-$globals.FileServer.klass.iVarNames = ["mimeTypes"];
+$globals.FileServer.a$cls.iVarNames = ["mimeTypes"];
 $core.addMethod(
 $core.method({
 selector: "commandLineSwitches",
@@ -1791,7 +1791,7 @@ $ctx2.sendIdx["replace:with:"]=1;
 }));
 return switches;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"commandLineSwitches",{switches:switches},$globals.FileServer.klass)});
+}, function($ctx1) {$ctx1.fill(self,"commandLineSwitches",{switches:switches},$globals.FileServer.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1801,7 +1801,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["collect:", "methodsInProtocol:", "selector", "select:", "match:", "replace:with:", "asLowercase", "allButLast"]
 }),
-$globals.FileServer.klass);
+$globals.FileServer.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1904,7 +1904,7 @@ return server;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"createServerWithArguments:",{options:options,server:server,popFront:popFront,front:front,optionName:optionName,optionValue:optionValue,switches:switches},$globals.FileServer.klass)});
+}, function($ctx1) {$ctx1.fill(self,"createServerWithArguments:",{options:options,server:server,popFront:popFront,front:front,optionName:optionName,optionValue:optionValue,switches:switches},$globals.FileServer.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1914,7 +1914,7 @@ referencedClasses: ["Array"],
 //>>excludeEnd("ide");
 messageSends: ["commandLineSwitches", "new", "ifEmpty:", "ifFalse:", "even", "size", "log:", ",", "first", "remove:", "whileTrue:", "notEmpty", "value:", "ifTrue:ifFalse:", "includes:", "selectorForCommandLineSwitch:", "perform:withArguments:", "with:"]
 }),
-$globals.FileServer.klass);
+$globals.FileServer.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1932,7 +1932,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.FileServer.klass);
+$globals.FileServer.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1950,7 +1950,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.FileServer.klass);
+$globals.FileServer.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1968,7 +1968,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.FileServer.klass);
+$globals.FileServer.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1986,7 +1986,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.FileServer.klass);
+$globals.FileServer.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -2029,7 +2029,7 @@ return self;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"main",{fileServer:fileServer,args:args},$globals.FileServer.klass)});
+}, function($ctx1) {$ctx1.fill(self,"main",{fileServer:fileServer,args:args},$globals.FileServer.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2039,7 +2039,7 @@ referencedClasses: ["FileServer"],
 //>>excludeEnd("ide");
 messageSends: ["argv", "removeFrom:to:", "detect:ifNone:", "ifTrue:", "=", "printHelp", "createServerWithArguments:", "start"]
 }),
-$globals.FileServer.klass);
+$globals.FileServer.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -2055,7 +2055,7 @@ return "text/plain";
 
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"mimeTypeFor:",{aString:aString},$globals.FileServer.klass)});
+}, function($ctx1) {$ctx1.fill(self,"mimeTypeFor:",{aString:aString},$globals.FileServer.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2065,7 +2065,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["at:ifAbsent:", "mimeTypes", "replace:with:"]
 }),
-$globals.FileServer.klass);
+$globals.FileServer.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -2078,14 +2078,14 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@mimeTypes"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@mimeTypes"]=self._defaultMimeTypes();
 return self["@mimeTypes"];
 } else {
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"mimeTypes",{},$globals.FileServer.klass)});
+}, function($ctx1) {$ctx1.fill(self,"mimeTypes",{},$globals.FileServer.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2095,7 +2095,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifNil:", "defaultMimeTypes"]
 }),
-$globals.FileServer.klass);
+$globals.FileServer.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -2125,7 +2125,7 @@ return $recv(console)._log_($recv(each).__comma(" <parameter>"));
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"printHelp",{},$globals.FileServer.klass)});
+}, function($ctx1) {$ctx1.fill(self,"printHelp",{},$globals.FileServer.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2135,7 +2135,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["log:", "do:", "commandLineSwitches", ","]
 }),
-$globals.FileServer.klass);
+$globals.FileServer.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -2161,7 +2161,7 @@ $ctx1.sendIdx["replace:with:"]=1;
 //>>excludeEnd("ctx");
 return $recv($1).__comma(":");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"selectorForCommandLineSwitch:",{aSwitch:aSwitch},$globals.FileServer.klass)});
+}, function($ctx1) {$ctx1.fill(self,"selectorForCommandLineSwitch:",{aSwitch:aSwitch},$globals.FileServer.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2171,7 +2171,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: [",", "replace:with:", "asUppercase", "second"]
 }),
-$globals.FileServer.klass);
+$globals.FileServer.a$cls);
 
 
 $core.addClass("Initer", $globals.BaseFileManipulator, ["childProcess", "nmPath"], "AmberCli");
@@ -2466,22 +2466,22 @@ self._gruntInitThenDo_((function(error){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(($receiver = error) == null || $receiver.isNil){
+if(($receiver = error) == null || $receiver.a$nil){
 return self._bowerInstallThenDo_((function(error2){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-if(($receiver = error2) == null || $receiver.isNil){
+if(($receiver = error2) == null || $receiver.a$nil){
 return self._npmInstallThenDo_((function(error3){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
-if(($receiver = error3) == null || $receiver.isNil){
+if(($receiver = error3) == null || $receiver.a$nil){
 return self._gruntThenDo_((function(error4){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx5) {
 //>>excludeEnd("ctx");
-if(($receiver = error4) == null || $receiver.isNil){
+if(($receiver = error4) == null || $receiver.a$nil){
 self._finishMessage();
 return $recv(process)._exit();
 } else {
@@ -2620,7 +2620,7 @@ var varName,value;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(($receiver = name) == null || $receiver.isNil){
+if(($receiver = name) == null || $receiver.a$nil){
 varName=self._nextResultName();
 } else {
 varName=name;
@@ -2633,7 +2633,7 @@ $recv((function(){
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 $2=$recv(varName).__comma(" := ");
-if(($receiver = expr) == null || $receiver.isNil){
+if(($receiver = expr) == null || $receiver.a$nil){
 $3=buffer;
 } else {
 $3=expr;
@@ -3024,7 +3024,7 @@ $1=$recv(aClass)._superclass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["superclass"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return $recv(aClass)._instanceVariableNames();
 } else {
 $2=$recv(aClass)._instanceVariableNames();
@@ -3103,7 +3103,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@resultCount"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 self["@resultCount"]=(1);
 } else {
 self["@resultCount"]=$recv(self["@resultCount"]).__plus((1));
@@ -3453,7 +3453,7 @@ $recv($recv(process)._stdin())._on_do_("keypress",(function(s,key){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(($receiver = key) == null || $receiver.isNil){
+if(($receiver = key) == null || $receiver.a$nil){
 return key;
 } else {
 return self._onKeyPress_(key);
@@ -3517,7 +3517,7 @@ $1=$recv($2)._matchesOf_("\x5cd+$");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["matchesOf:"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return $recv($recv(aClass)._name()).__comma("2");
 } else {
 var counter;
@@ -3562,7 +3562,7 @@ return $core.withContext(function($ctx1) {
 $recv(self._new())._createInterface();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"main",{},$globals.Repl.klass)});
+}, function($ctx1) {$ctx1.fill(self,"main",{},$globals.Repl.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3572,6 +3572,6 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["createInterface", "new"]
 }),
-$globals.Repl.klass);
+$globals.Repl.a$cls);
 
 });

@@ -149,7 +149,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@source"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return "";
 } else {
 return $1;
@@ -330,7 +330,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$receiver;
 $1=self["@transformersDictionary"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $2=$recv($globals.Dictionary)._new();
 $recv($2)._at_put_("2000-semantic",self._semanticAnalyzer());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -388,7 +388,7 @@ $globals.CodeGenerator);
 
 
 
-$core.addClass("Compiler", $globals.Object, ["currentClass", "currentPackage", "source", "unknownVariables", "codeGeneratorClass"], "Compiler-Core");
+$core.addClass("Compiler", $globals.Object, ["currentClass", "currentPackage", "source", "codeGeneratorClass"], "Compiler-Core");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Compiler.comment="I provide the public interface for compiling Amber source code into JavaScript.\x0a\x0aThe code generator used to produce JavaScript can be plugged with `#codeGeneratorClass`.\x0aThe default code generator is an instance of `InlinedCodeGenerator`";
 //>>excludeEnd("ide");
@@ -403,7 +403,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@codeGeneratorClass"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return $globals.InliningCodeGenerator;
 } else {
 return $1;
@@ -509,7 +509,6 @@ $recv($1)._source_(self._source());
 $recv($1)._currentClass_(self._currentClass());
 $recv($1)._currentPackage_(self._currentPackage());
 result=$recv(generator)._compileNode_(aNode);
-self._unknownVariables_([]);
 return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"compileNode:",{aNode:aNode,generator:generator,result:result},$globals.Compiler)});
@@ -517,10 +516,10 @@ return result;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "compileNode: aNode\x0a\x09| generator result |\x0a\x09generator := self codeGeneratorClass new.\x0a\x09generator\x0a\x09\x09source: self source;\x0a\x09\x09currentClass: self currentClass;\x0a\x09\x09currentPackage: self currentPackage.\x0a\x09result := generator compileNode: aNode.\x0a\x09self unknownVariables: #().\x0a\x09^ result",
+source: "compileNode: aNode\x0a\x09| generator result |\x0a\x09generator := self codeGeneratorClass new.\x0a\x09generator\x0a\x09\x09source: self source;\x0a\x09\x09currentClass: self currentClass;\x0a\x09\x09currentPackage: self currentPackage.\x0a\x09result := generator compileNode: aNode.\x0a\x09^ result",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["new", "codeGeneratorClass", "source:", "source", "currentClass:", "currentClass", "currentPackage:", "currentPackage", "compileNode:", "unknownVariables:"]
+messageSends: ["new", "codeGeneratorClass", "source:", "source", "currentClass:", "currentClass", "currentPackage:", "currentPackage", "compileNode:"]
 }),
 $globals.Compiler);
 
@@ -832,7 +831,7 @@ return self._install_forClass_protocol_($recv(each)._source(),aClass,$recv(each)
 //>>excludeEnd("ctx");
 }),"Recompiling ".__comma($recv(aClass)._name()));
 $2=$recv(aClass)._theMetaClass();
-if(($receiver = $2) == null || $receiver.isNil){
+if(($receiver = $2) == null || $receiver.a$nil){
 $2;
 } else {
 var meta;
@@ -899,7 +898,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@source"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 return "";
 } else {
 return $1;
@@ -936,43 +935,6 @@ messageSends: []
 }),
 $globals.Compiler);
 
-$core.addMethod(
-$core.method({
-selector: "unknownVariables",
-protocol: "accessing",
-fn: function (){
-var self=this;
-return self["@unknownVariables"];
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "unknownVariables\x0a\x09^ unknownVariables",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Compiler);
-
-$core.addMethod(
-$core.method({
-selector: "unknownVariables:",
-protocol: "accessing",
-fn: function (aCollection){
-var self=this;
-self["@unknownVariables"]=aCollection;
-return self;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aCollection"],
-source: "unknownVariables: aCollection\x0a\x09unknownVariables := aCollection",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Compiler);
-
 
 $core.addMethod(
 $core.method({
@@ -986,7 +948,7 @@ return $core.withContext(function($ctx1) {
 $recv(self._new())._recompile_(aClass);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"recompile:",{aClass:aClass},$globals.Compiler.klass)});
+}, function($ctx1) {$ctx1.fill(self,"recompile:",{aClass:aClass},$globals.Compiler.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -996,7 +958,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["recompile:", "new"]
 }),
-$globals.Compiler.klass);
+$globals.Compiler.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -1018,7 +980,7 @@ return self._recompile_(each);
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"recompileAll",{},$globals.Compiler.klass)});
+}, function($ctx1) {$ctx1.fill(self,"recompileAll",{},$globals.Compiler.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1028,7 +990,7 @@ referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 messageSends: ["do:", "classes", "recompile:"]
 }),
-$globals.Compiler.klass);
+$globals.Compiler.a$cls);
 
 
 $core.addClass("CompilerError", $globals.Error, [], "Compiler-Core");
@@ -1179,7 +1141,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._new())._evaluate_for_(aString,anObject);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"evaluate:for:",{aString:aString,anObject:anObject},$globals.Evaluator.klass)});
+}, function($ctx1) {$ctx1.fill(self,"evaluate:for:",{aString:aString,anObject:anObject},$globals.Evaluator.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1189,7 +1151,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["evaluate:for:", "new"]
 }),
-$globals.Evaluator.klass);
+$globals.Evaluator.a$cls);
 
 $core.addMethod(
 $core.method({

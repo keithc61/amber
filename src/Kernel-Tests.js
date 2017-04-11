@@ -1932,7 +1932,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@theClass"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
 $recv($globals.Smalltalk)._removeClass_(self["@theClass"]);
@@ -2305,7 +2305,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=self["@theClass"];
-if(($receiver = $1) == null || $receiver.isNil){
+if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
 $recv($recv(self["@theClass"])._allSubclasses())._reverseDo_((function(each){
@@ -4823,7 +4823,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.CollectionTest.klass);
+$globals.CollectionTest.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -4836,7 +4836,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._collectionClass())._isNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isAbstract",{},$globals.CollectionTest.klass)});
+}, function($ctx1) {$ctx1.fill(self,"isAbstract",{},$globals.CollectionTest.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4846,7 +4846,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["isNil", "collectionClass"]
 }),
-$globals.CollectionTest.klass);
+$globals.CollectionTest.a$cls);
 
 
 $core.addClass("IndexableCollectionTest", $globals.CollectionTest, [], "Kernel-Tests");
@@ -6707,7 +6707,7 @@ referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.DictionaryTest.klass);
+$globals.DictionaryTest.a$cls);
 
 
 $core.addClass("HashedCollectionTest", $globals.AssociativeCollectionTest, [], "Kernel-Tests");
@@ -6896,7 +6896,7 @@ referencedClasses: ["HashedCollection"],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.HashedCollectionTest.klass);
+$globals.HashedCollectionTest.a$cls);
 
 
 $core.addClass("SequenceableCollectionTest", $globals.IndexableCollectionTest, [], "Kernel-Tests");
@@ -8149,7 +8149,7 @@ referencedClasses: ["Array"],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.ArrayTest.klass);
+$globals.ArrayTest.a$cls);
 
 
 $core.addClass("StringTest", $globals.SequenceableCollectionTest, [], "Kernel-Tests");
@@ -9298,7 +9298,7 @@ referencedClasses: ["String"],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.StringTest.klass);
+$globals.StringTest.a$cls);
 
 
 $core.addClass("SetTest", $globals.CollectionTest, [], "Kernel-Tests");
@@ -10030,7 +10030,7 @@ referencedClasses: ["Set"],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.SetTest.klass);
+$globals.SetTest.a$cls);
 
 
 $core.addClass("ConsoleTranscriptTest", $globals.TestCase, [], "Kernel-Tests");
@@ -10710,166 +10710,6 @@ source: "testDNU\x0a\x09self should: [ self jsObject foo ] raise: MessageNotUnde
 referencedClasses: ["MessageNotUnderstood"],
 //>>excludeEnd("ide");
 messageSends: ["should:raise:", "foo", "jsObject"]
-}),
-$globals.JSObjectProxyTest);
-
-$core.addMethod(
-$core.method({
-selector: "testDNURegression1057",
-protocol: "tests",
-fn: function (){
-var self=this;
-var jsObject;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-jsObject=[];
-$recv(jsObject)._basicAt_put_("allowJavaScriptCalls",true);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["basicAt:put:"]=1;
-//>>excludeEnd("ctx");
-$recv(jsObject)._basicAt_put_("foo",(3));
-self._shouldnt_raise_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(jsObject)._foo();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["foo"]=1;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}),$globals.Error);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["shouldnt:raise:"]=1;
-//>>excludeEnd("ctx");
-$1=$recv(jsObject)._foo();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["foo"]=2;
-//>>excludeEnd("ctx");
-self._assert_equals_($1,(3));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["assert:equals:"]=1;
-//>>excludeEnd("ctx");
-self._shouldnt_raise_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(jsObject)._foo_((4));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-//>>excludeEnd("ctx");
-}),$globals.Error);
-self._assert_equals_($recv(jsObject)._foo(),(4));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testDNURegression1057",{jsObject:jsObject},$globals.JSObjectProxyTest)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testDNURegression1057\x0a\x09| jsObject |\x0a\x09jsObject := #().\x0a\x09jsObject basicAt: 'allowJavaScriptCalls' put: true.\x0a\x09jsObject basicAt: 'foo' put: 3.\x0a\x09self shouldnt: [ jsObject foo ] raise: Error.\x0a\x09self assert: jsObject foo equals: 3.\x0a\x09self shouldnt: [ jsObject foo: 4 ] raise: Error.\x0a\x09self assert: jsObject foo equals: 4",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-messageSends: ["basicAt:put:", "shouldnt:raise:", "foo", "assert:equals:", "foo:"]
-}),
-$globals.JSObjectProxyTest);
-
-$core.addMethod(
-$core.method({
-selector: "testDNURegression1059",
-protocol: "tests",
-fn: function (){
-var self=this;
-var jsObject;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-jsObject=[];
-$recv(jsObject)._basicAt_put_("allowJavaScriptCalls",true);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["basicAt:put:"]=1;
-//>>excludeEnd("ctx");
-$recv(jsObject)._basicAt_put_("x",(3));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["basicAt:put:"]=2;
-//>>excludeEnd("ctx");
-$recv(jsObject)._basicAt_put_("x:",(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return self._error();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-self._shouldnt_raise_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(jsObject)._x_((4));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-//>>excludeEnd("ctx");
-}),$globals.Error);
-self._assert_equals_($recv(jsObject)._x(),(4));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testDNURegression1059",{jsObject:jsObject},$globals.JSObjectProxyTest)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testDNURegression1059\x0a\x09| jsObject |\x0a\x09jsObject := #().\x0a\x09jsObject basicAt: 'allowJavaScriptCalls' put: true.\x0a\x09jsObject basicAt: 'x' put: 3.\x0a\x09jsObject basicAt: 'x:' put: [ self error ].\x0a\x09self shouldnt: [ jsObject x: 4 ] raise: Error.\x0a\x09self assert: jsObject x equals: 4",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-messageSends: ["basicAt:put:", "error", "shouldnt:raise:", "x:", "assert:equals:", "x"]
-}),
-$globals.JSObjectProxyTest);
-
-$core.addMethod(
-$core.method({
-selector: "testDNURegression1062",
-protocol: "tests",
-fn: function (){
-var self=this;
-var jsObject,stored;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-jsObject=[];
-$recv(jsObject)._basicAt_put_("allowJavaScriptCalls",true);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["basicAt:put:"]=1;
-//>>excludeEnd("ctx");
-$recv(jsObject)._basicAt_put_("x",(function(v){
-stored=v;
-return stored;
-
-}));
-self._shouldnt_raise_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(jsObject)._x_((4));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-//>>excludeEnd("ctx");
-}),$globals.Error);
-self._assert_equals_(stored,(4));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testDNURegression1062",{jsObject:jsObject,stored:stored},$globals.JSObjectProxyTest)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testDNURegression1062\x0a\x09| jsObject stored |\x0a\x09jsObject := #().\x0a\x09jsObject basicAt: 'allowJavaScriptCalls' put: true.\x0a\x09jsObject basicAt: 'x' put: [ :v | stored := v ].\x0a\x09self shouldnt: [ jsObject x: 4 ] raise: Error.\x0a\x09self assert: stored equals: 4",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-messageSends: ["basicAt:put:", "shouldnt:raise:", "x:", "assert:equals:"]
 }),
 $globals.JSObjectProxyTest);
 
@@ -14122,7 +13962,7 @@ $5=$recv($globals.Object)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=2;
 //>>excludeEnd("ctx");
-if(($receiver = $5) == null || $receiver.isNil){
+if(($receiver = $5) == null || $receiver.a$nil){
 $4=true;
 } else {
 $4=$5;
@@ -14133,7 +13973,7 @@ $7=$recv($globals.Object)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=3;
 //>>excludeEnd("ctx");
-if(($receiver = $7) == null || $receiver.isNil){
+if(($receiver = $7) == null || $receiver.a$nil){
 $6=$7;
 } else {
 $6=true;
@@ -14146,7 +13986,7 @@ $9=$recv($globals.Object)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=4;
 //>>excludeEnd("ctx");
-if(($receiver = $9) == null || $receiver.isNil){
+if(($receiver = $9) == null || $receiver.a$nil){
 $8=false;
 } else {
 $8=true;
@@ -14156,7 +13996,7 @@ self._assert_equals_($8,true);
 $ctx1.sendIdx["assert:equals:"]=2;
 //>>excludeEnd("ctx");
 $11=$recv($globals.Object)._new();
-if(($receiver = $11) == null || $receiver.isNil){
+if(($receiver = $11) == null || $receiver.a$nil){
 $10=false;
 } else {
 $10=true;
@@ -15478,7 +15318,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.StreamTest.klass);
+$globals.StreamTest.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -15491,7 +15331,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(self._collectionClass())._isNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isAbstract",{},$globals.StreamTest.klass)});
+}, function($ctx1) {$ctx1.fill(self,"isAbstract",{},$globals.StreamTest.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -15501,7 +15341,7 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["isNil", "collectionClass"]
 }),
-$globals.StreamTest.klass);
+$globals.StreamTest.a$cls);
 
 
 $core.addClass("ArrayStreamTest", $globals.StreamTest, [], "Kernel-Tests");
@@ -15545,7 +15385,7 @@ referencedClasses: ["Array"],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.ArrayStreamTest.klass);
+$globals.ArrayStreamTest.a$cls);
 
 
 $core.addClass("StringStreamTest", $globals.StreamTest, [], "Kernel-Tests");
@@ -15584,7 +15424,7 @@ referencedClasses: ["String"],
 //>>excludeEnd("ide");
 messageSends: []
 }),
-$globals.StringStreamTest.klass);
+$globals.StringStreamTest.a$cls);
 
 
 $core.addClass("UndefinedTest", $globals.TestCase, [], "Kernel-Tests");
@@ -15646,7 +15486,7 @@ var self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2,$4,$6,$5,$receiver;
-if(($receiver = nil) == null || $receiver.isNil){
+if(($receiver = nil) == null || $receiver.a$nil){
 $1=true;
 } else {
 $1=nil;
@@ -15655,7 +15495,7 @@ self._assert_equals_($1,true);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = nil) == null || $receiver.isNil){
+if(($receiver = nil) == null || $receiver.a$nil){
 $3=nil;
 } else {
 $3=true;
@@ -15668,13 +15508,13 @@ self._deny_($2);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["deny:"]=1;
 //>>excludeEnd("ctx");
-if(($receiver = nil) == null || $receiver.isNil){
+if(($receiver = nil) == null || $receiver.a$nil){
 $4=true;
 } else {
 $4=false;
 }
 self._assert_equals_($4,true);
-if(($receiver = nil) == null || $receiver.isNil){
+if(($receiver = nil) == null || $receiver.a$nil){
 $6=false;
 } else {
 $6=true;

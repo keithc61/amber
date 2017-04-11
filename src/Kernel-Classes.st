@@ -249,7 +249,7 @@ uses: aTraitCompositionDescription instanceVariableNames: aCollection
 !Metaclass methodsFor: 'converting'!
 
 asJavaScriptSource
-	^ '$globals.', self instanceClass name, '.klass'
+	^ '$globals.', self instanceClass name, '.a$cls'
 ! !
 
 !Metaclass methodsFor: 'testing'!

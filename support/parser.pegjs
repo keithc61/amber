@@ -200,7 +200,7 @@ wsStSequenceWs = ws temps:temps? statements:wsStatementsWs? {
 
 jsSequence = jsStatement
 
-block = '[' params:wsBlockParamList? sequence:wsSequenceWs? ']' {
+block = '[' params:wsBlockParamList? sequence:wsSequenceWs ']' {
 	return $globals.BlockNode._new()
 		._location_(location())
 		._source_(text())
@@ -283,7 +283,7 @@ pragmaJsStatement = '<' ws 'inlineJS:' ws val:rawString ws '>' {
 
 method =
 	pattern:(wsKeywordPattern / wsBinaryPattern / wsUnaryPattern)
-	sequence:wsSequenceWs? {
+	sequence:wsSequenceWs {
 		return $globals.MethodNode._new()
 			._location_(location())
 			._source_(text())

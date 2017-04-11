@@ -155,7 +155,7 @@ define(['./compatibility'], function () {
 
         // Fake root class of the system.
         // Effective superclass of all classes created with `nil subclass: ...`.
-        var nilAsClass = this.nilAsClass = {fn: SmalltalkRoot, klass: {fn: SmalltalkClass}};
+        var nilAsClass = this.nilAsClass = {fn: SmalltalkRoot, a$cls: {fn: SmalltalkClass}, klass: {fn: SmalltalkClass}};
 
         SmalltalkMetaclass.prototype.meta = true;
 
@@ -182,10 +182,10 @@ define(['./compatibility'], function () {
 
         this.bootstrapHierarchy = function () {
             var nilSubclasses = [globals.ProtoObject];
-            nilAsClass.klass = globals.Class;
+            nilAsClass.a$cls = nilAsClass.klass = globals.Class;
             nilSubclasses.forEach(function (each) {
-                each.klass.superclass = globals.Class;
-                addSubclass(each.klass);
+                each.a$cls.superclass = globals.Class;
+                addSubclass(each.a$cls);
             });
         };
 
@@ -196,7 +196,7 @@ define(['./compatibility'], function () {
 
         function classBuilder (className, superclass, iVarNames, fn) {
             var logicalSuperclass = superclass;
-            if (superclass == null || superclass.isNil) {
+            if (superclass == null || superclass.a$nil) {
                 superclass = nilAsClass;
                 logicalSuperclass = null;
             }
@@ -220,7 +220,7 @@ define(['./compatibility'], function () {
             function metaclass () {
                 var that = new SmalltalkMetaclass();
 
-                that.superclass = superclass.klass;
+                that.superclass = superclass.a$cls;
                 that.fn = inherits(function () {
                 }, that.superclass.fn);
                 that.iVarNames = [];
@@ -245,6 +245,10 @@ define(['./compatibility'], function () {
         }
 
         function wireKlass (klass) {
+            Object.defineProperty(klass.fn.prototype, "a$cls", {
+                value: klass,
+                enumerable: false, configurable: true, writable: true
+            });
             Object.defineProperty(klass.fn.prototype, "klass", {
                 value: klass,
                 enumerable: false, configurable: true, writable: true
@@ -259,7 +263,7 @@ define(['./compatibility'], function () {
         st.addClass = function (className, superclass, iVarNames, pkgName) {
             // While subclassing nil is allowed, it might be an error, so
             // warn about it.
-            if (typeof superclass == 'undefined' || superclass && superclass.isNil) {
+            if (typeof superclass == 'undefined' || superclass && superclass.a$nil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
             return buildBehaviorBody(pkgName, classBuilder(className, superclass, iVarNames, coreFns[className]));
@@ -285,7 +289,7 @@ define(['./compatibility'], function () {
                     return !each.meta;
                 })
                 .map(function (each) {
-                    return each.klass;
+                    return each.a$cls;
                 });
         }
 
@@ -314,11 +318,15 @@ define(['./compatibility'], function () {
 
         this.nilAsReceiver = new SmalltalkNil();
 
-        // Adds an `isNil` property to the `nil` object.  When sending
+        // Adds an `a$nil` (and legacy `isNil`) property to the `nil` object.  When sending
         // nil objects from one environment to another, doing
         // `anObject == nil` (in JavaScript) does not always answer
         // true as the referenced nil object might come from the other
         // environment.
+        Object.defineProperty(this.nilAsReceiver, 'a$nil', {
+            value: true,
+            enumerable: false, configurable: false, writable: false
+        });
         Object.defineProperty(this.nilAsReceiver, 'isNil', {
             value: true,
             enumerable: false, configurable: false, writable: false
@@ -342,7 +350,7 @@ define(['./compatibility'], function () {
          */
         this.asReceiver = function (o) {
             if (o == null) return nilAsReceiver;
-            else if (o.klass != null) return o;
+            else if (o.a$cls != null) return o;
             else return st.wrapJavaScript(o);
         };
     }
