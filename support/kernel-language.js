@@ -155,7 +155,11 @@ define(['./compatibility'], function () {
 
         // Fake root class of the system.
         // Effective superclass of all classes created with `nil subclass: ...`.
-        var nilAsClass = this.nilAsClass = {fn: SmalltalkRoot, a$cls: {fn: SmalltalkClass}, klass: {fn: SmalltalkClass}};
+        var nilAsClass = this.nilAsClass = {
+            fn: SmalltalkRoot,
+            a$cls: {fn: SmalltalkClass},
+            klass: {fn: SmalltalkClass}
+        };
 
         SmalltalkMetaclass.prototype.meta = true;
 
@@ -317,6 +321,7 @@ define(['./compatibility'], function () {
         coreFns.UndefinedObject = inherits(SmalltalkNil, SmalltalkObject);
 
         this.nilAsReceiver = new SmalltalkNil();
+        this.nilAsValue = this.nilAsReceiver; // TODO null
 
         // Adds an `a$nil` (and legacy `isNil`) property to the `nil` object.  When sending
         // nil objects from one environment to another, doing
