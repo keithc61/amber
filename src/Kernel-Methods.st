@@ -854,6 +854,10 @@ methodOf: nativeFunc this: thisObject valueWithArgs: args
 
 exists: aString
 	^ Smalltalk existsJsGlobal: aString
+!
+
+isNativeFunction: anObject
+	<inlineJS: 'return typeof anObject === "function"'>
 ! !
 
 Object subclass: #Timeout

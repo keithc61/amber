@@ -1,264 +1,5 @@
 Smalltalk createPackage: 'Kernel-Classes'!
-Object subclass: #BehaviorBody
-	instanceVariableNames: ''
-	package: 'Kernel-Classes'!
-!BehaviorBody commentStamp!
-I am the superclass of all behaviors.
-
-My instances hold the method dictionary.
-
-I also provides methods for compiling methods and examining the method dictionary.!
-
-!BehaviorBody methodsFor: 'accessing'!
-
->> aString
-	^ self methodAt: aString
-!
-
-allInstanceVariableNames
-	"Default for non-classes; to be able to send #allInstanceVariableNames to any class / trait."
-	^ #()
-!
-
-comment
-	^ (self basicAt: 'comment') ifNil: [ '' ]
-!
-
-comment: aString
-	self basicAt: 'comment' put: aString.
-	SystemAnnouncer current
-		announce: (ClassCommentChanged new
-			theClass: self;
-			yourself)
-!
-
-definition
-	self subclassResponsibility
-!
-
-methodAt: aString
-	^ self methodDictionary at: aString
-!
-
-methodDictionary
-	<inlineJS: 'var dict = $globals.HashedCollection._new();
-	var methods = self.methods;
-	Object.keys(methods).forEach(function(i) {
-		if(methods[i].selector) {
-			dict._at_put_(methods[i].selector, methods[i]);
-		}
-	});
-	return dict'>
-!
-
-methodTemplate
-	^ String streamContents: [ :stream | stream 
-		write: 'messageSelectorAndArgumentNames'; lf;
-		tab; write: '"comment stating purpose of message"'; lf;
-		lf;
-		tab; write: '| temporary variable names |'; lf;
-		tab; write: 'statements' ]
-!
-
-methods
-	^ self methodDictionary values
-!
-
-methodsInProtocol: aString
-	^ self methods select: [ :each | each protocol = aString ]
-!
-
-name
-	<inlineJS: 'return self.className || nil'>
-!
-
-organization
-	^ self basicAt: 'organization'
-!
-
-ownMethods
-	"Answer the methods of the receiver that are not package extensions
-	nor obtained via trait composition"
-
-	^ (self ownProtocols 
-		inject: OrderedCollection new
-		into: [ :acc :each | acc, (self ownMethodsInProtocol: each) ])
-			sorted: [ :a :b | a selector <= b selector ]
-!
-
-ownMethodsInProtocol: aString
-	^ (self methodsInProtocol: aString) select: [ :each | each methodClass = self ]
-!
-
-ownProtocols
-	"Answer the protocols of the receiver that are not package extensions"
-
-	^ self protocols reject: [ :each |
-		each match: '^\*' ]
-!
-
-packageOfProtocol: aString
-	"Answer the package the method of receiver belongs to:
-	- if it is an extension method, answer the corresponding package
-	- else answer the receiver's package"
-	
-	(aString beginsWith: '*') ifFalse: [
-		^ self package ].
-		
-	^ Package 
-		named: aString allButFirst
-		ifAbsent: [ nil ]
-!
-
-protocols
-	^ self organization elements sorted
-!
-
-removeProtocolIfEmpty: aString
-	self methods
-		detect: [ :each | each protocol = aString ]
-		ifNone: [ self organization removeElement: aString ]
-!
-
-selectors
-	^ self methodDictionary keys
-!
-
-superclass
-	"Default for non-classes; to be able to send #superclass to any class / trait."
-	^ nil
-!
-
-theMetaClass
-	self subclassResponsibility
-!
-
-theNonMetaClass
-	self subclassResponsibility
-!
-
-traitComposition
-	^ (self basicAt: 'traitComposition') collect: [ :each | TraitTransformation fromJSON: each ]
-!
-
-traitCompositionDefinition
-	^ self traitComposition ifNotEmpty: [ :traitComposition |
-		String streamContents: [ :str |
-			str write: '{'.
-			traitComposition
-				do: [ :each | str write: each definition ]
-				separatedBy: [ str write: '. ' ].
-			str write: '}' ] ]
-!
-
-traitUsers
-	"Default for non-traits; to be able to send #traitUsers to any class / trait"
-	^ #()
-! !
-
-!BehaviorBody methodsFor: 'compiling'!
-
-addCompiledMethod: aMethod
-	| oldMethod announcement |
-	
-	oldMethod := self methodDictionary
-		at: aMethod selector
-		ifAbsent: [ nil ].
-	
-	(self protocols includes: aMethod protocol)
-		ifFalse: [ self organization addElement: aMethod protocol ].
-
-	self basicAddCompiledMethod: aMethod.
-	
-	oldMethod ifNotNil: [
-		self removeProtocolIfEmpty: oldMethod protocol ].
-	
-	announcement := oldMethod
-		ifNil: [
-			MethodAdded new
-					method: aMethod;
-					yourself ]
-		ifNotNil: [
-			MethodModified new
-					oldMethod: oldMethod;
-					method: aMethod;
-					yourself ].
-					
-					
-	SystemAnnouncer current
-				announce: announcement
-!
-
-compile: aString protocol: anotherString
-	^ Compiler new
-		install: aString
-		forClass: self
-		protocol: anotherString
-!
-
-recompile
-	^ Compiler new recompile: self
-!
-
-removeCompiledMethod: aMethod
-	self basicRemoveCompiledMethod: aMethod.
-	
-	self removeProtocolIfEmpty: aMethod protocol.
-	
-	SystemAnnouncer current
-		announce: (MethodRemoved new
-			method: aMethod;
-			yourself)
-!
-
-setTraitComposition: aTraitComposition
-	<inlineJS: '$core.setTraitComposition(aTraitComposition._asJavaScriptObject(), self)'>
-! !
-
-!BehaviorBody methodsFor: 'enumerating'!
-
-allSubclassesDo: aBlock
-	"Default for non-classes; to be able to send #allSubclassesDo: to any class / trait."
-!
-
-protocolsDo: aBlock
-	"Execute aBlock for each method protocol with
-	its collection of methods in the sort order of protocol name."
-
-	| methodsByProtocol |
-	methodsByProtocol := HashedCollection new.
-	self methodDictionary valuesDo: [ :m |
-		(methodsByProtocol at: m protocol ifAbsentPut: [ Array new ])
-			add: m ].
-	self protocols do: [ :protocol |
-		aBlock value: protocol value: (methodsByProtocol at: protocol) ]
-! !
-
-!BehaviorBody methodsFor: 'printing'!
-
-printOn: aStream
-	self name
-		ifNil: [ super printOn: aStream ]
-		ifNotNil: [ :name | aStream nextPutAll: name ]
-! !
-
-!BehaviorBody methodsFor: 'private'!
-
-basicAddCompiledMethod: aMethod
-	<inlineJS: '$core.addMethod(aMethod, self)'>
-!
-
-basicRemoveCompiledMethod: aMethod
-	<inlineJS: '$core.removeMethod(aMethod,self)'>
-! !
-
-!BehaviorBody methodsFor: 'testing'!
-
-includesSelector: aString
-	^ self methodDictionary includesKey: aString
-! !
-
-BehaviorBody subclass: #Behavior
+Object subclass: #Behavior
 	instanceVariableNames: ''
 	package: 'Kernel-Classes'!
 !Behavior commentStamp!
@@ -414,10 +155,6 @@ Class creation is done throught a `ClassBuilder` instance.!
 
 !Class methodsFor: 'accessing'!
 
-category
-	^ self package ifNil: [ 'Unclassified' ] ifNotNil: [ self package name ]
-!
-
 classTag
 	"Returns a tag or general category for this class.
 	Typically used to help tools do some reflection.
@@ -434,27 +171,6 @@ definition
 		tab; write: 'package: '; print: self category ]
 !
 
-package
-	^ self basicAt: 'pkg'
-!
-
-package: aPackage
-	| oldPackage |
-	
-	self package = aPackage ifTrue: [ ^ self ].
-	
-	oldPackage := self package.
-	
-	self basicAt: 'pkg' put: aPackage.
-	oldPackage organization removeElement: self.
-	aPackage organization addElement: self.
-
-	SystemAnnouncer current announce: (ClassMoved new
-		theClass: self;
-		oldPackage: oldPackage;
-		yourself)
-!
-
 rename: aString
 	ClassBuilder new renameClass: self to: aString
 !
@@ -465,76 +181,6 @@ subclasses
 
 theMetaClass
 	^ self class
-!
-
-theNonMetaClass
-	^ self
-! !
-
-!Class methodsFor: 'browsing'!
-
-browse
-	Finder findClass: self
-! !
-
-!Class methodsFor: 'class creation'!
-
-subclass: aString 
-	"Kept for file-in compatibility."
-	^ self subclass: aString instanceVariableNames: '' package: nil
-!
-
-subclass: aString instanceVariableNames: anotherString
-	"Kept for file-in compatibility."
-	^ self subclass: aString instanceVariableNames: anotherString package: nil
-!
-
-subclass: aString instanceVariableNames: aString2 category: aString3
-	"Kept for file-in compatibility."
-	^ self subclass: aString instanceVariableNames: aString2 package: aString3
-!
-
-subclass: aString instanceVariableNames: aString2 classVariableNames: classVars poolDictionaries: pools category: aString3
-	"Kept for file-in compatibility. ignores class variables and pools."
-	^ self subclass: aString instanceVariableNames: aString2 package: aString3
-!
-
-subclass: aString instanceVariableNames: aString2 package: aString3
-	^ ClassBuilder new
-		superclass: self subclass: aString asString instanceVariableNames: aString2 package: aString3
-!
-
-subclass: aString uses: aTraitCompositionDescription 
-	"Kept for file-in compatibility."
-	^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: '' package: nil
-!
-
-subclass: aString uses: aTraitCompositionDescription instanceVariableNames: anotherString
-	"Kept for file-in compatibility."
-	^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: anotherString package: nil
-!
-
-subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 category: aString3
-	"Kept for file-in compatibility."
-	^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3
-!
-
-subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 classVariableNames: classVars poolDictionaries: pools category: aString3
-	"Kept for file-in compatibility. ignores class variables and pools."
-	^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3
-!
-
-subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3
-	| cls |
-	cls := self subclass: aString instanceVariableNames: aString2 package: aString3.
-	cls setTraitComposition: aTraitCompositionDescription asTraitComposition.
-	^ cls
-! !
-
-!Class methodsFor: 'converting'!
-
-asJavaScriptSource
-	^ '$globals.', self name
 ! !
 
 !Class methodsFor: 'testing'!
@@ -610,97 +256,6 @@ asJavaScriptSource
 
 isMetaclass
 	^ true
-! !
-
-BehaviorBody subclass: #Trait
-	instanceVariableNames: ''
-	package: 'Kernel-Classes'!
-
-!Trait methodsFor: 'accessing'!
-
-category
-	^ self package ifNil: [ 'Unclassified' ] ifNotNil: [ self package name ]
-!
-
-classTag
-	^ 'trait'
-!
-
-definition
-	^ String streamContents: [ :stream | stream
-		write: 'Trait named: '; printSymbol: self name; lf;
-		write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);
-		tab; write: 'package: '; print: self category ]
-!
-
-package
-	^ self basicAt: 'pkg'
-!
-
-package: aPackage
-	| oldPackage |
-	
-	self package = aPackage ifTrue: [ ^ self ].
-	
-	oldPackage := self package.
-	
-	self basicAt: 'pkg' put: aPackage.
-	oldPackage organization removeElement: self.
-	aPackage organization addElement: self.
-
-	SystemAnnouncer current announce: (ClassMoved new
-		theClass: self;
-		oldPackage: oldPackage;
-		yourself)
-!
-
-theMetaClass
-	^ nil
-!
-
-theNonMetaClass
-	^ self
-!
-
-traitUsers
-	^ (self basicAt: 'traitUsers') copy
-! !
-
-!Trait methodsFor: 'composition'!
-
-- anArray
-	^ self asTraitTransformation - anArray
-!
-
-@ anArrayOfAssociations
-	^ self asTraitTransformation @ anArrayOfAssociations
-! !
-
-!Trait methodsFor: 'converting'!
-
-asJavaScriptSource
-	^ '$globals.', self name
-!
-
-asTraitComposition
-	^ self asTraitTransformation asTraitComposition
-!
-
-asTraitTransformation
-	^ TraitTransformation on: self
-! !
-
-!Trait class methodsFor: 'instance creation'!
-
-named: aString package: anotherString
-	^ ClassBuilder new addTraitNamed: aString package: anotherString
-!
-
-named: aString uses: aTraitCompositionDescription package: anotherString
-	| trait |
-	trait := self named: aString package: anotherString.
-	trait setTraitComposition: aTraitCompositionDescription asTraitComposition.
-	^ trait
 ! !
 
 Object subclass: #ClassBuilder
@@ -1005,6 +560,374 @@ on: aClass classes: aCollection level: anInteger
 		yourself
 ! !
 
+Trait named: #TBehaviorDefaults
+	package: 'Kernel-Classes'!
+
+!TBehaviorDefaults methodsFor: 'accessing'!
+
+allInstanceVariableNames
+	"Default for non-classes; to be able to send #allInstanceVariableNames to any class / trait."
+	^ #()
+!
+
+name
+	^ nil
+!
+
+superclass
+	"Default for non-classes; to be able to send #superclass to any class / trait."
+	^ nil
+!
+
+traitUsers
+	"Default for non-traits; to be able to send #traitUsers to any class / trait"
+	^ #()
+! !
+
+!TBehaviorDefaults methodsFor: 'enumerating'!
+
+allSubclassesDo: aBlock
+	"Default for non-classes; to be able to send #allSubclassesDo: to any class / trait."
+! !
+
+!TBehaviorDefaults methodsFor: 'printing'!
+
+printOn: aStream
+	self name
+		ifNil: [ super printOn: aStream ]
+		ifNotNil: [ :name | aStream nextPutAll: name ]
+! !
+
+Trait named: #TBehaviorProvider
+	package: 'Kernel-Classes'!
+!TBehaviorProvider commentStamp!
+I have method dictionary and organization.!
+
+!TBehaviorProvider methodsFor: 'accessing'!
+
+>> aString
+	^ self methodAt: aString
+!
+
+methodAt: aString
+	^ self methodDictionary at: aString
+!
+
+methodDictionary
+	<inlineJS: 'var dict = $globals.HashedCollection._new();
+	var methods = self.methods;
+	Object.keys(methods).forEach(function(i) {
+		if(methods[i].selector) {
+			dict._at_put_(methods[i].selector, methods[i]);
+		}
+	});
+	return dict'>
+!
+
+methodTemplate
+	^ String streamContents: [ :stream | stream 
+		write: 'messageSelectorAndArgumentNames'; lf;
+		tab; write: '"comment stating purpose of message"'; lf;
+		lf;
+		tab; write: '| temporary variable names |'; lf;
+		tab; write: 'statements' ]
+!
+
+methods
+	^ self methodDictionary values
+!
+
+methodsInProtocol: aString
+	^ self methods select: [ :each | each protocol = aString ]
+!
+
+organization
+	^ self basicAt: 'organization'
+!
+
+ownMethods
+	"Answer the methods of the receiver that are not package extensions
+	nor obtained via trait composition"
+
+	^ (self ownProtocols 
+		inject: OrderedCollection new
+		into: [ :acc :each | acc, (self ownMethodsInProtocol: each) ])
+			sorted: [ :a :b | a selector <= b selector ]
+!
+
+ownMethodsInProtocol: aString
+	^ (self methodsInProtocol: aString) select: [ :each | each methodClass = self ]
+!
+
+ownProtocols
+	"Answer the protocols of the receiver that are not package extensions"
+
+	^ self protocols reject: [ :each |
+		each match: '^\*' ]
+!
+
+packageOfProtocol: aString
+	"Answer the package the method of receiver belongs to:
+	- if it is an extension method, answer the corresponding package
+	- else answer the receiver's package"
+	
+	(aString beginsWith: '*') ifFalse: [
+		^ self package ].
+		
+	^ Package 
+		named: aString allButFirst
+		ifAbsent: [ nil ]
+!
+
+protocols
+	^ self organization elements sorted
+!
+
+removeProtocolIfEmpty: aString
+	self methods
+		detect: [ :each | each protocol = aString ]
+		ifNone: [ self organization removeElement: aString ]
+!
+
+selectors
+	^ self methodDictionary keys
+!
+
+traitComposition
+	^ (self basicAt: 'traitComposition') collect: [ :each | TraitTransformation fromJSON: each ]
+!
+
+traitCompositionDefinition
+	^ self traitComposition ifNotEmpty: [ :traitComposition |
+		String streamContents: [ :str |
+			str write: '{'.
+			traitComposition
+				do: [ :each | str write: each definition ]
+				separatedBy: [ str write: '. ' ].
+			str write: '}' ] ]
+! !
+
+!TBehaviorProvider methodsFor: 'compiling'!
+
+addCompiledMethod: aMethod
+	| oldMethod announcement |
+	
+	oldMethod := self methodDictionary
+		at: aMethod selector
+		ifAbsent: [ nil ].
+	
+	(self protocols includes: aMethod protocol)
+		ifFalse: [ self organization addElement: aMethod protocol ].
+
+	self basicAddCompiledMethod: aMethod.
+	
+	oldMethod ifNotNil: [
+		self removeProtocolIfEmpty: oldMethod protocol ].
+	
+	announcement := oldMethod
+		ifNil: [
+			MethodAdded new
+					method: aMethod;
+					yourself ]
+		ifNotNil: [
+			MethodModified new
+					oldMethod: oldMethod;
+					method: aMethod;
+					yourself ].
+					
+					
+	SystemAnnouncer current
+				announce: announcement
+!
+
+compile: aString protocol: anotherString
+	^ Compiler new
+		install: aString
+		forClass: self
+		protocol: anotherString
+!
+
+recompile
+	^ Compiler new recompile: self
+!
+
+removeCompiledMethod: aMethod
+	self basicRemoveCompiledMethod: aMethod.
+	
+	self removeProtocolIfEmpty: aMethod protocol.
+	
+	SystemAnnouncer current
+		announce: (MethodRemoved new
+			method: aMethod;
+			yourself)
+!
+
+setTraitComposition: aTraitComposition
+	<inlineJS: '$core.setTraitComposition(aTraitComposition._asJavaScriptObject(), self)'>
+! !
+
+!TBehaviorProvider methodsFor: 'enumerating'!
+
+protocolsDo: aBlock
+	"Execute aBlock for each method protocol with
+	its collection of methods in the sort order of protocol name."
+
+	| methodsByProtocol |
+	methodsByProtocol := HashedCollection new.
+	self methodDictionary valuesDo: [ :m |
+		(methodsByProtocol at: m protocol ifAbsentPut: [ Array new ])
+			add: m ].
+	self protocols do: [ :protocol |
+		aBlock value: protocol value: (methodsByProtocol at: protocol) ]
+! !
+
+!TBehaviorProvider methodsFor: 'private'!
+
+basicAddCompiledMethod: aMethod
+	<inlineJS: '$core.addMethod(aMethod, self)'>
+!
+
+basicRemoveCompiledMethod: aMethod
+	<inlineJS: '$core.removeMethod(aMethod,self)'>
+! !
+
+!TBehaviorProvider methodsFor: 'testing'!
+
+includesSelector: aString
+	^ self methodDictionary includesKey: aString
+! !
+
+Trait named: #TMasterBehavior
+	package: 'Kernel-Classes'!
+!TMasterBehavior commentStamp!
+I am the behavior on the instance-side of the browser.
+
+I define things like package, category, name, comment etc.
+as opposed to derived behaviors (metaclass, class trait, ...)
+that relate to me.!
+
+!TMasterBehavior methodsFor: 'accessing'!
+
+category
+	^ self package ifNil: [ 'Unclassified' ] ifNotNil: [ self package name ]
+!
+
+classTag
+	"Every master behavior should define a class tag."
+	^ self subclassResponsibility
+!
+
+comment
+	^ (self basicAt: 'comment') ifNil: [ '' ]
+!
+
+comment: aString
+	self basicAt: 'comment' put: aString.
+	SystemAnnouncer current
+		announce: (ClassCommentChanged new
+			theClass: self;
+			yourself)
+!
+
+name
+	<inlineJS: 'return self.className'>
+!
+
+package
+	^ self basicAt: 'pkg'
+!
+
+package: aPackage
+	| oldPackage |
+	
+	self package = aPackage ifTrue: [ ^ self ].
+	
+	oldPackage := self package.
+	
+	self basicAt: 'pkg' put: aPackage.
+	oldPackage organization removeElement: self.
+	aPackage organization addElement: self.
+
+	SystemAnnouncer current announce: (ClassMoved new
+		theClass: self;
+		oldPackage: oldPackage;
+		yourself)
+!
+
+theNonMetaClass
+	^ self
+! !
+
+!TMasterBehavior methodsFor: 'browsing'!
+
+browse
+	Finder findClass: self
+! !
+
+!TMasterBehavior methodsFor: 'converting'!
+
+asJavaScriptSource
+	^ '$globals.', self name
+! !
+
+Object subclass: #Trait
+	instanceVariableNames: ''
+	package: 'Kernel-Classes'!
+
+!Trait methodsFor: 'accessing'!
+
+classTag
+	^ 'trait'
+!
+
+definition
+	^ String streamContents: [ :stream | stream
+		write: 'Trait named: '; printSymbol: self name; lf;
+		write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);
+		tab; write: 'package: '; print: self category ]
+!
+
+theMetaClass
+	^ nil
+!
+
+traitUsers
+	^ (self basicAt: 'traitUsers') copy
+! !
+
+!Trait methodsFor: 'composition'!
+
+- anArray
+	^ self asTraitTransformation - anArray
+!
+
+@ anArrayOfAssociations
+	^ self asTraitTransformation @ anArrayOfAssociations
+! !
+
+!Trait methodsFor: 'converting'!
+
+asTraitComposition
+	^ self asTraitTransformation asTraitComposition
+!
+
+asTraitTransformation
+	^ TraitTransformation on: self
+! !
+
+!Trait class methodsFor: 'instance creation'!
+
+named: aString package: anotherString
+	^ ClassBuilder new addTraitNamed: aString package: anotherString
+!
+
+named: aString uses: aTraitCompositionDescription package: anotherString
+	| trait |
+	trait := self named: aString package: anotherString.
+	trait setTraitComposition: aTraitCompositionDescription asTraitComposition.
+	^ trait
+! !
+
 Object subclass: #TraitTransformation
 	instanceVariableNames: 'trait aliases exclusions'
 	package: 'Kernel-Classes'!
@@ -1131,64 +1054,15 @@ on: aTrait
 	^ super new trait: aTrait; yourself
 ! !
 
+Behavior setTraitComposition: {TBehaviorDefaults. TBehaviorProvider} asTraitComposition!
+Class setTraitComposition: {TMasterBehavior. TSubclassable} asTraitComposition!
+Trait setTraitComposition: {TBehaviorDefaults. TBehaviorProvider. TMasterBehavior} asTraitComposition!
+! !
+
 !Array methodsFor: '*Kernel-Classes'!
 
 asTraitComposition
 	"not implemented yet, noop atm"
 	^ self collect: [ :each | each asTraitTransformation ]
-! !
-
-!UndefinedObject methodsFor: '*Kernel-Classes'!
-
-subclass: aString 
-	"Kept for file-in compatibility."
-	^ self subclass: aString instanceVariableNames: '' package: nil
-!
-
-subclass: aString instanceVariableNames: anotherString
-	"Kept for file-in compatibility."
-	^ self subclass: aString instanceVariableNames: anotherString package: nil
-!
-
-subclass: aString instanceVariableNames: aString2 category: aString3
-	"Kept for file-in compatibility."
-	^ self subclass: aString instanceVariableNames: aString2 package: aString3
-!
-
-subclass: aString instanceVariableNames: aString2 classVariableNames: classVars poolDictionaries: pools category: aString3
-	"Kept for file-in compatibility. ignores class variables and pools."
-	^ self subclass: aString instanceVariableNames: aString2 package: aString3
-!
-
-subclass: aString instanceVariableNames: aString2 package: aString3
-	^ ClassBuilder new
-		superclass: self subclass: aString asString instanceVariableNames: aString2 package: aString3
-!
-
-subclass: aString uses: aTraitCompositionDescription 
-	"Kept for file-in compatibility."
-	^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: '' package: nil
-!
-
-subclass: aString uses: aTraitCompositionDescription instanceVariableNames: anotherString
-	"Kept for file-in compatibility."
-	^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: anotherString package: nil
-!
-
-subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 category: aString3
-	"Kept for file-in compatibility."
-	^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3
-!
-
-subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 classVariableNames: classVars poolDictionaries: pools category: aString3
-	"Kept for file-in compatibility. ignores class variables and pools."
-	^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3
-!
-
-subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3
-	| cls |
-	cls := self subclass: aString instanceVariableNames: aString2 package: aString3.
-	cls setTraitComposition: aTraitCompositionDescription asTraitComposition.
-	^ cls
 ! !
 

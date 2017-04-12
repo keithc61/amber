@@ -1,4 +1,4 @@
-define(["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Objects"], function($boot){"use strict";
+define(["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Objects", "amber_core/Kernel-Promises"], function($boot){"use strict";
 if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
@@ -191,6 +191,44 @@ $globals.JSObjectProxy);
 
 $core.addMethod(
 $core.method({
+selector: "catch:",
+protocol: "promises",
+fn: function (aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+$1=$recv($globals.NativeFunction)._isNativeFunction_($self._at_("then"));
+if($core.assert($1)){
+return $recv($recv($globals.TThenable).__gt_gt("catch:"))._sendTo_arguments_($self["@jsObject"],[aBlock]);
+} else {
+$2=(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.JSObjectProxy.superclass||$boot.nilAsClass).fn.prototype._catch_.apply($self, [aBlock]));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+return $2;
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"catch:",{aBlock:aBlock},$globals.JSObjectProxy)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "catch: aBlock\x0a(NativeFunction isNativeFunction: (self at: #then))\x0a\x09ifTrue: [ ^ (TThenable >> #catch:) sendTo: jsObject arguments: {aBlock} ]\x0a\x09ifFalse: [ ^ super catch: aBlock ]",
+referencedClasses: ["NativeFunction", "TThenable"],
+//>>excludeEnd("ide");
+messageSends: ["ifTrue:ifFalse:", "isNativeFunction:", "at:", "sendTo:arguments:", ">>", "catch:"]
+}),
+$globals.JSObjectProxy);
+
+$core.addMethod(
+$core.method({
 selector: "doesNotUnderstand:",
 protocol: "proxy",
 fn: function (aMessage){
@@ -299,6 +337,44 @@ $globals.JSObjectProxy);
 
 $core.addMethod(
 $core.method({
+selector: "on:do:",
+protocol: "promises",
+fn: function (aClass,aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+$1=$recv($globals.NativeFunction)._isNativeFunction_($self._at_("then"));
+if($core.assert($1)){
+return $recv($recv($globals.TThenable).__gt_gt("on:do:"))._sendTo_arguments_($self["@jsObject"],[aClass,aBlock]);
+} else {
+$2=(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.JSObjectProxy.superclass||$boot.nilAsClass).fn.prototype._on_do_.apply($self, [aClass,aBlock]));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+return $2;
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"on:do:",{aClass:aClass,aBlock:aBlock},$globals.JSObjectProxy)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aClass", "aBlock"],
+source: "on: aClass do: aBlock\x0a(NativeFunction isNativeFunction: (self at: #then))\x0a\x09ifTrue: [ ^ (TThenable >> #on:do:) sendTo: jsObject arguments: {aClass. aBlock} ]\x0a\x09ifFalse: [ ^ super on: aClass do: aBlock ]",
+referencedClasses: ["NativeFunction", "TThenable"],
+//>>excludeEnd("ide");
+messageSends: ["ifTrue:ifFalse:", "isNativeFunction:", "at:", "sendTo:arguments:", ">>", "on:do:"]
+}),
+$globals.JSObjectProxy);
+
+$core.addMethod(
+$core.method({
 selector: "printOn:",
 protocol: "printing",
 fn: function (aStream){
@@ -371,6 +447,44 @@ source: "putOn: aStream\x0a\x09aStream nextPutJSObject: jsObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["nextPutJSObject:"]
+}),
+$globals.JSObjectProxy);
+
+$core.addMethod(
+$core.method({
+selector: "then:",
+protocol: "promises",
+fn: function (aBlockOrArray){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+$1=$recv($globals.NativeFunction)._isNativeFunction_($self._at_("then"));
+if($core.assert($1)){
+return $recv($recv($globals.TThenable).__gt_gt("then:"))._sendTo_arguments_($self["@jsObject"],[aBlockOrArray]);
+} else {
+$2=(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.JSObjectProxy.superclass||$boot.nilAsClass).fn.prototype._then_.apply($self, [aBlockOrArray]));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+return $2;
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"then:",{aBlockOrArray:aBlockOrArray},$globals.JSObjectProxy)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlockOrArray"],
+source: "then: aBlockOrArray\x0a(NativeFunction isNativeFunction: (self at: #then))\x0a\x09ifTrue: [ ^ (TThenable >> #then:) sendTo: jsObject arguments: {aBlockOrArray} ]\x0a\x09ifFalse: [ ^ super then: aBlockOrArray ]",
+referencedClasses: ["NativeFunction", "TThenable"],
+//>>excludeEnd("ide");
+messageSends: ["ifTrue:ifFalse:", "isNativeFunction:", "at:", "sendTo:arguments:", ">>", "then:"]
 }),
 $globals.JSObjectProxy);
 
@@ -3490,6 +3604,8 @@ referencedClasses: [],
 messageSends: ["shouldNotImplement"]
 }),
 $globals.SmalltalkImage.a$cls);
+
+$core.setTraitComposition([{trait: $globals.TThenable}], $globals.JSObjectProxy);
 
 $core.addMethod(
 $core.method({

@@ -1384,3 +1384,6 @@ new
 		self error: 'You cannot create new instances of UndefinedObject. Use nil'
 ! !
 
+UndefinedObject setTraitComposition: {TSubclassable} asTraitComposition!
+! !
+

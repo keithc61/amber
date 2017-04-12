@@ -446,15 +446,15 @@ on: aCollection
 	^ super new suite: aCollection
 ! !
 
-!BehaviorBody methodsFor: '*SUnit'!
-
-isTestClass
-	^ false
-! !
-
 !Package methodsFor: '*SUnit'!
 
 isTestPackage
 	^ self classes anySatisfy: [ :each | each isTestClass ]
+! !
+
+!TBehaviorDefaults methodsFor: '*SUnit'!
+
+isTestClass
+	^ false
 ! !
 

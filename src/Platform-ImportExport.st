@@ -1120,33 +1120,6 @@ namespace: aString
 		yourself
 ! !
 
-!BehaviorBody methodsFor: '*Platform-ImportExport'!
-
-commentStamp
-	^ ClassCommentReader new
-	class: self;
-	yourself
-!
-
-commentStamp: aStamp prior: prior
-		^ self commentStamp
-!
-
-exportBehaviorDefinitionTo: aStream using: anExporter
-	self subclassResponsibility
-!
-
-methodsFor: aString
-	^ ClassProtocolReader new
-		class: self category: aString;
-		yourself
-!
-
-methodsFor: aString stamp: aStamp
-	"Added for file-in compatibility, ignores stamp."
-	^ self methodsFor: aString
-! !
-
 !Class methodsFor: '*Platform-ImportExport'!
 
 exportBehaviorDefinitionTo: aStream using: anExporter
@@ -1183,6 +1156,31 @@ load: aPackageName
 
 load: aPackageName fromNamespace: aString
 	(self named: aPackageName) loadFromNamespace: aString
+! !
+
+!TBehaviorProvider methodsFor: '*Platform-ImportExport'!
+
+methodsFor: aString
+	^ ClassProtocolReader new
+		class: self category: aString;
+		yourself
+!
+
+methodsFor: aString stamp: aStamp
+	"Added for file-in compatibility, ignores stamp."
+	^ self methodsFor: aString
+! !
+
+!TMasterBehavior methodsFor: '*Platform-ImportExport'!
+
+commentStamp
+	^ ClassCommentReader new
+	class: self;
+	yourself
+!
+
+commentStamp: aStamp prior: prior
+		^ self commentStamp
 ! !
 
 !Trait methodsFor: '*Platform-ImportExport'!
