@@ -1,3 +1,19 @@
+0.18.6:
+
++ IRInstructions >>
+  + isSelf
+  + isSuper
++ IRVariable >>
+  + isSelf
+  + isSuper
++ ScopeVar >>
+  + isSelf
+  + isSuper
++ PseudoVar >>
+  + isSelf
+  + isSuper
+
+
 0.18.3:
 
 * Move {add,remove}Element from Array.prototype to kernel API.

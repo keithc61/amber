@@ -1210,6 +1210,42 @@ $globals.ScopeVar);
 
 $core.addMethod(
 $core.method({
+selector: "isSelf",
+protocol: "testing",
+fn: function (){
+var self=this;
+return false;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isSelf\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.ScopeVar);
+
+$core.addMethod(
+$core.method({
+selector: "isSuper",
+protocol: "testing",
+fn: function (){
+var self=this;
+return false;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isSuper\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.ScopeVar);
+
+$core.addMethod(
+$core.method({
 selector: "isTempVar",
 protocol: "testing",
 fn: function (){
@@ -1664,6 +1700,52 @@ source: "isPseudoVar\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
+}),
+$globals.PseudoVar);
+
+$core.addMethod(
+$core.method({
+selector: "isSelf",
+protocol: "testing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self["@name"]).__eq("self");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isSelf",{},$globals.PseudoVar)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isSelf\x0a\x09^ name = 'self'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["="]
+}),
+$globals.PseudoVar);
+
+$core.addMethod(
+$core.method({
+selector: "isSuper",
+protocol: "testing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self["@name"]).__eq("super");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isSuper",{},$globals.PseudoVar)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isSuper\x0a\x09^ name = 'super'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["="]
 }),
 $globals.PseudoVar);
 

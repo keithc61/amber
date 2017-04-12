@@ -1177,6 +1177,24 @@ $globals.IRInstruction);
 
 $core.addMethod(
 $core.method({
+selector: "isSelf",
+protocol: "testing",
+fn: function (){
+var self=this;
+return false;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isSelf\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.IRInstruction);
+
+$core.addMethod(
+$core.method({
 selector: "isSend",
 protocol: "testing",
 fn: function (){
@@ -1205,6 +1223,24 @@ return false;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "isSequence\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.IRInstruction);
+
+$core.addMethod(
+$core.method({
+selector: "isSuper",
+protocol: "testing",
+fn: function (){
+var self=this;
+return false;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isSuper\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2826,6 +2862,52 @@ source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRVariable: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["visitIRVariable:"]
+}),
+$globals.IRVariable);
+
+$core.addMethod(
+$core.method({
+selector: "isSelf",
+protocol: "testing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._variable())._isSelf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isSelf",{},$globals.IRVariable)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isSelf\x0a\x09^ self variable isSelf",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["isSelf", "variable"]
+}),
+$globals.IRVariable);
+
+$core.addMethod(
+$core.method({
+selector: "isSuper",
+protocol: "testing",
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self._variable())._isSuper();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isSuper",{},$globals.IRVariable)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isSuper\x0a\x09^ self variable isSuper",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["isSuper", "variable"]
 }),
 $globals.IRVariable);
 

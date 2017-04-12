@@ -258,6 +258,14 @@ isPseudoVar
 	^ false
 !
 
+isSelf
+	^ false
+!
+
+isSuper
+	^ false
+!
+
 isTempVar
 	^ false
 !
@@ -383,6 +391,14 @@ isImmutable
 
 isPseudoVar
 	^ true
+!
+
+isSelf
+	^ name = 'self'
+!
+
+isSuper
+	^ name = 'super'
 ! !
 
 ScopeVar subclass: #TempVar

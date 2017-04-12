@@ -317,11 +317,19 @@ isMethod
 	^ false
 !
 
+isSelf
+	^ false
+!
+
 isSend
 	^ false
 !
 
 isSequence
+	^ false
+!
+
+isSuper
 	^ false
 !
 
@@ -737,6 +745,14 @@ variable: aScopeVariable
 ! !
 
 !IRVariable methodsFor: 'testing'!
+
+isSelf
+	^ self variable isSelf
+!
+
+isSuper
+	^ self variable isSuper
+!
 
 isVariable
 	^ true
