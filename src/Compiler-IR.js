@@ -2591,39 +2591,6 @@ $globals.IRSend);
 
 $core.addMethod(
 $core.method({
-selector: "isSuperSend",
-protocol: "testing",
-fn: function (){
-var self=this;
-var receiver;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-receiver=self._receiver();
-return $recv($recv(receiver)._isVariable())._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($recv($recv(receiver)._variable())._name()).__eq("super");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isSuperSend",{receiver:receiver},$globals.IRSend)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isSuperSend\x0a\x09| receiver |\x0a\x09receiver := self receiver.\x0a\x09^ receiver isVariable and: [ receiver variable name = 'super' ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["receiver", "and:", "isVariable", "=", "name", "variable"]
-}),
-$globals.IRSend);
-
-$core.addMethod(
-$core.method({
 selector: "receiver",
 protocol: "accessing",
 fn: function (){
@@ -4002,7 +3969,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2;
 sends=$recv($recv($recv($recv(anIRSend)._method())._sendIndexes())._at_($recv(anIRSend)._selector()))._size();
-$1=$recv(anIRSend)._isSuperSend();
+$1=$recv($recv(anIRSend)._receiver())._isSuper();
 if($core.assert($1)){
 self._visitSuperSend_(anIRSend);
 } else {
@@ -4019,10 +3986,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSend"],
-source: "visitIRSend: anIRSend\x0a\x09| sends superclass |\x0a\x09sends := (anIRSend method sendIndexes at: anIRSend selector) size.\x0a\x09\x0a\x09anIRSend isSuperSend\x0a\x09\x09ifTrue: [ self visitSuperSend: anIRSend ]\x0a\x09\x09ifFalse: [ self visitSend: anIRSend ].\x0a\x09\x09\x0a\x09anIRSend index < sends\x0a\x09\x09ifTrue: [ self stream nextPutSendIndexFor: anIRSend ]",
+source: "visitIRSend: anIRSend\x0a\x09| sends superclass |\x0a\x09sends := (anIRSend method sendIndexes at: anIRSend selector) size.\x0a\x09\x0a\x09anIRSend receiver isSuper\x0a\x09\x09ifTrue: [ self visitSuperSend: anIRSend ]\x0a\x09\x09ifFalse: [ self visitSend: anIRSend ].\x0a\x09\x09\x0a\x09anIRSend index < sends\x0a\x09\x09ifTrue: [ self stream nextPutSendIndexFor: anIRSend ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["size", "at:", "sendIndexes", "method", "selector", "ifTrue:ifFalse:", "isSuperSend", "visitSuperSend:", "visitSend:", "ifTrue:", "<", "index", "nextPutSendIndexFor:", "stream"]
+messageSends: ["size", "at:", "sendIndexes", "method", "selector", "ifTrue:ifFalse:", "isSuper", "receiver", "visitSuperSend:", "visitSend:", "ifTrue:", "<", "index", "nextPutSendIndexFor:", "stream"]
 }),
 $globals.IRJSTranslator);
 

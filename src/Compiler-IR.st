@@ -660,12 +660,6 @@ selector: aString
 
 isSend
 	^ true
-!
-
-isSuperSend
-	| receiver |
-	receiver := self receiver.
-	^ receiver isVariable and: [ receiver variable name = 'super' ]
 ! !
 
 !IRSend methodsFor: 'visiting'!
@@ -969,7 +963,7 @@ visitIRSend: anIRSend
 	| sends superclass |
 	sends := (anIRSend method sendIndexes at: anIRSend selector) size.
 	
-	anIRSend isSuperSend
+	anIRSend receiver isSuper
 		ifTrue: [ self visitSuperSend: anIRSend ]
 		ifFalse: [ self visitSend: anIRSend ].
 		

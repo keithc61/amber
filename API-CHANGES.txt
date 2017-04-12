@@ -13,6 +13,9 @@
   + isSelf
   + isSuper
 
+- IRSend >>
+  - isSuperSend
+
 
 0.18.3:
 
