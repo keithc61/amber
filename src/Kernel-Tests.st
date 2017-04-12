@@ -163,11 +163,11 @@ testNewWithValues
 
 	var wrappedConstructor = $recv(TestConstructor);
 	var result = wrappedConstructor._newWithValues_([1, 2, 3]);
-	self._assert_(result instanceof TestConstructor);
-	self._assert_equals_(result.name, "theTestPrototype");
+	$self._assert_(result instanceof TestConstructor);
+	$self._assert_equals_(result.name, "theTestPrototype");
 
 	/* newWithValues: cannot help if the argument list is wrong, and should warn that a mistake was made. */
-	self._should_raise_(function () {wrappedConstructor._newWithValues_("single argument");}, $globals.Error);
+	$self._should_raise_(function () {wrappedConstructor._newWithValues_("single argument");}, $globals.Error);
 '>
 !
 

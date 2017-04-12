@@ -76,11 +76,11 @@ Types of buckets are the responsibility of subclasses via `#newBucket`.!
 
 bucketOfElement: anObject
 	<inlineJS: '
-		var hash = self[''@hashBlock''](anObject);
+		var hash = $self[''@hashBlock''](anObject);
 		if (!!hash) return null;
-		var buckets = self[''@buckets''],
+		var buckets = $self[''@buckets''],
 			bucket = buckets[hash];
-		if (!!bucket) { bucket = buckets[hash] = self._newBucket(); }
+		if (!!bucket) { bucket = buckets[hash] = $self._newBucket(); }
 		return bucket;
 	'>
 !
@@ -92,14 +92,14 @@ hashBlock: aBlock
 !BucketStore methodsFor: 'adding/removing'!
 
 removeAll
-	<inlineJS: 'self[''@buckets''] = Object.create(null);'>
+	<inlineJS: '$self[''@buckets''] = Object.create(null);'>
 ! !
 
 !BucketStore methodsFor: 'enumerating'!
 
 do: aBlock
 	<inlineJS: '
-		var buckets = self[''@buckets''];
+		var buckets = $self[''@buckets''];
 		var keys = Object.keys(buckets);
 		for (var i = 0; i < keys.length; ++i) { buckets[keys[i]]._do_(aBlock); }
 	'>
@@ -789,21 +789,21 @@ The external name is referred to as the key.!
 
 at: aKey ifAbsent: aBlock
 	<inlineJS: '
-		var index = self._positionOfKey_(aKey);
-		return index >=0 ? self[''@values''][index] : aBlock._value();
+		var index = $self._positionOfKey_(aKey);
+		return index >=0 ? $self[''@values''][index] : aBlock._value();
 	'>
 !
 
 at: aKey put: aValue
 	<inlineJS: '
-		var index = self._positionOfKey_(aKey);
+		var index = $self._positionOfKey_(aKey);
 		if(index === -1) {
-			var keys = self[''@keys''];
+			var keys = $self[''@keys''];
 			index = keys.length;
 			keys.push(aKey);
 		}
 
-		return self[''@values''][index] = aValue;
+		return $self[''@values''][index] = aValue;
 	'>
 !
 
@@ -834,11 +834,11 @@ removeAll
 
 removeKey: aKey ifAbsent: aBlock
 	<inlineJS: '
-		var index = self._positionOfKey_(aKey);
+		var index = $self._positionOfKey_(aKey);
 		if(index === -1) {
 			return aBlock._value()
 		} else {
-			var keys = self[''@keys''], values = self[''@values''];
+			var keys = $self[''@keys''], values = $self[''@values''];
 			var value = values[index], l = keys.length;
 			keys[index] = keys[l-1];
 			keys.pop();
@@ -875,7 +875,7 @@ initialize
 
 positionOfKey: anObject
 	<inlineJS: '
-		var keys = self[''@keys''];
+		var keys = $self[''@keys''];
 		for(var i=0;i<keys.length;i++){
 			if(keys[i].__eq(anObject)) { return i;}
 		}
@@ -886,7 +886,7 @@ positionOfKey: anObject
 !Dictionary methodsFor: 'testing'!
 
 includesKey: aKey
-	<inlineJS: 'return self._positionOfKey_(aKey) >= 0;'>
+	<inlineJS: 'return $self._positionOfKey_(aKey) >= 0;'>
 ! !
 
 AssociativeCollection subclass: #HashedCollection
@@ -915,8 +915,8 @@ keys
 
 values
 	<inlineJS: '
-		return self._keys().map(function(key){
-			return self._at_(key);
+		return $self._keys().map(function(key){
+			return $self._at_(key);
 		});
 	'>
 ! !
@@ -990,9 +990,9 @@ fourth
 
 indexOf: anObject ifAbsent: aBlock
 	<inlineJS: '
-		self = self._numericallyIndexable();
-		for(var i=0; i < self.length; i++) {
-			if($recv(self[i]).__eq(anObject)) {return i+1}
+		var nself = $self._numericallyIndexable();
+		for(var i=0; i < nself.length; i++) {
+			if($recv(nself[i]).__eq(anObject)) {return i+1}
 		};
 		return aBlock._value();
 	'>
@@ -1007,9 +1007,9 @@ indexOf: anObject startingAt: start
 
 indexOf: anObject startingAt: start ifAbsent: aBlock
 	<inlineJS: '
-		self = self._numericallyIndexable();
-		for(var i=start - 1; i < self.length; i++){
-			if($recv(self[i]).__eq(anObject)) {return i+1}
+		var nself = $self._numericallyIndexable();
+		for(var i=start - 1; i < nself.length; i++){
+			if($recv(nself[i]).__eq(anObject)) {return i+1}
 		}
 		return aBlock._value();
 	'>
@@ -1036,7 +1036,7 @@ single
 <inlineJS: '
 	if (self.length == 0) throw new Error("Collection is empty");
 	if (self.length > 1) throw new Error("Collection holds more than one element.");
-	return self[0];
+	return $self._numericallyIndexable()[0];
 '>
 !
 
@@ -1080,19 +1080,19 @@ copyFrom: anIndex to: anotherIndex
 
 detect: aBlock ifNone: anotherBlock
 	<inlineJS: '
-		self = self._numericallyIndexable();
-		for(var i = 0; i < self.length; i++)
-			if(aBlock._value_(self[i]))
-				return self[i];
+		var nself = $self._numericallyIndexable();
+		for(var i = 0; i < nself.length; i++)
+			if(aBlock._value_(nself[i]))
+				return nself[i];
 		return anotherBlock._value();
 	'>
 !
 
 do: aBlock
 	<inlineJS: '
-		self = self._numericallyIndexable();
-		for(var i=0; i < self.length; i++) {
-			aBlock._value_(self[i]);
+		var nself = $self._numericallyIndexable();
+		for(var i=0; i < nself.length; i++) {
+			aBlock._value_(nself[i]);
 		}
 	'>
 !
@@ -1103,19 +1103,19 @@ reverseDo: aBlock
 
 with: anotherCollection do: aBlock
 	<inlineJS: '
-		self = self._numericallyIndexable();
+		var nself = $self._numericallyIndexable();
 		anotherCollection = anotherCollection._numericallyIndexable();
-		for(var i=0; i<self.length; i++) {
-			aBlock._value_value_(self[i], anotherCollection[i]);
+		for(var i=0; i<nself.length; i++) {
+			aBlock._value_value_(nself[i], anotherCollection[i]);
 		}
 	'>
 !
 
 withIndexDo: aBlock
 	<inlineJS: '
-		self = self._numericallyIndexable();
-		for(var i=0; i < self.length; i++) {
-			aBlock._value_value_(self[i], i+1);
+		var nself = $self._numericallyIndexable();
+		for(var i=0; i < nself.length; i++) {
+			aBlock._value_value_(nself[i], i+1);
 		}
 	'>
 ! !
@@ -1236,7 +1236,7 @@ add: anObject
 addAll: aCollection
 <inlineJS: '
 	if (Array.isArray(aCollection) && aCollection.length < 65000) self.push.apply(self, aCollection);
-	else $globals.Array.superclass.fn.prototype._addAll_.call(self, aCollection);
+	else $globals.Array.superclass.fn.prototype._addAll_.call($self, aCollection);
 	return aCollection;
 '>
 !
@@ -1938,14 +1938,14 @@ remove: anObject ifAbsent: aBlock
 
 removeAll
 	<inlineJS: '
-		self[''@fastBuckets''] = {
+		$self[''@fastBuckets''] = {
 			"boolean": { store: Object.create(null), fn: function (x) { return {"true": true, "false": false, "null": null}[x]; } },
 			"number": { store: Object.create(null), fn: Number },
 			"string": { store: Object.create(null) }
 		};
-		self[''@slowBucketStores''].forEach(function (x) { x._removeAll(); });
-		self[''@defaultBucket'']._removeAll();
-		self[''@size''] = 0;
+		$self[''@slowBucketStores''].forEach(function (x) { x._removeAll(); });
+		$self[''@defaultBucket'']._removeAll();
+		$self[''@size''] = 0;
 	'>
 ! !
 
@@ -1975,16 +1975,16 @@ detect: aBlock ifNone: anotherBlock
 do: aBlock
 	<inlineJS: '
 		var el, keys, i;
-		el = self[''@fastBuckets''];
+		el = $self[''@fastBuckets''];
 		keys = Object.keys(el);
 		for (i = 0; i < keys.length; ++i) {
 			var fastBucket = el[keys[i]], fn = fastBucket.fn, store = Object.keys(fastBucket.store);
 			if (fn) { for (var j = 0; j < store.length; ++j) { aBlock._value_(fn(store[j])); } }
 			else { store._do_(aBlock); }
 		}
-		el = self[''@slowBucketStores''];
+		el = $self[''@slowBucketStores''];
 		for (i = 0; i < el.length; ++i) { el[i]._do_(aBlock); }
-		self[''@defaultBucket'']._do_(aBlock);
+		$self[''@defaultBucket'']._do_(aBlock);
 	'>
 !
 
@@ -2041,7 +2041,7 @@ printOn: aStream
 add: anObject in: anotherObject
 	<inlineJS: '
 		if (anObject in anotherObject.store) { return false; }
-		self[''@size'']++;
+		$self[''@size'']++;
 		anotherObject.store[anObject] = true;
 		return anObject;
 	'>
@@ -2056,17 +2056,17 @@ bucketsOfElement: anObject
 	
 	<inlineJS: '
 		// include nil to well-known objects under "boolean" fastBucket
-		if (anObject == null || anObject.a$nil) return [ null, self[''@fastBuckets''].boolean ];
+		if (anObject == null || anObject.a$nil) return [ null, $self[''@fastBuckets''].boolean ];
 		
 		var prim = anObject.valueOf();
-		if (typeof prim === "object" || typeof prim === "function" || !!self[''@fastBuckets''][typeof prim]) {
+		if (typeof prim === "object" || typeof prim === "function" || !!$self[''@fastBuckets''][typeof prim]) {
 			var bucket = null;
-			self[''@slowBucketStores''].some(function (store) {
+			$self[''@slowBucketStores''].some(function (store) {
 				return bucket = store._bucketOfElement_(anObject);
 			});
-			return [ anObject, null, bucket || self[''@defaultBucket''] ];
+			return [ anObject, null, bucket || $self[''@defaultBucket''] ];
 		}
-		return [ prim, self[''@fastBuckets''][typeof prim] ];
+		return [ prim, $self[''@fastBuckets''][typeof prim] ];
 	'>
 !
 
@@ -2086,7 +2086,7 @@ jsConstructorNameOf: anObject
 !
 
 remove: anObject in: anotherObject
-	<inlineJS: 'if (delete anotherObject.store[anObject]) self[''@size'']--'>
+	<inlineJS: 'if (delete anotherObject.store[anObject]) $self[''@size'']--'>
 ! !
 
 !Set methodsFor: 'testing'!

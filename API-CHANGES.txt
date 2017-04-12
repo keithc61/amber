@@ -12,6 +12,9 @@
 + PseudoVar >>
   + isSelf
   + isSuper
++UndefinedObject >>
+  + identityHash
+  + value
 
 - IRSend >>
   - isSuperSend

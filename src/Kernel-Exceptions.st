@@ -161,7 +161,7 @@ exception: anException
 !
 
 messageText
-	<inlineJS: 'return "JavaScript exception: " + self["@exception"].toString()'>
+	<inlineJS: 'return "JavaScript exception: " + $self["@exception"].toString()'>
 ! !
 
 !JavaScriptException class methodsFor: 'instance creation'!

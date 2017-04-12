@@ -12,14 +12,14 @@ $core.method({
 selector: "testEntityConversion",
 protocol: "testing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=$recv($globals.PlatformDom)._isFeasible();
 if($core.assert($1)){
-self._assert_equals_("&copy;"._htmlTextContent(),"©");
+$self._assert_equals_("&copy;"._htmlTextContent(),"©");
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -40,14 +40,14 @@ $core.method({
 selector: "testTextContentDoesNotRunScript",
 protocol: "testing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=$recv($globals.PlatformDom)._isFeasible();
 if($core.assert($1)){
-self._shouldnt_raise_((function(){
+$self._shouldnt_raise_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");

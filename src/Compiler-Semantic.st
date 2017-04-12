@@ -362,7 +362,7 @@ I am an instance variable of a method or block.!
 !InstanceVar methodsFor: 'testing'!
 
 alias
-	^ 'self["@', self name, '"]'
+	^ '$self["@', self name, '"]'
 !
 
 isInstanceVar

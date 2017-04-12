@@ -15,7 +15,7 @@ $core.method({
 selector: "globals",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return global;
 
 },
@@ -33,13 +33,13 @@ $core.method({
 selector: "newXhr",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $receiver;
 if(($receiver = $globals.XMLHttpRequest) == null || $receiver.a$nil){
-self._error_("XMLHttpRequest not available.");
+$self._error_("XMLHttpRequest not available.");
 } else {
 return $recv($globals.XMLHttpRequest)._new();
 }
@@ -63,14 +63,14 @@ $core.method({
 selector: "initialize",
 protocol: "testing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=self._isFeasible();
+$1=$self._isFeasible();
 if($core.assert($1)){
-$recv($globals.Platform)._registerIfNone_(self._new());
+$recv($globals.Platform)._registerIfNone_($self._new());
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -91,7 +91,7 @@ $core.method({
 selector: "isFeasible",
 protocol: "testing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");

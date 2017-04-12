@@ -15,7 +15,7 @@ $core.method({
 selector: "catch:",
 protocol: "promises",
 fn: function (aBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -41,7 +41,7 @@ $core.method({
 selector: "on:do:",
 protocol: "promises",
 fn: function (aClass,aBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -68,7 +68,7 @@ $core.method({
 selector: "on:do:catch:",
 protocol: "promises",
 fn: function (aClass,aBlock,anotherBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -95,7 +95,7 @@ $core.method({
 selector: "then:",
 protocol: "promises",
 fn: function (aBlockOrArray){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -134,11 +134,11 @@ $core.method({
 selector: "then:catch:",
 protocol: "promises",
 fn: function (aBlockOrArray,anotherBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._then_(aBlockOrArray))._catch_(anotherBlock);
+return $recv($self._then_(aBlockOrArray))._catch_(anotherBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"then:catch:",{aBlockOrArray:aBlockOrArray,anotherBlock:anotherBlock},$globals.Thenable)});
 //>>excludeEnd("ctx");
@@ -157,11 +157,11 @@ $core.method({
 selector: "then:on:do:",
 protocol: "promises",
 fn: function (aBlockOrArray,aClass,aBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._then_(aBlockOrArray))._on_do_(aClass,aBlock);
+return $recv($self._then_(aBlockOrArray))._on_do_(aClass,aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"then:on:do:",{aBlockOrArray:aBlockOrArray,aClass:aClass,aBlock:aBlock},$globals.Thenable)});
 //>>excludeEnd("ctx");
@@ -180,11 +180,11 @@ $core.method({
 selector: "then:on:do:catch:",
 protocol: "promises",
 fn: function (aBlockOrArray,aClass,aBlock,anotherBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv(self._then_(aBlockOrArray))._on_do_(aClass,aBlock))._catch_(anotherBlock);
+return $recv($recv($self._then_(aBlockOrArray))._on_do_(aClass,aBlock))._catch_(anotherBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"then:on:do:catch:",{aBlockOrArray:aBlockOrArray,aClass:aClass,aBlock:aBlock,anotherBlock:anotherBlock},$globals.Thenable)});
 //>>excludeEnd("ctx");
@@ -207,7 +207,7 @@ $core.method({
 selector: "all:",
 protocol: "composites",
 fn: function (aCollection){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -231,7 +231,7 @@ $core.method({
 selector: "any:",
 protocol: "composites",
 fn: function (aCollection){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -255,11 +255,11 @@ $core.method({
 selector: "forBlock:",
 protocol: "instance creation",
 fn: function (aBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._new())._then_(aBlock);
+return $recv($self._new())._then_(aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"forBlock:",{aBlock:aBlock},$globals.Promise.a$cls)});
 //>>excludeEnd("ctx");
@@ -278,7 +278,7 @@ $core.method({
 selector: "new",
 protocol: "instance creation",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -302,7 +302,7 @@ $core.method({
 selector: "new:",
 protocol: "instance creation",
 fn: function (aBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -329,7 +329,7 @@ $core.method({
 selector: "signal:",
 protocol: "instance creation",
 fn: function (anObject){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -353,7 +353,7 @@ $core.method({
 selector: "value:",
 protocol: "instance creation",
 fn: function (anObject){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -377,11 +377,11 @@ $core.method({
 selector: "catch:",
 protocol: "*Kernel-Promises",
 fn: function (aBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var js = self["@jsObject"];
+var js = $self["@jsObject"];
 if (typeof js.then === "function")
     return $globals.Thenable.fn.prototype._catch_.call(js, aBlock);
 else
@@ -397,7 +397,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "catch: aBlock\x0a<inlineJS: 'var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._catch_.call(js, aBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22catch:\x22)\x0a            ._arguments_([aBlock])\x0a    )'>",
+source: "catch: aBlock\x0a<inlineJS: 'var js = $self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._catch_.call(js, aBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22catch:\x22)\x0a            ._arguments_([aBlock])\x0a    )'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -409,11 +409,11 @@ $core.method({
 selector: "on:do:",
 protocol: "*Kernel-Promises",
 fn: function (aClass,aBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var js = self["@jsObject"];
+var js = $self["@jsObject"];
 if (typeof js.then === "function")
     return $globals.Thenable.fn.prototype._on_do_.call(js, aClass, aBlock);
 else
@@ -429,7 +429,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aBlock"],
-source: "on: aClass do: aBlock\x0a<inlineJS: 'var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._on_do_.call(js, aClass, aBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22on:do:\x22)\x0a            ._arguments_([aClass, aBlock])\x0a    )'>",
+source: "on: aClass do: aBlock\x0a<inlineJS: 'var js = $self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._on_do_.call(js, aClass, aBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22on:do:\x22)\x0a            ._arguments_([aClass, aBlock])\x0a    )'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -441,11 +441,11 @@ $core.method({
 selector: "on:do:catch:",
 protocol: "*Kernel-Promises",
 fn: function (aClass,aBlock,anotherBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var js = self["@jsObject"];
+var js = $self["@jsObject"];
 if (typeof js.then === "function")
     return $globals.Thenable.fn.prototype._on_do_catch_.call(js, aClass, aBlock, anotherBlock);
 else
@@ -461,7 +461,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aBlock", "anotherBlock"],
-source: "on: aClass do: aBlock catch: anotherBlock\x0a<inlineJS: 'var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._on_do_catch_.call(js, aClass, aBlock, anotherBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22on:do:catch:\x22)\x0a            ._arguments_([aClass, aBlock, anotherBlock])\x0a    )'>",
+source: "on: aClass do: aBlock catch: anotherBlock\x0a<inlineJS: 'var js = $self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._on_do_catch_.call(js, aClass, aBlock, anotherBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22on:do:catch:\x22)\x0a            ._arguments_([aClass, aBlock, anotherBlock])\x0a    )'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -473,11 +473,11 @@ $core.method({
 selector: "then:",
 protocol: "*Kernel-Promises",
 fn: function (aBlockOrArray){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var js = self["@jsObject"];
+var js = $self["@jsObject"];
 if (typeof js.then === "function")
     return $globals.Thenable.fn.prototype._then_.call(js, aBlockOrArray);
 else
@@ -493,7 +493,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlockOrArray"],
-source: "then: aBlockOrArray\x0a<inlineJS: 'var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_.call(js, aBlockOrArray);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:\x22)\x0a            ._arguments_([aBlockOrArray])\x0a    )'>",
+source: "then: aBlockOrArray\x0a<inlineJS: 'var js = $self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_.call(js, aBlockOrArray);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:\x22)\x0a            ._arguments_([aBlockOrArray])\x0a    )'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -505,11 +505,11 @@ $core.method({
 selector: "then:catch:",
 protocol: "*Kernel-Promises",
 fn: function (aBlockOrArray,anotherBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var js = self["@jsObject"];
+var js = $self["@jsObject"];
 if (typeof js.then === "function")
     return $globals.Thenable.fn.prototype._then_catch_.call(js, aBlockOrArray, anotherBlock);
 else
@@ -525,7 +525,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlockOrArray", "anotherBlock"],
-source: "then: aBlockOrArray catch: anotherBlock\x0a<inlineJS: 'var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_catch_.call(js, aBlockOrArray, anotherBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:catch:\x22)\x0a            ._arguments_([aBlockOrArray, anotherBlock])\x0a    )'>",
+source: "then: aBlockOrArray catch: anotherBlock\x0a<inlineJS: 'var js = $self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_catch_.call(js, aBlockOrArray, anotherBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:catch:\x22)\x0a            ._arguments_([aBlockOrArray, anotherBlock])\x0a    )'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -537,11 +537,11 @@ $core.method({
 selector: "then:on:do:",
 protocol: "*Kernel-Promises",
 fn: function (aBlockOrArray,aClass,aBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var js = self["@jsObject"];
+var js = $self["@jsObject"];
 if (typeof js.then === "function")
     return $globals.Thenable.fn.prototype._then_on_do_.call(js, aBlockOrArray, aClass, aBlock);
 else
@@ -557,7 +557,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlockOrArray", "aClass", "aBlock"],
-source: "then: aBlockOrArray on: aClass do: aBlock\x0a<inlineJS: 'var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_on_do_.call(js, aBlockOrArray, aClass, aBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:on:do:\x22)\x0a            ._arguments_([aBlockOrArray, aClass, aBlock])\x0a    )'>",
+source: "then: aBlockOrArray on: aClass do: aBlock\x0a<inlineJS: 'var js = $self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_on_do_.call(js, aBlockOrArray, aClass, aBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:on:do:\x22)\x0a            ._arguments_([aBlockOrArray, aClass, aBlock])\x0a    )'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -569,11 +569,11 @@ $core.method({
 selector: "then:on:do:catch:",
 protocol: "*Kernel-Promises",
 fn: function (aBlockOrArray,aClass,aBlock,anotherBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var js = self["@jsObject"];
+var js = $self["@jsObject"];
 if (typeof js.then === "function")
     return $globals.Thenable.fn.prototype._then_on_do_catch_.call(js, aBlockOrArray, aClass, aBlock, anotherBlock);
 else
@@ -589,7 +589,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlockOrArray", "aClass", "aBlock", "anotherBlock"],
-source: "then: aBlockOrArray on: aClass do: aBlock catch: anotherBlock\x0a<inlineJS: 'var js = self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_on_do_catch_.call(js, aBlockOrArray, aClass, aBlock, anotherBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:on:do:catch:\x22)\x0a            ._arguments_([aBlockOrArray, aClass, aBlock, anotherBlock])\x0a    )'>",
+source: "then: aBlockOrArray on: aClass do: aBlock catch: anotherBlock\x0a<inlineJS: 'var js = $self[\x22@jsObject\x22];\x0aif (typeof js.then === \x22function\x22)\x0a    return $globals.Thenable.fn.prototype._then_on_do_catch_.call(js, aBlockOrArray, aClass, aBlock, anotherBlock);\x0aelse\x0a    return self._doesNotUnderstand_(\x0a        $globals.Message._new()\x0a            ._selector_(\x22then:on:do:catch:\x22)\x0a            ._arguments_([aBlockOrArray, aClass, aBlock, anotherBlock])\x0a    )'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

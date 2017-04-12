@@ -125,7 +125,7 @@ value: anObject
 !JSObjectProxy methodsFor: '*Kernel-Promises'!
 
 catch: aBlock
-<inlineJS: 'var js = self["@jsObject"];
+<inlineJS: 'var js = $self["@jsObject"];
 if (typeof js.then === "function")
     return $globals.Thenable.fn.prototype._catch_.call(js, aBlock);
 else
@@ -137,7 +137,7 @@ else
 !
 
 on: aClass do: aBlock
-<inlineJS: 'var js = self["@jsObject"];
+<inlineJS: 'var js = $self["@jsObject"];
 if (typeof js.then === "function")
     return $globals.Thenable.fn.prototype._on_do_.call(js, aClass, aBlock);
 else
@@ -149,7 +149,7 @@ else
 !
 
 on: aClass do: aBlock catch: anotherBlock
-<inlineJS: 'var js = self["@jsObject"];
+<inlineJS: 'var js = $self["@jsObject"];
 if (typeof js.then === "function")
     return $globals.Thenable.fn.prototype._on_do_catch_.call(js, aClass, aBlock, anotherBlock);
 else
@@ -161,7 +161,7 @@ else
 !
 
 then: aBlockOrArray
-<inlineJS: 'var js = self["@jsObject"];
+<inlineJS: 'var js = $self["@jsObject"];
 if (typeof js.then === "function")
     return $globals.Thenable.fn.prototype._then_.call(js, aBlockOrArray);
 else
@@ -173,7 +173,7 @@ else
 !
 
 then: aBlockOrArray catch: anotherBlock
-<inlineJS: 'var js = self["@jsObject"];
+<inlineJS: 'var js = $self["@jsObject"];
 if (typeof js.then === "function")
     return $globals.Thenable.fn.prototype._then_catch_.call(js, aBlockOrArray, anotherBlock);
 else
@@ -185,7 +185,7 @@ else
 !
 
 then: aBlockOrArray on: aClass do: aBlock
-<inlineJS: 'var js = self["@jsObject"];
+<inlineJS: 'var js = $self["@jsObject"];
 if (typeof js.then === "function")
     return $globals.Thenable.fn.prototype._then_on_do_.call(js, aBlockOrArray, aClass, aBlock);
 else
@@ -197,7 +197,7 @@ else
 !
 
 then: aBlockOrArray on: aClass do: aBlock catch: anotherBlock
-<inlineJS: 'var js = self["@jsObject"];
+<inlineJS: 'var js = $self["@jsObject"];
 if (typeof js.then === "function")
     return $globals.Thenable.fn.prototype._then_on_do_catch_.call(js, aBlockOrArray, aClass, aBlock, anotherBlock);
 else

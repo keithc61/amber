@@ -1006,6 +1006,9 @@ visitInstructionList: anArray enclosedBetween: aString and: anotherString
 !
 
 visitReceiver: anIRInstruction
+	"Ugly hack, mutation"
+	anIRInstruction isSelf ifTrue: [ anIRInstruction variable: (anIRInstruction variable copy name: '$self'; yourself) ].
+	
 	anIRInstruction needsBoxingAsReceiver ifFalse: [ ^ self visit: anIRInstruction ].
 	
 	self stream nextPutAll: '$recv('.
@@ -1030,7 +1033,7 @@ visitSuperSend: anIRSend
 		nextPutAll: '(', self currentClass asJavaScriptSource;
 		nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';
 		nextPutAll: anIRSend selector asJavaScriptMethodName, '.apply(';
-		nextPutAll: '$recv(self), '.
+		nextPutAll: '$self, '.
 	self
 		visitInstructionList: anIRSend arguments
 		enclosedBetween: '[' and: ']'.
@@ -1170,7 +1173,7 @@ nextPutFunctionWith: aBlock arguments: anArray
 		do: [ :each | stream nextPutAll: each asVariableName ]
 		separatedBy: [ stream nextPut: ',' ].
 	stream nextPutAll: '){'; lf.
-	stream nextPutAll: 'var self=this;'; lf.
+	stream nextPutAll: 'var self=this,$self=this;'; lf.
 	aBlock value.
 	stream lf; nextPutAll: '}'
 !

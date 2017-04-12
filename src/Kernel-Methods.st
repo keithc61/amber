@@ -47,7 +47,7 @@ whileFalse
 !
 
 whileFalse: aBlock
-	<inlineJS: 'while(!!$core.assert(self._value())) {aBlock._value()}'>
+	<inlineJS: 'while(!!$core.assert($self._value())) {aBlock._value()}'>
 !
 
 whileTrue
@@ -55,7 +55,7 @@ whileTrue
 !
 
 whileTrue: aBlock
-	<inlineJS: 'while($core.assert(self._value())) {aBlock._value()}'>
+	<inlineJS: 'while($core.assert($self._value())) {aBlock._value()}'>
 ! !
 
 !BlockClosure methodsFor: 'converting'!
@@ -95,7 +95,7 @@ on: anErrorClass do: aBlock
 tryCatch: aBlock
 	<inlineJS: '
 		try {
-			return self._value();
+			return $self._value();
 		} catch(error) {
 			// pass non-local returns undetected
 			if (Array.isArray(error) && error.length === 1) throw error;
@@ -111,7 +111,7 @@ applyTo: anObject arguments: aCollection
 !
 
 ensure: aBlock
-	<inlineJS: 'try{return self._value()}finally{aBlock._value()}'>
+	<inlineJS: 'try{return $self._value()}finally{aBlock._value()}'>
 !
 
 new
@@ -876,14 +876,14 @@ rawTimeout: anObject
 
 clearInterval
 	<inlineJS: '
-		var interval = self["@rawTimeout"];
+		var interval = $self["@rawTimeout"];
 		clearInterval(interval);
 	'>
 !
 
 clearTimeout
 	<inlineJS: '
-		var timeout = self["@rawTimeout"];
+		var timeout = $self["@rawTimeout"];
 		clearTimeout(timeout);
 	'>
 ! !

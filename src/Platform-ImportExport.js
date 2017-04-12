@@ -15,11 +15,11 @@ $core.method({
 selector: "exportPackage:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._subclassResponsibility();
+$self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"exportPackage:on:",{aPackage:aPackage,aStream:aStream},$globals.AbstractExporter)});
@@ -39,13 +39,13 @@ $core.method({
 selector: "extensionMethodsOfPackage:",
 protocol: "accessing",
 fn: function (aPackage){
-var self=this;
+var self=this,$self=this;
 var result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 result=$recv($globals.OrderedCollection)._new();
-$recv(self._extensionProtocolsOfPackage_(aPackage))._do_((function(each){
+$recv($self._extensionProtocolsOfPackage_(aPackage))._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -73,7 +73,7 @@ $core.method({
 selector: "extensionProtocolsOfPackage:",
 protocol: "accessing",
 fn: function (aPackage){
-var self=this;
+var self=this,$self=this;
 var extensionName,result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -145,7 +145,7 @@ $core.method({
 selector: "chunkEscape:",
 protocol: "convenience",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -168,12 +168,12 @@ $core.method({
 selector: "exportBehavior:on:",
 protocol: "output",
 fn: function (aBehavior,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $recv(aBehavior)._exportBehaviorDefinitionTo_using_(aStream,self);
-self._exportProtocols_on_(self._ownMethodProtocolsOfClass_(aBehavior),aStream);
+$self._exportProtocols_on_($self._ownMethodProtocolsOfClass_(aBehavior),aStream);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"exportBehavior:on:",{aBehavior:aBehavior,aStream:aStream},$globals.ChunkExporter)});
@@ -193,7 +193,7 @@ $core.method({
 selector: "exportCategoryEpilogueOf:on:",
 protocol: "output",
 fn: function (aCategory,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -222,7 +222,7 @@ $core.method({
 selector: "exportCategoryPrologueOf:on:",
 protocol: "output",
 fn: function (aCategory,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -259,7 +259,7 @@ $core.method({
 selector: "exportDefinitionOf:on:",
 protocol: "output",
 fn: function (aClass,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -331,7 +331,7 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=4;
 //>>excludeEnd("ctx");
-$recv(aStream)._write_([self._chunkEscape_($recv(aClass)._comment()),"!"]);
+$recv(aStream)._write_([$self._chunkEscape_($recv(aClass)._comment()),"!"]);
 $4=$recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=5;
@@ -361,7 +361,7 @@ $core.method({
 selector: "exportMetaDefinitionOf:on:",
 protocol: "output",
 fn: function (aClass,aStream){
-var self=this;
+var self=this,$self=this;
 var classIvars,classTraitComposition;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -411,7 +411,7 @@ $core.method({
 selector: "exportMethod:on:",
 protocol: "output",
 fn: function (aMethod,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -423,7 +423,7 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=2;
 //>>excludeEnd("ctx");
-$recv(aStream)._write_(self._chunkEscape_($recv(aMethod)._source()));
+$recv(aStream)._write_($self._chunkEscape_($recv(aMethod)._source()));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
@@ -448,18 +448,18 @@ $core.method({
 selector: "exportPackage:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-self._exportPackageDefinitionOf_on_(aPackage,aStream);
-self._exportPackageImportsOf_on_(aPackage,aStream);
+$self._exportPackageDefinitionOf_on_(aPackage,aStream);
+$self._exportPackageImportsOf_on_(aPackage,aStream);
 $recv($recv(aPackage)._sortedClasses())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-self._exportBehavior_on_(each,aStream);
+$self._exportBehavior_on_(each,aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["exportBehavior:on:"]=1;
 //>>excludeEnd("ctx");
@@ -469,14 +469,14 @@ return $1;
 } else {
 var meta;
 meta=$receiver;
-return self._exportBehavior_on_(meta,aStream);
+return $self._exportBehavior_on_(meta,aStream);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-self._exportPackageTraitCompositionsOf_on_(aPackage,aStream);
-self._exportProtocols_on_(self._extensionProtocolsOfPackage_(aPackage),aStream);
+$self._exportPackageTraitCompositionsOf_on_(aPackage,aStream);
+$self._exportProtocols_on_($self._extensionProtocolsOfPackage_(aPackage),aStream);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"exportPackage:on:",{aPackage:aPackage,aStream:aStream},$globals.ChunkExporter)});
@@ -496,7 +496,7 @@ $core.method({
 selector: "exportPackageDefinitionOf:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -526,7 +526,7 @@ $core.method({
 selector: "exportPackageImportsOf:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -539,7 +539,7 @@ $recv(aStream)._write_("(Smalltalk packageAt: ");
 $ctx2.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
 $recv(aStream)._print_($recv(aPackage)._name());
-$recv(aStream)._write_([") imports: ",self._chunkEscape_($recv(aPackage)._importsDefinition()),"!"]);
+$recv(aStream)._write_([") imports: ",$self._chunkEscape_($recv(aPackage)._importsDefinition()),"!"]);
 return $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({imports:imports},$ctx1,1)});
@@ -564,7 +564,7 @@ $core.method({
 selector: "exportPackageTraitCompositionsOf:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -576,7 +576,7 @@ $recv(traitCompositions)._keysAndValuesDo_((function(key,value){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return self._exportTraitComposition_of_on_(value,key,aStream);
+return $self._exportTraitComposition_of_on_(value,key,aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({key:key,value:value},$ctx2,2)});
 //>>excludeEnd("ctx");
@@ -610,7 +610,7 @@ $core.method({
 selector: "exportProtocol:on:",
 protocol: "output",
 fn: function (aProtocol,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -618,17 +618,17 @@ $recv($recv(aProtocol)._ownMethods())._ifNotEmpty_((function(methods){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-self._exportProtocolPrologueOf_on_(aProtocol,aStream);
+$self._exportProtocolPrologueOf_on_(aProtocol,aStream);
 $recv(methods)._do_((function(method){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return self._exportMethod_on_(method,aStream);
+return $self._exportMethod_on_(method,aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({method:method},$ctx2,2)});
 //>>excludeEnd("ctx");
 }));
-return self._exportProtocolEpilogueOf_on_(aProtocol,aStream);
+return $self._exportProtocolEpilogueOf_on_(aProtocol,aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({methods:methods},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -652,7 +652,7 @@ $core.method({
 selector: "exportProtocolEpilogueOf:on:",
 protocol: "output",
 fn: function (aProtocol,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -681,7 +681,7 @@ $core.method({
 selector: "exportProtocolPrologueOf:on:",
 protocol: "output",
 fn: function (aProtocol,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -718,7 +718,7 @@ $core.method({
 selector: "exportProtocols:on:",
 protocol: "output",
 fn: function (aCollection,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -726,7 +726,7 @@ $recv(aCollection)._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._exportProtocol_on_(each,aStream);
+return $self._exportProtocol_on_(each,aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -750,7 +750,7 @@ $core.method({
 selector: "exportTraitComposition:of:on:",
 protocol: "output",
 fn: function (aTraitComposition,aBehavior,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -784,7 +784,7 @@ $core.method({
 selector: "exportTraitDefinitionOf:on:",
 protocol: "output",
 fn: function (aClass,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -836,7 +836,7 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=3;
 //>>excludeEnd("ctx");
-$recv(aStream)._write_([self._chunkEscape_($recv(aClass)._comment()),"!"]);
+$recv(aStream)._write_([$self._chunkEscape_($recv(aClass)._comment()),"!"]);
 $4=$recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=4;
@@ -866,7 +866,7 @@ $core.method({
 selector: "extensionCategoriesOfPackage:",
 protocol: "accessing",
 fn: function (aPackage){
-var self=this;
+var self=this,$self=this;
 var name,map,result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -946,7 +946,7 @@ $core.method({
 selector: "ownCategoriesOfClass:",
 protocol: "accessing",
 fn: function (aClass){
-var self=this;
+var self=this,$self=this;
 var map;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1000,11 +1000,11 @@ $core.method({
 selector: "ownCategoriesOfMetaClass:",
 protocol: "accessing",
 fn: function (aClass){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._ownCategoriesOfClass_($recv(aClass)._theMetaClass());
+return $self._ownCategoriesOfClass_($recv(aClass)._theMetaClass());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ownCategoriesOfMetaClass:",{aClass:aClass},$globals.ChunkExporter)});
 //>>excludeEnd("ctx");
@@ -1023,7 +1023,7 @@ $core.method({
 selector: "ownMethodProtocolsOfClass:",
 protocol: "accessing",
 fn: function (aClass){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1060,7 +1060,7 @@ $core.method({
 selector: "exportBehavior:on:",
 protocol: "output",
 fn: function (aBehavior,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1069,7 +1069,7 @@ $recv($recv(aBehavior)._ownMethods())._do_((function(method){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._exportMethod_on_(method,aStream);
+return $self._exportMethod_on_(method,aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({method:method},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1093,7 +1093,7 @@ $core.method({
 selector: "exportDefinitionOf:on:",
 protocol: "output",
 fn: function (aClass,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1188,7 +1188,7 @@ $core.method({
 selector: "exportMetaDefinitionOf:on:",
 protocol: "output",
 fn: function (aClass,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1236,7 +1236,7 @@ $core.method({
 selector: "exportMethod:on:",
 protocol: "output",
 fn: function (aMethod,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1392,21 +1392,21 @@ $core.method({
 selector: "exportPackage:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-self._exportPackagePrologueOf_on_(aPackage,aStream);
-self._exportPackageDefinitionOf_on_(aPackage,aStream);
-self._exportPackageContextOf_on_(aPackage,aStream);
-self._exportPackageImportsOf_on_(aPackage,aStream);
-self._exportPackageTransportOf_on_(aPackage,aStream);
+$self._exportPackagePrologueOf_on_(aPackage,aStream);
+$self._exportPackageDefinitionOf_on_(aPackage,aStream);
+$self._exportPackageContextOf_on_(aPackage,aStream);
+$self._exportPackageImportsOf_on_(aPackage,aStream);
+$self._exportPackageTransportOf_on_(aPackage,aStream);
 $recv($recv(aPackage)._sortedClasses())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-self._exportBehavior_on_(each,aStream);
+$self._exportBehavior_on_(each,aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["exportBehavior:on:"]=1;
 //>>excludeEnd("ctx");
@@ -1416,7 +1416,7 @@ return $1;
 } else {
 var meta;
 meta=$receiver;
-return self._exportBehavior_on_(meta,aStream);
+return $self._exportBehavior_on_(meta,aStream);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -1425,17 +1425,17 @@ return self._exportBehavior_on_(meta,aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["do:"]=1;
 //>>excludeEnd("ctx");
-self._exportPackageTraitCompositionsOf_on_(aPackage,aStream);
-$recv(self._extensionMethodsOfPackage_(aPackage))._do_((function(each){
+$self._exportPackageTraitCompositionsOf_on_(aPackage,aStream);
+$recv($self._extensionMethodsOfPackage_(aPackage))._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._exportMethod_on_(each,aStream);
+return $self._exportMethod_on_(each,aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
 //>>excludeEnd("ctx");
 }));
-self._exportPackageEpilogueOf_on_(aPackage,aStream);
+$self._exportPackageEpilogueOf_on_(aPackage,aStream);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"exportPackage:on:",{aPackage:aPackage,aStream:aStream},$globals.Exporter)});
@@ -1455,7 +1455,7 @@ $core.method({
 selector: "exportPackageBodyBlockPrologueOf:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1496,7 +1496,7 @@ $core.method({
 selector: "exportPackageContextOf:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1521,7 +1521,7 @@ $core.method({
 selector: "exportPackageDefinitionOf:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1546,11 +1546,11 @@ $core.method({
 selector: "exportPackageEpilogueOf:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._subclassResponsibility();
+$self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"exportPackageEpilogueOf:on:",{aPackage:aPackage,aStream:aStream},$globals.Exporter)});
@@ -1570,7 +1570,7 @@ $core.method({
 selector: "exportPackageImportsOf:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1609,11 +1609,11 @@ $core.method({
 selector: "exportPackagePrologueOf:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._subclassResponsibility();
+$self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"exportPackagePrologueOf:on:",{aPackage:aPackage,aStream:aStream},$globals.Exporter)});
@@ -1633,7 +1633,7 @@ $core.method({
 selector: "exportPackageTraitCompositionsOf:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1645,7 +1645,7 @@ $recv(traitCompositions)._keysAndValuesDo_((function(key,value){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return self._exportTraitComposition_of_on_(value,key,aStream);
+return $self._exportTraitComposition_of_on_(value,key,aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({key:key,value:value},$ctx2,2)});
 //>>excludeEnd("ctx");
@@ -1674,7 +1674,7 @@ $core.method({
 selector: "exportPackageTransportOf:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1699,7 +1699,7 @@ $core.method({
 selector: "exportTraitComposition:of:on:",
 protocol: "output",
 fn: function (aTraitComposition,aBehavior,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1730,7 +1730,7 @@ $core.method({
 selector: "exportTraitDefinitionOf:on:",
 protocol: "output",
 fn: function (aClass,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1810,7 +1810,7 @@ $core.method({
 selector: "ownMethodsOfClass:",
 protocol: "accessing",
 fn: function (aClass){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1854,11 +1854,11 @@ $core.method({
 selector: "ownMethodsOfMetaClass:",
 protocol: "accessing",
 fn: function (aClass){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._ownMethodsOfClass_($recv(aClass)._theMetaClass());
+return $self._ownMethodsOfClass_($recv(aClass)._theMetaClass());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ownMethodsOfMetaClass:",{aClass:aClass},$globals.Exporter)});
 //>>excludeEnd("ctx");
@@ -1883,7 +1883,7 @@ $core.method({
 selector: "amdNamesOfPackages:",
 protocol: "private",
 fn: function (anArray){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1892,7 +1892,7 @@ return $recv($recv(anArray)._select_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=self._amdNamespaceOfPackage_(each);
+$1=$self._amdNamespaceOfPackage_(each);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["amdNamespaceOfPackage:"]=1;
 //>>excludeEnd("ctx");
@@ -1904,7 +1904,7 @@ return $recv($1)._notNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($recv(self._amdNamespaceOfPackage_(each)).__comma("/")).__comma($recv(each)._name());
+return $recv($recv($self._amdNamespaceOfPackage_(each)).__comma("/")).__comma($recv(each)._name());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx[","]=1;
 //>>excludeEnd("ctx");
@@ -1930,7 +1930,7 @@ $core.method({
 selector: "amdNamespaceOfPackage:",
 protocol: "private",
 fn: function (aPackage){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1964,7 +1964,7 @@ $core.method({
 selector: "exportPackageEpilogueOf:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1989,7 +1989,7 @@ $core.method({
 selector: "exportPackagePrologueOf:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
-var self=this;
+var self=this,$self=this;
 var importsForOutput,loadDependencies,pragmaStart,pragmaEnd;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1997,8 +1997,8 @@ return $core.withContext(function($ctx1) {
 var $1,$3,$2,$4,$6,$5,$7,$14,$13,$12,$11,$10,$9,$18,$17,$16,$15,$8;
 pragmaStart="";
 pragmaEnd="";
-importsForOutput=self._importsForOutput_(aPackage);
-loadDependencies=self._amdNamesOfPackages_($recv(aPackage)._loadDependencies());
+importsForOutput=$self._importsForOutput_(aPackage);
+loadDependencies=$self._amdNamesOfPackages_($recv(aPackage)._loadDependencies());
 $1=$recv(importsForOutput)._value();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["value"]=1;
@@ -2079,7 +2079,7 @@ $ctx1.sendIdx["replace:with:"]=3;
 $8=["define(",$9,", function(",$15,"){\x22use strict\x22;"];
 $recv(aStream)._write_($8);
 $recv(aStream)._lf();
-self._exportPackageBodyBlockPrologueOf_on_(aPackage,aStream);
+$self._exportPackageBodyBlockPrologueOf_on_(aPackage,aStream);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"exportPackagePrologueOf:on:",{aPackage:aPackage,aStream:aStream,importsForOutput:importsForOutput,loadDependencies:loadDependencies,pragmaStart:pragmaStart,pragmaEnd:pragmaEnd},$globals.AmdExporter)});
@@ -2099,7 +2099,7 @@ $core.method({
 selector: "importsForOutput:",
 protocol: "private",
 fn: function (aPackage){
-var self=this;
+var self=this,$self=this;
 var namedImports,anonImports,importVarNames;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2154,8 +2154,8 @@ $core.method({
 selector: "last",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@last"];
+var self=this,$self=this;
+return $self["@last"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2172,7 +2172,7 @@ $core.method({
 selector: "nextChunk",
 protocol: "reading",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 var char,result,chunk;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2185,7 +2185,7 @@ $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-char=$recv(self["@stream"])._next();
+char=$recv($self["@stream"])._next();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["next"]=1;
 //>>excludeEnd("ctx");
@@ -2203,12 +2203,12 @@ $1=$recv(char).__eq("!");
 $ctx2.sendIdx["="]=1;
 //>>excludeEnd("ctx");
 if($core.assert($1)){
-$2=$recv($recv(self["@stream"])._peek()).__eq("!");
+$2=$recv($recv($self["@stream"])._peek()).__eq("!");
 if($core.assert($2)){
-$recv(self["@stream"])._next();
+$recv($self["@stream"])._next();
 } else {
-self["@last"]=$recv($recv(result)._contents())._trimBoth();
-$3=self["@last"];
+$self["@last"]=$recv($recv(result)._contents())._trimBoth();
+$3=$self["@last"];
 throw $early=[$3];
 }
 }
@@ -2217,8 +2217,8 @@ return $recv(result)._nextPut_(char);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
-self["@last"]=nil;
-$4=self["@last"];
+$self["@last"]=nil;
+$4=$self["@last"];
 return $4;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
@@ -2240,8 +2240,8 @@ $core.method({
 selector: "stream:",
 protocol: "accessing",
 fn: function (aStream){
-var self=this;
-self["@stream"]=aStream;
+var self=this,$self=this;
+$self["@stream"]=aStream;
 return self;
 
 },
@@ -2260,11 +2260,11 @@ $core.method({
 selector: "on:",
 protocol: "instance creation",
 fn: function (aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._new())._stream_(aStream);
+return $recv($self._new())._stream_(aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"on:",{aStream:aStream},$globals.ChunkParser.a$cls)});
 //>>excludeEnd("ctx");
@@ -2288,8 +2288,8 @@ $core.method({
 selector: "class:",
 protocol: "accessing",
 fn: function (aClass){
-var self=this;
-self["@class"]=aClass;
+var self=this,$self=this;
+$self["@class"]=aClass;
 return self;
 
 },
@@ -2307,7 +2307,7 @@ $core.method({
 selector: "initialize",
 protocol: "initialization",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -2315,7 +2315,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.ClassCommentReader.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
+($globals.ClassCommentReader.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -2338,7 +2338,7 @@ $core.method({
 selector: "scanFrom:",
 protocol: "fileIn",
 fn: function (aChunkParser){
-var self=this;
+var self=this,$self=this;
 var chunk;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2348,7 +2348,7 @@ $recv(chunk)._ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._setComment_(chunk);
+return $self._setComment_(chunk);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2372,11 +2372,11 @@ $core.method({
 selector: "setComment:",
 protocol: "private",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(self["@class"])._comment_(aString);
+$recv($self["@class"])._comment_(aString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setComment:",{aString:aString},$globals.ClassCommentReader)});
@@ -2402,9 +2402,9 @@ $core.method({
 selector: "class:category:",
 protocol: "accessing",
 fn: function (aClass,aString){
-var self=this;
-self["@class"]=aClass;
-self["@category"]=aString;
+var self=this,$self=this;
+$self["@class"]=aClass;
+$self["@category"]=aString;
 return self;
 
 },
@@ -2422,11 +2422,11 @@ $core.method({
 selector: "compileMethod:",
 protocol: "private",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($recv($globals.Compiler)._new())._install_forClass_protocol_(aString,self["@class"],self["@category"]);
+$recv($recv($globals.Compiler)._new())._install_forClass_protocol_(aString,$self["@class"],$self["@category"]);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"compileMethod:",{aString:aString},$globals.ClassProtocolReader)});
@@ -2446,7 +2446,7 @@ $core.method({
 selector: "initialize",
 protocol: "initialization",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -2454,7 +2454,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.ClassProtocolReader.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
+($globals.ClassProtocolReader.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -2477,7 +2477,7 @@ $core.method({
 selector: "scanFrom:",
 protocol: "fileIn",
 fn: function (aChunkParser){
-var self=this;
+var self=this,$self=this;
 var chunk;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2496,7 +2496,7 @@ return $recv(chunk)._isEmpty();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._compileMethod_(chunk);
+return $self._compileMethod_(chunk);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
@@ -2526,12 +2526,12 @@ $core.method({
 selector: "methods",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-return $recv($recv(self._theClass())._methodsInProtocol_(self._name()))._sorted_((function(a,b){
+return $recv($recv($self._theClass())._methodsInProtocol_($self._name()))._sorted_((function(a,b){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -2562,8 +2562,8 @@ $core.method({
 selector: "name",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@name"];
+var self=this,$self=this;
+return $self["@name"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2580,8 +2580,8 @@ $core.method({
 selector: "name:",
 protocol: "accessing",
 fn: function (aString){
-var self=this;
-self["@name"]=aString;
+var self=this,$self=this;
+$self["@name"]=aString;
 return self;
 
 },
@@ -2599,12 +2599,12 @@ $core.method({
 selector: "ownMethods",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-return $recv($recv(self._theClass())._ownMethodsInProtocol_(self._name()))._sorted_((function(a,b){
+return $recv($recv($self._theClass())._ownMethodsInProtocol_($self._name()))._sorted_((function(a,b){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -2635,8 +2635,8 @@ $core.method({
 selector: "theClass",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@theClass"];
+var self=this,$self=this;
+return $self["@theClass"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2653,8 +2653,8 @@ $core.method({
 selector: "theClass:",
 protocol: "accessing",
 fn: function (aClass){
-var self=this;
-self["@theClass"]=aClass;
+var self=this,$self=this;
+$self["@theClass"]=aClass;
 return self;
 
 },
@@ -2673,12 +2673,12 @@ $core.method({
 selector: "name:theClass:",
 protocol: "instance creation",
 fn: function (aString,aClass){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=self._new();
+$1=$self._new();
 $recv($1)._name_(aString);
 $recv($1)._theClass_(aClass);
 return $recv($1)._yourself();
@@ -2705,7 +2705,7 @@ $core.method({
 selector: "import:",
 protocol: "fileIn",
 fn: function (aStream){
-var self=this;
+var self=this,$self=this;
 var chunk,result,parser,lastEmpty;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2713,8 +2713,8 @@ return $core.withContext(function($ctx1) {
 var $1;
 parser=$recv($globals.ChunkParser)._on_(aStream);
 lastEmpty=false;
-self["@lastSection"]="n/a, not started";
-self["@lastChunk"]=nil;
+$self["@lastSection"]="n/a, not started";
+$self["@lastChunk"]=nil;
 $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -2741,8 +2741,8 @@ return lastEmpty;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
-self["@lastSection"]=chunk;
-self["@lastSection"];
+$self["@lastSection"]=chunk;
+$self["@lastSection"];
 result=$recv($recv($globals.Compiler)._new())._evaluateExpression_(chunk);
 result;
 $1=lastEmpty;
@@ -2759,8 +2759,8 @@ return $recv(result)._scanFrom_(parser);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 //>>excludeEnd("ctx");
 }));
-self["@lastSection"]="n/a, finished";
-return self["@lastSection"];
+$self["@lastSection"]="n/a, finished";
+return $self["@lastSection"];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2768,8 +2768,8 @@ return self["@lastSection"];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-self["@lastChunk"]=$recv(parser)._last();
-self["@lastChunk"];
+$self["@lastChunk"]=$recv(parser)._last();
+$self["@lastChunk"];
 return $recv(e)._resignal();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({e:e},$ctx1,7)});
@@ -2794,8 +2794,8 @@ $core.method({
 selector: "lastChunk",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@lastChunk"];
+var self=this,$self=this;
+return $self["@lastChunk"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2812,8 +2812,8 @@ $core.method({
 selector: "lastSection",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@lastSection"];
+var self=this,$self=this;
+return $self["@lastSection"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2842,7 +2842,7 @@ $core.method({
 selector: "ajaxPutAt:data:onSuccess:onError:",
 protocol: "private",
 fn: function (aURL,aString,aBlock,anotherBlock){
-var self=this;
+var self=this,$self=this;
 var xhr;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2896,7 +2896,7 @@ $core.method({
 selector: "chunkContentsFor:",
 protocol: "accessing",
 fn: function (aPackage){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -2904,7 +2904,7 @@ return $recv($globals.String)._streamContents_((function(str){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv(self._chunkExporter())._exportPackage_on_(aPackage,str);
+return $recv($self._chunkExporter())._exportPackage_on_(aPackage,str);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({str:str},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2927,11 +2927,11 @@ $core.method({
 selector: "chunkExporter",
 protocol: "factory",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._chunkExporterClass())._new();
+return $recv($self._chunkExporterClass())._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"chunkExporter",{},$globals.PackageHandler)});
 //>>excludeEnd("ctx");
@@ -2950,7 +2950,7 @@ $core.method({
 selector: "chunkExporterClass",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return $globals.ChunkExporter;
 
 },
@@ -2968,12 +2968,12 @@ $core.method({
 selector: "commit:",
 protocol: "committing",
 fn: function (aPackage){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2;
-self._commit_onSuccess_onError_(aPackage,(function(){
+$self._commit_onSuccess_onError_(aPackage,(function(){
 
 }),(function(error){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3009,15 +3009,15 @@ $core.method({
 selector: "commit:onSuccess:onError:",
 protocol: "committing",
 fn: function (aPackage,aBlock,anotherBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._commitJsFileFor_onSuccess_onError_(aPackage,(function(){
+$self._commitJsFileFor_onSuccess_onError_(aPackage,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._commitStFileFor_onSuccess_onError_(aPackage,(function(){
+return $self._commitStFileFor_onSuccess_onError_(aPackage,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -3050,12 +3050,12 @@ $core.method({
 selector: "commitJsFileFor:onSuccess:onError:",
 protocol: "committing",
 fn: function (aPackage,aBlock,anotherBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $2,$1;
-$2=$recv($recv(self._commitPathJsFor_(aPackage)).__comma("/")).__comma($recv(aPackage)._name());
+$2=$recv($recv($self._commitPathJsFor_(aPackage)).__comma("/")).__comma($recv(aPackage)._name());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=2;
 //>>excludeEnd("ctx");
@@ -3063,7 +3063,7 @@ $1=$recv($2).__comma(".js");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
-self._ajaxPutAt_data_onSuccess_onError_($1,self._contentsFor_(aPackage),aBlock,anotherBlock);
+$self._ajaxPutAt_data_onSuccess_onError_($1,$self._contentsFor_(aPackage),aBlock,anotherBlock);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"commitJsFileFor:onSuccess:onError:",{aPackage:aPackage,aBlock:aBlock,anotherBlock:anotherBlock},$globals.PackageHandler)});
@@ -3083,11 +3083,11 @@ $core.method({
 selector: "commitPathJsFor:",
 protocol: "accessing",
 fn: function (aPackage){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._subclassResponsibility();
+$self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"commitPathJsFor:",{aPackage:aPackage},$globals.PackageHandler)});
@@ -3107,11 +3107,11 @@ $core.method({
 selector: "commitPathStFor:",
 protocol: "accessing",
 fn: function (aPackage){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._subclassResponsibility();
+$self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"commitPathStFor:",{aPackage:aPackage},$globals.PackageHandler)});
@@ -3131,12 +3131,12 @@ $core.method({
 selector: "commitStFileFor:onSuccess:onError:",
 protocol: "committing",
 fn: function (aPackage,aBlock,anotherBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $2,$1;
-$2=$recv($recv(self._commitPathStFor_(aPackage)).__comma("/")).__comma($recv(aPackage)._name());
+$2=$recv($recv($self._commitPathStFor_(aPackage)).__comma("/")).__comma($recv(aPackage)._name());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=2;
 //>>excludeEnd("ctx");
@@ -3144,7 +3144,7 @@ $1=$recv($2).__comma(".st");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
-self._ajaxPutAt_data_onSuccess_onError_($1,self._chunkContentsFor_(aPackage),aBlock,anotherBlock);
+$self._ajaxPutAt_data_onSuccess_onError_($1,$self._chunkContentsFor_(aPackage),aBlock,anotherBlock);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"commitStFileFor:onSuccess:onError:",{aPackage:aPackage,aBlock:aBlock,anotherBlock:anotherBlock},$globals.PackageHandler)});
@@ -3164,7 +3164,7 @@ $core.method({
 selector: "contentsFor:",
 protocol: "accessing",
 fn: function (aPackage){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3172,7 +3172,7 @@ return $recv($globals.String)._streamContents_((function(str){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv(self._exporter())._exportPackage_on_(aPackage,str);
+return $recv($self._exporter())._exportPackage_on_(aPackage,str);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({str:str},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -3195,11 +3195,11 @@ $core.method({
 selector: "exporter",
 protocol: "factory",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._exporterClass())._new();
+return $recv($self._exporterClass())._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"exporter",{},$globals.PackageHandler)});
 //>>excludeEnd("ctx");
@@ -3218,11 +3218,11 @@ $core.method({
 selector: "exporterClass",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._subclassResponsibility();
+$self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"exporterClass",{},$globals.PackageHandler)});
@@ -3242,11 +3242,11 @@ $core.method({
 selector: "load:",
 protocol: "loading",
 fn: function (aPackage){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._subclassResponsibility();
+$self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"load:",{aPackage:aPackage},$globals.PackageHandler)});
@@ -3266,7 +3266,7 @@ $core.method({
 selector: "onCommitError:",
 protocol: "error handling",
 fn: function (anError){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3303,11 +3303,11 @@ $core.method({
 selector: "commitPathJsFor:",
 protocol: "accessing",
 fn: function (aPackage){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._toUrl_(self._namespaceFor_(aPackage));
+return $self._toUrl_($self._namespaceFor_(aPackage));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"commitPathJsFor:",{aPackage:aPackage},$globals.AmdPackageHandler)});
 //>>excludeEnd("ctx");
@@ -3326,18 +3326,18 @@ $core.method({
 selector: "commitPathStFor:",
 protocol: "accessing",
 fn: function (aPackage){
-var self=this;
+var self=this,$self=this;
 var path,pathWithout;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2;
-$1=$recv(self._namespaceFor_(aPackage)).__comma("/_source");
+$1=$recv($self._namespaceFor_(aPackage)).__comma("/_source");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
-path=self._toUrl_($1);
-pathWithout=self._commitPathJsFor_(aPackage);
+path=$self._toUrl_($1);
+pathWithout=$self._commitPathJsFor_(aPackage);
 $2=$recv(path).__eq($recv(pathWithout).__comma("/_source"));
 if($core.assert($2)){
 return pathWithout;
@@ -3362,7 +3362,7 @@ $core.method({
 selector: "exporterClass",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return $globals.AmdExporter;
 
 },
@@ -3380,18 +3380,18 @@ $core.method({
 selector: "load:",
 protocol: "loading",
 fn: function (aPackage){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2,$receiver;
 $1=$recv($globals.Smalltalk)._amdRequire();
 if(($receiver = $1) == null || $receiver.a$nil){
-self._error_("AMD loader not present");
+$self._error_("AMD loader not present");
 } else {
 var require;
 require=$receiver;
-$3=$recv($recv(self._namespaceFor_(aPackage)).__comma("/")).__comma($recv(aPackage)._name());
+$3=$recv($recv($self._namespaceFor_(aPackage)).__comma("/")).__comma($recv(aPackage)._name());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
@@ -3417,7 +3417,7 @@ $core.method({
 selector: "namespaceFor:",
 protocol: "committing",
 fn: function (aPackage){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3440,14 +3440,14 @@ $core.method({
 selector: "toUrl:",
 protocol: "private",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
 $1=$recv($globals.Smalltalk)._amdRequire();
 if(($receiver = $1) == null || $receiver.a$nil){
-return self._error_("AMD loader not present");
+return $self._error_("AMD loader not present");
 } else {
 var require;
 require=$receiver;
@@ -3472,7 +3472,7 @@ $core.method({
 selector: "defaultNamespace",
 protocol: "commit paths",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3495,7 +3495,7 @@ $core.method({
 selector: "defaultNamespace:",
 protocol: "commit paths",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3524,11 +3524,11 @@ $core.method({
 selector: "asJavaScriptObject",
 protocol: "converting",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $globals.HashedCollection._newFromPairs_(["type",self._type()]);
+return $globals.HashedCollection._newFromPairs_(["type",$self._type()]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"asJavaScriptObject",{},$globals.PackageTransport)});
 //>>excludeEnd("ctx");
@@ -3547,11 +3547,11 @@ $core.method({
 selector: "commit",
 protocol: "committing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(self._commitHandler())._commit_(self._package());
+$recv($self._commitHandler())._commit_($self._package());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"commit",{},$globals.PackageTransport)});
@@ -3571,11 +3571,11 @@ $core.method({
 selector: "commitHandler",
 protocol: "factory",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._commitHandlerClass())._new();
+return $recv($self._commitHandlerClass())._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"commitHandler",{},$globals.PackageTransport)});
 //>>excludeEnd("ctx");
@@ -3594,11 +3594,11 @@ $core.method({
 selector: "commitHandlerClass",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._subclassResponsibility();
+$self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"commitHandlerClass",{},$globals.PackageTransport)});
@@ -3618,11 +3618,11 @@ $core.method({
 selector: "commitOnSuccess:onError:",
 protocol: "committing",
 fn: function (aBlock,anotherBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(self._commitHandler())._commit_onSuccess_onError_(self._package(),aBlock,anotherBlock);
+$recv($self._commitHandler())._commit_onSuccess_onError_($self._package(),aBlock,anotherBlock);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"commitOnSuccess:onError:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.PackageTransport)});
@@ -3642,7 +3642,7 @@ $core.method({
 selector: "definition",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return "";
 
 },
@@ -3660,11 +3660,11 @@ $core.method({
 selector: "load",
 protocol: "loading",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(self._commitHandler())._load_(self._package());
+$recv($self._commitHandler())._load_($self._package());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"load",{},$globals.PackageTransport)});
@@ -3684,8 +3684,8 @@ $core.method({
 selector: "package",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@package"];
+var self=this,$self=this;
+return $self["@package"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3702,8 +3702,8 @@ $core.method({
 selector: "package:",
 protocol: "accessing",
 fn: function (aPackage){
-var self=this;
-self["@package"]=aPackage;
+var self=this,$self=this;
+$self["@package"]=aPackage;
 return self;
 
 },
@@ -3721,7 +3721,7 @@ $core.method({
 selector: "setupFromJson:",
 protocol: "initialization",
 fn: function (anObject){
-var self=this;
+var self=this,$self=this;
 return self;
 
 },
@@ -3739,11 +3739,11 @@ $core.method({
 selector: "type",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._class())._type();
+return $recv($self._class())._type();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"type",{},$globals.PackageTransport)});
 //>>excludeEnd("ctx");
@@ -3764,11 +3764,11 @@ $core.method({
 selector: "classRegisteredFor:",
 protocol: "accessing",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self["@registry"])._at_(aString);
+return $recv($self["@registry"])._at_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"classRegisteredFor:",{aString:aString},$globals.PackageTransport.a$cls)});
 //>>excludeEnd("ctx");
@@ -3787,7 +3787,7 @@ $core.method({
 selector: "defaultType",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3810,11 +3810,11 @@ $core.method({
 selector: "for:",
 protocol: "instance creation",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._classRegisteredFor_(aString))._new();
+return $recv($self._classRegisteredFor_(aString))._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"for:",{aString:aString},$globals.PackageTransport.a$cls)});
 //>>excludeEnd("ctx");
@@ -3833,13 +3833,13 @@ $core.method({
 selector: "fromJson:",
 protocol: "instance creation",
 fn: function (anObject){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$receiver;
 if(($receiver = anObject) == null || $receiver.a$nil){
-$1=self._for_(self._defaultType());
+$1=$self._for_($self._defaultType());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["for:"]=1;
 //>>excludeEnd("ctx");
@@ -3847,7 +3847,7 @@ return $1;
 } else {
 anObject;
 }
-$2=self._for_($recv(anObject)._type());
+$2=$self._for_($recv(anObject)._type());
 $recv($2)._setupFromJson_(anObject);
 return $recv($2)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3868,7 +3868,7 @@ $core.method({
 selector: "initialize",
 protocol: "initialization",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3877,16 +3877,16 @@ var $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.PackageTransport.a$cls.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
+($globals.PackageTransport.a$cls.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$1=self.__eq_eq($globals.PackageTransport);
+$1=$self.__eq_eq($globals.PackageTransport);
 if($core.assert($1)){
-self["@registry"]=$globals.HashedCollection._newFromPairs_([]);
-self["@registry"];
+$self["@registry"]=$globals.HashedCollection._newFromPairs_([]);
+$self["@registry"];
 } else {
-self._register();
+$self._register();
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3907,7 +3907,7 @@ $core.method({
 selector: "register",
 protocol: "registration",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3931,7 +3931,7 @@ $core.method({
 selector: "register:",
 protocol: "registration",
 fn: function (aClass){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3943,7 +3943,7 @@ $ctx1.sendIdx["type"]=1;
 if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
-$recv(self["@registry"])._at_put_($recv(aClass)._type(),aClass);
+$recv($self["@registry"])._at_put_($recv(aClass)._type(),aClass);
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3964,7 +3964,7 @@ $core.method({
 selector: "type",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return nil;
 
 },
@@ -3987,7 +3987,7 @@ $core.method({
 selector: "asJavaScriptObject",
 protocol: "converting",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3996,11 +3996,11 @@ $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.AmdPackageTransport.superclass||$boot.nilAsClass).fn.prototype._asJavaScriptObject.apply($recv(self), []));
+($globals.AmdPackageTransport.superclass||$boot.nilAsClass).fn.prototype._asJavaScriptObject.apply($self, []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$recv($1)._at_put_("amdNamespace",self._namespace());
+$recv($1)._at_put_("amdNamespace",$self._namespace());
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"asJavaScriptObject",{},$globals.AmdPackageTransport)});
@@ -4020,7 +4020,7 @@ $core.method({
 selector: "commitHandlerClass",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return $globals.AmdPackageHandler;
 
 },
@@ -4038,7 +4038,7 @@ $core.method({
 selector: "defaultNamespace",
 protocol: "defaults",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -4061,7 +4061,7 @@ $core.method({
 selector: "definition",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -4069,8 +4069,8 @@ return $recv($globals.String)._streamContents_((function(stream){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv(stream)._write_([$recv(self._class())._name()," namespace: "]);
-return $recv(stream)._print_(self._namespace());
+$recv(stream)._write_([$recv($self._class())._name()," namespace: "]);
+return $recv(stream)._print_($self._namespace());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -4093,14 +4093,14 @@ $core.method({
 selector: "namespace",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=self["@namespace"];
+$1=$self["@namespace"];
 if(($receiver = $1) == null || $receiver.a$nil){
-return self._defaultNamespace();
+return $self._defaultNamespace();
 } else {
 return $1;
 }
@@ -4122,8 +4122,8 @@ $core.method({
 selector: "namespace:",
 protocol: "accessing",
 fn: function (aString){
-var self=this;
-self["@namespace"]=aString;
+var self=this,$self=this;
+$self["@namespace"]=aString;
 return self;
 
 },
@@ -4141,7 +4141,7 @@ $core.method({
 selector: "printOn:",
 protocol: "printing",
 fn: function (aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -4149,7 +4149,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.AmdPackageTransport.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($recv(self), [aStream]));
+($globals.AmdPackageTransport.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($self, [aStream]));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -4157,7 +4157,7 @@ $recv(aStream)._nextPutAll_(" (AMD Namespace: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_(self._namespace());
+$recv(aStream)._nextPutAll_($self._namespace());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=2;
 //>>excludeEnd("ctx");
@@ -4181,11 +4181,11 @@ $core.method({
 selector: "setPath:",
 protocol: "actions",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($recv(require)._basicAt_("config"))._value_($globals.HashedCollection._newFromPairs_(["paths",$globals.HashedCollection._newFromPairs_([self._namespace(),aString])]));
+$recv($recv(require)._basicAt_("config"))._value_($globals.HashedCollection._newFromPairs_(["paths",$globals.HashedCollection._newFromPairs_([$self._namespace(),aString])]));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setPath:",{aString:aString},$globals.AmdPackageTransport)});
@@ -4205,11 +4205,11 @@ $core.method({
 selector: "setupFromJson:",
 protocol: "initialization",
 fn: function (anObject){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._namespace_($recv(anObject)._at_("amdNamespace"));
+$self._namespace_($recv(anObject)._at_("amdNamespace"));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setupFromJson:",{anObject:anObject},$globals.AmdPackageTransport)});
@@ -4230,12 +4230,12 @@ $core.method({
 selector: "namespace:",
 protocol: "instance creation",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=self._new();
+$1=$self._new();
 $recv($1)._namespace_(aString);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4256,7 +4256,7 @@ $core.method({
 selector: "type",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return "amd";
 
 },
@@ -4274,7 +4274,7 @@ $core.method({
 selector: "commentStamp",
 protocol: "*Platform-ImportExport",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -4300,11 +4300,11 @@ $core.method({
 selector: "commentStamp:prior:",
 protocol: "*Platform-ImportExport",
 fn: function (aStamp,prior){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._commentStamp();
+return $self._commentStamp();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"commentStamp:prior:",{aStamp:aStamp,prior:prior},$globals.BehaviorBody)});
 //>>excludeEnd("ctx");
@@ -4323,11 +4323,11 @@ $core.method({
 selector: "exportBehaviorDefinitionTo:using:",
 protocol: "*Platform-ImportExport",
 fn: function (aStream,anExporter){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._subclassResponsibility();
+$self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"exportBehaviorDefinitionTo:using:",{aStream:aStream,anExporter:anExporter},$globals.BehaviorBody)});
@@ -4347,7 +4347,7 @@ $core.method({
 selector: "methodsFor:",
 protocol: "*Platform-ImportExport",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -4373,11 +4373,11 @@ $core.method({
 selector: "methodsFor:stamp:",
 protocol: "*Platform-ImportExport",
 fn: function (aString,aStamp){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._methodsFor_(aString);
+return $self._methodsFor_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"methodsFor:stamp:",{aString:aString,aStamp:aStamp},$globals.BehaviorBody)});
 //>>excludeEnd("ctx");
@@ -4396,7 +4396,7 @@ $core.method({
 selector: "exportBehaviorDefinitionTo:using:",
 protocol: "*Platform-ImportExport",
 fn: function (aStream,anExporter){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -4420,11 +4420,11 @@ $core.method({
 selector: "exportBehaviorDefinitionTo:using:",
 protocol: "*Platform-ImportExport",
 fn: function (aStream,anExporter){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(anExporter)._exportMetaDefinitionOf_on_(self._instanceClass(),aStream);
+$recv(anExporter)._exportMetaDefinitionOf_on_($self._instanceClass(),aStream);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"exportBehaviorDefinitionTo:using:",{aStream:aStream,anExporter:anExporter},$globals.Metaclass)});
@@ -4444,11 +4444,11 @@ $core.method({
 selector: "commit",
 protocol: "*Platform-ImportExport",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._transport())._commit();
+return $recv($self._transport())._commit();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"commit",{},$globals.Package)});
 //>>excludeEnd("ctx");
@@ -4467,11 +4467,11 @@ $core.method({
 selector: "load",
 protocol: "*Platform-ImportExport",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._transport())._load();
+return $recv($self._transport())._load();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"load",{},$globals.Package)});
 //>>excludeEnd("ctx");
@@ -4490,12 +4490,12 @@ $core.method({
 selector: "loadFromNamespace:",
 protocol: "*Platform-ImportExport",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=self._transport();
+$1=$self._transport();
 $recv($1)._namespace_(aString);
 return $recv($1)._load();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4516,11 +4516,11 @@ $core.method({
 selector: "load:",
 protocol: "*Platform-ImportExport",
 fn: function (aPackageName){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(self._named_(aPackageName))._load();
+$recv($self._named_(aPackageName))._load();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"load:",{aPackageName:aPackageName},$globals.Package.a$cls)});
@@ -4540,11 +4540,11 @@ $core.method({
 selector: "load:fromNamespace:",
 protocol: "*Platform-ImportExport",
 fn: function (aPackageName,aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(self._named_(aPackageName))._loadFromNamespace_(aString);
+$recv($self._named_(aPackageName))._loadFromNamespace_(aString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"load:fromNamespace:",{aPackageName:aPackageName,aString:aString},$globals.Package.a$cls)});
@@ -4564,7 +4564,7 @@ $core.method({
 selector: "exportBehaviorDefinitionTo:using:",
 protocol: "*Platform-ImportExport",
 fn: function (aStream,anExporter){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
