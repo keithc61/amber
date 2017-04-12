@@ -317,11 +317,19 @@ isMethod
 	^ false
 !
 
+isSelf
+	^ false
+!
+
 isSend
 	^ false
 !
 
 isSequence
+	^ false
+!
+
+isSuper
 	^ false
 !
 
@@ -652,12 +660,6 @@ selector: aString
 
 isSend
 	^ true
-!
-
-isSuperSend
-	| receiver |
-	receiver := self receiver.
-	^ receiver isVariable and: [ receiver variable name = 'super' ]
 ! !
 
 !IRSend methodsFor: 'visiting'!
@@ -737,6 +739,14 @@ variable: aScopeVariable
 ! !
 
 !IRVariable methodsFor: 'testing'!
+
+isSelf
+	^ self variable isSelf
+!
+
+isSuper
+	^ self variable isSuper
+!
 
 isVariable
 	^ true
@@ -953,7 +963,7 @@ visitIRSend: anIRSend
 	| sends superclass |
 	sends := (anIRSend method sendIndexes at: anIRSend selector) size.
 	
-	anIRSend isSuperSend
+	anIRSend receiver isSuper
 		ifTrue: [ self visitSuperSend: anIRSend ]
 		ifFalse: [ self visitSend: anIRSend ].
 		
@@ -996,6 +1006,9 @@ visitInstructionList: anArray enclosedBetween: aString and: anotherString
 !
 
 visitReceiver: anIRInstruction
+	"Ugly hack, mutation"
+	anIRInstruction isSelf ifTrue: [ anIRInstruction variable: (anIRInstruction variable copy name: '$self'; yourself) ].
+	
 	anIRInstruction needsBoxingAsReceiver ifFalse: [ ^ self visit: anIRInstruction ].
 	
 	self stream nextPutAll: '$recv('.
@@ -1020,7 +1033,7 @@ visitSuperSend: anIRSend
 		nextPutAll: '(', self currentClass asJavaScriptSource;
 		nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';
 		nextPutAll: anIRSend selector asJavaScriptMethodName, '.apply(';
-		nextPutAll: '$recv(self), '.
+		nextPutAll: '$self, '.
 	self
 		visitInstructionList: anIRSend arguments
 		enclosedBetween: '[' and: ']'.
@@ -1160,7 +1173,7 @@ nextPutFunctionWith: aBlock arguments: anArray
 		do: [ :each | stream nextPutAll: each asVariableName ]
 		separatedBy: [ stream nextPut: ',' ].
 	stream nextPutAll: '){'; lf.
-	stream nextPutAll: 'var self=this;'; lf.
+	stream nextPutAll: 'var self=this,$self=this;'; lf.
 	aBlock value.
 	stream lf; nextPutAll: '}'
 !

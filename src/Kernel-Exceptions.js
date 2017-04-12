@@ -15,7 +15,7 @@ $core.method({
 selector: "beHandled",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -39,7 +39,7 @@ $core.method({
 selector: "beUnhandled",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -63,7 +63,7 @@ $core.method({
 selector: "context",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -87,11 +87,11 @@ $core.method({
 selector: "initialize",
 protocol: "initialization",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._messageText_("Errorclass: ".__comma($recv(self._class())._name()));
+$self._messageText_("Errorclass: ".__comma($recv($self._class())._name()));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Error)});
@@ -111,7 +111,7 @@ $core.method({
 selector: "isSmalltalkError",
 protocol: "testing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -135,7 +135,7 @@ $core.method({
 selector: "jsStack",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -159,8 +159,8 @@ $core.method({
 selector: "messageText",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@messageText"];
+var self=this,$self=this;
+return $self["@messageText"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -177,8 +177,8 @@ $core.method({
 selector: "messageText:",
 protocol: "accessing",
 fn: function (aString){
-var self=this;
-self["@messageText"]=aString;
+var self=this,$self=this;
+$self["@messageText"]=aString;
 return self;
 
 },
@@ -196,7 +196,7 @@ $core.method({
 selector: "resignal",
 protocol: "signaling",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -223,7 +223,7 @@ $core.method({
 selector: "signal",
 protocol: "signaling",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -252,12 +252,12 @@ $core.method({
 selector: "signal:",
 protocol: "signaling",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._messageText_(aString);
-self._signal();
+$self._messageText_(aString);
+$self._signal();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"signal:",{aString:aString},$globals.Error)});
@@ -277,11 +277,11 @@ $core.method({
 selector: "signalerContext",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._signalerContextFrom_(self._context());
+return $self._signalerContextFrom_($self._context());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"signalerContext",{},$globals.Error)});
 //>>excludeEnd("ctx");
@@ -300,7 +300,7 @@ $core.method({
 selector: "signalerContextFrom:",
 protocol: "accessing",
 fn: function (aContext){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -321,7 +321,7 @@ $1=$recv($2)._or_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv($recv(context)._receiver()).__eq_eq(self._class());
+return $recv($recv(context)._receiver()).__eq_eq($self._class());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 //>>excludeEnd("ctx");
@@ -349,7 +349,7 @@ $core.method({
 selector: "wasHandled",
 protocol: "testing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -374,7 +374,7 @@ $core.method({
 selector: "classTag",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return "exception";
 
 },
@@ -392,11 +392,11 @@ $core.method({
 selector: "signal",
 protocol: "instance creation",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._new())._signal();
+return $recv($self._new())._signal();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"signal",{},$globals.Error.a$cls)});
 //>>excludeEnd("ctx");
@@ -415,11 +415,11 @@ $core.method({
 selector: "signal:",
 protocol: "instance creation",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._new())._signal_(aString);
+return $recv($self._new())._signal_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"signal:",{aString:aString},$globals.Error.a$cls)});
 //>>excludeEnd("ctx");
@@ -443,7 +443,7 @@ $core.method({
 selector: "messageText",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return "Halt encountered";
 
 },
@@ -461,7 +461,7 @@ $core.method({
 selector: "signalerContextFrom:",
 protocol: "accessing",
 fn: function (aContext){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -482,7 +482,7 @@ $1=$recv($2)._or_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv($recv($recv(context)._receiver()).__eq_eq(self._class()))._or_((function(){
+return $recv($recv($recv(context)._receiver()).__eq_eq($self._class()))._or_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
@@ -527,7 +527,7 @@ $core.method({
 selector: "context:",
 protocol: "accessing",
 fn: function (aMethodContext){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -551,8 +551,8 @@ $core.method({
 selector: "exception",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@exception"];
+var self=this,$self=this;
+return $self["@exception"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -569,8 +569,8 @@ $core.method({
 selector: "exception:",
 protocol: "accessing",
 fn: function (anException){
-var self=this;
-self["@exception"]=anException;
+var self=this,$self=this;
+$self["@exception"]=anException;
 return self;
 
 },
@@ -588,11 +588,11 @@ $core.method({
 selector: "messageText",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return "JavaScript exception: " + self["@exception"].toString();
+return "JavaScript exception: " + $self["@exception"].toString();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"messageText",{},$globals.JavaScriptException)});
@@ -600,7 +600,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "messageText\x0a\x09<inlineJS: 'return \x22JavaScript exception: \x22 + self[\x22@exception\x22].toString()'>",
+source: "messageText\x0a\x09<inlineJS: 'return \x22JavaScript exception: \x22 + $self[\x22@exception\x22].toString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -613,12 +613,12 @@ $core.method({
 selector: "on:",
 protocol: "instance creation",
 fn: function (anException){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=self._new();
+$1=$self._new();
 $recv($1)._exception_(anException);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -639,12 +639,12 @@ $core.method({
 selector: "on:context:",
 protocol: "instance creation",
 fn: function (anException,aMethodContext){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=self._new();
+$1=$self._new();
 $recv($1)._exception_(anException);
 $recv($1)._context_(aMethodContext);
 return $recv($1)._yourself();
@@ -671,8 +671,8 @@ $core.method({
 selector: "message",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@message"];
+var self=this,$self=this;
+return $self["@message"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -689,8 +689,8 @@ $core.method({
 selector: "message:",
 protocol: "accessing",
 fn: function (aMessage){
-var self=this;
-self["@message"]=aMessage;
+var self=this,$self=this;
+$self["@message"]=aMessage;
 return self;
 
 },
@@ -708,12 +708,12 @@ $core.method({
 selector: "messageText",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=$recv($recv($recv(self._receiver())._asString()).__comma(" does not understand #")).__comma($recv(self._message())._selector());
+$1=$recv($recv($recv($self._receiver())._asString()).__comma(" does not understand #")).__comma($recv($self._message())._selector());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
@@ -736,8 +736,8 @@ $core.method({
 selector: "receiver",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@receiver"];
+var self=this,$self=this;
+return $self["@receiver"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -754,8 +754,8 @@ $core.method({
 selector: "receiver:",
 protocol: "accessing",
 fn: function (anObject){
-var self=this;
-self["@receiver"]=anObject;
+var self=this,$self=this;
+$self["@receiver"]=anObject;
 return self;
 
 },
@@ -779,8 +779,8 @@ $core.method({
 selector: "object",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@object"];
+var self=this,$self=this;
+return $self["@object"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -797,8 +797,8 @@ $core.method({
 selector: "object:",
 protocol: "accessing",
 fn: function (anObject){
-var self=this;
-self["@object"]=anObject;
+var self=this,$self=this;
+$self["@object"]=anObject;
 return self;
 
 },

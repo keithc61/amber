@@ -15,11 +15,11 @@ $core.method({
 selector: "value:",
 protocol: "evaluating",
 fn: function (anObject){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._visit_(anObject);
+return $self._visit_(anObject);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject},$globals.AbstractDagVisitor)});
 //>>excludeEnd("ctx");
@@ -38,7 +38,7 @@ $core.method({
 selector: "visit:",
 protocol: "visiting",
 fn: function (aNode){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -61,7 +61,7 @@ $core.method({
 selector: "visitAll:",
 protocol: "visiting",
 fn: function (aCollection){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -69,7 +69,7 @@ return $recv(aCollection)._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._visit_(each);
+return $self._visit_(each);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -92,11 +92,11 @@ $core.method({
 selector: "visitAllChildren:",
 protocol: "visiting",
 fn: function (aDagNode){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._visitAll_($recv(aDagNode)._dagChildren());
+return $self._visitAll_($recv(aDagNode)._dagChildren());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitAllChildren:",{aDagNode:aDagNode},$globals.AbstractDagVisitor)});
 //>>excludeEnd("ctx");
@@ -115,11 +115,11 @@ $core.method({
 selector: "visitDagNode:",
 protocol: "visiting",
 fn: function (aNode){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._subclassResponsibility();
+$self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitDagNode:",{aNode:aNode},$globals.AbstractDagVisitor)});
@@ -139,7 +139,7 @@ $core.method({
 selector: "visitDagNodeVariantRedux:",
 protocol: "visiting",
 fn: function (aNode){
-var self=this;
+var self=this,$self=this;
 var newChildren,oldChildren;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -148,7 +148,7 @@ var $2,$3,$1,$4,$5;
 var $early={};
 try {
 oldChildren=$recv(aNode)._dagChildren();
-newChildren=self._visitAllChildren_(aNode);
+newChildren=$self._visitAllChildren_(aNode);
 $2=$recv(oldChildren)._size();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["size"]=1;
@@ -199,11 +199,11 @@ $core.method({
 selector: "visitDagNodeVariantSimple:",
 protocol: "visiting",
 fn: function (aNode){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._visitAllChildren_(aNode);
+$self._visitAllChildren_(aNode);
 return aNode;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitDagNodeVariantSimple:",{aNode:aNode},$globals.AbstractDagVisitor)});
@@ -229,7 +229,7 @@ $core.method({
 selector: "initialize",
 protocol: "initialization",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -237,11 +237,11 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.PathDagVisitor.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
+($globals.PathDagVisitor.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-self["@path"]=[];
+$self["@path"]=[];
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.PathDagVisitor)});
@@ -261,8 +261,8 @@ $core.method({
 selector: "path",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@path"];
+var self=this,$self=this;
+return $self["@path"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -279,24 +279,24 @@ $core.method({
 selector: "visit:",
 protocol: "visiting",
 fn: function (aNode){
-var self=this;
+var self=this,$self=this;
 var oldPath,result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 result=aNode;
-oldPath=self["@path"];
+oldPath=$self["@path"];
 $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-self["@path"]=$recv(self["@path"]).__comma([aNode]);
-self["@path"];
+$self["@path"]=$recv($self["@path"]).__comma([aNode]);
+$self["@path"];
 result=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.supercall = true,
 //>>excludeEnd("ctx");
-($globals.PathDagVisitor.superclass||$boot.nilAsClass).fn.prototype._visit_.apply($recv(self), [aNode]));
+($globals.PathDagVisitor.superclass||$boot.nilAsClass).fn.prototype._visit_.apply($self, [aNode]));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.supercall = false;
 //>>excludeEnd("ctx");;
@@ -305,8 +305,8 @@ return result;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
 }))._ensure_((function(){
-self["@path"]=oldPath;
-return self["@path"];
+$self["@path"]=oldPath;
+return $self["@path"];
 
 }));
 return result;
@@ -328,7 +328,7 @@ $core.method({
 selector: "visitDagNodeVariantRedux:",
 protocol: "visiting",
 fn: function (aNode){
-var self=this;
+var self=this,$self=this;
 var newNode;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -338,13 +338,13 @@ newNode=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.PathDagVisitor.superclass||$boot.nilAsClass).fn.prototype._visitDagNodeVariantRedux_.apply($recv(self), [aNode]));
+($globals.PathDagVisitor.superclass||$boot.nilAsClass).fn.prototype._visitDagNodeVariantRedux_.apply($self, [aNode]));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 $1=$recv(aNode).__eq_eq(newNode);
 if(!$core.assert($1)){
-$recv(self["@path"])._at_put_($recv(self["@path"])._size(),newNode);
+$recv($self["@path"])._at_put_($recv($self["@path"])._size(),newNode);
 }
 return newNode;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -371,7 +371,7 @@ $core.method({
 selector: "acceptDagVisitor:",
 protocol: "visiting",
 fn: function (aVisitor){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -394,18 +394,18 @@ $core.method({
 selector: "allDagChildren",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 var allNodes;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=self._dagChildren();
+$1=$self._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["dagChildren"]=1;
 //>>excludeEnd("ctx");
 allNodes=$recv($1)._asSet();
-$recv(self._dagChildren())._do_((function(each){
+$recv($self._dagChildren())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -433,11 +433,11 @@ $core.method({
 selector: "dagChildren",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._subclassResponsibility();
+$self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"dagChildren",{},$globals.DagNode)});
@@ -457,11 +457,11 @@ $core.method({
 selector: "dagChildren:",
 protocol: "accessing",
 fn: function (aCollection){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._subclassResponsibility();
+$self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"dagChildren:",{aCollection:aCollection},$globals.DagNode)});
@@ -481,7 +481,7 @@ $core.method({
 selector: "isDagNode",
 protocol: "testing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return true;
 
 },
@@ -505,11 +505,11 @@ $core.method({
 selector: "addDagChild:",
 protocol: "accessing",
 fn: function (aDagNode){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(self._dagChildren())._add_(aDagNode);
+$recv($self._dagChildren())._add_(aDagNode);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"addDagChild:",{aDagNode:aDagNode},$globals.DagParentNode)});
@@ -529,15 +529,15 @@ $core.method({
 selector: "dagChildren",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=self["@nodes"];
+$1=$self["@nodes"];
 if(($receiver = $1) == null || $receiver.a$nil){
-self["@nodes"]=$recv($globals.Array)._new();
-return self["@nodes"];
+$self["@nodes"]=$recv($globals.Array)._new();
+return $self["@nodes"];
 } else {
 return $1;
 }
@@ -559,8 +559,8 @@ $core.method({
 selector: "dagChildren:",
 protocol: "accessing",
 fn: function (aCollection){
-var self=this;
-self["@nodes"]=aCollection;
+var self=this,$self=this;
+$self["@nodes"]=aCollection;
 return self;
 
 },
@@ -584,7 +584,7 @@ $core.method({
 selector: "dagChildren",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return [];
 
 },
@@ -602,7 +602,7 @@ $core.method({
 selector: "dagChildren:",
 protocol: "accessing",
 fn: function (aCollection){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -610,7 +610,7 @@ $recv(aCollection)._ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._error_("A DagSink cannot have children.");
+return $self._error_("A DagSink cannot have children.");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -635,7 +635,7 @@ $core.method({
 selector: "isDagNode",
 protocol: "*Kernel-Dag",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return false;
 
 },

@@ -13,6 +13,12 @@ Commits: https://lolg.it/amber/amber/commits/0.19.0.
 * Removed `.allowJavaScriptCalls` flag.
 * Internal `.isNil` deprecated in favour of `.a$nil`.
 * Internal `.klass` deprecated in favour of `.a$cls`.
+* Both 'self' and '$self' compiled in method code.
+  * '$self' used as receiver, 'self' used to pass a value.
+
+Breaks fw compat, uses `a$nil` and `a$cls` when compiling / saving code.
+
+May break bw compat for code using `.allowJavaScriptCalls` (very unlikely).
 
 Commits: https://lolg.it/amber/amber/commits/0.18.6.
 

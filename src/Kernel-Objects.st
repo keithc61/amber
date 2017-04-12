@@ -10,7 +10,7 @@ In most cases, subclassing `ProtoObject` is wrong and `Object` should be used in
 !ProtoObject methodsFor: 'accessing'!
 
 class
-	<inlineJS: 'return self.a$cls'>
+	<inlineJS: 'return $self.a$cls'>
 !
 
 identityHash
@@ -24,11 +24,11 @@ identityHash
 !
 
 instVarAt: aString
-	<inlineJS: 'return self[''@''+aString]'>
+	<inlineJS: 'return $self[''@''+aString]'>
 !
 
 instVarAt: aString put: anObject
-	<inlineJS: 'self[''@'' + aString] = anObject'>
+	<inlineJS: '$self[''@'' + aString] = anObject'>
 !
 
 yourself
@@ -43,7 +43,7 @@ yourself
 
 == anObject
 <inlineJS:
-	'return self._class() === $recv(anObject)._class() && self._isSameInstanceAs_(anObject)'>
+	'return $self._class() === $recv(anObject)._class() && $self._isSameInstanceAs_(anObject)'>
 !
 
 isSameInstanceAs: anObject
@@ -265,7 +265,7 @@ deepCopy
 		var copy = self.a$cls._new();
 		Object.keys(self).forEach(function (i) {
 		if(/^@.+/.test(i)) {
-			copy[i] = self[i]._deepCopy();
+			copy[i] = $recv(self[i])._deepCopy();
 		}
 		});
 		return copy;
@@ -1310,6 +1310,12 @@ I describe the behavior of my sole instance, `nil`. `nil` represents a prior val
 
 __note:__ When sending messages to the `undefined` JavaScript object, it will be replaced by `nil`.!
 
+!UndefinedObject methodsFor: 'accessing'!
+
+identityHash
+	^ 'NIL'
+! !
+
 !UndefinedObject methodsFor: 'converting'!
 
 asJavaScriptObject
@@ -1324,6 +1330,12 @@ deepCopy
 
 shallowCopy
 	^ self
+! !
+
+!UndefinedObject methodsFor: 'evaluating'!
+
+value
+	<inlineJS: 'return null'>
 ! !
 
 !UndefinedObject methodsFor: 'printing'!

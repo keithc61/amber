@@ -13,11 +13,11 @@ $core.method({
 selector: "main",
 protocol: "not yet classified",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._runTestSuite();
+$self._runTestSuite();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"main",{},$globals.NodeTestRunner.a$cls)});
@@ -37,7 +37,7 @@ $core.method({
 selector: "runTestSuite",
 protocol: "not yet classified",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 var suite,worker;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -176,7 +176,7 @@ $20=$recv($21).__comma(" is failing!");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx[","]=6;
 //>>excludeEnd("ctx");
-self._throw_($20);
+$self._throw_($20);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["throw:"]=1;
 //>>excludeEnd("ctx");
@@ -215,7 +215,7 @@ $33=$recv($34).__comma(" has errors!");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx[","]=9;
 //>>excludeEnd("ctx");
-return self._throw_($33);
+return $self._throw_($33);
 }
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

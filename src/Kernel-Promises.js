@@ -13,7 +13,7 @@ $core.method({
 selector: "all:",
 protocol: "composites",
 fn: function (aCollection){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -37,7 +37,7 @@ $core.method({
 selector: "any:",
 protocol: "composites",
 fn: function (aCollection){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -61,11 +61,11 @@ $core.method({
 selector: "forBlock:",
 protocol: "instance creation",
 fn: function (aBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._new())._then_(aBlock);
+return $recv($self._new())._then_(aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"forBlock:",{aBlock:aBlock},$globals.Promise.a$cls)});
 //>>excludeEnd("ctx");
@@ -84,7 +84,7 @@ $core.method({
 selector: "new",
 protocol: "instance creation",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -108,7 +108,7 @@ $core.method({
 selector: "new:",
 protocol: "instance creation",
 fn: function (aBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -135,7 +135,7 @@ $core.method({
 selector: "signal:",
 protocol: "instance creation",
 fn: function (anObject){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -159,7 +159,7 @@ $core.method({
 selector: "value:",
 protocol: "instance creation",
 fn: function (anObject){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -185,7 +185,7 @@ $core.method({
 selector: "catch:",
 protocol: "promises",
 fn: function (aBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -211,7 +211,7 @@ $core.method({
 selector: "on:do:",
 protocol: "promises",
 fn: function (aClass,aBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -238,11 +238,11 @@ $core.method({
 selector: "on:do:catch:",
 protocol: "promises",
 fn: function (aClass,aBlock,anotherBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._on_do_(aClass,aBlock))._catch_(anotherBlock);
+return $recv($self._on_do_(aClass,aBlock))._catch_(anotherBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"on:do:catch:",{aClass:aClass,aBlock:aBlock,anotherBlock:anotherBlock},$globals.TThenable)});
 //>>excludeEnd("ctx");
@@ -261,7 +261,7 @@ $core.method({
 selector: "then:",
 protocol: "promises",
 fn: function (aBlockOrArray){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -300,11 +300,11 @@ $core.method({
 selector: "then:catch:",
 protocol: "promises",
 fn: function (aBlockOrArray,anotherBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._then_(aBlockOrArray))._catch_(anotherBlock);
+return $recv($self._then_(aBlockOrArray))._catch_(anotherBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"then:catch:",{aBlockOrArray:aBlockOrArray,anotherBlock:anotherBlock},$globals.TThenable)});
 //>>excludeEnd("ctx");
@@ -323,11 +323,11 @@ $core.method({
 selector: "then:on:do:",
 protocol: "promises",
 fn: function (aBlockOrArray,aClass,aBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._then_(aBlockOrArray))._on_do_(aClass,aBlock);
+return $recv($self._then_(aBlockOrArray))._on_do_(aClass,aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"then:on:do:",{aBlockOrArray:aBlockOrArray,aClass:aClass,aBlock:aBlock},$globals.TThenable)});
 //>>excludeEnd("ctx");
@@ -346,11 +346,11 @@ $core.method({
 selector: "then:on:do:catch:",
 protocol: "promises",
 fn: function (aBlockOrArray,aClass,aBlock,anotherBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv(self._then_(aBlockOrArray))._on_do_(aClass,aBlock))._catch_(anotherBlock);
+return $recv($recv($self._then_(aBlockOrArray))._on_do_(aClass,aBlock))._catch_(anotherBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"then:on:do:catch:",{aBlockOrArray:aBlockOrArray,aClass:aClass,aBlock:aBlock,anotherBlock:anotherBlock},$globals.TThenable)});
 //>>excludeEnd("ctx");

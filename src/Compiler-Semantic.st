@@ -258,6 +258,14 @@ isPseudoVar
 	^ false
 !
 
+isSelf
+	^ false
+!
+
+isSuper
+	^ false
+!
+
 isTempVar
 	^ false
 !
@@ -354,7 +362,7 @@ I am an instance variable of a method or block.!
 !InstanceVar methodsFor: 'testing'!
 
 alias
-	^ 'self["@', self name, '"]'
+	^ '$self["@', self name, '"]'
 !
 
 isInstanceVar
@@ -383,6 +391,14 @@ isImmutable
 
 isPseudoVar
 	^ true
+!
+
+isSelf
+	^ name = 'self'
+!
+
+isSuper
+	^ name = 'super'
 ! !
 
 ScopeVar subclass: #TempVar

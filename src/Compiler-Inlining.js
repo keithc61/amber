@@ -12,7 +12,7 @@ $core.method({
 selector: "visitSendNode:",
 protocol: "visiting",
 fn: function (aNode){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -36,7 +36,7 @@ $4=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.ASTPreInliner.superclass||$boot.nilAsClass).fn.prototype._visitSendNode_.apply($recv(self), [aNode]));
+($globals.ASTPreInliner.superclass||$boot.nilAsClass).fn.prototype._visitSendNode_.apply($self, [aNode]));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -65,7 +65,7 @@ $core.method({
 selector: "acceptDagVisitor:",
 protocol: "visiting",
 fn: function (aVisitor){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -89,7 +89,7 @@ $core.method({
 selector: "isInlined",
 protocol: "testing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return true;
 
 },
@@ -113,7 +113,7 @@ $core.method({
 selector: "acceptDagVisitor:",
 protocol: "visiting",
 fn: function (aVisitor){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -137,7 +137,7 @@ $core.method({
 selector: "internalVariables",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return [];
 
 },
@@ -155,7 +155,7 @@ $core.method({
 selector: "isInlined",
 protocol: "testing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return true;
 
 },
@@ -179,7 +179,7 @@ $core.method({
 selector: "acceptDagVisitor:",
 protocol: "visiting",
 fn: function (aVisitor){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -209,7 +209,7 @@ $core.method({
 selector: "acceptDagVisitor:",
 protocol: "visiting",
 fn: function (aVisitor){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -233,11 +233,11 @@ $core.method({
 selector: "internalVariables",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($globals.Array)._with_(self._receiverInternalVariable());
+return $recv($globals.Array)._with_($self._receiverInternalVariable());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"internalVariables",{},$globals.IRInlinedIfNilIfNotNil)});
 //>>excludeEnd("ctx");
@@ -256,7 +256,7 @@ $core.method({
 selector: "receiverInternalVariable",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -265,7 +265,7 @@ $1=$recv($globals.IRVariable)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=1;
 //>>excludeEnd("ctx");
-$recv($1)._variable_($recv($recv($globals.AliasVar)._new())._name_(self._receiverInternalVariableName()));
+$recv($1)._variable_($recv($recv($globals.AliasVar)._new())._name_($self._receiverInternalVariableName()));
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"receiverInternalVariable",{},$globals.IRInlinedIfNilIfNotNil)});
@@ -285,7 +285,7 @@ $core.method({
 selector: "receiverInternalVariableName",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return "$receiver";
 
 },
@@ -309,7 +309,7 @@ $core.method({
 selector: "acceptDagVisitor:",
 protocol: "visiting",
 fn: function (aVisitor){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -339,7 +339,7 @@ $core.method({
 selector: "acceptDagVisitor:",
 protocol: "visiting",
 fn: function (aVisitor){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -369,7 +369,7 @@ $core.method({
 selector: "acceptDagVisitor:",
 protocol: "visiting",
 fn: function (aVisitor){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -393,7 +393,7 @@ $core.method({
 selector: "isInlined",
 protocol: "testing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return true;
 
 },
@@ -417,7 +417,7 @@ $core.method({
 selector: "assignmentInliner",
 protocol: "factory",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -443,7 +443,7 @@ $core.method({
 selector: "returnInliner",
 protocol: "factory",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -469,7 +469,7 @@ $core.method({
 selector: "sendInliner",
 protocol: "factory",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -495,7 +495,7 @@ $core.method({
 selector: "shouldInlineAssignment:",
 protocol: "testing",
 fn: function (anIRAssignment){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -513,7 +513,7 @@ return $recv($2)._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return self._shouldInlineSend_($recv(anIRAssignment)._right());
+return $self._shouldInlineSend_($recv(anIRAssignment)._right());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 //>>excludeEnd("ctx");
@@ -544,7 +544,7 @@ $core.method({
 selector: "shouldInlineReturn:",
 protocol: "testing",
 fn: function (anIRReturn){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -562,7 +562,7 @@ return $recv($2)._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return self._shouldInlineSend_($recv(anIRReturn)._expression());
+return $self._shouldInlineSend_($recv(anIRReturn)._expression());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 //>>excludeEnd("ctx");
@@ -593,7 +593,7 @@ $core.method({
 selector: "shouldInlineSend:",
 protocol: "testing",
 fn: function (anIRSend){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -624,20 +624,20 @@ $core.method({
 selector: "visitIRAssignment:",
 protocol: "visiting",
 fn: function (anIRAssignment){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=self._shouldInlineAssignment_(anIRAssignment);
+$1=$self._shouldInlineAssignment_(anIRAssignment);
 if($core.assert($1)){
-return $recv(self._assignmentInliner())._inlineAssignment_(anIRAssignment);
+return $recv($self._assignmentInliner())._inlineAssignment_(anIRAssignment);
 } else {
 return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRAssignment_.apply($recv(self), [anIRAssignment]));
+($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRAssignment_.apply($self, [anIRAssignment]));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -660,7 +660,7 @@ $core.method({
 selector: "visitIRNonLocalReturn:",
 protocol: "visiting",
 fn: function (anIRNonLocalReturn){
-var self=this;
+var self=this,$self=this;
 var localReturn;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -696,13 +696,13 @@ return $recv(localReturn)._add_(each);
 //>>excludeEnd("ctx");
 }));
 $recv(anIRNonLocalReturn)._replaceWith_(localReturn);
-return self._visitIRReturn_(localReturn);
+return $self._visitIRReturn_(localReturn);
 }
 $7=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRNonLocalReturn_.apply($recv(self), [anIRNonLocalReturn]));
+($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRNonLocalReturn_.apply($self, [anIRNonLocalReturn]));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -725,20 +725,20 @@ $core.method({
 selector: "visitIRReturn:",
 protocol: "visiting",
 fn: function (anIRReturn){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=self._shouldInlineReturn_(anIRReturn);
+$1=$self._shouldInlineReturn_(anIRReturn);
 if($core.assert($1)){
-return $recv(self._returnInliner())._inlineReturn_(anIRReturn);
+return $recv($self._returnInliner())._inlineReturn_(anIRReturn);
 } else {
 return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRReturn_.apply($recv(self), [anIRReturn]));
+($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRReturn_.apply($self, [anIRReturn]));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -761,20 +761,20 @@ $core.method({
 selector: "visitIRSend:",
 protocol: "visiting",
 fn: function (anIRSend){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=self._shouldInlineSend_(anIRSend);
+$1=$self._shouldInlineSend_(anIRSend);
 if($core.assert($1)){
-return $recv(self._sendInliner())._inlineSend_(anIRSend);
+return $recv($self._sendInliner())._inlineSend_(anIRSend);
 } else {
 return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRSend_.apply($recv(self), [anIRSend]));
+($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRSend_.apply($self, [anIRSend]));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -803,11 +803,11 @@ $core.method({
 selector: "visitIRInlinedClosure:",
 protocol: "visiting",
 fn: function (anIRInlinedClosure){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(self._stream())._nextPutVars_($recv($recv(anIRInlinedClosure)._tempDeclarations())._collect_((function(each){
+$recv($self._stream())._nextPutVars_($recv($recv(anIRInlinedClosure)._tempDeclarations())._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -816,7 +816,7 @@ return $recv($recv(each)._name())._asVariableName();
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
 })));
-self._visitAll_($recv(anIRInlinedClosure)._dagChildren());
+$self._visitAll_($recv(anIRInlinedClosure)._dagChildren());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitIRInlinedClosure:",{anIRInlinedClosure:anIRInlinedClosure},$globals.IRInliningJSTranslator)});
@@ -836,12 +836,12 @@ $core.method({
 selector: "visitIRInlinedIfFalse:",
 protocol: "visiting",
 fn: function (anIRInlinedIfFalse){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$4,$3;
-$1=self._stream();
+$1=$self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["stream"]=1;
 //>>excludeEnd("ctx");
@@ -849,7 +849,7 @@ $recv($1)._nextPutIf_then_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2=self._stream();
+$2=$self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["stream"]=2;
 //>>excludeEnd("ctx");
@@ -862,11 +862,11 @@ $4=$recv(anIRInlinedIfFalse)._dagChildren();
 $ctx2.sendIdx["dagChildren"]=1;
 //>>excludeEnd("ctx");
 $3=$recv($4)._first();
-self._visit_($3);
+$self._visit_($3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["visit:"]=1;
 //>>excludeEnd("ctx");
-return $recv(self._stream())._nextPutAll_(")");
+return $recv($self._stream())._nextPutAll_(")");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -874,7 +874,7 @@ return $recv(self._stream())._nextPutAll_(")");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._visit_($recv($recv(anIRInlinedIfFalse)._dagChildren())._last());
+return $self._visit_($recv($recv(anIRInlinedIfFalse)._dagChildren())._last());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
@@ -898,12 +898,12 @@ $core.method({
 selector: "visitIRInlinedIfNilIfNotNil:",
 protocol: "visiting",
 fn: function (anIRInlinedIfNilIfNotNil){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$4,$3,$6,$5,$7,$8,$10,$9;
-$1=self._stream();
+$1=$self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["stream"]=1;
 //>>excludeEnd("ctx");
@@ -914,7 +914,7 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 recvVarName=$recv(anIRInlinedIfNilIfNotNil)._receiverInternalVariableName();
 recvVarName;
-$2=self._stream();
+$2=$self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["stream"]=2;
 //>>excludeEnd("ctx");
@@ -935,11 +935,11 @@ $6=$recv(anIRInlinedIfNilIfNotNil)._dagChildren();
 $ctx2.sendIdx["dagChildren"]=1;
 //>>excludeEnd("ctx");
 $5=$recv($6)._first();
-self._visit_($5);
+$self._visit_($5);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["visit:"]=1;
 //>>excludeEnd("ctx");
-$7=self._stream();
+$7=$self._stream();
 $8=$recv(") == null || ".__comma(recvVarName)).__comma(".a$nil");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx[","]=3;
@@ -957,7 +957,7 @@ $10=$recv(anIRInlinedIfNilIfNotNil)._dagChildren();
 $ctx2.sendIdx["dagChildren"]=2;
 //>>excludeEnd("ctx");
 $9=$recv($10)._second();
-return self._visit_($9);
+return $self._visit_($9);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["visit:"]=2;
 //>>excludeEnd("ctx");
@@ -968,7 +968,7 @@ $ctx2.sendIdx["visit:"]=2;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._visit_($recv($recv(anIRInlinedIfNilIfNotNil)._dagChildren())._third());
+return $self._visit_($recv($recv(anIRInlinedIfNilIfNotNil)._dagChildren())._third());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
 //>>excludeEnd("ctx");
@@ -992,12 +992,12 @@ $core.method({
 selector: "visitIRInlinedIfTrue:",
 protocol: "visiting",
 fn: function (anIRInlinedIfTrue){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$4,$3;
-$1=self._stream();
+$1=$self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["stream"]=1;
 //>>excludeEnd("ctx");
@@ -1005,7 +1005,7 @@ $recv($1)._nextPutIf_then_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2=self._stream();
+$2=$self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["stream"]=2;
 //>>excludeEnd("ctx");
@@ -1018,11 +1018,11 @@ $4=$recv(anIRInlinedIfTrue)._dagChildren();
 $ctx2.sendIdx["dagChildren"]=1;
 //>>excludeEnd("ctx");
 $3=$recv($4)._first();
-self._visit_($3);
+$self._visit_($3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["visit:"]=1;
 //>>excludeEnd("ctx");
-return $recv(self._stream())._nextPutAll_(")");
+return $recv($self._stream())._nextPutAll_(")");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1030,7 +1030,7 @@ return $recv(self._stream())._nextPutAll_(")");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._visit_($recv($recv(anIRInlinedIfTrue)._dagChildren())._last());
+return $self._visit_($recv($recv(anIRInlinedIfTrue)._dagChildren())._last());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
@@ -1054,12 +1054,12 @@ $core.method({
 selector: "visitIRInlinedIfTrueIfFalse:",
 protocol: "visiting",
 fn: function (anIRInlinedIfTrueIfFalse){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$4,$3,$6,$5;
-$1=self._stream();
+$1=$self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["stream"]=1;
 //>>excludeEnd("ctx");
@@ -1067,7 +1067,7 @@ $recv($1)._nextPutIf_then_else_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2=self._stream();
+$2=$self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["stream"]=2;
 //>>excludeEnd("ctx");
@@ -1080,11 +1080,11 @@ $4=$recv(anIRInlinedIfTrueIfFalse)._dagChildren();
 $ctx2.sendIdx["dagChildren"]=1;
 //>>excludeEnd("ctx");
 $3=$recv($4)._first();
-self._visit_($3);
+$self._visit_($3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["visit:"]=1;
 //>>excludeEnd("ctx");
-return $recv(self._stream())._nextPutAll_(")");
+return $recv($self._stream())._nextPutAll_(")");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1097,7 +1097,7 @@ $6=$recv(anIRInlinedIfTrueIfFalse)._dagChildren();
 $ctx2.sendIdx["dagChildren"]=2;
 //>>excludeEnd("ctx");
 $5=$recv($6)._second();
-return self._visit_($5);
+return $self._visit_($5);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["visit:"]=2;
 //>>excludeEnd("ctx");
@@ -1108,7 +1108,7 @@ $ctx2.sendIdx["visit:"]=2;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._visit_($recv($recv(anIRInlinedIfTrueIfFalse)._dagChildren())._third());
+return $self._visit_($recv($recv(anIRInlinedIfTrueIfFalse)._dagChildren())._third());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
 //>>excludeEnd("ctx");
@@ -1138,11 +1138,11 @@ $core.method({
 selector: "ifFalse:",
 protocol: "inlining",
 fn: function (anIRInstruction){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._inlinedSend_withBlock_($recv($globals.IRInlinedIfFalse)._new(),anIRInstruction);
+return $self._inlinedSend_withBlock_($recv($globals.IRInlinedIfFalse)._new(),anIRInstruction);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ifFalse:",{anIRInstruction:anIRInstruction},$globals.IRSendInliner)});
 //>>excludeEnd("ctx");
@@ -1161,11 +1161,11 @@ $core.method({
 selector: "ifFalse:ifTrue:",
 protocol: "inlining",
 fn: function (anIRInstruction,anotherIRInstruction){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._perform_withArguments_("ifTrue:ifFalse:",[anotherIRInstruction,anIRInstruction]);
+return $self._perform_withArguments_("ifTrue:ifFalse:",[anotherIRInstruction,anIRInstruction]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ifFalse:ifTrue:",{anIRInstruction:anIRInstruction,anotherIRInstruction:anotherIRInstruction},$globals.IRSendInliner)});
 //>>excludeEnd("ctx");
@@ -1184,7 +1184,7 @@ $core.method({
 selector: "ifNil:",
 protocol: "inlining",
 fn: function (anIRInstruction){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1199,7 +1199,7 @@ $ctx1.sendIdx["new"]=2;
 //>>excludeEnd("ctx");
 $recv($3)._scope_($recv($recv(anIRInstruction)._scope())._copy());
 $5=$recv($globals.IRBlockSequence)._new();
-$recv($5)._add_($recv(self._send())._receiver());
+$recv($5)._add_($recv($self._send())._receiver());
 $6=$recv($5)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["yourself"]=1;
@@ -1210,7 +1210,7 @@ $recv($3)._add_($4);
 $ctx1.sendIdx["add:"]=1;
 //>>excludeEnd("ctx");
 $2=$recv($3)._yourself();
-return self._inlinedSend_withBlock_withBlock_($1,anIRInstruction,$2);
+return $self._inlinedSend_withBlock_withBlock_($1,anIRInstruction,$2);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ifNil:",{anIRInstruction:anIRInstruction},$globals.IRSendInliner)});
 //>>excludeEnd("ctx");
@@ -1229,11 +1229,11 @@ $core.method({
 selector: "ifNil:ifNotNil:",
 protocol: "inlining",
 fn: function (anIRInstruction,anotherIRInstruction){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._inlinedSend_withBlock_withBlock_($recv($globals.IRInlinedIfNilIfNotNil)._new(),anIRInstruction,anotherIRInstruction);
+return $self._inlinedSend_withBlock_withBlock_($recv($globals.IRInlinedIfNilIfNotNil)._new(),anIRInstruction,anotherIRInstruction);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ifNil:ifNotNil:",{anIRInstruction:anIRInstruction,anotherIRInstruction:anotherIRInstruction},$globals.IRSendInliner)});
 //>>excludeEnd("ctx");
@@ -1252,7 +1252,7 @@ $core.method({
 selector: "ifNotNil:",
 protocol: "inlining",
 fn: function (anIRInstruction){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1267,7 +1267,7 @@ $ctx1.sendIdx["new"]=2;
 //>>excludeEnd("ctx");
 $recv($3)._scope_($recv($recv(anIRInstruction)._scope())._copy());
 $5=$recv($globals.IRBlockSequence)._new();
-$recv($5)._add_($recv(self._send())._receiver());
+$recv($5)._add_($recv($self._send())._receiver());
 $6=$recv($5)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["yourself"]=1;
@@ -1278,7 +1278,7 @@ $recv($3)._add_($4);
 $ctx1.sendIdx["add:"]=1;
 //>>excludeEnd("ctx");
 $2=$recv($3)._yourself();
-return self._inlinedSend_withBlock_withBlock_($1,$2,anIRInstruction);
+return $self._inlinedSend_withBlock_withBlock_($1,$2,anIRInstruction);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ifNotNil:",{anIRInstruction:anIRInstruction},$globals.IRSendInliner)});
 //>>excludeEnd("ctx");
@@ -1297,11 +1297,11 @@ $core.method({
 selector: "ifNotNil:ifNil:",
 protocol: "inlining",
 fn: function (anIRInstruction,anotherIRInstruction){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._inlinedSend_withBlock_withBlock_($recv($globals.IRInlinedIfNilIfNotNil)._new(),anotherIRInstruction,anIRInstruction);
+return $self._inlinedSend_withBlock_withBlock_($recv($globals.IRInlinedIfNilIfNotNil)._new(),anotherIRInstruction,anIRInstruction);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ifNotNil:ifNil:",{anIRInstruction:anIRInstruction,anotherIRInstruction:anotherIRInstruction},$globals.IRSendInliner)});
 //>>excludeEnd("ctx");
@@ -1320,11 +1320,11 @@ $core.method({
 selector: "ifTrue:",
 protocol: "inlining",
 fn: function (anIRInstruction){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._inlinedSend_withBlock_($recv($globals.IRInlinedIfTrue)._new(),anIRInstruction);
+return $self._inlinedSend_withBlock_($recv($globals.IRInlinedIfTrue)._new(),anIRInstruction);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ifTrue:",{anIRInstruction:anIRInstruction},$globals.IRSendInliner)});
 //>>excludeEnd("ctx");
@@ -1343,11 +1343,11 @@ $core.method({
 selector: "ifTrue:ifFalse:",
 protocol: "inlining",
 fn: function (anIRInstruction,anotherIRInstruction){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._inlinedSend_withBlock_withBlock_($recv($globals.IRInlinedIfTrueIfFalse)._new(),anIRInstruction,anotherIRInstruction);
+return $self._inlinedSend_withBlock_withBlock_($recv($globals.IRInlinedIfTrueIfFalse)._new(),anIRInstruction,anotherIRInstruction);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ifTrue:ifFalse:",{anIRInstruction:anIRInstruction,anotherIRInstruction:anotherIRInstruction},$globals.IRSendInliner)});
 //>>excludeEnd("ctx");
@@ -1366,13 +1366,13 @@ $core.method({
 selector: "inlineClosure:",
 protocol: "inlining",
 fn: function (anIRClosure){
-var self=this;
+var self=this,$self=this;
 var inlinedClosure,sequence,statements;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$3,$5,$6,$4,$7,$9,$11,$13,$14,$15,$12,$10,$17,$19,$20,$18,$16,$8;
-inlinedClosure=self._inlinedClosure();
+inlinedClosure=$self._inlinedClosure();
 $1=inlinedClosure;
 $2=$recv(anIRClosure)._scope();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1398,7 +1398,7 @@ $ctx2.sendIdx["add:"]=1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["do:"]=1;
 //>>excludeEnd("ctx");
-sequence=self._inlinedSequence();
+sequence=$self._inlinedSequence();
 $recv($recv(anIRClosure)._arguments())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -1533,18 +1533,18 @@ $core.method({
 selector: "inlineSend:",
 protocol: "inlining",
 fn: function (anIRSend){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $2,$1;
-self._send_(anIRSend);
-$2=self._send();
+$self._send_(anIRSend);
+$2=$self._send();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["send"]=1;
 //>>excludeEnd("ctx");
 $1=$recv($2)._selector();
-return self._perform_withArguments_($1,$recv(self._send())._arguments());
+return $self._perform_withArguments_($1,$recv($self._send())._arguments());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"inlineSend:",{anIRSend:anIRSend},$globals.IRSendInliner)});
 //>>excludeEnd("ctx");
@@ -1563,12 +1563,12 @@ $core.method({
 selector: "inlineSend:andReplace:",
 protocol: "private",
 fn: function (anIRSend,anIRInstruction){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $recv(anIRInstruction)._replaceWith_(anIRSend);
-return self._inlineSend_(anIRSend);
+return $self._inlineSend_(anIRSend);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"inlineSend:andReplace:",{anIRSend:anIRSend,anIRInstruction:anIRInstruction},$globals.IRSendInliner)});
 //>>excludeEnd("ctx");
@@ -1587,7 +1587,7 @@ $core.method({
 selector: "inlinedClosure",
 protocol: "factory",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1610,7 +1610,7 @@ $core.method({
 selector: "inlinedSend:withBlock:",
 protocol: "private",
 fn: function (inlinedSend,anIRInstruction){
-var self=this;
+var self=this,$self=this;
 var inlinedClosure;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1618,17 +1618,17 @@ return $core.withContext(function($ctx1) {
 var $1,$2,$4,$3,$5;
 $1=$recv(anIRInstruction)._isClosure();
 if(!$core.assert($1)){
-self._inliningError_("Message argument should be a block");
+$self._inliningError_("Message argument should be a block");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["inliningError:"]=1;
 //>>excludeEnd("ctx");
 }
 $2=$recv($recv($recv(anIRInstruction)._arguments())._size()).__eq((0));
 if(!$core.assert($2)){
-self._inliningError_("Inlined block should have zero argument");
+$self._inliningError_("Inlined block should have zero argument");
 }
-inlinedClosure=$recv(self._translator())._visit_(self._inlineClosure_(anIRInstruction));
-$4=self._send();
+inlinedClosure=$recv($self._translator())._visit_($self._inlineClosure_(anIRInstruction));
+$4=$self._send();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["send"]=1;
 //>>excludeEnd("ctx");
@@ -1638,7 +1638,7 @@ $recv(inlinedSend)._add_($3);
 $ctx1.sendIdx["add:"]=1;
 //>>excludeEnd("ctx");
 $recv(inlinedSend)._add_(inlinedClosure);
-$recv(self._send())._replaceWith_(inlinedSend);
+$recv($self._send())._replaceWith_(inlinedSend);
 $5=$recv($recv(inlinedSend)._method())._internalVariables();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["internalVariables"]=1;
@@ -1663,7 +1663,7 @@ $core.method({
 selector: "inlinedSend:withBlock:withBlock:",
 protocol: "private",
 fn: function (inlinedSend,anIRInstruction,anotherIRInstruction){
-var self=this;
+var self=this,$self=this;
 var inlinedClosure1,inlinedClosure2;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1674,20 +1674,20 @@ $1=$recv(anIRInstruction)._isClosure();
 $ctx1.sendIdx["isClosure"]=1;
 //>>excludeEnd("ctx");
 if(!$core.assert($1)){
-self._inliningError_("Message argument should be a block");
+$self._inliningError_("Message argument should be a block");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["inliningError:"]=1;
 //>>excludeEnd("ctx");
 }
 $2=$recv(anotherIRInstruction)._isClosure();
 if(!$core.assert($2)){
-self._inliningError_("Message argument should be a block");
+$self._inliningError_("Message argument should be a block");
 }
-$3=self._translator();
+$3=$self._translator();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["translator"]=1;
 //>>excludeEnd("ctx");
-$4=self._inlineClosure_(anIRInstruction);
+$4=$self._inlineClosure_(anIRInstruction);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["inlineClosure:"]=1;
 //>>excludeEnd("ctx");
@@ -1695,8 +1695,8 @@ inlinedClosure1=$recv($3)._visit_($4);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["visit:"]=1;
 //>>excludeEnd("ctx");
-inlinedClosure2=$recv(self._translator())._visit_(self._inlineClosure_(anotherIRInstruction));
-$6=self._send();
+inlinedClosure2=$recv($self._translator())._visit_($self._inlineClosure_(anotherIRInstruction));
+$6=$self._send();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["send"]=1;
 //>>excludeEnd("ctx");
@@ -1710,7 +1710,7 @@ $recv(inlinedSend)._add_(inlinedClosure1);
 $ctx1.sendIdx["add:"]=2;
 //>>excludeEnd("ctx");
 $recv(inlinedSend)._add_(inlinedClosure2);
-$recv(self._send())._replaceWith_(inlinedSend);
+$recv($self._send())._replaceWith_(inlinedSend);
 $7=$recv($recv(inlinedSend)._method())._internalVariables();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["internalVariables"]=1;
@@ -1735,7 +1735,7 @@ $core.method({
 selector: "inlinedSequence",
 protocol: "factory",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1758,7 +1758,7 @@ $core.method({
 selector: "inliningError:",
 protocol: "error handling",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1782,8 +1782,8 @@ $core.method({
 selector: "send",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@send"];
+var self=this,$self=this;
+return $self["@send"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1800,8 +1800,8 @@ $core.method({
 selector: "send:",
 protocol: "accessing",
 fn: function (anIRSend){
-var self=this;
-self["@send"]=anIRSend;
+var self=this,$self=this;
+$self["@send"]=anIRSend;
 return self;
 
 },
@@ -1819,8 +1819,8 @@ $core.method({
 selector: "translator",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@translator"];
+var self=this,$self=this;
+return $self["@translator"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1837,8 +1837,8 @@ $core.method({
 selector: "translator:",
 protocol: "accessing",
 fn: function (anASTTranslator){
-var self=this;
-self["@translator"]=anASTTranslator;
+var self=this,$self=this;
+$self["@translator"]=anASTTranslator;
 return self;
 
 },
@@ -1857,7 +1857,7 @@ $core.method({
 selector: "inlinedSelectors",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return ["ifTrue:", "ifFalse:", "ifTrue:ifFalse:", "ifFalse:ifTrue:", "ifNil:", "ifNotNil:", "ifNil:ifNotNil:", "ifNotNil:ifNil:"];
 
 },
@@ -1875,12 +1875,12 @@ $core.method({
 selector: "shouldInline:",
 protocol: "accessing",
 fn: function (anIRSend){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=$recv(self._inlinedSelectors())._includes_($recv(anIRSend)._selector());
+$1=$recv($self._inlinedSelectors())._includes_($recv(anIRSend)._selector());
 if(!$core.assert($1)){
 return false;
 }
@@ -1916,12 +1916,12 @@ $core.method({
 selector: "inlineAssignment:",
 protocol: "inlining",
 fn: function (anIRAssignment){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._target_($recv(anIRAssignment)._left());
-return self._inlineSend_andReplace_($recv(anIRAssignment)._right(),anIRAssignment);
+$self._target_($recv(anIRAssignment)._left());
+return $self._inlineSend_andReplace_($recv(anIRAssignment)._right(),anIRAssignment);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"inlineAssignment:",{anIRAssignment:anIRAssignment},$globals.IRAssignmentInliner)});
 //>>excludeEnd("ctx");
@@ -1940,7 +1940,7 @@ $core.method({
 selector: "inlineClosure:",
 protocol: "inlining",
 fn: function (anIRClosure){
-var self=this;
+var self=this,$self=this;
 var closure,sequence,statements;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1950,7 +1950,7 @@ closure=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRAssignmentInliner.superclass||$boot.nilAsClass).fn.prototype._inlineClosure_.apply($recv(self), [anIRClosure]));
+($globals.IRAssignmentInliner.superclass||$boot.nilAsClass).fn.prototype._inlineClosure_.apply($self, [anIRClosure]));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -1968,7 +1968,7 @@ if($core.assert($1)){
 $2=sequence;
 $3=final;
 $5=$recv($globals.IRAssignment)._new();
-$recv($5)._add_(self._target());
+$recv($5)._add_($self._target());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["add:"]=1;
 //>>excludeEnd("ctx");
@@ -1999,8 +1999,8 @@ $core.method({
 selector: "target",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@target"];
+var self=this,$self=this;
+return $self["@target"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2017,8 +2017,8 @@ $core.method({
 selector: "target:",
 protocol: "accessing",
 fn: function (anObject){
-var self=this;
-self["@target"]=anObject;
+var self=this,$self=this;
+$self["@target"]=anObject;
 return self;
 
 },
@@ -2042,7 +2042,7 @@ $core.method({
 selector: "inlineClosure:",
 protocol: "inlining",
 fn: function (anIRClosure){
-var self=this;
+var self=this,$self=this;
 var closure,sequence,statements;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2052,7 +2052,7 @@ closure=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRReturnInliner.superclass||$boot.nilAsClass).fn.prototype._inlineClosure_.apply($recv(self), [anIRClosure]));
+($globals.IRReturnInliner.superclass||$boot.nilAsClass).fn.prototype._inlineClosure_.apply($self, [anIRClosure]));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -2097,11 +2097,11 @@ $core.method({
 selector: "inlineReturn:",
 protocol: "inlining",
 fn: function (anIRReturn){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._inlineSend_andReplace_($recv(anIRReturn)._expression(),anIRReturn);
+return $self._inlineSend_andReplace_($recv(anIRReturn)._expression(),anIRReturn);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"inlineReturn:",{anIRReturn:anIRReturn},$globals.IRReturnInliner)});
 //>>excludeEnd("ctx");
@@ -2126,7 +2126,7 @@ $core.method({
 selector: "inliner",
 protocol: "compiling",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -2149,7 +2149,7 @@ $core.method({
 selector: "irTranslatorClass",
 protocol: "compiling",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return $globals.IRInliningJSTranslator;
 
 },
@@ -2167,7 +2167,7 @@ $core.method({
 selector: "preInliner",
 protocol: "compiling",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -2190,32 +2190,32 @@ $core.method({
 selector: "transformersDictionary",
 protocol: "compiling",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$receiver;
-$1=self["@transformersDictionary"];
+$1=$self["@transformersDictionary"];
 if(($receiver = $1) == null || $receiver.a$nil){
 $2=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.InliningCodeGenerator.superclass||$boot.nilAsClass).fn.prototype._transformersDictionary.apply($recv(self), []));
+($globals.InliningCodeGenerator.superclass||$boot.nilAsClass).fn.prototype._transformersDictionary.apply($self, []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$recv($2)._at_put_("3000-inlinerTagging",self._preInliner());
+$recv($2)._at_put_("3000-inlinerTagging",$self._preInliner());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["at:put:"]=1;
 //>>excludeEnd("ctx");
-$recv($2)._at_put_("6000-inliner",self._inliner());
+$recv($2)._at_put_("6000-inliner",$self._inliner());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["at:put:"]=2;
 //>>excludeEnd("ctx");
-$recv($2)._at_put_("8000-irToJs",self._irTranslator());
-self["@transformersDictionary"]=$recv($2)._yourself();
-return self["@transformersDictionary"];
+$recv($2)._at_put_("8000-irToJs",$self._irTranslator());
+$self["@transformersDictionary"]=$recv($2)._yourself();
+return $self["@transformersDictionary"];
 } else {
 return $1;
 }
@@ -2246,7 +2246,7 @@ $core.method({
 selector: "visitSendNode:",
 protocol: "visiting",
 fn: function (aNode){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -2270,7 +2270,7 @@ $recv(receiver)._shouldBeAliased_(true);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.InliningSemanticAnalyzer.superclass||$boot.nilAsClass).fn.prototype._visitSendNode_.apply($recv(self), [aNode]));
+($globals.InliningSemanticAnalyzer.superclass||$boot.nilAsClass).fn.prototype._visitSendNode_.apply($self, [aNode]));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -2294,11 +2294,11 @@ $core.method({
 selector: "asInlinedBlockResult",
 protocol: "*Compiler-Inlining",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._expression();
+return $self._expression();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"asInlinedBlockResult",{},$globals.IRBlockReturn)});
 //>>excludeEnd("ctx");
@@ -2317,7 +2317,7 @@ $core.method({
 selector: "asInlinedBlockResult",
 protocol: "*Compiler-Inlining",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return self;
 
 },

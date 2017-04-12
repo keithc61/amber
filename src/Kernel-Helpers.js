@@ -12,11 +12,11 @@ $core.method({
 selector: "subclass:",
 protocol: "class creation",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._subclass_instanceVariableNames_package_(aString,"",nil);
+return $self._subclass_instanceVariableNames_package_(aString,"",nil);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"subclass:",{aString:aString},$globals.TSubclassable)});
 //>>excludeEnd("ctx");
@@ -35,11 +35,11 @@ $core.method({
 selector: "subclass:instanceVariableNames:",
 protocol: "class creation",
 fn: function (aString,anotherString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._subclass_instanceVariableNames_package_(aString,anotherString,nil);
+return $self._subclass_instanceVariableNames_package_(aString,anotherString,nil);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:",{aString:aString,anotherString:anotherString},$globals.TSubclassable)});
 //>>excludeEnd("ctx");
@@ -58,11 +58,11 @@ $core.method({
 selector: "subclass:instanceVariableNames:category:",
 protocol: "class creation",
 fn: function (aString,aString2,aString3){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._subclass_instanceVariableNames_package_(aString,aString2,aString3);
+return $self._subclass_instanceVariableNames_package_(aString,aString2,aString3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:category:",{aString:aString,aString2:aString2,aString3:aString3},$globals.TSubclassable)});
 //>>excludeEnd("ctx");
@@ -81,11 +81,11 @@ $core.method({
 selector: "subclass:instanceVariableNames:classVariableNames:poolDictionaries:category:",
 protocol: "class creation",
 fn: function (aString,aString2,classVars,pools,aString3){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._subclass_instanceVariableNames_package_(aString,aString2,aString3);
+return $self._subclass_instanceVariableNames_package_(aString,aString2,aString3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:classVariableNames:poolDictionaries:category:",{aString:aString,aString2:aString2,classVars:classVars,pools:pools,aString3:aString3},$globals.TSubclassable)});
 //>>excludeEnd("ctx");
@@ -104,7 +104,7 @@ $core.method({
 selector: "subclass:instanceVariableNames:package:",
 protocol: "class creation",
 fn: function (aString,aString2,aString3){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -127,11 +127,11 @@ $core.method({
 selector: "subclass:uses:",
 protocol: "class creation",
 fn: function (aString,aTraitCompositionDescription){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,"",nil);
+return $self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,"",nil);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"subclass:uses:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription},$globals.TSubclassable)});
 //>>excludeEnd("ctx");
@@ -150,11 +150,11 @@ $core.method({
 selector: "subclass:uses:instanceVariableNames:",
 protocol: "class creation",
 fn: function (aString,aTraitCompositionDescription,anotherString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,anotherString,nil);
+return $self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,anotherString,nil);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,anotherString:anotherString},$globals.TSubclassable)});
 //>>excludeEnd("ctx");
@@ -173,11 +173,11 @@ $core.method({
 selector: "subclass:uses:instanceVariableNames:category:",
 protocol: "class creation",
 fn: function (aString,aTraitCompositionDescription,aString2,aString3){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,aString2,aString3);
+return $self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,aString2,aString3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:category:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aString2:aString2,aString3:aString3},$globals.TSubclassable)});
 //>>excludeEnd("ctx");
@@ -196,11 +196,11 @@ $core.method({
 selector: "subclass:uses:instanceVariableNames:classVariableNames:poolDictionaries:category:",
 protocol: "class creation",
 fn: function (aString,aTraitCompositionDescription,aString2,classVars,pools,aString3){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,aString2,aString3);
+return $self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,aString2,aString3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:classVariableNames:poolDictionaries:category:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aString2:aString2,classVars:classVars,pools:pools,aString3:aString3},$globals.TSubclassable)});
 //>>excludeEnd("ctx");
@@ -219,12 +219,12 @@ $core.method({
 selector: "subclass:uses:instanceVariableNames:package:",
 protocol: "class creation",
 fn: function (aString,aTraitCompositionDescription,aString2,aString3){
-var self=this;
+var self=this,$self=this;
 var cls;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-cls=self._subclass_instanceVariableNames_package_(aString,aString2,aString3);
+cls=$self._subclass_instanceVariableNames_package_(aString,aString2,aString3);
 $recv(cls)._setTraitComposition_($recv(aTraitCompositionDescription)._asTraitComposition());
 return cls;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

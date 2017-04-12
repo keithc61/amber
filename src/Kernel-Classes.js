@@ -15,21 +15,21 @@ $core.method({
 selector: "allInstanceVariableNames",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 var result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-result=$recv(self._instanceVariableNames())._copy();
-$1=self._superclass();
+result=$recv($self._instanceVariableNames())._copy();
+$1=$self._superclass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["superclass"]=1;
 //>>excludeEnd("ctx");
 if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
-$recv(result)._addAll_($recv(self._superclass())._allInstanceVariableNames());
+$recv(result)._addAll_($recv($self._superclass())._allInstanceVariableNames());
 }
 return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -50,13 +50,13 @@ $core.method({
 selector: "allSelectors",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2;
-$1=self._allSuperclasses();
-$2=self._selectors();
+$1=$self._allSuperclasses();
+$2=$self._selectors();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["selectors"]=1;
 //>>excludeEnd("ctx");
@@ -88,7 +88,7 @@ $core.method({
 selector: "allSubclasses",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -96,7 +96,7 @@ return $recv($globals.Array)._streamContents_((function(str){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._allSubclassesDo_((function(each){
+return $self._allSubclassesDo_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -127,7 +127,7 @@ $core.method({
 selector: "allSubclassesDo:",
 protocol: "enumerating",
 fn: function (aBlock){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -153,12 +153,12 @@ $core.method({
 selector: "allSuperclasses",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2,$receiver;
-$1=self._superclass();
+$1=$self._superclass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["superclass"]=1;
 //>>excludeEnd("ctx");
@@ -167,12 +167,12 @@ return [];
 } else {
 $1;
 }
-$3=self._superclass();
+$3=$self._superclass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["superclass"]=2;
 //>>excludeEnd("ctx");
 $2=$recv($globals.OrderedCollection)._with_($3);
-$recv($2)._addAll_($recv(self._superclass())._allSuperclasses());
+$recv($2)._addAll_($recv($self._superclass())._allSuperclasses());
 return $recv($2)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"allSuperclasses",{},$globals.Behavior)});
@@ -192,7 +192,7 @@ $core.method({
 selector: "basicNew",
 protocol: "instance creation",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -216,16 +216,16 @@ $core.method({
 selector: "canUnderstand:",
 protocol: "testing",
 fn: function (aSelector){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $2,$1;
-return $recv(self._includesSelector_($recv(aSelector)._asString()))._or_((function(){
+return $recv($self._includesSelector_($recv(aSelector)._asString()))._or_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2=self._superclass();
+$2=$self._superclass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["superclass"]=1;
 //>>excludeEnd("ctx");
@@ -234,7 +234,7 @@ return $recv($1)._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv(self._superclass())._canUnderstand_(aSelector);
+return $recv($self._superclass())._canUnderstand_(aSelector);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 //>>excludeEnd("ctx");
@@ -261,15 +261,15 @@ $core.method({
 selector: "includesBehavior:",
 protocol: "testing",
 fn: function (aClass){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self.__eq_eq(aClass))._or_((function(){
+return $recv($self.__eq_eq(aClass))._or_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._inheritsFrom_(aClass);
+return $self._inheritsFrom_(aClass);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -292,12 +292,12 @@ $core.method({
 selector: "inheritsFrom:",
 protocol: "testing",
 fn: function (aClass){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2,$receiver;
-$1=self._superclass();
+$1=$self._superclass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["superclass"]=1;
 //>>excludeEnd("ctx");
@@ -306,7 +306,7 @@ return false;
 } else {
 $1;
 }
-$3=self._superclass();
+$3=$self._superclass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["superclass"]=2;
 //>>excludeEnd("ctx");
@@ -315,7 +315,7 @@ return $recv($2)._or_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv(self._superclass())._inheritsFrom_(aClass);
+return $recv($self._superclass())._inheritsFrom_(aClass);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
@@ -338,7 +338,7 @@ $core.method({
 selector: "instanceVariableNames",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -362,7 +362,7 @@ $core.method({
 selector: "isBehavior",
 protocol: "testing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return true;
 
 },
@@ -380,7 +380,7 @@ $core.method({
 selector: "javascriptConstructor",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -404,7 +404,7 @@ $core.method({
 selector: "javascriptConstructor:",
 protocol: "accessing",
 fn: function (aJavaScriptFunction){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -428,7 +428,7 @@ $core.method({
 selector: "lookupSelector:",
 protocol: "accessing",
 fn: function (selector){
-var self=this;
+var self=this,$self=this;
 var lookupClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -480,11 +480,11 @@ $core.method({
 selector: "new",
 protocol: "instance creation",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._basicNew())._initialize();
+return $recv($self._basicNew())._initialize();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"new",{},$globals.Behavior)});
 //>>excludeEnd("ctx");
@@ -503,7 +503,7 @@ $core.method({
 selector: "prototype",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -527,11 +527,11 @@ $core.method({
 selector: "subclasses",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._subclassResponsibility();
+$self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"subclasses",{},$globals.Behavior)});
@@ -551,7 +551,7 @@ $core.method({
 selector: "superclass",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -575,11 +575,11 @@ $core.method({
 selector: "theMetaClass",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._subclassResponsibility();
+$self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"theMetaClass",{},$globals.Behavior)});
@@ -599,11 +599,11 @@ $core.method({
 selector: "theNonMetaClass",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._subclassResponsibility();
+$self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"theNonMetaClass",{},$globals.Behavior)});
@@ -623,13 +623,13 @@ $core.method({
 selector: "withAllSubclasses",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=$recv($globals.Array)._with_(self);
-$recv($1)._addAll_(self._allSubclasses());
+$recv($1)._addAll_($self._allSubclasses());
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"withAllSubclasses",{},$globals.Behavior)});
@@ -655,7 +655,7 @@ $core.method({
 selector: "classTag",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return "class";
 
 },
@@ -673,7 +673,7 @@ $core.method({
 selector: "definition",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -682,7 +682,7 @@ return $recv($globals.String)._streamContents_((function(stream){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv(stream)._print_(self._superclass());
+$recv(stream)._print_($self._superclass());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["print:"]=1;
 //>>excludeEnd("ctx");
@@ -690,12 +690,12 @@ $recv(stream)._write_(" subclass: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
-$recv(stream)._printSymbol_(self._name());
+$recv(stream)._printSymbol_($self._name());
 $recv(stream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=1;
 //>>excludeEnd("ctx");
-$recv(stream)._write_($recv(self._traitCompositionDefinition())._ifNotEmpty_((function(tcd){
+$recv(stream)._write_($recv($self._traitCompositionDefinition())._ifNotEmpty_((function(tcd){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -723,14 +723,14 @@ $recv(stream)._write_("instanceVariableNames: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["write:"]=3;
 //>>excludeEnd("ctx");
-$recv(stream)._print_(" "._join_(self._instanceVariableNames()));
+$recv(stream)._print_(" "._join_($self._instanceVariableNames()));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["print:"]=2;
 //>>excludeEnd("ctx");
 $recv(stream)._lf();
 $recv(stream)._tab();
 $recv(stream)._write_("package: ");
-return $recv(stream)._print_(self._category());
+return $recv(stream)._print_($self._category());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -753,7 +753,7 @@ $core.method({
 selector: "isClass",
 protocol: "testing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return true;
 
 },
@@ -771,7 +771,7 @@ $core.method({
 selector: "rename:",
 protocol: "accessing",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -795,7 +795,7 @@ $core.method({
 selector: "subclasses",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -819,11 +819,11 @@ $core.method({
 selector: "theMetaClass",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._class();
+return $self._class();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"theMetaClass",{},$globals.Class)});
 //>>excludeEnd("ctx");
@@ -848,12 +848,12 @@ $core.method({
 selector: "asJavaScriptSource",
 protocol: "converting",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=$recv("$globals.".__comma($recv(self._instanceClass())._name())).__comma(".a$cls");
+$1=$recv("$globals.".__comma($recv($self._instanceClass())._name())).__comma(".a$cls");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
@@ -876,7 +876,7 @@ $core.method({
 selector: "definition",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -889,7 +889,7 @@ $recv(stream)._print_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["print:"]=1;
 //>>excludeEnd("ctx");
-$recv(stream)._write_($recv(self._traitCompositionDefinition())._ifEmpty_ifNotEmpty_((function(){
+$recv(stream)._write_($recv($self._traitCompositionDefinition())._ifEmpty_ifNotEmpty_((function(){
 return " ";
 
 }),(function(tcd){
@@ -913,7 +913,7 @@ return [$1,$2,"uses: ",tcd,$recv($globals.String)._lf(),$recv($globals.String)._
 $ctx2.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
 $recv(stream)._write_("instanceVariableNames: ");
-return $recv(stream)._print_(" "._join_(self._instanceVariableNames()));
+return $recv(stream)._print_(" "._join_($self._instanceVariableNames()));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -936,7 +936,7 @@ $core.method({
 selector: "instanceClass",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -960,7 +960,7 @@ $core.method({
 selector: "instanceVariableNames:",
 protocol: "accessing",
 fn: function (aCollection){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -984,7 +984,7 @@ $core.method({
 selector: "isMetaclass",
 protocol: "testing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return true;
 
 },
@@ -1002,11 +1002,11 @@ $core.method({
 selector: "name",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv(self._instanceClass())._name()).__comma(" class");
+return $recv($recv($self._instanceClass())._name()).__comma(" class");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"name",{},$globals.Metaclass)});
 //>>excludeEnd("ctx");
@@ -1025,11 +1025,11 @@ $core.method({
 selector: "package",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._instanceClass())._package();
+return $recv($self._instanceClass())._package();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"package",{},$globals.Metaclass)});
 //>>excludeEnd("ctx");
@@ -1048,7 +1048,7 @@ $core.method({
 selector: "subclasses",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1072,7 +1072,7 @@ $core.method({
 selector: "theMetaClass",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return self;
 
 },
@@ -1090,11 +1090,11 @@ $core.method({
 selector: "theNonMetaClass",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._instanceClass();
+return $self._instanceClass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"theNonMetaClass",{},$globals.Metaclass)});
 //>>excludeEnd("ctx");
@@ -1113,12 +1113,12 @@ $core.method({
 selector: "uses:instanceVariableNames:",
 protocol: "accessing",
 fn: function (aTraitCompositionDescription,aCollection){
-var self=this;
+var self=this,$self=this;
 var metaclass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-metaclass=self._instanceVariableNames_(aCollection);
+metaclass=$self._instanceVariableNames_(aCollection);
 $recv(metaclass)._setTraitComposition_($recv(aTraitCompositionDescription)._asTraitComposition());
 return metaclass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1145,7 +1145,7 @@ $core.method({
 selector: "addSubclassOf:named:instanceVariableNames:package:",
 protocol: "class definition",
 fn: function (aClass,className,aCollection,packageName){
-var self=this;
+var self=this,$self=this;
 var theClass,thePackage;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1160,10 +1160,10 @@ $1;
 $recv(theClass)._package_(thePackage);
 $2=$recv($recv(theClass)._superclass()).__eq_eq(aClass);
 if(!$core.assert($2)){
-return self._migrateClassNamed_superclass_instanceVariableNames_package_(className,aClass,aCollection,packageName);
+return $self._migrateClassNamed_superclass_instanceVariableNames_package_(className,aClass,aCollection,packageName);
 }
 }
-$3=self._basicAddSubclassOf_named_instanceVariableNames_package_(aClass,className,aCollection,packageName);
+$3=$self._basicAddSubclassOf_named_instanceVariableNames_package_(aClass,className,aCollection,packageName);
 $recv($3)._recompile();
 return $recv($3)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1184,7 +1184,7 @@ $core.method({
 selector: "addTraitNamed:package:",
 protocol: "class definition",
 fn: function (traitName,packageName){
-var self=this;
+var self=this,$self=this;
 var theTrait,thePackage;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1201,7 +1201,7 @@ $recv($2)._package_(thePackage);
 $recv($2)._recompile();
 return $recv($2)._yourself();
 }
-return self._basicAddTraitNamed_package_(traitName,packageName);
+return $self._basicAddTraitNamed_package_(traitName,packageName);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"addTraitNamed:package:",{traitName:traitName,packageName:packageName,theTrait:theTrait,thePackage:thePackage},$globals.ClassBuilder)});
 //>>excludeEnd("ctx");
@@ -1220,7 +1220,7 @@ $core.method({
 selector: "basicAddSubclassOf:named:instanceVariableNames:package:",
 protocol: "private",
 fn: function (aClass,aString,aCollection,packageName){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1246,7 +1246,7 @@ $core.method({
 selector: "basicAddTraitNamed:package:",
 protocol: "private",
 fn: function (aString,anotherString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1270,11 +1270,11 @@ $core.method({
 selector: "basicClass:instanceVariableNames:",
 protocol: "private",
 fn: function (aClass,aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._basicClass_instanceVariables_(aClass,self._instanceVariableNamesFor_(aString));
+$self._basicClass_instanceVariables_(aClass,$self._instanceVariableNamesFor_(aString));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"basicClass:instanceVariableNames:",{aClass:aClass,aString:aString},$globals.ClassBuilder)});
@@ -1294,14 +1294,14 @@ $core.method({
 selector: "basicClass:instanceVariables:",
 protocol: "private",
 fn: function (aClass,aCollection){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=$recv(aClass)._isMetaclass();
 if(!$core.assert($1)){
-self._error_($recv($recv(aClass)._name()).__comma(" is not a metaclass"));
+$self._error_($recv($recv(aClass)._name()).__comma(" is not a metaclass"));
 }
 $recv(aClass)._basicAt_put_("iVarNames",aCollection);
 return self;
@@ -1323,7 +1323,7 @@ $core.method({
 selector: "basicRemoveClass:",
 protocol: "private",
 fn: function (aClass){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1347,7 +1347,7 @@ $core.method({
 selector: "basicRenameClass:to:",
 protocol: "private",
 fn: function (aClass,aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1375,7 +1375,7 @@ $core.method({
 selector: "basicSwapClassNames:with:",
 protocol: "private",
 fn: function (aClass,anotherClass){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1403,12 +1403,12 @@ $core.method({
 selector: "class:instanceVariableNames:",
 protocol: "class definition",
 fn: function (aClass,ivarNames){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2;
-self._basicClass_instanceVariableNames_(aClass,ivarNames);
+$self._basicClass_instanceVariableNames_(aClass,ivarNames);
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.ClassDefinitionChanged)._new();
 $recv($3)._theClass_(aClass);
@@ -1433,14 +1433,14 @@ $core.method({
 selector: "copyClass:named:",
 protocol: "copying",
 fn: function (aClass,className){
-var self=this;
+var self=this,$self=this;
 var newClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2;
-newClass=self._addSubclassOf_named_instanceVariableNames_package_($recv(aClass)._superclass(),className,$recv(aClass)._instanceVariableNames(),$recv($recv(aClass)._package())._name());
-self._copyClass_to_(aClass,newClass);
+newClass=$self._addSubclassOf_named_instanceVariableNames_package_($recv(aClass)._superclass(),className,$recv(aClass)._instanceVariableNames(),$recv($recv(aClass)._package())._name());
+$self._copyClass_to_(aClass,newClass);
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.ClassAdded)._new();
 $recv($3)._theClass_(newClass);
@@ -1465,7 +1465,7 @@ $core.method({
 selector: "copyClass:to:",
 protocol: "copying",
 fn: function (aClass,anotherClass){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1529,7 +1529,7 @@ $10=$recv(aClass)._class();
 $ctx1.sendIdx["class"]=2;
 //>>excludeEnd("ctx");
 $9=$recv($10)._instanceVariableNames();
-self._basicClass_instanceVariables_($8,$9);
+$self._basicClass_instanceVariables_($8,$9);
 $12=$recv(aClass)._class();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["class"]=3;
@@ -1582,7 +1582,7 @@ $core.method({
 selector: "installMethod:forClass:protocol:",
 protocol: "method definition",
 fn: function (aCompiledMethod,aBehavior,aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1607,7 +1607,7 @@ $core.method({
 selector: "instanceVariableNamesFor:",
 protocol: "accessing",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1638,7 +1638,7 @@ $core.method({
 selector: "migrateClass:superclass:",
 protocol: "class migration",
 fn: function (aClass,anotherClass){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1647,7 +1647,7 @@ $1=$recv(aClass)._name();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["name"]=1;
 //>>excludeEnd("ctx");
-return self._migrateClassNamed_superclass_instanceVariableNames_package_($1,anotherClass,$recv(aClass)._instanceVariableNames(),$recv($recv(aClass)._package())._name());
+return $self._migrateClassNamed_superclass_instanceVariableNames_package_($1,anotherClass,$recv(aClass)._instanceVariableNames(),$recv($recv(aClass)._package())._name());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"migrateClass:superclass:",{aClass:aClass,anotherClass:anotherClass},$globals.ClassBuilder)});
 //>>excludeEnd("ctx");
@@ -1666,7 +1666,7 @@ $core.method({
 selector: "migrateClassNamed:superclass:instanceVariableNames:package:",
 protocol: "class migration",
 fn: function (className,aClass,aCollection,packageName){
-var self=this;
+var self=this,$self=this;
 var oldClass,newClass,tmp;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1674,8 +1674,8 @@ return $core.withContext(function($ctx1) {
 var $1,$2,$4,$3;
 tmp="new*".__comma(className);
 oldClass=$recv($recv($globals.Smalltalk)._globals())._at_(className);
-newClass=self._addSubclassOf_named_instanceVariableNames_package_(aClass,tmp,aCollection,packageName);
-self._basicSwapClassNames_with_(oldClass,newClass);
+newClass=$self._addSubclassOf_named_instanceVariableNames_package_(aClass,tmp,aCollection,packageName);
+$self._basicSwapClassNames_with_(oldClass,newClass);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["basicSwapClassNames:with:"]=1;
 //>>excludeEnd("ctx");
@@ -1683,7 +1683,7 @@ $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._copyClass_to_(oldClass,newClass);
+return $self._copyClass_to_(oldClass,newClass);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1691,8 +1691,8 @@ return self._copyClass_to_(oldClass,newClass);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-self._basicSwapClassNames_with_(oldClass,newClass);
-$1=self._basicRemoveClass_(newClass);
+$self._basicSwapClassNames_with_(oldClass,newClass);
+$1=$self._basicRemoveClass_(newClass);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["basicRemoveClass:"]=1;
 //>>excludeEnd("ctx");
@@ -1702,21 +1702,21 @@ return $recv(exception)._resignal();
 }, function($ctx2) {$ctx2.fillBlock({exception:exception},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
-self._rawRenameClass_to_(oldClass,tmp);
+$self._rawRenameClass_to_(oldClass,tmp);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["rawRenameClass:to:"]=1;
 //>>excludeEnd("ctx");
-self._rawRenameClass_to_(newClass,className);
+$self._rawRenameClass_to_(newClass,className);
 $recv($recv(oldClass)._subclasses())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return self._migrateClass_superclass_(each,newClass);
+return $self._migrateClass_superclass_(each,newClass);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
 //>>excludeEnd("ctx");
 }));
-self._basicRemoveClass_(oldClass);
+$self._basicRemoveClass_(oldClass);
 $2=$recv($globals.SystemAnnouncer)._current();
 $4=$recv($globals.ClassMigrated)._new();
 $recv($4)._theClass_(newClass);
@@ -1742,7 +1742,7 @@ $core.method({
 selector: "rawRenameClass:to:",
 protocol: "private",
 fn: function (aClass,aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1768,12 +1768,12 @@ $core.method({
 selector: "renameClass:to:",
 protocol: "class migration",
 fn: function (aClass,className){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2;
-self._basicRenameClass_to_(aClass,className);
+$self._basicRenameClass_to_(aClass,className);
 $recv(aClass)._recompile();
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.ClassRenamed)._new();
@@ -1799,11 +1799,11 @@ $core.method({
 selector: "setupClass:",
 protocol: "public",
 fn: function (aClass){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self._deprecatedAPI_("Classes are now auto-inited.");
+$self._deprecatedAPI_("Classes are now auto-inited.");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setupClass:",{aClass:aClass},$globals.ClassBuilder)});
@@ -1823,11 +1823,11 @@ $core.method({
 selector: "superclass:subclass:",
 protocol: "class definition",
 fn: function (aClass,className){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._superclass_subclass_instanceVariableNames_package_(aClass,className,"",nil);
+return $self._superclass_subclass_instanceVariableNames_package_(aClass,className,"",nil);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"superclass:subclass:",{aClass:aClass,className:className},$globals.ClassBuilder)});
 //>>excludeEnd("ctx");
@@ -1846,19 +1846,19 @@ $core.method({
 selector: "superclass:subclass:instanceVariableNames:package:",
 protocol: "class definition",
 fn: function (aClass,className,ivarNames,packageName){
-var self=this;
+var self=this,$self=this;
 var newClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$3,$5,$4,$receiver;
-$1=self._instanceVariableNamesFor_(ivarNames);
+$1=$self._instanceVariableNamesFor_(ivarNames);
 if(($receiver = packageName) == null || $receiver.a$nil){
 $2="unclassified";
 } else {
 $2=packageName;
 }
-newClass=self._addSubclassOf_named_instanceVariableNames_package_(aClass,className,$1,$2);
+newClass=$self._addSubclassOf_named_instanceVariableNames_package_(aClass,className,$1,$2);
 $3=$recv($globals.SystemAnnouncer)._current();
 $5=$recv($globals.ClassAdded)._new();
 $recv($5)._theClass_(newClass);
@@ -1889,7 +1889,7 @@ $core.method({
 selector: "getNodesFrom:",
 protocol: "accessing",
 fn: function (aCollection){
-var self=this;
+var self=this,$self=this;
 var children,others;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1901,7 +1901,7 @@ $recv(aCollection)._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$recv($recv(each)._superclass()).__eq(self._theClass());
+$1=$recv($recv(each)._superclass()).__eq($self._theClass());
 if($core.assert($1)){
 return $recv(children)._add_(each);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1914,11 +1914,11 @@ return $recv(others)._add_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-self["@nodes"]=$recv(children)._collect_((function(each){
+$self["@nodes"]=$recv(children)._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($globals.ClassSorterNode)._on_classes_level_(each,others,$recv(self._level()).__plus((1)));
+return $recv($globals.ClassSorterNode)._on_classes_level_(each,others,$recv($self._level()).__plus((1)));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,4)});
 //>>excludeEnd("ctx");
@@ -1942,8 +1942,8 @@ $core.method({
 selector: "level",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@level"];
+var self=this,$self=this;
+return $self["@level"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1960,8 +1960,8 @@ $core.method({
 selector: "level:",
 protocol: "accessing",
 fn: function (anInteger){
-var self=this;
-self["@level"]=anInteger;
+var self=this,$self=this;
+$self["@level"]=anInteger;
 return self;
 
 },
@@ -1979,8 +1979,8 @@ $core.method({
 selector: "nodes",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@nodes"];
+var self=this,$self=this;
+return $self["@nodes"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1997,8 +1997,8 @@ $core.method({
 selector: "theClass",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@theClass"];
+var self=this,$self=this;
+return $self["@theClass"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2015,8 +2015,8 @@ $core.method({
 selector: "theClass:",
 protocol: "accessing",
 fn: function (aClass){
-var self=this;
-self["@theClass"]=aClass;
+var self=this,$self=this;
+$self["@theClass"]=aClass;
 return self;
 
 },
@@ -2034,17 +2034,17 @@ $core.method({
 selector: "traverseClassesWith:",
 protocol: "visiting",
 fn: function (aCollection){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2;
-$1=self._theClass();
+$1=$self._theClass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["theClass"]=1;
 //>>excludeEnd("ctx");
 $recv(aCollection)._add_($1);
-$recv($recv(self._nodes())._sorted_((function(a,b){
+$recv($recv($self._nodes())._sorted_((function(a,b){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -2089,12 +2089,12 @@ $core.method({
 selector: "on:classes:level:",
 protocol: "instance creation",
 fn: function (aClass,aCollection,anInteger){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=self._new();
+$1=$self._new();
 $recv($1)._theClass_(aClass);
 $recv($1)._level_(anInteger);
 $recv($1)._getNodesFrom_(aCollection);
@@ -2119,7 +2119,7 @@ $core.method({
 selector: "allInstanceVariableNames",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return [];
 
 },
@@ -2137,7 +2137,7 @@ $core.method({
 selector: "allSubclassesDo:",
 protocol: "enumerating",
 fn: function (aBlock){
-var self=this;
+var self=this,$self=this;
 return self;
 
 },
@@ -2155,7 +2155,7 @@ $core.method({
 selector: "name",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return nil;
 
 },
@@ -2173,18 +2173,18 @@ $core.method({
 selector: "printOn:",
 protocol: "printing",
 fn: function (aStream){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=self._name();
+$1=$self._name();
 if(($receiver = $1) == null || $receiver.a$nil){
 (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.TBehaviorDefaults.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($recv(self), [aStream]));
+($globals.TBehaviorDefaults.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($self, [aStream]));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -2212,7 +2212,7 @@ $core.method({
 selector: "superclass",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return nil;
 
 },
@@ -2230,7 +2230,7 @@ $core.method({
 selector: "traitUsers",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return [];
 
 },
@@ -2253,11 +2253,11 @@ $core.method({
 selector: ">>",
 protocol: "accessing",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._methodAt_(aString);
+return $self._methodAt_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,">>",{aString:aString},$globals.TBehaviorProvider)});
 //>>excludeEnd("ctx");
@@ -2276,36 +2276,36 @@ $core.method({
 selector: "addCompiledMethod:",
 protocol: "compiling",
 fn: function (aMethod){
-var self=this;
+var self=this,$self=this;
 var oldMethod,announcement;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $2,$3,$1,$4,$5,$6,$7,$8,$9,$10,$receiver;
-oldMethod=$recv(self._methodDictionary())._at_ifAbsent_($recv(aMethod)._selector(),(function(){
+oldMethod=$recv($self._methodDictionary())._at_ifAbsent_($recv(aMethod)._selector(),(function(){
 return nil;
 
 }));
-$2=self._protocols();
+$2=$self._protocols();
 $3=$recv(aMethod)._protocol();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["protocol"]=1;
 //>>excludeEnd("ctx");
 $1=$recv($2)._includes_($3);
 if(!$core.assert($1)){
-$4=self._organization();
+$4=$self._organization();
 $5=$recv(aMethod)._protocol();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["protocol"]=2;
 //>>excludeEnd("ctx");
 $recv($4)._addElement_($5);
 }
-self._basicAddCompiledMethod_(aMethod);
+$self._basicAddCompiledMethod_(aMethod);
 $6=oldMethod;
 if(($receiver = $6) == null || $receiver.a$nil){
 $6;
 } else {
-self._removeProtocolIfEmpty_($recv(oldMethod)._protocol());
+$self._removeProtocolIfEmpty_($recv(oldMethod)._protocol());
 }
 $7=oldMethod;
 if(($receiver = $7) == null || $receiver.a$nil){
@@ -2348,7 +2348,7 @@ $core.method({
 selector: "basicAddCompiledMethod:",
 protocol: "private",
 fn: function (aMethod){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -2372,7 +2372,7 @@ $core.method({
 selector: "basicRemoveCompiledMethod:",
 protocol: "private",
 fn: function (aMethod){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -2396,7 +2396,7 @@ $core.method({
 selector: "compile:protocol:",
 protocol: "compiling",
 fn: function (aString,anotherString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -2419,11 +2419,11 @@ $core.method({
 selector: "includesSelector:",
 protocol: "testing",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._methodDictionary())._includesKey_(aString);
+return $recv($self._methodDictionary())._includesKey_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"includesSelector:",{aString:aString},$globals.TBehaviorProvider)});
 //>>excludeEnd("ctx");
@@ -2442,11 +2442,11 @@ $core.method({
 selector: "methodAt:",
 protocol: "accessing",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._methodDictionary())._at_(aString);
+return $recv($self._methodDictionary())._at_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"methodAt:",{aString:aString},$globals.TBehaviorProvider)});
 //>>excludeEnd("ctx");
@@ -2465,7 +2465,7 @@ $core.method({
 selector: "methodDictionary",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -2496,7 +2496,7 @@ $core.method({
 selector: "methodTemplate",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -2561,11 +2561,11 @@ $core.method({
 selector: "methods",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._methodDictionary())._values();
+return $recv($self._methodDictionary())._values();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"methods",{},$globals.TBehaviorProvider)});
 //>>excludeEnd("ctx");
@@ -2584,11 +2584,11 @@ $core.method({
 selector: "methodsInProtocol:",
 protocol: "accessing",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._methods())._select_((function(each){
+return $recv($self._methods())._select_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -2615,11 +2615,11 @@ $core.method({
 selector: "organization",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._basicAt_("organization");
+return $self._basicAt_("organization");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"organization",{},$globals.TBehaviorProvider)});
 //>>excludeEnd("ctx");
@@ -2638,16 +2638,16 @@ $core.method({
 selector: "ownMethods",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-return $recv($recv(self._ownProtocols())._inject_into_($recv($globals.OrderedCollection)._new(),(function(acc,each){
+return $recv($recv($self._ownProtocols())._inject_into_($recv($globals.OrderedCollection)._new(),(function(acc,each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv(acc).__comma(self._ownMethodsInProtocol_(each));
+return $recv(acc).__comma($self._ownMethodsInProtocol_(each));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({acc:acc,each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2682,11 +2682,11 @@ $core.method({
 selector: "ownMethodsInProtocol:",
 protocol: "accessing",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._methodsInProtocol_(aString))._select_((function(each){
+return $recv($self._methodsInProtocol_(aString))._select_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -2713,11 +2713,11 @@ $core.method({
 selector: "ownProtocols",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._protocols())._reject_((function(each){
+return $recv($self._protocols())._reject_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -2744,14 +2744,14 @@ $core.method({
 selector: "packageOfProtocol:",
 protocol: "accessing",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=$recv(aString)._beginsWith_("*");
 if(!$core.assert($1)){
-return self._package();
+return $self._package();
 }
 return $recv($globals.Package)._named_ifAbsent_($recv(aString)._allButFirst(),(function(){
 return nil;
@@ -2775,11 +2775,11 @@ $core.method({
 selector: "protocols",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv(self._organization())._elements())._sorted();
+return $recv($recv($self._organization())._elements())._sorted();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"protocols",{},$globals.TBehaviorProvider)});
 //>>excludeEnd("ctx");
@@ -2798,7 +2798,7 @@ $core.method({
 selector: "protocolsDo:",
 protocol: "enumerating",
 fn: function (aBlock){
-var self=this;
+var self=this,$self=this;
 var methodsByProtocol;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2807,7 +2807,7 @@ methodsByProtocol=$recv($globals.HashedCollection)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=1;
 //>>excludeEnd("ctx");
-$recv(self._methodDictionary())._valuesDo_((function(m){
+$recv($self._methodDictionary())._valuesDo_((function(m){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -2824,7 +2824,7 @@ return $recv($globals.Array)._new();
 }, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-$recv(self._protocols())._do_((function(protocol){
+$recv($self._protocols())._do_((function(protocol){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -2852,7 +2852,7 @@ $core.method({
 selector: "recompile",
 protocol: "compiling",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -2875,13 +2875,13 @@ $core.method({
 selector: "removeCompiledMethod:",
 protocol: "compiling",
 fn: function (aMethod){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2;
-self._basicRemoveCompiledMethod_(aMethod);
-self._removeProtocolIfEmpty_($recv(aMethod)._protocol());
+$self._basicRemoveCompiledMethod_(aMethod);
+$self._removeProtocolIfEmpty_($recv(aMethod)._protocol());
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.MethodRemoved)._new();
 $recv($3)._method_(aMethod);
@@ -2906,11 +2906,11 @@ $core.method({
 selector: "removeProtocolIfEmpty:",
 protocol: "accessing",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(self._methods())._detect_ifNone_((function(each){
+$recv($self._methods())._detect_ifNone_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -2922,7 +2922,7 @@ return $recv($recv(each)._protocol()).__eq(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv(self._organization())._removeElement_(aString);
+return $recv($self._organization())._removeElement_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
@@ -2946,11 +2946,11 @@ $core.method({
 selector: "selectors",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._methodDictionary())._keys();
+return $recv($self._methodDictionary())._keys();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"selectors",{},$globals.TBehaviorProvider)});
 //>>excludeEnd("ctx");
@@ -2969,7 +2969,7 @@ $core.method({
 selector: "setTraitComposition:",
 protocol: "compiling",
 fn: function (aTraitComposition){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -2993,11 +2993,11 @@ $core.method({
 selector: "traitComposition",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._basicAt_("traitComposition"))._collect_((function(each){
+return $recv($self._basicAt_("traitComposition"))._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -3024,11 +3024,11 @@ $core.method({
 selector: "traitCompositionDefinition",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._traitComposition())._ifNotEmpty_((function(traitComposition){
+return $recv($self._traitComposition())._ifNotEmpty_((function(traitComposition){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -3095,11 +3095,11 @@ $core.method({
 selector: "asJavaScriptSource",
 protocol: "converting",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return "$globals.".__comma(self._name());
+return "$globals.".__comma($self._name());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{},$globals.TMasterBehavior)});
 //>>excludeEnd("ctx");
@@ -3118,7 +3118,7 @@ $core.method({
 selector: "browse",
 protocol: "browsing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3142,19 +3142,19 @@ $core.method({
 selector: "category",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=self._package();
+$1=$self._package();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["package"]=1;
 //>>excludeEnd("ctx");
 if(($receiver = $1) == null || $receiver.a$nil){
 return "Unclassified";
 } else {
-return $recv(self._package())._name();
+return $recv($self._package())._name();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"category",{},$globals.TMasterBehavior)});
@@ -3174,11 +3174,11 @@ $core.method({
 selector: "classTag",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._subclassResponsibility();
+return $self._subclassResponsibility();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"classTag",{},$globals.TMasterBehavior)});
 //>>excludeEnd("ctx");
@@ -3197,12 +3197,12 @@ $core.method({
 selector: "comment",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=self._basicAt_("comment");
+$1=$self._basicAt_("comment");
 if(($receiver = $1) == null || $receiver.a$nil){
 return "";
 } else {
@@ -3226,12 +3226,12 @@ $core.method({
 selector: "comment:",
 protocol: "accessing",
 fn: function (aString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2;
-self._basicAt_put_("comment",aString);
+$self._basicAt_put_("comment",aString);
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.ClassCommentChanged)._new();
 $recv($3)._theClass_(self);
@@ -3256,7 +3256,7 @@ $core.method({
 selector: "name",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3280,11 +3280,11 @@ $core.method({
 selector: "package",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._basicAt_("pkg");
+return $self._basicAt_("pkg");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"package",{},$globals.TMasterBehavior)});
 //>>excludeEnd("ctx");
@@ -3303,13 +3303,13 @@ $core.method({
 selector: "package:",
 protocol: "accessing",
 fn: function (aPackage){
-var self=this;
+var self=this,$self=this;
 var oldPackage;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $2,$1,$3,$4,$6,$5;
-$2=self._package();
+$2=$self._package();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["package"]=1;
 //>>excludeEnd("ctx");
@@ -3317,8 +3317,8 @@ $1=$recv($2).__eq(aPackage);
 if($core.assert($1)){
 return self;
 }
-oldPackage=self._package();
-self._basicAt_put_("pkg",aPackage);
+oldPackage=$self._package();
+$self._basicAt_put_("pkg",aPackage);
 $3=$recv(oldPackage)._organization();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["organization"]=1;
@@ -3350,7 +3350,7 @@ $core.method({
 selector: "theNonMetaClass",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return self;
 
 },
@@ -3370,11 +3370,11 @@ $core.method({
 selector: "-",
 protocol: "composition",
 fn: function (anArray){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._asTraitTransformation()).__minus(anArray);
+return $recv($self._asTraitTransformation()).__minus(anArray);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"-",{anArray:anArray},$globals.Trait)});
 //>>excludeEnd("ctx");
@@ -3393,11 +3393,11 @@ $core.method({
 selector: "@",
 protocol: "composition",
 fn: function (anArrayOfAssociations){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._asTraitTransformation()).__at(anArrayOfAssociations);
+return $recv($self._asTraitTransformation()).__at(anArrayOfAssociations);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"@",{anArrayOfAssociations:anArrayOfAssociations},$globals.Trait)});
 //>>excludeEnd("ctx");
@@ -3416,11 +3416,11 @@ $core.method({
 selector: "asTraitComposition",
 protocol: "converting",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._asTraitTransformation())._asTraitComposition();
+return $recv($self._asTraitTransformation())._asTraitComposition();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"asTraitComposition",{},$globals.Trait)});
 //>>excludeEnd("ctx");
@@ -3439,7 +3439,7 @@ $core.method({
 selector: "asTraitTransformation",
 protocol: "converting",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3462,7 +3462,7 @@ $core.method({
 selector: "classTag",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return "trait";
 
 },
@@ -3480,7 +3480,7 @@ $core.method({
 selector: "definition",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3493,12 +3493,12 @@ $recv(stream)._write_("Trait named: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
-$recv(stream)._printSymbol_(self._name());
+$recv(stream)._printSymbol_($self._name());
 $recv(stream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=1;
 //>>excludeEnd("ctx");
-$recv(stream)._write_($recv(self._traitCompositionDefinition())._ifNotEmpty_((function(tcd){
+$recv(stream)._write_($recv($self._traitCompositionDefinition())._ifNotEmpty_((function(tcd){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -3516,7 +3516,7 @@ $ctx2.sendIdx["write:"]=2;
 //>>excludeEnd("ctx");
 $recv(stream)._tab();
 $recv(stream)._write_("package: ");
-return $recv(stream)._print_(self._category());
+return $recv(stream)._print_($self._category());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -3539,7 +3539,7 @@ $core.method({
 selector: "theMetaClass",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return nil;
 
 },
@@ -3557,11 +3557,11 @@ $core.method({
 selector: "traitUsers",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(self._basicAt_("traitUsers"))._copy();
+return $recv($self._basicAt_("traitUsers"))._copy();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"traitUsers",{},$globals.Trait)});
 //>>excludeEnd("ctx");
@@ -3581,7 +3581,7 @@ $core.method({
 selector: "named:package:",
 protocol: "instance creation",
 fn: function (aString,anotherString){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3604,12 +3604,12 @@ $core.method({
 selector: "named:uses:package:",
 protocol: "instance creation",
 fn: function (aString,aTraitCompositionDescription,anotherString){
-var self=this;
+var self=this,$self=this;
 var trait;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-trait=self._named_package_(aString,anotherString);
+trait=$self._named_package_(aString,anotherString);
 $recv(trait)._setTraitComposition_($recv(aTraitCompositionDescription)._asTraitComposition());
 return trait;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3635,12 +3635,12 @@ $core.method({
 selector: "-",
 protocol: "composition",
 fn: function (anArray){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=self._copy();
+$1=$self._copy();
 $recv($1)._addExclusions_(anArray);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3661,12 +3661,12 @@ $core.method({
 selector: "@",
 protocol: "composition",
 fn: function (anArrayOfAssociations){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=self._copy();
+$1=$self._copy();
 $recv($1)._addAliases_(anArrayOfAssociations);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3687,7 +3687,7 @@ $core.method({
 selector: "addAliases:",
 protocol: "accessing",
 fn: function (anArrayOfAssociations){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3698,11 +3698,11 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 key=$recv(each)._key();
 key;
-return $recv(self["@aliases"])._at_ifPresent_ifAbsent_(key,(function(){
+return $recv($self["@aliases"])._at_ifPresent_ifAbsent_(key,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return self._error_("Cannot use same alias name twice.");
+return $self._error_("Cannot use same alias name twice.");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 //>>excludeEnd("ctx");
@@ -3710,7 +3710,7 @@ return self._error_("Cannot use same alias name twice.");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv(self["@aliases"])._at_put_(key,$recv(each)._value());
+return $recv($self["@aliases"])._at_put_(key,$recv(each)._value());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 //>>excludeEnd("ctx");
@@ -3738,11 +3738,11 @@ $core.method({
 selector: "addExclusions:",
 protocol: "accessing",
 fn: function (anArray){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(self["@exclusions"])._addAll_(anArray);
+$recv($self["@exclusions"])._addAll_(anArray);
 return anArray;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"addExclusions:",{anArray:anArray},$globals.TraitTransformation)});
@@ -3762,8 +3762,8 @@ $core.method({
 selector: "aliases",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@aliases"];
+var self=this,$self=this;
+return $self["@aliases"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3780,11 +3780,11 @@ $core.method({
 selector: "asJavaScriptObject",
 protocol: "converting",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $globals.HashedCollection._newFromPairs_(["trait",self._trait(),"aliases",self._aliases(),"exclusions",$recv($recv(self._exclusions())._asArray())._sorted()]);
+return $globals.HashedCollection._newFromPairs_(["trait",$self._trait(),"aliases",$self._aliases(),"exclusions",$recv($recv($self._exclusions())._asArray())._sorted()]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"asJavaScriptObject",{},$globals.TraitTransformation)});
 //>>excludeEnd("ctx");
@@ -3803,7 +3803,7 @@ $core.method({
 selector: "asJavaScriptSource",
 protocol: "converting",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3812,11 +3812,11 @@ return $recv($globals.String)._streamContents_((function(str){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2=$recv(self._trait())._asJavaScriptSource();
+$2=$recv($self._trait())._asJavaScriptSource();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["asJavaScriptSource"]=1;
 //>>excludeEnd("ctx");
-$3=$recv(self._aliases())._ifNotEmpty_((function(al){
+$3=$recv($self._aliases())._ifNotEmpty_((function(al){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -3828,7 +3828,7 @@ return [", aliases: ",$recv(al)._asJSONString()];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["ifNotEmpty:"]=1;
 //>>excludeEnd("ctx");
-$1=["{trait: ",$2,$3,$recv(self._exclusions())._ifNotEmpty_((function(ex){
+$1=["{trait: ",$2,$3,$recv($self._exclusions())._ifNotEmpty_((function(ex){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -3860,7 +3860,7 @@ $core.method({
 selector: "asTraitComposition",
 protocol: "converting",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return [self];
 
 },
@@ -3878,7 +3878,7 @@ $core.method({
 selector: "asTraitTransformation",
 protocol: "converting",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 return self;
 
 },
@@ -3896,7 +3896,7 @@ $core.method({
 selector: "definition",
 protocol: "accessing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -3904,8 +3904,8 @@ return $recv($globals.String)._streamContents_((function(str){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv(str)._print_(self._trait());
-$recv(self._aliases())._ifNotEmpty_((function(al){
+$recv(str)._print_($self._trait());
+$recv($self._aliases())._ifNotEmpty_((function(al){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -3955,7 +3955,7 @@ $ctx3.sendIdx["write:"]=4;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["ifNotEmpty:"]=1;
 //>>excludeEnd("ctx");
-return $recv(self._exclusions())._ifNotEmpty_((function(ex){
+return $recv($self._exclusions())._ifNotEmpty_((function(ex){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -4010,8 +4010,8 @@ $core.method({
 selector: "exclusions",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@exclusions"];
+var self=this,$self=this;
+return $self["@exclusions"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4028,7 +4028,7 @@ $core.method({
 selector: "initialize",
 protocol: "initialization",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -4036,13 +4036,13 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.TraitTransformation.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($recv(self), []));
+($globals.TraitTransformation.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-self["@aliases"]=$globals.HashedCollection._newFromPairs_([]);
-self["@exclusions"]=$recv($globals.Set)._new();
-self["@trait"]=nil;
+$self["@aliases"]=$globals.HashedCollection._newFromPairs_([]);
+$self["@exclusions"]=$recv($globals.Set)._new();
+$self["@trait"]=nil;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.TraitTransformation)});
@@ -4062,15 +4062,15 @@ $core.method({
 selector: "postCopy",
 protocol: "copying",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self["@aliases"]=$recv(self["@aliases"])._copy();
+$self["@aliases"]=$recv($self["@aliases"])._copy();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["copy"]=1;
 //>>excludeEnd("ctx");
-self["@exclusions"]=$recv(self["@exclusions"])._copy();
+$self["@exclusions"]=$recv($self["@exclusions"])._copy();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"postCopy",{},$globals.TraitTransformation)});
@@ -4090,8 +4090,8 @@ $core.method({
 selector: "trait",
 protocol: "accessing",
 fn: function (){
-var self=this;
-return self["@trait"];
+var self=this,$self=this;
+return $self["@trait"];
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4108,8 +4108,8 @@ $core.method({
 selector: "trait:",
 protocol: "accessing",
 fn: function (anObject){
-var self=this;
-self["@trait"]=anObject;
+var self=this,$self=this;
+$self["@trait"]=anObject;
 return self;
 
 },
@@ -4128,7 +4128,7 @@ $core.method({
 selector: "fromJSON:",
 protocol: "instance creation",
 fn: function (aJSObject){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -4137,7 +4137,7 @@ $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.TraitTransformation.a$cls.superclass||$boot.nilAsClass).fn.prototype._new.apply($recv(self), []));
+($globals.TraitTransformation.a$cls.superclass||$boot.nilAsClass).fn.prototype._new.apply($self, []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -4175,7 +4175,7 @@ $core.method({
 selector: "on:",
 protocol: "instance creation",
 fn: function (aTrait){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -4184,7 +4184,7 @@ $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.TraitTransformation.a$cls.superclass||$boot.nilAsClass).fn.prototype._new.apply($recv(self), []));
+($globals.TraitTransformation.a$cls.superclass||$boot.nilAsClass).fn.prototype._new.apply($self, []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -4212,11 +4212,11 @@ $core.method({
 selector: "asTraitComposition",
 protocol: "*Kernel-Classes",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self._collect_((function(each){
+return $self._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");

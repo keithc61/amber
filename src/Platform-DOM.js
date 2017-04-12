@@ -13,7 +13,7 @@ $core.method({
 selector: "isDomNode:",
 protocol: "testing",
 fn: function (anObject){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -39,7 +39,7 @@ $core.method({
 selector: "isFeasible",
 protocol: "testing",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -74,7 +74,7 @@ $core.method({
 selector: "newCustomEvent:detail:",
 protocol: "creation",
 fn: function (aString,anObject){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -98,7 +98,7 @@ $core.method({
 selector: "toArray:",
 protocol: "converting",
 fn: function (aDomList){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -122,11 +122,11 @@ $core.method({
 selector: "asDomNode",
 protocol: "*Platform-DOM",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(document)._createTextNode_(self._asString());
+return $recv(document)._createTextNode_($self._asString());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"asDomNode",{},$globals.CharacterArray)});
 //>>excludeEnd("ctx");
@@ -145,13 +145,13 @@ $core.method({
 selector: "asDomNode",
 protocol: "*Platform-DOM",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 var fragment;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 fragment=$recv(document)._createDocumentFragment();
-self._do_((function(each){
+$self._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -179,20 +179,20 @@ $core.method({
 selector: "asDomNode",
 protocol: "*Platform-DOM",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2;
-$1=$recv($globals.PlatformDom)._isDomNode_(self["@jsObject"]);
+$1=$recv($globals.PlatformDom)._isDomNode_($self["@jsObject"]);
 if($core.assert($1)){
-return self["@jsObject"];
+return $self["@jsObject"];
 } else {
 $2=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.JSObjectProxy.superclass||$boot.nilAsClass).fn.prototype._asDomNode.apply($recv(self), []));
+($globals.JSObjectProxy.superclass||$boot.nilAsClass).fn.prototype._asDomNode.apply($self, []));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -217,7 +217,7 @@ $core.method({
 selector: "htmlTextContent",
 protocol: "*Platform-DOM",
 fn: function (){
-var self=this;
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
