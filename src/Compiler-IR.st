@@ -1006,13 +1006,18 @@ visitInstructionList: anArray enclosedBetween: aString and: anotherString
 !
 
 visitReceiver: anIRInstruction
-	"Ugly hack, mutation"
-	anIRInstruction isSelf ifTrue: [ anIRInstruction variable: (anIRInstruction variable copy name: '$self'; yourself) ].
+	| instr |
+
+	anIRInstruction isSelf
+		ifTrue: [ instr := anIRInstruction copy
+			variable: (anIRInstruction variable copy name: '$self'; yourself);
+			yourself ]
+		ifFalse: [ instr := anIRInstruction ].
 	
-	anIRInstruction needsBoxingAsReceiver ifFalse: [ ^ self visit: anIRInstruction ].
+	instr needsBoxingAsReceiver ifFalse: [ ^ self visit: instr ].
 	
 	self stream nextPutAll: '$recv('.
-	self visit: anIRInstruction.
+	self visit: instr.
 	self stream nextPutAll: ')'
 !
 

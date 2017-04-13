@@ -4214,46 +4214,60 @@ selector: "visitReceiver:",
 protocol: "visiting",
 fn: function (anIRInstruction){
 var self=this,$self=this;
+var instr;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2,$4,$5,$6;
+var $1,$2,$4,$5,$3,$6,$7,$8;
 $1=$recv(anIRInstruction)._isSelf();
 if($core.assert($1)){
-$3=$recv($recv(anIRInstruction)._variable())._copy();
-$recv($3)._name_("$self");
-$2=$recv($3)._yourself();
-$recv(anIRInstruction)._variable_($2);
+$2=$recv(anIRInstruction)._copy();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["copy"]=1;
+//>>excludeEnd("ctx");
+$4=$recv($recv(anIRInstruction)._variable())._copy();
+$recv($4)._name_("$self");
+$5=$recv($4)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["yourself"]=1;
+//>>excludeEnd("ctx");
+$3=$5;
+$recv($2)._variable_($3);
+instr=$recv($2)._yourself();
+instr;
+} else {
+instr=anIRInstruction;
+instr;
 }
-$4=$recv(anIRInstruction)._needsBoxingAsReceiver();
-if(!$core.assert($4)){
-$5=$self._visit_(anIRInstruction);
+$6=$recv(instr)._needsBoxingAsReceiver();
+if(!$core.assert($6)){
+$7=$self._visit_(instr);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["visit:"]=1;
 //>>excludeEnd("ctx");
-return $5;
+return $7;
 }
-$6=$self._stream();
+$8=$self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["stream"]=1;
 //>>excludeEnd("ctx");
-$recv($6)._nextPutAll_("$recv(");
+$recv($8)._nextPutAll_("$recv(");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$self._visit_(anIRInstruction);
+$self._visit_(instr);
 $recv($self._stream())._nextPutAll_(")");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitReceiver:",{anIRInstruction:anIRInstruction},$globals.IRJSTranslator)});
+}, function($ctx1) {$ctx1.fill(self,"visitReceiver:",{anIRInstruction:anIRInstruction,instr:instr},$globals.IRJSTranslator)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRInstruction"],
-source: "visitReceiver: anIRInstruction\x0a\x09\x22Ugly hack, mutation\x22\x0a\x09anIRInstruction isSelf ifTrue: [ anIRInstruction variable: (anIRInstruction variable copy name: '$self'; yourself) ].\x0a\x09\x0a\x09anIRInstruction needsBoxingAsReceiver ifFalse: [ ^ self visit: anIRInstruction ].\x0a\x09\x0a\x09self stream nextPutAll: '$recv('.\x0a\x09self visit: anIRInstruction.\x0a\x09self stream nextPutAll: ')'",
+source: "visitReceiver: anIRInstruction\x0a\x09| instr |\x0a\x0a\x09anIRInstruction isSelf\x0a\x09\x09ifTrue: [ instr := anIRInstruction copy\x0a\x09\x09\x09variable: (anIRInstruction variable copy name: '$self'; yourself);\x0a\x09\x09\x09yourself ]\x0a\x09\x09ifFalse: [ instr := anIRInstruction ].\x0a\x09\x0a\x09instr needsBoxingAsReceiver ifFalse: [ ^ self visit: instr ].\x0a\x09\x0a\x09self stream nextPutAll: '$recv('.\x0a\x09self visit: instr.\x0a\x09self stream nextPutAll: ')'",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:", "isSelf", "variable:", "name:", "copy", "variable", "yourself", "ifFalse:", "needsBoxingAsReceiver", "visit:", "nextPutAll:", "stream"]
+messageSends: ["ifTrue:ifFalse:", "isSelf", "variable:", "copy", "name:", "variable", "yourself", "ifFalse:", "needsBoxingAsReceiver", "visit:", "nextPutAll:", "stream"]
 }),
 $globals.IRJSTranslator);
 
