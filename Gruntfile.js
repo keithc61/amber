@@ -4,7 +4,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
-    grunt.loadNpmTasks('grunt-execute');
+    grunt.loadNpmTasks('grunt-exec');
 
     grunt.loadTasks('./internal/grunt-tasks');
     grunt.loadTasks('./external/amber-dev/tasks');
@@ -14,7 +14,7 @@ module.exports = function (grunt) {
     grunt.registerTask('default', ['peg', 'build:all']);
     grunt.registerTask('build:all', ['amberc:amber', 'build:cli', 'amberc:dev']);
     grunt.registerTask('build:cli', ['amberc:cli', 'amdconfig:amber', 'requirejs:cli']);
-    grunt.registerTask('test', ['amdconfig:amber', 'requirejs:test_runner', 'execute:test_runner', 'clean:test_runner']);
+    grunt.registerTask('test', ['amdconfig:amber', 'requirejs:test_runner', 'exec:test_runner', 'clean:test_runner']);
     grunt.registerTask('devel', ['amdconfig:amber']);
 
     grunt.initConfig({
@@ -119,10 +119,8 @@ module.exports = function (grunt) {
             }
         },
 
-        execute: {
-            test_runner: {
-                src: ['test_runner.js']
-            }
+        exec: {
+            test_runner: 'node test_runner.js'
         },
 
         clean: {
