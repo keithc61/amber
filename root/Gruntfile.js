@@ -4,7 +4,7 @@ module.exports = function (grunt) {
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
-    grunt.loadNpmTasks('grunt-execute');
+    grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('amber-dev');
 
     var path = require('path'),
@@ -12,7 +12,7 @@ module.exports = function (grunt) {
 
     // Default task.
     grunt.registerTask('default', ['amdconfig:app', 'amberc:all']);
-    grunt.registerTask('test', ['amdconfig:app', 'requirejs:test_runner', 'execute:test_runner', 'clean:test_runner']);
+    grunt.registerTask('test', ['amdconfig:app', 'requirejs:test_runner', 'exec:test_runner', 'clean:test_runner']);
     grunt.registerTask('devel', ['amdconfig:app', 'requirejs:devel']);
     grunt.registerTask('deploy', ['amdconfig:app', 'requirejs:deploy']);
 
@@ -102,10 +102,8 @@ module.exports = function (grunt) {
             }
         },
 
-        execute: {
-            test_runner: {
-                src: ['test_runner.js']
-            }
+        exec: {
+            test_runner: 'node test_runner.js'
         },
 
         clean: {

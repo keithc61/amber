@@ -117,10 +117,10 @@ exports.template = function (grunt, init, done) {
         props.keywords = ['Amber', 'Smalltalk'];
         props.devDependencies = {
             "amber-dev": "^0.8.7",
-            "grunt": "^0.4.5",
-            "grunt-contrib-clean": "^0.7.0",
-            "grunt-contrib-requirejs": "^0.4.4",
-            "grunt-execute": "^0.2.2",
+            "grunt": "1.0.1",
+            "grunt-contrib-clean": "^1.1.0",
+            "grunt-contrib-requirejs": "^1.0.0",
+            "grunt-exec": "^2.0.0",
             "requirejs": "^2.1.15"
         };
         props.node_version = '0.10.x || 0.12.x || >=4.0.0';
