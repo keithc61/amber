@@ -8,6 +8,7 @@
 * Internal `.klass` deprecated in favour of `.a$cls`.
 * Both 'self' and '$self' compiled in method code.
   * '$self' used as receiver, 'self' used to pass a value.
+* Libs bumped: amber-contrib-{web,jquery,legacy}, helios, domite, silk.
 
 Breaks fw compat, uses `a$nil` and `a$cls` when compiling / saving code.
 
