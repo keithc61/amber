@@ -1,4 +1,4 @@
-? April 2017 - Release 0.19.0
+20 April 2017 - Release 0.19.0
 ===================================
 
 * Removed BehaviorBody in favour of traits TBehaviorDefaults and TBehaviorProvider.
