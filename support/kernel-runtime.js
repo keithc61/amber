@@ -235,21 +235,22 @@ define(function () {
         /* List of all reserved words in JavaScript. They may not be used as variables
          in Smalltalk. */
 
-        // list of reserved JavaScript keywords as of
-        //   http://es5.github.com/#x7.6.1.1
-        // and
-        //   http://people.mozilla.org/~jorendorff/es6-draft.html#sec-7.6.1
-        st.reservedWords = ['break', 'case', 'catch', 'continue', 'debugger',
-            'default', 'delete', 'do', 'else', 'finally', 'for', 'function',
-            'if', 'in', 'instanceof', 'new', 'return', 'switch', 'this', 'throw',
-            'try', 'typeof', 'var', 'void', 'while', 'with',
+        st.reservedWords = [
+            // http://www.ecma-international.org/ecma-262/6.0/#sec-keywords
+            'break', 'case', 'catch', 'class', 'const', 'continue', 'debugger',
+            'default', 'delete', 'do', 'else', 'export', 'extends', 'finally',
+            'for', 'function', 'if', 'import', 'in', 'instanceof', 'new',
+            'return', 'super', 'switch', 'this', 'throw', 'try', 'typeof',
+            'var', 'void', 'while', 'with', 'yield',
+            // in strict mode
+            'let', 'static',
             // Amber protected words: these should not be compiled as-is when in code
             'arguments',
-            // ES5: future use: http://es5.github.com/#x7.6.1.2
-            'class', 'const', 'enum', 'export', 'extends', 'import', 'super',
-            // ES5: future use in strict mode
-            'implements', 'interface', 'let', 'package', 'private', 'protected',
-            'public', 'static', 'yield'];
+            // http://www.ecma-international.org/ecma-262/6.0/#sec-future-reserved-words
+            'await', 'enum',
+            // in strict mode
+            'implements', 'interface', 'package', 'private', 'protected', 'public'
+        ];
 
         st.globalJsVariables = ['window', 'document', 'process', 'global'];
     }
