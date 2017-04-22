@@ -316,11 +316,9 @@ define(function () {
         var thisContext = null;
 
         st.withContext = function (worker, setup) {
-            if (thisContext) {
-                return inContext(worker, setup);
-            } else {
-                return inContextWithErrorHandling(worker, setup);
-            }
+            return thisContext ?
+                inContext(worker, setup) :
+                inContextWithErrorHandling(worker, setup);
         };
 
         /*
@@ -456,7 +454,7 @@ define(function () {
          an uppercase character (we probably want to answer the function itself in this
          case and send it #new from Amber).
          */
-        function accessJavaScript (self, propertyName, args) {
+        st.accessJavaScript = function accessJavaScript (self, propertyName, args) {
             var propertyValue = self[propertyName];
             if (typeof propertyValue === "function" && !/^[A-Z]/.test(propertyName)) {
                 return propertyValue.apply(self, args || []);
@@ -466,9 +464,8 @@ define(function () {
             } else {
                 return propertyValue;
             }
-        }
+        };
 
-        st.accessJavaScript = accessJavaScript;
         this.messageNotUnderstood = messageNotUnderstood;
     }
 

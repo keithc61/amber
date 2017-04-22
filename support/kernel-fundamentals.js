@@ -195,8 +195,6 @@ define(['./compatibility'], function () {
         var addOrganizationElement = brikz.organize.addOrganizationElement;
         var removeOrganizationElement = brikz.organize.removeOrganizationElement;
         var globals = brikz.smalltalkGlobals.globals;
-        var SmalltalkObject = brikz.root.Object;
-        var coreFns = brikz.root.coreFns;
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
 
