@@ -205,21 +205,15 @@ define(function () {
 
         /* Converts a JavaScript object to valid Smalltalk Object */
         st.readJSObject = function (js) {
-            if (js == null)
-                return null;
-            var readObject = js.constructor === Object;
-            var readArray = js.constructor === Array;
-            var object = readObject ? globals.Dictionary._new() : readArray ? [] : js;
+            if (js == null) return null;
+            else if (Array.isArray(js)) return js.map(st.readJSObject);
+            else if (js.constructor !== Object) return js;
 
+            var pairs = [];
             for (var i in js) {
-                if (readObject) {
-                    object._at_put_(i, st.readJSObject(js[i]));
-                }
-                if (readArray) {
-                    object[i] = st.readJSObject(js[i]);
-                }
+                pairs.push(i, st.readJSObject(js[i]));
             }
-            return object;
+            return globals.Dictionary._newFromPairs_(pairs);
         };
 
         /* Boolean assertion */
