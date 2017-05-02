@@ -217,10 +217,9 @@ function create_compiler(configuration) {
         .then(function () {
             console.log('Compiler loaded');
 
-            if (0 !== configuration.jsGlobals.length) {
-                var jsGlobalVariables = configuration.core.globalJsVariables;
-                jsGlobalVariables.push.apply(jsGlobalVariables, configuration.jsGlobals);
-            }
+            configuration.jsGlobals.forEach(function (each) {
+                configuration.globals.Smalltalk._addGlobalJsVariable_(each);
+            });
 
             return configuration;
         });
