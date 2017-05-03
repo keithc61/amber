@@ -30,7 +30,7 @@
     startHelios.parentNode.removeChild(startHelios);
     var loadHelpers = new Promise(function (resolve, reject) {
         setTimeout(function () {
-            require(["amber/legacy/IDE", "amber/web/Web", "amber/web/Web-Snippets", "my/silk/devel", "helios/all", "amber_cli/AmberCli"], resolve, reject);
+            require(["amber/legacy/IDE", "amber/web/Web", "amber/legacy/Benchfib", "helios/all", "amber_cli/AmberCli"], resolve, reject);
         }, 250);
     });
     require(["amber/devel"], function (amber) {
