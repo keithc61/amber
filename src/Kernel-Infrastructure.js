@@ -7,6 +7,73 @@ $core.addPackage("Kernel-Infrastructure");
 $core.packages["Kernel-Infrastructure"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Infrastructure"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
+$core.addClass("AmberBootstrapInitialization", $globals.Object, [], "Kernel-Infrastructure");
+
+$core.addMethod(
+$core.method({
+selector: "initializeClasses",
+protocol: "initialization",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$recv($globals.SmalltalkImage)._initialize();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["initialize"]=1;
+//>>excludeEnd("ctx");
+$recv($recv($globals.Smalltalk)._classes())._do_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=$recv(each).__eq($globals.SmalltalkImage);
+if(!$core.assert($1)){
+return $recv(each)._initialize();
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"initializeClasses",{},$globals.AmberBootstrapInitialization.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "initializeClasses\x0a\x09SmalltalkImage initialize.\x0a\x09Smalltalk classes do: [ :each |\x0a\x09\x09each = SmalltalkImage ifFalse: [ each initialize ] ]",
+referencedClasses: ["SmalltalkImage", "Smalltalk"],
+//>>excludeEnd("ide");
+messageSends: ["initialize", "do:", "classes", "ifFalse:", "="]
+}),
+$globals.AmberBootstrapInitialization.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "run",
+protocol: "public api",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._initializeClasses();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"run",{},$globals.AmberBootstrapInitialization.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "run\x0a\x09self initializeClasses",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["initializeClasses"]
+}),
+$globals.AmberBootstrapInitialization.a$cls);
+
+
 $core.addClass("JSObjectProxy", $globals.ProtoObject, ["jsObject"], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.JSObjectProxy.comment="I handle sending messages to JavaScript objects, making  JavaScript object accessing from Amber fully transparent.\x0aMy instances make intensive use of `#doesNotUnderstand:`.\x0a\x0aMy instances are automatically created by Amber whenever a message is sent to a JavaScript object.\x0a\x0a## Usage examples\x0a\x0aJSObjectProxy objects are instanciated by Amber when a Smalltalk message is sent to a JavaScript object.\x0a\x0a\x09window alert: 'hello world'.\x0a\x09window inspect.\x0a\x09(window jQuery: 'body') append: 'hello world'\x0a\x0aAmber messages sends are converted to JavaScript function calls or object property access _(in this order)_. If n one of them match, a `MessageNotUnderstood` error will be thrown.\x0a\x0a## Message conversion rules\x0a\x0a- `someUser name` becomes `someUser.name`\x0a- `someUser name: 'John'` becomes `someUser name = \x22John\x22`\x0a- `console log: 'hello world'` becomes `console.log('hello world')`\x0a- `(window jQuery: 'foo') css: 'background' color: 'red'` becomes `window.jQuery('foo').css('background', 'red')`\x0a\x0a__Note:__ For keyword-based messages, only the first keyword is kept: `window foo: 1 bar: 2` is equivalent to `window foo: 1 baz: 2`.";

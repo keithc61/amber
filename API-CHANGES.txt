@@ -3,6 +3,9 @@
 * Deprecate amber/boot api nextId.
 * Deprecate ProtoObject >> identityHash.
 
++ AmberBootstrapInitialization class >>
+  + run
+  + initializeClasses
 + UndefinedObject >>
   + ==
 

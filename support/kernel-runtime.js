@@ -468,10 +468,7 @@ define(function () {
     StartImageBrik.deps = ["frameBinding", "runtimeMethods", "runtime", "primitives"];
     function StartImageBrik (brikz, st) {
         this.__init__ = function () {
-            var classes = brikz.behaviors.classes;
-            classes().forEach(function (klass) {
-                klass._initialize();
-            });
+            brikz.smalltalkGlobals.globals.AmberBootstrapInitialization._run();
         };
         this.__init__.once = true;
     }

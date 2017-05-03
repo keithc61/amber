@@ -1,4 +1,22 @@
 Smalltalk createPackage: 'Kernel-Infrastructure'!
+Object subclass: #AmberBootstrapInitialization
+	instanceVariableNames: ''
+	package: 'Kernel-Infrastructure'!
+
+!AmberBootstrapInitialization class methodsFor: 'initialization'!
+
+initializeClasses
+	SmalltalkImage initialize.
+	Smalltalk classes do: [ :each |
+		each = SmalltalkImage ifFalse: [ each initialize ] ]
+! !
+
+!AmberBootstrapInitialization class methodsFor: 'public api'!
+
+run
+	self initializeClasses
+! !
+
 ProtoObject subclass: #JSObjectProxy
 	instanceVariableNames: 'jsObject'
 	package: 'Kernel-Infrastructure'!
