@@ -396,11 +396,12 @@ define(['./compatibility'], function () {
             Object.keys(oldLocalMethods).forEach(function (selector) {
                 newLocalMethods[selector] = oldLocalMethods[selector];
             });
+            var selector;
             behaviorBody.localMethods = newLocalMethods;
-            for (var selector in newLocalMethods) {
+            for (selector in newLocalMethods) {
                 updateMethod(selector, behaviorBody);
             }
-            for (var selector in oldLocalMethods) {
+            for (selector in oldLocalMethods) {
                 updateMethod(selector, behaviorBody);
             }
             behaviorBody.traitComposition.forEach(function (each) {
