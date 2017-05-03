@@ -59,7 +59,7 @@ module.exports = function (grunt) {
                         excludeIdeData: true,
                         excludeDebugContexts: true
                     },
-                    include: ['config', 'config-browser', 'node_modules/requirejs/require', 'app', 'amber/lazypack'],
+                    include: ['config', 'config-browser', 'amber/Platform' /*TODO remove*/, 'node_modules/requirejs/require', 'app', 'amber/lazypack'],
                     optimize: "uglify2",
                     out: "the.js"
                 }
@@ -70,9 +70,10 @@ module.exports = function (grunt) {
                     rawText: {
                         "amber/compatibility": "/*stub*/",
                         "amber/Platform": "define()", //eg. nothing, TODO remove
+                        "amber_core/_platform_HaX_": "require.config({map:{'*':{'amber/Platform':'app'}}});", // TODO remove
                         "app": 'define(["devel", "amber_core/Platform-Browser"],function(x){return x});'
                     },
-                    include: ['config', 'config-browser', 'node_modules/requirejs/require', 'app'],
+                    include: ['config', 'config-browser', 'amber_core/_platform_HaX_' /*TODO remove*/, 'node_modules/requirejs/require', 'app'],
                     exclude: ['devel'],
                     out: "the.js"
                 }
