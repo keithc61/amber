@@ -14111,55 +14111,6 @@ messageSends: ["new", "assert:", "==", "yourself"]
 }),
 $globals.ObjectTest);
 
-$core.addMethod(
-$core.method({
-selector: "testidentityHash",
-protocol: "tests",
-fn: function (){
-var self=this,$self=this;
-var o1,o2;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $2,$3,$1,$5,$4;
-o1=$recv($globals.Object)._new();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["new"]=1;
-//>>excludeEnd("ctx");
-o2=$recv($globals.Object)._new();
-$2=$recv(o1)._identityHash();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["identityHash"]=1;
-//>>excludeEnd("ctx");
-$3=$recv(o1)._identityHash();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["identityHash"]=2;
-//>>excludeEnd("ctx");
-$1=$recv($2).__eq_eq($3);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["=="]=1;
-//>>excludeEnd("ctx");
-$self._assert_($1);
-$5=$recv(o1)._identityHash();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["identityHash"]=3;
-//>>excludeEnd("ctx");
-$4=$recv($5).__eq_eq($recv(o2)._identityHash());
-$self._deny_($4);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testidentityHash",{o1:o1,o2:o2},$globals.ObjectTest)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testidentityHash\x0a\x09| o1 o2 |\x0a\x09\x0a\x09o1 := Object new.\x0a\x09o2 := Object new.\x0a\x0a\x09self assert: o1 identityHash == o1 identityHash.\x0a\x09self deny: o1 identityHash == o2 identityHash",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-messageSends: ["new", "assert:", "==", "identityHash", "deny:"]
-}),
-$globals.ObjectTest);
-
 
 
 $core.addClass("PointTest", $globals.TestCase, [], "Kernel-Tests");

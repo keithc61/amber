@@ -15,6 +15,7 @@ class
 
 identityHash
 	<inlineJS: '
+		self._deprecatedAPI();
 		var hash=self.identityHash;
 		if (hash) return hash;
 		hash=$core.nextId();
@@ -42,12 +43,7 @@ yourself
 !
 
 == anObject
-<inlineJS:
-	'return $self._class() === $recv(anObject)._class() && $self._isSameInstanceAs_(anObject)'>
-!
-
-isSameInstanceAs: anObject
-	^ self identityHash = anObject identityHash
+<inlineJS: 'return self === anObject'>
 !
 
 ~= anObject
@@ -1345,6 +1341,10 @@ printOn: aStream
 ! !
 
 !UndefinedObject methodsFor: 'testing'!
+
+== anObject
+	^ anObject isNil
+!
 
 ifNil: aBlock
 	"inlined in the Compiler"

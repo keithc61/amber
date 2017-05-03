@@ -2558,16 +2558,6 @@ testYourself
 	| o |
 	o := ObjectMock new.
 	self assert: o yourself == o
-!
-
-testidentityHash
-	| o1 o2 |
-	
-	o1 := Object new.
-	o2 := Object new.
-
-	self assert: o1 identityHash == o1 identityHash.
-	self deny: o1 identityHash == o2 identityHash
 ! !
 
 TestCase subclass: #PointTest

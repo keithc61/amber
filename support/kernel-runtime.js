@@ -199,6 +199,7 @@ define(function () {
         var oid = 0;
         /* Unique ID number generator */
         st.nextId = function () {
+            console.warn("$core.nextId() deprecated. Use your own unique counter.");
             oid += 1;
             return oid;
         };

@@ -43,7 +43,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self._class() === $recv(anObject)._class() && $self._isSameInstanceAs_(anObject);
+return self === anObject;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"==",{anObject:anObject},$globals.ProtoObject)});
@@ -51,7 +51,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "== anObject\x0a<inlineJS:\x0a\x09'return $self._class() === $recv(anObject)._class() && $self._isSameInstanceAs_(anObject)'>",
+source: "== anObject\x0a<inlineJS: 'return self === anObject'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -214,6 +214,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
+		self._deprecatedAPI();
 		var hash=self.identityHash;
 		if (hash) return hash;
 		hash=$core.nextId();
@@ -227,7 +228,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "identityHash\x0a\x09<inlineJS: '\x0a\x09\x09var hash=self.identityHash;\x0a\x09\x09if (hash) return hash;\x0a\x09\x09hash=$core.nextId();\x0a\x09\x09Object.defineProperty(self, ''identityHash'', {value:hash});\x0a\x09\x09return hash;\x0a\x09'>",
+source: "identityHash\x0a\x09<inlineJS: '\x0a\x09\x09self._deprecatedAPI();\x0a\x09\x09var hash=self.identityHash;\x0a\x09\x09if (hash) return hash;\x0a\x09\x09hash=$core.nextId();\x0a\x09\x09Object.defineProperty(self, ''identityHash'', {value:hash});\x0a\x09\x09return hash;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -473,34 +474,6 @@ source: "isNil\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
-}),
-$globals.ProtoObject);
-
-$core.addMethod(
-$core.method({
-selector: "isSameInstanceAs:",
-protocol: "comparing",
-fn: function (anObject){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$self._identityHash();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["identityHash"]=1;
-//>>excludeEnd("ctx");
-return $recv($1).__eq($recv(anObject)._identityHash());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isSameInstanceAs:",{anObject:anObject},$globals.ProtoObject)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anObject"],
-source: "isSameInstanceAs: anObject\x0a\x09^ self identityHash = anObject identityHash",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["=", "identityHash"]
 }),
 $globals.ProtoObject);
 
@@ -5553,6 +5526,29 @@ $core.addClass("UndefinedObject", $globals.Object, [], "Kernel-Objects");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.UndefinedObject.comment="I describe the behavior of my sole instance, `nil`. `nil` represents a prior value for variables that have not been initialized, or for results which are meaningless.\x0a\x0a`nil` is the Smalltalk equivalent of the `undefined` JavaScript object.\x0a\x0a__note:__ When sending messages to the `undefined` JavaScript object, it will be replaced by `nil`.";
 //>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "==",
+protocol: "testing",
+fn: function (anObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(anObject)._isNil();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"==",{anObject:anObject},$globals.UndefinedObject)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "== anObject\x0a\x09^ anObject isNil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["isNil"]
+}),
+$globals.UndefinedObject);
+
 $core.addMethod(
 $core.method({
 selector: "asJavaScriptObject",
