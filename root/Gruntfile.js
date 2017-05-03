@@ -81,6 +81,7 @@ module.exports = function (grunt) {
                 options: {
                     mainConfigFile: "config.js",
                     rawText: {
+                        "amber/Platform": "define()", //eg. nothing, TODO remove
                         "app": "(" + function () {
                             define(["testing", "amber_core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {
                                 amber.initialize().then(function () {
