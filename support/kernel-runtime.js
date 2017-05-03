@@ -465,14 +465,6 @@ define(function () {
         this.messageNotUnderstood = messageNotUnderstood;
     }
 
-    StartImageBrik.deps = ["frameBinding", "runtimeMethods", "runtime", "primitives"];
-    function StartImageBrik (brikz, st) {
-        this.__init__ = function () {
-            brikz.smalltalkGlobals.globals.AmberBootstrapInitialization._run();
-        };
-        this.__init__.once = true;
-    }
-
     /* Making smalltalk that can run */
 
     function configureWithRuntime (brikz) {
@@ -484,7 +476,6 @@ define(function () {
         brikz.messageSend = MessageSendBrik;
         brikz.runtime = RuntimeBrik;
         brikz.primitives = PrimitivesBrik;
-        brikz.startImage = StartImageBrik;
 
         brikz.rebuild();
     }
