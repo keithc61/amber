@@ -3,7 +3,7 @@
 * Deprecate amber/boot api nextId.
 * Deprecate ProtoObject >> identityHash.
 
-+UndefinedObject >>
++ UndefinedObject >>
   + ==
 
 - ProtoObject >>
