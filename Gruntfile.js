@@ -76,8 +76,9 @@ module.exports = function (grunt) {
                 options: {
                     mainConfigFile: "config.js",
                     rawText: {
+                        "amber/Platform": "define()", //eg. nothing, TODO remove
                         "app": "(" + function () {
-                            define(["amber/devel", "amber_cli/AmberCli"], function (amber) {
+                            define(["amber/devel", "amber_core/Platform-Node", "amber_cli/AmberCli"], function (amber) {
                                 amber.initialize().then(function () {
                                     amber.globals.AmberCli._main();
                                 });
@@ -98,8 +99,9 @@ module.exports = function (grunt) {
                 options: {
                     mainConfigFile: "config.js",
                     rawText: {
+                        "amber/Platform": "define()", //eg. nothing, TODO remove
                         "app": "(" + function () {
-                            define(["amber/devel", "amber_devkit/NodeTestRunner"], function (amber) {
+                            define(["amber/devel", "amber_core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {
                                 amber.initialize().then(function () {
                                     amber.globals.NodeTestRunner._main();
                                 });

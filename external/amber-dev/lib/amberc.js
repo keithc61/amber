@@ -93,7 +93,7 @@ AmberCompiler.prototype.main = function (configuration, finished_callback) {
     rjsConfig.paths['amber/without-imports'] = path.join(__dirname, 'without-imports');
     rjsConfig.map = rjsConfig.map || {};
     rjsConfig.map["*"] = rjsConfig.map["*"] || {};
-    rjsConfig.map["*"]["amber/Platform"] = "amber_core/Platform-Node";
+    rjsConfig.map["*"]["amber/Platform"] = "amber/boot"; //eg. nothing, TODO remove
     rjsConfig.map["*"]["amber/compatibility"] = "amber/node-compatibility";
     rjsConfig.nodeRequire = require;
     rjsConfig.context = "amberc";
@@ -202,7 +202,7 @@ function collect_st_files(configuration) {
  */
 function create_compiler(configuration) {
     var include_files = configuration.load;
-    return new Promise(configuration.requirejs.bind(null, ["amber/lang"]))
+    return new Promise(configuration.requirejs.bind(null, ["amber/lang", "amber_core/Platform-Node"]))
         .then(function (boot) {
             configuration.core = boot.api;
             configuration.globals = boot.globals;

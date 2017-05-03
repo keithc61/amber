@@ -9,7 +9,7 @@
         var require = {
             baseUrl: "..",
             map: {"*": {
-                "amber/Platform": "amber_core/Platform-Browser",
+                "amber/Platform": "amber/devel", //eg. nothing, TODO remove
                 "amber/compatibility": "amber/browser-compatibility"
             }}
         };
@@ -33,7 +33,7 @@
             require(["amber/legacy/IDE", "amber/web/Web", "amber/legacy/Benchfib", "helios/all", "amber_cli/AmberCli"], resolve, reject);
         }, 250);
     });
-    require(["amber/devel"], function (amber) {
+    require(["amber/devel", "amber_core/Platform-Browser"], function (amber) {
         loadHelpers
                 .then(function () {
                     return amber.initialize({'transport.defaultAmdNamespace': "amber_core"})
