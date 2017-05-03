@@ -52,8 +52,8 @@ module.exports = function (grunt) {
                     mainConfigFile: "config.js",
                     rawText: {
                         "amber/compatibility": "/*stub*/",
-                        "amber/Platform": "/*stub*/",
-                        "app": 'define(["deploy"],function(x){return x});'
+                        "amber/Platform": "define()", //eg. nothing, TODO remove
+                        "app": 'define(["deploy", "amber_core/Platform-Browser"],function(x){return x});'
                     },
                     pragmas: {
                         excludeIdeData: true,
@@ -69,8 +69,8 @@ module.exports = function (grunt) {
                     mainConfigFile: "config.js",
                     rawText: {
                         "amber/compatibility": "/*stub*/",
-                        "amber/Platform": "/*stub*/",
-                        "app": 'define(["devel"],function(x){return x});'
+                        "amber/Platform": "define()", //eg. nothing, TODO remove
+                        "app": 'define(["devel", "amber_core/Platform-Browser"],function(x){return x});'
                     },
                     include: ['config', 'config-browser', 'node_modules/requirejs/require', 'app'],
                     exclude: ['devel'],
@@ -82,7 +82,7 @@ module.exports = function (grunt) {
                     mainConfigFile: "config.js",
                     rawText: {
                         "app": "(" + function () {
-                            define(["testing", "amber_devkit/NodeTestRunner"], function (amber) {
+                            define(["testing", "amber_core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {
                                 amber.initialize().then(function () {
                                     amber.globals.NodeTestRunner._main();
                                 });
