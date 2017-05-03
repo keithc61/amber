@@ -178,7 +178,7 @@ define(function () {
             var selector = method.selector;
             var jsSelector = method.jsSelector;
             st.traverseClassTree(klass, function (subclass, sentinel) {
-                if (subclass != exclude) {
+                if (subclass !== exclude) {
                     if (initMethodInClass(subclass, selector, jsSelector)) return sentinel;
                 }
             });
