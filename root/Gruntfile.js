@@ -16,6 +16,14 @@ module.exports = function (grunt) {
     grunt.registerTask('devel', ['amdconfig:app', 'requirejs:devel']);
     grunt.registerTask('deploy', ['amdconfig:app', 'requirejs:deploy']);
 
+    var polyfillThenPromiseApp = function () {
+        define(["require", "amber/es2015-polyfills"], function (require) {
+            return new Promise(function (resolve, reject) {
+                require(["__app__"], resolve, reject);
+            });
+        });
+    };
+
     // Project configuration.
     grunt.initConfig({
         // Metadata.
@@ -53,13 +61,7 @@ module.exports = function (grunt) {
                     rawText: {
                         "amber/compatibility": "/* stub */", //eg. nothing, TODO remove
                         "amber/Platform": "/* stub */", //eg. nothing, TODO remove
-                        "app": '(' + function () {
-                            define(["require", "amber/es2015-polyfills"], function (require) {
-                                return new Promise(function (resolve, reject) {
-                                    require(["__app__"], resolve, reject);
-                                });
-                            });
-                        } + '());',
+                        "app": '(' + polyfillThenPromiseApp + '());',
                         "__app__": 'define(["deploy", "amber_core/Platform-Browser"],function(x){return x});'
                     },
                     pragmas: {
@@ -78,13 +80,7 @@ module.exports = function (grunt) {
                         "amber/compatibility": "/* stub */", //eg. nothing, TODO remove
                         "amber/Platform": "/* stub */", //eg. nothing, TODO remove
                         "amber_core/_HaX_": "require.config({map:{'*':{'amber/Platform':'app','amber/compatibility':'app'}}});", // TODO remove
-                        "app": '(' + function () {
-                            define(["require", "amber/es2015-polyfills"], function (require) {
-                                return new Promise(function (resolve, reject) {
-                                    require(["__app__"], resolve, reject);
-                                });
-                            });
-                        } + '());',
+                        "app": '(' + polyfillThenPromiseApp + '());',
                         "__app__": 'define(["devel", "amber_core/Platform-Browser"],function(x){return x});'
                     },
                     include: ['config', 'amber_core/_HaX_' /*TODO remove*/, 'node_modules/requirejs/require', 'app', '__app__'],
@@ -106,11 +102,7 @@ module.exports = function (grunt) {
                                 });
                             });
                         } + "());",
-                        "app": "(" + function () {
-                            define(["require", "amber/es2015-polyfills"], function () {
-                                require(["__app__"]);
-                            });
-                        } + "());"
+                        "app": "(" + polyfillThenPromiseApp + "());"
                     },
                     paths: {"amber_devkit": helpers.libPath},
                     pragmas: {
