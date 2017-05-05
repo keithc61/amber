@@ -40,7 +40,7 @@
 //jshint eqnull:true
 
 define([
-    'require', './brikz', './kernel-fundamentals', './kernel-language', './compatibility'
+    'require', './brikz', './kernel-fundamentals', './kernel-language', './compatibility' /* TODO remove */
 ], function (require, Brikz, configureWithFundamentals, configureWithHierarchy) {
     "use strict";
 

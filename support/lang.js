@@ -1,6 +1,6 @@
 define([
     './deploy',
-    './compatibility', // pre-fetch, dep of ./boot
+    './compatibility', // pre-fetch, dep of ./boot, TODO remove
     './boot', // pre-fetch, dep of ./helpers
     './helpers', // pre-fetch, dep of ./deploy
     './parser',
