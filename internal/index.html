@@ -10,11 +10,10 @@
             baseUrl: "..",
             map: {"*": {
                 "amber/Platform": "amber/devel", //eg. nothing, TODO remove
-                "amber/compatibility": "amber/browser-compatibility"
+                "amber/compatibility": "amber/devel" //eg. nothing, TODO remove
             }}
         };
     </script>
-    <script type='text/javascript' src='../node_modules/es6-promise/dist/es6-promise.js'></script>
     <script type='text/javascript' src='../node_modules/requirejs/require.js'></script>
     <script type='text/javascript' src='../config.js'></script>
 </head>
@@ -28,13 +27,14 @@
     startLegacy.parentNode.removeChild(startLegacy);
     var startHelios = document.getElementById("starthelios");
     startHelios.parentNode.removeChild(startHelios);
-    var loadHelpers = new Promise(function (resolve, reject) {
-        setTimeout(function () {
-            require(["amber/legacy/IDE", "amber/web/Web", "amber/legacy/Benchfib", "helios/all", "amber_cli/AmberCli"], resolve, reject);
-        }, 250);
-    });
-    require(["amber/devel", "amber_core/Platform-Browser"], function (amber) {
-        loadHelpers
+    require(["require", "amber/es2015-polyfills"], function (require) {
+        var loadHelpers = new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                require(["amber/legacy/IDE", "amber/web/Web", "amber/legacy/Benchfib", "helios/all", "amber_cli/AmberCli"], resolve, reject);
+            }, 250);
+        });
+        require(["amber/devel", "amber_core/Platform-Browser"], function (amber) {
+            loadHelpers
                 .then(function () {
                     return amber.initialize({'transport.defaultAmdNamespace': "amber_core"})
                 })
@@ -44,6 +44,7 @@
                     loading.parentNode.appendChild(startHelios);
                     loading.parentNode.removeChild(loading);
                 });
+        });
     });
 </script>
 </body>
