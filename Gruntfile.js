@@ -78,7 +78,7 @@ module.exports = function (grunt) {
                     rawText: {
                         "amber/compatibility": "/* stub */", //eg. nothing, TODO remove
                         "amber/Platform": "/* stub */", //eg. nothing, TODO remove
-                        "amber/__app__": "(" + function () {
+                        "__app__": "(" + function () {
                             define(["amber/devel", "amber_core/Platform-Node", "amber_cli/AmberCli"], function (amber) {
                                 amber.initialize().then(function () {
                                     amber.globals.AmberCli._main();
@@ -86,15 +86,15 @@ module.exports = function (grunt) {
                             });
                         } + "());",
                         "app": "(" + function () {
-                            define(["require", "amber/es2015-polyfills"], function () {
-                                require(["amber/__app__"]);
+                            define(["require", "amber/es2015-polyfills"], function (require) {
+                                require(["__app__"]);
                             });
                         } + "());"
                     },
                     pragmas: {
                         // none, for repl to have all info
                     },
-                    include: ['app', 'amber/lazypack', 'amber/__app__'],
+                    include: ['app', 'amber/lazypack', '__app__'],
                     insertRequire: ['app'],
                     optimize: "none",
                     wrap: helpers.nodeWrapperWithShebang,
@@ -107,7 +107,7 @@ module.exports = function (grunt) {
                     rawText: {
                         "amber/compatibility": "/* stub */", //eg. nothing, TODO remove
                         "amber/Platform": "/* stub */", //eg. nothing, TODO remove
-                        "amber/__app__": "(" + function () {
+                        "__app__": "(" + function () {
                             define(["amber/devel", "amber_core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {
                                 amber.initialize().then(function () {
                                     amber.globals.NodeTestRunner._main();
@@ -115,8 +115,8 @@ module.exports = function (grunt) {
                             });
                         } + "());",
                         "app": "(" + function () {
-                            define(["require", "amber/es2015-polyfills"], function () {
-                                require(["amber/__app__"]);
+                            define(["require", "amber/es2015-polyfills"], function (require) {
+                                require(["__app__"]);
                             });
                         } + "());"
                     },
@@ -124,7 +124,7 @@ module.exports = function (grunt) {
                     pragmas: {
                         // none, amber tests test contexts as well as eg. class copying which needs sources
                     },
-                    include: ['app', 'amber/lazypack', 'amber/__app__'],
+                    include: ['app', 'amber/lazypack', '__app__'],
                     insertRequire: ['app'],
                     optimize: "none",
                     wrap: helpers.nodeWrapperWithShebang,
