@@ -51,15 +51,22 @@ module.exports = function (grunt) {
                 options: {
                     mainConfigFile: "config.js",
                     rawText: {
-                        "amber/compatibility": "/*stub*/",
-                        "amber/Platform": "define()", //eg. nothing, TODO remove
-                        "app": 'define(["deploy", "amber_core/Platform-Browser"],function(x){return x});'
+                        "amber/compatibility": "/* stub */", //eg. nothing, TODO remove
+                        "amber/Platform": "/* stub */", //eg. nothing, TODO remove
+                        "app": '(' + function () {
+                            define(["require", "amber/es2015-polyfills"], function (require) {
+                                return new Promise(function (resolve, reject) {
+                                    require(["__app__"], resolve, reject);
+                                });
+                            });
+                        } + '());',
+                        "__app__": 'define(["deploy", "amber_core/Platform-Browser"],function(x){return x});'
                     },
                     pragmas: {
                         excludeIdeData: true,
                         excludeDebugContexts: true
                     },
-                    include: ['config', 'config-browser', 'amber/Platform' /*TODO remove*/, 'node_modules/requirejs/require', 'app', 'amber/lazypack'],
+                    include: ['config', 'node_modules/requirejs/require', 'app', 'amber/lazypack', '__app__'],
                     optimize: "uglify2",
                     out: "the.js"
                 }
@@ -68,12 +75,19 @@ module.exports = function (grunt) {
                 options: {
                     mainConfigFile: "config.js",
                     rawText: {
-                        "amber/compatibility": "/*stub*/",
-                        "amber/Platform": "define()", //eg. nothing, TODO remove
-                        "amber_core/_platform_HaX_": "require.config({map:{'*':{'amber/Platform':'app'}}});", // TODO remove
-                        "app": 'define(["devel", "amber_core/Platform-Browser"],function(x){return x});'
+                        "amber/compatibility": "/* stub */", //eg. nothing, TODO remove
+                        "amber/Platform": "/* stub */", //eg. nothing, TODO remove
+                        "amber_core/_HaX_": "require.config({map:{'*':{'amber/Platform':'app','amber/compatibility':'app'}}});", // TODO remove
+                        "app": '(' + function () {
+                            define(["require", "amber/es2015-polyfills"], function (require) {
+                                return new Promise(function (resolve, reject) {
+                                    require(["__app__"], resolve, reject);
+                                });
+                            });
+                        } + '());',
+                        "__app__": 'define(["devel", "amber_core/Platform-Browser"],function(x){return x});'
                     },
-                    include: ['config', 'config-browser', 'amber_core/_platform_HaX_' /*TODO remove*/, 'node_modules/requirejs/require', 'app'],
+                    include: ['config', 'amber_core/_HaX_' /*TODO remove*/, 'node_modules/requirejs/require', 'app', '__app__'],
                     exclude: ['devel'],
                     out: "the.js"
                 }
@@ -82,12 +96,19 @@ module.exports = function (grunt) {
                 options: {
                     mainConfigFile: "config.js",
                     rawText: {
-                        "amber/Platform": "define()", //eg. nothing, TODO remove
-                        "app": "(" + function () {
+                        "jquery": "/* do not load in node test runner */",
+                        "amber/compatibility": "/* stub */", //eg. nothing, TODO remove
+                        "amber/Platform": "/* stub */", //eg. nothing, TODO remove
+                        "__app__": "(" + function () {
                             define(["testing", "amber_core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {
                                 amber.initialize().then(function () {
                                     amber.globals.NodeTestRunner._main();
                                 });
+                            });
+                        } + "());",
+                        "app": "(" + function () {
+                            define(["require", "amber/es2015-polyfills"], function () {
+                                require(["__app__"]);
                             });
                         } + "());"
                     },
@@ -95,7 +116,7 @@ module.exports = function (grunt) {
                     pragmas: {
                         excludeIdeData: true
                     },
-                    include: ['config-node', 'app', 'amber/lazypack'],
+                    include: ['app', 'amber/lazypack', '__app__'],
                     insertRequire: ['app'],
                     optimize: "none",
                     wrap: helpers.nodeWrapperWithShebang,
