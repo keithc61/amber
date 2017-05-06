@@ -202,10 +202,7 @@ function collect_st_files(configuration) {
  */
 function create_compiler(configuration) {
     var include_files = configuration.load;
-    return new Promise(configuration.requirejs.bind(null, ["amber/es2015-polyfills"]))
-        .then(function () {
-            return new Promise(configuration.requirejs.bind(null, ["amber/lang", "amber_core/Platform-Node"]));
-        })
+    return new Promise(configuration.requirejs.bind(null, ["amber/lang", "amber_core/Platform-Node"]))
         .then(function (boot) {
             configuration.core = boot.api;
             configuration.globals = boot.globals;
