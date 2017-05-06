@@ -40,8 +40,8 @@
 //jshint eqnull:true
 
 define([
-    'require', './brikz', './kernel-fundamentals', './kernel-language', './compatibility' /* TODO remove */
-], function (require, Brikz, configureWithFundamentals, configureWithHierarchy) {
+    'require', './kernel-checks', './brikz', './kernel-fundamentals', './kernel-language', './compatibility' /* TODO remove */
+], function (require, _, Brikz, configureWithFundamentals, configureWithHierarchy) {
     "use strict";
 
     require(['./kernel-runtime']); // preload
