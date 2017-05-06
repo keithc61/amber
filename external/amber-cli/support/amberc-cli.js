@@ -59,6 +59,9 @@ function handle_options(optionsArray) {
             case '-d':
                 amber_dir = path.normalize(optionsArray.shift());
                 break;
+            case '-r':
+                optionsArray.shift().split(',').forEach(require);
+                break;
             case '-v':
                 defaults.verbose = true;
                 break;
@@ -88,7 +91,7 @@ function handle_options(optionsArray) {
 function print_usage_and_exit() {
     var usage = [
         'Usage: amberc [-C configFile | -p mapping1,mapping2...] [-l lib1,lib2...] [-g jsGlobal1,jsGlobal2]',
-        '          [-n namespace] [-D output_dir] [-v] file1 file2 ...',
+        '          [-n namespace] [-D output_dir] [-r module1,module2] [-v] file1 file2 ...',
         '',
         '   amberc compiles Amber files.',
         '   Files are compiled into .js files before concatenation.',
@@ -117,6 +120,10 @@ function print_usage_and_exit() {
         '  -n amd_namespace',
         '     Export packages with <amd_namespace> as the require.js namespace.',
         '     Default value is "amber_core".',
+        '',
+        '  -r module1,module2',
+        '     Comma separated list of node modules to load before actual work.',
+        '     Usable to load polyfills for the compiler.',
         '',
         '  -v',
         '     Produce a more verbose output.',
