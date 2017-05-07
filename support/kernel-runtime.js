@@ -10,6 +10,9 @@ define(function () {
         });
     }
 
+    function noop () {
+    }
+
     DNUBrik.deps = ["selectors", "messageSend", "manipulation", "classes"];
     function DNUBrik (brikz, st) {
         var selectorsBrik = brikz.selectors;
@@ -288,6 +291,7 @@ define(function () {
             var frame = this;
             while (frame) {
                 if (frame.init !== this.init) return frame.init();
+                frame.init = noop;
                 frame.setup(frame);
                 if (frame.outerContext) {
                     frame.outerContext.init();
