@@ -289,6 +289,9 @@ define(function () {
             while (frame) {
                 if (frame.init !== this.init) return frame.init();
                 frame.setup(frame);
+                if (frame.outerContext) {
+                    frame.outerContext.init();
+                }
                 frame = frame.homeContext;
             }
         });
