@@ -46,4 +46,17 @@ define(function () {
                 return this;
             }).apply(true) === true;
     });
+    assert(function () {
+        return typeof Promise === "function";
+    });
+    assert(function () {
+        return typeof Promise.resolve === "function";
+    });
+    assert(function () {
+        return typeof Promise.reject === "function";
+    });
+    assert(function () {
+        return typeof new Promise(function () {
+            }).then === "function";
+    });
 });
