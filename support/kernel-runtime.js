@@ -362,11 +362,9 @@ define(function () {
                 errorWrapper._signal();
             } catch (ex) {
             }
-            var context = st.getThisContext();
             if (isRangeError(error)) {
-                stubContextStack(context);
+                stubContextStack(errorWrapper.context);
             }
-            errorWrapper._context_(context);
             return errorWrapper;
         }
 
