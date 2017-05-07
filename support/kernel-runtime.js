@@ -285,12 +285,12 @@ define(function () {
             this.index = index || 0;
         });
         defineMethod(SmalltalkMethodContext, "init", function () {
-            var home = this.homeContext;
-            if (home) {
-                home.init();
+            var frame = this;
+            while (frame) {
+                if (frame.init !== this.init) return frame.init();
+                frame.setup(frame);
+                frame = frame.homeContext;
             }
-
-            this.setup(this);
         });
         defineMethod(SmalltalkMethodContext, "method", function () {
             var method;
