@@ -345,7 +345,6 @@ define(function () {
                 handleError(error);
                 thisContext = null;
                 // Rethrow the error in any case.
-                error.amberHandled = true;
                 throw error;
             }
         }
@@ -403,6 +402,7 @@ define(function () {
                 error = wrappedError(error);
             }
             globals.ErrorHandler._handleError_(error);
+            error.amberHandled = true;
         }
 
         /* Handle thisContext pseudo variable */
