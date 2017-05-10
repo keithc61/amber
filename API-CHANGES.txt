@@ -6,6 +6,12 @@
 + AmberBootstrapInitialization class >>
   + run
   + initializeClasses
++ JavaScriptException
+  + shouldBeStubbed
+  + wrap
++ MethodContext
+  + stubHere
+  + stubToAtMost:
 + UndefinedObject >>
   + ==
 

@@ -643,6 +643,10 @@ sendIndexes
 	<inlineJS: 'return self.sendIdx'>
 !
 
+stubHere
+	<inlineJS: 'self.homeContext = undefined'>
+!
+
 supercall
 	<inlineJS: 'return self.supercall == true'>
 ! !
@@ -658,6 +662,15 @@ asString
 			methodClass = self receiver class 
 				ifTrue: [ self receiver class name, ' >> ', self selector ]
 				ifFalse: [ self receiver class name, '(', methodClass name, ') >> ', self selector ] ]
+! !
+
+!MethodContext methodsFor: 'error handling'!
+
+stubToAtMost: anInteger
+	| context |
+	context := self.
+	anInteger timesRepeat: [ context := context ifNotNil: [ context home ] ].
+	context ifNotNil: [ context stubHere ]
 ! !
 
 !MethodContext methodsFor: 'printing'!

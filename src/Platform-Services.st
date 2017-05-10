@@ -356,13 +356,19 @@ Registered service instances must implement `#handleError:` to perform an action
 !ErrorHandler class methodsFor: 'error handling'!
 
 handleError: anError
-	self handleUnhandledError: anError
+	([ anError isSmalltalkError ] tryCatch: [ false ])
+		ifTrue: [ self handleUnhandledError: anError ]
+		ifFalse: [
+			| smalltalkError |
+			smalltalkError := JavaScriptException on: anError.
+			smalltalkError wrap.
+			self handleUnhandledError: smalltalkError ]
 !
 
 handleUnhandledError: anError
-	anError wasHandled ifTrue: [ ^ self ].
-	
-	^ self current handleError: anError
+	anError wasHandled ifFalse: [
+		self current handleError: anError.
+		anError beHandled ]
 ! !
 
 Service subclass: #Finder

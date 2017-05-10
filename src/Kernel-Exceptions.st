@@ -164,6 +164,19 @@ messageText
 	<inlineJS: 'return "JavaScript exception: " + $self["@exception"].toString()'>
 ! !
 
+!JavaScriptException methodsFor: 'error handling'!
+
+wrap
+	[ self signal ] tryCatch:
+		[ self shouldBeStubbed ifTrue: [ self context stubToAtMost: 100 ] ]
+! !
+
+!JavaScriptException methodsFor: 'testing'!
+
+shouldBeStubbed
+	<inlineJS: 'return $self["@exception"] instanceof RangeError'>
+! !
+
 !JavaScriptException class methodsFor: 'instance creation'!
 
 on: anException

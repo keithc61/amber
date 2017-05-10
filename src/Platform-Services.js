@@ -1436,7 +1436,31 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1;
+$1=$recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(anError)._isSmalltalkError();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}))._tryCatch_((function(){
+return false;
+
+}));
+if($core.assert($1)){
 $self._handleUnhandledError_(anError);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["handleUnhandledError:"]=1;
+//>>excludeEnd("ctx");
+} else {
+var smalltalkError;
+smalltalkError=$recv($globals.JavaScriptException)._on_(anError);
+smalltalkError;
+$recv(smalltalkError)._wrap();
+$self._handleUnhandledError_(smalltalkError);
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"handleError:",{anError:anError},$globals.ErrorHandler.a$cls)});
@@ -1444,10 +1468,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anError"],
-source: "handleError: anError\x0a\x09self handleUnhandledError: anError",
-referencedClasses: [],
+source: "handleError: anError\x0a\x09([ anError isSmalltalkError ] tryCatch: [ false ])\x0a\x09\x09ifTrue: [ self handleUnhandledError: anError ]\x0a\x09\x09ifFalse: [\x0a\x09\x09\x09| smalltalkError |\x0a\x09\x09\x09smalltalkError := JavaScriptException on: anError.\x0a\x09\x09\x09smalltalkError wrap.\x0a\x09\x09\x09self handleUnhandledError: smalltalkError ]",
+referencedClasses: ["JavaScriptException"],
 //>>excludeEnd("ide");
-messageSends: ["handleUnhandledError:"]
+messageSends: ["ifTrue:ifFalse:", "tryCatch:", "isSmalltalkError", "handleUnhandledError:", "on:", "wrap"]
 }),
 $globals.ErrorHandler.a$cls);
 
@@ -1462,20 +1486,21 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=$recv(anError)._wasHandled();
-if($core.assert($1)){
-return self;
+if(!$core.assert($1)){
+$recv($self._current())._handleError_(anError);
+$recv(anError)._beHandled();
 }
-return $recv($self._current())._handleError_(anError);
+return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"handleUnhandledError:",{anError:anError},$globals.ErrorHandler.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anError"],
-source: "handleUnhandledError: anError\x0a\x09anError wasHandled ifTrue: [ ^ self ].\x0a\x09\x0a\x09^ self current handleError: anError",
+source: "handleUnhandledError: anError\x0a\x09anError wasHandled ifFalse: [\x0a\x09\x09self current handleError: anError.\x0a\x09\x09anError beHandled ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:", "wasHandled", "handleError:", "current"]
+messageSends: ["ifFalse:", "wasHandled", "handleError:", "current", "beHandled"]
 }),
 $globals.ErrorHandler.a$cls);
 

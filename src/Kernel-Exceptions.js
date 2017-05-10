@@ -608,6 +608,74 @@ messageSends: []
 }),
 $globals.JavaScriptException);
 
+$core.addMethod(
+$core.method({
+selector: "shouldBeStubbed",
+protocol: "testing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self["@exception"] instanceof RangeError;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"shouldBeStubbed",{},$globals.JavaScriptException)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "shouldBeStubbed\x0a\x09<inlineJS: 'return $self[\x22@exception\x22] instanceof RangeError'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.JavaScriptException);
+
+$core.addMethod(
+$core.method({
+selector: "wrap",
+protocol: "error handling",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._signal();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}))._tryCatch_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=$self._shouldBeStubbed();
+if($core.assert($1)){
+return $recv($self._context())._stubToAtMost_((100));
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"wrap",{},$globals.JavaScriptException)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "wrap\x0a\x09[ self signal ] tryCatch:\x0a\x09\x09[ self shouldBeStubbed ifTrue: [ self context stubToAtMost: 100 ] ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["tryCatch:", "signal", "ifTrue:", "shouldBeStubbed", "stubToAtMost:", "context"]
+}),
+$globals.JavaScriptException);
+
 
 $core.addMethod(
 $core.method({

@@ -342,7 +342,7 @@ define(function () {
             try {
                 return inContext(worker, setup);
             } catch (error) {
-                handleError(error);
+                globals.ErrorHandler._handleError_(error);
                 thisContext = null;
                 // Rethrow the error in any case.
                 throw error;
@@ -355,54 +355,6 @@ define(function () {
             var result = worker(thisContext);
             thisContext = oldContext;
             return result;
-        }
-
-        /* Wrap a JavaScript exception in a Smalltalk Exception.
-
-         In case of a RangeError, stub the stack after 100 contexts to
-         avoid another RangeError later when the stack is manipulated. */
-        function wrappedError (error) {
-            var errorWrapper = globals.JavaScriptException._on_(error);
-            // Add the error to the context, so it is visible in the stack
-            try {
-                errorWrapper._signal();
-            } catch (ex) {
-            }
-            if (shouldBeStubbed(error)) {
-                stubContextStack(errorWrapper.context);
-            }
-            return errorWrapper;
-        }
-
-        /* Stub the context stack after 100 contexts */
-        function stubContextStack (context) {
-            var currentContext = context;
-            var contexts = 0;
-            while (contexts < 100) {
-                if (currentContext) {
-                    currentContext = currentContext.homeContext;
-                }
-                contexts++;
-            }
-            if (currentContext) {
-                currentContext.homeContext = undefined;
-            }
-        }
-
-        function shouldBeStubbed (error) {
-            return error instanceof RangeError;
-        }
-
-
-        /* Handles Smalltalk errors. Triggers the registered ErrorHandler
-         (See the Smalltalk class ErrorHandler and its subclasses */
-
-        function handleError (error) {
-            if (!error.smalltalkError) {
-                error = wrappedError(error);
-            }
-            globals.ErrorHandler._handleError_(error);
-            error.amberHandled = true;
         }
 
         /* Handle thisContext pseudo variable */

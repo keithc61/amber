@@ -2614,6 +2614,77 @@ $globals.MethodContext);
 
 $core.addMethod(
 $core.method({
+selector: "stubHere",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+self.homeContext = undefined;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"stubHere",{},$globals.MethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "stubHere\x0a\x09<inlineJS: 'self.homeContext = undefined'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.MethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "stubToAtMost:",
+protocol: "error handling",
+fn: function (anInteger){
+var self=this,$self=this;
+var context;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$receiver;
+context=self;
+$recv(anInteger)._timesRepeat_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=context;
+if(($receiver = $1) == null || $receiver.a$nil){
+context=$1;
+} else {
+context=$recv(context)._home();
+}
+return context;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$2=context;
+if(($receiver = $2) == null || $receiver.a$nil){
+$2;
+} else {
+$recv(context)._stubHere();
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"stubToAtMost:",{anInteger:anInteger,context:context},$globals.MethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anInteger"],
+source: "stubToAtMost: anInteger\x0a\x09| context |\x0a\x09context := self.\x0a\x09anInteger timesRepeat: [ context := context ifNotNil: [ context home ] ].\x0a\x09context ifNotNil: [ context stubHere ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["timesRepeat:", "ifNotNil:", "home", "stubHere"]
+}),
+$globals.MethodContext);
+
+$core.addMethod(
+$core.method({
 selector: "supercall",
 protocol: "accessing",
 fn: function (){
