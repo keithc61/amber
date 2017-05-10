@@ -368,7 +368,7 @@ define(function () {
                 errorWrapper._signal();
             } catch (ex) {
             }
-            if (isRangeError(error)) {
+            if (shouldBeStubbed(error)) {
                 stubContextStack(errorWrapper.context);
             }
             return errorWrapper;
@@ -389,7 +389,7 @@ define(function () {
             }
         }
 
-        function isRangeError (error) {
+        function shouldBeStubbed (error) {
             return error instanceof RangeError;
         }
 
