@@ -268,24 +268,26 @@ define(function () {
         }
 
         // Fallbacks
-        SmalltalkMethodContext.prototype.locals = {};
+        SmalltalkMethodContext.prototype.locals = Object.freeze({});
         SmalltalkMethodContext.prototype.receiver = null;
         SmalltalkMethodContext.prototype.selector = null;
         SmalltalkMethodContext.prototype.lookupClass = null;
+        SmalltalkMethodContext.prototype.outerContext = null;
+        SmalltalkMethodContext.prototype.index = 0;
 
         defineMethod(SmalltalkMethodContext, "fill", function (receiver, selector, locals, lookupClass) {
             this.receiver = receiver;
             this.selector = selector;
-            this.locals = locals || {};
+            if (locals != null) this.locals = locals;
             this.lookupClass = lookupClass;
             if (this.homeContext) {
                 this.homeContext.evaluatedSelector = selector;
             }
         });
         defineMethod(SmalltalkMethodContext, "fillBlock", function (locals, ctx, index) {
-            this.locals = locals || {};
+            if (locals != null) this.locals = locals;
             this.outerContext = ctx;
-            this.index = index || 0;
+            if (index) this.index = index;
         });
         defineMethod(SmalltalkMethodContext, "init", function () {
             var frame = this;
