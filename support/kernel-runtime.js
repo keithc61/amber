@@ -321,7 +321,7 @@ define(function () {
         var thisContext = null;
 
         st.withContext = function (worker, setup) {
-            return thisContext ?
+            return thisContext != null ?
                 inContext(worker, setup) :
                 inContextWithErrorHandling(worker, setup);
         };
@@ -383,7 +383,7 @@ define(function () {
                 self = nilAsReceiver;
             }
             var method = klass ? klass.fn.prototype[st.st2js(selector)] : self.a$cls && self[st.st2js(selector)];
-            return method ?
+            return method != null ?
                 method.apply(self, args || []) :
                 globals.Message._selector_arguments_notUnderstoodBy_(
                     selector, [].slice.call(args), self.a$cls ? self : wrapJavaScript(self)
