@@ -47,6 +47,14 @@ define(function () {
             }).apply(true) === true;
     });
     assert(function () {
+        var o = Object.freeze({});
+        try {
+            o.foo = "bar";
+        } catch (ex) {
+        }
+        return o.foo == null;
+    });
+    assert(function () {
         return typeof Promise === "function";
     });
     assert(function () {
