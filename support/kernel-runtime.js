@@ -263,13 +263,11 @@ define(function () {
         function SmalltalkMethodContext (home, setup) {
             this.sendIdx = {};
             this.homeContext = home;
-            this.setup = setup || function () {
-                };
-
-            this.supercall = false;
+            this.setup = setup;
         }
 
         // Fallbacks
+        SmalltalkMethodContext.prototype.supercall = false;
         SmalltalkMethodContext.prototype.locals = Object.freeze({});
         SmalltalkMethodContext.prototype.receiver = null;
         SmalltalkMethodContext.prototype.selector = null;
