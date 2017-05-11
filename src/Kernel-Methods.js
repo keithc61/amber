@@ -1693,6 +1693,29 @@ messageSends: ["selector:", "new", "arguments:", "yourself"]
 }),
 $globals.Message.a$cls);
 
+$core.addMethod(
+$core.method({
+selector: "selector:arguments:notUnderstoodBy:",
+protocol: "dnu handling",
+fn: function (aString,anArray,anObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(anObject)._doesNotUnderstand_($self._selector_arguments_(aString,anArray));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"selector:arguments:notUnderstoodBy:",{aString:aString,anArray:anArray,anObject:anObject},$globals.Message.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "anArray", "anObject"],
+source: "selector: aString arguments: anArray notUnderstoodBy: anObject\x0a\x09\x22Creates the message and passes it to #doesNotUnderstand:.\x0a\x09Used by kernel to handle MNU.\x22\x0a\x09^ anObject doesNotUnderstand:\x0a\x09\x09(self selector: aString arguments: anArray)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["doesNotUnderstand:", "selector:arguments:"]
+}),
+$globals.Message.a$cls);
+
 
 $core.addClass("MessageSend", $globals.Object, ["receiver", "message"], "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);

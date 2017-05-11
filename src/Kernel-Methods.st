@@ -454,6 +454,15 @@ printOn: aStream
 		nextPutAll: ')'
 ! !
 
+!Message class methodsFor: 'dnu handling'!
+
+selector: aString arguments: anArray notUnderstoodBy: anObject
+	"Creates the message and passes it to #doesNotUnderstand:.
+	Used by kernel to handle MNU."
+	^ anObject doesNotUnderstand:
+		(self selector: aString arguments: anArray)
+! !
+
 !Message class methodsFor: 'instance creation'!
 
 selector: aString arguments: anArray

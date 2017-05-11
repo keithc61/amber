@@ -13,10 +13,10 @@ define(function () {
     function noop () {
     }
 
-    DNUBrik.deps = ["selectors", "messageSend", "manipulation", "classes"];
+    DNUBrik.deps = ["selectors", "smalltalkGlobals", "manipulation", "classes"];
     function DNUBrik (brikz, st) {
         var selectorsBrik = brikz.selectors;
-        var messageNotUnderstood = brikz.messageSend.messageNotUnderstood;
+        var globals = brikz.smalltalkGlobals.globals;
         var installJSMethod = brikz.manipulation.installJSMethod;
         var nilAsClass = brikz.classes.nilAsClass;
 
@@ -37,7 +37,9 @@ define(function () {
 
         function createHandler (stSelector) {
             return function () {
-                return messageNotUnderstood(this, stSelector, arguments);
+                return globals.Message._selector_arguments_notUnderstoodBy_(
+                    stSelector, [].slice.call(arguments), this
+                );
             };
         }
 
@@ -383,11 +385,11 @@ define(function () {
                 self = nilAsReceiver;
             }
             var method = klass ? klass.fn.prototype[st.st2js(selector)] : self.a$cls && self[st.st2js(selector)];
-            if (method) {
-                return method.apply(self, args || []);
-            } else {
-                return messageNotUnderstood(self.a$cls ? self : wrapJavaScript(self), selector, args);
-            }
+            return method ?
+                method.apply(self, args || []) :
+                globals.Message._selector_arguments_notUnderstoodBy_(
+                    selector, [].slice.call(args), self.a$cls ? self : wrapJavaScript(self)
+                );
         };
 
         function wrapJavaScript (o) {
@@ -395,15 +397,6 @@ define(function () {
         }
 
         st.wrapJavaScript = wrapJavaScript;
-
-        /* Handles #dnu:. Calls #doesNotUnderstand:. */
-        function messageNotUnderstood (receiver, stSelector, args) {
-            return receiver._doesNotUnderstand_(
-                globals.Message._new()
-                    ._selector_(stSelector)
-                    ._arguments_([].slice.call(args))
-            );
-        }
 
         /* If the object property is a function, then call it, except if it starts with
          an uppercase character (we probably want to answer the function itself in this
@@ -420,8 +413,6 @@ define(function () {
                 return propertyValue;
             }
         };
-
-        this.messageNotUnderstood = messageNotUnderstood;
     }
 
     /* Making smalltalk that can run */
