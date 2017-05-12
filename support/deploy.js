@@ -1,8 +1,5 @@
 define([
     './helpers',
-    './compatibility', // pre-fetch, dep of ./boot, TODO remove
-    './kernel-fundamentals', // pre-fetch, dep of ./boot
-    './kernel-language', // pre-fetch, dep of ./boot
     './boot', // pre-fetch, dep of ./helpers
     // --- packages of the core Amber begin here ---
     'amber_core/Kernel-Helpers',

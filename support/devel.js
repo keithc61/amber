@@ -1,10 +1,11 @@
 define([
     './lang',
     './compatibility', // pre-fetch, dep of ./boot, TODO remove
+    './brikz', // pre-fetch, dep of ./boot
+    './kernel-checks', // pre-fetch, dep of ./boot
     './kernel-fundamentals', // pre-fetch, dep of ./boot
     './kernel-language', // pre-fetch, dep of ./boot
-    './boot', // pre-fetch, dep of ./helpers
-    './helpers', // pre-fetch, dep of ./deploy
+    './boot', // pre-fetch, class loader
     './deploy', // pre-fetch, dep of ./lang
     // --- packages of the development only Amber begin here ---
     'amber_core/Platform-DOM',
