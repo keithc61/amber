@@ -702,7 +702,7 @@ new
 ! !
 
 Object subclass: #SmalltalkImage
-	instanceVariableNames: ''
+	instanceVariableNames: 'globalJsVariables'
 	package: 'Kernel-Infrastructure'!
 !SmalltalkImage commentStamp!
 I represent the Smalltalk system, wrapping
@@ -783,8 +783,22 @@ readJSObject: anObject
 !
 
 reservedWords
-	"JavaScript reserved words"
-	<inlineJS: 'return $core.reservedWords'>
+	^ #(
+		"http://www.ecma-international.org/ecma-262/6.0/#sec-keywords"
+		break case catch class const continue debugger
+		default delete do else export extends finally
+		for function if import in instanceof new
+		return super switch this throw try typeof
+		var void while with yield
+		"in strict mode"
+		let static
+		"Amber protected words: these should not be compiled as-is when in code"
+		arguments
+		"http://www.ecma-international.org/ecma-262/6.0/#sec-future-reserved-words"
+		await enum
+		"in strict mode"
+		implements interface package private protected public
+	)
 !
 
 settings
@@ -860,8 +874,8 @@ deleteGlobalJsVariable: aString
 !
 
 globalJsVariables
-	"Array of global JavaScript variables"
-	<inlineJS: 'return $core.globalJsVariables'>
+	^ globalJsVariables ifNil: [
+		globalJsVariables := #(window document process global), self legacyGlobalJsVariables ]
 ! !
 
 !SmalltalkImage methodsFor: 'packages'!
@@ -946,6 +960,12 @@ deletePackage: packageName
 	To remove a package, use #removePackage instead."
 
 	<inlineJS: 'delete $core.packages[packageName]'>
+!
+
+legacyGlobalJsVariables
+	"Legacy array of global JavaScript variables.
+	Only used for BW compat, to be removed."
+	<inlineJS: 'return $core.globalJsVariables'>
 ! !
 
 !SmalltalkImage methodsFor: 'testing'!

@@ -2605,7 +2605,7 @@ messageSends: ["shouldNotImplement"]
 $globals.Setting.a$cls);
 
 
-$core.addClass("SmalltalkImage", $globals.Object, [], "Kernel-Infrastructure");
+$core.addClass("SmalltalkImage", $globals.Object, ["globalJsVariables"], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SmalltalkImage.comment="I represent the Smalltalk system, wrapping\x0aoperations of variable `$core` declared in `support/boot.js`.\x0a\x0a## API\x0a\x0aI have only one instance, accessed with global variable `Smalltalk`.\x0a\x0a## Classes\x0a\x0aClasses can be accessed using the following methods:\x0a\x0a- `#classes` answers the full list of Smalltalk classes in the system\x0a- `#globals #at:` answers a specific global (usually, a class) or `nil`\x0a\x0a## Packages\x0a\x0aPackages can be accessed using the following methods:\x0a\x0a- `#packages` answers the full list of packages\x0a- `#packageAt:` answers a specific package or `nil`\x0a\x0a## Parsing\x0a\x0aThe `#parse:` method is used to parse Amber source code.\x0aIt requires the `Compiler` package and the `support/parser.js` parser file in order to work.";
 //>>excludeEnd("ide");
@@ -3025,18 +3025,24 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $core.globalJsVariables;
-return self;
+var $1,$receiver;
+$1=$self["@globalJsVariables"];
+if(($receiver = $1) == null || $receiver.a$nil){
+$self["@globalJsVariables"]=["window", "document", "process", "global"].__comma($self._legacyGlobalJsVariables());
+return $self["@globalJsVariables"];
+} else {
+return $1;
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"globalJsVariables",{},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "globalJsVariables\x0a\x09\x22Array of global JavaScript variables\x22\x0a\x09<inlineJS: 'return $core.globalJsVariables'>",
+source: "globalJsVariables\x0a\x09^ globalJsVariables ifNil: [\x0a\x09\x09globalJsVariables := #(window document process global), self legacyGlobalJsVariables ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["ifNil:", ",", "legacyGlobalJsVariables"]
 }),
 $globals.SmalltalkImage);
 
@@ -3106,6 +3112,30 @@ return self;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
 source: "isSmalltalkObject: anObject\x0a\x09\x22Consider anObject a Smalltalk object if it has a 'a$cls' property.\x0a\x09Note that this may be unaccurate\x22\x0a\x09\x0a\x09<inlineJS: 'return anObject.a$cls != null'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
+selector: "legacyGlobalJsVariables",
+protocol: "private",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $core.globalJsVariables;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"legacyGlobalJsVariables",{},$globals.SmalltalkImage)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "legacyGlobalJsVariables\x0a\x09\x22Legacy array of global JavaScript variables.\x0a\x09Only used for BW compat, to be removed.\x22\x0a\x09<inlineJS: 'return $core.globalJsVariables'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3529,18 +3559,12 @@ selector: "reservedWords",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $core.reservedWords;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"reservedWords",{},$globals.SmalltalkImage)});
-//>>excludeEnd("ctx");
+return ["break", "case", "catch", "class", "const", "continue", "debugger", "default", "delete", "do", "else", "export", "extends", "finally", "for", "function", "if", "import", "in", "instanceof", "new", "return", "super", "switch", "this", "throw", "try", "typeof", "var", "void", "while", "with", "yield", "let", "static", "arguments", "await", "enum", "implements", "interface", "package", "private", "protected", "public"];
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "reservedWords\x0a\x09\x22JavaScript reserved words\x22\x0a\x09<inlineJS: 'return $core.reservedWords'>",
+source: "reservedWords\x0a\x09^ #(\x0a\x09\x09\x22http://www.ecma-international.org/ecma-262/6.0/#sec-keywords\x22\x0a\x09\x09break case catch class const continue debugger\x0a\x09\x09default delete do else export extends finally\x0a\x09\x09for function if import in instanceof new\x0a\x09\x09return super switch this throw try typeof\x0a\x09\x09var void while with yield\x0a\x09\x09\x22in strict mode\x22\x0a\x09\x09let static\x0a\x09\x09\x22Amber protected words: these should not be compiled as-is when in code\x22\x0a\x09\x09arguments\x0a\x09\x09\x22http://www.ecma-international.org/ecma-262/6.0/#sec-future-reserved-words\x22\x0a\x09\x09await enum\x0a\x09\x09\x22in strict mode\x22\x0a\x09\x09implements interface package private protected public\x0a\x09)",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

@@ -232,27 +232,8 @@ define(function () {
             globals.NonBooleanReceiver._new()._object_(shouldBeBoolean)._signal();
         };
 
-        /* List of all reserved words in JavaScript. They may not be used as variables
-         in Smalltalk. */
-
-        st.reservedWords = [
-            // http://www.ecma-international.org/ecma-262/6.0/#sec-keywords
-            'break', 'case', 'catch', 'class', 'const', 'continue', 'debugger',
-            'default', 'delete', 'do', 'else', 'export', 'extends', 'finally',
-            'for', 'function', 'if', 'import', 'in', 'instanceof', 'new',
-            'return', 'super', 'switch', 'this', 'throw', 'try', 'typeof',
-            'var', 'void', 'while', 'with', 'yield',
-            // in strict mode
-            'let', 'static',
-            // Amber protected words: these should not be compiled as-is when in code
-            'arguments',
-            // http://www.ecma-international.org/ecma-262/6.0/#sec-future-reserved-words
-            'await', 'enum',
-            // in strict mode
-            'implements', 'interface', 'package', 'private', 'protected', 'public'
-        ];
-
-        st.globalJsVariables = ['window', 'document', 'process', 'global'];
+        // TODO remove
+        st.globalJsVariables = [];
     }
 
     RuntimeBrik.deps = ["selectorConversion", "smalltalkGlobals", "runtimeClasses"];
