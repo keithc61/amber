@@ -1,6 +1,7 @@
 0.19.1:
 
-* Deprecate amber/boot api nextId.
+* Deprecate amber/boot api nextId, prop globalJsVariables.
+* Remove amber/boot prop reservedWords (with the hope no one uses it directly).
 * Deprecate ProtoObject >> identityHash.
 
 + AmberBootstrapInitialization class >>
