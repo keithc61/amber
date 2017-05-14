@@ -2,6 +2,15 @@
 ===================================
 
 * Kernel slimmed, things moved to Smalltalk side.
+* Kernel (sans parser) calls only this Smalltalk-side API:
+  * AmberBootstrapInitialization class >> run
+  * Message class >> selector:arguments:notUnderstoodBy:
+  * Dictionary class >> newFromPairs:
+  * ErrorHandler class >> handleError:
+  * JSObjectProxy class >> on:
+  * NonBooleanReceiver class >> new
+  * NonBooleanReceiver >> object:
+  * NonBooleanReceiver >> signal
 
 Commits: https://lolg.it/amber/amber/commits/0.19.1.
 
