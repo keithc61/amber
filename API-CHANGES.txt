@@ -6,10 +6,10 @@
 + AmberBootstrapInitialization class >>
   + run
   + initializeClasses
-+ JavaScriptException
++ JavaScriptException >>
   + shouldBeStubbed
   + wrap
-+ MethodContext
++ MethodContext >>
   + stubHere
   + stubToAtMost:
 + NonBooleanReceiver class >>
@@ -66,7 +66,7 @@
   + traitUsers
   + allSubclassesDo:
   + superclass
-+ Trait
++ Trait >>
   + allInstanceVariableNames
   + allSubclassesDo:
   + asJavascript
@@ -84,7 +84,7 @@
 + Trait class >>
   + named:package:
   + named:uses:package:
-+ TraitTransformation
++ TraitTransformation >>
   + -
   + @
   + addAliases:
@@ -161,9 +161,9 @@
   + asDomNode
 + Collection >>
   + asDomNode
-+ JSObjectProxy
++ JSObjectProxy >>
   + asDomNode
-+ String
++ String >>
   + htmlTextContent
 
 
@@ -225,7 +225,7 @@
   - wrapClassName
   - send
   - allSubclasses
-- AbstractCodeGenerator
+- AbstractCodeGenerator >>
   - classNameFor:
 
 
@@ -250,7 +250,7 @@
   + then:catch:
   + then:on:do:
   + then:on:do:catch:
-+ amber/boot api
++ amber/boot api >>
   + seamless
 + Promise class >>
   + new:
