@@ -46,10 +46,7 @@ define([
 
     require(['./kernel-runtime']); // preload
 
-    SmalltalkInitBrik.deps = ["classes"];
     function SmalltalkInitBrik (brikz, st) {
-        var bootstrapHierarchy = brikz.classes.bootstrapHierarchy;
-
         var initialized = false;
         var runtimeLoadedPromise = new Promise(function (resolve, reject) {
             require(['./kernel-runtime'], resolve, reject);
@@ -60,7 +57,7 @@ define([
         st.initialize = function () {
             return runtimeLoadedPromise.then(function (configureWithRuntime) {
                 if (initialized) return;
-                bootstrapHierarchy();
+                brikz.classes.bootstrapHierarchy();
                 configureWithRuntime(brikz);
                 brikz.startImage.run();
                 initialized = true;
