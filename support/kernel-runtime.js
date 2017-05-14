@@ -378,11 +378,11 @@ define(function () {
             var propertyValue = self[propertyName];
             if (typeof propertyValue === "function" && !/^[A-Z]/.test(propertyName)) {
                 return propertyValue.apply(self, args || []);
-            } else if (args.length > 0) {
+            } else if (args.length === 0) {
+                return propertyValue;
+            } else {
                 self[propertyName] = args[0];
                 return self;
-            } else {
-                return propertyValue;
             }
         };
     }
