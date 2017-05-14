@@ -46,10 +46,9 @@ define([
 
     require(['./kernel-runtime']); // preload
 
-    SmalltalkInitBrik.deps = ["classes", "smalltalkGlobals"];
+    SmalltalkInitBrik.deps = ["classes"];
     function SmalltalkInitBrik (brikz, st) {
         var bootstrapHierarchy = brikz.classes.bootstrapHierarchy;
-        var globals = brikz.smalltalkGlobals.globals;
 
         var initialized = false;
         var runtimeLoadedPromise = new Promise(function (resolve, reject) {
@@ -63,7 +62,7 @@ define([
                 if (initialized) return;
                 bootstrapHierarchy();
                 configureWithRuntime(brikz);
-                globals.AmberBootstrapInitialization._run();
+                brikz.startImage.run();
                 initialized = true;
             });
         };

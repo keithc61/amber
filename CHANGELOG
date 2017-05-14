@@ -2,7 +2,7 @@
 ===================================
 
 * Kernel slimmed, things moved to Smalltalk side.
-* Kernel (sans parser) calls only this Smalltalk-side API:
+* Kernel (via kernel-runtime.js) calls only this Smalltalk-side API:
   * AmberBootstrapInitialization class >> run
   * Message class >> selector:arguments:notUnderstoodBy:
   * Dictionary class >> newFromPairs:
