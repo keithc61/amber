@@ -9,6 +9,8 @@
 + JavaScriptException >>
   + shouldBeStubbed
   + wrap
++ Message class >>
+  + selector:arguments:notUnderstoodBy:
 + MethodContext >>
   + stubHere
   + stubToAtMost:
