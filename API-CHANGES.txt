@@ -12,6 +12,8 @@
 + MethodContext
   + stubHere
   + stubToAtMost:
++ NonBooleanReceiver class >>
+  + signalOn:
 + UndefinedObject >>
   + ==
 

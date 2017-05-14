@@ -8,9 +8,7 @@
   * Dictionary class >> newFromPairs:
   * ErrorHandler class >> handleError:
   * JSObjectProxy class >> on:
-  * NonBooleanReceiver class >> new
-  * NonBooleanReceiver >> object:
-  * NonBooleanReceiver >> signal
+  * NonBooleanReceiver class >> signalOn:
 
 Commits: https://lolg.it/amber/amber/commits/0.19.1.
 

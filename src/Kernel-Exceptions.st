@@ -236,3 +236,11 @@ object: anObject
 	object := anObject
 ! !
 
+!NonBooleanReceiver class methodsFor: 'instance creation'!
+
+signalOn: anObject
+	^ self new
+		object: anObject;
+		signal
+! !
+

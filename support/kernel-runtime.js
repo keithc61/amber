@@ -226,7 +226,7 @@ define(function () {
                 shouldBeBoolean = shouldBeBoolean.valueOf();
                 if (typeof shouldBeBoolean === "boolean") return shouldBeBoolean;
             }
-            globals.NonBooleanReceiver._new()._object_(shouldBeBoolean)._signal();
+            globals.NonBooleanReceiver._signalOn_(shouldBeBoolean);
         };
 
         // TODO remove

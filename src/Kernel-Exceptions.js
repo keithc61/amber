@@ -881,4 +881,30 @@ messageSends: []
 $globals.NonBooleanReceiver);
 
 
+$core.addMethod(
+$core.method({
+selector: "signalOn:",
+protocol: "instance creation",
+fn: function (anObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$self._new();
+$recv($1)._object_(anObject);
+return $recv($1)._signal();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"signalOn:",{anObject:anObject},$globals.NonBooleanReceiver.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "signalOn: anObject\x0a\x09^ self new\x0a\x09\x09object: anObject;\x0a\x09\x09signal",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["object:", "new", "signal"]
+}),
+$globals.NonBooleanReceiver.a$cls);
+
 });
