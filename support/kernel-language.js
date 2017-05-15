@@ -65,7 +65,7 @@ define(['./compatibility' /* TODO remove */], function () {
         var SmalltalkObject = brikz.root.Object;
         var setupMethods = brikz.composition.setupMethods;
         var traitMethodChanged = brikz.composition.traitMethodChanged;
-        var buildBehaviorBody = brikz.behaviors.buildBehaviorBody;
+        var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
 
@@ -99,11 +99,11 @@ define(['./compatibility' /* TODO remove */], function () {
             });
             if (st._traitMethodRemoved) st._traitMethodRemoved(method, this);
         });
-        defineMethod(SmalltalkTrait, "addUser", function (behaviorBody) {
-            addElement(this.traitUsers, behaviorBody);
+        defineMethod(SmalltalkTrait, "addUser", function (traitOrBehavior) {
+            addElement(this.traitUsers, traitOrBehavior);
         });
-        defineMethod(SmalltalkTrait, "removeUser", function (behaviorBody) {
-            removeElement(this.traitUsers, behaviorBody);
+        defineMethod(SmalltalkTrait, "removeUser", function (traitOrBehavior) {
+            removeElement(this.traitUsers, traitOrBehavior);
         });
 
         function traitBuilder (className) {
@@ -124,7 +124,7 @@ define(['./compatibility' /* TODO remove */], function () {
         }
 
         st.addTrait = function (className, pkgName) {
-            return buildBehaviorBody(pkgName, traitBuilder(className));
+            return buildTraitOrClass(pkgName, traitBuilder(className));
         };
     }
 
@@ -134,9 +134,9 @@ define(['./compatibility' /* TODO remove */], function () {
         var coreFns = brikz.root.coreFns;
         var globals = brikz.smalltalkGlobals.globals;
         var SmalltalkObject = brikz.root.Object;
-        var buildBehaviorBody = brikz.behaviors.buildBehaviorBody;
+        var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
         var setupMethods = brikz.composition.setupMethods;
-        var removeBehaviorBody = brikz.behaviors.removeBehaviorBody;
+        var removeTraitOrClass = brikz.behaviors.removeTraitOrClass;
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
 
@@ -270,10 +270,10 @@ define(['./compatibility' /* TODO remove */], function () {
             if (typeof superclass === 'undefined' || superclass && superclass.a$nil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
-            return buildBehaviorBody(pkgName, classBuilder(className, superclass, iVarNames, coreFns[className]));
+            return buildTraitOrClass(pkgName, classBuilder(className, superclass, iVarNames, coreFns[className]));
         };
 
-        st.removeClass = removeBehaviorBody;
+        st.removeClass = removeTraitOrClass;
 
         function addSubclass (klass) {
             if (klass.superclass) {

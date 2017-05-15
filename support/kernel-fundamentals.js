@@ -108,9 +108,9 @@ define(['./compatibility' /* TODO remove */], function () {
         coreFns.PackageOrganizer = inherits(SmalltalkPackageOrganizer, SmalltalkOrganizer);
         coreFns.ClassOrganizer = inherits(SmalltalkClassOrganizer, SmalltalkOrganizer);
 
-        this.setupClassOrganization = function (behaviorBody) {
-            behaviorBody.organization = new SmalltalkClassOrganizer();
-            behaviorBody.organization.theClass = behaviorBody;
+        this.setupClassOrganization = function (traitOrBehavior) {
+            traitOrBehavior.organization = new SmalltalkClassOrganizer();
+            traitOrBehavior.organization.theClass = traitOrBehavior;
         };
 
         this.setupPackageOrganization = function (pkg) {
@@ -202,41 +202,41 @@ define(['./compatibility' /* TODO remove */], function () {
 
         var classes = [];
 
-        this.buildBehaviorBody = function (pkgName, builder) {
+        this.buildTraitOrClass = function (pkgName, builder) {
             var pkg = st.packages[pkgName];
             if (!pkg) throw new Error("Missing package " + pkgName);
 
-            var behaviorBody = globals.hasOwnProperty(builder.className) && globals[builder.className];
-            if (behaviorBody) {
-                builder.updateExisting(behaviorBody, pkg);
+            var traitOrClass = globals.hasOwnProperty(builder.className) && globals[builder.className];
+            if (traitOrClass) {
+                builder.updateExisting(traitOrClass, pkg);
             } else {
-                behaviorBody = builder.make(pkg);
+                traitOrClass = builder.make(pkg);
             }
 
-            addBehaviorBody(behaviorBody);
-            return behaviorBody;
+            addTraitOrClass(traitOrClass);
+            return traitOrClass;
         };
 
-        function addBehaviorBody (behaviorBody) {
-            globals[behaviorBody.className] = behaviorBody;
-            addElement(classes, behaviorBody);
-            addOrganizationElement(behaviorBody.pkg, behaviorBody);
-            behaviorBody.added();
+        function addTraitOrClass (traitOrClass) {
+            globals[traitOrClass.className] = traitOrClass;
+            addElement(classes, traitOrClass);
+            addOrganizationElement(traitOrClass.pkg, traitOrClass);
+            traitOrClass.added();
         }
 
-        function removeBehaviorBody (behaviorBody) {
-            behaviorBody.removed();
-            removeOrganizationElement(behaviorBody.pkg, behaviorBody);
-            removeElement(classes, behaviorBody);
-            delete globals[behaviorBody.className];
+        function removeTraitOrClass (traitOrClass) {
+            traitOrClass.removed();
+            removeOrganizationElement(traitOrClass.pkg, traitOrClass);
+            removeElement(classes, traitOrClass);
+            delete globals[traitOrClass.className];
         }
 
-        this.removeBehaviorBody = removeBehaviorBody;
+        this.removeTraitOrClass = removeTraitOrClass;
 
         /* Create an alias for an existing class */
 
-        st.alias = function (behaviorBody, alias) {
-            globals[alias] = behaviorBody;
+        st.alias = function (traitOrClass, alias) {
+            globals[alias] = traitOrClass;
         };
 
         /* Answer all registered Smalltalk classes */
@@ -278,14 +278,14 @@ define(['./compatibility' /* TODO remove */], function () {
 
         /* Add/remove a method to/from a class */
 
-        st.addMethod = function (method, behaviorBody) {
+        st.addMethod = function (method, traitOrBehavior) {
             if (method.methodClass != null) {
                 throw new Error("addMethod: Method " + method.selector + " already bound to " + method.methodClass);
             }
-            method.methodClass = behaviorBody;
+            method.methodClass = traitOrBehavior;
             registerNewSelectors(method);
-            behaviorBody.localMethods[method.selector] = method;
-            updateMethod(method.selector, behaviorBody);
+            traitOrBehavior.localMethods[method.selector] = method;
+            updateMethod(method.selector, traitOrBehavior);
         };
 
         function registerNewSelectors (method) {
@@ -303,11 +303,11 @@ define(['./compatibility' /* TODO remove */], function () {
             if (st._selectorsAdded) st._selectorsAdded(newSelectors);
         }
 
-        st.removeMethod = function (method, behaviorBody) {
-            if (behaviorBody.localMethods[method.selector] !== method) return;
+        st.removeMethod = function (method, traitOrBehavior) {
+            if (traitOrBehavior.localMethods[method.selector] !== method) return;
 
-            delete behaviorBody.localMethods[method.selector];
-            updateMethod(method.selector, behaviorBody);
+            delete traitOrBehavior.localMethods[method.selector];
+            updateMethod(method.selector, traitOrBehavior);
         };
     }
 
@@ -316,27 +316,27 @@ define(['./compatibility' /* TODO remove */], function () {
         var setupClassOrganization = brikz.organize.setupClassOrganization;
         var addOrganizationElement = brikz.organize.addOrganizationElement;
 
-        this.setupMethods = function (behaviorBody) {
-            setupClassOrganization(behaviorBody);
-            behaviorBody.traitComposition = [];
-            behaviorBody.localMethods = Object.create(null);
-            behaviorBody.methods = Object.create(null);
+        this.setupMethods = function (traitOrBehavior) {
+            setupClassOrganization(traitOrBehavior);
+            traitOrBehavior.traitComposition = [];
+            traitOrBehavior.localMethods = Object.create(null);
+            traitOrBehavior.methods = Object.create(null);
         };
 
-        function addMethod (method, behaviorBody) {
-            behaviorBody.methods[method.selector] = method;
+        function addMethod (method, traitOrBehavior) {
+            traitOrBehavior.methods[method.selector] = method;
 
             // During the bootstrap, #addCompiledMethod is not used.
             // Therefore we populate the organizer here too
-            addOrganizationElement(behaviorBody, method.protocol);
+            addOrganizationElement(traitOrBehavior, method.protocol);
 
-            behaviorBody.methodAdded(method);
+            traitOrBehavior.methodAdded(method);
         }
 
-        function removeMethod (method, behaviorBody) {
-            delete behaviorBody.methods[method.selector];
+        function removeMethod (method, traitOrBehavior) {
+            delete traitOrBehavior.methods[method.selector];
 
-            behaviorBody.methodRemoved(method);
+            traitOrBehavior.methodRemoved(method);
 
             // Do *not* delete protocols from here.
             // This is handled by #removeCompiledMethod
@@ -390,39 +390,39 @@ define(['./compatibility' /* TODO remove */], function () {
             }, null);
         }
 
-        st.setTraitComposition = function (traitComposition, behaviorBody) {
-            var oldLocalMethods = behaviorBody.localMethods,
+        st.setTraitComposition = function (traitComposition, traitOrBehavior) {
+            var oldLocalMethods = traitOrBehavior.localMethods,
                 newLocalMethods = Object.create(buildCompositionChain(traitComposition));
             Object.keys(oldLocalMethods).forEach(function (selector) {
                 newLocalMethods[selector] = oldLocalMethods[selector];
             });
             var selector;
-            behaviorBody.localMethods = newLocalMethods;
+            traitOrBehavior.localMethods = newLocalMethods;
             for (selector in newLocalMethods) {
-                updateMethod(selector, behaviorBody);
+                updateMethod(selector, traitOrBehavior);
             }
             for (selector in oldLocalMethods) {
-                updateMethod(selector, behaviorBody);
+                updateMethod(selector, traitOrBehavior);
             }
-            behaviorBody.traitComposition.forEach(function (each) {
-                each.trait.removeUser(behaviorBody);
+            traitOrBehavior.traitComposition.forEach(function (each) {
+                each.trait.removeUser(traitOrBehavior);
             });
-            behaviorBody.traitComposition = traitComposition;
-            behaviorBody.traitComposition.forEach(function (each) {
-                each.trait.addUser(behaviorBody);
+            traitOrBehavior.traitComposition = traitComposition;
+            traitOrBehavior.traitComposition.forEach(function (each) {
+                each.trait.addUser(traitOrBehavior);
             });
         };
 
-        function updateMethod (selector, behaviorBody) {
-            var oldMethod = behaviorBody.methods[selector],
-                newMethod = behaviorBody.localMethods[selector];
+        function updateMethod (selector, traitOrBehavior) {
+            var oldMethod = traitOrBehavior.methods[selector],
+                newMethod = traitOrBehavior.localMethods[selector];
             if (oldMethod == null && newMethod == null) {
-                console.warn("Removal of nonexistent method " + behaviorBody + " >> " + selector);
+                console.warn("Removal of nonexistent method " + traitOrBehavior + " >> " + selector);
                 return;
             }
             if (newMethod === oldMethod) return;
-            if (newMethod != null) addMethod(newMethod, behaviorBody);
-            else removeMethod(oldMethod, behaviorBody);
+            if (newMethod != null) addMethod(newMethod, traitOrBehavior);
+            else removeMethod(oldMethod, traitOrBehavior);
         }
 
         this.updateMethod = updateMethod;
@@ -454,9 +454,9 @@ define(['./compatibility' /* TODO remove */], function () {
             return changes;
         }
 
-        function traitMethodChanged (selector, method, trait, behaviorBody) {
-            var traitComposition = behaviorBody.traitComposition,
-                chain = behaviorBody.localMethods,
+        function traitMethodChanged (selector, method, trait, traitOrBehavior) {
+            var traitComposition = traitOrBehavior.traitComposition,
+                chain = traitOrBehavior.localMethods,
                 changes = [];
             for (var i = traitComposition.length - 1; i >= 0; --i) {
                 chain = Object.getPrototypeOf(chain);
@@ -468,7 +468,7 @@ define(['./compatibility' /* TODO remove */], function () {
             }
             // assert(chain === null);
             changes.forEach(function (each) {
-                updateMethod(each, behaviorBody);
+                updateMethod(each, traitOrBehavior);
             });
         }
 
