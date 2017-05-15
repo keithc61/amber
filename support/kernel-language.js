@@ -178,10 +178,10 @@ define(['./compatibility' /* TODO remove */], function () {
             removeSubclass(this);
         });
         defineMethod(SmalltalkBehavior, "methodAdded", function (method) {
-            if (st._methodAdded) st._methodAdded(method, this);
+            if (st._behaviorMethodAdded) st._behaviorMethodAdded(method, this);
         });
         defineMethod(SmalltalkBehavior, "methodRemoved", function (method) {
-            if (st._methodRemoved) st._methodRemoved(method, this);
+            if (st._behaviorMethodRemoved) st._behaviorMethodRemoved(method, this);
         });
 
         this.bootstrapHierarchy = function () {

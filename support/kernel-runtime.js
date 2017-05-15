@@ -159,7 +159,7 @@ define(function () {
         var makeDnuHandler = brikz.dnu.makeDnuHandler;
         var detachedRootClasses = brikz.runtimeClasses.detachedRootClasses;
 
-        st._methodAdded = function (method, klass) {
+        st._behaviorMethodAdded = function (method, klass) {
             installMethod(method, klass);
             propagateMethodChange(klass, method, klass);
         };
@@ -171,7 +171,7 @@ define(function () {
             });
         };
 
-        st._methodRemoved = function (method, klass) {
+        st._behaviorMethodRemoved = function (method, klass) {
             delete klass.fn.prototype[method.jsSelector];
             propagateMethodChange(klass, method, null);
         };
