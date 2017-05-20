@@ -3378,7 +3378,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$5,$4,$6,$3,$7,$9,$8;
+var $1,$2,$5,$4,$6,$3,$7,$8,$10,$9,$receiver;
 $1=$recv(aClass)._isMetaclass();
 if($core.assert($1)){
 $2=$recv($recv(aClass)._asString()).__comma(" is a Metaclass and cannot be removed!");
@@ -3432,12 +3432,19 @@ $recv(aClass)._setTraitComposition_([]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["setTraitComposition:"]=1;
 //>>excludeEnd("ctx");
-$recv($recv(aClass)._class())._setTraitComposition_([]);
-$7=$recv($globals.SystemAnnouncer)._current();
-$9=$recv($globals.ClassRemoved)._new();
-$recv($9)._theClass_(aClass);
-$8=$recv($9)._yourself();
-$recv($7)._announce_($8);
+$7=$recv(aClass)._theMetaClass();
+if(($receiver = $7) == null || $receiver.a$nil){
+$7;
+} else {
+var meta;
+meta=$receiver;
+$recv(meta)._setTraitComposition_([]);
+}
+$8=$recv($globals.SystemAnnouncer)._current();
+$10=$recv($globals.ClassRemoved)._new();
+$recv($10)._theClass_(aClass);
+$9=$recv($10)._yourself();
+$recv($8)._announce_($9);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"removeClass:",{aClass:aClass},$globals.SmalltalkImage)});
@@ -3445,10 +3452,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
-source: "removeClass: aClass\x0a\x09aClass isMetaclass ifTrue: [ self error: aClass asString, ' is a Metaclass and cannot be removed!' ].\x0a\x09aClass allSubclassesDo: [ :subclass | self error: aClass name, ' has a subclass: ', subclass name ].\x0a\x09aClass traitUsers ifNotEmpty: [ self error: aClass name, ' has trait users.' ].\x0a\x09\x0a\x09self deleteClass: aClass.\x0a\x09aClass setTraitComposition: #().\x0a\x09aClass class setTraitComposition: #().\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassRemoved new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
+source: "removeClass: aClass\x0a\x09aClass isMetaclass ifTrue: [ self error: aClass asString, ' is a Metaclass and cannot be removed!' ].\x0a\x09aClass allSubclassesDo: [ :subclass | self error: aClass name, ' has a subclass: ', subclass name ].\x0a\x09aClass traitUsers ifNotEmpty: [ self error: aClass name, ' has trait users.' ].\x0a\x09\x0a\x09self deleteClass: aClass.\x0a\x09aClass setTraitComposition: #().\x0a\x09aClass theMetaClass ifNotNil: [ :meta | meta setTraitComposition: #() ].\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassRemoved new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassRemoved"],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:", "isMetaclass", "error:", ",", "asString", "allSubclassesDo:", "name", "ifNotEmpty:", "traitUsers", "deleteClass:", "setTraitComposition:", "class", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["ifTrue:", "isMetaclass", "error:", ",", "asString", "allSubclassesDo:", "name", "ifNotEmpty:", "traitUsers", "deleteClass:", "setTraitComposition:", "ifNotNil:", "theMetaClass", "announce:", "current", "theClass:", "new", "yourself"]
 }),
 $globals.SmalltalkImage);
 

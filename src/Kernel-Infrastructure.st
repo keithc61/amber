@@ -839,7 +839,7 @@ removeClass: aClass
 	
 	self deleteClass: aClass.
 	aClass setTraitComposition: #().
-	aClass class setTraitComposition: #().
+	aClass theMetaClass ifNotNil: [ :meta | meta setTraitComposition: #() ].
 	
 	SystemAnnouncer current
 		announce: (ClassRemoved new
