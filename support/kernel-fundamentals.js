@@ -196,19 +196,19 @@ define(['./compatibility' /* TODO remove */], function () {
         var classes = [];
 
         this.buildTraitOrClass = function (pkgName, builder) {
-            var pkg = st.packages[pkgName];
-            if (!pkg) throw new Error("Missing package " + pkgName);
-
             var traitOrClass = globals.hasOwnProperty(builder.className) && globals[builder.className];
             if (traitOrClass) {
-                if (traitOrClass.pkg !== pkg) throw new Error("Incompatible cross-package update of trait or class: " + traitOrClass.className);
+                if (!traitOrClass.pkg) throw new Error("Updated trait or class must have package: " + traitOrClass.className);
+                if (traitOrClass.pkg.pkgName !== pkgName) throw new Error("Incompatible cross-package update of trait or class: " + traitOrClass.className);
                 builder.updateExisting(traitOrClass);
             } else {
+                var pkg = st.packages[pkgName];
+                if (!pkg) throw new Error("Missing package " + pkgName);
                 traitOrClass = builder.make();
                 traitOrClass.pkg = pkg;
+                addTraitOrClass(traitOrClass);
             }
 
-            addTraitOrClass(traitOrClass);
             return traitOrClass;
         };
 
