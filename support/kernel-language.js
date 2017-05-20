@@ -117,8 +117,7 @@ define(['./compatibility' /* TODO remove */], function () {
                     setupMethods(that);
                     return that;
                 },
-                updateExisting: function (trait, pkg) {
-                    if (pkg) trait.pkg = pkg;
+                updateExisting: function (trait) {
                 }
             };
         }
@@ -239,10 +238,9 @@ define(['./compatibility' /* TODO remove */], function () {
             return {
                 className: className,
                 make: klass,
-                updateExisting: function (klass, pkg) {
+                updateExisting: function (klass) {
                     if (klass.superclass == logicalSuperclass && (!fn || fn === klass.fn)) {
                         if (iVarNames) klass.iVarNames = iVarNames;
-                        if (pkg) klass.pkg = pkg;
                     } else throw new Error("Incompatible change of class: " + klass.className);
                 }
             };
