@@ -204,7 +204,8 @@ define(['./compatibility' /* TODO remove */], function () {
                 if (traitOrClass.pkg !== pkg) throw new Error("Incompatible cross-package update of trait or class: " + traitOrClass.className);
                 builder.updateExisting(traitOrClass);
             } else {
-                traitOrClass = builder.make(pkg);
+                traitOrClass = builder.make();
+                traitOrClass.pkg = pkg;
             }
 
             addTraitOrClass(traitOrClass);

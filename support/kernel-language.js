@@ -109,10 +109,9 @@ define(['./compatibility' /* TODO remove */], function () {
         function traitBuilder (className) {
             return {
                 className: className,
-                make: function (pkg) {
+                make: function () {
                     var that = new SmalltalkTrait();
                     that.className = className;
-                    that.pkg = pkg;
                     that.traitUsers = [];
                     setupMethods(that);
                     return that;
@@ -204,7 +203,7 @@ define(['./compatibility' /* TODO remove */], function () {
                 logicalSuperclass = null;
             }
 
-            function klass (pkg) {
+            function klass () {
                 var that = metaclass().instanceClass;
 
                 that.superclass = logicalSuperclass;
@@ -213,7 +212,6 @@ define(['./compatibility' /* TODO remove */], function () {
                 that.iVarNames = iVarNames || [];
 
                 that.className = className;
-                that.pkg = pkg;
                 that.subclasses = [];
 
                 setupMethods(that);
