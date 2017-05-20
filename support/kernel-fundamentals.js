@@ -91,7 +91,6 @@ define(['./compatibility' /* TODO remove */], function () {
         var SmalltalkObject = brikz.root.Object;
         var coreFns = brikz.root.coreFns;
         var addElement = brikz.arraySet.addElement;
-        var removeElement = brikz.arraySet.removeElement;
 
         function SmalltalkOrganizer () {
         }
@@ -119,10 +118,6 @@ define(['./compatibility' /* TODO remove */], function () {
 
         this.addOrganizationElement = function (owner, element) {
             addElement(owner.organization.elements, element);
-        };
-
-        this.removeOrganizationElement = function (owner, element) {
-            removeElement(owner.organization.elements, element);
         };
     }
 
@@ -190,10 +185,8 @@ define(['./compatibility' /* TODO remove */], function () {
         };
     }
 
-    BehaviorsBrik.deps = ["organize", "root", "smalltalkGlobals", "arraySet"];
+    BehaviorsBrik.deps = ["root", "smalltalkGlobals", "arraySet"];
     function BehaviorsBrik (brikz, st) {
-        var addOrganizationElement = brikz.organize.addOrganizationElement;
-        var removeOrganizationElement = brikz.organize.removeOrganizationElement;
         var globals = brikz.smalltalkGlobals.globals;
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
@@ -221,13 +214,11 @@ define(['./compatibility' /* TODO remove */], function () {
         function addTraitOrClass (traitOrClass) {
             globals[traitOrClass.className] = traitOrClass;
             addElement(classes, traitOrClass);
-            addOrganizationElement(traitOrClass.pkg, traitOrClass);
             traitOrClass.added();
         }
 
         function removeTraitOrClass (traitOrClass) {
             traitOrClass.removed();
-            removeOrganizationElement(traitOrClass.pkg, traitOrClass);
             removeElement(classes, traitOrClass);
             delete globals[traitOrClass.className];
         }

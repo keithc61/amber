@@ -9,6 +9,8 @@
   * ErrorHandler class >> handleError:
   * JSObjectProxy class >> on:
   * NonBooleanReceiver class >> signalOn:
+  * TMasterBehavior >> enterOrganization
+  * TMasterBehavior >> leaveOrganization
 
 Commits: https://lolg.it/amber/amber/commits/0.19.1.
 

@@ -3254,6 +3254,64 @@ $globals.TMasterBehavior);
 
 $core.addMethod(
 $core.method({
+selector: "enterOrganization",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $receiver;
+if(($receiver = $globals.Smalltalk) == null || $receiver.a$nil){
+$globals.Smalltalk;
+} else {
+$recv($recv($self._package())._organization())._addElement_(self);
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"enterOrganization",{},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "enterOrganization\x0a\x09Smalltalk ifNotNil: [\x0a\x09\x09self package organization addElement: self ]",
+referencedClasses: ["Smalltalk"],
+//>>excludeEnd("ide");
+messageSends: ["ifNotNil:", "addElement:", "organization", "package"]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
+selector: "leaveOrganization",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $receiver;
+if(($receiver = $globals.Smalltalk) == null || $receiver.a$nil){
+$globals.Smalltalk;
+} else {
+$recv($recv($self._package())._organization())._removeElement_(self);
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"leaveOrganization",{},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "leaveOrganization\x0a\x09Smalltalk ifNotNil: [\x0a\x09\x09self package organization removeElement: self ]",
+referencedClasses: ["Smalltalk"],
+//>>excludeEnd("ide");
+messageSends: ["ifNotNil:", "removeElement:", "organization", "package"]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
 selector: "name",
 protocol: "accessing",
 fn: function (){
@@ -3309,7 +3367,7 @@ var oldPackage;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1,$3,$4,$6,$5;
+var $2,$1,$3,$5,$4;
 $2=$self._package();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["package"]=1;
@@ -3319,19 +3377,15 @@ if($core.assert($1)){
 return self;
 }
 oldPackage=$self._package();
+$self._leaveOrganization();
 $self._basicAt_put_("pkg",aPackage);
-$3=$recv(oldPackage)._organization();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["organization"]=1;
-//>>excludeEnd("ctx");
-$recv($3)._removeElement_(self);
-$recv($recv(aPackage)._organization())._addElement_(self);
-$4=$recv($globals.SystemAnnouncer)._current();
-$6=$recv($globals.ClassMoved)._new();
-$recv($6)._theClass_(self);
-$recv($6)._oldPackage_(oldPackage);
-$5=$recv($6)._yourself();
-$recv($4)._announce_($5);
+$self._enterOrganization();
+$3=$recv($globals.SystemAnnouncer)._current();
+$5=$recv($globals.ClassMoved)._new();
+$recv($5)._theClass_(self);
+$recv($5)._oldPackage_(oldPackage);
+$4=$recv($5)._yourself();
+$recv($3)._announce_($4);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"package:",{aPackage:aPackage,oldPackage:oldPackage},$globals.TMasterBehavior)});
@@ -3339,10 +3393,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage"],
-source: "package: aPackage\x0a\x09| oldPackage |\x0a\x09\x0a\x09self package = aPackage ifTrue: [ ^ self ].\x0a\x09\x0a\x09oldPackage := self package.\x0a\x09\x0a\x09self basicAt: 'pkg' put: aPackage.\x0a\x09oldPackage organization removeElement: self.\x0a\x09aPackage organization addElement: self.\x0a\x0a\x09SystemAnnouncer current announce: (ClassMoved new\x0a\x09\x09theClass: self;\x0a\x09\x09oldPackage: oldPackage;\x0a\x09\x09yourself)",
+source: "package: aPackage\x0a\x09| oldPackage |\x0a\x09\x0a\x09self package = aPackage ifTrue: [ ^ self ].\x0a\x09\x0a\x09oldPackage := self package.\x0a\x09\x0a\x09self\x0a\x09\x09leaveOrganization;\x0a\x09\x09basicAt: 'pkg' put: aPackage;\x0a\x09\x09enterOrganization.\x0a\x0a\x09SystemAnnouncer current announce: (ClassMoved new\x0a\x09\x09theClass: self;\x0a\x09\x09oldPackage: oldPackage;\x0a\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassMoved"],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:", "=", "package", "basicAt:put:", "removeElement:", "organization", "addElement:", "announce:", "current", "theClass:", "new", "oldPackage:", "yourself"]
+messageSends: ["ifTrue:", "=", "package", "leaveOrganization", "basicAt:put:", "enterOrganization", "announce:", "current", "theClass:", "new", "oldPackage:", "yourself"]
 }),
 $globals.TMasterBehavior);
 

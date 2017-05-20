@@ -92,11 +92,26 @@ define(function () {
             }
         }
 
-        classes().forEach(function (klass) {
-            if (!klass.trait) initClassAndMetaclass(klass);
+        classes().forEach(function (traitOrClass) {
+            if (!traitOrClass.trait) initClassAndMetaclass(traitOrClass);
         });
 
-        st._classAdded = initClassAndMetaclass;
+        st._classAdded = function (klass) {
+            initClassAndMetaclass(klass);
+            klass._enterOrganization();
+        };
+
+        st._traitAdded = function (trait) {
+            trait._enterOrganization();
+        };
+
+        st._classRemoved = function (klass) {
+            klass._leaveOrganization();
+        };
+
+        st._traitRemoved = function (trait) {
+            trait._leaveOrganization();
+        };
 
         function initClass (klass) {
             wireKlass(klass);

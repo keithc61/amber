@@ -10,12 +10,20 @@ initializeClasses
 		each = SmalltalkImage ifFalse: [ each initialize ] ]
 ! !
 
+!AmberBootstrapInitialization class methodsFor: 'organization'!
+
+organizeClasses
+	Smalltalk classes do: [ :each | each enterOrganization ]
+! !
+
 !AmberBootstrapInitialization class methodsFor: 'public api'!
 
 run
 	SmalltalkImage initialize.
 	Smalltalk adoptPackageDictionary.
-	self initializeClasses
+	self
+		organizeClasses;
+		initializeClasses
 ! !
 
 ProtoObject subclass: #JSObjectProxy

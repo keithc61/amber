@@ -829,6 +829,16 @@ comment: aString
 			yourself)
 !
 
+enterOrganization
+	Smalltalk ifNotNil: [
+		self package organization addElement: self ]
+!
+
+leaveOrganization
+	Smalltalk ifNotNil: [
+		self package organization removeElement: self ]
+!
+
 name
 	<inlineJS: 'return self.className'>
 !
@@ -844,9 +854,10 @@ package: aPackage
 	
 	oldPackage := self package.
 	
-	self basicAt: 'pkg' put: aPackage.
-	oldPackage organization removeElement: self.
-	aPackage organization addElement: self.
+	self
+		leaveOrganization;
+		basicAt: 'pkg' put: aPackage;
+		enterOrganization.
 
 	SystemAnnouncer current announce: (ClassMoved new
 		theClass: self;

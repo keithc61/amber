@@ -348,10 +348,20 @@ setUp
 !
 
 tearDown
-	theClass ifNotNil: [ Smalltalk removeClass: theClass. theClass := nil ]
+	theClass ifNotNil: [
+		Smalltalk removeClass: theClass.
+		self deny: (theClass package classes includes: theClass).
+		theClass := nil ]
 ! !
 
 !ClassBuilderTest methodsFor: 'tests'!
+
+testAddTrait
+	theClass := builder addTraitNamed: 'ObjectMock2' package: 'Kernel-Tests'.
+	self assert: theClass name equals: 'ObjectMock2'.
+	self assert: (theClass package classes occurrencesOf: theClass) equals: 1.
+	self assert: theClass package equals: ObjectMock package
+!
 
 testClassCopy
 	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.
@@ -359,6 +369,7 @@ testClassCopy
 	self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.
 	self assert: theClass name equals: 'ObjectMock2'.
 	self assert: theClass package == ObjectMock package.
+	self assert: (theClass package classes includes: theClass).
 	self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys
 !
 
@@ -380,6 +391,7 @@ testClassMigration
 	self assert: ObjectMock2 selectors equals: oldClass selectors.
 	self assert: ObjectMock2 comment equals: oldClass comment.
 	self assert: ObjectMock2 package name equals: 'Kernel-Tests'.
+	self assert: (ObjectMock2 package classes includes: ObjectMock2).
 	
 	self deny: instance class == ObjectMock2.
 	"Commeting this out. Tests implementation detail."
@@ -425,6 +437,16 @@ testClassMigrationWithSubclasses
 
 testInstanceVariableNames
 	self assert: (builder instanceVariableNamesFor: '  hello   world   ') equals: #('hello' 'world')
+!
+
+testSubclass
+	theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' instanceVariableNames: 'foo bar' package: 'Kernel-Tests'.
+	self assert: theClass superclass equals: ObjectMock.
+	self assert: theClass instanceVariableNames equals: 'foo bar'.
+	self assert: theClass name equals: 'ObjectMock2'.
+	self assert: (theClass package classes occurrencesOf: theClass) equals: 1.
+	self assert: theClass package equals: ObjectMock package.
+	self assert: theClass methodDictionary keys size equals: 0
 ! !
 
 TestCase subclass: #ClassTest

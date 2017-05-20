@@ -19,6 +19,9 @@
   + signalOn:
 + SmalltalkImage >>
   + packageDictionary
++ TMasterBehavior >>
+  + enterOrganization
+  + leaveOrganization
 + UndefinedObject >>
   + ==
 

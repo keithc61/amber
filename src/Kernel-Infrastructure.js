@@ -47,6 +47,38 @@ $globals.AmberBootstrapInitialization.a$cls);
 
 $core.addMethod(
 $core.method({
+selector: "organizeClasses",
+protocol: "organization",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv($recv($globals.Smalltalk)._classes())._do_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(each)._enterOrganization();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"organizeClasses",{},$globals.AmberBootstrapInitialization.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "organizeClasses\x0a\x09Smalltalk classes do: [ :each | each enterOrganization ]",
+referencedClasses: ["Smalltalk"],
+//>>excludeEnd("ide");
+messageSends: ["do:", "classes", "enterOrganization"]
+}),
+$globals.AmberBootstrapInitialization.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "run",
 protocol: "public api",
 fn: function (){
@@ -56,6 +88,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $recv($globals.SmalltalkImage)._initialize();
 $recv($globals.Smalltalk)._adoptPackageDictionary();
+$self._organizeClasses();
 $self._initializeClasses();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -64,10 +97,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "run\x0a\x09SmalltalkImage initialize.\x0a\x09Smalltalk adoptPackageDictionary.\x0a\x09self initializeClasses",
+source: "run\x0a\x09SmalltalkImage initialize.\x0a\x09Smalltalk adoptPackageDictionary.\x0a\x09self\x0a\x09\x09organizeClasses;\x0a\x09\x09initializeClasses",
 referencedClasses: ["SmalltalkImage", "Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["initialize", "adoptPackageDictionary", "initializeClasses"]
+messageSends: ["initialize", "adoptPackageDictionary", "organizeClasses", "initializeClasses"]
 }),
 $globals.AmberBootstrapInitialization.a$cls);
 
