@@ -6,7 +6,6 @@ Object subclass: #AmberBootstrapInitialization
 !AmberBootstrapInitialization class methodsFor: 'initialization'!
 
 initializeClasses
-	SmalltalkImage initialize.
 	Smalltalk classes do: [ :each |
 		each = SmalltalkImage ifFalse: [ each initialize ] ]
 ! !
@@ -14,6 +13,8 @@ initializeClasses
 !AmberBootstrapInitialization class methodsFor: 'public api'!
 
 run
+	SmalltalkImage initialize.
+	Smalltalk adoptPackageDictionary.
 	self initializeClasses
 ! !
 
@@ -895,21 +896,21 @@ createPackage: packageName
 !
 
 packageAt: packageName
-	<inlineJS: 'return $core.packages[packageName]'>
+	^ self packageAt: packageName ifAbsent: []
 !
 
 packageAt: packageName ifAbsent: aBlock
-	^ (self packageAt: packageName) ifNil: aBlock
+	^ self packageDictionary at: packageName ifAbsent: aBlock
+!
+
+packageDictionary
+	<inlineJS: 'return $core.packages'>
 !
 
 packages
 	"Return all Package instances in the system."
 
-	<inlineJS: '
-		return Object.keys($core.packages).map(function(k) {
-			return $core.packages[k];
-		})
-	'>
+	^ self packageDictionary values copy
 !
 
 removePackage: packageName
@@ -919,7 +920,7 @@ removePackage: packageName
 	pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].
 	pkg classes do: [ :each |
 			self removeClass: each ].
-	self deletePackage: packageName
+	self packageDictionary removeKey: packageName
 !
 
 renamePackage: packageName to: newName
@@ -929,11 +930,16 @@ renamePackage: packageName to: newName
 	pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].
 	(self packageAt: newName) ifNotNil: [ self error: 'Already exists a package called: ', newName ].
 	pkg name: newName.
-	self basicRegisterPackage: pkg.
-	self deletePackage: packageName.
+	self packageDictionary
+		at: newName put: pkg;
+		removeKey: packageName
 ! !
 
 !SmalltalkImage methodsFor: 'private'!
+
+adoptPackageDictionary
+	<inlineJS: '$core.packages=self._readJSObject_($core.packages)._asHashedCollection()'>
+!
 
 basicCreatePackage: packageName
 	"Create and bind a new bare package with given name and return it."
@@ -944,22 +950,10 @@ basicParse: aString
 	^ SmalltalkParser parse: aString
 !
 
-basicRegisterPackage: aPackage
-	"Put aPackage in $core.packages object."
-	<inlineJS: '$core.packages[aPackage.pkgName]=aPackage'>
-!
-
 deleteClass: aClass
 	"Deletes a class by deleting its binding only. Use #removeClass instead"
 	
 	<inlineJS: '$core.removeClass(aClass)'>
-!
-
-deletePackage: packageName
-	"Deletes a package by deleting its binding, but does not check if it contains classes etc.
-	To remove a package, use #removePackage instead."
-
-	<inlineJS: 'delete $core.packages[packageName]'>
 !
 
 legacyGlobalJsVariables

@@ -19,10 +19,6 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$recv($globals.SmalltalkImage)._initialize();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["initialize"]=1;
-//>>excludeEnd("ctx");
 $recv($recv($globals.Smalltalk)._classes())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -42,10 +38,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "initializeClasses\x0a\x09SmalltalkImage initialize.\x0a\x09Smalltalk classes do: [ :each |\x0a\x09\x09each = SmalltalkImage ifFalse: [ each initialize ] ]",
-referencedClasses: ["SmalltalkImage", "Smalltalk"],
+source: "initializeClasses\x0a\x09Smalltalk classes do: [ :each |\x0a\x09\x09each = SmalltalkImage ifFalse: [ each initialize ] ]",
+referencedClasses: ["Smalltalk", "SmalltalkImage"],
 //>>excludeEnd("ide");
-messageSends: ["initialize", "do:", "classes", "ifFalse:", "="]
+messageSends: ["do:", "classes", "ifFalse:", "=", "initialize"]
 }),
 $globals.AmberBootstrapInitialization.a$cls);
 
@@ -58,6 +54,8 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+$recv($globals.SmalltalkImage)._initialize();
+$recv($globals.Smalltalk)._adoptPackageDictionary();
 $self._initializeClasses();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -66,10 +64,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "run\x0a\x09self initializeClasses",
-referencedClasses: [],
+source: "run\x0a\x09SmalltalkImage initialize.\x0a\x09Smalltalk adoptPackageDictionary.\x0a\x09self initializeClasses",
+referencedClasses: ["SmalltalkImage", "Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["initializeClasses"]
+messageSends: ["initialize", "adoptPackageDictionary", "initializeClasses"]
 }),
 $globals.AmberBootstrapInitialization.a$cls);
 
@@ -2635,6 +2633,30 @@ $globals.SmalltalkImage);
 
 $core.addMethod(
 $core.method({
+selector: "adoptPackageDictionary",
+protocol: "private",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$core.packages=self._readJSObject_($core.packages)._asHashedCollection();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"adoptPackageDictionary",{},$globals.SmalltalkImage)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "adoptPackageDictionary\x0a\x09<inlineJS: '$core.packages=self._readJSObject_($core.packages)._asHashedCollection()'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
 selector: "amdRequire",
 protocol: "accessing amd",
 fn: function (){
@@ -2737,30 +2759,6 @@ source: "basicParse: aString\x0a\x09^ SmalltalkParser parse: aString",
 referencedClasses: ["SmalltalkParser"],
 //>>excludeEnd("ide");
 messageSends: ["parse:"]
-}),
-$globals.SmalltalkImage);
-
-$core.addMethod(
-$core.method({
-selector: "basicRegisterPackage:",
-protocol: "private",
-fn: function (aPackage){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$core.packages[aPackage.pkgName]=aPackage;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicRegisterPackage:",{aPackage:aPackage},$globals.SmalltalkImage)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aPackage"],
-source: "basicRegisterPackage: aPackage\x0a\x09\x22Put aPackage in $core.packages object.\x22\x0a\x09<inlineJS: '$core.packages[aPackage.pkgName]=aPackage'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
 }),
 $globals.SmalltalkImage);
 
@@ -2965,30 +2963,6 @@ $globals.SmalltalkImage);
 
 $core.addMethod(
 $core.method({
-selector: "deletePackage:",
-protocol: "private",
-fn: function (packageName){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-delete $core.packages[packageName];
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"deletePackage:",{packageName:packageName},$globals.SmalltalkImage)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["packageName"],
-source: "deletePackage: packageName\x0a\x09\x22Deletes a package by deleting its binding, but does not check if it contains classes etc.\x0a\x09To remove a package, use #removePackage instead.\x22\x0a\x0a\x09<inlineJS: 'delete $core.packages[packageName]'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.SmalltalkImage);
-
-$core.addMethod(
-$core.method({
 selector: "existsJsGlobal:",
 protocol: "testing",
 fn: function (aString){
@@ -3175,18 +3149,19 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $core.packages[packageName];
-return self;
+return $self._packageAt_ifAbsent_(packageName,(function(){
+
+}));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"packageAt:",{packageName:packageName},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["packageName"],
-source: "packageAt: packageName\x0a\x09<inlineJS: 'return $core.packages[packageName]'>",
+source: "packageAt: packageName\x0a\x09^ self packageAt: packageName ifAbsent: []",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["packageAt:ifAbsent:"]
 }),
 $globals.SmalltalkImage);
 
@@ -3199,19 +3174,41 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$self._packageAt_(packageName);
-return $recv($1)._ifNil_(aBlock);
+return $recv($self._packageDictionary())._at_ifAbsent_(packageName,aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"packageAt:ifAbsent:",{packageName:packageName,aBlock:aBlock},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["packageName", "aBlock"],
-source: "packageAt: packageName ifAbsent: aBlock\x0a\x09^ (self packageAt: packageName) ifNil: aBlock",
+source: "packageAt: packageName ifAbsent: aBlock\x0a\x09^ self packageDictionary at: packageName ifAbsent: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifNil:", "packageAt:"]
+messageSends: ["at:ifAbsent:", "packageDictionary"]
+}),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
+selector: "packageDictionary",
+protocol: "packages",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $core.packages;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"packageDictionary",{},$globals.SmalltalkImage)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "packageDictionary\x0a\x09<inlineJS: 'return $core.packages'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
 }),
 $globals.SmalltalkImage);
 
@@ -3224,22 +3221,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-
-		return Object.keys($core.packages).map(function(k) {
-			return $core.packages[k];
-		})
-	;
-return self;
+return $recv($recv($self._packageDictionary())._values())._copy();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"packages",{},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "packages\x0a\x09\x22Return all Package instances in the system.\x22\x0a\x0a\x09<inlineJS: '\x0a\x09\x09return Object.keys($core.packages).map(function(k) {\x0a\x09\x09\x09return $core.packages[k];\x0a\x09\x09})\x0a\x09'>",
+source: "packages\x0a\x09\x22Return all Package instances in the system.\x22\x0a\x0a\x09^ self packageDictionary values copy",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["copy", "values", "packageDictionary"]
 }),
 $globals.SmalltalkImage);
 
@@ -3488,7 +3480,7 @@ return $self._removeClass_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
-$self._deletePackage_(packageName);
+$recv($self._packageDictionary())._removeKey_(packageName);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"removePackage:",{packageName:packageName,pkg:pkg},$globals.SmalltalkImage)});
@@ -3496,10 +3488,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["packageName"],
-source: "removePackage: packageName\x0a\x09\x22Removes a package and all its classes.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09pkg classes do: [ :each |\x0a\x09\x09\x09self removeClass: each ].\x0a\x09self deletePackage: packageName",
+source: "removePackage: packageName\x0a\x09\x22Removes a package and all its classes.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09pkg classes do: [ :each |\x0a\x09\x09\x09self removeClass: each ].\x0a\x09self packageDictionary removeKey: packageName",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["packageAt:ifAbsent:", "error:", ",", "do:", "classes", "removeClass:", "deletePackage:"]
+messageSends: ["packageAt:ifAbsent:", "error:", ",", "do:", "classes", "removeClass:", "removeKey:", "packageDictionary"]
 }),
 $globals.SmalltalkImage);
 
@@ -3513,7 +3505,7 @@ var pkg;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $1,$2,$3,$receiver;
 pkg=$self._packageAt_ifAbsent_(packageName,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -3537,8 +3529,9 @@ $2;
 $self._error_("Already exists a package called: ".__comma(newName));
 }
 $recv(pkg)._name_(newName);
-$self._basicRegisterPackage_(pkg);
-$self._deletePackage_(packageName);
+$3=$self._packageDictionary();
+$recv($3)._at_put_(newName,pkg);
+$recv($3)._removeKey_(packageName);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"renamePackage:to:",{packageName:packageName,newName:newName,pkg:pkg},$globals.SmalltalkImage)});
@@ -3546,10 +3539,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["packageName", "newName"],
-source: "renamePackage: packageName to: newName\x0a\x09\x22Rename a package.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09(self packageAt: newName) ifNotNil: [ self error: 'Already exists a package called: ', newName ].\x0a\x09pkg name: newName.\x0a\x09self basicRegisterPackage: pkg.\x0a\x09self deletePackage: packageName.",
+source: "renamePackage: packageName to: newName\x0a\x09\x22Rename a package.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09(self packageAt: newName) ifNotNil: [ self error: 'Already exists a package called: ', newName ].\x0a\x09pkg name: newName.\x0a\x09self packageDictionary\x0a\x09\x09at: newName put: pkg;\x0a\x09\x09removeKey: packageName",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["packageAt:ifAbsent:", "error:", ",", "ifNotNil:", "packageAt:", "name:", "basicRegisterPackage:", "deletePackage:"]
+messageSends: ["packageAt:ifAbsent:", "error:", ",", "ifNotNil:", "packageAt:", "name:", "at:put:", "packageDictionary", "removeKey:"]
 }),
 $globals.SmalltalkImage);
 

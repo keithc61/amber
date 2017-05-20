@@ -17,6 +17,8 @@
   + stubToAtMost:
 + NonBooleanReceiver class >>
   + signalOn:
++ SmalltalkImage >>
+  + packageDictionary
 + UndefinedObject >>
   + ==
 
