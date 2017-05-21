@@ -280,6 +280,13 @@ Organizer subclass: #PackageOrganizer
 !PackageOrganizer commentStamp!
 I am an organizer specific to packages. I hold classes categorization information.!
 
+!PackageOrganizer methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	self basicAt: 'elements' put: #()
+! !
+
 Object subclass: #Package
 	instanceVariableNames: 'transport imports dirty'
 	package: 'Kernel-Infrastructure'!
@@ -459,6 +466,17 @@ traitCompositions
 	^ traitCompositions reject: [ :each | each isEmpty ]
 ! !
 
+!Package methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+
+	self basicAt: 'organization' put: PackageOrganizer new.
+	dirty := nil.
+	imports := nil.
+	transport := nil
+! !
+
 !Package methodsFor: 'printing'!
 
 printOn: aStream
@@ -547,6 +565,19 @@ named: aPackageName imports: anArray transport: aTransport
 	^ package
 !
 
+named: aPackageName options: anObject
+	| package |
+	
+	package := self named: aPackageName.
+	package basicAt: 'innerEval' put:
+		(anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ]).
+	package basicAt: 'imports' put:
+		(anObject at: 'imports' ifAbsent: [ #() ]).
+	package basicAt: 'transport' put:
+		(anObject at: 'transport' ifAbsent: []).
+	^ package
+!
+
 named: aPackageName transport: aTransport
 	| package |
 	
@@ -554,6 +585,14 @@ named: aPackageName transport: aTransport
 	package transport: aTransport.
 	
 	^ package
+! !
+
+!Package class methodsFor: 'instance creation'!
+
+new: aString
+	^ Package new
+		basicName: aString;
+		yourself
 ! !
 
 !Package class methodsFor: 'sorting'!
@@ -711,7 +750,7 @@ new
 ! !
 
 Object subclass: #SmalltalkImage
-	instanceVariableNames: 'globalJsVariables'
+	instanceVariableNames: 'globalJsVariables packageDictionary'
 	package: 'Kernel-Infrastructure'!
 !SmalltalkImage commentStamp!
 I represent the Smalltalk system, wrapping
@@ -912,7 +951,7 @@ packageAt: packageName ifAbsent: aBlock
 !
 
 packageDictionary
-	<inlineJS: 'return $core.packages'>
+	^ packageDictionary ifNil: [ packageDictionary := Dictionary new ]
 !
 
 packages
@@ -946,12 +985,12 @@ renamePackage: packageName to: newName
 !SmalltalkImage methodsFor: 'private'!
 
 adoptPackageDictionary
-	<inlineJS: '$core.packages=self._readJSObject_($core.packages)._asHashedCollection()'>
+	self core packages keysAndValuesDo: [ :key :value | Package named: key options: value ]
 !
 
 basicCreatePackage: packageName
 	"Create and bind a new bare package with given name and return it."
-	<inlineJS: 'return $core.addPackage(packageName)'>
+	^ self packageDictionary at: packageName put: (Package new: packageName)
 !
 
 basicParse: aString

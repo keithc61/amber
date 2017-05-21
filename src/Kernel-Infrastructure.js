@@ -931,6 +931,38 @@ $core.addClass("PackageOrganizer", $globals.Organizer, [], "Kernel-Infrastructur
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageOrganizer.comment="I am an organizer specific to packages. I hold classes categorization information.";
 //>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "initialize",
+protocol: "initialization",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.PackageOrganizer.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+$self._basicAt_put_("elements",[]);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.PackageOrganizer)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "initialize\x0a\x09super initialize.\x0a\x09self basicAt: 'elements' put: #()",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["initialize", "basicAt:put:"]
+}),
+$globals.PackageOrganizer);
+
 
 
 $core.addClass("Package", $globals.Object, ["transport", "imports", "dirty"], "Kernel-Infrastructure");
@@ -1402,6 +1434,41 @@ source: "importsFromJson: anArray\x0a\x09\x22Parses array of string, eg. #('asdf
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["collect:", "tokenize:", "ifTrue:ifFalse:", "=", "size", "first", "->", "second"]
+}),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
+selector: "initialize",
+protocol: "initialization",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.Package.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+$self._basicAt_put_("organization",$recv($globals.PackageOrganizer)._new());
+$self["@dirty"]=nil;
+$self["@imports"]=nil;
+$self["@transport"]=nil;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Package)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "initialize\x0a\x09super initialize.\x0a\x0a\x09self basicAt: 'organization' put: PackageOrganizer new.\x0a\x09dirty := nil.\x0a\x09imports := nil.\x0a\x09transport := nil",
+referencedClasses: ["PackageOrganizer"],
+//>>excludeEnd("ide");
+messageSends: ["initialize", "basicAt:put:", "new"]
 }),
 $globals.Package);
 
@@ -2088,6 +2155,64 @@ $globals.Package.a$cls);
 
 $core.addMethod(
 $core.method({
+selector: "named:options:",
+protocol: "accessing",
+fn: function (aPackageName,anObject){
+var self=this,$self=this;
+var package_;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$3,$4;
+package_=$self._named_(aPackageName);
+$1=package_;
+$2=$recv(anObject)._at_ifAbsent_("innerEval",(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return nil._asJavaScriptObject();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:ifAbsent:"]=1;
+//>>excludeEnd("ctx");
+$recv($1)._basicAt_put_("innerEval",$2);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["basicAt:put:"]=1;
+//>>excludeEnd("ctx");
+$3=package_;
+$4=$recv(anObject)._at_ifAbsent_("imports",(function(){
+return [];
+
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:ifAbsent:"]=2;
+//>>excludeEnd("ctx");
+$recv($3)._basicAt_put_("imports",$4);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["basicAt:put:"]=2;
+//>>excludeEnd("ctx");
+$recv(package_)._basicAt_put_("transport",$recv(anObject)._at_ifAbsent_("transport",(function(){
+
+})));
+return package_;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"named:options:",{aPackageName:aPackageName,anObject:anObject,package_:package_},$globals.Package.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aPackageName", "anObject"],
+source: "named: aPackageName options: anObject\x0a\x09| package |\x0a\x09\x0a\x09package := self named: aPackageName.\x0a\x09package basicAt: 'innerEval' put:\x0a\x09\x09(anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ]).\x0a\x09package basicAt: 'imports' put:\x0a\x09\x09(anObject at: 'imports' ifAbsent: [ #() ]).\x0a\x09package basicAt: 'transport' put:\x0a\x09\x09(anObject at: 'transport' ifAbsent: []).\x0a\x09^ package",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["named:", "basicAt:put:", "at:ifAbsent:", "asJavaScriptObject"]
+}),
+$globals.Package.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "named:transport:",
 protocol: "accessing",
 fn: function (aPackageName,aTransport){
@@ -2109,6 +2234,32 @@ source: "named: aPackageName transport: aTransport\x0a\x09| package |\x0a\x09\x0
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["named:", "transport:"]
+}),
+$globals.Package.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "new:",
+protocol: "instance creation",
+fn: function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($globals.Package)._new();
+$recv($1)._basicName_(aString);
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"new:",{aString:aString},$globals.Package.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "new: aString\x0a\x09^ Package new\x0a\x09\x09basicName: aString;\x0a\x09\x09yourself",
+referencedClasses: ["Package"],
+//>>excludeEnd("ide");
+messageSends: ["basicName:", "new", "yourself"]
 }),
 $globals.Package.a$cls);
 
@@ -2636,7 +2787,7 @@ messageSends: ["shouldNotImplement"]
 $globals.Setting.a$cls);
 
 
-$core.addClass("SmalltalkImage", $globals.Object, ["globalJsVariables"], "Kernel-Infrastructure");
+$core.addClass("SmalltalkImage", $globals.Object, ["globalJsVariables", "packageDictionary"], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SmalltalkImage.comment="I represent the Smalltalk system, wrapping\x0aoperations of variable `$core` declared in `support/boot.js`.\x0a\x0a## API\x0a\x0aI have only one instance, accessed with global variable `Smalltalk`.\x0a\x0a## Classes\x0a\x0aClasses can be accessed using the following methods:\x0a\x0a- `#classes` answers the full list of Smalltalk classes in the system\x0a- `#globals #at:` answers a specific global (usually, a class) or `nil`\x0a\x0a## Packages\x0a\x0aPackages can be accessed using the following methods:\x0a\x0a- `#packages` answers the full list of packages\x0a- `#packageAt:` answers a specific package or `nil`\x0a\x0a## Parsing\x0a\x0aThe `#parse:` method is used to parse Amber source code.\x0aIt requires the `Compiler` package and the `support/parser.js` parser file in order to work.";
 //>>excludeEnd("ide");
@@ -2673,7 +2824,15 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$core.packages=self._readJSObject_($core.packages)._asHashedCollection();
+$recv($recv($self._core())._packages())._keysAndValuesDo_((function(key,value){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($globals.Package)._named_options_(key,value);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"adoptPackageDictionary",{},$globals.SmalltalkImage)});
@@ -2681,10 +2840,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "adoptPackageDictionary\x0a\x09<inlineJS: '$core.packages=self._readJSObject_($core.packages)._asHashedCollection()'>",
-referencedClasses: [],
+source: "adoptPackageDictionary\x0a\x09self core packages keysAndValuesDo: [ :key :value | Package named: key options: value ]",
+referencedClasses: ["Package"],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["keysAndValuesDo:", "packages", "core", "named:options:"]
 }),
 $globals.SmalltalkImage);
 
@@ -2757,18 +2916,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $core.addPackage(packageName);
-return self;
+return $recv($self._packageDictionary())._at_put_(packageName,$recv($globals.Package)._new_(packageName));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"basicCreatePackage:",{packageName:packageName},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["packageName"],
-source: "basicCreatePackage: packageName\x0a\x09\x22Create and bind a new bare package with given name and return it.\x22\x0a\x09<inlineJS: 'return $core.addPackage(packageName)'>",
-referencedClasses: [],
+source: "basicCreatePackage: packageName\x0a\x09\x22Create and bind a new bare package with given name and return it.\x22\x0a\x09^ self packageDictionary at: packageName put: (Package new: packageName)",
+referencedClasses: ["Package"],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["at:put:", "packageDictionary", "new:"]
 }),
 $globals.SmalltalkImage);
 
@@ -3230,18 +3388,24 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $core.packages;
-return self;
+var $1,$receiver;
+$1=$self["@packageDictionary"];
+if(($receiver = $1) == null || $receiver.a$nil){
+$self["@packageDictionary"]=$recv($globals.Dictionary)._new();
+return $self["@packageDictionary"];
+} else {
+return $1;
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"packageDictionary",{},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "packageDictionary\x0a\x09<inlineJS: 'return $core.packages'>",
-referencedClasses: [],
+source: "packageDictionary\x0a\x09^ packageDictionary ifNil: [ packageDictionary := Dictionary new ]",
+referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["ifNil:", "new"]
 }),
 $globals.SmalltalkImage);
 

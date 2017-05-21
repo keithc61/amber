@@ -95,25 +95,16 @@ define(['./compatibility' /* TODO remove */], function () {
         function SmalltalkOrganizer () {
         }
 
-        function SmalltalkPackageOrganizer () {
-            this.elements = [];
-        }
-
         function SmalltalkClassOrganizer () {
             this.elements = [];
         }
 
         coreFns.Organizer = inherits(SmalltalkOrganizer, SmalltalkObject);
-        coreFns.PackageOrganizer = inherits(SmalltalkPackageOrganizer, SmalltalkOrganizer);
         coreFns.ClassOrganizer = inherits(SmalltalkClassOrganizer, SmalltalkOrganizer);
 
         this.setupClassOrganization = function (traitOrBehavior) {
             traitOrBehavior.organization = new SmalltalkClassOrganizer();
             traitOrBehavior.organization.theClass = traitOrBehavior;
-        };
-
-        this.setupPackageOrganization = function (pkg) {
-            pkg.organization = new SmalltalkPackageOrganizer();
         };
 
         this.addOrganizationElement = function (owner, element) {
@@ -142,46 +133,17 @@ define(['./compatibility' /* TODO remove */], function () {
         };
     }
 
-    PackagesBrik.deps = ["organize", "root"];
     function PackagesBrik (brikz, st) {
-        var setupPackageOrganization = brikz.organize.setupPackageOrganization;
-        var SmalltalkObject = brikz.root.Object;
-        var coreFns = brikz.root.coreFns;
-
-        function SmalltalkPackage () {
-        }
-
-        coreFns.Package = inherits(SmalltalkPackage, SmalltalkObject);
-
         st.packages = {};
 
-        /* Smalltalk package creation. To add a Package, use smalltalk.addPackage() */
-
-        function pkg (spec) {
-            var that = new SmalltalkPackage();
-            that.pkgName = spec.pkgName;
-            setupPackageOrganization(that);
-            that.properties = spec.properties || {};
-            return that;
-        }
-
-        /* Add a package to the system, creating a new one if needed.
-         If pkgName is null or empty we return nil.
-         If package already exists we still update the properties of it. */
+        /* Add a package load descriptor to the system */
 
         st.addPackage = function (pkgName, properties) {
             if (!pkgName) return null;
-            if (!st.packages[pkgName]) {
-                st.packages[pkgName] = pkg({
-                    pkgName: pkgName,
-                    properties: properties
-                });
-            } else {
-                if (properties) {
-                    st.packages[pkgName].properties = properties;
-                }
-            }
-            return st.packages[pkgName];
+            return st.packages[pkgName] = {
+                pkgName: pkgName,
+                properties: properties
+            };
         };
     }
 
@@ -202,10 +164,8 @@ define(['./compatibility' /* TODO remove */], function () {
                 if (traitOrClass.pkg.pkgName !== pkgName) throw new Error("Incompatible cross-package update of trait or class: " + traitOrClass.className);
                 builder.updateExisting(traitOrClass);
             } else {
-                var pkg = st.packages[pkgName];
-                if (!pkg) throw new Error("Missing package " + pkgName);
                 traitOrClass = builder.make();
-                traitOrClass.pkg = pkg;
+                traitOrClass.pkg = pkgName;
                 addTraitOrClass(traitOrClass);
             }
 

@@ -831,6 +831,7 @@ comment: aString
 
 enterOrganization
 	Smalltalk ifNotNil: [
+		self package isString ifTrue: [ self basicAt: 'pkg' put: (Package named: self package) ].
 		self package organization addElement: self ]
 !
 

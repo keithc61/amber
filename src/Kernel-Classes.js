@@ -3261,10 +3261,23 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $receiver;
+var $2,$1,$4,$3,$receiver;
 if(($receiver = $globals.Smalltalk) == null || $receiver.a$nil){
 $globals.Smalltalk;
 } else {
+$2=$self._package();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["package"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2)._isString();
+if($core.assert($1)){
+$4=$self._package();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["package"]=2;
+//>>excludeEnd("ctx");
+$3=$recv($globals.Package)._named_($4);
+$self._basicAt_put_("pkg",$3);
+}
 $recv($recv($self._package())._organization())._addElement_(self);
 }
 return self;
@@ -3274,10 +3287,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "enterOrganization\x0a\x09Smalltalk ifNotNil: [\x0a\x09\x09self package organization addElement: self ]",
-referencedClasses: ["Smalltalk"],
+source: "enterOrganization\x0a\x09Smalltalk ifNotNil: [\x0a\x09\x09self package isString ifTrue: [ self basicAt: 'pkg' put: (Package named: self package) ].\x0a\x09\x09self package organization addElement: self ]",
+referencedClasses: ["Smalltalk", "Package"],
 //>>excludeEnd("ide");
-messageSends: ["ifNotNil:", "addElement:", "organization", "package"]
+messageSends: ["ifNotNil:", "ifTrue:", "isString", "package", "basicAt:put:", "named:", "addElement:", "organization"]
 }),
 $globals.TMasterBehavior);
 
