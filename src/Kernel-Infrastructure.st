@@ -943,6 +943,7 @@ createPackage: packageName
 !
 
 packageAt: packageName
+	self deprecatedAPI: 'Use #packageAt:ifAbsent: directly.'.
 	^ self packageAt: packageName ifAbsent: []
 !
 
@@ -975,7 +976,7 @@ renamePackage: packageName to: newName
 
 	| pkg |
 	pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].
-	(self packageAt: newName) ifNotNil: [ self error: 'Already exists a package called: ', newName ].
+	self packageAt: newName ifAbsent: [ self error: 'Already exists a package called: ', newName ].
 	pkg name: newName.
 	self packageDictionary
 		at: newName put: pkg;

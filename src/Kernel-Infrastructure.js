@@ -3340,6 +3340,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+$self._deprecatedAPI_("Use #packageAt:ifAbsent: directly.");
 return $self._packageAt_ifAbsent_(packageName,(function(){
 
 }));
@@ -3349,10 +3350,10 @@ return $self._packageAt_ifAbsent_(packageName,(function(){
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["packageName"],
-source: "packageAt: packageName\x0a\x09^ self packageAt: packageName ifAbsent: []",
+source: "packageAt: packageName\x0a\x09self deprecatedAPI: 'Use #packageAt:ifAbsent: directly.'.\x0a\x09^ self packageAt: packageName ifAbsent: []",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["packageAt:ifAbsent:"]
+messageSends: ["deprecatedAPI:", "packageAt:ifAbsent:"]
 }),
 $globals.SmalltalkImage);
 
@@ -3709,7 +3710,7 @@ var pkg;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$receiver;
+var $1,$2;
 pkg=$self._packageAt_ifAbsent_(packageName,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -3726,16 +3727,22 @@ $ctx2.sendIdx["error:"]=1;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-$2=$self._packageAt_(newName);
-if(($receiver = $2) == null || $receiver.a$nil){
-$2;
-} else {
-$self._error_("Already exists a package called: ".__comma(newName));
-}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["packageAt:ifAbsent:"]=1;
+//>>excludeEnd("ctx");
+$self._packageAt_ifAbsent_(newName,(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._error_("Already exists a package called: ".__comma(newName));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
 $recv(pkg)._name_(newName);
-$3=$self._packageDictionary();
-$recv($3)._at_put_(newName,pkg);
-$recv($3)._removeKey_(packageName);
+$2=$self._packageDictionary();
+$recv($2)._at_put_(newName,pkg);
+$recv($2)._removeKey_(packageName);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"renamePackage:to:",{packageName:packageName,newName:newName,pkg:pkg},$globals.SmalltalkImage)});
@@ -3743,10 +3750,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["packageName", "newName"],
-source: "renamePackage: packageName to: newName\x0a\x09\x22Rename a package.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09(self packageAt: newName) ifNotNil: [ self error: 'Already exists a package called: ', newName ].\x0a\x09pkg name: newName.\x0a\x09self packageDictionary\x0a\x09\x09at: newName put: pkg;\x0a\x09\x09removeKey: packageName",
+source: "renamePackage: packageName to: newName\x0a\x09\x22Rename a package.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09self packageAt: newName ifAbsent: [ self error: 'Already exists a package called: ', newName ].\x0a\x09pkg name: newName.\x0a\x09self packageDictionary\x0a\x09\x09at: newName put: pkg;\x0a\x09\x09removeKey: packageName",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["packageAt:ifAbsent:", "error:", ",", "ifNotNil:", "packageAt:", "name:", "at:put:", "packageDictionary", "removeKey:"]
+messageSends: ["packageAt:ifAbsent:", "error:", ",", "name:", "at:put:", "packageDictionary", "removeKey:"]
 }),
 $globals.SmalltalkImage);
 
