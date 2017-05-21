@@ -318,6 +318,7 @@ define(['./compatibility' /* TODO remove */], function () {
             });
         }
 
+        // TODO move trait transformation application to own brik in kernel-languages.js
         function fillTraitTransformation (traitTransformation, obj) {
             // assert(Object.getOwnProperties(obj).length === 0)
             var traitMethods = traitTransformation.trait.methods;
@@ -368,6 +369,7 @@ define(['./compatibility' /* TODO remove */], function () {
             });
         };
 
+        // TODO move to MethodBrik once organization is fully on st side
         function updateMethod (selector, traitOrBehavior) {
             var oldMethod = traitOrBehavior.methods[selector],
                 newMethod = traitOrBehavior.localMethods[selector];
