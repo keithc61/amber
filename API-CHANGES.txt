@@ -20,6 +20,9 @@
   + stubToAtMost:
 + NonBooleanReceiver class >>
   + signalOn:
++ Package >>
+  + evalBlock
+  + evalBlock:
 + Package class >>
   + named:javaScriptDescriptor:
 + SmalltalkImage >>
@@ -30,6 +33,9 @@
 + UndefinedObject >>
   + ==
 
+- Package >>
+  - basicName:
+  - basicImports
 - ProtoObject >>
   - isSameInstanceAs:
 - ObjectTest >>

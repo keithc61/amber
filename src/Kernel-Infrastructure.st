@@ -288,7 +288,7 @@ initialize
 ! !
 
 Object subclass: #Package
-	instanceVariableNames: 'transport imports dirty'
+	instanceVariableNames: 'evalBlock basicTransport name transport imports dirty organization'
 	package: 'Kernel-Infrastructure'!
 !Package commentStamp!
 I am similar to a "class category" typically found in other Smalltalks like Pharo or Squeak. Amber does not have class categories anymore, it had in the beginning but now each class in the system knows which package it belongs to.
@@ -341,11 +341,17 @@ definition
 		tab; write: { 'transport: ('. self transport definition. ')' } ]
 !
 
+evalBlock
+	^ evalBlock
+!
+
+evalBlock: aBlock
+	evalBlock := aBlock
+!
+
 imports
 	^ imports ifNil: [
-		| parsed |
-		parsed := self importsFromJson: self basicImports.
-		self imports: parsed.
+		self imports: #().
 		imports ]
 !
 
@@ -364,36 +370,33 @@ importsDefinition
 !
 
 javaScriptDescriptor: anObject
-	| basicEval basicImports basicTransport |
+	| basicEval basicImports |
 
 	basicEval := (anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ]).
 	basicImports := (anObject at: 'imports' ifAbsent: [ #() ]).
 	basicTransport := (anObject at: 'transport' ifAbsent: []).
 			
 	self
-		basicAt: 'innerEval' put: basicEval;
-		basicAt: 'imports' put: basicImports;
-		basicAt: 'transport' put: basicTransport
+		evalBlock: basicEval;
+		imports: (self importsFromJson: basicImports)
 !
 
 name
-	<inlineJS: 'return self.pkgName'>
+	^ name
 !
 
 name: aString
-	self basicName: aString.
-	self beDirty
+	name := aString
 !
 
 organization
-	^ self basicAt: 'organization'
+	^ organization
 !
 
 transport
 	^ transport ifNil: [ 
-		transport := (PackageTransport fromJson: self basicTransport)
-			package: self;
-			yourself ]
+		self transport: (PackageTransport fromJson: self basicTransport).
+		transport ]
 !
 
 transport: aPackageTransport
@@ -479,12 +482,21 @@ traitCompositions
 	^ traitCompositions reject: [ :each | each isEmpty ]
 ! !
 
+!Package methodsFor: 'evaluating'!
+
+eval: aString
+	^ evalBlock
+		ifNotNil: [ evalBlock value: aString ]
+		ifNil: [ Compiler eval: aString ]
+! !
+
 !Package methodsFor: 'initialization'!
 
 initialize
 	super initialize.
 
-	self basicAt: 'organization' put: PackageOrganizer new.
+	organization := PackageOrganizer new.
+	evalBlock := nil.
 	dirty := nil.
 	imports := nil.
 	transport := nil
@@ -502,20 +514,10 @@ printOn: aStream
 
 !Package methodsFor: 'private'!
 
-basicImports
-	"Answer the imports literal JavaScript object as setup in the JavaScript file, if any"
-	
-	<inlineJS: 'return self.imports || []'>
-!
-
-basicName: aString
-	<inlineJS: 'self.pkgName = aString'>
-!
-
 basicTransport
 	"Answer the transport literal JavaScript object as setup in the JavaScript file, if any"
 	
-	<inlineJS: 'return self.transport'>
+	^ basicTransport
 !
 
 sortedImportsAsArray
@@ -599,7 +601,7 @@ named: aString javaScriptDescriptor: anObject
 
 new: aString
 	^ Package new
-		basicName: aString;
+		name: aString;
 		yourself
 ! !
 
@@ -985,7 +987,7 @@ renamePackage: packageName to: newName
 	| pkg |
 	pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].
 	self packageAt: newName ifAbsent: [ self error: 'Already exists a package called: ', newName ].
-	pkg name: newName.
+	pkg name: newName; beDirty.
 	self packageDictionary
 		at: newName put: pkg;
 		removeKey: packageName

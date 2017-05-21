@@ -656,20 +656,25 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return aPackage && aPackage.innerEval
-		? aPackage.innerEval(aString)
-		: eval(aString);
-return self;
+var $receiver;
+if(($receiver = aPackage) == null || $receiver.a$nil){
+return $self._eval_(aString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["eval:"]=1;
+//>>excludeEnd("ctx");
+} else {
+return $recv(aPackage)._eval_(aString);
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"eval:forPackage:",{aString:aString,aPackage:aPackage},$globals.Compiler)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aPackage"],
-source: "eval: aString forPackage: aPackage\x0a\x09<inlineJS: 'return aPackage && aPackage.innerEval\x0a\x09\x09? aPackage.innerEval(aString)\x0a\x09\x09: eval(aString)'>",
+source: "eval: aString forPackage: aPackage\x0a\x09^ aPackage\x0a\x09\x09ifNil: [ self eval: aString ]\x0a\x09\x09ifNotNil: [ aPackage eval: aString ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["ifNil:ifNotNil:", "eval:"]
 }),
 $globals.Compiler);
 

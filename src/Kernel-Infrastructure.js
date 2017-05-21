@@ -965,76 +965,22 @@ $globals.PackageOrganizer);
 
 
 
-$core.addClass("Package", $globals.Object, ["transport", "imports", "dirty"], "Kernel-Infrastructure");
+$core.addClass("Package", $globals.Object, ["evalBlock", "basicTransport", "name", "transport", "imports", "dirty", "organization"], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Package.comment="I am similar to a \x22class category\x22 typically found in other Smalltalks like Pharo or Squeak. Amber does not have class categories anymore, it had in the beginning but now each class in the system knows which package it belongs to.\x0a\x0aEach package has a name and can be queried for its classes, but it will then resort to a reverse scan of all classes to find them.\x0a\x0a## API\x0a\x0aPackages are manipulated through \x22Smalltalk current\x22, like for example finding one based on a name or with `Package class >> #name` directly:\x0a\x0a    Smalltalk current packageAt: 'Kernel'\x0a    Package named: 'Kernel'\x0a\x0aA package differs slightly from a Monticello package which can span multiple class categories using a naming convention based on hyphenation. But just as in Monticello a package supports \x22class extensions\x22 so a package can define behaviors in foreign classes using a naming convention for method categories where the category starts with an asterisk and then the name of the owning package follows.\x0a\x0aYou can fetch a package from the server:\x0a\x0a\x09Package load: 'Additional-Examples'";
 //>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "basicImports",
-protocol: "private",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.imports || [];
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicImports",{},$globals.Package)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "basicImports\x0a\x09\x22Answer the imports literal JavaScript object as setup in the JavaScript file, if any\x22\x0a\x09\x0a\x09<inlineJS: 'return self.imports || []'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Package);
-
-$core.addMethod(
-$core.method({
-selector: "basicName:",
-protocol: "private",
-fn: function (aString){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-self.pkgName = aString;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicName:",{aString:aString},$globals.Package)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "basicName: aString\x0a\x09<inlineJS: 'self.pkgName = aString'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Package);
-
 $core.addMethod(
 $core.method({
 selector: "basicTransport",
 protocol: "private",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.transport;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicTransport",{},$globals.Package)});
-//>>excludeEnd("ctx");
+return $self["@basicTransport"];
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "basicTransport\x0a\x09\x22Answer the transport literal JavaScript object as setup in the JavaScript file, if any\x22\x0a\x09\x0a\x09<inlineJS: 'return self.transport'>",
+source: "basicTransport\x0a\x09\x22Answer the transport literal JavaScript object as setup in the JavaScript file, if any\x22\x0a\x09\x0a\x09^ basicTransport",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -1243,6 +1189,72 @@ $globals.Package);
 
 $core.addMethod(
 $core.method({
+selector: "eval:",
+protocol: "evaluating",
+fn: function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$receiver;
+$1=$self["@evalBlock"];
+if(($receiver = $1) == null || $receiver.a$nil){
+return $recv($globals.Compiler)._eval_(aString);
+} else {
+return $recv($self["@evalBlock"])._value_(aString);
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"eval:",{aString:aString},$globals.Package)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "eval: aString\x0a\x09^ evalBlock\x0a\x09\x09ifNotNil: [ evalBlock value: aString ]\x0a\x09\x09ifNil: [ Compiler eval: aString ]",
+referencedClasses: ["Compiler"],
+//>>excludeEnd("ide");
+messageSends: ["ifNotNil:ifNil:", "value:", "eval:"]
+}),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
+selector: "evalBlock",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $self["@evalBlock"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "evalBlock\x0a\x09^ evalBlock",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
+selector: "evalBlock:",
+protocol: "accessing",
+fn: function (aBlock){
+var self=this,$self=this;
+$self["@evalBlock"]=aBlock;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "evalBlock: aBlock\x0a\x09evalBlock := aBlock",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
 selector: "imports",
 protocol: "accessing",
 fn: function (){
@@ -1253,10 +1265,7 @@ return $core.withContext(function($ctx1) {
 var $1,$receiver;
 $1=$self["@imports"];
 if(($receiver = $1) == null || $receiver.a$nil){
-var parsed;
-parsed=$self._importsFromJson_($self._basicImports());
-parsed;
-$self._imports_(parsed);
+$self._imports_([]);
 return $self["@imports"];
 } else {
 return $1;
@@ -1267,10 +1276,10 @@ return $1;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "imports\x0a\x09^ imports ifNil: [\x0a\x09\x09| parsed |\x0a\x09\x09parsed := self importsFromJson: self basicImports.\x0a\x09\x09self imports: parsed.\x0a\x09\x09imports ]",
+source: "imports\x0a\x09^ imports ifNil: [\x0a\x09\x09self imports: #().\x0a\x09\x09imports ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifNil:", "importsFromJson:", "basicImports", "imports:"]
+messageSends: ["ifNil:", "imports:"]
 }),
 $globals.Package);
 
@@ -1454,7 +1463,8 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$self._basicAt_put_("organization",$recv($globals.PackageOrganizer)._new());
+$self["@organization"]=$recv($globals.PackageOrganizer)._new();
+$self["@evalBlock"]=nil;
 $self["@dirty"]=nil;
 $self["@imports"]=nil;
 $self["@transport"]=nil;
@@ -1465,10 +1475,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x0a\x09self basicAt: 'organization' put: PackageOrganizer new.\x0a\x09dirty := nil.\x0a\x09imports := nil.\x0a\x09transport := nil",
+source: "initialize\x0a\x09super initialize.\x0a\x0a\x09organization := PackageOrganizer new.\x0a\x09evalBlock := nil.\x0a\x09dirty := nil.\x0a\x09imports := nil.\x0a\x09transport := nil",
 referencedClasses: ["PackageOrganizer"],
 //>>excludeEnd("ide");
-messageSends: ["initialize", "basicAt:put:", "new"]
+messageSends: ["initialize", "new"]
 }),
 $globals.Package);
 
@@ -1525,7 +1535,7 @@ selector: "javaScriptDescriptor:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-var basicEval,basicImports,basicTransport;
+var basicEval,basicImports;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1548,29 +1558,22 @@ return [];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["at:ifAbsent:"]=2;
 //>>excludeEnd("ctx");
-basicTransport=$recv(anObject)._at_ifAbsent_("transport",(function(){
+$self["@basicTransport"]=$recv(anObject)._at_ifAbsent_("transport",(function(){
 
 }));
-$self._basicAt_put_("innerEval",basicEval);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["basicAt:put:"]=1;
-//>>excludeEnd("ctx");
-$self._basicAt_put_("imports",basicImports);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["basicAt:put:"]=2;
-//>>excludeEnd("ctx");
-$self._basicAt_put_("transport",basicTransport);
+$self._evalBlock_(basicEval);
+$self._imports_($self._importsFromJson_(basicImports));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"javaScriptDescriptor:",{anObject:anObject,basicEval:basicEval,basicImports:basicImports,basicTransport:basicTransport},$globals.Package)});
+}, function($ctx1) {$ctx1.fill(self,"javaScriptDescriptor:",{anObject:anObject,basicEval:basicEval,basicImports:basicImports},$globals.Package)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "javaScriptDescriptor: anObject\x0a\x09| basicEval basicImports basicTransport |\x0a\x0a\x09basicEval := (anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ]).\x0a\x09basicImports := (anObject at: 'imports' ifAbsent: [ #() ]).\x0a\x09basicTransport := (anObject at: 'transport' ifAbsent: []).\x0a\x09\x09\x09\x0a\x09self\x0a\x09\x09basicAt: 'innerEval' put: basicEval;\x0a\x09\x09basicAt: 'imports' put: basicImports;\x0a\x09\x09basicAt: 'transport' put: basicTransport\x0a\x09\x09\x09\x0a\x09\x09\x09",
+source: "javaScriptDescriptor: anObject\x0a\x09| basicEval basicImports |\x0a\x0a\x09basicEval := (anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ]).\x0a\x09basicImports := (anObject at: 'imports' ifAbsent: [ #() ]).\x0a\x09basicTransport := (anObject at: 'transport' ifAbsent: []).\x0a\x09\x09\x09\x0a\x09self\x0a\x09\x09evalBlock: basicEval;\x0a\x09\x09imports: (self importsFromJson: basicImports)\x09\x09\x09",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["at:ifAbsent:", "asJavaScriptObject", "basicAt:put:"]
+messageSends: ["at:ifAbsent:", "asJavaScriptObject", "evalBlock:", "imports:", "importsFromJson:"]
 }),
 $globals.Package);
 
@@ -1717,18 +1720,12 @@ selector: "name",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.pkgName;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"name",{},$globals.Package)});
-//>>excludeEnd("ctx");
+return $self["@name"];
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "name\x0a\x09<inlineJS: 'return self.pkgName'>",
+source: "name\x0a\x09^ name",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -1741,22 +1738,16 @@ selector: "name:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._basicName_(aString);
-$self._beDirty();
+$self["@name"]=aString;
 return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"name:",{aString:aString},$globals.Package)});
-//>>excludeEnd("ctx");
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "name: aString\x0a\x09self basicName: aString.\x0a\x09self beDirty",
+source: "name: aString\x0a\x09name := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["basicName:", "beDirty"]
+messageSends: []
 }),
 $globals.Package);
 
@@ -1766,20 +1757,15 @@ selector: "organization",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self._basicAt_("organization");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"organization",{},$globals.Package)});
-//>>excludeEnd("ctx");
+return $self["@organization"];
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "organization\x0a\x09^ self basicAt: 'organization'",
+source: "organization\x0a\x09^ organization",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["basicAt:"]
+messageSends: []
 }),
 $globals.Package);
 
@@ -2013,12 +1999,10 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $1,$receiver;
 $1=$self["@transport"];
 if(($receiver = $1) == null || $receiver.a$nil){
-$2=$recv($globals.PackageTransport)._fromJson_($self._basicTransport());
-$recv($2)._package_(self);
-$self["@transport"]=$recv($2)._yourself();
+$self._transport_($recv($globals.PackageTransport)._fromJson_($self._basicTransport()));
 return $self["@transport"];
 } else {
 return $1;
@@ -2029,10 +2013,10 @@ return $1;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "transport\x0a\x09^ transport ifNil: [ \x0a\x09\x09transport := (PackageTransport fromJson: self basicTransport)\x0a\x09\x09\x09package: self;\x0a\x09\x09\x09yourself ]",
+source: "transport\x0a\x09^ transport ifNil: [ \x0a\x09\x09self transport: (PackageTransport fromJson: self basicTransport).\x0a\x09\x09transport ]",
 referencedClasses: ["PackageTransport"],
 //>>excludeEnd("ide");
-messageSends: ["ifNil:", "package:", "fromJson:", "basicTransport", "yourself"]
+messageSends: ["ifNil:", "transport:", "fromJson:", "basicTransport"]
 }),
 $globals.Package);
 
@@ -2271,7 +2255,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=$recv($globals.Package)._new();
-$recv($1)._basicName_(aString);
+$recv($1)._name_(aString);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"new:",{aString:aString},$globals.Package.a$cls)});
@@ -2279,10 +2263,10 @@ return $recv($1)._yourself();
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "new: aString\x0a\x09^ Package new\x0a\x09\x09basicName: aString;\x0a\x09\x09yourself",
+source: "new: aString\x0a\x09^ Package new\x0a\x09\x09name: aString;\x0a\x09\x09yourself",
 referencedClasses: ["Package"],
 //>>excludeEnd("ide");
-messageSends: ["basicName:", "new", "yourself"]
+messageSends: ["name:", "new", "yourself"]
 }),
 $globals.Package.a$cls);
 
@@ -3733,7 +3717,7 @@ var pkg;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1,$2,$3;
 pkg=$self._packageAt_ifAbsent_(packageName,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -3762,10 +3746,12 @@ return $self._error_("Already exists a package called: ".__comma(newName));
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
-$recv(pkg)._name_(newName);
-$2=$self._packageDictionary();
-$recv($2)._at_put_(newName,pkg);
-$recv($2)._removeKey_(packageName);
+$2=pkg;
+$recv($2)._name_(newName);
+$recv($2)._beDirty();
+$3=$self._packageDictionary();
+$recv($3)._at_put_(newName,pkg);
+$recv($3)._removeKey_(packageName);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"renamePackage:to:",{packageName:packageName,newName:newName,pkg:pkg},$globals.SmalltalkImage)});
@@ -3773,10 +3759,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["packageName", "newName"],
-source: "renamePackage: packageName to: newName\x0a\x09\x22Rename a package.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09self packageAt: newName ifAbsent: [ self error: 'Already exists a package called: ', newName ].\x0a\x09pkg name: newName.\x0a\x09self packageDictionary\x0a\x09\x09at: newName put: pkg;\x0a\x09\x09removeKey: packageName",
+source: "renamePackage: packageName to: newName\x0a\x09\x22Rename a package.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09self packageAt: newName ifAbsent: [ self error: 'Already exists a package called: ', newName ].\x0a\x09pkg name: newName; beDirty.\x0a\x09self packageDictionary\x0a\x09\x09at: newName put: pkg;\x0a\x09\x09removeKey: packageName",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["packageAt:ifAbsent:", "error:", ",", "name:", "at:put:", "packageDictionary", "removeKey:"]
+messageSends: ["packageAt:ifAbsent:", "error:", ",", "name:", "beDirty", "at:put:", "packageDictionary", "removeKey:"]
 }),
 $globals.SmalltalkImage);
 

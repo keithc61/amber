@@ -176,9 +176,9 @@ eval: aString
 !
 
 eval: aString forPackage: aPackage
-	<inlineJS: 'return aPackage && aPackage.innerEval
-		? aPackage.innerEval(aString)
-		: eval(aString)'>
+	^ aPackage
+		ifNil: [ self eval: aString ]
+		ifNotNil: [ aPackage eval: aString ]
 !
 
 evaluateExpression: aString
