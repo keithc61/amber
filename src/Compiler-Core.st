@@ -245,6 +245,12 @@ recompileAll
 		self recompile: each ]
 ! !
 
+!Compiler class methodsFor: 'evaluating'!
+
+eval: aString
+	^ self new eval: aString
+! !
+
 Error subclass: #CompilerError
 	instanceVariableNames: ''
 	package: 'Compiler-Core'!

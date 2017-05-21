@@ -540,8 +540,7 @@ isVariableUndefined: aString inPackage: aPackage
 			reject: #isString)
 			collect: #key.
 		(packageKnownVars includes: aString) ifTrue: [ ^ false ]].
-	^ Compiler new
-		eval: 'typeof ', aString, ' == "undefined"'
+	^ Compiler eval: 'typeof ', aString, ' === "undefined"'
 ! !
 
 !SemanticAnalyzer methodsFor: 'visiting'!

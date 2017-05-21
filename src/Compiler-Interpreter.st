@@ -723,7 +723,7 @@ eval: aString
 			nextPutAll: aString;
 			nextPutAll: '})()})' ].
 			
-	function := Compiler new eval: source.
+	function := Compiler eval: source.
 	
 	^ function valueWithPossibleArguments: self context locals values
 !

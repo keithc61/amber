@@ -8,6 +8,8 @@
 + AmberBootstrapInitialization class >>
   + run
   + initializeClasses
++ Compiler class >>
+  + eval:
 + JavaScriptException >>
   + shouldBeStubbed
   + wrap

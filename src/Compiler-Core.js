@@ -939,6 +939,29 @@ $globals.Compiler);
 
 $core.addMethod(
 $core.method({
+selector: "eval:",
+protocol: "evaluating",
+fn: function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._new())._eval_(aString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"eval:",{aString:aString},$globals.Compiler.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "eval: aString\x0a\x09^ self new eval: aString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["eval:", "new"]
+}),
+$globals.Compiler.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "recompile:",
 protocol: "compiling",
 fn: function (aClass){
