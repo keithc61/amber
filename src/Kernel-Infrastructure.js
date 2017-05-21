@@ -1521,6 +1521,61 @@ $globals.Package);
 
 $core.addMethod(
 $core.method({
+selector: "javaScriptDescriptor:",
+protocol: "accessing",
+fn: function (anObject){
+var self=this,$self=this;
+var basicEval,basicImports,basicTransport;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+basicEval=$recv(anObject)._at_ifAbsent_("innerEval",(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return nil._asJavaScriptObject();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:ifAbsent:"]=1;
+//>>excludeEnd("ctx");
+basicImports=$recv(anObject)._at_ifAbsent_("imports",(function(){
+return [];
+
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:ifAbsent:"]=2;
+//>>excludeEnd("ctx");
+basicTransport=$recv(anObject)._at_ifAbsent_("transport",(function(){
+
+}));
+$self._basicAt_put_("innerEval",basicEval);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["basicAt:put:"]=1;
+//>>excludeEnd("ctx");
+$self._basicAt_put_("imports",basicImports);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["basicAt:put:"]=2;
+//>>excludeEnd("ctx");
+$self._basicAt_put_("transport",basicTransport);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"javaScriptDescriptor:",{anObject:anObject,basicEval:basicEval,basicImports:basicImports,basicTransport:basicTransport},$globals.Package)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "javaScriptDescriptor: anObject\x0a\x09| basicEval basicImports basicTransport |\x0a\x0a\x09basicEval := (anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ]).\x0a\x09basicImports := (anObject at: 'imports' ifAbsent: [ #() ]).\x0a\x09basicTransport := (anObject at: 'transport' ifAbsent: []).\x0a\x09\x09\x09\x0a\x09self\x0a\x09\x09basicAt: 'innerEval' put: basicEval;\x0a\x09\x09basicAt: 'imports' put: basicImports;\x0a\x09\x09basicAt: 'transport' put: basicTransport\x0a\x09\x09\x09\x0a\x09\x09\x09",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["at:ifAbsent:", "asJavaScriptObject", "basicAt:put:"]
+}),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
 selector: "loadDependencies",
 protocol: "dependencies",
 fn: function (){
@@ -2155,59 +2210,27 @@ $globals.Package.a$cls);
 
 $core.addMethod(
 $core.method({
-selector: "named:options:",
-protocol: "accessing",
-fn: function (aPackageName,anObject){
+selector: "named:javaScriptDescriptor:",
+protocol: "instance creation",
+fn: function (aString,anObject){
 var self=this,$self=this;
 var package_;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4;
-package_=$self._named_(aPackageName);
-$1=package_;
-$2=$recv(anObject)._at_ifAbsent_("innerEval",(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return nil._asJavaScriptObject();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:ifAbsent:"]=1;
-//>>excludeEnd("ctx");
-$recv($1)._basicAt_put_("innerEval",$2);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["basicAt:put:"]=1;
-//>>excludeEnd("ctx");
-$3=package_;
-$4=$recv(anObject)._at_ifAbsent_("imports",(function(){
-return [];
-
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:ifAbsent:"]=2;
-//>>excludeEnd("ctx");
-$recv($3)._basicAt_put_("imports",$4);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["basicAt:put:"]=2;
-//>>excludeEnd("ctx");
-$recv(package_)._basicAt_put_("transport",$recv(anObject)._at_ifAbsent_("transport",(function(){
-
-})));
+package_=$recv($globals.Smalltalk)._createPackage_(aString);
+$recv(package_)._javaScriptDescriptor_(anObject);
 return package_;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"named:options:",{aPackageName:aPackageName,anObject:anObject,package_:package_},$globals.Package.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"named:javaScriptDescriptor:",{aString:aString,anObject:anObject,package_:package_},$globals.Package.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aPackageName", "anObject"],
-source: "named: aPackageName options: anObject\x0a\x09| package |\x0a\x09\x0a\x09package := self named: aPackageName.\x0a\x09package basicAt: 'innerEval' put:\x0a\x09\x09(anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ]).\x0a\x09package basicAt: 'imports' put:\x0a\x09\x09(anObject at: 'imports' ifAbsent: [ #() ]).\x0a\x09package basicAt: 'transport' put:\x0a\x09\x09(anObject at: 'transport' ifAbsent: []).\x0a\x09^ package",
-referencedClasses: [],
+args: ["aString", "anObject"],
+source: "named: aString javaScriptDescriptor: anObject\x0a\x09| package |\x0a\x09\x0a\x09package := Smalltalk createPackage: aString.\x0a\x09package javaScriptDescriptor: anObject.\x0a\x09^ package",
+referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["named:", "basicAt:put:", "at:ifAbsent:", "asJavaScriptObject"]
+messageSends: ["createPackage:", "javaScriptDescriptor:"]
 }),
 $globals.Package.a$cls);
 
@@ -2828,7 +2851,7 @@ $recv($recv($self._core())._packages())._keysAndValuesDo_((function(key,value){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($globals.Package)._named_options_(key,value);
+return $recv($globals.Package)._named_javaScriptDescriptor_(key,value);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2840,10 +2863,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "adoptPackageDictionary\x0a\x09self core packages keysAndValuesDo: [ :key :value | Package named: key options: value ]",
+source: "adoptPackageDictionary\x0a\x09self core packages keysAndValuesDo: [ :key :value | Package named: key javaScriptDescriptor: value ]",
 referencedClasses: ["Package"],
 //>>excludeEnd("ide");
-messageSends: ["keysAndValuesDo:", "packages", "core", "named:options:"]
+messageSends: ["keysAndValuesDo:", "packages", "core", "named:javaScriptDescriptor:"]
 }),
 $globals.SmalltalkImage);
 

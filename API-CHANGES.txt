@@ -18,6 +18,8 @@
   + stubToAtMost:
 + NonBooleanReceiver class >>
   + signalOn:
++ Package class >>
+  + named:javaScriptDescriptor:
 + SmalltalkImage >>
   + packageDictionary
 + TMasterBehavior >>

@@ -363,6 +363,19 @@ importsDefinition
 		stream write: '}' ]
 !
 
+javaScriptDescriptor: anObject
+	| basicEval basicImports basicTransport |
+
+	basicEval := (anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ]).
+	basicImports := (anObject at: 'imports' ifAbsent: [ #() ]).
+	basicTransport := (anObject at: 'transport' ifAbsent: []).
+			
+	self
+		basicAt: 'innerEval' put: basicEval;
+		basicAt: 'imports' put: basicImports;
+		basicAt: 'transport' put: basicTransport
+!
+
 name
 	<inlineJS: 'return self.pkgName'>
 !
@@ -565,19 +578,6 @@ named: aPackageName imports: anArray transport: aTransport
 	^ package
 !
 
-named: aPackageName options: anObject
-	| package |
-	
-	package := self named: aPackageName.
-	package basicAt: 'innerEval' put:
-		(anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ]).
-	package basicAt: 'imports' put:
-		(anObject at: 'imports' ifAbsent: [ #() ]).
-	package basicAt: 'transport' put:
-		(anObject at: 'transport' ifAbsent: []).
-	^ package
-!
-
 named: aPackageName transport: aTransport
 	| package |
 	
@@ -588,6 +588,14 @@ named: aPackageName transport: aTransport
 ! !
 
 !Package class methodsFor: 'instance creation'!
+
+named: aString javaScriptDescriptor: anObject
+	| package |
+	
+	package := Smalltalk createPackage: aString.
+	package javaScriptDescriptor: anObject.
+	^ package
+!
 
 new: aString
 	^ Package new
@@ -986,7 +994,7 @@ renamePackage: packageName to: newName
 !SmalltalkImage methodsFor: 'private'!
 
 adoptPackageDictionary
-	self core packages keysAndValuesDo: [ :key :value | Package named: key options: value ]
+	self core packages keysAndValuesDo: [ :key :value | Package named: key javaScriptDescriptor: value ]
 !
 
 basicCreatePackage: packageName
