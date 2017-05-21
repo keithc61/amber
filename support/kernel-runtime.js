@@ -402,10 +402,12 @@ define(function () {
         };
     }
 
-    StartImageBrik.deps = ["frameBinding", "runtimeMethods", "runtime", "primitives"];
+    StartImageBrik.deps = ["smalltalkGlobals"];
     function StartImageBrik (brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+
         this.run = function () {
-            brikz.smalltalkGlobals.globals.AmberBootstrapInitialization._run();
+            globals.AmberBootstrapInitialization._run();
         };
     }
 
