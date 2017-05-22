@@ -126,6 +126,129 @@ define(['./compatibility' /* TODO remove */], function () {
         };
     }
 
+    MethodCompositionBrik.deps = ["behaviorProviders"];
+    function MethodCompositionBrik (brikz, st) {
+        var updateMethod = brikz.behaviorProviders.updateMethod;
+
+        function aliased (selector, method) {
+            if (method.selector === selector) return method;
+            var result = st.method({
+                selector: selector,
+                args: method.args,
+                protocol: method.protocol,
+                source: '"Aliased as ' + selector + '"\n' + method.source,
+                messageSends: method.messageSends,
+                referencesClasses: method.referencedClasses,
+                fn: method.fn
+            });
+            result.methodClass = method.methodClass;
+            return result;
+        }
+
+        function deleteKeysFrom (keys, obj) {
+            keys.forEach(function (each) {
+                delete obj[each];
+            });
+        }
+
+        function fillTraitTransformation (traitTransformation, obj) {
+            // assert(Object.getOwnProperties(obj).length === 0)
+            var traitMethods = traitTransformation.trait.methods;
+            Object.keys(traitMethods).forEach(function (selector) {
+                obj[selector] = traitMethods[selector];
+            });
+            var traitAliases = traitTransformation.aliases;
+            if (traitAliases) {
+                Object.keys(traitAliases).forEach(function (aliasSelector) {
+                    var aliasedMethod = traitMethods[traitAliases[aliasSelector]];
+                    if (aliasedMethod) obj[aliasSelector] = aliased(aliasSelector, aliasedMethod);
+                    // else delete obj[aliasSelector]; // semantically correct; optimized away
+                });
+            }
+            var traitExclusions = traitTransformation.exclusions;
+            if (traitExclusions) {
+                deleteKeysFrom(traitExclusions, obj);
+            }
+            return obj;
+        }
+
+        function buildCompositionChain (traitComposition) {
+            return traitComposition.reduce(function (soFar, each) {
+                return fillTraitTransformation(each, Object.create(soFar));
+            }, null);
+        }
+
+        st.setTraitComposition = function (traitComposition, traitOrBehavior) {
+            var oldLocalMethods = traitOrBehavior.localMethods,
+                newLocalMethods = Object.create(buildCompositionChain(traitComposition));
+            Object.keys(oldLocalMethods).forEach(function (selector) {
+                newLocalMethods[selector] = oldLocalMethods[selector];
+            });
+            var selector;
+            traitOrBehavior.localMethods = newLocalMethods;
+            for (selector in newLocalMethods) {
+                updateMethod(selector, traitOrBehavior);
+            }
+            for (selector in oldLocalMethods) {
+                updateMethod(selector, traitOrBehavior);
+            }
+            (traitOrBehavior.traitComposition || []).forEach(function (each) {
+                each.trait.removeUser(traitOrBehavior);
+            });
+            traitOrBehavior.traitComposition = traitComposition && traitComposition.length ? traitComposition : null;
+            (traitOrBehavior.traitComposition || []).forEach(function (each) {
+                each.trait.addUser(traitOrBehavior);
+            });
+        };
+
+        function aliasesOfSelector (selector, traitAliases) {
+            if (!traitAliases) return [selector];
+            var result = Object.keys(traitAliases).filter(function (aliasSelector) {
+                return traitAliases[aliasSelector] === selector
+            });
+            if (!traitAliases[selector]) result.push(selector);
+            return result;
+        }
+
+        function applyTraitMethodAddition (selector, method, traitTransformation, obj) {
+            var changes = aliasesOfSelector(selector, traitTransformation.aliases);
+            changes.forEach(function (aliasSelector) {
+                obj[aliasSelector] = aliased(aliasSelector, method);
+            });
+            var traitExclusions = traitTransformation.exclusions;
+            if (traitExclusions) {
+                deleteKeysFrom(traitExclusions, obj);
+            }
+            return changes;
+        }
+
+        function applyTraitMethodDeletion (selector, traitTransformation, obj) {
+            var changes = aliasesOfSelector(selector, traitTransformation.aliases);
+            deleteKeysFrom(changes, obj);
+            return changes;
+        }
+
+        function traitMethodChanged (selector, method, trait, traitOrBehavior) {
+            var traitComposition = traitOrBehavior.traitComposition,
+                chain = traitOrBehavior.localMethods,
+                changes = [];
+            for (var i = traitComposition.length - 1; i >= 0; --i) {
+                chain = Object.getPrototypeOf(chain);
+                var traitTransformation = traitComposition[i];
+                if (traitTransformation.trait !== trait) continue;
+                changes.push.apply(changes, method ?
+                    applyTraitMethodAddition(selector, method, traitTransformation, chain) :
+                    applyTraitMethodDeletion(selector, traitTransformation, chain));
+            }
+            // assert(chain === null);
+            changes.forEach(function (each) {
+                updateMethod(each, traitOrBehavior);
+            });
+        }
+
+        this.traitMethodChanged = traitMethodChanged;
+    }
+
     ClassesBrik.deps = ["root", "behaviors", "behaviorProviders", "arraySet", "smalltalkGlobals"];
     function ClassesBrik (brikz, st) {
         var SmalltalkRoot = brikz.root.Root;
@@ -360,6 +483,7 @@ define(['./compatibility' /* TODO remove */], function () {
 
     function configureWithHierarchy (brikz) {
         brikz.traits = TraitsBrik;
+        brikz.composition = MethodCompositionBrik;
         brikz.classes = ClassesBrik;
         brikz.nil = NilBrik;
         brikz.asReceiver = AsReceiverBrik;
