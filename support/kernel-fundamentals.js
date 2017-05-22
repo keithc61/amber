@@ -273,7 +273,6 @@ define(['./compatibility' /* TODO remove */], function () {
 
         this.setupMethods = function (traitOrBehavior) {
             setupClassOrganization(traitOrBehavior);
-            traitOrBehavior.traitComposition = [];
             traitOrBehavior.localMethods = Object.create(null);
             traitOrBehavior.methods = Object.create(null);
         };
@@ -379,11 +378,11 @@ define(['./compatibility' /* TODO remove */], function () {
             for (selector in oldLocalMethods) {
                 updateMethod(selector, traitOrBehavior);
             }
-            traitOrBehavior.traitComposition.forEach(function (each) {
+            (traitOrBehavior.traitComposition || []).forEach(function (each) {
                 each.trait.removeUser(traitOrBehavior);
             });
-            traitOrBehavior.traitComposition = traitComposition;
-            traitOrBehavior.traitComposition.forEach(function (each) {
+            traitOrBehavior.traitComposition = traitComposition && traitComposition.length ? traitComposition : null;
+            (traitOrBehavior.traitComposition || []).forEach(function (each) {
                 each.trait.addUser(traitOrBehavior);
             });
         };

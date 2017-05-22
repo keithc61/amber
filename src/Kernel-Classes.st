@@ -694,7 +694,9 @@ selectors
 !
 
 traitComposition
-	^ (self basicAt: 'traitComposition') collect: [ :each | TraitTransformation fromJSON: each ]
+	^ (self basicAt: 'traitComposition')
+		ifNil: [ #() ]
+		ifNotNil: [ :aCollection | aCollection collect: [ :each | TraitTransformation fromJSON: each ] ]
 !
 
 traitCompositionDefinition

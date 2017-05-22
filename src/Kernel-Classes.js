@@ -2998,25 +2998,33 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self._basicAt_("traitComposition"))._collect_((function(each){
+var $1,$receiver;
+$1=$self._basicAt_("traitComposition");
+if(($receiver = $1) == null || $receiver.a$nil){
+return [];
+} else {
+var aCollection;
+aCollection=$receiver;
+return $recv(aCollection)._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 return $recv($globals.TraitTransformation)._fromJSON_(each);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
 //>>excludeEnd("ctx");
 }));
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"traitComposition",{},$globals.TBehaviorProvider)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "traitComposition\x0a\x09^ (self basicAt: 'traitComposition') collect: [ :each | TraitTransformation fromJSON: each ]",
+source: "traitComposition\x0a\x09^ (self basicAt: 'traitComposition')\x0a\x09\x09ifNil: [ #() ]\x0a\x09\x09ifNotNil: [ :aCollection | aCollection collect: [ :each | TraitTransformation fromJSON: each ] ]",
 referencedClasses: ["TraitTransformation"],
 //>>excludeEnd("ide");
-messageSends: ["collect:", "basicAt:", "fromJSON:"]
+messageSends: ["ifNil:ifNotNil:", "basicAt:", "collect:", "fromJSON:"]
 }),
 $globals.TBehaviorProvider);
 
