@@ -59,11 +59,11 @@ define(['./compatibility' /* TODO remove */], function () {
         });
     }
 
-    TraitsBrik.deps = ["behaviors", "composition", "arraySet", "root"];
+    TraitsBrik.deps = ["behaviors", "behaviorProviders", "composition", "arraySet", "root"];
     function TraitsBrik (brikz, st) {
         var coreFns = brikz.root.coreFns;
         var SmalltalkObject = brikz.root.Object;
-        var setupMethods = brikz.composition.setupMethods;
+        var setupMethods = brikz.behaviorProviders.setupMethods;
         var traitMethodChanged = brikz.composition.traitMethodChanged;
         var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
         var addElement = brikz.arraySet.addElement;
@@ -126,14 +126,14 @@ define(['./compatibility' /* TODO remove */], function () {
         };
     }
 
-    ClassesBrik.deps = ["root", "behaviors", "composition", "arraySet", "smalltalkGlobals"];
+    ClassesBrik.deps = ["root", "behaviors", "behaviorProviders", "arraySet", "smalltalkGlobals"];
     function ClassesBrik (brikz, st) {
         var SmalltalkRoot = brikz.root.Root;
         var coreFns = brikz.root.coreFns;
         var globals = brikz.smalltalkGlobals.globals;
         var SmalltalkObject = brikz.root.Object;
         var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
-        var setupMethods = brikz.composition.setupMethods;
+        var setupMethods = brikz.behaviorProviders.setupMethods;
         var removeTraitOrClass = brikz.behaviors.removeTraitOrClass;
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;

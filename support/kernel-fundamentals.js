@@ -202,10 +202,10 @@ define(['./compatibility' /* TODO remove */], function () {
         };
     }
 
-    MethodsBrik.deps = ["composition", "selectors", "root", "selectorConversion"];
+    MethodsBrik.deps = ["behaviorProviders", "selectors", "root", "selectorConversion"];
     function MethodsBrik (brikz, st) {
         var registerSelector = brikz.selectors.registerSelector;
-        var updateMethod = brikz.composition.updateMethod;
+        var updateMethod = brikz.behaviorProviders.updateMethod;
         var SmalltalkObject = brikz.root.Object;
         var coreFns = brikz.root.coreFns;
 
@@ -266,8 +266,8 @@ define(['./compatibility' /* TODO remove */], function () {
         };
     }
 
-    MethodCompositionBrik.deps = ["organize"];
-    function MethodCompositionBrik (brikz, st) {
+    BehaviorProvidersBrik.deps = ["organize"];
+    function BehaviorProvidersBrik (brikz, st) {
         var setupClassOrganization = brikz.organize.setupClassOrganization;
         var addOrganizationElement = brikz.organize.addOrganizationElement;
 
@@ -296,6 +296,25 @@ define(['./compatibility' /* TODO remove */], function () {
             // Do *not* delete protocols from here.
             // This is handled by #removeCompiledMethod
         }
+
+        function updateMethod (selector, traitOrBehavior) {
+            var oldMethod = traitOrBehavior.methods[selector],
+                newMethod = traitOrBehavior.localMethods[selector];
+            if (oldMethod == null && newMethod == null) {
+                console.warn("Removal of nonexistent method " + traitOrBehavior + " >> " + selector);
+                return;
+            }
+            if (newMethod === oldMethod) return;
+            if (newMethod != null) addMethod(newMethod, traitOrBehavior);
+            else removeMethod(oldMethod, traitOrBehavior);
+        }
+
+        this.updateMethod = updateMethod;
+    }
+
+    MethodCompositionBrik.deps = ["behaviorProviders"];
+    function MethodCompositionBrik (brikz, st) {
+        var updateMethod = brikz.behaviorProviders.updateMethod;
 
         function aliased (selector, method) {
             if (method.selector === selector) return method;
@@ -368,21 +387,6 @@ define(['./compatibility' /* TODO remove */], function () {
                 each.trait.addUser(traitOrBehavior);
             });
         };
-
-        // TODO move to MethodBrik once organization is fully on st side
-        function updateMethod (selector, traitOrBehavior) {
-            var oldMethod = traitOrBehavior.methods[selector],
-                newMethod = traitOrBehavior.localMethods[selector];
-            if (oldMethod == null && newMethod == null) {
-                console.warn("Removal of nonexistent method " + traitOrBehavior + " >> " + selector);
-                return;
-            }
-            if (newMethod === oldMethod) return;
-            if (newMethod != null) addMethod(newMethod, traitOrBehavior);
-            else removeMethod(oldMethod, traitOrBehavior);
-        }
-
-        this.updateMethod = updateMethod;
 
         function aliasesOfSelector (selector, traitAliases) {
             if (!traitAliases) return [selector];
@@ -522,6 +526,7 @@ define(['./compatibility' /* TODO remove */], function () {
         brikz.selectors = SelectorsBrik;
         brikz.packages = PackagesBrik;
         brikz.composition = MethodCompositionBrik;
+        brikz.behaviorProviders = BehaviorProvidersBrik;
         brikz.behaviors = BehaviorsBrik;
         brikz.methods = MethodsBrik;
 
