@@ -1001,7 +1001,7 @@ adoptPackageDictionary
 
 basicCreatePackage: packageName
 	"Create and bind a new bare package with given name and return it."
-	^ self packageDictionary at: packageName put: (Package new: packageName)
+	^ self packageDictionary at: packageName ifAbsentPut: [ Package new: packageName ]
 !
 
 basicParse: aString
