@@ -191,6 +191,10 @@ define(function () {
             propagateMethodChange(klass, method, null);
         };
 
+        st._methodReplaced = function (newMethod, oldMethod, klass) {
+            klass._methodOrganizationEnter_andLeave_(newMethod, oldMethod);
+        };
+
         function propagateMethodChange (klass, method, exclude) {
             var selector = method.selector;
             var jsSelector = method.jsSelector;

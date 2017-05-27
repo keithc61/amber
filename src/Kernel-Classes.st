@@ -628,6 +628,14 @@ methodDictionary
 	return dict'>
 !
 
+methodOrganizationEnter: aMethod andLeave: oldMethod
+	aMethod ifNotNil: [
+		self organization addElement: aMethod protocol ].
+	
+	oldMethod ifNotNil: [
+		self removeProtocolIfEmpty: oldMethod protocol ]
+!
+
 methodTemplate
 	^ String streamContents: [ :stream | stream 
 		write: 'messageSelectorAndArgumentNames'; lf;
@@ -833,6 +841,15 @@ comment: aString
 		announce: (ClassCommentChanged new
 			theClass: self;
 			yourself)
+!
+
+definedMethods
+	"Answers methods of me and derived 'meta' part if present"
+	| methods |
+	methods := self methods.
+	self theMetaClass
+		ifNil: [ ^ methods ]
+		ifNotNil: [ :meta | ^ methods, meta methods ]
 !
 
 enterOrganization

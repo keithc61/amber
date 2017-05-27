@@ -11,6 +11,7 @@
   * NonBooleanReceiver class >> signalOn:
   * TMasterBehavior >> enterOrganization
   * TMasterBehavior >> leaveOrganization
+  * TBehaviorProvider >> methodOrganizationEnter:andLeave:
 
 Commits: https://lolg.it/amber/amber/commits/0.19.1.
 

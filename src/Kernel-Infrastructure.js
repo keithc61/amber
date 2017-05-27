@@ -79,6 +79,49 @@ $globals.AmberBootstrapInitialization.a$cls);
 
 $core.addMethod(
 $core.method({
+selector: "organizeMethods",
+protocol: "organization",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv($recv($globals.Smalltalk)._classes())._do_((function(eachClass){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($recv(eachClass)._definedMethods())._do_((function(eachMethod){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($recv(eachMethod)._methodClass())._methodOrganizationEnter_andLeave_(eachMethod,nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({eachMethod:eachMethod},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({eachClass:eachClass},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["do:"]=1;
+//>>excludeEnd("ctx");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"organizeMethods",{},$globals.AmberBootstrapInitialization.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "organizeMethods\x0a\x09Smalltalk classes do: [ :eachClass |\x0a\x09\x09eachClass definedMethods do: [ :eachMethod |\x0a\x09\x09\x09eachMethod methodClass methodOrganizationEnter: eachMethod andLeave: nil ] ]",
+referencedClasses: ["Smalltalk"],
+//>>excludeEnd("ide");
+messageSends: ["do:", "classes", "definedMethods", "methodOrganizationEnter:andLeave:", "methodClass"]
+}),
+$globals.AmberBootstrapInitialization.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "run",
 protocol: "public api",
 fn: function (){
@@ -89,6 +132,7 @@ return $core.withContext(function($ctx1) {
 $recv($globals.SmalltalkImage)._initialize();
 $recv($globals.Smalltalk)._adoptPackageDictionary();
 $self._organizeClasses();
+$self._organizeMethods();
 $self._initializeClasses();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -97,10 +141,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "run\x0a\x09SmalltalkImage initialize.\x0a\x09Smalltalk adoptPackageDictionary.\x0a\x09self\x0a\x09\x09organizeClasses;\x0a\x09\x09initializeClasses",
+source: "run\x0a\x09SmalltalkImage initialize.\x0a\x09Smalltalk adoptPackageDictionary.\x0a\x09self\x0a\x09\x09organizeClasses;\x0a\x09\x09organizeMethods;\x0a\x09\x09initializeClasses",
 referencedClasses: ["SmalltalkImage", "Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["initialize", "adoptPackageDictionary", "organizeClasses", "initializeClasses"]
+messageSends: ["initialize", "adoptPackageDictionary", "organizeClasses", "organizeMethods", "initializeClasses"]
 }),
 $globals.AmberBootstrapInitialization.a$cls);
 

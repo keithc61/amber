@@ -8,6 +8,8 @@
 + AmberBootstrapInitialization class >>
   + run
   + initializeClasses
+  + organizeClasses
+  + otganizeMethods
 + Behavior >>
   + basicOrganization
 + Compiler class >>
@@ -29,7 +31,10 @@
   + named:javaScriptDescriptor:
 + SmalltalkImage >>
   + packageDictionary
++ TBehaviorProvider >>
+  + methodOrganizationEnter:andLeave:
 + TMasterBehavior >>
+  + definedMethods
   + enterOrganization
   + leaveOrganization
 + Trait >>

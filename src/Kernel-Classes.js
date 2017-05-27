@@ -2517,6 +2517,45 @@ $globals.TBehaviorProvider);
 
 $core.addMethod(
 $core.method({
+selector: "methodOrganizationEnter:andLeave:",
+protocol: "accessing",
+fn: function (aMethod,oldMethod){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$receiver;
+if(($receiver = aMethod) == null || $receiver.a$nil){
+aMethod;
+} else {
+$1=$self._organization();
+$2=$recv(aMethod)._protocol();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["protocol"]=1;
+//>>excludeEnd("ctx");
+$recv($1)._addElement_($2);
+}
+if(($receiver = oldMethod) == null || $receiver.a$nil){
+oldMethod;
+} else {
+$self._removeProtocolIfEmpty_($recv(oldMethod)._protocol());
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"methodOrganizationEnter:andLeave:",{aMethod:aMethod,oldMethod:oldMethod},$globals.TBehaviorProvider)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aMethod", "oldMethod"],
+source: "methodOrganizationEnter: aMethod andLeave: oldMethod\x0a\x09aMethod ifNotNil: [\x0a\x09\x09self organization addElement: aMethod protocol ].\x0a\x09\x0a\x09oldMethod ifNotNil: [\x0a\x09\x09self removeProtocolIfEmpty: oldMethod protocol ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["ifNotNil:", "addElement:", "organization", "protocol", "removeProtocolIfEmpty:"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
 selector: "methodTemplate",
 protocol: "accessing",
 fn: function (){
@@ -3280,6 +3319,43 @@ source: "comment: aString\x0a\x09self basicAt: 'comment' put: aString.\x0a\x09Sy
 referencedClasses: ["SystemAnnouncer", "ClassCommentChanged"],
 //>>excludeEnd("ide");
 messageSends: ["basicAt:put:", "announce:", "current", "theClass:", "new", "yourself"]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
+selector: "definedMethods",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+var methods;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$receiver;
+methods=$self._methods();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["methods"]=1;
+//>>excludeEnd("ctx");
+$1=$self._theMetaClass();
+if(($receiver = $1) == null || $receiver.a$nil){
+return methods;
+} else {
+var meta;
+meta=$receiver;
+return $recv(methods).__comma($recv(meta)._methods());
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"definedMethods",{methods:methods},$globals.TMasterBehavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "definedMethods\x0a\x09\x22Answers methods of me and derived 'meta' part if present\x22\x0a\x09| methods |\x0a\x09methods := self methods.\x0a\x09self theMetaClass\x0a\x09\x09ifNil: [ ^ methods ]\x0a\x09\x09ifNotNil: [ :meta | ^ methods, meta methods ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["methods", "ifNil:ifNotNil:", "theMetaClass", ","]
 }),
 $globals.TMasterBehavior);
 

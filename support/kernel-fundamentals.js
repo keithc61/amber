@@ -108,10 +108,6 @@ define(['./compatibility' /* TODO remove */], function () {
             traitOrBehavior.organization = new SmalltalkClassOrganizer();
             traitOrBehavior.organization.theClass = traitOrBehavior;
         };
-
-        this.addOrganizationElement = function (owner, element) {
-            addElement(owner.organization.elements, element);
-        };
     }
 
     SelectorsBrik.deps = ["selectorConversion"];
@@ -269,32 +265,12 @@ define(['./compatibility' /* TODO remove */], function () {
     BehaviorProvidersBrik.deps = ["organize"];
     function BehaviorProvidersBrik (brikz, st) {
         var setupClassOrganization = brikz.organize.setupClassOrganization;
-        var addOrganizationElement = brikz.organize.addOrganizationElement;
 
         this.setupMethods = function (traitOrBehavior) {
             setupClassOrganization(traitOrBehavior);
             traitOrBehavior.localMethods = Object.create(null);
             traitOrBehavior.methods = Object.create(null);
         };
-
-        function addMethod (method, traitOrBehavior) {
-            traitOrBehavior.methods[method.selector] = method;
-
-            // During the bootstrap, #addCompiledMethod is not used.
-            // Therefore we populate the organizer here too
-            addOrganizationElement(traitOrBehavior, method.protocol);
-
-            traitOrBehavior.methodAdded(method);
-        }
-
-        function removeMethod (method, traitOrBehavior) {
-            delete traitOrBehavior.methods[method.selector];
-
-            traitOrBehavior.methodRemoved(method);
-
-            // Do *not* delete protocols from here.
-            // This is handled by #removeCompiledMethod
-        }
 
         function updateMethod (selector, traitOrBehavior) {
             var oldMethod = traitOrBehavior.methods[selector],
@@ -304,8 +280,14 @@ define(['./compatibility' /* TODO remove */], function () {
                 return;
             }
             if (newMethod === oldMethod) return;
-            if (newMethod != null) addMethod(newMethod, traitOrBehavior);
-            else removeMethod(oldMethod, traitOrBehavior);
+            if (newMethod != null) {
+                traitOrBehavior.methods[selector] = newMethod;
+                traitOrBehavior.methodAdded(newMethod);
+            } else {
+                delete traitOrBehavior.methods[selector];
+                traitOrBehavior.methodRemoved(oldMethod);
+            }
+            if (st._methodReplaced) st._methodReplaced(newMethod, oldMethod, traitOrBehavior);
         }
 
         this.updateMethod = updateMethod;

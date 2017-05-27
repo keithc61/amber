@@ -14,6 +14,12 @@ initializeClasses
 
 organizeClasses
 	Smalltalk classes do: [ :each | each enterOrganization ]
+!
+
+organizeMethods
+	Smalltalk classes do: [ :eachClass |
+		eachClass definedMethods do: [ :eachMethod |
+			eachMethod methodClass methodOrganizationEnter: eachMethod andLeave: nil ] ]
 ! !
 
 !AmberBootstrapInitialization class methodsFor: 'public api'!
@@ -23,6 +29,7 @@ run
 	Smalltalk adoptPackageDictionary.
 	self
 		organizeClasses;
+		organizeMethods;
 		initializeClasses
 ! !
 
