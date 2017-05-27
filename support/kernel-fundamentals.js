@@ -246,7 +246,7 @@ define(['./compatibility' /* TODO remove */], function () {
             traitOrBehavior.methods = Object.create(null);
         };
 
-        function updateMethod (selector, traitOrBehavior) {
+        this.updateMethod = function (selector, traitOrBehavior) {
             var oldMethod = traitOrBehavior.methods[selector],
                 newMethod = traitOrBehavior.localMethods[selector];
             if (oldMethod == null && newMethod == null) {
@@ -262,9 +262,7 @@ define(['./compatibility' /* TODO remove */], function () {
                 traitOrBehavior.methodRemoved(oldMethod);
             }
             if (st._methodReplaced) st._methodReplaced(newMethod, oldMethod, traitOrBehavior);
-        }
-
-        this.updateMethod = updateMethod;
+        };
     }
 
     function ArraySetBrik (brikz, st) {
