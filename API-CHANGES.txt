@@ -8,6 +8,8 @@
 + AmberBootstrapInitialization class >>
   + run
   + initializeClasses
++ Behavior >>
+  + basicOrganization
 + Compiler class >>
   + eval:
 + JavaScriptException >>
@@ -30,6 +32,8 @@
 + TMasterBehavior >>
   + enterOrganization
   + leaveOrganization
++ Trait >>
+  + basicOrganization
 + UndefinedObject >>
   + ==
 

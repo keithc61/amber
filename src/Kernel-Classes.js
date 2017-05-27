@@ -214,6 +214,29 @@ $globals.Behavior);
 
 $core.addMethod(
 $core.method({
+selector: "basicOrganization",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self._basicAt_("organization");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"basicOrganization",{},$globals.Behavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "basicOrganization\x0a\x09^ self basicAt: 'organization'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["basicAt:"]
+}),
+$globals.Behavior);
+
+$core.addMethod(
+$core.method({
 selector: "canUnderstand:",
 protocol: "testing",
 fn: function (aSelector){
@@ -2620,17 +2643,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self._basicAt_("organization");
+return $self._basicOrganization();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"organization",{},$globals.TBehaviorProvider)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "organization\x0a\x09^ self basicAt: 'organization'",
+source: "organization\x0a\x09^ self basicOrganization",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["basicAt:"]
+messageSends: ["basicOrganization"]
 }),
 $globals.TBehaviorProvider);
 
@@ -3530,6 +3553,29 @@ source: "asTraitTransformation\x0a\x09^ TraitTransformation on: self",
 referencedClasses: ["TraitTransformation"],
 //>>excludeEnd("ide");
 messageSends: ["on:"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "basicOrganization",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self._basicAt_("organization");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"basicOrganization",{},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "basicOrganization\x0a\x09^ self basicAt: 'organization'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["basicAt:"]
 }),
 $globals.Trait);
 

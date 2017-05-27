@@ -44,6 +44,10 @@ allSuperclasses
 		yourself
 !
 
+basicOrganization
+	^ self basicAt: 'organization'
+!
+
 instanceVariableNames
 	<inlineJS: 'return self.iVarNames'>
 !
@@ -642,7 +646,7 @@ methodsInProtocol: aString
 !
 
 organization
-	^ self basicAt: 'organization'
+	^ self basicOrganization
 !
 
 ownMethods
@@ -889,6 +893,10 @@ Object subclass: #Trait
 	package: 'Kernel-Classes'!
 
 !Trait methodsFor: 'accessing'!
+
+basicOrganization
+	^ self basicAt: 'organization'
+!
 
 classTag
 	^ 'trait'
