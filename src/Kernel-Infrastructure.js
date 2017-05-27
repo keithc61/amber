@@ -788,7 +788,7 @@ messageSends: ["new", "jsObject:ofProxy:"]
 $globals.JSObjectProxy.a$cls);
 
 
-$core.addClass("Organizer", $globals.Object, [], "Kernel-Infrastructure");
+$core.addClass("Organizer", $globals.Object, ["elements"], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Organizer.comment="I represent categorization information. \x0a\x0a## API\x0a\x0aUse `#addElement:` and `#removeElement:` to manipulate instances.";
 //>>excludeEnd("ide");
@@ -801,7 +801,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$core.addElement(self.elements, anObject);
+$recv($self._elements())._add_(anObject);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"addElement:",{anObject:anObject},$globals.Organizer)});
@@ -809,10 +809,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "addElement: anObject\x0a\x09<inlineJS: '$core.addElement(self.elements, anObject)'>",
+source: "addElement: anObject\x0a\x09self elements add: anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["add:", "elements"]
 }),
 $globals.Organizer);
 
@@ -822,20 +822,47 @@ selector: "elements",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
+return $self["@elements"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "elements\x0a\x09^ elements",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Organizer);
+
+$core.addMethod(
+$core.method({
+selector: "initialize",
+protocol: "initialization",
+fn: function (){
+var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self._basicAt_("elements"))._copy();
+(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"elements",{},$globals.Organizer)});
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.Organizer.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+$self["@elements"]=$recv($globals.Set)._new();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Organizer)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "elements\x0a\x09^ (self basicAt: 'elements') copy",
-referencedClasses: [],
+source: "initialize\x0a\x09super initialize.\x0a\x09elements := Set new",
+referencedClasses: ["Set"],
 //>>excludeEnd("ide");
-messageSends: ["copy", "basicAt:"]
+messageSends: ["initialize", "new"]
 }),
 $globals.Organizer);
 
@@ -848,7 +875,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$core.removeElement(self.elements, anObject);
+$recv($self._elements())._remove_ifAbsent_(anObject,(function(){
+
+}));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"removeElement:",{anObject:anObject},$globals.Organizer)});
@@ -856,16 +885,16 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "removeElement: anObject\x0a\x09<inlineJS: '$core.removeElement(self.elements, anObject)'>",
+source: "removeElement: anObject\x0a\x09self elements remove: anObject ifAbsent: []",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["remove:ifAbsent:", "elements"]
 }),
 $globals.Organizer);
 
 
 
-$core.addClass("ClassOrganizer", $globals.Organizer, [], "Kernel-Infrastructure");
+$core.addClass("ClassOrganizer", $globals.Organizer, ["traitOrBehavior"], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassOrganizer.comment="I am an organizer specific to classes. I hold method categorization information for classes.";
 //>>excludeEnd("ide");
@@ -904,38 +933,6 @@ source: "addElement: aString\x0a\x09super addElement: aString.\x0a\x0a\x09System
 referencedClasses: ["SystemAnnouncer", "ProtocolAdded"],
 //>>excludeEnd("ide");
 messageSends: ["addElement:", "announce:", "current", "protocol:", "new", "theClass:", "theClass", "yourself"]
-}),
-$globals.ClassOrganizer);
-
-$core.addMethod(
-$core.method({
-selector: "initialize",
-protocol: "initialization",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = true,
-//>>excludeEnd("ctx");
-($globals.ClassOrganizer.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = false;
-//>>excludeEnd("ctx");;
-$self._basicAt_put_("elements",[]);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.ClassOrganizer)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09self basicAt: 'elements' put: #()",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["initialize", "basicAt:put:"]
 }),
 $globals.ClassOrganizer);
 
@@ -983,18 +980,12 @@ selector: "theClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.theClass;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"theClass",{},$globals.ClassOrganizer)});
-//>>excludeEnd("ctx");
+return $self["@traitOrBehavior"];
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "theClass\x0a\x09<inlineJS: 'return self.theClass'>",
+source: "theClass\x0a\x09^ traitOrBehavior",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -1007,18 +998,13 @@ selector: "theClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-self.theClass = aClass;
+$self["@traitOrBehavior"]=aClass;
 return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"theClass:",{aClass:aClass},$globals.ClassOrganizer)});
-//>>excludeEnd("ctx");
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
-source: "theClass: aClass\x0a\x09<inlineJS: 'self.theClass = aClass'>",
+source: "theClass: aClass\x0a\x09traitOrBehavior := aClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -1057,38 +1043,6 @@ $core.addClass("PackageOrganizer", $globals.Organizer, [], "Kernel-Infrastructur
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageOrganizer.comment="I am an organizer specific to packages. I hold classes categorization information.";
 //>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "initialize",
-protocol: "initialization",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = true,
-//>>excludeEnd("ctx");
-($globals.PackageOrganizer.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = false;
-//>>excludeEnd("ctx");;
-$self._basicAt_put_("elements",[]);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.PackageOrganizer)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09self basicAt: 'elements' put: #()",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["initialize", "basicAt:put:"]
-}),
-$globals.PackageOrganizer);
-
 
 
 $core.addClass("Package", $globals.Object, ["evalBlock", "basicTransport", "name", "transport", "imports", "dirty", "organization"], "Kernel-Infrastructure");
@@ -1232,17 +1186,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self._organization())._elements();
+return $recv($recv($self._organization())._elements())._copy();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"classes",{},$globals.Package)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "classes\x0a\x09^ self organization elements",
+source: "classes\x0a\x09^ self organization elements copy",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["elements", "organization"]
+messageSends: ["copy", "elements", "organization"]
 }),
 $globals.Package);
 

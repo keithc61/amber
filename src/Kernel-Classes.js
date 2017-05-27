@@ -7,7 +7,7 @@ $core.addPackage("Kernel-Classes");
 $core.packages["Kernel-Classes"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Classes"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass("Behavior", $globals.Object, [], "Kernel-Classes");
+$core.addClass("Behavior", $globals.Object, ["organization"], "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Behavior.comment="I am the superclass of all class objects.\x0a\x0aIn addition to BehaviorBody, I define superclass/subclass relationships and instantiation.\x0a\x0aI define the protocol for creating instances of a class with `#basicNew` and `#new` (see `boot.js` for class constructors details).\x0a\x0aMy instances know about the subclass/superclass relationships between classes and contain the description that instances are created from.\x0a\x0aI also provide iterating over the class hierarchy.";
 //>>excludeEnd("ide");
@@ -218,20 +218,15 @@ selector: "basicOrganization",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self._basicAt_("organization");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicOrganization",{},$globals.Behavior)});
-//>>excludeEnd("ctx");
+return $self["@organization"];
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "basicOrganization\x0a\x09^ self basicAt: 'organization'",
+source: "basicOrganization\x0a\x09^ organization",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["basicAt:"]
+messageSends: []
 }),
 $globals.Behavior);
 
@@ -241,20 +236,16 @@ selector: "basicOrganization:",
 protocol: "accessing",
 fn: function (aClassOrganizer){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self._basicAt_put_("organization",aClassOrganizer);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicOrganization:",{aClassOrganizer:aClassOrganizer},$globals.Behavior)});
-//>>excludeEnd("ctx");
+$self["@organization"]=aClassOrganizer;
+return self;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClassOrganizer"],
-source: "basicOrganization: aClassOrganizer\x0a\x09^ self basicAt: 'organization' put:aClassOrganizer",
+source: "basicOrganization: aClassOrganizer\x0a\x09organization := aClassOrganizer",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["basicAt:put:"]
+messageSends: []
 }),
 $globals.Behavior);
 
@@ -2875,17 +2866,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv($self._organization())._elements())._sorted();
+return $recv($recv($recv($self._organization())._elements())._asArray())._sorted();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"protocols",{},$globals.TBehaviorProvider)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "protocols\x0a\x09^ self organization elements sorted",
+source: "protocols\x0a\x09^ self organization elements asArray sorted",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["sorted", "elements", "organization"]
+messageSends: ["sorted", "asArray", "elements", "organization"]
 }),
 $globals.TBehaviorProvider);
 
@@ -3572,7 +3563,7 @@ messageSends: []
 $globals.TMasterBehavior);
 
 
-$core.addClass("Trait", $globals.Object, [], "Kernel-Classes");
+$core.addClass("Trait", $globals.Object, ["organization"], "Kernel-Classes");
 $core.addMethod(
 $core.method({
 selector: "-",
@@ -3671,20 +3662,15 @@ selector: "basicOrganization",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self._basicAt_("organization");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicOrganization",{},$globals.Trait)});
-//>>excludeEnd("ctx");
+return $self["@organization"];
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "basicOrganization\x0a\x09^ self basicAt: 'organization'",
+source: "basicOrganization\x0a\x09^ organization",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["basicAt:"]
+messageSends: []
 }),
 $globals.Trait);
 
@@ -3694,20 +3680,16 @@ selector: "basicOrganization:",
 protocol: "accessing",
 fn: function (aClassOrganizer){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self._basicAt_put_("organization",aClassOrganizer);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicOrganization:",{aClassOrganizer:aClassOrganizer},$globals.Trait)});
-//>>excludeEnd("ctx");
+$self["@organization"]=aClassOrganizer;
+return self;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClassOrganizer"],
-source: "basicOrganization: aClassOrganizer\x0a\x09^ self basicAt: 'organization' put: aClassOrganizer",
+source: "basicOrganization: aClassOrganizer\x0a\x09organization := aClassOrganizer",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["basicAt:put:"]
+messageSends: []
 }),
 $globals.Trait);
 

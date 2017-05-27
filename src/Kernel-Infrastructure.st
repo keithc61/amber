@@ -228,7 +228,7 @@ lookupProperty: aString ofProxy: aProxy
 ! !
 
 Object subclass: #Organizer
-	instanceVariableNames: ''
+	instanceVariableNames: 'elements'
 	package: 'Kernel-Infrastructure'!
 !Organizer commentStamp!
 I represent categorization information. 
@@ -240,19 +240,26 @@ Use `#addElement:` and `#removeElement:` to manipulate instances.!
 !Organizer methodsFor: 'accessing'!
 
 addElement: anObject
-	<inlineJS: '$core.addElement(self.elements, anObject)'>
+	self elements add: anObject
 !
 
 elements
-	^ (self basicAt: 'elements') copy
+	^ elements
 !
 
 removeElement: anObject
-	<inlineJS: '$core.removeElement(self.elements, anObject)'>
+	self elements remove: anObject ifAbsent: []
+! !
+
+!Organizer methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	elements := Set new
 ! !
 
 Organizer subclass: #ClassOrganizer
-	instanceVariableNames: ''
+	instanceVariableNames: 'traitOrBehavior'
 	package: 'Kernel-Infrastructure'!
 !ClassOrganizer commentStamp!
 I am an organizer specific to classes. I hold method categorization information for classes.!
@@ -278,18 +285,11 @@ removeElement: aString
 !
 
 theClass
-	<inlineJS: 'return self.theClass'>
+	^ traitOrBehavior
 !
 
 theClass: aClass
-	<inlineJS: 'self.theClass = aClass'>
-! !
-
-!ClassOrganizer methodsFor: 'initialization'!
-
-initialize
-	super initialize.
-	self basicAt: 'elements' put: #()
+	traitOrBehavior := aClass
 ! !
 
 !ClassOrganizer class methodsFor: 'instance creation'!
@@ -305,13 +305,6 @@ Organizer subclass: #PackageOrganizer
 	package: 'Kernel-Infrastructure'!
 !PackageOrganizer commentStamp!
 I am an organizer specific to packages. I hold classes categorization information.!
-
-!PackageOrganizer methodsFor: 'initialization'!
-
-initialize
-	super initialize.
-	self basicAt: 'elements' put: #()
-! !
 
 Object subclass: #Package
 	instanceVariableNames: 'evalBlock basicTransport name transport imports dirty organization'
@@ -433,7 +426,7 @@ transport: aPackageTransport
 !Package methodsFor: 'classes'!
 
 classes
-	^ self organization elements
+	^ self organization elements copy
 !
 
 setupClasses

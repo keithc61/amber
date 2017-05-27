@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Kernel-Classes'!
 Object subclass: #Behavior
-	instanceVariableNames: ''
+	instanceVariableNames: 'organization'
 	package: 'Kernel-Classes'!
 !Behavior commentStamp!
 I am the superclass of all class objects.
@@ -45,11 +45,11 @@ allSuperclasses
 !
 
 basicOrganization
-	^ self basicAt: 'organization'
+	^ organization
 !
 
 basicOrganization: aClassOrganizer
-	^ self basicAt: 'organization' put:aClassOrganizer
+	organization := aClassOrganizer
 !
 
 instanceVariableNames
@@ -698,7 +698,7 @@ packageOfProtocol: aString
 !
 
 protocols
-	^ self organization elements sorted
+	^ self organization elements asArray sorted
 !
 
 removeProtocolIfEmpty: aString
@@ -912,17 +912,17 @@ asJavaScriptSource
 ! !
 
 Object subclass: #Trait
-	instanceVariableNames: ''
+	instanceVariableNames: 'organization'
 	package: 'Kernel-Classes'!
 
 !Trait methodsFor: 'accessing'!
 
 basicOrganization
-	^ self basicAt: 'organization'
+	^ organization
 !
 
 basicOrganization: aClassOrganizer
-	^ self basicAt: 'organization' put: aClassOrganizer
+	organization := aClassOrganizer
 !
 
 classTag
