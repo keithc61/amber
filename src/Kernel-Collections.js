@@ -8583,7 +8583,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-if (delete anotherObject.store[anObject]) $self['@size']--;
+if (anObject in anotherObject.store) { delete anotherObject.store[anObject]; $self['@size']--; };
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"remove:in:",{anObject:anObject,anotherObject:anotherObject},$globals.Set)});
@@ -8591,7 +8591,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject", "anotherObject"],
-source: "remove: anObject in: anotherObject\x0a\x09<inlineJS: 'if (delete anotherObject.store[anObject]) $self[''@size'']--'>",
+source: "remove: anObject in: anotherObject\x0a\x09<inlineJS: 'if (anObject in anotherObject.store) { delete anotherObject.store[anObject]; $self[''@size'']--; }'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

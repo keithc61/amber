@@ -2086,7 +2086,7 @@ jsConstructorNameOf: anObject
 !
 
 remove: anObject in: anotherObject
-	<inlineJS: 'if (delete anotherObject.store[anObject]) $self[''@size'']--'>
+	<inlineJS: 'if (anObject in anotherObject.store) { delete anotherObject.store[anObject]; $self[''@size'']--; }'>
 ! !
 
 !Set methodsFor: 'testing'!
