@@ -1410,6 +1410,10 @@ add: anObject
 
 remove: anObject
 	self errorReadOnly
+!
+
+remove: anObject ifAbsent: aBlock
+	self errorReadOnly
 ! !
 
 !CharacterArray methodsFor: 'converting'!

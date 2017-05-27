@@ -4548,6 +4548,37 @@ $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
+selector: "testRegression1224",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $3,$2,$1;
+$3=$recv($self._collectionClass())._new();
+$recv($3)._remove_ifAbsent_($self._sampleNewValue(),(function(){
+
+}));
+$2=$recv($3)._yourself();
+$1=$recv($2)._size();
+$self._assert_equals_($1,(0));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testRegression1224",{},$globals.CollectionTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRegression1224\x0a\x09self assert: (self collectionClass new\x0a\x09\x09remove: self sampleNewValue ifAbsent: [];\x0a\x09\x09yourself) size equals: 0",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["assert:equals:", "size", "remove:ifAbsent:", "new", "collectionClass", "sampleNewValue", "yourself"]
+}),
+$globals.CollectionTest);
+
+$core.addMethod(
+$core.method({
 selector: "testRemoveAll",
 protocol: "tests",
 fn: function (){
@@ -9223,6 +9254,44 @@ source: "testJoin\x0a\x09self assert: (',' join: #('hello' 'world')) equals: 'he
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["assert:equals:", "join:"]
+}),
+$globals.StringTest);
+
+$core.addMethod(
+$core.method({
+selector: "testRegression1224",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1;
+$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$2=$recv($self._collectionClass())._new();
+$recv($2)._remove_ifAbsent_($self._sampleNewValue(),(function(){
+
+}));
+$1=$recv($2)._yourself();
+return $recv($1)._size();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testRegression1224",{},$globals.StringTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRegression1224\x0a\x09\x22String instances are read-only\x22\x0a\x09self should: [ (self collectionClass new\x0a\x09\x09remove: self sampleNewValue ifAbsent: [];\x0a\x09\x09yourself) size ] raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+messageSends: ["should:raise:", "size", "remove:ifAbsent:", "new", "collectionClass", "sampleNewValue", "yourself"]
 }),
 $globals.StringTest);
 

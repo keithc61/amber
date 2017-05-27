@@ -5968,6 +5968,30 @@ $globals.CharacterArray);
 
 $core.addMethod(
 $core.method({
+selector: "remove:ifAbsent:",
+protocol: "adding/removing",
+fn: function (anObject,aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._errorReadOnly();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.CharacterArray)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject", "aBlock"],
+source: "remove: anObject ifAbsent: aBlock\x0a\x09self errorReadOnly",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["errorReadOnly"]
+}),
+$globals.CharacterArray);
+
+$core.addMethod(
+$core.method({
 selector: "symbolPrintString",
 protocol: "printing",
 fn: function (){

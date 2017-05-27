@@ -791,6 +791,12 @@ testNoneSatisfy
 	self assert: (self collection noneSatisfy: [ :each | each = Object new ])
 !
 
+testRegression1224
+	self assert: (self collectionClass new
+		remove: self sampleNewValue ifAbsent: [];
+		yourself) size equals: 0
+!
+
 testRemoveAll
 	self assert: (self collection removeAll; yourself) equals: self collectionClass new
 !
@@ -1669,6 +1675,13 @@ testIsVowel
 
 testJoin
 	self assert: (',' join: #('hello' 'world')) equals: 'hello,world'
+!
+
+testRegression1224
+	"String instances are read-only"
+	self should: [ (self collectionClass new
+		remove: self sampleNewValue ifAbsent: [];
+		yourself) size ] raise: Error
 !
 
 testRemoveAll
