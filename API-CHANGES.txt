@@ -12,6 +12,10 @@
   + otganizeMethods
 + Behavior >>
   + basicOrganization
++ ClassOrganizer >>
+  + theClass
++ ClassOrganizer class >>
+  + on:
 + Compiler class >>
   + eval:
 + JavaScriptException >>
@@ -39,6 +43,7 @@
   + leaveOrganization
 + Trait >>
   + basicOrganization
+  + basicOrganization:
 + UndefinedObject >>
   + ==
 

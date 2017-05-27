@@ -48,6 +48,10 @@ basicOrganization
 	^ self basicAt: 'organization'
 !
 
+basicOrganization: aClassOrganizer
+	^ self basicAt: 'organization' put:aClassOrganizer
+!
+
 instanceVariableNames
 	<inlineJS: 'return self.iVarNames'>
 !
@@ -654,7 +658,9 @@ methodsInProtocol: aString
 !
 
 organization
-	^ self basicOrganization
+	^ self basicOrganization ifNil: [
+		self basicOrganization: (ClassOrganizer on: self).
+		self basicOrganization ]
 !
 
 ownMethods
@@ -913,6 +919,10 @@ Object subclass: #Trait
 
 basicOrganization
 	^ self basicAt: 'organization'
+!
+
+basicOrganization: aClassOrganizer
+	^ self basicAt: 'organization' put: aClassOrganizer
 !
 
 classTag

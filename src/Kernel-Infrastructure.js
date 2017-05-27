@@ -909,6 +909,38 @@ $globals.ClassOrganizer);
 
 $core.addMethod(
 $core.method({
+selector: "initialize",
+protocol: "initialization",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.ClassOrganizer.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+$self._basicAt_put_("elements",[]);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.ClassOrganizer)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "initialize\x0a\x09super initialize.\x0a\x09self basicAt: 'elements' put: #()",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["initialize", "basicAt:put:"]
+}),
+$globals.ClassOrganizer);
+
+$core.addMethod(
+$core.method({
 selector: "removeElement:",
 protocol: "accessing",
 fn: function (aString){
@@ -969,6 +1001,56 @@ messageSends: []
 }),
 $globals.ClassOrganizer);
 
+$core.addMethod(
+$core.method({
+selector: "theClass:",
+protocol: "accessing",
+fn: function (aClass){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+self.theClass = aClass;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"theClass:",{aClass:aClass},$globals.ClassOrganizer)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aClass"],
+source: "theClass: aClass\x0a\x09<inlineJS: 'self.theClass = aClass'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.ClassOrganizer);
+
+
+$core.addMethod(
+$core.method({
+selector: "on:",
+protocol: "instance creation",
+fn: function (aClass){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$self._new();
+$recv($1)._theClass_(aClass);
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"on:",{aClass:aClass},$globals.ClassOrganizer.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aClass"],
+source: "on: aClass\x0a\x09^ self new\x0a\x09\x09theClass: aClass;\x0a\x09\x09yourself",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["theClass:", "new", "yourself"]
+}),
+$globals.ClassOrganizer.a$cls);
 
 
 $core.addClass("PackageOrganizer", $globals.Organizer, [], "Kernel-Infrastructure");

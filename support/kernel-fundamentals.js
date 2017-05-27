@@ -88,28 +88,6 @@ define(['./compatibility' /* TODO remove */], function () {
         this.Object = SmalltalkObject;
     }
 
-    OrganizeBrik.deps = ["arraySet", "root"];
-    function OrganizeBrik (brikz, st) {
-        var SmalltalkObject = brikz.root.Object;
-        var coreFns = brikz.root.coreFns;
-        var addElement = brikz.arraySet.addElement;
-
-        function SmalltalkOrganizer () {
-        }
-
-        function SmalltalkClassOrganizer () {
-            this.elements = [];
-        }
-
-        coreFns.Organizer = inherits(SmalltalkOrganizer, SmalltalkObject);
-        coreFns.ClassOrganizer = inherits(SmalltalkClassOrganizer, SmalltalkOrganizer);
-
-        this.setupClassOrganization = function (traitOrBehavior) {
-            traitOrBehavior.organization = new SmalltalkClassOrganizer();
-            traitOrBehavior.organization.theClass = traitOrBehavior;
-        };
-    }
-
     SelectorsBrik.deps = ["selectorConversion"];
     function SelectorsBrik (brikz, st) {
         var selectorSet = Object.create(null);
@@ -262,12 +240,8 @@ define(['./compatibility' /* TODO remove */], function () {
         };
     }
 
-    BehaviorProvidersBrik.deps = ["organize"];
     function BehaviorProvidersBrik (brikz, st) {
-        var setupClassOrganization = brikz.organize.setupClassOrganization;
-
         this.setupMethods = function (traitOrBehavior) {
-            setupClassOrganization(traitOrBehavior);
             traitOrBehavior.localMethods = Object.create(null);
             traitOrBehavior.methods = Object.create(null);
         };
@@ -378,7 +352,6 @@ define(['./compatibility' /* TODO remove */], function () {
         brikz.smalltalkGlobals = SmalltalkGlobalsBrik;
         brikz.root = RootBrik;
         brikz.arraySet = ArraySetBrik;
-        brikz.organize = OrganizeBrik;
         brikz.selectorConversion = SelectorConversionBrik;
         brikz.selectors = SelectorsBrik;
         brikz.packages = PackagesBrik;

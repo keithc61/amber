@@ -237,6 +237,29 @@ $globals.Behavior);
 
 $core.addMethod(
 $core.method({
+selector: "basicOrganization:",
+protocol: "accessing",
+fn: function (aClassOrganizer){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self._basicAt_put_("organization",aClassOrganizer);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"basicOrganization:",{aClassOrganizer:aClassOrganizer},$globals.Behavior)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aClassOrganizer"],
+source: "basicOrganization: aClassOrganizer\x0a\x09^ self basicAt: 'organization' put:aClassOrganizer",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["basicAt:put:"]
+}),
+$globals.Behavior);
+
+$core.addMethod(
+$core.method({
 selector: "canUnderstand:",
 protocol: "testing",
 fn: function (aSelector){
@@ -2682,17 +2705,27 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1,$receiver;
+$1=$self._basicOrganization();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["basicOrganization"]=1;
+//>>excludeEnd("ctx");
+if(($receiver = $1) == null || $receiver.a$nil){
+$self._basicOrganization_($recv($globals.ClassOrganizer)._on_(self));
 return $self._basicOrganization();
+} else {
+return $1;
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"organization",{},$globals.TBehaviorProvider)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "organization\x0a\x09^ self basicOrganization",
-referencedClasses: [],
+source: "organization\x0a\x09^ self basicOrganization ifNil: [\x0a\x09\x09self basicOrganization: (ClassOrganizer on: self).\x0a\x09\x09self basicOrganization ]",
+referencedClasses: ["ClassOrganizer"],
 //>>excludeEnd("ide");
-messageSends: ["basicOrganization"]
+messageSends: ["ifNil:", "basicOrganization", "basicOrganization:", "on:"]
 }),
 $globals.TBehaviorProvider);
 
@@ -3652,6 +3685,29 @@ source: "basicOrganization\x0a\x09^ self basicAt: 'organization'",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["basicAt:"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "basicOrganization:",
+protocol: "accessing",
+fn: function (aClassOrganizer){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self._basicAt_put_("organization",aClassOrganizer);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"basicOrganization:",{aClassOrganizer:aClassOrganizer},$globals.Trait)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aClassOrganizer"],
+source: "basicOrganization: aClassOrganizer\x0a\x09^ self basicAt: 'organization' put: aClassOrganizer",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["basicAt:put:"]
 }),
 $globals.Trait);
 

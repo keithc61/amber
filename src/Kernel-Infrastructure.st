@@ -279,6 +279,25 @@ removeElement: aString
 
 theClass
 	<inlineJS: 'return self.theClass'>
+!
+
+theClass: aClass
+	<inlineJS: 'self.theClass = aClass'>
+! !
+
+!ClassOrganizer methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	self basicAt: 'elements' put: #()
+! !
+
+!ClassOrganizer class methodsFor: 'instance creation'!
+
+on: aClass
+	^ self new
+		theClass: aClass;
+		yourself
 ! !
 
 Organizer subclass: #PackageOrganizer
