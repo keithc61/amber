@@ -315,11 +315,7 @@ define(function () {
 
         var thisContext = null;
 
-        st.withContext = function (worker, setup) {
-            return thisContext != null ?
-                inContext(worker, setup) :
-                inContextWithErrorHandling(worker, setup);
-        };
+        st.withContext = inContext;
 
         /*
          Runs worker function so that error handler is not set up
@@ -329,15 +325,19 @@ define(function () {
          The effect is, $core.seamless(fn)'s exceptions are not
          handed into ST error handler and caller should process them.
          */
-        st.seamless = function (worker) {
-            return inContext(worker, function (ctx) {
+        st.seamless = function inContext (worker) {
+            var oldContext = thisContext;
+            thisContext = new SmalltalkMethodContext(thisContext, function (ctx) {
                 ctx.fill(null, "seamlessDoIt", {}, globals.UndefinedObject);
             });
+            var result = worker(thisContext);
+            thisContext = oldContext;
+            return result;
         };
 
-        function inContextWithErrorHandling (worker, setup) {
+        function resultWithErrorHandling (worker) {
             try {
-                return inContext(worker, setup);
+                return worker(thisContext);
             } catch (error) {
                 globals.ErrorHandler._handleError_(error);
                 thisContext = null;
@@ -349,7 +349,7 @@ define(function () {
         function inContext (worker, setup) {
             var oldContext = thisContext;
             thisContext = new SmalltalkMethodContext(thisContext, setup);
-            var result = worker(thisContext);
+            var result = oldContext == null ? resultWithErrorHandling(worker) : worker(thisContext);
             thisContext = oldContext;
             return result;
         }
