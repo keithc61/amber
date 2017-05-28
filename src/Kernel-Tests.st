@@ -584,7 +584,7 @@ collectionSize
 
 collectionWithDuplicates
 	"Answers pre-filled collection of type tested,
-	with exactly five distinct elements,
+	with exactly six distinct elements,
 	some of them appearing multiple times, if possible."
 
 	self subclassResponsibility
@@ -619,12 +619,6 @@ initialize
 	super initialize.
 
 	sampleBlock := []
-! !
-
-!CollectionTest methodsFor: 'testing'!
-
-isCollectionReadOnly
-	^ false
 ! !
 
 !CollectionTest methodsFor: 'tests'!
@@ -858,16 +852,16 @@ collectionWithNewValue
 	self subclassResponsibility
 !
 
-sampleNewIndex
-	"Answers a value that can be used as index in at:put: or at:ifAbsentPut:"
+nonIndexesDo: aBlock
+	"Executes block a few times,
+	each time passing value that is known
+	not to be an index, as the first parameter"
 	
 	self subclassResponsibility
 !
 
-sampleNonIndexesDo: aBlock
-	"Executes block a few times,
-	each time passing value that is known
-	not to be an index, as the first parameter"
+sampleNewIndex
+	"Answers a value that can be used as index in at:put: or at:ifAbsentPut:"
 	
 	self subclassResponsibility
 !

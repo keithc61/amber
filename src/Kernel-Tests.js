@@ -2942,7 +2942,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "collectionWithDuplicates\x0a\x09\x22Answers pre-filled collection of type tested,\x0a\x09with exactly five distinct elements,\x0a\x09some of them appearing multiple times, if possible.\x22\x0a\x0a\x09self subclassResponsibility",
+source: "collectionWithDuplicates\x0a\x09\x22Answers pre-filled collection of type tested,\x0a\x09with exactly six distinct elements,\x0a\x09some of them appearing multiple times, if possible.\x22\x0a\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["subclassResponsibility"]
@@ -3004,24 +3004,6 @@ source: "initialize\x0a\x09super initialize.\x0a\x0a\x09sampleBlock := []",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["initialize"]
-}),
-$globals.CollectionTest);
-
-$core.addMethod(
-$core.method({
-selector: "isCollectionReadOnly",
-protocol: "testing",
-fn: function (){
-var self=this,$self=this;
-return false;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isCollectionReadOnly\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
 }),
 $globals.CollectionTest);
 
@@ -5025,6 +5007,30 @@ $globals.IndexableCollectionTest);
 
 $core.addMethod(
 $core.method({
+selector: "nonIndexesDo:",
+protocol: "fixture",
+fn: function (aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"nonIndexesDo:",{aBlock:aBlock},$globals.IndexableCollectionTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "nonIndexesDo: aBlock\x0a\x09\x22Executes block a few times,\x0a\x09each time passing value that is known\x0a\x09not to be an index, as the first parameter\x22\x0a\x09\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclassResponsibility"]
+}),
+$globals.IndexableCollectionTest);
+
+$core.addMethod(
+$core.method({
 selector: "sampleNewIndex",
 protocol: "fixture",
 fn: function (){
@@ -5041,30 +5047,6 @@ return self;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "sampleNewIndex\x0a\x09\x22Answers a value that can be used as index in at:put: or at:ifAbsentPut:\x22\x0a\x09\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["subclassResponsibility"]
-}),
-$globals.IndexableCollectionTest);
-
-$core.addMethod(
-$core.method({
-selector: "sampleNonIndexesDo:",
-protocol: "fixture",
-fn: function (aBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._subclassResponsibility();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"sampleNonIndexesDo:",{aBlock:aBlock},$globals.IndexableCollectionTest)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "sampleNonIndexesDo: aBlock\x0a\x09\x22Executes block a few times,\x0a\x09each time passing value that is known\x0a\x09not to be an index, as the first parameter\x22\x0a\x09\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["subclassResponsibility"]
