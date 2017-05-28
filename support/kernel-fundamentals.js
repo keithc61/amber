@@ -110,6 +110,7 @@ define(['./compatibility' /* TODO remove */], function () {
     }
 
     function PackagesBrik (brikz, st) {
+        // TODO remove .packages, have .packageDescriptors
         st.packages = {};
 
         /* Add a package load descriptor to the system */
@@ -117,6 +118,7 @@ define(['./compatibility' /* TODO remove */], function () {
         st.addPackage = function (pkgName, properties) {
             if (!pkgName) return null;
             return st.packages[pkgName] = {
+                // TODO remove .pkgName, have .name
                 pkgName: pkgName,
                 properties: properties
             };
@@ -134,8 +136,10 @@ define(['./compatibility' /* TODO remove */], function () {
         var classes = [];
 
         this.buildTraitOrClass = function (pkgName, builder) {
+            // TODO remove .className, have .name
             var traitOrClass = globals.hasOwnProperty(builder.className) && globals[builder.className];
             if (traitOrClass) {
+                // TODO remove .pkg, have .pkgName
                 if (!traitOrClass.pkg) throw new Error("Updated trait or class must have package: " + traitOrClass.className);
                 // if (traitOrClass.pkg.pkgName !== pkgName) throw new Error("Incompatible cross-package update of trait or class: " + traitOrClass.className);
                 builder.updateExisting(traitOrClass);
@@ -171,6 +175,7 @@ define(['./compatibility' /* TODO remove */], function () {
         /* Answer all registered Smalltalk classes */
         //TODO: remove the function and make smalltalk.classes an array
 
+        // TODO: remove .classes, have .traitsOrClasses
         st.classes = this.classes = function () {
             return classes;
         };
@@ -200,6 +205,7 @@ define(['./compatibility' /* TODO remove */], function () {
             that.protocol = spec.protocol;
             that.source = spec.source;
             that.messageSends = spec.messageSends || [];
+            // TODO remove .referencedClasses, have .referencedGlobals
             that.referencedClasses = spec.referencedClasses || [];
             that.fn = spec.fn;
             return that;
@@ -208,6 +214,7 @@ define(['./compatibility' /* TODO remove */], function () {
         /* Add/remove a method to/from a class */
 
         st.addMethod = function (method, traitOrBehavior) {
+            // TODO remove .methodClass, have .owner
             if (method.methodClass != null) {
                 throw new Error("addMethod: Method " + method.selector + " already bound to " + method.methodClass);
             }

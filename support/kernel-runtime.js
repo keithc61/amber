@@ -191,8 +191,8 @@ define(function () {
             propagateMethodChange(klass, method, null);
         };
 
-        st._methodReplaced = function (newMethod, oldMethod, klass) {
-            klass._methodOrganizationEnter_andLeave_(newMethod, oldMethod);
+        st._methodReplaced = function (newMethod, oldMethod, traitOrBehavior) {
+            traitOrBehavior._methodOrganizationEnter_andLeave_(newMethod, oldMethod);
         };
 
         function propagateMethodChange (klass, method, exclude) {
@@ -258,7 +258,9 @@ define(function () {
         var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
 
         function SmalltalkMethodContext (home, setup) {
+            // TODO lazy fill of .sendIdx
             this.sendIdx = {};
+            // TODO very likely .senderContext, not .homeContext here
             this.homeContext = home;
             this.setup = setup;
         }
