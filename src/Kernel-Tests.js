@@ -12213,6 +12213,60 @@ $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
+selector: "testBetweenAnd",
+protocol: "tests",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$3,$2,$5,$4;
+$1=(4)._between_and_((3),(5));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["between:and:"]=1;
+//>>excludeEnd("ctx");
+$self._assert_($1);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:"]=1;
+//>>excludeEnd("ctx");
+$3=(1)._between_and_((5),(6));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["between:and:"]=2;
+//>>excludeEnd("ctx");
+$2=$recv($3)._not();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["not"]=1;
+//>>excludeEnd("ctx");
+$self._assert_($2);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:"]=2;
+//>>excludeEnd("ctx");
+$5=(90)._between_and_((67),(87));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["between:and:"]=3;
+//>>excludeEnd("ctx");
+$4=$recv($5)._not();
+$self._assert_($4);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:"]=3;
+//>>excludeEnd("ctx");
+$self._assert_((1)._between_and_((1),(1)));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testBetweenAnd",{},$globals.NumberTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testBetweenAnd\x0a\x09self assert: (4 between: 3 and: 5).\x0a\x09self assert: (1 between: 5 and: 6) not.\x0a\x09self assert: (90 between: 67 and: 87) not.\x0a\x09self assert: (1 between: 1 and: 1).",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["assert:", "between:and:", "not"]
+}),
+$globals.NumberTest);
+
+$core.addMethod(
+$core.method({
 selector: "testCeiling",
 protocol: "tests",
 fn: function (){
@@ -12348,6 +12402,30 @@ source: "testCopying\x0a\x09self assert: 1 copy == 1.\x0a\x09self assert: 1 deep
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["assert:", "==", "copy", "deepCopy"]
+}),
+$globals.NumberTest);
+
+$core.addMethod(
+$core.method({
+selector: "testDegreesToRadians",
+protocol: "tests",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._assert_($recv($recv($recv((180)._degreesToRadians()).__minus($recv($globals.Number)._pi()))._abs()).__lt_eq((0.01)));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testDegreesToRadians",{},$globals.NumberTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDegreesToRadians\x0a\x09self assert: (180 degreesToRadians - Number pi) abs <= 0.01.",
+referencedClasses: ["Number"],
+//>>excludeEnd("ide");
+messageSends: ["assert:", "<=", "abs", "-", "degreesToRadians", "pi"]
 }),
 $globals.NumberTest);
 
@@ -13197,16 +13275,37 @@ $core.addMethod(
 $core.method({
 selector: "testMinMax",
 protocol: "tests",
-fn: function (){
+fn: function(){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1,$2;
 $self._assert_equals_((2)._max_((5)),(5));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=1;
 //>>excludeEnd("ctx");
 $self._assert_equals_((2)._min_((5)),(2));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+$1=(2)._min_max_((5),(3));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["min:max:"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($1,(3));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=3;
+//>>excludeEnd("ctx");
+$2=(7)._min_max_((5),(3));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["min:max:"]=2;
+//>>excludeEnd("ctx");
+$self._assert_equals_($2,(5));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=4;
+//>>excludeEnd("ctx");
+$self._assert_equals_((4)._min_max_((5),(3)),(4));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testMinMax",{},$globals.NumberTest)});
@@ -13214,10 +13313,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testMinMax\x0a\x09\x0a\x09self assert: (2 max: 5) equals: 5.\x0a\x09self assert: (2 min: 5) equals: 2",
+source: "testMinMax\x0a\x09\x0a\x09self assert: (2 max: 5) equals: 5.\x0a\x09self assert: (2 min: 5) equals: 2.\x0a\x09self assert: (2 min: 5 max: 3) equals: 3.\x0a\x09self assert: (7 min: 5 max: 3) equals: 5.\x0a\x09self assert: (4 min: 5 max: 3) equals: 4.",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["assert:equals:", "max:", "min:"]
+messageSends: ["assert:equals:", "max:", "min:", "min:max:"]
 }),
 $globals.NumberTest);
 
@@ -13384,6 +13483,30 @@ source: "testPrintShowingDecimalPlaces\x0a\x09self assert: (23 printShowingDecim
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["assert:equals:", "printShowingDecimalPlaces:", "negated"]
+}),
+$globals.NumberTest);
+
+$core.addMethod(
+$core.method({
+selector: "testRadiansToDegrees",
+protocol: "tests",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._assert_($recv($recv($recv($recv($recv($globals.Number)._pi())._radiansToDegrees()).__minus((180)))._abs()).__lt_eq((0.01)));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testRadiansToDegrees",{},$globals.NumberTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRadiansToDegrees\x0a\x09self assert: (Number pi radiansToDegrees - 180) abs <= 0.01.",
+referencedClasses: ["Number"],
+//>>excludeEnd("ide");
+messageSends: ["assert:", "<=", "abs", "-", "radiansToDegrees", "pi"]
 }),
 $globals.NumberTest);
 

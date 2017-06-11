@@ -816,6 +816,10 @@ min: aNumber
 	<inlineJS: 'return Math.min(self, aNumber);'>
 !
 
+min: aMin max: aMax
+	^ (self min: aMin) max: aMax
+!
+
 negated
 	^ 0 - self
 ! !
@@ -888,8 +892,16 @@ ceiling
 	<inlineJS: 'return Math.ceil(self);'>
 !
 
+degreesToRadians
+	^ self * Number radiansPerDegree
+!
+
 floor
 	<inlineJS: 'return Math.floor(self);'>
+!
+
+radiansToDegrees
+	^ self / Number radiansPerDegree
 !
 
 rounded
@@ -1058,6 +1070,10 @@ printShowingDecimalPlaces: placesDesired
 
 !Number methodsFor: 'testing'!
 
+between: min and: max
+ ^ self >= min and: [ self <= max ]
+!
+
 even
 	^ 0 = (self \\ 2)
 !
@@ -1108,6 +1124,10 @@ e
 
 pi
 	<inlineJS: 'return Math.PI'>
+!
+
+radiansPerDegree
+	^ (self pi) / 180
 ! !
 
 Object subclass: #Point

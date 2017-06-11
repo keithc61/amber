@@ -2271,6 +2271,13 @@ testAsNumber
 	self assert: 3 asNumber equals: 3.
 !
 
+testBetweenAnd
+	self assert: (4 between: 3 and: 5).
+	self assert: (1 between: 5 and: 6) not.
+	self assert: (90 between: 67 and: 87) not.
+	self assert: (1 between: 1 and: 1).
+!
+
 testCeiling
 	self assert: 1.2 ceiling equals: 2.
 	self assert: -1.2 ceiling equals: -1.
@@ -2294,6 +2301,10 @@ testComparison
 testCopying
 	self assert: 1 copy == 1.
 	self assert: 1 deepCopy == 1
+!
+
+testDegreesToRadians
+	self assert: (180 degreesToRadians - Number pi) abs <= 0.01.
 !
 
 testEquality
@@ -2394,7 +2405,10 @@ testLog
 testMinMax
 	
 	self assert: (2 max: 5) equals: 5.
-	self assert: (2 min: 5) equals: 2
+	self assert: (2 min: 5) equals: 2.
+	self assert: (2 min: 5 max: 3) equals: 3.
+	self assert: (7 min: 5 max: 3) equals: 5.
+	self assert: (4 min: 5 max: 3) equals: 4.
 !
 
 testNegated
@@ -2416,6 +2430,10 @@ testPrintShowingDecimalPlaces
 	self assert: (2.567 printShowingDecimalPlaces: 2) equals: '2.57'.
 	self assert: (-2.567 printShowingDecimalPlaces: 2) equals: '-2.57'.
 	self assert: (0 printShowingDecimalPlaces: 2) equals: '0.00'.
+!
+
+testRadiansToDegrees
+	self assert: (Number pi radiansToDegrees - 180) abs <= 0.01.
 !
 
 testRaisedTo

@@ -3752,6 +3752,37 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "between:and:",
+protocol: "testing",
+fn: function(min,max){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self.__gt_eq(min))._and_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self.__lt_eq(max);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"between:and:",{min:min,max:max},$globals.Number)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["min", "max"],
+source: "between: min and: max\x0a ^ self >= min and: [ self <= max ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["and:", ">=", "<="]
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "ceiling",
 protocol: "converting",
 fn: function (){
@@ -3836,6 +3867,29 @@ source: "deepCopy\x0a\x09^ self copy",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["copy"]
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "degreesToRadians",
+protocol: "converting",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self.__star($recv($globals.Number)._radiansPerDegree());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"degreesToRadians",{},$globals.Number)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "degreesToRadians\x0a\x09^ self * Number radiansPerDegree",
+referencedClasses: ["Number"],
+//>>excludeEnd("ide");
+messageSends: ["*", "radiansPerDegree"]
 }),
 $globals.Number);
 
@@ -4067,6 +4121,29 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "min:max:",
+protocol: "arithmetic",
+fn: function(aMin,aMax){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._min_(aMin))._max_(aMax);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"min:max:",{aMin:aMin,aMax:aMax},$globals.Number)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aMin", "aMax"],
+source: "min: aMin max: aMax\x0a\x09^ (self min: aMin) max: aMax",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["max:", "min:"]
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "negated",
 protocol: "arithmetic",
 fn: function (){
@@ -4202,6 +4279,29 @@ source: "printShowingDecimalPlaces: placesDesired\x0a\x09<inlineJS: 'return self
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "radiansToDegrees",
+protocol: "converting",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self.__slash($recv($globals.Number)._radiansPerDegree());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"radiansToDegrees",{},$globals.Number)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "radiansToDegrees\x0a\x09^ self / Number radiansPerDegree",
+referencedClasses: ["Number"],
+//>>excludeEnd("ide");
+messageSends: ["/", "radiansPerDegree"]
 }),
 $globals.Number);
 
@@ -4812,6 +4912,29 @@ source: "pi\x0a\x09<inlineJS: 'return Math.PI'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
+}),
+$globals.Number.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "radiansPerDegree",
+protocol: "instance creation",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._pi()).__slash((180));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"radiansPerDegree",{},$globals.Number.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "radiansPerDegree\x0a\x09^ (self pi) / 180",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["/", "pi"]
 }),
 $globals.Number.a$cls);
 
