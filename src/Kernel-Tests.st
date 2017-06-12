@@ -2645,9 +2645,17 @@ testComparison
 	self deny: 4@5 >= (5@5)
 !
 
+testCorner
+	self assert: (1@1 corner: 2@2) equals: (Rectangle origin: 1@1 corner: 2@2).
+!
+
 testEgality
 	self assert: (3@4 = (3@4)).
 	self deny: 3@5 = (3@6)
+!
+
+testExtent
+	self assert: (1@1 extent: 2@2) equals: (Rectangle origin: 1@1 extent: 2@2)
 !
 
 testNew
@@ -2656,6 +2664,10 @@ testNew
 	self deny: (Point new x: 3) x = 0.
 	self assert: (Point new y: 4) x equals: nil.
 	self deny: (Point new y: 4) y = 0
+!
+
+testRectangle
+	self assert: (1@1 rectangle: 2@2) equals: (Rectangle point: 1@1 point: 2@2)
 !
 
 testTranslateBy
@@ -2726,6 +2738,33 @@ textNext
 			self assert: (next < 1).
 			self deny: current = next.
 			next = current ]
+! !
+
+TestCase subclass: #RectangleTest
+	instanceVariableNames: ''
+	package: 'Kernel-Tests'!
+
+!RectangleTest methodsFor: 'tests'!
+
+testContainsPoint
+	| rect |
+	rect := Rectangle origin: 0@0 corner: 4@4.
+	
+	self assert: (rect containsPoint: 1@2).
+	self assert: (rect containsPoint: 5@4) not.
+!
+
+testContainsRect
+	self assert: ((Rectangle origin: 0@0 corner: 6@6) containsRect: (Rectangle origin: 1@1 corner: 5@5)).
+	self assert: ((Rectangle origin: 0@0 corner: 6@6) containsRect: (Rectangle origin: 1@(-1) corner: 5@5)) not.
+!
+
+testOriginExtent
+	| rectangle |
+	rectangle := Rectangle origin: 3@4 extent: 7@8.
+	
+	self assert: rectangle origin equals: 3@4.
+	self assert: rectangle corner equals: 10@12.
 ! !
 
 TestCase subclass: #StreamTest

@@ -14697,6 +14697,45 @@ $globals.PointTest);
 
 $core.addMethod(
 $core.method({
+selector: "testCorner",
+protocol: "tests",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$3,$1,$5,$4;
+$2=(1).__at((1));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=1;
+//>>excludeEnd("ctx");
+$3=(2).__at((2));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=2;
+//>>excludeEnd("ctx");
+$1=$recv($2)._corner_($3);
+$5=(1).__at((1));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=3;
+//>>excludeEnd("ctx");
+$4=$recv($globals.Rectangle)._origin_corner_($5,(2).__at((2)));
+$self._assert_equals_($1,$4);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testCorner",{},$globals.PointTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCorner\x0a\x09self assert: (1@1 corner: 2@2) equals: (Rectangle origin: 1@1 corner: 2@2).",
+referencedClasses: ["Rectangle"],
+//>>excludeEnd("ide");
+messageSends: ["assert:equals:", "corner:", "@", "origin:corner:"]
+}),
+$globals.PointTest);
+
+$core.addMethod(
+$core.method({
 selector: "testEgality",
 protocol: "tests",
 fn: function (){
@@ -14735,6 +14774,45 @@ source: "testEgality\x0a\x09self assert: (3@4 = (3@4)).\x0a\x09self deny: 3@5 = 
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["assert:", "=", "@", "deny:"]
+}),
+$globals.PointTest);
+
+$core.addMethod(
+$core.method({
+selector: "testExtent",
+protocol: "tests",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$3,$1,$5,$4;
+$2=(1).__at((1));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=1;
+//>>excludeEnd("ctx");
+$3=(2).__at((2));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=2;
+//>>excludeEnd("ctx");
+$1=$recv($2)._extent_($3);
+$5=(1).__at((1));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=3;
+//>>excludeEnd("ctx");
+$4=$recv($globals.Rectangle)._origin_extent_($5,(2).__at((2)));
+$self._assert_equals_($1,$4);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testExtent",{},$globals.PointTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testExtent\x0a\x09self assert: (1@1 extent: 2@2) equals: (Rectangle origin: 1@1 extent: 2@2)",
+referencedClasses: ["Rectangle"],
+//>>excludeEnd("ide");
+messageSends: ["assert:equals:", "extent:", "@", "origin:extent:"]
 }),
 $globals.PointTest);
 
@@ -14803,6 +14881,45 @@ source: "testNew\x0a\x0a\x09self assert: (Point new x: 3) y equals: nil.\x0a\x09
 referencedClasses: ["Point"],
 //>>excludeEnd("ide");
 messageSends: ["assert:equals:", "y", "x:", "new", "deny:", "=", "x", "y:"]
+}),
+$globals.PointTest);
+
+$core.addMethod(
+$core.method({
+selector: "testRectangle",
+protocol: "tests",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$3,$1,$5,$4;
+$2=(1).__at((1));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=1;
+//>>excludeEnd("ctx");
+$3=(2).__at((2));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=2;
+//>>excludeEnd("ctx");
+$1=$recv($2)._rectangle_($3);
+$5=(1).__at((1));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=3;
+//>>excludeEnd("ctx");
+$4=$recv($globals.Rectangle)._point_point_($5,(2).__at((2)));
+$self._assert_equals_($1,$4);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testRectangle",{},$globals.PointTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRectangle\x0a\x09self assert: (1@1 rectangle: 2@2) equals: (Rectangle point: 1@1 point: 2@2)",
+referencedClasses: ["Rectangle"],
+//>>excludeEnd("ide");
+messageSends: ["assert:equals:", "rectangle:", "@", "point:point:"]
 }),
 $globals.PointTest);
 
@@ -15136,6 +15253,177 @@ referencedClasses: ["Random"],
 messageSends: ["timesRepeat:", "next", "new", "assert:", ">=", "<", "deny:", "="]
 }),
 $globals.RandomTest);
+
+
+
+$core.addClass("RectangleTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addMethod(
+$core.method({
+selector: "testContainsPoint",
+protocol: "tests",
+fn: function(){
+var self=this,$self=this;
+var rect;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$4,$5,$3;
+$1=(0).__at((0));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=1;
+//>>excludeEnd("ctx");
+$2=(4).__at((4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=2;
+//>>excludeEnd("ctx");
+rect=$recv($globals.Rectangle)._origin_corner_($1,$2);
+$4=rect;
+$5=(1).__at((2));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=3;
+//>>excludeEnd("ctx");
+$3=$recv($4)._containsPoint_($5);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["containsPoint:"]=1;
+//>>excludeEnd("ctx");
+$self._assert_($3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:"]=1;
+//>>excludeEnd("ctx");
+$self._assert_($recv($recv(rect)._containsPoint_((5).__at((4))))._not());
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testContainsPoint",{rect:rect},$globals.RectangleTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testContainsPoint\x0a\x09| rect |\x0a\x09rect := Rectangle origin: 0@0 corner: 4@4.\x0a\x09\x0a\x09self assert: (rect containsPoint: 1@2).\x0a\x09self assert: (rect containsPoint: 5@4) not.",
+referencedClasses: ["Rectangle"],
+//>>excludeEnd("ide");
+messageSends: ["origin:corner:", "@", "assert:", "containsPoint:", "not"]
+}),
+$globals.RectangleTest);
+
+$core.addMethod(
+$core.method({
+selector: "testContainsRect",
+protocol: "tests",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $3,$4,$2,$6,$7,$5,$1,$11,$12,$10,$14,$13,$9,$8;
+$3=(0).__at((0));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=1;
+//>>excludeEnd("ctx");
+$4=(6).__at((6));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=2;
+//>>excludeEnd("ctx");
+$2=$recv($globals.Rectangle)._origin_corner_($3,$4);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["origin:corner:"]=1;
+//>>excludeEnd("ctx");
+$6=(1).__at((1));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=3;
+//>>excludeEnd("ctx");
+$7=(5).__at((5));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=4;
+//>>excludeEnd("ctx");
+$5=$recv($globals.Rectangle)._origin_corner_($6,$7);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["origin:corner:"]=2;
+//>>excludeEnd("ctx");
+$1=$recv($2)._containsRect_($5);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["containsRect:"]=1;
+//>>excludeEnd("ctx");
+$self._assert_($1);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:"]=1;
+//>>excludeEnd("ctx");
+$11=(0).__at((0));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=5;
+//>>excludeEnd("ctx");
+$12=(6).__at((6));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=6;
+//>>excludeEnd("ctx");
+$10=$recv($globals.Rectangle)._origin_corner_($11,$12);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["origin:corner:"]=3;
+//>>excludeEnd("ctx");
+$14=(1).__at((-1));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=7;
+//>>excludeEnd("ctx");
+$13=$recv($globals.Rectangle)._origin_corner_($14,(5).__at((5)));
+$9=$recv($10)._containsRect_($13);
+$8=$recv($9)._not();
+$self._assert_($8);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testContainsRect",{},$globals.RectangleTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testContainsRect\x0a\x09self assert: ((Rectangle origin: 0@0 corner: 6@6) containsRect: (Rectangle origin: 1@1 corner: 5@5)).\x0a\x09self assert: ((Rectangle origin: 0@0 corner: 6@6) containsRect: (Rectangle origin: 1@(-1) corner: 5@5)) not.",
+referencedClasses: ["Rectangle"],
+//>>excludeEnd("ide");
+messageSends: ["assert:", "containsRect:", "origin:corner:", "@", "not"]
+}),
+$globals.RectangleTest);
+
+$core.addMethod(
+$core.method({
+selector: "testOriginExtent",
+protocol: "tests",
+fn: function(){
+var self=this,$self=this;
+var rectangle;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$3,$4;
+$1=(3).__at((4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=1;
+//>>excludeEnd("ctx");
+$2=(7).__at((8));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=2;
+//>>excludeEnd("ctx");
+rectangle=$recv($globals.Rectangle)._origin_extent_($1,$2);
+$3=$recv(rectangle)._origin();
+$4=(3).__at((4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=3;
+//>>excludeEnd("ctx");
+$self._assert_equals_($3,$4);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($recv(rectangle)._corner(),(10).__at((12)));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testOriginExtent",{rectangle:rectangle},$globals.RectangleTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testOriginExtent\x0a\x09| rectangle |\x0a\x09rectangle := Rectangle origin: 3@4 extent: 7@8.\x0a\x09\x0a\x09self assert: rectangle origin equals: 3@4.\x0a\x09self assert: rectangle corner equals: 10@12.",
+referencedClasses: ["Rectangle"],
+//>>excludeEnd("ide");
+messageSends: ["origin:extent:", "@", "assert:equals:", "origin", "corner"]
+}),
+$globals.RectangleTest);
 
 
 

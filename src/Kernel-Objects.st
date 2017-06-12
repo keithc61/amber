@@ -1238,6 +1238,20 @@ printOn: aStream
 	y printOn: aStream
 ! !
 
+!Point methodsFor: 'rectangle creation'!
+
+corner: aPoint
+	^ Rectangle origin: self corner: aPoint
+!
+
+extent: aPoint
+	^ Rectangle origin: self extent: aPoint
+!
+
+rectangle: aPoint
+	^ Rectangle point: self point: aPoint
+! !
+
 !Point methodsFor: 'transforming'!
 
 dist: aPoint 
@@ -1314,6 +1328,74 @@ next
 
 next: anInteger
 	^ (1 to: anInteger) collect: [ :each | self next ]
+! !
+
+Object subclass: #Rectangle
+	instanceVariableNames: 'origin corner'
+	package: 'Kernel-Objects'!
+!Rectangle commentStamp!
+I represent a Rectangle defined by my two corners.
+
+The simplest way to create an instance is using Point methods:
+
+    1@1 corner: 2@2
+
+WIll create a rectangle with 1@1 as the top left and 2@2 at the bottom right.
+
+    1@1 extent: 1@1
+
+Will create the same rectangle, defining an origin and a size instead of an origin and a corner.!
+
+!Rectangle methodsFor: 'accessing'!
+
+corner
+	^ corner
+!
+
+origin
+	^ origin
+! !
+
+!Rectangle methodsFor: 'private'!
+
+setPoint: pt1 point: pt2
+
+	origin := (pt1 x min: pt2 x)@(pt1 y min: pt2 y).
+	corner := (pt1 x max: pt2 x)@(pt1 y max: pt2 y).
+! !
+
+!Rectangle methodsFor: 'testing'!
+
+= aRectangle
+	^ origin = aRectangle origin and: [ corner = aRectangle corner ]
+!
+
+containsPoint: aPoint
+	^ origin <= aPoint and: [ corner >= aPoint ]
+!
+
+containsRect: aRect
+	^ aRect origin >= origin and: [ aRect corner <= corner ]
+!
+
+printOn: aStream
+	origin printOn: aStream.
+	aStream nextPutAll: ' corner: '.
+	corner printOn: aStream.
+! !
+
+!Rectangle class methodsFor: 'instance creation'!
+
+origin: anOrigin corner: aCorner
+	^ self basicNew setPoint: anOrigin point: aCorner.
+!
+
+origin: anOrigin extent: anExtent
+	^ self basicNew setPoint: anOrigin point: anOrigin + anExtent.
+!
+
+point: anOrigin point: aCorner
+	^ self basicNew setPoint: anOrigin point: aCorner.
 ! !
 
 Object subclass: #UndefinedObject
