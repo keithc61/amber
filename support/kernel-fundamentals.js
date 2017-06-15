@@ -351,11 +351,40 @@ define(['./compatibility' /* TODO remove */], function () {
         };
     }
 
+    NilBrik.deps = ["root"];
+    function NilBrik (brikz, st) {
+        var SmalltalkObject = brikz.root.Object;
+        var coreFns = brikz.root.coreFns;
+
+        function SmalltalkNil () {
+        }
+
+        coreFns.UndefinedObject = inherits(SmalltalkNil, SmalltalkObject);
+
+        this.nilAsReceiver = new SmalltalkNil();
+        this.nilAsValue = this.nilAsReceiver; // TODO null
+
+        // Adds an `a$nil` (and legacy `isNil`) property to the `nil` object.  When sending
+        // nil objects from one environment to another, doing
+        // `anObject == nil` (in JavaScript) does not always answer
+        // true as the referenced nil object might come from the other
+        // environment.
+        Object.defineProperty(this.nilAsReceiver, 'a$nil', {
+            value: true,
+            enumerable: false, configurable: false, writable: false
+        });
+        Object.defineProperty(this.nilAsReceiver, 'isNil', {
+            value: true,
+            enumerable: false, configurable: false, writable: false
+        });
+    }
+
     /* Making smalltalk that has basic building blocks */
 
     function configureWithFundamentals (brikz) {
         brikz.smalltalkGlobals = SmalltalkGlobalsBrik;
         brikz.root = RootBrik;
+        brikz.nil = NilBrik;
         brikz.arraySet = ArraySetBrik;
         brikz.selectorConversion = SelectorConversionBrik;
         brikz.selectors = SelectorsBrik;

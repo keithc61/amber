@@ -429,64 +429,12 @@ define(['./compatibility' /* TODO remove */], function () {
         };
     }
 
-    NilBrik.deps = ["root"];
-    function NilBrik (brikz, st) {
-        var SmalltalkObject = brikz.root.Object;
-        var coreFns = brikz.root.coreFns;
-
-        function SmalltalkNil () {
-        }
-
-        coreFns.UndefinedObject = inherits(SmalltalkNil, SmalltalkObject);
-
-        this.nilAsReceiver = new SmalltalkNil();
-        this.nilAsValue = this.nilAsReceiver; // TODO null
-
-        // Adds an `a$nil` (and legacy `isNil`) property to the `nil` object.  When sending
-        // nil objects from one environment to another, doing
-        // `anObject == nil` (in JavaScript) does not always answer
-        // true as the referenced nil object might come from the other
-        // environment.
-        Object.defineProperty(this.nilAsReceiver, 'a$nil', {
-            value: true,
-            enumerable: false, configurable: false, writable: false
-        });
-        Object.defineProperty(this.nilAsReceiver, 'isNil', {
-            value: true,
-            enumerable: false, configurable: false, writable: false
-        });
-    }
-
-    /* Defines asReceiver to be present at load time */
-    /* (logically it belongs more to PrimitiveBrik) */
-    AsReceiverBrik.deps = ["nil"];
-    function AsReceiverBrik (brikz, st) {
-        var nilAsReceiver = brikz.nil.nilAsReceiver;
-
-        /**
-         * This function is used all over the compiled amber code.
-         * It takes any value (JavaScript or Smalltalk)
-         * and returns a proper Amber Smalltalk receiver.
-         *
-         * null or undefined -> nilAsReceiver,
-         * object having Smalltalk signature -> unchanged,
-         * otherwise wrapped foreign (JS) object
-         */
-        this.asReceiver = function (o) {
-            if (o == null) return nilAsReceiver;
-            else if (o.a$cls != null) return o;
-            else return st.wrapJavaScript(o);
-        };
-    }
-
     /* Making smalltalk that can load */
 
     function configureWithHierarchy (brikz) {
         brikz.traits = TraitsBrik;
         brikz.composition = MethodCompositionBrik;
         brikz.classes = ClassesBrik;
-        brikz.nil = NilBrik;
-        brikz.asReceiver = AsReceiverBrik;
 
         brikz.rebuild();
     }
