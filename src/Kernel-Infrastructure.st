@@ -980,6 +980,10 @@ packageAt: packageName ifAbsent: aBlock
 	^ self packageDictionary at: packageName ifAbsent: aBlock
 !
 
+packageAt: packageName ifPresent: aBlock
+	^ self packageDictionary at: packageName ifPresent: aBlock
+!
+
 packageDictionary
 	^ packageDictionary ifNil: [ packageDictionary := Dictionary new ]
 !
@@ -1005,7 +1009,7 @@ renamePackage: packageName to: newName
 
 	| pkg |
 	pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].
-	self packageAt: newName ifAbsent: [ self error: 'Already exists a package called: ', newName ].
+	self packageAt: newName ifPresent: [ self error: 'Already exists a package called: ', newName ].
 	pkg name: newName; beDirty.
 	self packageDictionary
 		at: newName put: pkg;

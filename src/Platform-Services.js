@@ -1162,17 +1162,6 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
-$1=$recv($recv($globals.Smalltalk)._globals())._at_(aNewPackageName);
-if(($receiver = $1) == null || $receiver.a$nil){
-$1;
-} else {
-$2=$recv("A package named ".__comma(aNewPackageName)).__comma(" already exists");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
-//>>excludeEnd("ctx");
-$self._error_($2);
-}
 $recv($globals.Smalltalk)._renamePackage_to_(aPackageName,aNewPackageName);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1181,10 +1170,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackageName", "aNewPackageName"],
-source: "renamePackage: aPackageName to: aNewPackageName\x0a        (Smalltalk globals at: aNewPackageName)\x0a                ifNotNil: [ self error: 'A package named ', aNewPackageName, ' already exists' ].\x0a\x0a        Smalltalk renamePackage: aPackageName to: aNewPackageName",
+source: "renamePackage: aPackageName to: aNewPackageName\x0a        Smalltalk renamePackage: aPackageName to: aNewPackageName",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["ifNotNil:", "at:", "globals", "error:", ",", "renamePackage:to:"]
+messageSends: ["renamePackage:to:"]
 }),
 $globals.Environment);
 

@@ -3,7 +3,7 @@
 * Deprecate amber/boot api nextId, prop globalJsVariables.
 * Remove amber/boot prop reservedWords (with the hope no one uses it directly).
 * Deprecate ProtoObject >> identityHash.
-* Deprecate SmalltalkImage >> packageAt: in favour of explicit #packageAt:ifAbsent:.
+* Deprecate SmalltalkImage >> packageAt: in favour of explicit #packageAt:if{Absent,Present}:.
 
 + AmberBootstrapInitialization class >>
   + run
@@ -35,6 +35,7 @@
   + named:javaScriptDescriptor:
 + SmalltalkImage >>
   + packageDictionary
+  + packageAt:ifPresent:
 + TBehaviorProvider >>
   + methodOrganizationEnter:andLeave:
 + TMasterBehavior >>

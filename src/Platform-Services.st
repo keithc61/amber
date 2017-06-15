@@ -208,9 +208,6 @@ renameClass: aClass to: aClassName
 !
 
 renamePackage: aPackageName to: aNewPackageName
-        (Smalltalk globals at: aNewPackageName)
-                ifNotNil: [ self error: 'A package named ', aNewPackageName, ' already exists' ].
-
         Smalltalk renamePackage: aPackageName to: aNewPackageName
 !
 

@@ -3477,6 +3477,29 @@ $globals.SmalltalkImage);
 
 $core.addMethod(
 $core.method({
+selector: "packageAt:ifPresent:",
+protocol: "packages",
+fn: function (packageName,aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._packageDictionary())._at_ifPresent_(packageName,aBlock);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"packageAt:ifPresent:",{packageName:packageName,aBlock:aBlock},$globals.SmalltalkImage)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["packageName", "aBlock"],
+source: "packageAt: packageName ifPresent: aBlock\x0a\x09^ self packageDictionary at: packageName ifPresent: aBlock",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["at:ifPresent:", "packageDictionary"]
+}),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
 selector: "packageDictionary",
 protocol: "packages",
 fn: function (){
@@ -3822,10 +3845,7 @@ $ctx2.sendIdx["error:"]=1;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["packageAt:ifAbsent:"]=1;
-//>>excludeEnd("ctx");
-$self._packageAt_ifAbsent_(newName,(function(){
+$self._packageAt_ifPresent_(newName,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -3847,10 +3867,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["packageName", "newName"],
-source: "renamePackage: packageName to: newName\x0a\x09\x22Rename a package.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09self packageAt: newName ifAbsent: [ self error: 'Already exists a package called: ', newName ].\x0a\x09pkg name: newName; beDirty.\x0a\x09self packageDictionary\x0a\x09\x09at: newName put: pkg;\x0a\x09\x09removeKey: packageName",
+source: "renamePackage: packageName to: newName\x0a\x09\x22Rename a package.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09self packageAt: newName ifPresent: [ self error: 'Already exists a package called: ', newName ].\x0a\x09pkg name: newName; beDirty.\x0a\x09self packageDictionary\x0a\x09\x09at: newName put: pkg;\x0a\x09\x09removeKey: packageName",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["packageAt:ifAbsent:", "error:", ",", "name:", "beDirty", "at:put:", "packageDictionary", "removeKey:"]
+messageSends: ["packageAt:ifAbsent:", "error:", ",", "packageAt:ifPresent:", "name:", "beDirty", "at:put:", "packageDictionary", "removeKey:"]
 }),
 $globals.SmalltalkImage);
 
