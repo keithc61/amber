@@ -2319,52 +2319,32 @@ var oldMethod,announcement;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$3,$1,$4,$5,$6,$7,$8,$9,$10,$receiver;
+var $1,$2,$3,$4,$receiver;
 oldMethod=$recv($self._methodDictionary())._at_ifAbsent_($recv(aMethod)._selector(),(function(){
 return nil;
 
 }));
-$2=$self._protocols();
-$3=$recv(aMethod)._protocol();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["protocol"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._includes_($3);
-if(!$core.assert($1)){
-$4=$self._organization();
-$5=$recv(aMethod)._protocol();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["protocol"]=2;
-//>>excludeEnd("ctx");
-$recv($4)._addElement_($5);
-}
 $self._basicAddCompiledMethod_(aMethod);
-$6=oldMethod;
-if(($receiver = $6) == null || $receiver.a$nil){
-$6;
-} else {
-$self._removeProtocolIfEmpty_($recv(oldMethod)._protocol());
-}
-$7=oldMethod;
-if(($receiver = $7) == null || $receiver.a$nil){
-$8=$recv($globals.MethodAdded)._new();
+$1=oldMethod;
+if(($receiver = $1) == null || $receiver.a$nil){
+$2=$recv($globals.MethodAdded)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=1;
 //>>excludeEnd("ctx");
-$recv($8)._method_(aMethod);
+$recv($2)._method_(aMethod);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["method:"]=1;
 //>>excludeEnd("ctx");
-$9=$recv($8)._yourself();
+$3=$recv($2)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["yourself"]=1;
 //>>excludeEnd("ctx");
-announcement=$9;
+announcement=$3;
 } else {
-$10=$recv($globals.MethodModified)._new();
-$recv($10)._oldMethod_(oldMethod);
-$recv($10)._method_(aMethod);
-announcement=$recv($10)._yourself();
+$4=$recv($globals.MethodModified)._new();
+$recv($4)._oldMethod_(oldMethod);
+$recv($4)._method_(aMethod);
+announcement=$recv($4)._yourself();
 }
 $recv($recv($globals.SystemAnnouncer)._current())._announce_(announcement);
 return self;
@@ -2374,10 +2354,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aMethod"],
-source: "addCompiledMethod: aMethod\x0a\x09| oldMethod announcement |\x0a\x09\x0a\x09oldMethod := self methodDictionary\x0a\x09\x09at: aMethod selector\x0a\x09\x09ifAbsent: [ nil ].\x0a\x09\x0a\x09(self protocols includes: aMethod protocol)\x0a\x09\x09ifFalse: [ self organization addElement: aMethod protocol ].\x0a\x0a\x09self basicAddCompiledMethod: aMethod.\x0a\x09\x0a\x09oldMethod ifNotNil: [\x0a\x09\x09self removeProtocolIfEmpty: oldMethod protocol ].\x0a\x09\x0a\x09announcement := oldMethod\x0a\x09\x09ifNil: [\x0a\x09\x09\x09MethodAdded new\x0a\x09\x09\x09\x09\x09method: aMethod;\x0a\x09\x09\x09\x09\x09yourself ]\x0a\x09\x09ifNotNil: [\x0a\x09\x09\x09MethodModified new\x0a\x09\x09\x09\x09\x09oldMethod: oldMethod;\x0a\x09\x09\x09\x09\x09method: aMethod;\x0a\x09\x09\x09\x09\x09yourself ].\x0a\x09\x09\x09\x09\x09\x0a\x09\x09\x09\x09\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09\x09\x09announce: announcement",
+source: "addCompiledMethod: aMethod\x0a\x09| oldMethod announcement |\x0a\x09\x0a\x09oldMethod := self methodDictionary\x0a\x09\x09at: aMethod selector\x0a\x09\x09ifAbsent: [ nil ].\x0a\x09\x0a\x09self basicAddCompiledMethod: aMethod.\x0a\x09\x0a\x09announcement := oldMethod\x0a\x09\x09ifNil: [\x0a\x09\x09\x09MethodAdded new\x0a\x09\x09\x09\x09\x09method: aMethod;\x0a\x09\x09\x09\x09\x09yourself ]\x0a\x09\x09ifNotNil: [\x0a\x09\x09\x09MethodModified new\x0a\x09\x09\x09\x09\x09oldMethod: oldMethod;\x0a\x09\x09\x09\x09\x09method: aMethod;\x0a\x09\x09\x09\x09\x09yourself ].\x0a\x09\x09\x09\x09\x09\x0a\x09\x09\x09\x09\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09\x09\x09announce: announcement",
 referencedClasses: ["MethodAdded", "MethodModified", "SystemAnnouncer"],
 //>>excludeEnd("ide");
-messageSends: ["at:ifAbsent:", "methodDictionary", "selector", "ifFalse:", "includes:", "protocols", "protocol", "addElement:", "organization", "basicAddCompiledMethod:", "ifNotNil:", "removeProtocolIfEmpty:", "ifNil:ifNotNil:", "method:", "new", "yourself", "oldMethod:", "announce:", "current"]
+messageSends: ["at:ifAbsent:", "methodDictionary", "selector", "basicAddCompiledMethod:", "ifNil:ifNotNil:", "method:", "new", "yourself", "oldMethod:", "announce:", "current"]
 }),
 $globals.TBehaviorProvider);
 
@@ -2968,7 +2948,6 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2;
 $self._basicRemoveCompiledMethod_(aMethod);
-$self._removeProtocolIfEmpty_($recv(aMethod)._protocol());
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.MethodRemoved)._new();
 $recv($3)._method_(aMethod);
@@ -2981,10 +2960,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aMethod"],
-source: "removeCompiledMethod: aMethod\x0a\x09self basicRemoveCompiledMethod: aMethod.\x0a\x09\x0a\x09self removeProtocolIfEmpty: aMethod protocol.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (MethodRemoved new\x0a\x09\x09\x09method: aMethod;\x0a\x09\x09\x09yourself)",
+source: "removeCompiledMethod: aMethod\x0a\x09self basicRemoveCompiledMethod: aMethod.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (MethodRemoved new\x0a\x09\x09\x09method: aMethod;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "MethodRemoved"],
 //>>excludeEnd("ide");
-messageSends: ["basicRemoveCompiledMethod:", "removeProtocolIfEmpty:", "protocol", "announce:", "current", "method:", "new", "yourself"]
+messageSends: ["basicRemoveCompiledMethod:", "announce:", "current", "method:", "new", "yourself"]
 }),
 $globals.TBehaviorProvider);
 
