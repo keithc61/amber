@@ -12,6 +12,7 @@
   + organizeMethods
 + Behavior >>
   + basicOrganization
+  + basicOrganization:
 + ClassOrganizer >>
   + theClass
 + ClassOrganizer class >>
