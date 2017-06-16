@@ -9,7 +9,7 @@
   + run
   + initializeClasses
   + organizeClasses
-  + otganizeMethods
+  + organizeMethods
 + Behavior >>
   + basicOrganization
 + ClassOrganizer >>
