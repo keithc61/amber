@@ -1014,6 +1014,10 @@ arcTan
 	<inlineJS: 'return Math.atan(self);'>
 !
 
+arcTan: aNumber
+	<inlineJS: 'return Math.atan2(self, aNumber);'>
+!
+
 cos
 	<inlineJS: 'return Math.cos(self);'>
 !
@@ -1221,6 +1225,43 @@ y: aNumber
 
 asPoint
 	^ self
+! !
+
+!Point methodsFor: 'geometry'!
+
+angle
+	^ self y arcTan: self x
+! !
+
+!Point methodsFor: 'point functions'!
+
+dotProduct: aPoint
+	^ (x * aPoint x) + (y * aPoint y)
+!
+
+normal
+	"Answer a Point representing the unit vector rotated 90 deg clockwise. For the zero point return -1@0."
+
+	| n d |
+	n := y negated @ x.
+	(d := (n x * n x + (n y * n y))) = 0
+		 ifTrue: [ ^ -1 @0 ].
+	^ n / d sqrt
+!
+
+normalized
+	| r |
+	r := self r.
+	
+	r = 0
+		ifTrue: [ ^ Point x: 0 y: 0 ]
+		ifFalse: [ ^ Point x: x / r y: y / r ]
+! !
+
+!Point methodsFor: 'polar coordinates'!
+
+r
+	^ ((x * x) + (y * y)) sqrt
 ! !
 
 !Point methodsFor: 'printing'!

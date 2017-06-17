@@ -3618,6 +3618,30 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "arcTan:",
+protocol: "mathematical functions",
+fn: function(aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return Math.atan2(self, aNumber);;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"arcTan:",{aNumber:aNumber},$globals.Number)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "arcTan: aNumber\x0a\x09<inlineJS: 'return Math.atan2(self, aNumber);'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "asJavaScriptObject",
 protocol: "converting",
 fn: function (){
@@ -5342,6 +5366,29 @@ $globals.Point);
 
 $core.addMethod(
 $core.method({
+selector: "angle",
+protocol: "geometry",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._y())._arcTan_($self._x());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"angle",{},$globals.Point)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "angle\x0a\x09^ self y arcTan: self x",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["arcTan:", "y", "x"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
 selector: "asPoint",
 protocol: "converting",
 fn: function (){
@@ -5418,6 +5465,34 @@ $globals.Point);
 
 $core.addMethod(
 $core.method({
+selector: "dotProduct:",
+protocol: "point functions",
+fn: function(aPoint){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($self["@x"]).__star($recv(aPoint)._x());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["*"]=1;
+//>>excludeEnd("ctx");
+return $recv($1).__plus($recv($self["@y"]).__star($recv(aPoint)._y()));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"dotProduct:",{aPoint:aPoint},$globals.Point)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aPoint"],
+source: "dotProduct: aPoint\x0a\x09^ (x * aPoint x) + (y * aPoint y)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["+", "*", "x", "y"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
 selector: "extent:",
 protocol: "rectangle creation",
 fn: function(aPoint){
@@ -5436,6 +5511,94 @@ source: "extent: aPoint\x0a\x09^ Rectangle origin: self extent: aPoint",
 referencedClasses: ["Rectangle"],
 //>>excludeEnd("ide");
 messageSends: ["origin:extent:"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
+selector: "normal",
+protocol: "point functions",
+fn: function(){
+var self=this,$self=this;
+var n,d;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $4,$3,$6,$5,$2,$1;
+n=$recv($recv($self["@y"])._negated()).__at($self["@x"]);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=1;
+//>>excludeEnd("ctx");
+$4=$recv(n)._x();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["x"]=1;
+//>>excludeEnd("ctx");
+$3=$recv($4).__star($recv(n)._x());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["*"]=1;
+//>>excludeEnd("ctx");
+$6=$recv(n)._y();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["y"]=1;
+//>>excludeEnd("ctx");
+$5=$recv($6).__star($recv(n)._y());
+d=$recv($3).__plus($5);
+$2=d;
+$1=$recv($2).__eq((0));
+if($core.assert($1)){
+return (-1).__at((0));
+}
+return $recv(n).__slash($recv(d)._sqrt());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"normal",{n:n,d:d},$globals.Point)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "normal\x0a\x09\x22Answer a Point representing the unit vector rotated 90 deg clockwise. For the zero point return -1@0.\x22\x0a\x0a\x09| n d |\x0a\x09n := y negated @ x.\x0a\x09(d := (n x * n x + (n y * n y))) = 0\x0a\x09\x09 ifTrue: [ ^ -1 @0 ].\x0a\x09^ n / d sqrt",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["@", "negated", "ifTrue:", "=", "+", "*", "x", "y", "/", "sqrt"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
+selector: "normalized",
+protocol: "point functions",
+fn: function(){
+var self=this,$self=this;
+var r;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$3;
+r=$self._r();
+$1=$recv(r).__eq((0));
+if($core.assert($1)){
+$2=$recv($globals.Point)._x_y_((0),(0));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["x:y:"]=1;
+//>>excludeEnd("ctx");
+return $2;
+} else {
+$3=$recv($self["@x"]).__slash(r);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["/"]=1;
+//>>excludeEnd("ctx");
+return $recv($globals.Point)._x_y_($3,$recv($self["@y"]).__slash(r));
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"normalized",{r:r},$globals.Point)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "normalized\x0a\x09| r |\x0a\x09r := self r.\x0a\x09\x0a\x09r = 0\x0a\x09\x09ifTrue: [ ^ Point x: 0 y: 0 ]\x0a\x09\x09ifFalse: [ ^ Point x: x / r y: y / r ]",
+referencedClasses: ["Point"],
+//>>excludeEnd("ide");
+messageSends: ["r", "ifTrue:ifFalse:", "=", "x:y:", "/"]
 }),
 $globals.Point);
 
@@ -5478,6 +5641,35 @@ source: "printOn: aStream\x0a\x09\x22Print receiver in classic x@y notation.\x22
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["printOn:", "nextPutAll:", "ifTrue:", "and:", "notNil", "negative", "space"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
+selector: "r",
+protocol: "polar coordinates",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1;
+$2=$recv($self["@x"]).__star($self["@x"]);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["*"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2).__plus($recv($self["@y"]).__star($self["@y"]));
+return $recv($1)._sqrt();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"r",{},$globals.Point)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "r\x0a\x09^ ((x * x) + (y * y)) sqrt",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["sqrt", "+", "*"]
 }),
 $globals.Point);
 

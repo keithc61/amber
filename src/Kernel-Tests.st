@@ -2497,6 +2497,9 @@ testTrigonometry
 	self assert: 1 arcCos equals: 0.
 	self assert: 0 arcSin equals: 0.
 	self assert: 0 arcTan equals: 0.
+	
+	self assert: (0 arcTan: 1) equals: 0.
+	self assert: (1 arcTan: 0) equals: (Number pi / 2)
 !
 
 testTruncated
@@ -2620,6 +2623,10 @@ testAccessing
 	self assert: (Point new y: 4) y equals: 4
 !
 
+testAngle
+	self assert: (-1@0) angle equals: Number pi
+!
+
 testArithmetic
 	self assert: 3@4 * (3@4 ) equals: (Point x: 9 y: 16).
 	self assert: 3@4 + (3@4 ) equals: (Point x: 6 y: 8).
@@ -2645,17 +2652,13 @@ testComparison
 	self deny: 4@5 >= (5@5)
 !
 
-testCorner
-	self assert: (1@1 corner: 2@2) equals: (Rectangle origin: 1@1 corner: 2@2).
+testDotProduct
+	self assert: (2@3 dotProduct: 3@7) equals: 27
 !
 
 testEgality
 	self assert: (3@4 = (3@4)).
 	self deny: 3@5 = (3@6)
-!
-
-testExtent
-	self assert: (1@1 extent: 2@2) equals: (Rectangle origin: 1@1 extent: 2@2)
 !
 
 testNew
@@ -2666,8 +2669,24 @@ testNew
 	self deny: (Point new y: 4) y = 0
 !
 
-testRectangle
-	self assert: (1@1 rectangle: 2@2) equals: (Rectangle point: 1@1 point: 2@2)
+testNormal
+	self assert: (1@0) normal equals: 0@1
+!
+
+testNormalized
+	self assert: (0@2) normalized equals: 0@1.
+	self assert: (0@0) normalized equals: 0@0.
+!
+
+testPolarCoordinates
+	self assert: (1@0) r equals: 1.
+	self assert: (0@0) r equals: 0.
+!
+
+testRectangleCreation
+	self assert: (1@1 corner: 2@2) equals: (Rectangle origin: 1@1 corner: 2@2).
+	self assert: (1@1 rectangle: 2@2) equals: (Rectangle point: 1@1 point: 2@2).
+	self assert: (1@1 extent: 2@2) equals: (Rectangle origin: 1@1 extent: 2@2)
 !
 
 testTranslateBy
