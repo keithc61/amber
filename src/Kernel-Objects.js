@@ -3620,7 +3620,7 @@ $core.addMethod(
 $core.method({
 selector: "arcTan:",
 protocol: "mathematical functions",
-fn: function(aNumber){
+fn: function (aNumber){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -3778,7 +3778,7 @@ $core.addMethod(
 $core.method({
 selector: "between:and:",
 protocol: "testing",
-fn: function(min,max){
+fn: function (min,max){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -3898,7 +3898,7 @@ $core.addMethod(
 $core.method({
 selector: "degreesToRadians",
 protocol: "converting",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -4147,7 +4147,7 @@ $core.addMethod(
 $core.method({
 selector: "min:max:",
 protocol: "arithmetic",
-fn: function(aMin,aMax){
+fn: function (aMin,aMax){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -4310,7 +4310,7 @@ $core.addMethod(
 $core.method({
 selector: "radiansToDegrees",
 protocol: "converting",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -4943,7 +4943,7 @@ $core.addMethod(
 $core.method({
 selector: "radiansPerDegree",
 protocol: "instance creation",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5368,7 +5368,7 @@ $core.addMethod(
 $core.method({
 selector: "angle",
 protocol: "geometry",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5409,7 +5409,7 @@ $core.addMethod(
 $core.method({
 selector: "corner:",
 protocol: "rectangle creation",
-fn: function(aPoint){
+fn: function (aPoint){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5467,7 +5467,7 @@ $core.addMethod(
 $core.method({
 selector: "dotProduct:",
 protocol: "point functions",
-fn: function(aPoint){
+fn: function (aPoint){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5495,7 +5495,7 @@ $core.addMethod(
 $core.method({
 selector: "extent:",
 protocol: "rectangle creation",
-fn: function(aPoint){
+fn: function (aPoint){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5518,7 +5518,7 @@ $core.addMethod(
 $core.method({
 selector: "normal",
 protocol: "point functions",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 var n,d;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5566,7 +5566,7 @@ $core.addMethod(
 $core.method({
 selector: "normalized",
 protocol: "point functions",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 var r;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5648,7 +5648,7 @@ $core.addMethod(
 $core.method({
 selector: "r",
 protocol: "polar coordinates",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5677,7 +5677,7 @@ $core.addMethod(
 $core.method({
 selector: "rectangle:",
 protocol: "rectangle creation",
-fn: function(aPoint){
+fn: function (aPoint){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5914,7 +5914,7 @@ $core.addMethod(
 $core.method({
 selector: "=",
 protocol: "testing",
-fn: function(aRectangle){
+fn: function (aRectangle){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5950,7 +5950,7 @@ $core.addMethod(
 $core.method({
 selector: "containsPoint:",
 protocol: "testing",
-fn: function(aPoint){
+fn: function (aPoint){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5981,7 +5981,7 @@ $core.addMethod(
 $core.method({
 selector: "containsRect:",
 protocol: "testing",
-fn: function(aRect){
+fn: function (aRect){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6012,7 +6012,7 @@ $core.addMethod(
 $core.method({
 selector: "corner",
 protocol: "accessing",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 return $self["@corner"];
 
@@ -6030,7 +6030,7 @@ $core.addMethod(
 $core.method({
 selector: "origin",
 protocol: "accessing",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 return $self["@origin"];
 
@@ -6048,7 +6048,7 @@ $core.addMethod(
 $core.method({
 selector: "printOn:",
 protocol: "testing",
-fn: function(aStream){
+fn: function (aStream){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6077,7 +6077,7 @@ $core.addMethod(
 $core.method({
 selector: "setPoint:point:",
 protocol: "private",
-fn: function(pt1,pt2){
+fn: function (pt1,pt2){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6141,7 +6141,7 @@ $core.addMethod(
 $core.method({
 selector: "origin:corner:",
 protocol: "instance creation",
-fn: function(anOrigin,aCorner){
+fn: function (anOrigin,aCorner){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6164,7 +6164,7 @@ $core.addMethod(
 $core.method({
 selector: "origin:extent:",
 protocol: "instance creation",
-fn: function(anOrigin,anExtent){
+fn: function (anOrigin,anExtent){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6187,7 +6187,7 @@ $core.addMethod(
 $core.method({
 selector: "point:point:",
 protocol: "instance creation",
-fn: function(anOrigin,aCorner){
+fn: function (anOrigin,aCorner){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {

@@ -12215,7 +12215,7 @@ $core.addMethod(
 $core.method({
 selector: "testBetweenAnd",
 protocol: "tests",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12409,7 +12409,7 @@ $core.addMethod(
 $core.method({
 selector: "testDegreesToRadians",
 protocol: "tests",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -13275,7 +13275,7 @@ $core.addMethod(
 $core.method({
 selector: "testMinMax",
 protocol: "tests",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -13490,7 +13490,7 @@ $core.addMethod(
 $core.method({
 selector: "testRadiansToDegrees",
 protocol: "tests",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -13824,7 +13824,7 @@ $core.addMethod(
 $core.method({
 selector: "testTrigonometry",
 protocol: "tests",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14477,7 +14477,7 @@ $core.addMethod(
 $core.method({
 selector: "testAngle",
 protocol: "tests",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14736,7 +14736,7 @@ $core.addMethod(
 $core.method({
 selector: "testDotProduct",
 protocol: "tests",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14877,7 +14877,7 @@ $core.addMethod(
 $core.method({
 selector: "testNormal",
 protocol: "tests",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14907,7 +14907,7 @@ $core.addMethod(
 $core.method({
 selector: "testNormalized",
 protocol: "tests",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14953,7 +14953,7 @@ $core.addMethod(
 $core.method({
 selector: "testPolarCoordinates",
 protocol: "tests",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14990,7 +14990,7 @@ $core.addMethod(
 $core.method({
 selector: "testRectangleCreation",
 protocol: "tests",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -15407,7 +15407,7 @@ $core.addMethod(
 $core.method({
 selector: "testContainsPoint",
 protocol: "tests",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 var rect;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -15455,7 +15455,7 @@ $core.addMethod(
 $core.method({
 selector: "testContainsRect",
 protocol: "tests",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -15531,7 +15531,7 @@ $core.addMethod(
 $core.method({
 selector: "testOriginExtent",
 protocol: "tests",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 var rectangle;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
