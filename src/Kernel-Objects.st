@@ -816,6 +816,10 @@ min: aNumber
 	<inlineJS: 'return Math.min(self, aNumber);'>
 !
 
+min: aMin max: aMax
+	^ (self min: aMin) max: aMax
+!
+
 negated
 	^ 0 - self
 ! !
@@ -888,8 +892,16 @@ ceiling
 	<inlineJS: 'return Math.ceil(self);'>
 !
 
+degreesToRadians
+	^ self * Number radiansPerDegree
+!
+
 floor
 	<inlineJS: 'return Math.floor(self);'>
+!
+
+radiansToDegrees
+	^ self / Number radiansPerDegree
 !
 
 rounded
@@ -1002,6 +1014,10 @@ arcTan
 	<inlineJS: 'return Math.atan(self);'>
 !
 
+arcTan: aNumber
+	<inlineJS: 'return Math.atan2(self, aNumber);'>
+!
+
 cos
 	<inlineJS: 'return Math.cos(self);'>
 !
@@ -1058,6 +1074,10 @@ printShowingDecimalPlaces: placesDesired
 
 !Number methodsFor: 'testing'!
 
+between: min and: max
+ ^ self >= min and: [ self <= max ]
+!
+
 even
 	^ 0 = (self \\ 2)
 !
@@ -1108,6 +1128,10 @@ e
 
 pi
 	<inlineJS: 'return Math.PI'>
+!
+
+radiansPerDegree
+	^ (self pi) / 180
 ! !
 
 Object subclass: #Point
@@ -1203,6 +1227,43 @@ asPoint
 	^ self
 ! !
 
+!Point methodsFor: 'geometry'!
+
+angle
+	^ self y arcTan: self x
+! !
+
+!Point methodsFor: 'point functions'!
+
+dotProduct: aPoint
+	^ (x * aPoint x) + (y * aPoint y)
+!
+
+normal
+	"Answer a Point representing the unit vector rotated 90 deg clockwise. For the zero point return -1@0."
+
+	| n d |
+	n := y negated @ x.
+	(d := (n x * n x + (n y * n y))) = 0
+		 ifTrue: [ ^ -1 @0 ].
+	^ n / d sqrt
+!
+
+normalized
+	| r |
+	r := self r.
+	
+	r = 0
+		ifTrue: [ ^ Point x: 0 y: 0 ]
+		ifFalse: [ ^ Point x: x / r y: y / r ]
+! !
+
+!Point methodsFor: 'polar coordinates'!
+
+r
+	^ ((x * x) + (y * y)) sqrt
+! !
+
 !Point methodsFor: 'printing'!
 
 printOn: aStream
@@ -1216,6 +1277,20 @@ printOn: aStream
 			aStream space ].
 	
 	y printOn: aStream
+! !
+
+!Point methodsFor: 'rectangle creation'!
+
+corner: aPoint
+	^ Rectangle origin: self corner: aPoint
+!
+
+extent: aPoint
+	^ Rectangle origin: self extent: aPoint
+!
+
+rectangle: aPoint
+	^ Rectangle point: self point: aPoint
 ! !
 
 !Point methodsFor: 'transforming'!
@@ -1294,6 +1369,74 @@ next
 
 next: anInteger
 	^ (1 to: anInteger) collect: [ :each | self next ]
+! !
+
+Object subclass: #Rectangle
+	instanceVariableNames: 'origin corner'
+	package: 'Kernel-Objects'!
+!Rectangle commentStamp!
+I represent a Rectangle defined by my two corners.
+
+The simplest way to create an instance is using Point methods:
+
+    1@1 corner: 2@2
+
+WIll create a rectangle with 1@1 as the top left and 2@2 at the bottom right.
+
+    1@1 extent: 1@1
+
+Will create the same rectangle, defining an origin and a size instead of an origin and a corner.!
+
+!Rectangle methodsFor: 'accessing'!
+
+corner
+	^ corner
+!
+
+origin
+	^ origin
+! !
+
+!Rectangle methodsFor: 'private'!
+
+setPoint: pt1 point: pt2
+
+	origin := (pt1 x min: pt2 x)@(pt1 y min: pt2 y).
+	corner := (pt1 x max: pt2 x)@(pt1 y max: pt2 y).
+! !
+
+!Rectangle methodsFor: 'testing'!
+
+= aRectangle
+	^ origin = aRectangle origin and: [ corner = aRectangle corner ]
+!
+
+containsPoint: aPoint
+	^ origin <= aPoint and: [ corner >= aPoint ]
+!
+
+containsRect: aRect
+	^ aRect origin >= origin and: [ aRect corner <= corner ]
+!
+
+printOn: aStream
+	origin printOn: aStream.
+	aStream nextPutAll: ' corner: '.
+	corner printOn: aStream.
+! !
+
+!Rectangle class methodsFor: 'instance creation'!
+
+origin: anOrigin corner: aCorner
+	^ self basicNew setPoint: anOrigin point: aCorner.
+!
+
+origin: anOrigin extent: anExtent
+	^ self basicNew setPoint: anOrigin point: anOrigin + anExtent.
+!
+
+point: anOrigin point: aCorner
+	^ self basicNew setPoint: anOrigin point: aCorner.
 ! !
 
 Object subclass: #UndefinedObject

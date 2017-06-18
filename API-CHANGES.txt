@@ -48,6 +48,34 @@
   + basicOrganization:
 + UndefinedObject >>
   + ==
++ Number >>
+  + min:max:
+  + degreesToRadians
+  + radiansToDegrees
+  + arcTan:
+  + between:and:
++ Number class >>
+  + radiansPerDegree
++ Point >>
+  + dotProduct:
+  + normal
+  + angle
+  + normalized
+  + r
+  + corner:
+  + extent:
+  + rectangle:
++ Rectangle >>
+  + =
+  + corner
+  + origin
+  + containsPoint:
+  + containsRect:
+  + printOn:
++ Rectangle class >>
+  + origin:corner:
+  + origin:extent:
+  + point:point:
 
 - Package >>
   - basicName:

@@ -3618,6 +3618,30 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "arcTan:",
+protocol: "mathematical functions",
+fn: function(aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return Math.atan2(self, aNumber);;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"arcTan:",{aNumber:aNumber},$globals.Number)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "arcTan: aNumber\x0a\x09<inlineJS: 'return Math.atan2(self, aNumber);'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "asJavaScriptObject",
 protocol: "converting",
 fn: function (){
@@ -3752,6 +3776,37 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "between:and:",
+protocol: "testing",
+fn: function(min,max){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self.__gt_eq(min))._and_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self.__lt_eq(max);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"between:and:",{min:min,max:max},$globals.Number)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["min", "max"],
+source: "between: min and: max\x0a ^ self >= min and: [ self <= max ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["and:", ">=", "<="]
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "ceiling",
 protocol: "converting",
 fn: function (){
@@ -3836,6 +3891,29 @@ source: "deepCopy\x0a\x09^ self copy",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["copy"]
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "degreesToRadians",
+protocol: "converting",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self.__star($recv($globals.Number)._radiansPerDegree());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"degreesToRadians",{},$globals.Number)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "degreesToRadians\x0a\x09^ self * Number radiansPerDegree",
+referencedClasses: ["Number"],
+//>>excludeEnd("ide");
+messageSends: ["*", "radiansPerDegree"]
 }),
 $globals.Number);
 
@@ -4067,6 +4145,29 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "min:max:",
+protocol: "arithmetic",
+fn: function(aMin,aMax){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._min_(aMin))._max_(aMax);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"min:max:",{aMin:aMin,aMax:aMax},$globals.Number)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aMin", "aMax"],
+source: "min: aMin max: aMax\x0a\x09^ (self min: aMin) max: aMax",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["max:", "min:"]
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "negated",
 protocol: "arithmetic",
 fn: function (){
@@ -4202,6 +4303,29 @@ source: "printShowingDecimalPlaces: placesDesired\x0a\x09<inlineJS: 'return self
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "radiansToDegrees",
+protocol: "converting",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self.__slash($recv($globals.Number)._radiansPerDegree());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"radiansToDegrees",{},$globals.Number)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "radiansToDegrees\x0a\x09^ self / Number radiansPerDegree",
+referencedClasses: ["Number"],
+//>>excludeEnd("ide");
+messageSends: ["/", "radiansPerDegree"]
 }),
 $globals.Number);
 
@@ -4815,6 +4939,29 @@ messageSends: []
 }),
 $globals.Number.a$cls);
 
+$core.addMethod(
+$core.method({
+selector: "radiansPerDegree",
+protocol: "instance creation",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._pi()).__slash((180));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"radiansPerDegree",{},$globals.Number.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "radiansPerDegree\x0a\x09^ (self pi) / 180",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["/", "pi"]
+}),
+$globals.Number.a$cls);
+
 
 $core.addClass("Point", $globals.Object, ["x", "y"], "Kernel-Objects");
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5219,6 +5366,29 @@ $globals.Point);
 
 $core.addMethod(
 $core.method({
+selector: "angle",
+protocol: "geometry",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._y())._arcTan_($self._x());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"angle",{},$globals.Point)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "angle\x0a\x09^ self y arcTan: self x",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["arcTan:", "y", "x"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
 selector: "asPoint",
 protocol: "converting",
 fn: function (){
@@ -5232,6 +5402,29 @@ source: "asPoint\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
+selector: "corner:",
+protocol: "rectangle creation",
+fn: function(aPoint){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.Rectangle)._origin_corner_(self,aPoint);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"corner:",{aPoint:aPoint},$globals.Point)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aPoint"],
+source: "corner: aPoint\x0a\x09^ Rectangle origin: self corner: aPoint",
+referencedClasses: ["Rectangle"],
+//>>excludeEnd("ide");
+messageSends: ["origin:corner:"]
 }),
 $globals.Point);
 
@@ -5267,6 +5460,145 @@ source: "dist: aPoint \x0a\x09\x22Answer the distance between aPoint and the rec
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["-", "x", "y", "sqrt", "+", "*"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
+selector: "dotProduct:",
+protocol: "point functions",
+fn: function(aPoint){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($self["@x"]).__star($recv(aPoint)._x());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["*"]=1;
+//>>excludeEnd("ctx");
+return $recv($1).__plus($recv($self["@y"]).__star($recv(aPoint)._y()));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"dotProduct:",{aPoint:aPoint},$globals.Point)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aPoint"],
+source: "dotProduct: aPoint\x0a\x09^ (x * aPoint x) + (y * aPoint y)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["+", "*", "x", "y"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
+selector: "extent:",
+protocol: "rectangle creation",
+fn: function(aPoint){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.Rectangle)._origin_extent_(self,aPoint);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"extent:",{aPoint:aPoint},$globals.Point)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aPoint"],
+source: "extent: aPoint\x0a\x09^ Rectangle origin: self extent: aPoint",
+referencedClasses: ["Rectangle"],
+//>>excludeEnd("ide");
+messageSends: ["origin:extent:"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
+selector: "normal",
+protocol: "point functions",
+fn: function(){
+var self=this,$self=this;
+var n,d;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $4,$3,$6,$5,$2,$1;
+n=$recv($recv($self["@y"])._negated()).__at($self["@x"]);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=1;
+//>>excludeEnd("ctx");
+$4=$recv(n)._x();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["x"]=1;
+//>>excludeEnd("ctx");
+$3=$recv($4).__star($recv(n)._x());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["*"]=1;
+//>>excludeEnd("ctx");
+$6=$recv(n)._y();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["y"]=1;
+//>>excludeEnd("ctx");
+$5=$recv($6).__star($recv(n)._y());
+d=$recv($3).__plus($5);
+$2=d;
+$1=$recv($2).__eq((0));
+if($core.assert($1)){
+return (-1).__at((0));
+}
+return $recv(n).__slash($recv(d)._sqrt());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"normal",{n:n,d:d},$globals.Point)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "normal\x0a\x09\x22Answer a Point representing the unit vector rotated 90 deg clockwise. For the zero point return -1@0.\x22\x0a\x0a\x09| n d |\x0a\x09n := y negated @ x.\x0a\x09(d := (n x * n x + (n y * n y))) = 0\x0a\x09\x09 ifTrue: [ ^ -1 @0 ].\x0a\x09^ n / d sqrt",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["@", "negated", "ifTrue:", "=", "+", "*", "x", "y", "/", "sqrt"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
+selector: "normalized",
+protocol: "point functions",
+fn: function(){
+var self=this,$self=this;
+var r;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$3;
+r=$self._r();
+$1=$recv(r).__eq((0));
+if($core.assert($1)){
+$2=$recv($globals.Point)._x_y_((0),(0));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["x:y:"]=1;
+//>>excludeEnd("ctx");
+return $2;
+} else {
+$3=$recv($self["@x"]).__slash(r);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["/"]=1;
+//>>excludeEnd("ctx");
+return $recv($globals.Point)._x_y_($3,$recv($self["@y"]).__slash(r));
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"normalized",{r:r},$globals.Point)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "normalized\x0a\x09| r |\x0a\x09r := self r.\x0a\x09\x0a\x09r = 0\x0a\x09\x09ifTrue: [ ^ Point x: 0 y: 0 ]\x0a\x09\x09ifFalse: [ ^ Point x: x / r y: y / r ]",
+referencedClasses: ["Point"],
+//>>excludeEnd("ide");
+messageSends: ["r", "ifTrue:ifFalse:", "=", "x:y:", "/"]
 }),
 $globals.Point);
 
@@ -5309,6 +5641,58 @@ source: "printOn: aStream\x0a\x09\x22Print receiver in classic x@y notation.\x22
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["printOn:", "nextPutAll:", "ifTrue:", "and:", "notNil", "negative", "space"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
+selector: "r",
+protocol: "polar coordinates",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1;
+$2=$recv($self["@x"]).__star($self["@x"]);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["*"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2).__plus($recv($self["@y"]).__star($self["@y"]));
+return $recv($1)._sqrt();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"r",{},$globals.Point)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "r\x0a\x09^ ((x * x) + (y * y)) sqrt",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["sqrt", "+", "*"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
+selector: "rectangle:",
+protocol: "rectangle creation",
+fn: function(aPoint){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.Rectangle)._point_point_(self,aPoint);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"rectangle:",{aPoint:aPoint},$globals.Point)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aPoint"],
+source: "rectangle: aPoint\x0a\x09^ Rectangle point: self point: aPoint",
+referencedClasses: ["Rectangle"],
+//>>excludeEnd("ide");
+messageSends: ["point:point:"]
 }),
 $globals.Point);
 
@@ -5520,6 +5904,307 @@ messageSends: ["collect:", "to:", "next"]
 }),
 $globals.Random);
 
+
+
+$core.addClass("Rectangle", $globals.Object, ["origin", "corner"], "Kernel-Objects");
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.Rectangle.comment="I represent a Rectangle defined by my two corners.\x0a\x0aThe simplest way to create an instance is using Point methods:\x0a\x0a    1@1 corner: 2@2\x0a\x0aWIll create a rectangle with 1@1 as the top left and 2@2 at the bottom right.\x0a\x0a    1@1 extent: 1@1\x0a\x0aWill create the same rectangle, defining an origin and a size instead of an origin and a corner.";
+//>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "=",
+protocol: "testing",
+fn: function(aRectangle){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($self["@origin"]).__eq($recv(aRectangle)._origin());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["="]=1;
+//>>excludeEnd("ctx");
+return $recv($1)._and_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($self["@corner"]).__eq($recv(aRectangle)._corner());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"=",{aRectangle:aRectangle},$globals.Rectangle)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aRectangle"],
+source: "= aRectangle\x0a\x09^ origin = aRectangle origin and: [ corner = aRectangle corner ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["and:", "=", "origin", "corner"]
+}),
+$globals.Rectangle);
+
+$core.addMethod(
+$core.method({
+selector: "containsPoint:",
+protocol: "testing",
+fn: function(aPoint){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($recv($self["@origin"]).__lt_eq(aPoint))._and_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($self["@corner"]).__gt_eq(aPoint);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"containsPoint:",{aPoint:aPoint},$globals.Rectangle)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aPoint"],
+source: "containsPoint: aPoint\x0a\x09^ origin <= aPoint and: [ corner >= aPoint ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["and:", "<=", ">="]
+}),
+$globals.Rectangle);
+
+$core.addMethod(
+$core.method({
+selector: "containsRect:",
+protocol: "testing",
+fn: function(aRect){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($recv($recv(aRect)._origin()).__gt_eq($self["@origin"]))._and_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($recv(aRect)._corner()).__lt_eq($self["@corner"]);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"containsRect:",{aRect:aRect},$globals.Rectangle)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aRect"],
+source: "containsRect: aRect\x0a\x09^ aRect origin >= origin and: [ aRect corner <= corner ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["and:", ">=", "origin", "<=", "corner"]
+}),
+$globals.Rectangle);
+
+$core.addMethod(
+$core.method({
+selector: "corner",
+protocol: "accessing",
+fn: function(){
+var self=this,$self=this;
+return $self["@corner"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "corner\x0a\x09^ corner",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Rectangle);
+
+$core.addMethod(
+$core.method({
+selector: "origin",
+protocol: "accessing",
+fn: function(){
+var self=this,$self=this;
+return $self["@origin"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "origin\x0a\x09^ origin",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Rectangle);
+
+$core.addMethod(
+$core.method({
+selector: "printOn:",
+protocol: "testing",
+fn: function(aStream){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv($self["@origin"])._printOn_(aStream);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["printOn:"]=1;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_(" corner: ");
+$recv($self["@corner"])._printOn_(aStream);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.Rectangle)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aStream"],
+source: "printOn: aStream\x0a\x09origin printOn: aStream.\x0a\x09aStream nextPutAll: ' corner: '.\x0a\x09corner printOn: aStream.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["printOn:", "nextPutAll:"]
+}),
+$globals.Rectangle);
+
+$core.addMethod(
+$core.method({
+selector: "setPoint:point:",
+protocol: "private",
+fn: function(pt1,pt2){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$3,$1,$5,$6,$4,$8,$7,$10,$9;
+$2=$recv(pt1)._x();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["x"]=1;
+//>>excludeEnd("ctx");
+$3=$recv(pt2)._x();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["x"]=2;
+//>>excludeEnd("ctx");
+$1=$recv($2)._min_($3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["min:"]=1;
+//>>excludeEnd("ctx");
+$5=$recv(pt1)._y();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["y"]=1;
+//>>excludeEnd("ctx");
+$6=$recv(pt2)._y();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["y"]=2;
+//>>excludeEnd("ctx");
+$4=$recv($5)._min_($6);
+$self["@origin"]=$recv($1).__at($4);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=1;
+//>>excludeEnd("ctx");
+$8=$recv(pt1)._x();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["x"]=3;
+//>>excludeEnd("ctx");
+$7=$recv($8)._max_($recv(pt2)._x());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["max:"]=1;
+//>>excludeEnd("ctx");
+$10=$recv(pt1)._y();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["y"]=3;
+//>>excludeEnd("ctx");
+$9=$recv($10)._max_($recv(pt2)._y());
+$self["@corner"]=$recv($7).__at($9);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"setPoint:point:",{pt1:pt1,pt2:pt2},$globals.Rectangle)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["pt1", "pt2"],
+source: "setPoint: pt1 point: pt2\x0a\x0a\x09origin := (pt1 x min: pt2 x)@(pt1 y min: pt2 y).\x0a\x09corner := (pt1 x max: pt2 x)@(pt1 y max: pt2 y).",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["@", "min:", "x", "y", "max:"]
+}),
+$globals.Rectangle);
+
+
+$core.addMethod(
+$core.method({
+selector: "origin:corner:",
+protocol: "instance creation",
+fn: function(anOrigin,aCorner){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._basicNew())._setPoint_point_(anOrigin,aCorner);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"origin:corner:",{anOrigin:anOrigin,aCorner:aCorner},$globals.Rectangle.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anOrigin", "aCorner"],
+source: "origin: anOrigin corner: aCorner\x0a\x09^ self basicNew setPoint: anOrigin point: aCorner.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["setPoint:point:", "basicNew"]
+}),
+$globals.Rectangle.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "origin:extent:",
+protocol: "instance creation",
+fn: function(anOrigin,anExtent){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._basicNew())._setPoint_point_(anOrigin,$recv(anOrigin).__plus(anExtent));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"origin:extent:",{anOrigin:anOrigin,anExtent:anExtent},$globals.Rectangle.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anOrigin", "anExtent"],
+source: "origin: anOrigin extent: anExtent\x0a\x09^ self basicNew setPoint: anOrigin point: anOrigin + anExtent.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["setPoint:point:", "basicNew", "+"]
+}),
+$globals.Rectangle.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "point:point:",
+protocol: "instance creation",
+fn: function(anOrigin,aCorner){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._basicNew())._setPoint_point_(anOrigin,aCorner);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"point:point:",{anOrigin:anOrigin,aCorner:aCorner},$globals.Rectangle.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anOrigin", "aCorner"],
+source: "point: anOrigin point: aCorner\x0a\x09^ self basicNew setPoint: anOrigin point: aCorner.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["setPoint:point:", "basicNew"]
+}),
+$globals.Rectangle.a$cls);
 
 
 $core.addClass("UndefinedObject", $globals.Object, [], "Kernel-Objects");
