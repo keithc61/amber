@@ -1,4 +1,4 @@
-?? May 2017 - Release 0.19.1
+18 Jun 2017 - Release 0.19.1
 ===================================
 
 * Kernel slimmed, things moved to Smalltalk side.
@@ -12,6 +12,7 @@
   * TMasterBehavior >> enterOrganization
   * TMasterBehavior >> leaveOrganization
   * TBehaviorProvider >> methodOrganizationEnter:andLeave:
+* Set fix (#1224).
 
 Commits: https://lolg.it/amber/amber/commits/0.19.1.
 
