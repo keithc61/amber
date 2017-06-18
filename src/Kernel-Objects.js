@@ -1761,8 +1761,8 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-	if (typeof aBoolean === "boolean") return self.valueOf() === aBoolean;
-	else if (aBoolean != null && typeof aBoolean === "object") return self.valueOf() === aBoolean.valueOf();
+	if (typeof aBoolean === "boolean") return (self == true) === aBoolean;
+	else if (aBoolean != null && typeof aBoolean === "object") return (self == true) === aBoolean.valueOf();
 	else return false;;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1771,7 +1771,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBoolean"],
-source: "== aBoolean\x0a<inlineJS: '\x0a\x09if (typeof aBoolean === \x22boolean\x22) return self.valueOf() === aBoolean;\x0a\x09else if (aBoolean != null && typeof aBoolean === \x22object\x22) return self.valueOf() === aBoolean.valueOf();\x0a\x09else return false;\x0a'>",
+source: "== aBoolean\x0a<inlineJS: '\x0a\x09if (typeof aBoolean === \x22boolean\x22) return (self == true) === aBoolean;\x0a\x09else if (aBoolean != null && typeof aBoolean === \x22object\x22) return (self == true) === aBoolean.valueOf();\x0a\x09else return false;\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

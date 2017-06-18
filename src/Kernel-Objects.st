@@ -438,8 +438,8 @@ I am directly mapped to JavaScript Boolean. The `true` and `false` objects are t
 
 == aBoolean
 <inlineJS: '
-	if (typeof aBoolean === "boolean") return self.valueOf() === aBoolean;
-	else if (aBoolean !!= null && typeof aBoolean === "object") return self.valueOf() === aBoolean.valueOf();
+	if (typeof aBoolean === "boolean") return (self == true) === aBoolean;
+	else if (aBoolean !!= null && typeof aBoolean === "object") return (self == true) === aBoolean.valueOf();
 	else return false;
 '>
 ! !
