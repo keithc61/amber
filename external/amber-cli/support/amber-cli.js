@@ -4,92 +4,6 @@ define('__wrap__', function (requirejs) {
 var module = void 0; // Bad UMDs workaround
 requirejs.resolve = require.resolve;
 require = requirejs;
-// This file is used to make additional changes
-// when building an app to run in node.js.
-// Free to edit. You can break tests (cli test runner uses
-// this to build itself - it is a node executable).
-define("amber/Platform", ["amber_core/Platform-Node"], {});
-define("amber/compatibility", ["amber/node-compatibility"], {});
-define("jquery", {});
-
-define("config-node", function(){});
-
-define('amber/brikz',[], function () {
-    return function Brikz(api, apiKey, initKey) {
-        "use strict";
-
-        //jshint eqnull:true
-
-        var brikz = this,
-            backup = {};
-        apiKey = apiKey || 'exports';
-        initKey = initKey || '__init__';
-
-        function mixin(src, target, what) {
-            for (var keys = Object.keys(what || src), l = keys.length, i = 0; i < l; ++i) {
-                if (src == null) {
-                    target[keys[i]] = undefined;
-                } else {
-                    var value = src[keys[i]];
-                    if (typeof value !== "undefined") {
-                        target[keys[i]] = value;
-                    }
-                }
-            }
-            return target;
-        }
-
-        Object.defineProperties(this, {
-            rebuild: { value: null, enumerable: false, configurable: true, writable: true }
-        });
-        var exclude = mixin(this, {});
-
-        this.rebuild = function () {
-            Object.keys(backup).forEach(function (key) {
-                mixin(null, api, (backup[key] || 0)[apiKey] || {});
-            });
-            var oapi = mixin(api, {}),
-                order = [],
-                chk = {};
-
-            function ensure(key) {
-                if (key in exclude) {
-                    return null;
-                }
-                var b = brikz[key],
-                    bak = backup[key];
-                mixin(null, api, api);
-                while (typeof b === "function") {
-                    (b.deps || []).forEach(ensure);
-                    b = new b(brikz, api, bak);
-                }
-                brikz[key] = b;
-                if (b && !chk[key]) {
-                    chk[key] = true;
-                    order.push(b);
-                }
-                if (b && !b[apiKey]) {
-                    b[apiKey] = mixin(api, {});
-                }
-            }
-
-            Object.keys(brikz).forEach(ensure);
-            mixin(oapi, mixin(null, api, api));
-            order.forEach(function (brik) {
-                mixin(brik[apiKey] || {}, api);
-            });
-            order.forEach(function (brik) {
-                if (brik[initKey]) {
-                    brik[initKey]();
-                    if (brik[initKey].once) {
-                        delete brik[initKey];
-                    }
-                }
-            });
-            backup = mixin(brikz, {});
-        };
-    };
-});
 /*!
  * @overview es6-promise - a tiny implementation of Promises/A+.
  * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
@@ -1248,10 +1162,603 @@ define('amber/es2015-polyfills',['amber/es6-promise'], function (promiseLib) {
     promiseLib.polyfill();
 });
 
-// This file is injected dependencies by amber-compat-xxx modules.
-// Therefore it is important that it _does_not_have_ define call.
-;
-define("amber/node-compatibility", ["./es2015-polyfills"], function(){});
+(function () {
+                            define('app',["require", "amber/es2015-polyfills"], function (require) {
+                                require(["__app__"]);
+                            });
+                        }());
+//jshint eqnull:true
+
+define('amber/kernel-runtime',[],function () {
+    "use strict";
+
+    function defineMethod (klass, name, method) {
+        Object.defineProperty(klass.prototype, name, {
+            value: method,
+            enumerable: false, configurable: true, writable: true
+        });
+    }
+
+    DNUBrik.deps = ["selectors", "smalltalkGlobals", "manipulation", "classes"];
+    function DNUBrik (brikz, st) {
+        var selectorsBrik = brikz.selectors;
+        var globals = brikz.smalltalkGlobals.globals;
+        var installJSMethod = brikz.manipulation.installJSMethod;
+        var nilAsClass = brikz.classes.nilAsClass;
+
+        /* Method not implemented handlers */
+
+        function makeDnuHandler (pair, targetClasses) {
+            var jsSelector = pair.js;
+            var fn = createHandler(pair.st);
+            installJSMethod(nilAsClass.fn.prototype, jsSelector, fn);
+            targetClasses.forEach(function (target) {
+                installJSMethod(target.fn.prototype, jsSelector, fn);
+            });
+        }
+
+        this.makeDnuHandler = makeDnuHandler;
+
+        /* Dnu handler method */
+
+        function createHandler (stSelector) {
+            return function () {
+                return globals.Message._selector_arguments_notUnderstoodBy_(
+                    stSelector, [].slice.call(arguments), this
+                );
+            };
+        }
+
+        selectorsBrik.selectorPairs.forEach(function (pair) {
+            makeDnuHandler(pair, []);
+        });
+    }
+
+    function ManipulationBrik (brikz, st) {
+        function installJSMethod (obj, jsSelector, fn) {
+            Object.defineProperty(obj, jsSelector, {
+                value: fn,
+                enumerable: false, configurable: true, writable: true
+            });
+        }
+
+        function installMethod (method, klass) {
+            installJSMethod(klass.fn.prototype, method.jsSelector, method.fn);
+        }
+
+        this.installMethod = installMethod;
+        this.installJSMethod = installJSMethod;
+    }
+
+    RuntimeClassesBrik.deps = ["selectors", "dnu", "behaviors", "classes", "manipulation"];
+    function RuntimeClassesBrik (brikz, st) {
+        var selectors = brikz.selectors;
+        var classes = brikz.behaviors.classes;
+        var wireKlass = brikz.classes.wireKlass;
+        var installMethod = brikz.manipulation.installMethod;
+        var installJSMethod = brikz.manipulation.installJSMethod;
+
+        var detachedRootClasses = [];
+
+        function markClassDetachedRoot (klass) {
+            klass.detachedRoot = true;
+            detachedRootClasses = classes().filter(function (klass) {
+                return klass.detachedRoot;
+            });
+        }
+
+        this.detachedRootClasses = function () {
+            return detachedRootClasses;
+        };
+
+        /* Initialize a class in its class hierarchy. Handle both classes and
+         metaclasses. */
+
+        function initClassAndMetaclass (klass) {
+            initClass(klass);
+            if (klass.a$cls && !klass.meta) {
+                initClass(klass.a$cls);
+            }
+        }
+
+        classes().forEach(function (traitOrClass) {
+            if (!traitOrClass.trait) initClassAndMetaclass(traitOrClass);
+        });
+
+        st._classAdded = function (klass) {
+            initClassAndMetaclass(klass);
+            klass._enterOrganization();
+        };
+
+        st._traitAdded = function (trait) {
+            trait._enterOrganization();
+        };
+
+        st._classRemoved = function (klass) {
+            klass._leaveOrganization();
+        };
+
+        st._traitRemoved = function (trait) {
+            trait._leaveOrganization();
+        };
+
+        function initClass (klass) {
+            wireKlass(klass);
+            if (klass.detachedRoot) {
+                copySuperclass(klass);
+            }
+            installMethods(klass);
+        }
+
+        function copySuperclass (klass) {
+            var myproto = klass.fn.prototype,
+                superproto = klass.superclass.fn.prototype;
+            selectors.selectorPairs.forEach(function (selectorPair) {
+                var jsSelector = selectorPair.js;
+                installJSMethod(myproto, jsSelector, superproto[jsSelector]);
+            });
+        }
+
+        function installMethods (klass) {
+            var methods = klass.methods;
+            Object.keys(methods).forEach(function (selector) {
+                installMethod(methods[selector], klass);
+            });
+        }
+
+        /* Manually set the constructor of an existing Smalltalk klass, making it a detached root class. */
+
+        st.setClassConstructor = this.setClassConstructor = function (klass, constructor) {
+            markClassDetachedRoot(klass);
+            klass.fn = constructor;
+            initClass(klass);
+        };
+    }
+
+    FrameBindingBrik.deps = ["smalltalkGlobals", "runtimeClasses"];
+    function FrameBindingBrik (brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+        var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
+
+        setClassConstructor(globals.Number, Number);
+        setClassConstructor(globals.BlockClosure, Function);
+        setClassConstructor(globals.Boolean, Boolean);
+        setClassConstructor(globals.Date, Date);
+        setClassConstructor(globals.String, String);
+        setClassConstructor(globals.Array, Array);
+        setClassConstructor(globals.RegularExpression, RegExp);
+        setClassConstructor(globals.Error, Error);
+        setClassConstructor(globals.Promise, Promise);
+
+        this.__init__ = function () {
+            st.alias(globals.Array, "OrderedCollection");
+            st.alias(globals.Date, "Time");
+        }
+    }
+
+    RuntimeMethodsBrik.deps = ["manipulation", "dnu", "runtimeClasses"];
+    function RuntimeMethodsBrik (brikz, st) {
+        var installMethod = brikz.manipulation.installMethod;
+        var installJSMethod = brikz.manipulation.installJSMethod;
+        var makeDnuHandler = brikz.dnu.makeDnuHandler;
+        var detachedRootClasses = brikz.runtimeClasses.detachedRootClasses;
+
+        st._behaviorMethodAdded = function (method, klass) {
+            installMethod(method, klass);
+            propagateMethodChange(klass, method, klass);
+        };
+
+        st._selectorsAdded = function (newSelectors) {
+            var targetClasses = detachedRootClasses();
+            newSelectors.forEach(function (pair) {
+                makeDnuHandler(pair, targetClasses);
+            });
+        };
+
+        st._behaviorMethodRemoved = function (method, klass) {
+            delete klass.fn.prototype[method.jsSelector];
+            propagateMethodChange(klass, method, null);
+        };
+
+        st._methodReplaced = function (newMethod, oldMethod, traitOrBehavior) {
+            traitOrBehavior._methodOrganizationEnter_andLeave_(newMethod, oldMethod);
+        };
+
+        function propagateMethodChange (klass, method, exclude) {
+            var selector = method.selector;
+            var jsSelector = method.jsSelector;
+            st.traverseClassTree(klass, function (subclass, sentinel) {
+                if (subclass !== exclude) {
+                    if (initMethodInClass(subclass, selector, jsSelector)) return sentinel;
+                }
+            });
+        }
+
+        function initMethodInClass (klass, selector, jsSelector) {
+            if (klass.methods[selector]) return true;
+            if (klass.detachedRoot) {
+                installJSMethod(klass.fn.prototype, jsSelector, klass.superclass.fn.prototype[jsSelector]);
+            }
+        }
+    }
+
+    PrimitivesBrik.deps = ["smalltalkGlobals"];
+    function PrimitivesBrik (brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+
+        var oid = 0;
+        /* Unique ID number generator */
+        st.nextId = function () {
+            console.warn("$core.nextId() deprecated. Use your own unique counter.");
+            oid += 1;
+            return oid;
+        };
+
+        /* Converts a JavaScript object to valid Smalltalk Object */
+        st.readJSObject = function (js) {
+            if (js == null) return null;
+            else if (Array.isArray(js)) return js.map(st.readJSObject);
+            else if (js.constructor !== Object) return js;
+
+            var pairs = [];
+            for (var i in js) {
+                pairs.push(i, st.readJSObject(js[i]));
+            }
+            return globals.Dictionary._newFromPairs_(pairs);
+        };
+
+        /* Boolean assertion */
+        st.assert = function (shouldBeBoolean) {
+            if (typeof shouldBeBoolean === "boolean") return shouldBeBoolean;
+            else if (shouldBeBoolean != null && typeof shouldBeBoolean === "object") {
+                shouldBeBoolean = shouldBeBoolean.valueOf();
+                if (typeof shouldBeBoolean === "boolean") return shouldBeBoolean;
+            }
+            globals.NonBooleanReceiver._signalOn_(shouldBeBoolean);
+        };
+
+        // TODO remove
+        st.globalJsVariables = [];
+    }
+
+    RuntimeBrik.deps = ["selectorConversion", "smalltalkGlobals", "runtimeClasses"];
+    function RuntimeBrik (brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+        var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
+
+        function SmalltalkMethodContext (home, setup) {
+            // TODO lazy fill of .sendIdx
+            this.sendIdx = {};
+            // TODO very likely .senderContext, not .homeContext here
+            this.homeContext = home;
+            this.setup = setup;
+        }
+
+        // Fallbacks
+        SmalltalkMethodContext.prototype.supercall = false;
+        SmalltalkMethodContext.prototype.locals = Object.freeze({});
+        SmalltalkMethodContext.prototype.receiver = null;
+        SmalltalkMethodContext.prototype.selector = null;
+        SmalltalkMethodContext.prototype.lookupClass = null;
+        SmalltalkMethodContext.prototype.outerContext = null;
+        SmalltalkMethodContext.prototype.index = 0;
+
+        defineMethod(SmalltalkMethodContext, "fill", function (receiver, selector, locals, lookupClass) {
+            this.receiver = receiver;
+            this.selector = selector;
+            if (locals != null) this.locals = locals;
+            this.lookupClass = lookupClass;
+            if (this.homeContext) {
+                this.homeContext.evaluatedSelector = selector;
+            }
+        });
+        defineMethod(SmalltalkMethodContext, "fillBlock", function (locals, ctx, index) {
+            if (locals != null) this.locals = locals;
+            this.outerContext = ctx;
+            if (index) this.index = index;
+        });
+        defineMethod(SmalltalkMethodContext, "init", function () {
+            var frame = this;
+            while (frame) {
+                if (frame.init !== this.init) return frame.init();
+                frame.setup(frame);
+                frame = frame.homeContext;
+            }
+        });
+        defineMethod(SmalltalkMethodContext, "method", function () {
+            var method;
+            var lookup = this.lookupClass || this.receiver.a$cls;
+            while (!method && lookup) {
+                method = lookup.methods[st.js2st(this.selector)];
+                lookup = lookup.superclass;
+            }
+            return method;
+        });
+
+        setClassConstructor(globals.MethodContext, SmalltalkMethodContext);
+
+        /* This is the current call context object.
+         In Smalltalk code, it is accessible just by using 'thisContext' variable.
+         In JS code, use api.getThisContext() (see below).
+         */
+
+        var thisContext = null;
+
+        st.withContext = inContext;
+
+        /*
+         Runs worker function so that error handler is not set up
+         if there isn't one. This is accomplished by unconditional
+         wrapping inside a context of a simulated `nil seamlessDoIt` call,
+         which then stops error handler setup (see st.withContext above).
+         The effect is, $core.seamless(fn)'s exceptions are not
+         handed into ST error handler and caller should process them.
+         */
+        st.seamless = function inContext (worker) {
+            var oldContext = thisContext;
+            thisContext = new SmalltalkMethodContext(thisContext, function (ctx) {
+                ctx.fill(null, "seamlessDoIt", {}, globals.UndefinedObject);
+            });
+            var result = worker(thisContext);
+            thisContext = oldContext;
+            return result;
+        };
+
+        function resultWithErrorHandling (worker) {
+            try {
+                return worker(thisContext);
+            } catch (error) {
+                globals.ErrorHandler._handleError_(error);
+                thisContext = null;
+                // Rethrow the error in any case.
+                throw error;
+            }
+        }
+
+        function inContext (worker, setup) {
+            var oldContext = thisContext;
+            thisContext = new SmalltalkMethodContext(thisContext, setup);
+            var result = oldContext == null ? resultWithErrorHandling(worker) : worker(thisContext);
+            thisContext = oldContext;
+            return result;
+        }
+
+        /* Handle thisContext pseudo variable */
+
+        st.getThisContext = function () {
+            if (thisContext) {
+                thisContext.init();
+                return thisContext;
+            } else {
+                return null;
+            }
+        };
+    }
+
+    MessageSendBrik.deps = ["smalltalkGlobals", "selectorConversion", "root"];
+    function MessageSendBrik (brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+        var nilAsReceiver = brikz.root.nilAsReceiver;
+
+        /* Send message programmatically. Used to implement #perform: & Co. */
+
+        st.send2 = function (self, selector, args, klass) {
+            if (self == null) {
+                self = nilAsReceiver;
+            }
+            var method = klass ? klass.fn.prototype[st.st2js(selector)] : self.a$cls && self[st.st2js(selector)];
+            return method != null ?
+                method.apply(self, args || []) :
+                globals.Message._selector_arguments_notUnderstoodBy_(
+                    selector, [].slice.call(args), self.a$cls ? self : wrapJavaScript(self)
+                );
+        };
+
+        function wrapJavaScript (o) {
+            return globals.JSObjectProxy._on_(o);
+        }
+
+        st.wrapJavaScript = wrapJavaScript;
+
+        /* If the object property is a function, then call it, except if it starts with
+         an uppercase character (we probably want to answer the function itself in this
+         case and send it #new from Amber).
+         */
+        st.accessJavaScript = function accessJavaScript (self, propertyName, args) {
+            var propertyValue = self[propertyName];
+            if (typeof propertyValue === "function" && !/^[A-Z]/.test(propertyName)) {
+                return propertyValue.apply(self, args || []);
+            } else if (args.length === 0) {
+                return propertyValue;
+            } else {
+                self[propertyName] = args[0];
+                return self;
+            }
+        };
+    }
+
+    StartImageBrik.deps = ["smalltalkGlobals"];
+    function StartImageBrik (brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+
+        this.run = function () {
+            globals.AmberBootstrapInitialization._run();
+        };
+    }
+
+    /* Making smalltalk that can run */
+
+    function configureWithRuntime (brikz) {
+        brikz.dnu = DNUBrik;
+        brikz.manipulation = ManipulationBrik;
+        brikz.runtimeClasses = RuntimeClassesBrik;
+        brikz.frameBinding = FrameBindingBrik;
+        brikz.runtimeMethods = RuntimeMethodsBrik;
+        brikz.messageSend = MessageSendBrik;
+        brikz.runtime = RuntimeBrik;
+        brikz.primitives = PrimitivesBrik;
+        brikz.startImage = StartImageBrik;
+
+        brikz.rebuild();
+    }
+
+    return configureWithRuntime;
+});
+
+// Depend on each module that is loaded lazily.
+// Add to packager tasks as dependency,
+// so the lazy-loaded modules are included.
+define('amber/lazypack',['./kernel-runtime'], {});
+
+//jshint eqnull:true
+
+define('amber/kernel-checks',[],function () {
+    "use strict";
+
+    function assert (fn) {
+        try {
+            if (fn()) return;
+        } catch (ex) {
+            throw new Error("Error:\n" + ex + "in assertion:\n" + fn);
+        }
+        throw new Error("Assertion failed:\n" + fn);
+    }
+
+    assert(function () {
+        return !("hasOwnProperty" in Object.create(null));
+    });
+    assert(function () {
+        return new Function("return this")().Object === Object;
+    });
+    assert(function () {
+        return Object.create(new Function("return this")()).Object === Object;
+    });
+    assert(function () {
+        return (function () {
+                return this;
+            }).apply(void 0) === void 0;
+    });
+    assert(function () {
+        return (function () {
+                return this;
+            }).apply(null) === null;
+    });
+    assert(function () {
+        return (function () {
+                return this;
+            }).apply(3) === 3;
+    });
+    assert(function () {
+        return (function () {
+                return this;
+            }).apply("foo") === "foo";
+    });
+    assert(function () {
+        return (function () {
+                return this;
+            }).apply(true) === true;
+    });
+    assert(function () {
+        var o = Object.freeze({});
+        try {
+            o.foo = "bar";
+        } catch (ex) {
+        }
+        return o.foo == null;
+    });
+    assert(function () {
+        return typeof Promise === "function";
+    });
+    assert(function () {
+        return typeof Promise.resolve === "function";
+    });
+    assert(function () {
+        return typeof Promise.reject === "function";
+    });
+    assert(function () {
+        return typeof new Promise(function () {
+            }).then === "function";
+    });
+});
+
+define('amber/brikz',[], function () {
+    return function Brikz(api, apiKey, initKey) {
+        "use strict";
+
+        //jshint eqnull:true
+
+        var brikz = this,
+            backup = {};
+        apiKey = apiKey || 'exports';
+        initKey = initKey || '__init__';
+
+        function mixin(src, target, what) {
+            for (var keys = Object.keys(what || src), l = keys.length, i = 0; i < l; ++i) {
+                if (src == null) {
+                    target[keys[i]] = undefined;
+                } else {
+                    var value = src[keys[i]];
+                    if (typeof value !== "undefined") {
+                        target[keys[i]] = value;
+                    }
+                }
+            }
+            return target;
+        }
+
+        Object.defineProperties(this, {
+            rebuild: { value: null, enumerable: false, configurable: true, writable: true }
+        });
+        var exclude = mixin(this, {});
+
+        this.rebuild = function () {
+            Object.keys(backup).forEach(function (key) {
+                mixin(null, api, (backup[key] || 0)[apiKey] || {});
+            });
+            var oapi = mixin(api, {}),
+                order = [],
+                chk = {};
+
+            function ensure(key) {
+                if (key in exclude) {
+                    return null;
+                }
+                var b = brikz[key],
+                    bak = backup[key];
+                mixin(null, api, api);
+                while (typeof b === "function") {
+                    (b.deps || []).forEach(ensure);
+                    b = new b(brikz, api, bak);
+                }
+                brikz[key] = b;
+                if (b && !chk[key]) {
+                    chk[key] = true;
+                    order.push(b);
+                }
+                if (b && !b[apiKey]) {
+                    b[apiKey] = mixin(api, {});
+                }
+            }
+
+            Object.keys(brikz).forEach(ensure);
+            mixin(oapi, mixin(null, api, api));
+            order.forEach(function (brik) {
+                mixin(brik[apiKey] || {}, api);
+            });
+            order.forEach(function (brik) {
+                if (brik[initKey]) {
+                    brik[initKey]();
+                    if (brik[initKey].once) {
+                        delete brik[initKey];
+                    }
+                }
+            });
+            backup = mixin(brikz, {});
+        };
+    };
+});
+/* stub */;
+define("amber/compatibility", function(){});
 
 /* ====================================================================
  |
@@ -1294,7 +1801,7 @@ define("amber/node-compatibility", ["./es2015-polyfills"], function(){});
 
 //jshint eqnull:true
 
-define('amber/kernel-fundamentals',['./compatibility'], function () {
+define('amber/kernel-fundamentals',['./compatibility' /* TODO remove */], function () {
     "use strict";
 
     function inherits (child, parent) {
@@ -1315,6 +1822,8 @@ define('amber/kernel-fundamentals',['./compatibility'], function () {
 
         this.globals = globals;
     }
+
+    // TODO kernel announcer instead of st._eventFooHappened(...args)
 
     function RootBrik (brikz, st) {
         /* Smalltalk foundational objects */
@@ -1341,46 +1850,6 @@ define('amber/kernel-fundamentals',['./compatibility'], function () {
         this.Object = SmalltalkObject;
     }
 
-    OrganizeBrik.deps = ["arraySet", "root"];
-    function OrganizeBrik (brikz, st) {
-        var SmalltalkObject = brikz.root.Object;
-        var coreFns = brikz.root.coreFns;
-        var addElement = brikz.arraySet.addElement;
-        var removeElement = brikz.arraySet.removeElement;
-
-        function SmalltalkOrganizer () {
-        }
-
-        function SmalltalkPackageOrganizer () {
-            this.elements = [];
-        }
-
-        function SmalltalkClassOrganizer () {
-            this.elements = [];
-        }
-
-        coreFns.Organizer = inherits(SmalltalkOrganizer, SmalltalkObject);
-        coreFns.PackageOrganizer = inherits(SmalltalkPackageOrganizer, SmalltalkOrganizer);
-        coreFns.ClassOrganizer = inherits(SmalltalkClassOrganizer, SmalltalkOrganizer);
-
-        this.setupClassOrganization = function (behaviorBody) {
-            behaviorBody.organization = new SmalltalkClassOrganizer();
-            behaviorBody.organization.theClass = behaviorBody;
-        };
-
-        this.setupPackageOrganization = function (pkg) {
-            pkg.organization = new SmalltalkPackageOrganizer();
-        };
-
-        this.addOrganizationElement = function (owner, element) {
-            addElement(owner.organization.elements, element);
-        };
-
-        this.removeOrganizationElement = function (owner, element) {
-            removeElement(owner.organization.elements, element);
-        };
-    }
-
     SelectorsBrik.deps = ["selectorConversion"];
     function SelectorsBrik (brikz, st) {
         var selectorSet = Object.create(null);
@@ -1402,56 +1871,25 @@ define('amber/kernel-fundamentals',['./compatibility'], function () {
         };
     }
 
-    PackagesBrik.deps = ["organize", "root"];
     function PackagesBrik (brikz, st) {
-        var setupPackageOrganization = brikz.organize.setupPackageOrganization;
-        var SmalltalkObject = brikz.root.Object;
-        var coreFns = brikz.root.coreFns;
-
-        function SmalltalkPackage () {
-        }
-
-        coreFns.Package = inherits(SmalltalkPackage, SmalltalkObject);
-
+        // TODO remove .packages, have .packageDescriptors
         st.packages = {};
 
-        /* Smalltalk package creation. To add a Package, use smalltalk.addPackage() */
-
-        function pkg (spec) {
-            var that = new SmalltalkPackage();
-            that.pkgName = spec.pkgName;
-            setupPackageOrganization(that);
-            that.properties = spec.properties || {};
-            return that;
-        }
-
-        /* Add a package to the system, creating a new one if needed.
-         If pkgName is null or empty we return nil.
-         If package already exists we still update the properties of it. */
+        /* Add a package load descriptor to the system */
 
         st.addPackage = function (pkgName, properties) {
             if (!pkgName) return null;
-            if (!st.packages[pkgName]) {
-                st.packages[pkgName] = pkg({
-                    pkgName: pkgName,
-                    properties: properties
-                });
-            } else {
-                if (properties) {
-                    st.packages[pkgName].properties = properties;
-                }
-            }
-            return st.packages[pkgName];
+            return st.packages[pkgName] = {
+                // TODO remove .pkgName, have .name
+                pkgName: pkgName,
+                properties: properties
+            };
         };
     }
 
-    BehaviorsBrik.deps = ["organize", "root", "smalltalkGlobals", "arraySet"];
+    BehaviorsBrik.deps = ["root", "smalltalkGlobals", "arraySet"];
     function BehaviorsBrik (brikz, st) {
-        var addOrganizationElement = brikz.organize.addOrganizationElement;
-        var removeOrganizationElement = brikz.organize.removeOrganizationElement;
         var globals = brikz.smalltalkGlobals.globals;
-        var SmalltalkObject = brikz.root.Object;
-        var coreFns = brikz.root.coreFns;
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
 
@@ -1459,55 +1897,56 @@ define('amber/kernel-fundamentals',['./compatibility'], function () {
 
         var classes = [];
 
-        this.buildBehaviorBody = function (pkgName, builder) {
-            var pkg = st.packages[pkgName];
-            if (!pkg) throw new Error("Missing package " + pkgName);
-
-            var behaviorBody = globals.hasOwnProperty(builder.className) && globals[builder.className];
-            if (behaviorBody) {
-                builder.updateExisting(behaviorBody, pkg);
+        this.buildTraitOrClass = function (pkgName, builder) {
+            // TODO remove .className, have .name
+            var traitOrClass = globals.hasOwnProperty(builder.className) && globals[builder.className];
+            if (traitOrClass) {
+                // TODO remove .pkg, have .pkgName
+                if (!traitOrClass.pkg) throw new Error("Updated trait or class must have package: " + traitOrClass.className);
+                // if (traitOrClass.pkg.pkgName !== pkgName) throw new Error("Incompatible cross-package update of trait or class: " + traitOrClass.className);
+                builder.updateExisting(traitOrClass);
             } else {
-                behaviorBody = builder.make(pkg);
+                traitOrClass = builder.make();
+                traitOrClass.pkg = pkgName;
+                addTraitOrClass(traitOrClass);
             }
 
-            addBehaviorBody(behaviorBody);
-            return behaviorBody;
+            return traitOrClass;
         };
 
-        function addBehaviorBody (behaviorBody) {
-            globals[behaviorBody.className] = behaviorBody;
-            addElement(classes, behaviorBody);
-            addOrganizationElement(behaviorBody.pkg, behaviorBody);
-            behaviorBody.added();
+        function addTraitOrClass (traitOrClass) {
+            globals[traitOrClass.className] = traitOrClass;
+            addElement(classes, traitOrClass);
+            traitOrClass.added();
         }
 
-        function removeBehaviorBody (behaviorBody) {
-            behaviorBody.removed();
-            removeOrganizationElement(behaviorBody.pkg, behaviorBody);
-            removeElement(classes, behaviorBody);
-            delete globals[behaviorBody.className];
+        function removeTraitOrClass (traitOrClass) {
+            traitOrClass.removed();
+            removeElement(classes, traitOrClass);
+            delete globals[traitOrClass.className];
         }
 
-        this.removeBehaviorBody = removeBehaviorBody;
+        this.removeTraitOrClass = removeTraitOrClass;
 
         /* Create an alias for an existing class */
 
-        st.alias = function (behaviorBody, alias) {
-            globals[alias] = behaviorBody;
+        st.alias = function (traitOrClass, alias) {
+            globals[alias] = traitOrClass;
         };
 
         /* Answer all registered Smalltalk classes */
         //TODO: remove the function and make smalltalk.classes an array
 
+        // TODO: remove .classes, have .traitsOrClasses
         st.classes = this.classes = function () {
             return classes;
         };
     }
 
-    MethodsBrik.deps = ["composition", "selectors", "root", "selectorConversion"];
+    MethodsBrik.deps = ["behaviorProviders", "selectors", "root", "selectorConversion"];
     function MethodsBrik (brikz, st) {
         var registerSelector = brikz.selectors.registerSelector;
-        var updateMethod = brikz.composition.updateMethod;
+        var updateMethod = brikz.behaviorProviders.updateMethod;
         var SmalltalkObject = brikz.root.Object;
         var coreFns = brikz.root.coreFns;
 
@@ -1528,6 +1967,7 @@ define('amber/kernel-fundamentals',['./compatibility'], function () {
             that.protocol = spec.protocol;
             that.source = spec.source;
             that.messageSends = spec.messageSends || [];
+            // TODO remove .referencedClasses, have .referencedGlobals
             that.referencedClasses = spec.referencedClasses || [];
             that.fn = spec.fn;
             return that;
@@ -1535,14 +1975,15 @@ define('amber/kernel-fundamentals',['./compatibility'], function () {
 
         /* Add/remove a method to/from a class */
 
-        st.addMethod = function (method, behaviorBody) {
+        st.addMethod = function (method, traitOrBehavior) {
+            // TODO remove .methodClass, have .owner
             if (method.methodClass != null) {
                 throw new Error("addMethod: Method " + method.selector + " already bound to " + method.methodClass);
             }
-            method.methodClass = behaviorBody;
+            method.methodClass = traitOrBehavior;
             registerNewSelectors(method);
-            behaviorBody.localMethods[method.selector] = method;
-            updateMethod(method.selector, behaviorBody);
+            traitOrBehavior.localMethods[method.selector] = method;
+            updateMethod(method.selector, traitOrBehavior);
         };
 
         function registerNewSelectors (method) {
@@ -1560,175 +2001,37 @@ define('amber/kernel-fundamentals',['./compatibility'], function () {
             if (st._selectorsAdded) st._selectorsAdded(newSelectors);
         }
 
-        st.removeMethod = function (method, behaviorBody) {
-            if (behaviorBody.localMethods[method.selector] !== method) return;
+        st.removeMethod = function (method, traitOrBehavior) {
+            if (traitOrBehavior.localMethods[method.selector] !== method) return;
 
-            delete behaviorBody.localMethods[method.selector];
-            updateMethod(method.selector, behaviorBody);
+            delete traitOrBehavior.localMethods[method.selector];
+            updateMethod(method.selector, traitOrBehavior);
         };
     }
 
-    MethodCompositionBrik.deps = ["organize"];
-    function MethodCompositionBrik (brikz, st) {
-        var setupClassOrganization = brikz.organize.setupClassOrganization;
-        var addOrganizationElement = brikz.organize.addOrganizationElement;
-
-        this.setupMethods = function (behaviorBody) {
-            setupClassOrganization(behaviorBody);
-            behaviorBody.traitComposition = [];
-            behaviorBody.localMethods = Object.create(null);
-            behaviorBody.methods = Object.create(null);
+    function BehaviorProvidersBrik (brikz, st) {
+        this.setupMethods = function (traitOrBehavior) {
+            traitOrBehavior.localMethods = Object.create(null);
+            traitOrBehavior.methods = Object.create(null);
         };
 
-        function addMethod (method, behaviorBody) {
-            behaviorBody.methods[method.selector] = method;
-
-            // During the bootstrap, #addCompiledMethod is not used.
-            // Therefore we populate the organizer here too
-            addOrganizationElement(behaviorBody, method.protocol);
-
-            behaviorBody.methodAdded(method);
-        }
-
-        function removeMethod (method, behaviorBody) {
-            delete behaviorBody.methods[method.selector];
-
-            behaviorBody.methodRemoved(method);
-
-            // Do *not* delete protocols from here.
-            // This is handled by #removeCompiledMethod
-        }
-
-        function aliased (selector, method) {
-            if (method.selector === selector) return method;
-            var result = st.method({
-                selector: selector,
-                args: method.args,
-                protocol: method.protocol,
-                source: '"Aliased as ' + selector + '"\n' + method.source,
-                messageSends: method.messageSends,
-                referencesClasses: method.referencedClasses,
-                fn: method.fn
-            });
-            result.methodClass = method.methodClass;
-            return result;
-        }
-
-        function deleteKeysFrom (keys, obj) {
-            keys.forEach(function (each) {
-                delete obj[each];
-            });
-        }
-
-        function fillTraitTransformation (traitTransformation, obj) {
-            // assert(Object.getOwnProperties(obj).length === 0)
-            var traitMethods = traitTransformation.trait.methods;
-            Object.keys(traitMethods).forEach(function (selector) {
-                obj[selector] = traitMethods[selector];
-            });
-            var traitAliases = traitTransformation.aliases;
-            if (traitAliases) {
-                Object.keys(traitAliases).forEach(function (aliasSelector) {
-                    var aliasedMethod = traitMethods[traitAliases[aliasSelector]];
-                    if (aliasedMethod) obj[aliasSelector] = aliased(aliasSelector, aliasedMethod);
-                    // else delete obj[aliasSelector]; // semantically correct; optimized away
-                });
-            }
-            var traitExclusions = traitTransformation.exclusions;
-            if (traitExclusions) {
-                deleteKeysFrom(traitExclusions, obj);
-            }
-            return obj;
-        }
-
-        function buildCompositionChain (traitComposition) {
-            return traitComposition.reduce(function (soFar, each) {
-                return fillTraitTransformation(each, Object.create(soFar));
-            }, null);
-        }
-
-        st.setTraitComposition = function (traitComposition, behaviorBody) {
-            var oldLocalMethods = behaviorBody.localMethods,
-                newLocalMethods = Object.create(buildCompositionChain(traitComposition));
-            Object.keys(oldLocalMethods).forEach(function (selector) {
-                newLocalMethods[selector] = oldLocalMethods[selector];
-            });
-            behaviorBody.localMethods = newLocalMethods;
-            for (var selector in newLocalMethods) {
-                updateMethod(selector, behaviorBody);
-            }
-            for (var selector in oldLocalMethods) {
-                updateMethod(selector, behaviorBody);
-            }
-            behaviorBody.traitComposition.forEach(function (each) {
-                each.trait.removeUser(behaviorBody);
-            });
-            behaviorBody.traitComposition = traitComposition;
-            behaviorBody.traitComposition.forEach(function (each) {
-                each.trait.addUser(behaviorBody);
-            });
-        };
-
-        function updateMethod (selector, behaviorBody) {
-            var oldMethod = behaviorBody.methods[selector],
-                newMethod = behaviorBody.localMethods[selector];
+        this.updateMethod = function (selector, traitOrBehavior) {
+            var oldMethod = traitOrBehavior.methods[selector],
+                newMethod = traitOrBehavior.localMethods[selector];
             if (oldMethod == null && newMethod == null) {
-                console.warn("Removal of nonexistent method " + behaviorBody + " >> " + selector);
+                console.warn("Removal of nonexistent method " + traitOrBehavior + " >> " + selector);
                 return;
             }
             if (newMethod === oldMethod) return;
-            if (newMethod != null) addMethod(newMethod, behaviorBody);
-            else removeMethod(oldMethod, behaviorBody);
-        }
-
-        this.updateMethod = updateMethod;
-
-        function aliasesOfSelector (selector, traitAliases) {
-            if (!traitAliases) return [selector];
-            var result = Object.keys(traitAliases).filter(function (aliasSelector) {
-                return traitAliases[aliasSelector] === selector
-            });
-            if (!traitAliases[selector]) result.push(selector);
-            return result;
-        }
-
-        function applyTraitMethodAddition (selector, method, traitTransformation, obj) {
-            var changes = aliasesOfSelector(selector, traitTransformation.aliases);
-            changes.forEach(function (aliasSelector) {
-                obj[aliasSelector] = aliased(aliasSelector, method);
-            });
-            var traitExclusions = traitTransformation.exclusions;
-            if (traitExclusions) {
-                deleteKeysFrom(traitExclusions, obj);
+            if (newMethod != null) {
+                traitOrBehavior.methods[selector] = newMethod;
+                traitOrBehavior.methodAdded(newMethod);
+            } else {
+                delete traitOrBehavior.methods[selector];
+                traitOrBehavior.methodRemoved(oldMethod);
             }
-            return changes;
-        }
-
-        function applyTraitMethodDeletion (selector, traitTransformation, obj) {
-            var changes = aliasesOfSelector(selector, traitTransformation.aliases);
-            deleteKeysFrom(changes, obj);
-            return changes;
-        }
-
-        function traitMethodChanged (selector, method, trait, behaviorBody) {
-            var traitComposition = behaviorBody.traitComposition,
-                chain = behaviorBody.localMethods,
-                changes = [];
-            for (var i = traitComposition.length - 1; i >= 0; --i) {
-                chain = Object.getPrototypeOf(chain);
-                var traitTransformation = traitComposition[i];
-                if (traitTransformation.trait !== trait) continue;
-                changes.push.apply(changes, method ?
-                    applyTraitMethodAddition(selector, method, traitTransformation, chain) :
-                    applyTraitMethodDeletion(selector, traitTransformation, chain));
-            }
-            // assert(chain === null);
-            changes.forEach(function (each) {
-                updateMethod(each, behaviorBody);
-            });
-        }
-
-        this.traitMethodChanged = traitMethodChanged;
+            if (st._methodReplaced) st._methodReplaced(newMethod, oldMethod, traitOrBehavior);
+        };
     }
 
     function ArraySetBrik (brikz, st) {
@@ -1810,17 +2113,45 @@ define('amber/kernel-fundamentals',['./compatibility'], function () {
         };
     }
 
+    NilBrik.deps = ["root"];
+    function NilBrik (brikz, st) {
+        var SmalltalkObject = brikz.root.Object;
+        var coreFns = brikz.root.coreFns;
+
+        function SmalltalkNil () {
+        }
+
+        coreFns.UndefinedObject = inherits(SmalltalkNil, SmalltalkObject);
+
+        this.nilAsReceiver = new SmalltalkNil();
+        this.nilAsValue = this.nilAsReceiver; // TODO null
+
+        // Adds an `a$nil` (and legacy `isNil`) property to the `nil` object.  When sending
+        // nil objects from one environment to another, doing
+        // `anObject == nil` (in JavaScript) does not always answer
+        // true as the referenced nil object might come from the other
+        // environment.
+        Object.defineProperty(this.nilAsReceiver, 'a$nil', {
+            value: true,
+            enumerable: false, configurable: false, writable: false
+        });
+        Object.defineProperty(this.nilAsReceiver, 'isNil', {
+            value: true,
+            enumerable: false, configurable: false, writable: false
+        });
+    }
+
     /* Making smalltalk that has basic building blocks */
 
     function configureWithFundamentals (brikz) {
         brikz.smalltalkGlobals = SmalltalkGlobalsBrik;
         brikz.root = RootBrik;
+        brikz.nil = NilBrik;
         brikz.arraySet = ArraySetBrik;
-        brikz.organize = OrganizeBrik;
         brikz.selectorConversion = SelectorConversionBrik;
         brikz.selectors = SelectorsBrik;
         brikz.packages = PackagesBrik;
-        brikz.composition = MethodCompositionBrik;
+        brikz.behaviorProviders = BehaviorProvidersBrik;
         brikz.behaviors = BehaviorsBrik;
         brikz.methods = MethodsBrik;
 
@@ -1871,7 +2202,7 @@ define('amber/kernel-fundamentals',['./compatibility'], function () {
 
 //jshint eqnull:true
 
-define('amber/kernel-language',['./compatibility'], function () {
+define('amber/kernel-language',['./compatibility' /* TODO remove */], function () {
     "use strict";
 
     function inherits (child, parent) {
@@ -1891,13 +2222,13 @@ define('amber/kernel-language',['./compatibility'], function () {
         });
     }
 
-    TraitsBrik.deps = ["behaviors", "composition", "arraySet", "root"];
+    TraitsBrik.deps = ["behaviors", "behaviorProviders", "composition", "arraySet", "root"];
     function TraitsBrik (brikz, st) {
         var coreFns = brikz.root.coreFns;
         var SmalltalkObject = brikz.root.Object;
-        var setupMethods = brikz.composition.setupMethods;
+        var setupMethods = brikz.behaviorProviders.setupMethods;
         var traitMethodChanged = brikz.composition.traitMethodChanged;
-        var buildBehaviorBody = brikz.behaviors.buildBehaviorBody;
+        var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
 
@@ -1931,44 +2262,165 @@ define('amber/kernel-language',['./compatibility'], function () {
             });
             if (st._traitMethodRemoved) st._traitMethodRemoved(method, this);
         });
-        defineMethod(SmalltalkTrait, "addUser", function (behaviorBody) {
-            addElement(this.traitUsers, behaviorBody);
+        defineMethod(SmalltalkTrait, "addUser", function (traitOrBehavior) {
+            addElement(this.traitUsers, traitOrBehavior);
         });
-        defineMethod(SmalltalkTrait, "removeUser", function (behaviorBody) {
-            removeElement(this.traitUsers, behaviorBody);
+        defineMethod(SmalltalkTrait, "removeUser", function (traitOrBehavior) {
+            removeElement(this.traitUsers, traitOrBehavior);
         });
 
         function traitBuilder (className) {
             return {
                 className: className,
-                make: function (pkg) {
+                make: function () {
                     var that = new SmalltalkTrait();
                     that.className = className;
-                    that.pkg = pkg;
                     that.traitUsers = [];
                     setupMethods(that);
                     return that;
                 },
-                updateExisting: function (trait, pkg) {
-                    if (pkg) trait.pkg = pkg;
+                updateExisting: function (trait) {
                 }
             };
         }
 
         st.addTrait = function (className, pkgName) {
-            return buildBehaviorBody(pkgName, traitBuilder(className));
+            return buildTraitOrClass(pkgName, traitBuilder(className));
         };
     }
 
-    ClassesBrik.deps = ["root", "behaviors", "composition", "arraySet", "smalltalkGlobals"];
+    MethodCompositionBrik.deps = ["behaviorProviders"];
+    function MethodCompositionBrik (brikz, st) {
+        var updateMethod = brikz.behaviorProviders.updateMethod;
+
+        function aliased (selector, method) {
+            if (method.selector === selector) return method;
+            var result = st.method({
+                selector: selector,
+                args: method.args,
+                protocol: method.protocol,
+                source: '"Aliased as ' + selector + '"\n' + method.source,
+                messageSends: method.messageSends,
+                referencesClasses: method.referencedClasses,
+                fn: method.fn
+            });
+            result.methodClass = method.methodClass;
+            return result;
+        }
+
+        function deleteKeysFrom (keys, obj) {
+            keys.forEach(function (each) {
+                delete obj[each];
+            });
+        }
+
+        function fillTraitTransformation (traitTransformation, obj) {
+            // assert(Object.getOwnProperties(obj).length === 0)
+            var traitMethods = traitTransformation.trait.methods;
+            Object.keys(traitMethods).forEach(function (selector) {
+                obj[selector] = traitMethods[selector];
+            });
+            var traitAliases = traitTransformation.aliases;
+            if (traitAliases) {
+                Object.keys(traitAliases).forEach(function (aliasSelector) {
+                    var aliasedMethod = traitMethods[traitAliases[aliasSelector]];
+                    if (aliasedMethod) obj[aliasSelector] = aliased(aliasSelector, aliasedMethod);
+                    // else delete obj[aliasSelector]; // semantically correct; optimized away
+                });
+            }
+            var traitExclusions = traitTransformation.exclusions;
+            if (traitExclusions) {
+                deleteKeysFrom(traitExclusions, obj);
+            }
+            return obj;
+        }
+
+        function buildCompositionChain (traitComposition) {
+            return traitComposition.reduce(function (soFar, each) {
+                return fillTraitTransformation(each, Object.create(soFar));
+            }, null);
+        }
+
+        st.setTraitComposition = function (traitComposition, traitOrBehavior) {
+            var oldLocalMethods = traitOrBehavior.localMethods,
+                newLocalMethods = Object.create(buildCompositionChain(traitComposition));
+            Object.keys(oldLocalMethods).forEach(function (selector) {
+                newLocalMethods[selector] = oldLocalMethods[selector];
+            });
+            var selector;
+            traitOrBehavior.localMethods = newLocalMethods;
+            for (selector in newLocalMethods) {
+                updateMethod(selector, traitOrBehavior);
+            }
+            for (selector in oldLocalMethods) {
+                updateMethod(selector, traitOrBehavior);
+            }
+            (traitOrBehavior.traitComposition || []).forEach(function (each) {
+                each.trait.removeUser(traitOrBehavior);
+            });
+            traitOrBehavior.traitComposition = traitComposition && traitComposition.length ? traitComposition : null;
+            (traitOrBehavior.traitComposition || []).forEach(function (each) {
+                each.trait.addUser(traitOrBehavior);
+            });
+        };
+
+        function aliasesOfSelector (selector, traitAliases) {
+            if (!traitAliases) return [selector];
+            var result = Object.keys(traitAliases).filter(function (aliasSelector) {
+                return traitAliases[aliasSelector] === selector
+            });
+            if (!traitAliases[selector]) result.push(selector);
+            return result;
+        }
+
+        function applyTraitMethodAddition (selector, method, traitTransformation, obj) {
+            var changes = aliasesOfSelector(selector, traitTransformation.aliases);
+            changes.forEach(function (aliasSelector) {
+                obj[aliasSelector] = aliased(aliasSelector, method);
+            });
+            var traitExclusions = traitTransformation.exclusions;
+            if (traitExclusions) {
+                deleteKeysFrom(traitExclusions, obj);
+            }
+            return changes;
+        }
+
+        function applyTraitMethodDeletion (selector, traitTransformation, obj) {
+            var changes = aliasesOfSelector(selector, traitTransformation.aliases);
+            deleteKeysFrom(changes, obj);
+            return changes;
+        }
+
+        function traitMethodChanged (selector, method, trait, traitOrBehavior) {
+            var traitComposition = traitOrBehavior.traitComposition,
+                chain = traitOrBehavior.localMethods,
+                changes = [];
+            for (var i = traitComposition.length - 1; i >= 0; --i) {
+                chain = Object.getPrototypeOf(chain);
+                var traitTransformation = traitComposition[i];
+                if (traitTransformation.trait !== trait) continue;
+                changes.push.apply(changes, method ?
+                    applyTraitMethodAddition(selector, method, traitTransformation, chain) :
+                    applyTraitMethodDeletion(selector, traitTransformation, chain));
+            }
+            // assert(chain === null);
+            changes.forEach(function (each) {
+                updateMethod(each, traitOrBehavior);
+            });
+        }
+
+        this.traitMethodChanged = traitMethodChanged;
+    }
+
+    ClassesBrik.deps = ["root", "behaviors", "behaviorProviders", "arraySet", "smalltalkGlobals"];
     function ClassesBrik (brikz, st) {
         var SmalltalkRoot = brikz.root.Root;
         var coreFns = brikz.root.coreFns;
         var globals = brikz.smalltalkGlobals.globals;
         var SmalltalkObject = brikz.root.Object;
-        var buildBehaviorBody = brikz.behaviors.buildBehaviorBody;
-        var setupMethods = brikz.composition.setupMethods;
-        var removeBehaviorBody = brikz.behaviors.removeBehaviorBody;
+        var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
+        var setupMethods = brikz.behaviorProviders.setupMethods;
+        var removeTraitOrClass = brikz.behaviors.removeTraitOrClass;
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
 
@@ -2010,10 +2462,10 @@ define('amber/kernel-language',['./compatibility'], function () {
             removeSubclass(this);
         });
         defineMethod(SmalltalkBehavior, "methodAdded", function (method) {
-            if (st._methodAdded) st._methodAdded(method, this);
+            if (st._behaviorMethodAdded) st._behaviorMethodAdded(method, this);
         });
         defineMethod(SmalltalkBehavior, "methodRemoved", function (method) {
-            if (st._methodRemoved) st._methodRemoved(method, this);
+            if (st._behaviorMethodRemoved) st._behaviorMethodRemoved(method, this);
         });
 
         this.bootstrapHierarchy = function () {
@@ -2037,7 +2489,7 @@ define('amber/kernel-language',['./compatibility'], function () {
                 logicalSuperclass = null;
             }
 
-            function klass (pkg) {
+            function klass () {
                 var that = metaclass().instanceClass;
 
                 that.superclass = logicalSuperclass;
@@ -2046,7 +2498,6 @@ define('amber/kernel-language',['./compatibility'], function () {
                 that.iVarNames = iVarNames || [];
 
                 that.className = className;
-                that.pkg = pkg;
                 that.subclasses = [];
 
                 setupMethods(that);
@@ -2071,10 +2522,9 @@ define('amber/kernel-language',['./compatibility'], function () {
             return {
                 className: className,
                 make: klass,
-                updateExisting: function (klass, pkg) {
+                updateExisting: function (klass) {
                     if (klass.superclass == logicalSuperclass && (!fn || fn === klass.fn)) {
                         if (iVarNames) klass.iVarNames = iVarNames;
-                        if (pkg) klass.pkg = pkg;
                     } else throw new Error("Incompatible change of class: " + klass.className);
                 }
             };
@@ -2099,13 +2549,13 @@ define('amber/kernel-language',['./compatibility'], function () {
         st.addClass = function (className, superclass, iVarNames, pkgName) {
             // While subclassing nil is allowed, it might be an error, so
             // warn about it.
-            if (typeof superclass == 'undefined' || superclass && superclass.a$nil) {
+            if (typeof superclass === 'undefined' || superclass && superclass.a$nil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
-            return buildBehaviorBody(pkgName, classBuilder(className, superclass, iVarNames, coreFns[className]));
+            return buildTraitOrClass(pkgName, classBuilder(className, superclass, iVarNames, coreFns[className]));
         };
 
-        st.removeClass = removeBehaviorBody;
+        st.removeClass = removeTraitOrClass;
 
         function addSubclass (klass) {
             if (klass.superclass) {
@@ -2142,63 +2592,12 @@ define('amber/kernel-language',['./compatibility'], function () {
         };
     }
 
-    NilBrik.deps = ["root"];
-    function NilBrik (brikz, st) {
-        var SmalltalkObject = brikz.root.Object;
-        var coreFns = brikz.root.coreFns;
-
-        function SmalltalkNil () {
-        }
-
-        coreFns.UndefinedObject = inherits(SmalltalkNil, SmalltalkObject);
-
-        this.nilAsReceiver = new SmalltalkNil();
-        this.nilAsValue = this.nilAsReceiver; // TODO null
-
-        // Adds an `a$nil` (and legacy `isNil`) property to the `nil` object.  When sending
-        // nil objects from one environment to another, doing
-        // `anObject == nil` (in JavaScript) does not always answer
-        // true as the referenced nil object might come from the other
-        // environment.
-        Object.defineProperty(this.nilAsReceiver, 'a$nil', {
-            value: true,
-            enumerable: false, configurable: false, writable: false
-        });
-        Object.defineProperty(this.nilAsReceiver, 'isNil', {
-            value: true,
-            enumerable: false, configurable: false, writable: false
-        });
-    }
-
-    /* Defines asReceiver to be present at load time */
-    /* (logically it belongs more to PrimitiveBrik) */
-    AsReceiverBrik.deps = ["nil"];
-    function AsReceiverBrik (brikz, st) {
-        var nilAsReceiver = brikz.nil.nilAsReceiver;
-
-        /**
-         * This function is used all over the compiled amber code.
-         * It takes any value (JavaScript or Smalltalk)
-         * and returns a proper Amber Smalltalk receiver.
-         *
-         * null or undefined -> nilAsReceiver,
-         * object having Smalltalk signature -> unchanged,
-         * otherwise wrapped foreign (JS) object
-         */
-        this.asReceiver = function (o) {
-            if (o == null) return nilAsReceiver;
-            else if (o.a$cls != null) return o;
-            else return st.wrapJavaScript(o);
-        };
-    }
-
     /* Making smalltalk that can load */
 
     function configureWithHierarchy (brikz) {
         brikz.traits = TraitsBrik;
+        brikz.composition = MethodCompositionBrik;
         brikz.classes = ClassesBrik;
-        brikz.nil = NilBrik;
-        brikz.asReceiver = AsReceiverBrik;
 
         brikz.rebuild();
     }
@@ -2248,16 +2647,13 @@ define('amber/kernel-language',['./compatibility'], function () {
 //jshint eqnull:true
 
 define('amber/boot',[
-    'require', './brikz', './kernel-fundamentals', './kernel-language', './compatibility'
-], function (require, Brikz, configureWithFundamentals, configureWithHierarchy) {
+    'require', './kernel-checks', './brikz', './kernel-fundamentals', './kernel-language', './compatibility' /* TODO remove */
+], function (require, _, Brikz, configureWithFundamentals, configureWithHierarchy) {
     "use strict";
 
     require(['./kernel-runtime']); // preload
 
-    SmalltalkInitBrik.deps = ["classes"];
     function SmalltalkInitBrik (brikz, st) {
-        var bootstrapHierarchy = brikz.classes.bootstrapHierarchy;
-
         var initialized = false;
         var runtimeLoadedPromise = new Promise(function (resolve, reject) {
             require(['./kernel-runtime'], resolve, reject);
@@ -2268,8 +2664,9 @@ define('amber/boot',[
         st.initialize = function () {
             return runtimeLoadedPromise.then(function (configureWithRuntime) {
                 if (initialized) return;
-                bootstrapHierarchy();
+                brikz.classes.bootstrapHierarchy();
                 configureWithRuntime(brikz);
+                brikz.startImage.run();
                 initialized = true;
             });
         };
@@ -2282,6 +2679,28 @@ define('amber/boot',[
         st.defaultAmdNamespace = st.defaultAmdNamespace || "amber_core";
     }
 
+    /* Defines asReceiver to be present at load time */
+    /* (logically it belongs more to PrimitiveBrik) */
+    AsReceiverBrik.deps = ["nil"];
+    function AsReceiverBrik (brikz, st) {
+        var nilAsReceiver = brikz.nil.nilAsReceiver;
+
+        /**
+         * This function is used all over the compiled amber code.
+         * It takes any value (JavaScript or Smalltalk)
+         * and returns a proper Amber Smalltalk receiver.
+         *
+         * null or undefined -> nilAsReceiver,
+         * object having Smalltalk signature -> unchanged,
+         * otherwise wrapped foreign (JS) object
+         */
+        this.asReceiver = function (o) {
+            if (o == null) return nilAsReceiver;
+            else if (o.a$cls != null) return o;
+            else return st.wrapJavaScript(o);
+        };
+    }
+
     var api = {};
     var brikz = new Brikz(api);
 
@@ -2289,6 +2708,7 @@ define('amber/boot',[
 
     configureWithHierarchy(brikz);
 
+    brikz.asReceiver = AsReceiverBrik;
     brikz.stInit = SmalltalkInitBrik;
     brikz.amd = AMDBrik;
 
@@ -2604,12 +3024,12 @@ protocol: "comparing",
 fn: function (anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $self._class() === $recv(anObject)._class() && $self._isSameInstanceAs_(anObject);
+return self === anObject;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"==",{anObject:anObject},$globals.ProtoObject)});
 },
 args: ["anObject"],
-source: "== anObject\x0a<inlineJS:\x0a\x09'return $self._class() === $recv(anObject)._class() && $self._isSameInstanceAs_(anObject)'>",
+source: "== anObject\x0a<inlineJS: 'return self === anObject'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -2733,6 +3153,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
+		self._deprecatedAPI();
 		var hash=self.identityHash;
 		if (hash) return hash;
 		hash=$core.nextId();
@@ -2743,7 +3164,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"identityHash",{},$globals.ProtoObject)});
 },
 args: [],
-source: "identityHash\x0a\x09<inlineJS: '\x0a\x09\x09var hash=self.identityHash;\x0a\x09\x09if (hash) return hash;\x0a\x09\x09hash=$core.nextId();\x0a\x09\x09Object.defineProperty(self, ''identityHash'', {value:hash});\x0a\x09\x09return hash;\x0a\x09'>",
+source: "identityHash\x0a\x09<inlineJS: '\x0a\x09\x09self._deprecatedAPI();\x0a\x09\x09var hash=self.identityHash;\x0a\x09\x09if (hash) return hash;\x0a\x09\x09hash=$core.nextId();\x0a\x09\x09Object.defineProperty(self, ''identityHash'', {value:hash});\x0a\x09\x09return hash;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -2938,26 +3359,6 @@ args: [],
 source: "isNil\x0a\x09^ false",
 referencedClasses: [],
 messageSends: []
-}),
-$globals.ProtoObject);
-
-$core.addMethod(
-$core.method({
-selector: "isSameInstanceAs:",
-protocol: "comparing",
-fn: function (anObject){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-var $1;
-$1=$self._identityHash();
-$ctx1.sendIdx["identityHash"]=1;
-return $recv($1).__eq($recv(anObject)._identityHash());
-}, function($ctx1) {$ctx1.fill(self,"isSameInstanceAs:",{anObject:anObject},$globals.ProtoObject)});
-},
-args: ["anObject"],
-source: "isSameInstanceAs: anObject\x0a\x09^ self identityHash = anObject identityHash",
-referencedClasses: [],
-messageSends: ["=", "identityHash"]
 }),
 $globals.ProtoObject);
 
@@ -3949,14 +4350,14 @@ fn: function (aBoolean){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-	if (typeof aBoolean === "boolean") return self.valueOf() === aBoolean;
-	else if (aBoolean != null && typeof aBoolean === "object") return self.valueOf() === aBoolean.valueOf();
+	if (typeof aBoolean === "boolean") return (self == true) === aBoolean;
+	else if (aBoolean != null && typeof aBoolean === "object") return (self == true) === aBoolean.valueOf();
 	else return false;;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"==",{aBoolean:aBoolean},$globals.Boolean)});
 },
 args: ["aBoolean"],
-source: "== aBoolean\x0a<inlineJS: '\x0a\x09if (typeof aBoolean === \x22boolean\x22) return self.valueOf() === aBoolean;\x0a\x09else if (aBoolean != null && typeof aBoolean === \x22object\x22) return self.valueOf() === aBoolean.valueOf();\x0a\x09else return false;\x0a'>",
+source: "== aBoolean\x0a<inlineJS: '\x0a\x09if (typeof aBoolean === \x22boolean\x22) return (self == true) === aBoolean;\x0a\x09else if (aBoolean != null && typeof aBoolean === \x22object\x22) return (self == true) === aBoolean.valueOf();\x0a\x09else return false;\x0a'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -5354,6 +5755,24 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "arcTan:",
+protocol: "mathematical functions",
+fn: function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return Math.atan2(self, aNumber);;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"arcTan:",{aNumber:aNumber},$globals.Number)});
+},
+args: ["aNumber"],
+source: "arcTan: aNumber\x0a\x09<inlineJS: 'return Math.atan2(self, aNumber);'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "asJavaScriptObject",
 protocol: "converting",
 fn: function (){
@@ -5458,6 +5877,27 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "between:and:",
+protocol: "testing",
+fn: function (min,max){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self.__gt_eq(min))._and_((function(){
+return $core.withContext(function($ctx2) {
+return $self.__lt_eq(max);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"between:and:",{min:min,max:max},$globals.Number)});
+},
+args: ["min", "max"],
+source: "between: min and: max\x0a ^ self >= min and: [ self <= max ]",
+referencedClasses: [],
+messageSends: ["and:", ">=", "<="]
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "ceiling",
 protocol: "converting",
 fn: function (){
@@ -5522,6 +5962,23 @@ args: [],
 source: "deepCopy\x0a\x09^ self copy",
 referencedClasses: [],
 messageSends: ["copy"]
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "degreesToRadians",
+protocol: "converting",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $self.__star($recv($globals.Number)._radiansPerDegree());
+}, function($ctx1) {$ctx1.fill(self,"degreesToRadians",{},$globals.Number)});
+},
+args: [],
+source: "degreesToRadians\x0a\x09^ self * Number radiansPerDegree",
+referencedClasses: ["Number"],
+messageSends: ["*", "radiansPerDegree"]
 }),
 $globals.Number);
 
@@ -5701,6 +6158,23 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "min:max:",
+protocol: "arithmetic",
+fn: function (aMin,aMax){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._min_(aMin))._max_(aMax);
+}, function($ctx1) {$ctx1.fill(self,"min:max:",{aMin:aMin,aMax:aMax},$globals.Number)});
+},
+args: ["aMin", "aMax"],
+source: "min: aMin max: aMax\x0a\x09^ (self min: aMin) max: aMax",
+referencedClasses: [],
+messageSends: ["max:", "min:"]
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "negated",
 protocol: "arithmetic",
 fn: function (){
@@ -5800,6 +6274,23 @@ args: ["placesDesired"],
 source: "printShowingDecimalPlaces: placesDesired\x0a\x09<inlineJS: 'return self.toFixed(placesDesired)'>",
 referencedClasses: [],
 messageSends: []
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "radiansToDegrees",
+protocol: "converting",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $self.__slash($recv($globals.Number)._radiansPerDegree());
+}, function($ctx1) {$ctx1.fill(self,"radiansToDegrees",{},$globals.Number)});
+},
+args: [],
+source: "radiansToDegrees\x0a\x09^ self / Number radiansPerDegree",
+referencedClasses: ["Number"],
+messageSends: ["/", "radiansPerDegree"]
 }),
 $globals.Number);
 
@@ -6241,6 +6732,23 @@ messageSends: []
 }),
 $globals.Number.a$cls);
 
+$core.addMethod(
+$core.method({
+selector: "radiansPerDegree",
+protocol: "instance creation",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._pi()).__slash((180));
+}, function($ctx1) {$ctx1.fill(self,"radiansPerDegree",{},$globals.Number.a$cls)});
+},
+args: [],
+source: "radiansPerDegree\x0a\x09^ (self pi) / 180",
+referencedClasses: [],
+messageSends: ["/", "pi"]
+}),
+$globals.Number.a$cls);
+
 
 $core.addClass("Point", $globals.Object, ["x", "y"], "Kernel-Objects");
 $globals.Point.comment="I represent an x-y pair of numbers usually designating a geometric coordinate.\x0a\x0a## API\x0a\x0aInstances are traditionally created using the binary `#@` message to a number:\x0a\x0a\x09100@120\x0a\x0aPoints can then be arithmetically manipulated:\x0a\x0a\x09100@100 + (10@10)\x0a\x0a...or for example:\x0a\x0a\x09(100@100) * 2\x0a\x0a**NOTE:** Creating a point with a negative y-value will need a space after `@` in order to avoid a parsing error:\x0a\x0a\x09100@ -100 \x22but 100@-100 would not parse\x22";
@@ -6503,6 +7011,23 @@ $globals.Point);
 
 $core.addMethod(
 $core.method({
+selector: "angle",
+protocol: "geometry",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._y())._arcTan_($self._x());
+}, function($ctx1) {$ctx1.fill(self,"angle",{},$globals.Point)});
+},
+args: [],
+source: "angle\x0a\x09^ self y arcTan: self x",
+referencedClasses: [],
+messageSends: ["arcTan:", "y", "x"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
 selector: "asPoint",
 protocol: "converting",
 fn: function (){
@@ -6514,6 +7039,23 @@ args: [],
 source: "asPoint\x0a\x09^ self",
 referencedClasses: [],
 messageSends: []
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
+selector: "corner:",
+protocol: "rectangle creation",
+fn: function (aPoint){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($globals.Rectangle)._origin_corner_(self,aPoint);
+}, function($ctx1) {$ctx1.fill(self,"corner:",{aPoint:aPoint},$globals.Point)});
+},
+args: ["aPoint"],
+source: "corner: aPoint\x0a\x09^ Rectangle origin: self corner: aPoint",
+referencedClasses: ["Rectangle"],
+messageSends: ["origin:corner:"]
 }),
 $globals.Point);
 
@@ -6544,6 +7086,107 @@ $globals.Point);
 
 $core.addMethod(
 $core.method({
+selector: "dotProduct:",
+protocol: "point functions",
+fn: function (aPoint){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=$recv($self["@x"]).__star($recv(aPoint)._x());
+$ctx1.sendIdx["*"]=1;
+return $recv($1).__plus($recv($self["@y"]).__star($recv(aPoint)._y()));
+}, function($ctx1) {$ctx1.fill(self,"dotProduct:",{aPoint:aPoint},$globals.Point)});
+},
+args: ["aPoint"],
+source: "dotProduct: aPoint\x0a\x09^ (x * aPoint x) + (y * aPoint y)",
+referencedClasses: [],
+messageSends: ["+", "*", "x", "y"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
+selector: "extent:",
+protocol: "rectangle creation",
+fn: function (aPoint){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($globals.Rectangle)._origin_extent_(self,aPoint);
+}, function($ctx1) {$ctx1.fill(self,"extent:",{aPoint:aPoint},$globals.Point)});
+},
+args: ["aPoint"],
+source: "extent: aPoint\x0a\x09^ Rectangle origin: self extent: aPoint",
+referencedClasses: ["Rectangle"],
+messageSends: ["origin:extent:"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
+selector: "normal",
+protocol: "point functions",
+fn: function (){
+var self=this,$self=this;
+var n,d;
+return $core.withContext(function($ctx1) {
+var $4,$3,$6,$5,$2,$1;
+n=$recv($recv($self["@y"])._negated()).__at($self["@x"]);
+$ctx1.sendIdx["@"]=1;
+$4=$recv(n)._x();
+$ctx1.sendIdx["x"]=1;
+$3=$recv($4).__star($recv(n)._x());
+$ctx1.sendIdx["*"]=1;
+$6=$recv(n)._y();
+$ctx1.sendIdx["y"]=1;
+$5=$recv($6).__star($recv(n)._y());
+d=$recv($3).__plus($5);
+$2=d;
+$1=$recv($2).__eq((0));
+if($core.assert($1)){
+return (-1).__at((0));
+}
+return $recv(n).__slash($recv(d)._sqrt());
+}, function($ctx1) {$ctx1.fill(self,"normal",{n:n,d:d},$globals.Point)});
+},
+args: [],
+source: "normal\x0a\x09\x22Answer a Point representing the unit vector rotated 90 deg clockwise. For the zero point return -1@0.\x22\x0a\x0a\x09| n d |\x0a\x09n := y negated @ x.\x0a\x09(d := (n x * n x + (n y * n y))) = 0\x0a\x09\x09 ifTrue: [ ^ -1 @0 ].\x0a\x09^ n / d sqrt",
+referencedClasses: [],
+messageSends: ["@", "negated", "ifTrue:", "=", "+", "*", "x", "y", "/", "sqrt"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
+selector: "normalized",
+protocol: "point functions",
+fn: function (){
+var self=this,$self=this;
+var r;
+return $core.withContext(function($ctx1) {
+var $1,$2,$3;
+r=$self._r();
+$1=$recv(r).__eq((0));
+if($core.assert($1)){
+$2=$recv($globals.Point)._x_y_((0),(0));
+$ctx1.sendIdx["x:y:"]=1;
+return $2;
+} else {
+$3=$recv($self["@x"]).__slash(r);
+$ctx1.sendIdx["/"]=1;
+return $recv($globals.Point)._x_y_($3,$recv($self["@y"]).__slash(r));
+}
+return self;
+}, function($ctx1) {$ctx1.fill(self,"normalized",{r:r},$globals.Point)});
+},
+args: [],
+source: "normalized\x0a\x09| r |\x0a\x09r := self r.\x0a\x09\x0a\x09r = 0\x0a\x09\x09ifTrue: [ ^ Point x: 0 y: 0 ]\x0a\x09\x09ifFalse: [ ^ Point x: x / r y: y / r ]",
+referencedClasses: ["Point"],
+messageSends: ["r", "ifTrue:ifFalse:", "=", "x:y:", "/"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
 selector: "printOn:",
 protocol: "printing",
 fn: function (aStream){
@@ -6569,6 +7212,44 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09\x22Print receiver in classic x@y notation.\x22\x0a\x0a\x09x printOn: aStream.\x0a\x09\x0a\x09aStream nextPutAll: '@'.\x0a\x09(y notNil and: [ y negative ]) ifTrue: [\x0a\x09\x09\x09\x22Avoid ambiguous @- construct\x22\x0a\x09\x09\x09aStream space ].\x0a\x09\x0a\x09y printOn: aStream",
 referencedClasses: [],
 messageSends: ["printOn:", "nextPutAll:", "ifTrue:", "and:", "notNil", "negative", "space"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
+selector: "r",
+protocol: "polar coordinates",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $2,$1;
+$2=$recv($self["@x"]).__star($self["@x"]);
+$ctx1.sendIdx["*"]=1;
+$1=$recv($2).__plus($recv($self["@y"]).__star($self["@y"]));
+return $recv($1)._sqrt();
+}, function($ctx1) {$ctx1.fill(self,"r",{},$globals.Point)});
+},
+args: [],
+source: "r\x0a\x09^ ((x * x) + (y * y)) sqrt",
+referencedClasses: [],
+messageSends: ["sqrt", "+", "*"]
+}),
+$globals.Point);
+
+$core.addMethod(
+$core.method({
+selector: "rectangle:",
+protocol: "rectangle creation",
+fn: function (aPoint){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($globals.Rectangle)._point_point_(self,aPoint);
+}, function($ctx1) {$ctx1.fill(self,"rectangle:",{aPoint:aPoint},$globals.Point)});
+},
+args: ["aPoint"],
+source: "rectangle: aPoint\x0a\x09^ Rectangle point: self point: aPoint",
+referencedClasses: ["Rectangle"],
+messageSends: ["point:point:"]
 }),
 $globals.Point);
 
@@ -6740,8 +7421,238 @@ $globals.Random);
 
 
 
+$core.addClass("Rectangle", $globals.Object, ["origin", "corner"], "Kernel-Objects");
+$globals.Rectangle.comment="I represent a Rectangle defined by my two corners.\x0a\x0aThe simplest way to create an instance is using Point methods:\x0a\x0a    1@1 corner: 2@2\x0a\x0aWIll create a rectangle with 1@1 as the top left and 2@2 at the bottom right.\x0a\x0a    1@1 extent: 1@1\x0a\x0aWill create the same rectangle, defining an origin and a size instead of an origin and a corner.";
+$core.addMethod(
+$core.method({
+selector: "=",
+protocol: "testing",
+fn: function (aRectangle){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=$recv($self["@origin"]).__eq($recv(aRectangle)._origin());
+$ctx1.sendIdx["="]=1;
+return $recv($1)._and_((function(){
+return $core.withContext(function($ctx2) {
+return $recv($self["@corner"]).__eq($recv(aRectangle)._corner());
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"=",{aRectangle:aRectangle},$globals.Rectangle)});
+},
+args: ["aRectangle"],
+source: "= aRectangle\x0a\x09^ origin = aRectangle origin and: [ corner = aRectangle corner ]",
+referencedClasses: [],
+messageSends: ["and:", "=", "origin", "corner"]
+}),
+$globals.Rectangle);
+
+$core.addMethod(
+$core.method({
+selector: "containsPoint:",
+protocol: "testing",
+fn: function (aPoint){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($recv($self["@origin"]).__lt_eq(aPoint))._and_((function(){
+return $core.withContext(function($ctx2) {
+return $recv($self["@corner"]).__gt_eq(aPoint);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"containsPoint:",{aPoint:aPoint},$globals.Rectangle)});
+},
+args: ["aPoint"],
+source: "containsPoint: aPoint\x0a\x09^ origin <= aPoint and: [ corner >= aPoint ]",
+referencedClasses: [],
+messageSends: ["and:", "<=", ">="]
+}),
+$globals.Rectangle);
+
+$core.addMethod(
+$core.method({
+selector: "containsRect:",
+protocol: "testing",
+fn: function (aRect){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($recv($recv(aRect)._origin()).__gt_eq($self["@origin"]))._and_((function(){
+return $core.withContext(function($ctx2) {
+return $recv($recv(aRect)._corner()).__lt_eq($self["@corner"]);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"containsRect:",{aRect:aRect},$globals.Rectangle)});
+},
+args: ["aRect"],
+source: "containsRect: aRect\x0a\x09^ aRect origin >= origin and: [ aRect corner <= corner ]",
+referencedClasses: [],
+messageSends: ["and:", ">=", "origin", "<=", "corner"]
+}),
+$globals.Rectangle);
+
+$core.addMethod(
+$core.method({
+selector: "corner",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $self["@corner"];
+
+},
+args: [],
+source: "corner\x0a\x09^ corner",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Rectangle);
+
+$core.addMethod(
+$core.method({
+selector: "origin",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $self["@origin"];
+
+},
+args: [],
+source: "origin\x0a\x09^ origin",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Rectangle);
+
+$core.addMethod(
+$core.method({
+selector: "printOn:",
+protocol: "testing",
+fn: function (aStream){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv($self["@origin"])._printOn_(aStream);
+$ctx1.sendIdx["printOn:"]=1;
+$recv(aStream)._nextPutAll_(" corner: ");
+$recv($self["@corner"])._printOn_(aStream);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.Rectangle)});
+},
+args: ["aStream"],
+source: "printOn: aStream\x0a\x09origin printOn: aStream.\x0a\x09aStream nextPutAll: ' corner: '.\x0a\x09corner printOn: aStream.",
+referencedClasses: [],
+messageSends: ["printOn:", "nextPutAll:"]
+}),
+$globals.Rectangle);
+
+$core.addMethod(
+$core.method({
+selector: "setPoint:point:",
+protocol: "private",
+fn: function (pt1,pt2){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $2,$3,$1,$5,$6,$4,$8,$7,$10,$9;
+$2=$recv(pt1)._x();
+$ctx1.sendIdx["x"]=1;
+$3=$recv(pt2)._x();
+$ctx1.sendIdx["x"]=2;
+$1=$recv($2)._min_($3);
+$ctx1.sendIdx["min:"]=1;
+$5=$recv(pt1)._y();
+$ctx1.sendIdx["y"]=1;
+$6=$recv(pt2)._y();
+$ctx1.sendIdx["y"]=2;
+$4=$recv($5)._min_($6);
+$self["@origin"]=$recv($1).__at($4);
+$ctx1.sendIdx["@"]=1;
+$8=$recv(pt1)._x();
+$ctx1.sendIdx["x"]=3;
+$7=$recv($8)._max_($recv(pt2)._x());
+$ctx1.sendIdx["max:"]=1;
+$10=$recv(pt1)._y();
+$ctx1.sendIdx["y"]=3;
+$9=$recv($10)._max_($recv(pt2)._y());
+$self["@corner"]=$recv($7).__at($9);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"setPoint:point:",{pt1:pt1,pt2:pt2},$globals.Rectangle)});
+},
+args: ["pt1", "pt2"],
+source: "setPoint: pt1 point: pt2\x0a\x0a\x09origin := (pt1 x min: pt2 x)@(pt1 y min: pt2 y).\x0a\x09corner := (pt1 x max: pt2 x)@(pt1 y max: pt2 y).",
+referencedClasses: [],
+messageSends: ["@", "min:", "x", "y", "max:"]
+}),
+$globals.Rectangle);
+
+
+$core.addMethod(
+$core.method({
+selector: "origin:corner:",
+protocol: "instance creation",
+fn: function (anOrigin,aCorner){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._basicNew())._setPoint_point_(anOrigin,aCorner);
+}, function($ctx1) {$ctx1.fill(self,"origin:corner:",{anOrigin:anOrigin,aCorner:aCorner},$globals.Rectangle.a$cls)});
+},
+args: ["anOrigin", "aCorner"],
+source: "origin: anOrigin corner: aCorner\x0a\x09^ self basicNew setPoint: anOrigin point: aCorner.",
+referencedClasses: [],
+messageSends: ["setPoint:point:", "basicNew"]
+}),
+$globals.Rectangle.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "origin:extent:",
+protocol: "instance creation",
+fn: function (anOrigin,anExtent){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._basicNew())._setPoint_point_(anOrigin,$recv(anOrigin).__plus(anExtent));
+}, function($ctx1) {$ctx1.fill(self,"origin:extent:",{anOrigin:anOrigin,anExtent:anExtent},$globals.Rectangle.a$cls)});
+},
+args: ["anOrigin", "anExtent"],
+source: "origin: anOrigin extent: anExtent\x0a\x09^ self basicNew setPoint: anOrigin point: anOrigin + anExtent.",
+referencedClasses: [],
+messageSends: ["setPoint:point:", "basicNew", "+"]
+}),
+$globals.Rectangle.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "point:point:",
+protocol: "instance creation",
+fn: function (anOrigin,aCorner){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._basicNew())._setPoint_point_(anOrigin,aCorner);
+}, function($ctx1) {$ctx1.fill(self,"point:point:",{anOrigin:anOrigin,aCorner:aCorner},$globals.Rectangle.a$cls)});
+},
+args: ["anOrigin", "aCorner"],
+source: "point: anOrigin point: aCorner\x0a\x09^ self basicNew setPoint: anOrigin point: aCorner.",
+referencedClasses: [],
+messageSends: ["setPoint:point:", "basicNew"]
+}),
+$globals.Rectangle.a$cls);
+
+
 $core.addClass("UndefinedObject", $globals.Object, [], "Kernel-Objects");
 $globals.UndefinedObject.comment="I describe the behavior of my sole instance, `nil`. `nil` represents a prior value for variables that have not been initialized, or for results which are meaningless.\x0a\x0a`nil` is the Smalltalk equivalent of the `undefined` JavaScript object.\x0a\x0a__note:__ When sending messages to the `undefined` JavaScript object, it will be replaced by `nil`.";
+$core.addMethod(
+$core.method({
+selector: "==",
+protocol: "testing",
+fn: function (anObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv(anObject)._isNil();
+}, function($ctx1) {$ctx1.fill(self,"==",{anObject:anObject},$globals.UndefinedObject)});
+},
+args: ["anObject"],
+source: "== anObject\x0a\x09^ anObject isNil",
+referencedClasses: [],
+messageSends: ["isNil"]
+}),
+$globals.UndefinedObject);
+
 $core.addMethod(
 $core.method({
 selector: "asJavaScriptObject",
@@ -11390,6 +12301,24 @@ $globals.CharacterArray);
 
 $core.addMethod(
 $core.method({
+selector: "remove:ifAbsent:",
+protocol: "adding/removing",
+fn: function (anObject,aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._errorReadOnly();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.CharacterArray)});
+},
+args: ["anObject", "aBlock"],
+source: "remove: anObject ifAbsent: aBlock\x0a\x09self errorReadOnly",
+referencedClasses: [],
+messageSends: ["errorReadOnly"]
+}),
+$globals.CharacterArray);
+
+$core.addMethod(
+$core.method({
 selector: "symbolPrintString",
 protocol: "printing",
 fn: function (){
@@ -13323,12 +14252,12 @@ protocol: "private",
 fn: function (anObject,anotherObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-if (delete anotherObject.store[anObject]) $self['@size']--;
+if (anObject in anotherObject.store) { delete anotherObject.store[anObject]; $self['@size']--; };
 return self;
 }, function($ctx1) {$ctx1.fill(self,"remove:in:",{anObject:anObject,anotherObject:anotherObject},$globals.Set)});
 },
 args: ["anObject", "anotherObject"],
-source: "remove: anObject in: anotherObject\x0a\x09<inlineJS: 'if (delete anotherObject.store[anObject]) $self[''@size'']--'>",
+source: "remove: anObject in: anotherObject\x0a\x09<inlineJS: 'if (anObject in anotherObject.store) { delete anotherObject.store[anObject]; $self[''@size'']--; }'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14667,7 +15596,7 @@ $core.addPackage("Kernel-Classes");
 $core.packages["Kernel-Classes"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Classes"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
-$core.addClass("Behavior", $globals.Object, [], "Kernel-Classes");
+$core.addClass("Behavior", $globals.Object, ["organization"], "Kernel-Classes");
 $globals.Behavior.comment="I am the superclass of all class objects.\x0a\x0aIn addition to BehaviorBody, I define superclass/subclass relationships and instantiation.\x0a\x0aI define the protocol for creating instances of a class with `#basicNew` and `#new` (see `boot.js` for class constructors details).\x0a\x0aMy instances know about the subclass/superclass relationships between classes and contain the description that instances are created from.\x0a\x0aI also provide iterating over the class hierarchy.";
 $core.addMethod(
 $core.method({
@@ -14809,6 +15738,39 @@ return self;
 },
 args: [],
 source: "basicNew\x0a\x09<inlineJS: 'return new self.fn()'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Behavior);
+
+$core.addMethod(
+$core.method({
+selector: "basicOrganization",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $self["@organization"];
+
+},
+args: [],
+source: "basicOrganization\x0a\x09^ organization",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Behavior);
+
+$core.addMethod(
+$core.method({
+selector: "basicOrganization:",
+protocol: "accessing",
+fn: function (aClassOrganizer){
+var self=this,$self=this;
+$self["@organization"]=aClassOrganizer;
+return self;
+
+},
+args: ["aClassOrganizer"],
+source: "basicOrganization: aClassOrganizer\x0a\x09organization := aClassOrganizer",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16358,51 +17320,35 @@ fn: function (aMethod){
 var self=this,$self=this;
 var oldMethod,announcement;
 return $core.withContext(function($ctx1) {
-var $2,$3,$1,$4,$5,$6,$7,$8,$9,$10,$receiver;
+var $1,$2,$3,$4,$receiver;
 oldMethod=$recv($self._methodDictionary())._at_ifAbsent_($recv(aMethod)._selector(),(function(){
 return nil;
 
 }));
-$2=$self._protocols();
-$3=$recv(aMethod)._protocol();
-$ctx1.sendIdx["protocol"]=1;
-$1=$recv($2)._includes_($3);
-if(!$core.assert($1)){
-$4=$self._organization();
-$5=$recv(aMethod)._protocol();
-$ctx1.sendIdx["protocol"]=2;
-$recv($4)._addElement_($5);
-}
 $self._basicAddCompiledMethod_(aMethod);
-$6=oldMethod;
-if(($receiver = $6) == null || $receiver.a$nil){
-$6;
-} else {
-$self._removeProtocolIfEmpty_($recv(oldMethod)._protocol());
-}
-$7=oldMethod;
-if(($receiver = $7) == null || $receiver.a$nil){
-$8=$recv($globals.MethodAdded)._new();
+$1=oldMethod;
+if(($receiver = $1) == null || $receiver.a$nil){
+$2=$recv($globals.MethodAdded)._new();
 $ctx1.sendIdx["new"]=1;
-$recv($8)._method_(aMethod);
+$recv($2)._method_(aMethod);
 $ctx1.sendIdx["method:"]=1;
-$9=$recv($8)._yourself();
+$3=$recv($2)._yourself();
 $ctx1.sendIdx["yourself"]=1;
-announcement=$9;
+announcement=$3;
 } else {
-$10=$recv($globals.MethodModified)._new();
-$recv($10)._oldMethod_(oldMethod);
-$recv($10)._method_(aMethod);
-announcement=$recv($10)._yourself();
+$4=$recv($globals.MethodModified)._new();
+$recv($4)._oldMethod_(oldMethod);
+$recv($4)._method_(aMethod);
+announcement=$recv($4)._yourself();
 }
 $recv($recv($globals.SystemAnnouncer)._current())._announce_(announcement);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"addCompiledMethod:",{aMethod:aMethod,oldMethod:oldMethod,announcement:announcement},$globals.TBehaviorProvider)});
 },
 args: ["aMethod"],
-source: "addCompiledMethod: aMethod\x0a\x09| oldMethod announcement |\x0a\x09\x0a\x09oldMethod := self methodDictionary\x0a\x09\x09at: aMethod selector\x0a\x09\x09ifAbsent: [ nil ].\x0a\x09\x0a\x09(self protocols includes: aMethod protocol)\x0a\x09\x09ifFalse: [ self organization addElement: aMethod protocol ].\x0a\x0a\x09self basicAddCompiledMethod: aMethod.\x0a\x09\x0a\x09oldMethod ifNotNil: [\x0a\x09\x09self removeProtocolIfEmpty: oldMethod protocol ].\x0a\x09\x0a\x09announcement := oldMethod\x0a\x09\x09ifNil: [\x0a\x09\x09\x09MethodAdded new\x0a\x09\x09\x09\x09\x09method: aMethod;\x0a\x09\x09\x09\x09\x09yourself ]\x0a\x09\x09ifNotNil: [\x0a\x09\x09\x09MethodModified new\x0a\x09\x09\x09\x09\x09oldMethod: oldMethod;\x0a\x09\x09\x09\x09\x09method: aMethod;\x0a\x09\x09\x09\x09\x09yourself ].\x0a\x09\x09\x09\x09\x09\x0a\x09\x09\x09\x09\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09\x09\x09announce: announcement",
+source: "addCompiledMethod: aMethod\x0a\x09| oldMethod announcement |\x0a\x09\x0a\x09oldMethod := self methodDictionary\x0a\x09\x09at: aMethod selector\x0a\x09\x09ifAbsent: [ nil ].\x0a\x09\x0a\x09self basicAddCompiledMethod: aMethod.\x0a\x09\x0a\x09announcement := oldMethod\x0a\x09\x09ifNil: [\x0a\x09\x09\x09MethodAdded new\x0a\x09\x09\x09\x09\x09method: aMethod;\x0a\x09\x09\x09\x09\x09yourself ]\x0a\x09\x09ifNotNil: [\x0a\x09\x09\x09MethodModified new\x0a\x09\x09\x09\x09\x09oldMethod: oldMethod;\x0a\x09\x09\x09\x09\x09method: aMethod;\x0a\x09\x09\x09\x09\x09yourself ].\x0a\x09\x09\x09\x09\x09\x0a\x09\x09\x09\x09\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09\x09\x09announce: announcement",
 referencedClasses: ["MethodAdded", "MethodModified", "SystemAnnouncer"],
-messageSends: ["at:ifAbsent:", "methodDictionary", "selector", "ifFalse:", "includes:", "protocols", "protocol", "addElement:", "organization", "basicAddCompiledMethod:", "ifNotNil:", "removeProtocolIfEmpty:", "ifNil:ifNotNil:", "method:", "new", "yourself", "oldMethod:", "announce:", "current"]
+messageSends: ["at:ifAbsent:", "methodDictionary", "selector", "basicAddCompiledMethod:", "ifNil:ifNotNil:", "method:", "new", "yourself", "oldMethod:", "announce:", "current"]
 }),
 $globals.TBehaviorProvider);
 
@@ -16520,6 +17466,37 @@ $globals.TBehaviorProvider);
 
 $core.addMethod(
 $core.method({
+selector: "methodOrganizationEnter:andLeave:",
+protocol: "accessing",
+fn: function (aMethod,oldMethod){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1,$2,$receiver;
+if(($receiver = aMethod) == null || $receiver.a$nil){
+aMethod;
+} else {
+$1=$self._organization();
+$2=$recv(aMethod)._protocol();
+$ctx1.sendIdx["protocol"]=1;
+$recv($1)._addElement_($2);
+}
+if(($receiver = oldMethod) == null || $receiver.a$nil){
+oldMethod;
+} else {
+$self._removeProtocolIfEmpty_($recv(oldMethod)._protocol());
+}
+return self;
+}, function($ctx1) {$ctx1.fill(self,"methodOrganizationEnter:andLeave:",{aMethod:aMethod,oldMethod:oldMethod},$globals.TBehaviorProvider)});
+},
+args: ["aMethod", "oldMethod"],
+source: "methodOrganizationEnter: aMethod andLeave: oldMethod\x0a\x09aMethod ifNotNil: [\x0a\x09\x09self organization addElement: aMethod protocol ].\x0a\x09\x0a\x09oldMethod ifNotNil: [\x0a\x09\x09self removeProtocolIfEmpty: oldMethod protocol ]",
+referencedClasses: [],
+messageSends: ["ifNotNil:", "addElement:", "organization", "protocol", "removeProtocolIfEmpty:"]
+}),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
 selector: "methodTemplate",
 protocol: "accessing",
 fn: function (){
@@ -16602,13 +17579,21 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $self._basicAt_("organization");
+var $1,$receiver;
+$1=$self._basicOrganization();
+$ctx1.sendIdx["basicOrganization"]=1;
+if(($receiver = $1) == null || $receiver.a$nil){
+$self._basicOrganization_($recv($globals.ClassOrganizer)._on_(self));
+return $self._basicOrganization();
+} else {
+return $1;
+}
 }, function($ctx1) {$ctx1.fill(self,"organization",{},$globals.TBehaviorProvider)});
 },
 args: [],
-source: "organization\x0a\x09^ self basicAt: 'organization'",
-referencedClasses: [],
-messageSends: ["basicAt:"]
+source: "organization\x0a\x09^ self basicOrganization ifNil: [\x0a\x09\x09self basicOrganization: (ClassOrganizer on: self).\x0a\x09\x09self basicOrganization ]",
+referencedClasses: ["ClassOrganizer"],
+messageSends: ["ifNil:", "basicOrganization", "basicOrganization:", "on:"]
 }),
 $globals.TBehaviorProvider);
 
@@ -16714,13 +17699,13 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($recv($self._organization())._elements())._sorted();
+return $recv($recv($recv($self._organization())._elements())._asArray())._sorted();
 }, function($ctx1) {$ctx1.fill(self,"protocols",{},$globals.TBehaviorProvider)});
 },
 args: [],
-source: "protocols\x0a\x09^ self organization elements sorted",
+source: "protocols\x0a\x09^ self organization elements asArray sorted",
 referencedClasses: [],
-messageSends: ["sorted", "elements", "organization"]
+messageSends: ["sorted", "asArray", "elements", "organization"]
 }),
 $globals.TBehaviorProvider);
 
@@ -16784,7 +17769,6 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$3,$2;
 $self._basicRemoveCompiledMethod_(aMethod);
-$self._removeProtocolIfEmpty_($recv(aMethod)._protocol());
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.MethodRemoved)._new();
 $recv($3)._method_(aMethod);
@@ -16794,9 +17778,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"removeCompiledMethod:",{aMethod:aMethod},$globals.TBehaviorProvider)});
 },
 args: ["aMethod"],
-source: "removeCompiledMethod: aMethod\x0a\x09self basicRemoveCompiledMethod: aMethod.\x0a\x09\x0a\x09self removeProtocolIfEmpty: aMethod protocol.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (MethodRemoved new\x0a\x09\x09\x09method: aMethod;\x0a\x09\x09\x09yourself)",
+source: "removeCompiledMethod: aMethod\x0a\x09self basicRemoveCompiledMethod: aMethod.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (MethodRemoved new\x0a\x09\x09\x09method: aMethod;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "MethodRemoved"],
-messageSends: ["basicRemoveCompiledMethod:", "removeProtocolIfEmpty:", "protocol", "announce:", "current", "method:", "new", "yourself"]
+messageSends: ["basicRemoveCompiledMethod:", "announce:", "current", "method:", "new", "yourself"]
 }),
 $globals.TBehaviorProvider);
 
@@ -16868,17 +17852,25 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self._basicAt_("traitComposition"))._collect_((function(each){
+var $1,$receiver;
+$1=$self._basicAt_("traitComposition");
+if(($receiver = $1) == null || $receiver.a$nil){
+return [];
+} else {
+var aCollection;
+aCollection=$receiver;
+return $recv(aCollection)._collect_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv($globals.TraitTransformation)._fromJSON_(each);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
 }));
+}
 }, function($ctx1) {$ctx1.fill(self,"traitComposition",{},$globals.TBehaviorProvider)});
 },
 args: [],
-source: "traitComposition\x0a\x09^ (self basicAt: 'traitComposition') collect: [ :each | TraitTransformation fromJSON: each ]",
+source: "traitComposition\x0a\x09^ (self basicAt: 'traitComposition')\x0a\x09\x09ifNil: [ #() ]\x0a\x09\x09ifNotNil: [ :aCollection | aCollection collect: [ :each | TraitTransformation fromJSON: each ] ]",
 referencedClasses: ["TraitTransformation"],
-messageSends: ["collect:", "basicAt:", "fromJSON:"]
+messageSends: ["ifNil:ifNotNil:", "basicAt:", "collect:", "fromJSON:"]
 }),
 $globals.TBehaviorProvider);
 
@@ -17048,6 +18040,90 @@ $globals.TMasterBehavior);
 
 $core.addMethod(
 $core.method({
+selector: "definedMethods",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+var methods;
+return $core.withContext(function($ctx1) {
+var $1,$receiver;
+methods=$self._methods();
+$ctx1.sendIdx["methods"]=1;
+$1=$self._theMetaClass();
+if(($receiver = $1) == null || $receiver.a$nil){
+return methods;
+} else {
+var meta;
+meta=$receiver;
+return $recv(methods).__comma($recv(meta)._methods());
+}
+return self;
+}, function($ctx1) {$ctx1.fill(self,"definedMethods",{methods:methods},$globals.TMasterBehavior)});
+},
+args: [],
+source: "definedMethods\x0a\x09\x22Answers methods of me and derived 'meta' part if present\x22\x0a\x09| methods |\x0a\x09methods := self methods.\x0a\x09self theMetaClass\x0a\x09\x09ifNil: [ ^ methods ]\x0a\x09\x09ifNotNil: [ :meta | ^ methods, meta methods ]",
+referencedClasses: [],
+messageSends: ["methods", "ifNil:ifNotNil:", "theMetaClass", ","]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
+selector: "enterOrganization",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $2,$1,$4,$3,$receiver;
+if(($receiver = $globals.Smalltalk) == null || $receiver.a$nil){
+$globals.Smalltalk;
+} else {
+$2=$self._package();
+$ctx1.sendIdx["package"]=1;
+$1=$recv($2)._isString();
+if($core.assert($1)){
+$4=$self._package();
+$ctx1.sendIdx["package"]=2;
+$3=$recv($globals.Package)._named_($4);
+$self._basicAt_put_("pkg",$3);
+}
+$recv($recv($self._package())._organization())._addElement_(self);
+}
+return self;
+}, function($ctx1) {$ctx1.fill(self,"enterOrganization",{},$globals.TMasterBehavior)});
+},
+args: [],
+source: "enterOrganization\x0a\x09Smalltalk ifNotNil: [\x0a\x09\x09self package isString ifTrue: [ self basicAt: 'pkg' put: (Package named: self package) ].\x0a\x09\x09self package organization addElement: self ]",
+referencedClasses: ["Smalltalk", "Package"],
+messageSends: ["ifNotNil:", "ifTrue:", "isString", "package", "basicAt:put:", "named:", "addElement:", "organization"]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
+selector: "leaveOrganization",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $receiver;
+if(($receiver = $globals.Smalltalk) == null || $receiver.a$nil){
+$globals.Smalltalk;
+} else {
+$recv($recv($self._package())._organization())._removeElement_(self);
+}
+return self;
+}, function($ctx1) {$ctx1.fill(self,"leaveOrganization",{},$globals.TMasterBehavior)});
+},
+args: [],
+source: "leaveOrganization\x0a\x09Smalltalk ifNotNil: [\x0a\x09\x09self package organization removeElement: self ]",
+referencedClasses: ["Smalltalk"],
+messageSends: ["ifNotNil:", "removeElement:", "organization", "package"]
+}),
+$globals.TMasterBehavior);
+
+$core.addMethod(
+$core.method({
 selector: "name",
 protocol: "accessing",
 fn: function (){
@@ -17089,7 +18165,7 @@ fn: function (aPackage){
 var self=this,$self=this;
 var oldPackage;
 return $core.withContext(function($ctx1) {
-var $2,$1,$3,$4,$6,$5;
+var $2,$1,$3,$5,$4;
 $2=$self._package();
 $ctx1.sendIdx["package"]=1;
 $1=$recv($2).__eq(aPackage);
@@ -17097,24 +18173,22 @@ if($core.assert($1)){
 return self;
 }
 oldPackage=$self._package();
+$self._leaveOrganization();
 $self._basicAt_put_("pkg",aPackage);
-$3=$recv(oldPackage)._organization();
-$ctx1.sendIdx["organization"]=1;
-$recv($3)._removeElement_(self);
-$recv($recv(aPackage)._organization())._addElement_(self);
-$4=$recv($globals.SystemAnnouncer)._current();
-$6=$recv($globals.ClassMoved)._new();
-$recv($6)._theClass_(self);
-$recv($6)._oldPackage_(oldPackage);
-$5=$recv($6)._yourself();
-$recv($4)._announce_($5);
+$self._enterOrganization();
+$3=$recv($globals.SystemAnnouncer)._current();
+$5=$recv($globals.ClassMoved)._new();
+$recv($5)._theClass_(self);
+$recv($5)._oldPackage_(oldPackage);
+$4=$recv($5)._yourself();
+$recv($3)._announce_($4);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"package:",{aPackage:aPackage,oldPackage:oldPackage},$globals.TMasterBehavior)});
 },
 args: ["aPackage"],
-source: "package: aPackage\x0a\x09| oldPackage |\x0a\x09\x0a\x09self package = aPackage ifTrue: [ ^ self ].\x0a\x09\x0a\x09oldPackage := self package.\x0a\x09\x0a\x09self basicAt: 'pkg' put: aPackage.\x0a\x09oldPackage organization removeElement: self.\x0a\x09aPackage organization addElement: self.\x0a\x0a\x09SystemAnnouncer current announce: (ClassMoved new\x0a\x09\x09theClass: self;\x0a\x09\x09oldPackage: oldPackage;\x0a\x09\x09yourself)",
+source: "package: aPackage\x0a\x09| oldPackage |\x0a\x09\x0a\x09self package = aPackage ifTrue: [ ^ self ].\x0a\x09\x0a\x09oldPackage := self package.\x0a\x09\x0a\x09self\x0a\x09\x09leaveOrganization;\x0a\x09\x09basicAt: 'pkg' put: aPackage;\x0a\x09\x09enterOrganization.\x0a\x0a\x09SystemAnnouncer current announce: (ClassMoved new\x0a\x09\x09theClass: self;\x0a\x09\x09oldPackage: oldPackage;\x0a\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassMoved"],
-messageSends: ["ifTrue:", "=", "package", "basicAt:put:", "removeElement:", "organization", "addElement:", "announce:", "current", "theClass:", "new", "oldPackage:", "yourself"]
+messageSends: ["ifTrue:", "=", "package", "leaveOrganization", "basicAt:put:", "enterOrganization", "announce:", "current", "theClass:", "new", "oldPackage:", "yourself"]
 }),
 $globals.TMasterBehavior);
 
@@ -17135,7 +18209,7 @@ messageSends: []
 $globals.TMasterBehavior);
 
 
-$core.addClass("Trait", $globals.Object, [], "Kernel-Classes");
+$core.addClass("Trait", $globals.Object, ["organization"], "Kernel-Classes");
 $core.addMethod(
 $core.method({
 selector: "-",
@@ -17201,6 +18275,39 @@ args: [],
 source: "asTraitTransformation\x0a\x09^ TraitTransformation on: self",
 referencedClasses: ["TraitTransformation"],
 messageSends: ["on:"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "basicOrganization",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $self["@organization"];
+
+},
+args: [],
+source: "basicOrganization\x0a\x09^ organization",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "basicOrganization:",
+protocol: "accessing",
+fn: function (aClassOrganizer){
+var self=this,$self=this;
+$self["@organization"]=aClassOrganizer;
+return self;
+
+},
+args: ["aClassOrganizer"],
+source: "basicOrganization: aClassOrganizer\x0a\x09organization := aClassOrganizer",
+referencedClasses: [],
+messageSends: []
 }),
 $globals.Trait);
 
@@ -19070,6 +20177,23 @@ messageSends: ["selector:", "new", "arguments:", "yourself"]
 }),
 $globals.Message.a$cls);
 
+$core.addMethod(
+$core.method({
+selector: "selector:arguments:notUnderstoodBy:",
+protocol: "dnu handling",
+fn: function (aString,anArray,anObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv(anObject)._doesNotUnderstand_($self._selector_arguments_(aString,anArray));
+}, function($ctx1) {$ctx1.fill(self,"selector:arguments:notUnderstoodBy:",{aString:aString,anArray:anArray,anObject:anObject},$globals.Message.a$cls)});
+},
+args: ["aString", "anArray", "anObject"],
+source: "selector: aString arguments: anArray notUnderstoodBy: anObject\x0a\x09\x22Creates the message and passes it to #doesNotUnderstand:.\x0a\x09Used by kernel to handle MNU.\x22\x0a\x09^ anObject doesNotUnderstand:\x0a\x09\x09(self selector: aString arguments: anArray)",
+referencedClasses: [],
+messageSends: ["doesNotUnderstand:", "selector:arguments:"]
+}),
+$globals.Message.a$cls);
+
 
 $core.addClass("MessageSend", $globals.Object, ["receiver", "message"], "Kernel-Methods");
 $globals.MessageSend.comment="I encapsulate message sends to objects. Arguments can be either predefined or supplied when the message send is performed. \x0a\x0a## API\x0a\x0aUse `#value` to perform a message send with its predefined arguments and `#value:*` if additonal arguments have to supplied.";
@@ -19740,6 +20864,61 @@ args: [],
 source: "sendIndexes\x0a\x09<inlineJS: 'return self.sendIdx'>",
 referencedClasses: [],
 messageSends: []
+}),
+$globals.MethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "stubHere",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+self.homeContext = undefined;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"stubHere",{},$globals.MethodContext)});
+},
+args: [],
+source: "stubHere\x0a\x09<inlineJS: 'self.homeContext = undefined'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.MethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "stubToAtMost:",
+protocol: "error handling",
+fn: function (anInteger){
+var self=this,$self=this;
+var context;
+return $core.withContext(function($ctx1) {
+var $1,$2,$receiver;
+context=self;
+$recv(anInteger)._timesRepeat_((function(){
+return $core.withContext(function($ctx2) {
+$1=context;
+if(($receiver = $1) == null || $receiver.a$nil){
+context=$1;
+} else {
+context=$recv(context)._home();
+}
+return context;
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+$2=context;
+if(($receiver = $2) == null || $receiver.a$nil){
+$2;
+} else {
+$recv(context)._stubHere();
+}
+return self;
+}, function($ctx1) {$ctx1.fill(self,"stubToAtMost:",{anInteger:anInteger,context:context},$globals.MethodContext)});
+},
+args: ["anInteger"],
+source: "stubToAtMost: anInteger\x0a\x09| context |\x0a\x09context := self.\x0a\x09anInteger timesRepeat: [ context := context ifNotNil: [ context home ] ].\x0a\x09context ifNotNil: [ context stubHere ]",
+referencedClasses: [],
+messageSends: ["timesRepeat:", "ifNotNil:", "home", "stubHere"]
 }),
 $globals.MethodContext);
 
@@ -21306,6 +22485,54 @@ messageSends: []
 }),
 $globals.JavaScriptException);
 
+$core.addMethod(
+$core.method({
+selector: "shouldBeStubbed",
+protocol: "testing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $self["@exception"] instanceof RangeError;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"shouldBeStubbed",{},$globals.JavaScriptException)});
+},
+args: [],
+source: "shouldBeStubbed\x0a\x09<inlineJS: 'return $self[\x22@exception\x22] instanceof RangeError'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.JavaScriptException);
+
+$core.addMethod(
+$core.method({
+selector: "wrap",
+protocol: "error handling",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$recv((function(){
+return $core.withContext(function($ctx2) {
+return $self._signal();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}))._tryCatch_((function(){
+return $core.withContext(function($ctx2) {
+$1=$self._shouldBeStubbed();
+if($core.assert($1)){
+return $recv($self._context())._stubToAtMost_((100));
+}
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"wrap",{},$globals.JavaScriptException)});
+},
+args: [],
+source: "wrap\x0a\x09[ self signal ] tryCatch:\x0a\x09\x09[ self shouldBeStubbed ifTrue: [ self context stubToAtMost: 100 ] ]",
+referencedClasses: [],
+messageSends: ["tryCatch:", "signal", "ifTrue:", "shouldBeStubbed", "stubToAtMost:", "context"]
+}),
+$globals.JavaScriptException);
+
 
 $core.addMethod(
 $core.method({
@@ -21474,6 +22701,26 @@ messageSends: []
 }),
 $globals.NonBooleanReceiver);
 
+
+$core.addMethod(
+$core.method({
+selector: "signalOn:",
+protocol: "instance creation",
+fn: function (anObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=$self._new();
+$recv($1)._object_(anObject);
+return $recv($1)._signal();
+}, function($ctx1) {$ctx1.fill(self,"signalOn:",{anObject:anObject},$globals.NonBooleanReceiver.a$cls)});
+},
+args: ["anObject"],
+source: "signalOn: anObject\x0a\x09^ self new\x0a\x09\x09object: anObject;\x0a\x09\x09signal",
+referencedClasses: [],
+messageSends: ["object:", "new", "signal"]
+}),
+$globals.NonBooleanReceiver.a$cls);
 
 });
 
@@ -21772,6 +23019,106 @@ if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Kernel-Infrastructure");
 $core.packages["Kernel-Infrastructure"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Kernel-Infrastructure"].transport = {"type":"amd","amdNamespace":"amber_core"};
+
+$core.addClass("AmberBootstrapInitialization", $globals.Object, [], "Kernel-Infrastructure");
+
+$core.addMethod(
+$core.method({
+selector: "initializeClasses",
+protocol: "initialization",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$recv($recv($globals.Smalltalk)._classes())._do_((function(each){
+return $core.withContext(function($ctx2) {
+$1=$recv(each).__eq($globals.SmalltalkImage);
+if(!$core.assert($1)){
+return $recv(each)._initialize();
+}
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"initializeClasses",{},$globals.AmberBootstrapInitialization.a$cls)});
+},
+args: [],
+source: "initializeClasses\x0a\x09Smalltalk classes do: [ :each |\x0a\x09\x09each = SmalltalkImage ifFalse: [ each initialize ] ]",
+referencedClasses: ["Smalltalk", "SmalltalkImage"],
+messageSends: ["do:", "classes", "ifFalse:", "=", "initialize"]
+}),
+$globals.AmberBootstrapInitialization.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "organizeClasses",
+protocol: "organization",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv($recv($globals.Smalltalk)._classes())._do_((function(each){
+return $core.withContext(function($ctx2) {
+return $recv(each)._enterOrganization();
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"organizeClasses",{},$globals.AmberBootstrapInitialization.a$cls)});
+},
+args: [],
+source: "organizeClasses\x0a\x09Smalltalk classes do: [ :each | each enterOrganization ]",
+referencedClasses: ["Smalltalk"],
+messageSends: ["do:", "classes", "enterOrganization"]
+}),
+$globals.AmberBootstrapInitialization.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "organizeMethods",
+protocol: "organization",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv($recv($globals.Smalltalk)._classes())._do_((function(eachClass){
+return $core.withContext(function($ctx2) {
+return $recv($recv(eachClass)._definedMethods())._do_((function(eachMethod){
+return $core.withContext(function($ctx3) {
+return $recv($recv(eachMethod)._methodClass())._methodOrganizationEnter_andLeave_(eachMethod,nil);
+}, function($ctx3) {$ctx3.fillBlock({eachMethod:eachMethod},$ctx2,2)});
+}));
+}, function($ctx2) {$ctx2.fillBlock({eachClass:eachClass},$ctx1,1)});
+}));
+$ctx1.sendIdx["do:"]=1;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"organizeMethods",{},$globals.AmberBootstrapInitialization.a$cls)});
+},
+args: [],
+source: "organizeMethods\x0a\x09Smalltalk classes do: [ :eachClass |\x0a\x09\x09eachClass definedMethods do: [ :eachMethod |\x0a\x09\x09\x09eachMethod methodClass methodOrganizationEnter: eachMethod andLeave: nil ] ]",
+referencedClasses: ["Smalltalk"],
+messageSends: ["do:", "classes", "definedMethods", "methodOrganizationEnter:andLeave:", "methodClass"]
+}),
+$globals.AmberBootstrapInitialization.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "run",
+protocol: "public api",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv($globals.SmalltalkImage)._initialize();
+$recv($globals.Smalltalk)._adoptPackageDictionary();
+$self._organizeClasses();
+$self._organizeMethods();
+$self._initializeClasses();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"run",{},$globals.AmberBootstrapInitialization.a$cls)});
+},
+args: [],
+source: "run\x0a\x09SmalltalkImage initialize.\x0a\x09Smalltalk adoptPackageDictionary.\x0a\x09self\x0a\x09\x09organizeClasses;\x0a\x09\x09organizeMethods;\x0a\x09\x09initializeClasses",
+referencedClasses: ["SmalltalkImage", "Smalltalk"],
+messageSends: ["initialize", "adoptPackageDictionary", "organizeClasses", "organizeMethods", "initializeClasses"]
+}),
+$globals.AmberBootstrapInitialization.a$cls);
+
 
 $core.addClass("JSObjectProxy", $globals.ProtoObject, ["jsObject"], "Kernel-Infrastructure");
 $globals.JSObjectProxy.comment="I handle sending messages to JavaScript objects, making  JavaScript object accessing from Amber fully transparent.\x0aMy instances make intensive use of `#doesNotUnderstand:`.\x0a\x0aMy instances are automatically created by Amber whenever a message is sent to a JavaScript object.\x0a\x0a## Usage examples\x0a\x0aJSObjectProxy objects are instanciated by Amber when a Smalltalk message is sent to a JavaScript object.\x0a\x0a\x09window alert: 'hello world'.\x0a\x09window inspect.\x0a\x09(window jQuery: 'body') append: 'hello world'\x0a\x0aAmber messages sends are converted to JavaScript function calls or object property access _(in this order)_. If n one of them match, a `MessageNotUnderstood` error will be thrown.\x0a\x0a## Message conversion rules\x0a\x0a- `someUser name` becomes `someUser.name`\x0a- `someUser name: 'John'` becomes `someUser name = \x22John\x22`\x0a- `console log: 'hello world'` becomes `console.log('hello world')`\x0a- `(window jQuery: 'foo') css: 'background' color: 'red'` becomes `window.jQuery('foo').css('background', 'red')`\x0a\x0a__Note:__ For keyword-based messages, only the first keyword is kept: `window foo: 1 bar: 2` is equivalent to `window foo: 1 baz: 2`.";
@@ -22262,7 +23609,7 @@ messageSends: ["new", "jsObject:ofProxy:"]
 $globals.JSObjectProxy.a$cls);
 
 
-$core.addClass("Organizer", $globals.Object, [], "Kernel-Infrastructure");
+$core.addClass("Organizer", $globals.Object, ["elements"], "Kernel-Infrastructure");
 $globals.Organizer.comment="I represent categorization information. \x0a\x0a## API\x0a\x0aUse `#addElement:` and `#removeElement:` to manipulate instances.";
 $core.addMethod(
 $core.method({
@@ -22271,14 +23618,14 @@ protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$core.addElement(self.elements, anObject);
+$recv($self._elements())._add_(anObject);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"addElement:",{anObject:anObject},$globals.Organizer)});
 },
 args: ["anObject"],
-source: "addElement: anObject\x0a\x09<inlineJS: '$core.addElement(self.elements, anObject)'>",
+source: "addElement: anObject\x0a\x09self elements add: anObject",
 referencedClasses: [],
-messageSends: []
+messageSends: ["add:", "elements"]
 }),
 $globals.Organizer);
 
@@ -22288,14 +23635,35 @@ selector: "elements",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $recv($self._basicAt_("elements"))._copy();
-}, function($ctx1) {$ctx1.fill(self,"elements",{},$globals.Organizer)});
+return $self["@elements"];
+
 },
 args: [],
-source: "elements\x0a\x09^ (self basicAt: 'elements') copy",
+source: "elements\x0a\x09^ elements",
 referencedClasses: [],
-messageSends: ["copy", "basicAt:"]
+messageSends: []
+}),
+$globals.Organizer);
+
+$core.addMethod(
+$core.method({
+selector: "initialize",
+protocol: "initialization",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+(
+$ctx1.supercall = true,
+($globals.Organizer.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+$ctx1.supercall = false;
+$self["@elements"]=$recv($globals.Set)._new();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Organizer)});
+},
+args: [],
+source: "initialize\x0a\x09super initialize.\x0a\x09elements := Set new",
+referencedClasses: ["Set"],
+messageSends: ["initialize", "new"]
 }),
 $globals.Organizer);
 
@@ -22306,20 +23674,22 @@ protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$core.removeElement(self.elements, anObject);
+$recv($self._elements())._remove_ifAbsent_(anObject,(function(){
+
+}));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"removeElement:",{anObject:anObject},$globals.Organizer)});
 },
 args: ["anObject"],
-source: "removeElement: anObject\x0a\x09<inlineJS: '$core.removeElement(self.elements, anObject)'>",
+source: "removeElement: anObject\x0a\x09self elements remove: anObject ifAbsent: []",
 referencedClasses: [],
-messageSends: []
+messageSends: ["remove:ifAbsent:", "elements"]
 }),
 $globals.Organizer);
 
 
 
-$core.addClass("ClassOrganizer", $globals.Organizer, [], "Kernel-Infrastructure");
+$core.addClass("ClassOrganizer", $globals.Organizer, ["traitOrBehavior"], "Kernel-Infrastructure");
 $globals.ClassOrganizer.comment="I am an organizer specific to classes. I hold method categorization information for classes.";
 $core.addMethod(
 $core.method({
@@ -22383,75 +23753,72 @@ selector: "theClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.theClass;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"theClass",{},$globals.ClassOrganizer)});
+return $self["@traitOrBehavior"];
+
 },
 args: [],
-source: "theClass\x0a\x09<inlineJS: 'return self.theClass'>",
+source: "theClass\x0a\x09^ traitOrBehavior",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.ClassOrganizer);
+
+$core.addMethod(
+$core.method({
+selector: "theClass:",
+protocol: "accessing",
+fn: function (aClass){
+var self=this,$self=this;
+$self["@traitOrBehavior"]=aClass;
+return self;
+
+},
+args: ["aClass"],
+source: "theClass: aClass\x0a\x09traitOrBehavior := aClass",
 referencedClasses: [],
 messageSends: []
 }),
 $globals.ClassOrganizer);
 
 
+$core.addMethod(
+$core.method({
+selector: "on:",
+protocol: "instance creation",
+fn: function (aClass){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=$self._new();
+$recv($1)._theClass_(aClass);
+return $recv($1)._yourself();
+}, function($ctx1) {$ctx1.fill(self,"on:",{aClass:aClass},$globals.ClassOrganizer.a$cls)});
+},
+args: ["aClass"],
+source: "on: aClass\x0a\x09^ self new\x0a\x09\x09theClass: aClass;\x0a\x09\x09yourself",
+referencedClasses: [],
+messageSends: ["theClass:", "new", "yourself"]
+}),
+$globals.ClassOrganizer.a$cls);
+
 
 $core.addClass("PackageOrganizer", $globals.Organizer, [], "Kernel-Infrastructure");
 $globals.PackageOrganizer.comment="I am an organizer specific to packages. I hold classes categorization information.";
 
 
-$core.addClass("Package", $globals.Object, ["transport", "imports", "dirty"], "Kernel-Infrastructure");
+$core.addClass("Package", $globals.Object, ["evalBlock", "basicTransport", "name", "transport", "imports", "dirty", "organization"], "Kernel-Infrastructure");
 $globals.Package.comment="I am similar to a \x22class category\x22 typically found in other Smalltalks like Pharo or Squeak. Amber does not have class categories anymore, it had in the beginning but now each class in the system knows which package it belongs to.\x0a\x0aEach package has a name and can be queried for its classes, but it will then resort to a reverse scan of all classes to find them.\x0a\x0a## API\x0a\x0aPackages are manipulated through \x22Smalltalk current\x22, like for example finding one based on a name or with `Package class >> #name` directly:\x0a\x0a    Smalltalk current packageAt: 'Kernel'\x0a    Package named: 'Kernel'\x0a\x0aA package differs slightly from a Monticello package which can span multiple class categories using a naming convention based on hyphenation. But just as in Monticello a package supports \x22class extensions\x22 so a package can define behaviors in foreign classes using a naming convention for method categories where the category starts with an asterisk and then the name of the owning package follows.\x0a\x0aYou can fetch a package from the server:\x0a\x0a\x09Package load: 'Additional-Examples'";
-$core.addMethod(
-$core.method({
-selector: "basicImports",
-protocol: "private",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.imports || [];
-return self;
-}, function($ctx1) {$ctx1.fill(self,"basicImports",{},$globals.Package)});
-},
-args: [],
-source: "basicImports\x0a\x09\x22Answer the imports literal JavaScript object as setup in the JavaScript file, if any\x22\x0a\x09\x0a\x09<inlineJS: 'return self.imports || []'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.Package);
-
-$core.addMethod(
-$core.method({
-selector: "basicName:",
-protocol: "private",
-fn: function (aString){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-self.pkgName = aString;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"basicName:",{aString:aString},$globals.Package)});
-},
-args: ["aString"],
-source: "basicName: aString\x0a\x09<inlineJS: 'self.pkgName = aString'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.Package);
-
 $core.addMethod(
 $core.method({
 selector: "basicTransport",
 protocol: "private",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.transport;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"basicTransport",{},$globals.Package)});
+return $self["@basicTransport"];
+
 },
 args: [],
-source: "basicTransport\x0a\x09\x22Answer the transport literal JavaScript object as setup in the JavaScript file, if any\x22\x0a\x09\x0a\x09<inlineJS: 'return self.transport'>",
+source: "basicTransport\x0a\x09\x22Answer the transport literal JavaScript object as setup in the JavaScript file, if any\x22\x0a\x09\x0a\x09^ basicTransport",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22544,13 +23911,13 @@ protocol: "classes",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self._organization())._elements();
+return $recv($recv($self._organization())._elements())._copy();
 }, function($ctx1) {$ctx1.fill(self,"classes",{},$globals.Package)});
 },
 args: [],
-source: "classes\x0a\x09^ self organization elements",
+source: "classes\x0a\x09^ self organization elements copy",
 referencedClasses: [],
-messageSends: ["elements", "organization"]
+messageSends: ["copy", "elements", "organization"]
 }),
 $globals.Package);
 
@@ -22597,6 +23964,62 @@ $globals.Package);
 
 $core.addMethod(
 $core.method({
+selector: "eval:",
+protocol: "evaluating",
+fn: function (aString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1,$receiver;
+$1=$self["@evalBlock"];
+if(($receiver = $1) == null || $receiver.a$nil){
+return $recv($globals.Compiler)._eval_(aString);
+} else {
+return $recv($self["@evalBlock"])._value_(aString);
+}
+}, function($ctx1) {$ctx1.fill(self,"eval:",{aString:aString},$globals.Package)});
+},
+args: ["aString"],
+source: "eval: aString\x0a\x09^ evalBlock\x0a\x09\x09ifNotNil: [ evalBlock value: aString ]\x0a\x09\x09ifNil: [ Compiler eval: aString ]",
+referencedClasses: ["Compiler"],
+messageSends: ["ifNotNil:ifNil:", "value:", "eval:"]
+}),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
+selector: "evalBlock",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $self["@evalBlock"];
+
+},
+args: [],
+source: "evalBlock\x0a\x09^ evalBlock",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
+selector: "evalBlock:",
+protocol: "accessing",
+fn: function (aBlock){
+var self=this,$self=this;
+$self["@evalBlock"]=aBlock;
+return self;
+
+},
+args: ["aBlock"],
+source: "evalBlock: aBlock\x0a\x09evalBlock := aBlock",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
 selector: "imports",
 protocol: "accessing",
 fn: function (){
@@ -22605,10 +24028,7 @@ return $core.withContext(function($ctx1) {
 var $1,$receiver;
 $1=$self["@imports"];
 if(($receiver = $1) == null || $receiver.a$nil){
-var parsed;
-parsed=$self._importsFromJson_($self._basicImports());
-parsed;
-$self._imports_(parsed);
+$self._imports_([]);
 return $self["@imports"];
 } else {
 return $1;
@@ -22616,9 +24036,9 @@ return $1;
 }, function($ctx1) {$ctx1.fill(self,"imports",{},$globals.Package)});
 },
 args: [],
-source: "imports\x0a\x09^ imports ifNil: [\x0a\x09\x09| parsed |\x0a\x09\x09parsed := self importsFromJson: self basicImports.\x0a\x09\x09self imports: parsed.\x0a\x09\x09imports ]",
+source: "imports\x0a\x09^ imports ifNil: [\x0a\x09\x09self imports: #().\x0a\x09\x09imports ]",
 referencedClasses: [],
-messageSends: ["ifNil:", "importsFromJson:", "basicImports", "imports:"]
+messageSends: ["ifNil:", "imports:"]
 }),
 $globals.Package);
 
@@ -22735,6 +24155,32 @@ $globals.Package);
 
 $core.addMethod(
 $core.method({
+selector: "initialize",
+protocol: "initialization",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+(
+$ctx1.supercall = true,
+($globals.Package.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+$ctx1.supercall = false;
+$self["@organization"]=$recv($globals.PackageOrganizer)._new();
+$self["@evalBlock"]=nil;
+$self["@dirty"]=nil;
+$self["@imports"]=nil;
+$self["@transport"]=nil;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Package)});
+},
+args: [],
+source: "initialize\x0a\x09super initialize.\x0a\x0a\x09organization := PackageOrganizer new.\x0a\x09evalBlock := nil.\x0a\x09dirty := nil.\x0a\x09imports := nil.\x0a\x09transport := nil",
+referencedClasses: ["PackageOrganizer"],
+messageSends: ["initialize", "new"]
+}),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
 selector: "isDirty",
 protocol: "testing",
 fn: function (){
@@ -22769,6 +24215,40 @@ args: [],
 source: "isPackage\x0a\x09^ true",
 referencedClasses: [],
 messageSends: []
+}),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
+selector: "javaScriptDescriptor:",
+protocol: "accessing",
+fn: function (anObject){
+var self=this,$self=this;
+var basicEval,basicImports;
+return $core.withContext(function($ctx1) {
+basicEval=$recv(anObject)._at_ifAbsent_("innerEval",(function(){
+return $core.withContext(function($ctx2) {
+return nil._asJavaScriptObject();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+$ctx1.sendIdx["at:ifAbsent:"]=1;
+basicImports=$recv(anObject)._at_ifAbsent_("imports",(function(){
+return [];
+
+}));
+$ctx1.sendIdx["at:ifAbsent:"]=2;
+$self["@basicTransport"]=$recv(anObject)._at_ifAbsent_("transport",(function(){
+
+}));
+$self._evalBlock_(basicEval);
+$self._imports_($self._importsFromJson_(basicImports));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"javaScriptDescriptor:",{anObject:anObject,basicEval:basicEval,basicImports:basicImports},$globals.Package)});
+},
+args: ["anObject"],
+source: "javaScriptDescriptor: anObject\x0a\x09| basicEval basicImports |\x0a\x0a\x09basicEval := (anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ]).\x0a\x09basicImports := (anObject at: 'imports' ifAbsent: [ #() ]).\x0a\x09basicTransport := (anObject at: 'transport' ifAbsent: []).\x0a\x09\x09\x09\x0a\x09self\x0a\x09\x09evalBlock: basicEval;\x0a\x09\x09imports: (self importsFromJson: basicImports)",
+referencedClasses: [],
+messageSends: ["at:ifAbsent:", "asJavaScriptObject", "evalBlock:", "imports:", "importsFromJson:"]
 }),
 $globals.Package);
 
@@ -22869,13 +24349,11 @@ selector: "name",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.pkgName;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"name",{},$globals.Package)});
+return $self["@name"];
+
 },
 args: [],
-source: "name\x0a\x09<inlineJS: 'return self.pkgName'>",
+source: "name\x0a\x09^ name",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22887,16 +24365,14 @@ selector: "name:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._basicName_(aString);
-$self._beDirty();
+$self["@name"]=aString;
 return self;
-}, function($ctx1) {$ctx1.fill(self,"name:",{aString:aString},$globals.Package)});
+
 },
 args: ["aString"],
-source: "name: aString\x0a\x09self basicName: aString.\x0a\x09self beDirty",
+source: "name: aString\x0a\x09name := aString",
 referencedClasses: [],
-messageSends: ["basicName:", "beDirty"]
+messageSends: []
 }),
 $globals.Package);
 
@@ -22906,14 +24382,13 @@ selector: "organization",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $self._basicAt_("organization");
-}, function($ctx1) {$ctx1.fill(self,"organization",{},$globals.Package)});
+return $self["@organization"];
+
 },
 args: [],
-source: "organization\x0a\x09^ self basicAt: 'organization'",
+source: "organization\x0a\x09^ organization",
 referencedClasses: [],
-messageSends: ["basicAt:"]
+messageSends: []
 }),
 $globals.Package);
 
@@ -23071,12 +24546,10 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $1,$2,$receiver;
+var $1,$receiver;
 $1=$self["@transport"];
 if(($receiver = $1) == null || $receiver.a$nil){
-$2=$recv($globals.PackageTransport)._fromJson_($self._basicTransport());
-$recv($2)._package_(self);
-$self["@transport"]=$recv($2)._yourself();
+$self._transport_($recv($globals.PackageTransport)._fromJson_($self._basicTransport()));
 return $self["@transport"];
 } else {
 return $1;
@@ -23084,9 +24557,9 @@ return $1;
 }, function($ctx1) {$ctx1.fill(self,"transport",{},$globals.Package)});
 },
 args: [],
-source: "transport\x0a\x09^ transport ifNil: [ \x0a\x09\x09transport := (PackageTransport fromJson: self basicTransport)\x0a\x09\x09\x09package: self;\x0a\x09\x09\x09yourself ]",
+source: "transport\x0a\x09^ transport ifNil: [ \x0a\x09\x09self transport: (PackageTransport fromJson: self basicTransport).\x0a\x09\x09transport ]",
 referencedClasses: ["PackageTransport"],
-messageSends: ["ifNil:", "package:", "fromJson:", "basicTransport", "yourself"]
+messageSends: ["ifNil:", "transport:", "fromJson:", "basicTransport"]
 }),
 $globals.Package);
 
@@ -23216,6 +24689,26 @@ $globals.Package.a$cls);
 
 $core.addMethod(
 $core.method({
+selector: "named:javaScriptDescriptor:",
+protocol: "instance creation",
+fn: function (aString,anObject){
+var self=this,$self=this;
+var package_;
+return $core.withContext(function($ctx1) {
+package_=$recv($globals.Smalltalk)._createPackage_(aString);
+$recv(package_)._javaScriptDescriptor_(anObject);
+return package_;
+}, function($ctx1) {$ctx1.fill(self,"named:javaScriptDescriptor:",{aString:aString,anObject:anObject,package_:package_},$globals.Package.a$cls)});
+},
+args: ["aString", "anObject"],
+source: "named: aString javaScriptDescriptor: anObject\x0a\x09| package |\x0a\x09\x0a\x09package := Smalltalk createPackage: aString.\x0a\x09package javaScriptDescriptor: anObject.\x0a\x09^ package",
+referencedClasses: ["Smalltalk"],
+messageSends: ["createPackage:", "javaScriptDescriptor:"]
+}),
+$globals.Package.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "named:transport:",
 protocol: "accessing",
 fn: function (aPackageName,aTransport){
@@ -23231,6 +24724,26 @@ args: ["aPackageName", "aTransport"],
 source: "named: aPackageName transport: aTransport\x0a\x09| package |\x0a\x09\x0a\x09package := self named: aPackageName.\x0a\x09package transport: aTransport.\x0a\x09\x0a\x09^ package",
 referencedClasses: [],
 messageSends: ["named:", "transport:"]
+}),
+$globals.Package.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "new:",
+protocol: "instance creation",
+fn: function (aString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=$recv($globals.Package)._new();
+$recv($1)._name_(aString);
+return $recv($1)._yourself();
+}, function($ctx1) {$ctx1.fill(self,"new:",{aString:aString},$globals.Package.a$cls)});
+},
+args: ["aString"],
+source: "new: aString\x0a\x09^ Package new\x0a\x09\x09name: aString;\x0a\x09\x09yourself",
+referencedClasses: ["Package"],
+messageSends: ["name:", "new", "yourself"]
 }),
 $globals.Package.a$cls);
 
@@ -23628,7 +25141,7 @@ messageSends: ["shouldNotImplement"]
 $globals.Setting.a$cls);
 
 
-$core.addClass("SmalltalkImage", $globals.Object, [], "Kernel-Infrastructure");
+$core.addClass("SmalltalkImage", $globals.Object, ["globalJsVariables", "packageDictionary"], "Kernel-Infrastructure");
 $globals.SmalltalkImage.comment="I represent the Smalltalk system, wrapping\x0aoperations of variable `$core` declared in `support/boot.js`.\x0a\x0a## API\x0a\x0aI have only one instance, accessed with global variable `Smalltalk`.\x0a\x0a## Classes\x0a\x0aClasses can be accessed using the following methods:\x0a\x0a- `#classes` answers the full list of Smalltalk classes in the system\x0a- `#globals #at:` answers a specific global (usually, a class) or `nil`\x0a\x0a## Packages\x0a\x0aPackages can be accessed using the following methods:\x0a\x0a- `#packages` answers the full list of packages\x0a- `#packageAt:` answers a specific package or `nil`\x0a\x0a## Parsing\x0a\x0aThe `#parse:` method is used to parse Amber source code.\x0aIt requires the `Compiler` package and the `support/parser.js` parser file in order to work.";
 $core.addMethod(
 $core.method({
@@ -23645,6 +25158,28 @@ args: ["aString"],
 source: "addGlobalJsVariable: aString\x0a\x09self globalJsVariables add: aString",
 referencedClasses: [],
 messageSends: ["add:", "globalJsVariables"]
+}),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
+selector: "adoptPackageDictionary",
+protocol: "private",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv($recv($self._core())._packages())._keysAndValuesDo_((function(key,value){
+return $core.withContext(function($ctx2) {
+return $recv($globals.Package)._named_javaScriptDescriptor_(key,value);
+}, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
+}));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"adoptPackageDictionary",{},$globals.SmalltalkImage)});
+},
+args: [],
+source: "adoptPackageDictionary\x0a\x09self core packages keysAndValuesDo: [ :key :value | Package named: key javaScriptDescriptor: value ]",
+referencedClasses: ["Package"],
+messageSends: ["keysAndValuesDo:", "packages", "core", "named:javaScriptDescriptor:"]
 }),
 $globals.SmalltalkImage);
 
@@ -23699,14 +25234,17 @@ protocol: "private",
 fn: function (packageName){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $core.addPackage(packageName);
-return self;
+return $recv($self._packageDictionary())._at_ifAbsentPut_(packageName,(function(){
+return $core.withContext(function($ctx2) {
+return $recv($globals.Package)._new_(packageName);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
 }, function($ctx1) {$ctx1.fill(self,"basicCreatePackage:",{packageName:packageName},$globals.SmalltalkImage)});
 },
 args: ["packageName"],
-source: "basicCreatePackage: packageName\x0a\x09\x22Create and bind a new bare package with given name and return it.\x22\x0a\x09<inlineJS: 'return $core.addPackage(packageName)'>",
-referencedClasses: [],
-messageSends: []
+source: "basicCreatePackage: packageName\x0a\x09\x22Create and bind a new bare package with given name and return it.\x22\x0a\x09^ self packageDictionary at: packageName ifAbsentPut: [ Package new: packageName ]",
+referencedClasses: ["Package"],
+messageSends: ["at:ifAbsentPut:", "packageDictionary", "new:"]
 }),
 $globals.SmalltalkImage);
 
@@ -23724,24 +25262,6 @@ args: ["aString"],
 source: "basicParse: aString\x0a\x09^ SmalltalkParser parse: aString",
 referencedClasses: ["SmalltalkParser"],
 messageSends: ["parse:"]
-}),
-$globals.SmalltalkImage);
-
-$core.addMethod(
-$core.method({
-selector: "basicRegisterPackage:",
-protocol: "private",
-fn: function (aPackage){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$core.packages[aPackage.pkgName]=aPackage;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"basicRegisterPackage:",{aPackage:aPackage},$globals.SmalltalkImage)});
-},
-args: ["aPackage"],
-source: "basicRegisterPackage: aPackage\x0a\x09\x22Put aPackage in $core.packages object.\x22\x0a\x09<inlineJS: '$core.packages[aPackage.pkgName]=aPackage'>",
-referencedClasses: [],
-messageSends: []
 }),
 $globals.SmalltalkImage);
 
@@ -23898,24 +25418,6 @@ $globals.SmalltalkImage);
 
 $core.addMethod(
 $core.method({
-selector: "deletePackage:",
-protocol: "private",
-fn: function (packageName){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-delete $core.packages[packageName];
-return self;
-}, function($ctx1) {$ctx1.fill(self,"deletePackage:",{packageName:packageName},$globals.SmalltalkImage)});
-},
-args: ["packageName"],
-source: "deletePackage: packageName\x0a\x09\x22Deletes a package by deleting its binding, but does not check if it contains classes etc.\x0a\x09To remove a package, use #removePackage instead.\x22\x0a\x0a\x09<inlineJS: 'delete $core.packages[packageName]'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.SmalltalkImage);
-
-$core.addMethod(
-$core.method({
 selector: "existsJsGlobal:",
 protocol: "testing",
 fn: function (aString){
@@ -23944,14 +25446,20 @@ protocol: "globals",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $core.globalJsVariables;
-return self;
+var $1,$receiver;
+$1=$self["@globalJsVariables"];
+if(($receiver = $1) == null || $receiver.a$nil){
+$self["@globalJsVariables"]=["window", "document", "process", "global"].__comma($self._legacyGlobalJsVariables());
+return $self["@globalJsVariables"];
+} else {
+return $1;
+}
 }, function($ctx1) {$ctx1.fill(self,"globalJsVariables",{},$globals.SmalltalkImage)});
 },
 args: [],
-source: "globalJsVariables\x0a\x09\x22Array of global JavaScript variables\x22\x0a\x09<inlineJS: 'return $core.globalJsVariables'>",
+source: "globalJsVariables\x0a\x09^ globalJsVariables ifNil: [\x0a\x09\x09globalJsVariables := #(window document process global), self legacyGlobalJsVariables ]",
 referencedClasses: [],
-messageSends: []
+messageSends: ["ifNil:", ",", "legacyGlobalJsVariables"]
 }),
 $globals.SmalltalkImage);
 
@@ -24011,6 +25519,24 @@ $globals.SmalltalkImage);
 
 $core.addMethod(
 $core.method({
+selector: "legacyGlobalJsVariables",
+protocol: "private",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $core.globalJsVariables;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"legacyGlobalJsVariables",{},$globals.SmalltalkImage)});
+},
+args: [],
+source: "legacyGlobalJsVariables\x0a\x09\x22Legacy array of global JavaScript variables.\x0a\x09Only used for BW compat, to be removed.\x22\x0a\x09<inlineJS: 'return $core.globalJsVariables'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
 selector: "optOut:",
 protocol: "accessing",
 fn: function (anObject){
@@ -24034,14 +25560,16 @@ protocol: "packages",
 fn: function (packageName){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $core.packages[packageName];
-return self;
+$self._deprecatedAPI_("Use #packageAt:ifAbsent: directly.");
+return $self._packageAt_ifAbsent_(packageName,(function(){
+
+}));
 }, function($ctx1) {$ctx1.fill(self,"packageAt:",{packageName:packageName},$globals.SmalltalkImage)});
 },
 args: ["packageName"],
-source: "packageAt: packageName\x0a\x09<inlineJS: 'return $core.packages[packageName]'>",
+source: "packageAt: packageName\x0a\x09self deprecatedAPI: 'Use #packageAt:ifAbsent: directly.'.\x0a\x09^ self packageAt: packageName ifAbsent: []",
 referencedClasses: [],
-messageSends: []
+messageSends: ["deprecatedAPI:", "packageAt:ifAbsent:"]
 }),
 $globals.SmalltalkImage);
 
@@ -24052,15 +25580,54 @@ protocol: "packages",
 fn: function (packageName,aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $1;
-$1=$self._packageAt_(packageName);
-return $recv($1)._ifNil_(aBlock);
+return $recv($self._packageDictionary())._at_ifAbsent_(packageName,aBlock);
 }, function($ctx1) {$ctx1.fill(self,"packageAt:ifAbsent:",{packageName:packageName,aBlock:aBlock},$globals.SmalltalkImage)});
 },
 args: ["packageName", "aBlock"],
-source: "packageAt: packageName ifAbsent: aBlock\x0a\x09^ (self packageAt: packageName) ifNil: aBlock",
+source: "packageAt: packageName ifAbsent: aBlock\x0a\x09^ self packageDictionary at: packageName ifAbsent: aBlock",
 referencedClasses: [],
-messageSends: ["ifNil:", "packageAt:"]
+messageSends: ["at:ifAbsent:", "packageDictionary"]
+}),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
+selector: "packageAt:ifPresent:",
+protocol: "packages",
+fn: function (packageName,aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._packageDictionary())._at_ifPresent_(packageName,aBlock);
+}, function($ctx1) {$ctx1.fill(self,"packageAt:ifPresent:",{packageName:packageName,aBlock:aBlock},$globals.SmalltalkImage)});
+},
+args: ["packageName", "aBlock"],
+source: "packageAt: packageName ifPresent: aBlock\x0a\x09^ self packageDictionary at: packageName ifPresent: aBlock",
+referencedClasses: [],
+messageSends: ["at:ifPresent:", "packageDictionary"]
+}),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
+selector: "packageDictionary",
+protocol: "packages",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1,$receiver;
+$1=$self["@packageDictionary"];
+if(($receiver = $1) == null || $receiver.a$nil){
+$self["@packageDictionary"]=$recv($globals.Dictionary)._new();
+return $self["@packageDictionary"];
+} else {
+return $1;
+}
+}, function($ctx1) {$ctx1.fill(self,"packageDictionary",{},$globals.SmalltalkImage)});
+},
+args: [],
+source: "packageDictionary\x0a\x09^ packageDictionary ifNil: [ packageDictionary := Dictionary new ]",
+referencedClasses: ["Dictionary"],
+messageSends: ["ifNil:", "new"]
 }),
 $globals.SmalltalkImage);
 
@@ -24071,18 +25638,13 @@ protocol: "packages",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-
-		return Object.keys($core.packages).map(function(k) {
-			return $core.packages[k];
-		})
-	;
-return self;
+return $recv($recv($self._packageDictionary())._values())._copy();
 }, function($ctx1) {$ctx1.fill(self,"packages",{},$globals.SmalltalkImage)});
 },
 args: [],
-source: "packages\x0a\x09\x22Return all Package instances in the system.\x22\x0a\x0a\x09<inlineJS: '\x0a\x09\x09return Object.keys($core.packages).map(function(k) {\x0a\x09\x09\x09return $core.packages[k];\x0a\x09\x09})\x0a\x09'>",
+source: "packages\x0a\x09\x22Return all Package instances in the system.\x22\x0a\x0a\x09^ self packageDictionary values copy",
 referencedClasses: [],
-messageSends: []
+messageSends: ["copy", "values", "packageDictionary"]
 }),
 $globals.SmalltalkImage);
 
@@ -24189,7 +25751,7 @@ protocol: "classes",
 fn: function (aClass){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $1,$2,$5,$4,$6,$3,$7,$9,$8;
+var $1,$2,$5,$4,$6,$3,$7,$8,$10,$9,$receiver;
 $1=$recv(aClass)._isMetaclass();
 if($core.assert($1)){
 $2=$recv($recv(aClass)._asString()).__comma(" is a Metaclass and cannot be removed!");
@@ -24219,19 +25781,26 @@ return $self._error_($recv($recv(aClass)._name()).__comma(" has trait users."));
 $self._deleteClass_(aClass);
 $recv(aClass)._setTraitComposition_([]);
 $ctx1.sendIdx["setTraitComposition:"]=1;
-$recv($recv(aClass)._class())._setTraitComposition_([]);
-$7=$recv($globals.SystemAnnouncer)._current();
-$9=$recv($globals.ClassRemoved)._new();
-$recv($9)._theClass_(aClass);
-$8=$recv($9)._yourself();
-$recv($7)._announce_($8);
+$7=$recv(aClass)._theMetaClass();
+if(($receiver = $7) == null || $receiver.a$nil){
+$7;
+} else {
+var meta;
+meta=$receiver;
+$recv(meta)._setTraitComposition_([]);
+}
+$8=$recv($globals.SystemAnnouncer)._current();
+$10=$recv($globals.ClassRemoved)._new();
+$recv($10)._theClass_(aClass);
+$9=$recv($10)._yourself();
+$recv($8)._announce_($9);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"removeClass:",{aClass:aClass},$globals.SmalltalkImage)});
 },
 args: ["aClass"],
-source: "removeClass: aClass\x0a\x09aClass isMetaclass ifTrue: [ self error: aClass asString, ' is a Metaclass and cannot be removed!' ].\x0a\x09aClass allSubclassesDo: [ :subclass | self error: aClass name, ' has a subclass: ', subclass name ].\x0a\x09aClass traitUsers ifNotEmpty: [ self error: aClass name, ' has trait users.' ].\x0a\x09\x0a\x09self deleteClass: aClass.\x0a\x09aClass setTraitComposition: #().\x0a\x09aClass class setTraitComposition: #().\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassRemoved new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
+source: "removeClass: aClass\x0a\x09aClass isMetaclass ifTrue: [ self error: aClass asString, ' is a Metaclass and cannot be removed!' ].\x0a\x09aClass allSubclassesDo: [ :subclass | self error: aClass name, ' has a subclass: ', subclass name ].\x0a\x09aClass traitUsers ifNotEmpty: [ self error: aClass name, ' has trait users.' ].\x0a\x09\x0a\x09self deleteClass: aClass.\x0a\x09aClass setTraitComposition: #().\x0a\x09aClass theMetaClass ifNotNil: [ :meta | meta setTraitComposition: #() ].\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassRemoved new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassRemoved"],
-messageSends: ["ifTrue:", "isMetaclass", "error:", ",", "asString", "allSubclassesDo:", "name", "ifNotEmpty:", "traitUsers", "deleteClass:", "setTraitComposition:", "class", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["ifTrue:", "isMetaclass", "error:", ",", "asString", "allSubclassesDo:", "name", "ifNotEmpty:", "traitUsers", "deleteClass:", "setTraitComposition:", "ifNotNil:", "theMetaClass", "announce:", "current", "theClass:", "new", "yourself"]
 }),
 $globals.SmalltalkImage);
 
@@ -24253,14 +25822,14 @@ return $core.withContext(function($ctx2) {
 return $self._removeClass_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 }));
-$self._deletePackage_(packageName);
+$recv($self._packageDictionary())._removeKey_(packageName);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"removePackage:",{packageName:packageName,pkg:pkg},$globals.SmalltalkImage)});
 },
 args: ["packageName"],
-source: "removePackage: packageName\x0a\x09\x22Removes a package and all its classes.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09pkg classes do: [ :each |\x0a\x09\x09\x09self removeClass: each ].\x0a\x09self deletePackage: packageName",
+source: "removePackage: packageName\x0a\x09\x22Removes a package and all its classes.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09pkg classes do: [ :each |\x0a\x09\x09\x09self removeClass: each ].\x0a\x09self packageDictionary removeKey: packageName",
 referencedClasses: [],
-messageSends: ["packageAt:ifAbsent:", "error:", ",", "do:", "classes", "removeClass:", "deletePackage:"]
+messageSends: ["packageAt:ifAbsent:", "error:", ",", "do:", "classes", "removeClass:", "removeKey:", "packageDictionary"]
 }),
 $globals.SmalltalkImage);
 
@@ -24272,7 +25841,7 @@ fn: function (packageName,newName){
 var self=this,$self=this;
 var pkg;
 return $core.withContext(function($ctx1) {
-var $1,$2,$receiver;
+var $1,$2,$3;
 pkg=$self._packageAt_ifAbsent_(packageName,(function(){
 return $core.withContext(function($ctx2) {
 $1="Missing package: ".__comma(packageName);
@@ -24281,22 +25850,24 @@ return $self._error_($1);
 $ctx2.sendIdx["error:"]=1;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
-$2=$self._packageAt_(newName);
-if(($receiver = $2) == null || $receiver.a$nil){
-$2;
-} else {
-$self._error_("Already exists a package called: ".__comma(newName));
-}
-$recv(pkg)._name_(newName);
-$self._basicRegisterPackage_(pkg);
-$self._deletePackage_(packageName);
+$self._packageAt_ifPresent_(newName,(function(){
+return $core.withContext(function($ctx2) {
+return $self._error_("Already exists a package called: ".__comma(newName));
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}));
+$2=pkg;
+$recv($2)._name_(newName);
+$recv($2)._beDirty();
+$3=$self._packageDictionary();
+$recv($3)._at_put_(newName,pkg);
+$recv($3)._removeKey_(packageName);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"renamePackage:to:",{packageName:packageName,newName:newName,pkg:pkg},$globals.SmalltalkImage)});
 },
 args: ["packageName", "newName"],
-source: "renamePackage: packageName to: newName\x0a\x09\x22Rename a package.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09(self packageAt: newName) ifNotNil: [ self error: 'Already exists a package called: ', newName ].\x0a\x09pkg name: newName.\x0a\x09self basicRegisterPackage: pkg.\x0a\x09self deletePackage: packageName.",
+source: "renamePackage: packageName to: newName\x0a\x09\x22Rename a package.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09self packageAt: newName ifPresent: [ self error: 'Already exists a package called: ', newName ].\x0a\x09pkg name: newName; beDirty.\x0a\x09self packageDictionary\x0a\x09\x09at: newName put: pkg;\x0a\x09\x09removeKey: packageName",
 referencedClasses: [],
-messageSends: ["packageAt:ifAbsent:", "error:", ",", "ifNotNil:", "packageAt:", "name:", "basicRegisterPackage:", "deletePackage:"]
+messageSends: ["packageAt:ifAbsent:", "error:", ",", "packageAt:ifPresent:", "name:", "beDirty", "at:put:", "packageDictionary", "removeKey:"]
 }),
 $globals.SmalltalkImage);
 
@@ -24306,13 +25877,11 @@ selector: "reservedWords",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $core.reservedWords;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"reservedWords",{},$globals.SmalltalkImage)});
+return ["break", "case", "catch", "class", "const", "continue", "debugger", "default", "delete", "do", "else", "export", "extends", "finally", "for", "function", "if", "import", "in", "instanceof", "new", "return", "super", "switch", "this", "throw", "try", "typeof", "var", "void", "while", "with", "yield", "let", "static", "arguments", "await", "enum", "implements", "interface", "package", "private", "protected", "public"];
+
 },
 args: [],
-source: "reservedWords\x0a\x09\x22JavaScript reserved words\x22\x0a\x09<inlineJS: 'return $core.reservedWords'>",
+source: "reservedWords\x0a\x09^ #(\x0a\x09\x09\x22http://www.ecma-international.org/ecma-262/6.0/#sec-keywords\x22\x0a\x09\x09break case catch class const continue debugger\x0a\x09\x09default delete do else export extends finally\x0a\x09\x09for function if import in instanceof new\x0a\x09\x09return super switch this throw try typeof\x0a\x09\x09var void while with yield\x0a\x09\x09\x22in strict mode\x22\x0a\x09\x09let static\x0a\x09\x09\x22Amber protected words: these should not be compiled as-is when in code\x22\x0a\x09\x09arguments\x0a\x09\x09\x22http://www.ecma-international.org/ecma-262/6.0/#sec-future-reserved-words\x22\x0a\x09\x09await enum\x0a\x09\x09\x22in strict mode\x22\x0a\x09\x09implements interface package private protected public\x0a\x09)",
 referencedClasses: [],
 messageSends: []
 }),
@@ -24340,11 +25909,11 @@ selector: "version",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return "0.19.0";
+return "0.19.1";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.19.0'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.19.1'",
 referencedClasses: [],
 messageSends: []
 }),
@@ -26332,23 +27901,14 @@ protocol: "actions",
 fn: function (aPackageName,aNewPackageName){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $1,$2,$receiver;
-$1=$recv($recv($globals.Smalltalk)._globals())._at_(aNewPackageName);
-if(($receiver = $1) == null || $receiver.a$nil){
-$1;
-} else {
-$2=$recv("A package named ".__comma(aNewPackageName)).__comma(" already exists");
-$ctx1.sendIdx[","]=1;
-$self._error_($2);
-}
 $recv($globals.Smalltalk)._renamePackage_to_(aPackageName,aNewPackageName);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"renamePackage:to:",{aPackageName:aPackageName,aNewPackageName:aNewPackageName},$globals.Environment)});
 },
 args: ["aPackageName", "aNewPackageName"],
-source: "renamePackage: aPackageName to: aNewPackageName\x0a        (Smalltalk globals at: aNewPackageName)\x0a                ifNotNil: [ self error: 'A package named ', aNewPackageName, ' already exists' ].\x0a\x0a        Smalltalk renamePackage: aPackageName to: aNewPackageName",
+source: "renamePackage: aPackageName to: aNewPackageName\x0a        Smalltalk renamePackage: aPackageName to: aNewPackageName",
 referencedClasses: ["Smalltalk"],
-messageSends: ["ifNotNil:", "at:", "globals", "error:", ",", "renamePackage:to:"]
+messageSends: ["renamePackage:to:"]
 }),
 $globals.Environment);
 
@@ -26542,14 +28102,32 @@ protocol: "error handling",
 fn: function (anError){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
+var $1;
+$1=$recv((function(){
+return $core.withContext(function($ctx2) {
+return $recv(anError)._isSmalltalkError();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}))._tryCatch_((function(){
+return false;
+
+}));
+if($core.assert($1)){
 $self._handleUnhandledError_(anError);
+$ctx1.sendIdx["handleUnhandledError:"]=1;
+} else {
+var smalltalkError;
+smalltalkError=$recv($globals.JavaScriptException)._on_(anError);
+smalltalkError;
+$recv(smalltalkError)._wrap();
+$self._handleUnhandledError_(smalltalkError);
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"handleError:",{anError:anError},$globals.ErrorHandler.a$cls)});
 },
 args: ["anError"],
-source: "handleError: anError\x0a\x09self handleUnhandledError: anError",
-referencedClasses: [],
-messageSends: ["handleUnhandledError:"]
+source: "handleError: anError\x0a\x09([ anError isSmalltalkError ] tryCatch: [ false ])\x0a\x09\x09ifTrue: [ self handleUnhandledError: anError ]\x0a\x09\x09ifFalse: [\x0a\x09\x09\x09| smalltalkError |\x0a\x09\x09\x09smalltalkError := JavaScriptException on: anError.\x0a\x09\x09\x09smalltalkError wrap.\x0a\x09\x09\x09self handleUnhandledError: smalltalkError ]",
+referencedClasses: ["JavaScriptException"],
+messageSends: ["ifTrue:ifFalse:", "tryCatch:", "isSmalltalkError", "handleUnhandledError:", "on:", "wrap"]
 }),
 $globals.ErrorHandler.a$cls);
 
@@ -26562,16 +28140,17 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
 $1=$recv(anError)._wasHandled();
-if($core.assert($1)){
-return self;
+if(!$core.assert($1)){
+$recv($self._current())._handleError_(anError);
+$recv(anError)._beHandled();
 }
-return $recv($self._current())._handleError_(anError);
+return self;
 }, function($ctx1) {$ctx1.fill(self,"handleUnhandledError:",{anError:anError},$globals.ErrorHandler.a$cls)});
 },
 args: ["anError"],
-source: "handleUnhandledError: anError\x0a\x09anError wasHandled ifTrue: [ ^ self ].\x0a\x09\x0a\x09^ self current handleError: anError",
+source: "handleUnhandledError: anError\x0a\x09anError wasHandled ifFalse: [\x0a\x09\x09self current handleError: anError.\x0a\x09\x09anError beHandled ]",
 referencedClasses: [],
-messageSends: ["ifTrue:", "wasHandled", "handleError:", "current"]
+messageSends: ["ifFalse:", "wasHandled", "handleError:", "current", "beHandled"]
 }),
 $globals.ErrorHandler.a$cls);
 
@@ -27147,104 +28726,11 @@ $globals.String);
 
 });
 
-define('amber_core/Platform-Node',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
-var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
-$core.addPackage("Platform-Node");
-$core.packages["Platform-Node"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Platform-Node"].transport = {"type":"amd","amdNamespace":"amber_core"};
-
-$core.addClass("NodePlatform", $globals.Object, [], "Platform-Node");
-$globals.NodePlatform.comment="I am `Platform` service implementation for node-like environment.";
-$core.addMethod(
-$core.method({
-selector: "globals",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return global;
-
-},
-args: [],
-source: "globals\x0a\x09^ global",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.NodePlatform);
-
-$core.addMethod(
-$core.method({
-selector: "newXhr",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-var $receiver;
-if(($receiver = $globals.XMLHttpRequest) == null || $receiver.a$nil){
-$self._error_("XMLHttpRequest not available.");
-} else {
-return $recv($globals.XMLHttpRequest)._new();
-}
-return self;
-}, function($ctx1) {$ctx1.fill(self,"newXhr",{},$globals.NodePlatform)});
-},
-args: [],
-source: "newXhr\x0a\x09XMLHttpRequest\x0a\x09\x09ifNotNil: [ ^ XMLHttpRequest new ]\x0a\x09\x09ifNil: [ self error: 'XMLHttpRequest not available.' ]",
-referencedClasses: ["XMLHttpRequest"],
-messageSends: ["ifNotNil:ifNil:", "new", "error:"]
-}),
-$globals.NodePlatform);
-
-
-$core.addMethod(
-$core.method({
-selector: "initialize",
-protocol: "testing",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-var $1;
-$1=$self._isFeasible();
-if($core.assert($1)){
-$recv($globals.Platform)._registerIfNone_($self._new());
-}
-return self;
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.NodePlatform.a$cls)});
-},
-args: [],
-source: "initialize\x0a\x09self isFeasible ifTrue: [ Platform registerIfNone: self new ]",
-referencedClasses: ["Platform"],
-messageSends: ["ifTrue:", "isFeasible", "registerIfNone:", "new"]
-}),
-$globals.NodePlatform.a$cls);
-
-$core.addMethod(
-$core.method({
-selector: "isFeasible",
-protocol: "testing",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return typeof global !== "undefined";
-return self;
-}, function($ctx1) {$ctx1.fill(self,"isFeasible",{},$globals.NodePlatform.a$cls)});
-},
-args: [],
-source: "isFeasible\x0a<inlineJS: 'return typeof global !== \x22undefined\x22'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.NodePlatform.a$cls);
-
-});
+/* stub */;
+define("amber/Platform", function(){});
 
 define('amber/deploy',[
     './helpers',
-    './compatibility', // pre-fetch, dep of ./boot
-    './kernel-fundamentals', // pre-fetch, dep of ./boot
-    './kernel-language', // pre-fetch, dep of ./boot
     './boot', // pre-fetch, dep of ./helpers
     // --- packages of the core Amber begin here ---
     'amber_core/Kernel-Helpers',
@@ -27258,7 +28744,7 @@ define('amber/deploy',[
     'amber_core/Kernel-Exceptions',
     'amber_core/Kernel-Announcements',
     'amber_core/Platform-Services',
-    'amber/Platform'
+    'amber/Platform' // TODO remove
     // --- packages of the core Amber end here ---
 ], function (amber) {
     return amber;
@@ -34966,16 +36452,19 @@ protocol: "compiling",
 fn: function (aString,aPackage){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return aPackage && aPackage.innerEval
-		? aPackage.innerEval(aString)
-		: eval(aString);
-return self;
+var $receiver;
+if(($receiver = aPackage) == null || $receiver.a$nil){
+return $self._eval_(aString);
+$ctx1.sendIdx["eval:"]=1;
+} else {
+return $recv(aPackage)._eval_(aString);
+}
 }, function($ctx1) {$ctx1.fill(self,"eval:forPackage:",{aString:aString,aPackage:aPackage},$globals.Compiler)});
 },
 args: ["aString", "aPackage"],
-source: "eval: aString forPackage: aPackage\x0a\x09<inlineJS: 'return aPackage && aPackage.innerEval\x0a\x09\x09? aPackage.innerEval(aString)\x0a\x09\x09: eval(aString)'>",
+source: "eval: aString forPackage: aPackage\x0a\x09^ aPackage\x0a\x09\x09ifNil: [ self eval: aString ]\x0a\x09\x09ifNotNil: [ aPackage eval: aString ]",
 referencedClasses: [],
-messageSends: []
+messageSends: ["ifNil:ifNotNil:", "eval:"]
 }),
 $globals.Compiler);
 
@@ -35178,6 +36667,23 @@ messageSends: []
 }),
 $globals.Compiler);
 
+
+$core.addMethod(
+$core.method({
+selector: "eval:",
+protocol: "evaluating",
+fn: function (aString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._new())._eval_(aString);
+}, function($ctx1) {$ctx1.fill(self,"eval:",{aString:aString},$globals.Compiler.a$cls)});
+},
+args: ["aString"],
+source: "eval: aString\x0a\x09^ self new eval: aString",
+referencedClasses: [],
+messageSends: ["eval:", "new"]
+}),
+$globals.Compiler.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -39371,7 +40877,7 @@ protocol: "testing",
 fn: function (aString,aPackage){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $1,$2,$3,$receiver;
+var $1,$2,$receiver;
 if(($receiver = aPackage) == null || $receiver.a$nil){
 aPackage;
 } else {
@@ -39383,16 +40889,15 @@ if($core.assert($1)){
 return false;
 }
 }
-$2=$recv($globals.Compiler)._new();
-$3=$recv("typeof ".__comma(aString)).__comma(" == \x22undefined\x22");
+$2=$recv("typeof ".__comma(aString)).__comma(" === \x22undefined\x22");
 $ctx1.sendIdx[","]=1;
-return $recv($2)._eval_($3);
+return $recv($globals.Compiler)._eval_($2);
 }, function($ctx1) {$ctx1.fill(self,"isVariableUndefined:inPackage:",{aString:aString,aPackage:aPackage},$globals.SemanticAnalyzer)});
 },
 args: ["aString", "aPackage"],
-source: "isVariableUndefined: aString inPackage: aPackage\x0a\x09aPackage ifNotNil: [\x0a\x09\x09| packageKnownVars |\x0a\x09\x09packageKnownVars := (aPackage imports\x0a\x09\x09\x09reject: #isString)\x0a\x09\x09\x09collect: #key.\x0a\x09\x09(packageKnownVars includes: aString) ifTrue: [ ^ false ]].\x0a\x09^ Compiler new\x0a\x09\x09eval: 'typeof ', aString, ' == \x22undefined\x22'",
+source: "isVariableUndefined: aString inPackage: aPackage\x0a\x09aPackage ifNotNil: [\x0a\x09\x09| packageKnownVars |\x0a\x09\x09packageKnownVars := (aPackage imports\x0a\x09\x09\x09reject: #isString)\x0a\x09\x09\x09collect: #key.\x0a\x09\x09(packageKnownVars includes: aString) ifTrue: [ ^ false ]].\x0a\x09^ Compiler eval: 'typeof ', aString, ' === \x22undefined\x22'",
 referencedClasses: ["Compiler"],
-messageSends: ["ifNotNil:", "collect:", "reject:", "imports", "ifTrue:", "includes:", "eval:", "new", ","]
+messageSends: ["ifNotNil:", "collect:", "reject:", "imports", "ifTrue:", "includes:", "eval:", ","]
 }),
 $globals.SemanticAnalyzer);
 
@@ -47887,14 +49392,14 @@ $ctx2.sendIdx["nextPutAll:"]=5;
 return $recv(str)._nextPutAll_("})()})");
 }, function($ctx2) {$ctx2.fillBlock({str:str},$ctx1,1)});
 }));
-function_=$recv($recv($globals.Compiler)._new())._eval_(source);
+function_=$recv($globals.Compiler)._eval_(source);
 return $recv(function_)._valueWithPossibleArguments_($recv($recv($self._context())._locals())._values());
 }, function($ctx1) {$ctx1.fill(self,"eval:",{aString:aString,source:source,function_:function_},$globals.ASTInterpreter)});
 },
 args: ["aString"],
-source: "eval: aString\x0a\x09\x22Evaluate aString as JS source inside an JS function.\x0a\x09aString is not sandboxed.\x22\x0a\x09\x0a\x09| source function |\x0a\x09\x0a\x09source := String streamContents: [ :str |\x0a\x09\x09str nextPutAll: '0,(function('.\x0a\x09\x09self context locals keys\x0a\x09\x09\x09do: [ :each | str nextPutAll: each ]\x0a\x09\x09\x09separatedBy: [ str nextPutAll: ',' ].\x0a\x09\x09str\x0a\x09\x09\x09nextPutAll: '){ return (function() {';\x0a\x09\x09\x09nextPutAll: aString;\x0a\x09\x09\x09nextPutAll: '})()})' ].\x0a\x09\x09\x09\x0a\x09function := Compiler new eval: source.\x0a\x09\x0a\x09^ function valueWithPossibleArguments: self context locals values",
+source: "eval: aString\x0a\x09\x22Evaluate aString as JS source inside an JS function.\x0a\x09aString is not sandboxed.\x22\x0a\x09\x0a\x09| source function |\x0a\x09\x0a\x09source := String streamContents: [ :str |\x0a\x09\x09str nextPutAll: '0,(function('.\x0a\x09\x09self context locals keys\x0a\x09\x09\x09do: [ :each | str nextPutAll: each ]\x0a\x09\x09\x09separatedBy: [ str nextPutAll: ',' ].\x0a\x09\x09str\x0a\x09\x09\x09nextPutAll: '){ return (function() {';\x0a\x09\x09\x09nextPutAll: aString;\x0a\x09\x09\x09nextPutAll: '})()})' ].\x0a\x09\x09\x09\x0a\x09function := Compiler eval: source.\x0a\x09\x0a\x09^ function valueWithPossibleArguments: self context locals values",
 referencedClasses: ["String", "Compiler"],
-messageSends: ["streamContents:", "nextPutAll:", "do:separatedBy:", "keys", "locals", "context", "eval:", "new", "valueWithPossibleArguments:", "values"]
+messageSends: ["streamContents:", "nextPutAll:", "do:separatedBy:", "keys", "locals", "context", "eval:", "valueWithPossibleArguments:", "values"]
 }),
 $globals.ASTInterpreter);
 
@@ -49098,7 +50603,6 @@ $globals.SendNode);
 
 define('amber/lang',[
     './deploy',
-    './compatibility', // pre-fetch, dep of ./boot
     './boot', // pre-fetch, dep of ./helpers
     './helpers', // pre-fetch, dep of ./deploy
     './parser',
@@ -54159,6 +55663,7 @@ if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
 $recv($globals.Smalltalk)._removeClass_($self["@theClass"]);
+$self._deny_($recv($recv($recv($self["@theClass"])._package())._classes())._includes_($self["@theClass"]));
 $self["@theClass"]=nil;
 $self["@theClass"];
 }
@@ -54166,9 +55671,39 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"tearDown",{},$globals.ClassBuilderTest)});
 },
 args: [],
-source: "tearDown\x0a\x09theClass ifNotNil: [ Smalltalk removeClass: theClass. theClass := nil ]",
+source: "tearDown\x0a\x09theClass ifNotNil: [\x0a\x09\x09Smalltalk removeClass: theClass.\x0a\x09\x09self deny: (theClass package classes includes: theClass).\x0a\x09\x09theClass := nil ]",
 referencedClasses: ["Smalltalk"],
-messageSends: ["ifNotNil:", "removeClass:"]
+messageSends: ["ifNotNil:", "removeClass:", "deny:", "includes:", "classes", "package"]
+}),
+$globals.ClassBuilderTest);
+
+$core.addMethod(
+$core.method({
+selector: "testAddTrait",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $3,$2,$1,$4;
+$self["@theClass"]=$recv($self["@builder"])._addTraitNamed_package_("ObjectMock2","Kernel-Tests");
+$self._assert_equals_($recv($self["@theClass"])._name(),"ObjectMock2");
+$ctx1.sendIdx["assert:equals:"]=1;
+$3=$recv($self["@theClass"])._package();
+$ctx1.sendIdx["package"]=1;
+$2=$recv($3)._classes();
+$1=$recv($2)._occurrencesOf_($self["@theClass"]);
+$self._assert_equals_($1,(1));
+$ctx1.sendIdx["assert:equals:"]=2;
+$4=$recv($self["@theClass"])._package();
+$ctx1.sendIdx["package"]=2;
+$self._assert_equals_($4,$recv($globals.ObjectMock)._package());
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testAddTrait",{},$globals.ClassBuilderTest)});
+},
+args: [],
+source: "testAddTrait\x0a\x09theClass := builder addTraitNamed: 'ObjectMock2' package: 'Kernel-Tests'.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: (theClass package classes occurrencesOf: theClass) equals: 1.\x0a\x09self assert: theClass package equals: ObjectMock package",
+referencedClasses: ["ObjectMock"],
+messageSends: ["addTraitNamed:package:", "assert:equals:", "name", "occurrencesOf:", "classes", "package"]
 }),
 $globals.ClassBuilderTest);
 
@@ -54179,7 +55714,7 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $2,$1,$4,$3,$6,$5,$8,$7;
+var $2,$1,$4,$3,$6,$7,$5,$9,$8;
 $self["@theClass"]=$recv($self["@builder"])._copyClass_named_($globals.ObjectMock,"ObjectMock2");
 $2=$recv($self["@theClass"])._superclass();
 $ctx1.sendIdx["superclass"]=1;
@@ -54197,20 +55732,24 @@ $self._assert_equals_($recv($self["@theClass"])._name(),"ObjectMock2");
 $ctx1.sendIdx["assert:equals:"]=1;
 $6=$recv($self["@theClass"])._package();
 $ctx1.sendIdx["package"]=1;
-$5=$recv($6).__eq_eq($recv($globals.ObjectMock)._package());
+$7=$recv($globals.ObjectMock)._package();
+$ctx1.sendIdx["package"]=2;
+$5=$recv($6).__eq_eq($7);
 $self._assert_($5);
-$8=$recv($self["@theClass"])._methodDictionary();
+$ctx1.sendIdx["assert:"]=3;
+$self._assert_($recv($recv($recv($self["@theClass"])._package())._classes())._includes_($self["@theClass"]));
+$9=$recv($self["@theClass"])._methodDictionary();
 $ctx1.sendIdx["methodDictionary"]=1;
-$7=$recv($8)._keys();
+$8=$recv($9)._keys();
 $ctx1.sendIdx["keys"]=1;
-$self._assert_equals_($7,$recv($recv($globals.ObjectMock)._methodDictionary())._keys());
+$self._assert_equals_($8,$recv($recv($globals.ObjectMock)._methodDictionary())._keys());
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testClassCopy",{},$globals.ClassBuilderTest)});
 },
 args: [],
-source: "testClassCopy\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys",
+source: "testClassCopy\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: (theClass package classes includes: theClass).\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys",
 referencedClasses: ["ObjectMock"],
-messageSends: ["copyClass:named:", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "keys", "methodDictionary"]
+messageSends: ["copyClass:named:", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "includes:", "classes", "keys", "methodDictionary"]
 }),
 $globals.ClassBuilderTest);
 
@@ -54222,7 +55761,7 @@ fn: function (){
 var self=this,$self=this;
 var instance,oldClass;
 return $core.withContext(function($ctx1) {
-var $2,$1,$4,$3,$5,$6,$7,$8,$9,$11,$10;
+var $2,$1,$4,$3,$5,$6,$7,$8,$10,$9,$12,$11;
 oldClass=$recv($self["@builder"])._copyClass_named_($globals.ObjectMock,"ObjectMock2");
 $2=$recv($globals.Smalltalk)._globals();
 $ctx1.sendIdx["globals"]=1;
@@ -54252,22 +55791,26 @@ $8=$recv($globals.ObjectMock2)._comment();
 $ctx1.sendIdx["comment"]=1;
 $self._assert_equals_($8,$recv(oldClass)._comment());
 $ctx1.sendIdx["assert:equals:"]=2;
-$9=$recv($recv($globals.ObjectMock2)._package())._name();
+$10=$recv($globals.ObjectMock2)._package();
+$ctx1.sendIdx["package"]=1;
+$9=$recv($10)._name();
 $ctx1.sendIdx["name"]=1;
 $self._assert_equals_($9,"Kernel-Tests");
-$11=$recv(instance)._class();
+$self._assert_($recv($recv($recv($globals.ObjectMock2)._package())._classes())._includes_($globals.ObjectMock2));
+$ctx1.sendIdx["assert:"]=3;
+$12=$recv(instance)._class();
 $ctx1.sendIdx["class"]=1;
-$10=$recv($11).__eq_eq($globals.ObjectMock2);
-$self._deny_($10);
+$11=$recv($12).__eq_eq($globals.ObjectMock2);
+$self._deny_($11);
 $self._assert_($recv($recv($recv($globals.Smalltalk)._globals())._at_($recv($recv(instance)._class())._name()))._isNil());
 $recv($globals.Smalltalk)._removeClass_($globals.ObjectMock2);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testClassMigration",{instance:instance,oldClass:oldClass},$globals.ClassBuilderTest)});
 },
 args: [],
-source: "testClassMigration\x0a\x09| instance oldClass |\x0a\x09\x0a\x09oldClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09instance := (Smalltalk globals at: 'ObjectMock2') new.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2')\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self deny: oldClass == ObjectMock2.\x0a\x09\x0a\x09self assert: ObjectMock2 superclass == ObjectMock.\x0a\x09self assert: ObjectMock2 instanceVariableNames isEmpty.\x0a\x09self assert: ObjectMock2 selectors equals: oldClass selectors.\x0a\x09self assert: ObjectMock2 comment equals: oldClass comment.\x0a\x09self assert: ObjectMock2 package name equals: 'Kernel-Tests'.\x0a\x09\x0a\x09self deny: instance class == ObjectMock2.\x0a\x09\x22Commeting this out. Tests implementation detail.\x22\x0a\x09\x22self assert: instance class name equals: 'OldObjectMock2'.\x22\x0a\x09\x0a\x09self assert: (Smalltalk globals at: instance class name) isNil.\x0a\x09\x0a\x09Smalltalk removeClass: ObjectMock2",
+source: "testClassMigration\x0a\x09| instance oldClass |\x0a\x09\x0a\x09oldClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09instance := (Smalltalk globals at: 'ObjectMock2') new.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2')\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self deny: oldClass == ObjectMock2.\x0a\x09\x0a\x09self assert: ObjectMock2 superclass == ObjectMock.\x0a\x09self assert: ObjectMock2 instanceVariableNames isEmpty.\x0a\x09self assert: ObjectMock2 selectors equals: oldClass selectors.\x0a\x09self assert: ObjectMock2 comment equals: oldClass comment.\x0a\x09self assert: ObjectMock2 package name equals: 'Kernel-Tests'.\x0a\x09self assert: (ObjectMock2 package classes includes: ObjectMock2).\x0a\x09\x0a\x09self deny: instance class == ObjectMock2.\x0a\x09\x22Commeting this out. Tests implementation detail.\x22\x0a\x09\x22self assert: instance class name equals: 'OldObjectMock2'.\x22\x0a\x09\x0a\x09self assert: (Smalltalk globals at: instance class name) isNil.\x0a\x09\x0a\x09Smalltalk removeClass: ObjectMock2",
 referencedClasses: ["ObjectMock", "Smalltalk", "ObjectMock2"],
-messageSends: ["copyClass:named:", "new", "at:", "globals", "subclass:instanceVariableNames:package:", "deny:", "==", "assert:", "superclass", "isEmpty", "instanceVariableNames", "assert:equals:", "selectors", "comment", "name", "package", "class", "isNil", "removeClass:"]
+messageSends: ["copyClass:named:", "new", "at:", "globals", "subclass:instanceVariableNames:package:", "deny:", "==", "assert:", "superclass", "isEmpty", "instanceVariableNames", "assert:equals:", "selectors", "comment", "name", "package", "includes:", "classes", "class", "isNil", "removeClass:"]
 }),
 $globals.ClassBuilderTest);
 
@@ -54353,6 +55896,42 @@ args: [],
 source: "testInstanceVariableNames\x0a\x09self assert: (builder instanceVariableNamesFor: '  hello   world   ') equals: #('hello' 'world')",
 referencedClasses: [],
 messageSends: ["assert:equals:", "instanceVariableNamesFor:"]
+}),
+$globals.ClassBuilderTest);
+
+$core.addMethod(
+$core.method({
+selector: "testSubclass",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $3,$2,$1,$4;
+$self["@theClass"]=$recv($self["@builder"])._addSubclassOf_named_instanceVariableNames_package_($globals.ObjectMock,"ObjectMock2","foo bar","Kernel-Tests");
+$self._assert_equals_($recv($self["@theClass"])._superclass(),$globals.ObjectMock);
+$ctx1.sendIdx["assert:equals:"]=1;
+$self._assert_equals_($recv($self["@theClass"])._instanceVariableNames(),"foo bar");
+$ctx1.sendIdx["assert:equals:"]=2;
+$self._assert_equals_($recv($self["@theClass"])._name(),"ObjectMock2");
+$ctx1.sendIdx["assert:equals:"]=3;
+$3=$recv($self["@theClass"])._package();
+$ctx1.sendIdx["package"]=1;
+$2=$recv($3)._classes();
+$1=$recv($2)._occurrencesOf_($self["@theClass"]);
+$self._assert_equals_($1,(1));
+$ctx1.sendIdx["assert:equals:"]=4;
+$4=$recv($self["@theClass"])._package();
+$ctx1.sendIdx["package"]=2;
+$self._assert_equals_($4,$recv($globals.ObjectMock)._package());
+$ctx1.sendIdx["assert:equals:"]=5;
+$self._assert_equals_($recv($recv($recv($self["@theClass"])._methodDictionary())._keys())._size(),(0));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testSubclass",{},$globals.ClassBuilderTest)});
+},
+args: [],
+source: "testSubclass\x0a\x09theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' instanceVariableNames: 'foo bar' package: 'Kernel-Tests'.\x0a\x09self assert: theClass superclass equals: ObjectMock.\x0a\x09self assert: theClass instanceVariableNames equals: 'foo bar'.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: (theClass package classes occurrencesOf: theClass) equals: 1.\x0a\x09self assert: theClass package equals: ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys size equals: 0",
+referencedClasses: ["ObjectMock"],
+messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "assert:equals:", "superclass", "instanceVariableNames", "name", "occurrencesOf:", "classes", "package", "size", "keys", "methodDictionary"]
 }),
 $globals.ClassBuilderTest);
 
@@ -54754,7 +56333,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"collectionWithDuplicates",{},$globals.CollectionTest)});
 },
 args: [],
-source: "collectionWithDuplicates\x0a\x09\x22Answers pre-filled collection of type tested,\x0a\x09with exactly five distinct elements,\x0a\x09some of them appearing multiple times, if possible.\x22\x0a\x0a\x09self subclassResponsibility",
+source: "collectionWithDuplicates\x0a\x09\x22Answers pre-filled collection of type tested,\x0a\x09with exactly six distinct elements,\x0a\x09some of them appearing multiple times, if possible.\x22\x0a\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 messageSends: ["subclassResponsibility"]
 }),
@@ -54799,22 +56378,6 @@ args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x0a\x09sampleBlock := []",
 referencedClasses: [],
 messageSends: ["initialize"]
-}),
-$globals.CollectionTest);
-
-$core.addMethod(
-$core.method({
-selector: "isCollectionReadOnly",
-protocol: "testing",
-fn: function (){
-var self=this,$self=this;
-return false;
-
-},
-args: [],
-source: "isCollectionReadOnly\x0a\x09^ false",
-referencedClasses: [],
-messageSends: []
 }),
 $globals.CollectionTest);
 
@@ -55773,6 +57336,31 @@ $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
+selector: "testRegression1224",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $3,$2,$1;
+$3=$recv($self._collectionClass())._new();
+$recv($3)._remove_ifAbsent_($self._sampleNewValue(),(function(){
+
+}));
+$2=$recv($3)._yourself();
+$1=$recv($2)._size();
+$self._assert_equals_($1,(0));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testRegression1224",{},$globals.CollectionTest)});
+},
+args: [],
+source: "testRegression1224\x0a\x09self assert: (self collectionClass new\x0a\x09\x09remove: self sampleNewValue ifAbsent: [];\x0a\x09\x09yourself) size equals: 0",
+referencedClasses: [],
+messageSends: ["assert:equals:", "size", "remove:ifAbsent:", "new", "collectionClass", "sampleNewValue", "yourself"]
+}),
+$globals.CollectionTest);
+
+$core.addMethod(
+$core.method({
 selector: "testRemoveAll",
 protocol: "tests",
 fn: function (){
@@ -56057,6 +57645,24 @@ $globals.IndexableCollectionTest);
 
 $core.addMethod(
 $core.method({
+selector: "nonIndexesDo:",
+protocol: "fixture",
+fn: function (aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"nonIndexesDo:",{aBlock:aBlock},$globals.IndexableCollectionTest)});
+},
+args: ["aBlock"],
+source: "nonIndexesDo: aBlock\x0a\x09\x22Executes block a few times,\x0a\x09each time passing value that is known\x0a\x09not to be an index, as the first parameter\x22\x0a\x09\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.IndexableCollectionTest);
+
+$core.addMethod(
+$core.method({
 selector: "sampleNewIndex",
 protocol: "fixture",
 fn: function (){
@@ -56068,24 +57674,6 @@ return self;
 },
 args: [],
 source: "sampleNewIndex\x0a\x09\x22Answers a value that can be used as index in at:put: or at:ifAbsentPut:\x22\x0a\x09\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-messageSends: ["subclassResponsibility"]
-}),
-$globals.IndexableCollectionTest);
-
-$core.addMethod(
-$core.method({
-selector: "sampleNonIndexesDo:",
-protocol: "fixture",
-fn: function (aBlock){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._subclassResponsibility();
-return self;
-}, function($ctx1) {$ctx1.fill(self,"sampleNonIndexesDo:",{aBlock:aBlock},$globals.IndexableCollectionTest)});
-},
-args: ["aBlock"],
-source: "sampleNonIndexesDo: aBlock\x0a\x09\x22Executes block a few times,\x0a\x09each time passing value that is known\x0a\x09not to be an index, as the first parameter\x22\x0a\x09\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 messageSends: ["subclassResponsibility"]
 }),
@@ -59039,6 +60627,34 @@ $globals.StringTest);
 
 $core.addMethod(
 $core.method({
+selector: "testRegression1224",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $2,$1;
+$self._should_raise_((function(){
+return $core.withContext(function($ctx2) {
+$2=$recv($self._collectionClass())._new();
+$recv($2)._remove_ifAbsent_($self._sampleNewValue(),(function(){
+
+}));
+$1=$recv($2)._yourself();
+return $recv($1)._size();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}),$globals.Error);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testRegression1224",{},$globals.StringTest)});
+},
+args: [],
+source: "testRegression1224\x0a\x09\x22String instances are read-only\x22\x0a\x09self should: [ (self collectionClass new\x0a\x09\x09remove: self sampleNewValue ifAbsent: [];\x0a\x09\x09yourself) size ] raise: Error",
+referencedClasses: ["Error"],
+messageSends: ["should:raise:", "size", "remove:ifAbsent:", "new", "collectionClass", "sampleNewValue", "yourself"]
+}),
+$globals.StringTest);
+
+$core.addMethod(
+$core.method({
 selector: "testRemoveAll",
 protocol: "tests",
 fn: function (){
@@ -61039,6 +62655,40 @@ $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
+selector: "testBetweenAnd",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1,$3,$2,$5,$4;
+$1=(4)._between_and_((3),(5));
+$ctx1.sendIdx["between:and:"]=1;
+$self._assert_($1);
+$ctx1.sendIdx["assert:"]=1;
+$3=(1)._between_and_((5),(6));
+$ctx1.sendIdx["between:and:"]=2;
+$2=$recv($3)._not();
+$ctx1.sendIdx["not"]=1;
+$self._assert_($2);
+$ctx1.sendIdx["assert:"]=2;
+$5=(90)._between_and_((67),(87));
+$ctx1.sendIdx["between:and:"]=3;
+$4=$recv($5)._not();
+$self._assert_($4);
+$ctx1.sendIdx["assert:"]=3;
+$self._assert_((1)._between_and_((1),(1)));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testBetweenAnd",{},$globals.NumberTest)});
+},
+args: [],
+source: "testBetweenAnd\x0a\x09self assert: (4 between: 3 and: 5).\x0a\x09self assert: (1 between: 5 and: 6) not.\x0a\x09self assert: (90 between: 67 and: 87) not.\x0a\x09self assert: (1 between: 1 and: 1).",
+referencedClasses: [],
+messageSends: ["assert:", "between:and:", "not"]
+}),
+$globals.NumberTest);
+
+$core.addMethod(
+$core.method({
 selector: "testCeiling",
 protocol: "tests",
 fn: function (){
@@ -61124,6 +62774,24 @@ args: [],
 source: "testCopying\x0a\x09self assert: 1 copy == 1.\x0a\x09self assert: 1 deepCopy == 1",
 referencedClasses: [],
 messageSends: ["assert:", "==", "copy", "deepCopy"]
+}),
+$globals.NumberTest);
+
+$core.addMethod(
+$core.method({
+selector: "testDegreesToRadians",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._assert_($recv($recv($recv((180)._degreesToRadians()).__minus($recv($globals.Number)._pi()))._abs()).__lt_eq((0.01)));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testDegreesToRadians",{},$globals.NumberTest)});
+},
+args: [],
+source: "testDegreesToRadians\x0a\x09self assert: (180 degreesToRadians - Number pi) abs <= 0.01.",
+referencedClasses: ["Number"],
+messageSends: ["assert:", "<=", "abs", "-", "degreesToRadians", "pi"]
 }),
 $globals.NumberTest);
 
@@ -61594,16 +63262,27 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
+var $1,$2;
 $self._assert_equals_((2)._max_((5)),(5));
 $ctx1.sendIdx["assert:equals:"]=1;
 $self._assert_equals_((2)._min_((5)),(2));
+$ctx1.sendIdx["assert:equals:"]=2;
+$1=(2)._min_max_((5),(3));
+$ctx1.sendIdx["min:max:"]=1;
+$self._assert_equals_($1,(3));
+$ctx1.sendIdx["assert:equals:"]=3;
+$2=(7)._min_max_((5),(3));
+$ctx1.sendIdx["min:max:"]=2;
+$self._assert_equals_($2,(5));
+$ctx1.sendIdx["assert:equals:"]=4;
+$self._assert_equals_((4)._min_max_((5),(3)),(4));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testMinMax",{},$globals.NumberTest)});
 },
 args: [],
-source: "testMinMax\x0a\x09\x0a\x09self assert: (2 max: 5) equals: 5.\x0a\x09self assert: (2 min: 5) equals: 2",
+source: "testMinMax\x0a\x09\x0a\x09self assert: (2 max: 5) equals: 5.\x0a\x09self assert: (2 min: 5) equals: 2.\x0a\x09self assert: (2 min: 5 max: 3) equals: 3.\x0a\x09self assert: (7 min: 5 max: 3) equals: 5.\x0a\x09self assert: (4 min: 5 max: 3) equals: 4.",
 referencedClasses: [],
-messageSends: ["assert:equals:", "max:", "min:"]
+messageSends: ["assert:equals:", "max:", "min:", "min:max:"]
 }),
 $globals.NumberTest);
 
@@ -61700,6 +63379,24 @@ args: [],
 source: "testPrintShowingDecimalPlaces\x0a\x09self assert: (23 printShowingDecimalPlaces: 2) equals: '23.00'.\x0a\x09self assert: (23.5698 printShowingDecimalPlaces: 2) equals: '23.57'.\x0a\x09self assert: (234.567 negated printShowingDecimalPlaces: 5) equals: '-234.56700'.\x0a\x09self assert: (23.4567 printShowingDecimalPlaces: 0) equals: '23'.\x0a\x09self assert: (23.5567 printShowingDecimalPlaces: 0) equals: '24'.\x0a\x09self assert: (23.4567 negated printShowingDecimalPlaces: 0) equals: '-23'.\x0a\x09self assert: (23.5567 negated printShowingDecimalPlaces: 0) equals: '-24'.\x0a\x09self assert: (100000000 printShowingDecimalPlaces: 1) equals: '100000000.0'.\x0a\x09self assert: (0.98 printShowingDecimalPlaces: 5) equals: '0.98000'.\x0a\x09self assert: (0.98 negated printShowingDecimalPlaces: 2) equals: '-0.98'.\x0a\x09self assert: (2.567 printShowingDecimalPlaces: 2) equals: '2.57'.\x0a\x09self assert: (-2.567 printShowingDecimalPlaces: 2) equals: '-2.57'.\x0a\x09self assert: (0 printShowingDecimalPlaces: 2) equals: '0.00'.",
 referencedClasses: [],
 messageSends: ["assert:equals:", "printShowingDecimalPlaces:", "negated"]
+}),
+$globals.NumberTest);
+
+$core.addMethod(
+$core.method({
+selector: "testRadiansToDegrees",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._assert_($recv($recv($recv($recv($recv($globals.Number)._pi())._radiansToDegrees()).__minus((180)))._abs()).__lt_eq((0.01)));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testRadiansToDegrees",{},$globals.NumberTest)});
+},
+args: [],
+source: "testRadiansToDegrees\x0a\x09self assert: (Number pi radiansToDegrees - 180) abs <= 0.01.",
+referencedClasses: ["Number"],
+messageSends: ["assert:", "<=", "abs", "-", "radiansToDegrees", "pi"]
 }),
 $globals.NumberTest);
 
@@ -61918,6 +63615,7 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
+var $1;
 $self._assert_equals_((0)._cos(),(1));
 $ctx1.sendIdx["assert:equals:"]=1;
 $self._assert_equals_((0)._sin(),(0));
@@ -61929,13 +63627,19 @@ $ctx1.sendIdx["assert:equals:"]=4;
 $self._assert_equals_((0)._arcSin(),(0));
 $ctx1.sendIdx["assert:equals:"]=5;
 $self._assert_equals_((0)._arcTan(),(0));
+$ctx1.sendIdx["assert:equals:"]=6;
+$1=(0)._arcTan_((1));
+$ctx1.sendIdx["arcTan:"]=1;
+$self._assert_equals_($1,(0));
+$ctx1.sendIdx["assert:equals:"]=7;
+$self._assert_equals_((1)._arcTan_((0)),$recv($recv($globals.Number)._pi()).__slash((2)));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testTrigonometry",{},$globals.NumberTest)});
 },
 args: [],
-source: "testTrigonometry\x0a\x09self assert: 0 cos equals: 1.\x0a\x09self assert: 0 sin equals: 0.\x0a\x09self assert: 0 tan equals: 0.\x0a\x09self assert: 1 arcCos equals: 0.\x0a\x09self assert: 0 arcSin equals: 0.\x0a\x09self assert: 0 arcTan equals: 0.",
-referencedClasses: [],
-messageSends: ["assert:equals:", "cos", "sin", "tan", "arcCos", "arcSin", "arcTan"]
+source: "testTrigonometry\x0a\x09self assert: 0 cos equals: 1.\x0a\x09self assert: 0 sin equals: 0.\x0a\x09self assert: 0 tan equals: 0.\x0a\x09self assert: 1 arcCos equals: 0.\x0a\x09self assert: 0 arcSin equals: 0.\x0a\x09self assert: 0 arcTan equals: 0.\x0a\x09\x0a\x09self assert: (0 arcTan: 1) equals: 0.\x0a\x09self assert: (1 arcTan: 0) equals: (Number pi / 2)",
+referencedClasses: ["Number"],
+messageSends: ["assert:equals:", "cos", "sin", "tan", "arcCos", "arcSin", "arcTan", "arcTan:", "/", "pi"]
 }),
 $globals.NumberTest);
 
@@ -62321,39 +64025,6 @@ messageSends: ["new", "assert:", "==", "yourself"]
 }),
 $globals.ObjectTest);
 
-$core.addMethod(
-$core.method({
-selector: "testidentityHash",
-protocol: "tests",
-fn: function (){
-var self=this,$self=this;
-var o1,o2;
-return $core.withContext(function($ctx1) {
-var $2,$3,$1,$5,$4;
-o1=$recv($globals.Object)._new();
-$ctx1.sendIdx["new"]=1;
-o2=$recv($globals.Object)._new();
-$2=$recv(o1)._identityHash();
-$ctx1.sendIdx["identityHash"]=1;
-$3=$recv(o1)._identityHash();
-$ctx1.sendIdx["identityHash"]=2;
-$1=$recv($2).__eq_eq($3);
-$ctx1.sendIdx["=="]=1;
-$self._assert_($1);
-$5=$recv(o1)._identityHash();
-$ctx1.sendIdx["identityHash"]=3;
-$4=$recv($5).__eq_eq($recv(o2)._identityHash());
-$self._deny_($4);
-return self;
-}, function($ctx1) {$ctx1.fill(self,"testidentityHash",{o1:o1,o2:o2},$globals.ObjectTest)});
-},
-args: [],
-source: "testidentityHash\x0a\x09| o1 o2 |\x0a\x09\x0a\x09o1 := Object new.\x0a\x09o2 := Object new.\x0a\x0a\x09self assert: o1 identityHash == o1 identityHash.\x0a\x09self deny: o1 identityHash == o2 identityHash",
-referencedClasses: ["Object"],
-messageSends: ["new", "assert:", "==", "identityHash", "deny:"]
-}),
-$globals.ObjectTest);
-
 
 
 $core.addClass("PointTest", $globals.TestCase, [], "Kernel-Tests");
@@ -62389,6 +64060,24 @@ args: [],
 source: "testAccessing\x0a\x09self assert: (Point x: 3 y: 4) x equals: 3.\x0a\x09self assert: (Point x: 3 y: 4) y equals: 4.\x0a\x09self assert: (Point new x: 3) x equals: 3.\x0a\x09self assert: (Point new y: 4) y equals: 4",
 referencedClasses: ["Point"],
 messageSends: ["assert:equals:", "x", "x:y:", "y", "x:", "new", "y:"]
+}),
+$globals.PointTest);
+
+$core.addMethod(
+$core.method({
+selector: "testAngle",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._assert_equals_($recv((-1).__at((0)))._angle(),$recv($globals.Number)._pi());
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testAngle",{},$globals.PointTest)});
+},
+args: [],
+source: "testAngle\x0a\x09self assert: (-1@0) angle equals: Number pi",
+referencedClasses: ["Number"],
+messageSends: ["assert:equals:", "angle", "@", "pi"]
 }),
 $globals.PointTest);
 
@@ -62535,6 +64224,28 @@ $globals.PointTest);
 
 $core.addMethod(
 $core.method({
+selector: "testDotProduct",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $2,$1;
+$2=(2).__at((3));
+$ctx1.sendIdx["@"]=1;
+$1=$recv($2)._dotProduct_((3).__at((7)));
+$self._assert_equals_($1,(27));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testDotProduct",{},$globals.PointTest)});
+},
+args: [],
+source: "testDotProduct\x0a\x09self assert: (2@3 dotProduct: 3@7) equals: 27",
+referencedClasses: [],
+messageSends: ["assert:equals:", "dotProduct:", "@"]
+}),
+$globals.PointTest);
+
+$core.addMethod(
+$core.method({
 selector: "testEgality",
 protocol: "tests",
 fn: function (){
@@ -62601,6 +64312,134 @@ args: [],
 source: "testNew\x0a\x0a\x09self assert: (Point new x: 3) y equals: nil.\x0a\x09self deny: (Point new x: 3) x = 0.\x0a\x09self assert: (Point new y: 4) x equals: nil.\x0a\x09self deny: (Point new y: 4) y = 0",
 referencedClasses: ["Point"],
 messageSends: ["assert:equals:", "y", "x:", "new", "deny:", "=", "x", "y:"]
+}),
+$globals.PointTest);
+
+$core.addMethod(
+$core.method({
+selector: "testNormal",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $2,$1;
+$2=(1).__at((0));
+$ctx1.sendIdx["@"]=1;
+$1=$recv($2)._normal();
+$self._assert_equals_($1,(0).__at((1)));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testNormal",{},$globals.PointTest)});
+},
+args: [],
+source: "testNormal\x0a\x09self assert: (1@0) normal equals: 0@1",
+referencedClasses: [],
+messageSends: ["assert:equals:", "normal", "@"]
+}),
+$globals.PointTest);
+
+$core.addMethod(
+$core.method({
+selector: "testNormalized",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $2,$1,$3,$5,$4;
+$2=(0).__at((2));
+$ctx1.sendIdx["@"]=1;
+$1=$recv($2)._normalized();
+$ctx1.sendIdx["normalized"]=1;
+$3=(0).__at((1));
+$ctx1.sendIdx["@"]=2;
+$self._assert_equals_($1,$3);
+$ctx1.sendIdx["assert:equals:"]=1;
+$5=(0).__at((0));
+$ctx1.sendIdx["@"]=3;
+$4=$recv($5)._normalized();
+$self._assert_equals_($4,(0).__at((0)));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testNormalized",{},$globals.PointTest)});
+},
+args: [],
+source: "testNormalized\x0a\x09self assert: (0@2) normalized equals: 0@1.\x0a\x09self assert: (0@0) normalized equals: 0@0.",
+referencedClasses: [],
+messageSends: ["assert:equals:", "normalized", "@"]
+}),
+$globals.PointTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPolarCoordinates",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $2,$1;
+$2=(1).__at((0));
+$ctx1.sendIdx["@"]=1;
+$1=$recv($2)._r();
+$ctx1.sendIdx["r"]=1;
+$self._assert_equals_($1,(1));
+$ctx1.sendIdx["assert:equals:"]=1;
+$self._assert_equals_($recv((0).__at((0)))._r(),(0));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testPolarCoordinates",{},$globals.PointTest)});
+},
+args: [],
+source: "testPolarCoordinates\x0a\x09self assert: (1@0) r equals: 1.\x0a\x09self assert: (0@0) r equals: 0.",
+referencedClasses: [],
+messageSends: ["assert:equals:", "r", "@"]
+}),
+$globals.PointTest);
+
+$core.addMethod(
+$core.method({
+selector: "testRectangleCreation",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $2,$3,$1,$5,$6,$4,$8,$9,$7,$11,$12,$10,$14,$15,$13,$17,$16;
+$2=(1).__at((1));
+$ctx1.sendIdx["@"]=1;
+$3=(2).__at((2));
+$ctx1.sendIdx["@"]=2;
+$1=$recv($2)._corner_($3);
+$5=(1).__at((1));
+$ctx1.sendIdx["@"]=3;
+$6=(2).__at((2));
+$ctx1.sendIdx["@"]=4;
+$4=$recv($globals.Rectangle)._origin_corner_($5,$6);
+$self._assert_equals_($1,$4);
+$ctx1.sendIdx["assert:equals:"]=1;
+$8=(1).__at((1));
+$ctx1.sendIdx["@"]=5;
+$9=(2).__at((2));
+$ctx1.sendIdx["@"]=6;
+$7=$recv($8)._rectangle_($9);
+$11=(1).__at((1));
+$ctx1.sendIdx["@"]=7;
+$12=(2).__at((2));
+$ctx1.sendIdx["@"]=8;
+$10=$recv($globals.Rectangle)._point_point_($11,$12);
+$self._assert_equals_($7,$10);
+$ctx1.sendIdx["assert:equals:"]=2;
+$14=(1).__at((1));
+$ctx1.sendIdx["@"]=9;
+$15=(2).__at((2));
+$ctx1.sendIdx["@"]=10;
+$13=$recv($14)._extent_($15);
+$17=(1).__at((1));
+$ctx1.sendIdx["@"]=11;
+$16=$recv($globals.Rectangle)._origin_extent_($17,(2).__at((2)));
+$self._assert_equals_($13,$16);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testRectangleCreation",{},$globals.PointTest)});
+},
+args: [],
+source: "testRectangleCreation\x0a\x09self assert: (1@1 corner: 2@2) equals: (Rectangle origin: 1@1 corner: 2@2).\x0a\x09self assert: (1@1 rectangle: 2@2) equals: (Rectangle point: 1@1 point: 2@2).\x0a\x09self assert: (1@1 extent: 2@2) equals: (Rectangle origin: 1@1 extent: 2@2)",
+referencedClasses: ["Rectangle"],
+messageSends: ["assert:equals:", "corner:", "@", "origin:corner:", "rectangle:", "point:point:", "extent:", "origin:extent:"]
 }),
 $globals.PointTest);
 
@@ -62822,6 +64661,117 @@ referencedClasses: ["Random"],
 messageSends: ["timesRepeat:", "next", "new", "assert:", ">=", "<", "deny:", "="]
 }),
 $globals.RandomTest);
+
+
+
+$core.addClass("RectangleTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addMethod(
+$core.method({
+selector: "testContainsPoint",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+var rect;
+return $core.withContext(function($ctx1) {
+var $1,$2,$4,$5,$3;
+$1=(0).__at((0));
+$ctx1.sendIdx["@"]=1;
+$2=(4).__at((4));
+$ctx1.sendIdx["@"]=2;
+rect=$recv($globals.Rectangle)._origin_corner_($1,$2);
+$4=rect;
+$5=(1).__at((2));
+$ctx1.sendIdx["@"]=3;
+$3=$recv($4)._containsPoint_($5);
+$ctx1.sendIdx["containsPoint:"]=1;
+$self._assert_($3);
+$ctx1.sendIdx["assert:"]=1;
+$self._assert_($recv($recv(rect)._containsPoint_((5).__at((4))))._not());
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testContainsPoint",{rect:rect},$globals.RectangleTest)});
+},
+args: [],
+source: "testContainsPoint\x0a\x09| rect |\x0a\x09rect := Rectangle origin: 0@0 corner: 4@4.\x0a\x09\x0a\x09self assert: (rect containsPoint: 1@2).\x0a\x09self assert: (rect containsPoint: 5@4) not.",
+referencedClasses: ["Rectangle"],
+messageSends: ["origin:corner:", "@", "assert:", "containsPoint:", "not"]
+}),
+$globals.RectangleTest);
+
+$core.addMethod(
+$core.method({
+selector: "testContainsRect",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $3,$4,$2,$6,$7,$5,$1,$11,$12,$10,$14,$13,$9,$8;
+$3=(0).__at((0));
+$ctx1.sendIdx["@"]=1;
+$4=(6).__at((6));
+$ctx1.sendIdx["@"]=2;
+$2=$recv($globals.Rectangle)._origin_corner_($3,$4);
+$ctx1.sendIdx["origin:corner:"]=1;
+$6=(1).__at((1));
+$ctx1.sendIdx["@"]=3;
+$7=(5).__at((5));
+$ctx1.sendIdx["@"]=4;
+$5=$recv($globals.Rectangle)._origin_corner_($6,$7);
+$ctx1.sendIdx["origin:corner:"]=2;
+$1=$recv($2)._containsRect_($5);
+$ctx1.sendIdx["containsRect:"]=1;
+$self._assert_($1);
+$ctx1.sendIdx["assert:"]=1;
+$11=(0).__at((0));
+$ctx1.sendIdx["@"]=5;
+$12=(6).__at((6));
+$ctx1.sendIdx["@"]=6;
+$10=$recv($globals.Rectangle)._origin_corner_($11,$12);
+$ctx1.sendIdx["origin:corner:"]=3;
+$14=(1).__at((-1));
+$ctx1.sendIdx["@"]=7;
+$13=$recv($globals.Rectangle)._origin_corner_($14,(5).__at((5)));
+$9=$recv($10)._containsRect_($13);
+$8=$recv($9)._not();
+$self._assert_($8);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testContainsRect",{},$globals.RectangleTest)});
+},
+args: [],
+source: "testContainsRect\x0a\x09self assert: ((Rectangle origin: 0@0 corner: 6@6) containsRect: (Rectangle origin: 1@1 corner: 5@5)).\x0a\x09self assert: ((Rectangle origin: 0@0 corner: 6@6) containsRect: (Rectangle origin: 1@(-1) corner: 5@5)) not.",
+referencedClasses: ["Rectangle"],
+messageSends: ["assert:", "containsRect:", "origin:corner:", "@", "not"]
+}),
+$globals.RectangleTest);
+
+$core.addMethod(
+$core.method({
+selector: "testOriginExtent",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+var rectangle;
+return $core.withContext(function($ctx1) {
+var $1,$2,$3,$4;
+$1=(3).__at((4));
+$ctx1.sendIdx["@"]=1;
+$2=(7).__at((8));
+$ctx1.sendIdx["@"]=2;
+rectangle=$recv($globals.Rectangle)._origin_extent_($1,$2);
+$3=$recv(rectangle)._origin();
+$4=(3).__at((4));
+$ctx1.sendIdx["@"]=3;
+$self._assert_equals_($3,$4);
+$ctx1.sendIdx["assert:equals:"]=1;
+$self._assert_equals_($recv(rectangle)._corner(),(10).__at((12)));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testOriginExtent",{rectangle:rectangle},$globals.RectangleTest)});
+},
+args: [],
+source: "testOriginExtent\x0a\x09| rectangle |\x0a\x09rectangle := Rectangle origin: 3@4 extent: 7@8.\x0a\x09\x0a\x09self assert: rectangle origin equals: 3@4.\x0a\x09self assert: rectangle corner equals: 10@12.",
+referencedClasses: ["Rectangle"],
+messageSends: ["origin:extent:", "@", "assert:equals:", "origin", "corner"]
+}),
+$globals.RectangleTest);
 
 
 
@@ -64050,11 +66000,12 @@ $globals.SUnitAsyncTest);
 
 define('amber/devel',[
     './lang',
-    './compatibility', // pre-fetch, dep of ./boot
+    './compatibility', // pre-fetch, dep of ./boot, TODO remove
+    './brikz', // pre-fetch, dep of ./boot
+    './kernel-checks', // pre-fetch, dep of ./boot
     './kernel-fundamentals', // pre-fetch, dep of ./boot
     './kernel-language', // pre-fetch, dep of ./boot
-    './boot', // pre-fetch, dep of ./helpers
-    './helpers', // pre-fetch, dep of ./deploy
+    './boot', // pre-fetch, class loader
     './deploy', // pre-fetch, dep of ./lang
     // --- packages of the development only Amber begin here ---
     'amber_core/Platform-DOM',
@@ -64066,6 +66017,99 @@ define('amber/devel',[
     // --- packages of the development only Amber end here ---
 ], function (amber) {
     return amber;
+});
+
+define('amber_core/Platform-Node',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
+if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
+if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
+if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
+$core.addPackage("Platform-Node");
+$core.packages["Platform-Node"].innerEval = function (expr) { return eval(expr); };
+$core.packages["Platform-Node"].transport = {"type":"amd","amdNamespace":"amber_core"};
+
+$core.addClass("NodePlatform", $globals.Object, [], "Platform-Node");
+$globals.NodePlatform.comment="I am `Platform` service implementation for node-like environment.";
+$core.addMethod(
+$core.method({
+selector: "globals",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return global;
+
+},
+args: [],
+source: "globals\x0a\x09^ global",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.NodePlatform);
+
+$core.addMethod(
+$core.method({
+selector: "newXhr",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $receiver;
+if(($receiver = $globals.XMLHttpRequest) == null || $receiver.a$nil){
+$self._error_("XMLHttpRequest not available.");
+} else {
+return $recv($globals.XMLHttpRequest)._new();
+}
+return self;
+}, function($ctx1) {$ctx1.fill(self,"newXhr",{},$globals.NodePlatform)});
+},
+args: [],
+source: "newXhr\x0a\x09XMLHttpRequest\x0a\x09\x09ifNotNil: [ ^ XMLHttpRequest new ]\x0a\x09\x09ifNil: [ self error: 'XMLHttpRequest not available.' ]",
+referencedClasses: ["XMLHttpRequest"],
+messageSends: ["ifNotNil:ifNil:", "new", "error:"]
+}),
+$globals.NodePlatform);
+
+
+$core.addMethod(
+$core.method({
+selector: "initialize",
+protocol: "testing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=$self._isFeasible();
+if($core.assert($1)){
+$recv($globals.Platform)._registerIfNone_($self._new());
+}
+return self;
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.NodePlatform.a$cls)});
+},
+args: [],
+source: "initialize\x0a\x09self isFeasible ifTrue: [ Platform registerIfNone: self new ]",
+referencedClasses: ["Platform"],
+messageSends: ["ifTrue:", "isFeasible", "registerIfNone:", "new"]
+}),
+$globals.NodePlatform.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "isFeasible",
+protocol: "testing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return typeof global !== "undefined";
+return self;
+}, function($ctx1) {$ctx1.fill(self,"isFeasible",{},$globals.NodePlatform.a$cls)});
+},
+args: [],
+source: "isFeasible\x0a<inlineJS: 'return typeof global !== \x22undefined\x22'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.NodePlatform.a$cls);
+
 });
 
 define('amber_cli/AmberCli',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
@@ -66670,521 +68714,12 @@ $globals.Repl.a$cls);
 });
 
 (function () {
-                            define('app',["amber/devel", "amber_cli/AmberCli"], function (amber) {
+                            define('__app__',["amber/devel", "amber_core/Platform-Node", "amber_cli/AmberCli"], function (amber) {
                                 amber.initialize().then(function () {
                                     amber.globals.AmberCli._main();
                                 });
                             });
                         }());
-//jshint eqnull:true
-
-define('amber/kernel-runtime',[],function () {
-    "use strict";
-
-    function defineMethod (klass, name, method) {
-        Object.defineProperty(klass.prototype, name, {
-            value: method,
-            enumerable: false, configurable: true, writable: true
-        });
-    }
-
-    DNUBrik.deps = ["selectors", "messageSend", "manipulation", "classes"];
-    function DNUBrik (brikz, st) {
-        var selectorsBrik = brikz.selectors;
-        var messageNotUnderstood = brikz.messageSend.messageNotUnderstood;
-        var installJSMethod = brikz.manipulation.installJSMethod;
-        var nilAsClass = brikz.classes.nilAsClass;
-
-        /* Method not implemented handlers */
-
-        function makeDnuHandler (pair, targetClasses) {
-            var jsSelector = pair.js;
-            var fn = createHandler(pair.st);
-            installJSMethod(nilAsClass.fn.prototype, jsSelector, fn);
-            targetClasses.forEach(function (target) {
-                installJSMethod(target.fn.prototype, jsSelector, fn);
-            });
-        }
-
-        this.makeDnuHandler = makeDnuHandler;
-
-        /* Dnu handler method */
-
-        function createHandler (stSelector) {
-            return function () {
-                return messageNotUnderstood(this, stSelector, arguments);
-            };
-        }
-
-        selectorsBrik.selectorPairs.forEach(function (pair) {
-            makeDnuHandler(pair, []);
-        });
-    }
-
-    function ManipulationBrik (brikz, st) {
-        function installJSMethod (obj, jsSelector, fn) {
-            Object.defineProperty(obj, jsSelector, {
-                value: fn,
-                enumerable: false, configurable: true, writable: true
-            });
-        }
-
-        function installMethod (method, klass) {
-            installJSMethod(klass.fn.prototype, method.jsSelector, method.fn);
-        }
-
-        this.installMethod = installMethod;
-        this.installJSMethod = installJSMethod;
-    }
-
-    RuntimeClassesBrik.deps = ["selectors", "dnu", "behaviors", "classes", "manipulation"];
-    function RuntimeClassesBrik (brikz, st) {
-        var selectors = brikz.selectors;
-        var classes = brikz.behaviors.classes;
-        var wireKlass = brikz.classes.wireKlass;
-        var installMethod = brikz.manipulation.installMethod;
-        var installJSMethod = brikz.manipulation.installJSMethod;
-
-        var detachedRootClasses = [];
-
-        function markClassDetachedRoot (klass) {
-            klass.detachedRoot = true;
-            detachedRootClasses = classes().filter(function (klass) {
-                return klass.detachedRoot;
-            });
-        }
-
-        this.detachedRootClasses = function () {
-            return detachedRootClasses;
-        };
-
-        /* Initialize a class in its class hierarchy. Handle both classes and
-         metaclasses. */
-
-        function initClassAndMetaclass (klass) {
-            initClass(klass);
-            if (klass.a$cls && !klass.meta) {
-                initClass(klass.a$cls);
-            }
-        }
-
-        classes().forEach(function (klass) {
-            if (!klass.trait) initClassAndMetaclass(klass);
-        });
-
-        st._classAdded = initClassAndMetaclass;
-
-        function initClass (klass) {
-            wireKlass(klass);
-            if (klass.detachedRoot) {
-                copySuperclass(klass);
-            }
-            installMethods(klass);
-        }
-
-        function copySuperclass (klass) {
-            var myproto = klass.fn.prototype,
-                superproto = klass.superclass.fn.prototype;
-            selectors.selectorPairs.forEach(function (selectorPair) {
-                var jsSelector = selectorPair.js;
-                installJSMethod(myproto, jsSelector, superproto[jsSelector]);
-            });
-        }
-
-        function installMethods (klass) {
-            var methods = klass.methods;
-            Object.keys(methods).forEach(function (selector) {
-                installMethod(methods[selector], klass);
-            });
-        }
-
-        /* Manually set the constructor of an existing Smalltalk klass, making it a detached root class. */
-
-        st.setClassConstructor = this.setClassConstructor = function (klass, constructor) {
-            markClassDetachedRoot(klass);
-            klass.fn = constructor;
-            initClass(klass);
-        };
-    }
-
-    FrameBindingBrik.deps = ["smalltalkGlobals", "runtimeClasses"];
-    function FrameBindingBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
-        var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
-
-        setClassConstructor(globals.Number, Number);
-        setClassConstructor(globals.BlockClosure, Function);
-        setClassConstructor(globals.Boolean, Boolean);
-        setClassConstructor(globals.Date, Date);
-        setClassConstructor(globals.String, String);
-        setClassConstructor(globals.Array, Array);
-        setClassConstructor(globals.RegularExpression, RegExp);
-        setClassConstructor(globals.Error, Error);
-        setClassConstructor(globals.Promise, Promise);
-
-        this.__init__ = function () {
-            st.alias(globals.Array, "OrderedCollection");
-            st.alias(globals.Date, "Time");
-        }
-    }
-
-    RuntimeMethodsBrik.deps = ["manipulation", "dnu", "runtimeClasses"];
-    function RuntimeMethodsBrik (brikz, st) {
-        var installMethod = brikz.manipulation.installMethod;
-        var installJSMethod = brikz.manipulation.installJSMethod;
-        var makeDnuHandler = brikz.dnu.makeDnuHandler;
-        var detachedRootClasses = brikz.runtimeClasses.detachedRootClasses;
-
-        st._methodAdded = function (method, klass) {
-            installMethod(method, klass);
-            propagateMethodChange(klass, method, klass);
-        };
-
-        st._selectorsAdded = function (newSelectors) {
-            var targetClasses = detachedRootClasses();
-            newSelectors.forEach(function (pair) {
-                makeDnuHandler(pair, targetClasses);
-            });
-        };
-
-        st._methodRemoved = function (method, klass) {
-            delete klass.fn.prototype[method.jsSelector];
-            propagateMethodChange(klass, method, null);
-        };
-
-        function propagateMethodChange (klass, method, exclude) {
-            var selector = method.selector;
-            var jsSelector = method.jsSelector;
-            st.traverseClassTree(klass, function (subclass, sentinel) {
-                if (subclass != exclude) {
-                    if (initMethodInClass(subclass, selector, jsSelector)) return sentinel;
-                }
-            });
-        }
-
-        function initMethodInClass (klass, selector, jsSelector) {
-            if (klass.methods[selector]) return true;
-            if (klass.detachedRoot) {
-                installJSMethod(klass.fn.prototype, jsSelector, klass.superclass.fn.prototype[jsSelector]);
-            }
-        }
-    }
-
-    PrimitivesBrik.deps = ["smalltalkGlobals"];
-    function PrimitivesBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
-
-        var oid = 0;
-        /* Unique ID number generator */
-        st.nextId = function () {
-            oid += 1;
-            return oid;
-        };
-
-        /* Converts a JavaScript object to valid Smalltalk Object */
-        st.readJSObject = function (js) {
-            if (js == null)
-                return null;
-            var readObject = js.constructor === Object;
-            var readArray = js.constructor === Array;
-            var object = readObject ? globals.Dictionary._new() : readArray ? [] : js;
-
-            for (var i in js) {
-                if (readObject) {
-                    object._at_put_(i, st.readJSObject(js[i]));
-                }
-                if (readArray) {
-                    object[i] = st.readJSObject(js[i]);
-                }
-            }
-            return object;
-        };
-
-        /* Boolean assertion */
-        st.assert = function (shouldBeBoolean) {
-            if (typeof shouldBeBoolean === "boolean") return shouldBeBoolean;
-            else if (shouldBeBoolean != null && typeof shouldBeBoolean === "object") {
-                shouldBeBoolean = shouldBeBoolean.valueOf();
-                if (typeof shouldBeBoolean === "boolean") return shouldBeBoolean;
-            }
-            globals.NonBooleanReceiver._new()._object_(shouldBeBoolean)._signal();
-        };
-
-        /* List of all reserved words in JavaScript. They may not be used as variables
-         in Smalltalk. */
-
-        // list of reserved JavaScript keywords as of
-        //   http://es5.github.com/#x7.6.1.1
-        // and
-        //   http://people.mozilla.org/~jorendorff/es6-draft.html#sec-7.6.1
-        st.reservedWords = ['break', 'case', 'catch', 'continue', 'debugger',
-            'default', 'delete', 'do', 'else', 'finally', 'for', 'function',
-            'if', 'in', 'instanceof', 'new', 'return', 'switch', 'this', 'throw',
-            'try', 'typeof', 'var', 'void', 'while', 'with',
-            // Amber protected words: these should not be compiled as-is when in code
-            'arguments',
-            // ES5: future use: http://es5.github.com/#x7.6.1.2
-            'class', 'const', 'enum', 'export', 'extends', 'import', 'super',
-            // ES5: future use in strict mode
-            'implements', 'interface', 'let', 'package', 'private', 'protected',
-            'public', 'static', 'yield'];
-
-        st.globalJsVariables = ['window', 'document', 'process', 'global'];
-    }
-
-    RuntimeBrik.deps = ["selectorConversion", "smalltalkGlobals", "runtimeClasses"];
-    function RuntimeBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
-        var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
-
-        function SmalltalkMethodContext (home, setup) {
-            this.sendIdx = {};
-            this.homeContext = home;
-            this.setup = setup || function () {
-                };
-
-            this.supercall = false;
-        }
-
-        // Fallbacks
-        SmalltalkMethodContext.prototype.locals = {};
-        SmalltalkMethodContext.prototype.receiver = null;
-        SmalltalkMethodContext.prototype.selector = null;
-        SmalltalkMethodContext.prototype.lookupClass = null;
-
-        defineMethod(SmalltalkMethodContext, "fill", function (receiver, selector, locals, lookupClass) {
-            this.receiver = receiver;
-            this.selector = selector;
-            this.locals = locals || {};
-            this.lookupClass = lookupClass;
-            if (this.homeContext) {
-                this.homeContext.evaluatedSelector = selector;
-            }
-        });
-        defineMethod(SmalltalkMethodContext, "fillBlock", function (locals, ctx, index) {
-            this.locals = locals || {};
-            this.outerContext = ctx;
-            this.index = index || 0;
-        });
-        defineMethod(SmalltalkMethodContext, "init", function () {
-            var home = this.homeContext;
-            if (home) {
-                home.init();
-            }
-
-            this.setup(this);
-        });
-        defineMethod(SmalltalkMethodContext, "method", function () {
-            var method;
-            var lookup = this.lookupClass || this.receiver.a$cls;
-            while (!method && lookup) {
-                method = lookup.methods[st.js2st(this.selector)];
-                lookup = lookup.superclass;
-            }
-            return method;
-        });
-
-        setClassConstructor(globals.MethodContext, SmalltalkMethodContext);
-
-        /* This is the current call context object.
-         In Smalltalk code, it is accessible just by using 'thisContext' variable.
-         In JS code, use api.getThisContext() (see below).
-         */
-
-        var thisContext = null;
-
-        st.withContext = function (worker, setup) {
-            if (thisContext) {
-                return inContext(worker, setup);
-            } else {
-                return inContextWithErrorHandling(worker, setup);
-            }
-        };
-
-        /*
-         Runs worker function so that error handler is not set up
-         if there isn't one. This is accomplished by unconditional
-         wrapping inside a context of a simulated `nil seamlessDoIt` call,
-         which then stops error handler setup (see st.withContext above).
-         The effect is, $core.seamless(fn)'s exceptions are not
-         handed into ST error handler and caller should process them.
-         */
-        st.seamless = function (worker) {
-            return inContext(worker, function (ctx) {
-                ctx.fill(null, "seamlessDoIt", {}, globals.UndefinedObject);
-            });
-        };
-
-        function inContextWithErrorHandling (worker, setup) {
-            try {
-                return inContext(worker, setup);
-            } catch (error) {
-                handleError(error);
-                thisContext = null;
-                // Rethrow the error in any case.
-                error.amberHandled = true;
-                throw error;
-            }
-        }
-
-        function inContext (worker, setup) {
-            var oldContext = thisContext;
-            thisContext = new SmalltalkMethodContext(thisContext, setup);
-            var result = worker(thisContext);
-            thisContext = oldContext;
-            return result;
-        }
-
-        /* Wrap a JavaScript exception in a Smalltalk Exception.
-
-         In case of a RangeError, stub the stack after 100 contexts to
-         avoid another RangeError later when the stack is manipulated. */
-        function wrappedError (error) {
-            var errorWrapper = globals.JavaScriptException._on_(error);
-            // Add the error to the context, so it is visible in the stack
-            try {
-                errorWrapper._signal();
-            } catch (ex) {
-            }
-            var context = st.getThisContext();
-            if (isRangeError(error)) {
-                stubContextStack(context);
-            }
-            errorWrapper._context_(context);
-            return errorWrapper;
-        }
-
-        /* Stub the context stack after 100 contexts */
-        function stubContextStack (context) {
-            var currentContext = context;
-            var contexts = 0;
-            while (contexts < 100) {
-                if (currentContext) {
-                    currentContext = currentContext.homeContext;
-                }
-                contexts++;
-            }
-            if (currentContext) {
-                currentContext.homeContext = undefined;
-            }
-        }
-
-        function isRangeError (error) {
-            return error instanceof RangeError;
-        }
-
-
-        /* Handles Smalltalk errors. Triggers the registered ErrorHandler
-         (See the Smalltalk class ErrorHandler and its subclasses */
-
-        function handleError (error) {
-            if (!error.smalltalkError) {
-                error = wrappedError(error);
-            }
-            globals.ErrorHandler._handleError_(error);
-        }
-
-        /* Handle thisContext pseudo variable */
-
-        st.getThisContext = function () {
-            if (thisContext) {
-                thisContext.init();
-                return thisContext;
-            } else {
-                return null;
-            }
-        };
-    }
-
-    MessageSendBrik.deps = ["smalltalkGlobals", "selectorConversion", "root"];
-    function MessageSendBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
-        var nilAsReceiver = brikz.root.nilAsReceiver;
-
-        /* Send message programmatically. Used to implement #perform: & Co. */
-
-        st.send2 = function (self, selector, args, klass) {
-            if (self == null) {
-                self = nilAsReceiver;
-            }
-            var method = klass ? klass.fn.prototype[st.st2js(selector)] : self.a$cls && self[st.st2js(selector)];
-            if (method) {
-                return method.apply(self, args || []);
-            } else {
-                return messageNotUnderstood(self.a$cls ? self : wrapJavaScript(self), selector, args);
-            }
-        };
-
-        function wrapJavaScript (o) {
-            return globals.JSObjectProxy._on_(o);
-        }
-
-        st.wrapJavaScript = wrapJavaScript;
-
-        /* Handles #dnu:. Calls #doesNotUnderstand:. */
-        function messageNotUnderstood (receiver, stSelector, args) {
-            return receiver._doesNotUnderstand_(
-                globals.Message._new()
-                    ._selector_(stSelector)
-                    ._arguments_([].slice.call(args))
-            );
-        }
-
-        /* If the object property is a function, then call it, except if it starts with
-         an uppercase character (we probably want to answer the function itself in this
-         case and send it #new from Amber).
-         */
-        function accessJavaScript (self, propertyName, args) {
-            var propertyValue = self[propertyName];
-            if (typeof propertyValue === "function" && !/^[A-Z]/.test(propertyName)) {
-                return propertyValue.apply(self, args || []);
-            } else if (args.length > 0) {
-                self[propertyName] = args[0];
-                return self;
-            } else {
-                return propertyValue;
-            }
-        }
-
-        st.accessJavaScript = accessJavaScript;
-        this.messageNotUnderstood = messageNotUnderstood;
-    }
-
-    StartImageBrik.deps = ["frameBinding", "runtimeMethods", "runtime", "primitives"];
-    function StartImageBrik (brikz, st) {
-        this.__init__ = function () {
-            var classes = brikz.behaviors.classes;
-            classes().forEach(function (klass) {
-                klass._initialize();
-            });
-        };
-        this.__init__.once = true;
-    }
-
-    /* Making smalltalk that can run */
-
-    function configureWithRuntime (brikz) {
-        brikz.dnu = DNUBrik;
-        brikz.manipulation = ManipulationBrik;
-        brikz.runtimeClasses = RuntimeClassesBrik;
-        brikz.frameBinding = FrameBindingBrik;
-        brikz.runtimeMethods = RuntimeMethodsBrik;
-        brikz.messageSend = MessageSendBrik;
-        brikz.runtime = RuntimeBrik;
-        brikz.primitives = PrimitivesBrik;
-        brikz.startImage = StartImageBrik;
-
-        brikz.rebuild();
-    }
-
-    return configureWithRuntime;
-});
-
-// Depend on each module that is loaded lazily.
-// Add to packager tasks as dependency,
-// so the lazy-loaded modules are included.
-define('amber/lazypack',['./kernel-runtime'], {});
-
 
 require(["app"]);
 });
