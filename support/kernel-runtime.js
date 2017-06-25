@@ -325,7 +325,7 @@ define(function () {
          The effect is, $core.seamless(fn)'s exceptions are not
          handed into ST error handler and caller should process them.
          */
-        st.seamless = function inContext (worker) {
+        st.seamless = function (worker) {
             var oldContext = thisContext;
             thisContext = new SmalltalkMethodContext(thisContext, function (ctx) {
                 ctx.fill(null, "seamlessDoIt", {}, globals.UndefinedObject);
