@@ -181,10 +181,9 @@ define(['./compatibility' /* TODO remove */], function () {
         };
     }
 
-    MethodsBrik.deps = ["behaviorProviders", "selectors", "root", "selectorConversion"];
+    MethodsBrik.deps = ["selectors", "root", "selectorConversion"];
     function MethodsBrik (brikz, st) {
         var registerSelector = brikz.selectors.registerSelector;
-        var updateMethod = brikz.behaviorProviders.updateMethod;
         var SmalltalkObject = brikz.root.Object;
         var coreFns = brikz.root.coreFns;
 
@@ -245,15 +244,13 @@ define(['./compatibility' /* TODO remove */], function () {
             delete traitOrBehavior.localMethods[method.selector];
             updateMethod(method.selector, traitOrBehavior);
         };
-    }
 
-    function BehaviorProvidersBrik (brikz, st) {
         this.setupMethods = function (traitOrBehavior) {
             traitOrBehavior.localMethods = Object.create(null);
             traitOrBehavior.methods = Object.create(null);
         };
 
-        this.updateMethod = function (selector, traitOrBehavior) {
+        function updateMethod (selector, traitOrBehavior) {
             var oldMethod = traitOrBehavior.methods[selector],
                 newMethod = traitOrBehavior.localMethods[selector];
             if (oldMethod == null && newMethod == null) {
@@ -269,7 +266,9 @@ define(['./compatibility' /* TODO remove */], function () {
                 traitOrBehavior.methodRemoved(oldMethod);
             }
             if (st._methodReplaced) st._methodReplaced(newMethod, oldMethod, traitOrBehavior);
-        };
+        }
+
+        this.updateMethod = updateMethod;
     }
 
     function ArraySetBrik (brikz, st) {
@@ -389,7 +388,6 @@ define(['./compatibility' /* TODO remove */], function () {
         brikz.selectorConversion = SelectorConversionBrik;
         brikz.selectors = SelectorsBrik;
         brikz.packages = PackagesBrik;
-        brikz.behaviorProviders = BehaviorProvidersBrik;
         brikz.behaviors = BehaviorsBrik;
         brikz.methods = MethodsBrik;
 

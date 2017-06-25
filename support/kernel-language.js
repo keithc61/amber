@@ -59,11 +59,11 @@ define(['./compatibility' /* TODO remove */], function () {
         });
     }
 
-    TraitsBrik.deps = ["behaviors", "behaviorProviders", "composition", "arraySet", "root"];
+    TraitsBrik.deps = ["behaviors", "methods", "composition", "arraySet", "root"];
     function TraitsBrik (brikz, st) {
         var coreFns = brikz.root.coreFns;
         var SmalltalkObject = brikz.root.Object;
-        var setupMethods = brikz.behaviorProviders.setupMethods;
+        var setupMethods = brikz.methods.setupMethods;
         var traitMethodChanged = brikz.composition.traitMethodChanged;
         var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
         var addElement = brikz.arraySet.addElement;
@@ -126,9 +126,9 @@ define(['./compatibility' /* TODO remove */], function () {
         };
     }
 
-    MethodCompositionBrik.deps = ["behaviorProviders"];
+    MethodCompositionBrik.deps = ["methods"];
     function MethodCompositionBrik (brikz, st) {
-        var updateMethod = brikz.behaviorProviders.updateMethod;
+        var updateMethod = brikz.methods.updateMethod;
 
         function aliased (selector, method) {
             if (method.selector === selector) return method;
@@ -249,14 +249,14 @@ define(['./compatibility' /* TODO remove */], function () {
         this.traitMethodChanged = traitMethodChanged;
     }
 
-    ClassesBrik.deps = ["root", "behaviors", "behaviorProviders", "arraySet", "smalltalkGlobals"];
+    ClassesBrik.deps = ["root", "behaviors", "methods", "arraySet", "smalltalkGlobals"];
     function ClassesBrik (brikz, st) {
         var SmalltalkRoot = brikz.root.Root;
         var coreFns = brikz.root.coreFns;
         var globals = brikz.smalltalkGlobals.globals;
         var SmalltalkObject = brikz.root.Object;
         var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
-        var setupMethods = brikz.behaviorProviders.setupMethods;
+        var setupMethods = brikz.methods.setupMethods;
         var removeTraitOrClass = brikz.behaviors.removeTraitOrClass;
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
