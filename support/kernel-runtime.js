@@ -12,7 +12,7 @@ define(function () {
 
     DNUBrik.deps = ["selectors", "smalltalkGlobals", "manipulation", "classes"];
     function DNUBrik (brikz, st) {
-        var selectorsBrik = brikz.selectors;
+        var selectorPairs = brikz.selectors.selectorPairs;
         var globals = brikz.smalltalkGlobals.globals;
         var installJSMethod = brikz.manipulation.installJSMethod;
         var nilAsClass = brikz.classes.nilAsClass;
@@ -40,7 +40,7 @@ define(function () {
             };
         }
 
-        selectorsBrik.selectorPairs.forEach(function (pair) {
+        selectorPairs.forEach(function (pair) {
             makeDnuHandler(pair, []);
         });
     }
