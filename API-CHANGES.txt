@@ -108,6 +108,8 @@
 +UndefinedObject >>
   + identityHash
   + value
++ amber/boot api >>
+  + nilAsValue
 
 - IRSend >>
   - isSuperSend
