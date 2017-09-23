@@ -76,7 +76,6 @@ module.exports = function (grunt) {
                 options: {
                     mainConfigFile: "config.js",
                     rawText: {
-                        "amber/compatibility": "/* stub */", //eg. nothing, TODO remove
                         "amber/Platform": "/* stub */", //eg. nothing, TODO remove
                         "__app__": "(" + function () {
                             define(["amber/devel", "amber_core/Platform-Node", "amber_cli/AmberCli"], function (amber) {
@@ -105,7 +104,6 @@ module.exports = function (grunt) {
                 options: {
                     mainConfigFile: "config.js",
                     rawText: {
-                        "amber/compatibility": "/* stub */", //eg. nothing, TODO remove
                         "amber/Platform": "/* stub */", //eg. nothing, TODO remove
                         "__app__": "(" + function () {
                             define(["amber/devel", "amber_core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {

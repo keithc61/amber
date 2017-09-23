@@ -39,7 +39,7 @@
 
 //jshint eqnull:true
 
-define(['./compatibility' /* TODO remove */], function () {
+define(function () {
     "use strict";
 
     function inherits (child, parent) {

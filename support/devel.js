@@ -1,6 +1,5 @@
 define([
     './lang',
-    './compatibility', // pre-fetch, dep of ./boot, TODO remove
     './brikz', // pre-fetch, dep of ./boot
     './kernel-checks', // pre-fetch, dep of ./boot
     './kernel-fundamentals', // pre-fetch, dep of ./boot
