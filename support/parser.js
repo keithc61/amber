@@ -1,3 +1,4 @@
+// jshint ignore:start
 define(['./boot'], function($boot) {
 var $globals = $boot.globals;
 $globals.SmalltalkParser = (function() {

@@ -24,7 +24,7 @@
     "node": "0.10.x || 0.12.x || >=4.0.0"
   },
   "strings": {
-    "buildParserBegin": "define(['./boot'], function($boot) {\nvar $globals = $boot.globals;\n",
+    "buildParserBegin": "// jshint ignore:start\ndefine(['./boot'], function($boot) {\nvar $globals = $boot.globals;\n",
     "buildParserEnd": "});"
   },
   "scripts": {
