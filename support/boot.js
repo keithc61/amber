@@ -109,10 +109,8 @@ define([
 
     return {
         api: api,
-        nil/* TODO deprecate */: brikz.nil.nilAsReceiver,
         nilAsReceiver: brikz.nil.nilAsReceiver,
         nilAsValue: brikz.nil.nilAsValue,
-        dnu/* TODO deprecate */: brikz.classes.nilAsClass,
         nilAsClass: brikz.classes.nilAsClass,
         globals: brikz.smalltalkGlobals.globals,
         asReceiver: brikz.asReceiver.asReceiver
