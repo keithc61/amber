@@ -199,17 +199,12 @@ define(function () {
             var selector = method.selector;
             var jsSelector = method.jsSelector;
             st.traverseClassTree(klass, function (subclass, sentinel) {
-                if (subclass !== exclude) {
-                    if (initMethodInClass(subclass, selector, jsSelector)) return sentinel;
+                if (subclass === exclude) return;
+                if (subclass.methods[selector]) return sentinel;
+                if (subclass.detachedRoot) {
+                    installJSMethod(subclass.fn.prototype, jsSelector, subclass.superclass.fn.prototype[jsSelector]);
                 }
             });
-        }
-
-        function initMethodInClass (klass, selector, jsSelector) {
-            if (klass.methods[selector]) return true;
-            if (klass.detachedRoot) {
-                installJSMethod(klass.fn.prototype, jsSelector, klass.superclass.fn.prototype[jsSelector]);
-            }
         }
     }
 
@@ -288,14 +283,6 @@ define(function () {
             this.outerContext = ctx;
             if (index) this.index = index;
         });
-        defineMethod(SmalltalkMethodContext, "init", function () {
-            var frame = this;
-            while (frame) {
-                if (frame.init !== this.init) return frame.init();
-                frame.setup(frame);
-                frame = frame.homeContext;
-            }
-        });
         defineMethod(SmalltalkMethodContext, "method", function () {
             var method;
             var lookup = this.lookupClass || this.receiver.a$cls;
@@ -314,8 +301,6 @@ define(function () {
          */
 
         var thisContext = null;
-
-        st.withContext = inContext;
 
         /*
          Runs worker function so that error handler is not set up
@@ -346,23 +331,26 @@ define(function () {
             }
         }
 
-        function inContext (worker, setup) {
+        /*
+         Standard way to run within context.
+         Sets up error handler if entering first ST context in a stack.
+         */
+        st.withContext = function (worker, setup) {
             var oldContext = thisContext;
             thisContext = new SmalltalkMethodContext(thisContext, setup);
             var result = oldContext == null ? resultWithErrorHandling(worker) : worker(thisContext);
             thisContext = oldContext;
             return result;
-        }
+        };
 
         /* Handle thisContext pseudo variable */
 
         st.getThisContext = function () {
-            if (thisContext) {
-                thisContext.init();
-                return thisContext;
-            } else {
-                return null;
+            if (!thisContext) return null;
+            for (var frame = thisContext; frame; frame = frame.homeContext) {
+                frame.setup(frame);
             }
+            return thisContext;
         };
     }
 

@@ -59,15 +59,13 @@ define(['./compatibility' /* TODO remove */], function () {
         });
     }
 
-    TraitsBrik.deps = ["behaviors", "methods", "composition", "arraySet", "root"];
+    TraitsBrik.deps = ["behaviors", "methods", "composition", "root"];
     function TraitsBrik (brikz, st) {
         var coreFns = brikz.root.coreFns;
         var SmalltalkObject = brikz.root.Object;
         var setupMethods = brikz.methods.setupMethods;
         var traitMethodChanged = brikz.composition.traitMethodChanged;
         var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
-        var addElement = brikz.arraySet.addElement;
-        var removeElement = brikz.arraySet.removeElement;
 
         function SmalltalkTrait () {
         }
@@ -99,12 +97,6 @@ define(['./compatibility' /* TODO remove */], function () {
             });
             if (st._traitMethodRemoved) st._traitMethodRemoved(method, this);
         });
-        defineMethod(SmalltalkTrait, "addUser", function (traitOrBehavior) {
-            addElement(this.traitUsers, traitOrBehavior);
-        });
-        defineMethod(SmalltalkTrait, "removeUser", function (traitOrBehavior) {
-            removeElement(this.traitUsers, traitOrBehavior);
-        });
 
         function traitBuilder (className) {
             return {
@@ -126,9 +118,11 @@ define(['./compatibility' /* TODO remove */], function () {
         };
     }
 
-    MethodCompositionBrik.deps = ["methods"];
+    MethodCompositionBrik.deps = ["methods", "arraySet"];
     function MethodCompositionBrik (brikz, st) {
         var updateMethod = brikz.methods.updateMethod;
+        var addElement = brikz.arraySet.addElement;
+        var removeElement = brikz.arraySet.removeElement;
 
         function aliased (selector, method) {
             if (method.selector === selector) return method;
@@ -193,11 +187,11 @@ define(['./compatibility' /* TODO remove */], function () {
                 updateMethod(selector, traitOrBehavior);
             }
             (traitOrBehavior.traitComposition || []).forEach(function (each) {
-                each.trait.removeUser(traitOrBehavior);
+                removeElement(each.trait.traitUsers, traitOrBehavior);
             });
             traitOrBehavior.traitComposition = traitComposition && traitComposition.length ? traitComposition : null;
             (traitOrBehavior.traitComposition || []).forEach(function (each) {
-                each.trait.addUser(traitOrBehavior);
+                addElement(each.trait.traitUsers, traitOrBehavior);
             });
         };
 
