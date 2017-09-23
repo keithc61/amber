@@ -13,7 +13,6 @@ define([
     'amber_core/Kernel-Exceptions',
     'amber_core/Kernel-Announcements',
     'amber_core/Platform-Services',
-    'amber/Platform' // TODO remove
     // --- packages of the core Amber end here ---
 ], function (amber) {
     return amber;
