@@ -168,12 +168,8 @@ define(function () {
         };
 
         /* Answer all registered Smalltalk classes */
-        //TODO: remove the function and make smalltalk.classes an array
-
         // TODO: remove .classes, have .traitsOrClasses
-        st.classes = this.classes = function () {
-            return classes;
-        };
+        st.classes = this.classes = classes;
     }
 
     MethodsBrik.deps = ["selectors", "root", "selectorConversion"];

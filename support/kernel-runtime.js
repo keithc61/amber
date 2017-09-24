@@ -73,7 +73,7 @@ define(function () {
 
         function markClassDetachedRoot (klass) {
             klass.detachedRoot = true;
-            detachedRootClasses = classes().filter(function (klass) {
+            detachedRootClasses = classes.filter(function (klass) {
                 return klass.detachedRoot;
             });
         }
@@ -92,7 +92,7 @@ define(function () {
             }
         }
 
-        classes().forEach(function (traitOrClass) {
+        classes.forEach(function (traitOrClass) {
             if (!traitOrClass.trait) initClassAndMetaclass(traitOrClass);
         });
 
