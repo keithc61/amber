@@ -135,17 +135,14 @@ define(function () {
 
         var classes = [];
 
-        this.buildTraitOrClass = function (pkgName, builder) {
+        this.buildTraitOrClass = function (category, builder) {
             // TODO remove .className, have .name
             var traitOrClass = globals.hasOwnProperty(builder.className) && globals[builder.className];
             if (traitOrClass) {
-                // TODO remove .pkg, have .pkgName
-                if (!traitOrClass.pkg) throw new Error("Updated trait or class must have package: " + traitOrClass.className);
-                // if (traitOrClass.pkg.pkgName !== pkgName) throw new Error("Incompatible cross-package update of trait or class: " + traitOrClass.className);
                 builder.updateExisting(traitOrClass);
             } else {
                 traitOrClass = builder.make();
-                traitOrClass.pkg = pkgName;
+                traitOrClass.category = category;
                 addTraitOrClass(traitOrClass);
             }
 

@@ -153,7 +153,7 @@ isBehavior
 ! !
 
 Behavior subclass: #Class
-	instanceVariableNames: ''
+	instanceVariableNames: 'package'
 	package: 'Kernel-Classes'!
 !Class commentStamp!
 I am __the__ class object.
@@ -162,6 +162,10 @@ My instances are the classes of the system.
 Class creation is done throught a `ClassBuilder` instance.!
 
 !Class methodsFor: 'accessing'!
+
+basicPackage: aPackage
+	package := aPackage
+!
 
 classTag
 	"Returns a tag or general category for this class.
@@ -177,6 +181,10 @@ definition
 		write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);
 		tab; write: 'instanceVariableNames: '; print: (' ' join: self instanceVariableNames); lf;
 		tab; write: 'package: '; print: self category ]
+!
+
+package
+	^ package
 !
 
 rename: aString
@@ -852,8 +860,12 @@ definedMethods
 
 enterOrganization
 	Smalltalk ifNotNil: [
-		self package isString ifTrue: [ self basicAt: 'pkg' put: (Package named: self package) ].
-		self package organization addElement: self ]
+		(self basicAt: 'category')
+			ifNil: [ self basicPackage: nil ]
+			ifNotNil: [ :category |
+				"Amber has 1-1 correspondence between cat and pkg, atm"
+				self basicPackage: (Package named: category).
+				self package organization addElement: self ] ]
 !
 
 leaveOrganization
@@ -865,10 +877,6 @@ name
 	<inlineJS: 'return self.className'>
 !
 
-package
-	^ self basicAt: 'pkg'
-!
-
 package: aPackage
 	| oldPackage |
 	
@@ -878,7 +886,7 @@ package: aPackage
 	
 	self
 		leaveOrganization;
-		basicAt: 'pkg' put: aPackage;
+		basicAt: 'category' put: aPackage;
 		enterOrganization.
 
 	SystemAnnouncer current announce: (ClassMoved new
@@ -904,7 +912,7 @@ asJavaScriptSource
 ! !
 
 Object subclass: #Trait
-	instanceVariableNames: 'organization'
+	instanceVariableNames: 'organization package'
 	package: 'Kernel-Classes'!
 
 !Trait methodsFor: 'accessing'!
@@ -917,6 +925,10 @@ basicOrganization: aClassOrganizer
 	organization := aClassOrganizer
 !
 
+basicPackage: aPackage
+	package := aPackage
+!
+
 classTag
 	^ 'trait'
 !
@@ -926,6 +938,10 @@ definition
 		write: 'Trait named: '; printSymbol: self name; lf;
 		write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);
 		tab; write: 'package: '; print: self category ]
+!
+
+package
+	^ package
 !
 
 theMetaClass

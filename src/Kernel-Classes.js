@@ -684,10 +684,29 @@ $globals.Behavior);
 
 
 
-$core.addClass("Class", $globals.Behavior, [], "Kernel-Classes");
+$core.addClass("Class", $globals.Behavior, ["package"], "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Class.comment="I am __the__ class object.\x0a\x0aMy instances are the classes of the system.\x0aClass creation is done throught a `ClassBuilder` instance.";
 //>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "basicPackage:",
+protocol: "accessing",
+fn: function (aPackage){
+var self=this,$self=this;
+$self["@package"]=aPackage;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aPackage"],
+source: "basicPackage: aPackage\x0a\x09package := aPackage",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Class);
+
 $core.addMethod(
 $core.method({
 selector: "classTag",
@@ -798,6 +817,24 @@ return true;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "isClass\x0a\x09^ true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Class);
+
+$core.addMethod(
+$core.method({
+selector: "package",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $self["@package"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "package\x0a\x09^ package",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3371,24 +3408,22 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1,$4,$3,$receiver;
+var $1,$receiver;
 if(($receiver = $globals.Smalltalk) == null || $receiver.a$nil){
 $globals.Smalltalk;
 } else {
-$2=$self._package();
+$1=$self._basicAt_("category");
+if(($receiver = $1) == null || $receiver.a$nil){
+$self._basicPackage_(nil);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["package"]=1;
+$ctx1.sendIdx["basicPackage:"]=1;
 //>>excludeEnd("ctx");
-$1=$recv($2)._isString();
-if($core.assert($1)){
-$4=$self._package();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["package"]=2;
-//>>excludeEnd("ctx");
-$3=$recv($globals.Package)._named_($4);
-$self._basicAt_put_("pkg",$3);
-}
+} else {
+var category;
+category=$receiver;
+$self._basicPackage_($recv($globals.Package)._named_(category));
 $recv($recv($self._package())._organization())._addElement_(self);
+}
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3397,10 +3432,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "enterOrganization\x0a\x09Smalltalk ifNotNil: [\x0a\x09\x09self package isString ifTrue: [ self basicAt: 'pkg' put: (Package named: self package) ].\x0a\x09\x09self package organization addElement: self ]",
+source: "enterOrganization\x0a\x09Smalltalk ifNotNil: [\x0a\x09\x09(self basicAt: 'category')\x0a\x09\x09\x09ifNil: [ self basicPackage: nil ]\x0a\x09\x09\x09ifNotNil: [ :category |\x0a\x09\x09\x09\x09\x22Amber has 1-1 correspondence between cat and pkg, atm\x22\x0a\x09\x09\x09\x09self basicPackage: (Package named: category).\x0a\x09\x09\x09\x09self package organization addElement: self ] ]",
 referencedClasses: ["Smalltalk", "Package"],
 //>>excludeEnd("ide");
-messageSends: ["ifNotNil:", "ifTrue:", "isString", "package", "basicAt:put:", "named:", "addElement:", "organization"]
+messageSends: ["ifNotNil:", "ifNil:ifNotNil:", "basicAt:", "basicPackage:", "named:", "addElement:", "organization", "package"]
 }),
 $globals.TMasterBehavior);
 
@@ -3459,29 +3494,6 @@ $globals.TMasterBehavior);
 
 $core.addMethod(
 $core.method({
-selector: "package",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self._basicAt_("pkg");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"package",{},$globals.TMasterBehavior)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "package\x0a\x09^ self basicAt: 'pkg'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["basicAt:"]
-}),
-$globals.TMasterBehavior);
-
-$core.addMethod(
-$core.method({
 selector: "package:",
 protocol: "accessing",
 fn: function (aPackage){
@@ -3501,7 +3513,7 @@ return self;
 }
 oldPackage=$self._package();
 $self._leaveOrganization();
-$self._basicAt_put_("pkg",aPackage);
+$self._basicAt_put_("category",aPackage);
 $self._enterOrganization();
 $3=$recv($globals.SystemAnnouncer)._current();
 $5=$recv($globals.ClassMoved)._new();
@@ -3516,7 +3528,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage"],
-source: "package: aPackage\x0a\x09| oldPackage |\x0a\x09\x0a\x09self package = aPackage ifTrue: [ ^ self ].\x0a\x09\x0a\x09oldPackage := self package.\x0a\x09\x0a\x09self\x0a\x09\x09leaveOrganization;\x0a\x09\x09basicAt: 'pkg' put: aPackage;\x0a\x09\x09enterOrganization.\x0a\x0a\x09SystemAnnouncer current announce: (ClassMoved new\x0a\x09\x09theClass: self;\x0a\x09\x09oldPackage: oldPackage;\x0a\x09\x09yourself)",
+source: "package: aPackage\x0a\x09| oldPackage |\x0a\x09\x0a\x09self package = aPackage ifTrue: [ ^ self ].\x0a\x09\x0a\x09oldPackage := self package.\x0a\x09\x0a\x09self\x0a\x09\x09leaveOrganization;\x0a\x09\x09basicAt: 'category' put: aPackage;\x0a\x09\x09enterOrganization.\x0a\x0a\x09SystemAnnouncer current announce: (ClassMoved new\x0a\x09\x09theClass: self;\x0a\x09\x09oldPackage: oldPackage;\x0a\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassMoved"],
 //>>excludeEnd("ide");
 messageSends: ["ifTrue:", "=", "package", "leaveOrganization", "basicAt:put:", "enterOrganization", "announce:", "current", "theClass:", "new", "oldPackage:", "yourself"]
@@ -3542,7 +3554,7 @@ messageSends: []
 $globals.TMasterBehavior);
 
 
-$core.addClass("Trait", $globals.Object, ["organization"], "Kernel-Classes");
+$core.addClass("Trait", $globals.Object, ["organization", "package"], "Kernel-Classes");
 $core.addMethod(
 $core.method({
 selector: "-",
@@ -3674,6 +3686,25 @@ $globals.Trait);
 
 $core.addMethod(
 $core.method({
+selector: "basicPackage:",
+protocol: "accessing",
+fn: function (aPackage){
+var self=this,$self=this;
+$self["@package"]=aPackage;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aPackage"],
+source: "basicPackage: aPackage\x0a\x09package := aPackage",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
 selector: "classTag",
 protocol: "accessing",
 fn: function (){
@@ -3746,6 +3777,24 @@ source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
 messageSends: ["streamContents:", "write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "traitCompositionDefinition", "tab", "print:", "category"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "package",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $self["@package"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "package\x0a\x09^ package",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
 }),
 $globals.Trait);
 

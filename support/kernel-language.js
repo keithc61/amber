@@ -113,8 +113,8 @@ define(function () {
             };
         }
 
-        st.addTrait = function (className, pkgName) {
-            return buildTraitOrClass(pkgName, traitBuilder(className));
+        st.addTrait = function (className, category) {
+            return buildTraitOrClass(category, traitBuilder(className));
         };
     }
 
@@ -377,13 +377,13 @@ define(function () {
         /* Add a class to the system, creating a new one if needed.
          A Package is lazily created if one with given name does not exist. */
 
-        st.addClass = function (className, superclass, iVarNames, pkgName) {
+        st.addClass = function (className, superclass, iVarNames, category) {
             // While subclassing nil is allowed, it might be an error, so
             // warn about it.
             if (typeof superclass === 'undefined' || superclass && superclass.a$nil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
-            return buildTraitOrClass(pkgName, classBuilder(className, superclass, iVarNames, coreFns[className]));
+            return buildTraitOrClass(category, classBuilder(className, superclass, iVarNames, coreFns[className]));
         };
 
         st.removeClass = removeTraitOrClass;
