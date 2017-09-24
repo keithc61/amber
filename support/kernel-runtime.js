@@ -61,13 +61,14 @@ define(function () {
         this.installJSMethod = installJSMethod;
     }
 
-    RuntimeClassesBrik.deps = ["selectors", "dnu", "behaviors", "classes", "manipulation"];
+    RuntimeClassesBrik.deps = ["event", "selectors", "dnu", "behaviors", "classes", "manipulation"];
     function RuntimeClassesBrik (brikz, st) {
         var selectors = brikz.selectors;
         var classes = brikz.behaviors.classes;
         var wireKlass = brikz.classes.wireKlass;
         var installMethod = brikz.manipulation.installMethod;
         var installJSMethod = brikz.manipulation.installJSMethod;
+        var emit = brikz.event.emit;
 
         var detachedRootClasses = [];
 
@@ -96,20 +97,20 @@ define(function () {
             if (!traitOrClass.trait) initClassAndMetaclass(traitOrClass);
         });
 
-        st._classAdded = function (klass) {
+        emit.classAdded = function (klass) {
             initClassAndMetaclass(klass);
             klass._enterOrganization();
         };
 
-        st._traitAdded = function (trait) {
+        emit.traitAdded = function (trait) {
             trait._enterOrganization();
         };
 
-        st._classRemoved = function (klass) {
+        emit.classRemoved = function (klass) {
             klass._leaveOrganization();
         };
 
-        st._traitRemoved = function (trait) {
+        emit.traitRemoved = function (trait) {
             trait._leaveOrganization();
         };
 
@@ -167,31 +168,32 @@ define(function () {
         }
     }
 
-    RuntimeMethodsBrik.deps = ["manipulation", "dnu", "runtimeClasses"];
+    RuntimeMethodsBrik.deps = ["event", "manipulation", "dnu", "runtimeClasses"];
     function RuntimeMethodsBrik (brikz, st) {
         var installMethod = brikz.manipulation.installMethod;
         var installJSMethod = brikz.manipulation.installJSMethod;
         var makeDnuHandler = brikz.dnu.makeDnuHandler;
         var detachedRootClasses = brikz.runtimeClasses.detachedRootClasses;
+        var emit = brikz.event.emit;
 
-        st._behaviorMethodAdded = function (method, klass) {
+        emit.behaviorMethodAdded = function (method, klass) {
             installMethod(method, klass);
             propagateMethodChange(klass, method, klass);
         };
 
-        st._selectorsAdded = function (newSelectors) {
+        emit.selectorsAdded = function (newSelectors) {
             var targetClasses = detachedRootClasses();
             newSelectors.forEach(function (pair) {
                 makeDnuHandler(pair, targetClasses);
             });
         };
 
-        st._behaviorMethodRemoved = function (method, klass) {
+        emit.behaviorMethodRemoved = function (method, klass) {
             delete klass.fn.prototype[method.jsSelector];
             propagateMethodChange(klass, method, null);
         };
 
-        st._methodReplaced = function (newMethod, oldMethod, traitOrBehavior) {
+        emit.methodReplaced = function (newMethod, oldMethod, traitOrBehavior) {
             traitOrBehavior._methodOrganizationEnter_andLeave_(newMethod, oldMethod);
         };
 

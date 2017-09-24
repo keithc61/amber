@@ -59,13 +59,15 @@ define(function () {
         });
     }
 
-    TraitsBrik.deps = ["behaviors", "methods", "composition", "root"];
+    TraitsBrik.deps = ["event", "behaviors", "methods", "composition", "root"];
     function TraitsBrik (brikz, st) {
         var coreFns = brikz.root.coreFns;
         var SmalltalkObject = brikz.root.Object;
         var setupMethods = brikz.methods.setupMethods;
         var traitMethodChanged = brikz.composition.traitMethodChanged;
         var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
+        var emit = brikz.event.emit;
+        var declareEvent = brikz.event.declareEvent;
 
         function SmalltalkTrait () {
         }
@@ -77,25 +79,29 @@ define(function () {
         defineMethod(SmalltalkTrait, "toString", function () {
             return 'Smalltalk Trait ' + this.className;
         });
+        declareEvent("traitAdded");
         defineMethod(SmalltalkTrait, "added", function () {
-            if (st._traitAdded) st._traitAdded(this);
+            emit.traitAdded(this);
         });
+        declareEvent("traitRemoved");
         defineMethod(SmalltalkTrait, "removed", function () {
-            if (st._traitRemoved) st._traitRemoved(this);
+            emit.traitRemoved(this);
         });
+        declareEvent("traitMethodAdded");
         defineMethod(SmalltalkTrait, "methodAdded", function (method) {
             var self = this;
             this.traitUsers.forEach(function (each) {
                 traitMethodChanged(method.selector, method, self, each);
             });
-            if (st._traitMethodAdded) st._traitMethodAdded(method, this);
+            emit.traitMethodAdded(method, this);
         });
+        declareEvent("traitMethodRemoved");
         defineMethod(SmalltalkTrait, "methodRemoved", function (method) {
             var self = this;
             this.traitUsers.forEach(function (each) {
                 traitMethodChanged(method.selector, null, self, each);
             });
-            if (st._traitMethodRemoved) st._traitMethodRemoved(method, this);
+            emit.traitMethodRemoved(method, this);
         });
 
         function traitBuilder (className) {
@@ -243,7 +249,7 @@ define(function () {
         this.traitMethodChanged = traitMethodChanged;
     }
 
-    ClassesBrik.deps = ["root", "behaviors", "methods", "arraySet", "smalltalkGlobals"];
+    ClassesBrik.deps = ["root", "event", "behaviors", "methods", "arraySet", "smalltalkGlobals"];
     function ClassesBrik (brikz, st) {
         var SmalltalkRoot = brikz.root.Root;
         var coreFns = brikz.root.coreFns;
@@ -254,6 +260,8 @@ define(function () {
         var removeTraitOrClass = brikz.behaviors.removeTraitOrClass;
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
+        var emit = brikz.event.emit;
+        var declareEvent = brikz.event.declareEvent;
 
         function SmalltalkBehavior () {
         }
@@ -284,19 +292,23 @@ define(function () {
         defineMethod(SmalltalkMetaclass, "toString", function () {
             return 'Smalltalk Metaclass ' + this.instanceClass.className;
         });
+        declareEvent("classAdded");
         defineMethod(SmalltalkClass, "added", function () {
             addSubclass(this);
-            if (st._classAdded) st._classAdded(this);
+            emit.classAdded(this);
         });
+        declareEvent("classRemoved");
         defineMethod(SmalltalkClass, "removed", function () {
-            if (st._classRemoved) st._classRemoved(this);
+            emit.classRemoved(this);
             removeSubclass(this);
         });
+        declareEvent("behaviorMethodAdded");
         defineMethod(SmalltalkBehavior, "methodAdded", function (method) {
-            if (st._behaviorMethodAdded) st._behaviorMethodAdded(method, this);
+            emit.behaviorMethodAdded(method, this);
         });
+        declareEvent("behaviorMethodRemove");
         defineMethod(SmalltalkBehavior, "methodRemoved", function (method) {
-            if (st._behaviorMethodRemoved) st._behaviorMethodRemoved(method, this);
+            emit.behaviorMethodRemoved(method, this);
         });
 
         this.bootstrapHierarchy = function () {

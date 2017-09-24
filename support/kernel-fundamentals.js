@@ -61,6 +61,17 @@ define(function () {
         this.globals = globals;
     }
 
+    function EventBrik (brikz, st) {
+        var emit = {};
+
+        this.emit = emit;
+
+        this.declareEvent = function (event) {
+            if (!emit[event]) emit[event] = function () {
+            };
+        }
+    }
+
     function RootBrik (brikz, st) {
         /* Smalltalk foundational objects */
 
@@ -172,11 +183,13 @@ define(function () {
         st.classes = this.classes = classes;
     }
 
-    MethodsBrik.deps = ["selectors", "root", "selectorConversion"];
+    MethodsBrik.deps = ["event", "selectors", "root", "selectorConversion"];
     function MethodsBrik (brikz, st) {
         var registerSelector = brikz.selectors.registerSelector;
         var SmalltalkObject = brikz.root.Object;
         var coreFns = brikz.root.coreFns;
+        var emit = brikz.event.emit;
+        var declareEvent = brikz.event.declareEvent;
 
         function SmalltalkMethod () {
         }
@@ -214,6 +227,8 @@ define(function () {
             updateMethod(method.selector, traitOrBehavior);
         };
 
+        declareEvent("selectorsAdded");
+
         function registerNewSelectors (method) {
             var newSelectors = [];
 
@@ -226,7 +241,7 @@ define(function () {
 
             selectorInUse(method.selector);
             method.messageSends.forEach(selectorInUse);
-            if (st._selectorsAdded) st._selectorsAdded(newSelectors);
+            emit.selectorsAdded(newSelectors);
         }
 
         st.removeMethod = function (method, traitOrBehavior) {
@@ -240,6 +255,8 @@ define(function () {
             traitOrBehavior.localMethods = Object.create(null);
             traitOrBehavior.methods = Object.create(null);
         };
+
+        declareEvent("methodReplaced");
 
         function updateMethod (selector, traitOrBehavior) {
             var oldMethod = traitOrBehavior.methods[selector],
@@ -256,7 +273,7 @@ define(function () {
                 delete traitOrBehavior.methods[selector];
                 traitOrBehavior.methodRemoved(oldMethod);
             }
-            if (st._methodReplaced) st._methodReplaced(newMethod, oldMethod, traitOrBehavior);
+            emit.methodReplaced(newMethod, oldMethod, traitOrBehavior);
         }
 
         this.updateMethod = updateMethod;
@@ -375,6 +392,7 @@ define(function () {
         brikz.smalltalkGlobals = SmalltalkGlobalsBrik;
         brikz.root = RootBrik;
         brikz.nil = NilBrik;
+        brikz.event = EventBrik;
         brikz.arraySet = ArraySetBrik;
         brikz.selectorConversion = SelectorConversionBrik;
         brikz.selectors = SelectorsBrik;
