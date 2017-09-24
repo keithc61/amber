@@ -2251,21 +2251,21 @@ selector: "named:imports:transport:",
 protocol: "accessing",
 fn: function (aPackageName,anArray,aTransport){
 var self=this,$self=this;
-var package_;
+var pkg;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-package_=$self._named_(aPackageName);
-$recv(package_)._imports_(anArray);
-$recv(package_)._transport_(aTransport);
-return package_;
+pkg=$self._named_(aPackageName);
+$recv(pkg)._imports_(anArray);
+$recv(pkg)._transport_(aTransport);
+return pkg;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"named:imports:transport:",{aPackageName:aPackageName,anArray:anArray,aTransport:aTransport,package_:package_},$globals.Package.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"named:imports:transport:",{aPackageName:aPackageName,anArray:anArray,aTransport:aTransport,pkg:pkg},$globals.Package.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackageName", "anArray", "aTransport"],
-source: "named: aPackageName imports: anArray transport: aTransport\x0a\x09| package |\x0a\x09\x0a\x09package := self named: aPackageName.\x0a\x09package imports: anArray.\x0a\x09package transport: aTransport.\x0a\x09\x0a\x09^ package",
+source: "named: aPackageName imports: anArray transport: aTransport\x0a\x09| pkg |\x0a\x09\x0a\x09pkg := self named: aPackageName.\x0a\x09pkg imports: anArray.\x0a\x09pkg transport: aTransport.\x0a\x09\x0a\x09^ pkg",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["named:", "imports:", "transport:"]
@@ -2278,20 +2278,20 @@ selector: "named:javaScriptDescriptor:",
 protocol: "instance creation",
 fn: function (aString,anObject){
 var self=this,$self=this;
-var package_;
+var pkg;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-package_=$recv($globals.Smalltalk)._createPackage_(aString);
-$recv(package_)._javaScriptDescriptor_(anObject);
-return package_;
+pkg=$recv($globals.Smalltalk)._createPackage_(aString);
+$recv(pkg)._javaScriptDescriptor_(anObject);
+return pkg;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"named:javaScriptDescriptor:",{aString:aString,anObject:anObject,package_:package_},$globals.Package.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"named:javaScriptDescriptor:",{aString:aString,anObject:anObject,pkg:pkg},$globals.Package.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject"],
-source: "named: aString javaScriptDescriptor: anObject\x0a\x09| package |\x0a\x09\x0a\x09package := Smalltalk createPackage: aString.\x0a\x09package javaScriptDescriptor: anObject.\x0a\x09^ package",
+source: "named: aString javaScriptDescriptor: anObject\x0a\x09| pkg |\x0a\x09\x0a\x09pkg := Smalltalk createPackage: aString.\x0a\x09pkg javaScriptDescriptor: anObject.\x0a\x09^ pkg",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 messageSends: ["createPackage:", "javaScriptDescriptor:"]
@@ -2304,20 +2304,20 @@ selector: "named:transport:",
 protocol: "accessing",
 fn: function (aPackageName,aTransport){
 var self=this,$self=this;
-var package_;
+var pkg;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-package_=$self._named_(aPackageName);
-$recv(package_)._transport_(aTransport);
-return package_;
+pkg=$self._named_(aPackageName);
+$recv(pkg)._transport_(aTransport);
+return pkg;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"named:transport:",{aPackageName:aPackageName,aTransport:aTransport,package_:package_},$globals.Package.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"named:transport:",{aPackageName:aPackageName,aTransport:aTransport,pkg:pkg},$globals.Package.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackageName", "aTransport"],
-source: "named: aPackageName transport: aTransport\x0a\x09| package |\x0a\x09\x0a\x09package := self named: aPackageName.\x0a\x09package transport: aTransport.\x0a\x09\x0a\x09^ package",
+source: "named: aPackageName transport: aTransport\x0a\x09| pkg |\x0a\x09\x0a\x09pkg := self named: aPackageName.\x0a\x09pkg transport: aTransport.\x0a\x09\x0a\x09^ pkg",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["named:", "transport:"]

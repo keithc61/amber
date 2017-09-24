@@ -590,32 +590,32 @@ named: aPackageName ifAbsent: aBlock
 !
 
 named: aPackageName imports: anArray transport: aTransport
-	| package |
+	| pkg |
 	
-	package := self named: aPackageName.
-	package imports: anArray.
-	package transport: aTransport.
+	pkg := self named: aPackageName.
+	pkg imports: anArray.
+	pkg transport: aTransport.
 	
-	^ package
+	^ pkg
 !
 
 named: aPackageName transport: aTransport
-	| package |
+	| pkg |
 	
-	package := self named: aPackageName.
-	package transport: aTransport.
+	pkg := self named: aPackageName.
+	pkg transport: aTransport.
 	
-	^ package
+	^ pkg
 ! !
 
 !Package class methodsFor: 'instance creation'!
 
 named: aString javaScriptDescriptor: anObject
-	| package |
+	| pkg |
 	
-	package := Smalltalk createPackage: aString.
-	package javaScriptDescriptor: anObject.
-	^ package
+	pkg := Smalltalk createPackage: aString.
+	pkg javaScriptDescriptor: anObject.
+	^ pkg
 !
 
 new: aString
