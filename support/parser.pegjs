@@ -9,6 +9,8 @@ ws = (separator / comments)*
 
 maybeDotsWs = ('.' / separator / comments)*
 
+someDotsWs = ws '.' maybeDotsWs
+
 identifier = $([a-zA-Z] [a-zA-Z0-9]*)
 
 keyword = $(identifier ':')
@@ -143,7 +145,7 @@ wsUnaryPattern = ws selector:unarySelector {return [selector, []];}
 
 expression = assignment / cascade / keywordSend
 
-wsExpressionsRest = ws '.' maybeDotsWs expression:expression {
+wsExpressionsRest = someDotsWs expression:expression {
 	return expression;
 }
 
@@ -179,18 +181,18 @@ subexpression = '(' ws expression:expression ws ')' {
 	return expression;
 }
 
-wsStatementsWs =
-	maybeDotsWs ret:ret maybeDotsWs {return [ret];} /
-	exps:wsExpressions ws '.' maybeDotsWs ret:ret maybeDotsWs {
+wsStatements =
+	maybeDotsWs ret:ret {return [ret];} /
+	exps:wsExpressions someDotsWs ret:ret {
 		var expressions = exps;
 		expressions.push(ret);
 		return expressions;
 	} /
-	expressions:wsExpressions? maybeDotsWs {return expressions || [];}
+	expressions:wsExpressions? {return expressions || [];}
 
 wsSequenceWs = (ws js:jsSequence ws {return js;}) / wsStSequenceWs
 
-wsStSequenceWs = ws temps:temps? statements:wsStatementsWs? {
+wsStSequenceWs = ws temps:temps? statements:wsStatements? maybeDotsWs {
 	return $globals.SequenceNode._new()
 		._location_(location())
 		._source_(text())
@@ -298,7 +300,7 @@ associationSend =
 		return [send._receiver(), send._arguments()[0]];
 	}
 
-wsAssociationsRest = ws '.' maybeDotsWs expression:associationSend {
+wsAssociationsRest = someDotsWs expression:associationSend {
 	return expression;
 }
 
