@@ -905,7 +905,7 @@ defaultAmdNamespace: aString
 !SmalltalkImage methodsFor: 'classes'!
 
 classes
-	<inlineJS: 'return $core.classes()'>
+	^ self core classes copy
 !
 
 removeClass: aClass

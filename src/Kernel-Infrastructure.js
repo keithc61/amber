@@ -3081,18 +3081,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $core.classes();
-return self;
+return $recv($recv($self._core())._classes())._copy();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"classes",{},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "classes\x0a\x09<inlineJS: 'return $core.classes()'>",
+source: "classes\x0a\x09^ self core classes copy",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["copy", "classes", "core"]
 }),
 $globals.SmalltalkImage);
 
