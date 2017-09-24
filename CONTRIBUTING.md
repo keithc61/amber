@@ -1,4 +1,4 @@
-TL;DR: Setup your Amber clone
+Setup your Amber clone
 ====
 
 Amber repository contains more parts:
@@ -10,11 +10,10 @@ Amber repository contains more parts:
 
 To get your clone, follow this list:
 
-1. Create a fork of the repository on GitHub
+1. Create a fork of the repository on lolg.it (create account first if you don't have one).
 1. Clone the fork and go to its directory.
 1. Install the tools: ```npm install -g amber-cli```.
 1. Run ```npm install``` to install dependencies listed in package.json. Used by development tools. See [here](https://www.npmjs.org/doc/cli/npm-install.html) for more info.
-1. Run ```bower install``` to install dependencies listed in bower.json. Used by Amber in browser. See [here](http://bower.io/) for more info.
 1. Run ```cd external/amber-dev && npm install && cd ../..``` to install dependencies of `amber-dev` component.
 1. Get your copy of Helios IDE into directory `my/helios`, choosing among using your own fork / using the stock version:
     - ```git clone git@lolg.it:<your username>/helios.git my/helios``` to use your own fork, or
@@ -35,11 +34,9 @@ either you fork of Helios, to develop it in parallel, or with stock repo, just t
 Start Contributing by talking about Amber
 =========================================
 
-* Talk to us on [the gitter.im room](https://gitter.im/amber-smalltalk/amber)
+* Join us on amber-lang slack channel. Request invitation on herby-mailbox-sk.
 * Join our [Mailinglist/Google Group](http://groups.google.com/group/amber-lang)
 * Follow [@AmberSmalltalk](https://twitter.com/AmberSmalltalk) on Twitter
-* Circle Amber Smalltalk on [Google+](https://plus.google.com/u/0/107038882958653788078)
-* Talk to us on [the #amber-lang IRC channel](irc://irc.freenode.net/amber-lang)
 
 
 Filing Issues
@@ -48,11 +45,8 @@ Filing Issues
 If you think Amber is not working as expected, You can start by asking on gitter room, IRC or the Mailinglist.
 Please make sure that you have first checked the following guides:
 
-**TODO** update these
-* [Getting Started](https://github.com/amber-smalltalk/amber/wiki/Getting-started)
-* [Writing My First App](https://github.com/amber-smalltalk/amber/wiki/Writing-my-first-app)
-* [How To Load Amber](https://github.com/amber-smalltalk/amber/wiki/How-to-load-amber)
-* [Amber FAQ](https://github.com/amber-smalltalk/amber/wiki/FAQ)
+* Getting Started (TBD, if you want to help, contribute to https://lolg.it/amber/amber-documentation.git)
+* [Amber FAQ](https://github.com/amber-smalltalk/amber/wiki/FAQ) Old, but something still holds.
 
 If the issue can not be resolved you should file an issue on the respective tracker.
 
@@ -76,26 +70,24 @@ Developing Amber
 
 If you want to get started developing Amber itself there are a few links to get you started
 
-* [The Roadmap](https://github.com/amber-smalltalk/amber/wiki/Roadmap) gives a rough idea about where Amber is heading towards
-* [The Contributions Page](https://github.com/amber-smalltalk/amber/wiki/Contributions) contains some ideas which we would love to integrate into Amber
-* [The Amber FAQ](https://github.com/amber-smalltalk/amber/wiki/FAQ) contains Answers to commonly arising questions
+* [The Amber FAQ](https://github.com/amber-smalltalk/amber/wiki/FAQ) contains Answers to commonly arising questions; old
 * [The Amber CookBook](https://github.com/amber-smalltalk/amber/wiki/Amber-cookbook) contains recipies about working with Amber and its IDE
 * [The Amber Porting Guide](https://github.com/amber-smalltalk/amber/wiki/Porting-code-from-other-Smalltalk-dialects) contains information about porting code from other Smalltalk dialects
 * [The Amber JavaScript Guide](https://github.com/amber-smalltalk/amber/wiki/From-smalltalk-to-javascript-and-back) contains information about how Amber and JavaScript are mapped to each other
 
 If you want to get serious with Amber development you should read the [Coding Conventions](https://github.com/amber-smalltalk/amber/wiki/Coding-conventions)
-and check if you have all development dependencies installed (as indicated in [Getting Started](https://github.com/amber-smalltalk/amber/wiki/Getting-started)):
+and check if you have all development dependencies installed (as indicated in README):
 
 * Git (to get a clone of the repository, use Git for Windows in Windows)
 * Node.js (to run the Amber development server)
-* NPM (to install required Node.js packages)
+* NPM (to install required Node.js packages, in most of setups included with Node.js)
 * Bower (to install required client side libraries)
 * Grunt-Cli (to compile Amber on the commandline)
 
 Creating a Pull Request
 -----------------------
 
-The Amber development model currently revolves around Pull Requests which are created through GitHub
+The Amber development model currently revolves around Pull Requests
 
 1. Update to latest Amber master (```git pull```)
 2. Develop your feature or bugfix in a local branch (not in ```master```)
@@ -105,7 +97,7 @@ The Amber development model currently revolves around Pull Requests which are cr
 6. Commit your changes to disk if all tests are green
 7. Try to split your fix into small Git commits if multiple changes are involved (this makes it easier for us to review the changes)
 8. If you created / deleted / moved API, update API-CHANGES.txt appropriately and commit.
-8. Push the changes to your fork on GitHub ```git push <your repo> <your branchname>```
+8. Push the changes to your fork on lolg.it ```git push <your repo> <your branchname>```
 9. Submit Pull Request (usually for the Amber master branch)
 
 
