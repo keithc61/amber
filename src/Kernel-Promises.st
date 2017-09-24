@@ -36,7 +36,7 @@ and model signal: ... to reject the promise.
 If error happens during run of the block,
 promise is rejected with that error as well."
 <inlineJS: 'return new Promise(function (resolve, reject) {
-    var model = {value: resolve, signal: reject}; // TODO make faster
+    var model = {value: resolve, signal: reject};
     aBlock._value_(model);
 })'>
 !

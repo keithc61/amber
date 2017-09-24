@@ -61,8 +61,6 @@ define(function () {
         this.globals = globals;
     }
 
-    // TODO kernel announcer instead of st._eventFooHappened(...args)
-
     function RootBrik (brikz, st) {
         /* Smalltalk foundational objects */
 

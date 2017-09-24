@@ -114,7 +114,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return new Promise(function (resolve, reject) {
-    var model = {value: resolve, signal: reject}; // TODO make faster
+    var model = {value: resolve, signal: reject};
     aBlock._value_(model);
 });
 return self;
@@ -124,7 +124,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "new: aBlock\x0a\x22Returns a Promise that is eventually resolved or rejected.\x0aPass a block that is called with one argument, model.\x0aYou should call model value: ... to resolve the promise\x0aand model signal: ... to reject the promise.\x0aIf error happens during run of the block,\x0apromise is rejected with that error as well.\x22\x0a<inlineJS: 'return new Promise(function (resolve, reject) {\x0a    var model = {value: resolve, signal: reject}; // TODO make faster\x0a    aBlock._value_(model);\x0a})'>",
+source: "new: aBlock\x0a\x22Returns a Promise that is eventually resolved or rejected.\x0aPass a block that is called with one argument, model.\x0aYou should call model value: ... to resolve the promise\x0aand model signal: ... to reject the promise.\x0aIf error happens during run of the block,\x0apromise is rejected with that error as well.\x22\x0a<inlineJS: 'return new Promise(function (resolve, reject) {\x0a    var model = {value: resolve, signal: reject};\x0a    aBlock._value_(model);\x0a})'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
