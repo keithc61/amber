@@ -1,3 +1,11 @@
+0.20.0:
+
+* Remove amber/boot api globalJsVariables.
+
+- SmalltalkImage >>
+  - legacyGlobalJsVariables
+
+
 0.19.1:
 
 * Deprecate amber/boot api nextId, prop globalJsVariables.

@@ -952,7 +952,7 @@ deleteGlobalJsVariable: aString
 
 globalJsVariables
 	^ globalJsVariables ifNil: [
-		globalJsVariables := #(window document process global), self legacyGlobalJsVariables ]
+		globalJsVariables := #(window document process global) ]
 ! !
 
 !SmalltalkImage methodsFor: 'packages'!
@@ -1035,12 +1035,6 @@ deleteClass: aClass
 	"Deletes a class by deleting its binding only. Use #removeClass instead"
 	
 	<inlineJS: '$core.removeClass(aClass)'>
-!
-
-legacyGlobalJsVariables
-	"Legacy array of global JavaScript variables.
-	Only used for BW compat, to be removed."
-	<inlineJS: 'return $core.globalJsVariables'>
 ! !
 
 !SmalltalkImage methodsFor: 'testing'!

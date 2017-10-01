@@ -3287,7 +3287,7 @@ return $core.withContext(function($ctx1) {
 var $1,$receiver;
 $1=$self["@globalJsVariables"];
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@globalJsVariables"]=["window", "document", "process", "global"].__comma($self._legacyGlobalJsVariables());
+$self["@globalJsVariables"]=["window", "document", "process", "global"];
 return $self["@globalJsVariables"];
 } else {
 return $1;
@@ -3298,10 +3298,10 @@ return $1;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "globalJsVariables\x0a\x09^ globalJsVariables ifNil: [\x0a\x09\x09globalJsVariables := #(window document process global), self legacyGlobalJsVariables ]",
+source: "globalJsVariables\x0a\x09^ globalJsVariables ifNil: [\x0a\x09\x09globalJsVariables := #(window document process global) ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifNil:", ",", "legacyGlobalJsVariables"]
+messageSends: ["ifNil:"]
 }),
 $globals.SmalltalkImage);
 
@@ -3371,30 +3371,6 @@ return self;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
 source: "isSmalltalkObject: anObject\x0a\x09\x22Consider anObject a Smalltalk object if it has a 'a$cls' property.\x0a\x09Note that this may be unaccurate\x22\x0a\x09\x0a\x09<inlineJS: 'return anObject.a$cls != null'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.SmalltalkImage);
-
-$core.addMethod(
-$core.method({
-selector: "legacyGlobalJsVariables",
-protocol: "private",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $core.globalJsVariables;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"legacyGlobalJsVariables",{},$globals.SmalltalkImage)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "legacyGlobalJsVariables\x0a\x09\x22Legacy array of global JavaScript variables.\x0a\x09Only used for BW compat, to be removed.\x22\x0a\x09<inlineJS: 'return $core.globalJsVariables'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

@@ -244,9 +244,6 @@ define(function () {
             }
             globals.NonBooleanReceiver._signalOn_(shouldBeBoolean);
         };
-
-        // TODO remove
-        st.globalJsVariables = [];
     }
 
     RuntimeBrik.deps = ["selectorConversion", "smalltalkGlobals", "runtimeClasses"];
