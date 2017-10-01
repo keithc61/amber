@@ -1,17 +1,21 @@
 0.20.0:
 
-* Remove amber/boot api globalJsVariables.
-* Rename amber/boot apis:
-  * classes => traitsOrClasses.
+* Internal kernel fields naming changes.
+
++ amber/boot api >>
+  + traitsOrClasses
 
 - SmalltalkImage >>
   - legacyGlobalJsVariables
-
+- amber/boot >>
+  - nil
+  - dnu
+- amber/boot api >>
+  - classes
 
 0.19.1:
 
 * Deprecate amber/boot api nextId, prop globalJsVariables.
-* Remove amber/boot prop reservedWords (with the hope no one uses it directly).
 * Deprecate ProtoObject >> identityHash.
 * Deprecate SmalltalkImage >> packageAt: in favour of explicit #packageAt:if{Absent,Present}:.
 
@@ -94,6 +98,8 @@
   - isSameInstanceAs:
 - ObjectTest >>
   - testIdentityHash
+- amber/boot api >>
+  - reservedWords (with the hope no one uses it directly)
 
 
 0.19.0:
@@ -118,7 +124,7 @@
 +UndefinedObject >>
   + identityHash
   + value
-+ amber/boot api >>
++ amber/boot >>
   + nilAsValue
 
 - IRSend >>
@@ -266,7 +272,7 @@
 * Remove classes InterfacingObject, PlatformInterface.
 * Deprecate $boot.nil (use $boot.nilAsReceiver).
 
-+ amber/boot api >>
++ amber/boot >>
   + nilAsReceiver
 
 - NativeFunction class >>
@@ -280,7 +286,7 @@
 
 * Deprecate $boot.dnu (use $boot.nilAsClass).
 
-+ amber/boot api >>
++ amber/boot >>
   + nilAsClass
 
 
@@ -562,7 +568,7 @@ SmalltalkImage >>
   + heliosClass
 + SmalltalkImage >>
   + core
-+ amber/boot exports
++ amber/boot
   + api
 + amber/{devel,deploy,lang} exports
   + api
@@ -571,6 +577,8 @@ SmalltalkImage >>
   - heliosClass
 - Object class >>
   - heliosClass
+- amber/boot
+  - vm
 
 
 0.12.6:
