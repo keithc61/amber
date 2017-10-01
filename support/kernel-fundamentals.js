@@ -123,14 +123,9 @@ define(function () {
         st.packages = {};
 
         /* Add a package load descriptor to the system */
-
-        st.addPackage = function (pkgName, properties) {
-            if (!pkgName) return null;
-            return st.packages[pkgName] = {
-                // TODO remove .pkgName, have .name
-                pkgName: pkgName,
-                properties: properties
-            };
+        st.addPackage = function (name, properties) {
+            if (!name) return null;
+            return st.packages[name] = {properties: properties};
         };
     }
 
