@@ -1,8 +1,6 @@
 define(["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Platform-DOM-Tests");
 $core.packages["Platform-DOM-Tests"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Platform-DOM-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};

@@ -1,8 +1,6 @@
 define(["amber/boot", "amber_core/Kernel-Classes", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Platform-ImportExport");
 $core.packages["Platform-ImportExport"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Platform-ImportExport"].transport = {"type":"amd","amdNamespace":"amber_core"};
@@ -1460,7 +1458,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(aStream)._write_("if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;");
+$recv(aStream)._write_("if(!(\x22nilAsValue\x22 in $boot))$boot.nilAsValue=$boot.nilAsReceiver;");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
@@ -1468,23 +1466,7 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=1;
 //>>excludeEnd("ctx");
-$recv(aStream)._write_("if(!(\x22nilAsValue\x22 in $boot))$boot.nilAsValue=$boot.nilAsReceiver;");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["write:"]=2;
-//>>excludeEnd("ctx");
-$recv(aStream)._lf();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lf"]=2;
-//>>excludeEnd("ctx");
 $recv(aStream)._write_("var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["write:"]=3;
-//>>excludeEnd("ctx");
-$recv(aStream)._lf();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lf"]=3;
-//>>excludeEnd("ctx");
-$recv(aStream)._write_("if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;");
 $recv(aStream)._lf();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1493,7 +1475,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage", "aStream"],
-source: "exportPackageBodyBlockPrologueOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: 'if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;'; lf;\x0a\x09\x09write: 'if(!(\x22nilAsValue\x22 in $boot))$boot.nilAsValue=$boot.nilAsReceiver;'; lf;\x0a\x09\x09write: 'var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;'; lf;\x0a\x09\x09write: 'if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;'; lf",
+source: "exportPackageBodyBlockPrologueOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: 'if(!(\x22nilAsValue\x22 in $boot))$boot.nilAsValue=$boot.nilAsReceiver;'; lf;\x0a\x09\x09write: 'var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;'; lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["write:", "lf"]

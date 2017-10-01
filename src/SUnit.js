@@ -1,8 +1,6 @@
 define(["amber/boot", "amber_core/Kernel-Classes", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("SUnit");
 $core.packages["SUnit"].innerEval = function (expr) { return eval(expr); };
 $core.packages["SUnit"].transport = {"type":"amd","amdNamespace":"amber_core"};

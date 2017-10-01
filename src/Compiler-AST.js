@@ -1,8 +1,6 @@
 define(["amber/boot", "amber_core/Kernel-Dag", "amber_core/Kernel-Methods"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Compiler-AST");
 $core.packages["Compiler-AST"].innerEval = function (expr) { return eval(expr); };
 $core.packages["Compiler-AST"].transport = {"type":"amd","amdNamespace":"amber_core"};
