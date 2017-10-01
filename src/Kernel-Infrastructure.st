@@ -905,7 +905,7 @@ defaultAmdNamespace: aString
 !SmalltalkImage methodsFor: 'classes'!
 
 classes
-	^ self core classes copy
+	^ self core traitsOrClasses copy
 !
 
 removeClass: aClass

@@ -1,6 +1,8 @@
 0.20.0:
 
 * Remove amber/boot api globalJsVariables.
+* Rename amber/boot apis:
+  * classes => traitsOrClasses.
 
 - SmalltalkImage >>
   - legacyGlobalJsVariables

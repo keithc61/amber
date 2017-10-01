@@ -64,7 +64,7 @@ define(function () {
     RuntimeClassesBrik.deps = ["event", "selectors", "dnu", "behaviors", "classes", "manipulation"];
     function RuntimeClassesBrik (brikz, st) {
         var selectors = brikz.selectors;
-        var classes = brikz.behaviors.classes;
+        var traitsOrClasses = brikz.behaviors.traitsOrClasses;
         var wireKlass = brikz.classes.wireKlass;
         var installMethod = brikz.manipulation.installMethod;
         var installJSMethod = brikz.manipulation.installJSMethod;
@@ -74,7 +74,7 @@ define(function () {
 
         function markClassDetachedRoot (klass) {
             klass.detachedRoot = true;
-            detachedRootClasses = classes.filter(function (klass) {
+            detachedRootClasses = traitsOrClasses.filter(function (klass) {
                 return klass.detachedRoot;
             });
         }
@@ -93,7 +93,7 @@ define(function () {
             }
         }
 
-        classes.forEach(function (traitOrClass) {
+        traitsOrClasses.forEach(function (traitOrClass) {
             if (!traitOrClass.trait) initClassAndMetaclass(traitOrClass);
         });
 

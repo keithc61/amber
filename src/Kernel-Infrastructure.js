@@ -3081,17 +3081,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv($self._core())._classes())._copy();
+return $recv($recv($self._core())._traitsOrClasses())._copy();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"classes",{},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "classes\x0a\x09^ self core classes copy",
+source: "classes\x0a\x09^ self core traitsOrClasses copy",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["copy", "classes", "core"]
+messageSends: ["copy", "traitsOrClasses", "core"]
 }),
 $globals.SmalltalkImage);
 

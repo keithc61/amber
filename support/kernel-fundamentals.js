@@ -140,9 +140,9 @@ define(function () {
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
 
-        /* Smalltalk classes */
+        /* Smalltalk classes and traits */
 
-        var classes = [];
+        var traitsOrClasses = [];
 
         this.buildTraitOrClass = function (category, builder) {
             // TODO remove .className, have .name
@@ -160,13 +160,13 @@ define(function () {
 
         function addTraitOrClass (traitOrClass) {
             globals[traitOrClass.className] = traitOrClass;
-            addElement(classes, traitOrClass);
+            addElement(traitsOrClasses, traitOrClass);
             traitOrClass.added();
         }
 
         function removeTraitOrClass (traitOrClass) {
             traitOrClass.removed();
-            removeElement(classes, traitOrClass);
+            removeElement(traitsOrClasses, traitOrClass);
             delete globals[traitOrClass.className];
         }
 
@@ -178,9 +178,7 @@ define(function () {
             globals[alias] = traitOrClass;
         };
 
-        /* Answer all registered Smalltalk classes */
-        // TODO: remove .classes, have .traitsOrClasses
-        st.classes = this.classes = classes;
+        st.traitsOrClasses = this.traitsOrClasses = traitsOrClasses;
     }
 
     MethodsBrik.deps = ["event", "selectors", "root", "selectorConversion"];
