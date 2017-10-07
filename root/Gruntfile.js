@@ -59,8 +59,6 @@ module.exports = function (grunt) {
                 options: {
                     mainConfigFile: "config.js",
                     rawText: {
-                        "amber/compatibility": "/* stub */", //eg. nothing, TODO remove
-                        "amber/Platform": "/* stub */", //eg. nothing, TODO remove
                         "app": '(' + polyfillThenPromiseApp + '());',
                         "__app__": 'define(["deploy", "amber_core/Platform-Browser"],function(x){return x});'
                     },
@@ -77,13 +75,10 @@ module.exports = function (grunt) {
                 options: {
                     mainConfigFile: "config.js",
                     rawText: {
-                        "amber/compatibility": "/* stub */", //eg. nothing, TODO remove
-                        "amber/Platform": "/* stub */", //eg. nothing, TODO remove
-                        "amber_core/_HaX_": "require.config({map:{'*':{'amber/Platform':'app','amber/compatibility':'app'}}});", // TODO remove
                         "app": '(' + polyfillThenPromiseApp + '());',
                         "__app__": 'define(["devel", "amber_core/Platform-Browser"],function(x){return x});'
                     },
-                    include: ['config', 'amber_core/_HaX_' /*TODO remove*/, 'node_modules/requirejs/require', 'app', '__app__'],
+                    include: ['config', 'node_modules/requirejs/require', 'app', '__app__'],
                     exclude: ['devel'],
                     out: "the.js"
                 }
@@ -93,8 +88,6 @@ module.exports = function (grunt) {
                     mainConfigFile: "config.js",
                     rawText: {
                         "jquery": "/* do not load in node test runner */",
-                        "amber/compatibility": "/* stub */", //eg. nothing, TODO remove
-                        "amber/Platform": "/* stub */", //eg. nothing, TODO remove
                         "__app__": "(" + function () {
                             define(["testing", "amber_core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {
                                 amber.initialize().then(function () {
