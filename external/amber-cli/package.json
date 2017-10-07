@@ -21,7 +21,7 @@
     "url": "https://lolg.it/amber/amber.git"
   },
   "engines": {
-    "node": "0.10.x || 0.12.x || >=4.0.0"
+    "node": ">=4.0.0"
   },
   "bugs": {
     "url": "https://lolg.it/amber/amber/issues?labels=in+cli"

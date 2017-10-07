@@ -21,7 +21,7 @@
     "url": "https://lolg.it/amber/amber.git"
   },
   "engines": {
-    "node": "0.10.x || 0.12.x || >=4.0.0"
+    "node": ">=4.0.0"
   },
   "strings": {
     "buildParserBegin": "// jshint ignore:start\ndefine(['./boot'], function($boot) {\nvar $globals = $boot.globals;\n",
