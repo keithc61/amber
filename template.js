@@ -116,14 +116,14 @@ exports.template = function (grunt, init, done) {
         // A few additional properties.
         props.keywords = ['Amber', 'Smalltalk'];
         props.devDependencies = {
-            "amber-dev": "^0.9.2",
+            "amber-dev": "^0.10.0",
             "grunt": "1.0.1",
             "grunt-contrib-clean": "^1.1.0",
             "grunt-contrib-requirejs": "^1.0.0",
             "grunt-exec": "^2.0.0",
             "requirejs": "^2.1.15"
         };
-        props.node_version = '0.10.x || 0.12.x || >=4.0.0';
+        props.node_version = '>=4.0.0';
         props.scripts = {
             "test": "grunt test"
         };
@@ -156,7 +156,7 @@ exports.template = function (grunt, init, done) {
             "license": props.licenses,
             "private": false,
             "dependencies": {
-                "amber": "^0.19.0",
+                "amber": "^0.19.1",
                 "amber-compat-es2015": "^0.1.5",
                 "amber-contrib-jquery": "^0.4.0",
                 "amber-contrib-web": "^0.5.0",
