@@ -1,3 +1,13 @@
+7 Oct 2017 - Release 0.19.2
+===================================
+
+* Silent bower-only release
+  * Removed dependency on amber/Platform and amber/compatibility.
+  * This, can be used with amber-dev 0.10.0 and grunt template 0.19.5.
+
+Commits: https://lolg.it/amber/amber/commits/0.19.2.
+
+
 18 Jun 2017 - Release 0.19.1
 ===================================
 
