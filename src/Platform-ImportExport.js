@@ -529,6 +529,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1;
 $recv($recv(aPackage)._imports())._ifNotEmpty_((function(imports){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -537,8 +538,20 @@ $recv(aStream)._write_("(Smalltalk packageAt: ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
-$recv(aStream)._print_($recv(aPackage)._name());
-$recv(aStream)._write_([") imports: ",$self._chunkEscape_($recv(aPackage)._importsDefinition()),"!"]);
+$1=$recv(aPackage)._name();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["name"]=1;
+//>>excludeEnd("ctx");
+$recv(aStream)._print_($1);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["print:"]=1;
+//>>excludeEnd("ctx");
+$recv(aStream)._write_(" ifAbsent: [ self error: ");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["write:"]=2;
+//>>excludeEnd("ctx");
+$recv(aStream)._print_("Package not created: ".__comma($recv(aPackage)._name()));
+$recv(aStream)._write_([" ]) imports: ",$self._chunkEscape_($recv(aPackage)._importsDefinition()),"!"]);
 return $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({imports:imports},$ctx1,1)});
@@ -551,10 +564,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage", "aStream"],
-source: "exportPackageImportsOf: aPackage on: aStream\x0a\x09aPackage imports ifNotEmpty: [ :imports | aStream\x0a\x09\x09write: '(Smalltalk packageAt: ';\x0a\x09\x09print: aPackage name;\x0a\x09\x09write: { ') imports: '. self chunkEscape: aPackage importsDefinition. '!' };\x0a\x09\x09lf ]",
+source: "exportPackageImportsOf: aPackage on: aStream\x0a\x09aPackage imports ifNotEmpty: [ :imports | aStream\x0a\x09\x09write: '(Smalltalk packageAt: ';\x0a\x09\x09print: aPackage name;\x0a\x09\x09write: ' ifAbsent: [ self error: ';\x0a\x09\x09print: 'Package not created: ', aPackage name;\x0a\x09\x09write: { ' ]) imports: '. self chunkEscape: aPackage importsDefinition. '!' };\x0a\x09\x09lf ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifNotEmpty:", "imports", "write:", "print:", "name", "chunkEscape:", "importsDefinition", "lf"]
+messageSends: ["ifNotEmpty:", "imports", "write:", "print:", "name", ",", "chunkEscape:", "importsDefinition", "lf"]
 }),
 $globals.ChunkExporter);
 

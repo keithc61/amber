@@ -209,7 +209,9 @@ exportPackageImportsOf: aPackage on: aStream
 	aPackage imports ifNotEmpty: [ :imports | aStream
 		write: '(Smalltalk packageAt: ';
 		print: aPackage name;
-		write: { ') imports: '. self chunkEscape: aPackage importsDefinition. '!!' };
+		write: ' ifAbsent: [ self error: ';
+		print: 'Package not created: ', aPackage name;
+		write: { ' ]) imports: '. self chunkEscape: aPackage importsDefinition. '!!' };
 		lf ]
 !
 
