@@ -11,6 +11,7 @@
     "url": "https://lolg.it/amber/amber.git"
   },
   "engines": {
+    "amber": ">=0.19.1",
     "node": ">=4.0.0"
   },
   "author": "",

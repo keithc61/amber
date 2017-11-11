@@ -211,6 +211,9 @@ function create_compiler(configuration) {
             return new Promise(configuration.requirejs.bind(null, pluginPrefixedLibraries));
         })
         .then(function () {
+            configuration.globals.Smalltalk._adoptPackageDictionary();
+            configuration.globals.AmberBootstrapInitialization._organizeClasses();
+
             console.log('Compiler loaded');
 
             configuration.jsGlobals.forEach(function (each) {
