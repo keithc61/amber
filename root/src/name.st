@@ -1,5 +1,5 @@
 Smalltalk createPackage: '{%= name %}'!
-(Smalltalk packageAt: '{%= name %}') imports: {'amber/jquery/Wrappers-JQuery'. 'amber/web/Web'. 'silk/Silk'}!
+(Smalltalk packageAt: '{%= name %}' ifAbsent: [ self error: 'Package not created: {%= name %}' ]) imports: {'amber/jquery/Wrappers-JQuery'. 'amber/web/Web'. 'silk/Silk'}!
 Object subclass: #{%= name %}
 	instanceVariableNames: ''
 	package: '{%= name %}'!

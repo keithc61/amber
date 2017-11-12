@@ -7,13 +7,12 @@ define("{%= namespace %}/{%= name %}", ["amber/boot"
 
 //>>excludeEnd("imports");
 ){
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
-var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
+if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage('{%= name %}');
-$core.packages["{%= name %}"].innerEval = function (expr) { return eval(expr); };
-$core.packages["{%= name %}"].imports = ["amber/jquery/Wrappers-JQuery", "amber/web/Web", "silk/Silk"];
-$core.packages["{%= name %}"].transport = {"type":"amd","amdNamespace":"{%= namespace %}"};
+($core.packageDescriptors||$core.packages)["{%= name %}"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["{%= name %}"].imports = ["amber/jquery/Wrappers-JQuery", "amber/web/Web", "silk/Silk"];
+($core.packageDescriptors||$core.packages)["{%= name %}"].transport = {"type":"amd","amdNamespace":"{%= namespace %}"};
 
 $core.addClass('{%= name %}', $globals.Object, [], '{%= name %}');
 $core.addMethod(

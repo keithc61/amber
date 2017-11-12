@@ -1,9 +1,9 @@
 define("{%= namespace %}/{%= name %}-Tests", ["amber/boot", "amber_core/SUnit"], function($boot){
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
-var $core=$boot.api,nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
+if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage('{%= name %}-Tests');
-$core.packages["{%= name %}-Tests"].transport = {"type":"amd","amdNamespace":"{%= namespace %}"};
+($core.packageDescriptors||$core.packages)["{%= name %}-Tests"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["{%= name %}-Tests"].transport = {"type":"amd","amdNamespace":"{%= namespace %}"};
 
 $core.addClass('{%= name %}Test', $globals.TestCase, [], '{%= name %}-Tests');
 
