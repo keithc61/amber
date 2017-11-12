@@ -1,9 +1,18 @@
+12 Nov 2017 - Release 0.20.0
+===================================
+
+* Kernel changes, so differences in .js files. Recompile your projects with `grunt`.
+* Use new amber-dev (0.10.1 atm).
+
+Commits: https://lolg.it/amber/amber/commits/0.20.0
+
+
 7 Oct 2017 - Release 0.19.2
 ===================================
 
 * Silent bower-only release
   * Removed dependency on amber/Platform and amber/compatibility.
-  * This, can be used with amber-dev 0.10.0 and grunt template 0.19.5.
+  * Thus, can be used with amber-dev 0.10.0 and grunt template 0.19.5.
 
 Commits: https://lolg.it/amber/amber/commits/0.19.2.
 
