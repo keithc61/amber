@@ -8195,7 +8195,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return anObject.a$cls != null && anObject.a$cls.className;
+return anObject.a$cls != null && anObject.a$cls.name;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"classNameOf:",{anObject:anObject},$globals.Set)});
@@ -8203,7 +8203,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "classNameOf: anObject\x0a\x09\x22Answer the class name of `anObject`, or `undefined` \x0a\x09if `anObject` is not an Smalltalk object\x22\x0a\x09\x0a\x09<inlineJS: 'return anObject.a$cls != null && anObject.a$cls.className'>",
+source: "classNameOf: anObject\x0a\x09\x22Answer the class name of `anObject`, or `undefined` \x0a\x09if `anObject` is not an Smalltalk object\x22\x0a\x09\x0a\x09<inlineJS: 'return anObject.a$cls != null && anObject.a$cls.name'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

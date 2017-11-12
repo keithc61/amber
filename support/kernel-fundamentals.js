@@ -140,8 +140,7 @@ define(function () {
         var traitsOrClasses = [];
 
         this.buildTraitOrClass = function (category, builder) {
-            // TODO remove .className, have .name
-            var traitOrClass = globals.hasOwnProperty(builder.className) && globals[builder.className];
+            var traitOrClass = globals.hasOwnProperty(builder.name) && globals[builder.name];
             if (traitOrClass) {
                 builder.updateExisting(traitOrClass);
             } else {
@@ -154,7 +153,7 @@ define(function () {
         };
 
         function addTraitOrClass (traitOrClass) {
-            globals[traitOrClass.className] = traitOrClass;
+            globals[traitOrClass.name] = traitOrClass;
             addElement(traitsOrClasses, traitOrClass);
             traitOrClass.added();
         }
@@ -162,7 +161,7 @@ define(function () {
         function removeTraitOrClass (traitOrClass) {
             traitOrClass.removed();
             removeElement(traitsOrClasses, traitOrClass);
-            delete globals[traitOrClass.className];
+            delete globals[traitOrClass.name];
         }
 
         this.removeTraitOrClass = removeTraitOrClass;

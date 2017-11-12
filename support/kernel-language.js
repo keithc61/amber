@@ -77,7 +77,7 @@ define(function () {
         SmalltalkTrait.prototype.trait = true;
 
         defineMethod(SmalltalkTrait, "toString", function () {
-            return 'Smalltalk Trait ' + this.className;
+            return 'Smalltalk Trait ' + this.name;
         });
         declareEvent("traitAdded");
         defineMethod(SmalltalkTrait, "added", function () {
@@ -104,12 +104,23 @@ define(function () {
             emit.traitMethodRemoved(method, this);
         });
 
-        function traitBuilder (className) {
+        function traitBuilder (traitName) {
             return {
-                className: className,
+                name: traitName,
                 make: function () {
                     var that = new SmalltalkTrait();
-                    that.className = className;
+                    // TODO deprecation helper; remove
+                    Object.defineProperty(that, "className", {
+                        get: function () {
+                            console.warn("Use of .className deprecated, use .name");
+                            return that.name;
+                        },
+                        set: function (v) {
+                            console.warn("Use of .className= deprecated, use .name=");
+                            that.name = v;
+                        }
+                    });
+                    that.name = traitName;
                     that.traitUsers = [];
                     setupMethods(that);
                     return that;
@@ -287,10 +298,10 @@ define(function () {
         SmalltalkMetaclass.prototype.meta = true;
 
         defineMethod(SmalltalkClass, "toString", function () {
-            return 'Smalltalk ' + this.className;
+            return 'Smalltalk ' + this.name;
         });
         defineMethod(SmalltalkMetaclass, "toString", function () {
-            return 'Smalltalk Metaclass ' + this.instanceClass.className;
+            return 'Smalltalk Metaclass ' + this.instanceClass.name;
         });
         declareEvent("classAdded");
         defineMethod(SmalltalkClass, "added", function () {
@@ -340,7 +351,18 @@ define(function () {
                     }, superclass.fn);
                 that.iVarNames = iVarNames || [];
 
-                that.className = className;
+                // TODO deprecation helper; remove
+                Object.defineProperty(that, "className", {
+                    get: function () {
+                        console.warn("Use of .className deprecated, use .name");
+                        return that.name;
+                    },
+                    set: function (v) {
+                        console.warn("Use of .className= deprecated, use .name=");
+                        that.name = v;
+                    }
+                });
+                that.name = className;
                 that.subclasses = [];
 
                 setupMethods(that);
@@ -363,12 +385,12 @@ define(function () {
             }
 
             return {
-                className: className,
+                name: className,
                 make: klass,
                 updateExisting: function (klass) {
                     if (klass.superclass == logicalSuperclass && (!fn || fn === klass.fn)) {
                         if (iVarNames) klass.iVarNames = iVarNames;
-                    } else throw new Error("Incompatible change of class: " + klass.className);
+                    } else throw new Error("Incompatible change of class: " + klass.name);
                 }
             };
         }

@@ -489,16 +489,16 @@ basicRemoveClass: aClass
 basicRenameClass: aClass to: aString
 	<inlineJS: '
 		$globals[aString] = aClass;
-		delete $globals[aClass.className];
-		aClass.className = aString;
+		delete $globals[aClass.name];
+		aClass.name = aString;
 	'>
 !
 
 basicSwapClassNames: aClass with: anotherClass
 	<inlineJS: '
-		var tmp = aClass.className;
-		aClass.className = anotherClass.className;
-		anotherClass.className = tmp;
+		var tmp = aClass.name;
+		aClass.name = anotherClass.name;
+		anotherClass.name = tmp;
 	'>
 !
 
@@ -874,7 +874,7 @@ leaveOrganization
 !
 
 name
-	<inlineJS: 'return self.className'>
+	<inlineJS: 'return self.name'>
 !
 
 package: aPackage

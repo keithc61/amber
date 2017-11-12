@@ -1426,8 +1426,8 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
 		$globals[aString] = aClass;
-		delete $globals[aClass.className];
-		aClass.className = aString;
+		delete $globals[aClass.name];
+		aClass.name = aString;
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1436,7 +1436,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aString"],
-source: "basicRenameClass: aClass to: aString\x0a\x09<inlineJS: '\x0a\x09\x09$globals[aString] = aClass;\x0a\x09\x09delete $globals[aClass.className];\x0a\x09\x09aClass.className = aString;\x0a\x09'>",
+source: "basicRenameClass: aClass to: aString\x0a\x09<inlineJS: '\x0a\x09\x09$globals[aString] = aClass;\x0a\x09\x09delete $globals[aClass.name];\x0a\x09\x09aClass.name = aString;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -1453,9 +1453,9 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var tmp = aClass.className;
-		aClass.className = anotherClass.className;
-		anotherClass.className = tmp;
+		var tmp = aClass.name;
+		aClass.name = anotherClass.name;
+		anotherClass.name = tmp;
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1464,7 +1464,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "anotherClass"],
-source: "basicSwapClassNames: aClass with: anotherClass\x0a\x09<inlineJS: '\x0a\x09\x09var tmp = aClass.className;\x0a\x09\x09aClass.className = anotherClass.className;\x0a\x09\x09anotherClass.className = tmp;\x0a\x09'>",
+source: "basicSwapClassNames: aClass with: anotherClass\x0a\x09<inlineJS: '\x0a\x09\x09var tmp = aClass.name;\x0a\x09\x09aClass.name = anotherClass.name;\x0a\x09\x09anotherClass.name = tmp;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3475,7 +3475,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self.className;
+return self.name;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"name",{},$globals.TMasterBehavior)});
@@ -3483,7 +3483,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "name\x0a\x09<inlineJS: 'return self.className'>",
+source: "name\x0a\x09<inlineJS: 'return self.name'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
