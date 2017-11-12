@@ -1181,7 +1181,7 @@ define('amber/kernel-runtime',[],function () {
 
     DNUBrik.deps = ["selectors", "smalltalkGlobals", "manipulation", "classes"];
     function DNUBrik (brikz, st) {
-        var selectorsBrik = brikz.selectors;
+        var selectorPairs = brikz.selectors.selectorPairs;
         var globals = brikz.smalltalkGlobals.globals;
         var installJSMethod = brikz.manipulation.installJSMethod;
         var nilAsClass = brikz.classes.nilAsClass;
@@ -1209,7 +1209,7 @@ define('amber/kernel-runtime',[],function () {
             };
         }
 
-        selectorsBrik.selectorPairs.forEach(function (pair) {
+        selectorPairs.forEach(function (pair) {
             makeDnuHandler(pair, []);
         });
     }
@@ -1230,19 +1230,20 @@ define('amber/kernel-runtime',[],function () {
         this.installJSMethod = installJSMethod;
     }
 
-    RuntimeClassesBrik.deps = ["selectors", "dnu", "behaviors", "classes", "manipulation"];
+    RuntimeClassesBrik.deps = ["event", "selectors", "dnu", "behaviors", "classes", "manipulation"];
     function RuntimeClassesBrik (brikz, st) {
         var selectors = brikz.selectors;
-        var classes = brikz.behaviors.classes;
+        var traitsOrClasses = brikz.behaviors.traitsOrClasses;
         var wireKlass = brikz.classes.wireKlass;
         var installMethod = brikz.manipulation.installMethod;
         var installJSMethod = brikz.manipulation.installJSMethod;
+        var emit = brikz.event.emit;
 
         var detachedRootClasses = [];
 
         function markClassDetachedRoot (klass) {
             klass.detachedRoot = true;
-            detachedRootClasses = classes().filter(function (klass) {
+            detachedRootClasses = traitsOrClasses.filter(function (klass) {
                 return klass.detachedRoot;
             });
         }
@@ -1261,24 +1262,24 @@ define('amber/kernel-runtime',[],function () {
             }
         }
 
-        classes().forEach(function (traitOrClass) {
+        traitsOrClasses.forEach(function (traitOrClass) {
             if (!traitOrClass.trait) initClassAndMetaclass(traitOrClass);
         });
 
-        st._classAdded = function (klass) {
+        emit.classAdded = function (klass) {
             initClassAndMetaclass(klass);
             klass._enterOrganization();
         };
 
-        st._traitAdded = function (trait) {
+        emit.traitAdded = function (trait) {
             trait._enterOrganization();
         };
 
-        st._classRemoved = function (klass) {
+        emit.classRemoved = function (klass) {
             klass._leaveOrganization();
         };
 
-        st._traitRemoved = function (trait) {
+        emit.traitRemoved = function (trait) {
             trait._leaveOrganization();
         };
 
@@ -1336,31 +1337,32 @@ define('amber/kernel-runtime',[],function () {
         }
     }
 
-    RuntimeMethodsBrik.deps = ["manipulation", "dnu", "runtimeClasses"];
+    RuntimeMethodsBrik.deps = ["event", "manipulation", "dnu", "runtimeClasses"];
     function RuntimeMethodsBrik (brikz, st) {
         var installMethod = brikz.manipulation.installMethod;
         var installJSMethod = brikz.manipulation.installJSMethod;
         var makeDnuHandler = brikz.dnu.makeDnuHandler;
         var detachedRootClasses = brikz.runtimeClasses.detachedRootClasses;
+        var emit = brikz.event.emit;
 
-        st._behaviorMethodAdded = function (method, klass) {
+        emit.behaviorMethodAdded = function (method, klass) {
             installMethod(method, klass);
             propagateMethodChange(klass, method, klass);
         };
 
-        st._selectorsAdded = function (newSelectors) {
+        emit.selectorsAdded = function (newSelectors) {
             var targetClasses = detachedRootClasses();
             newSelectors.forEach(function (pair) {
                 makeDnuHandler(pair, targetClasses);
             });
         };
 
-        st._behaviorMethodRemoved = function (method, klass) {
+        emit.behaviorMethodRemoved = function (method, klass) {
             delete klass.fn.prototype[method.jsSelector];
             propagateMethodChange(klass, method, null);
         };
 
-        st._methodReplaced = function (newMethod, oldMethod, traitOrBehavior) {
+        emit.methodReplaced = function (newMethod, oldMethod, traitOrBehavior) {
             traitOrBehavior._methodOrganizationEnter_andLeave_(newMethod, oldMethod);
         };
 
@@ -1368,17 +1370,12 @@ define('amber/kernel-runtime',[],function () {
             var selector = method.selector;
             var jsSelector = method.jsSelector;
             st.traverseClassTree(klass, function (subclass, sentinel) {
-                if (subclass !== exclude) {
-                    if (initMethodInClass(subclass, selector, jsSelector)) return sentinel;
+                if (subclass === exclude) return;
+                if (subclass.methods[selector]) return sentinel;
+                if (subclass.detachedRoot) {
+                    installJSMethod(subclass.fn.prototype, jsSelector, subclass.superclass.fn.prototype[jsSelector]);
                 }
             });
-        }
-
-        function initMethodInClass (klass, selector, jsSelector) {
-            if (klass.methods[selector]) return true;
-            if (klass.detachedRoot) {
-                installJSMethod(klass.fn.prototype, jsSelector, klass.superclass.fn.prototype[jsSelector]);
-            }
         }
     }
 
@@ -1416,9 +1413,6 @@ define('amber/kernel-runtime',[],function () {
             }
             globals.NonBooleanReceiver._signalOn_(shouldBeBoolean);
         };
-
-        // TODO remove
-        st.globalJsVariables = [];
     }
 
     RuntimeBrik.deps = ["selectorConversion", "smalltalkGlobals", "runtimeClasses"];
@@ -1457,14 +1451,6 @@ define('amber/kernel-runtime',[],function () {
             this.outerContext = ctx;
             if (index) this.index = index;
         });
-        defineMethod(SmalltalkMethodContext, "init", function () {
-            var frame = this;
-            while (frame) {
-                if (frame.init !== this.init) return frame.init();
-                frame.setup(frame);
-                frame = frame.homeContext;
-            }
-        });
         defineMethod(SmalltalkMethodContext, "method", function () {
             var method;
             var lookup = this.lookupClass || this.receiver.a$cls;
@@ -1484,8 +1470,6 @@ define('amber/kernel-runtime',[],function () {
 
         var thisContext = null;
 
-        st.withContext = inContext;
-
         /*
          Runs worker function so that error handler is not set up
          if there isn't one. This is accomplished by unconditional
@@ -1494,7 +1478,7 @@ define('amber/kernel-runtime',[],function () {
          The effect is, $core.seamless(fn)'s exceptions are not
          handed into ST error handler and caller should process them.
          */
-        st.seamless = function inContext (worker) {
+        st.seamless = function (worker) {
             var oldContext = thisContext;
             thisContext = new SmalltalkMethodContext(thisContext, function (ctx) {
                 ctx.fill(null, "seamlessDoIt", {}, globals.UndefinedObject);
@@ -1515,23 +1499,26 @@ define('amber/kernel-runtime',[],function () {
             }
         }
 
-        function inContext (worker, setup) {
+        /*
+         Standard way to run within context.
+         Sets up error handler if entering first ST context in a stack.
+         */
+        st.withContext = function (worker, setup) {
             var oldContext = thisContext;
             thisContext = new SmalltalkMethodContext(thisContext, setup);
             var result = oldContext == null ? resultWithErrorHandling(worker) : worker(thisContext);
             thisContext = oldContext;
             return result;
-        }
+        };
 
         /* Handle thisContext pseudo variable */
 
         st.getThisContext = function () {
-            if (thisContext) {
-                thisContext.init();
-                return thisContext;
-            } else {
-                return null;
+            if (!thisContext) return null;
+            for (var frame = thisContext; frame; frame = frame.homeContext) {
+                frame.setup(frame);
             }
+            return thisContext;
         };
     }
 
@@ -1757,9 +1744,6 @@ define('amber/brikz',[], function () {
         };
     };
 });
-/* stub */;
-define("amber/compatibility", function(){});
-
 /* ====================================================================
  |
  |   Amber Smalltalk
@@ -1801,7 +1785,7 @@ define("amber/compatibility", function(){});
 
 //jshint eqnull:true
 
-define('amber/kernel-fundamentals',['./compatibility' /* TODO remove */], function () {
+define('amber/kernel-fundamentals',[],function () {
     "use strict";
 
     function inherits (child, parent) {
@@ -1823,7 +1807,16 @@ define('amber/kernel-fundamentals',['./compatibility' /* TODO remove */], functi
         this.globals = globals;
     }
 
-    // TODO kernel announcer instead of st._eventFooHappened(...args)
+    function EventBrik (brikz, st) {
+        var emit = {};
+
+        this.emit = emit;
+
+        this.declareEvent = function (event) {
+            if (!emit[event]) emit[event] = function () {
+            };
+        }
+    }
 
     function RootBrik (brikz, st) {
         /* Smalltalk foundational objects */
@@ -1872,18 +1865,12 @@ define('amber/kernel-fundamentals',['./compatibility' /* TODO remove */], functi
     }
 
     function PackagesBrik (brikz, st) {
-        // TODO remove .packages, have .packageDescriptors
-        st.packages = {};
+        st.packages = st.packageDescriptors = {};
 
         /* Add a package load descriptor to the system */
-
-        st.addPackage = function (pkgName, properties) {
-            if (!pkgName) return null;
-            return st.packages[pkgName] = {
-                // TODO remove .pkgName, have .name
-                pkgName: pkgName,
-                properties: properties
-            };
+        st.addPackage = function (name, properties) {
+            if (!name) return null;
+            return st.packageDescriptors[name] = {properties: properties};
         };
     }
 
@@ -1893,21 +1880,17 @@ define('amber/kernel-fundamentals',['./compatibility' /* TODO remove */], functi
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
 
-        /* Smalltalk classes */
+        /* Smalltalk classes and traits */
 
-        var classes = [];
+        var traitsOrClasses = [];
 
-        this.buildTraitOrClass = function (pkgName, builder) {
-            // TODO remove .className, have .name
-            var traitOrClass = globals.hasOwnProperty(builder.className) && globals[builder.className];
+        this.buildTraitOrClass = function (category, builder) {
+            var traitOrClass = globals.hasOwnProperty(builder.name) && globals[builder.name];
             if (traitOrClass) {
-                // TODO remove .pkg, have .pkgName
-                if (!traitOrClass.pkg) throw new Error("Updated trait or class must have package: " + traitOrClass.className);
-                // if (traitOrClass.pkg.pkgName !== pkgName) throw new Error("Incompatible cross-package update of trait or class: " + traitOrClass.className);
                 builder.updateExisting(traitOrClass);
             } else {
                 traitOrClass = builder.make();
-                traitOrClass.pkg = pkgName;
+                traitOrClass.category = category;
                 addTraitOrClass(traitOrClass);
             }
 
@@ -1915,15 +1898,15 @@ define('amber/kernel-fundamentals',['./compatibility' /* TODO remove */], functi
         };
 
         function addTraitOrClass (traitOrClass) {
-            globals[traitOrClass.className] = traitOrClass;
-            addElement(classes, traitOrClass);
+            globals[traitOrClass.name] = traitOrClass;
+            addElement(traitsOrClasses, traitOrClass);
             traitOrClass.added();
         }
 
         function removeTraitOrClass (traitOrClass) {
             traitOrClass.removed();
-            removeElement(classes, traitOrClass);
-            delete globals[traitOrClass.className];
+            removeElement(traitsOrClasses, traitOrClass);
+            delete globals[traitOrClass.name];
         }
 
         this.removeTraitOrClass = removeTraitOrClass;
@@ -1934,21 +1917,16 @@ define('amber/kernel-fundamentals',['./compatibility' /* TODO remove */], functi
             globals[alias] = traitOrClass;
         };
 
-        /* Answer all registered Smalltalk classes */
-        //TODO: remove the function and make smalltalk.classes an array
-
-        // TODO: remove .classes, have .traitsOrClasses
-        st.classes = this.classes = function () {
-            return classes;
-        };
+        st.traitsOrClasses = this.traitsOrClasses = traitsOrClasses;
     }
 
-    MethodsBrik.deps = ["behaviorProviders", "selectors", "root", "selectorConversion"];
+    MethodsBrik.deps = ["event", "selectors", "root", "selectorConversion"];
     function MethodsBrik (brikz, st) {
         var registerSelector = brikz.selectors.registerSelector;
-        var updateMethod = brikz.behaviorProviders.updateMethod;
         var SmalltalkObject = brikz.root.Object;
         var coreFns = brikz.root.coreFns;
+        var emit = brikz.event.emit;
+        var declareEvent = brikz.event.declareEvent;
 
         function SmalltalkMethod () {
         }
@@ -1976,15 +1954,27 @@ define('amber/kernel-fundamentals',['./compatibility' /* TODO remove */], functi
         /* Add/remove a method to/from a class */
 
         st.addMethod = function (method, traitOrBehavior) {
-            // TODO remove .methodClass, have .owner
-            if (method.methodClass != null) {
-                throw new Error("addMethod: Method " + method.selector + " already bound to " + method.methodClass);
+            if (method.owner != null) {
+                throw new Error("addMethod: Method " + method.selector + " already bound to " + method.owner);
             }
-            method.methodClass = traitOrBehavior;
+            method.owner = traitOrBehavior;
+            // TODO deprecation helper; remove
+            Object.defineProperty(method, "methodClass", {
+                get: function () {
+                    console.warn("Use of .methodClass deprecated, use .owner");
+                    return method.owner;
+                },
+                set: function (v) {
+                    console.warn("Use of .methodClass= deprecated, use .owner=");
+                    method.owner = v;
+                }
+            });
             registerNewSelectors(method);
             traitOrBehavior.localMethods[method.selector] = method;
             updateMethod(method.selector, traitOrBehavior);
         };
+
+        declareEvent("selectorsAdded");
 
         function registerNewSelectors (method) {
             var newSelectors = [];
@@ -1998,7 +1988,7 @@ define('amber/kernel-fundamentals',['./compatibility' /* TODO remove */], functi
 
             selectorInUse(method.selector);
             method.messageSends.forEach(selectorInUse);
-            if (st._selectorsAdded) st._selectorsAdded(newSelectors);
+            emit.selectorsAdded(newSelectors);
         }
 
         st.removeMethod = function (method, traitOrBehavior) {
@@ -2007,15 +1997,15 @@ define('amber/kernel-fundamentals',['./compatibility' /* TODO remove */], functi
             delete traitOrBehavior.localMethods[method.selector];
             updateMethod(method.selector, traitOrBehavior);
         };
-    }
 
-    function BehaviorProvidersBrik (brikz, st) {
         this.setupMethods = function (traitOrBehavior) {
             traitOrBehavior.localMethods = Object.create(null);
             traitOrBehavior.methods = Object.create(null);
         };
 
-        this.updateMethod = function (selector, traitOrBehavior) {
+        declareEvent("methodReplaced");
+
+        function updateMethod (selector, traitOrBehavior) {
             var oldMethod = traitOrBehavior.methods[selector],
                 newMethod = traitOrBehavior.localMethods[selector];
             if (oldMethod == null && newMethod == null) {
@@ -2030,8 +2020,10 @@ define('amber/kernel-fundamentals',['./compatibility' /* TODO remove */], functi
                 delete traitOrBehavior.methods[selector];
                 traitOrBehavior.methodRemoved(oldMethod);
             }
-            if (st._methodReplaced) st._methodReplaced(newMethod, oldMethod, traitOrBehavior);
-        };
+            emit.methodReplaced(newMethod, oldMethod, traitOrBehavior);
+        }
+
+        this.updateMethod = updateMethod;
     }
 
     function ArraySetBrik (brikz, st) {
@@ -2147,11 +2139,11 @@ define('amber/kernel-fundamentals',['./compatibility' /* TODO remove */], functi
         brikz.smalltalkGlobals = SmalltalkGlobalsBrik;
         brikz.root = RootBrik;
         brikz.nil = NilBrik;
+        brikz.event = EventBrik;
         brikz.arraySet = ArraySetBrik;
         brikz.selectorConversion = SelectorConversionBrik;
         brikz.selectors = SelectorsBrik;
         brikz.packages = PackagesBrik;
-        brikz.behaviorProviders = BehaviorProvidersBrik;
         brikz.behaviors = BehaviorsBrik;
         brikz.methods = MethodsBrik;
 
@@ -2202,7 +2194,7 @@ define('amber/kernel-fundamentals',['./compatibility' /* TODO remove */], functi
 
 //jshint eqnull:true
 
-define('amber/kernel-language',['./compatibility' /* TODO remove */], function () {
+define('amber/kernel-language',[],function () {
     "use strict";
 
     function inherits (child, parent) {
@@ -2222,15 +2214,15 @@ define('amber/kernel-language',['./compatibility' /* TODO remove */], function (
         });
     }
 
-    TraitsBrik.deps = ["behaviors", "behaviorProviders", "composition", "arraySet", "root"];
+    TraitsBrik.deps = ["event", "behaviors", "methods", "composition", "root"];
     function TraitsBrik (brikz, st) {
         var coreFns = brikz.root.coreFns;
         var SmalltalkObject = brikz.root.Object;
-        var setupMethods = brikz.behaviorProviders.setupMethods;
+        var setupMethods = brikz.methods.setupMethods;
         var traitMethodChanged = brikz.composition.traitMethodChanged;
         var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
-        var addElement = brikz.arraySet.addElement;
-        var removeElement = brikz.arraySet.removeElement;
+        var emit = brikz.event.emit;
+        var declareEvent = brikz.event.declareEvent;
 
         function SmalltalkTrait () {
         }
@@ -2240,41 +2232,50 @@ define('amber/kernel-language',['./compatibility' /* TODO remove */], function (
         SmalltalkTrait.prototype.trait = true;
 
         defineMethod(SmalltalkTrait, "toString", function () {
-            return 'Smalltalk Trait ' + this.className;
+            return 'Smalltalk Trait ' + this.name;
         });
+        declareEvent("traitAdded");
         defineMethod(SmalltalkTrait, "added", function () {
-            if (st._traitAdded) st._traitAdded(this);
+            emit.traitAdded(this);
         });
+        declareEvent("traitRemoved");
         defineMethod(SmalltalkTrait, "removed", function () {
-            if (st._traitRemoved) st._traitRemoved(this);
+            emit.traitRemoved(this);
         });
+        declareEvent("traitMethodAdded");
         defineMethod(SmalltalkTrait, "methodAdded", function (method) {
             var self = this;
             this.traitUsers.forEach(function (each) {
                 traitMethodChanged(method.selector, method, self, each);
             });
-            if (st._traitMethodAdded) st._traitMethodAdded(method, this);
+            emit.traitMethodAdded(method, this);
         });
+        declareEvent("traitMethodRemoved");
         defineMethod(SmalltalkTrait, "methodRemoved", function (method) {
             var self = this;
             this.traitUsers.forEach(function (each) {
                 traitMethodChanged(method.selector, null, self, each);
             });
-            if (st._traitMethodRemoved) st._traitMethodRemoved(method, this);
-        });
-        defineMethod(SmalltalkTrait, "addUser", function (traitOrBehavior) {
-            addElement(this.traitUsers, traitOrBehavior);
-        });
-        defineMethod(SmalltalkTrait, "removeUser", function (traitOrBehavior) {
-            removeElement(this.traitUsers, traitOrBehavior);
+            emit.traitMethodRemoved(method, this);
         });
 
-        function traitBuilder (className) {
+        function traitBuilder (traitName) {
             return {
-                className: className,
+                name: traitName,
                 make: function () {
                     var that = new SmalltalkTrait();
-                    that.className = className;
+                    // TODO deprecation helper; remove
+                    Object.defineProperty(that, "className", {
+                        get: function () {
+                            console.warn("Use of .className deprecated, use .name");
+                            return that.name;
+                        },
+                        set: function (v) {
+                            console.warn("Use of .className= deprecated, use .name=");
+                            that.name = v;
+                        }
+                    });
+                    that.name = traitName;
                     that.traitUsers = [];
                     setupMethods(that);
                     return that;
@@ -2284,14 +2285,16 @@ define('amber/kernel-language',['./compatibility' /* TODO remove */], function (
             };
         }
 
-        st.addTrait = function (className, pkgName) {
-            return buildTraitOrClass(pkgName, traitBuilder(className));
+        st.addTrait = function (className, category) {
+            return buildTraitOrClass(category, traitBuilder(className));
         };
     }
 
-    MethodCompositionBrik.deps = ["behaviorProviders"];
+    MethodCompositionBrik.deps = ["methods", "arraySet"];
     function MethodCompositionBrik (brikz, st) {
-        var updateMethod = brikz.behaviorProviders.updateMethod;
+        var updateMethod = brikz.methods.updateMethod;
+        var addElement = brikz.arraySet.addElement;
+        var removeElement = brikz.arraySet.removeElement;
 
         function aliased (selector, method) {
             if (method.selector === selector) return method;
@@ -2304,7 +2307,7 @@ define('amber/kernel-language',['./compatibility' /* TODO remove */], function (
                 referencesClasses: method.referencedClasses,
                 fn: method.fn
             });
-            result.methodClass = method.methodClass;
+            result.owner = method.owner;
             return result;
         }
 
@@ -2356,11 +2359,11 @@ define('amber/kernel-language',['./compatibility' /* TODO remove */], function (
                 updateMethod(selector, traitOrBehavior);
             }
             (traitOrBehavior.traitComposition || []).forEach(function (each) {
-                each.trait.removeUser(traitOrBehavior);
+                removeElement(each.trait.traitUsers, traitOrBehavior);
             });
             traitOrBehavior.traitComposition = traitComposition && traitComposition.length ? traitComposition : null;
             (traitOrBehavior.traitComposition || []).forEach(function (each) {
-                each.trait.addUser(traitOrBehavior);
+                addElement(each.trait.traitUsers, traitOrBehavior);
             });
         };
 
@@ -2412,17 +2415,19 @@ define('amber/kernel-language',['./compatibility' /* TODO remove */], function (
         this.traitMethodChanged = traitMethodChanged;
     }
 
-    ClassesBrik.deps = ["root", "behaviors", "behaviorProviders", "arraySet", "smalltalkGlobals"];
+    ClassesBrik.deps = ["root", "event", "behaviors", "methods", "arraySet", "smalltalkGlobals"];
     function ClassesBrik (brikz, st) {
         var SmalltalkRoot = brikz.root.Root;
         var coreFns = brikz.root.coreFns;
         var globals = brikz.smalltalkGlobals.globals;
         var SmalltalkObject = brikz.root.Object;
         var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
-        var setupMethods = brikz.behaviorProviders.setupMethods;
+        var setupMethods = brikz.methods.setupMethods;
         var removeTraitOrClass = brikz.behaviors.removeTraitOrClass;
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
+        var emit = brikz.event.emit;
+        var declareEvent = brikz.event.declareEvent;
 
         function SmalltalkBehavior () {
         }
@@ -2448,24 +2453,28 @@ define('amber/kernel-language',['./compatibility' /* TODO remove */], function (
         SmalltalkMetaclass.prototype.meta = true;
 
         defineMethod(SmalltalkClass, "toString", function () {
-            return 'Smalltalk ' + this.className;
+            return 'Smalltalk ' + this.name;
         });
         defineMethod(SmalltalkMetaclass, "toString", function () {
-            return 'Smalltalk Metaclass ' + this.instanceClass.className;
+            return 'Smalltalk Metaclass ' + this.instanceClass.name;
         });
+        declareEvent("classAdded");
         defineMethod(SmalltalkClass, "added", function () {
             addSubclass(this);
-            if (st._classAdded) st._classAdded(this);
+            emit.classAdded(this);
         });
+        declareEvent("classRemoved");
         defineMethod(SmalltalkClass, "removed", function () {
-            if (st._classRemoved) st._classRemoved(this);
+            emit.classRemoved(this);
             removeSubclass(this);
         });
+        declareEvent("behaviorMethodAdded");
         defineMethod(SmalltalkBehavior, "methodAdded", function (method) {
-            if (st._behaviorMethodAdded) st._behaviorMethodAdded(method, this);
+            emit.behaviorMethodAdded(method, this);
         });
+        declareEvent("behaviorMethodRemove");
         defineMethod(SmalltalkBehavior, "methodRemoved", function (method) {
-            if (st._behaviorMethodRemoved) st._behaviorMethodRemoved(method, this);
+            emit.behaviorMethodRemoved(method, this);
         });
 
         this.bootstrapHierarchy = function () {
@@ -2497,7 +2506,18 @@ define('amber/kernel-language',['./compatibility' /* TODO remove */], function (
                     }, superclass.fn);
                 that.iVarNames = iVarNames || [];
 
-                that.className = className;
+                // TODO deprecation helper; remove
+                Object.defineProperty(that, "className", {
+                    get: function () {
+                        console.warn("Use of .className deprecated, use .name");
+                        return that.name;
+                    },
+                    set: function (v) {
+                        console.warn("Use of .className= deprecated, use .name=");
+                        that.name = v;
+                    }
+                });
+                that.name = className;
                 that.subclasses = [];
 
                 setupMethods(that);
@@ -2520,12 +2540,12 @@ define('amber/kernel-language',['./compatibility' /* TODO remove */], function (
             }
 
             return {
-                className: className,
+                name: className,
                 make: klass,
                 updateExisting: function (klass) {
                     if (klass.superclass == logicalSuperclass && (!fn || fn === klass.fn)) {
                         if (iVarNames) klass.iVarNames = iVarNames;
-                    } else throw new Error("Incompatible change of class: " + klass.className);
+                    } else throw new Error("Incompatible change of class: " + klass.name);
                 }
             };
         }
@@ -2546,13 +2566,13 @@ define('amber/kernel-language',['./compatibility' /* TODO remove */], function (
         /* Add a class to the system, creating a new one if needed.
          A Package is lazily created if one with given name does not exist. */
 
-        st.addClass = function (className, superclass, iVarNames, pkgName) {
+        st.addClass = function (className, superclass, iVarNames, category) {
             // While subclassing nil is allowed, it might be an error, so
             // warn about it.
             if (typeof superclass === 'undefined' || superclass && superclass.a$nil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
-            return buildTraitOrClass(pkgName, classBuilder(className, superclass, iVarNames, coreFns[className]));
+            return buildTraitOrClass(category, classBuilder(className, superclass, iVarNames, coreFns[className]));
         };
 
         st.removeClass = removeTraitOrClass;
@@ -2647,7 +2667,7 @@ define('amber/kernel-language',['./compatibility' /* TODO remove */], function (
 //jshint eqnull:true
 
 define('amber/boot',[
-    'require', './kernel-checks', './brikz', './kernel-fundamentals', './kernel-language', './compatibility' /* TODO remove */
+    'require', './kernel-checks', './brikz', './kernel-fundamentals', './kernel-language'
 ], function (require, _, Brikz, configureWithFundamentals, configureWithHierarchy) {
     "use strict";
 
@@ -2666,6 +2686,17 @@ define('amber/boot',[
                 if (initialized) return;
                 brikz.classes.bootstrapHierarchy();
                 configureWithRuntime(brikz);
+                // TODO deprecation helper; remove
+                Object.defineProperty(st, "packages", {
+                    get: function () {
+                        console.warn("Use of .packages deprecated, use .packageDescriptors");
+                        return st.packageDescriptors;
+                    },
+                    set: function (v) {
+                        console.trace();
+                        throw new Error("No one should be setting st.packages directly on initialized Amber.");
+                    }
+                });
                 brikz.startImage.run();
                 initialized = true;
             });
@@ -2716,10 +2747,8 @@ define('amber/boot',[
 
     return {
         api: api,
-        nil/* TODO deprecate */: brikz.nil.nilAsReceiver,
         nilAsReceiver: brikz.nil.nilAsReceiver,
         nilAsValue: brikz.nil.nilAsValue,
-        dnu/* TODO deprecate */: brikz.classes.nilAsClass,
         nilAsClass: brikz.classes.nilAsClass,
         globals: brikz.smalltalkGlobals.globals,
         asReceiver: brikz.asReceiver.asReceiver
@@ -2805,13 +2834,11 @@ define('amber/helpers',["amber/boot", "require"], function (boot, require) {
 });
 
 define('amber_core/Kernel-Helpers',["amber/boot"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Kernel-Helpers");
-$core.packages["Kernel-Helpers"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Kernel-Helpers"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Kernel-Helpers"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Kernel-Helpers"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addTrait("TSubclassable", "Kernel-Helpers");
 $core.addMethod(
@@ -2990,13 +3017,11 @@ $globals.TSubclassable);
 });
 
 define('amber_core/Kernel-Objects',["amber/boot", "amber_core/Kernel-Helpers"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Kernel-Objects");
-$core.packages["Kernel-Objects"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Kernel-Objects"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Kernel-Objects"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Kernel-Objects"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("ProtoObject", null, [], "Kernel-Objects");
 $globals.ProtoObject.comment="I implement the basic behavior required for any object in Amber.\x0a\x0aIn most cases, subclassing `ProtoObject` is wrong and `Object` should be used instead. However subclassing `ProtoObject` can be useful in some special cases like proxy implementations.";
@@ -7894,13 +7919,11 @@ $core.setTraitComposition([{trait: $globals.TSubclassable}], $globals.UndefinedO
 });
 
 define('amber_core/Kernel-Collections',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Kernel-Collections");
-$core.packages["Kernel-Collections"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Kernel-Collections"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Kernel-Collections"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Kernel-Collections"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("Association", $globals.Object, ["key", "value"], "Kernel-Collections");
 $globals.Association.comment="I represent a pair of associated objects, a key and a value. My instances can serve as entries in a dictionary.\x0a\x0aInstances can be created with the class-side method `#key:value:`";
@@ -13956,12 +13979,12 @@ protocol: "private",
 fn: function (anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return anObject.a$cls != null && anObject.a$cls.className;
+return anObject.a$cls != null && anObject.a$cls.name;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"classNameOf:",{anObject:anObject},$globals.Set)});
 },
 args: ["anObject"],
-source: "classNameOf: anObject\x0a\x09\x22Answer the class name of `anObject`, or `undefined` \x0a\x09if `anObject` is not an Smalltalk object\x22\x0a\x09\x0a\x09<inlineJS: 'return anObject.a$cls != null && anObject.a$cls.className'>",
+source: "classNameOf: anObject\x0a\x09\x22Answer the class name of `anObject`, or `undefined` \x0a\x09if `anObject` is not an Smalltalk object\x22\x0a\x09\x0a\x09<inlineJS: 'return anObject.a$cls != null && anObject.a$cls.name'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15588,13 +15611,11 @@ $globals.RegularExpression.a$cls);
 });
 
 define('amber_core/Kernel-Classes',["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Helpers", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Kernel-Classes");
-$core.packages["Kernel-Classes"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Kernel-Classes"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Kernel-Classes"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Kernel-Classes"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("Behavior", $globals.Object, ["organization"], "Kernel-Classes");
 $globals.Behavior.comment="I am the superclass of all class objects.\x0a\x0aIn addition to BehaviorBody, I define superclass/subclass relationships and instantiation.\x0a\x0aI define the protocol for creating instances of a class with `#basicNew` and `#new` (see `boot.js` for class constructors details).\x0a\x0aMy instances know about the subclass/superclass relationships between classes and contain the description that instances are created from.\x0a\x0aI also provide iterating over the class hierarchy.";
@@ -16095,8 +16116,25 @@ $globals.Behavior);
 
 
 
-$core.addClass("Class", $globals.Behavior, [], "Kernel-Classes");
+$core.addClass("Class", $globals.Behavior, ["package"], "Kernel-Classes");
 $globals.Class.comment="I am __the__ class object.\x0a\x0aMy instances are the classes of the system.\x0aClass creation is done throught a `ClassBuilder` instance.";
+$core.addMethod(
+$core.method({
+selector: "basicPackage:",
+protocol: "accessing",
+fn: function (aPackage){
+var self=this,$self=this;
+$self["@package"]=aPackage;
+return self;
+
+},
+args: ["aPackage"],
+source: "basicPackage: aPackage\x0a\x09package := aPackage",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Class);
+
 $core.addMethod(
 $core.method({
 selector: "classTag",
@@ -16172,6 +16210,22 @@ return true;
 },
 args: [],
 source: "isClass\x0a\x09^ true",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Class);
+
+$core.addMethod(
+$core.method({
+selector: "package",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $self["@package"];
+
+},
+args: [],
+source: "package\x0a\x09^ package",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16622,14 +16676,14 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
 		$globals[aString] = aClass;
-		delete $globals[aClass.className];
-		aClass.className = aString;
+		delete $globals[aClass.name];
+		aClass.name = aString;
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"basicRenameClass:to:",{aClass:aClass,aString:aString},$globals.ClassBuilder)});
 },
 args: ["aClass", "aString"],
-source: "basicRenameClass: aClass to: aString\x0a\x09<inlineJS: '\x0a\x09\x09$globals[aString] = aClass;\x0a\x09\x09delete $globals[aClass.className];\x0a\x09\x09aClass.className = aString;\x0a\x09'>",
+source: "basicRenameClass: aClass to: aString\x0a\x09<inlineJS: '\x0a\x09\x09$globals[aString] = aClass;\x0a\x09\x09delete $globals[aClass.name];\x0a\x09\x09aClass.name = aString;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16643,15 +16697,15 @@ fn: function (aClass,anotherClass){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var tmp = aClass.className;
-		aClass.className = anotherClass.className;
-		anotherClass.className = tmp;
+		var tmp = aClass.name;
+		aClass.name = anotherClass.name;
+		anotherClass.name = tmp;
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"basicSwapClassNames:with:",{aClass:aClass,anotherClass:anotherClass},$globals.ClassBuilder)});
 },
 args: ["aClass", "anotherClass"],
-source: "basicSwapClassNames: aClass with: anotherClass\x0a\x09<inlineJS: '\x0a\x09\x09var tmp = aClass.className;\x0a\x09\x09aClass.className = anotherClass.className;\x0a\x09\x09anotherClass.className = tmp;\x0a\x09'>",
+source: "basicSwapClassNames: aClass with: anotherClass\x0a\x09<inlineJS: '\x0a\x09\x09var tmp = aClass.name;\x0a\x09\x09aClass.name = anotherClass.name;\x0a\x09\x09anotherClass.name = tmp;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -18074,28 +18128,28 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $2,$1,$4,$3,$receiver;
+var $1,$receiver;
 if(($receiver = $globals.Smalltalk) == null || $receiver.a$nil){
 $globals.Smalltalk;
 } else {
-$2=$self._package();
-$ctx1.sendIdx["package"]=1;
-$1=$recv($2)._isString();
-if($core.assert($1)){
-$4=$self._package();
-$ctx1.sendIdx["package"]=2;
-$3=$recv($globals.Package)._named_($4);
-$self._basicAt_put_("pkg",$3);
-}
+$1=$self._basicAt_("category");
+if(($receiver = $1) == null || $receiver.a$nil){
+$self._basicPackage_(nil);
+$ctx1.sendIdx["basicPackage:"]=1;
+} else {
+var category;
+category=$receiver;
+$self._basicPackage_($recv($globals.Package)._named_(category));
 $recv($recv($self._package())._organization())._addElement_(self);
+}
 }
 return self;
 }, function($ctx1) {$ctx1.fill(self,"enterOrganization",{},$globals.TMasterBehavior)});
 },
 args: [],
-source: "enterOrganization\x0a\x09Smalltalk ifNotNil: [\x0a\x09\x09self package isString ifTrue: [ self basicAt: 'pkg' put: (Package named: self package) ].\x0a\x09\x09self package organization addElement: self ]",
+source: "enterOrganization\x0a\x09Smalltalk ifNotNil: [\x0a\x09\x09(self basicAt: 'category')\x0a\x09\x09\x09ifNil: [ self basicPackage: nil ]\x0a\x09\x09\x09ifNotNil: [ :category |\x0a\x09\x09\x09\x09\x22Amber has 1-1 correspondence between cat and pkg, atm\x22\x0a\x09\x09\x09\x09self basicPackage: (Package named: category).\x0a\x09\x09\x09\x09self package organization addElement: self ] ]",
 referencedClasses: ["Smalltalk", "Package"],
-messageSends: ["ifNotNil:", "ifTrue:", "isString", "package", "basicAt:put:", "named:", "addElement:", "organization"]
+messageSends: ["ifNotNil:", "ifNil:ifNotNil:", "basicAt:", "basicPackage:", "named:", "addElement:", "organization", "package"]
 }),
 $globals.TMasterBehavior);
 
@@ -18129,31 +18183,14 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self.className;
+return self.name;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"name",{},$globals.TMasterBehavior)});
 },
 args: [],
-source: "name\x0a\x09<inlineJS: 'return self.className'>",
+source: "name\x0a\x09<inlineJS: 'return self.name'>",
 referencedClasses: [],
 messageSends: []
-}),
-$globals.TMasterBehavior);
-
-$core.addMethod(
-$core.method({
-selector: "package",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $self._basicAt_("pkg");
-}, function($ctx1) {$ctx1.fill(self,"package",{},$globals.TMasterBehavior)});
-},
-args: [],
-source: "package\x0a\x09^ self basicAt: 'pkg'",
-referencedClasses: [],
-messageSends: ["basicAt:"]
 }),
 $globals.TMasterBehavior);
 
@@ -18174,7 +18211,7 @@ return self;
 }
 oldPackage=$self._package();
 $self._leaveOrganization();
-$self._basicAt_put_("pkg",aPackage);
+$self._basicAt_put_("category",aPackage);
 $self._enterOrganization();
 $3=$recv($globals.SystemAnnouncer)._current();
 $5=$recv($globals.ClassMoved)._new();
@@ -18186,7 +18223,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"package:",{aPackage:aPackage,oldPackage:oldPackage},$globals.TMasterBehavior)});
 },
 args: ["aPackage"],
-source: "package: aPackage\x0a\x09| oldPackage |\x0a\x09\x0a\x09self package = aPackage ifTrue: [ ^ self ].\x0a\x09\x0a\x09oldPackage := self package.\x0a\x09\x0a\x09self\x0a\x09\x09leaveOrganization;\x0a\x09\x09basicAt: 'pkg' put: aPackage;\x0a\x09\x09enterOrganization.\x0a\x0a\x09SystemAnnouncer current announce: (ClassMoved new\x0a\x09\x09theClass: self;\x0a\x09\x09oldPackage: oldPackage;\x0a\x09\x09yourself)",
+source: "package: aPackage\x0a\x09| oldPackage |\x0a\x09\x0a\x09self package = aPackage ifTrue: [ ^ self ].\x0a\x09\x0a\x09oldPackage := self package.\x0a\x09\x0a\x09self\x0a\x09\x09leaveOrganization;\x0a\x09\x09basicAt: 'category' put: aPackage;\x0a\x09\x09enterOrganization.\x0a\x0a\x09SystemAnnouncer current announce: (ClassMoved new\x0a\x09\x09theClass: self;\x0a\x09\x09oldPackage: oldPackage;\x0a\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassMoved"],
 messageSends: ["ifTrue:", "=", "package", "leaveOrganization", "basicAt:put:", "enterOrganization", "announce:", "current", "theClass:", "new", "oldPackage:", "yourself"]
 }),
@@ -18209,7 +18246,7 @@ messageSends: []
 $globals.TMasterBehavior);
 
 
-$core.addClass("Trait", $globals.Object, ["organization"], "Kernel-Classes");
+$core.addClass("Trait", $globals.Object, ["organization", "package"], "Kernel-Classes");
 $core.addMethod(
 $core.method({
 selector: "-",
@@ -18313,6 +18350,23 @@ $globals.Trait);
 
 $core.addMethod(
 $core.method({
+selector: "basicPackage:",
+protocol: "accessing",
+fn: function (aPackage){
+var self=this,$self=this;
+$self["@package"]=aPackage;
+return self;
+
+},
+args: ["aPackage"],
+source: "basicPackage: aPackage\x0a\x09package := aPackage",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
 selector: "classTag",
 protocol: "accessing",
 fn: function (){
@@ -18361,6 +18415,22 @@ args: [],
 source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09write: 'Trait named: '; printSymbol: self name; lf;\x0a\x09\x09write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);\x0a\x09\x09tab; write: 'package: '; print: self category ]",
 referencedClasses: ["String"],
 messageSends: ["streamContents:", "write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "traitCompositionDefinition", "tab", "print:", "category"]
+}),
+$globals.Trait);
+
+$core.addMethod(
+$core.method({
+selector: "package",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $self["@package"];
+
+},
+args: [],
+source: "package\x0a\x09^ package",
+referencedClasses: [],
+messageSends: []
 }),
 $globals.Trait);
 
@@ -18871,13 +18941,11 @@ $globals.Array);
 });
 
 define('amber_core/Kernel-Methods',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Kernel-Methods");
-$core.packages["Kernel-Methods"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Kernel-Methods"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Kernel-Methods"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Kernel-Methods"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("BlockClosure", $globals.Object, [], "Kernel-Methods");
 $globals.BlockClosure.comment="I represent a lexical closure.\x0aI am is directly mapped to JavaScript Function.\x0a\x0a## API\x0a\x0a1. Evaluation\x0a\x0a    My instances get evaluated with the `#value*` methods in the 'evaluating' protocol.\x0a\x0a    Example: ` [ :x | x + 1 ] value: 3 \x22Answers 4\x22 `\x0a\x0a2. Control structures\x0a\x0a    Blocks are used (together with `Boolean`) for control structures (methods in the `controlling` protocol).\x0a\x0a    Example: `aBlock whileTrue: [ ... ]`\x0a\x0a3. Error handling\x0a\x0a    I provide the `#on:do:` method for handling exceptions.\x0a\x0a    Example: ` aBlock on: MessageNotUnderstood do: [ :ex | ... ] `";
@@ -19610,11 +19678,11 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $self._basicAt_("methodClass");
+return $self._basicAt_("owner");
 }, function($ctx1) {$ctx1.fill(self,"methodClass",{},$globals.CompiledMethod)});
 },
 args: [],
-source: "methodClass\x0a\x09^ self basicAt: 'methodClass'",
+source: "methodClass\x0a\x09^ self basicAt: 'owner'",
 referencedClasses: [],
 messageSends: ["basicAt:"]
 }),
@@ -21535,13 +21603,11 @@ $globals.Timeout.a$cls);
 });
 
 define('amber_core/Kernel-Dag',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Kernel-Dag");
-$core.packages["Kernel-Dag"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Kernel-Dag"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Kernel-Dag"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Kernel-Dag"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AbstractDagVisitor", $globals.Object, [], "Kernel-Dag");
 $globals.AbstractDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x0aConcrete classes should implement `visitDagNode:`,\x0athey can reuse possible variants of implementation\x0aoffered directly: `visitDagNodeVariantSimple:`\x0aand `visitDagNodeVariantRedux:`.";
@@ -22026,13 +22092,11 @@ $globals.Object);
 });
 
 define('amber_core/Kernel-Exceptions',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Kernel-Exceptions");
-$core.packages["Kernel-Exceptions"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Kernel-Exceptions"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Kernel-Exceptions"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Kernel-Exceptions"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("Error", $globals.Object, ["messageText"], "Kernel-Exceptions");
 $globals.Error.comment="From the ANSI standard:\x0a\x0aThis protocol describes the behavior of instances of class `Error`.\x0aThese are used to represent error conditions that prevent the normal continuation of processing.\x0aActual error exceptions used by an application may be subclasses of this class.\x0aAs `Error` is explicitly specified to be subclassable, conforming implementations must implement its behavior in a non-fragile manner.";
@@ -22725,13 +22789,11 @@ $globals.NonBooleanReceiver.a$cls);
 });
 
 define('amber_core/Kernel-Promises',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Kernel-Promises");
-$core.packages["Kernel-Promises"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Kernel-Promises"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Kernel-Promises"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Kernel-Promises"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("Promise", $globals.Object, [], "Kernel-Promises");
 
@@ -22814,14 +22876,14 @@ fn: function (aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 return new Promise(function (resolve, reject) {
-    var model = {value: resolve, signal: reject}; // TODO make faster
+    var model = {value: resolve, signal: reject};
     aBlock._value_(model);
 });
 return self;
 }, function($ctx1) {$ctx1.fill(self,"new:",{aBlock:aBlock},$globals.Promise.a$cls)});
 },
 args: ["aBlock"],
-source: "new: aBlock\x0a\x22Returns a Promise that is eventually resolved or rejected.\x0aPass a block that is called with one argument, model.\x0aYou should call model value: ... to resolve the promise\x0aand model signal: ... to reject the promise.\x0aIf error happens during run of the block,\x0apromise is rejected with that error as well.\x22\x0a<inlineJS: 'return new Promise(function (resolve, reject) {\x0a    var model = {value: resolve, signal: reject}; // TODO make faster\x0a    aBlock._value_(model);\x0a})'>",
+source: "new: aBlock\x0a\x22Returns a Promise that is eventually resolved or rejected.\x0aPass a block that is called with one argument, model.\x0aYou should call model value: ... to resolve the promise\x0aand model signal: ... to reject the promise.\x0aIf error happens during run of the block,\x0apromise is rejected with that error as well.\x22\x0a<inlineJS: 'return new Promise(function (resolve, reject) {\x0a    var model = {value: resolve, signal: reject};\x0a    aBlock._value_(model);\x0a})'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -23012,13 +23074,11 @@ $core.setTraitComposition([{trait: $globals.TThenable}], $globals.Promise);
 });
 
 define('amber_core/Kernel-Infrastructure',["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Objects", "amber_core/Kernel-Promises"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Kernel-Infrastructure");
-$core.packages["Kernel-Infrastructure"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Kernel-Infrastructure"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Kernel-Infrastructure"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Kernel-Infrastructure"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AmberBootstrapInitialization", $globals.Object, [], "Kernel-Infrastructure");
 
@@ -24672,16 +24732,16 @@ selector: "named:imports:transport:",
 protocol: "accessing",
 fn: function (aPackageName,anArray,aTransport){
 var self=this,$self=this;
-var package_;
+var pkg;
 return $core.withContext(function($ctx1) {
-package_=$self._named_(aPackageName);
-$recv(package_)._imports_(anArray);
-$recv(package_)._transport_(aTransport);
-return package_;
-}, function($ctx1) {$ctx1.fill(self,"named:imports:transport:",{aPackageName:aPackageName,anArray:anArray,aTransport:aTransport,package_:package_},$globals.Package.a$cls)});
+pkg=$self._named_(aPackageName);
+$recv(pkg)._imports_(anArray);
+$recv(pkg)._transport_(aTransport);
+return pkg;
+}, function($ctx1) {$ctx1.fill(self,"named:imports:transport:",{aPackageName:aPackageName,anArray:anArray,aTransport:aTransport,pkg:pkg},$globals.Package.a$cls)});
 },
 args: ["aPackageName", "anArray", "aTransport"],
-source: "named: aPackageName imports: anArray transport: aTransport\x0a\x09| package |\x0a\x09\x0a\x09package := self named: aPackageName.\x0a\x09package imports: anArray.\x0a\x09package transport: aTransport.\x0a\x09\x0a\x09^ package",
+source: "named: aPackageName imports: anArray transport: aTransport\x0a\x09| pkg |\x0a\x09\x0a\x09pkg := self named: aPackageName.\x0a\x09pkg imports: anArray.\x0a\x09pkg transport: aTransport.\x0a\x09\x0a\x09^ pkg",
 referencedClasses: [],
 messageSends: ["named:", "imports:", "transport:"]
 }),
@@ -24693,15 +24753,15 @@ selector: "named:javaScriptDescriptor:",
 protocol: "instance creation",
 fn: function (aString,anObject){
 var self=this,$self=this;
-var package_;
+var pkg;
 return $core.withContext(function($ctx1) {
-package_=$recv($globals.Smalltalk)._createPackage_(aString);
-$recv(package_)._javaScriptDescriptor_(anObject);
-return package_;
-}, function($ctx1) {$ctx1.fill(self,"named:javaScriptDescriptor:",{aString:aString,anObject:anObject,package_:package_},$globals.Package.a$cls)});
+pkg=$recv($globals.Smalltalk)._createPackage_(aString);
+$recv(pkg)._javaScriptDescriptor_(anObject);
+return pkg;
+}, function($ctx1) {$ctx1.fill(self,"named:javaScriptDescriptor:",{aString:aString,anObject:anObject,pkg:pkg},$globals.Package.a$cls)});
 },
 args: ["aString", "anObject"],
-source: "named: aString javaScriptDescriptor: anObject\x0a\x09| package |\x0a\x09\x0a\x09package := Smalltalk createPackage: aString.\x0a\x09package javaScriptDescriptor: anObject.\x0a\x09^ package",
+source: "named: aString javaScriptDescriptor: anObject\x0a\x09| pkg |\x0a\x09\x0a\x09pkg := Smalltalk createPackage: aString.\x0a\x09pkg javaScriptDescriptor: anObject.\x0a\x09^ pkg",
 referencedClasses: ["Smalltalk"],
 messageSends: ["createPackage:", "javaScriptDescriptor:"]
 }),
@@ -24713,15 +24773,15 @@ selector: "named:transport:",
 protocol: "accessing",
 fn: function (aPackageName,aTransport){
 var self=this,$self=this;
-var package_;
+var pkg;
 return $core.withContext(function($ctx1) {
-package_=$self._named_(aPackageName);
-$recv(package_)._transport_(aTransport);
-return package_;
-}, function($ctx1) {$ctx1.fill(self,"named:transport:",{aPackageName:aPackageName,aTransport:aTransport,package_:package_},$globals.Package.a$cls)});
+pkg=$self._named_(aPackageName);
+$recv(pkg)._transport_(aTransport);
+return pkg;
+}, function($ctx1) {$ctx1.fill(self,"named:transport:",{aPackageName:aPackageName,aTransport:aTransport,pkg:pkg},$globals.Package.a$cls)});
 },
 args: ["aPackageName", "aTransport"],
-source: "named: aPackageName transport: aTransport\x0a\x09| package |\x0a\x09\x0a\x09package := self named: aPackageName.\x0a\x09package transport: aTransport.\x0a\x09\x0a\x09^ package",
+source: "named: aPackageName transport: aTransport\x0a\x09| pkg |\x0a\x09\x0a\x09pkg := self named: aPackageName.\x0a\x09pkg transport: aTransport.\x0a\x09\x0a\x09^ pkg",
 referencedClasses: [],
 messageSends: ["named:", "transport:"]
 }),
@@ -25168,7 +25228,7 @@ protocol: "private",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($recv($self._core())._packages())._keysAndValuesDo_((function(key,value){
+$recv($recv($self._core())._packageDescriptors())._keysAndValuesDo_((function(key,value){
 return $core.withContext(function($ctx2) {
 return $recv($globals.Package)._named_javaScriptDescriptor_(key,value);
 }, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
@@ -25177,9 +25237,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"adoptPackageDictionary",{},$globals.SmalltalkImage)});
 },
 args: [],
-source: "adoptPackageDictionary\x0a\x09self core packages keysAndValuesDo: [ :key :value | Package named: key javaScriptDescriptor: value ]",
+source: "adoptPackageDictionary\x0a\x09self core packageDescriptors keysAndValuesDo: [ :key :value | Package named: key javaScriptDescriptor: value ]",
 referencedClasses: ["Package"],
-messageSends: ["keysAndValuesDo:", "packages", "core", "named:javaScriptDescriptor:"]
+messageSends: ["keysAndValuesDo:", "packageDescriptors", "core", "named:javaScriptDescriptor:"]
 }),
 $globals.SmalltalkImage);
 
@@ -25290,14 +25350,13 @@ protocol: "classes",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $core.classes();
-return self;
+return $recv($recv($self._core())._traitsOrClasses())._copy();
 }, function($ctx1) {$ctx1.fill(self,"classes",{},$globals.SmalltalkImage)});
 },
 args: [],
-source: "classes\x0a\x09<inlineJS: 'return $core.classes()'>",
+source: "classes\x0a\x09^ self core traitsOrClasses copy",
 referencedClasses: [],
-messageSends: []
+messageSends: ["copy", "traitsOrClasses", "core"]
 }),
 $globals.SmalltalkImage);
 
@@ -25449,7 +25508,7 @@ return $core.withContext(function($ctx1) {
 var $1,$receiver;
 $1=$self["@globalJsVariables"];
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@globalJsVariables"]=["window", "document", "process", "global"].__comma($self._legacyGlobalJsVariables());
+$self["@globalJsVariables"]=["window", "document", "process", "global"];
 return $self["@globalJsVariables"];
 } else {
 return $1;
@@ -25457,9 +25516,9 @@ return $1;
 }, function($ctx1) {$ctx1.fill(self,"globalJsVariables",{},$globals.SmalltalkImage)});
 },
 args: [],
-source: "globalJsVariables\x0a\x09^ globalJsVariables ifNil: [\x0a\x09\x09globalJsVariables := #(window document process global), self legacyGlobalJsVariables ]",
+source: "globalJsVariables\x0a\x09^ globalJsVariables ifNil: [\x0a\x09\x09globalJsVariables := #(window document process global) ]",
 referencedClasses: [],
-messageSends: ["ifNil:", ",", "legacyGlobalJsVariables"]
+messageSends: ["ifNil:"]
 }),
 $globals.SmalltalkImage);
 
@@ -25512,24 +25571,6 @@ return self;
 },
 args: ["anObject"],
 source: "isSmalltalkObject: anObject\x0a\x09\x22Consider anObject a Smalltalk object if it has a 'a$cls' property.\x0a\x09Note that this may be unaccurate\x22\x0a\x09\x0a\x09<inlineJS: 'return anObject.a$cls != null'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.SmalltalkImage);
-
-$core.addMethod(
-$core.method({
-selector: "legacyGlobalJsVariables",
-protocol: "private",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $core.globalJsVariables;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"legacyGlobalJsVariables",{},$globals.SmalltalkImage)});
-},
-args: [],
-source: "legacyGlobalJsVariables\x0a\x09\x22Legacy array of global JavaScript variables.\x0a\x09Only used for BW compat, to be removed.\x22\x0a\x09<inlineJS: 'return $core.globalJsVariables'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -25909,11 +25950,11 @@ selector: "version",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return "0.19.1";
+return "0.20.0";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.19.1'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.20.0'",
 referencedClasses: [],
 messageSends: []
 }),
@@ -26113,13 +26154,11 @@ $globals.String);
 });
 
 define('amber_core/Kernel-Announcements',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Kernel-Announcements");
-$core.packages["Kernel-Announcements"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Kernel-Announcements"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Kernel-Announcements"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Kernel-Announcements"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AnnouncementSubscription", $globals.Object, ["valuable", "announcementClass"], "Kernel-Announcements");
 $globals.AnnouncementSubscription.comment="I am a single entry in a subscription registry of an `Announcer`.\x0aSeveral subscriptions by the same object is possible.";
@@ -27022,13 +27061,11 @@ $globals.ProtocolRemoved.comment="I am emitted when a protocol is removed from a
 });
 
 define('amber_core/Platform-Services',["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Platform-Services");
-$core.packages["Platform-Services"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Platform-Services"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Platform-Services"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Platform-Services"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("ConsoleErrorHandler", $globals.Object, [], "Platform-Services");
 $globals.ConsoleErrorHandler.comment="I am manage Smalltalk errors, displaying the stack in the console.";
@@ -28726,9 +28763,6 @@ $globals.String);
 
 });
 
-/* stub */;
-define("amber/Platform", function(){});
-
 define('amber/deploy',[
     './helpers',
     './boot', // pre-fetch, dep of ./helpers
@@ -28744,12 +28778,12 @@ define('amber/deploy',[
     'amber_core/Kernel-Exceptions',
     'amber_core/Kernel-Announcements',
     'amber_core/Platform-Services',
-    'amber/Platform' // TODO remove
     // --- packages of the core Amber end here ---
 ], function (amber) {
     return amber;
 });
 
+// jshint ignore:start
 define('amber/parser',['./boot'], function($boot) {
 var $globals = $boot.globals;
 $globals.SmalltalkParser = (function() {
@@ -29244,7 +29278,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsestart() {
       var s0;
 
-      var key    = peg$currPos * 62 + 0,
+      var key    = peg$currPos * 63 + 0,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29263,7 +29297,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseseparator() {
       var s0, s1;
 
-      var key    = peg$currPos * 62 + 1,
+      var key    = peg$currPos * 63 + 1,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29303,7 +29337,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsecomments() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 62 + 2,
+      var key    = peg$currPos * 63 + 2,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29429,7 +29463,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsews() {
       var s0, s1;
 
-      var key    = peg$currPos * 62 + 3,
+      var key    = peg$currPos * 63 + 3,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29459,7 +29493,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsemaybeDotsWs() {
       var s0, s1;
 
-      var key    = peg$currPos * 62 + 4,
+      var key    = peg$currPos * 63 + 4,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29504,10 +29538,55 @@ $globals.SmalltalkParser = (function() {
       return s0;
     }
 
+    function peg$parsesomeDotsWs() {
+      var s0, s1, s2, s3;
+
+      var key    = peg$currPos * 63 + 5,
+          cached = peg$resultsCache[key];
+
+      if (cached) {
+        peg$currPos = cached.nextPos;
+
+        return cached.result;
+      }
+
+      s0 = peg$currPos;
+      s1 = peg$parsews();
+      if (s1 !== peg$FAILED) {
+        if (input.charCodeAt(peg$currPos) === 46) {
+          s2 = peg$c6;
+          peg$currPos++;
+        } else {
+          s2 = peg$FAILED;
+          if (peg$silentFails === 0) { peg$fail(peg$c7); }
+        }
+        if (s2 !== peg$FAILED) {
+          s3 = peg$parsemaybeDotsWs();
+          if (s3 !== peg$FAILED) {
+            s1 = [s1, s2, s3];
+            s0 = s1;
+          } else {
+            peg$currPos = s0;
+            s0 = peg$FAILED;
+          }
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+
+      peg$resultsCache[key] = { nextPos: peg$currPos, result: s0 };
+
+      return s0;
+    }
+
     function peg$parseidentifier() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 62 + 5,
+      var key    = peg$currPos * 63 + 6,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29569,7 +29648,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsekeyword() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 62 + 6,
+      var key    = peg$currPos * 63 + 7,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29614,7 +29693,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseclassName() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 62 + 7,
+      var key    = peg$currPos * 63 + 8,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29676,7 +29755,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsestring() {
       var s0, s1;
 
-      var key    = peg$currPos * 62 + 8,
+      var key    = peg$currPos * 63 + 9,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29701,7 +29780,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parserawString() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 62 + 9,
+      var key    = peg$currPos * 63 + 10,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29800,7 +29879,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsecharacter() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 62 + 10,
+      var key    = peg$currPos * 63 + 11,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29846,7 +29925,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsesymbol() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 62 + 11,
+      var key    = peg$currPos * 63 + 12,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29886,7 +29965,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebareSymbol() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 62 + 12,
+      var key    = peg$currPos * 63 + 13,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29935,7 +30014,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsenumber() {
       var s0, s1;
 
-      var key    = peg$currPos * 62 + 13,
+      var key    = peg$currPos * 63 + 14,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29960,7 +30039,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parserawNumber() {
       var s0;
 
-      var key    = peg$currPos * 62 + 14,
+      var key    = peg$currPos * 63 + 15,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29988,7 +30067,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsenumberExp() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 62 + 15,
+      var key    = peg$currPos * 63 + 16,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30048,7 +30127,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsehex() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 62 + 16,
+      var key    = peg$currPos * 63 + 17,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30130,7 +30209,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsefloat() {
       var s0, s1, s2, s3, s4, s5, s6, s7;
 
-      var key    = peg$currPos * 62 + 17,
+      var key    = peg$currPos * 63 + 18,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30244,7 +30323,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseinteger() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 62 + 18,
+      var key    = peg$currPos * 63 + 19,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30319,7 +30398,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseliteralArray() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 62 + 19,
+      var key    = peg$currPos * 63 + 20,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30377,7 +30456,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebareLiteralArray() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 62 + 20,
+      var key    = peg$currPos * 63 + 21,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30435,7 +30514,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseliteralArrayElement() {
       var s0;
 
-      var key    = peg$currPos * 62 + 21,
+      var key    = peg$currPos * 63 + 22,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30460,7 +30539,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsLiteralArrayContents() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 62 + 22,
+      var key    = peg$currPos * 63 + 23,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30520,7 +30599,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsedynamicArray() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 62 + 23,
+      var key    = peg$currPos * 63 + 24,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30581,7 +30660,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsedynamicDictionary() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 62 + 24,
+      var key    = peg$currPos * 63 + 25,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30642,7 +30721,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsepseudoVariable() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 62 + 25,
+      var key    = peg$currPos * 63 + 26,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30709,7 +30788,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseparseTimeLiteral() {
       var s0;
 
-      var key    = peg$currPos * 62 + 26,
+      var key    = peg$currPos * 63 + 27,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30743,7 +30822,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseruntimeLiteral() {
       var s0;
 
-      var key    = peg$currPos * 62 + 27,
+      var key    = peg$currPos * 63 + 28,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30768,7 +30847,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseliteral() {
       var s0;
 
-      var key    = peg$currPos * 62 + 28,
+      var key    = peg$currPos * 63 + 29,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30790,7 +30869,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsevariable() {
       var s0, s1;
 
-      var key    = peg$currPos * 62 + 29,
+      var key    = peg$currPos * 63 + 30,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30815,7 +30894,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebinarySelector() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 62 + 30,
+      var key    = peg$currPos * 63 + 31,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30861,7 +30940,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsKeywordPattern() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 62 + 31,
+      var key    = peg$currPos * 63 + 32,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30949,7 +31028,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsBinaryPattern() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 62 + 32,
+      var key    = peg$currPos * 63 + 33,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30995,7 +31074,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsUnaryPattern() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 62 + 33,
+      var key    = peg$currPos * 63 + 34,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31029,7 +31108,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseexpression() {
       var s0;
 
-      var key    = peg$currPos * 62 + 34,
+      var key    = peg$currPos * 63 + 35,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31052,9 +31131,9 @@ $globals.SmalltalkParser = (function() {
     }
 
     function peg$parsewsExpressionsRest() {
-      var s0, s1, s2, s3, s4;
+      var s0, s1, s2;
 
-      var key    = peg$currPos * 62 + 35,
+      var key    = peg$currPos * 63 + 36,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31064,31 +31143,13 @@ $globals.SmalltalkParser = (function() {
       }
 
       s0 = peg$currPos;
-      s1 = peg$parsews();
+      s1 = peg$parsesomeDotsWs();
       if (s1 !== peg$FAILED) {
-        if (input.charCodeAt(peg$currPos) === 46) {
-          s2 = peg$c6;
-          peg$currPos++;
-        } else {
-          s2 = peg$FAILED;
-          if (peg$silentFails === 0) { peg$fail(peg$c7); }
-        }
+        s2 = peg$parseexpression();
         if (s2 !== peg$FAILED) {
-          s3 = peg$parsemaybeDotsWs();
-          if (s3 !== peg$FAILED) {
-            s4 = peg$parseexpression();
-            if (s4 !== peg$FAILED) {
-              peg$savedPos = s0;
-              s1 = peg$c79(s4);
-              s0 = s1;
-            } else {
-              peg$currPos = s0;
-              s0 = peg$FAILED;
-            }
-          } else {
-            peg$currPos = s0;
-            s0 = peg$FAILED;
-          }
+          peg$savedPos = s0;
+          s1 = peg$c79(s2);
+          s0 = s1;
         } else {
           peg$currPos = s0;
           s0 = peg$FAILED;
@@ -31106,7 +31167,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsExpressions() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 62 + 36,
+      var key    = peg$currPos * 63 + 37,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31151,7 +31212,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseassignment() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 62 + 37,
+      var key    = peg$currPos * 63 + 38,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31209,7 +31270,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseret() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 62 + 38,
+      var key    = peg$currPos * 63 + 39,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31255,7 +31316,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsetemps() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 62 + 39,
+      var key    = peg$currPos * 63 + 40,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31348,7 +31409,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsBlockParamList() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 62 + 40,
+      var key    = peg$currPos * 63 + 41,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31469,7 +31530,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsesubexpression() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 62 + 41,
+      var key    = peg$currPos * 63 + 42,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31530,10 +31591,10 @@ $globals.SmalltalkParser = (function() {
       return s0;
     }
 
-    function peg$parsewsStatementsWs() {
-      var s0, s1, s2, s3, s4, s5, s6;
+    function peg$parsewsStatements() {
+      var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 62 + 42,
+      var key    = peg$currPos * 63 + 43,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31547,15 +31608,9 @@ $globals.SmalltalkParser = (function() {
       if (s1 !== peg$FAILED) {
         s2 = peg$parseret();
         if (s2 !== peg$FAILED) {
-          s3 = peg$parsemaybeDotsWs();
-          if (s3 !== peg$FAILED) {
-            peg$savedPos = s0;
-            s1 = peg$c93(s2);
-            s0 = s1;
-          } else {
-            peg$currPos = s0;
-            s0 = peg$FAILED;
-          }
+          peg$savedPos = s0;
+          s1 = peg$c93(s2);
+          s0 = s1;
         } else {
           peg$currPos = s0;
           s0 = peg$FAILED;
@@ -31568,37 +31623,13 @@ $globals.SmalltalkParser = (function() {
         s0 = peg$currPos;
         s1 = peg$parsewsExpressions();
         if (s1 !== peg$FAILED) {
-          s2 = peg$parsews();
+          s2 = peg$parsesomeDotsWs();
           if (s2 !== peg$FAILED) {
-            if (input.charCodeAt(peg$currPos) === 46) {
-              s3 = peg$c6;
-              peg$currPos++;
-            } else {
-              s3 = peg$FAILED;
-              if (peg$silentFails === 0) { peg$fail(peg$c7); }
-            }
+            s3 = peg$parseret();
             if (s3 !== peg$FAILED) {
-              s4 = peg$parsemaybeDotsWs();
-              if (s4 !== peg$FAILED) {
-                s5 = peg$parseret();
-                if (s5 !== peg$FAILED) {
-                  s6 = peg$parsemaybeDotsWs();
-                  if (s6 !== peg$FAILED) {
-                    peg$savedPos = s0;
-                    s1 = peg$c94(s1, s5);
-                    s0 = s1;
-                  } else {
-                    peg$currPos = s0;
-                    s0 = peg$FAILED;
-                  }
-                } else {
-                  peg$currPos = s0;
-                  s0 = peg$FAILED;
-                }
-              } else {
-                peg$currPos = s0;
-                s0 = peg$FAILED;
-              }
+              peg$savedPos = s0;
+              s1 = peg$c94(s1, s3);
+              s0 = s1;
             } else {
               peg$currPos = s0;
               s0 = peg$FAILED;
@@ -31618,19 +31649,10 @@ $globals.SmalltalkParser = (function() {
             s1 = null;
           }
           if (s1 !== peg$FAILED) {
-            s2 = peg$parsemaybeDotsWs();
-            if (s2 !== peg$FAILED) {
-              peg$savedPos = s0;
-              s1 = peg$c95(s1);
-              s0 = s1;
-            } else {
-              peg$currPos = s0;
-              s0 = peg$FAILED;
-            }
-          } else {
-            peg$currPos = s0;
-            s0 = peg$FAILED;
+            peg$savedPos = s0;
+            s1 = peg$c95(s1);
           }
+          s0 = s1;
         }
       }
 
@@ -31642,7 +31664,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsSequenceWs() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 62 + 43,
+      var key    = peg$currPos * 63 + 44,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31683,9 +31705,9 @@ $globals.SmalltalkParser = (function() {
     }
 
     function peg$parsewsStSequenceWs() {
-      var s0, s1, s2, s3;
+      var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 62 + 44,
+      var key    = peg$currPos * 63 + 45,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31702,14 +31724,20 @@ $globals.SmalltalkParser = (function() {
           s2 = null;
         }
         if (s2 !== peg$FAILED) {
-          s3 = peg$parsewsStatementsWs();
+          s3 = peg$parsewsStatements();
           if (s3 === peg$FAILED) {
             s3 = null;
           }
           if (s3 !== peg$FAILED) {
-            peg$savedPos = s0;
-            s1 = peg$c97(s2, s3);
-            s0 = s1;
+            s4 = peg$parsemaybeDotsWs();
+            if (s4 !== peg$FAILED) {
+              peg$savedPos = s0;
+              s1 = peg$c97(s2, s3);
+              s0 = s1;
+            } else {
+              peg$currPos = s0;
+              s0 = peg$FAILED;
+            }
           } else {
             peg$currPos = s0;
             s0 = peg$FAILED;
@@ -31731,7 +31759,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseblock() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 62 + 45,
+      var key    = peg$currPos * 63 + 46,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31792,7 +31820,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseoperand() {
       var s0;
 
-      var key    = peg$currPos * 62 + 46,
+      var key    = peg$currPos * 63 + 47,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31817,7 +31845,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsUnaryMessage() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 62 + 47,
+      var key    = peg$currPos * 63 + 48,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31872,7 +31900,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseunarySend() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 62 + 48,
+      var key    = peg$currPos * 63 + 49,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31911,7 +31939,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsBinaryMessage() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 62 + 49,
+      var key    = peg$currPos * 63 + 50,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31957,7 +31985,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebinarySend() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 62 + 50,
+      var key    = peg$currPos * 63 + 51,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31996,7 +32024,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsKeywordMessage() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 62 + 51,
+      var key    = peg$currPos * 63 + 52,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32084,7 +32112,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsekeywordSend() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 62 + 52,
+      var key    = peg$currPos * 63 + 53,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32121,7 +32149,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsMessage() {
       var s0;
 
-      var key    = peg$currPos * 62 + 53,
+      var key    = peg$currPos * 63 + 54,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32146,7 +32174,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsecascade() {
       var s0, s1, s2, s3, s4, s5, s6, s7;
 
-      var key    = peg$currPos * 62 + 54,
+      var key    = peg$currPos * 63 + 55,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32255,7 +32283,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsejsStatement() {
       var s0;
 
-      var key    = peg$currPos * 62 + 55,
+      var key    = peg$currPos * 63 + 56,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32277,7 +32305,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parselegacyJsStatement() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 62 + 56,
+      var key    = peg$currPos * 63 + 57,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32388,7 +32416,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsepragmaJsStatement() {
       var s0, s1, s2, s3, s4, s5, s6, s7;
 
-      var key    = peg$currPos * 62 + 57,
+      var key    = peg$currPos * 63 + 58,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32470,7 +32498,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsemethod() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 62 + 58,
+      var key    = peg$currPos * 63 + 59,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32510,7 +32538,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseassociationSend() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 62 + 59,
+      var key    = peg$currPos * 63 + 60,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32548,9 +32576,9 @@ $globals.SmalltalkParser = (function() {
     }
 
     function peg$parsewsAssociationsRest() {
-      var s0, s1, s2, s3, s4;
+      var s0, s1, s2;
 
-      var key    = peg$currPos * 62 + 60,
+      var key    = peg$currPos * 63 + 61,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32560,31 +32588,13 @@ $globals.SmalltalkParser = (function() {
       }
 
       s0 = peg$currPos;
-      s1 = peg$parsews();
+      s1 = peg$parsesomeDotsWs();
       if (s1 !== peg$FAILED) {
-        if (input.charCodeAt(peg$currPos) === 46) {
-          s2 = peg$c6;
-          peg$currPos++;
-        } else {
-          s2 = peg$FAILED;
-          if (peg$silentFails === 0) { peg$fail(peg$c7); }
-        }
+        s2 = peg$parseassociationSend();
         if (s2 !== peg$FAILED) {
-          s3 = peg$parsemaybeDotsWs();
-          if (s3 !== peg$FAILED) {
-            s4 = peg$parseassociationSend();
-            if (s4 !== peg$FAILED) {
-              peg$savedPos = s0;
-              s1 = peg$c79(s4);
-              s0 = s1;
-            } else {
-              peg$currPos = s0;
-              s0 = peg$FAILED;
-            }
-          } else {
-            peg$currPos = s0;
-            s0 = peg$FAILED;
-          }
+          peg$savedPos = s0;
+          s1 = peg$c79(s2);
+          s0 = s1;
         } else {
           peg$currPos = s0;
           s0 = peg$FAILED;
@@ -32602,7 +32612,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsAssociations() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 62 + 61,
+      var key    = peg$currPos * 63 + 62,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32671,13 +32681,11 @@ $globals.SmalltalkParser = (function() {
 })();
 });
 define('amber_core/Platform-ImportExport',["amber/boot", "amber_core/Kernel-Classes", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Platform-ImportExport");
-$core.packages["Platform-ImportExport"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Platform-ImportExport"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Platform-ImportExport"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Platform-ImportExport"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AbstractExporter", $globals.Object, [], "Platform-ImportExport");
 $globals.AbstractExporter.comment="I am an abstract exporter for Amber source code.\x0a\x0a## API\x0a\x0aUse `#exportPackage:on:` to export a given package on a Stream.";
@@ -33037,12 +33045,19 @@ protocol: "output",
 fn: function (aPackage,aStream){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
+var $1;
 $recv($recv(aPackage)._imports())._ifNotEmpty_((function(imports){
 return $core.withContext(function($ctx2) {
 $recv(aStream)._write_("(Smalltalk packageAt: ");
 $ctx2.sendIdx["write:"]=1;
-$recv(aStream)._print_($recv(aPackage)._name());
-$recv(aStream)._write_([") imports: ",$self._chunkEscape_($recv(aPackage)._importsDefinition()),"!"]);
+$1=$recv(aPackage)._name();
+$ctx2.sendIdx["name"]=1;
+$recv(aStream)._print_($1);
+$ctx2.sendIdx["print:"]=1;
+$recv(aStream)._write_(" ifAbsent: [ self error: ");
+$ctx2.sendIdx["write:"]=2;
+$recv(aStream)._print_("Package not created: ".__comma($recv(aPackage)._name()));
+$recv(aStream)._write_([" ]) imports: ",$self._chunkEscape_($recv(aPackage)._importsDefinition()),"!"]);
 return $recv(aStream)._lf();
 }, function($ctx2) {$ctx2.fillBlock({imports:imports},$ctx1,1)});
 }));
@@ -33050,9 +33065,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"exportPackageImportsOf:on:",{aPackage:aPackage,aStream:aStream},$globals.ChunkExporter)});
 },
 args: ["aPackage", "aStream"],
-source: "exportPackageImportsOf: aPackage on: aStream\x0a\x09aPackage imports ifNotEmpty: [ :imports | aStream\x0a\x09\x09write: '(Smalltalk packageAt: ';\x0a\x09\x09print: aPackage name;\x0a\x09\x09write: { ') imports: '. self chunkEscape: aPackage importsDefinition. '!' };\x0a\x09\x09lf ]",
+source: "exportPackageImportsOf: aPackage on: aStream\x0a\x09aPackage imports ifNotEmpty: [ :imports | aStream\x0a\x09\x09write: '(Smalltalk packageAt: ';\x0a\x09\x09print: aPackage name;\x0a\x09\x09write: ' ifAbsent: [ self error: ';\x0a\x09\x09print: 'Package not created: ', aPackage name;\x0a\x09\x09write: { ' ]) imports: '. self chunkEscape: aPackage importsDefinition. '!' };\x0a\x09\x09lf ]",
 referencedClasses: [],
-messageSends: ["ifNotEmpty:", "imports", "write:", "print:", "name", "chunkEscape:", "importsDefinition", "lf"]
+messageSends: ["ifNotEmpty:", "imports", "write:", "print:", "name", ",", "chunkEscape:", "importsDefinition", "lf"]
 }),
 $globals.ChunkExporter);
 
@@ -33638,25 +33653,17 @@ protocol: "output",
 fn: function (aPackage,aStream){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv(aStream)._write_("if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;");
+$recv(aStream)._write_("if(!(\x22nilAsValue\x22 in $boot))$boot.nilAsValue=$boot.nilAsReceiver;");
 $ctx1.sendIdx["write:"]=1;
 $recv(aStream)._lf();
 $ctx1.sendIdx["lf"]=1;
-$recv(aStream)._write_("if(!(\x22nilAsValue\x22 in $boot))$boot.nilAsValue=$boot.nilAsReceiver;");
-$ctx1.sendIdx["write:"]=2;
-$recv(aStream)._lf();
-$ctx1.sendIdx["lf"]=2;
 $recv(aStream)._write_("var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;");
-$ctx1.sendIdx["write:"]=3;
-$recv(aStream)._lf();
-$ctx1.sendIdx["lf"]=3;
-$recv(aStream)._write_("if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;");
 $recv(aStream)._lf();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"exportPackageBodyBlockPrologueOf:on:",{aPackage:aPackage,aStream:aStream},$globals.Exporter)});
 },
 args: ["aPackage", "aStream"],
-source: "exportPackageBodyBlockPrologueOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: 'if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;'; lf;\x0a\x09\x09write: 'if(!(\x22nilAsValue\x22 in $boot))$boot.nilAsValue=$boot.nilAsReceiver;'; lf;\x0a\x09\x09write: 'var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;'; lf;\x0a\x09\x09write: 'if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;'; lf",
+source: "exportPackageBodyBlockPrologueOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: 'if(!(\x22nilAsValue\x22 in $boot))$boot.nilAsValue=$boot.nilAsReceiver;'; lf;\x0a\x09\x09write: 'var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;'; lf",
 referencedClasses: [],
 messageSends: ["write:", "lf"]
 }),
@@ -33669,13 +33676,13 @@ protocol: "output",
 fn: function (aPackage,aStream){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv(aStream)._write_(["$core.packages[",$recv($recv(aPackage)._name())._asJavaScriptSource(),"].innerEval = ","function (expr) { return eval(expr); }",";"]);
+$recv(aStream)._write_(["($core.packageDescriptors||$core.packages)[",$recv($recv(aPackage)._name())._asJavaScriptSource(),"].innerEval = ","function (expr) { return eval(expr); }",";"]);
 $recv(aStream)._lf();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"exportPackageContextOf:on:",{aPackage:aPackage,aStream:aStream},$globals.Exporter)});
 },
 args: ["aPackage", "aStream"],
-source: "exportPackageContextOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: {\x0a\x09\x09\x09'$core.packages['.\x0a\x09\x09\x09aPackage name asJavaScriptSource.\x0a\x09\x09\x09'].innerEval = '.\x0a\x09\x09\x09'function (expr) { return eval(expr); }'.\x0a\x09\x09\x09';' };\x0a\x09\x09lf",
+source: "exportPackageContextOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: {\x0a\x09\x09\x09'($core.packageDescriptors||$core.packages)['.\x0a\x09\x09\x09aPackage name asJavaScriptSource.\x0a\x09\x09\x09'].innerEval = '.\x0a\x09\x09\x09'function (expr) { return eval(expr); }'.\x0a\x09\x09\x09';' };\x0a\x09\x09lf",
 referencedClasses: [],
 messageSends: ["write:", "asJavaScriptSource", "name", "lf"]
 }),
@@ -33730,7 +33737,7 @@ $recv($recv(aPackage)._importsAsJson())._ifNotEmpty_((function(imports){
 return $core.withContext(function($ctx2) {
 $2=$recv($recv(aPackage)._name())._asJavaScriptSource();
 $ctx2.sendIdx["asJavaScriptSource"]=1;
-$1=["$core.packages[",$2,"].imports = ",$recv(imports)._asJavaScriptSource(),";"];
+$1=["($core.packageDescriptors||$core.packages)[",$2,"].imports = ",$recv(imports)._asJavaScriptSource(),";"];
 $recv(aStream)._write_($1);
 return $recv(aStream)._lf();
 }, function($ctx2) {$ctx2.fillBlock({imports:imports},$ctx1,1)});
@@ -33739,7 +33746,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"exportPackageImportsOf:on:",{aPackage:aPackage,aStream:aStream},$globals.Exporter)});
 },
 args: ["aPackage", "aStream"],
-source: "exportPackageImportsOf: aPackage on: aStream\x0a\x09aPackage importsAsJson ifNotEmpty: [ :imports |\x0a\x09\x09aStream\x0a\x09\x09\x09write: {\x0a\x09\x09\x09\x09'$core.packages['.\x0a\x09\x09\x09\x09aPackage name asJavaScriptSource.\x0a\x09\x09\x09\x09'].imports = '.\x0a\x09\x09\x09\x09imports asJavaScriptSource.\x0a\x09\x09\x09\x09';' };\x0a\x09\x09\x09lf ]",
+source: "exportPackageImportsOf: aPackage on: aStream\x0a\x09aPackage importsAsJson ifNotEmpty: [ :imports |\x0a\x09\x09aStream\x0a\x09\x09\x09write: {\x0a\x09\x09\x09\x09'($core.packageDescriptors||$core.packages)['.\x0a\x09\x09\x09\x09aPackage name asJavaScriptSource.\x0a\x09\x09\x09\x09'].imports = '.\x0a\x09\x09\x09\x09imports asJavaScriptSource.\x0a\x09\x09\x09\x09';' };\x0a\x09\x09\x09lf ]",
 referencedClasses: [],
 messageSends: ["ifNotEmpty:", "importsAsJson", "write:", "asJavaScriptSource", "name", "lf"]
 }),
@@ -33797,13 +33804,13 @@ protocol: "output",
 fn: function (aPackage,aStream){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv(aStream)._write_(["$core.packages[",$recv($recv(aPackage)._name())._asJavaScriptSource(),"].transport = ",$recv($recv(aPackage)._transport())._asJSONString(),";"]);
+$recv(aStream)._write_(["($core.packageDescriptors||$core.packages)[",$recv($recv(aPackage)._name())._asJavaScriptSource(),"].transport = ",$recv($recv(aPackage)._transport())._asJSONString(),";"]);
 $recv(aStream)._lf();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"exportPackageTransportOf:on:",{aPackage:aPackage,aStream:aStream},$globals.Exporter)});
 },
 args: ["aPackage", "aStream"],
-source: "exportPackageTransportOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: {\x0a\x09\x09\x09'$core.packages['.\x0a\x09\x09\x09aPackage name asJavaScriptSource.\x0a\x09\x09\x09'].transport = '.\x0a\x09\x09\x09aPackage transport asJSONString.\x0a\x09\x09\x09';' };\x0a\x09\x09lf",
+source: "exportPackageTransportOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: {\x0a\x09\x09\x09'($core.packageDescriptors||$core.packages)['.\x0a\x09\x09\x09aPackage name asJavaScriptSource.\x0a\x09\x09\x09'].transport = '.\x0a\x09\x09\x09aPackage transport asJSONString.\x0a\x09\x09\x09';' };\x0a\x09\x09lf",
 referencedClasses: [],
 messageSends: ["write:", "asJavaScriptSource", "name", "asJSONString", "transport", "lf"]
 }),
@@ -35929,13 +35936,11 @@ $globals.Trait);
 });
 
 define('amber_core/Compiler-Core',["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Compiler-Core");
-$core.packages["Compiler-Core"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Compiler-Core"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Compiler-Core"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Compiler-Core"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AbstractCodeGenerator", $globals.Object, ["currentClass", "currentPackage", "source"], "Compiler-Core");
 $globals.AbstractCodeGenerator.comment="I am the abstract super class of all code generators and provide their common API.";
@@ -36866,13 +36871,11 @@ $globals.String);
 });
 
 define('amber_core/Compiler-AST',["amber/boot", "amber_core/Kernel-Dag", "amber_core/Kernel-Methods"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Compiler-AST");
-$core.packages["Compiler-AST"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Compiler-AST"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Compiler-AST"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Compiler-AST"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("ASTNode", $globals.DagParentNode, ["parent", "position", "source", "shouldBeAliased"], "Compiler-AST");
 $globals.ASTNode.comment="I am the abstract root class of the abstract syntax tree.\x0a\x0aConcrete classes should implement `#accept:` to allow visiting.\x0a\x0a`position` holds a point containing line and column number of the symbol location in the original source file.";
@@ -39353,13 +39356,11 @@ $globals.CompiledMethod);
 });
 
 define('amber_core/Compiler-Semantic',["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Core", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Compiler-Semantic");
-$core.packages["Compiler-Semantic"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Compiler-Semantic"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Compiler-Semantic"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Compiler-Semantic"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("LexicalScope", $globals.Object, ["node", "instruction", "temps", "args", "outerScope", "blockIndex"], "Compiler-Semantic");
 $globals.LexicalScope.comment="I represent a lexical scope where variable names are associated with ScopeVars\x0aInstances are used for block scopes. Method scopes are instances of MethodLexicalScope.\x0a\x0aI am attached to a ScopeVar and method/block nodes.\x0aEach context (method/closure) get a fresh scope that inherits from its outer scope.";
@@ -41586,13 +41587,11 @@ $globals.UnknownVariableError);
 });
 
 define('amber_core/Compiler-IR',["amber/boot", "amber_core/Compiler-AST", "amber_core/Kernel-Dag", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Compiler-IR");
-$core.packages["Compiler-IR"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Compiler-IR"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Compiler-IR"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Compiler-IR"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("IRASTTranslator", $globals.NodeVisitor, ["source", "theClass", "method", "sequence", "nextAlias"], "Compiler-IR");
 $globals.IRASTTranslator.comment="I am the AST (abstract syntax tree) visitor responsible for building the intermediate representation graph.";
@@ -45867,13 +45866,11 @@ $globals.SendNode);
 });
 
 define('amber_core/Compiler-Inlining',["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Core", "amber_core/Compiler-IR", "amber_core/Compiler-Semantic", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Compiler-Inlining");
-$core.packages["Compiler-Inlining"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Compiler-Inlining"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Compiler-Inlining"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Compiler-Inlining"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("ASTPreInliner", $globals.NodeVisitor, [], "Compiler-Inlining");
 $core.addMethod(
@@ -47540,13 +47537,11 @@ $globals.IRInstruction);
 });
 
 define('amber_core/Compiler-Interpreter',["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Semantic", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Compiler-Interpreter");
-$core.packages["Compiler-Interpreter"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Compiler-Interpreter"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Compiler-Interpreter"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Compiler-Interpreter"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AIBlockClosure", $globals.BlockClosure, ["node", "outerContext"], "Compiler-Interpreter");
 $globals.AIBlockClosure.comment="I am a special `BlockClosure` subclass used by an interpreter to interpret a block node.\x0a\x0aWhile I am polymorphic with `BlockClosure`, some methods such as `#new` will raise interpretation errors. Unlike a `BlockClosure`, my instance are not JavaScript functions.\x0a\x0aEvaluating an instance will result in interpreting the `node` instance variable (instance of `BlockNode`).";
@@ -50620,13 +50615,11 @@ define('amber/lang',[
 });
 
 define('amber_core/Platform-DOM',["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Platform-DOM");
-$core.packages["Platform-DOM"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Platform-DOM"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Platform-DOM"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Platform-DOM"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("PlatformDom", $globals.Object, [], "Platform-DOM");
 
@@ -50805,13 +50798,11 @@ $globals.String);
 });
 
 define('amber_core/SUnit',["amber/boot", "amber_core/Kernel-Classes", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("SUnit");
-$core.packages["SUnit"].innerEval = function (expr) { return eval(expr); };
-$core.packages["SUnit"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["SUnit"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["SUnit"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("ResultAnnouncement", $globals.Object, ["result"], "SUnit");
 $globals.ResultAnnouncement.comment="I get signaled when a `TestCase` has been run.\x0a\x0aMy instances hold the result (instance of `TestResult`) of the test run.";
@@ -52178,13 +52169,11 @@ $globals.TBehaviorDefaults);
 });
 
 define('amber_core/Compiler-Tests',["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Compiler-Tests");
-$core.packages["Compiler-Tests"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Compiler-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Compiler-Tests"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Compiler-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("ASTParsingTest", $globals.TestCase, [], "Compiler-Tests");
 $core.addMethod(
@@ -54383,13 +54372,11 @@ $globals.AISemanticAnalyzerTest);
 });
 
 define('amber_core/Kernel-Tests',["amber/boot", "amber_core/Kernel-Objects", "amber_core/SUnit"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Kernel-Tests");
-$core.packages["Kernel-Tests"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Kernel-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Kernel-Tests"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Kernel-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AnnouncementSubscriptionTest", $globals.TestCase, [], "Kernel-Tests");
 $core.addMethod(
@@ -65277,13 +65264,11 @@ $globals.UndefinedTest);
 });
 
 define('amber_core/Platform-DOM-Tests',["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Platform-DOM-Tests");
-$core.packages["Platform-DOM-Tests"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Platform-DOM-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Platform-DOM-Tests"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Platform-DOM-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("PlatformDomTest", $globals.TestCase, ["fixtureDiv"], "Platform-DOM-Tests");
 $core.addMethod(
@@ -65338,13 +65323,11 @@ $globals.PlatformDomTest);
 });
 
 define('amber_core/SUnit-Tests',["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("SUnit-Tests");
-$core.packages["SUnit-Tests"].innerEval = function (expr) { return eval(expr); };
-$core.packages["SUnit-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["SUnit-Tests"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["SUnit-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("ExampleSetTest", $globals.TestCase, ["empty", "full"], "SUnit-Tests");
 $globals.ExampleSetTest.comment="ExampleSetTest is taken from Pharo 1.4.\x0a\x0aTHe purpose of this class is to demonstrate a simple use case of the test framework.";
@@ -66000,7 +65983,6 @@ $globals.SUnitAsyncTest);
 
 define('amber/devel',[
     './lang',
-    './compatibility', // pre-fetch, dep of ./boot, TODO remove
     './brikz', // pre-fetch, dep of ./boot
     './kernel-checks', // pre-fetch, dep of ./boot
     './kernel-fundamentals', // pre-fetch, dep of ./boot
@@ -66020,13 +66002,11 @@ define('amber/devel',[
 });
 
 define('amber_core/Platform-Node',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("Platform-Node");
-$core.packages["Platform-Node"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Platform-Node"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Platform-Node"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Platform-Node"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("NodePlatform", $globals.Object, [], "Platform-Node");
 $globals.NodePlatform.comment="I am `Platform` service implementation for node-like environment.";
@@ -66113,13 +66093,11 @@ $globals.NodePlatform.a$cls);
 });
 
 define('amber_cli/AmberCli',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!$boot.nilAsReceiver)$boot.nilAsReceiver=$boot.nil;
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-if(!$boot.nilAsClass)$boot.nilAsClass=$boot.dnu;
 $core.addPackage("AmberCli");
-$core.packages["AmberCli"].innerEval = function (expr) { return eval(expr); };
-$core.packages["AmberCli"].transport = {"type":"amd","amdNamespace":"amber_cli"};
+($core.packageDescriptors||$core.packages)["AmberCli"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["AmberCli"].transport = {"type":"amd","amdNamespace":"amber_cli"};
 
 $core.addClass("AmberCli", $globals.Object, [], "AmberCli");
 $globals.AmberCli.comment="I am the Amber CLI (CommandLine Interface) tool which runs on Node.js.\x0a\x0aMy responsibility is to start different Amber programs like the FileServer or the Repl.\x0aWhich program to start is determined by the first commandline parameters passed to the AmberCli executable.\x0aUse `help` to get a list of all available options.\x0aAny further commandline parameters are passed to the specific program.\x0a\x0a## Commands\x0a\x0aNew commands can be added by creating a class side method in the `commands` protocol which takes one parameter.\x0aThis parameter is an array of all commandline options + values passed on to the program.\x0aAny `camelCaseCommand` is transformed into a commandline parameter of the form `camel-case-command` and vice versa.";
