@@ -119,13 +119,12 @@ define(function () {
     }
 
     function PackagesBrik (brikz, st) {
-        // TODO remove .packages, have .packageDescriptors
-        st.packages = {};
+        st.packages = st.packageDescriptors = {};
 
         /* Add a package load descriptor to the system */
         st.addPackage = function (name, properties) {
             if (!name) return null;
-            return st.packages[name] = {properties: properties};
+            return st.packageDescriptors[name] = {properties: properties};
         };
     }
 

@@ -59,6 +59,17 @@ define([
                 if (initialized) return;
                 brikz.classes.bootstrapHierarchy();
                 configureWithRuntime(brikz);
+                // TODO deprecation helper; remove
+                Object.defineProperty(st, "packages", {
+                    get: function () {
+                        console.warn("Use of .packages deprecated, use .packageDescriptors");
+                        return st.packageDescriptors;
+                    },
+                    set: function (v) {
+                        console.trace();
+                        throw new Error("No one should be setting st.packages directly on initialized Amber.");
+                    }
+                });
                 brikz.startImage.run();
                 initialized = true;
             });

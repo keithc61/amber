@@ -1019,7 +1019,7 @@ renamePackage: packageName to: newName
 !SmalltalkImage methodsFor: 'private'!
 
 adoptPackageDictionary
-	self core packages keysAndValuesDo: [ :key :value | Package named: key javaScriptDescriptor: value ]
+	self core packageDescriptors keysAndValuesDo: [ :key :value | Package named: key javaScriptDescriptor: value ]
 !
 
 basicCreatePackage: packageName

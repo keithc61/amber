@@ -2909,7 +2909,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($recv($self._core())._packages())._keysAndValuesDo_((function(key,value){
+$recv($recv($self._core())._packageDescriptors())._keysAndValuesDo_((function(key,value){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -2925,10 +2925,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "adoptPackageDictionary\x0a\x09self core packages keysAndValuesDo: [ :key :value | Package named: key javaScriptDescriptor: value ]",
+source: "adoptPackageDictionary\x0a\x09self core packageDescriptors keysAndValuesDo: [ :key :value | Package named: key javaScriptDescriptor: value ]",
 referencedClasses: ["Package"],
 //>>excludeEnd("ide");
-messageSends: ["keysAndValuesDo:", "packages", "core", "named:javaScriptDescriptor:"]
+messageSends: ["keysAndValuesDo:", "packageDescriptors", "core", "named:javaScriptDescriptor:"]
 }),
 $globals.SmalltalkImage);
 
