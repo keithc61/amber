@@ -2,8 +2,8 @@ define(["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Helper
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage("Kernel-Classes");
-$core.packages["Kernel-Classes"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Kernel-Classes"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Kernel-Classes"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Kernel-Classes"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("Behavior", $globals.Object, ["organization"], "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);

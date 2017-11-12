@@ -2,8 +2,8 @@ define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict"
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage("Platform-Node");
-$core.packages["Platform-Node"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Platform-Node"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Platform-Node"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Platform-Node"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("NodePlatform", $globals.Object, [], "Platform-Node");
 //>>excludeStart("ide", pragmas.excludeIdeData);

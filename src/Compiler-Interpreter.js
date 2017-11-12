@@ -2,8 +2,8 @@ define(["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Semantic",
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage("Compiler-Interpreter");
-$core.packages["Compiler-Interpreter"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Compiler-Interpreter"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Compiler-Interpreter"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Compiler-Interpreter"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AIBlockClosure", $globals.BlockClosure, ["node", "outerContext"], "Compiler-Interpreter");
 //>>excludeStart("ide", pragmas.excludeIdeData);

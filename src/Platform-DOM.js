@@ -2,8 +2,8 @@ define(["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Infras
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage("Platform-DOM");
-$core.packages["Platform-DOM"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Platform-DOM"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Platform-DOM"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Platform-DOM"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("PlatformDom", $globals.Object, [], "Platform-DOM");
 

@@ -380,7 +380,7 @@ exportPackageBodyBlockPrologueOf: aPackage on: aStream
 exportPackageContextOf: aPackage on: aStream
 	aStream
 		write: {
-			'$core.packages['.
+			'($core.packageDescriptors||$core.packages)['.
 			aPackage name asJavaScriptSource.
 			'].innerEval = '.
 			'function (expr) { return eval(expr); }'.
@@ -402,7 +402,7 @@ exportPackageImportsOf: aPackage on: aStream
 	aPackage importsAsJson ifNotEmpty: [ :imports |
 		aStream
 			write: {
-				'$core.packages['.
+				'($core.packageDescriptors||$core.packages)['.
 				aPackage name asJavaScriptSource.
 				'].imports = '.
 				imports asJavaScriptSource.
@@ -423,7 +423,7 @@ exportPackageTraitCompositionsOf: aPackage on: aStream
 exportPackageTransportOf: aPackage on: aStream
 	aStream
 		write: {
-			'$core.packages['.
+			'($core.packageDescriptors||$core.packages)['.
 			aPackage name asJavaScriptSource.
 			'].transport = '.
 			aPackage transport asJSONString.

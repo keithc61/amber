@@ -2,8 +2,8 @@ define(["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage("Compiler-Tests");
-$core.packages["Compiler-Tests"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Compiler-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Compiler-Tests"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Compiler-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("ASTParsingTest", $globals.TestCase, [], "Compiler-Tests");
 $core.addMethod(

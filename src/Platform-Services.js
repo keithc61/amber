@@ -2,8 +2,8 @@ define(["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Infras
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage("Platform-Services");
-$core.packages["Platform-Services"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Platform-Services"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Platform-Services"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Platform-Services"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("ConsoleErrorHandler", $globals.Object, [], "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);

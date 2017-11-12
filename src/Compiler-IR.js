@@ -2,8 +2,8 @@ define(["amber/boot", "amber_core/Compiler-AST", "amber_core/Kernel-Dag", "amber
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage("Compiler-IR");
-$core.packages["Compiler-IR"].innerEval = function (expr) { return eval(expr); };
-$core.packages["Compiler-IR"].transport = {"type":"amd","amdNamespace":"amber_core"};
+($core.packageDescriptors||$core.packages)["Compiler-IR"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["Compiler-IR"].transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("IRASTTranslator", $globals.NodeVisitor, ["source", "theClass", "method", "sequence", "nextAlias"], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);

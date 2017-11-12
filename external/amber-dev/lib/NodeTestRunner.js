@@ -2,8 +2,8 @@ define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict"
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage("NodeTestRunner");
-$core.packages["NodeTestRunner"].innerEval = function (expr) { return eval(expr); };
-$core.packages["NodeTestRunner"].transport = {"type":"amd","amdNamespace":"amber_devkit"};
+($core.packageDescriptors||$core.packages)["NodeTestRunner"].innerEval = function (expr) { return eval(expr); };
+($core.packageDescriptors||$core.packages)["NodeTestRunner"].transport = {"type":"amd","amdNamespace":"amber_devkit"};
 
 $core.addClass("NodeTestRunner", $globals.Object, [], "NodeTestRunner");
 
