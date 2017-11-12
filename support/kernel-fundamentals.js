@@ -209,11 +209,21 @@ define(function () {
         /* Add/remove a method to/from a class */
 
         st.addMethod = function (method, traitOrBehavior) {
-            // TODO remove .methodClass, have .owner
-            if (method.methodClass != null) {
-                throw new Error("addMethod: Method " + method.selector + " already bound to " + method.methodClass);
+            if (method.owner != null) {
+                throw new Error("addMethod: Method " + method.selector + " already bound to " + method.owner);
             }
-            method.methodClass = traitOrBehavior;
+            method.owner = traitOrBehavior;
+            // TODO deprecation helper; remove
+            Object.defineProperty(method, "methodClass", {
+                get: function () {
+                    console.warn("Use of .methodClass deprecated, use .owner");
+                    return method.owner;
+                },
+                set: function (v) {
+                    console.warn("Use of .methodClass= deprecated, use .owner=");
+                    method.owner = v;
+                }
+            });
             registerNewSelectors(method);
             traitOrBehavior.localMethods[method.selector] = method;
             updateMethod(method.selector, traitOrBehavior);

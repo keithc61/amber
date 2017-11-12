@@ -233,7 +233,7 @@ messageSends
 !
 
 methodClass
-	^ self basicAt: 'methodClass'
+	^ self basicAt: 'owner'
 !
 
 package

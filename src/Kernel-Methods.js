@@ -964,14 +964,14 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self._basicAt_("methodClass");
+return $self._basicAt_("owner");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"methodClass",{},$globals.CompiledMethod)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "methodClass\x0a\x09^ self basicAt: 'methodClass'",
+source: "methodClass\x0a\x09^ self basicAt: 'owner'",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["basicAt:"]

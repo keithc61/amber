@@ -152,7 +152,7 @@ define(function () {
                 referencesClasses: method.referencedClasses,
                 fn: method.fn
             });
-            result.methodClass = method.methodClass;
+            result.owner = method.owner;
             return result;
         }
 
