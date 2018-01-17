@@ -10,11 +10,21 @@ define(function () {
         });
     }
 
-    DNUBrik.deps = ["selectors", "smalltalkGlobals", "manipulation", "classes"];
+    function installJSMethod (obj, jsSelector, fn) {
+        Object.defineProperty(obj, jsSelector, {
+            value: fn,
+            enumerable: false, configurable: true, writable: true
+        });
+    }
+
+    function installMethod (method, klass) {
+        installJSMethod(klass.fn.prototype, method.jsSelector, method.fn);
+    }
+
+    DNUBrik.deps = ["selectors", "smalltalkGlobals", "classes"];
     function DNUBrik (brikz, st) {
         var selectorPairs = brikz.selectors.selectorPairs;
         var globals = brikz.smalltalkGlobals.globals;
-        var installJSMethod = brikz.manipulation.installJSMethod;
         var nilAsClass = brikz.classes.nilAsClass;
 
         /* Method not implemented handlers */
@@ -45,29 +55,11 @@ define(function () {
         });
     }
 
-    function ManipulationBrik (brikz, st) {
-        function installJSMethod (obj, jsSelector, fn) {
-            Object.defineProperty(obj, jsSelector, {
-                value: fn,
-                enumerable: false, configurable: true, writable: true
-            });
-        }
-
-        function installMethod (method, klass) {
-            installJSMethod(klass.fn.prototype, method.jsSelector, method.fn);
-        }
-
-        this.installMethod = installMethod;
-        this.installJSMethod = installJSMethod;
-    }
-
-    RuntimeClassesBrik.deps = ["event", "selectors", "dnu", "behaviors", "classes", "manipulation"];
+    RuntimeClassesBrik.deps = ["event", "selectors", "dnu", "behaviors", "classes"];
     function RuntimeClassesBrik (brikz, st) {
         var selectors = brikz.selectors;
         var traitsOrClasses = brikz.behaviors.traitsOrClasses;
         var wireKlass = brikz.classes.wireKlass;
-        var installMethod = brikz.manipulation.installMethod;
-        var installJSMethod = brikz.manipulation.installJSMethod;
         var emit = brikz.event.emit;
 
         var detachedRootClasses = [];
@@ -168,10 +160,8 @@ define(function () {
         }
     }
 
-    RuntimeMethodsBrik.deps = ["event", "manipulation", "dnu", "runtimeClasses"];
+    RuntimeMethodsBrik.deps = ["event", "dnu", "runtimeClasses"];
     function RuntimeMethodsBrik (brikz, st) {
-        var installMethod = brikz.manipulation.installMethod;
-        var installJSMethod = brikz.manipulation.installJSMethod;
         var makeDnuHandler = brikz.dnu.makeDnuHandler;
         var detachedRootClasses = brikz.runtimeClasses.detachedRootClasses;
         var emit = brikz.event.emit;
@@ -408,7 +398,6 @@ define(function () {
 
     function configureWithRuntime (brikz) {
         brikz.dnu = DNUBrik;
-        brikz.manipulation = ManipulationBrik;
         brikz.runtimeClasses = RuntimeClassesBrik;
         brikz.frameBinding = FrameBindingBrik;
         brikz.runtimeMethods = RuntimeMethodsBrik;
