@@ -372,7 +372,7 @@ define(function () {
          an uppercase character (we probably want to answer the function itself in this
          case and send it #new from Amber).
          */
-        st.accessJavaScript = function accessJavaScript (self, propertyName, args) {
+        st.accessJavaScript = function (self, propertyName, args) {
             var propertyValue = self[propertyName];
             if (typeof propertyValue === "function" && !/^[A-Z]/.test(propertyName)) {
                 return propertyValue.apply(self, args || []);
