@@ -16,6 +16,13 @@ define(function () {
         return !("hasOwnProperty" in Object.create(null));
     });
     assert(function () {
+        return Object.getPrototypeOf(Object.create(null)) === null;
+    });
+    assert(function () {
+        var p = {};
+        return Object.getPrototypeOf(Object.create(p)) === p;
+    });
+    assert(function () {
         return new Function("return this")().Object === Object;
     });
     assert(function () {
