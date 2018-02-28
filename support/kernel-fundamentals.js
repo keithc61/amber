@@ -53,9 +53,7 @@ define(function () {
     }
 
     function SmalltalkGlobalsBrik (brikz, st) {
-        // jshint evil:true
-        var jsGlobals = new Function("return this")();
-        var globals = Object.create(jsGlobals);
+        var globals = Object.create(global);
         globals.SmalltalkSettings = {};
 
         this.globals = globals;
