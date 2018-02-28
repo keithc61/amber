@@ -2278,6 +2278,25 @@ testBetweenAnd
 	self assert: (1 between: 1 and: 1).
 !
 
+testBitAnd
+	self assert: (15 bitAnd: 2) equals: 2.
+	self assert: (15 bitAnd: 15) equals: 15.
+	self assert: (-1 bitAnd: 1021) equals: 1021
+!
+
+testBitOr
+	self assert: (2 bitOr: 4) equals: 6.
+	self assert: (7 bitOr: 2) equals: 7.
+	self assert: (-1 bitOr: 1021) equals: -1
+!
+
+testBitXor
+	self assert: (2 bitXor: 4) equals: 6.
+	self assert: (7 bitXor: 2) equals: 5.
+	self assert: (-1 bitXor: 1021) equals: -1022.
+	self assert: (91 bitXor: 91) equals: 0
+!
+
 testCeiling
 	self assert: 1.2 ceiling equals: 2.
 	self assert: -1.2 ceiling equals: -1.
@@ -2430,6 +2449,13 @@ testPrintShowingDecimalPlaces
 	self assert: (2.567 printShowingDecimalPlaces: 2) equals: '2.57'.
 	self assert: (-2.567 printShowingDecimalPlaces: 2) equals: '-2.57'.
 	self assert: (0 printShowingDecimalPlaces: 2) equals: '0.00'.
+!
+
+testPrintStringBase
+	self assert: (15 printStringBase: 2) equals: '1111'.
+	self assert: (15 printStringBase: 16) equals: 'f'.
+	self assert: (256 printStringBase: 16) equals: '100'.
+	self assert: (256 printStringBase: 2) equals: '100000000'
 !
 
 testRadiansToDegrees
