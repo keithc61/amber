@@ -1179,11 +1179,21 @@ define('amber/kernel-runtime',[],function () {
         });
     }
 
-    DNUBrik.deps = ["selectors", "smalltalkGlobals", "manipulation", "classes"];
+    function installJSMethod (obj, jsSelector, fn) {
+        Object.defineProperty(obj, jsSelector, {
+            value: fn,
+            enumerable: false, configurable: true, writable: true
+        });
+    }
+
+    function installMethod (method, klass) {
+        installJSMethod(klass.fn.prototype, method.jsSelector, method.fn);
+    }
+
+    DNUBrik.deps = ["selectors", "smalltalkGlobals", "classes"];
     function DNUBrik (brikz, st) {
         var selectorPairs = brikz.selectors.selectorPairs;
         var globals = brikz.smalltalkGlobals.globals;
-        var installJSMethod = brikz.manipulation.installJSMethod;
         var nilAsClass = brikz.classes.nilAsClass;
 
         /* Method not implemented handlers */
@@ -1214,29 +1224,11 @@ define('amber/kernel-runtime',[],function () {
         });
     }
 
-    function ManipulationBrik (brikz, st) {
-        function installJSMethod (obj, jsSelector, fn) {
-            Object.defineProperty(obj, jsSelector, {
-                value: fn,
-                enumerable: false, configurable: true, writable: true
-            });
-        }
-
-        function installMethod (method, klass) {
-            installJSMethod(klass.fn.prototype, method.jsSelector, method.fn);
-        }
-
-        this.installMethod = installMethod;
-        this.installJSMethod = installJSMethod;
-    }
-
-    RuntimeClassesBrik.deps = ["event", "selectors", "dnu", "behaviors", "classes", "manipulation"];
+    RuntimeClassesBrik.deps = ["event", "selectors", "dnu", "behaviors", "classes"];
     function RuntimeClassesBrik (brikz, st) {
         var selectors = brikz.selectors;
         var traitsOrClasses = brikz.behaviors.traitsOrClasses;
         var wireKlass = brikz.classes.wireKlass;
-        var installMethod = brikz.manipulation.installMethod;
-        var installJSMethod = brikz.manipulation.installJSMethod;
         var emit = brikz.event.emit;
 
         var detachedRootClasses = [];
@@ -1337,10 +1329,8 @@ define('amber/kernel-runtime',[],function () {
         }
     }
 
-    RuntimeMethodsBrik.deps = ["event", "manipulation", "dnu", "runtimeClasses"];
+    RuntimeMethodsBrik.deps = ["event", "dnu", "runtimeClasses"];
     function RuntimeMethodsBrik (brikz, st) {
-        var installMethod = brikz.manipulation.installMethod;
-        var installJSMethod = brikz.manipulation.installJSMethod;
         var makeDnuHandler = brikz.dnu.makeDnuHandler;
         var detachedRootClasses = brikz.runtimeClasses.detachedRootClasses;
         var emit = brikz.event.emit;
@@ -1551,7 +1541,7 @@ define('amber/kernel-runtime',[],function () {
          an uppercase character (we probably want to answer the function itself in this
          case and send it #new from Amber).
          */
-        st.accessJavaScript = function accessJavaScript (self, propertyName, args) {
+        st.accessJavaScript = function (self, propertyName, args) {
             var propertyValue = self[propertyName];
             if (typeof propertyValue === "function" && !/^[A-Z]/.test(propertyName)) {
                 return propertyValue.apply(self, args || []);
@@ -1577,7 +1567,6 @@ define('amber/kernel-runtime',[],function () {
 
     function configureWithRuntime (brikz) {
         brikz.dnu = DNUBrik;
-        brikz.manipulation = ManipulationBrik;
         brikz.runtimeClasses = RuntimeClassesBrik;
         brikz.frameBinding = FrameBindingBrik;
         brikz.runtimeMethods = RuntimeMethodsBrik;
@@ -1615,10 +1604,26 @@ define('amber/kernel-checks',[],function () {
         return !("hasOwnProperty" in Object.create(null));
     });
     assert(function () {
-        return new Function("return this")().Object === Object;
+        return Object.getPrototypeOf(Object.create(null)) === null;
     });
     assert(function () {
-        return Object.create(new Function("return this")()).Object === Object;
+        var p = {};
+        return Object.getPrototypeOf(Object.create(p)) === p;
+    });
+    // assert(function () {
+    //     return new Function("return this")().Object === Object;
+    // });
+    // assert(function () {
+    //     return Object.create(new Function("return this")()).Object === Object;
+    // });
+    assert(function () {
+        return typeof global !== "undefined";
+    });
+    assert(function () {
+        return global.Object === Object;
+    });
+    assert(function () {
+        return Object.create(global).Object === Object;
     });
     assert(function () {
         return (function () {
@@ -1799,9 +1804,7 @@ define('amber/kernel-fundamentals',[],function () {
     }
 
     function SmalltalkGlobalsBrik (brikz, st) {
-        // jshint evil:true
-        var jsGlobals = new Function("return this")();
-        var globals = Object.create(jsGlobals);
+        var globals = Object.create(global);
         globals.SmalltalkSettings = {};
 
         this.globals = globals;
@@ -2792,8 +2795,7 @@ define('amber/helpers',["amber/boot", "require"], function (boot, require) {
 
     function settingsInLocalStorage () {
         //jshint evil:true
-        var global = new Function('return this')(),
-            storage = 'localStorage' in global && global.localStorage;
+        var storage = 'localStorage' in global && global.localStorage;
 
         if (storage) {
             var fromStorage;
@@ -2803,6 +2805,7 @@ define('amber/helpers',["amber/boot", "require"], function (boot, require) {
                 // pass
             }
             mixinToSettings(fromStorage || {});
+            // TODO find less hackish way to store settings back to storage.
             if (typeof window !== "undefined") {
                 requirejs(['jquery'], function ($) {
                     $(window).on('beforeunload', function () {
@@ -5923,6 +5926,78 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "bitAnd:",
+protocol: "converting",
+fn: function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return self & aNumber;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"bitAnd:",{aNumber:aNumber},$globals.Number)});
+},
+args: ["aNumber"],
+source: "bitAnd: aNumber\x0a\x09<inlineJS: 'return self & aNumber'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "bitNot",
+protocol: "converting",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return ~self;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"bitNot",{},$globals.Number)});
+},
+args: [],
+source: "bitNot\x0a\x09<inlineJS: 'return ~self'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "bitOr:",
+protocol: "converting",
+fn: function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return self | aNumber;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"bitOr:",{aNumber:aNumber},$globals.Number)});
+},
+args: ["aNumber"],
+source: "bitOr: aNumber\x0a\x09<inlineJS: 'return self | aNumber'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "bitXor:",
+protocol: "converting",
+fn: function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return self ^ aNumber;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"bitXor:",{aNumber:aNumber},$globals.Number)});
+},
+args: ["aNumber"],
+source: "bitXor: aNumber\x0a\x09<inlineJS: 'return self ^ aNumber'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "ceiling",
 protocol: "converting",
 fn: function (){
@@ -6297,6 +6372,24 @@ return self;
 },
 args: ["placesDesired"],
 source: "printShowingDecimalPlaces: placesDesired\x0a\x09<inlineJS: 'return self.toFixed(placesDesired)'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "printStringBase:",
+protocol: "converting",
+fn: function (aBase){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return self.toString(aBase);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"printStringBase:",{aBase:aBase},$globals.Number)});
+},
+args: ["aBase"],
+source: "printStringBase: aBase\x0a\x09<inlineJS: 'return self.toString(aBase)'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21021,14 +21114,14 @@ fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return new nativeFunc();
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"constructorNamed:",{aString:aString},$globals.NativeFunction.a$cls)});
 },
 args: ["aString"],
-source: "constructorNamed: aString\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return new nativeFunc();\x0a\x09'>",
+source: "constructorNamed: aString\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return new nativeFunc();\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21042,14 +21135,14 @@ fn: function (aString,anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return new nativeFunc(anObject);
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"constructorNamed:value:",{aString:aString,anObject:anObject},$globals.NativeFunction.a$cls)});
 },
 args: ["aString", "anObject"],
-source: "constructorNamed: aString value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return new nativeFunc(anObject);\x0a\x09'>",
+source: "constructorNamed: aString value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return new nativeFunc(anObject);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21063,14 +21156,14 @@ fn: function (aString,anObject,anObject2){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals[aString];
 		return new nativeFunc(anObject,anObject2);
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"constructorNamed:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.a$cls)});
 },
 args: ["aString", "anObject", "anObject2"],
-source: "constructorNamed: aString value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2);\x0a\x09'>",
+source: "constructorNamed: aString value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21084,14 +21177,14 @@ fn: function (aString,anObject,anObject2,anObject3){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals[aString];
 		return new nativeFunc(anObject,anObject2, anObject3);
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"constructorNamed:value:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.a$cls)});
 },
 args: ["aString", "anObject", "anObject2", "anObject3"],
-source: "constructorNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
+source: "constructorNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21184,13 +21277,13 @@ protocol: "testing",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($globals.Smalltalk)._existsJsGlobal_(aString);
+return $recv($globals.Platform)._includesGlobal_(aString);
 }, function($ctx1) {$ctx1.fill(self,"exists:",{aString:aString},$globals.NativeFunction.a$cls)});
 },
 args: ["aString"],
-source: "exists: aString\x0a\x09^ Smalltalk existsJsGlobal: aString",
-referencedClasses: ["Smalltalk"],
-messageSends: ["existsJsGlobal:"]
+source: "exists: aString\x0a\x09^ Platform includesGlobal: aString",
+referencedClasses: ["Platform"],
+messageSends: ["includesGlobal:"]
 }),
 $globals.NativeFunction.a$cls);
 
@@ -21202,14 +21295,14 @@ fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals[aString];
 		return nativeFunc();
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"functionNamed:",{aString:aString},$globals.NativeFunction.a$cls)});
 },
 args: ["aString"],
-source: "functionNamed: aString\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return nativeFunc();\x0a\x09'>",
+source: "functionNamed: aString\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals[aString];\x0a\x09\x09return nativeFunc();\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21223,14 +21316,14 @@ fn: function (aString,anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return nativeFunc(anObject);
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"functionNamed:value:",{aString:aString,anObject:anObject},$globals.NativeFunction.a$cls)});
 },
 args: ["aString", "anObject"],
-source: "functionNamed: aString value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return nativeFunc(anObject);\x0a\x09'>",
+source: "functionNamed: aString value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return nativeFunc(anObject);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21244,14 +21337,14 @@ fn: function (aString,anObject,anObject2){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return nativeFunc(anObject,anObject2);
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"functionNamed:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2},$globals.NativeFunction.a$cls)});
 },
 args: ["aString", "anObject", "anObject2"],
-source: "functionNamed: aString value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2);\x0a\x09'>",
+source: "functionNamed: aString value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21265,14 +21358,14 @@ fn: function (aString,anObject,anObject2,anObject3){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return nativeFunc(anObject,anObject2, anObject3);
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"functionNamed:value:value:value:",{aString:aString,anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.NativeFunction.a$cls)});
 },
 args: ["aString", "anObject", "anObject2", "anObject3"],
-source: "functionNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
+source: "functionNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21286,14 +21379,14 @@ fn: function (aString,args){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return Function.prototype.apply.call(nativeFunc, null, args);
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"functionNamed:valueWithArgs:",{aString:aString,args:args},$globals.NativeFunction.a$cls)});
 },
 args: ["aString", "args"],
-source: "functionNamed: aString valueWithArgs: args\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, null, args);\x0a\x09'>",
+source: "functionNamed: aString valueWithArgs: args\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, null, args);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -25482,19 +25575,14 @@ protocol: "testing",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($recv($globals.Platform)._globals())._at_ifPresent_ifAbsent_(aString,(function(){
-return true;
-
-}),(function(){
-return false;
-
-}));
+$self._deprecatedAPI_("Use Platform >> includesGlobal: instead");
+return $recv($globals.Platform)._includesGlobal_(aString);
 }, function($ctx1) {$ctx1.fill(self,"existsJsGlobal:",{aString:aString},$globals.SmalltalkImage)});
 },
 args: ["aString"],
-source: "existsJsGlobal: aString\x0a\x09^ Platform globals \x0a\x09\x09at: aString \x0a\x09\x09ifPresent: [ true ] \x0a\x09\x09ifAbsent: [ false ]",
+source: "existsJsGlobal: aString\x0a\x09self deprecatedAPI: 'Use Platform >> includesGlobal: instead'.\x0a\x09^ Platform includesGlobal: aString",
 referencedClasses: ["Platform"],
-messageSends: ["at:ifPresent:ifAbsent:", "globals"]
+messageSends: ["deprecatedAPI:", "includesGlobal:"]
 }),
 $globals.SmalltalkImage);
 
@@ -25950,11 +26038,11 @@ selector: "version",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return "0.20.0";
+return "0.21.0";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.20.0'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.21.0'",
 referencedClasses: [],
 messageSends: []
 }),
@@ -28285,6 +28373,29 @@ args: [],
 source: "globals\x0a\x09^ self current globals",
 referencedClasses: [],
 messageSends: ["globals", "current"]
+}),
+$globals.Platform.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "includesGlobal:",
+protocol: "testing",
+fn: function (aString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._globals())._at_ifPresent_ifAbsent_(aString,(function(){
+return true;
+
+}),(function(){
+return false;
+
+}));
+}, function($ctx1) {$ctx1.fill(self,"includesGlobal:",{aString:aString},$globals.Platform.a$cls)});
+},
+args: ["aString"],
+source: "includesGlobal: aString\x0a\x09^ self globals \x0a\x09\x09at: aString \x0a\x09\x09ifPresent: [ true ] \x0a\x09\x09ifAbsent: [ false ]",
+referencedClasses: [],
+messageSends: ["at:ifPresent:ifAbsent:", "globals"]
 }),
 $globals.Platform.a$cls);
 
@@ -62676,6 +62787,118 @@ $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
+selector: "testBitAnd",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1,$2;
+$1=(15)._bitAnd_((2));
+$ctx1.sendIdx["bitAnd:"]=1;
+$self._assert_equals_($1,(2));
+$ctx1.sendIdx["assert:equals:"]=1;
+$2=(15)._bitAnd_((15));
+$ctx1.sendIdx["bitAnd:"]=2;
+$self._assert_equals_($2,(15));
+$ctx1.sendIdx["assert:equals:"]=2;
+$self._assert_equals_((-1)._bitAnd_((1021)),(1021));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testBitAnd",{},$globals.NumberTest)});
+},
+args: [],
+source: "testBitAnd\x0a\x09self assert: (15 bitAnd: 2) equals: 2.\x0a\x09self assert: (15 bitAnd: 15) equals: 15.\x0a\x09self assert: (-1 bitAnd: 1021) equals: 1021",
+referencedClasses: [],
+messageSends: ["assert:equals:", "bitAnd:"]
+}),
+$globals.NumberTest);
+
+$core.addMethod(
+$core.method({
+selector: "testBitNot",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1,$2;
+$1=(2)._bitNot();
+$ctx1.sendIdx["bitNot"]=1;
+$self._assert_equals_($1,(-3));
+$ctx1.sendIdx["assert:equals:"]=1;
+$2=(-1)._bitNot();
+$ctx1.sendIdx["bitNot"]=2;
+$self._assert_equals_($2,(0));
+$ctx1.sendIdx["assert:equals:"]=2;
+$self._assert_equals_((-1022)._bitNot(),(1021));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testBitNot",{},$globals.NumberTest)});
+},
+args: [],
+source: "testBitNot\x0a\x09self assert: 2 bitNot equals: -3.\x0a\x09self assert: -1 bitNot equals: 0.\x0a\x09self assert: -1022 bitNot equals: 1021",
+referencedClasses: [],
+messageSends: ["assert:equals:", "bitNot"]
+}),
+$globals.NumberTest);
+
+$core.addMethod(
+$core.method({
+selector: "testBitOr",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1,$2;
+$1=(2)._bitOr_((4));
+$ctx1.sendIdx["bitOr:"]=1;
+$self._assert_equals_($1,(6));
+$ctx1.sendIdx["assert:equals:"]=1;
+$2=(7)._bitOr_((2));
+$ctx1.sendIdx["bitOr:"]=2;
+$self._assert_equals_($2,(7));
+$ctx1.sendIdx["assert:equals:"]=2;
+$self._assert_equals_((-1)._bitOr_((1021)),(-1));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testBitOr",{},$globals.NumberTest)});
+},
+args: [],
+source: "testBitOr\x0a\x09self assert: (2 bitOr: 4) equals: 6.\x0a\x09self assert: (7 bitOr: 2) equals: 7.\x0a\x09self assert: (-1 bitOr: 1021) equals: -1",
+referencedClasses: [],
+messageSends: ["assert:equals:", "bitOr:"]
+}),
+$globals.NumberTest);
+
+$core.addMethod(
+$core.method({
+selector: "testBitXor",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1,$2,$3;
+$1=(2)._bitXor_((4));
+$ctx1.sendIdx["bitXor:"]=1;
+$self._assert_equals_($1,(6));
+$ctx1.sendIdx["assert:equals:"]=1;
+$2=(7)._bitXor_((2));
+$ctx1.sendIdx["bitXor:"]=2;
+$self._assert_equals_($2,(5));
+$ctx1.sendIdx["assert:equals:"]=2;
+$3=(-1)._bitXor_((1021));
+$ctx1.sendIdx["bitXor:"]=3;
+$self._assert_equals_($3,(-1022));
+$ctx1.sendIdx["assert:equals:"]=3;
+$self._assert_equals_((91)._bitXor_((91)),(0));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testBitXor",{},$globals.NumberTest)});
+},
+args: [],
+source: "testBitXor\x0a\x09self assert: (2 bitXor: 4) equals: 6.\x0a\x09self assert: (7 bitXor: 2) equals: 5.\x0a\x09self assert: (-1 bitXor: 1021) equals: -1022.\x0a\x09self assert: (91 bitXor: 91) equals: 0",
+referencedClasses: [],
+messageSends: ["assert:equals:", "bitXor:"]
+}),
+$globals.NumberTest);
+
+$core.addMethod(
+$core.method({
 selector: "testCeiling",
 protocol: "tests",
 fn: function (){
@@ -63366,6 +63589,37 @@ args: [],
 source: "testPrintShowingDecimalPlaces\x0a\x09self assert: (23 printShowingDecimalPlaces: 2) equals: '23.00'.\x0a\x09self assert: (23.5698 printShowingDecimalPlaces: 2) equals: '23.57'.\x0a\x09self assert: (234.567 negated printShowingDecimalPlaces: 5) equals: '-234.56700'.\x0a\x09self assert: (23.4567 printShowingDecimalPlaces: 0) equals: '23'.\x0a\x09self assert: (23.5567 printShowingDecimalPlaces: 0) equals: '24'.\x0a\x09self assert: (23.4567 negated printShowingDecimalPlaces: 0) equals: '-23'.\x0a\x09self assert: (23.5567 negated printShowingDecimalPlaces: 0) equals: '-24'.\x0a\x09self assert: (100000000 printShowingDecimalPlaces: 1) equals: '100000000.0'.\x0a\x09self assert: (0.98 printShowingDecimalPlaces: 5) equals: '0.98000'.\x0a\x09self assert: (0.98 negated printShowingDecimalPlaces: 2) equals: '-0.98'.\x0a\x09self assert: (2.567 printShowingDecimalPlaces: 2) equals: '2.57'.\x0a\x09self assert: (-2.567 printShowingDecimalPlaces: 2) equals: '-2.57'.\x0a\x09self assert: (0 printShowingDecimalPlaces: 2) equals: '0.00'.",
 referencedClasses: [],
 messageSends: ["assert:equals:", "printShowingDecimalPlaces:", "negated"]
+}),
+$globals.NumberTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPrintStringBase",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1,$2,$3;
+$1=(15)._printStringBase_((2));
+$ctx1.sendIdx["printStringBase:"]=1;
+$self._assert_equals_($1,"1111");
+$ctx1.sendIdx["assert:equals:"]=1;
+$2=(15)._printStringBase_((16));
+$ctx1.sendIdx["printStringBase:"]=2;
+$self._assert_equals_($2,"f");
+$ctx1.sendIdx["assert:equals:"]=2;
+$3=(256)._printStringBase_((16));
+$ctx1.sendIdx["printStringBase:"]=3;
+$self._assert_equals_($3,"100");
+$ctx1.sendIdx["assert:equals:"]=3;
+$self._assert_equals_((256)._printStringBase_((2)),"100000000");
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testPrintStringBase",{},$globals.NumberTest)});
+},
+args: [],
+source: "testPrintStringBase\x0a\x09self assert: (15 printStringBase: 2) equals: '1111'.\x0a\x09self assert: (15 printStringBase: 16) equals: 'f'.\x0a\x09self assert: (256 printStringBase: 16) equals: '100'.\x0a\x09self assert: (256 printStringBase: 2) equals: '100000000'",
+referencedClasses: [],
+messageSends: ["assert:equals:", "printStringBase:"]
 }),
 $globals.NumberTest);
 
