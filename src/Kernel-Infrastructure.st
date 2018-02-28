@@ -1040,10 +1040,8 @@ deleteClass: aClass
 !SmalltalkImage methodsFor: 'testing'!
 
 existsJsGlobal: aString
-	^ Platform globals 
-		at: aString 
-		ifPresent: [ true ] 
-		ifAbsent: [ false ]
+	self deprecatedAPI: 'Use Platform >> includesGlobal: instead'.
+	^ Platform includesGlobal: aString
 !
 
 isSmalltalkObject: anObject

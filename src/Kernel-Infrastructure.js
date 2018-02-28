@@ -3253,23 +3253,18 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv($globals.Platform)._globals())._at_ifPresent_ifAbsent_(aString,(function(){
-return true;
-
-}),(function(){
-return false;
-
-}));
+$self._deprecatedAPI_("Use Platform >> includesGlobal: instead");
+return $recv($globals.Platform)._includesGlobal_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"existsJsGlobal:",{aString:aString},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "existsJsGlobal: aString\x0a\x09^ Platform globals \x0a\x09\x09at: aString \x0a\x09\x09ifPresent: [ true ] \x0a\x09\x09ifAbsent: [ false ]",
+source: "existsJsGlobal: aString\x0a\x09self deprecatedAPI: 'Use Platform >> includesGlobal: instead'.\x0a\x09^ Platform includesGlobal: aString",
 referencedClasses: ["Platform"],
 //>>excludeEnd("ide");
-messageSends: ["at:ifPresent:ifAbsent:", "globals"]
+messageSends: ["deprecatedAPI:", "includesGlobal:"]
 }),
 $globals.SmalltalkImage);
 

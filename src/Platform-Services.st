@@ -428,6 +428,15 @@ newXhr
 	^ self current newXhr
 ! !
 
+!Platform class methodsFor: 'testing'!
+
+includesGlobal: aString
+	^ self globals 
+		at: aString 
+		ifPresent: [ true ] 
+		ifAbsent: [ false ]
+! !
+
 Service subclass: #ProgressHandler
 	instanceVariableNames: ''
 	package: 'Platform-Services'!

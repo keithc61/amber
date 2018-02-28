@@ -2956,17 +2956,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($globals.Smalltalk)._existsJsGlobal_(aString);
+return $recv($globals.Platform)._includesGlobal_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"exists:",{aString:aString},$globals.NativeFunction.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "exists: aString\x0a\x09^ Smalltalk existsJsGlobal: aString",
-referencedClasses: ["Smalltalk"],
+source: "exists: aString\x0a\x09^ Platform includesGlobal: aString",
+referencedClasses: ["Platform"],
 //>>excludeEnd("ide");
-messageSends: ["existsJsGlobal:"]
+messageSends: ["includesGlobal:"]
 }),
 $globals.NativeFunction.a$cls);
 

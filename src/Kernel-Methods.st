@@ -875,7 +875,7 @@ methodOf: nativeFunc this: thisObject valueWithArgs: args
 !NativeFunction class methodsFor: 'testing'!
 
 exists: aString
-	^ Smalltalk existsJsGlobal: aString
+	^ Platform includesGlobal: aString
 !
 
 isNativeFunction: anObject

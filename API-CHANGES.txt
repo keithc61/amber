@@ -1,11 +1,15 @@
 0.21.0:
 
+* Deprecate SmalltalkImage >> existsJsGlobal:
+
 + Number >>
   + bitAnd:
   + bitNot
   + bitOr:
   + bitXor:
   + printStringBase:
++ Platform class >>
+  + includesGlobal:
 
 
 0.20.0:

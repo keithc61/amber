@@ -1626,6 +1626,35 @@ $globals.Platform.a$cls);
 
 $core.addMethod(
 $core.method({
+selector: "includesGlobal:",
+protocol: "testing",
+fn: function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._globals())._at_ifPresent_ifAbsent_(aString,(function(){
+return true;
+
+}),(function(){
+return false;
+
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"includesGlobal:",{aString:aString},$globals.Platform.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "includesGlobal: aString\x0a\x09^ self globals \x0a\x09\x09at: aString \x0a\x09\x09ifPresent: [ true ] \x0a\x09\x09ifAbsent: [ false ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["at:ifPresent:ifAbsent:", "globals"]
+}),
+$globals.Platform.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "newXhr",
 protocol: "accessing",
 fn: function (){
