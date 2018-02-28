@@ -45,6 +45,7 @@ define(["amber/boot", "require"], function (boot, require) {
                 // pass
             }
             mixinToSettings(fromStorage || {});
+            // TODO find less hackish way to store settings back to storage.
             if (typeof window !== "undefined") {
                 requirejs(['jquery'], function ($) {
                     $(window).on('beforeunload', function () {
