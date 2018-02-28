@@ -1,3 +1,13 @@
+28 Feb 2017 - Release 0.21.0
+===================================
+
+* Kernel assumes global variable `global` exists.
+  * In browser, it must be polyfilled before loading amber.
+  * Smalltalk-level code should continue to use `Platform globals`.
+
+Commits: https://lolg.it/amber/amber/commits/0.21.0
+
+
 12 Nov 2017 - Release 0.20.0
 ===================================
 
