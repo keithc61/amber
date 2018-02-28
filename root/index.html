@@ -21,6 +21,7 @@
 <ol id="output-list"></ol>
 <!-- EXAMPLE APP END -->
 <script type='text/javascript'>
+    var global = typeof global === "undefined" ? window : global || window;
     require(['app'], function (amberPromise) {
         amberPromise.then(function (amber) {
             amber.initialize({
