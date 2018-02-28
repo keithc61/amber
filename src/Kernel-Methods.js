@@ -2745,7 +2745,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return new nativeFunc();
 	;
 return self;
@@ -2755,7 +2755,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "constructorNamed: aString\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return new nativeFunc();\x0a\x09'>",
+source: "constructorNamed: aString\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return new nativeFunc();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2772,7 +2772,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return new nativeFunc(anObject);
 	;
 return self;
@@ -2782,7 +2782,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject"],
-source: "constructorNamed: aString value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return new nativeFunc(anObject);\x0a\x09'>",
+source: "constructorNamed: aString value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return new nativeFunc(anObject);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2799,7 +2799,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals[aString];
 		return new nativeFunc(anObject,anObject2);
 	;
 return self;
@@ -2809,7 +2809,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject", "anObject2"],
-source: "constructorNamed: aString value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2);\x0a\x09'>",
+source: "constructorNamed: aString value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2826,7 +2826,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals[aString];
 		return new nativeFunc(anObject,anObject2, anObject3);
 	;
 return self;
@@ -2836,7 +2836,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject", "anObject2", "anObject3"],
-source: "constructorNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
+source: "constructorNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2980,7 +2980,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals[aString];
 		return nativeFunc();
 	;
 return self;
@@ -2990,7 +2990,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "functionNamed: aString\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return nativeFunc();\x0a\x09'>",
+source: "functionNamed: aString\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals[aString];\x0a\x09\x09return nativeFunc();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3007,7 +3007,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return nativeFunc(anObject);
 	;
 return self;
@@ -3017,7 +3017,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject"],
-source: "functionNamed: aString value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return nativeFunc(anObject);\x0a\x09'>",
+source: "functionNamed: aString value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return nativeFunc(anObject);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3034,7 +3034,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return nativeFunc(anObject,anObject2);
 	;
 return self;
@@ -3044,7 +3044,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject", "anObject2"],
-source: "functionNamed: aString value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2);\x0a\x09'>",
+source: "functionNamed: aString value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3061,7 +3061,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return nativeFunc(anObject,anObject2, anObject3);
 	;
 return self;
@@ -3071,7 +3071,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject", "anObject2", "anObject3"],
-source: "functionNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
+source: "functionNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3088,7 +3088,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var nativeFunc=(new Function('return this'))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return Function.prototype.apply.call(nativeFunc, null, args);
 	;
 return self;
@@ -3098,7 +3098,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "args"],
-source: "functionNamed: aString valueWithArgs: args\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=(new Function(''return this''))()[aString];\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, null, args);\x0a\x09'>",
+source: "functionNamed: aString valueWithArgs: args\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, null, args);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

@@ -723,35 +723,35 @@ Created instances will most probably be instance of `JSObjectProxy`.
 
 functionNamed: aString
 	<inlineJS: '
-		var nativeFunc=(new Function(''return this''))()[aString];
+		var nativeFunc=$globals.Platform._globals[aString];
 		return nativeFunc();
 	'>
 !
 
 functionNamed: aString value: anObject
 	<inlineJS: '
-		var nativeFunc=(new Function(''return this''))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return nativeFunc(anObject);
 	'>
 !
 
 functionNamed: aString value: anObject value: anObject2
 	<inlineJS: '
-		var nativeFunc=(new Function(''return this''))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return nativeFunc(anObject,anObject2);
 	'>
 !
 
 functionNamed: aString value: anObject value: anObject2 value: anObject3
 	<inlineJS: '
-		var nativeFunc=(new Function(''return this''))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return nativeFunc(anObject,anObject2, anObject3);
 	'>
 !
 
 functionNamed: aString valueWithArgs: args
 	<inlineJS: '
-		var nativeFunc=(new Function(''return this''))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return Function.prototype.apply.call(nativeFunc, null, args);
 	'>
 !
@@ -790,28 +790,28 @@ functionOf: nativeFunc valueWithArgs: args
 
 constructorNamed: aString
 	<inlineJS: '
-		var nativeFunc=(new Function(''return this''))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return new nativeFunc();
 	'>
 !
 
 constructorNamed: aString value: anObject
 	<inlineJS: '
-		var nativeFunc=(new Function(''return this''))()[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return new nativeFunc(anObject);
 	'>
 !
 
 constructorNamed: aString value: anObject value: anObject2
 	<inlineJS: '
-		var nativeFunc=(new Function(''return this''))()[aString];
+		var nativeFunc=$globals.Platform._globals[aString];
 		return new nativeFunc(anObject,anObject2);
 	'>
 !
 
 constructorNamed: aString value: anObject value: anObject2 value: anObject3
 	<inlineJS: '
-		var nativeFunc=(new Function(''return this''))()[aString];
+		var nativeFunc=$globals.Platform._globals[aString];
 		return new nativeFunc(anObject,anObject2, anObject3);
 	'>
 !
