@@ -156,7 +156,7 @@ exports.template = function (grunt, init, done) {
             "license": props.licenses,
             "private": false,
             "dependencies": {
-                "amber": "^0.20.0",
+                "amber": "^0.21.0",
                 "amber-compat-es2015": "^0.1.5",
                 "amber-contrib-jquery": "^0.4.1",
                 "amber-contrib-web": "^0.5.1",
@@ -164,9 +164,9 @@ exports.template = function (grunt, init, done) {
                 "silk": "^0.3.1"
             },
             "devDependencies": {
-                "amber-contrib-legacy": "^0.5.2",
+                "amber-contrib-legacy": "^0.6.0",
                 "amber-ide-starter-dialog": "^0.1.0",
-                "helios": "^0.8.3"
+                "helios": "^0.9.0"
             }
         }, null, 2));
 
