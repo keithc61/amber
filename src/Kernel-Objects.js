@@ -3805,6 +3805,78 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "bitAnd:",
+protocol: "converting",
+fn: function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self & aNumber;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"bitAnd:",{aNumber:aNumber},$globals.Number)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "bitAnd: aNumber\x0a\x09<inlineJS: 'return self & aNumber'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "bitOr:",
+protocol: "converting",
+fn: function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self | aNumber;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"bitOr:",{aNumber:aNumber},$globals.Number)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "bitOr: aNumber\x0a\x09<inlineJS: 'return self | aNumber'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "bitXor:",
+protocol: "converting",
+fn: function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self ^ aNumber;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"bitXor:",{aNumber:aNumber},$globals.Number)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "bitXor: aNumber\x0a\x09<inlineJS: 'return self ^ aNumber'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "ceiling",
 protocol: "converting",
 fn: function (){
@@ -4298,6 +4370,30 @@ return self;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["placesDesired"],
 source: "printShowingDecimalPlaces: placesDesired\x0a\x09<inlineJS: 'return self.toFixed(placesDesired)'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "printStringBase:",
+protocol: "converting",
+fn: function (aBase){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self.toString(aBase);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"printStringBase:",{aBase:aBase},$globals.Number)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBase"],
+source: "printStringBase: aBase\x0a\x09<inlineJS: 'return self.toString(aBase)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

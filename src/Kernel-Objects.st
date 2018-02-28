@@ -888,6 +888,18 @@ atRandom
 	^ (Random new next * self) truncated + 1
 !
 
+bitAnd: aNumber
+	<inlineJS: 'return self & aNumber'>
+!
+
+bitOr: aNumber
+	<inlineJS: 'return self | aNumber'>
+!
+
+bitXor: aNumber
+	<inlineJS: 'return self ^ aNumber'>
+!
+
 ceiling
 	<inlineJS: 'return Math.ceil(self);'>
 !
@@ -898,6 +910,10 @@ degreesToRadians
 
 floor
 	<inlineJS: 'return Math.floor(self);'>
+!
+
+printStringBase: aBase
+	<inlineJS: 'return self.toString(aBase)'>
 !
 
 radiansToDegrees

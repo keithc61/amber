@@ -12265,6 +12265,137 @@ $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
+selector: "testBitAnd",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+$1=(15)._bitAnd_((2));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["bitAnd:"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($1,(2));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+$2=(15)._bitAnd_((15));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["bitAnd:"]=2;
+//>>excludeEnd("ctx");
+$self._assert_equals_($2,(15));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+$self._assert_equals_((-1)._bitAnd_((1021)),(1021));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testBitAnd",{},$globals.NumberTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testBitAnd\x0a\x09self assert: (15 bitAnd: 2) equals: 2.\x0a\x09self assert: (15 bitAnd: 15) equals: 15.\x0a\x09self assert: (-1 bitAnd: 1021) equals: 1021",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["assert:equals:", "bitAnd:"]
+}),
+$globals.NumberTest);
+
+$core.addMethod(
+$core.method({
+selector: "testBitOr",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+$1=(2)._bitOr_((4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["bitOr:"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($1,(6));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+$2=(7)._bitOr_((2));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["bitOr:"]=2;
+//>>excludeEnd("ctx");
+$self._assert_equals_($2,(7));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+$self._assert_equals_((-1)._bitOr_((1021)),(-1));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testBitOr",{},$globals.NumberTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testBitOr\x0a\x09self assert: (2 bitOr: 4) equals: 6.\x0a\x09self assert: (7 bitOr: 2) equals: 7.\x0a\x09self assert: (-1 bitOr: 1021) equals: -1",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["assert:equals:", "bitOr:"]
+}),
+$globals.NumberTest);
+
+$core.addMethod(
+$core.method({
+selector: "testBitXor",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$3;
+$1=(2)._bitXor_((4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["bitXor:"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($1,(6));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+$2=(7)._bitXor_((2));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["bitXor:"]=2;
+//>>excludeEnd("ctx");
+$self._assert_equals_($2,(5));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+$3=(-1)._bitXor_((1021));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["bitXor:"]=3;
+//>>excludeEnd("ctx");
+$self._assert_equals_($3,(-1022));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=3;
+//>>excludeEnd("ctx");
+$self._assert_equals_((91)._bitXor_((91)),(0));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testBitXor",{},$globals.NumberTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testBitXor\x0a\x09self assert: (2 bitXor: 4) equals: 6.\x0a\x09self assert: (7 bitXor: 2) equals: 5.\x0a\x09self assert: (-1 bitXor: 1021) equals: -1022.\x0a\x09self assert: (91 bitXor: 91) equals: 0",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["assert:equals:", "bitXor:"]
+}),
+$globals.NumberTest);
+
+$core.addMethod(
+$core.method({
 selector: "testCeiling",
 protocol: "tests",
 fn: function (){
@@ -13481,6 +13612,55 @@ source: "testPrintShowingDecimalPlaces\x0a\x09self assert: (23 printShowingDecim
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["assert:equals:", "printShowingDecimalPlaces:", "negated"]
+}),
+$globals.NumberTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPrintStringBase",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$3;
+$1=(15)._printStringBase_((2));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["printStringBase:"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($1,"1111");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+$2=(15)._printStringBase_((16));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["printStringBase:"]=2;
+//>>excludeEnd("ctx");
+$self._assert_equals_($2,"f");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+$3=(256)._printStringBase_((16));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["printStringBase:"]=3;
+//>>excludeEnd("ctx");
+$self._assert_equals_($3,"100");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=3;
+//>>excludeEnd("ctx");
+$self._assert_equals_((256)._printStringBase_((2)),"100000000");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPrintStringBase",{},$globals.NumberTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPrintStringBase\x0a\x09self assert: (15 printStringBase: 2) equals: '1111'.\x0a\x09self assert: (15 printStringBase: 16) equals: 'f'.\x0a\x09self assert: (256 printStringBase: 16) equals: '100'.\x0a\x09self assert: (256 printStringBase: 2) equals: '100000000'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["assert:equals:", "printStringBase:"]
 }),
 $globals.NumberTest);
 
