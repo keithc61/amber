@@ -892,6 +892,10 @@ bitAnd: aNumber
 	<inlineJS: 'return self & aNumber'>
 !
 
+bitNot
+	<inlineJS: 'return ~self'>
+!
+
 bitOr: aNumber
 	<inlineJS: 'return self | aNumber'>
 !

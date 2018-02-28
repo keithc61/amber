@@ -2,6 +2,7 @@
 
 + Number >>
   + bitAnd:
+  + bitNot
   + bitOr:
   + bitXor:
   + printStringBase:

@@ -2284,6 +2284,12 @@ testBitAnd
 	self assert: (-1 bitAnd: 1021) equals: 1021
 !
 
+testBitNot
+	self assert: 2 bitNot equals: -3.
+	self assert: -1 bitNot equals: 0.
+	self assert: -1022 bitNot equals: 1021
+!
+
 testBitOr
 	self assert: (2 bitOr: 4) equals: 6.
 	self assert: (7 bitOr: 2) equals: 7.

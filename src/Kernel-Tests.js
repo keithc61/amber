@@ -12306,6 +12306,47 @@ $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
+selector: "testBitNot",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+$1=(2)._bitNot();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["bitNot"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($1,(-3));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+$2=(-1)._bitNot();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["bitNot"]=2;
+//>>excludeEnd("ctx");
+$self._assert_equals_($2,(0));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+$self._assert_equals_((-1022)._bitNot(),(1021));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testBitNot",{},$globals.NumberTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testBitNot\x0a\x09self assert: 2 bitNot equals: -3.\x0a\x09self assert: -1 bitNot equals: 0.\x0a\x09self assert: -1022 bitNot equals: 1021",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["assert:equals:", "bitNot"]
+}),
+$globals.NumberTest);
+
+$core.addMethod(
+$core.method({
 selector: "testBitOr",
 protocol: "tests",
 fn: function (){
