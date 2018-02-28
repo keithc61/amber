@@ -1,3 +1,12 @@
+0.21.0:
+
++ Number >>
+  + bitAnd:
+  + bitOr:
+  + bitXor:
+  + printStringBase:
+
+
 0.20.0:
 
 * Internal kernel fields naming changes.
@@ -12,6 +21,7 @@
   - dnu
 - amber/boot api >>
   - classes
+
 
 0.19.1:
 
