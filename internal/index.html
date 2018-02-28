@@ -21,6 +21,7 @@
     startLegacy.parentNode.removeChild(startLegacy);
     var startHelios = document.getElementById("starthelios");
     startHelios.parentNode.removeChild(startHelios);
+    var global = typeof global === "undefined" ? window : global || window;
     require(["require", "amber/es2015-polyfills"], function (require) {
         var loadHelpers = new Promise(function (resolve, reject) {
             setTimeout(function () {

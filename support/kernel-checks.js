@@ -22,11 +22,20 @@ define(function () {
         var p = {};
         return Object.getPrototypeOf(Object.create(p)) === p;
     });
+    // assert(function () {
+    //     return new Function("return this")().Object === Object;
+    // });
+    // assert(function () {
+    //     return Object.create(new Function("return this")()).Object === Object;
+    // });
     assert(function () {
-        return new Function("return this")().Object === Object;
+        return typeof global !== "undefined";
     });
     assert(function () {
-        return Object.create(new Function("return this")()).Object === Object;
+        return global.Object === Object;
+    });
+    assert(function () {
+        return Object.create(global).Object === Object;
     });
     assert(function () {
         return (function () {
