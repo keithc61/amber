@@ -761,6 +761,30 @@ $globals.JSObjectProxy.a$cls);
 
 $core.addMethod(
 $core.method({
+selector: "null",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return null;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"null",{},$globals.JSObjectProxy.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "null\x0a\x09<inlineJS: 'return null'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.JSObjectProxy.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "on:",
 protocol: "instance creation",
 fn: function (aJSObject){
@@ -782,6 +806,30 @@ source: "on: aJSObject\x0a\x09| instance |\x0a\x09instance := self new.\x0a\x09s
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["new", "jsObject:ofProxy:"]
+}),
+$globals.JSObjectProxy.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "undefined",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return undefined;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"undefined",{},$globals.JSObjectProxy.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "undefined\x0a\x09<inlineJS: 'return undefined'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
 }),
 $globals.JSObjectProxy.a$cls);
 

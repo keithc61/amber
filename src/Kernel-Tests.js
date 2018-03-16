@@ -10419,30 +10419,6 @@ $globals.DateTest);
 $core.addClass("JSObjectProxyTest", $globals.TestCase, [], "Kernel-Tests");
 $core.addMethod(
 $core.method({
-selector: "jsNull",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return null;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"jsNull",{},$globals.JSObjectProxyTest)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "jsNull\x0a\x09<inlineJS: 'return null'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.JSObjectProxyTest);
-
-$core.addMethod(
-$core.method({
 selector: "jsObject",
 protocol: "accessing",
 fn: function (){
@@ -10984,6 +10960,37 @@ $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
+selector: "testNull",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1;
+$2=$recv($globals.JSObjectProxy)._null();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["null"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2)._isNil();
+$self._assert_($1);
+$self._assert_equals_($recv($globals.JSON)._stringify_($globals.HashedCollection._newFromPairs_(["foo",$recv($globals.JSObjectProxy)._null()])),"{\x22foo\x22:null}");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testNull",{},$globals.JSObjectProxyTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNull\x0a\x09self assert: JSObjectProxy null isNil.\x0a\x09self\x0a\x09\x09assert: (JSON stringify: #{#foo -> JSObjectProxy null})\x0a\x09\x09equals: '{\x22foo\x22:null}'",
+referencedClasses: ["JSObjectProxy", "JSON"],
+//>>excludeEnd("ide");
+messageSends: ["assert:", "isNil", "null", "assert:equals:", "stringify:"]
+}),
+$globals.JSObjectProxyTest);
+
+$core.addMethod(
+$core.method({
 selector: "testPrinting",
 protocol: "tests",
 fn: function (){
@@ -11100,7 +11107,7 @@ $self._assert_equals_($1,(1));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=1;
 //>>excludeEnd("ctx");
-$recv(jsObject)._a_($self._jsNull());
+$recv(jsObject)._a_($recv($globals.JSObjectProxy)._null());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["a:"]=1;
 //>>excludeEnd("ctx");
@@ -11157,10 +11164,41 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testSetPropertyWithFalsyValue\x0a\x09| jsObject |\x0a\x09jsObject := self jsObject.\x0a\x09self assert: (jsObject a) equals: 1.\x0a\x0a\x09jsObject a: self jsNull.\x0a\x09self assert: (jsObject a) equals: nil.\x0a\x09jsObject a: 0.\x0a\x09self assert: (jsObject a) equals: 0.\x0a\x09jsObject a: self jsUndefined.\x0a\x09self assert: (jsObject a) equals: nil.\x0a\x09jsObject a: ''.\x0a\x09self assert: (jsObject a) equals: ''.\x0a\x09jsObject a: false.\x0a\x09self assert: (jsObject a) equals: false",
-referencedClasses: [],
+source: "testSetPropertyWithFalsyValue\x0a\x09| jsObject |\x0a\x09jsObject := self jsObject.\x0a\x09self assert: (jsObject a) equals: 1.\x0a\x0a\x09jsObject a: JSObjectProxy null.\x0a\x09self assert: (jsObject a) equals: nil.\x0a\x09jsObject a: 0.\x0a\x09self assert: (jsObject a) equals: 0.\x0a\x09jsObject a: self jsUndefined.\x0a\x09self assert: (jsObject a) equals: nil.\x0a\x09jsObject a: ''.\x0a\x09self assert: (jsObject a) equals: ''.\x0a\x09jsObject a: false.\x0a\x09self assert: (jsObject a) equals: false",
+referencedClasses: ["JSObjectProxy"],
 //>>excludeEnd("ide");
-messageSends: ["jsObject", "assert:equals:", "a", "a:", "jsNull", "jsUndefined"]
+messageSends: ["jsObject", "assert:equals:", "a", "a:", "null", "jsUndefined"]
+}),
+$globals.JSObjectProxyTest);
+
+$core.addMethod(
+$core.method({
+selector: "testUndefined",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1;
+$2=$recv($globals.JSObjectProxy)._undefined();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["undefined"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2)._isNil();
+$self._assert_($1);
+$self._assert_equals_($recv($globals.JSON)._stringify_($globals.HashedCollection._newFromPairs_(["foo",$recv($globals.JSObjectProxy)._undefined()])),"{}");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testUndefined",{},$globals.JSObjectProxyTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testUndefined\x0a\x09self assert: JSObjectProxy undefined isNil.\x0a\x09self\x0a\x09\x09assert: (JSON stringify: #{#foo -> JSObjectProxy undefined})\x0a\x09\x09equals: '{}'",
+referencedClasses: ["JSObjectProxy", "JSON"],
+//>>excludeEnd("ide");
+messageSends: ["assert:", "isNil", "undefined", "assert:equals:", "stringify:"]
 }),
 $globals.JSObjectProxyTest);
 

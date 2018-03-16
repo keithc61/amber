@@ -1,3 +1,10 @@
+0.21.1:
+
++ JSObjectProxy class >>
+  + null
+  + undefined
+
+
 0.21.0:
 
 * Deprecate SmalltalkImage >> existsJsGlobal:

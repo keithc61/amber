@@ -183,6 +183,16 @@ putOn: aStream
 	aStream nextPutJSObject: jsObject
 ! !
 
+!JSObjectProxy class methodsFor: 'accessing'!
+
+null
+	<inlineJS: 'return null'>
+!
+
+undefined
+	<inlineJS: 'return undefined'>
+! !
+
 !JSObjectProxy class methodsFor: 'instance creation'!
 
 on: aJSObject

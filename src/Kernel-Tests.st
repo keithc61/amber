@@ -1908,10 +1908,6 @@ TestCase subclass: #JSObjectProxyTest
 
 !JSObjectProxyTest methodsFor: 'accessing'!
 
-jsNull
-	<inlineJS: 'return null'>
-!
-
 jsObject
 	<inlineJS: 
 		'return {a: 1, b: function() {return 2;}, c: function(object) {return object;}, d: "", "e": null, "f": void 0}'>
@@ -1990,6 +1986,13 @@ testMethodWithArguments
 	self assert: (self jsObject c: 1) equals: 1
 !
 
+testNull
+	self assert: JSObjectProxy null isNil.
+	self
+		assert: (JSON stringify: #{#foo -> JSObjectProxy null})
+		equals: '{"foo":null}'
+!
+
 testPrinting
 	self assert: self jsObject printString equals: '[object Object]'
 !
@@ -2017,7 +2020,7 @@ testSetPropertyWithFalsyValue
 	jsObject := self jsObject.
 	self assert: (jsObject a) equals: 1.
 
-	jsObject a: self jsNull.
+	jsObject a: JSObjectProxy null.
 	self assert: (jsObject a) equals: nil.
 	jsObject a: 0.
 	self assert: (jsObject a) equals: 0.
@@ -2027,6 +2030,13 @@ testSetPropertyWithFalsyValue
 	self assert: (jsObject a) equals: ''.
 	jsObject a: false.
 	self assert: (jsObject a) equals: false
+!
+
+testUndefined
+	self assert: JSObjectProxy undefined isNil.
+	self
+		assert: (JSON stringify: #{#foo -> JSObjectProxy undefined})
+		equals: '{}'
 !
 
 testValue
