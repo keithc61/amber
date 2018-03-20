@@ -1,12 +1,6 @@
 Amber
 ====
 
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/amber-smalltalk/amber?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/amber-smalltalk/amber.svg)](http://isitmaintained.com/project/amber-smalltalk/amber "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/amber-smalltalk/amber.svg)](http://isitmaintained.com/project/amber-smalltalk/amber "Percentage of issues still open")
-
-[![Travis CI Status](https://secure.travis-ci.org/amber-smalltalk/amber.png)](https://travis-ci.org/#!/amber-smalltalk/amber) [![devDependency status](https://david-dm.org/amber-smalltalk/amber/dev-status.svg?style=flat)](https://david-dm.org/amber-smalltalk/amber#info=devDependencies) [![Bountysource](https://www.bountysource.com/badge/team?team_id=19271&style=raised)](https://www.bountysource.com/teams/amber-smalltalk?utm_source=amber-smalltalk&utm_medium=shield&utm_campaign=raised)
-
-
 Copyright 2011-2015 Nicolas Petton
 
 Copyright 2014-2017 Herbert Vojčík and [Amber contributors](CONTRIBUTORS)
