@@ -74,8 +74,11 @@ Start developing in Amber Smalltalk
 
 
 
-Reporting issues
+In case something fails...
 --------------
+
+  - Amber hackers can be found on the Rocket.chat instance here: https://chat.amber-lang.net
+  - Most of Amber discussion and help happens on the [Google group](http://groups.google.com/group/amber-lang)
 
   - Report issues with the www.amber-lang.net website here: https://lolg.it/amber/amber-website/issues.
   - Report issues with the docs.amber-lang.net website here: https://lolg.it/amber/documentation/issues.
