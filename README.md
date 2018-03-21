@@ -80,10 +80,10 @@ In case something fails...
   - Amber hackers can be found on the Rocket.chat instance here: https://chat.amber-lang.net
   - Most of Amber discussion and help happens on the [Google group](http://groups.google.com/group/amber-lang)
 
-  - Report issues with the www.amber-lang.net website here: https://lolg.it/amber/amber-website/issues.
-  - Report issues with the docs.amber-lang.net website here: https://lolg.it/amber/documentation/issues.
+  - Report issues with the www.amber-lang.net _website only_ here: https://lolg.it/amber/amber-website/issues.
+  - Report issues with the docs.amber-lang.net _website only_ here: https://lolg.it/amber/documentation/issues.
   - Report issues with `amber init` project template here: https://lolg.it/amber/grunt-init-amber/issues.
-  - Report issues with Amber engine, core library or `amber` / `amberc` cli tools here: https://lolg.it/amber/amber/issues.
+  - Report issues with Amber engine, core library, as well as with `amber` / `amberc` cli tools here: https://lolg.it/amber/amber/issues.
   - Report issues with the Helios IDE here: https://lolg.it/amber/helios/issues.
 
 Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for further details.
