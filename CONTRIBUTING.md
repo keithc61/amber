@@ -34,7 +34,7 @@ either you fork of Helios, to develop it in parallel, or with stock repo, just t
 Start Contributing by talking about Amber
 =========================================
 
-* Join us on amber-lang slack channel. Request invitation on herby-mailbox-sk.
+* Join us on amber-lang chat: https://chat.amber-lang.net.
 * Join our [Mailinglist/Google Group](http://groups.google.com/group/amber-lang)
 * Follow [@AmberSmalltalk](https://twitter.com/AmberSmalltalk) on Twitter
 
