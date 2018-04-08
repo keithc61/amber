@@ -307,31 +307,39 @@ selector: "addInstVarNamed:to:",
 protocol: "compiling",
 fn: function (aString,aClass){
 var self=this,$self=this;
+var newInstVars;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$5,$4;
-$1=$self._classBuilder();
-$2=$recv(aClass)._superclass();
-$3=$recv(aClass)._name();
+var $1,$2,$3,$4,$5;
+newInstVars=$recv($recv(aClass)._instanceVariableNames())._copyWith_(aString);
+$1=$recv(aClass)._isMetaclass();
+if($core.assert($1)){
+$2=$self._classBuilder();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["classBuilder"]=1;
+//>>excludeEnd("ctx");
+$recv($2)._class_instanceVariables_(aClass,newInstVars);
+} else {
+$3=$self._classBuilder();
+$4=$recv(aClass)._superclass();
+$5=$recv(aClass)._name();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["name"]=1;
 //>>excludeEnd("ctx");
-$5=$recv($recv(aClass)._instanceVariableNames())._copy();
-$recv($5)._add_(aString);
-$4=$recv($5)._yourself();
-$recv($1)._addSubclassOf_named_instanceVariableNames_package_($2,$3,$4,$recv($recv(aClass)._package())._name());
+$recv($3)._addSubclassOf_named_instanceVariableNames_package_($4,$5,newInstVars,$recv($recv(aClass)._package())._name());
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"addInstVarNamed:to:",{aString:aString,aClass:aClass},$globals.Environment)});
+}, function($ctx1) {$ctx1.fill(self,"addInstVarNamed:to:",{aString:aString,aClass:aClass,newInstVars:newInstVars},$globals.Environment)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aClass"],
-source: "addInstVarNamed: aString to: aClass\x0a\x09self classBuilder\x0a\x09\x09addSubclassOf: aClass superclass \x0a\x09\x09named: aClass name \x0a\x09\x09instanceVariableNames: (aClass instanceVariableNames copy add: aString; yourself)\x0a\x09\x09package: aClass package name",
+source: "addInstVarNamed: aString to: aClass\x0a\x09| newInstVars |\x0a\x09newInstVars := aClass instanceVariableNames copyWith: aString.\x0a\x0a\x09aClass isMetaclass\x0a\x09\x09ifTrue: [ self classBuilder\x0a\x09\x09\x09class: aClass instanceVariables: newInstVars ]\x0a\x09\x09ifFalse: [ self classBuilder\x0a\x09\x09\x09addSubclassOf: aClass superclass \x0a\x09\x09\x09named: aClass name \x0a\x09\x09\x09instanceVariableNames: newInstVars\x0a\x09\x09\x09package: aClass package name ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "classBuilder", "superclass", "name", "add:", "copy", "instanceVariableNames", "yourself", "package"]
+messageSends: ["copyWith:", "instanceVariableNames", "ifTrue:ifFalse:", "isMetaclass", "class:instanceVariables:", "classBuilder", "addSubclassOf:named:instanceVariableNames:package:", "superclass", "name", "package"]
 }),
 $globals.Environment);
 

@@ -223,11 +223,17 @@ setClassCommentOf: aClass to: aString
 !Environment methodsFor: 'compiling'!
 
 addInstVarNamed: aString to: aClass
-	self classBuilder
-		addSubclassOf: aClass superclass 
-		named: aClass name 
-		instanceVariableNames: (aClass instanceVariableNames copy add: aString; yourself)
-		package: aClass package name
+	| newInstVars |
+	newInstVars := aClass instanceVariableNames copyWith: aString.
+
+	aClass isMetaclass
+		ifTrue: [ self classBuilder
+			class: aClass instanceVariables: newInstVars ]
+		ifFalse: [ self classBuilder
+			addSubclassOf: aClass superclass 
+			named: aClass name 
+			instanceVariableNames: newInstVars
+			package: aClass package name ]
 !
 
 compileClassComment: aString for: aClass
