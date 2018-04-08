@@ -326,7 +326,11 @@ addTraitNamed: traitName package: packageName
 !
 
 class: aClass instanceVariableNames: ivarNames
-	self basicClass: aClass instanceVariableNames: ivarNames.
+	self class: aClass instanceVariables:  (self instanceVariableNamesFor: ivarNames)
+!
+
+class: aClass instanceVariables: aCollection
+	self basicClass: aClass instanceVariables: aCollection.
 	
 	SystemAnnouncer current
 		announce: (ClassDefinitionChanged new
@@ -470,10 +474,6 @@ basicAddSubclassOf: aClass named: aString instanceVariableNames: aCollection pac
 
 basicAddTraitNamed: aString package: anotherString
 	<inlineJS: 'return $core.addTrait(aString, anotherString)'>
-!
-
-basicClass: aClass instanceVariableNames: aString
-	self basicClass: aClass instanceVariables: (self instanceVariableNamesFor: aString)
 !
 
 basicClass: aClass instanceVariables: aCollection

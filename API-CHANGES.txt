@@ -1,9 +1,13 @@
 0.21.1:
 
++ ClassBuilder >>
+  + class:instanceVariables:
 + JSObjectProxy class >>
   + null
   + undefined
 
+- ClassBuilder >>
+  - basicClass:instanceVariableNames:
 
 0.21.0:
 

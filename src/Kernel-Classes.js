@@ -1340,30 +1340,6 @@ $globals.ClassBuilder);
 
 $core.addMethod(
 $core.method({
-selector: "basicClass:instanceVariableNames:",
-protocol: "private",
-fn: function (aClass,aString){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._basicClass_instanceVariables_(aClass,$self._instanceVariableNamesFor_(aString));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicClass:instanceVariableNames:",{aClass:aClass,aString:aString},$globals.ClassBuilder)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aClass", "aString"],
-source: "basicClass: aClass instanceVariableNames: aString\x0a\x09self basicClass: aClass instanceVariables: (self instanceVariableNamesFor: aString)",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["basicClass:instanceVariables:", "instanceVariableNamesFor:"]
-}),
-$globals.ClassBuilder);
-
-$core.addMethod(
-$core.method({
 selector: "basicClass:instanceVariables:",
 protocol: "private",
 fn: function (aClass,aCollection){
@@ -1480,13 +1456,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2;
-$self._basicClass_instanceVariableNames_(aClass,ivarNames);
-$1=$recv($globals.SystemAnnouncer)._current();
-$3=$recv($globals.ClassDefinitionChanged)._new();
-$recv($3)._theClass_(aClass);
-$2=$recv($3)._yourself();
-$recv($1)._announce_($2);
+$self._class_instanceVariables_(aClass,$self._instanceVariableNamesFor_(ivarNames));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"class:instanceVariableNames:",{aClass:aClass,ivarNames:ivarNames},$globals.ClassBuilder)});
@@ -1494,10 +1464,40 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "ivarNames"],
-source: "class: aClass instanceVariableNames: ivarNames\x0a\x09self basicClass: aClass instanceVariableNames: ivarNames.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassDefinitionChanged new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
+source: "class: aClass instanceVariableNames: ivarNames\x0a\x09self class: aClass instanceVariables:  (self instanceVariableNamesFor: ivarNames)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["class:instanceVariables:", "instanceVariableNamesFor:"]
+}),
+$globals.ClassBuilder);
+
+$core.addMethod(
+$core.method({
+selector: "class:instanceVariables:",
+protocol: "class definition",
+fn: function (aClass,aCollection){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$3,$2;
+$self._basicClass_instanceVariables_(aClass,aCollection);
+$1=$recv($globals.SystemAnnouncer)._current();
+$3=$recv($globals.ClassDefinitionChanged)._new();
+$recv($3)._theClass_(aClass);
+$2=$recv($3)._yourself();
+$recv($1)._announce_($2);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"class:instanceVariables:",{aClass:aClass,aCollection:aCollection},$globals.ClassBuilder)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aClass", "aCollection"],
+source: "class: aClass instanceVariables: aCollection\x0a\x09self basicClass: aClass instanceVariables: aCollection.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassDefinitionChanged new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassDefinitionChanged"],
 //>>excludeEnd("ide");
-messageSends: ["basicClass:instanceVariableNames:", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["basicClass:instanceVariables:", "announce:", "current", "theClass:", "new", "yourself"]
 }),
 $globals.ClassBuilder);
 
