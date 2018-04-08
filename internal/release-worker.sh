@@ -27,14 +27,14 @@ if [ "$VER" = "0" ]; then :; else
 	git commit -a -m "Recompile (while version set to $VER)"
 fi
 echo -n "Which version are you going to work on? "
-VERF=`head -n 1`
-VER="${VERF}-pre"
-echo "Setting version $VER"
-internal/setversion.sh "$VER"
+WVERF=`head -n 1`
+WVER="${WVERF}-pre"
+echo "Setting version $WVER"
+internal/setversion.sh "$WVER"
 cp package.json package.json.bak
 sed -e 's@/amber.git.*"@/amber.git"@' package.json.bak >package.json
 rm package.json.bak
 git add package.json
-git commit -a -m "Working on $VERF"
+git commit -a -m "Working on $WVERF"
 git push
 echo git push origin $VER
