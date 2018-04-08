@@ -16703,24 +16703,6 @@ $globals.ClassBuilder);
 
 $core.addMethod(
 $core.method({
-selector: "basicClass:instanceVariableNames:",
-protocol: "private",
-fn: function (aClass,aString){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._basicClass_instanceVariables_(aClass,$self._instanceVariableNamesFor_(aString));
-return self;
-}, function($ctx1) {$ctx1.fill(self,"basicClass:instanceVariableNames:",{aClass:aClass,aString:aString},$globals.ClassBuilder)});
-},
-args: ["aClass", "aString"],
-source: "basicClass: aClass instanceVariableNames: aString\x0a\x09self basicClass: aClass instanceVariables: (self instanceVariableNamesFor: aString)",
-referencedClasses: [],
-messageSends: ["basicClass:instanceVariables:", "instanceVariableNamesFor:"]
-}),
-$globals.ClassBuilder);
-
-$core.addMethod(
-$core.method({
 selector: "basicClass:instanceVariables:",
 protocol: "private",
 fn: function (aClass,aCollection){
@@ -16811,20 +16793,38 @@ protocol: "class definition",
 fn: function (aClass,ivarNames){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
+$self._class_instanceVariables_(aClass,$self._instanceVariableNamesFor_(ivarNames));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"class:instanceVariableNames:",{aClass:aClass,ivarNames:ivarNames},$globals.ClassBuilder)});
+},
+args: ["aClass", "ivarNames"],
+source: "class: aClass instanceVariableNames: ivarNames\x0a\x09self class: aClass instanceVariables:  (self instanceVariableNamesFor: ivarNames)",
+referencedClasses: [],
+messageSends: ["class:instanceVariables:", "instanceVariableNamesFor:"]
+}),
+$globals.ClassBuilder);
+
+$core.addMethod(
+$core.method({
+selector: "class:instanceVariables:",
+protocol: "class definition",
+fn: function (aClass,aCollection){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
 var $1,$3,$2;
-$self._basicClass_instanceVariableNames_(aClass,ivarNames);
+$self._basicClass_instanceVariables_(aClass,aCollection);
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.ClassDefinitionChanged)._new();
 $recv($3)._theClass_(aClass);
 $2=$recv($3)._yourself();
 $recv($1)._announce_($2);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"class:instanceVariableNames:",{aClass:aClass,ivarNames:ivarNames},$globals.ClassBuilder)});
+}, function($ctx1) {$ctx1.fill(self,"class:instanceVariables:",{aClass:aClass,aCollection:aCollection},$globals.ClassBuilder)});
 },
-args: ["aClass", "ivarNames"],
-source: "class: aClass instanceVariableNames: ivarNames\x0a\x09self basicClass: aClass instanceVariableNames: ivarNames.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassDefinitionChanged new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
+args: ["aClass", "aCollection"],
+source: "class: aClass instanceVariables: aCollection\x0a\x09self basicClass: aClass instanceVariables: aCollection.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassDefinitionChanged new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassDefinitionChanged"],
-messageSends: ["basicClass:instanceVariableNames:", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["basicClass:instanceVariables:", "announce:", "current", "theClass:", "new", "yourself"]
 }),
 $globals.ClassBuilder);
 
@@ -23743,6 +23743,24 @@ $globals.JSObjectProxy.a$cls);
 
 $core.addMethod(
 $core.method({
+selector: "null",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return null;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"null",{},$globals.JSObjectProxy.a$cls)});
+},
+args: [],
+source: "null\x0a\x09<inlineJS: 'return null'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.JSObjectProxy.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "on:",
 protocol: "instance creation",
 fn: function (aJSObject){
@@ -23758,6 +23776,24 @@ args: ["aJSObject"],
 source: "on: aJSObject\x0a\x09| instance |\x0a\x09instance := self new.\x0a\x09self jsObject: aJSObject ofProxy: instance.\x0a\x09^ instance",
 referencedClasses: [],
 messageSends: ["new", "jsObject:ofProxy:"]
+}),
+$globals.JSObjectProxy.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "undefined",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return undefined;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"undefined",{},$globals.JSObjectProxy.a$cls)});
+},
+args: [],
+source: "undefined\x0a\x09<inlineJS: 'return undefined'>",
+referencedClasses: [],
+messageSends: []
 }),
 $globals.JSObjectProxy.a$cls);
 
@@ -26038,11 +26074,11 @@ selector: "version",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return "0.21.0";
+return "0.21.1";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.21.0'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.21.1'",
 referencedClasses: [],
 messageSends: []
 }),
@@ -27391,23 +27427,29 @@ selector: "addInstVarNamed:to:",
 protocol: "compiling",
 fn: function (aString,aClass){
 var self=this,$self=this;
+var newInstVars;
 return $core.withContext(function($ctx1) {
-var $1,$2,$3,$5,$4;
-$1=$self._classBuilder();
-$2=$recv(aClass)._superclass();
-$3=$recv(aClass)._name();
+var $1,$2,$3,$4,$5;
+newInstVars=$recv($recv(aClass)._instanceVariableNames())._copyWith_(aString);
+$1=$recv(aClass)._isMetaclass();
+if($core.assert($1)){
+$2=$self._classBuilder();
+$ctx1.sendIdx["classBuilder"]=1;
+$recv($2)._class_instanceVariables_(aClass,newInstVars);
+} else {
+$3=$self._classBuilder();
+$4=$recv(aClass)._superclass();
+$5=$recv(aClass)._name();
 $ctx1.sendIdx["name"]=1;
-$5=$recv($recv(aClass)._instanceVariableNames())._copy();
-$recv($5)._add_(aString);
-$4=$recv($5)._yourself();
-$recv($1)._addSubclassOf_named_instanceVariableNames_package_($2,$3,$4,$recv($recv(aClass)._package())._name());
+$recv($3)._addSubclassOf_named_instanceVariableNames_package_($4,$5,newInstVars,$recv($recv(aClass)._package())._name());
+}
 return self;
-}, function($ctx1) {$ctx1.fill(self,"addInstVarNamed:to:",{aString:aString,aClass:aClass},$globals.Environment)});
+}, function($ctx1) {$ctx1.fill(self,"addInstVarNamed:to:",{aString:aString,aClass:aClass,newInstVars:newInstVars},$globals.Environment)});
 },
 args: ["aString", "aClass"],
-source: "addInstVarNamed: aString to: aClass\x0a\x09self classBuilder\x0a\x09\x09addSubclassOf: aClass superclass \x0a\x09\x09named: aClass name \x0a\x09\x09instanceVariableNames: (aClass instanceVariableNames copy add: aString; yourself)\x0a\x09\x09package: aClass package name",
+source: "addInstVarNamed: aString to: aClass\x0a\x09| newInstVars |\x0a\x09newInstVars := aClass instanceVariableNames copyWith: aString.\x0a\x0a\x09aClass isMetaclass\x0a\x09\x09ifTrue: [ self classBuilder\x0a\x09\x09\x09class: aClass instanceVariables: newInstVars ]\x0a\x09\x09ifFalse: [ self classBuilder\x0a\x09\x09\x09addSubclassOf: aClass superclass \x0a\x09\x09\x09named: aClass name \x0a\x09\x09\x09instanceVariableNames: newInstVars\x0a\x09\x09\x09package: aClass package name ]",
 referencedClasses: [],
-messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "classBuilder", "superclass", "name", "add:", "copy", "instanceVariableNames", "yourself", "package"]
+messageSends: ["copyWith:", "instanceVariableNames", "ifTrue:ifFalse:", "isMetaclass", "class:instanceVariables:", "classBuilder", "addSubclassOf:named:instanceVariableNames:package:", "superclass", "name", "package"]
 }),
 $globals.Environment);
 
@@ -61511,24 +61553,6 @@ $globals.DateTest);
 $core.addClass("JSObjectProxyTest", $globals.TestCase, [], "Kernel-Tests");
 $core.addMethod(
 $core.method({
-selector: "jsNull",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return null;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"jsNull",{},$globals.JSObjectProxyTest)});
-},
-args: [],
-source: "jsNull\x0a\x09<inlineJS: 'return null'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.JSObjectProxyTest);
-
-$core.addMethod(
-$core.method({
 selector: "jsObject",
 protocol: "accessing",
 fn: function (){
@@ -61886,6 +61910,29 @@ $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
+selector: "testNull",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $2,$1;
+$2=$recv($globals.JSObjectProxy)._null();
+$ctx1.sendIdx["null"]=1;
+$1=$recv($2)._isNil();
+$self._assert_($1);
+$self._assert_equals_($recv($globals.JSON)._stringify_($globals.HashedCollection._newFromPairs_(["foo",$recv($globals.JSObjectProxy)._null()])),"{\x22foo\x22:null}");
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testNull",{},$globals.JSObjectProxyTest)});
+},
+args: [],
+source: "testNull\x0a\x09self assert: JSObjectProxy null isNil.\x0a\x09self\x0a\x09\x09assert: (JSON stringify: #{#foo -> JSObjectProxy null})\x0a\x09\x09equals: '{\x22foo\x22:null}'",
+referencedClasses: ["JSObjectProxy", "JSON"],
+messageSends: ["assert:", "isNil", "null", "assert:equals:", "stringify:"]
+}),
+$globals.JSObjectProxyTest);
+
+$core.addMethod(
+$core.method({
 selector: "testPrinting",
 protocol: "tests",
 fn: function (){
@@ -61968,7 +62015,7 @@ $1=$recv(jsObject)._a();
 $ctx1.sendIdx["a"]=1;
 $self._assert_equals_($1,(1));
 $ctx1.sendIdx["assert:equals:"]=1;
-$recv(jsObject)._a_($self._jsNull());
+$recv(jsObject)._a_($recv($globals.JSObjectProxy)._null());
 $ctx1.sendIdx["a:"]=1;
 $2=$recv(jsObject)._a();
 $ctx1.sendIdx["a"]=2;
@@ -61998,9 +62045,32 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testSetPropertyWithFalsyValue",{jsObject:jsObject},$globals.JSObjectProxyTest)});
 },
 args: [],
-source: "testSetPropertyWithFalsyValue\x0a\x09| jsObject |\x0a\x09jsObject := self jsObject.\x0a\x09self assert: (jsObject a) equals: 1.\x0a\x0a\x09jsObject a: self jsNull.\x0a\x09self assert: (jsObject a) equals: nil.\x0a\x09jsObject a: 0.\x0a\x09self assert: (jsObject a) equals: 0.\x0a\x09jsObject a: self jsUndefined.\x0a\x09self assert: (jsObject a) equals: nil.\x0a\x09jsObject a: ''.\x0a\x09self assert: (jsObject a) equals: ''.\x0a\x09jsObject a: false.\x0a\x09self assert: (jsObject a) equals: false",
-referencedClasses: [],
-messageSends: ["jsObject", "assert:equals:", "a", "a:", "jsNull", "jsUndefined"]
+source: "testSetPropertyWithFalsyValue\x0a\x09| jsObject |\x0a\x09jsObject := self jsObject.\x0a\x09self assert: (jsObject a) equals: 1.\x0a\x0a\x09jsObject a: JSObjectProxy null.\x0a\x09self assert: (jsObject a) equals: nil.\x0a\x09jsObject a: 0.\x0a\x09self assert: (jsObject a) equals: 0.\x0a\x09jsObject a: self jsUndefined.\x0a\x09self assert: (jsObject a) equals: nil.\x0a\x09jsObject a: ''.\x0a\x09self assert: (jsObject a) equals: ''.\x0a\x09jsObject a: false.\x0a\x09self assert: (jsObject a) equals: false",
+referencedClasses: ["JSObjectProxy"],
+messageSends: ["jsObject", "assert:equals:", "a", "a:", "null", "jsUndefined"]
+}),
+$globals.JSObjectProxyTest);
+
+$core.addMethod(
+$core.method({
+selector: "testUndefined",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $2,$1;
+$2=$recv($globals.JSObjectProxy)._undefined();
+$ctx1.sendIdx["undefined"]=1;
+$1=$recv($2)._isNil();
+$self._assert_($1);
+$self._assert_equals_($recv($globals.JSON)._stringify_($globals.HashedCollection._newFromPairs_(["foo",$recv($globals.JSObjectProxy)._undefined()])),"{}");
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testUndefined",{},$globals.JSObjectProxyTest)});
+},
+args: [],
+source: "testUndefined\x0a\x09self assert: JSObjectProxy undefined isNil.\x0a\x09self\x0a\x09\x09assert: (JSON stringify: #{#foo -> JSObjectProxy undefined})\x0a\x09\x09equals: '{}'",
+referencedClasses: ["JSObjectProxy", "JSON"],
+messageSends: ["assert:", "isNil", "undefined", "assert:equals:", "stringify:"]
 }),
 $globals.JSObjectProxyTest);
 
