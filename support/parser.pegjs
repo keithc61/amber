@@ -190,9 +190,7 @@ wsStatements =
 	} /
 	expressions:wsExpressions? {return expressions || [];}
 
-wsSequenceWs = (ws js:jsSequence ws {return js;}) / wsStSequenceWs
-
-wsStSequenceWs = ws temps:temps? statements:wsStatements? maybeDotsWs {
+wsSequenceWs = ws temps:temps? statements:(ws js:jsSequence ws {return [js];} / st:wsStatements maybeDotsWs {return st;})? {
 	return $globals.SequenceNode._new()
 		._location_(location())
 		._source_(text())

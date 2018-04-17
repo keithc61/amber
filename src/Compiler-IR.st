@@ -199,7 +199,7 @@ visitMethodNode: aNode
 				variable: (aNode scope pseudoVars at: 'self');
 				yourself);
 			yourself);
-		add: (IRVerbatim new source: ''; yourself) ].
+		add: (IRVerbatim new source: ';', String lf; yourself) ].
 
 	^ self method
 !
@@ -993,8 +993,7 @@ visitIRVariable: anIRVariable
 !
 
 visitIRVerbatim: anIRVerbatim
-	self stream nextPutStatementWith: [
-		self stream nextPutAll: anIRVerbatim source ]
+	self stream nextPutAll: anIRVerbatim source
 !
 
 visitInstructionList: anArray enclosedBetween: aString and: anotherString
