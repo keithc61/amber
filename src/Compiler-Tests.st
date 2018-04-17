@@ -50,15 +50,6 @@ testJSStatementNode
 		currentNode) isJSStatementNode
 !
 
-testLegacyJSStatementNode
-	| ast visitor |
-	
-	ast := self parse: 'foo <consolee.log(1)>' forClass: Object.
-	self assert: (self astPCNodeVisitor
-		visit: ast;
-		currentNode) isJSStatementNode
-!
-
 testMessageSend
 	| ast |
 	
@@ -288,10 +279,6 @@ testInnerTemporalDependentElementsOrdered
 	x := 1.
 	^ #{ ''foo''->x. ''bar''->(true ifTrue: [ x := 2 ]) }
 ' return: #{'foo'->1. 'bar'->2}.
-!
-
-testJSStatement
-	self should: 'foo <return 2+3>' return: 5
 !
 
 testLexicalScope

@@ -264,18 +264,7 @@ cascade =
 			._dagChildren_(messages);
 	}
 
-jsStatement = pragmaJsStatement / legacyJsStatement
-
-legacyJsStatement =
-	'<' val:(('>>' {return '>';} / [^>])*) '>'
-	& {return !/^\s*inlineJS/.test(val.join(''));} {
-		console.warn('Use of <...js code...> is deprecated, in:\n' + val.join(''));
-		return $globals.JSStatementNode._new()
-			._location_(location())
-			._source_(val.join(''))
-	}
-
-pragmaJsStatement = '<' ws 'inlineJS:' ws val:rawString ws '>' {
+jsStatement = '<' ws 'inlineJS:' ws val:rawString ws '>' {
 	return $globals.JSStatementNode._new()
 		._location_(location())
 		._source_(val)
