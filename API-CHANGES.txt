@@ -5,6 +5,8 @@
 + JSObjectProxy class >>
   + null
   + undefined
++ Number >>
+  + ln1p
 
 - ClassBuilder >>
   - basicClass:instanceVariableNames:

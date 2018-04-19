@@ -1046,6 +1046,10 @@ ln
 	<inlineJS: 'return Math.log(self);'>
 !
 
+ln1p
+	<inlineJS: 'return Math.log1p(self);'>
+!
+
 log
 	<inlineJS: 'return Math.log(self) / Math.LN10;'>
 !

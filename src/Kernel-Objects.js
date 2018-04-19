@@ -4143,6 +4143,30 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "ln1p",
+protocol: "mathematical functions",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return Math.log1p(self);;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"ln1p",{},$globals.Number)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "ln1p\x0a\x09<inlineJS: 'return Math.log1p(self);'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "log",
 protocol: "mathematical functions",
 fn: function (){
