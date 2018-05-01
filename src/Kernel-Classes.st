@@ -886,7 +886,7 @@ package: aPackage
 	
 	self
 		leaveOrganization;
-		basicAt: 'category' put: aPackage;
+		basicAt: 'category' put: aPackage name;
 		enterOrganization.
 
 	SystemAnnouncer current announce: (ClassMoved new

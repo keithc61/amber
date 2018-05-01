@@ -3511,7 +3511,7 @@ return self;
 }
 oldPackage=$self._package();
 $self._leaveOrganization();
-$self._basicAt_put_("category",aPackage);
+$self._basicAt_put_("category",$recv(aPackage)._name());
 $self._enterOrganization();
 $3=$recv($globals.SystemAnnouncer)._current();
 $5=$recv($globals.ClassMoved)._new();
@@ -3526,10 +3526,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage"],
-source: "package: aPackage\x0a\x09| oldPackage |\x0a\x09\x0a\x09self package = aPackage ifTrue: [ ^ self ].\x0a\x09\x0a\x09oldPackage := self package.\x0a\x09\x0a\x09self\x0a\x09\x09leaveOrganization;\x0a\x09\x09basicAt: 'category' put: aPackage;\x0a\x09\x09enterOrganization.\x0a\x0a\x09SystemAnnouncer current announce: (ClassMoved new\x0a\x09\x09theClass: self;\x0a\x09\x09oldPackage: oldPackage;\x0a\x09\x09yourself)",
+source: "package: aPackage\x0a\x09| oldPackage |\x0a\x09\x0a\x09self package = aPackage ifTrue: [ ^ self ].\x0a\x09\x0a\x09oldPackage := self package.\x0a\x09\x0a\x09self\x0a\x09\x09leaveOrganization;\x0a\x09\x09basicAt: 'category' put: aPackage name;\x0a\x09\x09enterOrganization.\x0a\x0a\x09SystemAnnouncer current announce: (ClassMoved new\x0a\x09\x09theClass: self;\x0a\x09\x09oldPackage: oldPackage;\x0a\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassMoved"],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:", "=", "package", "leaveOrganization", "basicAt:put:", "enterOrganization", "announce:", "current", "theClass:", "new", "oldPackage:", "yourself"]
+messageSends: ["ifTrue:", "=", "package", "leaveOrganization", "basicAt:put:", "name", "enterOrganization", "announce:", "current", "theClass:", "new", "oldPackage:", "yourself"]
 }),
 $globals.TMasterBehavior);
 
