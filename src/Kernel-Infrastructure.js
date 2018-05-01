@@ -9,15 +9,15 @@ $core.addClass("AmberBootstrapInitialization", $globals.Object, [], "Kernel-Infr
 
 $core.addMethod(
 $core.method({
-selector: "initializeClasses",
+selector: "initializeClasses:",
 protocol: "initialization",
-fn: function (){
+fn: function (classes){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$recv($recv($globals.Smalltalk)._classes())._do_((function(each){
+$recv(classes)._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -31,28 +31,28 @@ return $recv(each)._initialize();
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initializeClasses",{},$globals.AmberBootstrapInitialization.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"initializeClasses:",{classes:classes},$globals.AmberBootstrapInitialization.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "initializeClasses\x0a\x09Smalltalk classes do: [ :each |\x0a\x09\x09each = SmalltalkImage ifFalse: [ each initialize ] ]",
-referencedClasses: ["Smalltalk", "SmalltalkImage"],
+args: ["classes"],
+source: "initializeClasses: classes\x0a\x09classes do: [ :each |\x0a\x09\x09each = SmalltalkImage ifFalse: [ each initialize ] ]",
+referencedClasses: ["SmalltalkImage"],
 //>>excludeEnd("ide");
-messageSends: ["do:", "classes", "ifFalse:", "=", "initialize"]
+messageSends: ["do:", "ifFalse:", "=", "initialize"]
 }),
 $globals.AmberBootstrapInitialization.a$cls);
 
 $core.addMethod(
 $core.method({
-selector: "organizeClasses",
+selector: "organizeClasses:",
 protocol: "organization",
-fn: function (){
+fn: function (classes){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($recv($globals.Smalltalk)._classes())._do_((function(each){
+$recv(classes)._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -63,28 +63,28 @@ return $recv(each)._enterOrganization();
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"organizeClasses",{},$globals.AmberBootstrapInitialization.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"organizeClasses:",{classes:classes},$globals.AmberBootstrapInitialization.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "organizeClasses\x0a\x09Smalltalk classes do: [ :each | each enterOrganization ]",
-referencedClasses: ["Smalltalk"],
+args: ["classes"],
+source: "organizeClasses: classes\x0a\x09classes do: [ :each | each enterOrganization ]",
+referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["do:", "classes", "enterOrganization"]
+messageSends: ["do:", "enterOrganization"]
 }),
 $globals.AmberBootstrapInitialization.a$cls);
 
 $core.addMethod(
 $core.method({
-selector: "organizeMethods",
+selector: "organizeMethodsOf:",
 protocol: "organization",
-fn: function (){
+fn: function (classes){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($recv($globals.Smalltalk)._classes())._do_((function(eachClass){
+$recv(classes)._do_((function(eachClass){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -106,15 +106,78 @@ $ctx1.sendIdx["do:"]=1;
 //>>excludeEnd("ctx");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"organizeMethods",{},$globals.AmberBootstrapInitialization.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"organizeMethodsOf:",{classes:classes},$globals.AmberBootstrapInitialization.a$cls)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["classes"],
+source: "organizeMethodsOf: classes\x0a\x09classes do: [ :eachClass |\x0a\x09\x09eachClass definedMethods do: [ :eachMethod |\x0a\x09\x09\x09eachMethod methodClass methodOrganizationEnter: eachMethod andLeave: nil ] ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["do:", "definedMethods", "methodOrganizationEnter:andLeave:", "methodClass"]
+}),
+$globals.AmberBootstrapInitialization.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "processArrivals",
+protocol: "public api",
+fn: function(){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv($globals.Smalltalk)._withArrivalsDo_((function(newPackages){
+var names,classes;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+names=$recv($recv(newPackages)._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(each)._name();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
+//>>excludeEnd("ctx");
+})))._asSet();
+names;
+classes=$recv($recv($globals.Smalltalk)._classes())._select_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($recv($recv(each)._package())._isNil())._and_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $recv(names)._includes_($recv(each)._basicAt_("category"));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,3)});
+//>>excludeEnd("ctx");
+}));
+classes;
+$self._organizeClasses_(classes);
+$self._organizeMethodsOf_(classes);
+return $self._initializeClasses_(classes);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({newPackages:newPackages,names:names,classes:classes},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"processArrivals",{},$globals.AmberBootstrapInitialization.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "organizeMethods\x0a\x09Smalltalk classes do: [ :eachClass |\x0a\x09\x09eachClass definedMethods do: [ :eachMethod |\x0a\x09\x09\x09eachMethod methodClass methodOrganizationEnter: eachMethod andLeave: nil ] ]",
+source: "processArrivals\x0a\x09Smalltalk withArrivalsDo: [ :newPackages |\x0a\x09\x09| names classes |\x0a\x09\x09names := (newPackages collect: [ :each | each name ]) asSet.\x0a\x09\x09classes := Smalltalk classes select: [ :each |\x0a\x09\x09\x09each package isNil and: [ names includes: (each basicAt: 'category') ] ].\x0a\x0a\x09\x09self\x0a\x09\x09\x09organizeClasses: classes;\x0a\x09\x09\x09organizeMethodsOf: classes;\x0a\x09\x09\x09initializeClasses: classes ]",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["do:", "classes", "definedMethods", "methodOrganizationEnter:andLeave:", "methodClass"]
+messageSends: ["withArrivalsDo:", "asSet", "collect:", "name", "select:", "classes", "and:", "isNil", "package", "includes:", "basicAt:", "organizeClasses:", "organizeMethodsOf:", "initializeClasses:"]
 }),
 $globals.AmberBootstrapInitialization.a$cls);
 
@@ -122,16 +185,13 @@ $core.addMethod(
 $core.method({
 selector: "run",
 protocol: "public api",
-fn: function (){
+fn: function(){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $recv($globals.SmalltalkImage)._initialize();
-$recv($globals.Smalltalk)._adoptPackageDictionary();
-$self._organizeClasses();
-$self._organizeMethods();
-$self._initializeClasses();
+$self._processArrivals();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"run",{},$globals.AmberBootstrapInitialization.a$cls)});
@@ -139,10 +199,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "run\x0a\x09SmalltalkImage initialize.\x0a\x09Smalltalk adoptPackageDictionary.\x0a\x09self\x0a\x09\x09organizeClasses;\x0a\x09\x09organizeMethods;\x0a\x09\x09initializeClasses",
-referencedClasses: ["SmalltalkImage", "Smalltalk"],
+source: "run\x0a\x09SmalltalkImage initialize.\x0a\x09self processArrivals",
+referencedClasses: ["SmalltalkImage"],
 //>>excludeEnd("ide");
-messageSends: ["initialize", "adoptPackageDictionary", "organizeClasses", "organizeMethods", "initializeClasses"]
+messageSends: ["initialize", "processArrivals"]
 }),
 $globals.AmberBootstrapInitialization.a$cls);
 
@@ -588,6 +648,30 @@ source: "putOn: aStream\x0a\x09aStream nextPutJSObject: jsObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["nextPutJSObject:"]
+}),
+$globals.JSObjectProxy);
+
+$core.addMethod(
+$core.method({
+selector: "removeKey:",
+protocol: "accessing",
+fn: function(aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+delete $self['@jsObject'][aString]; return aString;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"removeKey:",{aString:aString},$globals.JSObjectProxy)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "removeKey: aString\x0a\x09<inlineJS: 'delete $self[''@jsObject''][aString]; return aString'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
 }),
 $globals.JSObjectProxy);
 
@@ -2954,29 +3038,31 @@ selector: "adoptPackageDictionary",
 protocol: "private",
 fn: function (){
 var self=this,$self=this;
+var adopted;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+adopted=[];
 $recv($recv($self._core())._packageDescriptors())._keysAndValuesDo_((function(key,value){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($globals.Package)._named_javaScriptDescriptor_(key,value);
+return $recv(adopted)._add_($recv($globals.Package)._named_javaScriptDescriptor_(key,value));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-return self;
+return adopted;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"adoptPackageDictionary",{},$globals.SmalltalkImage)});
+}, function($ctx1) {$ctx1.fill(self,"adoptPackageDictionary",{adopted:adopted},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "adoptPackageDictionary\x0a\x09self core packageDescriptors keysAndValuesDo: [ :key :value | Package named: key javaScriptDescriptor: value ]",
+source: "adoptPackageDictionary\x0a\x09| adopted |\x0a\x09adopted := #().\x0a\x09self core packageDescriptors keysAndValuesDo: [ :key :value |\x0a\x09\x09adopted add: (Package named: key javaScriptDescriptor: value) ].\x0a\x09^ adopted",
 referencedClasses: ["Package"],
 //>>excludeEnd("ide");
-messageSends: ["keysAndValuesDo:", "packageDescriptors", "core", "named:javaScriptDescriptor:"]
+messageSends: ["keysAndValuesDo:", "packageDescriptors", "core", "add:", "named:javaScriptDescriptor:"]
 }),
 $globals.SmalltalkImage);
 
@@ -3928,6 +4014,58 @@ $globals.SmalltalkImage);
 
 $core.addMethod(
 $core.method({
+selector: "sweepPackageDictionary",
+protocol: "private",
+fn: function(){
+var self=this,$self=this;
+var pd,adopted;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+pd=$recv($self._core())._packageDescriptors();
+adopted=[];
+$recv(pd)._keysAndValuesDo_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._packageAt_ifPresent_(each,(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(adopted)._add_(each);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$recv(adopted)._do_((function(key){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(pd)._removeKey_(key);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({key:key},$ctx1,3)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"sweepPackageDictionary",{pd:pd,adopted:adopted},$globals.SmalltalkImage)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "sweepPackageDictionary\x0a\x09| pd adopted |\x09\x0a\x09pd := self core packageDescriptors.\x0a\x09adopted := #().\x0a\x09pd keysAndValuesDo: [ :each | self packageAt: each ifPresent: [ adopted add: each ] ].\x0a\x09adopted do: [ :key | pd removeKey: key ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["packageDescriptors", "core", "keysAndValuesDo:", "packageAt:ifPresent:", "add:", "do:", "removeKey:"]
+}),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
 selector: "version",
 protocol: "accessing",
 fn: function (){
@@ -3941,6 +4079,31 @@ source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
+}),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
+selector: "withArrivalsDo:",
+protocol: "startup",
+fn: function (aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv(aBlock)._value_($self._adoptPackageDictionary());
+$self._sweepPackageDictionary();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"withArrivalsDo:",{aBlock:aBlock},$globals.SmalltalkImage)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "withArrivalsDo: aBlock\x0a\x09aBlock value: self adoptPackageDictionary.\x0a\x09self sweepPackageDictionary",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["value:", "adoptPackageDictionary", "sweepPackageDictionary"]
 }),
 $globals.SmalltalkImage);
 
