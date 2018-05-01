@@ -7,6 +7,8 @@
   + processArrivals
 + JSObjectProxy >>
   + removeKey:
++ Number >>
+  + ln1p
 + SmalltalkImage
   + withArrivalsDo:
 
@@ -22,8 +24,6 @@
 + JSObjectProxy class >>
   + null
   + undefined
-+ Number >>
-  + ln1p
 
 - ClassBuilder >>
   - basicClass:instanceVariableNames:
