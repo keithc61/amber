@@ -984,7 +984,8 @@ setupFromJson: anObject
 !PackageTransport methodsFor: 'loading'!
 
 load
-	self commitHandler load: self package
+	self commitHandler load: self package.
+	AmberBootstrapInitialization processArrivals
 ! !
 
 PackageTransport class instanceVariableNames: 'registry'!
