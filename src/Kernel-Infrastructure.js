@@ -556,6 +556,30 @@ $globals.JSObjectProxy);
 
 $core.addMethod(
 $core.method({
+selector: "removeKey:",
+protocol: "accessing",
+fn: function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+delete $self['@jsObject'][aString]; return aString;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"removeKey:",{aString:aString},$globals.JSObjectProxy)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "removeKey: aString\x0a\x09<inlineJS: 'delete $self[''@jsObject''][aString]; return aString'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.JSObjectProxy);
+
+$core.addMethod(
+$core.method({
 selector: "then:",
 protocol: "promises",
 fn: function (aBlockOrArray){
@@ -2913,7 +2937,7 @@ $globals.SmalltalkImage);
 
 $core.addMethod(
 $core.method({
-selector: "adoptPackageDictionary",
+selector: "adoptPackageDescriptors",
 protocol: "private",
 fn: function (){
 var self=this,$self=this;
@@ -2933,12 +2957,12 @@ return $recv(pkgs)._add_($recv($globals.Package)._named_javaScriptDescriptor_(ke
 }));
 return pkgs;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"adoptPackageDictionary",{pkgs:pkgs},$globals.SmalltalkImage)});
+}, function($ctx1) {$ctx1.fill(self,"adoptPackageDescriptors",{pkgs:pkgs},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "adoptPackageDictionary\x0a\x09| pkgs |\x0a\x09pkgs := Set new.\x0a\x09self core packageDescriptors keysAndValuesDo: [ :key :value |\x0a\x09\x09pkgs add: (Package named: key javaScriptDescriptor: value) ].\x0a\x09^ pkgs",
+source: "adoptPackageDescriptors\x0a\x09| pkgs |\x0a\x09pkgs := Set new.\x0a\x09self core packageDescriptors keysAndValuesDo: [ :key :value |\x0a\x09\x09pkgs add: (Package named: key javaScriptDescriptor: value) ].\x0a\x09^ pkgs",
 referencedClasses: ["Set", "Package"],
 //>>excludeEnd("ide");
 messageSends: ["new", "keysAndValuesDo:", "packageDescriptors", "core", "add:", "named:javaScriptDescriptor:"]
@@ -3635,7 +3659,7 @@ var pkgs,classes;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-pkgs=$self._adoptPackageDictionary();
+pkgs=$self._adoptPackageDescriptors();
 classes=$recv($recv($globals.Smalltalk)._classes())._select_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -3657,6 +3681,7 @@ return $recv(each)._initialize();
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
+$self._sweepPackageDescriptors_(pkgs);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"postLoad",{pkgs:pkgs,classes:classes},$globals.SmalltalkImage)});
@@ -3664,10 +3689,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "postLoad\x0a\x09| pkgs classes |\x0a\x09pkgs := self adoptPackageDictionary.\x0a\x09classes := Smalltalk classes select:\x0a\x09\x09[ :each | pkgs includes: each package ].\x0a\x09classes do: [ :each |\x0a\x09\x09each = self class ifFalse: [ each initialize ] ]",
+source: "postLoad\x0a\x09| pkgs classes |\x0a\x09pkgs := self adoptPackageDescriptors.\x0a\x09classes := Smalltalk classes select:\x0a\x09\x09[ :each | pkgs includes: each package ].\x0a\x09classes do: [ :each |\x0a\x09\x09each = self class ifFalse: [ each initialize ] ].\x0a\x09self sweepPackageDescriptors: pkgs",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["adoptPackageDictionary", "select:", "classes", "includes:", "package", "do:", "ifFalse:", "=", "class", "initialize"]
+messageSends: ["adoptPackageDescriptors", "select:", "classes", "includes:", "package", "do:", "ifFalse:", "=", "class", "initialize", "sweepPackageDescriptors:"]
 }),
 $globals.SmalltalkImage);
 
@@ -3935,6 +3960,40 @@ source: "settings\x0a\x09^ SmalltalkSettings",
 referencedClasses: ["SmalltalkSettings"],
 //>>excludeEnd("ide");
 messageSends: []
+}),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
+selector: "sweepPackageDescriptors:",
+protocol: "private",
+fn: function (pkgs){
+var self=this,$self=this;
+var pd;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+pd=$recv($self._core())._packageDescriptors();
+$recv(pkgs)._do_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(pd)._removeKey_($recv(each)._name());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"sweepPackageDescriptors:",{pkgs:pkgs,pd:pd},$globals.SmalltalkImage)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["pkgs"],
+source: "sweepPackageDescriptors: pkgs\x0a\x09| pd |\x09\x0a\x09pd := self core packageDescriptors.\x0a\x09pkgs do: [ :each | pd removeKey: each name ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["packageDescriptors", "core", "do:", "removeKey:", "name"]
 }),
 $globals.SmalltalkImage);
 

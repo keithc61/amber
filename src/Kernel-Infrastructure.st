@@ -94,6 +94,10 @@ in: aValuable
 
 jsObject
 	^ jsObject
+!
+
+removeKey: aString
+	<inlineJS: 'delete $self[''@jsObject''][aString]; return aString'>
 ! !
 
 !JSObjectProxy methodsFor: 'comparing'!
@@ -961,11 +965,12 @@ globalJsVariables
 
 postLoad
 	| pkgs classes |
-	pkgs := self adoptPackageDictionary.
+	pkgs := self adoptPackageDescriptors.
 	classes := Smalltalk classes select:
 		[ :each | pkgs includes: each package ].
 	classes do: [ :each |
-		each = self class ifFalse: [ each initialize ] ]
+		each = self class ifFalse: [ each initialize ] ].
+	self sweepPackageDescriptors: pkgs
 ! !
 
 !SmalltalkImage methodsFor: 'packages'!
@@ -1031,7 +1036,7 @@ renamePackage: packageName to: newName
 
 !SmalltalkImage methodsFor: 'private'!
 
-adoptPackageDictionary
+adoptPackageDescriptors
 	| pkgs |
 	pkgs := Set new.
 	self core packageDescriptors keysAndValuesDo: [ :key :value |
@@ -1052,6 +1057,12 @@ deleteClass: aClass
 	"Deletes a class by deleting its binding only. Use #removeClass instead"
 	
 	<inlineJS: '$core.removeClass(aClass)'>
+!
+
+sweepPackageDescriptors: pkgs
+	| pd |	
+	pd := self core packageDescriptors.
+	pkgs do: [ :each | pd removeKey: each name ]
 ! !
 
 !SmalltalkImage methodsFor: 'testing'!
