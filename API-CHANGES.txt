@@ -1,21 +1,7 @@
 0.22.0:
 
-+ AmberBootstrapInitialization
-  + initializeClasses:
-  + initializeMethodsOf:
-  + organizeClasses:
-  + processArrivals
-+ JSObjectProxy >>
-  + removeKey:
 + Number >>
   + ln1p
-+ SmalltalkImage
-  + withArrivalsDo:
-
-- AmberBootstrapInitialization
-  - initializeClasses
-  - initializeMethods
-  - organizeClasses
 
 0.21.1:
 

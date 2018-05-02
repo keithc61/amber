@@ -5,41 +5,32 @@ Object subclass: #AmberBootstrapInitialization
 
 !AmberBootstrapInitialization class methodsFor: 'initialization'!
 
-initializeClasses: classes
-	classes do: [ :each |
+initializeClasses
+	Smalltalk classes do: [ :each |
 		each = SmalltalkImage ifFalse: [ each initialize ] ]
 ! !
 
 !AmberBootstrapInitialization class methodsFor: 'organization'!
 
-organizeClasses: classes
-	classes do: [ :each | each enterOrganization ]
+organizeClasses
+	Smalltalk classes do: [ :each | each enterOrganization ]
 !
 
-organizeMethodsOf: classes
-	classes do: [ :eachClass |
+organizeMethods
+	Smalltalk classes do: [ :eachClass |
 		eachClass definedMethods do: [ :eachMethod |
 			eachMethod methodClass methodOrganizationEnter: eachMethod andLeave: nil ] ]
 ! !
 
 !AmberBootstrapInitialization class methodsFor: 'public api'!
 
-processArrivals
-	Smalltalk withArrivalsDo: [ :newPackages |
-		| names classes |
-		names := (newPackages collect: [ :each | each name ]) asSet.
-		classes := Smalltalk classes select: [ :each |
-			each package isNil and: [ names includes: (each basicAt: 'category') ] ].
-
-		self
-			organizeClasses: classes;
-			organizeMethodsOf: classes;
-			initializeClasses: classes ]
-!
-
 run
 	SmalltalkImage initialize.
-	self processArrivals
+	Smalltalk adoptPackageDictionary.
+	self
+		organizeClasses;
+		organizeMethods;
+		initializeClasses
 ! !
 
 ProtoObject subclass: #JSObjectProxy
@@ -111,10 +102,6 @@ in: aValuable
 
 jsObject
 	^ jsObject
-!
-
-removeKey: aString
-	<inlineJS: 'delete $self[''@jsObject''][aString]; return aString'>
 ! !
 
 !JSObjectProxy methodsFor: 'comparing'!
@@ -1042,11 +1029,7 @@ renamePackage: packageName to: newName
 !SmalltalkImage methodsFor: 'private'!
 
 adoptPackageDictionary
-	| adopted |
-	adopted := #().
-	self core packageDescriptors keysAndValuesDo: [ :key :value |
-		adopted add: (Package named: key javaScriptDescriptor: value) ].
-	^ adopted
+	self core packageDescriptors keysAndValuesDo: [ :key :value | Package named: key javaScriptDescriptor: value ]
 !
 
 basicCreatePackage: packageName
@@ -1062,21 +1045,6 @@ deleteClass: aClass
 	"Deletes a class by deleting its binding only. Use #removeClass instead"
 	
 	<inlineJS: '$core.removeClass(aClass)'>
-!
-
-sweepPackageDictionary
-	| pd adopted |	
-	pd := self core packageDescriptors.
-	adopted := #().
-	pd keysAndValuesDo: [ :each | self packageAt: each ifPresent: [ adopted add: each ] ].
-	adopted do: [ :key | pd removeKey: key ]
-! !
-
-!SmalltalkImage methodsFor: 'startup'!
-
-withArrivalsDo: aBlock
-	aBlock value: self adoptPackageDictionary.
-	self sweepPackageDictionary
 ! !
 
 !SmalltalkImage methodsFor: 'testing'!
