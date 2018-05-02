@@ -3691,17 +3691,25 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self._commitHandler())._load_($self._package());
+return $recv($recv($self._commitHandler())._load_($self._package()))._then_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($globals.Smalltalk)._postLoad();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"load",{},$globals.PackageTransport)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "load\x0a\x09^ self commitHandler load: self package",
-referencedClasses: [],
+source: "load\x0a\x09^ (self commitHandler load: self package)\x0a\x09\x09then: [ Smalltalk postLoad ]",
+referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["load:", "commitHandler", "package"]
+messageSends: ["then:", "load:", "commitHandler", "package", "postLoad"]
 }),
 $globals.PackageTransport);
 

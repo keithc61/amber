@@ -989,7 +989,8 @@ setupFromJson: anObject
 !PackageTransport methodsFor: 'loading'!
 
 load
-	^ self commitHandler load: self package
+	^ (self commitHandler load: self package)
+		then: [ Smalltalk postLoad ]
 ! !
 
 PackageTransport class instanceVariableNames: 'registry'!
