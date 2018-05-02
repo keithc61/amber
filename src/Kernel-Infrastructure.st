@@ -3,13 +3,6 @@ Object subclass: #AmberBootstrapInitialization
 	instanceVariableNames: ''
 	package: 'Kernel-Infrastructure'!
 
-!AmberBootstrapInitialization class methodsFor: 'initialization'!
-
-initializeClasses
-	Smalltalk classes do: [ :each |
-		each = SmalltalkImage ifFalse: [ each initialize ] ]
-! !
-
 !AmberBootstrapInitialization class methodsFor: 'organization'!
 
 organizeClasses
@@ -29,8 +22,7 @@ run
 	self
 		organizeClasses;
 		organizeMethods.
-	Smalltalk adoptPackageDictionary.
-	self initializeClasses
+	Smalltalk postLoad
 ! !
 
 ProtoObject subclass: #JSObjectProxy
@@ -965,6 +957,17 @@ globalJsVariables
 		globalJsVariables := #(window document process global) ]
 ! !
 
+!SmalltalkImage methodsFor: 'image'!
+
+postLoad
+	| pkgs classes |
+	pkgs := self adoptPackageDictionary.
+	classes := Smalltalk classes select:
+		[ :each | pkgs includes: each package ].
+	classes do: [ :each |
+		each = self class ifFalse: [ each initialize ] ]
+! !
+
 !SmalltalkImage methodsFor: 'packages'!
 
 createPackage: packageName
@@ -1029,7 +1032,11 @@ renamePackage: packageName to: newName
 !SmalltalkImage methodsFor: 'private'!
 
 adoptPackageDictionary
-	self core packageDescriptors keysAndValuesDo: [ :key :value | Package named: key javaScriptDescriptor: value ]
+	| pkgs |
+	pkgs := Set new.
+	self core packageDescriptors keysAndValuesDo: [ :key :value |
+		pkgs add: (Package named: key javaScriptDescriptor: value) ].
+	^ pkgs
 !
 
 basicCreatePackage: packageName

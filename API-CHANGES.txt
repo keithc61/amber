@@ -2,6 +2,11 @@
 
 + Number >>
   + ln1p
++ SmalltalkImage >>
+  + postLoad
+
+- AmberBootstrapInitialization class >>
+  - initializeClasses
 
 0.21.1:
 

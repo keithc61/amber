@@ -9,42 +9,6 @@ $core.addClass("AmberBootstrapInitialization", $globals.Object, [], "Kernel-Infr
 
 $core.addMethod(
 $core.method({
-selector: "initializeClasses",
-protocol: "initialization",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$recv($recv($globals.Smalltalk)._classes())._do_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$1=$recv(each).__eq($globals.SmalltalkImage);
-if(!$core.assert($1)){
-return $recv(each)._initialize();
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initializeClasses",{},$globals.AmberBootstrapInitialization.a$cls)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "initializeClasses\x0a\x09Smalltalk classes do: [ :each |\x0a\x09\x09each = SmalltalkImage ifFalse: [ each initialize ] ]",
-referencedClasses: ["Smalltalk", "SmalltalkImage"],
-//>>excludeEnd("ide");
-messageSends: ["do:", "classes", "ifFalse:", "=", "initialize"]
-}),
-$globals.AmberBootstrapInitialization.a$cls);
-
-$core.addMethod(
-$core.method({
 selector: "organizeClasses",
 protocol: "organization",
 fn: function (){
@@ -130,8 +94,7 @@ return $core.withContext(function($ctx1) {
 $recv($globals.SmalltalkImage)._initialize();
 $self._organizeClasses();
 $self._organizeMethods();
-$recv($globals.Smalltalk)._adoptPackageDictionary();
-$self._initializeClasses();
+$recv($globals.Smalltalk)._postLoad();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"run",{},$globals.AmberBootstrapInitialization.a$cls)});
@@ -139,10 +102,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "run\x0a\x09SmalltalkImage initialize.\x0a\x09self\x0a\x09\x09organizeClasses;\x0a\x09\x09organizeMethods.\x0a\x09Smalltalk adoptPackageDictionary.\x0a\x09self initializeClasses",
+source: "run\x0a\x09SmalltalkImage initialize.\x0a\x09self\x0a\x09\x09organizeClasses;\x0a\x09\x09organizeMethods.\x0a\x09Smalltalk postLoad",
 referencedClasses: ["SmalltalkImage", "Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["initialize", "organizeClasses", "organizeMethods", "adoptPackageDictionary", "initializeClasses"]
+messageSends: ["initialize", "organizeClasses", "organizeMethods", "postLoad"]
 }),
 $globals.AmberBootstrapInitialization.a$cls);
 
@@ -2954,29 +2917,31 @@ selector: "adoptPackageDictionary",
 protocol: "private",
 fn: function (){
 var self=this,$self=this;
+var pkgs;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+pkgs=$recv($globals.Set)._new();
 $recv($recv($self._core())._packageDescriptors())._keysAndValuesDo_((function(key,value){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($globals.Package)._named_javaScriptDescriptor_(key,value);
+return $recv(pkgs)._add_($recv($globals.Package)._named_javaScriptDescriptor_(key,value));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-return self;
+return pkgs;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"adoptPackageDictionary",{},$globals.SmalltalkImage)});
+}, function($ctx1) {$ctx1.fill(self,"adoptPackageDictionary",{pkgs:pkgs},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "adoptPackageDictionary\x0a\x09self core packageDescriptors keysAndValuesDo: [ :key :value | Package named: key javaScriptDescriptor: value ]",
-referencedClasses: ["Package"],
+source: "adoptPackageDictionary\x0a\x09| pkgs |\x0a\x09pkgs := Set new.\x0a\x09self core packageDescriptors keysAndValuesDo: [ :key :value |\x0a\x09\x09pkgs add: (Package named: key javaScriptDescriptor: value) ].\x0a\x09^ pkgs",
+referencedClasses: ["Set", "Package"],
 //>>excludeEnd("ide");
-messageSends: ["keysAndValuesDo:", "packageDescriptors", "core", "named:javaScriptDescriptor:"]
+messageSends: ["new", "keysAndValuesDo:", "packageDescriptors", "core", "add:", "named:javaScriptDescriptor:"]
 }),
 $globals.SmalltalkImage);
 
@@ -3656,6 +3621,53 @@ source: "parseError: anException parsing: aString\x0a\x09| pos |\x0a\x09pos := (
 referencedClasses: ["ParseError"],
 //>>excludeEnd("ide");
 messageSends: ["start", "basicAt:", "messageText:", "new", ",", "line", "column"]
+}),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
+selector: "postLoad",
+protocol: "image",
+fn: function (){
+var self=this,$self=this;
+var pkgs,classes;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+pkgs=$self._adoptPackageDictionary();
+classes=$recv($recv($globals.Smalltalk)._classes())._select_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(pkgs)._includes_($recv(each)._package());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$recv(classes)._do_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=$recv(each).__eq($self._class());
+if(!$core.assert($1)){
+return $recv(each)._initialize();
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"postLoad",{pkgs:pkgs,classes:classes},$globals.SmalltalkImage)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "postLoad\x0a\x09| pkgs classes |\x0a\x09pkgs := self adoptPackageDictionary.\x0a\x09classes := Smalltalk classes select:\x0a\x09\x09[ :each | pkgs includes: each package ].\x0a\x09classes do: [ :each |\x0a\x09\x09each = self class ifFalse: [ each initialize ] ]",
+referencedClasses: ["Smalltalk"],
+//>>excludeEnd("ide");
+messageSends: ["adoptPackageDictionary", "select:", "classes", "includes:", "package", "do:", "ifFalse:", "=", "class", "initialize"]
 }),
 $globals.SmalltalkImage);
 
