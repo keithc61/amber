@@ -3245,7 +3245,7 @@ $core.addMethod(
 $core.method({
 selector: "load:",
 protocol: "loading",
-fn: function(aPackage){
+fn: function (aPackage){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -3383,7 +3383,7 @@ $core.addMethod(
 $core.method({
 selector: "load:",
 protocol: "loading",
-fn: function(aPackage){
+fn: function (aPackage){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -3686,7 +3686,7 @@ $core.addMethod(
 $core.method({
 selector: "load",
 protocol: "loading",
-fn: function(){
+fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -4427,7 +4427,7 @@ $core.addMethod(
 $core.method({
 selector: "load:",
 protocol: "*Platform-ImportExport",
-fn: function(aPackageName){
+fn: function (aPackageName){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -4450,7 +4450,7 @@ $core.addMethod(
 $core.method({
 selector: "load:fromNamespace:",
 protocol: "*Platform-ImportExport",
-fn: function(aPackageName,aString){
+fn: function (aPackageName,aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {

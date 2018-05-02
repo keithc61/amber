@@ -2348,7 +2348,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitBlockSequenceNode: aNode\x0a\x09(aNode dagChildren anySatisfy: #isJSStatementNode)\x0a\x09\x09ifTrue: [ JsStatementDisplacedError signal ].\x0a\x0a\x09super visitBlockSequenceNode: aNode\x0a\x09",
+source: "visitBlockSequenceNode: aNode\x0a\x09(aNode dagChildren anySatisfy: #isJSStatementNode)\x0a\x09\x09ifTrue: [ JsStatementDisplacedError signal ].\x0a\x0a\x09super visitBlockSequenceNode: aNode",
 referencedClasses: ["JsStatementDisplacedError"],
 //>>excludeEnd("ide");
 messageSends: ["ifTrue:", "anySatisfy:", "dagChildren", "signal", "visitBlockSequenceNode:"]
