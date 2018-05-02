@@ -1172,7 +1172,7 @@ nextPutContextFor: aMethod during: aBlock
 !
 
 nextPutFunctionWith: aBlock arguments: anArray
-	stream nextPutAll: 'fn: function('.
+	stream nextPutAll: 'fn: function ('.
 	anArray
 		do: [ :each | stream nextPutAll: each asVariableName ]
 		separatedBy: [ stream nextPut: ',' ].
