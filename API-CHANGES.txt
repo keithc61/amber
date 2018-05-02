@@ -10,6 +10,7 @@
 - AmberBootstrapInitialization class >>
   - initializeClasses
 
+
 0.21.1:
 
 + ClassBuilder >>
@@ -20,6 +21,7 @@
 
 - ClassBuilder >>
   - basicClass:instanceVariableNames:
+
 
 0.21.0:
 
