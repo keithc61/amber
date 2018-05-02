@@ -3245,7 +3245,7 @@ $core.addMethod(
 $core.method({
 selector: "load:",
 protocol: "loading",
-fn: function (aPackage){
+fn: function(aPackage){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -3258,7 +3258,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage"],
-source: "load: aPackage\x0a\x09self subclassResponsibility",
+source: "load: aPackage\x0a\x09\x22Should return a TThenable\x22\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["subclassResponsibility"]
@@ -3383,36 +3383,59 @@ $core.addMethod(
 $core.method({
 selector: "load:",
 protocol: "loading",
-fn: function (aPackage){
+fn: function(aPackage){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2,$receiver;
+return $recv($globals.Promise)._new_((function(model){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
 $1=$recv($globals.Smalltalk)._amdRequire();
 if(($receiver = $1) == null || $receiver.a$nil){
-$self._error_("AMD loader not present");
+return $self._error_("AMD loader not present");
 } else {
 var require;
 require=$receiver;
 $3=$recv($recv($self._namespaceFor_(aPackage)).__comma("/")).__comma($recv(aPackage)._name());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
+$ctx2.sendIdx[","]=1;
 //>>excludeEnd("ctx");
-$2=$recv($globals.Array)._with_($3);
-$recv(require)._value_($2);
+$2=[$3];
+return $recv(require)._value_value_value_($2,(function(result){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(model)._value_(result);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({result:result},$ctx2,4)});
+//>>excludeEnd("ctx");
+}),(function(error){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(model)._signal_(error);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({error:error},$ctx2,5)});
+//>>excludeEnd("ctx");
+}));
 }
-return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({model:model},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"load:",{aPackage:aPackage},$globals.AmdPackageHandler)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage"],
-source: "load: aPackage\x0a\x09Smalltalk amdRequire\x0a\x09\x09ifNil: [ self error: 'AMD loader not present' ]\x0a\x09\x09ifNotNil: [ :require |\x0a\x09\x09\x09require value: (Array with: (self namespaceFor: aPackage), '/', aPackage name ) ]",
-referencedClasses: ["Smalltalk", "Array"],
+source: "load: aPackage\x0a\x09^ Promise new: [ :model |\x0a\x09\x09Smalltalk amdRequire\x0a\x09\x09\x09ifNil: [ self error: 'AMD loader not present' ]\x0a\x09\x09\x09ifNotNil: [ :require |\x0a\x09\x09\x09\x09require\x0a\x09\x09\x09\x09\x09value: { (self namespaceFor: aPackage), '/', aPackage name }\x0a\x09\x09\x09\x09\x09value: [ :result | model value: result ]\x0a\x09\x09\x09\x09\x09value: [ :error | model signal: error ] ] ]",
+referencedClasses: ["Promise", "Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["ifNil:ifNotNil:", "amdRequire", "error:", "value:", "with:", ",", "namespaceFor:", "name"]
+messageSends: ["new:", "ifNil:ifNotNil:", "amdRequire", "error:", "value:value:value:", ",", "namespaceFor:", "name", "value:", "signal:"]
 }),
 $globals.AmdPackageHandler);
 
@@ -3663,20 +3686,19 @@ $core.addMethod(
 $core.method({
 selector: "load",
 protocol: "loading",
-fn: function (){
+fn: function(){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($self._commitHandler())._load_($self._package());
-return self;
+return $recv($self._commitHandler())._load_($self._package());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"load",{},$globals.PackageTransport)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "load\x0a\x09self commitHandler load: self package",
+source: "load\x0a\x09^ self commitHandler load: self package",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["load:", "commitHandler", "package"]
@@ -4397,20 +4419,19 @@ $core.addMethod(
 $core.method({
 selector: "load:",
 protocol: "*Platform-ImportExport",
-fn: function (aPackageName){
+fn: function(aPackageName){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($self._named_(aPackageName))._load();
-return self;
+return $recv($self._named_(aPackageName))._load();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"load:",{aPackageName:aPackageName},$globals.Package.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackageName"],
-source: "load: aPackageName\x0a\x09(self named: aPackageName) load",
+source: "load: aPackageName\x0a\x09^ (self named: aPackageName) load",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["load", "named:"]
@@ -4421,20 +4442,19 @@ $core.addMethod(
 $core.method({
 selector: "load:fromNamespace:",
 protocol: "*Platform-ImportExport",
-fn: function (aPackageName,aString){
+fn: function(aPackageName,aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($self._named_(aPackageName))._loadFromNamespace_(aString);
-return self;
+return $recv($self._named_(aPackageName))._loadFromNamespace_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"load:fromNamespace:",{aPackageName:aPackageName,aString:aString},$globals.Package.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackageName", "aString"],
-source: "load: aPackageName fromNamespace: aString\x0a\x09(self named: aPackageName) loadFromNamespace: aString",
+source: "load: aPackageName fromNamespace: aString\x0a\x09^ (self named: aPackageName) loadFromNamespace: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["loadFromNamespace:", "named:"]

@@ -842,6 +842,7 @@ exporter
 !PackageHandler methodsFor: 'loading'!
 
 load: aPackage
+	"Should return a TThenable"
 	self subclassResponsibility
 ! !
 
@@ -896,10 +897,14 @@ namespaceFor: aPackage
 !AmdPackageHandler methodsFor: 'loading'!
 
 load: aPackage
-	Smalltalk amdRequire
-		ifNil: [ self error: 'AMD loader not present' ]
-		ifNotNil: [ :require |
-			require value: (Array with: (self namespaceFor: aPackage), '/', aPackage name ) ]
+	^ Promise new: [ :model |
+		Smalltalk amdRequire
+			ifNil: [ self error: 'AMD loader not present' ]
+			ifNotNil: [ :require |
+				require
+					value: { (self namespaceFor: aPackage), '/', aPackage name }
+					value: [ :result | model value: result ]
+					value: [ :error | model signal: error ] ] ]
 ! !
 
 !AmdPackageHandler methodsFor: 'private'!
@@ -984,7 +989,7 @@ setupFromJson: anObject
 !PackageTransport methodsFor: 'loading'!
 
 load
-	self commitHandler load: self package
+	^ self commitHandler load: self package
 ! !
 
 PackageTransport class instanceVariableNames: 'registry'!
@@ -1152,11 +1157,11 @@ loadFromNamespace: aString
 !Package class methodsFor: '*Platform-ImportExport'!
 
 load: aPackageName
-	(self named: aPackageName) load
+	^ (self named: aPackageName) load
 !
 
 load: aPackageName fromNamespace: aString
-	(self named: aPackageName) loadFromNamespace: aString
+	^ (self named: aPackageName) loadFromNamespace: aString
 ! !
 
 !TBehaviorProvider methodsFor: '*Platform-ImportExport'!
