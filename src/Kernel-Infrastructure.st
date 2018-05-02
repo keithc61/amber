@@ -966,6 +966,7 @@ globalJsVariables
 postLoad
 	| pkgs classes |
 	pkgs := self adoptPackageDescriptors.
+	pkgs do: #beClean.
 	classes := Smalltalk classes select:
 		[ :each | pkgs includes: each package ].
 	classes do: [ :each |

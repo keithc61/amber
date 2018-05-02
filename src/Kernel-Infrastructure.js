@@ -3660,6 +3660,10 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 pkgs=$self._adoptPackageDescriptors();
+$recv(pkgs)._do_("beClean");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["do:"]=1;
+//>>excludeEnd("ctx");
 classes=$recv($recv($globals.Smalltalk)._classes())._select_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -3689,10 +3693,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "postLoad\x0a\x09| pkgs classes |\x0a\x09pkgs := self adoptPackageDescriptors.\x0a\x09classes := Smalltalk classes select:\x0a\x09\x09[ :each | pkgs includes: each package ].\x0a\x09classes do: [ :each |\x0a\x09\x09each = self class ifFalse: [ each initialize ] ].\x0a\x09self sweepPackageDescriptors: pkgs",
+source: "postLoad\x0a\x09| pkgs classes |\x0a\x09pkgs := self adoptPackageDescriptors.\x0a\x09pkgs do: #beClean.\x0a\x09classes := Smalltalk classes select:\x0a\x09\x09[ :each | pkgs includes: each package ].\x0a\x09classes do: [ :each |\x0a\x09\x09each = self class ifFalse: [ each initialize ] ].\x0a\x09self sweepPackageDescriptors: pkgs",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["adoptPackageDescriptors", "select:", "classes", "includes:", "package", "do:", "ifFalse:", "=", "class", "initialize", "sweepPackageDescriptors:"]
+messageSends: ["adoptPackageDescriptors", "do:", "select:", "classes", "includes:", "package", "ifFalse:", "=", "class", "initialize", "sweepPackageDescriptors:"]
 }),
 $globals.SmalltalkImage);
 
