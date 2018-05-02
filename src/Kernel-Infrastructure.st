@@ -26,11 +26,11 @@ organizeMethods
 
 run
 	SmalltalkImage initialize.
-	Smalltalk adoptPackageDictionary.
 	self
 		organizeClasses;
-		organizeMethods;
-		initializeClasses
+		organizeMethods.
+	Smalltalk adoptPackageDictionary.
+	self initializeClasses
 ! !
 
 ProtoObject subclass: #JSObjectProxy
