@@ -3669,7 +3669,6 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $recv($self._commitHandler())._load_($self._package());
-$recv($globals.AmberBootstrapInitialization)._processArrivals();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"load",{},$globals.PackageTransport)});
@@ -3677,10 +3676,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "load\x0a\x09self commitHandler load: self package.\x0a\x09AmberBootstrapInitialization processArrivals",
-referencedClasses: ["AmberBootstrapInitialization"],
+source: "load\x0a\x09self commitHandler load: self package",
+referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["load:", "commitHandler", "package", "processArrivals"]
+messageSends: ["load:", "commitHandler", "package"]
 }),
 $globals.PackageTransport);
 
