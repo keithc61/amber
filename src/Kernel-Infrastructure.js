@@ -3433,32 +3433,6 @@ $globals.SmalltalkImage);
 
 $core.addMethod(
 $core.method({
-selector: "packageAt:",
-protocol: "packages",
-fn: function (packageName){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._deprecatedAPI_("Use #packageAt:ifAbsent: directly.");
-return $self._packageAt_ifAbsent_(packageName,(function(){
-
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"packageAt:",{packageName:packageName},$globals.SmalltalkImage)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["packageName"],
-source: "packageAt: packageName\x0a\x09self deprecatedAPI: 'Use #packageAt:ifAbsent: directly.'.\x0a\x09^ self packageAt: packageName ifAbsent: []",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["deprecatedAPI:", "packageAt:ifAbsent:"]
-}),
-$globals.SmalltalkImage);
-
-$core.addMethod(
-$core.method({
 selector: "packageAt:ifAbsent:",
 protocol: "packages",
 fn: function (packageName,aBlock){

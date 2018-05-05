@@ -9,6 +9,15 @@
 
 - AmberBootstrapInitialization class >>
   - initializeClasses
+- ClassBuilder >>
+  - setupClass:
+- ProtoObject
+  - asJSON
+  - asJavascript
+- SmalltalkImage >>
+  - packageAt:
+- amber/boot api >>
+  - nextId
 
 
 0.21.1:

@@ -56,16 +56,6 @@ yourself
 
 !ProtoObject methodsFor: 'converting'!
 
-asJSON
-	self deprecatedAPI: 'Use #asJavaScriptObject instead.'.
-	^ self asJavaScriptObject
-!
-
-asJavascript
-	self deprecatedAPI: 'Use #asJavaScriptSource instead.'.
-	^ self asJavaScriptSource
-!
-
 asString
 	^ self printString
 ! !

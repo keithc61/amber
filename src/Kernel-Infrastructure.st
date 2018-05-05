@@ -990,11 +990,6 @@ createPackage: packageName
 	^ package
 !
 
-packageAt: packageName
-	self deprecatedAPI: 'Use #packageAt:ifAbsent: directly.'.
-	^ self packageAt: packageName ifAbsent: []
-!
-
 packageAt: packageName ifAbsent: aBlock
 	^ self packageDictionary at: packageName ifAbsent: aBlock
 !

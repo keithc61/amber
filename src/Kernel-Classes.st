@@ -508,12 +508,6 @@ rawRenameClass: aClass to: aString
 	'>
 ! !
 
-!ClassBuilder methodsFor: 'public'!
-
-setupClass: aClass
-	self deprecatedAPI: 'Classes are now auto-inited.'
-! !
-
 Object subclass: #ClassSorterNode
 	instanceVariableNames: 'theClass level nodes'
 	package: 'Kernel-Classes'!

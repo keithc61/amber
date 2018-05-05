@@ -204,14 +204,6 @@ define(function () {
     function PrimitivesBrik (brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
 
-        var oid = 0;
-        /* Unique ID number generator */
-        st.nextId = function () {
-            console.warn("$core.nextId() deprecated. Use your own unique counter.");
-            oid += 1;
-            return oid;
-        };
-
         /* Converts a JavaScript object to valid Smalltalk Object */
         st.readJSObject = function (js) {
             if (js == null) return null;

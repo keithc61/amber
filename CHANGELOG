@@ -4,6 +4,7 @@
 * Remove legacy inline JS syntax (only <inlineJS: '...'> works).
 * Programmatic loading of packages works.
 * Use new amber-dev (at least 0.10.2).
+* Remove some older deprecated API.
 
 Commits: https://lolg.it/amber/amber/commits/0.22.0
 

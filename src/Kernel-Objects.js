@@ -58,54 +58,6 @@ $globals.ProtoObject);
 
 $core.addMethod(
 $core.method({
-selector: "asJSON",
-protocol: "converting",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._deprecatedAPI_("Use #asJavaScriptObject instead.");
-return $self._asJavaScriptObject();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJSON",{},$globals.ProtoObject)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "asJSON\x0a\x09self deprecatedAPI: 'Use #asJavaScriptObject instead.'.\x0a\x09^ self asJavaScriptObject",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["deprecatedAPI:", "asJavaScriptObject"]
-}),
-$globals.ProtoObject);
-
-$core.addMethod(
-$core.method({
-selector: "asJavascript",
-protocol: "converting",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._deprecatedAPI_("Use #asJavaScriptSource instead.");
-return $self._asJavaScriptSource();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJavascript",{},$globals.ProtoObject)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "asJavascript\x0a\x09self deprecatedAPI: 'Use #asJavaScriptSource instead.'.\x0a\x09^ self asJavaScriptSource",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["deprecatedAPI:", "asJavaScriptSource"]
-}),
-$globals.ProtoObject);
-
-$core.addMethod(
-$core.method({
 selector: "asString",
 protocol: "converting",
 fn: function (){

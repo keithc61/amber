@@ -1869,30 +1869,6 @@ $globals.ClassBuilder);
 
 $core.addMethod(
 $core.method({
-selector: "setupClass:",
-protocol: "public",
-fn: function (aClass){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._deprecatedAPI_("Classes are now auto-inited.");
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"setupClass:",{aClass:aClass},$globals.ClassBuilder)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aClass"],
-source: "setupClass: aClass\x0a\x09self deprecatedAPI: 'Classes are now auto-inited.'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["deprecatedAPI:"]
-}),
-$globals.ClassBuilder);
-
-$core.addMethod(
-$core.method({
 selector: "superclass:subclass:",
 protocol: "class definition",
 fn: function (aClass,className){
