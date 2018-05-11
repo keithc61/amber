@@ -190,15 +190,13 @@ wsStatements =
 	} /
 	expressions:wsExpressions? {return expressions || [];}
 
-wsSequenceWs = ws temps:temps? statements:(ws js:jsSequence ws {return [js];} / st:wsStatements maybeDotsWs {return st;})? {
+wsSequenceWs = ws temps:temps? statements:(ws js:jsStatement ws {return [js];} / st:wsStatements maybeDotsWs {return st;})? {
 	return $globals.SequenceNode._new()
 		._location_(location())
 		._source_(text())
 		._temps_(temps || [])
 		._dagChildren_(statements || []);
 }
-
-jsSequence = jsStatement
 
 block = '[' params:wsBlockParamList? sequence:wsSequenceWs ']' {
 	return $globals.BlockNode._new()
