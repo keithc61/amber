@@ -253,7 +253,6 @@ $self["@flag"]=$recv($self._async_((function(){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $self["@flag"]="ok";
-$self["@flag"];
 return $self._error_("Intentional");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -323,7 +322,6 @@ $self["@flag"]=$recv($self._async_((function(){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $self["@flag"]="ok";
-$self["@flag"];
 return $self._assert_(false);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -899,12 +897,10 @@ $self._finished();
 $ctx2.sendIdx["finished"]=1;
 //>>excludeEnd("ctx");
 $self["@flag"]="ok";
-$self["@flag"];
 x=$recv(x).__plus((1));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["+"]=1;
 //>>excludeEnd("ctx");
-x;
 return $self._assert_equals_(x,(1));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["assert:equals:"]=1;
@@ -926,9 +922,7 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $self._finished();
 $self["@flag"]="ok";
-$self["@flag"];
 x=$recv(x).__plus((1));
-x;
 return $self._assert_equals_(x,(1));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});

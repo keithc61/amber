@@ -290,7 +290,6 @@ $recv((function(){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $self["@path"]=$recv($self["@path"]).__comma([aNode]);
-$self["@path"];
 result=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.supercall = true,

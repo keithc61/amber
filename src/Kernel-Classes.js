@@ -1769,7 +1769,6 @@ $1=$self._basicRemoveClass_(newClass);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["basicRemoveClass:"]=1;
 //>>excludeEnd("ctx");
-$1;
 return $recv(exception)._resignal();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({exception:exception},$ctx1,2)});
@@ -3935,7 +3934,6 @@ var key;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 key=$recv(each)._key();
-key;
 return $recv($self["@aliases"])._at_ifPresent_ifAbsent_(key,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {

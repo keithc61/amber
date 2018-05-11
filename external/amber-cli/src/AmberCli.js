@@ -1060,15 +1060,12 @@ token="";
 } else {
 token=$4;
 }
-token;
 $5=$recv(token)._at_((2));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["at:"]=2;
 //>>excludeEnd("ctx");
 auth=$self._base64Decode_($5);
-auth;
 parts=$recv(auth)._tokenize_(":");
-parts;
 $8=$self["@username"];
 $9=$recv(parts)._at_((1));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1318,7 +1315,6 @@ $recv($2)._log_($3);
 return $self._respondNotFoundTo_(aResponse);
 } else {
 type=$recv($self._class())._mimeTypeFor_(filename);
-type;
 $4=$recv(type).__eq("application/javascript");
 if($core.assert($4)){
 type=$recv(type).__comma(";charset=utf-8");
@@ -1852,7 +1848,6 @@ popFront=(function(args){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 front=$recv(args)._first();
-front;
 $recv(args)._remove_(front);
 return front;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1875,13 +1870,10 @@ optionName=$recv(popFront)._value_(options);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["value:"]=1;
 //>>excludeEnd("ctx");
-optionName;
 optionValue=$recv(popFront)._value_(options);
-optionValue;
 $6=$recv(switches)._includes_(optionName);
 if($core.assert($6)){
 optionName=$self._selectorForCommandLineSwitch_(optionName);
-optionName;
 return $recv(server)._perform_withArguments_(optionName,$recv($globals.Array)._with_(optionValue));
 } else {
 $7=console;
@@ -2018,7 +2010,6 @@ return $recv($globals.FileServer)._printHelp();
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 fileServer=$recv($globals.FileServer)._createServerWithArguments_(args);
-fileServer;
 throw $early=[$recv(fileServer)._start()];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
@@ -2506,7 +2497,6 @@ $6=$recv($5)._log_(error3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx4.sendIdx["log:"]=6;
 //>>excludeEnd("ctx");
-$6;
 return $recv(process)._exit_((103));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx4.sendIdx["exit:"]=3;
@@ -2526,7 +2516,6 @@ $4=$recv($3)._log_(error2);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["log:"]=4;
 //>>excludeEnd("ctx");
-$4;
 return $recv(process)._exit_((102));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["exit:"]=2;
@@ -2546,7 +2535,6 @@ $2=$recv($1)._log_(error);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["log:"]=2;
 //>>excludeEnd("ctx");
-$2;
 return $recv(process)._exit_((101));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["exit:"]=1;
@@ -2624,9 +2612,7 @@ varName=$self._nextResultName();
 } else {
 varName=name;
 }
-varName;
 $self["@session"]=$self._addVariableNamed_to_(varName,$self["@session"]);
-$self["@session"];
 $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
@@ -3528,7 +3514,6 @@ $5=$recv($6)._matchesOf_("\x5cd+$");
 $4=$recv($5)._first();
 $3=$recv($4)._asNumber();
 counter=$recv($3).__plus((1));
-counter;
 $7=$recv(aClass)._name();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["name"]=3;

@@ -320,7 +320,6 @@ var smalltalkError;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 smalltalkError=$recv($globals.Smalltalk)._asSmalltalkException_(error);
-smalltalkError;
 $1=$recv(smalltalkError)._isKindOf_(anErrorClass);
 if($core.assert($1)){
 return $recv(aBlock)._value_(smalltalkError);
@@ -1361,12 +1360,10 @@ var block;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $self["@poolSize"]=$recv($self["@poolSize"]).__minus((1));
-$self["@poolSize"];
 block=$recv($self["@queue"])._nextIfAbsent_((function(){
 return sentinel;
 
 }));
-block;
 $1=$recv(block).__eq_eq(sentinel);
 if(!$core.assert($1)){
 return $recv((function(){
@@ -2084,7 +2081,6 @@ $ctx1.sendIdx[","]=1;
 } else {
 var methodClass;
 methodClass=$recv($self._method())._methodClass();
-methodClass;
 $5=methodClass;
 $7=$self._receiver();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

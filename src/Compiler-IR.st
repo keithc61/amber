@@ -138,7 +138,7 @@ visitBlockSequenceNode: aNode
 		do: [
 			aNode dagChildren ifNotEmpty: [
 				aNode dagChildren allButLast do: [ :each |
-					self sequence add: (self visitOrAlias: each) ].
+					self addToSequence: (self visitOrAlias: each) ].
 				aNode dagChildren last isReturnNode
 					ifFalse: [ self addToSequence: (IRBlockReturn new add: (self visitOrAlias: aNode dagChildren last); yourself) ]
 					ifTrue: [ self addToSequence: (self visitOrAlias: aNode dagChildren last) ] ]]

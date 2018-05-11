@@ -684,7 +684,6 @@ $recv($3)._removeNonLocalReturn_($5);
 $6=$recv($globals.IRReturn)._new();
 $recv($6)._scope_($recv(anIRNonLocalReturn)._scope());
 localReturn=$recv($6)._yourself();
-localReturn;
 $recv($recv(anIRNonLocalReturn)._dagChildren())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -912,7 +911,6 @@ var recvVarName;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 recvVarName=$recv(anIRInlinedIfNilIfNotNil)._receiverInternalVariableName();
-recvVarName;
 $2=$self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["stream"]=2;
@@ -1961,7 +1959,6 @@ var final;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 final=$recv(statements)._last();
-final;
 $1=$recv(final)._yieldsValue();
 if($core.assert($1)){
 $2=sequence;
@@ -2063,7 +2060,6 @@ var final;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 final=$recv(statements)._last();
-final;
 $1=$recv(final)._yieldsValue();
 if($core.assert($1)){
 $2=sequence;

@@ -898,7 +898,6 @@ return $recv([each,$recv(each)._theMetaClass()])._do_((function(aClass){
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 map=$recv($globals.Dictionary)._new();
-map;
 $recv(aClass)._protocolsDo_((function(category,methods){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx4) {
@@ -2027,7 +2026,6 @@ pragmaStart=$recv($2).__comma($4);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx[","]=1;
 //>>excludeEnd("ctx");
-pragmaStart;
 $6=$recv($globals.String)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=3;
@@ -2193,7 +2191,6 @@ char=$recv($self["@stream"])._next();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["next"]=1;
 //>>excludeEnd("ctx");
-char;
 return $recv(char)._notNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -2491,7 +2488,6 @@ $recv((function(){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 chunk=$recv(aChunkParser)._nextChunk();
-chunk;
 return $recv(chunk)._isEmpty();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -2728,7 +2724,6 @@ $recv((function(){
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 chunk=$recv(parser)._nextChunk();
-chunk;
 return $recv(chunk)._isNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
@@ -2746,13 +2741,10 @@ return lastEmpty;
 return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
 $self["@lastSection"]=chunk;
-$self["@lastSection"];
 result=$recv($recv($globals.Compiler)._new())._evaluateExpression_(chunk);
-result;
 $1=lastEmpty;
 if($core.assert($1)){
 lastEmpty=false;
-lastEmpty;
 return $recv(result)._scanFrom_(parser);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2773,7 +2765,6 @@ return $self["@lastSection"];
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $self["@lastChunk"]=$recv(parser)._last();
-$self["@lastChunk"];
 return $recv(e)._resignal();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({e:e},$ctx1,7)});

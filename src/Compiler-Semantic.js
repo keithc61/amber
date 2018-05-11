@@ -1001,7 +1001,6 @@ var $1,$2,$4,$3,$receiver;
 $1=$self["@pseudoVars"];
 if(($receiver = $1) == null || $receiver.a$nil){
 $self["@pseudoVars"]=$recv($globals.Dictionary)._new();
-$self["@pseudoVars"];
 $recv($recv($globals.Smalltalk)._pseudoVariableNames())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -1923,7 +1922,6 @@ aPackage;
 } else {
 var packageKnownVars;
 packageKnownVars=$recv($recv($recv(aPackage)._imports())._reject_("isString"))._collect_("key");
-packageKnownVars;
 $1=$recv(packageKnownVars)._includes_(aString);
 if($core.assert($1)){
 return false;
@@ -2606,7 +2604,6 @@ $6=$recv($4)._yourself();
 $ctx1.sendIdx["yourself"]=1;
 //>>excludeEnd("ctx");
 binding=$6;
-binding;
 $7=$self._classReferences();
 $8=$recv(aNode)._value();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

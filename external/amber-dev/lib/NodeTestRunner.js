@@ -67,7 +67,6 @@ var result;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 result=$recv(ann)._result();
-result;
 $2=$recv(result)._runs();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["runs"]=1;

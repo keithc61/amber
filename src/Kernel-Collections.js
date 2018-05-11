@@ -6970,7 +6970,6 @@ start=(1).__plus(nextLF);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["+"]=1;
 //>>excludeEnd("ctx");
-start;
 nextLF=$self._indexOf_startingAt_(lf,start);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["indexOf:startingAt:"]=3;
@@ -6996,12 +6995,10 @@ start=(1).__plus(nextLF);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["+"]=3;
 //>>excludeEnd("ctx");
-start;
 nextCR=$self._indexOf_startingAt_(cr,start);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["indexOf:startingAt:"]=4;
 //>>excludeEnd("ctx");
-nextCR;
 nextLF=$self._indexOf_startingAt_(lf,start);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["indexOf:startingAt:"]=5;
@@ -7010,7 +7007,6 @@ return nextLF;
 } else {
 $recv(aBlock)._value_value_value_(start,$recv(nextCR).__minus((1)),nextCR);
 start=(1).__plus(nextCR);
-start;
 nextCR=$self._indexOf_startingAt_(cr,start);
 return nextCR;
 }
@@ -7894,7 +7890,6 @@ $recv((function(){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 result=$self._random();
-result;
 return $recv(aString)._includesSubString_(result);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -8087,9 +8082,7 @@ object=$recv(bucket)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["first"]=1;
 //>>excludeEnd("ctx");
-object;
 slowBucket=$recv(bucket)._third();
-slowBucket;
 $recv(slowBucket)._indexOf_ifAbsent_(object,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -9925,7 +9918,6 @@ pre=$recv($4)._copyFrom_to_((1),$5);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["copyFrom:to:"]=1;
 //>>excludeEnd("ctx");
-pre;
 $6=$self._collection();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["collection"]=3;
@@ -9951,7 +9943,6 @@ $11=$recv($self._collection())._size();
 $ctx1.sendIdx["size"]=2;
 //>>excludeEnd("ctx");
 post=$recv($6)._copyFrom_to_($7,$11);
-post;
 $12=$recv($recv(pre).__comma(aString)).__comma(post);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=2;
@@ -10196,7 +10187,6 @@ return $core.withContext(function($ctx3) {
 $1=$recv($self["@readIndex"]).__gt((1));
 if($core.assert($1)){
 $self["@read"]=[];
-$self["@read"];
 $self["@readIndex"]=(1);
 $self["@readIndex"];
 }
@@ -10206,11 +10196,8 @@ throw $early=[$recv(aBlock)._value()];
 //>>excludeEnd("ctx");
 }));
 $self["@read"]=$self["@write"];
-$self["@read"];
 $self["@readIndex"]=(1);
-$self["@readIndex"];
 $self["@write"]=$recv($globals.OrderedCollection)._new();
-$self["@write"];
 return $recv($self["@read"])._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});

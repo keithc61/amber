@@ -2932,7 +2932,6 @@ $ctx1.sendIdx["interpreter"]=1;
 $1=$recv($2)._hasReturned();
 if($core.assert($1)){
 $self["@returned"]=true;
-$self["@returned"];
 $self._returnValue_($recv($recv(aContext)._interpreter())._returnValue());
 }
 return self;

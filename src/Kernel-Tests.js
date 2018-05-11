@@ -1001,7 +1001,6 @@ $recv((function(){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 i=$recv(i).__plus((1));
-i;
 return $recv(i).__gt((5));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
@@ -1067,7 +1066,6 @@ $recv((function(){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 i=$recv(i).__plus((1));
-i;
 return $recv(i).__lt((5));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
@@ -5301,14 +5299,12 @@ $self._nonIndexesDo_((function(each){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 visited=nil;
-visited;
 $2=$self._collection();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["collection"]=1;
 //>>excludeEnd("ctx");
 $1=$recv($2)._at_ifPresent_(each,(function(value1){
 visited=value1;
-visited;
 return sentinel;
 
 }));
@@ -5329,14 +5325,12 @@ $self._samplesDo_((function(index,value){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 visited=nil;
-visited;
 $4=$self._collection();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["collection"]=2;
 //>>excludeEnd("ctx");
 $3=$recv($4)._at_ifPresent_(index,(function(value2){
 visited=value2;
-visited;
 return sentinel;
 
 }));
@@ -5380,14 +5374,12 @@ $self._nonIndexesDo_((function(each){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 visited=nil;
-visited;
 $2=$self._collection();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["collection"]=1;
 //>>excludeEnd("ctx");
 $1=$recv($2)._at_ifPresent_ifAbsent_(each,(function(value1){
 visited=value1;
-visited;
 return sentinel;
 
 }),(function(){
@@ -5423,14 +5415,12 @@ $self._samplesDo_((function(index,value){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 visited=nil;
-visited;
 $5=$self._collection();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["collection"]=2;
 //>>excludeEnd("ctx");
 $4=$recv($5)._at_ifPresent_ifAbsent_(index,(function(value2){
 visited=value2;
-visited;
 return sentinel;
 
 }),(function(){
@@ -6140,7 +6130,6 @@ collection=$self._collection();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["collection"]=1;
 //>>excludeEnd("ctx");
-collection;
 $self._should_raise_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
@@ -6175,7 +6164,6 @@ collection=$self._collection();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["collection"]=3;
 //>>excludeEnd("ctx");
-collection;
 $3=$recv(collection)._removeKey_(index);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["removeKey:"]=2;
@@ -6232,7 +6220,6 @@ collection=$self._collection();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["collection"]=1;
 //>>excludeEnd("ctx");
-collection;
 $1=$recv(collection)._removeKey_ifAbsent_(each,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
@@ -6278,7 +6265,6 @@ collection=$self._collection();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["collection"]=3;
 //>>excludeEnd("ctx");
-collection;
 $5=$recv(collection)._removeKey_ifAbsent_(index,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
@@ -7510,7 +7496,6 @@ var collection;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 collection=$self._collection();
-collection;
 $recv(collection)._at_put_(index,jsNull);
 $1=$recv(collection)._indexOf_startingAt_(jsNull,(1));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -15538,7 +15523,6 @@ return $core.withContext(function($ctx1) {
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 val=(10)._atRandom();
-val;
 $self._assert_($recv(val).__gt((0)));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["assert:"]=1;
@@ -15578,7 +15562,6 @@ var $3,$4,$2,$1;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 val="abc"._atRandom();
-val;
 $3=$recv(val).__eq("a");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["="]=1;
@@ -15627,7 +15610,6 @@ var current,next;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 next=$recv($recv($globals.Random)._new())._next();
-next;
 $self._assert_($recv(next).__gt_eq((0)));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["assert:"]=1;

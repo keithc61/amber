@@ -1452,7 +1452,6 @@ $ctx1.sendIdx["handleUnhandledError:"]=1;
 } else {
 var smalltalkError;
 smalltalkError=$recv($globals.JavaScriptException)._on_(anError);
-smalltalkError;
 $recv(smalltalkError)._wrap();
 $self._handleUnhandledError_(smalltalkError);
 }

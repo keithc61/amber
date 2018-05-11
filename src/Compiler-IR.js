@@ -465,7 +465,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$3,$5,$6,$9,$8,$7,$11,$14,$13,$12,$10;
+var $1,$2,$4,$3,$5,$8,$7,$6,$10,$13,$12,$11,$9;
 $1=$recv($globals.IRBlockSequence)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=1;
@@ -491,49 +491,48 @@ $recv($3)._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
-$5=$self._sequence();
-$6=$self._visitOrAlias_(each);
+$5=$self._visitOrAlias_(each);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx4.sendIdx["visitOrAlias:"]=1;
 //>>excludeEnd("ctx");
-return $recv($5)._add_($6);
+return $self._addToSequence_($5);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["add:"]=1;
+$ctx4.sendIdx["addToSequence:"]=1;
 //>>excludeEnd("ctx");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx4) {$ctx4.fillBlock({each:each},$ctx3,3)});
 //>>excludeEnd("ctx");
 }));
-$9=$recv(aNode)._dagChildren();
+$8=$recv(aNode)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["dagChildren"]=3;
 //>>excludeEnd("ctx");
-$8=$recv($9)._last();
+$7=$recv($8)._last();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["last"]=1;
 //>>excludeEnd("ctx");
-$7=$recv($8)._isReturnNode();
-if($core.assert($7)){
+$6=$recv($7)._isReturnNode();
+if($core.assert($6)){
 return $self._addToSequence_($self._visitOrAlias_($recv($recv(aNode)._dagChildren())._last()));
 } else {
-$11=$recv($globals.IRBlockReturn)._new();
-$14=$recv(aNode)._dagChildren();
+$10=$recv($globals.IRBlockReturn)._new();
+$13=$recv(aNode)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["dagChildren"]=4;
 //>>excludeEnd("ctx");
-$13=$recv($14)._last();
+$12=$recv($13)._last();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["last"]=2;
 //>>excludeEnd("ctx");
-$12=$self._visitOrAlias_($13);
+$11=$self._visitOrAlias_($12);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["visitOrAlias:"]=2;
 //>>excludeEnd("ctx");
-$recv($11)._add_($12);
-$10=$recv($11)._yourself();
-return $self._addToSequence_($10);
+$recv($10)._add_($11);
+$9=$recv($10)._yourself();
+return $self._addToSequence_($9);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["addToSequence:"]=1;
+$ctx3.sendIdx["addToSequence:"]=2;
 //>>excludeEnd("ctx");
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -550,10 +549,10 @@ $ctx3.sendIdx["addToSequence:"]=1;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitBlockSequenceNode: aNode\x0a\x09^ self\x0a\x09\x09withSequence: IRBlockSequence new\x0a\x09\x09do: [\x0a\x09\x09\x09aNode dagChildren ifNotEmpty: [\x0a\x09\x09\x09\x09aNode dagChildren allButLast do: [ :each |\x0a\x09\x09\x09\x09\x09self sequence add: (self visitOrAlias: each) ].\x0a\x09\x09\x09\x09aNode dagChildren last isReturnNode\x0a\x09\x09\x09\x09\x09ifFalse: [ self addToSequence: (IRBlockReturn new add: (self visitOrAlias: aNode dagChildren last); yourself) ]\x0a\x09\x09\x09\x09\x09ifTrue: [ self addToSequence: (self visitOrAlias: aNode dagChildren last) ] ]]",
+source: "visitBlockSequenceNode: aNode\x0a\x09^ self\x0a\x09\x09withSequence: IRBlockSequence new\x0a\x09\x09do: [\x0a\x09\x09\x09aNode dagChildren ifNotEmpty: [\x0a\x09\x09\x09\x09aNode dagChildren allButLast do: [ :each |\x0a\x09\x09\x09\x09\x09self addToSequence: (self visitOrAlias: each) ].\x0a\x09\x09\x09\x09aNode dagChildren last isReturnNode\x0a\x09\x09\x09\x09\x09ifFalse: [ self addToSequence: (IRBlockReturn new add: (self visitOrAlias: aNode dagChildren last); yourself) ]\x0a\x09\x09\x09\x09\x09ifTrue: [ self addToSequence: (self visitOrAlias: aNode dagChildren last) ] ]]",
 referencedClasses: ["IRBlockSequence", "IRBlockReturn"],
 //>>excludeEnd("ide");
-messageSends: ["withSequence:do:", "new", "ifNotEmpty:", "dagChildren", "do:", "allButLast", "add:", "sequence", "visitOrAlias:", "ifFalse:ifTrue:", "isReturnNode", "last", "addToSequence:", "yourself"]
+messageSends: ["withSequence:do:", "new", "ifNotEmpty:", "dagChildren", "do:", "allButLast", "addToSequence:", "visitOrAlias:", "ifFalse:ifTrue:", "isReturnNode", "last", "add:", "yourself"]
 }),
 $globals.IRASTTranslator);
 
@@ -573,7 +572,6 @@ $1=$recv(receiver)._isImmutable();
 if(!$core.assert($1)){
 var alias;
 alias=$self._alias_(receiver);
-alias;
 receiver=$recv($recv($globals.VariableNode)._new())._binding_($recv(alias)._variable());
 receiver;
 }

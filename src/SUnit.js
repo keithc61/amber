@@ -831,7 +831,6 @@ $recv((function(){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 failed=true;
-failed;
 $recv(aBlock)._value();
 failed=false;
 return failed;
@@ -1599,7 +1598,6 @@ var runs;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 runs=$recv($self["@result"])._runs();
-runs;
 $1=$recv(runs).__lt($recv($self["@result"])._total());
 if($core.assert($1)){
 return $recv($self._contextOf_($recv(runs).__plus((1))))._start();

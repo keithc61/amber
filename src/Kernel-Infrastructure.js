@@ -1532,7 +1532,6 @@ var split;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 split=$recv(each)._tokenize_("=");
-split;
 $1=$recv($recv(split)._size()).__eq((1));
 if($core.assert($1)){
 return $recv(split)._first();
