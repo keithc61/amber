@@ -143,7 +143,7 @@ wsBinaryPattern = ws selector:binarySelector ws arg:identifier {
 
 wsUnaryPattern = ws selector:unarySelector {return [selector, []];}
 
-expression = assignment / cascade / keywordSend
+expression = assignment / cascade / keywordSend / jsStatement
 
 wsExpressionsRest = someDotsWs expression:expression {
 	return expression;
@@ -190,7 +190,7 @@ wsStatements =
 	} /
 	expressions:wsExpressions? {return expressions || [];}
 
-wsSequenceWs = ws temps:temps? statements:(ws js:jsStatement ws {return [js];} / st:wsStatements maybeDotsWs {return st;})? {
+wsSequenceWs = ws temps:temps? statements:wsStatements? maybeDotsWs {
 	return $globals.SequenceNode._new()
 		._location_(location())
 		._source_(text())
