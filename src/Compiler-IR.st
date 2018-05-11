@@ -56,6 +56,13 @@ withSequence: aSequence do: aBlock
 
 !IRASTTranslator methodsFor: 'visiting'!
 
+addToSequence: anInstruction
+	anInstruction ifNotNil: [
+		anInstruction isVariable ifFalse: [
+			self sequence add: anInstruction ] ].
+	^ anInstruction
+!
+
 alias: aNode
 	| variable |
 
@@ -65,7 +72,7 @@ alias: aNode
 		variable: (AliasVar new name: '$', self nextAlias);
 		yourself.
 
-	self sequence add: (IRAssignment new
+	self addToSequence: (IRAssignment new
 		add: variable;
 		add: (self visit: aNode);
 		yourself).
@@ -102,7 +109,7 @@ visitAssignmentNode: aNode
 	| left right assignment |
 	right := self visit: aNode right.
 	left := self visit: aNode left.
-	self sequence add: (IRAssignment new
+	self addToSequence: (IRAssignment new
 		add: left;
 		add: right;
 		yourself).
@@ -133,8 +140,8 @@ visitBlockSequenceNode: aNode
 				aNode dagChildren allButLast do: [ :each |
 					self sequence add: (self visitOrAlias: each) ].
 				aNode dagChildren last isReturnNode
-					ifFalse: [ self sequence add: (IRBlockReturn new add: (self visitOrAlias: aNode dagChildren last); yourself) ]
-					ifTrue: [ self sequence add: (self visitOrAlias: aNode dagChildren last) ] ]]
+					ifFalse: [ self addToSequence: (IRBlockReturn new add: (self visitOrAlias: aNode dagChildren last); yourself) ]
+					ifTrue: [ self addToSequence: (self visitOrAlias: aNode dagChildren last) ] ]]
 !
 
 visitCascadeNode: aNode
@@ -147,7 +154,7 @@ visitCascadeNode: aNode
 	aNode dagChildren do: [ :each | each receiver: receiver ].
 
 	aNode dagChildren allButLast do: [ :each |
-		self sequence add: (self visit: each) ].
+		self addToSequence: (self visit: each) ].
 
 	^ self visitOrAlias: aNode dagChildren last
 !
@@ -236,11 +243,8 @@ visitSendNode: aNode
 visitSequenceNode: aNode
 	^ self
 		withSequence: IRSequence new
-		do: [
-			aNode dagChildren do: [ :each | | instruction |
-				instruction := self visitOrAlias: each.
-				instruction isVariable ifFalse: [
-					self sequence add: instruction ] ]]
+		do: [ aNode dagChildren do: [ :each |
+			self addToSequence: (self visitOrAlias: each) ] ]
 !
 
 visitValueNode: aNode
