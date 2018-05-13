@@ -8,53 +8,6 @@ $core.addPackage("Compiler-Tests");
 $core.addClass("ASTParsingTest", $globals.TestCase, [], "Compiler-Tests");
 $core.addMethod(
 $core.method({
-selector: "analyze:forClass:",
-protocol: "convenience",
-fn: function (aNode,aClass){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv($recv($globals.SemanticAnalyzer)._on_(aClass))._visit_(aNode);
-return aNode;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"analyze:forClass:",{aNode:aNode,aClass:aClass},$globals.ASTParsingTest)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode", "aClass"],
-source: "analyze: aNode forClass: aClass\x0a\x09(SemanticAnalyzer on: aClass) visit: aNode.\x0a\x09^ aNode",
-referencedClasses: ["SemanticAnalyzer"],
-//>>excludeEnd("ide");
-messageSends: ["visit:", "on:"]
-}),
-$globals.ASTParsingTest);
-
-$core.addMethod(
-$core.method({
-selector: "parse:",
-protocol: "parsing",
-fn: function (aString){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($globals.Smalltalk)._parse_(aString);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"parse:",{aString:aString},$globals.ASTParsingTest)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "parse: aString\x0a\x09^ Smalltalk parse: aString",
-referencedClasses: ["Smalltalk"],
-//>>excludeEnd("ide");
-messageSends: ["parse:"]
-}),
-$globals.ASTParsingTest);
-
-$core.addMethod(
-$core.method({
 selector: "parse:forClass:",
 protocol: "parsing",
 fn: function (aString,aClass){
@@ -62,17 +15,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self._analyze_forClass_($self._parse_(aString),aClass);
+return $recv($recv($globals.Compiler)._new())._ast_forClass_protocol_(aString,aClass,"test");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"parse:forClass:",{aString:aString,aClass:aClass},$globals.ASTParsingTest)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aClass"],
-source: "parse: aString forClass: aClass\x0a\x09^ self analyze: (self parse: aString) forClass: aClass",
-referencedClasses: [],
+source: "parse: aString forClass: aClass\x0a\x09^ Compiler new\x0a\x09\x09ast: aString\x0a\x09\x09forClass: aClass\x0a\x09\x09protocol: 'test'",
+referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
-messageSends: ["analyze:forClass:", "parse:"]
+messageSends: ["ast:forClass:protocol:", "new"]
 }),
 $globals.ASTParsingTest);
 
@@ -326,9 +279,9 @@ var node;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $3,$4,$2,$1,$7,$8,$6,$5;
-node=$self._parse_("yourself\x0a\x09^ self");
+node=$self._parse_forClass_("yourself\x0a\x09^ self",$globals.Object);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["parse:"]=1;
+$ctx1.sendIdx["parse:forClass:"]=1;
 //>>excludeEnd("ctx");
 $3=node;
 $4=(2).__at((4));
@@ -347,9 +300,9 @@ $self._assert_equals_($1,"self");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=1;
 //>>excludeEnd("ctx");
-node=$self._parse_("foo\x0a\x09true ifTrue: [ 1 ]");
+node=$self._parse_forClass_("foo\x0a\x09true ifTrue: [ 1 ]",$globals.Object);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["parse:"]=2;
+$ctx1.sendIdx["parse:forClass:"]=2;
 //>>excludeEnd("ctx");
 $7=node;
 $8=(2).__at((7));
@@ -371,7 +324,7 @@ $self._assert_equals_($5,"ifTrue:");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=2;
 //>>excludeEnd("ctx");
-node=$self._parse_("foo\x0a\x09self foo; bar; baz");
+node=$self._parse_forClass_("foo\x0a\x09self foo; bar; baz",$globals.Object);
 $self._assert_equals_($recv($recv(node)._navigationNodeAt_ifAbsent_((2).__at((8)),(function(){
 return nil;
 
@@ -383,10 +336,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testNodeAtPosition\x0a\x09| node |\x0a\x09\x0a\x09node := self parse: 'yourself\x0a\x09^ self'.\x0a\x09\x0a\x09self assert: (node navigationNodeAt: 2@4 ifAbsent: [ nil ]) source equals: 'self'.\x0a\x09\x0a\x09node := self parse: 'foo\x0a\x09true ifTrue: [ 1 ]'.\x0a\x09\x0a\x09self assert: (node navigationNodeAt: 2@7 ifAbsent: [ nil ]) selector equals: 'ifTrue:'.\x0a\x09\x0a\x09node := self parse: 'foo\x0a\x09self foo; bar; baz'.\x0a\x09\x0a\x09self assert: (node navigationNodeAt: 2@8 ifAbsent: [ nil ]) selector equals: 'foo'",
-referencedClasses: [],
+source: "testNodeAtPosition\x0a\x09| node |\x0a\x09\x0a\x09node := self parse: 'yourself\x0a\x09^ self' forClass: Object.\x0a\x09\x0a\x09self assert: (node navigationNodeAt: 2@4 ifAbsent: [ nil ]) source equals: 'self'.\x0a\x09\x0a\x09node := self parse: 'foo\x0a\x09true ifTrue: [ 1 ]' forClass: Object.\x0a\x09\x0a\x09self assert: (node navigationNodeAt: 2@7 ifAbsent: [ nil ]) selector equals: 'ifTrue:'.\x0a\x09\x0a\x09node := self parse: 'foo\x0a\x09self foo; bar; baz' forClass: Object.\x0a\x09\x0a\x09self assert: (node navigationNodeAt: 2@8 ifAbsent: [ nil ]) selector equals: 'foo'",
+referencedClasses: ["Object"],
 //>>excludeEnd("ide");
-messageSends: ["parse:", "assert:equals:", "source", "navigationNodeAt:ifAbsent:", "@", "selector"]
+messageSends: ["parse:forClass:", "assert:equals:", "source", "navigationNodeAt:ifAbsent:", "@", "selector"]
 }),
 $globals.ASTPositionTest);
 
@@ -1835,30 +1788,6 @@ $globals.CodeGeneratorTest);
 $core.addClass("ASTInterpreterTest", $globals.CodeGeneratorTest, [], "Compiler-Tests");
 $core.addMethod(
 $core.method({
-selector: "analyze:forClass:",
-protocol: "parsing",
-fn: function (aNode,aClass){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv($recv($globals.SemanticAnalyzer)._on_(aClass))._visit_(aNode);
-return aNode;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"analyze:forClass:",{aNode:aNode,aClass:aClass},$globals.ASTInterpreterTest)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode", "aClass"],
-source: "analyze: aNode forClass: aClass\x0a\x09(SemanticAnalyzer on: aClass) visit: aNode.\x0a\x09^ aNode",
-referencedClasses: ["SemanticAnalyzer"],
-//>>excludeEnd("ide");
-messageSends: ["visit:", "on:"]
-}),
-$globals.ASTInterpreterTest);
-
-$core.addMethod(
-$core.method({
 selector: "interpret:receiver:withArguments:",
 protocol: "private",
 fn: function (aString,anObject,aDictionary){
@@ -1918,52 +1847,6 @@ source: "interpret: aString receiver: anObject withArguments: aDictionary\x0a\x0
 referencedClasses: ["ASTInterpreter", "AIContext"],
 //>>excludeEnd("ide");
 messageSends: ["new", "parse:forClass:", "class", "receiver:", "interpreter:", "yourself", "ifNotNil:", "sequenceNode", "do:", "temps", "defineLocal:", "keysAndValuesDo:", "localAt:put:", "context:", "node:", "enterNode", "proceed", "result"]
-}),
-$globals.ASTInterpreterTest);
-
-$core.addMethod(
-$core.method({
-selector: "parse:",
-protocol: "parsing",
-fn: function (aString){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($globals.Smalltalk)._parse_(aString);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"parse:",{aString:aString},$globals.ASTInterpreterTest)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "parse: aString\x0a\x09^ Smalltalk parse: aString",
-referencedClasses: ["Smalltalk"],
-//>>excludeEnd("ide");
-messageSends: ["parse:"]
-}),
-$globals.ASTInterpreterTest);
-
-$core.addMethod(
-$core.method({
-selector: "parse:forClass:",
-protocol: "parsing",
-fn: function (aString,aClass){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self._analyze_forClass_($self._parse_(aString),aClass);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"parse:forClass:",{aString:aString,aClass:aClass},$globals.ASTInterpreterTest)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString", "aClass"],
-source: "parse: aString forClass: aClass\x0a\x09^ self analyze: (self parse: aString) forClass: aClass",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["analyze:forClass:", "parse:"]
 }),
 $globals.ASTInterpreterTest);
 

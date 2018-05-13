@@ -95,7 +95,7 @@ translator
 ! !
 
 Object subclass: #Compiler
-	instanceVariableNames: 'currentClass currentPackage source codeGeneratorClass'
+	instanceVariableNames: 'currentClass currentPackage source codeGeneratorClass codeGenerator'
 	package: 'Compiler-Core'!
 !Compiler commentStamp!
 I provide the public interface for compiling Amber source code into JavaScript.
@@ -104,6 +104,18 @@ The code generator used to produce JavaScript can be plugged with `#codeGenerato
 The default code generator is an instance of `InlinedCodeGenerator`!
 
 !Compiler methodsFor: 'accessing'!
+
+cleanCodeGenerator
+	codeGenerator := nil
+!
+
+codeGenerator
+	^ codeGenerator ifNil: [ codeGenerator := self codeGeneratorClass new
+			source: self source;
+			currentClass: self currentClass;
+			currentPackage: self currentPackage;
+			yourself ]
+!
 
 codeGeneratorClass
 	^ codeGeneratorClass ifNil: [ InliningCodeGenerator ]
@@ -139,12 +151,23 @@ source: aString
 
 !Compiler methodsFor: 'compiling'!
 
+ast: aString forClass: aClass protocol: anotherString
+	self
+		source: aString;
+		forClass: aClass protocol: anotherString.
+
+	self codeGenerator transformersDictionary at: '2500-astCheckpoint' put: [ :x | ^x ].
+	
+	self compileNode: (self parse: aString).
+
+	self error: 'AST transformation failed.'
+!
+
 compile: aString forClass: aClass protocol: anotherString
 	^ self
 		source: aString;
+		forClass: aClass protocol: anotherString;
 		compileNode: (self parse: aString)
-		forClass: aClass
-		package: (aClass packageOfProtocol: anotherString)
 !
 
 compileExpression: aString on: anObject
@@ -155,21 +178,10 @@ compileExpression: aString on: anObject
 !
 
 compileNode: aNode
-	| generator result |
-	generator := self codeGeneratorClass new.
-	generator
-		source: self source;
-		currentClass: self currentClass;
-		currentPackage: self currentPackage.
-	result := generator compileNode: aNode.
+    | result |
+	result := self codeGenerator compileNode: aNode.
+	self cleanCodeGenerator.
 	^ result
-!
-
-compileNode: aNode forClass: aClass package: aPackage
-	^ self
-		currentClass: aClass;
-		currentPackage: aPackage;
-		compileNode: aNode
 !
 
 eval: aString
@@ -196,6 +208,12 @@ evaluateExpression: aString on: anObject
 	result := anObject xxxDoIt.
 	anObject class removeCompiledMethod: method.
 	^ result
+!
+
+forClass: aClass protocol: anotherString
+	self
+		currentPackage: (aClass packageOfProtocol: anotherString);
+		currentClass: aClass
 !
 
 install: aString forClass: aBehavior protocol: anotherString

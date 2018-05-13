@@ -394,10 +394,98 @@ $globals.CodeGenerator);
 
 
 
-$core.addClass("Compiler", $globals.Object, ["currentClass", "currentPackage", "source", "codeGeneratorClass"], "Compiler-Core");
+$core.addClass("Compiler", $globals.Object, ["currentClass", "currentPackage", "source", "codeGeneratorClass", "codeGenerator"], "Compiler-Core");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Compiler.comment="I provide the public interface for compiling Amber source code into JavaScript.\x0a\x0aThe code generator used to produce JavaScript can be plugged with `#codeGeneratorClass`.\x0aThe default code generator is an instance of `InlinedCodeGenerator`";
 //>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "ast:forClass:protocol:",
+protocol: "compiling",
+fn: function (aString,aClass,anotherString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $early={};
+try {
+$self._source_(aString);
+$self._forClass_protocol_(aClass,anotherString);
+$recv($recv($self._codeGenerator())._transformersDictionary())._at_put_("2500-astCheckpoint",(function(x){
+throw $early=[x];
+
+}));
+$self._compileNode_($self._parse_(aString));
+$self._error_("AST transformation failed.");
+return self;
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"ast:forClass:protocol:",{aString:aString,aClass:aClass,anotherString:anotherString},$globals.Compiler)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aClass", "anotherString"],
+source: "ast: aString forClass: aClass protocol: anotherString\x0a\x09self\x0a\x09\x09source: aString;\x0a\x09\x09forClass: aClass protocol: anotherString.\x0a\x0a\x09self codeGenerator transformersDictionary at: '2500-astCheckpoint' put: [ :x | ^x ].\x0a\x09\x0a\x09self compileNode: (self parse: aString).\x0a\x0a\x09self error: 'AST transformation failed.'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["source:", "forClass:protocol:", "at:put:", "transformersDictionary", "codeGenerator", "compileNode:", "parse:", "error:"]
+}),
+$globals.Compiler);
+
+$core.addMethod(
+$core.method({
+selector: "cleanCodeGenerator",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+$self["@codeGenerator"]=nil;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "cleanCodeGenerator\x0a\x09codeGenerator := nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Compiler);
+
+$core.addMethod(
+$core.method({
+selector: "codeGenerator",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$receiver;
+$1=$self["@codeGenerator"];
+if(($receiver = $1) == null || $receiver.a$nil){
+$2=$recv($self._codeGeneratorClass())._new();
+$recv($2)._source_($self._source());
+$recv($2)._currentClass_($self._currentClass());
+$recv($2)._currentPackage_($self._currentPackage());
+$self["@codeGenerator"]=$recv($2)._yourself();
+return $self["@codeGenerator"];
+} else {
+return $1;
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"codeGenerator",{},$globals.Compiler)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "codeGenerator\x0a\x09^ codeGenerator ifNil: [ codeGenerator := self codeGeneratorClass new\x0a\x09\x09\x09source: self source;\x0a\x09\x09\x09currentClass: self currentClass;\x0a\x09\x09\x09currentPackage: self currentPackage;\x0a\x09\x09\x09yourself ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["ifNil:", "source:", "new", "codeGeneratorClass", "source", "currentClass:", "currentClass", "currentPackage:", "currentPackage", "yourself"]
+}),
+$globals.Compiler);
+
 $core.addMethod(
 $core.method({
 selector: "codeGeneratorClass",
@@ -456,17 +544,18 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $self._source_(aString);
-return $self._compileNode_forClass_package_($self._parse_(aString),aClass,$recv(aClass)._packageOfProtocol_(anotherString));
+$self._forClass_protocol_(aClass,anotherString);
+return $self._compileNode_($self._parse_(aString));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"compile:forClass:protocol:",{aString:aString,aClass:aClass,anotherString:anotherString},$globals.Compiler)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aClass", "anotherString"],
-source: "compile: aString forClass: aClass protocol: anotherString\x0a\x09^ self\x0a\x09\x09source: aString;\x0a\x09\x09compileNode: (self parse: aString)\x0a\x09\x09forClass: aClass\x0a\x09\x09package: (aClass packageOfProtocol: anotherString)",
+source: "compile: aString forClass: aClass protocol: anotherString\x0a\x09^ self\x0a\x09\x09source: aString;\x0a\x09\x09forClass: aClass protocol: anotherString;\x0a\x09\x09compileNode: (self parse: aString)",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["source:", "compileNode:forClass:package:", "parse:", "packageOfProtocol:"]
+messageSends: ["source:", "forClass:protocol:", "compileNode:", "parse:"]
 }),
 $globals.Compiler);
 
@@ -504,53 +593,23 @@ selector: "compileNode:",
 protocol: "compiling",
 fn: function (aNode){
 var self=this,$self=this;
-var generator,result;
+var result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-generator=$recv($self._codeGeneratorClass())._new();
-$1=generator;
-$recv($1)._source_($self._source());
-$recv($1)._currentClass_($self._currentClass());
-$recv($1)._currentPackage_($self._currentPackage());
-result=$recv(generator)._compileNode_(aNode);
+result=$recv($self._codeGenerator())._compileNode_(aNode);
+$self._cleanCodeGenerator();
 return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"compileNode:",{aNode:aNode,generator:generator,result:result},$globals.Compiler)});
+}, function($ctx1) {$ctx1.fill(self,"compileNode:",{aNode:aNode,result:result},$globals.Compiler)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "compileNode: aNode\x0a\x09| generator result |\x0a\x09generator := self codeGeneratorClass new.\x0a\x09generator\x0a\x09\x09source: self source;\x0a\x09\x09currentClass: self currentClass;\x0a\x09\x09currentPackage: self currentPackage.\x0a\x09result := generator compileNode: aNode.\x0a\x09^ result",
+source: "compileNode: aNode\x0a    | result |\x0a\x09result := self codeGenerator compileNode: aNode.\x0a\x09self cleanCodeGenerator.\x0a\x09^ result",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["new", "codeGeneratorClass", "source:", "source", "currentClass:", "currentClass", "currentPackage:", "currentPackage", "compileNode:"]
-}),
-$globals.Compiler);
-
-$core.addMethod(
-$core.method({
-selector: "compileNode:forClass:package:",
-protocol: "compiling",
-fn: function (aNode,aClass,aPackage){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._currentClass_(aClass);
-$self._currentPackage_(aPackage);
-return $self._compileNode_(aNode);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"compileNode:forClass:package:",{aNode:aNode,aClass:aClass,aPackage:aPackage},$globals.Compiler)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode", "aClass", "aPackage"],
-source: "compileNode: aNode forClass: aClass package: aPackage\x0a\x09^ self\x0a\x09\x09currentClass: aClass;\x0a\x09\x09currentPackage: aPackage;\x0a\x09\x09compileNode: aNode",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["currentClass:", "currentPackage:", "compileNode:"]
+messageSends: ["compileNode:", "codeGenerator", "cleanCodeGenerator"]
 }),
 $globals.Compiler);
 
@@ -737,6 +796,31 @@ source: "evaluateExpression: aString on: anObject\x0a\x09\x22Unlike #eval: evalu
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["eval:", "compileExpression:on:", "protocol:", "addCompiledMethod:", "class", "xxxDoIt", "removeCompiledMethod:"]
+}),
+$globals.Compiler);
+
+$core.addMethod(
+$core.method({
+selector: "forClass:protocol:",
+protocol: "compiling",
+fn: function (aClass,anotherString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._currentPackage_($recv(aClass)._packageOfProtocol_(anotherString));
+$self._currentClass_(aClass);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"forClass:protocol:",{aClass:aClass,anotherString:anotherString},$globals.Compiler)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aClass", "anotherString"],
+source: "forClass: aClass protocol: anotherString\x0a\x09self\x0a\x09\x09currentPackage: (aClass packageOfProtocol: anotherString);\x0a\x09\x09currentClass: aClass",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["currentPackage:", "packageOfProtocol:", "currentClass:"]
 }),
 $globals.Compiler);
 

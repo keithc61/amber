@@ -3435,17 +3435,17 @@ return $self._error_("Method source is empty");
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-return $recv($globals.Smalltalk)._parse_($self._source());
+return $recv($recv($globals.Compiler)._new())._ast_forClass_protocol_($self._source(),$self._methodClass(),$self._protocol());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ast",{},$globals.CompiledMethod)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "ast\x0a\x09self source ifEmpty: [ self error: 'Method source is empty' ].\x0a\x09\x0a\x09^ Smalltalk parse: self source",
-referencedClasses: ["Smalltalk"],
+source: "ast\x0a\x09self source ifEmpty: [ self error: 'Method source is empty' ].\x0a\x09\x0a\x09^ Compiler new\x0a\x09\x09ast: self source\x0a\x09\x09forClass: self methodClass\x0a\x09\x09protocol: self protocol",
+referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
-messageSends: ["ifEmpty:", "source", "error:", "parse:"]
+messageSends: ["ifEmpty:", "source", "error:", "ast:forClass:protocol:", "new", "methodClass", "protocol"]
 }),
 $globals.CompiledMethod);
 

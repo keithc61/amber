@@ -3,21 +3,13 @@ TestCase subclass: #ASTParsingTest
 	instanceVariableNames: ''
 	package: 'Compiler-Tests'!
 
-!ASTParsingTest methodsFor: 'convenience'!
-
-analyze: aNode forClass: aClass
-	(SemanticAnalyzer on: aClass) visit: aNode.
-	^ aNode
-! !
-
 !ASTParsingTest methodsFor: 'parsing'!
 
-parse: aString
-	^ Smalltalk parse: aString
-!
-
 parse: aString forClass: aClass
-	^ self analyze: (self parse: aString) forClass: aClass
+	^ Compiler new
+		ast: aString
+		forClass: aClass
+		protocol: 'test'
 ! !
 
 ASTParsingTest subclass: #ASTPCNodeVisitorTest
@@ -101,17 +93,17 @@ testNodeAtPosition
 	| node |
 	
 	node := self parse: 'yourself
-	^ self'.
+	^ self' forClass: Object.
 	
 	self assert: (node navigationNodeAt: 2@4 ifAbsent: [ nil ]) source equals: 'self'.
 	
 	node := self parse: 'foo
-	true ifTrue: [ 1 ]'.
+	true ifTrue: [ 1 ]' forClass: Object.
 	
 	self assert: (node navigationNodeAt: 2@7 ifAbsent: [ nil ]) selector equals: 'ifTrue:'.
 	
 	node := self parse: 'foo
-	self foo; bar; baz'.
+	self foo; bar; baz' forClass: Object.
 	
 	self assert: (node navigationNodeAt: 2@8 ifAbsent: [ nil ]) selector equals: 'foo'
 ! !
@@ -474,21 +466,6 @@ testifTrueIfFalse
 CodeGeneratorTest subclass: #ASTInterpreterTest
 	instanceVariableNames: ''
 	package: 'Compiler-Tests'!
-
-!ASTInterpreterTest methodsFor: 'parsing'!
-
-analyze: aNode forClass: aClass
-	(SemanticAnalyzer on: aClass) visit: aNode.
-	^ aNode
-!
-
-parse: aString
-	^ Smalltalk parse: aString
-!
-
-parse: aString forClass: aClass
-	^ self analyze: (self parse: aString) forClass: aClass
-! !
 
 !ASTInterpreterTest methodsFor: 'private'!
 

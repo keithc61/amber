@@ -1,5 +1,10 @@
 0.22.0:
 
++ Compiler >>
+  + ast:forClass:protocol:
+  + cleanCodeGenerator
+  + codeGenerator
+  + forClass:protocol:
 + JSObjectProxy >>
   + removeKey:
 + Number >>
@@ -11,6 +16,8 @@
   - initializeClasses
 - ClassBuilder >>
   - setupClass:
+- Compiler >>
+  - compileNode:forClass:package:
 - ProtoObject
   - asJSON
   - asJavascript

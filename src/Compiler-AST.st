@@ -852,6 +852,9 @@ inlineJS: aString
 ast
 	self source ifEmpty: [ self error: 'Method source is empty' ].
 	
-	^ Smalltalk parse: self source
+	^ Compiler new
+		ast: self source
+		forClass: self methodClass
+		protocol: self protocol
 ! !
 
