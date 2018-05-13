@@ -331,13 +331,20 @@ var $1,$2,$receiver;
 $1=$self["@transformersDictionary"];
 if(($receiver = $1) == null || $receiver.a$nil){
 $2=$recv($globals.Dictionary)._new();
-$recv($2)._at_put_("2000-semantic",$self._semanticAnalyzer());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["new"]=1;
+//>>excludeEnd("ctx");
+$recv($2)._at_put_("1000-earlyPragmas",$recv($globals.EarlyPragmator)._new());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["at:put:"]=1;
 //>>excludeEnd("ctx");
-$recv($2)._at_put_("5000-astToIr",$self._translator());
+$recv($2)._at_put_("2000-semantic",$self._semanticAnalyzer());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["at:put:"]=2;
+//>>excludeEnd("ctx");
+$recv($2)._at_put_("5000-astToIr",$self._translator());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=3;
 //>>excludeEnd("ctx");
 $recv($2)._at_put_("8000-irToJs",$self._irTranslator());
 $self["@transformersDictionary"]=$recv($2)._yourself();
@@ -351,8 +358,8 @@ return $1;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "transformersDictionary\x0a\x09^ transformersDictionary ifNil: [ transformersDictionary := Dictionary new\x0a\x09\x09at: '2000-semantic' put: self semanticAnalyzer;\x0a\x09\x09at: '5000-astToIr' put: self translator;\x0a\x09\x09at: '8000-irToJs' put: self irTranslator;\x0a\x09\x09yourself ]",
-referencedClasses: ["Dictionary"],
+source: "transformersDictionary\x0a\x09^ transformersDictionary ifNil: [ transformersDictionary := Dictionary new\x0a\x09\x09at: '1000-earlyPragmas' put: EarlyPragmator new;\x0a\x09\x09at: '2000-semantic' put: self semanticAnalyzer;\x0a\x09\x09at: '5000-astToIr' put: self translator;\x0a\x09\x09at: '8000-irToJs' put: self irTranslator;\x0a\x09\x09yourself ]",
+referencedClasses: ["Dictionary", "EarlyPragmator"],
 //>>excludeEnd("ide");
 messageSends: ["ifNil:", "at:put:", "new", "semanticAnalyzer", "translator", "irTranslator", "yourself"]
 }),

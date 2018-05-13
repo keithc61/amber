@@ -143,7 +143,7 @@ wsBinaryPattern = ws selector:binarySelector ws arg:identifier {
 
 wsUnaryPattern = ws selector:unarySelector {return [selector, []];}
 
-expression = assignment / cascade / keywordSend / jsStatement
+expression = assignment / cascade / keywordSend
 
 wsExpressionsRest = someDotsWs expression:expression {
 	return expression;
@@ -152,6 +152,25 @@ wsExpressionsRest = someDotsWs expression:expression {
 wsExpressions = maybeDotsWs first:expression others:wsExpressionsRest* {
 	return [first].concat(others);
 }
+
+wsUnaryPragmaMessage = ws selector:unarySelector !':' {
+	return $globals.Message._selector_arguments_(selector, []);
+}
+
+wsKeywordPragmaMessage =
+	pairs:(ws key:keyword ws arg:parseTimeLiteral {return {key:key, arg:arg};})+ {
+		var selector = '';
+		var args = [];
+		for(var i = 0; i < pairs.length; i++) {
+			selector += pairs[i].key;
+			args.push(pairs[i].arg._value());
+		}
+		return $globals.Message._selector_arguments_(selector, args)
+	}
+
+wsPragmaMessage = wsUnaryPragmaMessage / wsKeywordPragmaMessage
+
+wsPragmas = items:(ws '<' message:wsPragmaMessage ws '>' {return message;})*
 
 assignment = variable:variable ws ':=' ws expression:expression {
 	return $globals.AssignmentNode._new()
@@ -190,11 +209,12 @@ wsStatements =
 	} /
 	expressions:wsExpressions? {return expressions || [];}
 
-wsSequenceWs = ws temps:temps? statements:wsStatements? maybeDotsWs {
+wsSequenceWs = aPragmas:wsPragmas? ws temps:temps? zPragmas:wsPragmas? statements:wsStatements? maybeDotsWs {
 	return $globals.SequenceNode._new()
 		._location_(location())
 		._source_(text())
 		._temps_(temps || [])
+		._pragmas_((aPragmas || []).concat(zPragmas || []))
 		._dagChildren_(statements || []);
 }
 
@@ -261,12 +281,6 @@ cascade =
 			._source_(text())
 			._dagChildren_(messages);
 	}
-
-jsStatement = '<' ws 'inlineJS:' ws val:rawString ws '>' {
-	return $globals.JSStatementNode._new()
-		._location_(location())
-		._source_(val)
-}
 
 method =
 	pattern:(wsKeywordPattern / wsBinaryPattern / wsUnaryPattern)

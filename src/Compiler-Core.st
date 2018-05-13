@@ -80,6 +80,7 @@ semanticAnalyzer
 
 transformersDictionary
 	^ transformersDictionary ifNil: [ transformersDictionary := Dictionary new
+		at: '1000-earlyPragmas' put: EarlyPragmator new;
 		at: '2000-semantic' put: self semanticAnalyzer;
 		at: '5000-astToIr' put: self translator;
 		at: '8000-irToJs' put: self irTranslator;
