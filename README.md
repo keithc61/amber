@@ -73,6 +73,16 @@ Start developing in Amber Smalltalk
     amber serve
 
 
+What this repo contains and what it does not
+--------------
+
+It must be noted this repo contains only core functionality of Amber system
+as well as accompanying tooling (`amber-dev` and `amber-cli`).
+
+The initial project comes with some libraries (`amber/web`, `domite`, `silk` etc.)
+included; these libraries are not part of this repo, though. You can find them either in
+[Amber organization](https://lolg.it/amber) or, for some of them, in their own pages:
+[DOMite](https://lolg.it/herby/domite), [Silk](https://lolg.it/herby/silk).
 
 In case something fails...
 --------------
