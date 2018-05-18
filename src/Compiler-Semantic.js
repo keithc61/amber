@@ -2319,42 +2319,6 @@ $globals.SemanticAnalyzer);
 
 $core.addMethod(
 $core.method({
-selector: "visitBlockSequenceNode:",
-protocol: "visiting",
-fn: function (aNode){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$recv($recv(aNode)._dagChildren())._anySatisfy_("isJSStatementNode");
-if($core.assert($1)){
-$recv($globals.JsStatementDisplacedError)._signal();
-}
-(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = true,
-//>>excludeEnd("ctx");
-($globals.SemanticAnalyzer.superclass||$boot.nilAsClass).fn.prototype._visitBlockSequenceNode_.apply($self, [aNode]));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = false;
-//>>excludeEnd("ctx");;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitBlockSequenceNode:",{aNode:aNode},$globals.SemanticAnalyzer)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode"],
-source: "visitBlockSequenceNode: aNode\x0a\x09(aNode dagChildren anySatisfy: #isJSStatementNode)\x0a\x09\x09ifTrue: [ JsStatementDisplacedError signal ].\x0a\x0a\x09super visitBlockSequenceNode: aNode",
-referencedClasses: ["JsStatementDisplacedError"],
-//>>excludeEnd("ide");
-messageSends: ["ifTrue:", "anySatisfy:", "dagChildren", "signal", "visitBlockSequenceNode:"]
-}),
-$globals.SemanticAnalyzer);
-
-$core.addMethod(
-$core.method({
 selector: "visitCascadeNode:",
 protocol: "visiting",
 fn: function (aNode){
@@ -2733,9 +2697,6 @@ messageSends: []
 }),
 $globals.InvalidAssignmentError);
 
-
-
-$core.addClass("JsStatementDisplacedError", $globals.SemanticError, [], "Compiler-Semantic");
 
 
 $core.addClass("ShadowingVariableError", $globals.SemanticError, ["variableName"], "Compiler-Semantic");

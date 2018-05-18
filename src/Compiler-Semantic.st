@@ -564,13 +564,6 @@ visitBlockNode: aNode
 	self popScope
 !
 
-visitBlockSequenceNode: aNode
-	(aNode dagChildren anySatisfy: #isJSStatementNode)
-		ifTrue: [ JsStatementDisplacedError signal ].
-
-	super visitBlockSequenceNode: aNode
-!
-
 visitCascadeNode: aNode
 	aNode receiver: aNode dagChildren first receiver.
 	super visitCascadeNode: aNode
@@ -679,10 +672,6 @@ variableName
 variableName: aString
 	variableName := aString
 ! !
-
-SemanticError subclass: #JsStatementDisplacedError
-	instanceVariableNames: ''
-	package: 'Compiler-Semantic'!
 
 SemanticError subclass: #ShadowingVariableError
 	instanceVariableNames: 'variableName'
