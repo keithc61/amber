@@ -1,4 +1,4 @@
-define(["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Objects"], function($boot){"use strict";
+define(["amber/boot", "amber_core/Compiler-AST", "amber_core/Kernel-Collections", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage("Compiler-Core");
@@ -1270,6 +1270,225 @@ referencedClasses: [],
 messageSends: ["evaluate:for:", "new"]
 }),
 $globals.Evaluator.a$cls);
+
+
+$core.addClass("Pragmator", $globals.NodeVisitor, ["methodNode", "sequenceNode"], "Compiler-Core");
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.Pragmator.comment="I am abstract superclass for pragma-processing transformer.\x0a\x0aMy subclasses should implement messages for each pragma\x0athey process. Pragma processing checks if a message is known\x0ato a class but not to its superclass. IOW, each and only those\x0apragmas are processed which are defined as methods in the subclass.\x0a\x0aThese messages can access sequence node in which\x0aa pragma occurred and its containing method node\x0aas `self sequenceNode` and `self methodNode`.\x0a\x0aSee `EarlyPragmator` for an example.";
+//>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "canProcessPragma:",
+protocol: "pragma processing",
+fn: function (aMessage){
+var self=this,$self=this;
+var selector;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+selector=$recv(aMessage)._selector();
+return $recv($self._respondsTo_(selector))._and_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($recv($recv($self._class())._superclass())._canUnderstand_(selector))._not();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"canProcessPragma:",{aMessage:aMessage,selector:selector},$globals.Pragmator)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aMessage"],
+source: "canProcessPragma: aMessage\x0a\x09| selector |\x0a\x09selector := aMessage selector.\x0a\x09^ (self respondsTo: selector) and: [\x0a\x09\x09(self class superclass canUnderstand: selector) not]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["selector", "and:", "respondsTo:", "not", "canUnderstand:", "superclass", "class"]
+}),
+$globals.Pragmator);
+
+$core.addMethod(
+$core.method({
+selector: "methodNode",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $self["@methodNode"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "methodNode\x0a\x09^ methodNode",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Pragmator);
+
+$core.addMethod(
+$core.method({
+selector: "methodNode:",
+protocol: "accessing",
+fn: function (anObject){
+var self=this,$self=this;
+$self["@methodNode"]=anObject;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "methodNode: anObject\x0a\x09methodNode := anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Pragmator);
+
+$core.addMethod(
+$core.method({
+selector: "processPragma:",
+protocol: "pragma processing",
+fn: function (aMessage){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$self._canProcessPragma_(aMessage);
+if($core.assert($1)){
+return $recv(aMessage)._sendTo_(self);
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"processPragma:",{aMessage:aMessage},$globals.Pragmator)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aMessage"],
+source: "processPragma: aMessage\x0a\x09(self canProcessPragma: aMessage) ifTrue: [\x0a\x09\x09^ aMessage sendTo: self ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["ifTrue:", "canProcessPragma:", "sendTo:"]
+}),
+$globals.Pragmator);
+
+$core.addMethod(
+$core.method({
+selector: "sequenceNode",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $self["@sequenceNode"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "sequenceNode\x0a\x09^ sequenceNode",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Pragmator);
+
+$core.addMethod(
+$core.method({
+selector: "sequenceNode:",
+protocol: "accessing",
+fn: function (anObject){
+var self=this,$self=this;
+$self["@sequenceNode"]=anObject;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "sequenceNode: anObject\x0a\x09sequenceNode := anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Pragmator);
+
+$core.addMethod(
+$core.method({
+selector: "visitMethodNode:",
+protocol: "pragma processing",
+fn: function (aNode){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$self._methodNode_(aNode);
+$1=(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.Pragmator.superclass||$boot.nilAsClass).fn.prototype._visitMethodNode_.apply($self, [aNode]));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+return $1;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"visitMethodNode:",{aNode:aNode},$globals.Pragmator)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNode"],
+source: "visitMethodNode: aNode\x0a\x09self methodNode: aNode.\x0a\x09^ super visitMethodNode: aNode",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["methodNode:", "visitMethodNode:"]
+}),
+$globals.Pragmator);
+
+$core.addMethod(
+$core.method({
+selector: "visitSequenceNode:",
+protocol: "pragma processing",
+fn: function (aNode){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$self._sequenceNode_(aNode);
+$recv($recv(aNode)._pragmas())._do_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._processPragma_(each);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$1=(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.Pragmator.superclass||$boot.nilAsClass).fn.prototype._visitSequenceNode_.apply($self, [aNode]));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+return $1;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"visitSequenceNode:",{aNode:aNode},$globals.Pragmator)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNode"],
+source: "visitSequenceNode: aNode\x0a\x09self sequenceNode: aNode.\x0a\x09aNode pragmas do: [ :each | self processPragma: each ].\x0a\x09^ super visitSequenceNode: aNode",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["sequenceNode:", "do:", "pragmas", "processPragma:", "visitSequenceNode:"]
+}),
+$globals.Pragmator);
+
+
+
+$core.addClass("EarlyPragmator", $globals.Pragmator, [], "Compiler-Core");
 
 $core.addMethod(
 $core.method({
