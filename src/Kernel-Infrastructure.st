@@ -942,6 +942,7 @@ asSmalltalkException: anObject
 
 parseError: anException parsing: aString
 	| pos |
+	anException isSmalltalkError ifTrue: [ ^ anException resignal ].
 	pos := (anException basicAt: 'location') start.
 	^ ParseError new messageText: 'Parse error on line ', pos line ,' column ' , pos column ,' : Unexpected character ', (anException basicAt: 'found')
 ! !
