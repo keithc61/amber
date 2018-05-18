@@ -396,6 +396,11 @@ testThisContext
 	self should: 'foo ^ [ thisContext ] value outerContext == thisContext' return: true
 !
 
+testUnknownPragma
+	self should: 'foo < fooBar: ''return 2+3'' > | x | ^ x := 6' return: 6.
+	self should: 'foo | x | < fooBar: ''return 2+3'' > ^ x := 6' return: 6
+!
+
 testifFalse
 	self should: 'foo true ifFalse: [ ^ 1 ]' return: receiver.
 	self should: 'foo false ifFalse: [ ^ 2 ]' return: 2.

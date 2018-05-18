@@ -1489,6 +1489,34 @@ $globals.CodeGeneratorTest);
 
 $core.addMethod(
 $core.method({
+selector: "testUnknownPragma",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._should_return_("foo < fooBar: 'return 2+3' > | x | ^ x := 6",(6));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["should:return:"]=1;
+//>>excludeEnd("ctx");
+$self._should_return_("foo | x | < fooBar: 'return 2+3' > ^ x := 6",(6));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testUnknownPragma",{},$globals.CodeGeneratorTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testUnknownPragma\x0a\x09self should: 'foo < fooBar: ''return 2+3'' > | x | ^ x := 6' return: 6.\x0a\x09self should: 'foo | x | < fooBar: ''return 2+3'' > ^ x := 6' return: 6",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["should:return:"]
+}),
+$globals.CodeGeneratorTest);
+
+$core.addMethod(
+$core.method({
 selector: "testifFalse",
 protocol: "tests",
 fn: function (){
