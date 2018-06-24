@@ -1,35 +1,36 @@
 Setup your Amber clone
 ====
 
+You need at least npm@5 (bundled with node 8) because of its `npm install <local-path>` creating symlinks.
+Works in Windows as well, trying junctions and/or true symlinks, so no fear.
+
 Amber repository contains more parts:
 
 1. Amber language itself (in root directory). This is released.
 1. Amber development helpers and CLI tool (in `external/` subdirectories). Not part of release.
 1. In `internal/` directory, there are development files (`index.html` and its friends).  Not part of release.
-1. A place for other modules cloned in parallel with Amber (`my`)[1]. Not part of release. Not pushed to git.
+1. Sibling modules, that you can develop in parallel and you choose which version of them to use.
 
 To get your clone, follow this list:
 
 1. Create a fork of the repository on lolg.it (create account first if you don't have one).
-1. Clone the fork and go to its directory.
+1. Clone the fork in a "project" directory where you can create sibling directories for other parts.
+Go into cloned amber directory (`<project-path>/amber`).
 1. Install the tools: ```npm install -g amber-cli```.
 1. Run ```npm install``` to install dependencies listed in package.json. Used by development tools. See [here](https://www.npmjs.org/doc/cli/npm-install.html) for more info.
 1. Run ```cd external/amber-dev && npm install && cd ../..``` to install dependencies of `amber-dev` component.
-1. Get your copy of Helios IDE into directory `my/helios`, choosing among using your own fork / using the stock version:
-    - ```git clone git@lolg.it:<your username>/helios.git my/helios``` to use your own fork, or
-    - ```git clone git@lolg.it:amber/helios.git my/helios``` to use stock version.
-1. Install Helios' dependencies: ```cd my/helios && bower install && cd ../..```.
-1. Get your copy of legacy IDE into directory `my/amber-contrib-legacy`:
-  ```git clone git@lolg.it:amber/amber-contrib-legacy.git my/amber-contrib-legacy```.
+1. Get your copy of Helios IDE into directory `<project-path>/helios`, choosing among using your own fork / using the stock version:
+    - ```git clone git@lolg.it:<your username>/helios.git ../helios``` to use your own fork, or
+    - ```git clone git@lolg.it:amber/helios.git ../helios``` to use stock version.
+1. Install Helios' dependencies: ```cd ../helios && bower install && cd ../amber```.
+1. Get your copy of legacy IDE into directory `<project-path>/amber-contrib-legacy`:
+  ```git clone git@lolg.it:amber/amber-contrib-legacy.git ../amber-contrib-legacy```.
+1. Optionally, get (your fork of) other amber libs you want to develop in parallel in similar manner.
+1. Link those libs into amber's dependencies using `npm install ../helios ../amber-contrib-legacy <maybe others> --no-save`.
 1. Run ```grunt devel```. Prepares some transient files.
 1. Run ```amber serve```. Starts the integrated development server.
 
 Now you should be able to start Amber devlopment page at `http://localhost:4000/internal/` and commit changes you do to disk.
-
-[1] Directory `my` is in .gitignore, so it is not present after clone,
-but because of being in .gitignore, it is "safe haven" to clone other repos into.
-Created especially for being able to have your fork of Amber in parallel with
-either you fork of Helios, to develop it in parallel, or with stock repo, just to use it.
 
 Start Contributing by talking about Amber
 =========================================
