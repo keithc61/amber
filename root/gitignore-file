@@ -1,8 +1,6 @@
 /node_modules/
 /bower_components/
 
-/my/
-
 /test_runner.js
 
 /config.js
