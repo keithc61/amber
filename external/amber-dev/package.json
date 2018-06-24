@@ -20,7 +20,7 @@
     "url": "https://lolg.it/amber/amber/issues?labels=in+devkit"
   },
   "dependencies": {
-    "amd-config-builder": "^0.2.0",
+    "amd-config-builder": "^0.3.0",
     "amdefine": ">=0.1.1",
     "es6-promise": ">=2.0.0",
     "requirejs": "^2.1.19",
