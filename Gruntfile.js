@@ -13,9 +13,9 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', ['peg', 'build:all']);
     grunt.registerTask('build:all', ['amberc:amber', 'build:cli', 'amberc:dev']);
-    grunt.registerTask('build:cli', ['amberc:cli', 'amdconfig:amber', 'requirejs:cli']);
-    grunt.registerTask('test', ['amdconfig:amber', 'requirejs:test_runner', 'exec:test_runner', 'clean:test_runner']);
-    grunt.registerTask('devel', ['amdconfig:amber']);
+    grunt.registerTask('build:cli', ['amberc:cli', 'amdconfig', 'requirejs:cli']);
+    grunt.registerTask('test', ['amdconfig', 'requirejs:test_runner', 'exec:test_runner', 'clean:test_runner']);
+    grunt.registerTask('devel', ['amdconfig']);
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
