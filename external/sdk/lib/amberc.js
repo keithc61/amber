@@ -212,6 +212,7 @@ function create_compiler(configuration) {
         })
         .then(function () {
             configuration.globals.AmberBootstrapInitialization._organizeClasses();
+            (configuration.globals.Smalltalk._adoptPackageDictionary || configuration.globals.Smalltalk._adoptPackageDescriptors).call(configuration.globals.Smalltalk);
 
             console.log('Compiler loaded');
 
