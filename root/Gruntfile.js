@@ -5,10 +5,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-exec');
-    grunt.loadNpmTasks('amber-dev');
+    grunt.loadNpmTasks('@ambers/sdk');
 
     var path = require('path'),
-        helpers = require('amber-dev').helpers;
+        helpers = require('@ambers/sdk').helpers;
 
     // Default task.
     grunt.registerTask('default', ['amdconfig:app', 'amberc:all']);
