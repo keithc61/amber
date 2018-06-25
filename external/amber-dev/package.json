@@ -1,5 +1,5 @@
 {
-  "name": "amber-dev",
+  "name": "@ambers/sdk",
   "version": "0.10.3",
   "description": "Development goodies for Amber Smalltalk",
   "scripts": {
