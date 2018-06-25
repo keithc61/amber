@@ -18,7 +18,7 @@ To get your clone, follow this list:
 Go into cloned amber directory (`<project-path>/amber`).
 1. Install the tools: ```npm install -g amber-cli```.
 1. Run ```npm install``` to install dependencies listed in package.json. Used by development tools. See [here](https://www.npmjs.org/doc/cli/npm-install.html) for more info.
-1. Run ```cd external/amber-dev && npm install && cd ../..``` to install dependencies of `amber-dev` component.
+1. Run ```cd external/sdk && npm install && cd ../..``` to install dependencies of `sdk` component.
 1. Get your copy of Helios IDE into directory `<project-path>/helios`, choosing among using your own fork / using the stock version:
     - ```git clone git@lolg.it:<your username>/helios.git ../helios``` to use your own fork, or
     - ```git clone git@lolg.it:amber/helios.git ../helios``` to use stock version.

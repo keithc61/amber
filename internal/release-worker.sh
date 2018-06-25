@@ -7,7 +7,7 @@ git reset --hard
 git checkout master
 git clean -d -x -f
 npm install
-cd external/amber-dev
+cd external/sdk
 npm install
 cd ../..
 echo -n "Which version are you going to publish [0 to skip]? "

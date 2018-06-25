@@ -10,7 +10,7 @@ install:
   - npm install
   - cd external/amber-cli
   - npm install
-  - cd ../amber-dev
+  - cd ../sdk
   - npm install
   - cd ../..
 script:

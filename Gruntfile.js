@@ -7,9 +7,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-exec');
 
     grunt.loadTasks('./internal/grunt-tasks');
-    grunt.loadTasks('./external/amber-dev/tasks');
+    grunt.loadTasks('./external/sdk/tasks');
 
-    var helpers = require('./external/amber-dev').helpers;
+    var helpers = require('./external/sdk').helpers;
 
     grunt.registerTask('default', ['peg', 'build:all']);
     grunt.registerTask('build:all', ['amberc:amber', 'build:cli', 'amberc:dev']);
@@ -62,8 +62,8 @@ module.exports = function (grunt) {
                 amd_namespace: 'amber_cli'
             },
             dev: {
-                output_dir: 'external/amber-dev/lib',
-                src: ['external/amber-dev/lib/NodeTestRunner.st'],
+                output_dir: 'external/sdk/lib',
+                src: ['external/sdk/lib/NodeTestRunner.st'],
                 amd_namespace: 'amber_devkit'
             }
         },
@@ -140,8 +140,8 @@ module.exports = function (grunt) {
         jshint: {
             amber: ['src/*.js', 'support/*.js'],
             cli: ['external/amber-cli/src/*.js', 'external/amber-cli/support/*.js'],
-            dev: ['external/amber-dev/lib/*.js'],
-            grunt: ['Gruntfile.js', 'internal/grunt-tasks/*.js', 'external/amber-dev/tasks/*.js']
+            dev: ['external/sdk/lib/*.js'],
+            grunt: ['Gruntfile.js', 'internal/grunt-tasks/*.js', 'external/sdk/tasks/*.js']
         }
     });
 };
