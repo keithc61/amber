@@ -133,7 +133,7 @@ start
 !
 
 writeConfigThenDo: aBlock
-	(require value: 'amber-dev') configBuilder
+	(require value: '@ambers/sdk') configBuilder
 		writeConfig: process cwd
 		toFile: 'config.js'
 		thenDo: aBlock

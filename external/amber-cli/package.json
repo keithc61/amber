@@ -34,8 +34,8 @@
     "test": "mocha"
   },
   "dependencies": {
+    "@ambers/sdk": ">=0.10.5",
     "amber": ">=0.14.17",
-    "amber-dev": ">=0.8.2",
     "bower": "^1.6.0",
     "grunt-init-amber": ">=0.14.18"
   },
