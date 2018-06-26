@@ -1005,7 +1005,7 @@ finishMessage
 
 gruntInitThenDo: aBlock
 	| child sanitizedTemplatePath |
-	sanitizedTemplatePath := ((path join: nmPath with: 'grunt-init-amber')
+	sanitizedTemplatePath := ((path join: nmPath with: '@ambers/grunt-init-amber-project')
 		replace: '\\' with: '\\') replace: ':' with: '\:'.
 	child := childProcess
 		fork: (self npmScriptForModule: 'grunt-init' named: 'grunt-init')

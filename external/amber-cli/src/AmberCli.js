@@ -2249,7 +2249,7 @@ var child,sanitizedTemplatePath;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2;
-sanitizedTemplatePath=$recv($recv($recv($self["@path"])._join_with_($self["@nmPath"],"grunt-init-amber"))._replace_with_("\x5c\x5c","\x5c\x5c"))._replace_with_(":","\x5c:");
+sanitizedTemplatePath=$recv($recv($recv($self["@path"])._join_with_($self["@nmPath"],"@ambers/grunt-init-amber-project"))._replace_with_("\x5c\x5c","\x5c\x5c"))._replace_with_(":","\x5c:");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["replace:with:"]=1;
 //>>excludeEnd("ctx");
@@ -2281,7 +2281,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "gruntInitThenDo: aBlock\x0a\x09| child sanitizedTemplatePath |\x0a\x09sanitizedTemplatePath := ((path join: nmPath with: 'grunt-init-amber')\x0a\x09\x09replace: '\x5c\x5c' with: '\x5c\x5c') replace: ':' with: '\x5c:'.\x0a\x09child := childProcess\x0a\x09\x09fork: (self npmScriptForModule: 'grunt-init' named: 'grunt-init')\x0a\x09\x09args: {sanitizedTemplatePath}.\x0a\x09child\x0a\x09\x09on: 'error' do: aBlock;\x0a\x09\x09on: 'close' do: [ :code |\x0a\x09\x09\x09aBlock value: (code = 0 ifTrue: [ nil ] ifFalse: [ code ]) ]",
+source: "gruntInitThenDo: aBlock\x0a\x09| child sanitizedTemplatePath |\x0a\x09sanitizedTemplatePath := ((path join: nmPath with: '@ambers/grunt-init-amber-project')\x0a\x09\x09replace: '\x5c\x5c' with: '\x5c\x5c') replace: ':' with: '\x5c:'.\x0a\x09child := childProcess\x0a\x09\x09fork: (self npmScriptForModule: 'grunt-init' named: 'grunt-init')\x0a\x09\x09args: {sanitizedTemplatePath}.\x0a\x09child\x0a\x09\x09on: 'error' do: aBlock;\x0a\x09\x09on: 'close' do: [ :code |\x0a\x09\x09\x09aBlock value: (code = 0 ifTrue: [ nil ] ifFalse: [ code ]) ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["replace:with:", "join:with:", "fork:args:", "npmScriptForModule:named:", "on:do:", "value:", "ifTrue:ifFalse:", "="]
