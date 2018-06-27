@@ -16,7 +16,7 @@ To get your clone, follow this list:
 1. Create a fork of the repository on lolg.it (create account first if you don't have one).
 1. Clone the fork in a "project" directory where you can create sibling directories for other parts.
 Go into cloned amber directory (`<project-path>/amber`).
-1. Install the tools: ```npm install -g amber-cli```.
+1. Install the tools: ```npm install -g @ambers/cli```.
 1. Run ```npm install``` to install dependencies listed in package.json. Used by development tools. See [here](https://www.npmjs.org/doc/cli/npm-install.html) for more info.
 1. Run ```cd external/sdk && npm install && cd ../..``` to install dependencies of `sdk` component.
 1. Get your copy of Helios IDE into directory `<project-path>/helios`, choosing among using your own fork / using the stock version:

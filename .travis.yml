@@ -15,9 +15,9 @@ install:
   - cd ../..
 script:
   - npm test
-  - cd external/amber-cli
-  - npm install -g amber-cli
+  - cd external/cli
+  - npm install -g @ambers/cli
   - AMBER_CLI=amber npm test
-  - npm install -g amber-cli@bleedingedge
+  - npm install -g @ambers/cli@bleedingedge
   - AMBER_CLI=amber npm test
   - cd ../..
