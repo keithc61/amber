@@ -32,7 +32,7 @@ Some highlights:
 Prerequisities
 -------------
 
-Amber cli tool to create new projects and assist with development tasks is in a [npm](http://npmjs.org) package  `amber-cli`.
+Amber cli tool to create new projects and assist with development tasks is in a [npm](http://npmjs.org) package  `@ambers/cli`.
 Amber engine and core library to be used in projects is in a [bower](https://github.com/bower/bower) package `amber`.
 
 For the installation to work, you need to have installed `node`, `npm` and `git`.
@@ -53,8 +53,10 @@ Getting Amber and setting up an initial project
 
 Do this to install Amber
 
-    # Install the CLI tool `amber-cli` and supporting tools
-    npm install -g grunt-cli grunt-init bower amber-cli
+	# In case you have installed older package `amber-cli`, uninstall it.
+	npm uninstall -g amber-cli
+    # Install the CLI tool `@ambers/cli` and supporting tools
+    npm install -g grunt-cli grunt-init bower @ambers/cli
 
 
 Use ``amber init``  to create a project of your own
