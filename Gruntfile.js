@@ -57,8 +57,8 @@ module.exports = function (grunt) {
                 jsGlobals: ['navigator']
             },
             cli: {
-                output_dir: 'external/amber-cli/src',
-                src: ['external/amber-cli/src/AmberCli.st'],
+                output_dir: 'external/cli/src',
+                src: ['external/cli/src/AmberCli.st'],
                 amd_namespace: 'amber_cli'
             },
             dev: {
@@ -96,7 +96,7 @@ module.exports = function (grunt) {
                     insertRequire: ['app'],
                     optimize: "none",
                     wrap: helpers.nodeWrapperWithShebang,
-                    out: "external/amber-cli/support/amber-cli.js"
+                    out: "external/cli/support/amber-cli.js"
                 }
             },
             test_runner: {
@@ -139,7 +139,7 @@ module.exports = function (grunt) {
 
         jshint: {
             amber: ['src/*.js', 'support/*.js'],
-            cli: ['external/amber-cli/src/*.js', 'external/amber-cli/support/*.js'],
+            cli: ['external/cli/src/*.js', 'external/cli/support/*.js'],
             dev: ['external/sdk/lib/*.js'],
             grunt: ['Gruntfile.js', 'internal/grunt-tasks/*.js', 'external/sdk/tasks/*.js']
         }

@@ -8,7 +8,7 @@ node_js:
 install:
   - npm install -g grunt-cli mocha
   - npm install
-  - cd external/amber-cli
+  - cd external/cli
   - npm install
   - cd ../sdk
   - npm install

@@ -33,7 +33,7 @@
     "build:parser:end": "node -e \"process.stdout.write(require('./package.json').strings.buildParserEnd);\"",
     "test": "npm run test:sunit && npm run test:e2e",
     "test:sunit": "grunt test",
-    "test:e2e": "(cd external && cd amber-cli && npm test)"
+    "test:e2e": "(cd external && cd cli && npm test)"
   },
   "devDependencies": {
     "amber-compat-es2015": "^0.1.4",
