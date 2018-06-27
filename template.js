@@ -16,7 +16,7 @@ exports.notes = ' _Project title_ should be a human-readable title.';
 
 // Template-specific notes to be displayed after question prompts.
 exports.after = 'You need to have these installed globally via npm:' +
-' _amber-cli_; _grunt-cli_; _bower_.' +
+' _@ambers/cli_; _grunt-cli_; _bower_.' +
 ' Now, install project dependencies with _bower install_,' +
 ' tool dependencies with _npm install_ and recompile with _grunt_.' +
 ' If you are running _amber init_, these three tasks are going to be performed for you now.' +
