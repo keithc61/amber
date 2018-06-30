@@ -17,10 +17,6 @@ define(function () {
         });
     }
 
-    function installMethod (method, klass) {
-        installJSMethod(klass.fn.prototype, method.jsSelector, method.fn);
-    }
-
     DNUBrik.deps = ["selectors", "selectorConversion", "smalltalkGlobals", "classes"];
     function DNUBrik (brikz, st) {
         var selectors = brikz.selectors.selectors;
@@ -59,10 +55,11 @@ define(function () {
         installNewSelectors(selectors, []);
     }
 
-    RuntimeClassesBrik.deps = ["event", "dnu", "behaviors", "classes"];
+    RuntimeClassesBrik.deps = ["event", "dnu", "behaviors", "classes", "runtimeMethods"];
     function RuntimeClassesBrik (brikz, st) {
         var jsSelectors = brikz.dnu.jsSelectors;
         var installNewSelectors = brikz.dnu.installNewSelectors;
+        var installMethod = brikz.runtimeMethods.installMethod;
         var traitsOrClasses = brikz.behaviors.traitsOrClasses;
         var wireKlass = brikz.classes.wireKlass;
         var emit = brikz.event.emit;
@@ -171,6 +168,12 @@ define(function () {
     RuntimeMethodsBrik.deps = ["event"];
     function RuntimeMethodsBrik (brikz, st) {
         var emit = brikz.event.emit;
+
+        function installMethod (method, klass) {
+            installJSMethod(klass.fn.prototype, method.jsSelector, method.fn);
+        }
+
+        this.installMethod = installMethod;
 
         emit.behaviorMethodAdded = function (method, klass) {
             installMethod(method, klass);
