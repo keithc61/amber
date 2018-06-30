@@ -32,17 +32,19 @@ define(function () {
 
         /* Method not implemented handlers */
 
-        function installNewSelector(selector, targetClasses) {
-            var jsSelector = st2js(selector);
-            jsSelectors.push(jsSelector);
-            var fn = createHandler(selector);
-            installJSMethod(nilAsClass.fn.prototype, jsSelector, fn);
-            targetClasses.forEach(function (target) {
-                installJSMethod(target.fn.prototype, jsSelector, fn);
+        function installNewSelectors (newSelectors, targetClasses) {
+            newSelectors.forEach(function (selector) {
+                var jsSelector = st2js(selector);
+                jsSelectors.push(jsSelector);
+                var fn = createHandler(selector);
+                installJSMethod(nilAsClass.fn.prototype, jsSelector, fn);
+                targetClasses.forEach(function (target) {
+                    installJSMethod(target.fn.prototype, jsSelector, fn);
+                });
             });
         }
 
-        this.installNewSelector = installNewSelector;
+        this.installNewSelectors = installNewSelectors;
 
         /* Dnu handler method */
 
@@ -54,14 +56,13 @@ define(function () {
             };
         }
 
-        selectors.forEach(function (selector) {
-            installNewSelector(selector, []);
-        });
+        installNewSelectors(selectors, []);
     }
 
     RuntimeClassesBrik.deps = ["event", "dnu", "behaviors", "classes"];
     function RuntimeClassesBrik (brikz, st) {
         var jsSelectors = brikz.dnu.jsSelectors;
+        var installNewSelectors = brikz.dnu.installNewSelectors;
         var traitsOrClasses = brikz.behaviors.traitsOrClasses;
         var wireKlass = brikz.classes.wireKlass;
         var emit = brikz.event.emit;
@@ -77,6 +78,10 @@ define(function () {
 
         this.detachedRootClasses = function () {
             return detachedRootClasses;
+        };
+
+        emit.selectorsAdded = function (newSelectors) {
+            installNewSelectors(newSelectors, detachedRootClasses);
         };
 
         /* Initialize a class in its class hierarchy. Handle both classes and
@@ -163,22 +168,13 @@ define(function () {
         }
     }
 
-    RuntimeMethodsBrik.deps = ["event", "dnu", "runtimeClasses"];
+    RuntimeMethodsBrik.deps = ["event"];
     function RuntimeMethodsBrik (brikz, st) {
-        var installNewSelector = brikz.dnu.installNewSelector;
-        var detachedRootClasses = brikz.runtimeClasses.detachedRootClasses;
         var emit = brikz.event.emit;
 
         emit.behaviorMethodAdded = function (method, klass) {
             installMethod(method, klass);
             propagateMethodChange(klass, method, klass);
-        };
-
-        emit.selectorsAdded = function (newSelectors) {
-            var targetClasses = detachedRootClasses();
-            newSelectors.forEach(function (jsSelector) {
-                installNewSelector(jsSelector, targetClasses);
-            });
         };
 
         emit.behaviorMethodRemoved = function (method, klass) {
