@@ -176,8 +176,8 @@ define(function () {
 
         emit.selectorsAdded = function (newSelectors) {
             var targetClasses = detachedRootClasses();
-            newSelectors.forEach(function (pair) {
-                installNewSelector(pair.st, targetClasses);
+            newSelectors.forEach(function (jsSelector) {
+                installNewSelector(jsSelector, targetClasses);
             });
         };
 

@@ -100,10 +100,9 @@ define(function () {
         var selectors = this.selectors = [];
 
         this.registerSelector = function (stSelector) {
-            if (selectorSet[stSelector]) return null;
-            selectorSet[stSelector] = true;
+            if (selectorSet[stSelector]) return false;
             selectors.push(stSelector);
-            return {st: stSelector};
+            return selectorSet[stSelector] = true;
         };
 
         st.allSelectors = function () {
@@ -227,9 +226,8 @@ define(function () {
             var newSelectors = [];
 
             function selectorInUse (stSelector) {
-                var pair = registerSelector(stSelector);
-                if (pair) {
-                    newSelectors.push(pair);
+                if (registerSelector(stSelector)) {
+                    newSelectors.push(stSelector);
                 }
             }
 
