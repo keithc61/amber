@@ -166,7 +166,7 @@ define(function () {
         st.traitsOrClasses = this.traitsOrClasses = traitsOrClasses;
     }
 
-    MethodsBrik.deps = ["event", "selectors", "root", "selectorConversion"];
+    MethodsBrik.deps = ["event", "selectors", "root"];
     function MethodsBrik (brikz, st) {
         var registerSelector = brikz.selectors.registerSelector;
         var SmalltalkObject = brikz.root.Object;
@@ -186,7 +186,6 @@ define(function () {
             var that = new SmalltalkMethod();
             var selector = spec.selector;
             that.selector = selector;
-            that.jsSelector = st.st2js(selector);
             that.args = spec.args || {};
             that.protocol = spec.protocol;
             that.source = spec.source;

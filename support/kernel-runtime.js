@@ -165,12 +165,17 @@ define(function () {
         }
     }
 
-    RuntimeMethodsBrik.deps = ["event"];
+    RuntimeMethodsBrik.deps = ["event", "selectorConversion"];
     function RuntimeMethodsBrik (brikz, st) {
+        var st2js = brikz.selectorConversion.st2js;
         var emit = brikz.event.emit;
 
         function installMethod (method, klass) {
-            installJSMethod(klass.fn.prototype, method.jsSelector, method.fn);
+            var jsSelector = method.jsSelector;
+            if (!jsSelector) {
+                jsSelector = method.jsSelector = st2js(method.selector);
+            }
+            installJSMethod(klass.fn.prototype, jsSelector, method.fn);
         }
 
         this.installMethod = installMethod;
