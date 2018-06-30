@@ -211,6 +211,7 @@ function create_compiler(configuration) {
             return new Promise(configuration.requirejs.bind(null, pluginPrefixedLibraries));
         })
         .then(function () {
+            // TODO remove deprecated method name
             (configuration.globals.Smalltalk._adoptPackageDictionary || configuration.globals.Smalltalk._adoptPackageDescriptors).call(configuration.globals.Smalltalk);
 
             console.log('Compiler loaded');
