@@ -57,7 +57,7 @@ define(function () {
 
     RuntimeClassesBrik.deps = ["event", "selectors", "dnu", "behaviors", "classes"];
     function RuntimeClassesBrik (brikz, st) {
-        var selectors = brikz.selectors;
+        var selectorPairs = brikz.selectors.selectorPairs;
         var traitsOrClasses = brikz.behaviors.traitsOrClasses;
         var wireKlass = brikz.classes.wireKlass;
         var emit = brikz.event.emit;
@@ -117,7 +117,7 @@ define(function () {
         function copySuperclass (klass) {
             var myproto = klass.fn.prototype,
                 superproto = klass.superclass.fn.prototype;
-            selectors.selectorPairs.forEach(function (selectorPair) {
+            selectorPairs.forEach(function (selectorPair) {
                 var jsSelector = selectorPair.js;
                 installJSMethod(myproto, jsSelector, superproto[jsSelector]);
             });
