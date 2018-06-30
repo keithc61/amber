@@ -384,6 +384,67 @@ define(function () {
         };
     }
 
+    function SelectorConversionBrik (brikz, st) {
+        /* Convert a Smalltalk selector into a JS selector */
+        st.st2js = this.st2js = function (string) {
+            return '_' + string
+                .replace(/:/g, '_')
+                .replace(/[\&]/g, '_and')
+                .replace(/[\|]/g, '_or')
+                .replace(/[+]/g, '_plus')
+                .replace(/-/g, '_minus')
+                .replace(/[*]/g, '_star')
+                .replace(/[\/]/g, '_slash')
+                .replace(/[\\]/g, '_backslash')
+                .replace(/[\~]/g, '_tild')
+                .replace(/%/g, '_percent')
+                .replace(/>/g, '_gt')
+                .replace(/</g, '_lt')
+                .replace(/=/g, '_eq')
+                .replace(/,/g, '_comma')
+                .replace(/[@]/g, '_at');
+        };
+
+        /* Convert a string to a valid smalltalk selector.
+         if you modify the following functions, also change st2js
+         accordingly */
+        st.js2st = function (selector) {
+            if (selector.match(/^__/)) {
+                return binaryJsToSt(selector);
+            } else {
+                return keywordJsToSt(selector);
+            }
+        };
+
+        function keywordJsToSt (selector) {
+            return selector.replace(/^_/, '').replace(/_/g, ':');
+        }
+
+        function binaryJsToSt (selector) {
+            return selector
+                .replace(/^_/, '')
+                .replace(/_and/g, '&')
+                .replace(/_or/g, '|')
+                .replace(/_plus/g, '+')
+                .replace(/_minus/g, '-')
+                .replace(/_star/g, '*')
+                .replace(/_slash/g, '/')
+                .replace(/_backslash/g, '\\')
+                .replace(/_tild/g, '~')
+                .replace(/_percent/g, '%')
+                .replace(/_gt/g, '>')
+                .replace(/_lt/g, '<')
+                .replace(/_eq/g, '=')
+                .replace(/_comma/g, ',')
+                .replace(/_at/g, '@');
+        }
+
+        st.st2prop = function (stSelector) {
+            var colonPosition = stSelector.indexOf(':');
+            return colonPosition === -1 ? stSelector : stSelector.slice(0, colonPosition);
+        };
+    }
+
     StartImageBrik.deps = ["smalltalkGlobals"];
     function StartImageBrik (brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
@@ -403,6 +464,7 @@ define(function () {
         brikz.messageSend = MessageSendBrik;
         brikz.runtime = RuntimeBrik;
         brikz.primitives = PrimitivesBrik;
+        brikz.selectorConversion = SelectorConversionBrik;
         brikz.startImage = StartImageBrik;
 
         brikz.rebuild();
