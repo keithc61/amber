@@ -95,20 +95,15 @@ define(function () {
         this.Object = SmalltalkObject;
     }
 
-    SelectorsBrik.deps = ["selectorConversion"];
     function SelectorsBrik (brikz, st) {
         var selectorSet = Object.create(null);
         var selectors = this.selectors = [];
-        var selectorPairs = this.selectorPairs = [];
 
         this.registerSelector = function (stSelector) {
             if (selectorSet[stSelector]) return null;
-            var jsSelector = st.st2js(stSelector);
             selectorSet[stSelector] = true;
             selectors.push(stSelector);
-            var pair = {st: stSelector, js: jsSelector};
-            selectorPairs.push(pair);
-            return pair;
+            return {st: stSelector};
         };
 
         st.allSelectors = function () {
@@ -298,7 +293,7 @@ define(function () {
 
     function SelectorConversionBrik (brikz, st) {
         /* Convert a Smalltalk selector into a JS selector */
-        st.st2js = function (string) {
+        st.st2js = this.st2js = function (string) {
             return '_' + string
                     .replace(/:/g, '_')
                     .replace(/[\&]/g, '_and')

@@ -21,24 +21,28 @@ define(function () {
         installJSMethod(klass.fn.prototype, method.jsSelector, method.fn);
     }
 
-    DNUBrik.deps = ["selectors", "smalltalkGlobals", "classes"];
+    DNUBrik.deps = ["selectors", "selectorConversion", "smalltalkGlobals", "classes"];
     function DNUBrik (brikz, st) {
-        var selectorPairs = brikz.selectors.selectorPairs;
+        var selectors = brikz.selectors.selectors;
         var globals = brikz.smalltalkGlobals.globals;
         var nilAsClass = brikz.classes.nilAsClass;
+        var st2js = brikz.selectorConversion.st2js;
+
+        var jsSelectors = this.jsSelectors = [];
 
         /* Method not implemented handlers */
 
-        function makeDnuHandler (pair, targetClasses) {
-            var jsSelector = pair.js;
-            var fn = createHandler(pair.st);
+        function installNewSelector(selector, targetClasses) {
+            var jsSelector = st2js(selector);
+            jsSelectors.push(jsSelector);
+            var fn = createHandler(selector);
             installJSMethod(nilAsClass.fn.prototype, jsSelector, fn);
             targetClasses.forEach(function (target) {
                 installJSMethod(target.fn.prototype, jsSelector, fn);
             });
         }
 
-        this.makeDnuHandler = makeDnuHandler;
+        this.installNewSelector = installNewSelector;
 
         /* Dnu handler method */
 
@@ -50,14 +54,14 @@ define(function () {
             };
         }
 
-        selectorPairs.forEach(function (pair) {
-            makeDnuHandler(pair, []);
+        selectors.forEach(function (selector) {
+            installNewSelector(selector, []);
         });
     }
 
-    RuntimeClassesBrik.deps = ["event", "selectors", "dnu", "behaviors", "classes"];
+    RuntimeClassesBrik.deps = ["event", "dnu", "behaviors", "classes"];
     function RuntimeClassesBrik (brikz, st) {
-        var selectorPairs = brikz.selectors.selectorPairs;
+        var jsSelectors = brikz.dnu.jsSelectors;
         var traitsOrClasses = brikz.behaviors.traitsOrClasses;
         var wireKlass = brikz.classes.wireKlass;
         var emit = brikz.event.emit;
@@ -117,8 +121,7 @@ define(function () {
         function copySuperclass (klass) {
             var myproto = klass.fn.prototype,
                 superproto = klass.superclass.fn.prototype;
-            selectorPairs.forEach(function (selectorPair) {
-                var jsSelector = selectorPair.js;
+            jsSelectors.forEach(function (jsSelector) {
                 installJSMethod(myproto, jsSelector, superproto[jsSelector]);
             });
         }
@@ -162,7 +165,7 @@ define(function () {
 
     RuntimeMethodsBrik.deps = ["event", "dnu", "runtimeClasses"];
     function RuntimeMethodsBrik (brikz, st) {
-        var makeDnuHandler = brikz.dnu.makeDnuHandler;
+        var installNewSelector = brikz.dnu.installNewSelector;
         var detachedRootClasses = brikz.runtimeClasses.detachedRootClasses;
         var emit = brikz.event.emit;
 
@@ -174,7 +177,7 @@ define(function () {
         emit.selectorsAdded = function (newSelectors) {
             var targetClasses = detachedRootClasses();
             newSelectors.forEach(function (pair) {
-                makeDnuHandler(pair, targetClasses);
+                installNewSelector(pair.st, targetClasses);
             });
         };
 
