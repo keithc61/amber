@@ -12,7 +12,7 @@ module.exports = function (grunt) {
     var helpers = require('./external/sdk').helpers;
 
     grunt.registerTask('default', ['peg', 'build:all']);
-    grunt.registerTask('build:all', ['amberc:amber', 'build:cli', 'amberc:dev']);
+    grunt.registerTask('build:all', ['amberc:lang', 'amberc:tests', 'build:cli', 'amberc:dev']);
     grunt.registerTask('build:cli', ['amberc:cli', 'amdconfig', 'requirejs:cli']);
     grunt.registerTask('test', ['amdconfig', 'requirejs:test_runner', 'exec:test_runner', 'clean:test_runner']);
     grunt.registerTask('devel', ['amdconfig']);
@@ -42,7 +42,7 @@ module.exports = function (grunt) {
                 amber_dir: process.cwd(),
                 closure_jar: ''
             },
-            amber: {
+            lang: {
                 output_dir: 'src',
                 src: ['src/Kernel-Helpers.st',
                     'src/Kernel-Objects.st', 'src/Kernel-Classes.st', 'src/Kernel-Methods.st', 'src/Kernel-Collections.st',
@@ -51,9 +51,14 @@ module.exports = function (grunt) {
                     'src/Platform-DOM.st',
                     'src/Kernel-Dag.st', 'src/Compiler-Core.st', 'src/Compiler-AST.st',
                     'src/Compiler-IR.st', 'src/Compiler-Inlining.st', 'src/Compiler-Semantic.st', 'src/Compiler-Interpreter.st',
-                    'src/SUnit.st',
-                    'src/Kernel-Tests.st', 'src/Compiler-Tests.st', 'src/Platform-DOM-Tests.st', 'src/SUnit-Tests.st'
+                    'src/SUnit.st'
                 ],
+                jsGlobals: ['navigator']
+            },
+            tests: {
+                output_dir: 'src',
+                src: ['src/Kernel-Tests.st', 'src/Compiler-Tests.st', 'src/Platform-DOM-Tests.st', 'src/SUnit-Tests.st'],
+                libraries: ['amber_core/SUnit'],
                 jsGlobals: ['navigator']
             },
             cli: {
