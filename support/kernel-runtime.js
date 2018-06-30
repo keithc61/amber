@@ -73,10 +73,6 @@ define(function () {
             });
         }
 
-        this.detachedRootClasses = function () {
-            return detachedRootClasses;
-        };
-
         emit.selectorsAdded = function (newSelectors) {
             installNewSelectors(newSelectors, detachedRootClasses);
         };
