@@ -17,8 +17,8 @@ define(function () {
         });
     }
 
-    DNUBrik.deps = ["selectors", "selectorConversion", "smalltalkGlobals", "classes"];
-    function DNUBrik (brikz, st) {
+    RuntimeSelectorsBrik.deps = ["selectors", "selectorConversion", "smalltalkGlobals", "classes"];
+    function RuntimeSelectorsBrik (brikz, st) {
         var selectors = brikz.selectors.selectors;
         var globals = brikz.smalltalkGlobals.globals;
         var nilAsClass = brikz.classes.nilAsClass;
@@ -32,7 +32,7 @@ define(function () {
             newSelectors.forEach(function (selector) {
                 var jsSelector = st2js(selector);
                 jsSelectors.push(jsSelector);
-                var fn = createHandler(selector);
+                var fn = createDnuHandler(selector);
                 installJSMethod(nilAsClass.fn.prototype, jsSelector, fn);
                 targetClasses.forEach(function (target) {
                     installJSMethod(target.fn.prototype, jsSelector, fn);
@@ -44,7 +44,7 @@ define(function () {
 
         /* Dnu handler method */
 
-        function createHandler (stSelector) {
+        function createDnuHandler (stSelector) {
             return function () {
                 return globals.Message._selector_arguments_notUnderstoodBy_(
                     stSelector, [].slice.call(arguments), this
@@ -55,10 +55,10 @@ define(function () {
         installNewSelectors(selectors, []);
     }
 
-    RuntimeClassesBrik.deps = ["event", "dnu", "behaviors", "classes", "runtimeMethods"];
+    RuntimeClassesBrik.deps = ["event", "runtimeSelectors", "behaviors", "classes", "runtimeMethods"];
     function RuntimeClassesBrik (brikz, st) {
-        var jsSelectors = brikz.dnu.jsSelectors;
-        var installNewSelectors = brikz.dnu.installNewSelectors;
+        var jsSelectors = brikz.runtimeSelectors.jsSelectors;
+        var installNewSelectors = brikz.runtimeSelectors.installNewSelectors;
         var installMethod = brikz.runtimeMethods.installMethod;
         var traitsOrClasses = brikz.behaviors.traitsOrClasses;
         var wireKlass = brikz.classes.wireKlass;
@@ -457,7 +457,7 @@ define(function () {
     /* Making smalltalk that can run */
 
     function configureWithRuntime (brikz) {
-        brikz.dnu = DNUBrik;
+        brikz.runtimeSelectors = RuntimeSelectorsBrik;
         brikz.runtimeClasses = RuntimeClassesBrik;
         brikz.frameBinding = FrameBindingBrik;
         brikz.runtimeMethods = RuntimeMethodsBrik;
