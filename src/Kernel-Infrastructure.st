@@ -941,10 +941,15 @@ asSmalltalkException: anObject
 !
 
 parseError: anException parsing: aString
-	| pos |
-	anException isSmalltalkError ifTrue: [ ^ anException resignal ].
-	pos := (anException basicAt: 'location') start.
-	^ ParseError new messageText: 'Parse error on line ', pos line ,' column ' , pos column ,' : Unexpected character ', (anException basicAt: 'found')
+	(anException basicAt: 'location')
+		ifNil: [ ^ anException resignal ]
+		ifNotNil: [ :loc |
+			^ ParseError new 
+				messageText: 
+					'Parse error on line ', loc start line ,
+					' column ' , loc start column ,
+					' : Unexpected character ', (anException basicAt: 'found');
+				yourself ]
 ! !
 
 !SmalltalkImage methodsFor: 'globals'!

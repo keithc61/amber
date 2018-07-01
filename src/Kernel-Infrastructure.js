@@ -3580,48 +3580,56 @@ selector: "parseError:parsing:",
 protocol: "error handling",
 fn: function (anException,aString){
 var self=this,$self=this;
-var pos;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$7,$6,$5,$4;
-$1=$recv(anException)._isSmalltalkError();
-if($core.assert($1)){
-return $recv(anException)._resignal();
-}
-$2=$recv(anException)._basicAt_("location");
+var $1,$2,$9,$8,$7,$6,$5,$4,$3,$receiver;
+$1=$recv(anException)._basicAt_("location");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["basicAt:"]=1;
 //>>excludeEnd("ctx");
-pos=$recv($2)._start();
-$3=$recv($globals.ParseError)._new();
-$7=$recv("Parse error on line ".__comma($recv(pos)._line())).__comma(" column ");
+if(($receiver = $1) == null || $receiver.a$nil){
+return $recv(anException)._resignal();
+} else {
+var loc;
+loc=$receiver;
+$2=$recv($globals.ParseError)._new();
+$9=$recv(loc)._start();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["start"]=1;
+//>>excludeEnd("ctx");
+$8=$recv($9)._line();
+$7="Parse error on line ".__comma($8);
+$6=$recv($7).__comma(" column ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=4;
 //>>excludeEnd("ctx");
-$6=$recv($7).__comma($recv(pos)._column());
+$5=$recv($6).__comma($recv($recv(loc)._start())._column());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=3;
 //>>excludeEnd("ctx");
-$5=$recv($6).__comma(" : Unexpected character ");
+$4=$recv($5).__comma(" : Unexpected character ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=2;
 //>>excludeEnd("ctx");
-$4=$recv($5).__comma($recv(anException)._basicAt_("found"));
+$3=$recv($4).__comma($recv(anException)._basicAt_("found"));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
-return $recv($3)._messageText_($4);
+$recv($2)._messageText_($3);
+return $recv($2)._yourself();
+}
+return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"parseError:parsing:",{anException:anException,aString:aString,pos:pos},$globals.SmalltalkImage)});
+}, function($ctx1) {$ctx1.fill(self,"parseError:parsing:",{anException:anException,aString:aString},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anException", "aString"],
-source: "parseError: anException parsing: aString\x0a\x09| pos |\x0a\x09anException isSmalltalkError ifTrue: [ ^ anException resignal ].\x0a\x09pos := (anException basicAt: 'location') start.\x0a\x09^ ParseError new messageText: 'Parse error on line ', pos line ,' column ' , pos column ,' : Unexpected character ', (anException basicAt: 'found')",
+source: "parseError: anException parsing: aString\x0a\x09(anException basicAt: 'location')\x0a\x09\x09ifNil: [ ^ anException resignal ]\x0a\x09\x09ifNotNil: [ :loc |\x0a\x09\x09\x09^ ParseError new \x0a\x09\x09\x09\x09messageText: \x0a\x09\x09\x09\x09\x09'Parse error on line ', loc start line ,\x0a\x09\x09\x09\x09\x09' column ' , loc start column ,\x0a\x09\x09\x09\x09\x09' : Unexpected character ', (anException basicAt: 'found');\x0a\x09\x09\x09\x09yourself ]",
 referencedClasses: ["ParseError"],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:", "isSmalltalkError", "resignal", "start", "basicAt:", "messageText:", "new", ",", "line", "column"]
+messageSends: ["ifNil:ifNotNil:", "basicAt:", "resignal", "messageText:", "new", ",", "line", "start", "column", "yourself"]
 }),
 $globals.SmalltalkImage);
 
