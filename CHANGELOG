@@ -1,9 +1,9 @@
-?? May 2018 - Release 0.22.0
+?? Jun 2018 - Release 0.22.0
 ===================================
 
 * Remove legacy inline JS syntax (only <inlineJS: '...'> works).
 * Programmatic loading of packages works.
-* Use new @ambers/sdk (at least 0.10.3) (formerly amber-dev).
+* Use new @ambers/sdk (at least 0.10.5) (formerly amber-dev).
 * Remove some older deprecated API.
 
 Commits: https://lolg.it/amber/amber/commits/0.22.0
