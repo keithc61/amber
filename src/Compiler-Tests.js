@@ -1321,6 +1321,30 @@ $globals.CodeGeneratorTest);
 
 $core.addMethod(
 $core.method({
+selector: "testPragmaInBlock",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._should_receiver_raise_("foo ^ [ < fooBar > 4 ] value",$self["@receiver"],$globals.Error);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPragmaInBlock",{},$globals.CodeGeneratorTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPragmaInBlock\x0a\x09self should: 'foo ^ [ < fooBar > 4 ] value' receiver: receiver raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+messageSends: ["should:receiver:raise:"]
+}),
+$globals.CodeGeneratorTest);
+
+$core.addMethod(
+$core.method({
 selector: "testPragmaJSStatement",
 protocol: "tests",
 fn: function (){

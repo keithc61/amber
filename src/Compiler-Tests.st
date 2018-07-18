@@ -350,6 +350,10 @@ testPascalCaseGlobal
 	self should: 'foo ^NonExistent' return: nil
 !
 
+testPragmaInBlock
+	self should: 'foo ^ [ < fooBar > 4 ] value' receiver: receiver raise: Error
+!
+
 testPragmaJSStatement
 	self should: 'foo < inlineJS: ''return 2+3'' >' return: 5
 !
