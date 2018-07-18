@@ -235,7 +235,9 @@ wsUnaryMessage = ws selector:unarySelector !':' {
 		._selector_(selector);
 }
 
-unarySend = receiver:operand tail:wsUnaryMessage* {
+wsUnaryTail = wsUnaryMessage*
+
+unarySend = receiver:operand tail:wsUnaryTail {
 	return receiver._withTail_(tail);
 }
 
@@ -247,7 +249,9 @@ wsBinaryMessage = ws selector:binarySelector ws arg:unarySend {
 		._arguments_([arg]);
 }
 
-binarySend = receiver:unarySend tail:wsBinaryMessage* {
+wsBinaryTail = unarys:wsUnaryTail binarys:wsBinaryMessage* { return unarys.concat(binarys); }
+
+binarySend = receiver:operand tail:wsBinaryTail {
 	return receiver._withTail_(tail);
 }
 
@@ -266,16 +270,21 @@ wsKeywordMessage =
 			._arguments_(args);
 	}
 
-keywordSend = receiver:binarySend tail:wsKeywordMessage? {
-	return tail ? receiver._withTail_([tail]) : receiver;
+wsKeywordTail = binarys:wsBinaryTail final:wsKeywordMessage? {
+	if (final) binarys.push(final);
+	return binarys;
+}
+
+keywordSend = receiver:operand tail:wsKeywordTail {
+	return receiver._withTail_(tail);
 }
 
 wsMessage = wsBinaryMessage / wsUnaryMessage / wsKeywordMessage
 
 cascade =
-	send:keywordSend & {return send._isSendNode();}
+	receiver:operand tail:wsKeywordTail & {return tail.length > 0;}
 	messages:(ws ';' mess:wsMessage {return mess;})+ {
-		messages.unshift(send);
+		messages.unshift(receiver._withTail_(tail));
 		return $globals.CascadeNode._new()
 			._location_(location())
 			._source_(text())
@@ -294,9 +303,10 @@ method =
 	}
 
 associationSend =
-	send:binarySend
-	& { return send._isSendNode() && send._selector() === '->' } {
-		return [send._receiver(), send._arguments()[0]];
+	receiver:operand tail:wsBinaryTail
+	& { return tail.length > 0 && tail[tail.length-1]._selector() === '->' } {
+	    var last = tail.pop();
+		return [receiver._withTail_(tail), last._arguments()[0]];
 	}
 
 wsAssociationsRest = someDotsWs expression:associationSend {
