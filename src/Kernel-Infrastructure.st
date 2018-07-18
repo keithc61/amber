@@ -942,7 +942,7 @@ asSmalltalkException: anObject
 
 parseError: anException parsing: aString
 	(anException basicAt: 'location')
-		ifNil: [ ^ anException resignal ]
+		ifNil: [ ^ anException pass ]
 		ifNotNil: [ :loc |
 			^ ParseError new 
 				messageText: 

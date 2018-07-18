@@ -737,7 +737,7 @@ import: aStream
 									lastEmpty := false.
 									result scanFrom: parser ]] ].
 	lastSection := 'n/a, finished'
-	] on: Error do: [:e | lastChunk := parser last. e resignal ].
+	] on: Error do: [:e | lastChunk := parser last. e pass ].
 ! !
 
 Error subclass: #PackageCommitError

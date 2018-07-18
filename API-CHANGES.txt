@@ -1,10 +1,15 @@
 0.22.0:
 
+* Deprecate Exception >> resignal. Should have been #pass.
+
 + Compiler >>
   + ast:forClass:protocol:
   + cleanCodeGenerator
   + codeGenerator
   + forClass:protocol:
++ Exception
+  + outer
+  + pass
 + JSObjectProxy >>
   + removeKey:
 + Number >>

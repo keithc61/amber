@@ -1140,7 +1140,7 @@ eval: buffer on: anObject
 		[result := Compiler new evaluateExpression: buffer on: anObject]
 			tryCatch: [:e |
 				e isSmalltalkError
-					ifTrue: [ e resignal ]
+					ifTrue: [ e pass ]
 					ifFalse: [ process stdout write: e jsStack ]]].
 	^ result
 !

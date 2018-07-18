@@ -59,13 +59,24 @@ initialize
 
 !Error methodsFor: 'signaling'!
 
-resignal
-	"Resignal the receiver without changing its exception context"
+outer
+	"Pharo compatibility. Just sends #pass."
+	
+	^ self pass
+!
+
+pass
+	"Let outer handler take care of this."
 	
 	<inlineJS: '
 		self.amberHandled = false;
-		throw(self);
+		throw self;
 	'>
+!
+
+resignal
+	self deprecatedAPI: 'Use #pass.'.
+	^ self pass
 !
 
 signal

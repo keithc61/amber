@@ -192,7 +192,30 @@ $globals.Error);
 
 $core.addMethod(
 $core.method({
-selector: "resignal",
+selector: "outer",
+protocol: "signaling",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self._pass();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"outer",{},$globals.Error)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "outer\x0a\x09\x22Pharo compatibility. Just sends #pass.\x22\x0a\x09\x0a\x09^ self pass",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["pass"]
+}),
+$globals.Error);
+
+$core.addMethod(
+$core.method({
+selector: "pass",
 protocol: "signaling",
 fn: function (){
 var self=this,$self=this;
@@ -201,19 +224,43 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
 		self.amberHandled = false;
-		throw(self);
+		throw self;
 	;
 return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"pass",{},$globals.Error)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "pass\x0a\x09\x22Let outer handler take care of this.\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09self.amberHandled = false;\x0a\x09\x09throw self;\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Error);
+
+$core.addMethod(
+$core.method({
+selector: "resignal",
+protocol: "signaling",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._deprecatedAPI_("Use #pass.");
+return $self._pass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"resignal",{},$globals.Error)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "resignal\x0a\x09\x22Resignal the receiver without changing its exception context\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09self.amberHandled = false;\x0a\x09\x09throw(self);\x0a\x09'>",
+source: "resignal\x0a\x09self deprecatedAPI: 'Use #pass.'.\x0a\x09^ self pass",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["deprecatedAPI:", "pass"]
 }),
 $globals.Error);
 

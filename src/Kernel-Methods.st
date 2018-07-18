@@ -89,7 +89,7 @@ on: anErrorClass do: aBlock
 		smalltalkError := Smalltalk asSmalltalkException: error.
 		(smalltalkError isKindOf: anErrorClass)
 		ifTrue: [ aBlock value: smalltalkError ]
-		ifFalse: [ smalltalkError resignal ] ]
+		ifFalse: [ smalltalkError pass ] ]
 !
 
 tryCatch: aBlock

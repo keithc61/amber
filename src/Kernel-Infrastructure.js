@@ -3589,7 +3589,7 @@ $1=$recv(anException)._basicAt_("location");
 $ctx1.sendIdx["basicAt:"]=1;
 //>>excludeEnd("ctx");
 if(($receiver = $1) == null || $receiver.a$nil){
-return $recv(anException)._resignal();
+return $recv(anException)._pass();
 } else {
 var loc;
 loc=$receiver;
@@ -3626,10 +3626,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anException", "aString"],
-source: "parseError: anException parsing: aString\x0a\x09(anException basicAt: 'location')\x0a\x09\x09ifNil: [ ^ anException resignal ]\x0a\x09\x09ifNotNil: [ :loc |\x0a\x09\x09\x09^ ParseError new \x0a\x09\x09\x09\x09messageText: \x0a\x09\x09\x09\x09\x09'Parse error on line ', loc start line ,\x0a\x09\x09\x09\x09\x09' column ' , loc start column ,\x0a\x09\x09\x09\x09\x09' : Unexpected character ', (anException basicAt: 'found');\x0a\x09\x09\x09\x09yourself ]",
+source: "parseError: anException parsing: aString\x0a\x09(anException basicAt: 'location')\x0a\x09\x09ifNil: [ ^ anException pass ]\x0a\x09\x09ifNotNil: [ :loc |\x0a\x09\x09\x09^ ParseError new \x0a\x09\x09\x09\x09messageText: \x0a\x09\x09\x09\x09\x09'Parse error on line ', loc start line ,\x0a\x09\x09\x09\x09\x09' column ' , loc start column ,\x0a\x09\x09\x09\x09\x09' : Unexpected character ', (anException basicAt: 'found');\x0a\x09\x09\x09\x09yourself ]",
 referencedClasses: ["ParseError"],
 //>>excludeEnd("ide");
-messageSends: ["ifNil:ifNotNil:", "basicAt:", "resignal", "messageText:", "new", ",", "line", "start", "column", "yourself"]
+messageSends: ["ifNil:ifNotNil:", "basicAt:", "pass", "messageText:", "new", ",", "line", "start", "column", "yourself"]
 }),
 $globals.SmalltalkImage);
 

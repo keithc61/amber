@@ -2890,7 +2890,7 @@ return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 $1=$recv(e)._isSmalltalkError();
 if($core.assert($1)){
-return $recv(e)._resignal();
+return $recv(e)._pass();
 } else {
 return $recv($recv(process)._stdout())._write_($recv(e)._jsStack());
 }
@@ -2909,10 +2909,10 @@ return result;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["buffer", "anObject"],
-source: "eval: buffer on: anObject\x0a\x09| result |\x0a\x09buffer ifNotEmpty: [\x0a\x09\x09[result := Compiler new evaluateExpression: buffer on: anObject]\x0a\x09\x09\x09tryCatch: [:e |\x0a\x09\x09\x09\x09e isSmalltalkError\x0a\x09\x09\x09\x09\x09ifTrue: [ e resignal ]\x0a\x09\x09\x09\x09\x09ifFalse: [ process stdout write: e jsStack ]]].\x0a\x09^ result",
+source: "eval: buffer on: anObject\x0a\x09| result |\x0a\x09buffer ifNotEmpty: [\x0a\x09\x09[result := Compiler new evaluateExpression: buffer on: anObject]\x0a\x09\x09\x09tryCatch: [:e |\x0a\x09\x09\x09\x09e isSmalltalkError\x0a\x09\x09\x09\x09\x09ifTrue: [ e pass ]\x0a\x09\x09\x09\x09\x09ifFalse: [ process stdout write: e jsStack ]]].\x0a\x09^ result",
 referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
-messageSends: ["ifNotEmpty:", "tryCatch:", "evaluateExpression:on:", "new", "ifTrue:ifFalse:", "isSmalltalkError", "resignal", "write:", "stdout", "jsStack"]
+messageSends: ["ifNotEmpty:", "tryCatch:", "evaluateExpression:on:", "new", "ifTrue:ifFalse:", "isSmalltalkError", "pass", "write:", "stdout", "jsStack"]
 }),
 $globals.Repl);
 
