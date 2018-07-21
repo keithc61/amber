@@ -1,6 +1,8 @@
 ?? Jun 2018 - Release 0.22.0
 ===================================
 
+* Simple pragmas.
+  * `<inlineJS: '...'>` is an (only implemented so far) pragma.
 * Remove legacy inline JS syntax (only <inlineJS: '...'> works).
 * Programmatic loading of packages works.
 * Use new @ambers/sdk (at least 0.10.5) (formerly amber-dev).
