@@ -351,7 +351,7 @@ testPascalCaseGlobal
 !
 
 testPragmaInBlock
-	self should: 'foo ^ [ < fooBar > 4 ] value' receiver: receiver raise: Error
+	self should: 'foo ^ [ < fooBar > 4 ] value' receiver: receiver raise: CompilerError
 !
 
 testPragmaJSStatement

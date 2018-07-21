@@ -2859,7 +2859,7 @@ $recv($1)._ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $self._error_("inlineJS: does not allow smalltalk statements");
+return $recv($globals.CompilerError)._signal_("inlineJS: does not allow smalltalk statements");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2876,10 +2876,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "inlineJS: aString\x0a\x09self sequenceNode dagChildren ifNotEmpty: [\x0a\x09\x09self error: 'inlineJS: does not allow smalltalk statements' ].\x0a\x09self sequenceNode addDagChild: (\x0a\x09\x09JSStatementNode new\x0a\x09\x09\x09source: aString;\x0a\x09\x09\x09yourself)",
-referencedClasses: ["JSStatementNode"],
+source: "inlineJS: aString\x0a\x09self sequenceNode dagChildren ifNotEmpty: [\x0a\x09\x09CompilerError signal: 'inlineJS: does not allow smalltalk statements' ].\x0a\x09self sequenceNode addDagChild: (\x0a\x09\x09JSStatementNode new\x0a\x09\x09\x09source: aString;\x0a\x09\x09\x09yourself)",
+referencedClasses: ["CompilerError", "JSStatementNode"],
 //>>excludeEnd("ide");
-messageSends: ["ifNotEmpty:", "dagChildren", "sequenceNode", "error:", "addDagChild:", "source:", "new", "yourself"]
+messageSends: ["ifNotEmpty:", "dagChildren", "sequenceNode", "signal:", "addDagChild:", "source:", "new", "yourself"]
 }),
 $globals.EarlyPragmator);
 

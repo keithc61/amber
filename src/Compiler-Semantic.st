@@ -718,7 +718,7 @@ variableName: aString
 
 inlineJS: aString
 	self sequenceNode dagChildren ifNotEmpty: [
-		self error: 'inlineJS: does not allow smalltalk statements' ].
+		CompilerError signal: 'inlineJS: does not allow smalltalk statements' ].
 	self sequenceNode addDagChild: (
 		JSStatementNode new
 			source: aString;

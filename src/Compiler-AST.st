@@ -591,7 +591,7 @@ acceptDagVisitor: aVisitor
 
 pragmas: aCollection
 	aCollection ifNotEmpty: [
-		self error: 'Block must have no pragmas.' ].
+		CompilerError signal: 'Block must have no pragmas.' ].
 	^ super pragmas: aCollection
 ! !
 
@@ -781,7 +781,7 @@ visitVariableNode: aNode
 !CompiledMethod methodsFor: '*Compiler-AST'!
 
 ast
-	self source ifEmpty: [ self error: 'Method source is empty' ].
+	self source ifEmpty: [ CompilerError signal: 'Method source is empty' ].
 	
 	^ Compiler new
 		ast: self source

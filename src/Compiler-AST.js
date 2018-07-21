@@ -2350,7 +2350,7 @@ $recv(aCollection)._ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $self._error_("Block must have no pragmas.");
+return $recv($globals.CompilerError)._signal_("Block must have no pragmas.");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2370,10 +2370,10 @@ return $1;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aCollection"],
-source: "pragmas: aCollection\x0a\x09aCollection ifNotEmpty: [\x0a\x09\x09self error: 'Block must have no pragmas.' ].\x0a\x09^ super pragmas: aCollection",
-referencedClasses: [],
+source: "pragmas: aCollection\x0a\x09aCollection ifNotEmpty: [\x0a\x09\x09CompilerError signal: 'Block must have no pragmas.' ].\x0a\x09^ super pragmas: aCollection",
+referencedClasses: ["CompilerError"],
 //>>excludeEnd("ide");
-messageSends: ["ifNotEmpty:", "error:", "pragmas:"]
+messageSends: ["ifNotEmpty:", "signal:", "pragmas:"]
 }),
 $globals.BlockSequenceNode);
 
@@ -3174,7 +3174,7 @@ $recv($1)._ifEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $self._error_("Method source is empty");
+return $recv($globals.CompilerError)._signal_("Method source is empty");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -3186,10 +3186,10 @@ return $recv($recv($globals.Compiler)._new())._ast_forClass_protocol_($self._sou
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "ast\x0a\x09self source ifEmpty: [ self error: 'Method source is empty' ].\x0a\x09\x0a\x09^ Compiler new\x0a\x09\x09ast: self source\x0a\x09\x09forClass: self methodClass\x0a\x09\x09protocol: self protocol",
-referencedClasses: ["Compiler"],
+source: "ast\x0a\x09self source ifEmpty: [ CompilerError signal: 'Method source is empty' ].\x0a\x09\x0a\x09^ Compiler new\x0a\x09\x09ast: self source\x0a\x09\x09forClass: self methodClass\x0a\x09\x09protocol: self protocol",
+referencedClasses: ["CompilerError", "Compiler"],
 //>>excludeEnd("ide");
-messageSends: ["ifEmpty:", "source", "error:", "ast:forClass:protocol:", "new", "methodClass", "protocol"]
+messageSends: ["ifEmpty:", "source", "signal:", "ast:forClass:protocol:", "new", "methodClass", "protocol"]
 }),
 $globals.CompiledMethod);
 

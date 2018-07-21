@@ -416,7 +416,7 @@ throw $early=[x];
 
 }));
 $self._compileNode_($self._parse_(aString));
-$self._error_("AST transformation failed.");
+$recv($globals.CompilerError)._signal_("AST transformation failed.");
 return self;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
@@ -426,10 +426,10 @@ catch(e) {if(e===$early)return e[0]; throw e}
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aClass", "anotherString"],
-source: "ast: aString forClass: aClass protocol: anotherString\x0a\x09self\x0a\x09\x09source: aString;\x0a\x09\x09forClass: aClass protocol: anotherString.\x0a\x0a\x09self codeGenerator transformersDictionary at: '2500-astCheckpoint' put: [ :x | ^x ].\x0a\x09\x0a\x09self compileNode: (self parse: aString).\x0a\x0a\x09self error: 'AST transformation failed.'",
-referencedClasses: [],
+source: "ast: aString forClass: aClass protocol: anotherString\x0a\x09self\x0a\x09\x09source: aString;\x0a\x09\x09forClass: aClass protocol: anotherString.\x0a\x0a\x09self codeGenerator transformersDictionary at: '2500-astCheckpoint' put: [ :x | ^x ].\x0a\x09\x0a\x09self compileNode: (self parse: aString).\x0a\x0a\x09CompilerError signal: 'AST transformation failed.'",
+referencedClasses: ["CompilerError"],
 //>>excludeEnd("ide");
-messageSends: ["source:", "forClass:protocol:", "at:put:", "transformersDictionary", "codeGenerator", "compileNode:", "parse:", "error:"]
+messageSends: ["source:", "forClass:protocol:", "at:put:", "transformersDictionary", "codeGenerator", "compileNode:", "parse:", "signal:"]
 }),
 $globals.Compiler);
 

@@ -160,7 +160,7 @@ ast: aString forClass: aClass protocol: anotherString
 	
 	self compileNode: (self parse: aString).
 
-	self error: 'AST transformation failed.'
+	CompilerError signal: 'AST transformation failed.'
 !
 
 compile: aString forClass: aClass protocol: anotherString

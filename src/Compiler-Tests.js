@@ -1328,7 +1328,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self._should_receiver_raise_("foo ^ [ < fooBar > 4 ] value",$self["@receiver"],$globals.Error);
+$self._should_receiver_raise_("foo ^ [ < fooBar > 4 ] value",$self["@receiver"],$globals.CompilerError);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testPragmaInBlock",{},$globals.CodeGeneratorTest)});
@@ -1336,8 +1336,8 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testPragmaInBlock\x0a\x09self should: 'foo ^ [ < fooBar > 4 ] value' receiver: receiver raise: Error",
-referencedClasses: ["Error"],
+source: "testPragmaInBlock\x0a\x09self should: 'foo ^ [ < fooBar > 4 ] value' receiver: receiver raise: CompilerError",
+referencedClasses: ["CompilerError"],
 //>>excludeEnd("ide");
 messageSends: ["should:receiver:raise:"]
 }),
