@@ -692,6 +692,12 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitVariableNode: self
 ! !
 
+Error subclass: #CompilerError
+	instanceVariableNames: ''
+	package: 'Compiler-AST'!
+!CompilerError commentStamp!
+I am the common superclass of all compiling errors.!
+
 PathDagVisitor subclass: #ParentFakingPathDagVisitor
 	instanceVariableNames: 'setParentSelector'
 	package: 'Compiler-AST'!

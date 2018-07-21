@@ -1,4 +1,4 @@
-define(["amber/boot", "amber_core/Kernel-Dag", "amber_core/Kernel-Methods"], function($boot){"use strict";
+define(["amber/boot", "amber_core/Kernel-Dag", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Methods"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage("Compiler-AST");
@@ -2774,6 +2774,12 @@ messageSends: ["value"]
 }),
 $globals.VariableNode);
 
+
+
+$core.addClass("CompilerError", $globals.Error, [], "Compiler-AST");
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.CompilerError.comment="I am the common superclass of all compiling errors.";
+//>>excludeEnd("ide");
 
 
 $core.addClass("ParentFakingPathDagVisitor", $globals.PathDagVisitor, ["setParentSelector"], "Compiler-AST");

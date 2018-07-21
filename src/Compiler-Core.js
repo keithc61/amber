@@ -1,4 +1,4 @@
-define(["amber/boot", "amber_core/Compiler-AST", "amber_core/Kernel-Collections", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Objects"], function($boot){"use strict";
+define(["amber/boot", "amber_core/Compiler-AST", "amber_core/Kernel-Collections", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage("Compiler-Core");
@@ -1109,12 +1109,6 @@ referencedClasses: ["Smalltalk"],
 messageSends: ["do:", "classes", "recompile:"]
 }),
 $globals.Compiler.a$cls);
-
-
-$core.addClass("CompilerError", $globals.Error, [], "Compiler-Core");
-//>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.CompilerError.comment="I am the common superclass of all compiling errors.";
-//>>excludeEnd("ide");
 
 
 $core.addClass("DoIt", $globals.Object, [], "Compiler-Core");

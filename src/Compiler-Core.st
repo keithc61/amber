@@ -270,12 +270,6 @@ eval: aString
 	^ self new eval: aString
 ! !
 
-Error subclass: #CompilerError
-	instanceVariableNames: ''
-	package: 'Compiler-Core'!
-!CompilerError commentStamp!
-I am the common superclass of all compiling errors.!
-
 Object subclass: #DoIt
 	instanceVariableNames: ''
 	package: 'Compiler-Core'!
