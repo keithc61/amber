@@ -116,7 +116,7 @@ exports.template = function (grunt, init, done) {
         // A few additional properties.
         props.keywords = ['Amber', 'Smalltalk'];
         props.devDependencies = {
-            "@ambers/sdk": "^0.10.4",
+            "@ambers/sdk": "^0.10.6",
             "grunt": "1.0.1",
             "grunt-contrib-clean": "^1.1.0",
             "grunt-contrib-requirejs": "^1.0.0",
