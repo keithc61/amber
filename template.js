@@ -166,7 +166,7 @@ exports.template = function (grunt, init, done) {
             "devDependencies": {
                 "amber-contrib-legacy": "^0.6.0",
                 "amber-ide-starter-dialog": "^0.1.0",
-                "helios": "^0.9.0"
+                "helios": "^0.9.1"
             }
         }, null, 2));
 
