@@ -1186,32 +1186,34 @@ define('amber/kernel-runtime',[],function () {
         });
     }
 
-    function installMethod (method, klass) {
-        installJSMethod(klass.fn.prototype, method.jsSelector, method.fn);
-    }
-
-    DNUBrik.deps = ["selectors", "smalltalkGlobals", "classes"];
-    function DNUBrik (brikz, st) {
-        var selectorPairs = brikz.selectors.selectorPairs;
+    RuntimeSelectorsBrik.deps = ["selectors", "selectorConversion", "smalltalkGlobals", "classes"];
+    function RuntimeSelectorsBrik (brikz, st) {
+        var selectors = brikz.selectors.selectors;
         var globals = brikz.smalltalkGlobals.globals;
         var nilAsClass = brikz.classes.nilAsClass;
+        var st2js = brikz.selectorConversion.st2js;
+
+        var jsSelectors = this.jsSelectors = [];
 
         /* Method not implemented handlers */
 
-        function makeDnuHandler (pair, targetClasses) {
-            var jsSelector = pair.js;
-            var fn = createHandler(pair.st);
-            installJSMethod(nilAsClass.fn.prototype, jsSelector, fn);
-            targetClasses.forEach(function (target) {
-                installJSMethod(target.fn.prototype, jsSelector, fn);
+        function installNewSelectors (newSelectors, targetClasses) {
+            newSelectors.forEach(function (selector) {
+                var jsSelector = st2js(selector);
+                jsSelectors.push(jsSelector);
+                var fn = createDnuHandler(selector);
+                installJSMethod(nilAsClass.fn.prototype, jsSelector, fn);
+                targetClasses.forEach(function (target) {
+                    installJSMethod(target.fn.prototype, jsSelector, fn);
+                });
             });
         }
 
-        this.makeDnuHandler = makeDnuHandler;
+        this.installNewSelectors = installNewSelectors;
 
         /* Dnu handler method */
 
-        function createHandler (stSelector) {
+        function createDnuHandler (stSelector) {
             return function () {
                 return globals.Message._selector_arguments_notUnderstoodBy_(
                     stSelector, [].slice.call(arguments), this
@@ -1219,14 +1221,14 @@ define('amber/kernel-runtime',[],function () {
             };
         }
 
-        selectorPairs.forEach(function (pair) {
-            makeDnuHandler(pair, []);
-        });
+        installNewSelectors(selectors, []);
     }
 
-    RuntimeClassesBrik.deps = ["event", "selectors", "dnu", "behaviors", "classes"];
+    RuntimeClassesBrik.deps = ["event", "runtimeSelectors", "behaviors", "classes", "runtimeMethods"];
     function RuntimeClassesBrik (brikz, st) {
-        var selectors = brikz.selectors;
+        var jsSelectors = brikz.runtimeSelectors.jsSelectors;
+        var installNewSelectors = brikz.runtimeSelectors.installNewSelectors;
+        var installMethod = brikz.runtimeMethods.installMethod;
         var traitsOrClasses = brikz.behaviors.traitsOrClasses;
         var wireKlass = brikz.classes.wireKlass;
         var emit = brikz.event.emit;
@@ -1240,8 +1242,8 @@ define('amber/kernel-runtime',[],function () {
             });
         }
 
-        this.detachedRootClasses = function () {
-            return detachedRootClasses;
+        emit.selectorsAdded = function (newSelectors) {
+            installNewSelectors(newSelectors, detachedRootClasses);
         };
 
         /* Initialize a class in its class hierarchy. Handle both classes and
@@ -1286,8 +1288,7 @@ define('amber/kernel-runtime',[],function () {
         function copySuperclass (klass) {
             var myproto = klass.fn.prototype,
                 superproto = klass.superclass.fn.prototype;
-            selectors.selectorPairs.forEach(function (selectorPair) {
-                var jsSelector = selectorPair.js;
+            jsSelectors.forEach(function (jsSelector) {
                 installJSMethod(myproto, jsSelector, superproto[jsSelector]);
             });
         }
@@ -1329,22 +1330,24 @@ define('amber/kernel-runtime',[],function () {
         }
     }
 
-    RuntimeMethodsBrik.deps = ["event", "dnu", "runtimeClasses"];
+    RuntimeMethodsBrik.deps = ["event", "selectorConversion"];
     function RuntimeMethodsBrik (brikz, st) {
-        var makeDnuHandler = brikz.dnu.makeDnuHandler;
-        var detachedRootClasses = brikz.runtimeClasses.detachedRootClasses;
+        var st2js = brikz.selectorConversion.st2js;
         var emit = brikz.event.emit;
+
+        function installMethod (method, klass) {
+            var jsSelector = method.jsSelector;
+            if (!jsSelector) {
+                jsSelector = method.jsSelector = st2js(method.selector);
+            }
+            installJSMethod(klass.fn.prototype, jsSelector, method.fn);
+        }
+
+        this.installMethod = installMethod;
 
         emit.behaviorMethodAdded = function (method, klass) {
             installMethod(method, klass);
             propagateMethodChange(klass, method, klass);
-        };
-
-        emit.selectorsAdded = function (newSelectors) {
-            var targetClasses = detachedRootClasses();
-            newSelectors.forEach(function (pair) {
-                makeDnuHandler(pair, targetClasses);
-            });
         };
 
         emit.behaviorMethodRemoved = function (method, klass) {
@@ -1546,6 +1549,67 @@ define('amber/kernel-runtime',[],function () {
         };
     }
 
+    function SelectorConversionBrik (brikz, st) {
+        /* Convert a Smalltalk selector into a JS selector */
+        st.st2js = this.st2js = function (string) {
+            return '_' + string
+                .replace(/:/g, '_')
+                .replace(/[\&]/g, '_and')
+                .replace(/[\|]/g, '_or')
+                .replace(/[+]/g, '_plus')
+                .replace(/-/g, '_minus')
+                .replace(/[*]/g, '_star')
+                .replace(/[\/]/g, '_slash')
+                .replace(/[\\]/g, '_backslash')
+                .replace(/[\~]/g, '_tild')
+                .replace(/%/g, '_percent')
+                .replace(/>/g, '_gt')
+                .replace(/</g, '_lt')
+                .replace(/=/g, '_eq')
+                .replace(/,/g, '_comma')
+                .replace(/[@]/g, '_at');
+        };
+
+        /* Convert a string to a valid smalltalk selector.
+         if you modify the following functions, also change st2js
+         accordingly */
+        st.js2st = function (selector) {
+            if (selector.match(/^__/)) {
+                return binaryJsToSt(selector);
+            } else {
+                return keywordJsToSt(selector);
+            }
+        };
+
+        function keywordJsToSt (selector) {
+            return selector.replace(/^_/, '').replace(/_/g, ':');
+        }
+
+        function binaryJsToSt (selector) {
+            return selector
+                .replace(/^_/, '')
+                .replace(/_and/g, '&')
+                .replace(/_or/g, '|')
+                .replace(/_plus/g, '+')
+                .replace(/_minus/g, '-')
+                .replace(/_star/g, '*')
+                .replace(/_slash/g, '/')
+                .replace(/_backslash/g, '\\')
+                .replace(/_tild/g, '~')
+                .replace(/_percent/g, '%')
+                .replace(/_gt/g, '>')
+                .replace(/_lt/g, '<')
+                .replace(/_eq/g, '=')
+                .replace(/_comma/g, ',')
+                .replace(/_at/g, '@');
+        }
+
+        st.st2prop = function (stSelector) {
+            var colonPosition = stSelector.indexOf(':');
+            return colonPosition === -1 ? stSelector : stSelector.slice(0, colonPosition);
+        };
+    }
+
     StartImageBrik.deps = ["smalltalkGlobals"];
     function StartImageBrik (brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
@@ -1558,13 +1622,14 @@ define('amber/kernel-runtime',[],function () {
     /* Making smalltalk that can run */
 
     function configureWithRuntime (brikz) {
-        brikz.dnu = DNUBrik;
+        brikz.runtimeSelectors = RuntimeSelectorsBrik;
         brikz.runtimeClasses = RuntimeClassesBrik;
         brikz.frameBinding = FrameBindingBrik;
         brikz.runtimeMethods = RuntimeMethodsBrik;
         brikz.messageSend = MessageSendBrik;
         brikz.runtime = RuntimeBrik;
         brikz.primitives = PrimitivesBrik;
+        brikz.selectorConversion = SelectorConversionBrik;
         brikz.startImage = StartImageBrik;
 
         brikz.rebuild();
@@ -1838,20 +1903,14 @@ define('amber/kernel-fundamentals',[],function () {
         this.Object = SmalltalkObject;
     }
 
-    SelectorsBrik.deps = ["selectorConversion"];
     function SelectorsBrik (brikz, st) {
         var selectorSet = Object.create(null);
         var selectors = this.selectors = [];
-        var selectorPairs = this.selectorPairs = [];
 
         this.registerSelector = function (stSelector) {
-            if (selectorSet[stSelector]) return null;
-            var jsSelector = st.st2js(stSelector);
-            selectorSet[stSelector] = true;
+            if (selectorSet[stSelector]) return false;
             selectors.push(stSelector);
-            var pair = {st: stSelector, js: jsSelector};
-            selectorPairs.push(pair);
-            return pair;
+            return selectorSet[stSelector] = true;
         };
 
         st.allSelectors = function () {
@@ -1915,7 +1974,7 @@ define('amber/kernel-fundamentals',[],function () {
         st.traitsOrClasses = this.traitsOrClasses = traitsOrClasses;
     }
 
-    MethodsBrik.deps = ["event", "selectors", "root", "selectorConversion"];
+    MethodsBrik.deps = ["event", "selectors", "root"];
     function MethodsBrik (brikz, st) {
         var registerSelector = brikz.selectors.registerSelector;
         var SmalltalkObject = brikz.root.Object;
@@ -1935,7 +1994,6 @@ define('amber/kernel-fundamentals',[],function () {
             var that = new SmalltalkMethod();
             var selector = spec.selector;
             that.selector = selector;
-            that.jsSelector = st.st2js(selector);
             that.args = spec.args || {};
             that.protocol = spec.protocol;
             that.source = spec.source;
@@ -1975,9 +2033,8 @@ define('amber/kernel-fundamentals',[],function () {
             var newSelectors = [];
 
             function selectorInUse (stSelector) {
-                var pair = registerSelector(stSelector);
-                if (pair) {
-                    newSelectors.push(pair);
+                if (registerSelector(stSelector)) {
+                    newSelectors.push(stSelector);
                 }
             }
 
@@ -2039,67 +2096,6 @@ define('amber/kernel-fundamentals',[],function () {
         };
     }
 
-    function SelectorConversionBrik (brikz, st) {
-        /* Convert a Smalltalk selector into a JS selector */
-        st.st2js = function (string) {
-            return '_' + string
-                    .replace(/:/g, '_')
-                    .replace(/[\&]/g, '_and')
-                    .replace(/[\|]/g, '_or')
-                    .replace(/[+]/g, '_plus')
-                    .replace(/-/g, '_minus')
-                    .replace(/[*]/g, '_star')
-                    .replace(/[\/]/g, '_slash')
-                    .replace(/[\\]/g, '_backslash')
-                    .replace(/[\~]/g, '_tild')
-                    .replace(/%/g, '_percent')
-                    .replace(/>/g, '_gt')
-                    .replace(/</g, '_lt')
-                    .replace(/=/g, '_eq')
-                    .replace(/,/g, '_comma')
-                    .replace(/[@]/g, '_at');
-        };
-
-        /* Convert a string to a valid smalltalk selector.
-         if you modify the following functions, also change st2js
-         accordingly */
-        st.js2st = function (selector) {
-            if (selector.match(/^__/)) {
-                return binaryJsToSt(selector);
-            } else {
-                return keywordJsToSt(selector);
-            }
-        };
-
-        function keywordJsToSt (selector) {
-            return selector.replace(/^_/, '').replace(/_/g, ':');
-        }
-
-        function binaryJsToSt (selector) {
-            return selector
-                .replace(/^_/, '')
-                .replace(/_and/g, '&')
-                .replace(/_or/g, '|')
-                .replace(/_plus/g, '+')
-                .replace(/_minus/g, '-')
-                .replace(/_star/g, '*')
-                .replace(/_slash/g, '/')
-                .replace(/_backslash/g, '\\')
-                .replace(/_tild/g, '~')
-                .replace(/_percent/g, '%')
-                .replace(/_gt/g, '>')
-                .replace(/_lt/g, '<')
-                .replace(/_eq/g, '=')
-                .replace(/_comma/g, ',')
-                .replace(/_at/g, '@');
-        }
-
-        st.st2prop = function (stSelector) {
-            var colonPosition = stSelector.indexOf(':');
-            return colonPosition === -1 ? stSelector : stSelector.slice(0, colonPosition);
-        };
-    }
-
     NilBrik.deps = ["root"];
     function NilBrik (brikz, st) {
         var SmalltalkObject = brikz.root.Object;
@@ -2136,7 +2132,6 @@ define('amber/kernel-fundamentals',[],function () {
         brikz.nil = NilBrik;
         brikz.event = EventBrik;
         brikz.arraySet = ArraySetBrik;
-        brikz.selectorConversion = SelectorConversionBrik;
         brikz.selectors = SelectorsBrik;
         brikz.packages = PackagesBrik;
         brikz.behaviors = BehaviorsBrik;
@@ -16966,7 +16961,7 @@ return $core.withContext(function($ctx2) {
 $self._basicSwapClassNames_with_(oldClass,newClass);
 $1=$self._basicRemoveClass_(newClass);
 $ctx2.sendIdx["basicRemoveClass:"]=1;
-return $recv(exception)._resignal();
+return $recv(exception)._pass();
 }, function($ctx2) {$ctx2.fillBlock({exception:exception},$ctx1,2)});
 }));
 $self._rawRenameClass_to_(oldClass,tmp);
@@ -16988,9 +16983,9 @@ return newClass;
 }, function($ctx1) {$ctx1.fill(self,"migrateClassNamed:superclass:instanceVariableNames:package:",{className:className,aClass:aClass,aCollection:aCollection,packageName:packageName,oldClass:oldClass,newClass:newClass,tmp:tmp},$globals.ClassBuilder)});
 },
 args: ["className", "aClass", "aCollection", "packageName"],
-source: "migrateClassNamed: className superclass: aClass instanceVariableNames: aCollection package: packageName\x0a\x09| oldClass newClass tmp |\x0a\x09\x0a\x09tmp := 'new*', className.\x0a\x09oldClass := Smalltalk globals at: className.\x0a\x09\x0a\x09newClass := self\x0a\x09\x09addSubclassOf: aClass\x0a\x09\x09named: tmp\x0a\x09\x09instanceVariableNames: aCollection\x0a\x09\x09package: packageName.\x0a\x0a\x09self basicSwapClassNames: oldClass with: newClass.\x0a\x0a\x09[ self copyClass: oldClass to: newClass ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :exception |\x0a\x09\x09\x09self\x0a\x09\x09\x09\x09basicSwapClassNames: oldClass with: newClass;\x0a\x09\x09\x09\x09basicRemoveClass: newClass.\x0a\x09\x09\x09\x09exception resignal ].\x0a\x0a\x09self\x0a\x09\x09rawRenameClass: oldClass to: tmp;\x0a\x09\x09rawRenameClass: newClass to: className.\x0a\x0a\x09oldClass subclasses \x0a\x09\x09do: [ :each | self migrateClass: each superclass: newClass ].\x0a\x0a\x09self basicRemoveClass: oldClass.\x0a\x09\x0a\x09SystemAnnouncer current announce: (ClassMigrated new\x0a\x09\x09theClass: newClass;\x0a\x09\x09oldClass: oldClass;\x0a\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
+source: "migrateClassNamed: className superclass: aClass instanceVariableNames: aCollection package: packageName\x0a\x09| oldClass newClass tmp |\x0a\x09\x0a\x09tmp := 'new*', className.\x0a\x09oldClass := Smalltalk globals at: className.\x0a\x09\x0a\x09newClass := self\x0a\x09\x09addSubclassOf: aClass\x0a\x09\x09named: tmp\x0a\x09\x09instanceVariableNames: aCollection\x0a\x09\x09package: packageName.\x0a\x0a\x09self basicSwapClassNames: oldClass with: newClass.\x0a\x0a\x09[ self copyClass: oldClass to: newClass ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :exception |\x0a\x09\x09\x09self\x0a\x09\x09\x09\x09basicSwapClassNames: oldClass with: newClass;\x0a\x09\x09\x09\x09basicRemoveClass: newClass.\x0a\x09\x09\x09\x09exception pass ].\x0a\x0a\x09self\x0a\x09\x09rawRenameClass: oldClass to: tmp;\x0a\x09\x09rawRenameClass: newClass to: className.\x0a\x0a\x09oldClass subclasses \x0a\x09\x09do: [ :each | self migrateClass: each superclass: newClass ].\x0a\x0a\x09self basicRemoveClass: oldClass.\x0a\x09\x0a\x09SystemAnnouncer current announce: (ClassMigrated new\x0a\x09\x09theClass: newClass;\x0a\x09\x09oldClass: oldClass;\x0a\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
 referencedClasses: ["Smalltalk", "Error", "SystemAnnouncer", "ClassMigrated"],
-messageSends: [",", "at:", "globals", "addSubclassOf:named:instanceVariableNames:package:", "basicSwapClassNames:with:", "on:do:", "copyClass:to:", "basicRemoveClass:", "resignal", "rawRenameClass:to:", "do:", "subclasses", "migrateClass:superclass:", "announce:", "current", "theClass:", "new", "oldClass:", "yourself"]
+messageSends: [",", "at:", "globals", "addSubclassOf:named:instanceVariableNames:package:", "basicSwapClassNames:with:", "on:do:", "copyClass:to:", "basicRemoveClass:", "pass", "rawRenameClass:to:", "do:", "subclasses", "migrateClass:superclass:", "announce:", "current", "theClass:", "new", "oldClass:", "yourself"]
 }),
 $globals.ClassBuilder);
 
@@ -19219,16 +19214,16 @@ $1=$recv(smalltalkError)._isKindOf_(anErrorClass);
 if($core.assert($1)){
 return $recv(aBlock)._value_(smalltalkError);
 } else {
-return $recv(smalltalkError)._resignal();
+return $recv(smalltalkError)._pass();
 }
 }, function($ctx2) {$ctx2.fillBlock({error:error,smalltalkError:smalltalkError},$ctx1,1)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"on:do:",{anErrorClass:anErrorClass,aBlock:aBlock},$globals.BlockClosure)});
 },
 args: ["anErrorClass", "aBlock"],
-source: "on: anErrorClass do: aBlock\x0a\x09\x22All exceptions thrown in the Smalltalk stack are cought.\x0a\x09Convert all JS exceptions to JavaScriptException instances.\x22\x0a\x09\x0a\x09^ self tryCatch: [ :error | | smalltalkError |\x0a\x09\x09smalltalkError := Smalltalk asSmalltalkException: error.\x0a\x09\x09(smalltalkError isKindOf: anErrorClass)\x0a\x09\x09ifTrue: [ aBlock value: smalltalkError ]\x0a\x09\x09ifFalse: [ smalltalkError resignal ] ]",
+source: "on: anErrorClass do: aBlock\x0a\x09\x22All exceptions thrown in the Smalltalk stack are cought.\x0a\x09Convert all JS exceptions to JavaScriptException instances.\x22\x0a\x09\x0a\x09^ self tryCatch: [ :error | | smalltalkError |\x0a\x09\x09smalltalkError := Smalltalk asSmalltalkException: error.\x0a\x09\x09(smalltalkError isKindOf: anErrorClass)\x0a\x09\x09ifTrue: [ aBlock value: smalltalkError ]\x0a\x09\x09ifFalse: [ smalltalkError pass ] ]",
 referencedClasses: ["Smalltalk"],
-messageSends: ["tryCatch:", "asSmalltalkException:", "ifTrue:ifFalse:", "isKindOf:", "value:", "resignal"]
+messageSends: ["tryCatch:", "asSmalltalkException:", "ifTrue:ifFalse:", "isKindOf:", "value:", "pass"]
 }),
 $globals.BlockClosure);
 
@@ -22269,22 +22264,57 @@ $globals.Error);
 
 $core.addMethod(
 $core.method({
-selector: "resignal",
+selector: "outer",
+protocol: "signaling",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $self._pass();
+}, function($ctx1) {$ctx1.fill(self,"outer",{},$globals.Error)});
+},
+args: [],
+source: "outer\x0a\x09\x22Pharo compatibility. Just sends #pass.\x22\x0a\x09\x0a\x09^ self pass",
+referencedClasses: [],
+messageSends: ["pass"]
+}),
+$globals.Error);
+
+$core.addMethod(
+$core.method({
+selector: "pass",
 protocol: "signaling",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
 		self.amberHandled = false;
-		throw(self);
+		throw self;
 	;
 return self;
+}, function($ctx1) {$ctx1.fill(self,"pass",{},$globals.Error)});
+},
+args: [],
+source: "pass\x0a\x09\x22Let outer handler take care of this.\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09self.amberHandled = false;\x0a\x09\x09throw self;\x0a\x09'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Error);
+
+$core.addMethod(
+$core.method({
+selector: "resignal",
+protocol: "signaling",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._deprecatedAPI_("Use #pass.");
+return $self._pass();
 }, function($ctx1) {$ctx1.fill(self,"resignal",{},$globals.Error)});
 },
 args: [],
-source: "resignal\x0a\x09\x22Resignal the receiver without changing its exception context\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09self.amberHandled = false;\x0a\x09\x09throw(self);\x0a\x09'>",
+source: "resignal\x0a\x09self deprecatedAPI: 'Use #pass.'.\x0a\x09^ self pass",
 referencedClasses: [],
-messageSends: []
+messageSends: ["deprecatedAPI:", "pass"]
 }),
 $globals.Error);
 
@@ -25755,32 +25785,38 @@ selector: "parseError:parsing:",
 protocol: "error handling",
 fn: function (anException,aString){
 var self=this,$self=this;
-var pos;
 return $core.withContext(function($ctx1) {
-var $1,$2,$3,$7,$6,$5,$4;
-$1=$recv(anException)._isSmalltalkError();
-if($core.assert($1)){
-return $recv(anException)._resignal();
-}
-$2=$recv(anException)._basicAt_("location");
+var $1,$2,$9,$8,$7,$6,$5,$4,$3,$receiver;
+$1=$recv(anException)._basicAt_("location");
 $ctx1.sendIdx["basicAt:"]=1;
-pos=$recv($2)._start();
-$3=$recv($globals.ParseError)._new();
-$7=$recv("Parse error on line ".__comma($recv(pos)._line())).__comma(" column ");
+if(($receiver = $1) == null || $receiver.a$nil){
+return $recv(anException)._pass();
+} else {
+var loc;
+loc=$receiver;
+$2=$recv($globals.ParseError)._new();
+$9=$recv(loc)._start();
+$ctx1.sendIdx["start"]=1;
+$8=$recv($9)._line();
+$7="Parse error on line ".__comma($8);
+$6=$recv($7).__comma(" column ");
 $ctx1.sendIdx[","]=4;
-$6=$recv($7).__comma($recv(pos)._column());
+$5=$recv($6).__comma($recv($recv(loc)._start())._column());
 $ctx1.sendIdx[","]=3;
-$5=$recv($6).__comma(" : Unexpected character ");
+$4=$recv($5).__comma(" : Unexpected character ");
 $ctx1.sendIdx[","]=2;
-$4=$recv($5).__comma($recv(anException)._basicAt_("found"));
+$3=$recv($4).__comma($recv(anException)._basicAt_("found"));
 $ctx1.sendIdx[","]=1;
-return $recv($3)._messageText_($4);
-}, function($ctx1) {$ctx1.fill(self,"parseError:parsing:",{anException:anException,aString:aString,pos:pos},$globals.SmalltalkImage)});
+$recv($2)._messageText_($3);
+return $recv($2)._yourself();
+}
+return self;
+}, function($ctx1) {$ctx1.fill(self,"parseError:parsing:",{anException:anException,aString:aString},$globals.SmalltalkImage)});
 },
 args: ["anException", "aString"],
-source: "parseError: anException parsing: aString\x0a\x09| pos |\x0a\x09anException isSmalltalkError ifTrue: [ ^ anException resignal ].\x0a\x09pos := (anException basicAt: 'location') start.\x0a\x09^ ParseError new messageText: 'Parse error on line ', pos line ,' column ' , pos column ,' : Unexpected character ', (anException basicAt: 'found')",
+source: "parseError: anException parsing: aString\x0a\x09(anException basicAt: 'location')\x0a\x09\x09ifNil: [ ^ anException pass ]\x0a\x09\x09ifNotNil: [ :loc |\x0a\x09\x09\x09^ ParseError new \x0a\x09\x09\x09\x09messageText: \x0a\x09\x09\x09\x09\x09'Parse error on line ', loc start line ,\x0a\x09\x09\x09\x09\x09' column ' , loc start column ,\x0a\x09\x09\x09\x09\x09' : Unexpected character ', (anException basicAt: 'found');\x0a\x09\x09\x09\x09yourself ]",
 referencedClasses: ["ParseError"],
-messageSends: ["ifTrue:", "isSmalltalkError", "resignal", "start", "basicAt:", "messageText:", "new", ",", "line", "column"]
+messageSends: ["ifNil:ifNotNil:", "basicAt:", "pass", "messageText:", "new", ",", "line", "start", "column", "yourself"]
 }),
 $globals.SmalltalkImage);
 
@@ -26043,11 +26079,11 @@ selector: "version",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return "0.22.0-pre";
+return "0.22.0";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.22.0-pre'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.22.0'",
 referencedClasses: [],
 messageSends: []
 }),
@@ -27719,7 +27755,7 @@ $1=$recv(exception)._isKindOf_($self._classNamed_($recv(anErrorClass)._name()));
 if($core.assert($1)){
 return $recv(exceptionBlock)._value_(exception);
 } else {
-return $recv(exception)._resignal();
+return $recv(exception)._pass();
 }
 }, function($ctx2) {$ctx2.fillBlock({exception:exception},$ctx1,1)});
 }));
@@ -27727,9 +27763,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"evaluate:on:do:",{aBlock:aBlock,anErrorClass:anErrorClass,exceptionBlock:exceptionBlock},$globals.Environment)});
 },
 args: ["aBlock", "anErrorClass", "exceptionBlock"],
-source: "evaluate: aBlock on: anErrorClass do: exceptionBlock\x0a\x09\x22Evaluate a block and catch exceptions happening on the environment stack\x22\x0a\x09\x0a\x09aBlock tryCatch: [ :exception | \x0a\x09\x09(exception isKindOf: (self classNamed: anErrorClass name))\x0a\x09\x09\x09ifTrue: [ exceptionBlock value: exception ]\x0a \x09\x09\x09ifFalse: [ exception resignal ] ]",
+source: "evaluate: aBlock on: anErrorClass do: exceptionBlock\x0a\x09\x22Evaluate a block and catch exceptions happening on the environment stack\x22\x0a\x09\x0a\x09aBlock tryCatch: [ :exception | \x0a\x09\x09(exception isKindOf: (self classNamed: anErrorClass name))\x0a\x09\x09\x09ifTrue: [ exceptionBlock value: exception ]\x0a \x09\x09\x09ifFalse: [ exception pass ] ]",
 referencedClasses: [],
-messageSends: ["tryCatch:", "ifTrue:ifFalse:", "isKindOf:", "classNamed:", "name", "value:", "resignal"]
+messageSends: ["tryCatch:", "ifTrue:ifFalse:", "isKindOf:", "classNamed:", "name", "value:", "pass"]
 }),
 $globals.Environment);
 
@@ -29160,7 +29196,8 @@ $globals.SmalltalkParser = (function() {
         		._selector_(selector)
         		._arguments_([arg]);
         },
-        peg$c112 = function(pairs) {
+        peg$c112 = function(unarys, binarys) { return unarys.concat(binarys); },
+        peg$c113 = function(pairs) {
         		var selector = '';
         		var args = [];
         		for(var i = 0; i < pairs.length; i++) {
@@ -29173,21 +29210,22 @@ $globals.SmalltalkParser = (function() {
         			._selector_(selector)
         			._arguments_(args);
         	},
-        peg$c113 = function(receiver, tail) {
-        	return tail ? receiver._withTail_([tail]) : receiver;
+        peg$c114 = function(binarys, final) {
+        	if (final) binarys.push(final);
+        	return binarys;
         },
-        peg$c114 = function(send) {return send._isSendNode();},
-        peg$c115 = ";",
-        peg$c116 = { type: "literal", value: ";", description: "\";\"" },
-        peg$c117 = function(send, mess) {return mess;},
-        peg$c118 = function(send, messages) {
-        		messages.unshift(send);
+        peg$c115 = function(receiver, tail) {return tail.length > 0;},
+        peg$c116 = ";",
+        peg$c117 = { type: "literal", value: ";", description: "\";\"" },
+        peg$c118 = function(receiver, tail, mess) {return mess;},
+        peg$c119 = function(receiver, tail, messages) {
+        		messages.unshift(receiver._withTail_(tail));
         		return $globals.CascadeNode._new()
         			._location_(location())
         			._source_(text())
         			._dagChildren_(messages);
         	},
-        peg$c119 = function(pattern, sequence) {
+        peg$c120 = function(pattern, sequence) {
         		return $globals.MethodNode._new()
         			._location_(location())
         			._source_(text())
@@ -29195,11 +29233,12 @@ $globals.SmalltalkParser = (function() {
         			._arguments_(pattern[1])
         			._dagChildren_([sequence]);
         	},
-        peg$c120 = function(send) { return send._isSendNode() && send._selector() === '->' },
-        peg$c121 = function(send) {
-        		return [send._receiver(), send._arguments()[0]];
+        peg$c121 = function(receiver, tail) { return tail.length > 0 && tail[tail.length-1]._selector() === '->' },
+        peg$c122 = function(receiver, tail) {
+        	    var last = tail.pop();
+        		return [receiver._withTail_(tail), last._arguments()[0]];
         	},
-        peg$c122 = function(first, others) {
+        peg$c123 = function(first, others) {
         	return first.concat.apply(first, others);
         },
 
@@ -29393,7 +29432,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsestart() {
       var s0;
 
-      var key    = peg$currPos * 63 + 0,
+      var key    = peg$currPos * 66 + 0,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29412,7 +29451,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseseparator() {
       var s0, s1;
 
-      var key    = peg$currPos * 63 + 1,
+      var key    = peg$currPos * 66 + 1,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29452,7 +29491,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsecomments() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 2,
+      var key    = peg$currPos * 66 + 2,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29578,7 +29617,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsews() {
       var s0, s1;
 
-      var key    = peg$currPos * 63 + 3,
+      var key    = peg$currPos * 66 + 3,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29608,7 +29647,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsemaybeDotsWs() {
       var s0, s1;
 
-      var key    = peg$currPos * 63 + 4,
+      var key    = peg$currPos * 66 + 4,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29656,7 +29695,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsesomeDotsWs() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 63 + 5,
+      var key    = peg$currPos * 66 + 5,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29701,7 +29740,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseidentifier() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 6,
+      var key    = peg$currPos * 66 + 6,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29763,7 +29802,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsekeyword() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 63 + 7,
+      var key    = peg$currPos * 66 + 7,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29808,7 +29847,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseclassName() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 8,
+      var key    = peg$currPos * 66 + 8,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29870,7 +29909,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsestring() {
       var s0, s1;
 
-      var key    = peg$currPos * 63 + 9,
+      var key    = peg$currPos * 66 + 9,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29895,7 +29934,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parserawString() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 10,
+      var key    = peg$currPos * 66 + 10,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -29994,7 +30033,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsecharacter() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 11,
+      var key    = peg$currPos * 66 + 11,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30040,7 +30079,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsesymbol() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 12,
+      var key    = peg$currPos * 66 + 12,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30080,7 +30119,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebareSymbol() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 63 + 13,
+      var key    = peg$currPos * 66 + 13,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30129,7 +30168,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsenumber() {
       var s0, s1;
 
-      var key    = peg$currPos * 63 + 14,
+      var key    = peg$currPos * 66 + 14,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30154,7 +30193,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parserawNumber() {
       var s0;
 
-      var key    = peg$currPos * 63 + 15,
+      var key    = peg$currPos * 66 + 15,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30182,7 +30221,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsenumberExp() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 63 + 16,
+      var key    = peg$currPos * 66 + 16,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30242,7 +30281,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsehex() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 63 + 17,
+      var key    = peg$currPos * 66 + 17,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30324,7 +30363,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsefloat() {
       var s0, s1, s2, s3, s4, s5, s6, s7;
 
-      var key    = peg$currPos * 63 + 18,
+      var key    = peg$currPos * 66 + 18,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30438,7 +30477,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseinteger() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 63 + 19,
+      var key    = peg$currPos * 66 + 19,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30513,7 +30552,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseliteralArray() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 20,
+      var key    = peg$currPos * 66 + 20,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30571,7 +30610,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebareLiteralArray() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 21,
+      var key    = peg$currPos * 66 + 21,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30629,7 +30668,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseliteralArrayElement() {
       var s0;
 
-      var key    = peg$currPos * 63 + 22,
+      var key    = peg$currPos * 66 + 22,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30654,7 +30693,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsLiteralArrayContents() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 23,
+      var key    = peg$currPos * 66 + 23,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30714,7 +30753,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsedynamicArray() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 24,
+      var key    = peg$currPos * 66 + 24,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30775,7 +30814,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsedynamicDictionary() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 25,
+      var key    = peg$currPos * 66 + 25,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30836,7 +30875,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsepseudoVariable() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 26,
+      var key    = peg$currPos * 66 + 26,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30903,7 +30942,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseparseTimeLiteral() {
       var s0;
 
-      var key    = peg$currPos * 63 + 27,
+      var key    = peg$currPos * 66 + 27,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30937,7 +30976,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseruntimeLiteral() {
       var s0;
 
-      var key    = peg$currPos * 63 + 28,
+      var key    = peg$currPos * 66 + 28,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30962,7 +31001,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseliteral() {
       var s0;
 
-      var key    = peg$currPos * 63 + 29,
+      var key    = peg$currPos * 66 + 29,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -30984,7 +31023,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsevariable() {
       var s0, s1;
 
-      var key    = peg$currPos * 63 + 30,
+      var key    = peg$currPos * 66 + 30,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31009,7 +31048,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsebinarySelector() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 31,
+      var key    = peg$currPos * 66 + 31,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31055,7 +31094,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsKeywordPattern() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 63 + 32,
+      var key    = peg$currPos * 66 + 32,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31143,7 +31182,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsBinaryPattern() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 33,
+      var key    = peg$currPos * 66 + 33,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31189,7 +31228,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsUnaryPattern() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 34,
+      var key    = peg$currPos * 66 + 34,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31223,7 +31262,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseexpression() {
       var s0;
 
-      var key    = peg$currPos * 63 + 35,
+      var key    = peg$currPos * 66 + 35,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31248,7 +31287,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsExpressionsRest() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 36,
+      var key    = peg$currPos * 66 + 36,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31282,7 +31321,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsExpressions() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 37,
+      var key    = peg$currPos * 66 + 37,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31327,7 +31366,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsUnaryPragmaMessage() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 38,
+      var key    = peg$currPos * 66 + 38,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31382,7 +31421,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsKeywordPragmaMessage() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 63 + 39,
+      var key    = peg$currPos * 66 + 39,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31470,7 +31509,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsPragmaMessage() {
       var s0;
 
-      var key    = peg$currPos * 63 + 40,
+      var key    = peg$currPos * 66 + 40,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31492,7 +31531,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsPragmas() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 63 + 41,
+      var key    = peg$currPos * 66 + 41,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31606,7 +31645,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseassignment() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 63 + 42,
+      var key    = peg$currPos * 66 + 42,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31664,7 +31703,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseret() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 63 + 43,
+      var key    = peg$currPos * 66 + 43,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31710,7 +31749,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsetemps() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 63 + 44,
+      var key    = peg$currPos * 66 + 44,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31803,7 +31842,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsBlockParamList() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 63 + 45,
+      var key    = peg$currPos * 66 + 45,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31924,7 +31963,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsesubexpression() {
       var s0, s1, s2, s3, s4, s5;
 
-      var key    = peg$currPos * 63 + 46,
+      var key    = peg$currPos * 66 + 46,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -31988,7 +32027,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsStatements() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 63 + 47,
+      var key    = peg$currPos * 66 + 47,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32058,7 +32097,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsSequenceWs() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 63 + 48,
+      var key    = peg$currPos * 66 + 48,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32128,7 +32167,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseblock() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 49,
+      var key    = peg$currPos * 66 + 49,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32189,7 +32228,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parseoperand() {
       var s0;
 
-      var key    = peg$currPos * 63 + 50,
+      var key    = peg$currPos * 66 + 50,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32214,7 +32253,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsUnaryMessage() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 51,
+      var key    = peg$currPos * 66 + 51,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32266,10 +32305,34 @@ $globals.SmalltalkParser = (function() {
       return s0;
     }
 
-    function peg$parseunarySend() {
-      var s0, s1, s2, s3;
+    function peg$parsewsUnaryTail() {
+      var s0, s1;
 
-      var key    = peg$currPos * 63 + 52,
+      var key    = peg$currPos * 66 + 52,
+          cached = peg$resultsCache[key];
+
+      if (cached) {
+        peg$currPos = cached.nextPos;
+
+        return cached.result;
+      }
+
+      s0 = [];
+      s1 = peg$parsewsUnaryMessage();
+      while (s1 !== peg$FAILED) {
+        s0.push(s1);
+        s1 = peg$parsewsUnaryMessage();
+      }
+
+      peg$resultsCache[key] = { nextPos: peg$currPos, result: s0 };
+
+      return s0;
+    }
+
+    function peg$parseunarySend() {
+      var s0, s1, s2;
+
+      var key    = peg$currPos * 66 + 53,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32281,12 +32344,7 @@ $globals.SmalltalkParser = (function() {
       s0 = peg$currPos;
       s1 = peg$parseoperand();
       if (s1 !== peg$FAILED) {
-        s2 = [];
-        s3 = peg$parsewsUnaryMessage();
-        while (s3 !== peg$FAILED) {
-          s2.push(s3);
-          s3 = peg$parsewsUnaryMessage();
-        }
+        s2 = peg$parsewsUnaryTail();
         if (s2 !== peg$FAILED) {
           peg$savedPos = s0;
           s1 = peg$c110(s1, s2);
@@ -32308,7 +32366,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsBinaryMessage() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 53,
+      var key    = peg$currPos * 66 + 54,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32351,10 +32409,10 @@ $globals.SmalltalkParser = (function() {
       return s0;
     }
 
-    function peg$parsebinarySend() {
+    function peg$parsewsBinaryTail() {
       var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 63 + 54,
+      var key    = peg$currPos * 66 + 55,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32364,7 +32422,7 @@ $globals.SmalltalkParser = (function() {
       }
 
       s0 = peg$currPos;
-      s1 = peg$parseunarySend();
+      s1 = peg$parsewsUnaryTail();
       if (s1 !== peg$FAILED) {
         s2 = [];
         s3 = peg$parsewsBinaryMessage();
@@ -32372,6 +32430,40 @@ $globals.SmalltalkParser = (function() {
           s2.push(s3);
           s3 = peg$parsewsBinaryMessage();
         }
+        if (s2 !== peg$FAILED) {
+          peg$savedPos = s0;
+          s1 = peg$c112(s1, s2);
+          s0 = s1;
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+
+      peg$resultsCache[key] = { nextPos: peg$currPos, result: s0 };
+
+      return s0;
+    }
+
+    function peg$parsebinarySend() {
+      var s0, s1, s2;
+
+      var key    = peg$currPos * 66 + 56,
+          cached = peg$resultsCache[key];
+
+      if (cached) {
+        peg$currPos = cached.nextPos;
+
+        return cached.result;
+      }
+
+      s0 = peg$currPos;
+      s1 = peg$parseoperand();
+      if (s1 !== peg$FAILED) {
+        s2 = peg$parsewsBinaryTail();
         if (s2 !== peg$FAILED) {
           peg$savedPos = s0;
           s1 = peg$c110(s1, s2);
@@ -32393,7 +32485,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsKeywordMessage() {
       var s0, s1, s2, s3, s4, s5, s6;
 
-      var key    = peg$currPos * 63 + 55,
+      var key    = peg$currPos * 66 + 57,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32469,7 +32561,7 @@ $globals.SmalltalkParser = (function() {
       }
       if (s1 !== peg$FAILED) {
         peg$savedPos = s0;
-        s1 = peg$c112(s1);
+        s1 = peg$c113(s1);
       }
       s0 = s1;
 
@@ -32478,10 +32570,10 @@ $globals.SmalltalkParser = (function() {
       return s0;
     }
 
-    function peg$parsekeywordSend() {
+    function peg$parsewsKeywordTail() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 56,
+      var key    = peg$currPos * 66 + 58,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32491,7 +32583,7 @@ $globals.SmalltalkParser = (function() {
       }
 
       s0 = peg$currPos;
-      s1 = peg$parsebinarySend();
+      s1 = peg$parsewsBinaryTail();
       if (s1 !== peg$FAILED) {
         s2 = peg$parsewsKeywordMessage();
         if (s2 === peg$FAILED) {
@@ -32499,7 +32591,41 @@ $globals.SmalltalkParser = (function() {
         }
         if (s2 !== peg$FAILED) {
           peg$savedPos = s0;
-          s1 = peg$c113(s1, s2);
+          s1 = peg$c114(s1, s2);
+          s0 = s1;
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+
+      peg$resultsCache[key] = { nextPos: peg$currPos, result: s0 };
+
+      return s0;
+    }
+
+    function peg$parsekeywordSend() {
+      var s0, s1, s2;
+
+      var key    = peg$currPos * 66 + 59,
+          cached = peg$resultsCache[key];
+
+      if (cached) {
+        peg$currPos = cached.nextPos;
+
+        return cached.result;
+      }
+
+      s0 = peg$currPos;
+      s1 = peg$parseoperand();
+      if (s1 !== peg$FAILED) {
+        s2 = peg$parsewsKeywordTail();
+        if (s2 !== peg$FAILED) {
+          peg$savedPos = s0;
+          s1 = peg$c110(s1, s2);
           s0 = s1;
         } else {
           peg$currPos = s0;
@@ -32518,7 +32644,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsMessage() {
       var s0;
 
-      var key    = peg$currPos * 63 + 57,
+      var key    = peg$currPos * 66 + 60,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32541,9 +32667,9 @@ $globals.SmalltalkParser = (function() {
     }
 
     function peg$parsecascade() {
-      var s0, s1, s2, s3, s4, s5, s6, s7;
+      var s0, s1, s2, s3, s4, s5, s6, s7, s8;
 
-      var key    = peg$currPos * 63 + 58,
+      var key    = peg$currPos * 66 + 61,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32553,84 +32679,90 @@ $globals.SmalltalkParser = (function() {
       }
 
       s0 = peg$currPos;
-      s1 = peg$parsekeywordSend();
+      s1 = peg$parseoperand();
       if (s1 !== peg$FAILED) {
-        peg$savedPos = peg$currPos;
-        s2 = peg$c114(s1);
-        if (s2) {
-          s2 = void 0;
-        } else {
-          s2 = peg$FAILED;
-        }
+        s2 = peg$parsewsKeywordTail();
         if (s2 !== peg$FAILED) {
-          s3 = [];
-          s4 = peg$currPos;
-          s5 = peg$parsews();
-          if (s5 !== peg$FAILED) {
-            if (input.charCodeAt(peg$currPos) === 59) {
-              s6 = peg$c115;
-              peg$currPos++;
-            } else {
-              s6 = peg$FAILED;
-              if (peg$silentFails === 0) { peg$fail(peg$c116); }
-            }
-            if (s6 !== peg$FAILED) {
-              s7 = peg$parsewsMessage();
-              if (s7 !== peg$FAILED) {
-                peg$savedPos = s4;
-                s5 = peg$c117(s1, s7);
-                s4 = s5;
-              } else {
-                peg$currPos = s4;
-                s4 = peg$FAILED;
-              }
-            } else {
-              peg$currPos = s4;
-              s4 = peg$FAILED;
-            }
-          } else {
-            peg$currPos = s4;
-            s4 = peg$FAILED;
-          }
-          if (s4 !== peg$FAILED) {
-            while (s4 !== peg$FAILED) {
-              s3.push(s4);
-              s4 = peg$currPos;
-              s5 = peg$parsews();
-              if (s5 !== peg$FAILED) {
-                if (input.charCodeAt(peg$currPos) === 59) {
-                  s6 = peg$c115;
-                  peg$currPos++;
-                } else {
-                  s6 = peg$FAILED;
-                  if (peg$silentFails === 0) { peg$fail(peg$c116); }
-                }
-                if (s6 !== peg$FAILED) {
-                  s7 = peg$parsewsMessage();
-                  if (s7 !== peg$FAILED) {
-                    peg$savedPos = s4;
-                    s5 = peg$c117(s1, s7);
-                    s4 = s5;
-                  } else {
-                    peg$currPos = s4;
-                    s4 = peg$FAILED;
-                  }
-                } else {
-                  peg$currPos = s4;
-                  s4 = peg$FAILED;
-                }
-              } else {
-                peg$currPos = s4;
-                s4 = peg$FAILED;
-              }
-            }
+          peg$savedPos = peg$currPos;
+          s3 = peg$c115(s1, s2);
+          if (s3) {
+            s3 = void 0;
           } else {
             s3 = peg$FAILED;
           }
           if (s3 !== peg$FAILED) {
-            peg$savedPos = s0;
-            s1 = peg$c118(s1, s3);
-            s0 = s1;
+            s4 = [];
+            s5 = peg$currPos;
+            s6 = peg$parsews();
+            if (s6 !== peg$FAILED) {
+              if (input.charCodeAt(peg$currPos) === 59) {
+                s7 = peg$c116;
+                peg$currPos++;
+              } else {
+                s7 = peg$FAILED;
+                if (peg$silentFails === 0) { peg$fail(peg$c117); }
+              }
+              if (s7 !== peg$FAILED) {
+                s8 = peg$parsewsMessage();
+                if (s8 !== peg$FAILED) {
+                  peg$savedPos = s5;
+                  s6 = peg$c118(s1, s2, s8);
+                  s5 = s6;
+                } else {
+                  peg$currPos = s5;
+                  s5 = peg$FAILED;
+                }
+              } else {
+                peg$currPos = s5;
+                s5 = peg$FAILED;
+              }
+            } else {
+              peg$currPos = s5;
+              s5 = peg$FAILED;
+            }
+            if (s5 !== peg$FAILED) {
+              while (s5 !== peg$FAILED) {
+                s4.push(s5);
+                s5 = peg$currPos;
+                s6 = peg$parsews();
+                if (s6 !== peg$FAILED) {
+                  if (input.charCodeAt(peg$currPos) === 59) {
+                    s7 = peg$c116;
+                    peg$currPos++;
+                  } else {
+                    s7 = peg$FAILED;
+                    if (peg$silentFails === 0) { peg$fail(peg$c117); }
+                  }
+                  if (s7 !== peg$FAILED) {
+                    s8 = peg$parsewsMessage();
+                    if (s8 !== peg$FAILED) {
+                      peg$savedPos = s5;
+                      s6 = peg$c118(s1, s2, s8);
+                      s5 = s6;
+                    } else {
+                      peg$currPos = s5;
+                      s5 = peg$FAILED;
+                    }
+                  } else {
+                    peg$currPos = s5;
+                    s5 = peg$FAILED;
+                  }
+                } else {
+                  peg$currPos = s5;
+                  s5 = peg$FAILED;
+                }
+              }
+            } else {
+              s4 = peg$FAILED;
+            }
+            if (s4 !== peg$FAILED) {
+              peg$savedPos = s0;
+              s1 = peg$c119(s1, s2, s4);
+              s0 = s1;
+            } else {
+              peg$currPos = s0;
+              s0 = peg$FAILED;
+            }
           } else {
             peg$currPos = s0;
             s0 = peg$FAILED;
@@ -32652,7 +32784,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsemethod() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 59,
+      var key    = peg$currPos * 66 + 62,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32673,7 +32805,7 @@ $globals.SmalltalkParser = (function() {
         s2 = peg$parsewsSequenceWs();
         if (s2 !== peg$FAILED) {
           peg$savedPos = s0;
-          s1 = peg$c119(s1, s2);
+          s1 = peg$c120(s1, s2);
           s0 = s1;
         } else {
           peg$currPos = s0;
@@ -32690,9 +32822,9 @@ $globals.SmalltalkParser = (function() {
     }
 
     function peg$parseassociationSend() {
-      var s0, s1, s2;
+      var s0, s1, s2, s3;
 
-      var key    = peg$currPos * 63 + 60,
+      var key    = peg$currPos * 66 + 63,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32702,19 +32834,25 @@ $globals.SmalltalkParser = (function() {
       }
 
       s0 = peg$currPos;
-      s1 = peg$parsebinarySend();
+      s1 = peg$parseoperand();
       if (s1 !== peg$FAILED) {
-        peg$savedPos = peg$currPos;
-        s2 = peg$c120(s1);
-        if (s2) {
-          s2 = void 0;
-        } else {
-          s2 = peg$FAILED;
-        }
+        s2 = peg$parsewsBinaryTail();
         if (s2 !== peg$FAILED) {
-          peg$savedPos = s0;
-          s1 = peg$c121(s1);
-          s0 = s1;
+          peg$savedPos = peg$currPos;
+          s3 = peg$c121(s1, s2);
+          if (s3) {
+            s3 = void 0;
+          } else {
+            s3 = peg$FAILED;
+          }
+          if (s3 !== peg$FAILED) {
+            peg$savedPos = s0;
+            s1 = peg$c122(s1, s2);
+            s0 = s1;
+          } else {
+            peg$currPos = s0;
+            s0 = peg$FAILED;
+          }
         } else {
           peg$currPos = s0;
           s0 = peg$FAILED;
@@ -32732,7 +32870,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsAssociationsRest() {
       var s0, s1, s2;
 
-      var key    = peg$currPos * 63 + 61,
+      var key    = peg$currPos * 66 + 64,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32766,7 +32904,7 @@ $globals.SmalltalkParser = (function() {
     function peg$parsewsAssociations() {
       var s0, s1, s2, s3, s4;
 
-      var key    = peg$currPos * 63 + 62,
+      var key    = peg$currPos * 66 + 65,
           cached = peg$resultsCache[key];
 
       if (cached) {
@@ -32788,7 +32926,7 @@ $globals.SmalltalkParser = (function() {
           }
           if (s3 !== peg$FAILED) {
             peg$savedPos = s0;
-            s1 = peg$c122(s2, s3);
+            s1 = peg$c123(s2, s3);
             s0 = s1;
           } else {
             peg$currPos = s0;
@@ -34729,16 +34867,16 @@ return $self["@lastSection"];
 }))._on_do_($globals.Error,(function(e){
 return $core.withContext(function($ctx2) {
 $self["@lastChunk"]=$recv(parser)._last();
-return $recv(e)._resignal();
+return $recv(e)._pass();
 }, function($ctx2) {$ctx2.fillBlock({e:e},$ctx1,7)});
 }));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"import:",{aStream:aStream,chunk:chunk,result:result,parser:parser,lastEmpty:lastEmpty},$globals.Importer)});
 },
 args: ["aStream"],
-source: "import: aStream\x0a\x09| chunk result parser lastEmpty |\x0a\x09parser := ChunkParser on: aStream.\x0a\x09lastEmpty := false.\x0a\x09lastSection := 'n/a, not started'.\x0a\x09lastChunk := nil.\x0a\x09[\x0a\x09[ chunk := parser nextChunk.\x0a\x09chunk isNil ] whileFalse: [\x0a\x09\x09chunk\x0a\x09\x09\x09ifEmpty: [ lastEmpty := true ]\x0a\x09\x09\x09ifNotEmpty: [\x0a\x09\x09\x09\x09lastSection := chunk.\x0a\x09\x09\x09\x09result := Compiler new evaluateExpression: chunk.\x0a\x09\x09\x09\x09lastEmpty\x0a\x09\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09lastEmpty := false.\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09result scanFrom: parser ]] ].\x0a\x09lastSection := 'n/a, finished'\x0a\x09] on: Error do: [:e | lastChunk := parser last. e resignal ].",
+source: "import: aStream\x0a\x09| chunk result parser lastEmpty |\x0a\x09parser := ChunkParser on: aStream.\x0a\x09lastEmpty := false.\x0a\x09lastSection := 'n/a, not started'.\x0a\x09lastChunk := nil.\x0a\x09[\x0a\x09[ chunk := parser nextChunk.\x0a\x09chunk isNil ] whileFalse: [\x0a\x09\x09chunk\x0a\x09\x09\x09ifEmpty: [ lastEmpty := true ]\x0a\x09\x09\x09ifNotEmpty: [\x0a\x09\x09\x09\x09lastSection := chunk.\x0a\x09\x09\x09\x09result := Compiler new evaluateExpression: chunk.\x0a\x09\x09\x09\x09lastEmpty\x0a\x09\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09lastEmpty := false.\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09result scanFrom: parser ]] ].\x0a\x09lastSection := 'n/a, finished'\x0a\x09] on: Error do: [:e | lastChunk := parser last. e pass ].",
 referencedClasses: ["ChunkParser", "Compiler", "Error"],
-messageSends: ["on:", "on:do:", "whileFalse:", "nextChunk", "isNil", "ifEmpty:ifNotEmpty:", "evaluateExpression:", "new", "ifTrue:", "scanFrom:", "last", "resignal"]
+messageSends: ["on:", "on:do:", "whileFalse:", "nextChunk", "isNil", "ifEmpty:ifNotEmpty:", "evaluateExpression:", "new", "ifTrue:", "scanFrom:", "last", "pass"]
 }),
 $globals.Importer);
 
@@ -36092,7 +36230,7 @@ $globals.Trait);
 
 });
 
-define('amber_core/Compiler-AST',["amber/boot", "amber_core/Kernel-Dag", "amber_core/Kernel-Methods"], function($boot){"use strict";
+define('amber_core/Compiler-AST',["amber/boot", "amber_core/Kernel-Dag", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Methods"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage("Compiler-AST");
@@ -38010,7 +38148,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 $recv(aCollection)._ifNotEmpty_((function(){
 return $core.withContext(function($ctx2) {
-return $self._error_("Block must have no pragmas.");
+return $recv($globals.CompilerError)._signal_("Block must have no pragmas.");
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
 $1=(
@@ -38021,9 +38159,9 @@ return $1;
 }, function($ctx1) {$ctx1.fill(self,"pragmas:",{aCollection:aCollection},$globals.BlockSequenceNode)});
 },
 args: ["aCollection"],
-source: "pragmas: aCollection\x0a\x09aCollection ifNotEmpty: [\x0a\x09\x09self error: 'Block must have no pragmas.' ].\x0a\x09^ super pragmas: aCollection",
-referencedClasses: [],
-messageSends: ["ifNotEmpty:", "error:", "pragmas:"]
+source: "pragmas: aCollection\x0a\x09aCollection ifNotEmpty: [\x0a\x09\x09CompilerError signal: 'Block must have no pragmas.' ].\x0a\x09^ super pragmas: aCollection",
+referencedClasses: ["CompilerError"],
+messageSends: ["ifNotEmpty:", "signal:", "pragmas:"]
 }),
 $globals.BlockSequenceNode);
 
@@ -38346,6 +38484,10 @@ $globals.VariableNode);
 
 
 
+$core.addClass("CompilerError", $globals.Error, [], "Compiler-AST");
+$globals.CompilerError.comment="I am the common superclass of all compiling errors.";
+
+
 $core.addClass("ParentFakingPathDagVisitor", $globals.PathDagVisitor, ["setParentSelector"], "Compiler-AST");
 $globals.ParentFakingPathDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x0aI hold the path of ancestors up to actual node\x0ain `self path`.";
 $core.addMethod(
@@ -38630,22 +38772,22 @@ $1=$self._source();
 $ctx1.sendIdx["source"]=1;
 $recv($1)._ifEmpty_((function(){
 return $core.withContext(function($ctx2) {
-return $self._error_("Method source is empty");
+return $recv($globals.CompilerError)._signal_("Method source is empty");
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
 return $recv($recv($globals.Compiler)._new())._ast_forClass_protocol_($self._source(),$self._methodClass(),$self._protocol());
 }, function($ctx1) {$ctx1.fill(self,"ast",{},$globals.CompiledMethod)});
 },
 args: [],
-source: "ast\x0a\x09self source ifEmpty: [ self error: 'Method source is empty' ].\x0a\x09\x0a\x09^ Compiler new\x0a\x09\x09ast: self source\x0a\x09\x09forClass: self methodClass\x0a\x09\x09protocol: self protocol",
-referencedClasses: ["Compiler"],
-messageSends: ["ifEmpty:", "source", "error:", "ast:forClass:protocol:", "new", "methodClass", "protocol"]
+source: "ast\x0a\x09self source ifEmpty: [ CompilerError signal: 'Method source is empty' ].\x0a\x09\x0a\x09^ Compiler new\x0a\x09\x09ast: self source\x0a\x09\x09forClass: self methodClass\x0a\x09\x09protocol: self protocol",
+referencedClasses: ["CompilerError", "Compiler"],
+messageSends: ["ifEmpty:", "source", "signal:", "ast:forClass:protocol:", "new", "methodClass", "protocol"]
 }),
 $globals.CompiledMethod);
 
 });
 
-define('amber_core/Compiler-Core',["amber/boot", "amber_core/Compiler-AST", "amber_core/Kernel-Collections", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Objects"], function($boot){"use strict";
+define('amber_core/Compiler-Core',["amber/boot", "amber_core/Compiler-AST", "amber_core/Kernel-Collections", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 $core.addPackage("Compiler-Core");
@@ -38973,16 +39115,16 @@ throw $early=[x];
 
 }));
 $self._compileNode_($self._parse_(aString));
-$self._error_("AST transformation failed.");
+$recv($globals.CompilerError)._signal_("AST transformation failed.");
 return self;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 }, function($ctx1) {$ctx1.fill(self,"ast:forClass:protocol:",{aString:aString,aClass:aClass,anotherString:anotherString},$globals.Compiler)});
 },
 args: ["aString", "aClass", "anotherString"],
-source: "ast: aString forClass: aClass protocol: anotherString\x0a\x09self\x0a\x09\x09source: aString;\x0a\x09\x09forClass: aClass protocol: anotherString.\x0a\x0a\x09self codeGenerator transformersDictionary at: '2500-astCheckpoint' put: [ :x | ^x ].\x0a\x09\x0a\x09self compileNode: (self parse: aString).\x0a\x0a\x09self error: 'AST transformation failed.'",
-referencedClasses: [],
-messageSends: ["source:", "forClass:protocol:", "at:put:", "transformersDictionary", "codeGenerator", "compileNode:", "parse:", "error:"]
+source: "ast: aString forClass: aClass protocol: anotherString\x0a\x09self\x0a\x09\x09source: aString;\x0a\x09\x09forClass: aClass protocol: anotherString.\x0a\x0a\x09self codeGenerator transformersDictionary at: '2500-astCheckpoint' put: [ :x | ^x ].\x0a\x09\x0a\x09self compileNode: (self parse: aString).\x0a\x0a\x09CompilerError signal: 'AST transformation failed.'",
+referencedClasses: ["CompilerError"],
+messageSends: ["source:", "forClass:protocol:", "at:put:", "transformersDictionary", "codeGenerator", "compileNode:", "parse:", "signal:"]
 }),
 $globals.Compiler);
 
@@ -39512,10 +39654,6 @@ referencedClasses: ["Smalltalk"],
 messageSends: ["do:", "classes", "recompile:"]
 }),
 $globals.Compiler.a$cls);
-
-
-$core.addClass("CompilerError", $globals.Error, [], "Compiler-Core");
-$globals.CompilerError.comment="I am the common superclass of all compiling errors.";
 
 
 $core.addClass("DoIt", $globals.Object, [], "Compiler-Core");
@@ -42061,7 +42199,7 @@ $ctx1.sendIdx["sequenceNode"]=1;
 $1=$recv($2)._dagChildren();
 $recv($1)._ifNotEmpty_((function(){
 return $core.withContext(function($ctx2) {
-return $self._error_("inlineJS: does not allow smalltalk statements");
+return $recv($globals.CompilerError)._signal_("inlineJS: does not allow smalltalk statements");
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
 $3=$self._sequenceNode();
@@ -42073,9 +42211,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"inlineJS:",{aString:aString},$globals.EarlyPragmator)});
 },
 args: ["aString"],
-source: "inlineJS: aString\x0a\x09self sequenceNode dagChildren ifNotEmpty: [\x0a\x09\x09self error: 'inlineJS: does not allow smalltalk statements' ].\x0a\x09self sequenceNode addDagChild: (\x0a\x09\x09JSStatementNode new\x0a\x09\x09\x09source: aString;\x0a\x09\x09\x09yourself)",
-referencedClasses: ["JSStatementNode"],
-messageSends: ["ifNotEmpty:", "dagChildren", "sequenceNode", "error:", "addDagChild:", "source:", "new", "yourself"]
+source: "inlineJS: aString\x0a\x09self sequenceNode dagChildren ifNotEmpty: [\x0a\x09\x09CompilerError signal: 'inlineJS: does not allow smalltalk statements' ].\x0a\x09self sequenceNode addDagChild: (\x0a\x09\x09JSStatementNode new\x0a\x09\x09\x09source: aString;\x0a\x09\x09\x09yourself)",
+referencedClasses: ["CompilerError", "JSStatementNode"],
+messageSends: ["ifNotEmpty:", "dagChildren", "sequenceNode", "signal:", "addDagChild:", "source:", "new", "yourself"]
 }),
 $globals.EarlyPragmator);
 
@@ -53606,6 +53744,24 @@ args: [],
 source: "testPascalCaseGlobal\x0a\x09self should: 'foo ^Object' return: (Smalltalk globals at: 'Object').\x0a\x09self should: 'foo ^NonExistent' return: nil",
 referencedClasses: ["Smalltalk"],
 messageSends: ["should:return:", "at:", "globals"]
+}),
+$globals.CodeGeneratorTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPragmaInBlock",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._should_receiver_raise_("foo ^ [ < fooBar > 4 ] value",$self["@receiver"],$globals.CompilerError);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testPragmaInBlock",{},$globals.CodeGeneratorTest)});
+},
+args: [],
+source: "testPragmaInBlock\x0a\x09self should: 'foo ^ [ < fooBar > 4 ] value' receiver: receiver raise: CompilerError",
+referencedClasses: ["CompilerError"],
+messageSends: ["should:receiver:raise:"]
 }),
 $globals.CodeGeneratorTest);
 
@@ -68715,7 +68871,7 @@ return result;
 return $core.withContext(function($ctx3) {
 $1=$recv(e)._isSmalltalkError();
 if($core.assert($1)){
-return $recv(e)._resignal();
+return $recv(e)._pass();
 } else {
 return $recv($recv(process)._stdout())._write_($recv(e)._jsStack());
 }
@@ -68727,9 +68883,9 @@ return result;
 }, function($ctx1) {$ctx1.fill(self,"eval:on:",{buffer:buffer,anObject:anObject,result:result},$globals.Repl)});
 },
 args: ["buffer", "anObject"],
-source: "eval: buffer on: anObject\x0a\x09| result |\x0a\x09buffer ifNotEmpty: [\x0a\x09\x09[result := Compiler new evaluateExpression: buffer on: anObject]\x0a\x09\x09\x09tryCatch: [:e |\x0a\x09\x09\x09\x09e isSmalltalkError\x0a\x09\x09\x09\x09\x09ifTrue: [ e resignal ]\x0a\x09\x09\x09\x09\x09ifFalse: [ process stdout write: e jsStack ]]].\x0a\x09^ result",
+source: "eval: buffer on: anObject\x0a\x09| result |\x0a\x09buffer ifNotEmpty: [\x0a\x09\x09[result := Compiler new evaluateExpression: buffer on: anObject]\x0a\x09\x09\x09tryCatch: [:e |\x0a\x09\x09\x09\x09e isSmalltalkError\x0a\x09\x09\x09\x09\x09ifTrue: [ e pass ]\x0a\x09\x09\x09\x09\x09ifFalse: [ process stdout write: e jsStack ]]].\x0a\x09^ result",
 referencedClasses: ["Compiler"],
-messageSends: ["ifNotEmpty:", "tryCatch:", "evaluateExpression:on:", "new", "ifTrue:ifFalse:", "isSmalltalkError", "resignal", "write:", "stdout", "jsStack"]
+messageSends: ["ifNotEmpty:", "tryCatch:", "evaluateExpression:on:", "new", "ifTrue:ifFalse:", "isSmalltalkError", "pass", "write:", "stdout", "jsStack"]
 }),
 $globals.Repl);
 
