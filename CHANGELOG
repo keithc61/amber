@@ -1,3 +1,11 @@
+24 Jun 2018 - Release 0.22.1
+===================================
+
+* Added one usable API: {BlockClosure,Class} >> provided.
+
+Commits: https://lolg.it/amber/amber/commits/0.22.1
+
+
 22 Jun 2018 - Release 0.22.0
 ===================================
 
