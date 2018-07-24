@@ -16279,6 +16279,23 @@ $globals.Class);
 
 $core.addMethod(
 $core.method({
+selector: "provided",
+protocol: "converting",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._javascriptConstructor())._provided();
+}, function($ctx1) {$ctx1.fill(self,"provided",{},$globals.Class)});
+},
+args: [],
+source: "provided\x0a\x09\x22Returns JS proxy that allows to access 'static API', as in\x0a\x09  Number provided EPSILON\x0a\x09that forwards to (wrapped JS) constructor function.\x22\x0a\x09\x0a\x09^ self javascriptConstructor provided",
+referencedClasses: [],
+messageSends: ["provided", "javascriptConstructor"]
+}),
+$globals.Class);
+
+$core.addMethod(
+$core.method({
 selector: "rename:",
 protocol: "accessing",
 fn: function (aString){
@@ -19224,6 +19241,23 @@ args: ["anErrorClass", "aBlock"],
 source: "on: anErrorClass do: aBlock\x0a\x09\x22All exceptions thrown in the Smalltalk stack are cought.\x0a\x09Convert all JS exceptions to JavaScriptException instances.\x22\x0a\x09\x0a\x09^ self tryCatch: [ :error | | smalltalkError |\x0a\x09\x09smalltalkError := Smalltalk asSmalltalkException: error.\x0a\x09\x09(smalltalkError isKindOf: anErrorClass)\x0a\x09\x09ifTrue: [ aBlock value: smalltalkError ]\x0a\x09\x09ifFalse: [ smalltalkError pass ] ]",
 referencedClasses: ["Smalltalk"],
 messageSends: ["tryCatch:", "asSmalltalkException:", "ifTrue:ifFalse:", "isKindOf:", "value:", "pass"]
+}),
+$globals.BlockClosure);
+
+$core.addMethod(
+$core.method({
+selector: "provided",
+protocol: "converting",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($globals.JSObjectProxy)._on_(self);
+}, function($ctx1) {$ctx1.fill(self,"provided",{},$globals.BlockClosure)});
+},
+args: [],
+source: "provided\x0a\x09\x22Returns JS proxy that allows to access 'static API', as in\x0a\x09  require provided resolve: ...\x0a\x09or\x0a\x09  XMLHttpRequest provided DONE\x22\x0a\x09\x0a\x09^ JSObjectProxy on: self",
+referencedClasses: ["JSObjectProxy"],
+messageSends: ["on:"]
 }),
 $globals.BlockClosure);
 
@@ -26079,11 +26113,11 @@ selector: "version",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return "0.22.0";
+return "0.22.1";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.22.0'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.22.1'",
 referencedClasses: [],
 messageSends: []
 }),
@@ -35383,14 +35417,14 @@ return $self._error_("AMD loader not present");
 } else {
 var require;
 require=$receiver;
-return $recv($recv(require)._basicAt_("toUrl"))._value_(aString);
+return $recv($recv(require)._provided())._toUrl_(aString);
 }
 }, function($ctx1) {$ctx1.fill(self,"toUrl:",{aString:aString},$globals.AmdPackageHandler)});
 },
 args: ["aString"],
-source: "toUrl: aString\x0a\x09^ Smalltalk amdRequire\x0a\x09\x09ifNil: [ self error: 'AMD loader not present' ]\x0a\x09\x09ifNotNil: [ :require | (require basicAt: 'toUrl') value: aString ]",
+source: "toUrl: aString\x0a\x09^ Smalltalk amdRequire\x0a\x09\x09ifNil: [ self error: 'AMD loader not present' ]\x0a\x09\x09ifNotNil: [ :require | require provided toUrl: aString ]",
 referencedClasses: ["Smalltalk"],
-messageSends: ["ifNil:ifNotNil:", "amdRequire", "error:", "value:", "basicAt:"]
+messageSends: ["ifNil:ifNotNil:", "amdRequire", "error:", "toUrl:", "provided"]
 }),
 $globals.AmdPackageHandler);
 
@@ -35946,14 +35980,14 @@ protocol: "actions",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($recv(require)._basicAt_("config"))._value_($globals.HashedCollection._newFromPairs_(["paths",$globals.HashedCollection._newFromPairs_([$self._namespace(),aString])]));
+$recv($recv(require)._provided())._config_($globals.HashedCollection._newFromPairs_(["paths",$globals.HashedCollection._newFromPairs_([$self._namespace(),aString])]));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"setPath:",{aString:aString},$globals.AmdPackageTransport)});
 },
 args: ["aString"],
-source: "setPath: aString\x0a\x09\x22Set the path the the receiver's `namespace`\x22\x0a\x09\x0a\x09(require basicAt: 'config') value: #{\x0a\x09\x09'paths' -> #{\x0a\x09\x09\x09self namespace -> aString\x0a\x09\x09}\x0a\x09}.",
+source: "setPath: aString\x0a\x09\x22Set the path the the receiver's `namespace`\x22\x0a\x09\x0a\x09require provided config: #{\x0a\x09\x09'paths' -> #{\x0a\x09\x09\x09self namespace -> aString\x0a\x09\x09}\x0a\x09}.",
 referencedClasses: [],
-messageSends: ["value:", "basicAt:", "namespace"]
+messageSends: ["config:", "provided", "namespace"]
 }),
 $globals.AmdPackageTransport);
 
@@ -68535,7 +68569,7 @@ var modulePath,packageJson,binSection,scriptPath;
 return $core.withContext(function($ctx1) {
 var $1,$3,$4,$2,$5;
 $1=$self["@path"];
-$3=$recv($globals.JSObjectProxy)._on_(require);
+$3=$recv(require)._provided();
 $4=$recv(aString).__comma("/package.json");
 $ctx1.sendIdx[","]=1;
 $2=$recv($3)._resolve_($4);
@@ -68553,9 +68587,9 @@ return $recv($self["@path"])._join_with_(modulePath,scriptPath);
 }, function($ctx1) {$ctx1.fill(self,"npmScriptForModule:named:",{aString:aString,anotherString:anotherString,modulePath:modulePath,packageJson:packageJson,binSection:binSection,scriptPath:scriptPath},$globals.Initer)});
 },
 args: ["aString", "anotherString"],
-source: "npmScriptForModule: aString named: anotherString\x0a\x09| modulePath packageJson binSection scriptPath |\x0a\x09modulePath := path dirname: (\x0a\x09\x09(JSObjectProxy on: require)\x0a\x09\x09\x09resolve: aString, '/package.json').\x0a\x09packageJson := Smalltalk readJSObject: (\x0a\x09\x09require value: aString, '/package.json').\x0a\x09binSection := packageJson at: 'bin'.\x0a\x09scriptPath := binSection isString\x0a\x09\x09ifTrue: [ binSection ]\x0a\x09\x09ifFalse: [ binSection at: anotherString ].\x0a\x09^ path join: modulePath with: scriptPath",
-referencedClasses: ["JSObjectProxy", "Smalltalk"],
-messageSends: ["dirname:", "resolve:", "on:", ",", "readJSObject:", "value:", "at:", "ifTrue:ifFalse:", "isString", "join:with:"]
+source: "npmScriptForModule: aString named: anotherString\x0a\x09| modulePath packageJson binSection scriptPath |\x0a\x09modulePath := path dirname: (\x0a\x09\x09require provided resolve: aString, '/package.json').\x0a\x09packageJson := Smalltalk readJSObject: (\x0a\x09\x09require value: aString, '/package.json').\x0a\x09binSection := packageJson at: 'bin'.\x0a\x09scriptPath := binSection isString\x0a\x09\x09ifTrue: [ binSection ]\x0a\x09\x09ifFalse: [ binSection at: anotherString ].\x0a\x09^ path join: modulePath with: scriptPath",
+referencedClasses: ["Smalltalk"],
+messageSends: ["dirname:", "resolve:", "provided", ",", "readJSObject:", "value:", "at:", "ifTrue:ifFalse:", "isString", "join:with:"]
 }),
 $globals.Initer);
 
