@@ -1077,8 +1077,7 @@ initialize
 npmScriptForModule: aString named: anotherString
 	| modulePath packageJson binSection scriptPath |
 	modulePath := path dirname: (
-		(JSObjectProxy on: require)
-			resolve: aString, '/package.json').
+		require provided resolve: aString, '/package.json').
 	packageJson := Smalltalk readJSObject: (
 		require value: aString, '/package.json').
 	binSection := packageJson at: 'bin'.

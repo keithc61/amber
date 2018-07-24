@@ -912,7 +912,7 @@ load: aPackage
 toUrl: aString
 	^ Smalltalk amdRequire
 		ifNil: [ self error: 'AMD loader not present' ]
-		ifNotNil: [ :require | (require basicAt: 'toUrl') value: aString ]
+		ifNotNil: [ :require | require provided toUrl: aString ]
 ! !
 
 !AmdPackageHandler class methodsFor: 'commit paths'!
@@ -1076,7 +1076,7 @@ namespace: aString
 setPath: aString
 	"Set the path the the receiver's `namespace`"
 	
-	(require basicAt: 'config') value: #{
+	require provided config: #{
 		'paths' -> #{
 			self namespace -> aString
 		}

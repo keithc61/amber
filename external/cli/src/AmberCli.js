@@ -2410,7 +2410,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$4,$2,$5;
 $1=$self["@path"];
-$3=$recv($globals.JSObjectProxy)._on_(require);
+$3=$recv(require)._provided();
 $4=$recv(aString).__comma("/package.json");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=1;
@@ -2435,10 +2435,10 @@ return $recv($self["@path"])._join_with_(modulePath,scriptPath);
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anotherString"],
-source: "npmScriptForModule: aString named: anotherString\x0a\x09| modulePath packageJson binSection scriptPath |\x0a\x09modulePath := path dirname: (\x0a\x09\x09(JSObjectProxy on: require)\x0a\x09\x09\x09resolve: aString, '/package.json').\x0a\x09packageJson := Smalltalk readJSObject: (\x0a\x09\x09require value: aString, '/package.json').\x0a\x09binSection := packageJson at: 'bin'.\x0a\x09scriptPath := binSection isString\x0a\x09\x09ifTrue: [ binSection ]\x0a\x09\x09ifFalse: [ binSection at: anotherString ].\x0a\x09^ path join: modulePath with: scriptPath",
-referencedClasses: ["JSObjectProxy", "Smalltalk"],
+source: "npmScriptForModule: aString named: anotherString\x0a\x09| modulePath packageJson binSection scriptPath |\x0a\x09modulePath := path dirname: (\x0a\x09\x09require provided resolve: aString, '/package.json').\x0a\x09packageJson := Smalltalk readJSObject: (\x0a\x09\x09require value: aString, '/package.json').\x0a\x09binSection := packageJson at: 'bin'.\x0a\x09scriptPath := binSection isString\x0a\x09\x09ifTrue: [ binSection ]\x0a\x09\x09ifFalse: [ binSection at: anotherString ].\x0a\x09^ path join: modulePath with: scriptPath",
+referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["dirname:", "resolve:", "on:", ",", "readJSObject:", "value:", "at:", "ifTrue:ifFalse:", "isString", "join:with:"]
+messageSends: ["dirname:", "resolve:", "provided", ",", "readJSObject:", "value:", "at:", "ifTrue:ifFalse:", "isString", "join:with:"]
 }),
 $globals.Initer);
 
