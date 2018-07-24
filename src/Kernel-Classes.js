@@ -841,6 +841,29 @@ $globals.Class);
 
 $core.addMethod(
 $core.method({
+selector: "provided",
+protocol: "converting",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._javascriptConstructor())._provided();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"provided",{},$globals.Class)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "provided\x0a\x09\x22Returns JS proxy that allows to access 'static API', as in\x0a\x09  Number provided EPSILON\x0a\x09that forwards to (wrapped JS) constructor function.\x22\x0a\x09\x0a\x09^ self javascriptConstructor provided",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["provided", "javascriptConstructor"]
+}),
+$globals.Class);
+
+$core.addMethod(
+$core.method({
 selector: "rename:",
 protocol: "accessing",
 fn: function (aString){

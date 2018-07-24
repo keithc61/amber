@@ -345,6 +345,29 @@ $globals.BlockClosure);
 
 $core.addMethod(
 $core.method({
+selector: "provided",
+protocol: "converting",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.JSObjectProxy)._on_(self);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"provided",{},$globals.BlockClosure)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "provided\x0a\x09\x22Returns JS proxy that allows to access 'static API', as in\x0a\x09  require provided resolve: ...\x0a\x09or\x0a\x09  XMLHttpRequest provided DONE\x22\x0a\x09\x0a\x09^ JSObjectProxy on: self",
+referencedClasses: ["JSObjectProxy"],
+//>>excludeEnd("ide");
+messageSends: ["on:"]
+}),
+$globals.BlockClosure);
+
+$core.addMethod(
+$core.method({
 selector: "receiver",
 protocol: "accessing",
 fn: function (){

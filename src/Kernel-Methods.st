@@ -77,6 +77,15 @@ currySelf
 			return self.apply(null, args);
 		}
 	'>
+!
+
+provided
+	"Returns JS proxy that allows to access 'static API', as in
+	  require provided resolve: ...
+	or
+	  XMLHttpRequest provided DONE"
+	
+	^ JSObjectProxy on: self
 ! !
 
 !BlockClosure methodsFor: 'error handling'!

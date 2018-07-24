@@ -199,6 +199,16 @@ theMetaClass
 	^ self class
 ! !
 
+!Class methodsFor: 'converting'!
+
+provided
+	"Returns JS proxy that allows to access 'static API', as in
+	  Number provided EPSILON
+	that forwards to (wrapped JS) constructor function."
+	
+	^ self javascriptConstructor provided
+! !
+
 !Class methodsFor: 'testing'!
 
 isClass
