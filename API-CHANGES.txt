@@ -1,8 +1,8 @@
 0.22.1:
 
-+ Class >>
++ BlockClosure >>
   + provided
-+ Number >>
++ Class >>
   + provided
 
 
