@@ -28,9 +28,8 @@
     "buildParserEnd": "});"
   },
   "scripts": {
-    "build:parser:begin": "node -e \"process.stdout.write(require('./package.json').strings.buildParserBegin);\"",
-    "build:parser": "(npm run -s build:parser:begin && pegjs --cache --export-var \"$\"globals.SmalltalkParser < support/parser.pegjs && npm run -s build:parser:end) > support/parser.js",
-    "build:parser:end": "node -e \"process.stdout.write(require('./package.json').strings.buildParserEnd);\"",
+    "echos": "node -e \"process.stdout.write(require('./package.json').strings[process.argv[1]])\"",
+    "build:parser": "(npm run -s echos buildParserBegin && pegjs --cache --export-var \"$\"globals.SmalltalkParser < support/parser.pegjs && npm run -s echos buildParserEnd) > support/parser.js",
     "test": "npm run test:sunit && npm run test:e2e",
     "test:sunit": "grunt test",
     "test:e2e": "(cd external && cd cli && npm test)"
