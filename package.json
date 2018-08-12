@@ -24,13 +24,7 @@
   "engines": {
     "node": ">=4.0.0"
   },
-  "strings": {
-    "buildParserBegin": "// jshint ignore:start\ndefine(['./boot'], function($boot) {\nvar $globals = $boot.globals;\n",
-    "buildParserEnd": "});"
-  },
   "scripts": {
-    "echos": "node -e \"process.stdout.write(require('./package.json').strings[process.argv[1]])\"",
-    "build:parser": "(npm run -s echos buildParserBegin && pegjs --cache --export-var \"$\"globals.SmalltalkParser < lang/support/parser.pegjs && npm run -s echos buildParserEnd) > lang/support/parser.js",
     "test": "npm run test:sunit && npm run test:e2e",
     "test:sunit": "grunt test",
     "test:e2e": "(cd cli && npm test)"
@@ -42,7 +36,6 @@
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-requirejs": "^1.0.0",
     "grunt-exec": "^2.0.0",
-    "pegjs": "^0.9.0",
     "requirejs": "^2.1.15"
   }
 }

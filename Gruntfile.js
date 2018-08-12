@@ -6,12 +6,12 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-exec');
 
-    grunt.loadTasks('./grunt-tasks');
     grunt.loadTasks('./sdk/tasks');
 
     var helpers = require('./sdk').helpers;
 
     grunt.registerTask('default', ['peg', 'build:all']);
+    grunt.registerTask('peg', ['exec:build_parser']);
     grunt.registerTask('build:all', ['amberc:lang', 'amberc:tests', 'build:cli', 'amberc:dev']);
     grunt.registerTask('build:cli', ['amberc:cli', 'amdconfig', 'requirejs:cli']);
     grunt.registerTask('test', ['amdconfig', 'requirejs:test_runner', 'exec:test_runner', 'clean:test_runner']);
@@ -22,17 +22,6 @@ module.exports = function (grunt) {
 
         meta: {
             banner: '/*!\n <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> \n License: <%= pkg.license.type %> \n*/\n'
-        },
-
-        peg: {
-            parser: {
-                options: {
-                    cache: true,
-                    export_var: '$globals.SmalltalkParser'
-                },
-                src: 'lang/support/parser.pegjs',
-                dest: 'lang/support/parser.js'
-            }
         },
 
         amdconfig: {amber: {dest: 'config.js'}},
@@ -135,6 +124,7 @@ module.exports = function (grunt) {
         },
 
         exec: {
+            build_parser: 'cd lang && npm run build:parser',
             test_runner: 'node test_runner.js'
         },
 
