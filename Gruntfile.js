@@ -17,6 +17,14 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['amdconfig', 'requirejs:test_runner', 'exec:test_runner', 'clean:test_runner']);
     grunt.registerTask('devel', ['amdconfig']);
 
+    var polyfillThenPromiseApp = function () {
+        define(["require", "amber/es2015-polyfills"], function (require) {
+            return new Promise(function (resolve, reject) {
+                require(["__app__"], resolve, reject);
+            });
+        });
+    };
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
@@ -77,11 +85,7 @@ module.exports = function (grunt) {
                                 });
                             });
                         } + "());",
-                        "app": "(" + function () {
-                            define(["require", "amber/es2015-polyfills"], function (require) {
-                                require(["__app__"]);
-                            });
-                        } + "());"
+                        "app": '(' + polyfillThenPromiseApp + '());'
                     },
                     pragmas: {
                         // none, for repl to have all info
@@ -104,11 +108,7 @@ module.exports = function (grunt) {
                                 });
                             });
                         } + "());",
-                        "app": "(" + function () {
-                            define(["require", "amber/es2015-polyfills"], function (require) {
-                                require(["__app__"]);
-                            });
-                        } + "());"
+                        "app": '(' + polyfillThenPromiseApp + '());'
                     },
                     paths: {"amber_devkit": helpers.libPath},
                     pragmas: {
