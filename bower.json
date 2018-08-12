@@ -1,15 +1,9 @@
 {
   "name": "amber",
-  "main": "support/amber.js",
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
-    "/external",
-    "/internal",
-    "config.js",
-    "/test_runner.js",
-    "test",
-    "tests"
+    "!/lang/"
   ]
 }

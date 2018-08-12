@@ -6,10 +6,9 @@ Works in Windows as well, trying junctions and/or true symlinks, so no fear.
 
 Amber repository contains more parts:
 
-1. Amber language itself (in root directory). This is released.
-1. Amber development helpers and CLI tool (in `external/` subdirectories). Not part of release.
-1. In `internal/` directory, there are development files (`index.html` and its friends).  Not part of release.
-1. Sibling modules, that you can develop in parallel and you choose which version of them to use.
+1. Amber language itself (in `lang/` directory). This is released.
+1. Amber development helpers and CLI tool (in `sdk/` and `cli/` subdirectories). They have their own release track.
+1. Development files (`index.html`, `Gruntfile.js` and its friends).  Not part of release.
 
 To get your clone, follow this list:
 
@@ -18,7 +17,8 @@ To get your clone, follow this list:
 Go into cloned amber directory (`<project-path>/amber`).
 1. Install the tools: ```npm install -g @ambers/cli```.
 1. Run ```npm install``` to install dependencies listed in package.json. Used by development tools. See [here](https://www.npmjs.org/doc/cli/npm-install.html) for more info.
-1. Run ```cd external/sdk && npm install && cd ../..``` to install dependencies of `sdk` component.
+1. Run ```cd lang && npm install && cd ..``` to install dependencies of `lang` component.
+1. Run ```cd sdk && npm install && cd ..``` to install dependencies of `sdk` component.
 1. Get your copy of Helios IDE into directory `<project-path>/helios`, choosing among using your own fork / using the stock version:
     - ```git clone git@lolg.it:<your username>/helios.git ../helios``` to use your own fork, or
     - ```git clone git@lolg.it:amber/helios.git ../helios``` to use stock version.
@@ -30,7 +30,7 @@ Go into cloned amber directory (`<project-path>/amber`).
 1. Run ```grunt devel```. Prepares some transient files.
 1. Run ```amber serve```. Starts the integrated development server.
 
-Now you should be able to start Amber devlopment page at `http://localhost:4000/internal/` and commit changes you do to disk.
+Now you should be able to start Amber devlopment page at `http://localhost:4000/` and commit changes you do to disk.
 
 Start Contributing by talking about Amber
 =========================================

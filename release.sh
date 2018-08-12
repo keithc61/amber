@@ -5,5 +5,4 @@
 
 cd `dirname "$0"`
 cp release-worker.sh /tmp
-cd ..
 exec sh /tmp/release-worker.sh

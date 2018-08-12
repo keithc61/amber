@@ -6,10 +6,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-exec');
 
-    grunt.loadTasks('./internal/grunt-tasks');
-    grunt.loadTasks('./external/sdk/tasks');
+    grunt.loadTasks('./grunt-tasks');
+    grunt.loadTasks('./sdk/tasks');
 
-    var helpers = require('./external/sdk').helpers;
+    var helpers = require('./sdk').helpers;
 
     grunt.registerTask('default', ['peg', 'build:all']);
     grunt.registerTask('build:all', ['amberc:lang', 'amberc:tests', 'build:cli', 'amberc:dev']);
@@ -30,8 +30,8 @@ module.exports = function (grunt) {
                     cache: true,
                     export_var: '$globals.SmalltalkParser'
                 },
-                src: 'support/parser.pegjs',
-                dest: 'support/parser.js'
+                src: 'lang/support/parser.pegjs',
+                dest: 'lang/support/parser.js'
             }
         },
 
@@ -39,36 +39,36 @@ module.exports = function (grunt) {
 
         amberc: {
             options: {
-                amber_dir: process.cwd(),
+                amber_dir: path.join(process.cwd(), "lang"),
                 closure_jar: ''
             },
             lang: {
-                output_dir: 'src',
-                src: ['src/Kernel-Helpers.st',
-                    'src/Kernel-Objects.st', 'src/Kernel-Classes.st', 'src/Kernel-Methods.st', 'src/Kernel-Collections.st',
-                    'src/Kernel-Infrastructure.st', 'src/Kernel-Promises.st', 'src/Kernel-Exceptions.st', 'src/Kernel-Announcements.st',
-                    'src/Platform-Services.st', 'src/Platform-ImportExport.st', 'src/Platform-Browser.st', 'src/Platform-Node.st',
-                    'src/Platform-DOM.st',
-                    'src/Kernel-Dag.st', 'src/Compiler-Core.st', 'src/Compiler-AST.st',
-                    'src/Compiler-IR.st', 'src/Compiler-Inlining.st', 'src/Compiler-Semantic.st', 'src/Compiler-Interpreter.st',
-                    'src/SUnit.st'
+                output_dir: 'lang/src',
+                src: ['lang/src/Kernel-Helpers.st',
+                    'lang/src/Kernel-Objects.st', 'lang/src/Kernel-Classes.st', 'lang/src/Kernel-Methods.st', 'lang/src/Kernel-Collections.st',
+                    'lang/src/Kernel-Infrastructure.st', 'lang/src/Kernel-Promises.st', 'lang/src/Kernel-Exceptions.st', 'lang/src/Kernel-Announcements.st',
+                    'lang/src/Platform-Services.st', 'lang/src/Platform-ImportExport.st', 'lang/src/Platform-Browser.st', 'lang/src/Platform-Node.st',
+                    'lang/src/Platform-DOM.st',
+                    'lang/src/Kernel-Dag.st', 'lang/src/Compiler-Core.st', 'lang/src/Compiler-AST.st',
+                    'lang/src/Compiler-IR.st', 'lang/src/Compiler-Inlining.st', 'lang/src/Compiler-Semantic.st', 'lang/src/Compiler-Interpreter.st',
+                    'lang/src/SUnit.st'
                 ],
                 jsGlobals: ['navigator']
             },
             tests: {
-                output_dir: 'src',
-                src: ['src/Kernel-Tests.st', 'src/Compiler-Tests.st', 'src/Platform-DOM-Tests.st', 'src/SUnit-Tests.st'],
+                output_dir: 'lang/src',
+                src: ['lang/src/Kernel-Tests.st', 'lang/src/Compiler-Tests.st', 'lang/src/Platform-DOM-Tests.st', 'lang/src/SUnit-Tests.st'],
                 libraries: ['amber_core/SUnit'],
                 jsGlobals: ['navigator']
             },
             cli: {
-                output_dir: 'external/cli/src',
-                src: ['external/cli/src/AmberCli.st'],
+                output_dir: 'cli/src',
+                src: ['cli/src/AmberCli.st'],
                 amd_namespace: 'amber_cli'
             },
             dev: {
-                output_dir: 'external/sdk/lib',
-                src: ['external/sdk/lib/NodeTestRunner.st'],
+                output_dir: 'sdk/lib',
+                src: ['sdk/lib/NodeTestRunner.st'],
                 amd_namespace: 'amber_devkit'
             }
         },
@@ -101,7 +101,7 @@ module.exports = function (grunt) {
                     insertRequire: ['app'],
                     optimize: "none",
                     wrap: helpers.nodeWrapperWithShebang,
-                    out: "external/cli/support/amber-cli.js"
+                    out: "cli/support/amber-cli.js"
                 }
             },
             test_runner: {
@@ -143,10 +143,10 @@ module.exports = function (grunt) {
         },
 
         jshint: {
-            amber: ['src/*.js', 'support/*.js'],
-            cli: ['external/cli/src/*.js', 'external/cli/support/*.js'],
-            dev: ['external/sdk/lib/*.js'],
-            grunt: ['Gruntfile.js', 'internal/grunt-tasks/*.js', 'external/sdk/tasks/*.js']
+            amber: ['lang/src/*.js', 'lang/support/*.js'],
+            cli: ['cli/src/*.js', 'cli/support/*.js'],
+            dev: ['sdk/lib/*.js'],
+            grunt: ['Gruntfile.js', 'grunt-tasks/*.js', 'sdk/tasks/*.js']
         }
     });
 };

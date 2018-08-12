@@ -1,9 +1,6 @@
 # Ignoring Mac Finder files
 .DS_Store
 
-# Ignoring test runner
-/test_runner.js
-
 # In case amber is also saved in a local Subversion
 .svn
 
@@ -12,11 +9,3 @@ node_modules/
 
 # Ignoring local bower modules
 bower_components/
-
-# Other generated or transient files
-/config.js
-
-# Exclude the externals and internals
-/external/
-/internal/
-

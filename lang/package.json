@@ -1,0 +1,26 @@
+{
+  "name": "@ambers/lang",
+  "version": "0.23.0-pre",
+  "description": "An implementation of the Smalltalk language that runs on top of the JS runtime.",
+  "homepage": "http://amber-lang.net",
+  "keywords": [
+    "javascript",
+    "smalltalk",
+    "language",
+    "compiler",
+    "web"
+  ],
+  "author": {
+    "name": "Nicolas Petton",
+    "email": "petton.nicolas@gmail.com",
+    "url": "http://www.nicolas-petton.fr"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://lolg.it/amber/amber.git"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  }
+}

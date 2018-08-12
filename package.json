@@ -1,5 +1,5 @@
 {
-  "name": "amber",
+  "name": "@ambers/development",
   "version": "0.23.0-pre",
   "description": "An implementation of the Smalltalk language that runs on top of the JS runtime.",
   "homepage": "http://amber-lang.net",
@@ -20,6 +20,7 @@
     "type": "git",
     "url": "https://lolg.it/amber/amber.git"
   },
+  "private": true,
   "engines": {
     "node": ">=4.0.0"
   },
@@ -29,10 +30,10 @@
   },
   "scripts": {
     "echos": "node -e \"process.stdout.write(require('./package.json').strings[process.argv[1]])\"",
-    "build:parser": "(npm run -s echos buildParserBegin && pegjs --cache --export-var \"$\"globals.SmalltalkParser < support/parser.pegjs && npm run -s echos buildParserEnd) > support/parser.js",
+    "build:parser": "(npm run -s echos buildParserBegin && pegjs --cache --export-var \"$\"globals.SmalltalkParser < lang/support/parser.pegjs && npm run -s echos buildParserEnd) > lang/support/parser.js",
     "test": "npm run test:sunit && npm run test:e2e",
     "test:sunit": "grunt test",
-    "test:e2e": "(cd external && cd cli && npm test)"
+    "test:e2e": "(cd cli && npm test)"
   },
   "devDependencies": {
     "amber-compat-es2015": "^0.1.4",

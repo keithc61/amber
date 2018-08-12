@@ -8,16 +8,16 @@ node_js:
 install:
   - npm install -g grunt-cli mocha
   - npm install
-  - cd external/cli
+  - cd cli
   - npm install
   - cd ../sdk
   - npm install
-  - cd ../..
+  - cd ..
 script:
   - npm test
-  - cd external/cli
+  - cd cli
   - npm install -g @ambers/cli
   - AMBER_CLI=amber npm test
   - npm install -g @ambers/cli@bleedingedge
   - AMBER_CLI=amber npm test
-  - cd ../..
+  - cd ..

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 VERSION=$1
-cd `dirname "$0"`/..
+cd `dirname "$0"`/lang
 AMBER_BASE=`pwd`
 
 cd $AMBER_BASE/src
@@ -12,7 +12,7 @@ rm Kernel-Infrastructure.st.bak
 
 # compile Kernel-Infrastructure
 cd $AMBER_BASE
-internal/local-amberc -D src src/Kernel-Infrastructure.st
+../local-amberc -D src src/Kernel-Infrastructure.st
 # set version in all json files (bower, npm)
 for F in package.json; do
   cp $F $F.bak
