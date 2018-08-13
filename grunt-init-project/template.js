@@ -130,7 +130,7 @@ exports.template = function (grunt, init, done) {
         props.scripts = {
             "reset": "npm run clean && npm run init",
             "clean": "(rm -rf bower_components || rd /s/q bower_components) && (rm -rf node_modules || rd /s/q node_modules)",
-            "init": "npm install && bower install && grunt devel",
+            "init": "npm install && bower install && grunt default devel",
             "test": "grunt test"
         };
 
