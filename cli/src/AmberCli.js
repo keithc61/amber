@@ -2167,52 +2167,6 @@ $globals.FileServer.a$cls);
 $core.addClass("Initer", $globals.BaseFileManipulator, ["childProcess", "nmPath"], "AmberCli");
 $core.addMethod(
 $core.method({
-selector: "bowerInstallThenDo:",
-protocol: "action",
-fn: function (aBlock){
-var self=this,$self=this;
-var child;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$3,$2;
-child=$recv($self["@childProcess"])._fork_args_($self._npmScriptForModule_named_("bower","bower"),["install"]);
-$1=child;
-$recv($1)._on_do_("error",aBlock);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["on:do:"]=1;
-//>>excludeEnd("ctx");
-$recv($1)._on_do_("close",(function(code){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$3=$recv(code).__eq((0));
-if($core.assert($3)){
-$2=nil;
-} else {
-$2=code;
-}
-return $recv(aBlock)._value_($2);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({code:code},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"bowerInstallThenDo:",{aBlock:aBlock,child:child},$globals.Initer)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "bowerInstallThenDo: aBlock\x0a\x09| child |\x0a\x09child := childProcess\x0a\x09\x09fork: (self npmScriptForModule: 'bower' named: 'bower')\x0a\x09\x09args: #('install').\x0a\x09child\x0a\x09\x09on: 'error' do: aBlock;\x0a\x09\x09on: 'close' do: [ :code |\x0a\x09\x09\x09aBlock value: (code = 0 ifTrue: [ nil ] ifFalse: [ code ]) ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["fork:args:", "npmScriptForModule:named:", "on:do:", "value:", "ifTrue:ifFalse:", "="]
-}),
-$globals.Initer);
-
-$core.addMethod(
-$core.method({
 selector: "finishMessage",
 protocol: "action",
 fn: function (){
@@ -2336,6 +2290,37 @@ $globals.Initer);
 
 $core.addMethod(
 $core.method({
+selector: "initProjectThenDo:",
+protocol: "action",
+fn: function (aBlock){
+var self=this,$self=this;
+var child;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+child=$recv($self["@childProcess"])._exec_thenDo_("npm run init",aBlock);
+$1=$recv(child)._stdout();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["stdout"]=1;
+//>>excludeEnd("ctx");
+$recv($1)._pipe_options_($recv(process)._stdout(),$globals.HashedCollection._newFromPairs_(["end",false]));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"initProjectThenDo:",{aBlock:aBlock,child:child},$globals.Initer)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "initProjectThenDo: aBlock\x0a\x09| child |\x0a\x09child := childProcess\x0a\x09\x09exec: 'npm run init'\x0a\x09\x09thenDo: aBlock.\x0a\x09child stdout pipe: process stdout options: #{ 'end' -> false }",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["exec:thenDo:", "pipe:options:", "stdout"]
+}),
+$globals.Initer);
+
+$core.addMethod(
+$core.method({
 selector: "initialize",
 protocol: "initialization",
 fn: function (){
@@ -2364,37 +2349,6 @@ source: "initialize\x0a\x09super initialize.\x0a\x09childProcess := require valu
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["initialize", "value:", "join:with:", "rootDirname"]
-}),
-$globals.Initer);
-
-$core.addMethod(
-$core.method({
-selector: "npmInstallThenDo:",
-protocol: "action",
-fn: function (aBlock){
-var self=this,$self=this;
-var child;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-child=$recv($self["@childProcess"])._exec_thenDo_("npm install",aBlock);
-$1=$recv(child)._stdout();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["stdout"]=1;
-//>>excludeEnd("ctx");
-$recv($1)._pipe_options_($recv(process)._stdout(),$globals.HashedCollection._newFromPairs_(["end",false]));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"npmInstallThenDo:",{aBlock:aBlock,child:child},$globals.Initer)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "npmInstallThenDo: aBlock\x0a\x09| child |\x0a\x09child := childProcess\x0a\x09\x09exec: 'npm install'\x0a\x09\x09thenDo: aBlock.\x0a\x09child stdout pipe: process stdout options: #{ 'end' -> false }",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["exec:thenDo:", "pipe:options:", "stdout"]
 }),
 $globals.Initer);
 
@@ -2451,64 +2405,40 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5,$6,$7,$receiver;
+var $1,$2,$3,$4,$5,$receiver;
 $self._gruntInitThenDo_((function(error){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if(($receiver = error) == null || $receiver.a$nil){
-return $self._bowerInstallThenDo_((function(error2){
+return $self._initProjectThenDo_((function(error2){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 if(($receiver = error2) == null || $receiver.a$nil){
-return $self._npmInstallThenDo_((function(error3){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx4) {
-//>>excludeEnd("ctx");
-if(($receiver = error3) == null || $receiver.a$nil){
 return $self._gruntThenDo_((function(error4){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx5) {
+return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
 if(($receiver = error4) == null || $receiver.a$nil){
 $self._finishMessage();
 return $recv(process)._exit();
 } else {
-$7=console;
-$recv($7)._log_("grunt exec error:");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx5.sendIdx["log:"]=7;
-//>>excludeEnd("ctx");
-$recv($7)._log_(error4);
-return $recv(process)._exit_((104));
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx5) {$ctx5.fillBlock({error4:error4},$ctx4,10)});
-//>>excludeEnd("ctx");
-}));
-} else {
 $5=console;
-$recv($5)._log_("npm install exec error:");
+$recv($5)._log_("grunt exec error:");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx4.sendIdx["log:"]=5;
 //>>excludeEnd("ctx");
-$6=$recv($5)._log_(error3);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["log:"]=6;
-//>>excludeEnd("ctx");
-return $recv(process)._exit_((103));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["exit:"]=3;
-//>>excludeEnd("ctx");
+$recv($5)._log_(error4);
+return $recv(process)._exit_((104));
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({error3:error3},$ctx3,7)});
+}, function($ctx4) {$ctx4.fillBlock({error4:error4},$ctx3,7)});
 //>>excludeEnd("ctx");
 }));
 } else {
 $3=console;
-$recv($3)._log_("bower install exec error:");
+$recv($3)._log_("npm run init exec error:");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["log:"]=3;
 //>>excludeEnd("ctx");
@@ -2516,7 +2446,7 @@ $4=$recv($3)._log_(error2);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["log:"]=4;
 //>>excludeEnd("ctx");
-return $recv(process)._exit_((102));
+return $recv(process)._exit_((105));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["exit:"]=2;
 //>>excludeEnd("ctx");
@@ -2551,10 +2481,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "start\x0a\x09self gruntInitThenDo: [ :error | error\x0a\x09ifNotNil: [\x0a\x09\x09console log: 'grunt-init exec error:'; log: error.\x0a\x09\x09process exit: 101 ]\x0a\x09ifNil: [\x0a\x0a\x09self bowerInstallThenDo: [ :error2 | error2\x0a\x09ifNotNil: [\x0a\x09\x09console log: 'bower install exec error:'; log: error2.\x0a\x09\x09process exit: 102 ]\x0a\x09ifNil: [\x0a\x0a\x09self npmInstallThenDo: [ :error3 | error3\x0a\x09ifNotNil: [\x0a\x09\x09console log: 'npm install exec error:'; log: error3.\x0a\x09\x09process exit: 103 ]\x0a\x09ifNil: [\x0a\x0a\x09self gruntThenDo: [ :error4 | error4\x0a\x09ifNotNil: [\x0a\x09\x09console log: 'grunt exec error:'; log: error4.\x0a\x09\x09process exit: 104 ]\x0a\x09ifNil: [\x0a\x0a\x09self finishMessage.\x0a\x09process exit ]]]]]]]]",
+source: "start\x0a\x09self gruntInitThenDo: [ :error | error\x0a\x09ifNotNil: [\x0a\x09\x09console log: 'grunt-init exec error:'; log: error.\x0a\x09\x09process exit: 101 ]\x0a\x09ifNil: [\x0a\x0a\x09self initProjectThenDo: [ :error2 | error2\x0a\x09ifNotNil: [\x0a\x09\x09console log: 'npm run init exec error:'; log: error2.\x0a\x09\x09process exit: 105 ]\x0a\x09ifNil: [\x0a\x0a\x09self gruntThenDo: [ :error4 | error4\x0a\x09ifNotNil: [\x0a\x09\x09console log: 'grunt exec error:'; log: error4.\x0a\x09\x09process exit: 104 ]\x0a\x09ifNil: [\x0a\x0a\x09self finishMessage.\x0a\x09process exit ]]]]]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["gruntInitThenDo:", "ifNotNil:ifNil:", "log:", "exit:", "bowerInstallThenDo:", "npmInstallThenDo:", "gruntThenDo:", "finishMessage", "exit"]
+messageSends: ["gruntInitThenDo:", "ifNotNil:ifNil:", "log:", "exit:", "initProjectThenDo:", "gruntThenDo:", "finishMessage", "exit"]
 }),
 $globals.Initer);
 

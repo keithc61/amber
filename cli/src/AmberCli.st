@@ -982,17 +982,6 @@ BaseFileManipulator subclass: #Initer
 
 !Initer methodsFor: 'action'!
 
-bowerInstallThenDo: aBlock
-	| child |
-	child := childProcess
-		fork: (self npmScriptForModule: 'bower' named: 'bower')
-		args: #('install').
-	child
-		on: 'error' do: aBlock;
-		on: 'close' do: [ :code |
-			aBlock value: (code = 0 ifTrue: [ nil ] ifFalse: [ code ]) ]
-!
-
 finishMessage
 	console log: (#(
 		' '
@@ -1027,10 +1016,10 @@ gruntThenDo: aBlock
 			aBlock value: (code = 0 ifTrue: [ nil ] ifFalse: [ code ]) ]
 !
 
-npmInstallThenDo: aBlock
+initProjectThenDo: aBlock
 	| child |
 	child := childProcess
-		exec: 'npm install'
+		exec: 'npm run init'
 		thenDo: aBlock.
 	child stdout pipe: process stdout options: #{ 'end' -> false }
 !
@@ -1042,16 +1031,10 @@ start
 		process exit: 101 ]
 	ifNil: [
 
-	self bowerInstallThenDo: [ :error2 | error2
+	self initProjectThenDo: [ :error2 | error2
 	ifNotNil: [
-		console log: 'bower install exec error:'; log: error2.
-		process exit: 102 ]
-	ifNil: [
-
-	self npmInstallThenDo: [ :error3 | error3
-	ifNotNil: [
-		console log: 'npm install exec error:'; log: error3.
-		process exit: 103 ]
+		console log: 'npm run init exec error:'; log: error2.
+		process exit: 105 ]
 	ifNil: [
 
 	self gruntThenDo: [ :error4 | error4
@@ -1061,7 +1044,7 @@ start
 	ifNil: [
 
 	self finishMessage.
-	process exit ]]]]]]]]
+	process exit ]]]]]]
 ! !
 
 !Initer methodsFor: 'initialization'!
