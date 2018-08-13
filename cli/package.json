@@ -36,8 +36,8 @@
   "dependencies": {
     "@ambers/grunt-init-amber-project": ">=0.21.1",
     "@ambers/sdk": ">=0.10.5",
-    "amber": ">=0.14.17",
-    "bower": "^1.6.0"
+    "@ambers/lang": ">=0.22.1",
+    "bower": "^1.8.4"
   },
   "peerDependencies": {
     "grunt-init": "^0.3.1",
