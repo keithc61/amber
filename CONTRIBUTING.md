@@ -7,7 +7,7 @@ Works in Windows as well, trying junctions and/or true symlinks, so no fear.
 Amber repository contains more parts:
 
 1. Amber language itself (in `lang/` directory). This is released.
-1. Amber development helpers and CLI tool (in `sdk/` and `cli/` subdirectories). They have their own release track.
+1. Amber development helpers, project scaffolding and CLI tool (in `sdk/`, `grunt-init-project` and `cli/` subdirectories). They have their own release track.
 1. Development files (`index.html`, `Gruntfile.js` and its friends).  Not part of release.
 
 To get your clone, follow this list:
