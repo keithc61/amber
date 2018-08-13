@@ -19,7 +19,8 @@
     var startHelios = document.getElementById("starthelios");
     startHelios.parentNode.removeChild(startHelios);
     var global = typeof global === "undefined" ? window : global || window;
-    require(["require", "amber/es2015-polyfills"], function (require) {
+    require(["require", "amber/es6-promise"], function (require, promiseLib) {
+        promiseLib.polyfill();
         var loadHelpers = new Promise(function (resolve, reject) {
             setTimeout(function () {
                 require(["amber/legacy/IDE", "amber/web/Web", "amber/legacy/Benchfib", "helios/all", "amber_cli/AmberCli"], resolve, reject);

@@ -18,7 +18,8 @@ module.exports = function (grunt) {
     grunt.registerTask('devel', ['amdconfig']);
 
     var polyfillThenPromiseApp = function () {
-        define(["require", "amber/es2015-polyfills"], function (require) {
+        define(["require", "amber/es6-promise"], function (require, promiseLib) {
+            promiseLib.polyfill();
             return new Promise(function (resolve, reject) {
                 require(["__app__"], resolve, reject);
             });
