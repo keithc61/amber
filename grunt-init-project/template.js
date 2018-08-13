@@ -119,7 +119,7 @@ exports.template = function (grunt, init, done) {
             "es6-promise": "^4.2.4"
         };
         props.devDependencies = {
-            "@ambers/sdk": "^0.10.6",
+            "@ambers/sdk": "^0.10.7",
             "grunt": "1.0.1",
             "grunt-contrib-clean": "^1.1.0",
             "grunt-contrib-requirejs": "^1.0.0",
