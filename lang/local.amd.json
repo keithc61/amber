@@ -1,6 +1,6 @@
 {
     "paths": {
-        "amber": "support",
+        "amber": "base",
         "amber_core": "src"
     },
     "map": {

@@ -27,8 +27,8 @@
     "url": "https://lolg.it/amber/amber/issues?labels=in+cli"
   },
   "bin": {
-    "amber": "./support/amber-cli.js",
-    "amberc": "./support/amberc-cli.js"
+    "amber": "./dist/amber-cli.js",
+    "amberc": "./dist/amberc-cli.js"
   },
   "scripts": {
     "test": "mocha"

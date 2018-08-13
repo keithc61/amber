@@ -87,7 +87,13 @@ AmberCompiler.prototype.main = function (configuration, finished_callback) {
         };
     }
 
-    if (!rjsConfig.paths.amber) rjsConfig.paths.amber = path.join(this.amber_dir, 'support');
+    if (!rjsConfig.paths.amber) {
+        // TODO remove backward compatibility, prefer 'base'
+        rjsConfig.paths.amber = path.join(this.amber_dir, 'support');
+        if (!fs.existsSync(rjsConfig.paths.amber)) {
+            rjsConfig.paths.amber = path.join(this.amber_dir, 'base');
+        }
+    }
     if (!rjsConfig.paths.amber_core) rjsConfig.paths.amber_core = path.join(this.amber_dir, 'src');
     rjsConfig.paths['text'] = require.resolve('requirejs-text').replace(/\.js$/, "");
     rjsConfig.paths['amber/without-imports'] = path.join(__dirname, 'without-imports');

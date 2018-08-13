@@ -95,7 +95,7 @@ module.exports = function (grunt) {
                     insertRequire: ['app'],
                     optimize: "none",
                     wrap: helpers.nodeWrapperWithShebang,
-                    out: "cli/support/amber-cli.js"
+                    out: "cli/dist/amber-cli.js"
                 }
             },
             test_runner: {
@@ -134,8 +134,8 @@ module.exports = function (grunt) {
         },
 
         jshint: {
-            amber: ['lang/src/*.js', 'lang/support/*.js'],
-            cli: ['cli/src/*.js', 'cli/support/*.js'],
+            amber: ['lang/src/*.js', 'lang/base/*.js'],
+            cli: ['cli/src/*.js', 'cli/dist/*.js'],
             dev: ['sdk/lib/*.js'],
             grunt: ['Gruntfile.js', 'grunt-tasks/*.js', 'sdk/tasks/*.js']
         }

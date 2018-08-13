@@ -3,7 +3,7 @@
 var assert = require('assert'),
     shelljs = require('shelljs');
 
-process.env.AMBER_CLI = process.env.AMBER_CLI || "node ./support/amber-cli.js";
+process.env.AMBER_CLI = process.env.AMBER_CLI || "node ./dist/amber-cli.js";
 
 describe("amber version", function () {
     it("should return line with amber version", function () {
