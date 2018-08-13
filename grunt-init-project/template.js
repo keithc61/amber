@@ -115,6 +115,9 @@ exports.template = function (grunt, init, done) {
 
         // A few additional properties.
         props.keywords = ['Amber', 'Smalltalk'];
+        props.dependencies = {
+            "es6-promise": "^4.2.4"
+        };
         props.devDependencies = {
             "@ambers/sdk": "^0.10.6",
             "grunt": "1.0.1",
@@ -157,7 +160,6 @@ exports.template = function (grunt, init, done) {
             "private": false,
             "dependencies": {
                 "amber": "^0.22.0",
-                "amber-compat-es2015": "^0.1.5",
                 "amber-contrib-jquery": "^0.4.1",
                 "amber-contrib-web": "^0.5.1",
                 "domite": "^0.7.1",
