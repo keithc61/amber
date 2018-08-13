@@ -1005,17 +1005,6 @@ gruntInitThenDo: aBlock
 			aBlock value: (code = 0 ifTrue: [ nil ] ifFalse: [ code ]) ]
 !
 
-gruntThenDo: aBlock
-	| child |
-	child := childProcess
-		fork: (self npmScriptForModule: 'grunt-cli' named: 'grunt')
-		args: #('default' 'devel').
-	child
-		on: 'error' do: aBlock;
-		on: 'close' do: [ :code |
-			aBlock value: (code = 0 ifTrue: [ nil ] ifFalse: [ code ]) ]
-!
-
 initProjectThenDo: aBlock
 	| child |
 	child := childProcess
@@ -1037,14 +1026,8 @@ start
 		process exit: 105 ]
 	ifNil: [
 
-	self gruntThenDo: [ :error4 | error4
-	ifNotNil: [
-		console log: 'grunt exec error:'; log: error4.
-		process exit: 104 ]
-	ifNil: [
-
 	self finishMessage.
-	process exit ]]]]]]
+	process exit ]]]]
 ! !
 
 !Initer methodsFor: 'initialization'!

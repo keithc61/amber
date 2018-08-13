@@ -2244,52 +2244,6 @@ $globals.Initer);
 
 $core.addMethod(
 $core.method({
-selector: "gruntThenDo:",
-protocol: "action",
-fn: function (aBlock){
-var self=this,$self=this;
-var child;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$3,$2;
-child=$recv($self["@childProcess"])._fork_args_($self._npmScriptForModule_named_("grunt-cli","grunt"),["default", "devel"]);
-$1=child;
-$recv($1)._on_do_("error",aBlock);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["on:do:"]=1;
-//>>excludeEnd("ctx");
-$recv($1)._on_do_("close",(function(code){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$3=$recv(code).__eq((0));
-if($core.assert($3)){
-$2=nil;
-} else {
-$2=code;
-}
-return $recv(aBlock)._value_($2);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({code:code},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"gruntThenDo:",{aBlock:aBlock,child:child},$globals.Initer)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "gruntThenDo: aBlock\x0a\x09| child |\x0a\x09child := childProcess\x0a\x09\x09fork: (self npmScriptForModule: 'grunt-cli' named: 'grunt')\x0a\x09\x09args: #('default' 'devel').\x0a\x09child\x0a\x09\x09on: 'error' do: aBlock;\x0a\x09\x09on: 'close' do: [ :code |\x0a\x09\x09\x09aBlock value: (code = 0 ifTrue: [ nil ] ifFalse: [ code ]) ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["fork:args:", "npmScriptForModule:named:", "on:do:", "value:", "ifTrue:ifFalse:", "="]
-}),
-$globals.Initer);
-
-$core.addMethod(
-$core.method({
 selector: "initProjectThenDo:",
 protocol: "action",
 fn: function (aBlock){
@@ -2405,7 +2359,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5,$receiver;
+var $1,$2,$3,$receiver;
 $self._gruntInitThenDo_((function(error){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -2416,40 +2370,16 @@ return $self._initProjectThenDo_((function(error2){
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 if(($receiver = error2) == null || $receiver.a$nil){
-return $self._gruntThenDo_((function(error4){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx4) {
-//>>excludeEnd("ctx");
-if(($receiver = error4) == null || $receiver.a$nil){
 $self._finishMessage();
 return $recv(process)._exit();
-} else {
-$5=console;
-$recv($5)._log_("grunt exec error:");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["log:"]=5;
-//>>excludeEnd("ctx");
-$recv($5)._log_(error4);
-return $recv(process)._exit_((104));
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({error4:error4},$ctx3,7)});
-//>>excludeEnd("ctx");
-}));
 } else {
 $3=console;
 $recv($3)._log_("npm run init exec error:");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["log:"]=3;
 //>>excludeEnd("ctx");
-$4=$recv($3)._log_(error2);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["log:"]=4;
-//>>excludeEnd("ctx");
+$recv($3)._log_(error2);
 return $recv(process)._exit_((105));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["exit:"]=2;
-//>>excludeEnd("ctx");
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({error2:error2},$ctx2,4)});
@@ -2481,10 +2411,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "start\x0a\x09self gruntInitThenDo: [ :error | error\x0a\x09ifNotNil: [\x0a\x09\x09console log: 'grunt-init exec error:'; log: error.\x0a\x09\x09process exit: 101 ]\x0a\x09ifNil: [\x0a\x0a\x09self initProjectThenDo: [ :error2 | error2\x0a\x09ifNotNil: [\x0a\x09\x09console log: 'npm run init exec error:'; log: error2.\x0a\x09\x09process exit: 105 ]\x0a\x09ifNil: [\x0a\x0a\x09self gruntThenDo: [ :error4 | error4\x0a\x09ifNotNil: [\x0a\x09\x09console log: 'grunt exec error:'; log: error4.\x0a\x09\x09process exit: 104 ]\x0a\x09ifNil: [\x0a\x0a\x09self finishMessage.\x0a\x09process exit ]]]]]]",
+source: "start\x0a\x09self gruntInitThenDo: [ :error | error\x0a\x09ifNotNil: [\x0a\x09\x09console log: 'grunt-init exec error:'; log: error.\x0a\x09\x09process exit: 101 ]\x0a\x09ifNil: [\x0a\x0a\x09self initProjectThenDo: [ :error2 | error2\x0a\x09ifNotNil: [\x0a\x09\x09console log: 'npm run init exec error:'; log: error2.\x0a\x09\x09process exit: 105 ]\x0a\x09ifNil: [\x0a\x0a\x09self finishMessage.\x0a\x09process exit ]]]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["gruntInitThenDo:", "ifNotNil:ifNil:", "log:", "exit:", "initProjectThenDo:", "gruntThenDo:", "finishMessage", "exit"]
+messageSends: ["gruntInitThenDo:", "ifNotNil:ifNil:", "log:", "exit:", "initProjectThenDo:", "finishMessage", "exit"]
 }),
 $globals.Initer);
 
