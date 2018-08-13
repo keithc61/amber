@@ -1,9 +1,10 @@
 {
   "name": "amber",
   "ignore": [
+    "/*",
+    "!/lang/",
     "**/.*",
     "node_modules",
-    "bower_components",
-    "!/lang/"
+    "bower_components"
   ]
 }
