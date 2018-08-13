@@ -6,6 +6,7 @@
 git reset --hard
 git checkout master
 git clean -d -x -f
+npm install
 (cd lang && npm install)
 (cd sdk && npm install)
 echo -n "Which version are you going to publish [0 to skip]? "
