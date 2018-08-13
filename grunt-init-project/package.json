@@ -1,0 +1,17 @@
+{
+  "name": "@ambers/grunt-init-amber-project",
+  "version": "0.22.0",
+  "description": "grunt-init template for amber project",
+  "main": "template.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://lolg.it/amber/grunt-init-amber.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://lolg.it/amber/grunt-init-amber/issues"
+  }
+}
