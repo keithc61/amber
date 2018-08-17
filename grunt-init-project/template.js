@@ -120,11 +120,11 @@ exports.template = function (grunt, init, done) {
         };
         props.devDependencies = {
             "@ambers/sdk": "^0.10.7",
-            "grunt": "1.0.1",
+            "grunt": "^1.0.3",
             "grunt-contrib-clean": "^1.1.0",
             "grunt-contrib-requirejs": "^1.0.0",
-            "grunt-exec": "^2.0.0",
-            "requirejs": "^2.1.15"
+            "grunt-exec": "^3.0.0",
+            "requirejs": "^2.3.5"
         };
         props.node_version = '>=4.0.0';
         props.scripts = {
