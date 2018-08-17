@@ -119,6 +119,7 @@ exports.template = function (grunt, init, done) {
             "es6-promise": "^4.2.4"
         };
         props.devDependencies = {
+            "@ambers/ide-starter-modal": "^0.2.0",
             "@ambers/sdk": "^0.10.7",
             "grunt": "^1.0.3",
             "grunt-contrib-clean": "^1.1.0",
@@ -170,7 +171,6 @@ exports.template = function (grunt, init, done) {
             },
             "devDependencies": {
                 "amber-contrib-legacy": "^0.6.1",
-                "amber-ide-starter-dialog": "^0.1.0",
                 "helios": "^0.9.1"
             }
         }, null, 2));
