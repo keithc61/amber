@@ -3,7 +3,7 @@ Amber
 
 Copyright 2011-2015 Nicolas Petton
 
-Copyright 2014-2017 Herbert Vojčík and [Amber contributors](CONTRIBUTORS)
+Copyright 2014-2018 Herbert Vojčík and [Amber contributors](CONTRIBUTORS)
 
 Amber is an implementation of the Smalltalk language that runs on top of the JavaScript runtime. It is designed to make client-side development faster and easier.
 
@@ -18,11 +18,11 @@ Some highlights:
 
 - Amber features an IDE with a Class browser, Workspace, Transcript, a ReferencesBrowser supporting senders/implementors and class references, basic Inspector and even a beginning of a Debugger and a unit TestRunner.
 - [Pharo Smalltalk](http://www.pharo-project.org) is considered as the reference implementation.
-- Amber is extendable with libraries, installable preferably via `bower`:
-    - `amber-contrib-web` with a canvas to generate HTML, like [Seaside](http://www.seaside.st), included in a new project by default,
-    - `silk` with a stream-like wrapping of DOM elements, included in a new project by default,
-    - `helios` IDE, included in a new project by default,
-    - `amber-contrib-legacy` with smaller in-page "classic" IDE and some miscellany, included in a new project by default,
+- Amber is extendable with libraries, installable preferably via `npm`:
+    - `@ambers/contrib-web` with a canvas to generate HTML, like [Seaside](http://www.seaside.st), included in a new project by default,
+    - `@ambers/silk` with a stream-like wrapping of DOM elements, included in a new project by default,
+    - `@ambers/helios` IDE, included in a new project by default,
+    - `@ambers/contrib-legacy` with smaller in-page "classic" IDE and some miscellany, included in a new project by default,
     - `trysmalltalk`, containing [Prof Stef](http://amber-lang.net/learn.html) interactive crash course.
     - and others. You can easily write an Amber library yourself.
 - Amber can use Javascript libraries; the "classic" IDE as well as Helios are built on [jQuery](http://www.jquery.com)
@@ -32,8 +32,10 @@ Some highlights:
 Prerequisities
 -------------
 
-Amber cli tool to create new projects and assist with development tasks is in a [npm](http://npmjs.org) package  `@ambers/cli`.
-Amber engine and core library to be used in projects is in a [bower](https://github.com/bower/bower) package `amber`.
+Amber cli tool to create new projects and assist with development tasks
+is in a [npm](http://npmjs.org) package  `@ambers/cli`.
+Amber engine and core library to be used in projects
+is in a npm package `@ambers/lang`.
 
 For the installation to work, you need to have installed `node`, `npm` and `git`.
 Default `node` installers may install `npm` as well.
@@ -56,7 +58,7 @@ Do this to install Amber
 	# In case you have installed older package `amber-cli`, uninstall it.
 	npm uninstall -g amber-cli
     # Install the CLI tool `@ambers/cli` and supporting tools
-    npm install -g grunt-cli grunt-init bower @ambers/cli
+    npm install -g grunt-cli grunt-init @ambers/cli
 
 
 Use ``amber init``  to create a project of your own
@@ -65,9 +67,11 @@ Use ``amber init``  to create a project of your own
     cd /path/to/myproject
     amber init
 
-    # (optional) Install backward compatibility
-    bower install amber-compat-es5 --save   # be loadable in older browsers
+If you want to run Amber in older environments,
+you should install additional polyfills (`Promise` polyfill
+is included by default) and link them up in `Gruntfile.js`.
 
+Amber officially only runs in ES5-compliant environments.
 
 Start developing in Amber Smalltalk
 
@@ -79,7 +83,7 @@ What this repo contains and what it does not
 --------------
 
 It must be noted this repo contains only core functionality of Amber system
-as well as accompanying tooling (`sdk` and `cli`).
+as well as accompanying tooling (`sdk`, `grunt-init-project` and `cli`).
 
 The initial project comes with some libraries (`amber/web`, `domite`, `silk` etc.)
 included; these libraries are not part of this repo, though. You can find them either in
@@ -94,7 +98,6 @@ In case something fails...
 
   - Report issues with the www.amber-lang.net _website only_ here: https://lolg.it/amber/amber-website/issues.
   - Report issues with the docs.amber-lang.net _website only_ here: https://lolg.it/amber/documentation/issues.
-  - Report issues with `amber init` project template here: https://lolg.it/amber/grunt-init-amber/issues.
   - Report issues with Amber engine, core library, as well as with `amber` / `amberc` cli tools here: https://lolg.it/amber/amber/issues.
   - Report issues with the Helios IDE here: https://lolg.it/amber/helios/issues.
 
