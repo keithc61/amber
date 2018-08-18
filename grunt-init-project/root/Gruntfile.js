@@ -37,7 +37,7 @@ module.exports = function (grunt) {
         // task configuration
         amberc: {
             options: {
-                amber_dir: path.join(__dirname, "bower_components", "amber"),
+                amber_dir: path.join(__dirname, "node_modules", "@ambers", "lang"),
                 configFile: "config.js"
             },
             all: {

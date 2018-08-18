@@ -16,10 +16,10 @@ exports.notes = ' _Project title_ should be a human-readable title.';
 
 // Template-specific notes to be displayed after question prompts.
 exports.after = 'You need to have these installed globally via npm:' +
-' _@ambers/cli_; _grunt-cli_; _bower_.' +
-' Now, install project dependencies with _bower install_,' +
-' tool dependencies with _npm install_ and recompile with _grunt_.' +
-' If you are running _amber init_, these three tasks are going to be performed for you now.' +
+' _@ambers/cli_ and _grunt-cli_.' +
+' Now, install project dependencies with _npm install_' +
+' and recompile / prepare with _grunt default devel_.' +
+' If you are running _amber init_, these two tasks are going to be performed for you now.' +
 ' Afterwards, start the development server with _amber serve_.' +
 ' Your application is then accessible via _http://localhost:4000/_';
 
@@ -116,11 +116,18 @@ exports.template = function (grunt, init, done) {
         // A few additional properties.
         props.keywords = ['Amber', 'Smalltalk'];
         props.dependencies = {
-            "es6-promise": "^4.2.4"
+            "@ambers/contrib-jquery": "^0.5.1",
+            "@ambers/contrib-web": "^0.6.2",
+            "@ambers/lang": "^0.22.2",
+            "domite": "^0.8.0",
+            "es6-promise": "^4.2.4",
+            "silk": "^0.4.0"
         };
         props.devDependencies = {
             "@ambers/ide-starter-modal": "^0.2.0",
             "@ambers/sdk": "^0.10.7",
+            "@ambers/contrib-legacy": "^0.7.1",
+            "helios": "^0.10.0",
             "grunt": "^1.0.3",
             "grunt-contrib-clean": "^1.1.0",
             "grunt-contrib-requirejs": "^1.0.0",
@@ -130,51 +137,13 @@ exports.template = function (grunt, init, done) {
         props.node_version = '>=4.0.0';
         props.scripts = {
             "reset": "npm run clean && npm run init",
-            "clean": "(rm -rf bower_components || rd /s/q bower_components) && (rm -rf node_modules || rd /s/q node_modules)",
-            "init": "npm install && bower install && grunt default devel",
+            "clean": "(rm -rf node_modules || rd /s/q node_modules)",
+            "init": "npm install && grunt default devel",
             "test": "grunt test"
         };
 
         // Generate package.json file, used by npm and grunt.
         init.writePackageJSON('package.json', props);
-
-        // generate bower.json file
-        grunt.file.write('bower.json', JSON.stringify({
-            "name": props.name,
-            "description": props.description,
-            "ignore": [
-                "**/.*",
-                "node_modules",
-                "bower_components",
-                "/*.js",
-                "/*.html",
-                "test",
-                "tests"
-            ],
-            "authors": [
-                {
-                    "name": props.author_name,
-                    "email": props.author_email
-                }
-            ],
-            "homepage": props.homepage,
-            "main": props.main,
-            "keywords": props.keywords,
-            "license": props.licenses,
-            "private": false,
-            "dependencies": {
-                "amber": "^0.22.0",
-                "amber-contrib-jquery": "^0.4.1",
-                "amber-contrib-web": "^0.5.1",
-                "domite": "^0.7.1",
-                "silk": "^0.3.1"
-            },
-            "devDependencies": {
-                "amber-contrib-legacy": "^0.6.1",
-                "helios": "^0.9.1"
-            }
-        }, null, 2));
-
 
         // All done!
         done();

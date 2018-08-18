@@ -15,7 +15,7 @@ in an empty directory with `amber init`.
 In a client project, run
 
 ```sh
-bower install {%= name %} --save
+npm install {%= name %} --save
 grunt devel
 amber serve
 ```
@@ -30,9 +30,7 @@ save the change and commit the package. Reload.
 To bring project alive (for example after `git clone`):
 
 ```sh
-npm install
-bower install
-grunt devel
+npm run init
 ```
 
 Developing the project (after brought alive):
