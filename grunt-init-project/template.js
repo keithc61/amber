@@ -119,9 +119,9 @@ exports.template = function (grunt, init, done) {
             "@ambers/contrib-jquery": "^0.5.1",
             "@ambers/contrib-web": "^0.6.2",
             "@ambers/lang": "^0.22.2",
-            "domite": "^0.8.0",
+            "@ambers/domite": "^0.8.0",
             "es6-promise": "^4.2.4",
-            "silk": "^0.4.0"
+            "@ambers/silk": "^0.4.0"
         };
         props.devDependencies = {
             "@ambers/ide-starter-modal": "^0.2.0",
