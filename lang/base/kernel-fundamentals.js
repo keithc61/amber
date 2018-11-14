@@ -186,7 +186,7 @@ define(function () {
             var that = new SmalltalkMethod();
             var selector = spec.selector;
             that.selector = selector;
-            that.args = spec.args || {};
+            that.args = spec.args || [];
             that.protocol = spec.protocol;
             that.source = spec.source;
             that.messageSends = spec.messageSends || [];
