@@ -70,8 +70,10 @@ define([
                         throw new Error("No one should be setting st.packages directly on initialized Amber.");
                     }
                 });
-                brikz.startImage.run();
-                initialized = true;
+                return Promise.resolve(brikz.startImage.run())
+                    .then(function () {
+                        initialized = true;
+                    });
             });
         };
     }
