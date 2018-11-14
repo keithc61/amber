@@ -44,14 +44,12 @@ define([
 ], function (require, _, Brikz, configureWithFundamentals, configureWithHierarchy) {
     "use strict";
 
-    require(['./kernel-runtime']); // preload
+    var runtimeLoadedPromise = new Promise(function (resolve, reject) {
+        require(['./kernel-runtime'], resolve, reject);
+    });
 
     function SmalltalkInitBrik (brikz, st) {
         var initialized = false;
-        var runtimeLoadedPromise = new Promise(function (resolve, reject) {
-            require(['./kernel-runtime'], resolve, reject);
-        });
-
         /* Smalltalk initialization. Called on page load */
 
         st.initialize = function () {
