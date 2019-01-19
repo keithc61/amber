@@ -292,7 +292,8 @@ detect: aBlock
 !
 
 detect: aBlock ifNone: anotherBlock
-	self subclassResponsibility
+	self do: [ :each | (aBlock value: each) ifTrue: [ ^each ] ].
+	^ anotherBlock value
 !
 
 do: aBlock
@@ -1889,11 +1890,6 @@ collect: aBlock
 	collection := self class new.
 	self do: [ :each | collection add: (aBlock value: each) ].
 	^ collection
-!
-
-detect: aBlock ifNone: anotherBlock
-	self do: [ :each | (aBlock value: each) ifTrue: [ ^each ] ].
-	^ anotherBlock value
 !
 
 do: aBlock

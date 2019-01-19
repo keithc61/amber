@@ -944,18 +944,34 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self._subclassResponsibility();
-return self;
+var $1;
+var $early={};
+try {
+$self._do_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=$recv(aBlock)._value_(each);
+if($core.assert($1)){
+throw $early=[each];
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return $recv(anotherBlock)._value();
+}
+catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"detect:ifNone:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.Collection)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock", "anotherBlock"],
-source: "detect: aBlock ifNone: anotherBlock\x0a\x09self subclassResponsibility",
+source: "detect: aBlock ifNone: anotherBlock\x0a\x09self do: [ :each | (aBlock value: each) ifTrue: [ ^each ] ].\x0a\x09^ anotherBlock value",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["subclassResponsibility"]
+messageSends: ["do:", "ifTrue:", "value:", "value"]
 }),
 $globals.Collection);
 
@@ -7965,46 +7981,6 @@ source: "collect: aBlock\x0a\x09| collection |\x0a\x09collection := self class n
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["new", "class", "do:", "add:", "value:"]
-}),
-$globals.Set);
-
-$core.addMethod(
-$core.method({
-selector: "detect:ifNone:",
-protocol: "enumerating",
-fn: function (aBlock,anotherBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-var $early={};
-try {
-$self._do_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$1=$recv(aBlock)._value_(each);
-if($core.assert($1)){
-throw $early=[each];
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-return $recv(anotherBlock)._value();
-}
-catch(e) {if(e===$early)return e[0]; throw e}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"detect:ifNone:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.Set)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock", "anotherBlock"],
-source: "detect: aBlock ifNone: anotherBlock\x0a\x09self do: [ :each | (aBlock value: each) ifTrue: [ ^each ] ].\x0a\x09^ anotherBlock value",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["do:", "ifTrue:", "value:", "value"]
 }),
 $globals.Set);
 

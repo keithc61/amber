@@ -5,6 +5,8 @@
 
 - Array >>
   - numericallyIndexable
+- Set
+  - detect:ifNone: (pushed up to Collection)
 - SequenceableCollection
   - numericallyIndexable
 - String >>
