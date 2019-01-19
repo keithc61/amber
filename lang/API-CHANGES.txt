@@ -1,5 +1,6 @@
-0.22.2:
+0.23.0:
 
+* Remove class IndexableCollection, trait TKeyValueCollection.
 * Merge CharacterArray class into String class
 * Deprecate CharacterArray class
 

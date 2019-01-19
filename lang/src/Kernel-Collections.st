@@ -460,93 +460,7 @@ withAll: aCollection
 		yourself
 ! !
 
-Collection subclass: #IndexableCollection
-	instanceVariableNames: ''
-	package: 'Kernel-Collections'!
-!IndexableCollection commentStamp!
-I am a key-value store collection, that is,
-I store values under indexes.
-
-As a rule of thumb, if a collection has `#at:` and `#at:put:`,
-it is an IndexableCollection.!
-
-!IndexableCollection methodsFor: 'accessing'!
-
-at: anIndex
-	"Lookup the given index in the receiver.
-	If it is present, answer the value stored at anIndex.
-	Otherwise, raise an error."
-
-	^ self at: anIndex ifAbsent: [ self errorNotFound ]
-!
-
-at: anIndex ifAbsent: aBlock
-	"Lookup the given index in the receiver.
-	If it is present, answer the value stored at anIndex.
-	Otherwise, answer the value of aBlock."
-
-	self subclassResponsibility
-!
-
-at: aKey ifAbsentPut: aBlock
-	^ self at: aKey ifAbsent: [
-		self at: aKey put: aBlock value ]
-!
-
-at: anIndex ifPresent: aBlock
-	"Lookup the given index in the receiver.
-	If it is present, answer the value of evaluating aBlock with the value stored at anIndex.
-	Otherwise, answer nil."
-
-	^ self at: anIndex ifPresent: aBlock ifAbsent: [ nil ]
-!
-
-at: anIndex ifPresent: aBlock ifAbsent: anotherBlock
-	"Lookup the given index in the receiver.
-	If it is present, answer the value of evaluating aBlock with the value stored at anIndex.
-	Otherwise, answer the value of anotherBlock."
-
-	self subclassResponsibility
-!
-
-at: anIndex put: anObject
-	"Store anObject under the given index in the receiver."
-
-	self subclassResponsibility
-!
-
-indexOf: anObject
-	"Lookup index at which anObject is stored in the receiver.
-	If not present, raise an error."
-
-	^ self indexOf: anObject ifAbsent: [ self errorNotFound ]
-!
-
-indexOf: anObject ifAbsent: aBlock
-	"Lookup index at which anObject is stored in the receiver.
-	If not present, return value of executing aBlock."
-
-	self subclassResponsibility
-! !
-
-!IndexableCollection methodsFor: 'enumerating'!
-
-with: anotherCollection do: aBlock
-	"Calls aBlock with every value from self
-	and with indetically-indexed value from anotherCollection"
-
-	self withIndexDo: [ :each :index |
-		aBlock value: each value: (anotherCollection at: index) ]
-!
-
-withIndexDo: aBlock
-	"Calls aBlock with every value from self
-	and with its index as the second argument"
-
-	self subclassResponsibility
-! !
-
-IndexableCollection subclass: #AssociativeCollection
+Collection subclass: #AssociativeCollection
 	instanceVariableNames: ''
 	package: 'Kernel-Collections'!
 !AssociativeCollection commentStamp!
@@ -947,7 +861,7 @@ includesKey: aKey
 	<inlineJS: 'return self.hasOwnProperty(aKey)'>
 ! !
 
-IndexableCollection subclass: #SequenceableCollection
+Collection subclass: #SequenceableCollection
 	instanceVariableNames: ''
 	package: 'Kernel-Collections'!
 !SequenceableCollection commentStamp!
@@ -2345,6 +2259,85 @@ fromString: aString flag: anotherString
 	<inlineJS: 'return new RegExp(aString, anotherString)'>
 ! !
 
+Trait named: #TKeyValueCollection
+	package: 'Kernel-Collections'!
+
+!TKeyValueCollection methodsFor: 'accessing'!
+
+at: anIndex
+	"Lookup the given index in the receiver.
+	If it is present, answer the value stored at anIndex.
+	Otherwise, raise an error."
+
+	^ self at: anIndex ifAbsent: [ self errorNotFound ]
+!
+
+at: anIndex ifAbsent: aBlock
+	"Lookup the given index in the receiver.
+	If it is present, answer the value stored at anIndex.
+	Otherwise, answer the value of aBlock."
+
+	self subclassResponsibility
+!
+
+at: aKey ifAbsentPut: aBlock
+	^ self at: aKey ifAbsent: [
+		self at: aKey put: aBlock value ]
+!
+
+at: anIndex ifPresent: aBlock
+	"Lookup the given index in the receiver.
+	If it is present, answer the value of evaluating aBlock with the value stored at anIndex.
+	Otherwise, answer nil."
+
+	^ self at: anIndex ifPresent: aBlock ifAbsent: [ nil ]
+!
+
+at: anIndex ifPresent: aBlock ifAbsent: anotherBlock
+	"Lookup the given index in the receiver.
+	If it is present, answer the value of evaluating aBlock with the value stored at anIndex.
+	Otherwise, answer the value of anotherBlock."
+
+	self subclassResponsibility
+!
+
+at: anIndex put: anObject
+	"Store anObject under the given index in the receiver."
+
+	self subclassResponsibility
+!
+
+indexOf: anObject
+	"Lookup index at which anObject is stored in the receiver.
+	If not present, raise an error."
+
+	^ self indexOf: anObject ifAbsent: [ self errorNotFound ]
+!
+
+indexOf: anObject ifAbsent: aBlock
+	"Lookup index at which anObject is stored in the receiver.
+	If not present, return value of executing aBlock."
+
+	self subclassResponsibility
+! !
+
+!TKeyValueCollection methodsFor: 'enumerating'!
+
+with: anotherCollection do: aBlock
+	"Calls aBlock with every value from self
+	and with indetically-indexed value from anotherCollection"
+
+	self withIndexDo: [ :each :index |
+		aBlock value: each value: (anotherCollection at: index) ]
+!
+
+withIndexDo: aBlock
+	"Calls aBlock with every value from self
+	and with its index as the second argument"
+
+	self subclassResponsibility
+! !
+
 Trait named: #TNativeZeroBasedCollection
 	package: 'Kernel-Collections'!
 
@@ -2412,6 +2405,8 @@ withIndexDo: aBlock
 	'>
 ! !
 
+AssociativeCollection setTraitComposition: {TKeyValueCollection} asTraitComposition!
+SequenceableCollection setTraitComposition: {TKeyValueCollection} asTraitComposition!
 Array setTraitComposition: {TNativeZeroBasedCollection} asTraitComposition!
 String setTraitComposition: {TNativeZeroBasedCollection} asTraitComposition!
 ! !
