@@ -4094,63 +4094,6 @@ $globals.SequenceableCollection);
 
 $core.addMethod(
 $core.method({
-selector: "detect:ifNone:",
-protocol: "enumerating",
-fn: function (aBlock,anotherBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-
-		for(var i = 0; i < self.length; i++)
-			if(aBlock._value_(self[i]))
-				return self[i];
-		return anotherBlock._value();
-	;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"detect:ifNone:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.SequenceableCollection)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock", "anotherBlock"],
-source: "detect: aBlock ifNone: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i = 0; i < self.length; i++)\x0a\x09\x09\x09if(aBlock._value_(self[i]))\x0a\x09\x09\x09\x09return self[i];\x0a\x09\x09return anotherBlock._value();\x0a\x09'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.SequenceableCollection);
-
-$core.addMethod(
-$core.method({
-selector: "do:",
-protocol: "enumerating",
-fn: function (aBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-
-		for(var i=0; i < self.length; i++) {
-			aBlock._value_(self[i]);
-		}
-	;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock},$globals.SequenceableCollection)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_(self[i]);\x0a\x09\x09}\x0a\x09'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.SequenceableCollection);
-
-$core.addMethod(
-$core.method({
 selector: "endsWith:",
 protocol: "testing",
 fn: function (suffix){
@@ -4287,35 +4230,6 @@ $globals.SequenceableCollection);
 
 $core.addMethod(
 $core.method({
-selector: "indexOf:ifAbsent:",
-protocol: "accessing",
-fn: function (anObject,aBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-
-		for(var i=0; i < self.length; i++) {
-			if($recv(self[i]).__eq(anObject)) {return i+1}
-		};
-		return aBlock._value();
-	;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"indexOf:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.SequenceableCollection)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anObject", "aBlock"],
-source: "indexOf: anObject ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09};\x0a\x09\x09return aBlock._value();\x0a\x09'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.SequenceableCollection);
-
-$core.addMethod(
-$core.method({
 selector: "indexOf:startingAt:",
 protocol: "accessing",
 fn: function (anObject,start){
@@ -4349,12 +4263,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-
-		for(var i=start - 1; i < self.length; i++){
-			if($recv(self[i]).__eq(anObject)) {return i+1}
-		}
-		return aBlock._value();
-	;
+$self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"indexOf:startingAt:ifAbsent:",{anObject:anObject,start:start,aBlock:aBlock},$globals.SequenceableCollection)});
@@ -4362,10 +4271,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject", "start", "aBlock"],
-source: "indexOf: anObject startingAt: start ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=start - 1; i < self.length; i++){\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09}\x0a\x09\x09return aBlock._value();\x0a\x09'>",
+source: "indexOf: anObject startingAt: start ifAbsent: aBlock\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["subclassResponsibility"]
 }),
 $globals.SequenceableCollection);
 
@@ -4572,33 +4481,6 @@ $globals.SequenceableCollection);
 
 $core.addMethod(
 $core.method({
-selector: "single",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-
-	if (self.length == 0) throw new Error("Collection is empty");
-	if (self.length > 1) throw new Error("Collection holds more than one element.");
-	return self[0];;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"single",{},$globals.SequenceableCollection)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "single\x0a<inlineJS: '\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length > 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return self[0];\x0a'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.SequenceableCollection);
-
-$core.addMethod(
-$core.method({
 selector: "stream",
 protocol: "streaming",
 fn: function (){
@@ -4663,63 +4545,6 @@ source: "third\x0a\x09^ self at: 3",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["at:"]
-}),
-$globals.SequenceableCollection);
-
-$core.addMethod(
-$core.method({
-selector: "with:do:",
-protocol: "enumerating",
-fn: function (anotherCollection,aBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-
-	    $recv(anotherCollection)._first_(0); // #guardSequenceableCollection
-		for(var i=0; i<self.length; i++) {
-			aBlock._value_value_(self[i], anotherCollection[i]);
-		}
-	;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"with:do:",{anotherCollection:anotherCollection,aBlock:aBlock},$globals.SequenceableCollection)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anotherCollection", "aBlock"],
-source: "with: anotherCollection do: aBlock\x0a\x09<inlineJS: '\x0a\x09    $recv(anotherCollection)._first_(0); // #guardSequenceableCollection\x0a\x09\x09for(var i=0; i<self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], anotherCollection[i]);\x0a\x09\x09}\x0a\x09'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.SequenceableCollection);
-
-$core.addMethod(
-$core.method({
-selector: "withIndexDo:",
-protocol: "enumerating",
-fn: function (aBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-
-		for(var i=0; i < self.length; i++) {
-			aBlock._value_value_(self[i], i+1);
-		}
-	;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"withIndexDo:",{aBlock:aBlock},$globals.SequenceableCollection)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "withIndexDo: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], i+1);\x0a\x09\x09}\x0a\x09'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
 }),
 $globals.SequenceableCollection);
 
@@ -10084,5 +9909,209 @@ referencedClasses: [],
 messageSends: []
 }),
 $globals.RegularExpression.a$cls);
+
+
+$core.addTrait("TNativeZeroBasedCollection", "Kernel-Collections");
+$core.addMethod(
+$core.method({
+selector: "detect:ifNone:",
+protocol: "enumerating",
+fn: function (aBlock,anotherBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+		for(var i = 0; i < self.length; i++)
+			if(aBlock._value_(self[i]))
+				return self[i];
+		return anotherBlock._value();
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"detect:ifNone:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.TNativeZeroBasedCollection)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock", "anotherBlock"],
+source: "detect: aBlock ifNone: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i = 0; i < self.length; i++)\x0a\x09\x09\x09if(aBlock._value_(self[i]))\x0a\x09\x09\x09\x09return self[i];\x0a\x09\x09return anotherBlock._value();\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "do:",
+protocol: "enumerating",
+fn: function (aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+		for(var i=0; i < self.length; i++) {
+			aBlock._value_(self[i]);
+		}
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_(self[i]);\x0a\x09\x09}\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "indexOf:ifAbsent:",
+protocol: "accessing",
+fn: function (anObject,aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+		for(var i=0; i < self.length; i++) {
+			if($recv(self[i]).__eq(anObject)) {return i+1}
+		};
+		return aBlock._value();
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"indexOf:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject", "aBlock"],
+source: "indexOf: anObject ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09};\x0a\x09\x09return aBlock._value();\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "indexOf:startingAt:ifAbsent:",
+protocol: "accessing",
+fn: function (anObject,start,aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+		for(var i=start - 1; i < self.length; i++){
+			if($recv(self[i]).__eq(anObject)) {return i+1}
+		}
+		return aBlock._value();
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"indexOf:startingAt:ifAbsent:",{anObject:anObject,start:start,aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject", "start", "aBlock"],
+source: "indexOf: anObject startingAt: start ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=start - 1; i < self.length; i++){\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09}\x0a\x09\x09return aBlock._value();\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "single",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+	if (self.length == 0) throw new Error("Collection is empty");
+	if (self.length > 1) throw new Error("Collection holds more than one element.");
+	return self[0];;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"single",{},$globals.TNativeZeroBasedCollection)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "single\x0a<inlineJS: '\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length > 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return self[0];\x0a'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "with:do:",
+protocol: "enumerating",
+fn: function (anotherCollection,aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+	    $recv(anotherCollection)._first_(0); // #guardSequenceableCollection
+		for(var i=0; i<self.length; i++) {
+			aBlock._value_value_(self[i], anotherCollection[i]);
+		}
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"with:do:",{anotherCollection:anotherCollection,aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anotherCollection", "aBlock"],
+source: "with: anotherCollection do: aBlock\x0a\x09<inlineJS: '\x0a\x09    $recv(anotherCollection)._first_(0); // #guardSequenceableCollection\x0a\x09\x09for(var i=0; i<self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], anotherCollection[i]);\x0a\x09\x09}\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "withIndexDo:",
+protocol: "enumerating",
+fn: function (aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+		for(var i=0; i < self.length; i++) {
+			aBlock._value_value_(self[i], i+1);
+		}
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"withIndexDo:",{aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "withIndexDo: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], i+1);\x0a\x09\x09}\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.setTraitComposition([{trait: $globals.TNativeZeroBasedCollection}], $globals.Array);
+$core.setTraitComposition([{trait: $globals.TNativeZeroBasedCollection}], $globals.String);
 
 });

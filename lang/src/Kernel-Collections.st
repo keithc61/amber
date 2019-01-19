@@ -989,15 +989,6 @@ fourth
 	^ self at: 4
 !
 
-indexOf: anObject ifAbsent: aBlock
-	<inlineJS: '
-		for(var i=0; i < self.length; i++) {
-			if($recv(self[i]).__eq(anObject)) {return i+1}
-		};
-		return aBlock._value();
-	'>
-!
-
 indexOf: anObject startingAt: start
 	"Answer the index of the first occurence of anElement after start
 	within the receiver. If the receiver does not contain anElement,
@@ -1006,12 +997,7 @@ indexOf: anObject startingAt: start
 !
 
 indexOf: anObject startingAt: start ifAbsent: aBlock
-	<inlineJS: '
-		for(var i=start - 1; i < self.length; i++){
-			if($recv(self[i]).__eq(anObject)) {return i+1}
-		}
-		return aBlock._value();
-	'>
+	self subclassResponsibility
 !
 
 last
@@ -1029,14 +1015,6 @@ last: aNumber
 
 second
 	^ self at: 2
-!
-
-single
-<inlineJS: '
-	if (self.length == 0) throw new Error("Collection is empty");
-	if (self.length > 1) throw new Error("Collection holds more than one element.");
-	return self[0];
-'>
 !
 
 third
@@ -1077,42 +1055,8 @@ copyFrom: anIndex to: anotherIndex
 
 !SequenceableCollection methodsFor: 'enumerating'!
 
-detect: aBlock ifNone: anotherBlock
-	<inlineJS: '
-		for(var i = 0; i < self.length; i++)
-			if(aBlock._value_(self[i]))
-				return self[i];
-		return anotherBlock._value();
-	'>
-!
-
-do: aBlock
-	<inlineJS: '
-		for(var i=0; i < self.length; i++) {
-			aBlock._value_(self[i]);
-		}
-	'>
-!
-
 reverseDo: aBlock
 	self reversed do: aBlock
-!
-
-with: anotherCollection do: aBlock
-	<inlineJS: '
-	    $recv(anotherCollection)._first_(0); // #guardSequenceableCollection
-		for(var i=0; i<self.length; i++) {
-			aBlock._value_value_(self[i], anotherCollection[i]);
-		}
-	'>
-!
-
-withIndexDo: aBlock
-	<inlineJS: '
-		for(var i=0; i < self.length; i++) {
-			aBlock._value_value_(self[i], i+1);
-		}
-	'>
 ! !
 
 !SequenceableCollection methodsFor: 'streaming'!
@@ -2399,5 +2343,76 @@ fromString: aString
 
 fromString: aString flag: anotherString
 	<inlineJS: 'return new RegExp(aString, anotherString)'>
+! !
+
+Trait named: #TNativeZeroBasedCollection
+	package: 'Kernel-Collections'!
+
+!TNativeZeroBasedCollection methodsFor: 'accessing'!
+
+indexOf: anObject ifAbsent: aBlock
+	<inlineJS: '
+		for(var i=0; i < self.length; i++) {
+			if($recv(self[i]).__eq(anObject)) {return i+1}
+		};
+		return aBlock._value();
+	'>
+!
+
+indexOf: anObject startingAt: start ifAbsent: aBlock
+	<inlineJS: '
+		for(var i=start - 1; i < self.length; i++){
+			if($recv(self[i]).__eq(anObject)) {return i+1}
+		}
+		return aBlock._value();
+	'>
+!
+
+single
+<inlineJS: '
+	if (self.length == 0) throw new Error("Collection is empty");
+	if (self.length > 1) throw new Error("Collection holds more than one element.");
+	return self[0];
+'>
+! !
+
+!TNativeZeroBasedCollection methodsFor: 'enumerating'!
+
+detect: aBlock ifNone: anotherBlock
+	<inlineJS: '
+		for(var i = 0; i < self.length; i++)
+			if(aBlock._value_(self[i]))
+				return self[i];
+		return anotherBlock._value();
+	'>
+!
+
+do: aBlock
+	<inlineJS: '
+		for(var i=0; i < self.length; i++) {
+			aBlock._value_(self[i]);
+		}
+	'>
+!
+
+with: anotherCollection do: aBlock
+	<inlineJS: '
+	    $recv(anotherCollection)._first_(0); // #guardSequenceableCollection
+		for(var i=0; i<self.length; i++) {
+			aBlock._value_value_(self[i], anotherCollection[i]);
+		}
+	'>
+!
+
+withIndexDo: aBlock
+	<inlineJS: '
+		for(var i=0; i < self.length; i++) {
+			aBlock._value_value_(self[i], i+1);
+		}
+	'>
+! !
+
+Array setTraitComposition: {TNativeZeroBasedCollection} asTraitComposition!
+String setTraitComposition: {TNativeZeroBasedCollection} asTraitComposition!
 ! !
 
