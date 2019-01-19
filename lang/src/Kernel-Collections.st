@@ -990,9 +990,8 @@ fourth
 
 indexOf: anObject ifAbsent: aBlock
 	<inlineJS: '
-		var nself = $self._numericallyIndexable();
-		for(var i=0; i < nself.length; i++) {
-			if($recv(nself[i]).__eq(anObject)) {return i+1}
+		for(var i=0; i < self.length; i++) {
+			if($recv(self[i]).__eq(anObject)) {return i+1}
 		};
 		return aBlock._value();
 	'>
@@ -1007,9 +1006,8 @@ indexOf: anObject startingAt: start
 
 indexOf: anObject startingAt: start ifAbsent: aBlock
 	<inlineJS: '
-		var nself = $self._numericallyIndexable();
-		for(var i=start - 1; i < nself.length; i++){
-			if($recv(nself[i]).__eq(anObject)) {return i+1}
+		for(var i=start - 1; i < self.length; i++){
+			if($recv(self[i]).__eq(anObject)) {return i+1}
 		}
 		return aBlock._value();
 	'>
@@ -1036,7 +1034,7 @@ single
 <inlineJS: '
 	if (self.length == 0) throw new Error("Collection is empty");
 	if (self.length > 1) throw new Error("Collection holds more than one element.");
-	return $self._numericallyIndexable()[0];
+	return self[0];
 '>
 !
 
@@ -1080,19 +1078,17 @@ copyFrom: anIndex to: anotherIndex
 
 detect: aBlock ifNone: anotherBlock
 	<inlineJS: '
-		var nself = $self._numericallyIndexable();
-		for(var i = 0; i < nself.length; i++)
-			if(aBlock._value_(nself[i]))
-				return nself[i];
+		for(var i = 0; i < self.length; i++)
+			if(aBlock._value_(self[i]))
+				return self[i];
 		return anotherBlock._value();
 	'>
 !
 
 do: aBlock
 	<inlineJS: '
-		var nself = $self._numericallyIndexable();
-		for(var i=0; i < nself.length; i++) {
-			aBlock._value_(nself[i]);
+		for(var i=0; i < self.length; i++) {
+			aBlock._value_(self[i]);
 		}
 	'>
 !
@@ -1103,35 +1099,19 @@ reverseDo: aBlock
 
 with: anotherCollection do: aBlock
 	<inlineJS: '
-		var nself = $self._numericallyIndexable();
-		anotherCollection = anotherCollection._numericallyIndexable();
-		for(var i=0; i<nself.length; i++) {
-			aBlock._value_value_(nself[i], anotherCollection[i]);
+	    $recv(anotherCollection)._first_(0); // #guardSequenceableCollection
+		for(var i=0; i<self.length; i++) {
+			aBlock._value_value_(self[i], anotherCollection[i]);
 		}
 	'>
 !
 
 withIndexDo: aBlock
 	<inlineJS: '
-		var nself = $self._numericallyIndexable();
-		for(var i=0; i < nself.length; i++) {
-			aBlock._value_value_(nself[i], i+1);
+		for(var i=0; i < self.length; i++) {
+			aBlock._value_value_(self[i], i+1);
 		}
 	'>
-! !
-
-!SequenceableCollection methodsFor: 'private'!
-
-numericallyIndexable
-	"This is an internal converting message.
-	It answeres a representation of the receiver
-	that can use foo[i] in JavaScript code.
-	
-	It fixes IE8, where boxed String is unable
-	to numerically index its characters,
-	but primitive string can."
-	
-	self subclassResponsibility
 ! !
 
 !SequenceableCollection methodsFor: 'streaming'!
@@ -1345,12 +1325,6 @@ printOn: aStream
 		do: [ :each | each printOn: aStream ]
 		separatedBy: [ aStream nextPutAll: ' ' ].
 	aStream nextPutAll: ')'
-! !
-
-!Array methodsFor: 'private'!
-
-numericallyIndexable
-	^ self
 ! !
 
 !Array class methodsFor: 'instance creation'!
@@ -1612,12 +1586,6 @@ printOn: aStream
 
 symbolPrintString
 	^ String streamContents: [ :str | self asSymbolPrintOn: str ]
-! !
-
-!String methodsFor: 'private'!
-
-numericallyIndexable
-	<inlineJS: 'return String(self)'>
 ! !
 
 !String methodsFor: 'regular expressions'!

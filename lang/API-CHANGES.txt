@@ -3,6 +3,13 @@
 * Merge CharacterArray class into String class
 * Deprecate CharacterArray class
 
+- Array >>
+  - numericallyIndexable
+- SequenceableCollection
+  - numericallyIndexable
+- String >>
+  - numericallyIndexable
+
 
 0.22.1:
 

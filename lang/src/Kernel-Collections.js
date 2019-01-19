@@ -4086,10 +4086,9 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var nself = $self._numericallyIndexable();
-		for(var i = 0; i < nself.length; i++)
-			if(aBlock._value_(nself[i]))
-				return nself[i];
+		for(var i = 0; i < self.length; i++)
+			if(aBlock._value_(self[i]))
+				return self[i];
 		return anotherBlock._value();
 	;
 return self;
@@ -4099,7 +4098,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock", "anotherBlock"],
-source: "detect: aBlock ifNone: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09var nself = $self._numericallyIndexable();\x0a\x09\x09for(var i = 0; i < nself.length; i++)\x0a\x09\x09\x09if(aBlock._value_(nself[i]))\x0a\x09\x09\x09\x09return nself[i];\x0a\x09\x09return anotherBlock._value();\x0a\x09'>",
+source: "detect: aBlock ifNone: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i = 0; i < self.length; i++)\x0a\x09\x09\x09if(aBlock._value_(self[i]))\x0a\x09\x09\x09\x09return self[i];\x0a\x09\x09return anotherBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4116,9 +4115,8 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var nself = $self._numericallyIndexable();
-		for(var i=0; i < nself.length; i++) {
-			aBlock._value_(nself[i]);
+		for(var i=0; i < self.length; i++) {
+			aBlock._value_(self[i]);
 		}
 	;
 return self;
@@ -4128,7 +4126,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var nself = $self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < nself.length; i++) {\x0a\x09\x09\x09aBlock._value_(nself[i]);\x0a\x09\x09}\x0a\x09'>",
+source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_(self[i]);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4281,9 +4279,8 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var nself = $self._numericallyIndexable();
-		for(var i=0; i < nself.length; i++) {
-			if($recv(nself[i]).__eq(anObject)) {return i+1}
+		for(var i=0; i < self.length; i++) {
+			if($recv(self[i]).__eq(anObject)) {return i+1}
 		};
 		return aBlock._value();
 	;
@@ -4294,7 +4291,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject", "aBlock"],
-source: "indexOf: anObject ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var nself = $self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < nself.length; i++) {\x0a\x09\x09\x09if($recv(nself[i]).__eq(anObject)) {return i+1}\x0a\x09\x09};\x0a\x09\x09return aBlock._value();\x0a\x09'>",
+source: "indexOf: anObject ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09};\x0a\x09\x09return aBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4337,9 +4334,8 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var nself = $self._numericallyIndexable();
-		for(var i=start - 1; i < nself.length; i++){
-			if($recv(nself[i]).__eq(anObject)) {return i+1}
+		for(var i=start - 1; i < self.length; i++){
+			if($recv(self[i]).__eq(anObject)) {return i+1}
 		}
 		return aBlock._value();
 	;
@@ -4350,7 +4346,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject", "start", "aBlock"],
-source: "indexOf: anObject startingAt: start ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var nself = $self._numericallyIndexable();\x0a\x09\x09for(var i=start - 1; i < nself.length; i++){\x0a\x09\x09\x09if($recv(nself[i]).__eq(anObject)) {return i+1}\x0a\x09\x09}\x0a\x09\x09return aBlock._value();\x0a\x09'>",
+source: "indexOf: anObject startingAt: start ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=start - 1; i < self.length; i++){\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09}\x0a\x09\x09return aBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4438,30 +4434,6 @@ source: "newStream\x0a\x09^ self streamClass on: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["on:", "streamClass"]
-}),
-$globals.SequenceableCollection);
-
-$core.addMethod(
-$core.method({
-selector: "numericallyIndexable",
-protocol: "private",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._subclassResponsibility();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"numericallyIndexable",{},$globals.SequenceableCollection)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "numericallyIndexable\x0a\x09\x22This is an internal converting message.\x0a\x09It answeres a representation of the receiver\x0a\x09that can use foo[i] in JavaScript code.\x0a\x09\x0a\x09It fixes IE8, where boxed String is unable\x0a\x09to numerically index its characters,\x0a\x09but primitive string can.\x22\x0a\x09\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["subclassResponsibility"]
 }),
 $globals.SequenceableCollection);
 
@@ -4594,7 +4566,7 @@ return $core.withContext(function($ctx1) {
 
 	if (self.length == 0) throw new Error("Collection is empty");
 	if (self.length > 1) throw new Error("Collection holds more than one element.");
-	return $self._numericallyIndexable()[0];;
+	return self[0];;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"single",{},$globals.SequenceableCollection)});
@@ -4602,7 +4574,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "single\x0a<inlineJS: '\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length > 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return $self._numericallyIndexable()[0];\x0a'>",
+source: "single\x0a<inlineJS: '\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length > 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return self[0];\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4688,10 +4660,9 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var nself = $self._numericallyIndexable();
-		anotherCollection = anotherCollection._numericallyIndexable();
-		for(var i=0; i<nself.length; i++) {
-			aBlock._value_value_(nself[i], anotherCollection[i]);
+	    $recv(anotherCollection)._first_(0); // #guardSequenceableCollection
+		for(var i=0; i<self.length; i++) {
+			aBlock._value_value_(self[i], anotherCollection[i]);
 		}
 	;
 return self;
@@ -4701,7 +4672,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anotherCollection", "aBlock"],
-source: "with: anotherCollection do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var nself = $self._numericallyIndexable();\x0a\x09\x09anotherCollection = anotherCollection._numericallyIndexable();\x0a\x09\x09for(var i=0; i<nself.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(nself[i], anotherCollection[i]);\x0a\x09\x09}\x0a\x09'>",
+source: "with: anotherCollection do: aBlock\x0a\x09<inlineJS: '\x0a\x09    $recv(anotherCollection)._first_(0); // #guardSequenceableCollection\x0a\x09\x09for(var i=0; i<self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], anotherCollection[i]);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -4718,9 +4689,8 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var nself = $self._numericallyIndexable();
-		for(var i=0; i < nself.length; i++) {
-			aBlock._value_value_(nself[i], i+1);
+		for(var i=0; i < self.length; i++) {
+			aBlock._value_value_(self[i], i+1);
 		}
 	;
 return self;
@@ -4730,7 +4700,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "withIndexDo: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var nself = $self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < nself.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(nself[i], i+1);\x0a\x09\x09}\x0a\x09'>",
+source: "withIndexDo: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], i+1);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -5074,24 +5044,6 @@ return self;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
 source: "join: aString\x0a\x09<inlineJS: 'return self.join(aString)'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Array);
-
-$core.addMethod(
-$core.method({
-selector: "numericallyIndexable",
-protocol: "private",
-fn: function (){
-var self=this,$self=this;
-return self;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "numericallyIndexable\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6868,30 +6820,6 @@ return self;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aRegularExpression"],
 source: "matchesOf: aRegularExpression\x0a\x09<inlineJS: 'return self.match(aRegularExpression)'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.String);
-
-$core.addMethod(
-$core.method({
-selector: "numericallyIndexable",
-protocol: "private",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return String(self);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"numericallyIndexable",{},$globals.String)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "numericallyIndexable\x0a\x09<inlineJS: 'return String(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
