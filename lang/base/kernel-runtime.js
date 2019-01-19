@@ -158,8 +158,6 @@ define(function () {
         this.__init__ = function () {
             st.alias(globals.Array, "OrderedCollection");
             st.alias(globals.Date, "Time");
-            // TODO deprecated, remove
-            st.alias(globals.String, "CharacterArray");
         }
     }
 

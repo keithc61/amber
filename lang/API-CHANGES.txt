@@ -2,7 +2,7 @@
 
 * Remove class IndexableCollection, trait TKeyValueCollection.
 * Merge CharacterArray class into String class
-* Deprecate CharacterArray class
+* Remove CharacterArray class
 
 - Array >>
   - numericallyIndexable

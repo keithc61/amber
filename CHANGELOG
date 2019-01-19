@@ -4,9 +4,9 @@
 * Fixes.
 * Flatter Collection hierarchy with traits, remove IndexableCollection class.
 * Remove some old IE8 cruft.
-* Push CharacterArray down, make it and alias to String and deprecate it.
+* Push CharacterArray down to String and remove it.
 
-Commits: https://lolg.it/amber/amber/commits/0.22.2
+Commits: https://lolg.it/amber/amber/commits/0.23.0
 
 
 24 Jun 2018 - Release 0.22.1
