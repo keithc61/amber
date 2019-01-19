@@ -5642,410 +5642,7 @@ messageSends: ["new:", "size", "do:", "at:put:", "+"]
 $globals.Array.a$cls);
 
 
-$core.addClass("CharacterArray", $globals.SequenceableCollection, [], "Kernel-Collections");
-//>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.CharacterArray.comment="I am the abstract superclass of string-like collections.";
-//>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: ",",
-protocol: "copying",
-fn: function (aString){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$self._asString();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["asString"]=1;
-//>>excludeEnd("ctx");
-return $recv($1).__comma($recv(aString)._asString());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,",",{aString:aString},$globals.CharacterArray)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: ", aString\x0a\x09^ self asString, aString asString",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: [",", "asString"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "add:",
-protocol: "adding/removing",
-fn: function (anObject){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._errorReadOnly();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject},$globals.CharacterArray)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anObject"],
-source: "add: anObject\x0a\x09self errorReadOnly",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["errorReadOnly"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "asLowercase",
-protocol: "converting",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self._class())._fromString_($recv($self._asString())._asLowercase());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asLowercase",{},$globals.CharacterArray)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "asLowercase\x0a\x09^ self class fromString: self asString asLowercase",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["fromString:", "class", "asLowercase", "asString"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "asNumber",
-protocol: "converting",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self._asString())._asNumber();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asNumber",{},$globals.CharacterArray)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "asNumber\x0a\x09^ self asString asNumber",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["asNumber", "asString"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "asString",
-protocol: "converting",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self._subclassResponsibility();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asString",{},$globals.CharacterArray)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "asString\x0a\x09^ self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["subclassResponsibility"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "asSymbol",
-protocol: "converting",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self._asString();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asSymbol",{},$globals.CharacterArray)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "asSymbol\x0a\x09^ self asString",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["asString"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "asSymbolPrintOn:",
-protocol: "printing",
-fn: function (aStream){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$recv(aStream)._nextPutAll_("#");
-$1=$recv($self._asString())._isSelector();
-if($core.assert($1)){
-$recv(aStream)._nextPut_(self);
-} else {
-$self._printOn_(aStream);
-}
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asSymbolPrintOn:",{aStream:aStream},$globals.CharacterArray)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aStream"],
-source: "asSymbolPrintOn: aStream\x0a\x09aStream nextPutAll: '#'.\x0a\x09self asString isSelector\x0a\x09\x09ifTrue: [ aStream nextPut: self ]\x0a\x09\x09ifFalse: [ self printOn: aStream ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["nextPutAll:", "ifTrue:ifFalse:", "isSelector", "asString", "nextPut:", "printOn:"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "asUppercase",
-protocol: "converting",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self._class())._fromString_($recv($self._asString())._asUppercase());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asUppercase",{},$globals.CharacterArray)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "asUppercase\x0a\x09^ self class fromString: self asString asUppercase",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["fromString:", "class", "asUppercase", "asString"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "at:put:",
-protocol: "accessing",
-fn: function (anIndex,anObject){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._errorReadOnly();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:put:",{anIndex:anIndex,anObject:anObject},$globals.CharacterArray)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anIndex", "anObject"],
-source: "at: anIndex put: anObject\x0a\x09self errorReadOnly",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["errorReadOnly"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "errorReadOnly",
-protocol: "error handling",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._error_("Object is read-only");
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"errorReadOnly",{},$globals.CharacterArray)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "errorReadOnly\x0a\x09self error: 'Object is read-only'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["error:"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "printOn:",
-protocol: "printing",
-fn: function (aStream){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv($self._asString())._printOn_(aStream);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.CharacterArray)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aStream"],
-source: "printOn: aStream\x0a\x09self asString printOn: aStream",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["printOn:", "asString"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "putOn:",
-protocol: "streaming",
-fn: function (aStream){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv(aStream)._nextPutString_(self);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"putOn:",{aStream:aStream},$globals.CharacterArray)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aStream"],
-source: "putOn: aStream\x0a\x09aStream nextPutString: self",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["nextPutString:"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "remove:",
-protocol: "adding/removing",
-fn: function (anObject){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._errorReadOnly();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"remove:",{anObject:anObject},$globals.CharacterArray)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anObject"],
-source: "remove: anObject\x0a\x09self errorReadOnly",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["errorReadOnly"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "remove:ifAbsent:",
-protocol: "adding/removing",
-fn: function (anObject,aBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._errorReadOnly();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.CharacterArray)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anObject", "aBlock"],
-source: "remove: anObject ifAbsent: aBlock\x0a\x09self errorReadOnly",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["errorReadOnly"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "symbolPrintString",
-protocol: "printing",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($globals.String)._streamContents_((function(str){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $self._asSymbolPrintOn_(str);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({str:str},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"symbolPrintString",{},$globals.CharacterArray)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "symbolPrintString\x0a\x09^ String streamContents: [ :str | self asSymbolPrintOn: str ]",
-referencedClasses: ["String"],
-//>>excludeEnd("ide");
-messageSends: ["streamContents:", "asSymbolPrintOn:"]
-}),
-$globals.CharacterArray);
-
-
-$core.addMethod(
-$core.method({
-selector: "fromString:",
-protocol: "instance creation",
-fn: function (aString){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._subclassResponsibility();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromString:",{aString:aString},$globals.CharacterArray.a$cls)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "fromString: aString\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["subclassResponsibility"]
-}),
-$globals.CharacterArray.a$cls);
-
-
-$core.addClass("String", $globals.CharacterArray, [], "Kernel-Collections");
+$core.addClass("String", $globals.SequenceableCollection, [], "Kernel-Collections");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.String.comment="I am an indexed collection of Characters. Unlike most Smalltalk dialects, Amber doesn't provide the Character class. Instead, elements of a String are single character strings.\x0a\x0aString inherits many useful methods from its hierarchy, such as\x0a\x09`Collection >> #,`";
 //>>excludeEnd("ide");
@@ -6217,6 +5814,30 @@ source: ">= aString\x0a\x09<inlineJS: 'return String(self) >= aString._asString(
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "add:",
+protocol: "adding/removing",
+fn: function (anObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._errorReadOnly();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject},$globals.String)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "add: anObject\x0a\x09self errorReadOnly",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["errorReadOnly"]
 }),
 $globals.String);
 
@@ -6428,6 +6049,37 @@ $globals.String);
 
 $core.addMethod(
 $core.method({
+selector: "asSymbolPrintOn:",
+protocol: "printing",
+fn: function (aStream){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$recv(aStream)._nextPutAll_("#");
+$1=$recv($self._asString())._isSelector();
+if($core.assert($1)){
+$recv(aStream)._nextPut_(self);
+} else {
+$self._printOn_(aStream);
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asSymbolPrintOn:",{aStream:aStream},$globals.String)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aStream"],
+source: "asSymbolPrintOn: aStream\x0a\x09aStream nextPutAll: '#'.\x0a\x09self asString isSelector\x0a\x09\x09ifTrue: [ aStream nextPut: self ]\x0a\x09\x09ifFalse: [ self printOn: aStream ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["nextPutAll:", "ifTrue:ifFalse:", "isSelector", "asString", "nextPut:", "printOn:"]
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
 selector: "asUppercase",
 protocol: "converting",
 fn: function (){
@@ -6522,6 +6174,30 @@ source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09<inlineJS: 
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "at:put:",
+protocol: "accessing",
+fn: function (anIndex,anObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._errorReadOnly();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"at:put:",{anIndex:anIndex,anObject:anObject},$globals.String)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anIndex", "anObject"],
+source: "at: anIndex put: anObject\x0a\x09self errorReadOnly",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["errorReadOnly"]
 }),
 $globals.String);
 
@@ -6647,6 +6323,30 @@ source: "deepCopy\x0a\x09^ self shallowCopy",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["shallowCopy"]
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "errorReadOnly",
+protocol: "error handling",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._error_("Object is read-only");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"errorReadOnly",{},$globals.String)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "errorReadOnly\x0a\x09self error: 'Object is read-only'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["error:"]
 }),
 $globals.String);
 
@@ -7256,6 +6956,78 @@ $globals.String);
 
 $core.addMethod(
 $core.method({
+selector: "putOn:",
+protocol: "streaming",
+fn: function (aStream){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutString_(self);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"putOn:",{aStream:aStream},$globals.String)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aStream"],
+source: "putOn: aStream\x0a\x09aStream nextPutString: self",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["nextPutString:"]
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "remove:",
+protocol: "adding/removing",
+fn: function (anObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._errorReadOnly();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"remove:",{anObject:anObject},$globals.String)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "remove: anObject\x0a\x09self errorReadOnly",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["errorReadOnly"]
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "remove:ifAbsent:",
+protocol: "adding/removing",
+fn: function (anObject,aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._errorReadOnly();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.String)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject", "aBlock"],
+source: "remove: anObject ifAbsent: aBlock\x0a\x09self errorReadOnly",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["errorReadOnly"]
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
 selector: "replace:with:",
 protocol: "regular expressions",
 fn: function (aString,anotherString){
@@ -7387,6 +7159,37 @@ source: "subStrings: aString\x0a\x09^ self tokenize: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["tokenize:"]
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "symbolPrintString",
+protocol: "printing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.String)._streamContents_((function(str){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._asSymbolPrintOn_(str);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({str:str},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"symbolPrintString",{},$globals.String)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "symbolPrintString\x0a\x09^ String streamContents: [ :str | self asSymbolPrintOn: str ]",
+referencedClasses: ["String"],
+//>>excludeEnd("ide");
+messageSends: ["streamContents:", "asSymbolPrintOn:"]
 }),
 $globals.String);
 

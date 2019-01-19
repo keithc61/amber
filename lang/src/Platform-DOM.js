@@ -122,29 +122,6 @@ selector: "asDomNode",
 protocol: "*Platform-DOM",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(document)._createTextNode_($self._asString());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asDomNode",{},$globals.CharacterArray)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "asDomNode\x0a\x09^ document createTextNode: self asString",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["createTextNode:", "asString"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "asDomNode",
-protocol: "*Platform-DOM",
-fn: function (){
-var self=this,$self=this;
 var fragment;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -210,6 +187,29 @@ referencedClasses: ["PlatformDom"],
 messageSends: ["ifTrue:ifFalse:", "isDomNode:", "asDomNode"]
 }),
 $globals.JSObjectProxy);
+
+$core.addMethod(
+$core.method({
+selector: "asDomNode",
+protocol: "*Platform-DOM",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(document)._createTextNode_($self._asString());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asDomNode",{},$globals.String)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asDomNode\x0a\x09^ document createTextNode: self asString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["createTextNode:", "asString"]
+}),
+$globals.String);
 
 $core.addMethod(
 $core.method({

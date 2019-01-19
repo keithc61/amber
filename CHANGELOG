@@ -1,3 +1,12 @@
+? Jan 2019 - Release 0.22.2
+===================================
+
+* Fixes.
+* Push CharacterArray down, make it and alias to String and deprecate it.
+
+Commits: https://lolg.it/amber/amber/commits/0.22.2
+
+
 24 Jun 2018 - Release 0.22.1
 ===================================
 

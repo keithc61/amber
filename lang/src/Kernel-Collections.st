@@ -1390,96 +1390,7 @@ withAll: aCollection
 	^ instance
 ! !
 
-SequenceableCollection subclass: #CharacterArray
-	instanceVariableNames: ''
-	package: 'Kernel-Collections'!
-!CharacterArray commentStamp!
-I am the abstract superclass of string-like collections.!
-
-!CharacterArray methodsFor: 'accessing'!
-
-at: anIndex put: anObject
-	self errorReadOnly
-! !
-
-!CharacterArray methodsFor: 'adding/removing'!
-
-add: anObject
-	self errorReadOnly
-!
-
-remove: anObject
-	self errorReadOnly
-!
-
-remove: anObject ifAbsent: aBlock
-	self errorReadOnly
-! !
-
-!CharacterArray methodsFor: 'converting'!
-
-asLowercase
-	^ self class fromString: self asString asLowercase
-!
-
-asNumber
-	^ self asString asNumber
-!
-
-asString
-	^ self subclassResponsibility
-!
-
-asSymbol
-	^ self asString
-!
-
-asUppercase
-	^ self class fromString: self asString asUppercase
-! !
-
-!CharacterArray methodsFor: 'copying'!
-
-, aString
-	^ self asString, aString asString
-! !
-
-!CharacterArray methodsFor: 'error handling'!
-
-errorReadOnly
-	self error: 'Object is read-only'
-! !
-
-!CharacterArray methodsFor: 'printing'!
-
-asSymbolPrintOn: aStream
-	aStream nextPutAll: '#'.
-	self asString isSelector
-		ifTrue: [ aStream nextPut: self ]
-		ifFalse: [ self printOn: aStream ]
-!
-
-printOn: aStream
-	self asString printOn: aStream
-!
-
-symbolPrintString
-	^ String streamContents: [ :str | self asSymbolPrintOn: str ]
-! !
-
-!CharacterArray methodsFor: 'streaming'!
-
-putOn: aStream
-	aStream nextPutString: self
-! !
-
-!CharacterArray class methodsFor: 'instance creation'!
-
-fromString: aString
-	self subclassResponsibility
-! !
-
-CharacterArray subclass: #String
+SequenceableCollection subclass: #String
 	instanceVariableNames: ''
 	package: 'Kernel-Collections'!
 !String commentStamp!
@@ -1505,12 +1416,30 @@ at: anIndex ifPresent: aBlock ifAbsent: anotherBlock
 	'>
 !
 
+at: anIndex put: anObject
+	self errorReadOnly
+!
+
 charCodeAt: anInteger
 	<inlineJS: 'return self.charCodeAt(anInteger - 1)'>
 !
 
 size
 	<inlineJS: 'return self.length'>
+! !
+
+!String methodsFor: 'adding/removing'!
+
+add: anObject
+	self errorReadOnly
+!
+
+remove: anObject
+	self errorReadOnly
+!
+
+remove: anObject ifAbsent: aBlock
+	self errorReadOnly
 ! !
 
 !String methodsFor: 'comparing'!
@@ -1649,6 +1578,12 @@ shallowCopy
 	^ self
 ! !
 
+!String methodsFor: 'error handling'!
+
+errorReadOnly
+	self error: 'Object is read-only'
+! !
+
 !String methodsFor: 'evaluating'!
 
 value: anObject 
@@ -1656,6 +1591,13 @@ value: anObject
 ! !
 
 !String methodsFor: 'printing'!
+
+asSymbolPrintOn: aStream
+	aStream nextPutAll: '#'.
+	self asString isSelector
+		ifTrue: [ aStream nextPut: self ]
+		ifFalse: [ self printOn: aStream ]
+!
 
 printNl
 	<inlineJS: 'console.log(self)'>
@@ -1666,6 +1608,10 @@ printOn: aStream
 		nextPutAll: '''';
 		nextPutAll: (self replace: '''' with: '''''');
 		nextPutAll: ''''
+!
+
+symbolPrintString
+	^ String streamContents: [ :str | self asSymbolPrintOn: str ]
 ! !
 
 !String methodsFor: 'private'!
@@ -1792,6 +1738,12 @@ subStrings: aString
 
 tokenize: aString
 	<inlineJS: 'return self.split(aString)'>
+! !
+
+!String methodsFor: 'streaming'!
+
+putOn: aStream
+	aStream nextPutString: self
 ! !
 
 !String methodsFor: 'testing'!

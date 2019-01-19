@@ -40,12 +40,6 @@ isFeasible
 '>
 ! !
 
-!CharacterArray methodsFor: '*Platform-DOM'!
-
-asDomNode
-	^ document createTextNode: self asString
-! !
-
 !Collection methodsFor: '*Platform-DOM'!
 
 asDomNode
@@ -64,6 +58,10 @@ asDomNode
 ! !
 
 !String methodsFor: '*Platform-DOM'!
+
+asDomNode
+	^ document createTextNode: self asString
+!
 
 htmlTextContent
 <inlineJS: 'var d=document.createElement("div");d.innerHTML=self;return d.textContent||d.innerText;'>

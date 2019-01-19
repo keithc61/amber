@@ -1,3 +1,9 @@
+0.22.2:
+
+* Merge CharacterArray class into String class
+* Deprecate CharacterArray class
+
+
 0.22.1:
 
 + BlockClosure >>
