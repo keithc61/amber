@@ -1042,28 +1042,8 @@ I am directly mapped to JavaScript Number.
 
 !Array methodsFor: 'accessing'!
 
-at: anIndex ifAbsent: aBlock
-	<inlineJS: '
-		return anIndex >= 1 && anIndex <= self.length
-			? self[anIndex - 1]
-			: aBlock._value()
-	'>
-!
-
-at: anIndex ifPresent: aBlock ifAbsent: anotherBlock
-	<inlineJS: '
-		return anIndex >= 1 && anIndex <= self.length
-			? aBlock._value_(self[anIndex - 1])
-			: anotherBlock._value()
-	'>
-!
-
 at: anIndex put: anObject
 	<inlineJS: 'return self[anIndex - 1] = anObject'>
-!
-
-size
-	<inlineJS: 'return self.length'>
 ! !
 
 !Array methodsFor: 'adding/removing'!
@@ -1255,10 +1235,6 @@ at: anIndex put: anObject
 
 charCodeAt: anInteger
 	<inlineJS: 'return self.charCodeAt(anInteger - 1)'>
-!
-
-size
-	<inlineJS: 'return self.length'>
 ! !
 
 !String methodsFor: 'adding/removing'!
@@ -2343,6 +2319,22 @@ Trait named: #TNativeZeroBasedCollection
 
 !TNativeZeroBasedCollection methodsFor: 'accessing'!
 
+at: anIndex ifAbsent: aBlock
+	<inlineJS: '
+		return anIndex >= 1 && anIndex <= self.length
+			? self[anIndex - 1]
+			: aBlock._value()
+	'>
+!
+
+at: anIndex ifPresent: aBlock ifAbsent: anotherBlock
+	<inlineJS: '
+		return anIndex >= 1 && anIndex <= self.length
+			? aBlock._value_(self[anIndex - 1])
+			: anotherBlock._value()
+	'>
+!
+
 indexOf: anObject ifAbsent: aBlock
 	<inlineJS: '
 		for(var i=0; i < self.length; i++) {
@@ -2367,6 +2359,10 @@ single
 	if (self.length > 1) throw new Error("Collection holds more than one element.");
 	return self[0];
 '>
+!
+
+size
+	<inlineJS: 'return self.length'>
 ! !
 
 !TNativeZeroBasedCollection methodsFor: 'enumerating'!

@@ -4457,62 +4457,6 @@ $globals.Array);
 
 $core.addMethod(
 $core.method({
-selector: "at:ifAbsent:",
-protocol: "accessing",
-fn: function (anIndex,aBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-
-		return anIndex >= 1 && anIndex <= self.length
-			? self[anIndex - 1]
-			: aBlock._value()
-	;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{anIndex:anIndex,aBlock:aBlock},$globals.Array)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anIndex", "aBlock"],
-source: "at: anIndex ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09return anIndex >= 1 && anIndex <= self.length\x0a\x09\x09\x09? self[anIndex - 1]\x0a\x09\x09\x09: aBlock._value()\x0a\x09'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Array);
-
-$core.addMethod(
-$core.method({
-selector: "at:ifPresent:ifAbsent:",
-protocol: "accessing",
-fn: function (anIndex,aBlock,anotherBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-
-		return anIndex >= 1 && anIndex <= self.length
-			? aBlock._value_(self[anIndex - 1])
-			: anotherBlock._value()
-	;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{anIndex:anIndex,aBlock:aBlock,anotherBlock:anotherBlock},$globals.Array)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anIndex", "aBlock", "anotherBlock"],
-source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09return anIndex >= 1 && anIndex <= self.length\x0a\x09\x09\x09? aBlock._value_(self[anIndex - 1])\x0a\x09\x09\x09: anotherBlock._value()\x0a\x09'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Array);
-
-$core.addMethod(
-$core.method({
 selector: "at:put:",
 protocol: "accessing",
 fn: function (anIndex,anObject){
@@ -4870,30 +4814,6 @@ return self;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "shallowCopy\x0a\x09<inlineJS: 'return self.slice()'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.Array);
-
-$core.addMethod(
-$core.method({
-selector: "size",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.length;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"size",{},$globals.Array)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "size\x0a\x09<inlineJS: 'return self.length'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -6601,30 +6521,6 @@ return self;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "shallowCopy\x0a\x09^ self",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.String);
-
-$core.addMethod(
-$core.method({
-selector: "size",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.length;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"size",{},$globals.String)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "size\x0a\x09<inlineJS: 'return self.length'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -9910,6 +9806,62 @@ $globals.TKeyValueCollection);
 $core.addTrait("TNativeZeroBasedCollection", "Kernel-Collections");
 $core.addMethod(
 $core.method({
+selector: "at:ifAbsent:",
+protocol: "accessing",
+fn: function (anIndex,aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+		return anIndex >= 1 && anIndex <= self.length
+			? self[anIndex - 1]
+			: aBlock._value()
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{anIndex:anIndex,aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anIndex", "aBlock"],
+source: "at: anIndex ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09return anIndex >= 1 && anIndex <= self.length\x0a\x09\x09\x09? self[anIndex - 1]\x0a\x09\x09\x09: aBlock._value()\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "at:ifPresent:ifAbsent:",
+protocol: "accessing",
+fn: function (anIndex,aBlock,anotherBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+		return anIndex >= 1 && anIndex <= self.length
+			? aBlock._value_(self[anIndex - 1])
+			: anotherBlock._value()
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{anIndex:anIndex,aBlock:aBlock,anotherBlock:anotherBlock},$globals.TNativeZeroBasedCollection)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anIndex", "aBlock", "anotherBlock"],
+source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09return anIndex >= 1 && anIndex <= self.length\x0a\x09\x09\x09? aBlock._value_(self[anIndex - 1])\x0a\x09\x09\x09: anotherBlock._value()\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
 selector: "detect:ifNone:",
 protocol: "enumerating",
 fn: function (aBlock,anotherBlock){
@@ -10044,6 +9996,30 @@ return self;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "single\x0a<inlineJS: '\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length > 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return self[0];\x0a'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "size",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return self.length;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"size",{},$globals.TNativeZeroBasedCollection)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "size\x0a\x09<inlineJS: 'return self.length'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
