@@ -1937,7 +1937,7 @@ remove: anObject ifAbsent: aBlock
 	bucket := self bucketsOfElement: anObject.
 	^ bucket second
 		ifNil: [ bucket third remove: bucket first ifAbsent: [ ^aBlock value ]. size := size - 1 ]
-		ifNotNil: [ :primitiveBucket | self remove: bucket first in: primitiveBucket ]
+		ifNotNil: [ :primitiveBucket | self remove: bucket first in: primitiveBucket ifAbsent: aBlock ]
 !
 
 removeAll
@@ -2044,7 +2044,7 @@ printOn: aStream
 
 add: anObject in: anotherObject
 	<inlineJS: '
-		if (anObject in anotherObject.store) { return false; }
+		if (anObject in anotherObject.store) { return anObject; }
 		$self[''@size'']++;
 		anotherObject.store[anObject] = true;
 		return anObject;
@@ -2089,8 +2089,15 @@ jsConstructorNameOf: anObject
 	<inlineJS: 'return anObject.constructor && anObject.constructor.name'>
 !
 
-remove: anObject in: anotherObject
-	<inlineJS: 'if (anObject in anotherObject.store) { delete anotherObject.store[anObject]; $self[''@size'']--; }'>
+remove: anObject in: anotherObject ifAbsent: aBlock
+	<inlineJS: '
+		if (anObject in anotherObject.store) {
+			delete anotherObject.store[anObject];
+			$self[''@size'']--;
+			return anObject;
+		} else {
+			return aBlock._value();
+		}'>
 ! !
 
 !Set methodsFor: 'testing'!

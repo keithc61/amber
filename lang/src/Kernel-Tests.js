@@ -10083,6 +10083,113 @@ $globals.SetTest);
 
 $core.addMethod(
 $core.method({
+selector: "testRegression1225",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._assert_equals_($recv([(1), (2), (3)]._asSet())._add_((3)),(3));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testRegression1225",{},$globals.SetTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRegression1225\x0a\x09self assert: (#(1 2 3) asSet add: 3) equals: 3",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["assert:equals:", "add:", "asSet"]
+}),
+$globals.SetTest);
+
+$core.addMethod(
+$core.method({
+selector: "testRegression1226",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._assert_equals_($recv([(1), (2), (3)]._asSet())._remove_((3)),(3));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testRegression1226",{},$globals.SetTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRegression1226\x0a\x09self assert: (#(1 2 3) asSet remove: 3) equals: 3",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["assert:equals:", "remove:", "asSet"]
+}),
+$globals.SetTest);
+
+$core.addMethod(
+$core.method({
+selector: "testRegression1227",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._assert_equals_($recv([(1), (2), (3)]._asSet())._remove_ifAbsent_((4),(function(){
+return (5);
+
+})),(5));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testRegression1227",{},$globals.SetTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRegression1227\x0a\x09self assert: (#(1 2 3) asSet remove: 4 ifAbsent: [5]) equals: 5",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["assert:equals:", "remove:ifAbsent:", "asSet"]
+}),
+$globals.SetTest);
+
+$core.addMethod(
+$core.method({
+selector: "testRegression1228",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv([(1), (2), (3)]._asSet())._remove_((4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testRegression1228",{},$globals.SetTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRegression1228\x0a\x09self should: [#(1 2 3) asSet remove: 4] raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+messageSends: ["should:raise:", "remove:", "asSet"]
+}),
+$globals.SetTest);
+
+$core.addMethod(
+$core.method({
 selector: "testUnboxedObjects",
 protocol: "tests",
 fn: function (){

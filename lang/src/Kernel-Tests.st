@@ -1828,6 +1828,22 @@ testPrintString
 	self assert: set printString equals: 'a Set (3 ''foo'')'
 !
 
+testRegression1225
+	self assert: (#(1 2 3) asSet add: 3) equals: 3
+!
+
+testRegression1226
+	self assert: (#(1 2 3) asSet remove: 3) equals: 3
+!
+
+testRegression1227
+	self assert: (#(1 2 3) asSet remove: 4 ifAbsent: [5]) equals: 5
+!
+
+testRegression1228
+	self should: [#(1 2 3) asSet remove: 4] raise: Error
+!
+
 testUnboxedObjects
 	self assert: {'foo' yourself. 'foo' yourself} asSet asArray equals: #('foo')
 !

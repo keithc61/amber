@@ -8123,7 +8123,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		if (anObject in anotherObject.store) { return false; }
+		if (anObject in anotherObject.store) { return anObject; }
 		$self['@size']++;
 		anotherObject.store[anObject] = true;
 		return anObject;
@@ -8135,7 +8135,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject", "anotherObject"],
-source: "add: anObject in: anotherObject\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) { return false; }\x0a\x09\x09$self[''@size'']++;\x0a\x09\x09anotherObject.store[anObject] = true;\x0a\x09\x09return anObject;\x0a\x09'>",
+source: "add: anObject in: anotherObject\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) { return anObject; }\x0a\x09\x09$self[''@size'']++;\x0a\x09\x09anotherObject.store[anObject] = true;\x0a\x09\x09return anObject;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -8572,7 +8572,7 @@ return $self["@size"];
 } else {
 var primitiveBucket;
 primitiveBucket=$receiver;
-return $self._remove_in_($recv(bucket)._first(),primitiveBucket);
+return $self._remove_in_ifAbsent_($recv(bucket)._first(),primitiveBucket,aBlock);
 }
 }
 catch(e) {if(e===$early)return e[0]; throw e}
@@ -8582,31 +8582,38 @@ catch(e) {if(e===$early)return e[0]; throw e}
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject", "aBlock"],
-source: "remove: anObject ifAbsent: aBlock\x0a\x09| bucket |\x0a\x09bucket := self bucketsOfElement: anObject.\x0a\x09^ bucket second\x0a\x09\x09ifNil: [ bucket third remove: bucket first ifAbsent: [ ^aBlock value ]. size := size - 1 ]\x0a\x09\x09ifNotNil: [ :primitiveBucket | self remove: bucket first in: primitiveBucket ]",
+source: "remove: anObject ifAbsent: aBlock\x0a\x09| bucket |\x0a\x09bucket := self bucketsOfElement: anObject.\x0a\x09^ bucket second\x0a\x09\x09ifNil: [ bucket third remove: bucket first ifAbsent: [ ^aBlock value ]. size := size - 1 ]\x0a\x09\x09ifNotNil: [ :primitiveBucket | self remove: bucket first in: primitiveBucket ifAbsent: aBlock ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["bucketsOfElement:", "ifNil:ifNotNil:", "second", "remove:ifAbsent:", "third", "first", "value", "-", "remove:in:"]
+messageSends: ["bucketsOfElement:", "ifNil:ifNotNil:", "second", "remove:ifAbsent:", "third", "first", "value", "-", "remove:in:ifAbsent:"]
 }),
 $globals.Set);
 
 $core.addMethod(
 $core.method({
-selector: "remove:in:",
+selector: "remove:in:ifAbsent:",
 protocol: "private",
-fn: function (anObject,anotherObject){
+fn: function (anObject,anotherObject,aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-if (anObject in anotherObject.store) { delete anotherObject.store[anObject]; $self['@size']--; };
+
+		if (anObject in anotherObject.store) {
+			delete anotherObject.store[anObject];
+			$self['@size']--;
+			return anObject;
+		} else {
+			return aBlock._value();
+		};
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"remove:in:",{anObject:anObject,anotherObject:anotherObject},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"remove:in:ifAbsent:",{anObject:anObject,anotherObject:anotherObject,aBlock:aBlock},$globals.Set)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anObject", "anotherObject"],
-source: "remove: anObject in: anotherObject\x0a\x09<inlineJS: 'if (anObject in anotherObject.store) { delete anotherObject.store[anObject]; $self[''@size'']--; }'>",
+args: ["anObject", "anotherObject", "aBlock"],
+source: "remove: anObject in: anotherObject ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) {\x0a\x09\x09\x09delete anotherObject.store[anObject];\x0a\x09\x09\x09$self[''@size'']--;\x0a\x09\x09\x09return anObject;\x0a\x09\x09} else {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09}'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
