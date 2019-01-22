@@ -823,7 +823,7 @@ cancelOptOut: anObject
 	This removes the shadow and anObject is Smalltalk object
 	again if it was before."
 	
-	<inlineJS: 'delete anObject.klass; delete anObject.a$cls;'>
+	<inlineJS: 'delete anObject.a$cls;'>
 !
 
 core
@@ -843,7 +843,7 @@ optOut: anObject
 	This shadows the property for anObject.
 	The object is treated as plain JS object following this."
 	
-	<inlineJS: 'anObject.klass = null; anObject.a$cls = null'>
+	<inlineJS: 'anObject.a$cls = null'>
 !
 
 parse: aString

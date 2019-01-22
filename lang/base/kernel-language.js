@@ -109,17 +109,6 @@ define(function () {
                 name: traitName,
                 make: function () {
                     var that = new SmalltalkTrait();
-                    // TODO deprecation helper; remove
-                    Object.defineProperty(that, "className", {
-                        get: function () {
-                            console.warn("Use of .className deprecated, use .name");
-                            return that.name;
-                        },
-                        set: function (v) {
-                            console.warn("Use of .className= deprecated, use .name=");
-                            that.name = v;
-                        }
-                    });
                     that.name = traitName;
                     that.traitUsers = [];
                     setupMethods(that);
@@ -324,7 +313,7 @@ define(function () {
 
         this.bootstrapHierarchy = function () {
             var nilSubclasses = [globals.ProtoObject];
-            nilAsClass.a$cls = nilAsClass.klass = globals.Class;
+            nilAsClass.a$cls = globals.Class;
             nilSubclasses.forEach(function (each) {
                 each.a$cls.superclass = globals.Class;
                 addSubclass(each.a$cls);
@@ -351,17 +340,6 @@ define(function () {
                     }, superclass.fn);
                 that.iVarNames = iVarNames || [];
 
-                // TODO deprecation helper; remove
-                Object.defineProperty(that, "className", {
-                    get: function () {
-                        console.warn("Use of .className deprecated, use .name");
-                        return that.name;
-                    },
-                    set: function (v) {
-                        console.warn("Use of .className= deprecated, use .name=");
-                        that.name = v;
-                    }
-                });
                 that.name = className;
                 that.subclasses = [];
 

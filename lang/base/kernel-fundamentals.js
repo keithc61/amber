@@ -203,17 +203,6 @@ define(function () {
                 throw new Error("addMethod: Method " + method.selector + " already bound to " + method.owner);
             }
             method.owner = traitOrBehavior;
-            // TODO deprecation helper; remove
-            Object.defineProperty(method, "methodClass", {
-                get: function () {
-                    console.warn("Use of .methodClass deprecated, use .owner");
-                    return method.owner;
-                },
-                set: function (v) {
-                    console.warn("Use of .methodClass= deprecated, use .owner=");
-                    method.owner = v;
-                }
-            });
             registerNewSelectors(method);
             traitOrBehavior.localMethods[method.selector] = method;
             updateMethod(method.selector, traitOrBehavior);
