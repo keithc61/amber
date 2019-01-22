@@ -7051,7 +7051,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return (Math.random()*(22/32)+(10/32)).toString(32).slice(2);;
+return ((10+22*Math.random())/32).toString(32).slice(2);;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"random",{},$globals.String.a$cls)});
@@ -7059,7 +7059,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "random\x0a\x09\x22Returns random alphanumeric string beginning with letter\x22\x0a\x09<inlineJS: 'return (Math.random()*(22/32)+(10/32)).toString(32).slice(2);'>",
+source: "random\x0a\x09\x22Returns random alphanumeric string beginning with letter\x22\x0a\x09<inlineJS: 'return ((10+22*Math.random())/32).toString(32).slice(2);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

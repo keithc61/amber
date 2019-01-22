@@ -1628,7 +1628,7 @@ value: aUTFCharCode
 
 random
 	"Returns random alphanumeric string beginning with letter"
-	<inlineJS: 'return (Math.random()*(22/32)+(10/32)).toString(32).slice(2);'>
+	<inlineJS: 'return ((10+22*Math.random())/32).toString(32).slice(2);'>
 !
 
 randomNotIn: aString
