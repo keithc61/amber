@@ -794,20 +794,18 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$self._copy();
-$recv($1)._addAll_(aCollection);
-return $recv($1)._yourself();
+$self._deprecatedAPI_("Use #, instead.");
+return $self.__comma(aCollection);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"copyWithAll:",{aCollection:aCollection},$globals.Collection)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aCollection"],
-source: "copyWithAll: aCollection\x0a\x09^ self copy addAll: aCollection; yourself",
+source: "copyWithAll: aCollection\x0a\x09self deprecatedAPI: 'Use #, instead.'.\x0a\x09^ self, aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["addAll:", "copy", "yourself"]
+messageSends: ["deprecatedAPI:", ","]
 }),
 $globals.Collection);
 

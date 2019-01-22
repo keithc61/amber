@@ -3,6 +3,7 @@
 * Remove class IndexableCollection, trait TKeyValueCollection.
 * Merge CharacterArray class into String class
 * Remove CharacterArray class
+* Deprecate Collection >> copyWithAll:, #, is enough.
 
 - Array >>
   - numericallyIndexable

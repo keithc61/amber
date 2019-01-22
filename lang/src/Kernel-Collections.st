@@ -234,7 +234,8 @@ copyWith: anObject
 !
 
 copyWithAll: aCollection
-	^ self copy addAll: aCollection; yourself
+	self deprecatedAPI: 'Use #, instead.'.
+	^ self, aCollection
 !
 
 copyWithout: anObject
