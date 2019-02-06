@@ -12,11 +12,11 @@
 <body>
 <div>
     <button id="startlegacy" disabled type="button"
-            onclick="ifReady(function (amber) {amber.globals.Browser._open();});">
+            onclick="a$gl$ifReady(function (amber) {amber.globals.Browser._open();});">
         Start legacy in-page IDE
     </button>
     <button id="starthelios" disabled type="button"
-            onclick="ifReady(function (amber) {amber.popupHelios();});">
+            onclick="a$gl$ifReady(function (amber) {amber.popupHelios();});">
         Popup Helios IDE
     </button>
 </div>
@@ -28,47 +28,44 @@
 </div>
 <script type='text/javascript'>
     "use strict";
-    var startLegacy = document.getElementById("startlegacy");
-    var startHelios = document.getElementById("starthelios");
-    var messageBox = document.getElementById("loadingKernel").parentNode;
-    var initializingKernel = messageBox.removeChild(document.getElementById("initializingKernel"));
-    var loadingTheRest = messageBox.removeChild(document.getElementById("loadingTheRest"));
-    var done = messageBox.removeChild(document.getElementById("done"));
     var global = typeof global === "undefined" ? window : global || window;
-    var loadAll;
+    var a$gl$ifReady = (function () {
+        var startLegacy = document.getElementById("startlegacy");
+        var startHelios = document.getElementById("starthelios");
+        var messageBox = document.getElementById("loadingKernel").parentNode;
+        var initializingKernel = messageBox.removeChild(document.getElementById("initializingKernel"));
+        var loadingTheRest = messageBox.removeChild(document.getElementById("loadingTheRest"));
+        var done = messageBox.removeChild(document.getElementById("done"));
+        var loadAll;
 
-    require(["require", "amber/es6-promise"], function (require, promiseLib) {
-        promiseLib.polyfill();
-        require(["amber/deploy", "amber_core/Platform-Browser"], function (amber) {
-            messageBox.appendChild(initializingKernel);
-            loadAll = amber.initialize({'transport.defaultAmdNamespace': "amber_core"})
-                .then(function () {
-                    messageBox.appendChild(loadingTheRest);
-                    return new Promise(function (resolve, reject) {
-                        require(["amber/devel", "amber/legacy/IDE", "amber/web/Web", "amber/legacy/Benchfib", "helios/all", "amber_cli/AmberCli"], resolve, reject);
+        require(["require", "amber/es6-promise"], function (require, promiseLib) {
+            promiseLib.polyfill();
+            require(["amber/deploy", "amber_core/Platform-Browser"], function (amber) {
+                messageBox.appendChild(initializingKernel);
+                loadAll = amber.initialize({'transport.defaultAmdNamespace': "amber_core"})
+                    .then(function () {
+                        messageBox.appendChild(loadingTheRest);
+                        return new Promise(function (resolve, reject) {
+                            require(["amber/devel", "amber/legacy/IDE", "amber/web/Web", "amber/legacy/Benchfib", "helios/all", "amber_cli/AmberCli"], resolve, reject);
+                        });
+                    })
+                    .then(function () {
+                        amber.globals.Smalltalk._postLoad();
+                        messageBox.appendChild(done);
+                        return amber;
                     });
-                })
-                .then(function () {
-                    amber.globals.Smalltalk._postLoad();
-                    messageBox.appendChild(done);
-                    return amber;
-                });
-            disableButtons(false);
+                startLegacy.disabled = startHelios.disabled = false;
+            });
         });
-    });
 
-    function ifReady (action) {
-        disableButtons(true);
-        loadAll.then(function (amber) {
-            disableButtons(false);
-            action(amber);
-        });
-    }
-
-    function disableButtons (value) {
-        startLegacy.disabled = value;
-        startHelios.disabled = value;
-    }
+        return function (action) {
+            startLegacy.disabled = startHelios.disabled = true;
+            loadAll.then(function (amber) {
+                startLegacy.disabled = startHelios.disabled = false;
+                action(amber);
+            });
+        };
+    })();
 </script>
 </body>
 </html> 
