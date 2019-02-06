@@ -55,8 +55,9 @@ define(function () {
         installNewSelectors(selectors, []);
     }
 
-    RuntimeClassesBrik.deps = ["event", "runtimeSelectors", "behaviors", "classes", "runtimeMethods"];
+    RuntimeClassesBrik.deps = ["event", "smalltalkGlobals", "runtimeSelectors", "behaviors", "classes", "runtimeMethods"];
     function RuntimeClassesBrik (brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
         var jsSelectors = brikz.runtimeSelectors.jsSelectors;
         var installNewSelectors = brikz.runtimeSelectors.installNewSelectors;
         var installMethod = brikz.runtimeMethods.installMethod;
@@ -130,6 +131,12 @@ define(function () {
                 installMethod(methods[selector], klass);
             });
         }
+
+        /* Create an alias for an existing class */
+
+        st.alias = function (traitOrClass, alias) {
+            globals[alias] = traitOrClass;
+        };
 
         /* Manually set the constructor of an existing Smalltalk klass, making it a detached root class. */
 

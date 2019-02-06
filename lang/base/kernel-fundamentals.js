@@ -157,12 +157,6 @@ define(function () {
 
         this.removeTraitOrClass = removeTraitOrClass;
 
-        /* Create an alias for an existing class */
-
-        st.alias = function (traitOrClass, alias) {
-            globals[alias] = traitOrClass;
-        };
-
         st.traitsOrClasses = this.traitsOrClasses = traitsOrClasses;
     }
 
