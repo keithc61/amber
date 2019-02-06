@@ -107,6 +107,13 @@ define([
 
     brikz.rebuild();
 
+    // TODO deprecated, remove
+    Object.defineProperty(brikz.smalltalkGlobals.globals, "CharacterArray", {
+        get: function () {
+            return this.String;
+        }
+    });
+
     return {
         api: api,
         nilAsReceiver: brikz.nil.nilAsReceiver,
