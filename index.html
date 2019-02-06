@@ -10,35 +10,65 @@
 </head>
 
 <body>
-<p id="loading">Loading Amber for development ...</p>
-<p id="startlegacy">To start legacy in-page IDE, <a href="#" onclick="require('amber/helpers').globals.Browser._open(); return false;">click here</a>.</p>
-<p id="starthelios">To popup Helios IDE, <a href="#" onclick="require('amber/helpers').popupHelios(); return false;">click here</a>.</p>
+<div>
+    <button id="startlegacy" disabled type="button"
+            onclick="ifReady(function (amber) {amber.globals.Browser._open();});">
+        Start legacy in-page IDE
+    </button>
+    <button id="starthelios" disabled type="button"
+            onclick="ifReady(function (amber) {amber.popupHelios();});">
+        Popup Helios IDE
+    </button>
+</div>
+<div>
+    <span id="loadingKernel">Loading Amber kernel ... </span>
+    <span id="initializingKernel">initializing Amber kernel ... </span>
+    <span id="loadingTheRest">loading rest of development image ... </span>
+    <span id="done">done.</span>
+</div>
 <script type='text/javascript'>
+    "use strict";
     var startLegacy = document.getElementById("startlegacy");
-    startLegacy.parentNode.removeChild(startLegacy);
     var startHelios = document.getElementById("starthelios");
-    startHelios.parentNode.removeChild(startHelios);
+    var messageBox = document.getElementById("loadingKernel").parentNode;
+    var initializingKernel = messageBox.removeChild(document.getElementById("initializingKernel"));
+    var loadingTheRest = messageBox.removeChild(document.getElementById("loadingTheRest"));
+    var done = messageBox.removeChild(document.getElementById("done"));
     var global = typeof global === "undefined" ? window : global || window;
+    var loadAll;
+
     require(["require", "amber/es6-promise"], function (require, promiseLib) {
         promiseLib.polyfill();
-        var loadHelpers = new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                require(["amber/legacy/IDE", "amber/web/Web", "amber/legacy/Benchfib", "helios/all", "amber_cli/AmberCli"], resolve, reject);
-            }, 250);
-        });
-        require(["amber/devel", "amber_core/Platform-Browser"], function (amber) {
-            loadHelpers
+        require(["amber/deploy", "amber_core/Platform-Browser"], function (amber) {
+            messageBox.appendChild(initializingKernel);
+            loadAll = amber.initialize({'transport.defaultAmdNamespace': "amber_core"})
                 .then(function () {
-                    return amber.initialize({'transport.defaultAmdNamespace': "amber_core"})
+                    messageBox.appendChild(loadingTheRest);
+                    return new Promise(function (resolve, reject) {
+                        require(["amber/devel", "amber/legacy/IDE", "amber/web/Web", "amber/legacy/Benchfib", "helios/all", "amber_cli/AmberCli"], resolve, reject);
+                    });
                 })
                 .then(function () {
-                    var loading = document.getElementById("loading");
-                    loading.parentNode.appendChild(startLegacy);
-                    loading.parentNode.appendChild(startHelios);
-                    loading.parentNode.removeChild(loading);
+                    amber.globals.Smalltalk._postLoad();
+                    messageBox.appendChild(done);
+                    return amber;
                 });
+            disableButtons(false);
         });
     });
+
+    function ifReady (action) {
+        disableButtons(true);
+        loadAll.then(function (amber) {
+            disableButtons(false);
+            action(amber);
+        });
+    }
+
+    function disableButtons (value) {
+        startLegacy.disabled = value;
+        startHelios.disabled = value;
+    }
 </script>
 </body>
 </html> 
