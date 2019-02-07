@@ -109,6 +109,8 @@ define([
 
     // TODO deprecated, remove
     Object.defineProperty(brikz.smalltalkGlobals.globals, "CharacterArray", {
+        enumerable: true,
+        configurable: true,
         get: function () {
             return this.String;
         }
