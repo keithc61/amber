@@ -40,7 +40,7 @@
 
         require(["require", "amber/es6-promise"], function (require, promiseLib) {
             promiseLib.polyfill();
-            require(["amber/deploy", "amber_core/Platform-Browser"], function (amber) {
+            require(["amber/boot", "amber/deploy", "amber_core/Platform-Browser"], function (_, amber) {
                 messageBox.appendChild(initializingKernel);
                 loadAll = amber.initialize({'transport.defaultAmdNamespace': "amber_core"})
                     .then(function () {
