@@ -23,7 +23,7 @@ Some highlights:
     - `@ambers/silk` with a stream-like wrapping of DOM elements, included in a new project by default,
     - `@ambers/helios` IDE, included in a new project by default,
     - `@ambers/contrib-legacy` with smaller in-page "classic" IDE and some miscellany, included in a new project by default,
-    - `trysmalltalk`, containing [Prof Stef](http://amber-lang.net/learn.html) interactive crash course.
+    - `@ambers/prof-stef`, containing [Prof Stef](http://amber-lang.net/learn.html) interactive crash course.
     - and others. You can easily write an Amber library yourself.
 - Amber can use Javascript libraries; the "classic" IDE as well as Helios are built on [jQuery](http://www.jquery.com)
 - You can inline Javascript code and there are many ways to interact between Amber and Javascript
