@@ -5,7 +5,7 @@
 ## Getting Started
 
 Install Amber and create an Amber project,
-as shown in [Amber Instructions](https://lolg.it/amber/amber#prerequisites).
+as shown in [Amber Instructions](https://lolg.it/amber/amber#prerequisities).
 
 ## Use {%= name %} as a library in a client project
 
