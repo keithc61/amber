@@ -9,7 +9,7 @@ require = requirejs;
  * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
  * @license   Licensed under MIT license
  *            See https://raw.githubusercontent.com/stefanpenner/es6-promise/master/LICENSE
- * @version   v4.2.4+314e4831
+ * @version   v4.2.5+7f2b526d
  */
 
 (function (global, factory) {
@@ -1115,15 +1115,19 @@ var Promise$1 = function () {
     var promise = this;
     var constructor = promise.constructor;
 
-    return promise.then(function (value) {
-      return constructor.resolve(callback()).then(function () {
-        return value;
+    if (isFunction(callback)) {
+      return promise.then(function (value) {
+        return constructor.resolve(callback()).then(function () {
+          return value;
+        });
+      }, function (reason) {
+        return constructor.resolve(callback()).then(function () {
+          throw reason;
+        });
       });
-    }, function (reason) {
-      return constructor.resolve(callback()).then(function () {
-        throw reason;
-      });
-    });
+    }
+
+    return promise.then(callback, callback);
   };
 
   return Promise;
@@ -1249,8 +1253,9 @@ define('amber/kernel-runtime',[],function () {
         installNewSelectors(selectors, []);
     }
 
-    RuntimeClassesBrik.deps = ["event", "runtimeSelectors", "behaviors", "classes", "runtimeMethods"];
+    RuntimeClassesBrik.deps = ["event", "smalltalkGlobals", "runtimeSelectors", "behaviors", "classes", "runtimeMethods"];
     function RuntimeClassesBrik (brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
         var jsSelectors = brikz.runtimeSelectors.jsSelectors;
         var installNewSelectors = brikz.runtimeSelectors.installNewSelectors;
         var installMethod = brikz.runtimeMethods.installMethod;
@@ -1324,6 +1329,12 @@ define('amber/kernel-runtime',[],function () {
                 installMethod(methods[selector], klass);
             });
         }
+
+        /* Create an alias for an existing class */
+
+        st.alias = function (traitOrClass, alias) {
+            globals[alias] = traitOrClass;
+        };
 
         /* Manually set the constructor of an existing Smalltalk klass, making it a detached root class. */
 
@@ -1575,8 +1586,10 @@ define('amber/kernel-runtime',[],function () {
     }
 
     function SelectorConversionBrik (brikz, st) {
+        var st2jsMemo = Object.create(null);
+
         /* Convert a Smalltalk selector into a JS selector */
-        st.st2js = this.st2js = function (string) {
+        function st2js (string) {
             return '_' + string
                 .replace(/:/g, '_')
                 .replace(/[\&]/g, '_and')
@@ -1593,6 +1606,14 @@ define('amber/kernel-runtime',[],function () {
                 .replace(/=/g, '_eq')
                 .replace(/,/g, '_comma')
                 .replace(/[@]/g, '_at');
+        };
+
+        st.st2js = function (stSelector) {
+            return st2jsMemo[stSelector] || st2js(stSelector);
+        };
+
+        this.st2js = function (stSelector) {
+            return st2jsMemo[stSelector] || (st2jsMemo[stSelector] = st2js(stSelector));
         };
 
         /* Convert a string to a valid smalltalk selector.
@@ -1640,7 +1661,7 @@ define('amber/kernel-runtime',[],function () {
         var globals = brikz.smalltalkGlobals.globals;
 
         this.run = function () {
-            globals.AmberBootstrapInitialization._run();
+            return globals.AmberBootstrapInitialization._run();
         };
     }
 
@@ -1990,12 +2011,6 @@ define('amber/kernel-fundamentals',[],function () {
 
         this.removeTraitOrClass = removeTraitOrClass;
 
-        /* Create an alias for an existing class */
-
-        st.alias = function (traitOrClass, alias) {
-            globals[alias] = traitOrClass;
-        };
-
         st.traitsOrClasses = this.traitsOrClasses = traitsOrClasses;
     }
 
@@ -2019,7 +2034,7 @@ define('amber/kernel-fundamentals',[],function () {
             var that = new SmalltalkMethod();
             var selector = spec.selector;
             that.selector = selector;
-            that.args = spec.args || {};
+            that.args = spec.args || [];
             that.protocol = spec.protocol;
             that.source = spec.source;
             that.messageSends = spec.messageSends || [];
@@ -2686,14 +2701,12 @@ define('amber/boot',[
 ], function (require, _, Brikz, configureWithFundamentals, configureWithHierarchy) {
     "use strict";
 
-    require(['./kernel-runtime']); // preload
+    var runtimeLoadedPromise = new Promise(function (resolve, reject) {
+        require(['./kernel-runtime'], resolve, reject);
+    });
 
     function SmalltalkInitBrik (brikz, st) {
         var initialized = false;
-        var runtimeLoadedPromise = new Promise(function (resolve, reject) {
-            require(['./kernel-runtime'], resolve, reject);
-        });
-
         /* Smalltalk initialization. Called on page load */
 
         st.initialize = function () {
@@ -2712,8 +2725,10 @@ define('amber/boot',[
                         throw new Error("No one should be setting st.packages directly on initialized Amber.");
                     }
                 });
-                brikz.startImage.run();
-                initialized = true;
+                return Promise.resolve(brikz.startImage.run())
+                    .then(function () {
+                        initialized = true;
+                    });
             });
         };
     }
@@ -2759,6 +2774,15 @@ define('amber/boot',[
     brikz.amd = AMDBrik;
 
     brikz.rebuild();
+
+    // TODO deprecated, remove
+    Object.defineProperty(brikz.smalltalkGlobals.globals, "CharacterArray", {
+        enumerable: true,
+        configurable: true,
+        get: function () {
+            return this.String;
+        }
+    });
 
     return {
         api: api,
@@ -2817,30 +2841,29 @@ define('amber/helpers',["amber/boot", "require"], function (boot, require) {
                 // pass
             }
             mixinToSettings(fromStorage || {});
-            // TODO find less hackish way to store settings back to storage.
             if (typeof window !== "undefined") {
-                requirejs(['jquery'], function ($) {
-                    $(window).on('beforeunload', function () {
-                        storage.setItem('amber.SmalltalkSettings', JSON.stringify(globals.SmalltalkSettings));
-                    });
+                window.addEventListener('beforeunload', function () {
+                    storage.setItem('amber.SmalltalkSettings', JSON.stringify(globals.SmalltalkSettings));
                 });
             }
         }
     }
 
     exports.initialize = function (options) {
-        return Promise.resolve()
-            .then(function () {
-                globals.SmalltalkSettings['transport.defaultAmdNamespace'] = api.defaultAmdNamespace;
-            })
-            .then(settingsInLocalStorage)
-            .then(function () {
-                return options || {};
-            })
-            .then(mixinToSettings)
-            .then(function () {
-                return api.initialize();
-            });
+        return new Promise(function (resolve) {
+            globals.SmalltalkSettings['transport.defaultAmdNamespace'] = api.defaultAmdNamespace;
+            settingsInLocalStorage();
+            mixinToSettings(options || {});
+            resolve(api.initialize());
+        });
+    };
+
+    exports.loadPackages = function (modules) {
+        return new Promise(function (resolve, reject) {
+            require(modules, resolve, reject);
+        }).then(function () {
+            return globals.Smalltalk._postLoad();
+        });
     };
 
     // Exports
@@ -8600,16 +8623,14 @@ protocol: "copying",
 fn: function (aCollection){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $1;
-$1=$self._copy();
-$recv($1)._addAll_(aCollection);
-return $recv($1)._yourself();
+$self._deprecatedAPI_("Use #, instead.");
+return $self.__comma(aCollection);
 }, function($ctx1) {$ctx1.fill(self,"copyWithAll:",{aCollection:aCollection},$globals.Collection)});
 },
 args: ["aCollection"],
-source: "copyWithAll: aCollection\x0a\x09^ self copy addAll: aCollection; yourself",
+source: "copyWithAll: aCollection\x0a\x09self deprecatedAPI: 'Use #, instead.'.\x0a\x09^ self, aCollection",
 referencedClasses: [],
-messageSends: ["addAll:", "copy", "yourself"]
+messageSends: ["deprecatedAPI:", ","]
 }),
 $globals.Collection);
 
@@ -8704,14 +8725,26 @@ protocol: "enumerating",
 fn: function (aBlock,anotherBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self._subclassResponsibility();
-return self;
+var $1;
+var $early={};
+try {
+$self._do_((function(each){
+return $core.withContext(function($ctx2) {
+$1=$recv(aBlock)._value_(each);
+if($core.assert($1)){
+throw $early=[each];
+}
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}));
+return $recv(anotherBlock)._value();
+}
+catch(e) {if(e===$early)return e[0]; throw e}
 }, function($ctx1) {$ctx1.fill(self,"detect:ifNone:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.Collection)});
 },
 args: ["aBlock", "anotherBlock"],
-source: "detect: aBlock ifNone: anotherBlock\x0a\x09self subclassResponsibility",
+source: "detect: aBlock ifNone: anotherBlock\x0a\x09self do: [ :each | (aBlock value: each) ifTrue: [ ^each ] ].\x0a\x09^ anotherBlock value",
 referencedClasses: [],
-messageSends: ["subclassResponsibility"]
+messageSends: ["do:", "ifTrue:", "value:", "value"]
 }),
 $globals.Collection);
 
@@ -9390,206 +9423,7 @@ messageSends: ["addAll:", "new", "yourself"]
 $globals.Collection.a$cls);
 
 
-$core.addClass("IndexableCollection", $globals.Collection, [], "Kernel-Collections");
-$globals.IndexableCollection.comment="I am a key-value store collection, that is,\x0aI store values under indexes.\x0a\x0aAs a rule of thumb, if a collection has `#at:` and `#at:put:`,\x0ait is an IndexableCollection.";
-$core.addMethod(
-$core.method({
-selector: "at:",
-protocol: "accessing",
-fn: function (anIndex){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $self._at_ifAbsent_(anIndex,(function(){
-return $core.withContext(function($ctx2) {
-return $self._errorNotFound();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
-}, function($ctx1) {$ctx1.fill(self,"at:",{anIndex:anIndex},$globals.IndexableCollection)});
-},
-args: ["anIndex"],
-source: "at: anIndex\x0a\x09\x22Lookup the given index in the receiver.\x0a\x09If it is present, answer the value stored at anIndex.\x0a\x09Otherwise, raise an error.\x22\x0a\x0a\x09^ self at: anIndex ifAbsent: [ self errorNotFound ]",
-referencedClasses: [],
-messageSends: ["at:ifAbsent:", "errorNotFound"]
-}),
-$globals.IndexableCollection);
-
-$core.addMethod(
-$core.method({
-selector: "at:ifAbsent:",
-protocol: "accessing",
-fn: function (anIndex,aBlock){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._subclassResponsibility();
-return self;
-}, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{anIndex:anIndex,aBlock:aBlock},$globals.IndexableCollection)});
-},
-args: ["anIndex", "aBlock"],
-source: "at: anIndex ifAbsent: aBlock\x0a\x09\x22Lookup the given index in the receiver.\x0a\x09If it is present, answer the value stored at anIndex.\x0a\x09Otherwise, answer the value of aBlock.\x22\x0a\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-messageSends: ["subclassResponsibility"]
-}),
-$globals.IndexableCollection);
-
-$core.addMethod(
-$core.method({
-selector: "at:ifAbsentPut:",
-protocol: "accessing",
-fn: function (aKey,aBlock){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $self._at_ifAbsent_(aKey,(function(){
-return $core.withContext(function($ctx2) {
-return $self._at_put_(aKey,$recv(aBlock)._value());
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
-}, function($ctx1) {$ctx1.fill(self,"at:ifAbsentPut:",{aKey:aKey,aBlock:aBlock},$globals.IndexableCollection)});
-},
-args: ["aKey", "aBlock"],
-source: "at: aKey ifAbsentPut: aBlock\x0a\x09^ self at: aKey ifAbsent: [\x0a\x09\x09self at: aKey put: aBlock value ]",
-referencedClasses: [],
-messageSends: ["at:ifAbsent:", "at:put:", "value"]
-}),
-$globals.IndexableCollection);
-
-$core.addMethod(
-$core.method({
-selector: "at:ifPresent:",
-protocol: "accessing",
-fn: function (anIndex,aBlock){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $self._at_ifPresent_ifAbsent_(anIndex,aBlock,(function(){
-return nil;
-
-}));
-}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:",{anIndex:anIndex,aBlock:aBlock},$globals.IndexableCollection)});
-},
-args: ["anIndex", "aBlock"],
-source: "at: anIndex ifPresent: aBlock\x0a\x09\x22Lookup the given index in the receiver.\x0a\x09If it is present, answer the value of evaluating aBlock with the value stored at anIndex.\x0a\x09Otherwise, answer nil.\x22\x0a\x0a\x09^ self at: anIndex ifPresent: aBlock ifAbsent: [ nil ]",
-referencedClasses: [],
-messageSends: ["at:ifPresent:ifAbsent:"]
-}),
-$globals.IndexableCollection);
-
-$core.addMethod(
-$core.method({
-selector: "at:ifPresent:ifAbsent:",
-protocol: "accessing",
-fn: function (anIndex,aBlock,anotherBlock){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._subclassResponsibility();
-return self;
-}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{anIndex:anIndex,aBlock:aBlock,anotherBlock:anotherBlock},$globals.IndexableCollection)});
-},
-args: ["anIndex", "aBlock", "anotherBlock"],
-source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09\x22Lookup the given index in the receiver.\x0a\x09If it is present, answer the value of evaluating aBlock with the value stored at anIndex.\x0a\x09Otherwise, answer the value of anotherBlock.\x22\x0a\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-messageSends: ["subclassResponsibility"]
-}),
-$globals.IndexableCollection);
-
-$core.addMethod(
-$core.method({
-selector: "at:put:",
-protocol: "accessing",
-fn: function (anIndex,anObject){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._subclassResponsibility();
-return self;
-}, function($ctx1) {$ctx1.fill(self,"at:put:",{anIndex:anIndex,anObject:anObject},$globals.IndexableCollection)});
-},
-args: ["anIndex", "anObject"],
-source: "at: anIndex put: anObject\x0a\x09\x22Store anObject under the given index in the receiver.\x22\x0a\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-messageSends: ["subclassResponsibility"]
-}),
-$globals.IndexableCollection);
-
-$core.addMethod(
-$core.method({
-selector: "indexOf:",
-protocol: "accessing",
-fn: function (anObject){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $self._indexOf_ifAbsent_(anObject,(function(){
-return $core.withContext(function($ctx2) {
-return $self._errorNotFound();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
-}, function($ctx1) {$ctx1.fill(self,"indexOf:",{anObject:anObject},$globals.IndexableCollection)});
-},
-args: ["anObject"],
-source: "indexOf: anObject\x0a\x09\x22Lookup index at which anObject is stored in the receiver.\x0a\x09If not present, raise an error.\x22\x0a\x0a\x09^ self indexOf: anObject ifAbsent: [ self errorNotFound ]",
-referencedClasses: [],
-messageSends: ["indexOf:ifAbsent:", "errorNotFound"]
-}),
-$globals.IndexableCollection);
-
-$core.addMethod(
-$core.method({
-selector: "indexOf:ifAbsent:",
-protocol: "accessing",
-fn: function (anObject,aBlock){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._subclassResponsibility();
-return self;
-}, function($ctx1) {$ctx1.fill(self,"indexOf:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.IndexableCollection)});
-},
-args: ["anObject", "aBlock"],
-source: "indexOf: anObject ifAbsent: aBlock\x0a\x09\x22Lookup index at which anObject is stored in the receiver.\x0a\x09If not present, return value of executing aBlock.\x22\x0a\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-messageSends: ["subclassResponsibility"]
-}),
-$globals.IndexableCollection);
-
-$core.addMethod(
-$core.method({
-selector: "with:do:",
-protocol: "enumerating",
-fn: function (anotherCollection,aBlock){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._withIndexDo_((function(each,index){
-return $core.withContext(function($ctx2) {
-return $recv(aBlock)._value_value_(each,$recv(anotherCollection)._at_(index));
-}, function($ctx2) {$ctx2.fillBlock({each:each,index:index},$ctx1,1)});
-}));
-return self;
-}, function($ctx1) {$ctx1.fill(self,"with:do:",{anotherCollection:anotherCollection,aBlock:aBlock},$globals.IndexableCollection)});
-},
-args: ["anotherCollection", "aBlock"],
-source: "with: anotherCollection do: aBlock\x0a\x09\x22Calls aBlock with every value from self\x0a\x09and with indetically-indexed value from anotherCollection\x22\x0a\x0a\x09self withIndexDo: [ :each :index |\x0a\x09\x09aBlock value: each value: (anotherCollection at: index) ]",
-referencedClasses: [],
-messageSends: ["withIndexDo:", "value:value:", "at:"]
-}),
-$globals.IndexableCollection);
-
-$core.addMethod(
-$core.method({
-selector: "withIndexDo:",
-protocol: "enumerating",
-fn: function (aBlock){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._subclassResponsibility();
-return self;
-}, function($ctx1) {$ctx1.fill(self,"withIndexDo:",{aBlock:aBlock},$globals.IndexableCollection)});
-},
-args: ["aBlock"],
-source: "withIndexDo: aBlock\x0a\x09\x22Calls aBlock with every value from self\x0a\x09and with its index as the second argument\x22\x0a\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-messageSends: ["subclassResponsibility"]
-}),
-$globals.IndexableCollection);
-
-
-
-$core.addClass("AssociativeCollection", $globals.IndexableCollection, [], "Kernel-Collections");
+$core.addClass("AssociativeCollection", $globals.Collection, [], "Kernel-Collections");
 $globals.AssociativeCollection.comment="I am a base class for object-indexed collections (Dictionary et.al.).";
 $core.addMethod(
 $core.method({
@@ -10811,7 +10645,7 @@ $globals.HashedCollection);
 
 
 
-$core.addClass("SequenceableCollection", $globals.IndexableCollection, [], "Kernel-Collections");
+$core.addClass("SequenceableCollection", $globals.Collection, [], "Kernel-Collections");
 $globals.SequenceableCollection.comment="I am an IndexableCollection\x0awith numeric indexes starting with 1.";
 $core.addMethod(
 $core.method({
@@ -10990,53 +10824,6 @@ $globals.SequenceableCollection);
 
 $core.addMethod(
 $core.method({
-selector: "detect:ifNone:",
-protocol: "enumerating",
-fn: function (aBlock,anotherBlock){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-
-		var nself = $self._numericallyIndexable();
-		for(var i = 0; i < nself.length; i++)
-			if(aBlock._value_(nself[i]))
-				return nself[i];
-		return anotherBlock._value();
-	;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"detect:ifNone:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.SequenceableCollection)});
-},
-args: ["aBlock", "anotherBlock"],
-source: "detect: aBlock ifNone: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09var nself = $self._numericallyIndexable();\x0a\x09\x09for(var i = 0; i < nself.length; i++)\x0a\x09\x09\x09if(aBlock._value_(nself[i]))\x0a\x09\x09\x09\x09return nself[i];\x0a\x09\x09return anotherBlock._value();\x0a\x09'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.SequenceableCollection);
-
-$core.addMethod(
-$core.method({
-selector: "do:",
-protocol: "enumerating",
-fn: function (aBlock){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-
-		var nself = $self._numericallyIndexable();
-		for(var i=0; i < nself.length; i++) {
-			aBlock._value_(nself[i]);
-		}
-	;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock},$globals.SequenceableCollection)});
-},
-args: ["aBlock"],
-source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var nself = $self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < nself.length; i++) {\x0a\x09\x09\x09aBlock._value_(nself[i]);\x0a\x09\x09}\x0a\x09'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.SequenceableCollection);
-
-$core.addMethod(
-$core.method({
 selector: "endsWith:",
 protocol: "testing",
 fn: function (suffix){
@@ -11139,30 +10926,6 @@ $globals.SequenceableCollection);
 
 $core.addMethod(
 $core.method({
-selector: "indexOf:ifAbsent:",
-protocol: "accessing",
-fn: function (anObject,aBlock){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-
-		var nself = $self._numericallyIndexable();
-		for(var i=0; i < nself.length; i++) {
-			if($recv(nself[i]).__eq(anObject)) {return i+1}
-		};
-		return aBlock._value();
-	;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"indexOf:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.SequenceableCollection)});
-},
-args: ["anObject", "aBlock"],
-source: "indexOf: anObject ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var nself = $self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < nself.length; i++) {\x0a\x09\x09\x09if($recv(nself[i]).__eq(anObject)) {return i+1}\x0a\x09\x09};\x0a\x09\x09return aBlock._value();\x0a\x09'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.SequenceableCollection);
-
-$core.addMethod(
-$core.method({
 selector: "indexOf:startingAt:",
 protocol: "accessing",
 fn: function (anObject,start){
@@ -11188,20 +10951,14 @@ protocol: "accessing",
 fn: function (anObject,start,aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-
-		var nself = $self._numericallyIndexable();
-		for(var i=start - 1; i < nself.length; i++){
-			if($recv(nself[i]).__eq(anObject)) {return i+1}
-		}
-		return aBlock._value();
-	;
+$self._subclassResponsibility();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"indexOf:startingAt:ifAbsent:",{anObject:anObject,start:start,aBlock:aBlock},$globals.SequenceableCollection)});
 },
 args: ["anObject", "start", "aBlock"],
-source: "indexOf: anObject startingAt: start ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var nself = $self._numericallyIndexable();\x0a\x09\x09for(var i=start - 1; i < nself.length; i++){\x0a\x09\x09\x09if($recv(nself[i]).__eq(anObject)) {return i+1}\x0a\x09\x09}\x0a\x09\x09return aBlock._value();\x0a\x09'>",
+source: "indexOf: anObject startingAt: start ifAbsent: aBlock\x0a\x09self subclassResponsibility",
 referencedClasses: [],
-messageSends: []
+messageSends: ["subclassResponsibility"]
 }),
 $globals.SequenceableCollection);
 
@@ -11264,24 +11021,6 @@ args: [],
 source: "newStream\x0a\x09^ self streamClass on: self",
 referencedClasses: [],
 messageSends: ["on:", "streamClass"]
-}),
-$globals.SequenceableCollection);
-
-$core.addMethod(
-$core.method({
-selector: "numericallyIndexable",
-protocol: "private",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._subclassResponsibility();
-return self;
-}, function($ctx1) {$ctx1.fill(self,"numericallyIndexable",{},$globals.SequenceableCollection)});
-},
-args: [],
-source: "numericallyIndexable\x0a\x09\x22This is an internal converting message.\x0a\x09It answeres a representation of the receiver\x0a\x09that can use foo[i] in JavaScript code.\x0a\x09\x0a\x09It fixes IE8, where boxed String is unable\x0a\x09to numerically index its characters,\x0a\x09but primitive string can.\x22\x0a\x09\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-messageSends: ["subclassResponsibility"]
 }),
 $globals.SequenceableCollection);
 
@@ -11374,27 +11113,6 @@ $globals.SequenceableCollection);
 
 $core.addMethod(
 $core.method({
-selector: "single",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-
-	if (self.length == 0) throw new Error("Collection is empty");
-	if (self.length > 1) throw new Error("Collection holds more than one element.");
-	return $self._numericallyIndexable()[0];;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"single",{},$globals.SequenceableCollection)});
-},
-args: [],
-source: "single\x0a<inlineJS: '\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length > 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return $self._numericallyIndexable()[0];\x0a'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.SequenceableCollection);
-
-$core.addMethod(
-$core.method({
 selector: "stream",
 protocol: "streaming",
 fn: function (){
@@ -11441,53 +11159,6 @@ args: [],
 source: "third\x0a\x09^ self at: 3",
 referencedClasses: [],
 messageSends: ["at:"]
-}),
-$globals.SequenceableCollection);
-
-$core.addMethod(
-$core.method({
-selector: "with:do:",
-protocol: "enumerating",
-fn: function (anotherCollection,aBlock){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-
-		var nself = $self._numericallyIndexable();
-		anotherCollection = anotherCollection._numericallyIndexable();
-		for(var i=0; i<nself.length; i++) {
-			aBlock._value_value_(nself[i], anotherCollection[i]);
-		}
-	;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"with:do:",{anotherCollection:anotherCollection,aBlock:aBlock},$globals.SequenceableCollection)});
-},
-args: ["anotherCollection", "aBlock"],
-source: "with: anotherCollection do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var nself = $self._numericallyIndexable();\x0a\x09\x09anotherCollection = anotherCollection._numericallyIndexable();\x0a\x09\x09for(var i=0; i<nself.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(nself[i], anotherCollection[i]);\x0a\x09\x09}\x0a\x09'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.SequenceableCollection);
-
-$core.addMethod(
-$core.method({
-selector: "withIndexDo:",
-protocol: "enumerating",
-fn: function (aBlock){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-
-		var nself = $self._numericallyIndexable();
-		for(var i=0; i < nself.length; i++) {
-			aBlock._value_value_(nself[i], i+1);
-		}
-	;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"withIndexDo:",{aBlock:aBlock},$globals.SequenceableCollection)});
-},
-args: ["aBlock"],
-source: "withIndexDo: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var nself = $self._numericallyIndexable();\x0a\x09\x09for(var i=0; i < nself.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(nself[i], i+1);\x0a\x09\x09}\x0a\x09'>",
-referencedClasses: [],
-messageSends: []
 }),
 $globals.SequenceableCollection);
 
@@ -11631,50 +11302,6 @@ $globals.Array);
 
 $core.addMethod(
 $core.method({
-selector: "at:ifAbsent:",
-protocol: "accessing",
-fn: function (anIndex,aBlock){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-
-		return anIndex >= 1 && anIndex <= self.length
-			? self[anIndex - 1]
-			: aBlock._value()
-	;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{anIndex:anIndex,aBlock:aBlock},$globals.Array)});
-},
-args: ["anIndex", "aBlock"],
-source: "at: anIndex ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09return anIndex >= 1 && anIndex <= self.length\x0a\x09\x09\x09? self[anIndex - 1]\x0a\x09\x09\x09: aBlock._value()\x0a\x09'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.Array);
-
-$core.addMethod(
-$core.method({
-selector: "at:ifPresent:ifAbsent:",
-protocol: "accessing",
-fn: function (anIndex,aBlock,anotherBlock){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-
-		return anIndex >= 1 && anIndex <= self.length
-			? aBlock._value_(self[anIndex - 1])
-			: anotherBlock._value()
-	;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{anIndex:anIndex,aBlock:aBlock,anotherBlock:anotherBlock},$globals.Array)});
-},
-args: ["anIndex", "aBlock", "anotherBlock"],
-source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09return anIndex >= 1 && anIndex <= self.length\x0a\x09\x09\x09? aBlock._value_(self[anIndex - 1])\x0a\x09\x09\x09: anotherBlock._value()\x0a\x09'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.Array);
-
-$core.addMethod(
-$core.method({
 selector: "at:put:",
 protocol: "accessing",
 fn: function (anIndex,anObject){
@@ -11747,22 +11374,6 @@ return self;
 },
 args: ["aString"],
 source: "join: aString\x0a\x09<inlineJS: 'return self.join(aString)'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.Array);
-
-$core.addMethod(
-$core.method({
-selector: "numericallyIndexable",
-protocol: "private",
-fn: function (){
-var self=this,$self=this;
-return self;
-
-},
-args: [],
-source: "numericallyIndexable\x0a\x09^ self",
 referencedClasses: [],
 messageSends: []
 }),
@@ -11960,24 +11571,6 @@ $globals.Array);
 
 $core.addMethod(
 $core.method({
-selector: "size",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.length;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"size",{},$globals.Array)});
-},
-args: [],
-source: "size\x0a\x09<inlineJS: 'return self.length'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.Array);
-
-$core.addMethod(
-$core.method({
 selector: "sort",
 protocol: "enumerating",
 fn: function (){
@@ -12166,306 +11759,7 @@ messageSends: ["new:", "size", "do:", "at:put:", "+"]
 $globals.Array.a$cls);
 
 
-$core.addClass("CharacterArray", $globals.SequenceableCollection, [], "Kernel-Collections");
-$globals.CharacterArray.comment="I am the abstract superclass of string-like collections.";
-$core.addMethod(
-$core.method({
-selector: ",",
-protocol: "copying",
-fn: function (aString){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-var $1;
-$1=$self._asString();
-$ctx1.sendIdx["asString"]=1;
-return $recv($1).__comma($recv(aString)._asString());
-}, function($ctx1) {$ctx1.fill(self,",",{aString:aString},$globals.CharacterArray)});
-},
-args: ["aString"],
-source: ", aString\x0a\x09^ self asString, aString asString",
-referencedClasses: [],
-messageSends: [",", "asString"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "add:",
-protocol: "adding/removing",
-fn: function (anObject){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._errorReadOnly();
-return self;
-}, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject},$globals.CharacterArray)});
-},
-args: ["anObject"],
-source: "add: anObject\x0a\x09self errorReadOnly",
-referencedClasses: [],
-messageSends: ["errorReadOnly"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "asLowercase",
-protocol: "converting",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $recv($self._class())._fromString_($recv($self._asString())._asLowercase());
-}, function($ctx1) {$ctx1.fill(self,"asLowercase",{},$globals.CharacterArray)});
-},
-args: [],
-source: "asLowercase\x0a\x09^ self class fromString: self asString asLowercase",
-referencedClasses: [],
-messageSends: ["fromString:", "class", "asLowercase", "asString"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "asNumber",
-protocol: "converting",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $recv($self._asString())._asNumber();
-}, function($ctx1) {$ctx1.fill(self,"asNumber",{},$globals.CharacterArray)});
-},
-args: [],
-source: "asNumber\x0a\x09^ self asString asNumber",
-referencedClasses: [],
-messageSends: ["asNumber", "asString"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "asString",
-protocol: "converting",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $self._subclassResponsibility();
-}, function($ctx1) {$ctx1.fill(self,"asString",{},$globals.CharacterArray)});
-},
-args: [],
-source: "asString\x0a\x09^ self subclassResponsibility",
-referencedClasses: [],
-messageSends: ["subclassResponsibility"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "asSymbol",
-protocol: "converting",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $self._asString();
-}, function($ctx1) {$ctx1.fill(self,"asSymbol",{},$globals.CharacterArray)});
-},
-args: [],
-source: "asSymbol\x0a\x09^ self asString",
-referencedClasses: [],
-messageSends: ["asString"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "asSymbolPrintOn:",
-protocol: "printing",
-fn: function (aStream){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-var $1;
-$recv(aStream)._nextPutAll_("#");
-$1=$recv($self._asString())._isSelector();
-if($core.assert($1)){
-$recv(aStream)._nextPut_(self);
-} else {
-$self._printOn_(aStream);
-}
-return self;
-}, function($ctx1) {$ctx1.fill(self,"asSymbolPrintOn:",{aStream:aStream},$globals.CharacterArray)});
-},
-args: ["aStream"],
-source: "asSymbolPrintOn: aStream\x0a\x09aStream nextPutAll: '#'.\x0a\x09self asString isSelector\x0a\x09\x09ifTrue: [ aStream nextPut: self ]\x0a\x09\x09ifFalse: [ self printOn: aStream ]",
-referencedClasses: [],
-messageSends: ["nextPutAll:", "ifTrue:ifFalse:", "isSelector", "asString", "nextPut:", "printOn:"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "asUppercase",
-protocol: "converting",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $recv($self._class())._fromString_($recv($self._asString())._asUppercase());
-}, function($ctx1) {$ctx1.fill(self,"asUppercase",{},$globals.CharacterArray)});
-},
-args: [],
-source: "asUppercase\x0a\x09^ self class fromString: self asString asUppercase",
-referencedClasses: [],
-messageSends: ["fromString:", "class", "asUppercase", "asString"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "at:put:",
-protocol: "accessing",
-fn: function (anIndex,anObject){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._errorReadOnly();
-return self;
-}, function($ctx1) {$ctx1.fill(self,"at:put:",{anIndex:anIndex,anObject:anObject},$globals.CharacterArray)});
-},
-args: ["anIndex", "anObject"],
-source: "at: anIndex put: anObject\x0a\x09self errorReadOnly",
-referencedClasses: [],
-messageSends: ["errorReadOnly"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "errorReadOnly",
-protocol: "error handling",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._error_("Object is read-only");
-return self;
-}, function($ctx1) {$ctx1.fill(self,"errorReadOnly",{},$globals.CharacterArray)});
-},
-args: [],
-source: "errorReadOnly\x0a\x09self error: 'Object is read-only'",
-referencedClasses: [],
-messageSends: ["error:"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "printOn:",
-protocol: "printing",
-fn: function (aStream){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$recv($self._asString())._printOn_(aStream);
-return self;
-}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.CharacterArray)});
-},
-args: ["aStream"],
-source: "printOn: aStream\x0a\x09self asString printOn: aStream",
-referencedClasses: [],
-messageSends: ["printOn:", "asString"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "putOn:",
-protocol: "streaming",
-fn: function (aStream){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$recv(aStream)._nextPutString_(self);
-return self;
-}, function($ctx1) {$ctx1.fill(self,"putOn:",{aStream:aStream},$globals.CharacterArray)});
-},
-args: ["aStream"],
-source: "putOn: aStream\x0a\x09aStream nextPutString: self",
-referencedClasses: [],
-messageSends: ["nextPutString:"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "remove:",
-protocol: "adding/removing",
-fn: function (anObject){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._errorReadOnly();
-return self;
-}, function($ctx1) {$ctx1.fill(self,"remove:",{anObject:anObject},$globals.CharacterArray)});
-},
-args: ["anObject"],
-source: "remove: anObject\x0a\x09self errorReadOnly",
-referencedClasses: [],
-messageSends: ["errorReadOnly"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "remove:ifAbsent:",
-protocol: "adding/removing",
-fn: function (anObject,aBlock){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._errorReadOnly();
-return self;
-}, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.CharacterArray)});
-},
-args: ["anObject", "aBlock"],
-source: "remove: anObject ifAbsent: aBlock\x0a\x09self errorReadOnly",
-referencedClasses: [],
-messageSends: ["errorReadOnly"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "symbolPrintString",
-protocol: "printing",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $recv($globals.String)._streamContents_((function(str){
-return $core.withContext(function($ctx2) {
-return $self._asSymbolPrintOn_(str);
-}, function($ctx2) {$ctx2.fillBlock({str:str},$ctx1,1)});
-}));
-}, function($ctx1) {$ctx1.fill(self,"symbolPrintString",{},$globals.CharacterArray)});
-},
-args: [],
-source: "symbolPrintString\x0a\x09^ String streamContents: [ :str | self asSymbolPrintOn: str ]",
-referencedClasses: ["String"],
-messageSends: ["streamContents:", "asSymbolPrintOn:"]
-}),
-$globals.CharacterArray);
-
-
-$core.addMethod(
-$core.method({
-selector: "fromString:",
-protocol: "instance creation",
-fn: function (aString){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._subclassResponsibility();
-return self;
-}, function($ctx1) {$ctx1.fill(self,"fromString:",{aString:aString},$globals.CharacterArray.a$cls)});
-},
-args: ["aString"],
-source: "fromString: aString\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-messageSends: ["subclassResponsibility"]
-}),
-$globals.CharacterArray.a$cls);
-
-
-$core.addClass("String", $globals.CharacterArray, [], "Kernel-Collections");
+$core.addClass("String", $globals.SequenceableCollection, [], "Kernel-Collections");
 $globals.String.comment="I am an indexed collection of Characters. Unlike most Smalltalk dialects, Amber doesn't provide the Character class. Instead, elements of a String are single character strings.\x0a\x0aString inherits many useful methods from its hierarchy, such as\x0a\x09`Collection >> #,`";
 $core.addMethod(
 $core.method({
@@ -12593,6 +11887,24 @@ args: ["aString"],
 source: ">= aString\x0a\x09<inlineJS: 'return String(self) >= aString._asString()'>",
 referencedClasses: [],
 messageSends: []
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "add:",
+protocol: "adding/removing",
+fn: function (anObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._errorReadOnly();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject},$globals.String)});
+},
+args: ["anObject"],
+source: "add: anObject\x0a\x09self errorReadOnly",
+referencedClasses: [],
+messageSends: ["errorReadOnly"]
 }),
 $globals.String);
 
@@ -12762,6 +12074,31 @@ $globals.String);
 
 $core.addMethod(
 $core.method({
+selector: "asSymbolPrintOn:",
+protocol: "printing",
+fn: function (aStream){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$recv(aStream)._nextPutAll_("#");
+$1=$recv($self._asString())._isSelector();
+if($core.assert($1)){
+$recv(aStream)._nextPut_(self);
+} else {
+$self._printOn_(aStream);
+}
+return self;
+}, function($ctx1) {$ctx1.fill(self,"asSymbolPrintOn:",{aStream:aStream},$globals.String)});
+},
+args: ["aStream"],
+source: "asSymbolPrintOn: aStream\x0a\x09aStream nextPutAll: '#'.\x0a\x09self asString isSelector\x0a\x09\x09ifTrue: [ aStream nextPut: self ]\x0a\x09\x09ifFalse: [ self printOn: aStream ]",
+referencedClasses: [],
+messageSends: ["nextPutAll:", "ifTrue:ifFalse:", "isSelector", "asString", "nextPut:", "printOn:"]
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
 selector: "asUppercase",
 protocol: "converting",
 fn: function (){
@@ -12832,6 +12169,24 @@ args: ["anIndex", "aBlock", "anotherBlock"],
 source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09var result = String(self)[anIndex - 1];\x0a\x09\x09return result ? aBlock._value_(result) : anotherBlock._value();\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "at:put:",
+protocol: "accessing",
+fn: function (anIndex,anObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._errorReadOnly();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"at:put:",{anIndex:anIndex,anObject:anObject},$globals.String)});
+},
+args: ["anIndex", "anObject"],
+source: "at: anIndex put: anObject\x0a\x09self errorReadOnly",
+referencedClasses: [],
+messageSends: ["errorReadOnly"]
 }),
 $globals.String);
 
@@ -12923,6 +12278,24 @@ args: [],
 source: "deepCopy\x0a\x09^ self shallowCopy",
 referencedClasses: [],
 messageSends: ["shallowCopy"]
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "errorReadOnly",
+protocol: "error handling",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._error_("Object is read-only");
+return self;
+}, function($ctx1) {$ctx1.fill(self,"errorReadOnly",{},$globals.String)});
+},
+args: [],
+source: "errorReadOnly\x0a\x09self error: 'Object is read-only'",
+referencedClasses: [],
+messageSends: ["error:"]
 }),
 $globals.String);
 
@@ -13296,24 +12669,6 @@ $globals.String);
 
 $core.addMethod(
 $core.method({
-selector: "numericallyIndexable",
-protocol: "private",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return String(self);
-return self;
-}, function($ctx1) {$ctx1.fill(self,"numericallyIndexable",{},$globals.String)});
-},
-args: [],
-source: "numericallyIndexable\x0a\x09<inlineJS: 'return String(self)'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.String);
-
-$core.addMethod(
-$core.method({
 selector: "printNl",
 protocol: "printing",
 fn: function (){
@@ -13349,6 +12704,60 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09aStream \x0a\x09\x09nextPutAll: '''';\x0a\x09\x09nextPutAll: (self replace: '''' with: '''''');\x0a\x09\x09nextPutAll: ''''",
 referencedClasses: [],
 messageSends: ["nextPutAll:", "replace:with:"]
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "putOn:",
+protocol: "streaming",
+fn: function (aStream){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv(aStream)._nextPutString_(self);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"putOn:",{aStream:aStream},$globals.String)});
+},
+args: ["aStream"],
+source: "putOn: aStream\x0a\x09aStream nextPutString: self",
+referencedClasses: [],
+messageSends: ["nextPutString:"]
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "remove:",
+protocol: "adding/removing",
+fn: function (anObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._errorReadOnly();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"remove:",{anObject:anObject},$globals.String)});
+},
+args: ["anObject"],
+source: "remove: anObject\x0a\x09self errorReadOnly",
+referencedClasses: [],
+messageSends: ["errorReadOnly"]
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "remove:ifAbsent:",
+protocol: "adding/removing",
+fn: function (anObject,aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._errorReadOnly();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.String)});
+},
+args: ["anObject", "aBlock"],
+source: "remove: anObject ifAbsent: aBlock\x0a\x09self errorReadOnly",
+referencedClasses: [],
+messageSends: ["errorReadOnly"]
 }),
 $globals.String);
 
@@ -13423,24 +12832,6 @@ $globals.String);
 
 $core.addMethod(
 $core.method({
-selector: "size",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.length;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"size",{},$globals.String)});
-},
-args: [],
-source: "size\x0a\x09<inlineJS: 'return self.length'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.String);
-
-$core.addMethod(
-$core.method({
 selector: "subStrings:",
 protocol: "split join",
 fn: function (aString){
@@ -13453,6 +12844,27 @@ args: ["aString"],
 source: "subStrings: aString\x0a\x09^ self tokenize: aString",
 referencedClasses: [],
 messageSends: ["tokenize:"]
+}),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "symbolPrintString",
+protocol: "printing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($globals.String)._streamContents_((function(str){
+return $core.withContext(function($ctx2) {
+return $self._asSymbolPrintOn_(str);
+}, function($ctx2) {$ctx2.fillBlock({str:str},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"symbolPrintString",{},$globals.String)});
+},
+args: [],
+source: "symbolPrintString\x0a\x09^ String streamContents: [ :str | self asSymbolPrintOn: str ]",
+referencedClasses: ["String"],
+messageSends: ["streamContents:", "asSymbolPrintOn:"]
 }),
 $globals.String);
 
@@ -13806,12 +13218,12 @@ protocol: "random",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return (Math.random()*(22/32)+(10/32)).toString(32).slice(2);;
+return ((10+22*Math.random())/32).toString(32).slice(2);;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"random",{},$globals.String.a$cls)});
 },
 args: [],
-source: "random\x0a\x09\x22Returns random alphanumeric string beginning with letter\x22\x0a\x09<inlineJS: 'return (Math.random()*(22/32)+(10/32)).toString(32).slice(2);'>",
+source: "random\x0a\x09\x22Returns random alphanumeric string beginning with letter\x22\x0a\x09<inlineJS: 'return ((10+22*Math.random())/32).toString(32).slice(2);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14003,7 +13415,7 @@ fn: function (anObject,anotherObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		if (anObject in anotherObject.store) { return false; }
+		if (anObject in anotherObject.store) { return anObject; }
 		$self['@size']++;
 		anotherObject.store[anObject] = true;
 		return anObject;
@@ -14012,7 +13424,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"add:in:",{anObject:anObject,anotherObject:anotherObject},$globals.Set)});
 },
 args: ["anObject", "anotherObject"],
-source: "add: anObject in: anotherObject\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) { return false; }\x0a\x09\x09$self[''@size'']++;\x0a\x09\x09anotherObject.store[anObject] = true;\x0a\x09\x09return anObject;\x0a\x09'>",
+source: "add: anObject in: anotherObject\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) { return anObject; }\x0a\x09\x09$self[''@size'']++;\x0a\x09\x09anotherObject.store[anObject] = true;\x0a\x09\x09return anObject;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -14088,36 +13500,6 @@ args: ["aBlock"],
 source: "collect: aBlock\x0a\x09| collection |\x0a\x09collection := self class new.\x0a\x09self do: [ :each | collection add: (aBlock value: each) ].\x0a\x09^ collection",
 referencedClasses: [],
 messageSends: ["new", "class", "do:", "add:", "value:"]
-}),
-$globals.Set);
-
-$core.addMethod(
-$core.method({
-selector: "detect:ifNone:",
-protocol: "enumerating",
-fn: function (aBlock,anotherBlock){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-var $1;
-var $early={};
-try {
-$self._do_((function(each){
-return $core.withContext(function($ctx2) {
-$1=$recv(aBlock)._value_(each);
-if($core.assert($1)){
-throw $early=[each];
-}
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-}));
-return $recv(anotherBlock)._value();
-}
-catch(e) {if(e===$early)return e[0]; throw e}
-}, function($ctx1) {$ctx1.fill(self,"detect:ifNone:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.Set)});
-},
-args: ["aBlock", "anotherBlock"],
-source: "detect: aBlock ifNone: anotherBlock\x0a\x09self do: [ :each | (aBlock value: each) ifTrue: [ ^each ] ].\x0a\x09^ anotherBlock value",
-referencedClasses: [],
-messageSends: ["do:", "ifTrue:", "value:", "value"]
 }),
 $globals.Set);
 
@@ -14332,32 +13714,39 @@ return $self["@size"];
 } else {
 var primitiveBucket;
 primitiveBucket=$receiver;
-return $self._remove_in_($recv(bucket)._first(),primitiveBucket);
+return $self._remove_in_ifAbsent_($recv(bucket)._first(),primitiveBucket,aBlock);
 }
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 }, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{anObject:anObject,aBlock:aBlock,bucket:bucket},$globals.Set)});
 },
 args: ["anObject", "aBlock"],
-source: "remove: anObject ifAbsent: aBlock\x0a\x09| bucket |\x0a\x09bucket := self bucketsOfElement: anObject.\x0a\x09^ bucket second\x0a\x09\x09ifNil: [ bucket third remove: bucket first ifAbsent: [ ^aBlock value ]. size := size - 1 ]\x0a\x09\x09ifNotNil: [ :primitiveBucket | self remove: bucket first in: primitiveBucket ]",
+source: "remove: anObject ifAbsent: aBlock\x0a\x09| bucket |\x0a\x09bucket := self bucketsOfElement: anObject.\x0a\x09^ bucket second\x0a\x09\x09ifNil: [ bucket third remove: bucket first ifAbsent: [ ^aBlock value ]. size := size - 1 ]\x0a\x09\x09ifNotNil: [ :primitiveBucket | self remove: bucket first in: primitiveBucket ifAbsent: aBlock ]",
 referencedClasses: [],
-messageSends: ["bucketsOfElement:", "ifNil:ifNotNil:", "second", "remove:ifAbsent:", "third", "first", "value", "-", "remove:in:"]
+messageSends: ["bucketsOfElement:", "ifNil:ifNotNil:", "second", "remove:ifAbsent:", "third", "first", "value", "-", "remove:in:ifAbsent:"]
 }),
 $globals.Set);
 
 $core.addMethod(
 $core.method({
-selector: "remove:in:",
+selector: "remove:in:ifAbsent:",
 protocol: "private",
-fn: function (anObject,anotherObject){
+fn: function (anObject,anotherObject,aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-if (anObject in anotherObject.store) { delete anotherObject.store[anObject]; $self['@size']--; };
+
+		if (anObject in anotherObject.store) {
+			delete anotherObject.store[anObject];
+			$self['@size']--;
+			return anObject;
+		} else {
+			return aBlock._value();
+		};
 return self;
-}, function($ctx1) {$ctx1.fill(self,"remove:in:",{anObject:anObject,anotherObject:anotherObject},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"remove:in:ifAbsent:",{anObject:anObject,anotherObject:anotherObject,aBlock:aBlock},$globals.Set)});
 },
-args: ["anObject", "anotherObject"],
-source: "remove: anObject in: anotherObject\x0a\x09<inlineJS: 'if (anObject in anotherObject.store) { delete anotherObject.store[anObject]; $self[''@size'']--; }'>",
+args: ["anObject", "anotherObject", "aBlock"],
+source: "remove: anObject in: anotherObject ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) {\x0a\x09\x09\x09delete anotherObject.store[anObject];\x0a\x09\x09\x09$self[''@size'']--;\x0a\x09\x09\x09return anObject;\x0a\x09\x09} else {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09}'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15678,6 +15067,429 @@ referencedClasses: [],
 messageSends: []
 }),
 $globals.RegularExpression.a$cls);
+
+
+$core.addTrait("TKeyValueCollection", "Kernel-Collections");
+$core.addMethod(
+$core.method({
+selector: "at:",
+protocol: "accessing",
+fn: function (anIndex){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $self._at_ifAbsent_(anIndex,(function(){
+return $core.withContext(function($ctx2) {
+return $self._errorNotFound();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"at:",{anIndex:anIndex},$globals.TKeyValueCollection)});
+},
+args: ["anIndex"],
+source: "at: anIndex\x0a\x09\x22Lookup the given index in the receiver.\x0a\x09If it is present, answer the value stored at anIndex.\x0a\x09Otherwise, raise an error.\x22\x0a\x0a\x09^ self at: anIndex ifAbsent: [ self errorNotFound ]",
+referencedClasses: [],
+messageSends: ["at:ifAbsent:", "errorNotFound"]
+}),
+$globals.TKeyValueCollection);
+
+$core.addMethod(
+$core.method({
+selector: "at:ifAbsent:",
+protocol: "accessing",
+fn: function (anIndex,aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{anIndex:anIndex,aBlock:aBlock},$globals.TKeyValueCollection)});
+},
+args: ["anIndex", "aBlock"],
+source: "at: anIndex ifAbsent: aBlock\x0a\x09\x22Lookup the given index in the receiver.\x0a\x09If it is present, answer the value stored at anIndex.\x0a\x09Otherwise, answer the value of aBlock.\x22\x0a\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TKeyValueCollection);
+
+$core.addMethod(
+$core.method({
+selector: "at:ifAbsentPut:",
+protocol: "accessing",
+fn: function (aKey,aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $self._at_ifAbsent_(aKey,(function(){
+return $core.withContext(function($ctx2) {
+return $self._at_put_(aKey,$recv(aBlock)._value());
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"at:ifAbsentPut:",{aKey:aKey,aBlock:aBlock},$globals.TKeyValueCollection)});
+},
+args: ["aKey", "aBlock"],
+source: "at: aKey ifAbsentPut: aBlock\x0a\x09^ self at: aKey ifAbsent: [\x0a\x09\x09self at: aKey put: aBlock value ]",
+referencedClasses: [],
+messageSends: ["at:ifAbsent:", "at:put:", "value"]
+}),
+$globals.TKeyValueCollection);
+
+$core.addMethod(
+$core.method({
+selector: "at:ifPresent:",
+protocol: "accessing",
+fn: function (anIndex,aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $self._at_ifPresent_ifAbsent_(anIndex,aBlock,(function(){
+return nil;
+
+}));
+}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:",{anIndex:anIndex,aBlock:aBlock},$globals.TKeyValueCollection)});
+},
+args: ["anIndex", "aBlock"],
+source: "at: anIndex ifPresent: aBlock\x0a\x09\x22Lookup the given index in the receiver.\x0a\x09If it is present, answer the value of evaluating aBlock with the value stored at anIndex.\x0a\x09Otherwise, answer nil.\x22\x0a\x0a\x09^ self at: anIndex ifPresent: aBlock ifAbsent: [ nil ]",
+referencedClasses: [],
+messageSends: ["at:ifPresent:ifAbsent:"]
+}),
+$globals.TKeyValueCollection);
+
+$core.addMethod(
+$core.method({
+selector: "at:ifPresent:ifAbsent:",
+protocol: "accessing",
+fn: function (anIndex,aBlock,anotherBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{anIndex:anIndex,aBlock:aBlock,anotherBlock:anotherBlock},$globals.TKeyValueCollection)});
+},
+args: ["anIndex", "aBlock", "anotherBlock"],
+source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09\x22Lookup the given index in the receiver.\x0a\x09If it is present, answer the value of evaluating aBlock with the value stored at anIndex.\x0a\x09Otherwise, answer the value of anotherBlock.\x22\x0a\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TKeyValueCollection);
+
+$core.addMethod(
+$core.method({
+selector: "at:put:",
+protocol: "accessing",
+fn: function (anIndex,anObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"at:put:",{anIndex:anIndex,anObject:anObject},$globals.TKeyValueCollection)});
+},
+args: ["anIndex", "anObject"],
+source: "at: anIndex put: anObject\x0a\x09\x22Store anObject under the given index in the receiver.\x22\x0a\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TKeyValueCollection);
+
+$core.addMethod(
+$core.method({
+selector: "indexOf:",
+protocol: "accessing",
+fn: function (anObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $self._indexOf_ifAbsent_(anObject,(function(){
+return $core.withContext(function($ctx2) {
+return $self._errorNotFound();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"indexOf:",{anObject:anObject},$globals.TKeyValueCollection)});
+},
+args: ["anObject"],
+source: "indexOf: anObject\x0a\x09\x22Lookup index at which anObject is stored in the receiver.\x0a\x09If not present, raise an error.\x22\x0a\x0a\x09^ self indexOf: anObject ifAbsent: [ self errorNotFound ]",
+referencedClasses: [],
+messageSends: ["indexOf:ifAbsent:", "errorNotFound"]
+}),
+$globals.TKeyValueCollection);
+
+$core.addMethod(
+$core.method({
+selector: "indexOf:ifAbsent:",
+protocol: "accessing",
+fn: function (anObject,aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"indexOf:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.TKeyValueCollection)});
+},
+args: ["anObject", "aBlock"],
+source: "indexOf: anObject ifAbsent: aBlock\x0a\x09\x22Lookup index at which anObject is stored in the receiver.\x0a\x09If not present, return value of executing aBlock.\x22\x0a\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TKeyValueCollection);
+
+$core.addMethod(
+$core.method({
+selector: "with:do:",
+protocol: "enumerating",
+fn: function (anotherCollection,aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._withIndexDo_((function(each,index){
+return $core.withContext(function($ctx2) {
+return $recv(aBlock)._value_value_(each,$recv(anotherCollection)._at_(index));
+}, function($ctx2) {$ctx2.fillBlock({each:each,index:index},$ctx1,1)});
+}));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"with:do:",{anotherCollection:anotherCollection,aBlock:aBlock},$globals.TKeyValueCollection)});
+},
+args: ["anotherCollection", "aBlock"],
+source: "with: anotherCollection do: aBlock\x0a\x09\x22Calls aBlock with every value from self\x0a\x09and with indetically-indexed value from anotherCollection\x22\x0a\x0a\x09self withIndexDo: [ :each :index |\x0a\x09\x09aBlock value: each value: (anotherCollection at: index) ]",
+referencedClasses: [],
+messageSends: ["withIndexDo:", "value:value:", "at:"]
+}),
+$globals.TKeyValueCollection);
+
+$core.addMethod(
+$core.method({
+selector: "withIndexDo:",
+protocol: "enumerating",
+fn: function (aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"withIndexDo:",{aBlock:aBlock},$globals.TKeyValueCollection)});
+},
+args: ["aBlock"],
+source: "withIndexDo: aBlock\x0a\x09\x22Calls aBlock with every value from self\x0a\x09and with its index as the second argument\x22\x0a\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TKeyValueCollection);
+
+
+$core.addTrait("TNativeZeroBasedCollection", "Kernel-Collections");
+$core.addMethod(
+$core.method({
+selector: "at:ifAbsent:",
+protocol: "accessing",
+fn: function (anIndex,aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+
+		return anIndex >= 1 && anIndex <= self.length
+			? self[anIndex - 1]
+			: aBlock._value()
+	;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{anIndex:anIndex,aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+},
+args: ["anIndex", "aBlock"],
+source: "at: anIndex ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09return anIndex >= 1 && anIndex <= self.length\x0a\x09\x09\x09? self[anIndex - 1]\x0a\x09\x09\x09: aBlock._value()\x0a\x09'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "at:ifPresent:ifAbsent:",
+protocol: "accessing",
+fn: function (anIndex,aBlock,anotherBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+
+		return anIndex >= 1 && anIndex <= self.length
+			? aBlock._value_(self[anIndex - 1])
+			: anotherBlock._value()
+	;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{anIndex:anIndex,aBlock:aBlock,anotherBlock:anotherBlock},$globals.TNativeZeroBasedCollection)});
+},
+args: ["anIndex", "aBlock", "anotherBlock"],
+source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09return anIndex >= 1 && anIndex <= self.length\x0a\x09\x09\x09? aBlock._value_(self[anIndex - 1])\x0a\x09\x09\x09: anotherBlock._value()\x0a\x09'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "detect:ifNone:",
+protocol: "enumerating",
+fn: function (aBlock,anotherBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+
+		for(var i = 0; i < self.length; i++)
+			if(aBlock._value_(self[i]))
+				return self[i];
+		return anotherBlock._value();
+	;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"detect:ifNone:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.TNativeZeroBasedCollection)});
+},
+args: ["aBlock", "anotherBlock"],
+source: "detect: aBlock ifNone: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i = 0; i < self.length; i++)\x0a\x09\x09\x09if(aBlock._value_(self[i]))\x0a\x09\x09\x09\x09return self[i];\x0a\x09\x09return anotherBlock._value();\x0a\x09'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "do:",
+protocol: "enumerating",
+fn: function (aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+
+		for(var i=0; i < self.length; i++) {
+			aBlock._value_(self[i]);
+		}
+	;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+},
+args: ["aBlock"],
+source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_(self[i]);\x0a\x09\x09}\x0a\x09'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "indexOf:ifAbsent:",
+protocol: "accessing",
+fn: function (anObject,aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+
+		for(var i=0; i < self.length; i++) {
+			if($recv(self[i]).__eq(anObject)) {return i+1}
+		};
+		return aBlock._value();
+	;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"indexOf:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+},
+args: ["anObject", "aBlock"],
+source: "indexOf: anObject ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09};\x0a\x09\x09return aBlock._value();\x0a\x09'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "indexOf:startingAt:ifAbsent:",
+protocol: "accessing",
+fn: function (anObject,start,aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+
+		for(var i=start - 1; i < self.length; i++){
+			if($recv(self[i]).__eq(anObject)) {return i+1}
+		}
+		return aBlock._value();
+	;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"indexOf:startingAt:ifAbsent:",{anObject:anObject,start:start,aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+},
+args: ["anObject", "start", "aBlock"],
+source: "indexOf: anObject startingAt: start ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=start - 1; i < self.length; i++){\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09}\x0a\x09\x09return aBlock._value();\x0a\x09'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "single",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+
+	if (self.length == 0) throw new Error("Collection is empty");
+	if (self.length > 1) throw new Error("Collection holds more than one element.");
+	return self[0];;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"single",{},$globals.TNativeZeroBasedCollection)});
+},
+args: [],
+source: "single\x0a<inlineJS: '\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length > 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return self[0];\x0a'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "size",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return self.length;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"size",{},$globals.TNativeZeroBasedCollection)});
+},
+args: [],
+source: "size\x0a\x09<inlineJS: 'return self.length'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "with:do:",
+protocol: "enumerating",
+fn: function (anotherCollection,aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+
+	    $recv(anotherCollection)._first_(0); // #guardSequenceableCollection
+		for(var i=0; i<self.length; i++) {
+			aBlock._value_value_(self[i], anotherCollection[i]);
+		}
+	;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"with:do:",{anotherCollection:anotherCollection,aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+},
+args: ["anotherCollection", "aBlock"],
+source: "with: anotherCollection do: aBlock\x0a\x09<inlineJS: '\x0a\x09    $recv(anotherCollection)._first_(0); // #guardSequenceableCollection\x0a\x09\x09for(var i=0; i<self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], anotherCollection[i]);\x0a\x09\x09}\x0a\x09'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "withIndexDo:",
+protocol: "enumerating",
+fn: function (aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+
+		for(var i=0; i < self.length; i++) {
+			aBlock._value_value_(self[i], i+1);
+		}
+	;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"withIndexDo:",{aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+},
+args: ["aBlock"],
+source: "withIndexDo: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], i+1);\x0a\x09\x09}\x0a\x09'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.TNativeZeroBasedCollection);
+
+$core.setTraitComposition([{trait: $globals.TKeyValueCollection}], $globals.AssociativeCollection);
+$core.setTraitComposition([{trait: $globals.TKeyValueCollection}], $globals.SequenceableCollection);
+$core.setTraitComposition([{trait: $globals.TNativeZeroBasedCollection}], $globals.Array);
+$core.setTraitComposition([{trait: $globals.TNativeZeroBasedCollection}], $globals.String);
 
 });
 
@@ -23256,12 +23068,11 @@ return $core.withContext(function($ctx1) {
 $recv($globals.SmalltalkImage)._initialize();
 $self._organizeClasses();
 $self._organizeMethods();
-$recv($globals.Smalltalk)._postLoad();
-return self;
+return $recv($globals.Smalltalk)._postLoad();
 }, function($ctx1) {$ctx1.fill(self,"run",{},$globals.AmberBootstrapInitialization.a$cls)});
 },
 args: [],
-source: "run\x0a\x09SmalltalkImage initialize.\x0a\x09self\x0a\x09\x09organizeClasses;\x0a\x09\x09organizeMethods.\x0a\x09Smalltalk postLoad",
+source: "run\x0a\x09SmalltalkImage initialize.\x0a\x09self\x0a\x09\x09organizeClasses;\x0a\x09\x09organizeMethods.\x0a\x09^ Smalltalk postLoad",
 referencedClasses: ["SmalltalkImage", "Smalltalk"],
 messageSends: ["initialize", "organizeClasses", "organizeMethods", "postLoad"]
 }),
@@ -26138,11 +25949,11 @@ selector: "version",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return "0.23.0-pre";
+return "0.22.4";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.23.0-pre'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.22.4'",
 referencedClasses: [],
 messageSends: []
 }),
@@ -26372,14 +26183,15 @@ selector: "announcementClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@announcementClass"]=aClass;
+return $core.withContext(function($ctx1) {
+$self["@announcementClass"]=$recv($recv($globals.Smalltalk)._globals())._at_($recv(aClass)._name());
 return self;
-
+}, function($ctx1) {$ctx1.fill(self,"announcementClass:",{aClass:aClass},$globals.AnnouncementSubscription)});
 },
 args: ["aClass"],
-source: "announcementClass: aClass\x0a\x09announcementClass := aClass",
-referencedClasses: [],
-messageSends: []
+source: "announcementClass: aClass\x0a\x09announcementClass := Smalltalk globals at: aClass name",
+referencedClasses: ["Smalltalk"],
+messageSends: ["at:", "globals", "name"]
 }),
 $globals.AnnouncementSubscription);
 
@@ -26412,26 +26224,13 @@ protocol: "announcing",
 fn: function (anAnnouncement){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $2,$3,$1,$receiver;
-$2=$recv($globals.Smalltalk)._globals();
-$ctx1.sendIdx["globals"]=1;
-$3=$recv($self._announcementClass())._name();
-$ctx1.sendIdx["name"]=1;
-$1=$recv($2)._at_($3);
-$ctx1.sendIdx["at:"]=1;
-if(($receiver = $1) == null || $receiver.a$nil){
-return false;
-} else {
-var class_;
-class_=$receiver;
-return $recv($recv($recv($globals.Smalltalk)._globals())._at_($recv($recv($recv(anAnnouncement)._class())._theNonMetaClass())._name()))._includesBehavior_(class_);
-}
+return $recv($recv($recv($globals.Smalltalk)._globals())._at_($recv($recv(anAnnouncement)._class())._name()))._includesBehavior_($self._announcementClass());
 }, function($ctx1) {$ctx1.fill(self,"handlesAnnouncement:",{anAnnouncement:anAnnouncement},$globals.AnnouncementSubscription)});
 },
 args: ["anAnnouncement"],
-source: "handlesAnnouncement: anAnnouncement\x0a\x09\x22anAnnouncement might be announced from within another Amber environment\x22\x0a\x09\x0a\x09^ (Smalltalk globals at: self announcementClass name)\x0a\x09\x09ifNil: [ ^ false ]\x0a\x09\x09ifNotNil: [ :class |\x0a\x09\x09(Smalltalk globals at: anAnnouncement class theNonMetaClass name) includesBehavior: class ]",
+source: "handlesAnnouncement: anAnnouncement\x0a\x09\x22anAnnouncement might be announced from within another Amber environment\x22\x0a\x09\x0a\x09^ (Smalltalk globals at: anAnnouncement class name) includesBehavior: self announcementClass",
 referencedClasses: ["Smalltalk"],
-messageSends: ["ifNil:ifNotNil:", "at:", "globals", "name", "announcementClass", "includesBehavior:", "theNonMetaClass", "class"]
+messageSends: ["includesBehavior:", "at:", "globals", "name", "class", "announcementClass"]
 }),
 $globals.AnnouncementSubscription);
 
@@ -51403,23 +51202,6 @@ selector: "asDomNode",
 protocol: "*Platform-DOM",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $recv(document)._createTextNode_($self._asString());
-}, function($ctx1) {$ctx1.fill(self,"asDomNode",{},$globals.CharacterArray)});
-},
-args: [],
-source: "asDomNode\x0a\x09^ document createTextNode: self asString",
-referencedClasses: [],
-messageSends: ["createTextNode:", "asString"]
-}),
-$globals.CharacterArray);
-
-$core.addMethod(
-$core.method({
-selector: "asDomNode",
-protocol: "*Platform-DOM",
-fn: function (){
-var self=this,$self=this;
 var fragment;
 return $core.withContext(function($ctx1) {
 fragment=$recv(document)._createDocumentFragment();
@@ -51465,6 +51247,23 @@ referencedClasses: ["PlatformDom"],
 messageSends: ["ifTrue:ifFalse:", "isDomNode:", "asDomNode"]
 }),
 $globals.JSObjectProxy);
+
+$core.addMethod(
+$core.method({
+selector: "asDomNode",
+protocol: "*Platform-DOM",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv(document)._createTextNode_($self._asString());
+}, function($ctx1) {$ctx1.fill(self,"asDomNode",{},$globals.String)});
+},
+args: [],
+source: "asDomNode\x0a\x09^ document createTextNode: self asString",
+referencedClasses: [],
+messageSends: ["createTextNode:", "asString"]
+}),
+$globals.String);
 
 $core.addMethod(
 $core.method({
@@ -55026,26 +54825,34 @@ fn: function (){
 var self=this,$self=this;
 var subscription,announcementClass1,announcementClass2,classBuilder;
 return $core.withContext(function($ctx1) {
-var $1,$2;
+var $1,$3,$4,$2,$6,$7,$5;
 classBuilder=$recv($globals.ClassBuilder)._new();
 $ctx1.sendIdx["new"]=1;
 announcementClass1=$recv(classBuilder)._basicAddSubclassOf_named_instanceVariableNames_package_($globals.SystemAnnouncement,"TestAnnouncement1",[],"Kernel-Tests");
-subscription=$recv($recv($globals.AnnouncementSubscription)._new())._announcementClass_($globals.SystemAnnouncement);
-$1=$recv(subscription)._handlesAnnouncement_($globals.SystemAnnouncement);
+$1=$recv($globals.AnnouncementSubscription)._new();
+$ctx1.sendIdx["new"]=2;
+subscription=$recv($1)._announcementClass_($globals.SystemAnnouncement);
+$3=subscription;
+$4=$recv($globals.SystemAnnouncement)._new();
+$ctx1.sendIdx["new"]=3;
+$2=$recv($3)._handlesAnnouncement_($4);
 $ctx1.sendIdx["handlesAnnouncement:"]=1;
-$self._assert_equals_($1,true);
-$ctx1.sendIdx["assert:equals:"]=1;
-$2=$recv(subscription)._handlesAnnouncement_(announcementClass1);
-$ctx1.sendIdx["handlesAnnouncement:"]=2;
 $self._assert_equals_($2,true);
+$ctx1.sendIdx["assert:equals:"]=1;
+$6=subscription;
+$7=$recv(announcementClass1)._new();
+$ctx1.sendIdx["new"]=4;
+$5=$recv($6)._handlesAnnouncement_($7);
+$ctx1.sendIdx["handlesAnnouncement:"]=2;
+$self._assert_equals_($5,true);
 $ctx1.sendIdx["assert:equals:"]=2;
-$self._assert_equals_($recv(subscription)._handlesAnnouncement_($globals.Object),false);
+$self._assert_equals_($recv(subscription)._handlesAnnouncement_($recv($globals.Object)._new()),false);
 $recv(classBuilder)._basicRemoveClass_(announcementClass1);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testHandlesAnnouncement",{subscription:subscription,announcementClass1:announcementClass1,announcementClass2:announcementClass2,classBuilder:classBuilder},$globals.AnnouncementSubscriptionTest)});
 },
 args: [],
-source: "testHandlesAnnouncement\x0a\x09| subscription announcementClass1 announcementClass2 classBuilder |\x0a\x09\x0a\x09classBuilder := ClassBuilder new.\x0a\x09announcementClass1 := classBuilder basicAddSubclassOf: SystemAnnouncement named: 'TestAnnouncement1' instanceVariableNames: #() package: 'Kernel-Tests'.\x0a\x09\x0a\x09subscription := AnnouncementSubscription new announcementClass: SystemAnnouncement.\x0a\x09\x22Test whether the same class triggers the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: SystemAnnouncement) equals: true.\x0a\x09\x22Test whether a subclass triggers the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: announcementClass1) equals: true.\x0a\x09\x22Test whether an unrelated class does not trigger the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: Object) equals: false.\x0a\x09\x0a\x09classBuilder basicRemoveClass: announcementClass1.",
+source: "testHandlesAnnouncement\x0a\x09| subscription announcementClass1 announcementClass2 classBuilder |\x0a\x09\x0a\x09classBuilder := ClassBuilder new.\x0a\x09announcementClass1 := classBuilder basicAddSubclassOf: SystemAnnouncement named: 'TestAnnouncement1' instanceVariableNames: #() package: 'Kernel-Tests'.\x0a\x09\x0a\x09subscription := AnnouncementSubscription new announcementClass: SystemAnnouncement.\x0a\x09\x22Test whether the same class triggers the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: SystemAnnouncement new) equals: true.\x0a\x09\x22Test whether a subclass triggers the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: announcementClass1 new) equals: true.\x0a\x09\x22Test whether an unrelated class does not trigger the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: Object new) equals: false.\x0a\x09\x0a\x09classBuilder basicRemoveClass: announcementClass1.",
 referencedClasses: ["ClassBuilder", "SystemAnnouncement", "AnnouncementSubscription", "Object"],
 messageSends: ["new", "basicAddSubclassOf:named:instanceVariableNames:package:", "announcementClass:", "assert:equals:", "handlesAnnouncement:", "basicRemoveClass:"]
 }),
@@ -61760,6 +61567,85 @@ args: [],
 source: "testPrintString\x0a\x09| set |\x0a\x09set := Set new.\x0a\x09self assert: set printString equals: 'a Set ()'.\x0a\x09set add: 1; add: 3.\x0a\x09self assert: set printString equals: 'a Set (1 3)'.\x0a\x09set add: 'foo'.\x0a\x09self assert: set printString equals: 'a Set (1 3 ''foo'')'.\x0a\x09set remove: 1; remove: 3.\x0a\x09self assert: set printString equals: 'a Set (''foo'')'.\x0a\x09set add: 3.\x0a\x09self assert: set printString equals: 'a Set (3 ''foo'')'.\x0a\x09set add: 3.\x0a\x09self assert: set printString equals: 'a Set (3 ''foo'')'",
 referencedClasses: ["Set"],
 messageSends: ["new", "assert:equals:", "printString", "add:", "remove:"]
+}),
+$globals.SetTest);
+
+$core.addMethod(
+$core.method({
+selector: "testRegression1225",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._assert_equals_($recv([(1), (2), (3)]._asSet())._add_((3)),(3));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testRegression1225",{},$globals.SetTest)});
+},
+args: [],
+source: "testRegression1225\x0a\x09self assert: (#(1 2 3) asSet add: 3) equals: 3",
+referencedClasses: [],
+messageSends: ["assert:equals:", "add:", "asSet"]
+}),
+$globals.SetTest);
+
+$core.addMethod(
+$core.method({
+selector: "testRegression1226",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._assert_equals_($recv([(1), (2), (3)]._asSet())._remove_((3)),(3));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testRegression1226",{},$globals.SetTest)});
+},
+args: [],
+source: "testRegression1226\x0a\x09self assert: (#(1 2 3) asSet remove: 3) equals: 3",
+referencedClasses: [],
+messageSends: ["assert:equals:", "remove:", "asSet"]
+}),
+$globals.SetTest);
+
+$core.addMethod(
+$core.method({
+selector: "testRegression1227",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._assert_equals_($recv([(1), (2), (3)]._asSet())._remove_ifAbsent_((4),(function(){
+return (5);
+
+})),(5));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testRegression1227",{},$globals.SetTest)});
+},
+args: [],
+source: "testRegression1227\x0a\x09self assert: (#(1 2 3) asSet remove: 4 ifAbsent: [5]) equals: 5",
+referencedClasses: [],
+messageSends: ["assert:equals:", "remove:ifAbsent:", "asSet"]
+}),
+$globals.SetTest);
+
+$core.addMethod(
+$core.method({
+selector: "testRegression1228",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._should_raise_((function(){
+return $core.withContext(function($ctx2) {
+return $recv([(1), (2), (3)]._asSet())._remove_((4));
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}),$globals.Error);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testRegression1228",{},$globals.SetTest)});
+},
+args: [],
+source: "testRegression1228\x0a\x09self should: [#(1 2 3) asSet remove: 4] raise: Error",
+referencedClasses: ["Error"],
+messageSends: ["should:raise:", "remove:", "asSet"]
 }),
 $globals.SetTest);
 
