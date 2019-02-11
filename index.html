@@ -52,7 +52,9 @@
                         });
                     })
                     .then(function () {
-                        amber.globals.Smalltalk._postLoad();
+                        return amber.globals.Smalltalk._postLoad();
+                    })
+                    .then(function () {
                         a$cb$ = function (action) {
                             action(amber);
                         };
@@ -63,7 +65,9 @@
                         });
                     })
                     .then(function () {
-                        amber.globals.Smalltalk._postLoad();
+                        return amber.globals.Smalltalk._postLoad();
+                    })
+                    .then(function () {
                         messageBox.appendChild(done);
                     });
             });

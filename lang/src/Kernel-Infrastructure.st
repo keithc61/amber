@@ -22,7 +22,7 @@ run
 	self
 		organizeClasses;
 		organizeMethods.
-	Smalltalk postLoad
+	^ Smalltalk postLoad
 ! !
 
 ProtoObject subclass: #JSObjectProxy

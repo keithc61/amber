@@ -463,7 +463,7 @@ define(function () {
         var globals = brikz.smalltalkGlobals.globals;
 
         this.run = function () {
-            globals.AmberBootstrapInitialization._run();
+            return globals.AmberBootstrapInitialization._run();
         };
     }
 
