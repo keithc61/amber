@@ -1,4 +1,4 @@
-0.23.0:
+0.22.4:
 
 * Remove class IndexableCollection, trait TKeyValueCollection.
 * Merge CharacterArray class into String class
