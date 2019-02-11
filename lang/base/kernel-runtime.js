@@ -388,8 +388,10 @@ define(function () {
     }
 
     function SelectorConversionBrik (brikz, st) {
+        var st2jsMemo = Object.create(null);
+
         /* Convert a Smalltalk selector into a JS selector */
-        st.st2js = this.st2js = function (string) {
+        function st2js (string) {
             return '_' + string
                 .replace(/:/g, '_')
                 .replace(/[\&]/g, '_and')
@@ -406,6 +408,14 @@ define(function () {
                 .replace(/=/g, '_eq')
                 .replace(/,/g, '_comma')
                 .replace(/[@]/g, '_at');
+        };
+
+        st.st2js = function (stSelector) {
+            return st2jsMemo[stSelector] || st2js(stSelector);
+        };
+
+        this.st2js = function (stSelector) {
+            return st2jsMemo[stSelector] || (st2jsMemo[stSelector] = st2js(stSelector));
         };
 
         /* Convert a string to a valid smalltalk selector.
