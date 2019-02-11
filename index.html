@@ -12,59 +12,62 @@
 <body>
 <div>
     <button id="startlegacy" disabled type="button"
-            onclick="a$gl$ifReady(function (amber) {amber.globals.Browser._open();});">
+            onclick="a$cb$(function (amber) {amber.globals.Browser._open();});">
         Start legacy in-page IDE
     </button>
     <button id="starthelios" disabled type="button"
-            onclick="a$gl$ifReady(function (amber) {amber.popupHelios();});">
+            onclick="a$cb$(function (amber) {amber.popupHelios();});">
         Popup Helios IDE
     </button>
 </div>
 <div>
     <span id="loadingKernel">Loading Amber kernel ... </span>
     <span id="initializingKernel">initializing Amber kernel ... </span>
+    <span id="loadingIdeSupport">loading IDE support ... </span>
     <span id="loadingTheRest">loading rest of development image ... </span>
     <span id="done">done.</span>
 </div>
 <script type='text/javascript'>
     "use strict";
     var global = typeof global === "undefined" ? window : global || window;
-    var a$gl$ifReady = (function () {
+    var a$cb$;
+    (function () {
         var startLegacy = document.getElementById("startlegacy");
         var startHelios = document.getElementById("starthelios");
         var messageBox = document.getElementById("loadingKernel").parentNode;
         var initializingKernel = messageBox.removeChild(document.getElementById("initializingKernel"));
+        var loadingIdeSupport = messageBox.removeChild(document.getElementById("loadingIdeSupport"));
         var loadingTheRest = messageBox.removeChild(document.getElementById("loadingTheRest"));
         var done = messageBox.removeChild(document.getElementById("done"));
-        var loadAll;
 
         require(["require", "amber/es6-promise"], function (require, promiseLib) {
             promiseLib.polyfill();
             require(["amber/boot", "amber/deploy", "amber_core/Platform-Browser"], function (_, amber) {
                 messageBox.appendChild(initializingKernel);
-                loadAll = amber.initialize({'transport.defaultAmdNamespace': "amber_core"})
+                amber.initialize({'transport.defaultAmdNamespace': "amber_core"})
                     .then(function () {
+                        messageBox.appendChild(loadingIdeSupport);
+                        return new Promise(function (resolve, reject) {
+                            require(["amber/lang", "amber/legacy/IDE", "amber_core/SUnit"], resolve, reject);
+                        });
+                    })
+                    .then(function () {
+                        amber.globals.Smalltalk._postLoad();
+                        a$cb$ = function (action) {
+                            action(amber);
+                        };
+                        startLegacy.disabled = startHelios.disabled = false;
                         messageBox.appendChild(loadingTheRest);
                         return new Promise(function (resolve, reject) {
-                            require(["amber/devel", "amber/legacy/IDE", "amber/web/Web", "amber/legacy/Benchfib", "helios/all", "amber_cli/AmberCli"], resolve, reject);
+                            require(["amber/devel", "amber/legacy/Benchfib", "helios/all", "amber_cli/AmberCli"], resolve, reject);
                         });
                     })
                     .then(function () {
                         amber.globals.Smalltalk._postLoad();
                         messageBox.appendChild(done);
-                        return amber;
                     });
-                startLegacy.disabled = startHelios.disabled = false;
             });
         });
-
-        return function (action) {
-            startLegacy.disabled = startHelios.disabled = true;
-            loadAll.then(function (amber) {
-                startLegacy.disabled = startHelios.disabled = false;
-                action(amber);
-            });
-        };
     })();
 </script>
 </body>
