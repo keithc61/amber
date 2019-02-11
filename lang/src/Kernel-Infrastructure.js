@@ -3129,7 +3129,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-delete anObject.klass; delete anObject.a$cls;;
+delete anObject.a$cls;;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"cancelOptOut:",{anObject:anObject},$globals.SmalltalkImage)});
@@ -3137,7 +3137,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "cancelOptOut: anObject\x0a\x09\x22A Smalltalk object has a 'a$cls' property.\x0a\x09If this property is shadowed for anObject by optOut:,\x0a\x09the object is treated as plain JS object.\x0a\x09This removes the shadow and anObject is Smalltalk object\x0a\x09again if it was before.\x22\x0a\x09\x0a\x09<inlineJS: 'delete anObject.klass; delete anObject.a$cls;'>",
+source: "cancelOptOut: anObject\x0a\x09\x22A Smalltalk object has a 'a$cls' property.\x0a\x09If this property is shadowed for anObject by optOut:,\x0a\x09the object is treated as plain JS object.\x0a\x09This removes the shadow and anObject is Smalltalk object\x0a\x09again if it was before.\x22\x0a\x09\x0a\x09<inlineJS: 'delete anObject.a$cls;'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3453,7 +3453,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-anObject.klass = null; anObject.a$cls = null;
+anObject.a$cls = null;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"optOut:",{anObject:anObject},$globals.SmalltalkImage)});
@@ -3461,7 +3461,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "optOut: anObject\x0a\x09\x22A Smalltalk object has a 'a$cls' property.\x0a\x09This shadows the property for anObject.\x0a\x09The object is treated as plain JS object following this.\x22\x0a\x09\x0a\x09<inlineJS: 'anObject.klass = null; anObject.a$cls = null'>",
+source: "optOut: anObject\x0a\x09\x22A Smalltalk object has a 'a$cls' property.\x0a\x09This shadows the property for anObject.\x0a\x09The object is treated as plain JS object following this.\x22\x0a\x09\x0a\x09<inlineJS: 'anObject.a$cls = null'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
