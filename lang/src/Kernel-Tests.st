@@ -24,11 +24,11 @@ testHandlesAnnouncement
 	
 	subscription := AnnouncementSubscription new announcementClass: SystemAnnouncement.
 	"Test whether the same class triggers the announcement"
-	self assert: (subscription handlesAnnouncement: SystemAnnouncement) equals: true.
+	self assert: (subscription handlesAnnouncement: SystemAnnouncement new) equals: true.
 	"Test whether a subclass triggers the announcement"
-	self assert: (subscription handlesAnnouncement: announcementClass1) equals: true.
+	self assert: (subscription handlesAnnouncement: announcementClass1 new) equals: true.
 	"Test whether an unrelated class does not trigger the announcement"
-	self assert: (subscription handlesAnnouncement: Object) equals: false.
+	self assert: (subscription handlesAnnouncement: Object new) equals: false.
 	
 	classBuilder basicRemoveClass: announcementClass1.
 ! !

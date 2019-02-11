@@ -13,7 +13,7 @@ announcementClass
 !
 
 announcementClass: aClass
-	announcementClass := aClass
+	announcementClass := Smalltalk globals at: aClass name
 !
 
 receiver
@@ -38,10 +38,7 @@ deliver: anAnnouncement
 handlesAnnouncement: anAnnouncement
 	"anAnnouncement might be announced from within another Amber environment"
 	
-	^ (Smalltalk globals at: self announcementClass name)
-		ifNil: [ ^ false ]
-		ifNotNil: [ :class |
-		(Smalltalk globals at: anAnnouncement class theNonMetaClass name) includesBehavior: class ]
+	^ (Smalltalk globals at: anAnnouncement class name) includesBehavior: self announcementClass
 ! !
 
 Object subclass: #AnnouncementValuable

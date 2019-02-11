@@ -33,16 +33,21 @@ selector: "announcementClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@announcementClass"]=aClass;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self["@announcementClass"]=$recv($recv($globals.Smalltalk)._globals())._at_($recv(aClass)._name());
 return self;
-
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"announcementClass:",{aClass:aClass},$globals.AnnouncementSubscription)});
+//>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
-source: "announcementClass: aClass\x0a\x09announcementClass := aClass",
-referencedClasses: [],
+source: "announcementClass: aClass\x0a\x09announcementClass := Smalltalk globals at: aClass name",
+referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["at:", "globals", "name"]
 }),
 $globals.AnnouncementSubscription);
 
@@ -83,36 +88,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$3,$1,$receiver;
-$2=$recv($globals.Smalltalk)._globals();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["globals"]=1;
-//>>excludeEnd("ctx");
-$3=$recv($self._announcementClass())._name();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["name"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._at_($3);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:"]=1;
-//>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.a$nil){
-return false;
-} else {
-var class_;
-class_=$receiver;
-return $recv($recv($recv($globals.Smalltalk)._globals())._at_($recv($recv($recv(anAnnouncement)._class())._theNonMetaClass())._name()))._includesBehavior_(class_);
-}
+return $recv($recv($recv($globals.Smalltalk)._globals())._at_($recv($recv(anAnnouncement)._class())._name()))._includesBehavior_($self._announcementClass());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"handlesAnnouncement:",{anAnnouncement:anAnnouncement},$globals.AnnouncementSubscription)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anAnnouncement"],
-source: "handlesAnnouncement: anAnnouncement\x0a\x09\x22anAnnouncement might be announced from within another Amber environment\x22\x0a\x09\x0a\x09^ (Smalltalk globals at: self announcementClass name)\x0a\x09\x09ifNil: [ ^ false ]\x0a\x09\x09ifNotNil: [ :class |\x0a\x09\x09(Smalltalk globals at: anAnnouncement class theNonMetaClass name) includesBehavior: class ]",
+source: "handlesAnnouncement: anAnnouncement\x0a\x09\x22anAnnouncement might be announced from within another Amber environment\x22\x0a\x09\x0a\x09^ (Smalltalk globals at: anAnnouncement class name) includesBehavior: self announcementClass",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["ifNil:ifNotNil:", "at:", "globals", "name", "announcementClass", "includesBehavior:", "theNonMetaClass", "class"]
+messageSends: ["includesBehavior:", "at:", "globals", "name", "class", "announcementClass"]
 }),
 $globals.AnnouncementSubscription);
 
