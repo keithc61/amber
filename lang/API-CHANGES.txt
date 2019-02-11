@@ -5,6 +5,9 @@
 * Deprecate CharacterArray class
 * Deprecate Collection >> copyWithAll:, #, is enough.
 
++ amber/helpers exports
+  + loadPackages
+
 - Array >>
   - numericallyIndexable
 - Set

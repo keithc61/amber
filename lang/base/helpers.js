@@ -62,6 +62,14 @@ define(["amber/boot", "require"], function (boot, require) {
         });
     };
 
+    exports.loadPackages = function (modules) {
+        return new Promise(function (resolve, reject) {
+            require(modules, resolve, reject);
+        }).then(function () {
+            return globals.Smalltalk._postLoad();
+        });
+    };
+
     // Exports
 
     return exports;

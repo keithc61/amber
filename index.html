@@ -50,25 +50,16 @@
                 amber.initialize({'transport.defaultAmdNamespace': "amber_core"})
                     .then(function () {
                         messageBox.appendChild(loadingIdeSupport);
-                        return amberLoad(["amber/lang", "amber/legacy/IDE", "amber_core/SUnit"]);
+                        return amber.loadPackages(["amber/lang", "amber/legacy/IDE", "amber_core/SUnit"]);
                     })
                     .then(function () {
                         startLegacy.disabled = startHelios.disabled = false;
                         messageBox.appendChild(loadingTheRest);
-                        return amberLoad(["amber/devel", "amber/legacy/Benchfib", "helios/all", "amber_cli/AmberCli"]);
+                        return amber.loadPackages(["amber/devel", "amber/legacy/Benchfib", "helios/all", "amber_cli/AmberCli"]);
                     })
                     .then(function () {
                         messageBox.appendChild(done);
                     });
-
-                function amberLoad (modules) {
-                    return new Promise(function (resolve, reject) {
-                        require(modules, resolve, reject);
-                    }).then(function () {
-                        return amber.globals.Smalltalk._postLoad();
-                    });
-                }
-
             });
         });
     })();
