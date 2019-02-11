@@ -43,33 +43,35 @@
         require(["require", "amber/es6-promise"], function (require, promiseLib) {
             promiseLib.polyfill();
             require(["amber/boot", "amber/deploy", "amber_core/Platform-Browser"], function (_, amber) {
+                a$cb$ = function (action) {
+                    action(amber);
+                };
                 messageBox.appendChild(initializingKernel);
                 amber.initialize({'transport.defaultAmdNamespace': "amber_core"})
                     .then(function () {
                         messageBox.appendChild(loadingIdeSupport);
-                        return new Promise(function (resolve, reject) {
-                            require(["amber/lang", "amber/legacy/IDE", "amber_core/SUnit"], resolve, reject);
-                        });
+                        return prequire(["amber/lang", "amber/legacy/IDE", "amber_core/SUnit"]);
                     })
+                    .then(amberPostLoad)
                     .then(function () {
-                        return amber.globals.Smalltalk._postLoad();
-                    })
-                    .then(function () {
-                        a$cb$ = function (action) {
-                            action(amber);
-                        };
                         startLegacy.disabled = startHelios.disabled = false;
                         messageBox.appendChild(loadingTheRest);
-                        return new Promise(function (resolve, reject) {
-                            require(["amber/devel", "amber/legacy/Benchfib", "helios/all", "amber_cli/AmberCli"], resolve, reject);
-                        });
+                        return prequire(["amber/devel", "amber/legacy/Benchfib", "helios/all", "amber_cli/AmberCli"]);
                     })
-                    .then(function () {
-                        return amber.globals.Smalltalk._postLoad();
-                    })
+                    .then(amberPostLoad)
                     .then(function () {
                         messageBox.appendChild(done);
                     });
+
+                function prequire (modules) {
+                    return new Promise(function (resolve, reject) {
+                        require(modules, resolve, reject);
+                    });
+                }
+
+                function amberPostLoad () {
+                    return amber.globals.Smalltalk._postLoad();
+                }
             });
         });
     })();
