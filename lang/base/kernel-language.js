@@ -280,8 +280,7 @@ define(function () {
         // Effective superclass of all classes created with `nil subclass: ...`.
         var nilAsClass = this.nilAsClass = {
             fn: SmalltalkRoot,
-            a$cls: {fn: SmalltalkClass},
-            klass: {fn: SmalltalkClass}
+            a$cls: {fn: SmalltalkClass}
         };
 
         SmalltalkMetaclass.prototype.meta = true;
@@ -375,10 +374,6 @@ define(function () {
 
         function wireKlass (klass) {
             Object.defineProperty(klass.fn.prototype, "a$cls", {
-                value: klass,
-                enumerable: false, configurable: true, writable: true
-            });
-            Object.defineProperty(klass.fn.prototype, "klass", {
                 value: klass,
                 enumerable: false, configurable: true, writable: true
             });
