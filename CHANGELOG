@@ -2,7 +2,6 @@
 ===================================
 
 * Fixes.
-* Remove kernel-level deprecations.
 * Flatter Collection hierarchy with traits, remove IndexableCollection class.
 * Remove some old IE8 cruft.
 * Push CharacterArray down, make it and alias to String and deprecate it.
