@@ -1,9 +1,9 @@
 define(["amber/boot"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Kernel-Helpers");
-($core.packageDescriptors||$core.packages)["Kernel-Helpers"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Kernel-Helpers"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Kernel-Helpers");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addTrait("TSubclassable", "Kernel-Helpers");
 $core.addMethod(

@@ -9,7 +9,7 @@ require = requirejs;
  * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
  * @license   Licensed under MIT license
  *            See https://raw.githubusercontent.com/stefanpenner/es6-promise/master/LICENSE
- * @version   v4.2.5+7f2b526d
+ * @version   v4.2.4+314e4831
  */
 
 (function (global, factory) {
@@ -1115,19 +1115,15 @@ var Promise$1 = function () {
     var promise = this;
     var constructor = promise.constructor;
 
-    if (isFunction(callback)) {
-      return promise.then(function (value) {
-        return constructor.resolve(callback()).then(function () {
-          return value;
-        });
-      }, function (reason) {
-        return constructor.resolve(callback()).then(function () {
-          throw reason;
-        });
+    return promise.then(function (value) {
+      return constructor.resolve(callback()).then(function () {
+        return value;
       });
-    }
-
-    return promise.then(callback, callback);
+    }, function (reason) {
+      return constructor.resolve(callback()).then(function () {
+        throw reason;
+      });
+    });
   };
 
   return Promise;
@@ -2874,9 +2870,9 @@ define('amber/helpers',["amber/boot", "require"], function (boot, require) {
 define('amber_core/Kernel-Helpers',["amber/boot"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Kernel-Helpers");
-($core.packageDescriptors||$core.packages)["Kernel-Helpers"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Kernel-Helpers"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Kernel-Helpers");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addTrait("TSubclassable", "Kernel-Helpers");
 $core.addMethod(
@@ -3057,9 +3053,9 @@ $globals.TSubclassable);
 define('amber_core/Kernel-Objects',["amber/boot", "amber_core/Kernel-Helpers"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Kernel-Objects");
-($core.packageDescriptors||$core.packages)["Kernel-Objects"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Kernel-Objects"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Kernel-Objects");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("ProtoObject", null, [], "Kernel-Objects");
 $globals.ProtoObject.comment="I implement the basic behavior required for any object in Amber.\x0a\x0aIn most cases, subclassing `ProtoObject` is wrong and `Object` should be used instead. However subclassing `ProtoObject` can be useful in some special cases like proxy implementations.";
@@ -8028,9 +8024,9 @@ $core.setTraitComposition([{trait: $globals.TSubclassable}], $globals.UndefinedO
 define('amber_core/Kernel-Collections',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Kernel-Collections");
-($core.packageDescriptors||$core.packages)["Kernel-Collections"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Kernel-Collections"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Kernel-Collections");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("Association", $globals.Object, ["key", "value"], "Kernel-Collections");
 $globals.Association.comment="I represent a pair of associated objects, a key and a value. My instances can serve as entries in a dictionary.\x0a\x0aInstances can be created with the class-side method `#key:value:`";
@@ -15496,9 +15492,9 @@ $core.setTraitComposition([{trait: $globals.TNativeZeroBasedCollection}], $globa
 define('amber_core/Kernel-Classes',["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Helpers", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Kernel-Classes");
-($core.packageDescriptors||$core.packages)["Kernel-Classes"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Kernel-Classes"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Kernel-Classes");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("Behavior", $globals.Object, ["organization"], "Kernel-Classes");
 $globals.Behavior.comment="I am the superclass of all class objects.\x0a\x0aIn addition to BehaviorBody, I define superclass/subclass relationships and instantiation.\x0a\x0aI define the protocol for creating instances of a class with `#basicNew` and `#new` (see `boot.js` for class constructors details).\x0a\x0aMy instances know about the subclass/superclass relationships between classes and contain the description that instances are created from.\x0a\x0aI also provide iterating over the class hierarchy.";
@@ -18823,9 +18819,9 @@ $globals.Array);
 define('amber_core/Kernel-Methods',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Kernel-Methods");
-($core.packageDescriptors||$core.packages)["Kernel-Methods"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Kernel-Methods"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Kernel-Methods");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("BlockClosure", $globals.Object, [], "Kernel-Methods");
 $globals.BlockClosure.comment="I represent a lexical closure.\x0aI am is directly mapped to JavaScript Function.\x0a\x0a## API\x0a\x0a1. Evaluation\x0a\x0a    My instances get evaluated with the `#value*` methods in the 'evaluating' protocol.\x0a\x0a    Example: ` [ :x | x + 1 ] value: 3 \x22Answers 4\x22 `\x0a\x0a2. Control structures\x0a\x0a    Blocks are used (together with `Boolean`) for control structures (methods in the `controlling` protocol).\x0a\x0a    Example: `aBlock whileTrue: [ ... ]`\x0a\x0a3. Error handling\x0a\x0a    I provide the `#on:do:` method for handling exceptions.\x0a\x0a    Example: ` aBlock on: MessageNotUnderstood do: [ :ex | ... ] `";
@@ -21498,9 +21494,9 @@ $globals.Timeout.a$cls);
 define('amber_core/Kernel-Dag',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Kernel-Dag");
-($core.packageDescriptors||$core.packages)["Kernel-Dag"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Kernel-Dag"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Kernel-Dag");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AbstractDagVisitor", $globals.Object, [], "Kernel-Dag");
 $globals.AbstractDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x0aConcrete classes should implement `visitDagNode:`,\x0athey can reuse possible variants of implementation\x0aoffered directly: `visitDagNodeVariantSimple:`\x0aand `visitDagNodeVariantRedux:`.";
@@ -21986,9 +21982,9 @@ $globals.Object);
 define('amber_core/Kernel-Exceptions',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Kernel-Exceptions");
-($core.packageDescriptors||$core.packages)["Kernel-Exceptions"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Kernel-Exceptions"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Kernel-Exceptions");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("Error", $globals.Object, ["messageText"], "Kernel-Exceptions");
 $globals.Error.comment="From the ANSI standard:\x0a\x0aThis protocol describes the behavior of instances of class `Error`.\x0aThese are used to represent error conditions that prevent the normal continuation of processing.\x0aActual error exceptions used by an application may be subclasses of this class.\x0aAs `Error` is explicitly specified to be subclassable, conforming implementations must implement its behavior in a non-fragile manner.";
@@ -22718,9 +22714,9 @@ $globals.NonBooleanReceiver.a$cls);
 define('amber_core/Kernel-Promises',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Kernel-Promises");
-($core.packageDescriptors||$core.packages)["Kernel-Promises"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Kernel-Promises"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Kernel-Promises");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("Promise", $globals.Object, [], "Kernel-Promises");
 
@@ -23003,9 +22999,9 @@ $core.setTraitComposition([{trait: $globals.TThenable}], $globals.Promise);
 define('amber_core/Kernel-Infrastructure',["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Objects", "amber_core/Kernel-Promises"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Kernel-Infrastructure");
-($core.packageDescriptors||$core.packages)["Kernel-Infrastructure"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Kernel-Infrastructure"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Kernel-Infrastructure");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AmberBootstrapInitialization", $globals.Object, [], "Kernel-Infrastructure");
 
@@ -23819,7 +23815,7 @@ $core.addClass("PackageOrganizer", $globals.Organizer, [], "Kernel-Infrastructur
 $globals.PackageOrganizer.comment="I am an organizer specific to packages. I hold classes categorization information.";
 
 
-$core.addClass("Package", $globals.Object, ["evalBlock", "basicTransport", "name", "transport", "imports", "dirty", "organization"], "Kernel-Infrastructure");
+$core.addClass("Package", $globals.Object, ["evalBlock", "basicTransport", "name", "transport", "imports", "dirty", "organization", "isReady"], "Kernel-Infrastructure");
 $globals.Package.comment="I am similar to a \x22class category\x22 typically found in other Smalltalks like Pharo or Squeak. Amber does not have class categories anymore, it had in the beginning but now each class in the system knows which package it belongs to.\x0a\x0aEach package has a name and can be queried for its classes, but it will then resort to a reverse scan of all classes to find them.\x0a\x0a## API\x0a\x0aPackages are manipulated through \x22Smalltalk current\x22, like for example finding one based on a name or with `Package class >> #name` directly:\x0a\x0a    Smalltalk current packageAt: 'Kernel'\x0a    Package named: 'Kernel'\x0a\x0aA package differs slightly from a Monticello package which can span multiple class categories using a naming convention based on hyphenation. But just as in Monticello a package supports \x22class extensions\x22 so a package can define behaviors in foreign classes using a naming convention for method categories where the category starts with an asterisk and then the name of the owning package follows.\x0a\x0aYou can fetch a package from the server:\x0a\x0a\x09Package load: 'Additional-Examples'";
 $core.addMethod(
 $core.method({
@@ -24177,16 +24173,18 @@ $ctx1.supercall = true,
 ($globals.Package.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
 $self["@organization"]=$recv($globals.PackageOrganizer)._new();
+$ctx1.sendIdx["new"]=1;
 $self["@evalBlock"]=nil;
 $self["@dirty"]=nil;
 $self["@imports"]=nil;
+$self["@isReady"]=$recv($globals.Promise)._new();
 $self["@transport"]=nil;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Package)});
 },
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x0a\x09organization := PackageOrganizer new.\x0a\x09evalBlock := nil.\x0a\x09dirty := nil.\x0a\x09imports := nil.\x0a\x09transport := nil",
-referencedClasses: ["PackageOrganizer"],
+source: "initialize\x0a\x09super initialize.\x0a\x0a\x09organization := PackageOrganizer new.\x0a\x09evalBlock := nil.\x0a\x09dirty := nil.\x0a\x09imports := nil.\x0a\x09isReady := Promise new.\x0a\x09transport := nil",
+referencedClasses: ["PackageOrganizer", "Promise"],
 messageSends: ["initialize", "new"]
 }),
 $globals.Package);
@@ -24232,11 +24230,44 @@ $globals.Package);
 
 $core.addMethod(
 $core.method({
+selector: "isReady",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $self["@isReady"];
+
+},
+args: [],
+source: "isReady\x0a\x09^ isReady",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
+selector: "isReady:",
+protocol: "accessing",
+fn: function (aPromise){
+var self=this,$self=this;
+$self["@isReady"]=aPromise;
+return self;
+
+},
+args: ["aPromise"],
+source: "isReady: aPromise\x0a\x09isReady := aPromise",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
 selector: "javaScriptDescriptor:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-var basicEval,basicImports;
+var basicEval,basicImports,basicIsReady;
 return $core.withContext(function($ctx1) {
 basicEval=$recv(anObject)._at_ifAbsent_("innerEval",(function(){
 return $core.withContext(function($ctx2) {
@@ -24252,15 +24283,17 @@ $ctx1.sendIdx["at:ifAbsent:"]=2;
 $self["@basicTransport"]=$recv(anObject)._at_ifAbsent_("transport",(function(){
 
 }));
+$ctx1.sendIdx["at:ifAbsent:"]=3;
+basicIsReady=$recv(anObject)._at_ifAbsent_("isReady",$recv($globals.Promise)._new());
 $self._evalBlock_(basicEval);
 $self._imports_($self._importsFromJson_(basicImports));
 return self;
-}, function($ctx1) {$ctx1.fill(self,"javaScriptDescriptor:",{anObject:anObject,basicEval:basicEval,basicImports:basicImports},$globals.Package)});
+}, function($ctx1) {$ctx1.fill(self,"javaScriptDescriptor:",{anObject:anObject,basicEval:basicEval,basicImports:basicImports,basicIsReady:basicIsReady},$globals.Package)});
 },
 args: ["anObject"],
-source: "javaScriptDescriptor: anObject\x0a\x09| basicEval basicImports |\x0a\x0a\x09basicEval := (anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ]).\x0a\x09basicImports := (anObject at: 'imports' ifAbsent: [ #() ]).\x0a\x09basicTransport := (anObject at: 'transport' ifAbsent: []).\x0a\x09\x09\x09\x0a\x09self\x0a\x09\x09evalBlock: basicEval;\x0a\x09\x09imports: (self importsFromJson: basicImports)",
-referencedClasses: [],
-messageSends: ["at:ifAbsent:", "asJavaScriptObject", "evalBlock:", "imports:", "importsFromJson:"]
+source: "javaScriptDescriptor: anObject\x0a\x09| basicEval basicImports basicIsReady |\x0a\x0a\x09basicEval := anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ].\x0a\x09basicImports := anObject at: 'imports' ifAbsent: [ #() ].\x0a\x09basicTransport := anObject at: 'transport' ifAbsent: [].\x0a\x09basicIsReady := anObject at: 'isReady' ifAbsent: Promise new.\x0a\x09\x09\x09\x0a\x09self\x0a\x09\x09evalBlock: basicEval;\x0a\x09\x09imports: (self importsFromJson: basicImports)",
+referencedClasses: ["Promise"],
+messageSends: ["at:ifAbsent:", "asJavaScriptObject", "new", "evalBlock:", "imports:", "importsFromJson:"]
 }),
 $globals.Package);
 
@@ -25700,29 +25733,33 @@ var pkgs,classes;
 return $core.withContext(function($ctx1) {
 var $1;
 pkgs=$self._adoptPackageDescriptors();
-$recv(pkgs)._do_("beClean");
-$ctx1.sendIdx["do:"]=1;
-classes=$recv($recv($globals.Smalltalk)._classes())._select_((function(each){
+$recv($recv($globals.Promise)._all_($recv(pkgs)._collect_("isReady")))._then_((function(){
 return $core.withContext(function($ctx2) {
+$recv(pkgs)._do_("beClean");
+$ctx2.sendIdx["do:"]=1;
+classes=$recv($recv($globals.Smalltalk)._classes())._select_((function(each){
+return $core.withContext(function($ctx3) {
 return $recv(pkgs)._includes_($recv(each)._package());
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
 }));
 $recv(classes)._do_((function(each){
-return $core.withContext(function($ctx2) {
+return $core.withContext(function($ctx3) {
 $1=$recv(each).__eq($self._class());
 if(!$core.assert($1)){
 return $recv(each)._initialize();
 }
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,3)});
 }));
-$self._sweepPackageDescriptors_(pkgs);
+return $self._sweepPackageDescriptors_(pkgs);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"postLoad",{pkgs:pkgs,classes:classes},$globals.SmalltalkImage)});
 },
 args: [],
-source: "postLoad\x0a\x09| pkgs classes |\x0a\x09pkgs := self adoptPackageDescriptors.\x0a\x09pkgs do: #beClean.\x0a\x09classes := Smalltalk classes select:\x0a\x09\x09[ :each | pkgs includes: each package ].\x0a\x09classes do: [ :each |\x0a\x09\x09each = self class ifFalse: [ each initialize ] ].\x0a\x09self sweepPackageDescriptors: pkgs",
-referencedClasses: ["Smalltalk"],
-messageSends: ["adoptPackageDescriptors", "do:", "select:", "classes", "includes:", "package", "ifFalse:", "=", "class", "initialize", "sweepPackageDescriptors:"]
+source: "postLoad\x0a\x09| pkgs classes |\x0a\x09pkgs := self adoptPackageDescriptors.\x0a\x09(Promise all: (pkgs collect: #isReady)) then: [\x0a\x09\x09pkgs do: #beClean.\x0a\x09\x09classes := Smalltalk classes select:\x0a\x09\x09\x09[ :each | pkgs includes: each package ].\x0a\x09\x09classes do: [ :each |\x0a\x09\x09\x09each = self class ifFalse: [ each initialize ] ].\x0a\x09\x09self sweepPackageDescriptors: pkgs ]",
+referencedClasses: ["Promise", "Smalltalk"],
+messageSends: ["adoptPackageDescriptors", "then:", "all:", "collect:", "do:", "select:", "classes", "includes:", "package", "ifFalse:", "=", "class", "initialize", "sweepPackageDescriptors:"]
 }),
 $globals.SmalltalkImage);
 
@@ -25949,11 +25986,11 @@ selector: "version",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return "0.22.4";
+return "0.23.0-pre";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.22.4'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.23.0-pre'",
 referencedClasses: [],
 messageSends: []
 }),
@@ -26155,9 +26192,9 @@ $globals.String);
 define('amber_core/Kernel-Announcements',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Kernel-Announcements");
-($core.packageDescriptors||$core.packages)["Kernel-Announcements"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Kernel-Announcements"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Kernel-Announcements");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AnnouncementSubscription", $globals.Object, ["valuable", "announcementClass"], "Kernel-Announcements");
 $globals.AnnouncementSubscription.comment="I am a single entry in a subscription registry of an `Announcer`.\x0aSeveral subscriptions by the same object is possible.";
@@ -27050,9 +27087,9 @@ $globals.ProtocolRemoved.comment="I am emitted when a protocol is removed from a
 define('amber_core/Platform-Services',["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Platform-Services");
-($core.packageDescriptors||$core.packages)["Platform-Services"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Platform-Services"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Platform-Services");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("ConsoleErrorHandler", $globals.Object, [], "Platform-Services");
 $globals.ConsoleErrorHandler.comment="I am manage Smalltalk errors, displaying the stack in the console.";
@@ -32833,9 +32870,9 @@ $globals.SmalltalkParser = (function() {
 define('amber_core/Platform-ImportExport',["amber/boot", "amber_core/Kernel-Classes", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Platform-ImportExport");
-($core.packageDescriptors||$core.packages)["Platform-ImportExport"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Platform-ImportExport"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Platform-ImportExport");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AbstractExporter", $globals.Object, [], "Platform-ImportExport");
 $globals.AbstractExporter.comment="I am an abstract exporter for Amber source code.\x0a\x0a## API\x0a\x0aUse `#exportPackage:on:` to export a given package on a Stream.";
@@ -33825,15 +33862,15 @@ protocol: "output",
 fn: function (aPackage,aStream){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv(aStream)._write_(["($core.packageDescriptors||$core.packages)[",$recv($recv(aPackage)._name())._asJavaScriptSource(),"].innerEval = ","function (expr) { return eval(expr); }",";"]);
+$recv(aStream)._write_("$pkg.innerEval = function (expr) { return eval(expr); };");
 $recv(aStream)._lf();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"exportPackageContextOf:on:",{aPackage:aPackage,aStream:aStream},$globals.Exporter)});
 },
 args: ["aPackage", "aStream"],
-source: "exportPackageContextOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: {\x0a\x09\x09\x09'($core.packageDescriptors||$core.packages)['.\x0a\x09\x09\x09aPackage name asJavaScriptSource.\x0a\x09\x09\x09'].innerEval = '.\x0a\x09\x09\x09'function (expr) { return eval(expr); }'.\x0a\x09\x09\x09';' };\x0a\x09\x09lf",
+source: "exportPackageContextOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: '$pkg.innerEval = function (expr) { return eval(expr); };';\x0a\x09\x09lf",
 referencedClasses: [],
-messageSends: ["write:", "asJavaScriptSource", "name", "lf"]
+messageSends: ["write:", "lf"]
 }),
 $globals.Exporter);
 
@@ -33844,13 +33881,13 @@ protocol: "output",
 fn: function (aPackage,aStream){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv(aStream)._write_(["$core.addPackage(",$recv($recv(aPackage)._name())._asJavaScriptSource(),");"]);
+$recv(aStream)._write_(["var $pkg = $core.addPackage(",$recv($recv(aPackage)._name())._asJavaScriptSource(),");"]);
 $recv(aStream)._lf();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"exportPackageDefinitionOf:on:",{aPackage:aPackage,aStream:aStream},$globals.Exporter)});
 },
 args: ["aPackage", "aStream"],
-source: "exportPackageDefinitionOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: { '$core.addPackage('. aPackage name asJavaScriptSource. ');' };\x0a\x09\x09lf",
+source: "exportPackageDefinitionOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: { 'var $pkg = $core.addPackage('. aPackage name asJavaScriptSource. ');' };\x0a\x09\x09lf",
 referencedClasses: [],
 messageSends: ["write:", "asJavaScriptSource", "name", "lf"]
 }),
@@ -33881,13 +33918,9 @@ protocol: "output",
 fn: function (aPackage,aStream){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $2,$1;
 $recv($recv(aPackage)._importsAsJson())._ifNotEmpty_((function(imports){
 return $core.withContext(function($ctx2) {
-$2=$recv($recv(aPackage)._name())._asJavaScriptSource();
-$ctx2.sendIdx["asJavaScriptSource"]=1;
-$1=["($core.packageDescriptors||$core.packages)[",$2,"].imports = ",$recv(imports)._asJavaScriptSource(),";"];
-$recv(aStream)._write_($1);
+$recv(aStream)._write_(["$pkg.imports = ",$recv(imports)._asJavaScriptSource(),";"]);
 return $recv(aStream)._lf();
 }, function($ctx2) {$ctx2.fillBlock({imports:imports},$ctx1,1)});
 }));
@@ -33895,9 +33928,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"exportPackageImportsOf:on:",{aPackage:aPackage,aStream:aStream},$globals.Exporter)});
 },
 args: ["aPackage", "aStream"],
-source: "exportPackageImportsOf: aPackage on: aStream\x0a\x09aPackage importsAsJson ifNotEmpty: [ :imports |\x0a\x09\x09aStream\x0a\x09\x09\x09write: {\x0a\x09\x09\x09\x09'($core.packageDescriptors||$core.packages)['.\x0a\x09\x09\x09\x09aPackage name asJavaScriptSource.\x0a\x09\x09\x09\x09'].imports = '.\x0a\x09\x09\x09\x09imports asJavaScriptSource.\x0a\x09\x09\x09\x09';' };\x0a\x09\x09\x09lf ]",
+source: "exportPackageImportsOf: aPackage on: aStream\x0a\x09aPackage importsAsJson ifNotEmpty: [ :imports |\x0a\x09\x09aStream\x0a\x09\x09\x09write: { '$pkg.imports = '. imports asJavaScriptSource. ';' };\x0a\x09\x09\x09lf ]",
 referencedClasses: [],
-messageSends: ["ifNotEmpty:", "importsAsJson", "write:", "asJavaScriptSource", "name", "lf"]
+messageSends: ["ifNotEmpty:", "importsAsJson", "write:", "asJavaScriptSource", "lf"]
 }),
 $globals.Exporter);
 
@@ -33953,15 +33986,15 @@ protocol: "output",
 fn: function (aPackage,aStream){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv(aStream)._write_(["($core.packageDescriptors||$core.packages)[",$recv($recv(aPackage)._name())._asJavaScriptSource(),"].transport = ",$recv($recv(aPackage)._transport())._asJSONString(),";"]);
+$recv(aStream)._write_(["$pkg.transport = ",$recv($recv(aPackage)._transport())._asJSONString(),";"]);
 $recv(aStream)._lf();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"exportPackageTransportOf:on:",{aPackage:aPackage,aStream:aStream},$globals.Exporter)});
 },
 args: ["aPackage", "aStream"],
-source: "exportPackageTransportOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: {\x0a\x09\x09\x09'($core.packageDescriptors||$core.packages)['.\x0a\x09\x09\x09aPackage name asJavaScriptSource.\x0a\x09\x09\x09'].transport = '.\x0a\x09\x09\x09aPackage transport asJSONString.\x0a\x09\x09\x09';' };\x0a\x09\x09lf",
+source: "exportPackageTransportOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: { '$pkg.transport = '. aPackage transport asJSONString. ';' };\x0a\x09\x09lf",
 referencedClasses: [],
-messageSends: ["write:", "asJavaScriptSource", "name", "asJSONString", "transport", "lf"]
+messageSends: ["write:", "asJSONString", "transport", "lf"]
 }),
 $globals.Exporter);
 
@@ -36091,9 +36124,9 @@ $globals.Trait);
 define('amber_core/Compiler-AST',["amber/boot", "amber_core/Kernel-Dag", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Methods"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Compiler-AST");
-($core.packageDescriptors||$core.packages)["Compiler-AST"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Compiler-AST"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Compiler-AST");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("ASTNode", $globals.DagParentNode, ["parent", "position", "source", "shouldBeAliased"], "Compiler-AST");
 $globals.ASTNode.comment="I am the abstract root class of the abstract syntax tree.\x0a\x0aConcrete classes should implement `#accept:` to allow visiting.\x0a\x0a`position` holds a point containing line and column number of the symbol location in the original source file.";
@@ -38648,9 +38681,9 @@ $globals.CompiledMethod);
 define('amber_core/Compiler-Core',["amber/boot", "amber_core/Compiler-AST", "amber_core/Kernel-Collections", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Compiler-Core");
-($core.packageDescriptors||$core.packages)["Compiler-Core"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Compiler-Core"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Compiler-Core");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AbstractCodeGenerator", $globals.Object, ["currentClass", "currentPackage", "source"], "Compiler-Core");
 $globals.AbstractCodeGenerator.comment="I am the abstract super class of all code generators and provide their common API.";
@@ -39821,9 +39854,9 @@ $globals.String);
 define('amber_core/Compiler-Semantic',["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Core", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Compiler-Semantic");
-($core.packageDescriptors||$core.packages)["Compiler-Semantic"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Compiler-Semantic"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Compiler-Semantic");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("LexicalScope", $globals.Object, ["node", "instruction", "temps", "args", "outerScope", "blockIndex"], "Compiler-Semantic");
 $globals.LexicalScope.comment="I represent a lexical scope where variable names are associated with ScopeVars\x0aInstances are used for block scopes. Method scopes are instances of MethodLexicalScope.\x0a\x0aI am attached to a ScopeVar and method/block nodes.\x0aEach context (method/closure) get a fresh scope that inherits from its outer scope.";
@@ -42080,9 +42113,9 @@ $globals.EarlyPragmator);
 define('amber_core/Compiler-IR',["amber/boot", "amber_core/Compiler-AST", "amber_core/Kernel-Dag", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Compiler-IR");
-($core.packageDescriptors||$core.packages)["Compiler-IR"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Compiler-IR"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Compiler-IR");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("IRASTTranslator", $globals.NodeVisitor, ["source", "theClass", "method", "sequence", "nextAlias"], "Compiler-IR");
 $globals.IRASTTranslator.comment="I am the AST (abstract syntax tree) visitor responsible for building the intermediate representation graph.";
@@ -46361,9 +46394,9 @@ $globals.SendNode);
 define('amber_core/Compiler-Inlining',["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Core", "amber_core/Compiler-IR", "amber_core/Compiler-Semantic", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Compiler-Inlining");
-($core.packageDescriptors||$core.packages)["Compiler-Inlining"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Compiler-Inlining"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Compiler-Inlining");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("ASTPreInliner", $globals.NodeVisitor, [], "Compiler-Inlining");
 $core.addMethod(
@@ -48028,9 +48061,9 @@ $globals.IRInstruction);
 define('amber_core/Compiler-Interpreter',["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Semantic", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Compiler-Interpreter");
-($core.packageDescriptors||$core.packages)["Compiler-Interpreter"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Compiler-Interpreter"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Compiler-Interpreter");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AIBlockClosure", $globals.BlockClosure, ["node", "outerContext"], "Compiler-Interpreter");
 $globals.AIBlockClosure.comment="I am a special `BlockClosure` subclass used by an interpreter to interpret a block node.\x0a\x0aWhile I am polymorphic with `BlockClosure`, some methods such as `#new` will raise interpretation errors. Unlike a `BlockClosure`, my instance are not JavaScript functions.\x0a\x0aEvaluating an instance will result in interpreting the `node` instance variable (instance of `BlockNode`).";
@@ -51105,9 +51138,9 @@ define('amber/lang',[
 define('amber_core/Platform-DOM',["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Platform-DOM");
-($core.packageDescriptors||$core.packages)["Platform-DOM"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Platform-DOM"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Platform-DOM");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("PlatformDom", $globals.Object, [], "Platform-DOM");
 
@@ -51288,9 +51321,9 @@ $globals.String);
 define('amber_core/SUnit',["amber/boot", "amber_core/Kernel-Classes", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("SUnit");
-($core.packageDescriptors||$core.packages)["SUnit"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["SUnit"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("SUnit");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("ResultAnnouncement", $globals.Object, ["result"], "SUnit");
 $globals.ResultAnnouncement.comment="I get signaled when a `TestCase` has been run.\x0a\x0aMy instances hold the result (instance of `TestResult`) of the test run.";
@@ -52657,9 +52690,9 @@ $globals.TBehaviorDefaults);
 define('amber_core/Compiler-Tests',["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Compiler-Tests");
-($core.packageDescriptors||$core.packages)["Compiler-Tests"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Compiler-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Compiler-Tests");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("ASTParsingTest", $globals.TestCase, [], "Compiler-Tests");
 $core.addMethod(
@@ -52873,7 +52906,7 @@ var self=this,$self=this;
 var node;
 return $core.withContext(function($ctx1) {
 var $3,$4,$2,$1,$7,$8,$6,$5;
-node=$self._parse_forClass_("yourself\x0a\x09^ self",$globals.Object);
+node=$self._parse_forClass_("yourself\x0d\x0a\x09^ self",$globals.Object);
 $ctx1.sendIdx["parse:forClass:"]=1;
 $3=node;
 $4=(2).__at((4));
@@ -52886,7 +52919,7 @@ $ctx1.sendIdx["navigationNodeAt:ifAbsent:"]=1;
 $1=$recv($2)._source();
 $self._assert_equals_($1,"self");
 $ctx1.sendIdx["assert:equals:"]=1;
-node=$self._parse_forClass_("foo\x0a\x09true ifTrue: [ 1 ]",$globals.Object);
+node=$self._parse_forClass_("foo\x0d\x0a\x09true ifTrue: [ 1 ]",$globals.Object);
 $ctx1.sendIdx["parse:forClass:"]=2;
 $7=node;
 $8=(2).__at((7));
@@ -52900,7 +52933,7 @@ $5=$recv($6)._selector();
 $ctx1.sendIdx["selector"]=1;
 $self._assert_equals_($5,"ifTrue:");
 $ctx1.sendIdx["assert:equals:"]=2;
-node=$self._parse_forClass_("foo\x0a\x09self foo; bar; baz",$globals.Object);
+node=$self._parse_forClass_("foo\x0d\x0a\x09self foo; bar; baz",$globals.Object);
 $self._assert_equals_($recv($recv(node)._navigationNodeAt_ifAbsent_((2).__at((8)),(function(){
 return nil;
 
@@ -53237,9 +53270,9 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self._should_return_("foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ { x. x := 2 }\x0a",[(1), (2)]);
+$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := 1.\x0d\x0a\x09^ { x. x := 2 }\x0d\x0a",[(1), (2)]);
 $ctx1.sendIdx["should:return:"]=1;
-$self._should_return_("foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ { x. true ifTrue: [ x := 2 ] }\x0a",[(1), (2)]);
+$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := 1.\x0d\x0a\x09^ { x. true ifTrue: [ x := 2 ] }\x0d\x0a",[(1), (2)]);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testDynamicArrayElementsOrdered",{},$globals.CodeGeneratorTest)});
 },
@@ -53257,7 +53290,7 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self._should_return_("foo\x0a\x09| x |\x0a\x09x := 'foo'.\x0a\x09^ #{ x->1. 'bar'->(true ifTrue: [ 2 ]) }\x0a",$globals.HashedCollection._newFromPairs_(["foo",(1),"bar",(2)]));
+$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := 'foo'.\x0d\x0a\x09^ #{ x->1. 'bar'->(true ifTrue: [ 2 ]) }\x0d\x0a",$globals.HashedCollection._newFromPairs_(["foo",(1),"bar",(2)]));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testDynamicDictionaryElementsOrdered",{},$globals.CodeGeneratorTest)});
 },
@@ -53325,28 +53358,28 @@ $ctx1.sendIdx["->"]=1;
 $3="bar".__minus_gt((2));
 $ctx1.sendIdx["->"]=2;
 $1=[$2,$3];
-$self._should_return_("foo\x0a\x09| x |\x0a\x09x := Array.\x0a\x09^ x with: 'foo'->x with: 'bar'->(x := 2)\x0a",$1);
+$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := Array.\x0d\x0a\x09^ x with: 'foo'->x with: 'bar'->(x := 2)\x0d\x0a",$1);
 $ctx1.sendIdx["should:return:"]=1;
 $5="foo".__minus_gt($globals.Array);
 $ctx1.sendIdx["->"]=3;
 $6="bar".__minus_gt((2));
 $ctx1.sendIdx["->"]=4;
 $4=[$5,$6];
-$self._should_return_("foo\x0a\x09| x |\x0a\x09x := Array.\x0a\x09^ x with: 'foo'->x with: 'bar'->(true ifTrue: [ x := 2 ])\x0a",$4);
+$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := Array.\x0d\x0a\x09^ x with: 'foo'->x with: 'bar'->(true ifTrue: [ x := 2 ])\x0d\x0a",$4);
 $ctx1.sendIdx["should:return:"]=2;
 $8="foo".__minus_gt((1));
 $ctx1.sendIdx["->"]=5;
 $9="bar".__minus_gt((2));
 $ctx1.sendIdx["->"]=6;
 $7=[$8,$9];
-$self._should_return_("foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ Array with: 'foo'->x with: 'bar'->(true ifTrue: [ x := 2 ])\x0a",$7);
+$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := 1.\x0d\x0a\x09^ Array with: 'foo'->x with: 'bar'->(true ifTrue: [ x := 2 ])\x0d\x0a",$7);
 $ctx1.sendIdx["should:return:"]=3;
 $11="foo".__minus_gt((1));
 $ctx1.sendIdx["->"]=7;
 $10=[$11,"bar".__minus_gt((2))];
-$self._should_return_("foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ { 'foo'->x. 'bar'->(true ifTrue: [ x := 2 ]) }\x0a",$10);
+$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := 1.\x0d\x0a\x09^ { 'foo'->x. 'bar'->(true ifTrue: [ x := 2 ]) }\x0d\x0a",$10);
 $ctx1.sendIdx["should:return:"]=4;
-$self._should_return_("foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ #{ 'foo'->x. 'bar'->(true ifTrue: [ x := 2 ]) }\x0a",$globals.HashedCollection._newFromPairs_(["foo",(1),"bar",(2)]));
+$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := 1.\x0d\x0a\x09^ #{ 'foo'->x. 'bar'->(true ifTrue: [ x := 2 ]) }\x0d\x0a",$globals.HashedCollection._newFromPairs_(["foo",(1),"bar",(2)]));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testInnerTemporalDependentElementsOrdered",{},$globals.CodeGeneratorTest)});
 },
@@ -53666,9 +53699,9 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self._should_return_("foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ Array with: x with: (true ifTrue: [ x := 2 ])\x0a",[(1), (2)]);
+$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := 1.\x0d\x0a\x09^ Array with: x with: (true ifTrue: [ x := 2 ])\x0d\x0a",[(1), (2)]);
 $ctx1.sendIdx["should:return:"]=1;
-$self._should_return_("foo\x0a\x09| x |\x0a\x09x := Array.\x0a\x09^ x with: x with: (true ifTrue: [ x := 2 ])\x0a",[$globals.Array,(2)]);
+$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := Array.\x0d\x0a\x09^ x with: x with: (true ifTrue: [ x := 2 ])\x0d\x0a",[$globals.Array,(2)]);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testSendReceiverAndArgumentsOrdered",{},$globals.CodeGeneratorTest)});
 },
@@ -54766,9 +54799,9 @@ $globals.AISemanticAnalyzerTest);
 define('amber_core/Kernel-Tests',["amber/boot", "amber_core/Kernel-Objects", "amber_core/SUnit"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Kernel-Tests");
-($core.packageDescriptors||$core.packages)["Kernel-Tests"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Kernel-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Kernel-Tests");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AnnouncementSubscriptionTest", $globals.TestCase, [], "Kernel-Tests");
 $core.addMethod(
@@ -65898,9 +65931,9 @@ $globals.UndefinedTest);
 define('amber_core/Platform-DOM-Tests',["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Platform-DOM-Tests");
-($core.packageDescriptors||$core.packages)["Platform-DOM-Tests"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Platform-DOM-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Platform-DOM-Tests");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("PlatformDomTest", $globals.TestCase, ["fixtureDiv"], "Platform-DOM-Tests");
 $core.addMethod(
@@ -65957,9 +65990,9 @@ $globals.PlatformDomTest);
 define('amber_core/SUnit-Tests',["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("SUnit-Tests");
-($core.packageDescriptors||$core.packages)["SUnit-Tests"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["SUnit-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("SUnit-Tests");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("ExampleSetTest", $globals.TestCase, ["empty", "full"], "SUnit-Tests");
 $globals.ExampleSetTest.comment="ExampleSetTest is taken from Pharo 1.4.\x0a\x0aTHe purpose of this class is to demonstrate a simple use case of the test framework.";
@@ -66630,9 +66663,9 @@ define('amber/devel',[
 define('amber_core/Platform-Node',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Platform-Node");
-($core.packageDescriptors||$core.packages)["Platform-Node"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Platform-Node"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Platform-Node");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("NodePlatform", $globals.Object, [], "Platform-Node");
 $globals.NodePlatform.comment="I am `Platform` service implementation for node-like environment.";
@@ -66721,9 +66754,9 @@ $globals.NodePlatform.a$cls);
 define('amber_cli/AmberCli',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("AmberCli");
-($core.packageDescriptors||$core.packages)["AmberCli"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["AmberCli"].transport = {"type":"amd","amdNamespace":"amber_cli"};
+var $pkg = $core.addPackage("AmberCli");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_cli"};
 
 $core.addClass("AmberCli", $globals.Object, [], "AmberCli");
 $globals.AmberCli.comment="I am the Amber CLI (CommandLine Interface) tool which runs on Node.js.\x0a\x0aMy responsibility is to start different Amber programs like the FileServer or the Repl.\x0aWhich program to start is determined by the first commandline parameters passed to the AmberCli executable.\x0aUse `help` to get a list of all available options.\x0aAny further commandline parameters are passed to the specific program.\x0a\x0a## Commands\x0a\x0aNew commands can be added by creating a class side method in the `commands` protocol which takes one parameter.\x0aThis parameter is an array of all commandline options + values passed on to the program.\x0aAny `camelCaseCommand` is transformed into a commandline parameter of the form `camel-case-command` and vice versa.";

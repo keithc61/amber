@@ -1,9 +1,9 @@
 define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("AmberCli");
-($core.packageDescriptors||$core.packages)["AmberCli"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["AmberCli"].transport = {"type":"amd","amdNamespace":"amber_cli"};
+var $pkg = $core.addPackage("AmberCli");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_cli"};
 
 $core.addClass("AmberCli", $globals.Object, [], "AmberCli");
 //>>excludeStart("ide", pragmas.excludeIdeData);

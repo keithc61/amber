@@ -1,9 +1,9 @@
 define(["amber/boot", "amber_core/Compiler-AST", "amber_core/Kernel-Collections", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Compiler-Core");
-($core.packageDescriptors||$core.packages)["Compiler-Core"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Compiler-Core"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Compiler-Core");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AbstractCodeGenerator", $globals.Object, ["currentClass", "currentPackage", "source"], "Compiler-Core");
 //>>excludeStart("ide", pragmas.excludeIdeData);

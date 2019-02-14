@@ -1,9 +1,9 @@
 define(["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Core", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Compiler-Semantic");
-($core.packageDescriptors||$core.packages)["Compiler-Semantic"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Compiler-Semantic"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Compiler-Semantic");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("LexicalScope", $globals.Object, ["node", "instruction", "temps", "args", "outerScope", "blockIndex"], "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);

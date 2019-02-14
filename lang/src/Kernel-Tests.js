@@ -1,9 +1,9 @@
 define(["amber/boot", "amber_core/Kernel-Objects", "amber_core/SUnit"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Kernel-Tests");
-($core.packageDescriptors||$core.packages)["Kernel-Tests"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Kernel-Tests"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Kernel-Tests");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AnnouncementSubscriptionTest", $globals.TestCase, [], "Kernel-Tests");
 $core.addMethod(

@@ -1,9 +1,9 @@
 define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Kernel-Collections");
-($core.packageDescriptors||$core.packages)["Kernel-Collections"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Kernel-Collections"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Kernel-Collections");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("Association", $globals.Object, ["key", "value"], "Kernel-Collections");
 //>>excludeStart("ide", pragmas.excludeIdeData);

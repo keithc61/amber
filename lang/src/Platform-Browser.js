@@ -1,9 +1,9 @@
 define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Platform-Browser");
-($core.packageDescriptors||$core.packages)["Platform-Browser"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Platform-Browser"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Platform-Browser");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("BrowserPlatform", $globals.Object, [], "Platform-Browser");
 //>>excludeStart("ide", pragmas.excludeIdeData);
