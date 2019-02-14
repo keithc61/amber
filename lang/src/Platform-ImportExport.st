@@ -379,18 +379,13 @@ exportPackageBodyBlockPrologueOf: aPackage on: aStream
 
 exportPackageContextOf: aPackage on: aStream
 	aStream
-		write: {
-			'($core.packageDescriptors||$core.packages)['.
-			aPackage name asJavaScriptSource.
-			'].innerEval = '.
-			'function (expr) { return eval(expr); }'.
-			';' };
+		write: '$pkg.innerEval = function (expr) { return eval(expr); };';
 		lf
 !
 
 exportPackageDefinitionOf: aPackage on: aStream
 	aStream
-		write: { '$core.addPackage('. aPackage name asJavaScriptSource. ');' };
+		write: { 'var $pkg = $core.addPackage('. aPackage name asJavaScriptSource. ');' };
 		lf
 !
 
@@ -401,12 +396,7 @@ exportPackageEpilogueOf: aPackage on: aStream
 exportPackageImportsOf: aPackage on: aStream
 	aPackage importsAsJson ifNotEmpty: [ :imports |
 		aStream
-			write: {
-				'($core.packageDescriptors||$core.packages)['.
-				aPackage name asJavaScriptSource.
-				'].imports = '.
-				imports asJavaScriptSource.
-				';' };
+			write: { '$pkg.imports = '. imports asJavaScriptSource. ';' };
 			lf ]
 !
 
@@ -422,12 +412,7 @@ exportPackageTraitCompositionsOf: aPackage on: aStream
 
 exportPackageTransportOf: aPackage on: aStream
 	aStream
-		write: {
-			'($core.packageDescriptors||$core.packages)['.
-			aPackage name asJavaScriptSource.
-			'].transport = '.
-			aPackage transport asJSONString.
-			';' };
+		write: { '$pkg.transport = '. aPackage transport asJSONString. ';' };
 		lf
 !
 

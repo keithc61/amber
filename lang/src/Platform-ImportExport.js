@@ -1,9 +1,9 @@
 define(["amber/boot", "amber_core/Kernel-Classes", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
-$core.addPackage("Platform-ImportExport");
-($core.packageDescriptors||$core.packages)["Platform-ImportExport"].innerEval = function (expr) { return eval(expr); };
-($core.packageDescriptors||$core.packages)["Platform-ImportExport"].transport = {"type":"amd","amdNamespace":"amber_core"};
+var $pkg = $core.addPackage("Platform-ImportExport");
+$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("AbstractExporter", $globals.Object, [], "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1503,7 +1503,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(aStream)._write_(["($core.packageDescriptors||$core.packages)[",$recv($recv(aPackage)._name())._asJavaScriptSource(),"].innerEval = ","function (expr) { return eval(expr); }",";"]);
+$recv(aStream)._write_("$pkg.innerEval = function (expr) { return eval(expr); };");
 $recv(aStream)._lf();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1512,10 +1512,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage", "aStream"],
-source: "exportPackageContextOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: {\x0a\x09\x09\x09'($core.packageDescriptors||$core.packages)['.\x0a\x09\x09\x09aPackage name asJavaScriptSource.\x0a\x09\x09\x09'].innerEval = '.\x0a\x09\x09\x09'function (expr) { return eval(expr); }'.\x0a\x09\x09\x09';' };\x0a\x09\x09lf",
+source: "exportPackageContextOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: '$pkg.innerEval = function (expr) { return eval(expr); };';\x0a\x09\x09lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["write:", "asJavaScriptSource", "name", "lf"]
+messageSends: ["write:", "lf"]
 }),
 $globals.Exporter);
 
@@ -1528,7 +1528,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(aStream)._write_(["$core.addPackage(",$recv($recv(aPackage)._name())._asJavaScriptSource(),");"]);
+$recv(aStream)._write_(["var $pkg = $core.addPackage(",$recv($recv(aPackage)._name())._asJavaScriptSource(),");"]);
 $recv(aStream)._lf();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1537,7 +1537,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage", "aStream"],
-source: "exportPackageDefinitionOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: { '$core.addPackage('. aPackage name asJavaScriptSource. ');' };\x0a\x09\x09lf",
+source: "exportPackageDefinitionOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: { 'var $pkg = $core.addPackage('. aPackage name asJavaScriptSource. ');' };\x0a\x09\x09lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["write:", "asJavaScriptSource", "name", "lf"]
@@ -1577,17 +1577,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1;
 $recv($recv(aPackage)._importsAsJson())._ifNotEmpty_((function(imports){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2=$recv($recv(aPackage)._name())._asJavaScriptSource();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["asJavaScriptSource"]=1;
-//>>excludeEnd("ctx");
-$1=["($core.packageDescriptors||$core.packages)[",$2,"].imports = ",$recv(imports)._asJavaScriptSource(),";"];
-$recv(aStream)._write_($1);
+$recv(aStream)._write_(["$pkg.imports = ",$recv(imports)._asJavaScriptSource(),";"]);
 return $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({imports:imports},$ctx1,1)});
@@ -1600,10 +1594,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage", "aStream"],
-source: "exportPackageImportsOf: aPackage on: aStream\x0a\x09aPackage importsAsJson ifNotEmpty: [ :imports |\x0a\x09\x09aStream\x0a\x09\x09\x09write: {\x0a\x09\x09\x09\x09'($core.packageDescriptors||$core.packages)['.\x0a\x09\x09\x09\x09aPackage name asJavaScriptSource.\x0a\x09\x09\x09\x09'].imports = '.\x0a\x09\x09\x09\x09imports asJavaScriptSource.\x0a\x09\x09\x09\x09';' };\x0a\x09\x09\x09lf ]",
+source: "exportPackageImportsOf: aPackage on: aStream\x0a\x09aPackage importsAsJson ifNotEmpty: [ :imports |\x0a\x09\x09aStream\x0a\x09\x09\x09write: { '$pkg.imports = '. imports asJavaScriptSource. ';' };\x0a\x09\x09\x09lf ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifNotEmpty:", "importsAsJson", "write:", "asJavaScriptSource", "name", "lf"]
+messageSends: ["ifNotEmpty:", "importsAsJson", "write:", "asJavaScriptSource", "lf"]
 }),
 $globals.Exporter);
 
@@ -1681,7 +1675,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(aStream)._write_(["($core.packageDescriptors||$core.packages)[",$recv($recv(aPackage)._name())._asJavaScriptSource(),"].transport = ",$recv($recv(aPackage)._transport())._asJSONString(),";"]);
+$recv(aStream)._write_(["$pkg.transport = ",$recv($recv(aPackage)._transport())._asJSONString(),";"]);
 $recv(aStream)._lf();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1690,10 +1684,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage", "aStream"],
-source: "exportPackageTransportOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: {\x0a\x09\x09\x09'($core.packageDescriptors||$core.packages)['.\x0a\x09\x09\x09aPackage name asJavaScriptSource.\x0a\x09\x09\x09'].transport = '.\x0a\x09\x09\x09aPackage transport asJSONString.\x0a\x09\x09\x09';' };\x0a\x09\x09lf",
+source: "exportPackageTransportOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: { '$pkg.transport = '. aPackage transport asJSONString. ';' };\x0a\x09\x09lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["write:", "asJavaScriptSource", "name", "asJSONString", "transport", "lf"]
+messageSends: ["write:", "asJSONString", "transport", "lf"]
 }),
 $globals.Exporter);
 
