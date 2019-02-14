@@ -3683,57 +3683,73 @@ selector: "postLoad",
 protocol: "image",
 fn: function (){
 var self=this,$self=this;
-var pkgs,classes;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-pkgs=$self._adoptPackageDescriptors();
-$recv($recv($globals.Promise)._all_($recv(pkgs)._collect_("isReady")))._then_((function(){
+$recv($self._adoptPackageDescriptors())._ifEmpty_ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv(pkgs)._do_("beClean");
+return $recv($globals.Promise)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["do:"]=1;
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
-classes=$recv($recv($globals.Smalltalk)._classes())._select_((function(each){
+}),(function(pkgs){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($recv($globals.Promise)._all_($recv(pkgs)._collect_("isReady")))._then_((function(){
+var classes;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
+$recv(pkgs)._do_("beClean");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["do:"]=1;
+//>>excludeEnd("ctx");
+classes=$recv($recv($globals.Smalltalk)._classes())._select_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
 return $recv(pkgs)._includes_($recv(each)._package());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
+}, function($ctx4) {$ctx4.fillBlock({each:each},$ctx3,4)});
 //>>excludeEnd("ctx");
 }));
 $recv(classes)._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
+return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
 $1=$recv(each).__eq($self._class());
 if(!$core.assert($1)){
 return $recv(each)._initialize();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,3)});
+}, function($ctx4) {$ctx4.fillBlock({each:each},$ctx3,5)});
 //>>excludeEnd("ctx");
 }));
-return $self._sweepPackageDescriptors_(pkgs);
+$self._sweepPackageDescriptors_(pkgs);
+return $self._postLoad();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}, function($ctx3) {$ctx3.fillBlock({classes:classes},$ctx2,3)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({pkgs:pkgs},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"postLoad",{pkgs:pkgs,classes:classes},$globals.SmalltalkImage)});
+}, function($ctx1) {$ctx1.fill(self,"postLoad",{},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "postLoad\x0a\x09| pkgs classes |\x0a\x09pkgs := self adoptPackageDescriptors.\x0a\x09(Promise all: (pkgs collect: #isReady)) then: [\x0a\x09\x09pkgs do: #beClean.\x0a\x09\x09classes := Smalltalk classes select:\x0a\x09\x09\x09[ :each | pkgs includes: each package ].\x0a\x09\x09classes do: [ :each |\x0a\x09\x09\x09each = self class ifFalse: [ each initialize ] ].\x0a\x09\x09self sweepPackageDescriptors: pkgs ]",
+source: "postLoad\x0a\x09self adoptPackageDescriptors ifEmpty: [ Promise new ] ifNotEmpty: [ :pkgs |\x0a\x09\x09(Promise all: (pkgs collect: #isReady)) then: [\x0a\x09\x09\x09| classes |\x0a\x09\x09\x09pkgs do: #beClean.\x0a\x09\x09\x09classes := Smalltalk classes select:\x0a\x09\x09\x09\x09[ :each | pkgs includes: each package ].\x0a\x09\x09\x09classes do: [ :each |\x0a\x09\x09\x09\x09each = self class ifFalse: [ each initialize ] ].\x0a\x09\x09\x09self sweepPackageDescriptors: pkgs.\x0a\x09\x09\x09self postLoad ] ]",
 referencedClasses: ["Promise", "Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["adoptPackageDescriptors", "then:", "all:", "collect:", "do:", "select:", "classes", "includes:", "package", "ifFalse:", "=", "class", "initialize", "sweepPackageDescriptors:"]
+messageSends: ["ifEmpty:ifNotEmpty:", "adoptPackageDescriptors", "new", "then:", "all:", "collect:", "do:", "select:", "classes", "includes:", "package", "ifFalse:", "=", "class", "initialize", "sweepPackageDescriptors:", "postLoad"]
 }),
 $globals.SmalltalkImage);
 

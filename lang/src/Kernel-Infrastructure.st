@@ -980,15 +980,16 @@ globalJsVariables
 !SmalltalkImage methodsFor: 'image'!
 
 postLoad
-	| pkgs classes |
-	pkgs := self adoptPackageDescriptors.
-	(Promise all: (pkgs collect: #isReady)) then: [
-		pkgs do: #beClean.
-		classes := Smalltalk classes select:
-			[ :each | pkgs includes: each package ].
-		classes do: [ :each |
-			each = self class ifFalse: [ each initialize ] ].
-		self sweepPackageDescriptors: pkgs ]
+	self adoptPackageDescriptors ifEmpty: [ Promise new ] ifNotEmpty: [ :pkgs |
+		(Promise all: (pkgs collect: #isReady)) then: [
+			| classes |
+			pkgs do: #beClean.
+			classes := Smalltalk classes select:
+				[ :each | pkgs includes: each package ].
+			classes do: [ :each |
+				each = self class ifFalse: [ each initialize ] ].
+			self sweepPackageDescriptors: pkgs.
+			self postLoad ] ]
 ! !
 
 !SmalltalkImage methodsFor: 'packages'!
