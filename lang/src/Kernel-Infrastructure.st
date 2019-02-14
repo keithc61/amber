@@ -313,7 +313,7 @@ Organizer subclass: #PackageOrganizer
 I am an organizer specific to packages. I hold classes categorization information.!
 
 Object subclass: #Package
-	instanceVariableNames: 'evalBlock basicTransport name transport imports dirty organization'
+	instanceVariableNames: 'evalBlock basicTransport name transport imports dirty organization isReady'
 	package: 'Kernel-Infrastructure'!
 !Package commentStamp!
 I am similar to a "class category" typically found in other Smalltalks like Pharo or Squeak. Amber does not have class categories anymore, it had in the beginning but now each class in the system knows which package it belongs to.
@@ -394,12 +394,21 @@ importsDefinition
 		stream write: '}' ]
 !
 
-javaScriptDescriptor: anObject
-	| basicEval basicImports |
+isReady
+	^ isReady
+!
 
-	basicEval := (anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ]).
-	basicImports := (anObject at: 'imports' ifAbsent: [ #() ]).
-	basicTransport := (anObject at: 'transport' ifAbsent: []).
+isReady: aPromise
+	isReady := aPromise
+!
+
+javaScriptDescriptor: anObject
+	| basicEval basicImports basicIsReady |
+
+	basicEval := anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ].
+	basicImports := anObject at: 'imports' ifAbsent: [ #() ].
+	basicTransport := anObject at: 'transport' ifAbsent: [].
+	basicIsReady := anObject at: 'isReady' ifAbsent: Promise new.
 			
 	self
 		evalBlock: basicEval;
@@ -524,6 +533,7 @@ initialize
 	evalBlock := nil.
 	dirty := nil.
 	imports := nil.
+	isReady := Promise new.
 	transport := nil
 ! !
 
@@ -972,12 +982,13 @@ globalJsVariables
 postLoad
 	| pkgs classes |
 	pkgs := self adoptPackageDescriptors.
-	pkgs do: #beClean.
-	classes := Smalltalk classes select:
-		[ :each | pkgs includes: each package ].
-	classes do: [ :each |
-		each = self class ifFalse: [ each initialize ] ].
-	self sweepPackageDescriptors: pkgs
+	(Promise all: (pkgs collect: #isReady)) then: [
+		pkgs do: #beClean.
+		classes := Smalltalk classes select:
+			[ :each | pkgs includes: each package ].
+		classes do: [ :each |
+			each = self class ifFalse: [ each initialize ] ].
+		self sweepPackageDescriptors: pkgs ]
 ! !
 
 !SmalltalkImage methodsFor: 'packages'!
