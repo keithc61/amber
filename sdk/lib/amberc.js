@@ -87,11 +87,7 @@ AmberCompiler.prototype.main = function (configuration, finished_callback) {
     }
 
     if (!rjsConfig.paths.amber) {
-        // TODO remove backward compatibility, prefer 'base'
-        rjsConfig.paths.amber = path.join(this.amber_dir, 'support');
-        if (!fs.existsSync(rjsConfig.paths.amber)) {
-            rjsConfig.paths.amber = path.join(this.amber_dir, 'base');
-        }
+        rjsConfig.paths.amber = path.join(this.amber_dir, 'base');
     }
     if (!rjsConfig.paths.amber_core) rjsConfig.paths.amber_core = path.join(this.amber_dir, 'src');
     rjsConfig.paths['text'] = require.resolve('requirejs-text').replace(/\.js$/, "");
@@ -216,9 +212,9 @@ function create_compiler(configuration) {
             return new Promise(configuration.requirejs.bind(null, pluginPrefixedLibraries));
         })
         .then(function () {
-            // TODO remove deprecated method name
-            (configuration.globals.Smalltalk._adoptPackageDictionary || configuration.globals.Smalltalk._adoptPackageDescriptors).call(configuration.globals.Smalltalk);
-
+            return configuration.globals.Smalltalk._adoptPackageDescriptors();
+        })
+        .then(function () {
             console.log('Compiler loaded');
 
             configuration.jsGlobals.forEach(function (each) {
