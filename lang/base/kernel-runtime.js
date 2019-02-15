@@ -377,7 +377,7 @@ define(function () {
         st.accessJavaScript = function (self, propertyName, args) {
             var propertyValue = self[propertyName];
             if (typeof propertyValue === "function" && !/^[A-Z]/.test(propertyName)) {
-                return propertyValue.apply(self, args || []);
+                return propertyValue.apply(self, args);
             } else if (args.length === 0) {
                 return propertyValue;
             } else {
