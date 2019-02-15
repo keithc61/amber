@@ -9,7 +9,7 @@ require = requirejs;
  * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
  * @license   Licensed under MIT license
  *            See https://raw.githubusercontent.com/stefanpenner/es6-promise/master/LICENSE
- * @version   v4.2.4+314e4831
+ * @version   v4.2.5+7f2b526d
  */
 
 (function (global, factory) {
@@ -1115,15 +1115,19 @@ var Promise$1 = function () {
     var promise = this;
     var constructor = promise.constructor;
 
-    return promise.then(function (value) {
-      return constructor.resolve(callback()).then(function () {
-        return value;
+    if (isFunction(callback)) {
+      return promise.then(function (value) {
+        return constructor.resolve(callback()).then(function () {
+          return value;
+        });
+      }, function (reason) {
+        return constructor.resolve(callback()).then(function () {
+          throw reason;
+        });
       });
-    }, function (reason) {
-      return constructor.resolve(callback()).then(function () {
-        throw reason;
-      });
-    });
+    }
+
+    return promise.then(callback, callback);
   };
 
   return Promise;
@@ -1571,7 +1575,7 @@ define('amber/kernel-runtime',[],function () {
         st.accessJavaScript = function (self, propertyName, args) {
             var propertyValue = self[propertyName];
             if (typeof propertyValue === "function" && !/^[A-Z]/.test(propertyName)) {
-                return propertyValue.apply(self, args || []);
+                return propertyValue.apply(self, args);
             } else if (args.length === 0) {
                 return propertyValue;
             } else {
@@ -25212,21 +25216,14 @@ selector: "adoptPackageDescriptors",
 protocol: "private",
 fn: function (){
 var self=this,$self=this;
-var pkgs;
 return $core.withContext(function($ctx1) {
-pkgs=$recv($globals.Set)._new();
-$recv($recv($self._core())._packageDescriptors())._keysAndValuesDo_((function(key,value){
-return $core.withContext(function($ctx2) {
-return $recv(pkgs)._add_($recv($globals.Package)._named_javaScriptDescriptor_(key,value));
-}, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
-}));
-return pkgs;
-}, function($ctx1) {$ctx1.fill(self,"adoptPackageDescriptors",{pkgs:pkgs},$globals.SmalltalkImage)});
+return $self._tryAdoptPackageDescriptorsBeyond_($recv($globals.Set)._new());
+}, function($ctx1) {$ctx1.fill(self,"adoptPackageDescriptors",{},$globals.SmalltalkImage)});
 },
 args: [],
-source: "adoptPackageDescriptors\x0a\x09| pkgs |\x0a\x09pkgs := Set new.\x0a\x09self core packageDescriptors keysAndValuesDo: [ :key :value |\x0a\x09\x09pkgs add: (Package named: key javaScriptDescriptor: value) ].\x0a\x09^ pkgs",
-referencedClasses: ["Set", "Package"],
-messageSends: ["new", "keysAndValuesDo:", "packageDescriptors", "core", "add:", "named:javaScriptDescriptor:"]
+source: "adoptPackageDescriptors\x0a\x09^ self tryAdoptPackageDescriptorsBeyond: Set new",
+referencedClasses: ["Set"],
+messageSends: ["tryAdoptPackageDescriptorsBeyond:", "new"]
 }),
 $globals.SmalltalkImage);
 
@@ -25729,11 +25726,10 @@ selector: "postLoad",
 protocol: "image",
 fn: function (){
 var self=this,$self=this;
-var pkgs,classes;
 return $core.withContext(function($ctx1) {
 var $1;
-pkgs=$self._adoptPackageDescriptors();
-$recv($recv($globals.Promise)._all_($recv(pkgs)._collect_("isReady")))._then_((function(){
+return $recv($self._adoptPackageDescriptors())._then_((function(pkgs){
+var classes;
 return $core.withContext(function($ctx2) {
 $recv(pkgs)._do_("beClean");
 $ctx2.sendIdx["do:"]=1;
@@ -25751,15 +25747,14 @@ return $recv(each)._initialize();
 }, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,3)});
 }));
 return $self._sweepPackageDescriptors_(pkgs);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({pkgs:pkgs,classes:classes},$ctx1,1)});
 }));
-return self;
-}, function($ctx1) {$ctx1.fill(self,"postLoad",{pkgs:pkgs,classes:classes},$globals.SmalltalkImage)});
+}, function($ctx1) {$ctx1.fill(self,"postLoad",{},$globals.SmalltalkImage)});
 },
 args: [],
-source: "postLoad\x0a\x09| pkgs classes |\x0a\x09pkgs := self adoptPackageDescriptors.\x0a\x09(Promise all: (pkgs collect: #isReady)) then: [\x0a\x09\x09pkgs do: #beClean.\x0a\x09\x09classes := Smalltalk classes select:\x0a\x09\x09\x09[ :each | pkgs includes: each package ].\x0a\x09\x09classes do: [ :each |\x0a\x09\x09\x09each = self class ifFalse: [ each initialize ] ].\x0a\x09\x09self sweepPackageDescriptors: pkgs ]",
-referencedClasses: ["Promise", "Smalltalk"],
-messageSends: ["adoptPackageDescriptors", "then:", "all:", "collect:", "do:", "select:", "classes", "includes:", "package", "ifFalse:", "=", "class", "initialize", "sweepPackageDescriptors:"]
+source: "postLoad\x0a\x09^ self adoptPackageDescriptors then: [ :pkgs |\x0a\x09\x09| classes |\x0a\x09\x09pkgs do: #beClean.\x0a\x09\x09classes := Smalltalk classes select:\x0a\x09\x09\x09[ :each | pkgs includes: each package ].\x0a\x09\x09classes do: [ :each |\x0a\x09\x09\x09each = self class ifFalse: [ each initialize ] ].\x0a\x09\x09self sweepPackageDescriptors: pkgs ]",
+referencedClasses: ["Smalltalk"],
+messageSends: ["then:", "adoptPackageDescriptors", "do:", "select:", "classes", "includes:", "package", "ifFalse:", "=", "class", "initialize", "sweepPackageDescriptors:"]
 }),
 $globals.SmalltalkImage);
 
@@ -25982,15 +25977,53 @@ $globals.SmalltalkImage);
 
 $core.addMethod(
 $core.method({
+selector: "tryAdoptPackageDescriptorsBeyond:",
+protocol: "private",
+fn: function (aSet){
+var self=this,$self=this;
+var original;
+return $core.withContext(function($ctx1) {
+var $1;
+original=$recv(aSet)._copy();
+$recv($recv($self._core())._packageDescriptors())._keysAndValuesDo_((function(key,value){
+return $core.withContext(function($ctx2) {
+return $recv(aSet)._add_($recv($globals.Package)._named_javaScriptDescriptor_(key,value));
+}, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
+}));
+$1=$recv(aSet)._allSatisfy_((function(each){
+return $core.withContext(function($ctx2) {
+return $recv(original)._includes_(each);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+}));
+if($core.assert($1)){
+return $recv($globals.Promise)._value_(aSet);
+} else {
+return $recv($recv($globals.Promise)._all_($recv(aSet)._collect_("isReady")))._then_((function(){
+return $core.withContext(function($ctx2) {
+return $self._tryAdoptPackageDescriptorsBeyond_(aSet);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,4)});
+}));
+}
+}, function($ctx1) {$ctx1.fill(self,"tryAdoptPackageDescriptorsBeyond:",{aSet:aSet,original:original},$globals.SmalltalkImage)});
+},
+args: ["aSet"],
+source: "tryAdoptPackageDescriptorsBeyond: aSet\x0a\x09| original |\x0a\x09original := aSet copy.\x0a\x09self core packageDescriptors keysAndValuesDo: [ :key :value |\x0a\x09\x09aSet add: (Package named: key javaScriptDescriptor: value) ].\x0a\x09^ (aSet allSatisfy: [ :each | original includes: each ])\x0a\x09\x09ifFalse: [ (Promise all: (aSet collect: #isReady)) then: [ self tryAdoptPackageDescriptorsBeyond: aSet ] ]\x0a\x09\x09ifTrue: [ Promise value: aSet ]",
+referencedClasses: ["Package", "Promise"],
+messageSends: ["copy", "keysAndValuesDo:", "packageDescriptors", "core", "add:", "named:javaScriptDescriptor:", "ifFalse:ifTrue:", "allSatisfy:", "includes:", "then:", "all:", "collect:", "tryAdoptPackageDescriptorsBeyond:", "value:"]
+}),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
 selector: "version",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return "0.23.0-pre";
+return "0.22.5";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.23.0-pre'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.22.5'",
 referencedClasses: [],
 messageSends: []
 }),
@@ -52906,7 +52939,7 @@ var self=this,$self=this;
 var node;
 return $core.withContext(function($ctx1) {
 var $3,$4,$2,$1,$7,$8,$6,$5;
-node=$self._parse_forClass_("yourself\x0d\x0a\x09^ self",$globals.Object);
+node=$self._parse_forClass_("yourself\x0a\x09^ self",$globals.Object);
 $ctx1.sendIdx["parse:forClass:"]=1;
 $3=node;
 $4=(2).__at((4));
@@ -52919,7 +52952,7 @@ $ctx1.sendIdx["navigationNodeAt:ifAbsent:"]=1;
 $1=$recv($2)._source();
 $self._assert_equals_($1,"self");
 $ctx1.sendIdx["assert:equals:"]=1;
-node=$self._parse_forClass_("foo\x0d\x0a\x09true ifTrue: [ 1 ]",$globals.Object);
+node=$self._parse_forClass_("foo\x0a\x09true ifTrue: [ 1 ]",$globals.Object);
 $ctx1.sendIdx["parse:forClass:"]=2;
 $7=node;
 $8=(2).__at((7));
@@ -52933,7 +52966,7 @@ $5=$recv($6)._selector();
 $ctx1.sendIdx["selector"]=1;
 $self._assert_equals_($5,"ifTrue:");
 $ctx1.sendIdx["assert:equals:"]=2;
-node=$self._parse_forClass_("foo\x0d\x0a\x09self foo; bar; baz",$globals.Object);
+node=$self._parse_forClass_("foo\x0a\x09self foo; bar; baz",$globals.Object);
 $self._assert_equals_($recv($recv(node)._navigationNodeAt_ifAbsent_((2).__at((8)),(function(){
 return nil;
 
@@ -53270,9 +53303,9 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := 1.\x0d\x0a\x09^ { x. x := 2 }\x0d\x0a",[(1), (2)]);
+$self._should_return_("foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ { x. x := 2 }\x0a",[(1), (2)]);
 $ctx1.sendIdx["should:return:"]=1;
-$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := 1.\x0d\x0a\x09^ { x. true ifTrue: [ x := 2 ] }\x0d\x0a",[(1), (2)]);
+$self._should_return_("foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ { x. true ifTrue: [ x := 2 ] }\x0a",[(1), (2)]);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testDynamicArrayElementsOrdered",{},$globals.CodeGeneratorTest)});
 },
@@ -53290,7 +53323,7 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := 'foo'.\x0d\x0a\x09^ #{ x->1. 'bar'->(true ifTrue: [ 2 ]) }\x0d\x0a",$globals.HashedCollection._newFromPairs_(["foo",(1),"bar",(2)]));
+$self._should_return_("foo\x0a\x09| x |\x0a\x09x := 'foo'.\x0a\x09^ #{ x->1. 'bar'->(true ifTrue: [ 2 ]) }\x0a",$globals.HashedCollection._newFromPairs_(["foo",(1),"bar",(2)]));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testDynamicDictionaryElementsOrdered",{},$globals.CodeGeneratorTest)});
 },
@@ -53358,28 +53391,28 @@ $ctx1.sendIdx["->"]=1;
 $3="bar".__minus_gt((2));
 $ctx1.sendIdx["->"]=2;
 $1=[$2,$3];
-$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := Array.\x0d\x0a\x09^ x with: 'foo'->x with: 'bar'->(x := 2)\x0d\x0a",$1);
+$self._should_return_("foo\x0a\x09| x |\x0a\x09x := Array.\x0a\x09^ x with: 'foo'->x with: 'bar'->(x := 2)\x0a",$1);
 $ctx1.sendIdx["should:return:"]=1;
 $5="foo".__minus_gt($globals.Array);
 $ctx1.sendIdx["->"]=3;
 $6="bar".__minus_gt((2));
 $ctx1.sendIdx["->"]=4;
 $4=[$5,$6];
-$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := Array.\x0d\x0a\x09^ x with: 'foo'->x with: 'bar'->(true ifTrue: [ x := 2 ])\x0d\x0a",$4);
+$self._should_return_("foo\x0a\x09| x |\x0a\x09x := Array.\x0a\x09^ x with: 'foo'->x with: 'bar'->(true ifTrue: [ x := 2 ])\x0a",$4);
 $ctx1.sendIdx["should:return:"]=2;
 $8="foo".__minus_gt((1));
 $ctx1.sendIdx["->"]=5;
 $9="bar".__minus_gt((2));
 $ctx1.sendIdx["->"]=6;
 $7=[$8,$9];
-$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := 1.\x0d\x0a\x09^ Array with: 'foo'->x with: 'bar'->(true ifTrue: [ x := 2 ])\x0d\x0a",$7);
+$self._should_return_("foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ Array with: 'foo'->x with: 'bar'->(true ifTrue: [ x := 2 ])\x0a",$7);
 $ctx1.sendIdx["should:return:"]=3;
 $11="foo".__minus_gt((1));
 $ctx1.sendIdx["->"]=7;
 $10=[$11,"bar".__minus_gt((2))];
-$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := 1.\x0d\x0a\x09^ { 'foo'->x. 'bar'->(true ifTrue: [ x := 2 ]) }\x0d\x0a",$10);
+$self._should_return_("foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ { 'foo'->x. 'bar'->(true ifTrue: [ x := 2 ]) }\x0a",$10);
 $ctx1.sendIdx["should:return:"]=4;
-$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := 1.\x0d\x0a\x09^ #{ 'foo'->x. 'bar'->(true ifTrue: [ x := 2 ]) }\x0d\x0a",$globals.HashedCollection._newFromPairs_(["foo",(1),"bar",(2)]));
+$self._should_return_("foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ #{ 'foo'->x. 'bar'->(true ifTrue: [ x := 2 ]) }\x0a",$globals.HashedCollection._newFromPairs_(["foo",(1),"bar",(2)]));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testInnerTemporalDependentElementsOrdered",{},$globals.CodeGeneratorTest)});
 },
@@ -53699,9 +53732,9 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := 1.\x0d\x0a\x09^ Array with: x with: (true ifTrue: [ x := 2 ])\x0d\x0a",[(1), (2)]);
+$self._should_return_("foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ Array with: x with: (true ifTrue: [ x := 2 ])\x0a",[(1), (2)]);
 $ctx1.sendIdx["should:return:"]=1;
-$self._should_return_("foo\x0d\x0a\x09| x |\x0d\x0a\x09x := Array.\x0d\x0a\x09^ x with: x with: (true ifTrue: [ x := 2 ])\x0d\x0a",[$globals.Array,(2)]);
+$self._should_return_("foo\x0a\x09| x |\x0a\x09x := Array.\x0a\x09^ x with: x with: (true ifTrue: [ x := 2 ])\x0a",[$globals.Array,(2)]);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testSendReceiverAndArgumentsOrdered",{},$globals.CodeGeneratorTest)});
 },
@@ -66660,11 +66693,16 @@ define('amber/devel',[
     return amber;
 });
 
-define('amber_core/Platform-Node',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
+define('amber_core/Platform-Node',["amber/boot"
+, "amber_core/Platform-Services"
+, "amber_core/Kernel-Objects"], function($boot
+
+){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-Node");
 $pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.imports = ["amber_core/Platform-Services"];
 $pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("NodePlatform", $globals.Object, [], "Platform-Node");
@@ -66738,12 +66776,12 @@ protocol: "testing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return typeof global !== "undefined";
+return typeof process !== "undefined" && process && process.versions && process.versions.node != null;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"isFeasible",{},$globals.NodePlatform.a$cls)});
 },
 args: [],
-source: "isFeasible\x0a<inlineJS: 'return typeof global !== \x22undefined\x22'>",
+source: "isFeasible\x0a<inlineJS: 'return typeof process !== \x22undefined\x22 && process && process.versions && process.versions.node != null'>",
 referencedClasses: [],
 messageSends: []
 }),
