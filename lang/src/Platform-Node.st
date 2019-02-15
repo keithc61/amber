@@ -25,6 +25,6 @@ initialize
 !
 
 isFeasible
-<inlineJS: 'return typeof process !!== "undefined" && process && process.versions && process.versions.node'>
+<inlineJS: 'return typeof process !!== "undefined" && process && process.versions && process.versions.node !!= null'>
 ! !
 

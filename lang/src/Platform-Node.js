@@ -103,7 +103,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return typeof process !== "undefined" && process && process.versions && process.versions.node;
+return typeof process !== "undefined" && process && process.versions && process.versions.node != null;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isFeasible",{},$globals.NodePlatform.a$cls)});
@@ -111,7 +111,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isFeasible\x0a<inlineJS: 'return typeof process !== \x22undefined\x22 && process && process.versions && process.versions.node'>",
+source: "isFeasible\x0a<inlineJS: 'return typeof process !== \x22undefined\x22 && process && process.versions && process.versions.node != null'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
