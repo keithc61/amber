@@ -1,4 +1,5 @@
 Smalltalk createPackage: 'Platform-Browser'!
+(Smalltalk packageAt: 'Platform-Browser' ifAbsent: [ self error: 'Package not created: Platform-Browser' ]) imports: {'amber_core/Platform-Services'}!
 Object subclass: #BrowserPlatform
 	instanceVariableNames: ''
 	package: 'Platform-Browser'!
