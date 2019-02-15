@@ -116,18 +116,18 @@ exports.template = function (grunt, init, done) {
         // A few additional properties.
         props.keywords = ['Amber', 'Smalltalk'];
         props.dependencies = {
-            "@ambers/contrib-jquery": "^0.5.1",
-            "@ambers/contrib-web": "^0.6.2",
-            "@ambers/lang": "^0.22.2",
-            "@ambers/domite": "^0.8.0",
-            "es6-promise": "^4.2.4",
-            "@ambers/silk": "^0.4.0"
+            "@ambers/contrib-jquery": "^0.5.2",
+            "@ambers/contrib-web": "^0.6.5",
+            "@ambers/lang": "^0.22.4",
+            "@ambers/domite": "^0.8.1",
+            "es6-promise": "^4.2.5",
+            "@ambers/silk": "^0.4.4"
         };
         props.devDependencies = {
             "@ambers/ide-starter-modal": "^0.2.0",
-            "@ambers/sdk": "^0.10.7",
-            "@ambers/contrib-legacy": "^0.7.1",
-            "@ambers/helios": "^0.10.0",
+            "@ambers/sdk": "^0.11.0",
+            "@ambers/contrib-legacy": "^0.7.3",
+            "@ambers/helios": "^0.10.2",
             "grunt": "^1.0.3",
             "grunt-contrib-clean": "^1.1.0",
             "grunt-contrib-requirejs": "^1.0.0",
