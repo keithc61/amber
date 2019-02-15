@@ -5,6 +5,12 @@
 * `imports:` loaded lazily using isReady promise
   * you can have circular `import:` clauses
   * you cannot presume your `import:` dependency is initialized in your own class-level `initialize`
+* `aJsObject Uppercase: foo and: bar` is called as `aJsObject.Uppercase(foo, bar)`
+  * only the unary `aJsObject Uppercase` is special and returns `aJsObject.Uppercase`
+  * so far all uppercase selectors made an exception, even ones with args
+* `aJsObject selector: foo withMoreArguments: bar` fails if `aJsObject.selector` is not a function
+  * only the single-arg `aJsObject selector: foo` sets the value `aJsObject selector = foo`
+  * so far even more-than-one-arg ones did set the value denoted by first keyword
 
 Commits: https://lolg.it/amber/amber/commits/0.23.0
 

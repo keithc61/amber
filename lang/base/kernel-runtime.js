@@ -376,13 +376,16 @@ define(function () {
          */
         st.accessJavaScript = function (self, propertyName, args) {
             var propertyValue = self[propertyName];
-            if (typeof propertyValue === "function" && !/^[A-Z]/.test(propertyName)) {
+            if (typeof propertyValue === "function" && !(args.length === 0 && /^[A-Z]/.test(propertyName)))
                 return propertyValue.apply(self, args);
-            } else if (args.length === 0) {
-                return propertyValue;
-            } else {
-                self[propertyName] = args[0];
-                return self;
+            switch (args.length) {
+                case 0:
+                    return propertyValue;
+                case 1:
+                    self[propertyName] = args[0];
+                    return self;
+                default:
+                    throw new Error("Cannot interpret " + propertyName + " with " + args.length + " arguments; field is a " + typeof propertyValue + ", not a function")
             }
         };
     }
