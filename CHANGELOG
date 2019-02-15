@@ -1,3 +1,11 @@
+15 Feb 2019 - Release 0.22.5
+===================================
+
+* Bug fix in recently introduced amber/helpers loadPackages.
+
+Commits: https://lolg.it/amber/amber/commits/0.22.5
+
+
 11 Feb 2019 - Release 0.22.4
 ===================================
 

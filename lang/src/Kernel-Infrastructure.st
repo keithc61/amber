@@ -980,7 +980,7 @@ globalJsVariables
 !SmalltalkImage methodsFor: 'image'!
 
 postLoad
-	self adoptPackageDescriptors ifEmpty: [ Promise new ] ifNotEmpty: [ :pkgs |
+	^ self adoptPackageDescriptors ifEmpty: [ Promise new ] ifNotEmpty: [ :pkgs |
 		(Promise all: (pkgs collect: #isReady)) then: [
 			| classes |
 			pkgs do: #beClean.

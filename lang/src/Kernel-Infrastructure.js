@@ -3687,7 +3687,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$recv($self._adoptPackageDescriptors())._ifEmpty_ifNotEmpty_((function(){
+return $recv($self._adoptPackageDescriptors())._ifEmpty_ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -3739,14 +3739,13 @@ return $self._postLoad();
 }, function($ctx2) {$ctx2.fillBlock({pkgs:pkgs},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
-return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"postLoad",{},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "postLoad\x0a\x09self adoptPackageDescriptors ifEmpty: [ Promise new ] ifNotEmpty: [ :pkgs |\x0a\x09\x09(Promise all: (pkgs collect: #isReady)) then: [\x0a\x09\x09\x09| classes |\x0a\x09\x09\x09pkgs do: #beClean.\x0a\x09\x09\x09classes := Smalltalk classes select:\x0a\x09\x09\x09\x09[ :each | pkgs includes: each package ].\x0a\x09\x09\x09classes do: [ :each |\x0a\x09\x09\x09\x09each = self class ifFalse: [ each initialize ] ].\x0a\x09\x09\x09self sweepPackageDescriptors: pkgs.\x0a\x09\x09\x09self postLoad ] ]",
+source: "postLoad\x0a\x09^ self adoptPackageDescriptors ifEmpty: [ Promise new ] ifNotEmpty: [ :pkgs |\x0a\x09\x09(Promise all: (pkgs collect: #isReady)) then: [\x0a\x09\x09\x09| classes |\x0a\x09\x09\x09pkgs do: #beClean.\x0a\x09\x09\x09classes := Smalltalk classes select:\x0a\x09\x09\x09\x09[ :each | pkgs includes: each package ].\x0a\x09\x09\x09classes do: [ :each |\x0a\x09\x09\x09\x09each = self class ifFalse: [ each initialize ] ].\x0a\x09\x09\x09self sweepPackageDescriptors: pkgs.\x0a\x09\x09\x09self postLoad ] ]",
 referencedClasses: ["Promise", "Smalltalk"],
 //>>excludeEnd("ide");
 messageSends: ["ifEmpty:ifNotEmpty:", "adoptPackageDescriptors", "new", "then:", "all:", "collect:", "do:", "select:", "classes", "includes:", "package", "ifFalse:", "=", "class", "initialize", "sweepPackageDescriptors:", "postLoad"]
