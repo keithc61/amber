@@ -2,6 +2,7 @@
 ===================================
 
 * Bug fix in recently introduced amber/helpers loadPackages.
+* Some internal API changed to be future-proof for lazy dependents.
 
 Commits: https://lolg.it/amber/amber/commits/0.22.5
 

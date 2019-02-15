@@ -980,16 +980,14 @@ globalJsVariables
 !SmalltalkImage methodsFor: 'image'!
 
 postLoad
-	^ self adoptPackageDescriptors ifEmpty: [ Promise new ] ifNotEmpty: [ :pkgs |
-		(Promise all: (pkgs collect: #isReady)) then: [
-			| classes |
-			pkgs do: #beClean.
-			classes := Smalltalk classes select:
-				[ :each | pkgs includes: each package ].
-			classes do: [ :each |
-				each = self class ifFalse: [ each initialize ] ].
-			self sweepPackageDescriptors: pkgs.
-			self postLoad ] ]
+	^ self adoptPackageDescriptors then: [ :pkgs |
+		| classes |
+		pkgs do: #beClean.
+		classes := Smalltalk classes select:
+			[ :each | pkgs includes: each package ].
+		classes do: [ :each |
+			each = self class ifFalse: [ each initialize ] ].
+		self sweepPackageDescriptors: pkgs ]
 ! !
 
 !SmalltalkImage methodsFor: 'packages'!
@@ -1051,11 +1049,7 @@ renamePackage: packageName to: newName
 !SmalltalkImage methodsFor: 'private'!
 
 adoptPackageDescriptors
-	| pkgs |
-	pkgs := Set new.
-	self core packageDescriptors keysAndValuesDo: [ :key :value |
-		pkgs add: (Package named: key javaScriptDescriptor: value) ].
-	^ pkgs
+	^ self tryAdoptPackageDescriptorsBeyond: Set new
 !
 
 basicCreatePackage: packageName
@@ -1077,6 +1071,16 @@ sweepPackageDescriptors: pkgs
 	| pd |	
 	pd := self core packageDescriptors.
 	pkgs do: [ :each | pd removeKey: each name ]
+!
+
+tryAdoptPackageDescriptorsBeyond: aSet
+	| original |
+	original := aSet copy.
+	self core packageDescriptors keysAndValuesDo: [ :key :value |
+		aSet add: (Package named: key javaScriptDescriptor: value) ].
+	^ (aSet allSatisfy: [ :each | original includes: each ])
+		ifFalse: [ (Promise all: (aSet collect: #isReady)) then: [ self tryAdoptPackageDescriptorsBeyond: aSet ] ]
+		ifTrue: [ Promise value: aSet ]
 ! !
 
 !SmalltalkImage methodsFor: 'testing'!

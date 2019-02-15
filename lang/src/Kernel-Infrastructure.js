@@ -2984,31 +2984,20 @@ selector: "adoptPackageDescriptors",
 protocol: "private",
 fn: function (){
 var self=this,$self=this;
-var pkgs;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-pkgs=$recv($globals.Set)._new();
-$recv($recv($self._core())._packageDescriptors())._keysAndValuesDo_((function(key,value){
+return $self._tryAdoptPackageDescriptorsBeyond_($recv($globals.Set)._new());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(pkgs)._add_($recv($globals.Package)._named_javaScriptDescriptor_(key,value));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-return pkgs;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"adoptPackageDescriptors",{pkgs:pkgs},$globals.SmalltalkImage)});
+}, function($ctx1) {$ctx1.fill(self,"adoptPackageDescriptors",{},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "adoptPackageDescriptors\x0a\x09| pkgs |\x0a\x09pkgs := Set new.\x0a\x09self core packageDescriptors keysAndValuesDo: [ :key :value |\x0a\x09\x09pkgs add: (Package named: key javaScriptDescriptor: value) ].\x0a\x09^ pkgs",
-referencedClasses: ["Set", "Package"],
+source: "adoptPackageDescriptors\x0a\x09^ self tryAdoptPackageDescriptorsBeyond: Set new",
+referencedClasses: ["Set"],
 //>>excludeEnd("ide");
-messageSends: ["new", "keysAndValuesDo:", "packageDescriptors", "core", "add:", "named:javaScriptDescriptor:"]
+messageSends: ["tryAdoptPackageDescriptorsBeyond:", "new"]
 }),
 $globals.SmalltalkImage);
 
@@ -3687,56 +3676,39 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-return $recv($self._adoptPackageDescriptors())._ifEmpty_ifNotEmpty_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($globals.Promise)._new();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}),(function(pkgs){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($recv($globals.Promise)._all_($recv(pkgs)._collect_("isReady")))._then_((function(){
+return $recv($self._adoptPackageDescriptors())._then_((function(pkgs){
 var classes;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
+return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $recv(pkgs)._do_("beClean");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["do:"]=1;
+$ctx2.sendIdx["do:"]=1;
 //>>excludeEnd("ctx");
 classes=$recv($recv($globals.Smalltalk)._classes())._select_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx4) {
+return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 return $recv(pkgs)._includes_($recv(each)._package());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({each:each},$ctx3,4)});
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
 //>>excludeEnd("ctx");
 }));
 $recv(classes)._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx4) {
+return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 $1=$recv(each).__eq($self._class());
 if(!$core.assert($1)){
 return $recv(each)._initialize();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({each:each},$ctx3,5)});
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,3)});
 //>>excludeEnd("ctx");
 }));
-$self._sweepPackageDescriptors_(pkgs);
-return $self._postLoad();
+return $self._sweepPackageDescriptors_(pkgs);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({classes:classes},$ctx2,3)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({pkgs:pkgs},$ctx1,2)});
+}, function($ctx2) {$ctx2.fillBlock({pkgs:pkgs,classes:classes},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3745,10 +3717,10 @@ return $self._postLoad();
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "postLoad\x0a\x09^ self adoptPackageDescriptors ifEmpty: [ Promise new ] ifNotEmpty: [ :pkgs |\x0a\x09\x09(Promise all: (pkgs collect: #isReady)) then: [\x0a\x09\x09\x09| classes |\x0a\x09\x09\x09pkgs do: #beClean.\x0a\x09\x09\x09classes := Smalltalk classes select:\x0a\x09\x09\x09\x09[ :each | pkgs includes: each package ].\x0a\x09\x09\x09classes do: [ :each |\x0a\x09\x09\x09\x09each = self class ifFalse: [ each initialize ] ].\x0a\x09\x09\x09self sweepPackageDescriptors: pkgs.\x0a\x09\x09\x09self postLoad ] ]",
-referencedClasses: ["Promise", "Smalltalk"],
+source: "postLoad\x0a\x09^ self adoptPackageDescriptors then: [ :pkgs |\x0a\x09\x09| classes |\x0a\x09\x09pkgs do: #beClean.\x0a\x09\x09classes := Smalltalk classes select:\x0a\x09\x09\x09[ :each | pkgs includes: each package ].\x0a\x09\x09classes do: [ :each |\x0a\x09\x09\x09each = self class ifFalse: [ each initialize ] ].\x0a\x09\x09self sweepPackageDescriptors: pkgs ]",
+referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["ifEmpty:ifNotEmpty:", "adoptPackageDescriptors", "new", "then:", "all:", "collect:", "do:", "select:", "classes", "includes:", "package", "ifFalse:", "=", "class", "initialize", "sweepPackageDescriptors:", "postLoad"]
+messageSends: ["then:", "adoptPackageDescriptors", "do:", "select:", "classes", "includes:", "package", "ifFalse:", "=", "class", "initialize", "sweepPackageDescriptors:"]
 }),
 $globals.SmalltalkImage);
 
@@ -4050,6 +4022,62 @@ source: "sweepPackageDescriptors: pkgs\x0a\x09| pd |\x09\x0a\x09pd := self core 
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["packageDescriptors", "core", "do:", "removeKey:", "name"]
+}),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
+selector: "tryAdoptPackageDescriptorsBeyond:",
+protocol: "private",
+fn: function (aSet){
+var self=this,$self=this;
+var original;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+original=$recv(aSet)._copy();
+$recv($recv($self._core())._packageDescriptors())._keysAndValuesDo_((function(key,value){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(aSet)._add_($recv($globals.Package)._named_javaScriptDescriptor_(key,value));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$1=$recv(aSet)._allSatisfy_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(original)._includes_(each);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+if($core.assert($1)){
+return $recv($globals.Promise)._value_(aSet);
+} else {
+return $recv($recv($globals.Promise)._all_($recv(aSet)._collect_("isReady")))._then_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._tryAdoptPackageDescriptorsBeyond_(aSet);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,4)});
+//>>excludeEnd("ctx");
+}));
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"tryAdoptPackageDescriptorsBeyond:",{aSet:aSet,original:original},$globals.SmalltalkImage)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aSet"],
+source: "tryAdoptPackageDescriptorsBeyond: aSet\x0a\x09| original |\x0a\x09original := aSet copy.\x0a\x09self core packageDescriptors keysAndValuesDo: [ :key :value |\x0a\x09\x09aSet add: (Package named: key javaScriptDescriptor: value) ].\x0a\x09^ (aSet allSatisfy: [ :each | original includes: each ])\x0a\x09\x09ifFalse: [ (Promise all: (aSet collect: #isReady)) then: [ self tryAdoptPackageDescriptorsBeyond: aSet ] ]\x0a\x09\x09ifTrue: [ Promise value: aSet ]",
+referencedClasses: ["Package", "Promise"],
+//>>excludeEnd("ide");
+messageSends: ["copy", "keysAndValuesDo:", "packageDescriptors", "core", "add:", "named:javaScriptDescriptor:", "ifFalse:ifTrue:", "allSatisfy:", "includes:", "then:", "all:", "collect:", "tryAdoptPackageDescriptorsBeyond:", "value:"]
 }),
 $globals.SmalltalkImage);
 
