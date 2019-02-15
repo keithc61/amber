@@ -10,7 +10,6 @@
 
 var path = require('path'),
     fs = require('fs'),
-    Promise = require('es6-promise').Promise,
     requirejs = require('requirejs');
 
 /**
