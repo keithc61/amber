@@ -1,5 +1,4 @@
 define(["amber/boot", "amber_core/Kernel-Helpers"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Objects");
 $pkg.innerEval = function (expr) { return eval(expr); };

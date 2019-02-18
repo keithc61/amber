@@ -2,7 +2,6 @@
 require(["amber_core/Platform-Services"]);
 //>>excludeEnd("imports");
 define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-Node");
 $pkg.innerEval = function (expr) { return eval(expr); };

@@ -373,7 +373,6 @@ exportPackage: aPackage on: aStream
 
 exportPackageBodyBlockPrologueOf: aPackage on: aStream
 	aStream
-		write: 'if(!!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;'; lf;
 		write: 'var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;'; lf
 !
 
