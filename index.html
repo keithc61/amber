@@ -11,14 +11,8 @@
 
 <body>
 <div>
-    <button id="startlegacy" disabled type="button"
-            onclick="a$cb$(function (amber) {amber.globals.Browser._open();});">
-        Start legacy in-page IDE
-    </button>
-    <button id="starthelios" disabled type="button"
-            onclick="a$cb$(function (amber) {amber.popupHelios();});">
-        Popup Helios IDE
-    </button>
+    <button id="startlegacy" disabled type="button">Start legacy in-page IDE</button>
+    <button id="starthelios" disabled type="button">Popup Helios IDE</button>
 </div>
 <div>
     <span id="loadingKernel">Loading Amber kernel ... </span>
@@ -30,7 +24,6 @@
 <script type='text/javascript'>
     "use strict";
     var global = typeof global === "undefined" ? window : global || window;
-    var a$cb$;
     (function () {
         var startLegacy = document.getElementById("startlegacy");
         var startHelios = document.getElementById("starthelios");
@@ -43,9 +36,6 @@
         require(["require", "amber/es6-promise"], function (require, promiseLib) {
             promiseLib.polyfill();
             require(["amber/boot", "amber/deploy", "amber_core/Platform-Browser"], function (_, amber) {
-                a$cb$ = function (action) {
-                    action(amber);
-                };
                 messageBox.appendChild(initializingKernel);
                 amber.initialize({'transport.defaultAmdNamespace': "amber_core"})
                     .then(function () {
@@ -53,6 +43,12 @@
                         return amber.loadPackages(["amber/lang", "amber/legacy/IDE", "amber_core/SUnit"]);
                     })
                     .then(function () {
+                        startLegacy.addEventListener('click', function () {
+                            amber.globals.Browser._open();
+                        });
+                        startHelios.addEventListener('click', function () {
+                            amber.popupHelios();
+                        });
                         startLegacy.disabled = startHelios.disabled = false;
                         messageBox.appendChild(loadingTheRest);
                         return amber.loadPackages(["amber/devel", "amber/legacy/Benchfib", "helios/all", "amber_cli/AmberCli"]);
