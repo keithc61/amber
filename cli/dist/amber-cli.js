@@ -9,7 +9,7 @@ require = requirejs;
  * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
  * @license   Licensed under MIT license
  *            See https://raw.githubusercontent.com/stefanpenner/es6-promise/master/LICENSE
- * @version   v4.2.5+7f2b526d
+ * @version   v4.2.6+9869a4bc
  */
 
 (function (global, factory) {
@@ -24271,7 +24271,7 @@ selector: "javaScriptDescriptor:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-var basicEval,basicImports,basicIsReady;
+var basicEval,basicImports;
 return $core.withContext(function($ctx1) {
 basicEval=$recv(anObject)._at_ifAbsent_("innerEval",(function(){
 return $core.withContext(function($ctx2) {
@@ -24287,17 +24287,20 @@ $ctx1.sendIdx["at:ifAbsent:"]=2;
 $self["@basicTransport"]=$recv(anObject)._at_ifAbsent_("transport",(function(){
 
 }));
-$ctx1.sendIdx["at:ifAbsent:"]=3;
-basicIsReady=$recv(anObject)._at_ifAbsent_("isReady",$recv($globals.Promise)._new());
+$recv(anObject)._at_ifPresent_("isReady",(function(aPromise){
+return $core.withContext(function($ctx2) {
+return $self._isReady_(aPromise);
+}, function($ctx2) {$ctx2.fillBlock({aPromise:aPromise},$ctx1,4)});
+}));
 $self._evalBlock_(basicEval);
 $self._imports_($self._importsFromJson_(basicImports));
 return self;
-}, function($ctx1) {$ctx1.fill(self,"javaScriptDescriptor:",{anObject:anObject,basicEval:basicEval,basicImports:basicImports,basicIsReady:basicIsReady},$globals.Package)});
+}, function($ctx1) {$ctx1.fill(self,"javaScriptDescriptor:",{anObject:anObject,basicEval:basicEval,basicImports:basicImports},$globals.Package)});
 },
 args: ["anObject"],
-source: "javaScriptDescriptor: anObject\x0a\x09| basicEval basicImports basicIsReady |\x0a\x0a\x09basicEval := anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ].\x0a\x09basicImports := anObject at: 'imports' ifAbsent: [ #() ].\x0a\x09basicTransport := anObject at: 'transport' ifAbsent: [].\x0a\x09basicIsReady := anObject at: 'isReady' ifAbsent: Promise new.\x0a\x09\x09\x09\x0a\x09self\x0a\x09\x09evalBlock: basicEval;\x0a\x09\x09imports: (self importsFromJson: basicImports)",
-referencedClasses: ["Promise"],
-messageSends: ["at:ifAbsent:", "asJavaScriptObject", "new", "evalBlock:", "imports:", "importsFromJson:"]
+source: "javaScriptDescriptor: anObject\x0a\x09| basicEval basicImports |\x0a\x0a\x09basicEval := anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ].\x0a\x09basicImports := anObject at: 'imports' ifAbsent: [ #() ].\x0a\x09basicTransport := anObject at: 'transport' ifAbsent: [].\x0a\x09anObject at: 'isReady' ifPresent: [ :aPromise | self isReady: aPromise ].\x0a\x0a\x09self\x0a\x09\x09evalBlock: basicEval;\x0a\x09\x09imports: (self importsFromJson: basicImports)",
+referencedClasses: [],
+messageSends: ["at:ifAbsent:", "asJavaScriptObject", "at:ifPresent:", "isReady:", "evalBlock:", "imports:", "importsFromJson:"]
 }),
 $globals.Package);
 
@@ -26019,11 +26022,11 @@ selector: "version",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return "0.22.5";
+return "0.22.6";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.22.5'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.22.6'",
 referencedClasses: [],
 messageSends: []
 }),
