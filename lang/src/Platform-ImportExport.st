@@ -481,12 +481,9 @@ exportPackageImportsOf: aPackage on: aStream
 !
 
 exportPackagePrologueOf: aPackage on: aStream
-	| importsForOutput loadDependencies pragmaStart pragmaEnd |
+	| loadDependencies pragmaStart pragmaEnd |
 	pragmaStart := '//>>excludeStart("imports", pragmas.excludeImports);', String lf.
 	pragmaEnd := '//>>excludeEnd("imports");', String lf.
-	importsForOutput := self importsForOutput: aPackage.
-	importsForOutput value ifNotEmpty: [ :c |
-		aStream write: { pragmaStart. 'require('. c asJavaScriptSource. ');'}; lf; write: pragmaEnd ].
 	loadDependencies := self amdNamesOfPackages: aPackage loadDependencies.
 	aStream
 		write: {

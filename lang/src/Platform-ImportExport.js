@@ -2118,11 +2118,11 @@ selector: "exportPackagePrologueOf:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
 var self=this,$self=this;
-var importsForOutput,loadDependencies,pragmaStart,pragmaEnd;
+var loadDependencies,pragmaStart,pragmaEnd;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$5,$3,$6;
+var $1,$2;
 $1=$recv($globals.String)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=1;
@@ -2139,49 +2139,21 @@ pragmaEnd="//>>excludeEnd(\x22imports\x22);".__comma($2);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=2;
 //>>excludeEnd("ctx");
-importsForOutput=$self._importsForOutput_(aPackage);
-$recv($recv(importsForOutput)._value())._ifNotEmpty_((function(c){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$4=pragmaStart;
-$5=$recv(c)._asJavaScriptSource();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["asJavaScriptSource"]=1;
-//>>excludeEnd("ctx");
-$3=[$4,"require(",$5,");"];
-$recv(aStream)._write_($3);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["write:"]=1;
-//>>excludeEnd("ctx");
-$recv(aStream)._lf();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["lf"]=3;
-//>>excludeEnd("ctx");
-$6=$recv(aStream)._write_(pragmaEnd);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["write:"]=2;
-//>>excludeEnd("ctx");
-return $6;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({c:c},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
 loadDependencies=$self._amdNamesOfPackages_($recv(aPackage)._loadDependencies());
 $recv(aStream)._write_(["define(",$recv(["amber/boot"].__comma($recv($recv(loadDependencies)._asArray())._sorted()))._asJavaScriptSource(),", function($boot){\x22use strict\x22;"]);
 $recv(aStream)._lf();
 $self._exportPackageBodyBlockPrologueOf_on_(aPackage,aStream);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"exportPackagePrologueOf:on:",{aPackage:aPackage,aStream:aStream,importsForOutput:importsForOutput,loadDependencies:loadDependencies,pragmaStart:pragmaStart,pragmaEnd:pragmaEnd},$globals.AmdExporter)});
+}, function($ctx1) {$ctx1.fill(self,"exportPackagePrologueOf:on:",{aPackage:aPackage,aStream:aStream,loadDependencies:loadDependencies,pragmaStart:pragmaStart,pragmaEnd:pragmaEnd},$globals.AmdExporter)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage", "aStream"],
-source: "exportPackagePrologueOf: aPackage on: aStream\x0a\x09| importsForOutput loadDependencies pragmaStart pragmaEnd |\x0a\x09pragmaStart := '//>>excludeStart(\x22imports\x22, pragmas.excludeImports);', String lf.\x0a\x09pragmaEnd := '//>>excludeEnd(\x22imports\x22);', String lf.\x0a\x09importsForOutput := self importsForOutput: aPackage.\x0a\x09importsForOutput value ifNotEmpty: [ :c |\x0a\x09\x09aStream write: { pragmaStart. 'require('. c asJavaScriptSource. ');'}; lf; write: pragmaEnd ].\x0a\x09loadDependencies := self amdNamesOfPackages: aPackage loadDependencies.\x0a\x09aStream\x0a\x09\x09write: {\x0a\x09\x09\x09'define('.\x0a\x09\x09\x09(#('amber/boot'), loadDependencies asArray sorted) asJavaScriptSource.\x0a\x09\x09\x09', function($boot){\x22use strict\x22;' };\x0a\x09\x09lf.\x0a\x09self exportPackageBodyBlockPrologueOf: aPackage on: aStream",
+source: "exportPackagePrologueOf: aPackage on: aStream\x0a\x09| loadDependencies pragmaStart pragmaEnd |\x0a\x09pragmaStart := '//>>excludeStart(\x22imports\x22, pragmas.excludeImports);', String lf.\x0a\x09pragmaEnd := '//>>excludeEnd(\x22imports\x22);', String lf.\x0a\x09loadDependencies := self amdNamesOfPackages: aPackage loadDependencies.\x0a\x09aStream\x0a\x09\x09write: {\x0a\x09\x09\x09'define('.\x0a\x09\x09\x09(#('amber/boot'), loadDependencies asArray sorted) asJavaScriptSource.\x0a\x09\x09\x09', function($boot){\x22use strict\x22;' };\x0a\x09\x09lf.\x0a\x09self exportPackageBodyBlockPrologueOf: aPackage on: aStream",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: [",", "lf", "importsForOutput:", "ifNotEmpty:", "value", "write:", "asJavaScriptSource", "amdNamesOfPackages:", "loadDependencies", "sorted", "asArray", "exportPackageBodyBlockPrologueOf:on:"]
+messageSends: [",", "lf", "amdNamesOfPackages:", "loadDependencies", "write:", "asJavaScriptSource", "sorted", "asArray", "exportPackageBodyBlockPrologueOf:on:"]
 }),
 $globals.AmdExporter);
 
