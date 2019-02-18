@@ -1687,7 +1687,7 @@ selector: "javaScriptDescriptor:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-var basicEval,basicImports,basicIsReady;
+var basicEval,basicImports;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1713,23 +1713,28 @@ $ctx1.sendIdx["at:ifAbsent:"]=2;
 $self["@basicTransport"]=$recv(anObject)._at_ifAbsent_("transport",(function(){
 
 }));
+$recv(anObject)._at_ifPresent_("isReady",(function(aPromise){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:ifAbsent:"]=3;
+return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-basicIsReady=$recv(anObject)._at_ifAbsent_("isReady",$recv($globals.Promise)._new());
+return $self._isReady_(aPromise);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({aPromise:aPromise},$ctx1,4)});
+//>>excludeEnd("ctx");
+}));
 $self._evalBlock_(basicEval);
 $self._imports_($self._importsFromJson_(basicImports));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"javaScriptDescriptor:",{anObject:anObject,basicEval:basicEval,basicImports:basicImports,basicIsReady:basicIsReady},$globals.Package)});
+}, function($ctx1) {$ctx1.fill(self,"javaScriptDescriptor:",{anObject:anObject,basicEval:basicEval,basicImports:basicImports},$globals.Package)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "javaScriptDescriptor: anObject\x0a\x09| basicEval basicImports basicIsReady |\x0a\x0a\x09basicEval := anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ].\x0a\x09basicImports := anObject at: 'imports' ifAbsent: [ #() ].\x0a\x09basicTransport := anObject at: 'transport' ifAbsent: [].\x0a\x09basicIsReady := anObject at: 'isReady' ifAbsent: Promise new.\x0a\x09\x09\x09\x0a\x09self\x0a\x09\x09evalBlock: basicEval;\x0a\x09\x09imports: (self importsFromJson: basicImports)",
-referencedClasses: ["Promise"],
+source: "javaScriptDescriptor: anObject\x0a\x09| basicEval basicImports |\x0a\x0a\x09basicEval := anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ].\x0a\x09basicImports := anObject at: 'imports' ifAbsent: [ #() ].\x0a\x09basicTransport := anObject at: 'transport' ifAbsent: [].\x0a\x09anObject at: 'isReady' ifPresent: [ :aPromise | self isReady: aPromise ].\x0a\x0a\x09self\x0a\x09\x09evalBlock: basicEval;\x0a\x09\x09imports: (self importsFromJson: basicImports)",
+referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["at:ifAbsent:", "asJavaScriptObject", "new", "evalBlock:", "imports:", "importsFromJson:"]
+messageSends: ["at:ifAbsent:", "asJavaScriptObject", "at:ifPresent:", "isReady:", "evalBlock:", "imports:", "importsFromJson:"]
 }),
 $globals.Package);
 

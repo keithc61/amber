@@ -1,3 +1,11 @@
+18 Feb 2019 - Release 0.22.6
+===================================
+
+* Bug fix in the use of recently added isReady promise for packages.
+
+Commits: https://lolg.it/amber/amber/commits/0.22.6
+
+
 15 Feb 2019 - Release 0.22.5
 ===================================
 

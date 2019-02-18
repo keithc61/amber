@@ -403,13 +403,13 @@ isReady: aPromise
 !
 
 javaScriptDescriptor: anObject
-	| basicEval basicImports basicIsReady |
+	| basicEval basicImports |
 
 	basicEval := anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ].
 	basicImports := anObject at: 'imports' ifAbsent: [ #() ].
 	basicTransport := anObject at: 'transport' ifAbsent: [].
-	basicIsReady := anObject at: 'isReady' ifAbsent: Promise new.
-			
+	anObject at: 'isReady' ifPresent: [ :aPromise | self isReady: aPromise ].
+
 	self
 		evalBlock: basicEval;
 		imports: (self importsFromJson: basicImports)
