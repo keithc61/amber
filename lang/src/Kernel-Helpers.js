@@ -1,4 +1,4 @@
-define(["amber/boot"], function($boot){"use strict";
+define(["amber/boot", "require"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Helpers");
 $pkg.innerEval = function (expr) { return eval(expr); };
