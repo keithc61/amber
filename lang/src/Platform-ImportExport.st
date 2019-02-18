@@ -457,26 +457,43 @@ exportPackageEpilogueOf: aPackage on: aStream
 		lf
 !
 
+exportPackageImportsOf: aPackage on: aStream
+	| importsForOutput pragmaStart pragmaEnd |
+	pragmaStart := '//>>excludeStart("imports", pragmas.excludeImports);', String lf.
+	pragmaEnd := '//>>excludeEnd("imports");', String lf.
+	super exportPackageImportsOf: aPackage on: aStream.
+	importsForOutput := self importsForOutput: aPackage.
+	importsForOutput value ifNotEmpty: [ :imports |
+		| vars |
+		aStream write: pragmaStart.
+		vars := importsForOutput key.
+		vars ifNotEmpty: [ aStream write: { 'var '. ',' join: vars. ';' }; lf ]. 
+		aStream
+			write: {
+				'$pkg.isReady = new Promise(function (resolve, reject) { require('.
+				imports asJavaScriptSource.
+				', function ('.
+				',' join: ((1 to: vars size) collect: [ :each | '$', each asString ]).
+				') {'.
+				(1 to: vars size) collect: [ :each | (vars at: each), '=$', each asString, '; ' ].
+				'resolve();}, reject); });' };
+			lf;
+			write: pragmaEnd ]
+!
+
 exportPackagePrologueOf: aPackage on: aStream
 	| importsForOutput loadDependencies pragmaStart pragmaEnd |
-	pragmaStart := ''.
-	pragmaEnd := ''.
+	pragmaStart := '//>>excludeStart("imports", pragmas.excludeImports);', String lf.
+	pragmaEnd := '//>>excludeEnd("imports");', String lf.
 	importsForOutput := self importsForOutput: aPackage.
+	importsForOutput value ifNotEmpty: [ :c |
+		aStream write: { pragmaStart. 'require('. c asJavaScriptSource. ');'}; lf; write: pragmaEnd ].
 	loadDependencies := self amdNamesOfPackages: aPackage loadDependencies.
-	importsForOutput value ifNotEmpty: [
-		pragmaStart := String lf, '//>>excludeStart("imports", pragmas.excludeImports);', String lf.
-		pragmaEnd := String lf, '//>>excludeEnd("imports");', String lf ].
 	aStream
 		write: {
 			'define('.
-			((#('amber/boot' ':1:'), importsForOutput value, #(':2:'), loadDependencies asArray sorted) asJavaScriptSource
-				replace: ',\s*["'']:1:["'']' with: pragmaStart)
-				replace: ',\s*["'']:2:["'']' with: pragmaEnd.
-			', function('.
-			((((#('$boot' ':1:'), importsForOutput key, #(':2:')) join: ',') 
-				replace: ',\s*:1:' with: pragmaStart)
-				replace: ',\s*:2:' with: pragmaEnd).
-			'){"use strict";' };
+			(#('amber/boot'), loadDependencies asArray sorted) asJavaScriptSource.
+			', function($boot){"use strict";' };
 		lf.
 	self exportPackageBodyBlockPrologueOf: aPackage on: aStream
 ! !

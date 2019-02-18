@@ -1,3 +1,13 @@
+? Feb 2019 - Release 0.23.0
+===================================
+
+* `imports:` loaded lazily using isReady promise
+  * you can have circular `import:` clauses
+  * you cannot presume your `import:` dependency is initialized in your own class-level `initialize`
+
+Commits: https://lolg.it/amber/amber/commits/0.23.0
+
+
 18 Feb 2019 - Release 0.22.6
 ===================================
 

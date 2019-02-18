@@ -1983,6 +1983,146 @@ $globals.AmdExporter);
 
 $core.addMethod(
 $core.method({
+selector: "exportPackageImportsOf:on:",
+protocol: "output",
+fn: function (aPackage,aStream){
+var self=this,$self=this;
+var importsForOutput,pragmaStart,pragmaEnd;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$4,$3,$5,$7,$11,$10,$12,$9,$8,$13,$6;
+$1=$recv($globals.String)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["lf"]=1;
+//>>excludeEnd("ctx");
+pragmaStart="//>>excludeStart(\x22imports\x22, pragmas.excludeImports);".__comma($1);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=1;
+//>>excludeEnd("ctx");
+$2=$recv($globals.String)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["lf"]=2;
+//>>excludeEnd("ctx");
+pragmaEnd="//>>excludeEnd(\x22imports\x22);".__comma($2);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=2;
+//>>excludeEnd("ctx");
+(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.AmdExporter.superclass||$boot.nilAsClass).fn.prototype._exportPackageImportsOf_on_.apply($self, [aPackage,aStream]));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+importsForOutput=$self._importsForOutput_(aPackage);
+$recv($recv(importsForOutput)._value())._ifNotEmpty_((function(imports){
+var vars;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv(aStream)._write_(pragmaStart);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["write:"]=1;
+//>>excludeEnd("ctx");
+vars=$recv(importsForOutput)._key();
+$recv(vars)._ifNotEmpty_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$4=","._join_(vars);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["join:"]=1;
+//>>excludeEnd("ctx");
+$3=["var ",$4,";"];
+$recv(aStream)._write_($3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["write:"]=2;
+//>>excludeEnd("ctx");
+$5=$recv(aStream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["lf"]=3;
+//>>excludeEnd("ctx");
+return $5;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+$7=$recv(imports)._asJavaScriptSource();
+$11=$recv(vars)._size();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["size"]=1;
+//>>excludeEnd("ctx");
+$10=(1)._to_($11);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["to:"]=1;
+//>>excludeEnd("ctx");
+$9=$recv($10)._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$12=$recv(each)._asString();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["asString"]=1;
+//>>excludeEnd("ctx");
+return "$".__comma($12);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx[","]=3;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,3)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["collect:"]=1;
+//>>excludeEnd("ctx");
+$8=","._join_($9);
+$6=["$pkg.isReady = new Promise(function (resolve, reject) { require(",$7,", function (",$8,") {",$recv((1)._to_($recv(vars)._size()))._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$13=$recv($recv($recv(vars)._at_(each)).__comma("=$")).__comma($recv(each)._asString());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx[","]=5;
+//>>excludeEnd("ctx");
+return $recv($13).__comma("; ");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx[","]=4;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,4)});
+//>>excludeEnd("ctx");
+})),"resolve();}, reject); });"];
+$recv(aStream)._write_($6);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["write:"]=3;
+//>>excludeEnd("ctx");
+$recv(aStream)._lf();
+return $recv(aStream)._write_(pragmaEnd);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({imports:imports,vars:vars},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["ifNotEmpty:"]=1;
+//>>excludeEnd("ctx");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"exportPackageImportsOf:on:",{aPackage:aPackage,aStream:aStream,importsForOutput:importsForOutput,pragmaStart:pragmaStart,pragmaEnd:pragmaEnd},$globals.AmdExporter)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aPackage", "aStream"],
+source: "exportPackageImportsOf: aPackage on: aStream\x0a\x09| importsForOutput pragmaStart pragmaEnd |\x0a\x09pragmaStart := '//>>excludeStart(\x22imports\x22, pragmas.excludeImports);', String lf.\x0a\x09pragmaEnd := '//>>excludeEnd(\x22imports\x22);', String lf.\x0a\x09super exportPackageImportsOf: aPackage on: aStream.\x0a\x09importsForOutput := self importsForOutput: aPackage.\x0a\x09importsForOutput value ifNotEmpty: [ :imports |\x0a\x09\x09| vars |\x0a\x09\x09aStream write: pragmaStart.\x0a\x09\x09vars := importsForOutput key.\x0a\x09\x09vars ifNotEmpty: [ aStream write: { 'var '. ',' join: vars. ';' }; lf ]. \x0a\x09\x09aStream\x0a\x09\x09\x09write: {\x0a\x09\x09\x09\x09'$pkg.isReady = new Promise(function (resolve, reject) { require('.\x0a\x09\x09\x09\x09imports asJavaScriptSource.\x0a\x09\x09\x09\x09', function ('.\x0a\x09\x09\x09\x09',' join: ((1 to: vars size) collect: [ :each | '$', each asString ]).\x0a\x09\x09\x09\x09') {'.\x0a\x09\x09\x09\x09(1 to: vars size) collect: [ :each | (vars at: each), '=$', each asString, '; ' ].\x0a\x09\x09\x09\x09'resolve();}, reject); });' };\x0a\x09\x09\x09lf;\x0a\x09\x09\x09write: pragmaEnd ]",
+referencedClasses: ["String"],
+//>>excludeEnd("ide");
+messageSends: [",", "lf", "exportPackageImportsOf:on:", "importsForOutput:", "ifNotEmpty:", "value", "write:", "key", "join:", "asJavaScriptSource", "collect:", "to:", "size", "asString", "at:"]
+}),
+$globals.AmdExporter);
+
+$core.addMethod(
+$core.method({
 selector: "exportPackagePrologueOf:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
@@ -1991,89 +2131,53 @@ var importsForOutput,loadDependencies,pragmaStart,pragmaEnd;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2,$4,$6,$5,$7,$14,$13,$12,$11,$10,$9,$18,$17,$16,$15,$8;
-pragmaStart="";
-pragmaEnd="";
-importsForOutput=$self._importsForOutput_(aPackage);
-loadDependencies=$self._amdNamesOfPackages_($recv(aPackage)._loadDependencies());
-$1=$recv(importsForOutput)._value();
+var $1,$2,$4,$5,$3,$6;
+$1=$recv($globals.String)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["value"]=1;
+$ctx1.sendIdx["lf"]=1;
 //>>excludeEnd("ctx");
-$recv($1)._ifNotEmpty_((function(){
+pragmaStart="//>>excludeStart(\x22imports\x22, pragmas.excludeImports);".__comma($1);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=1;
+//>>excludeEnd("ctx");
+$2=$recv($globals.String)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["lf"]=2;
+//>>excludeEnd("ctx");
+pragmaEnd="//>>excludeEnd(\x22imports\x22);".__comma($2);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=2;
+//>>excludeEnd("ctx");
+importsForOutput=$self._importsForOutput_(aPackage);
+$recv($recv(importsForOutput)._value())._ifNotEmpty_((function(c){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$3=$recv($globals.String)._lf();
+$4=pragmaStart;
+$5=$recv(c)._asJavaScriptSource();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["lf"]=1;
+$ctx2.sendIdx["asJavaScriptSource"]=1;
 //>>excludeEnd("ctx");
-$2=$recv($3).__comma("//>>excludeStart(\x22imports\x22, pragmas.excludeImports);");
+$3=[$4,"require(",$5,");"];
+$recv(aStream)._write_($3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=2;
+$ctx2.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
-$4=$recv($globals.String)._lf();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["lf"]=2;
-//>>excludeEnd("ctx");
-pragmaStart=$recv($2).__comma($4);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=1;
-//>>excludeEnd("ctx");
-$6=$recv($globals.String)._lf();
+$recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["lf"]=3;
 //>>excludeEnd("ctx");
-$5=$recv($6).__comma("//>>excludeEnd(\x22imports\x22);");
+$6=$recv(aStream)._write_(pragmaEnd);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=4;
+$ctx2.sendIdx["write:"]=2;
 //>>excludeEnd("ctx");
-$7=$recv($globals.String)._lf();
+return $6;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["lf"]=4;
-//>>excludeEnd("ctx");
-pragmaEnd=$recv($5).__comma($7);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=3;
-//>>excludeEnd("ctx");
-return pragmaEnd;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({c:c},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-$14=["amber/boot", ":1:"].__comma($recv(importsForOutput)._value());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=7;
-//>>excludeEnd("ctx");
-$13=$recv($14).__comma([":2:"]);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=6;
-//>>excludeEnd("ctx");
-$12=$recv($13).__comma($recv($recv(loadDependencies)._asArray())._sorted());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=5;
-//>>excludeEnd("ctx");
-$11=$recv($12)._asJavaScriptSource();
-$10=$recv($11)._replace_with_(",\x5cs*[\x22']:1:[\x22']",pragmaStart);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["replace:with:"]=2;
-//>>excludeEnd("ctx");
-$9=$recv($10)._replace_with_(",\x5cs*[\x22']:2:[\x22']",pragmaEnd);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["replace:with:"]=1;
-//>>excludeEnd("ctx");
-$18=$recv(["$boot", ":1:"].__comma($recv(importsForOutput)._key())).__comma([":2:"]);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=8;
-//>>excludeEnd("ctx");
-$17=$recv($18)._join_(",");
-$16=$recv($17)._replace_with_(",\x5cs*:1:",pragmaStart);
-$15=$recv($16)._replace_with_(",\x5cs*:2:",pragmaEnd);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["replace:with:"]=3;
-//>>excludeEnd("ctx");
-$8=["define(",$9,", function(",$15,"){\x22use strict\x22;"];
-$recv(aStream)._write_($8);
+loadDependencies=$self._amdNamesOfPackages_($recv(aPackage)._loadDependencies());
+$recv(aStream)._write_(["define(",$recv(["amber/boot"].__comma($recv($recv(loadDependencies)._asArray())._sorted()))._asJavaScriptSource(),", function($boot){\x22use strict\x22;"]);
 $recv(aStream)._lf();
 $self._exportPackageBodyBlockPrologueOf_on_(aPackage,aStream);
 return self;
@@ -2083,10 +2187,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage", "aStream"],
-source: "exportPackagePrologueOf: aPackage on: aStream\x0a\x09| importsForOutput loadDependencies pragmaStart pragmaEnd |\x0a\x09pragmaStart := ''.\x0a\x09pragmaEnd := ''.\x0a\x09importsForOutput := self importsForOutput: aPackage.\x0a\x09loadDependencies := self amdNamesOfPackages: aPackage loadDependencies.\x0a\x09importsForOutput value ifNotEmpty: [\x0a\x09\x09pragmaStart := String lf, '//>>excludeStart(\x22imports\x22, pragmas.excludeImports);', String lf.\x0a\x09\x09pragmaEnd := String lf, '//>>excludeEnd(\x22imports\x22);', String lf ].\x0a\x09aStream\x0a\x09\x09write: {\x0a\x09\x09\x09'define('.\x0a\x09\x09\x09((#('amber/boot' ':1:'), importsForOutput value, #(':2:'), loadDependencies asArray sorted) asJavaScriptSource\x0a\x09\x09\x09\x09replace: ',\x5cs*[\x22'']:1:[\x22'']' with: pragmaStart)\x0a\x09\x09\x09\x09replace: ',\x5cs*[\x22'']:2:[\x22'']' with: pragmaEnd.\x0a\x09\x09\x09', function('.\x0a\x09\x09\x09((((#('$boot' ':1:'), importsForOutput key, #(':2:')) join: ',') \x0a\x09\x09\x09\x09replace: ',\x5cs*:1:' with: pragmaStart)\x0a\x09\x09\x09\x09replace: ',\x5cs*:2:' with: pragmaEnd).\x0a\x09\x09\x09'){\x22use strict\x22;' };\x0a\x09\x09lf.\x0a\x09self exportPackageBodyBlockPrologueOf: aPackage on: aStream",
+source: "exportPackagePrologueOf: aPackage on: aStream\x0a\x09| importsForOutput loadDependencies pragmaStart pragmaEnd |\x0a\x09pragmaStart := '//>>excludeStart(\x22imports\x22, pragmas.excludeImports);', String lf.\x0a\x09pragmaEnd := '//>>excludeEnd(\x22imports\x22);', String lf.\x0a\x09importsForOutput := self importsForOutput: aPackage.\x0a\x09importsForOutput value ifNotEmpty: [ :c |\x0a\x09\x09aStream write: { pragmaStart. 'require('. c asJavaScriptSource. ');'}; lf; write: pragmaEnd ].\x0a\x09loadDependencies := self amdNamesOfPackages: aPackage loadDependencies.\x0a\x09aStream\x0a\x09\x09write: {\x0a\x09\x09\x09'define('.\x0a\x09\x09\x09(#('amber/boot'), loadDependencies asArray sorted) asJavaScriptSource.\x0a\x09\x09\x09', function($boot){\x22use strict\x22;' };\x0a\x09\x09lf.\x0a\x09self exportPackageBodyBlockPrologueOf: aPackage on: aStream",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["importsForOutput:", "amdNamesOfPackages:", "loadDependencies", "ifNotEmpty:", "value", ",", "lf", "write:", "replace:with:", "asJavaScriptSource", "sorted", "asArray", "join:", "key", "exportPackageBodyBlockPrologueOf:on:"]
+messageSends: [",", "lf", "importsForOutput:", "ifNotEmpty:", "value", "write:", "asJavaScriptSource", "amdNamesOfPackages:", "loadDependencies", "sorted", "asArray", "exportPackageBodyBlockPrologueOf:on:"]
 }),
 $globals.AmdExporter);
 

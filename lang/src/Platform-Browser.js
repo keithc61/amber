@@ -1,17 +1,15 @@
-define(["amber/boot"
 //>>excludeStart("imports", pragmas.excludeImports);
-, "amber_core/Platform-Services"
+require(["amber_core/Platform-Services"]);
 //>>excludeEnd("imports");
-, "amber_core/Kernel-Objects"], function($boot
-//>>excludeStart("imports", pragmas.excludeImports);
-
-//>>excludeEnd("imports");
-){"use strict";
+define(["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
 if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-Browser");
 $pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.imports = ["amber_core/Platform-Services"];
+//>>excludeStart("imports", pragmas.excludeImports);
+$pkg.isReady = new Promise(function (resolve, reject) { require(["amber_core/Platform-Services"], function () {resolve();}, reject); });
+//>>excludeEnd("imports");
 $pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
 
 $core.addClass("BrowserPlatform", $globals.Object, [], "Platform-Browser");
