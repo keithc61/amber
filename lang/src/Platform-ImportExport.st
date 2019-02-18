@@ -469,7 +469,7 @@ exportPackageImportsOf: aPackage on: aStream
 		vars ifNotEmpty: [ aStream write: { 'var '. ',' join: vars. ';' }; lf ]. 
 		aStream
 			write: {
-				'$pkg.isReady = new Promise(function (resolve, reject) { require('.
+				'$pkg.isReady = new Promise(function (resolve, reject) { requirejs('.
 				imports asJavaScriptSource.
 				', function ('.
 				',' join: ((1 to: vars size) collect: [ :each | '$', each asString ]).
@@ -488,8 +488,8 @@ exportPackagePrologueOf: aPackage on: aStream
 	aStream
 		write: {
 			'define('.
-			(#('amber/boot'), loadDependencies asArray sorted) asJavaScriptSource.
-			', function($boot){"use strict";' };
+			(#('amber/boot' 'require'), loadDependencies asArray sorted) asJavaScriptSource.
+			', function($boot,requirejs){"use strict";' };
 		lf.
 	self exportPackageBodyBlockPrologueOf: aPackage on: aStream
 ! !

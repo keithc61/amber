@@ -1,4 +1,4 @@
-define(["amber/boot", "amber_core/Kernel-Classes", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
+define(["amber/boot", "require", "amber_core/Kernel-Classes", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-ImportExport");
 $pkg.innerEval = function (expr) { return eval(expr); };
@@ -2069,7 +2069,7 @@ $ctx3.sendIdx[","]=3;
 $ctx2.sendIdx["collect:"]=1;
 //>>excludeEnd("ctx");
 $8=","._join_($9);
-$6=["$pkg.isReady = new Promise(function (resolve, reject) { require(",$7,", function (",$8,") {",$recv((1)._to_($recv(vars)._size()))._collect_((function(each){
+$6=["$pkg.isReady = new Promise(function (resolve, reject) { requirejs(",$7,", function (",$8,") {",$recv((1)._to_($recv(vars)._size()))._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -2105,7 +2105,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage", "aStream"],
-source: "exportPackageImportsOf: aPackage on: aStream\x0a\x09| importsForOutput pragmaStart pragmaEnd |\x0a\x09pragmaStart := '//>>excludeStart(\x22imports\x22, pragmas.excludeImports);', String lf.\x0a\x09pragmaEnd := '//>>excludeEnd(\x22imports\x22);', String lf.\x0a\x09super exportPackageImportsOf: aPackage on: aStream.\x0a\x09importsForOutput := self importsForOutput: aPackage.\x0a\x09importsForOutput value ifNotEmpty: [ :imports |\x0a\x09\x09| vars |\x0a\x09\x09aStream write: pragmaStart.\x0a\x09\x09vars := importsForOutput key.\x0a\x09\x09vars ifNotEmpty: [ aStream write: { 'var '. ',' join: vars. ';' }; lf ]. \x0a\x09\x09aStream\x0a\x09\x09\x09write: {\x0a\x09\x09\x09\x09'$pkg.isReady = new Promise(function (resolve, reject) { require('.\x0a\x09\x09\x09\x09imports asJavaScriptSource.\x0a\x09\x09\x09\x09', function ('.\x0a\x09\x09\x09\x09',' join: ((1 to: vars size) collect: [ :each | '$', each asString ]).\x0a\x09\x09\x09\x09') {'.\x0a\x09\x09\x09\x09(1 to: vars size) collect: [ :each | (vars at: each), '=$', each asString, '; ' ].\x0a\x09\x09\x09\x09'resolve();}, reject); });' };\x0a\x09\x09\x09lf;\x0a\x09\x09\x09write: pragmaEnd ]",
+source: "exportPackageImportsOf: aPackage on: aStream\x0a\x09| importsForOutput pragmaStart pragmaEnd |\x0a\x09pragmaStart := '//>>excludeStart(\x22imports\x22, pragmas.excludeImports);', String lf.\x0a\x09pragmaEnd := '//>>excludeEnd(\x22imports\x22);', String lf.\x0a\x09super exportPackageImportsOf: aPackage on: aStream.\x0a\x09importsForOutput := self importsForOutput: aPackage.\x0a\x09importsForOutput value ifNotEmpty: [ :imports |\x0a\x09\x09| vars |\x0a\x09\x09aStream write: pragmaStart.\x0a\x09\x09vars := importsForOutput key.\x0a\x09\x09vars ifNotEmpty: [ aStream write: { 'var '. ',' join: vars. ';' }; lf ]. \x0a\x09\x09aStream\x0a\x09\x09\x09write: {\x0a\x09\x09\x09\x09'$pkg.isReady = new Promise(function (resolve, reject) { requirejs('.\x0a\x09\x09\x09\x09imports asJavaScriptSource.\x0a\x09\x09\x09\x09', function ('.\x0a\x09\x09\x09\x09',' join: ((1 to: vars size) collect: [ :each | '$', each asString ]).\x0a\x09\x09\x09\x09') {'.\x0a\x09\x09\x09\x09(1 to: vars size) collect: [ :each | (vars at: each), '=$', each asString, '; ' ].\x0a\x09\x09\x09\x09'resolve();}, reject); });' };\x0a\x09\x09\x09lf;\x0a\x09\x09\x09write: pragmaEnd ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
 messageSends: [",", "lf", "exportPackageImportsOf:on:", "importsForOutput:", "ifNotEmpty:", "value", "write:", "key", "join:", "asJavaScriptSource", "collect:", "to:", "size", "asString", "at:"]
@@ -2140,7 +2140,7 @@ pragmaEnd="//>>excludeEnd(\x22imports\x22);".__comma($2);
 $ctx1.sendIdx[","]=2;
 //>>excludeEnd("ctx");
 loadDependencies=$self._amdNamesOfPackages_($recv(aPackage)._loadDependencies());
-$recv(aStream)._write_(["define(",$recv(["amber/boot"].__comma($recv($recv(loadDependencies)._asArray())._sorted()))._asJavaScriptSource(),", function($boot){\x22use strict\x22;"]);
+$recv(aStream)._write_(["define(",$recv(["amber/boot", "require"].__comma($recv($recv(loadDependencies)._asArray())._sorted()))._asJavaScriptSource(),", function($boot,requirejs){\x22use strict\x22;"]);
 $recv(aStream)._lf();
 $self._exportPackageBodyBlockPrologueOf_on_(aPackage,aStream);
 return self;
@@ -2150,7 +2150,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage", "aStream"],
-source: "exportPackagePrologueOf: aPackage on: aStream\x0a\x09| loadDependencies pragmaStart pragmaEnd |\x0a\x09pragmaStart := '//>>excludeStart(\x22imports\x22, pragmas.excludeImports);', String lf.\x0a\x09pragmaEnd := '//>>excludeEnd(\x22imports\x22);', String lf.\x0a\x09loadDependencies := self amdNamesOfPackages: aPackage loadDependencies.\x0a\x09aStream\x0a\x09\x09write: {\x0a\x09\x09\x09'define('.\x0a\x09\x09\x09(#('amber/boot'), loadDependencies asArray sorted) asJavaScriptSource.\x0a\x09\x09\x09', function($boot){\x22use strict\x22;' };\x0a\x09\x09lf.\x0a\x09self exportPackageBodyBlockPrologueOf: aPackage on: aStream",
+source: "exportPackagePrologueOf: aPackage on: aStream\x0a\x09| loadDependencies pragmaStart pragmaEnd |\x0a\x09pragmaStart := '//>>excludeStart(\x22imports\x22, pragmas.excludeImports);', String lf.\x0a\x09pragmaEnd := '//>>excludeEnd(\x22imports\x22);', String lf.\x0a\x09loadDependencies := self amdNamesOfPackages: aPackage loadDependencies.\x0a\x09aStream\x0a\x09\x09write: {\x0a\x09\x09\x09'define('.\x0a\x09\x09\x09(#('amber/boot' 'require'), loadDependencies asArray sorted) asJavaScriptSource.\x0a\x09\x09\x09', function($boot,requirejs){\x22use strict\x22;' };\x0a\x09\x09lf.\x0a\x09self exportPackageBodyBlockPrologueOf: aPackage on: aStream",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
 messageSends: [",", "lf", "amdNamesOfPackages:", "loadDependencies", "write:", "asJavaScriptSource", "sorted", "asArray", "exportPackageBodyBlockPrologueOf:on:"]
