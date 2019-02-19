@@ -778,6 +778,10 @@ contentsFor: aPackage
 
 exporterClass
 	self subclassResponsibility
+!
+
+setPath: aString forPackage: aPackage
+	self subclassResponsibility
 ! !
 
 !PackageHandler methodsFor: 'committing'!
@@ -884,6 +888,20 @@ commitPathStFor: aPackage
 
 exporterClass
 	^ AmdExporter
+!
+
+setPath: aString forPackage: aPackage
+	"Set the path the the package's `namespace`"
+	
+	"Smalltalk amdRequire
+		ifNil: [ self error: 'AMD loader not present' ]
+		ifNotNil: [ :require |"
+			require provided config: #{
+				'paths' -> #{
+					(self namespaceFor: aPackage) -> aString
+				}
+			}
+		"]"
 ! !
 
 !AmdPackageHandler methodsFor: 'committing'!
@@ -951,6 +969,14 @@ package: aPackage
 
 type
 	^ self class type
+! !
+
+!PackageTransport methodsFor: 'actions'!
+
+setPath: aString
+	"Set the commit path for the package"
+
+	self commitHandler setPath: aString forPackage: package
 ! !
 
 !PackageTransport methodsFor: 'committing'!
@@ -1067,18 +1093,6 @@ namespace
 
 namespace: aString
 	namespace := aString
-! !
-
-!AmdPackageTransport methodsFor: 'actions'!
-
-setPath: aString
-	"Set the path the the receiver's `namespace`"
-	
-	require provided config: #{
-		'paths' -> #{
-			self namespace -> aString
-		}
-	}.
 ! !
 
 !AmdPackageTransport methodsFor: 'converting'!

@@ -3348,6 +3348,30 @@ messageSends: ["messageText:", "new", ",", "responseText", "signal"]
 }),
 $globals.PackageHandler);
 
+$core.addMethod(
+$core.method({
+selector: "setPath:forPackage:",
+protocol: "accessing",
+fn: function (aString,aPackage){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"setPath:forPackage:",{aString:aString,aPackage:aPackage},$globals.PackageHandler)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aPackage"],
+source: "setPath: aString forPackage: aPackage\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclassResponsibility"]
+}),
+$globals.PackageHandler);
+
 
 
 $core.addClass("AmdPackageHandler", $globals.PackageHandler, [], "Platform-ImportExport");
@@ -3511,6 +3535,30 @@ source: "namespaceFor: aPackage\x0a\x09^ aPackage transport namespace",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["namespace", "transport"]
+}),
+$globals.AmdPackageHandler);
+
+$core.addMethod(
+$core.method({
+selector: "setPath:forPackage:",
+protocol: "accessing",
+fn: function (aString,aPackage){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv($recv(require)._provided())._config_($globals.HashedCollection._newFromPairs_(["paths",$globals.HashedCollection._newFromPairs_([$self._namespaceFor_(aPackage),aString])]));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"setPath:forPackage:",{aString:aString,aPackage:aPackage},$globals.AmdPackageHandler)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aPackage"],
+source: "setPath: aString forPackage: aPackage\x0a\x09\x22Set the path the the package's `namespace`\x22\x0a\x09\x0a\x09\x22Smalltalk amdRequire\x0a\x09\x09ifNil: [ self error: 'AMD loader not present' ]\x0a\x09\x09ifNotNil: [ :require |\x22\x0a\x09\x09\x09require provided config: #{\x0a\x09\x09\x09\x09'paths' -> #{\x0a\x09\x09\x09\x09\x09(self namespaceFor: aPackage) -> aString\x0a\x09\x09\x09\x09}\x0a\x09\x09\x09}\x0a\x09\x09\x22]\x22",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["config:", "provided", "namespaceFor:"]
 }),
 $globals.AmdPackageHandler);
 
@@ -3799,6 +3847,30 @@ source: "package: aPackage\x0a\x09package := aPackage",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
+}),
+$globals.PackageTransport);
+
+$core.addMethod(
+$core.method({
+selector: "setPath:",
+protocol: "actions",
+fn: function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv($self._commitHandler())._setPath_forPackage_(aString,$self["@package"]);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"setPath:",{aString:aString},$globals.PackageTransport)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "setPath: aString\x0a\x09\x22Set the commit path for the package\x22\x0a\x0a\x09self commitHandler setPath: aString forPackage: package",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["setPath:forPackage:", "commitHandler"]
 }),
 $globals.PackageTransport);
 
@@ -4259,30 +4331,6 @@ source: "printOn: aStream\x0a\x09super printOn: aStream.\x0a\x09aStream\x0a\x09\
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["printOn:", "nextPutAll:", "namespace"]
-}),
-$globals.AmdPackageTransport);
-
-$core.addMethod(
-$core.method({
-selector: "setPath:",
-protocol: "actions",
-fn: function (aString){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv($recv(require)._provided())._config_($globals.HashedCollection._newFromPairs_(["paths",$globals.HashedCollection._newFromPairs_([$self._namespace(),aString])]));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"setPath:",{aString:aString},$globals.AmdPackageTransport)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "setPath: aString\x0a\x09\x22Set the path the the receiver's `namespace`\x22\x0a\x09\x0a\x09require provided config: #{\x0a\x09\x09'paths' -> #{\x0a\x09\x09\x09self namespace -> aString\x0a\x09\x09}\x0a\x09}.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["config:", "provided", "namespace"]
 }),
 $globals.AmdPackageTransport);
 
