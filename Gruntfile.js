@@ -91,7 +91,9 @@ module.exports = function (grunt) {
                     pragmas: {
                         // none, for repl to have all info
                     },
-                    include: ['app', 'amber/lazypack', '__app__'],
+                    include: ['app'],
+                    findNestedDependencies: true,
+                    exclude: ['helios/index'],
                     insertRequire: ['app'],
                     optimize: "none",
                     wrap: helpers.nodeWrapperWithShebang,
@@ -115,7 +117,8 @@ module.exports = function (grunt) {
                     pragmas: {
                         // none, amber tests test contexts as well as eg. class copying which needs sources
                     },
-                    include: ['app', 'amber/lazypack', '__app__'],
+                    include: ['app'],
+                    findNestedDependencies: true,
                     insertRequire: ['app'],
                     optimize: "none",
                     wrap: helpers.nodeWrapperWithShebang,
