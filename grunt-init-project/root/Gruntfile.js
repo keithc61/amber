@@ -81,7 +81,7 @@ module.exports = function (grunt) {
                         "__app__": 'define(["devel", "amber_core/Platform-Browser"],function(x){return x});'
                     },
                     include: ['config', 'node_modules/requirejs/require', 'app', '__app__'],
-                    exclude: ['devel'],
+                    exclude: ['devel', 'amber_core/Platform-Browser'],
                     out: "the.js"
                 }
             },
