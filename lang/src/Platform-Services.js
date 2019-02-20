@@ -1,8 +1,8 @@
-define(["amber/boot", "require", "amber_core/Kernel-Collections", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot,requirejs){"use strict";
+define(["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Infrastructure", "amber/core/Kernel-Methods", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-Services");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("ConsoleErrorHandler", $globals.Object, [], "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);

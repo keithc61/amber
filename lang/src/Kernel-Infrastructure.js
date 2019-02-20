@@ -1,8 +1,8 @@
-define(["amber/boot", "require", "amber_core/Kernel-Collections", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Objects", "amber_core/Kernel-Promises"], function($boot,requirejs){"use strict";
+define(["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Objects", "amber/core/Kernel-Promises"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Infrastructure");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AmberBootstrapInitialization", $globals.Object, [], "Kernel-Infrastructure");
 

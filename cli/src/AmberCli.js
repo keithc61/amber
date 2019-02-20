@@ -1,4 +1,4 @@
-define(["amber/boot", "require", "amber_core/Kernel-Objects"], function($boot,requirejs){"use strict";
+define(["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("AmberCli");
 $pkg.innerEval = function (expr) { return eval(expr); };

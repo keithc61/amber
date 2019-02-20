@@ -1,12 +1,12 @@
-define(["amber/boot", "require", "amber_core/Kernel-Objects"], function($boot,requirejs){"use strict";
+define(["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-Node");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.imports = ["amber_core/Platform-Services"];
+$pkg.imports = ["amber/core/Platform-Services"];
 //>>excludeStart("imports", pragmas.excludeImports);
-$pkg.isReady = new Promise(function (resolve, reject) { requirejs(["amber_core/Platform-Services"], function () {resolve();}, reject); });
+$pkg.isReady = new Promise(function (resolve, reject) { requirejs(["amber/core/Platform-Services"], function () {resolve();}, reject); });
 //>>excludeEnd("imports");
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("NodePlatform", $globals.Object, [], "Platform-Node");
 //>>excludeStart("ide", pragmas.excludeIdeData);

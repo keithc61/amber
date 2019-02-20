@@ -1,8 +1,8 @@
-define(["amber/boot", "require", "amber_core/Compiler-AST", "amber_core/Compiler-Core", "amber_core/Compiler-IR", "amber_core/Compiler-Semantic", "amber_core/Kernel-Objects"], function($boot,requirejs){"use strict";
+define(["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Compiler-Core", "amber/core/Compiler-IR", "amber/core/Compiler-Semantic", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Inlining");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("ASTPreInliner", $globals.NodeVisitor, [], "Compiler-Inlining");
 $core.addMethod(
