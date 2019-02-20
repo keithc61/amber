@@ -35,12 +35,12 @@
 
         require(["require", "amber/es6-promise"], function (require, promiseLib) {
             promiseLib.polyfill();
-            require(["amber/boot", "amber/deploy", "amber_core/Platform-Browser"], function (_, amber) {
+            require(["amber/boot", "amber/deploy", "amber/core/Platform-Browser"], function (_, amber) {
                 messageBox.appendChild(initializingKernel);
-                amber.initialize({'transport.defaultAmdNamespace': "amber_core"})
+                amber.initialize({'transport.defaultAmdNamespace': "amber/core"})
                     .then(function () {
                         messageBox.appendChild(loadingIdeSupport);
-                        return amber.loadPackages(["amber/lang", "amber/legacy/IDE", "amber_core/SUnit"]);
+                        return amber.loadPackages(["amber/lang", "amber/legacy/IDE", "amber/core/SUnit"]);
                     })
                     .then(function () {
                         startLegacy.addEventListener('click', function () {

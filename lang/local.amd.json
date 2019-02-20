@@ -1,6 +1,11 @@
 {
   "paths": {
     "amber": "base",
-    "amber_core": "src"
+    "amber/core": "src"
+  },
+  "map": {
+    "*": {
+      "amber_core": "amber/core"
+    }
   }
 }

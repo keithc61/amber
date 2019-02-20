@@ -69,7 +69,7 @@ define([
     function AMDBrik (brikz, st) {
         st.amdRequire = require;
         st.defaultTransportType = st.defaultTransportType || "amd";
-        st.defaultAmdNamespace = st.defaultAmdNamespace || "amber_core";
+        st.defaultAmdNamespace = st.defaultAmdNamespace || "amber/core";
     }
 
     /* Defines asReceiver to be present at load time */

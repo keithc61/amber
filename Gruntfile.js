@@ -56,7 +56,7 @@ module.exports = function (grunt) {
             tests: {
                 output_dir: 'lang/src',
                 src: ['lang/src/Kernel-Tests.st', 'lang/src/Compiler-Tests.st', 'lang/src/Platform-DOM-Tests.st', 'lang/src/SUnit-Tests.st'],
-                libraries: ['amber_core/SUnit'],
+                libraries: ['amber/core/SUnit'],
                 jsGlobals: ['navigator']
             },
             cli: {
@@ -80,7 +80,7 @@ module.exports = function (grunt) {
                     mainConfigFile: "config.js",
                     rawText: {
                         "__app__": "(" + function () {
-                            define(["amber/devel", "amber_core/Platform-Node", "amber_cli/AmberCli"], function (amber) {
+                            define(["amber/devel", "amber/core/Platform-Node", "amber_cli/AmberCli"], function (amber) {
                                 amber.initialize().then(function () {
                                     amber.globals.AmberCli._main();
                                 });
@@ -105,7 +105,7 @@ module.exports = function (grunt) {
                     mainConfigFile: "config.js",
                     rawText: {
                         "__app__": "(" + function () {
-                            define(["amber/devel", "amber_core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {
+                            define(["amber/devel", "amber/core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {
                                 amber.initialize().then(function () {
                                     amber.globals.NodeTestRunner._main();
                                 });

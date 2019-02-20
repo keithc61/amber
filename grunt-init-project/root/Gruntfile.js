@@ -46,7 +46,7 @@ module.exports = function (grunt) {
                     'src/{%= name %}-Tests.st' // list all tests in dependency order
                 ],
                 amd_namespace: '{%= namespace %}',
-                libraries: ['amber_core/SUnit', 'amber/web/Web', 'silk/Silk']
+                libraries: ['amber/core/SUnit', 'amber/web/Web', 'silk/Silk']
             }
         },
 
@@ -61,7 +61,7 @@ module.exports = function (grunt) {
                     mainConfigFile: "config.js",
                     rawText: {
                         "app": '(' + polyfillThenPromiseApp + '());',
-                        "__app__": 'define(["deploy", "amber_core/Platform-Browser"],function(x){return x});'
+                        "__app__": 'define(["deploy", "amber/core/Platform-Browser"],function(x){return x});'
                     },
                     pragmas: {
                         excludeIdeData: true,
@@ -78,10 +78,10 @@ module.exports = function (grunt) {
                     mainConfigFile: "config.js",
                     rawText: {
                         "app": '(' + polyfillThenPromiseApp + '());',
-                        "__app__": 'define(["devel", "amber_core/Platform-Browser"],function(x){return x});'
+                        "__app__": 'define(["devel", "amber/core/Platform-Browser"],function(x){return x});'
                     },
                     include: ['config', 'node_modules/requirejs/require', 'app', '__app__'],
-                    exclude: ['devel', 'amber_core/Platform-Browser'],
+                    exclude: ['devel', 'amber/core/Platform-Browser'],
                     out: "the.js"
                 }
             },
@@ -91,7 +91,7 @@ module.exports = function (grunt) {
                     rawText: {
                         "jquery": "/* do not load in node test runner */",
                         "__app__": "(" + function () {
-                            define(["testing", "amber_core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {
+                            define(["testing", "amber/core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {
                                 amber.initialize().then(function () {
                                     amber.globals.NodeTestRunner._main();
                                 });

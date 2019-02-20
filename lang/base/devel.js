@@ -7,12 +7,12 @@ define([
     './boot', // pre-fetch, class loader
     './deploy', // pre-fetch, dep of ./lang
     // --- packages of the development only Amber begin here ---
-    'amber_core/Platform-DOM',
-    'amber_core/SUnit',
-    'amber_core/Compiler-Tests',
-    'amber_core/Kernel-Tests',
-    'amber_core/Platform-DOM-Tests',
-    'amber_core/SUnit-Tests'
+    'amber/core/Platform-DOM',
+    'amber/core/SUnit',
+    'amber/core/Compiler-Tests',
+    'amber/core/Kernel-Tests',
+    'amber/core/Platform-DOM-Tests',
+    'amber/core/SUnit-Tests'
     // --- packages of the development only Amber end here ---
 ], function (amber) {
     return amber;

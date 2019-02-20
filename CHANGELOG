@@ -11,6 +11,9 @@
 * `aJsObject selector: foo withMoreArguments: bar` fails if `aJsObject.selector` is not a function
   * only the single-arg `aJsObject selector: foo` sets the value `aJsObject selector = foo`
   * so far even more-than-one-arg ones did set the value denoted by first keyword
+* Namespace change: amber_core => amber/core.
+  * Backward compatibility mapping added, so old code should load and save with new implicit deps.
+  * You must edit explicir deps (aka `imports:`) as well as Gruntfile, deploy, testing and devel .js files yourself.
 
 Commits: https://lolg.it/amber/amber/commits/0.23.0
 

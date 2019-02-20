@@ -35,7 +35,7 @@ var createDefaultConfiguration = function () {
         load: [],
         stFiles: [],
         jsGlobals: [],
-        amdNamespace: 'amber_core',
+        amdNamespace: 'amber/core',
         compile: [],
         compiled: [],
         outputDir: undefined,
@@ -53,7 +53,7 @@ AmberCompiler.prototype.main = function (configuration, finished_callback) {
     console.time('Compile Time');
 
     if (configuration.amdNamespace.length === 0) {
-        configuration.amdNamespace = 'amber_core';
+        configuration.amdNamespace = 'amber/core';
     }
 
     console.ambercLog = console.log;
@@ -89,7 +89,10 @@ AmberCompiler.prototype.main = function (configuration, finished_callback) {
     if (!rjsConfig.paths.amber) {
         rjsConfig.paths.amber = path.join(this.amber_dir, 'base');
     }
-    if (!rjsConfig.paths.amber_core) rjsConfig.paths.amber_core = path.join(this.amber_dir, 'src');
+    if (!rjsConfig.paths["amber/core"]) rjsConfig.paths["amber/core"] = path.join(this.amber_dir, 'src');
+    if (!rjsConfig.map) rjsConfig.map = {};
+    if (!rjsConfig.map["*"]) rjsConfig.map["*"] = {};
+    rjsConfig.map["*"]["amber_core"] = "amber/core";
     rjsConfig.paths['text'] = require.resolve('requirejs-text').replace(/\.js$/, "");
     rjsConfig.paths['amber/without-imports'] = path.join(__dirname, 'without-imports');
     rjsConfig.nodeRequire = require;
@@ -199,7 +202,7 @@ function collect_st_files(configuration) {
  */
 function create_compiler(configuration) {
     var include_files = configuration.load;
-    return new Promise(configuration.requirejs.bind(null, ["amber/lang", "amber_core/Platform-Node"]))
+    return new Promise(configuration.requirejs.bind(null, ["amber/lang", "amber/core/Platform-Node"]))
         .then(function (boot) {
             configuration.core = boot.api;
             configuration.globals = boot.globals;
