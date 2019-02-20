@@ -1,13 +1,6 @@
 {
-    "paths": {
-        "amber": "base",
-        "amber_core": "src"
-    },
-    "map": {
-        "*": {
-            "00comment": "These are backward compatibility pointers.",
-            "amber_core/Compiler-Exceptions": "amber_core/Compiler-Core",
-            "amber_core/Kernel-ImportExport": "amber_core/Platform-ImportExport"
-        }
-    }
+  "paths": {
+    "amber": "base",
+    "amber_core": "src"
+  }
 }
