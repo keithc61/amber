@@ -1947,6 +1947,7 @@ $1;
 } else {
 $recv($globals.Smalltalk)._removeClass_($self["@theClass"]);
 $self._deny_($recv($recv($recv($self["@theClass"])._package())._classes())._includes_($self["@theClass"]));
+$self._assert_equals_($recv($recv($globals.Smalltalk)._globals())._at_($recv($self["@theClass"])._name()),nil);
 $self["@theClass"]=nil;
 $self["@theClass"];
 }
@@ -1957,10 +1958,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "tearDown\x0a\x09theClass ifNotNil: [\x0a\x09\x09Smalltalk removeClass: theClass.\x0a\x09\x09self deny: (theClass package classes includes: theClass).\x0a\x09\x09theClass := nil ]",
+source: "tearDown\x0a\x09theClass ifNotNil: [\x0a\x09\x09Smalltalk removeClass: theClass.\x0a\x09\x09self deny: (theClass package classes includes: theClass).\x0a\x09\x09self assert: (Smalltalk globals at: theClass name) equals: nil.\x0a\x09\x09theClass := nil ]",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["ifNotNil:", "removeClass:", "deny:", "includes:", "classes", "package"]
+messageSends: ["ifNotNil:", "removeClass:", "deny:", "includes:", "classes", "package", "assert:equals:", "at:", "globals", "name"]
 }),
 $globals.ClassBuilderTest);
 

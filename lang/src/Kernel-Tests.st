@@ -351,6 +351,7 @@ tearDown
 	theClass ifNotNil: [
 		Smalltalk removeClass: theClass.
 		self deny: (theClass package classes includes: theClass).
+		self assert: (Smalltalk globals at: theClass name) equals: nil.
 		theClass := nil ]
 ! !
 
