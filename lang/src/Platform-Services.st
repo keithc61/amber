@@ -584,23 +584,6 @@ inspectOn: anInspector
 	anInspector setVariables: variables
 ! !
 
-!MethodContext methodsFor: '*Platform-Services'!
-
-inspectOn: anInspector
-	| variables |
-	variables := Dictionary new.
-	variables at: '#self' put: self.
-	variables at: '#home' put: self home.
-	variables at: '#receiver' put: self receiver.
-	variables at: '#selector' put: self selector.
-	variables at: '#locals' put: self locals.
-	self class instanceVariableNames do: [ :each |
-		variables at: each put: (self instVarAt: each) ].
-	anInspector
-		setLabel: self printString;
-		setVariables: variables
-! !
-
 !Object methodsFor: '*Platform-Services'!
 
 inspectOn: anInspector
@@ -647,5 +630,22 @@ inspectOn: anInspector
 		ifTrue: [ label := (self printString copyFrom: 1 to: 30), '...''' ]
 		ifFalse: [ label := self printString ].
 	anInspector setLabel: label
+! !
+
+!TMethodContext methodsFor: '*Platform-Services'!
+
+inspectOn: anInspector
+	| variables |
+	variables := Dictionary new.
+	variables at: '#self' put: self.
+	variables at: '#home' put: self home.
+	variables at: '#receiver' put: self receiver.
+	variables at: '#selector' put: self selector.
+	variables at: '#locals' put: self locals.
+	self class instanceVariableNames do: [ :each |
+		variables at: each put: (self instVarAt: each) ].
+	anInspector
+		setLabel: self printString;
+		setVariables: variables
 ! !
 

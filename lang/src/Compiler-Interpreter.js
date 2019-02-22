@@ -327,7 +327,7 @@ messageSends: ["initializeWithContext:node:", "new", "yourself"]
 $globals.AIBlockClosure.a$cls);
 
 
-$core.addClass("AIContext", $globals.MethodContext, ["outerContext", "innerContext", "pc", "locals", "selector", "index", "sendIndexes", "evaluatedSelector", "ast", "interpreter", "supercall"], "Compiler-Interpreter");
+$core.addClass("AIContext", $globals.Object, ["outerContext", "innerContext", "pc", "locals", "selector", "index", "sendIndexes", "evaluatedSelector", "ast", "interpreter", "supercall"], "Compiler-Interpreter");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AIContext.comment="I am like a `MethodContext`, used by the `ASTInterpreter`.\x0aUnlike a `MethodContext`, my instances are not read-only.\x0a\x0aWhen debugging, my instances are created by copying the current `MethodContext` (thisContext)";
 //>>excludeEnd("ide");
@@ -3756,6 +3756,8 @@ messageSends: ["visitSendNode:", "ifTrue:", "=", "selector", "trackedIndex", "in
 }),
 $globals.ASTPCNodeVisitor);
 
+
+$core.setTraitComposition([{trait: $globals.TMethodContext}], $globals.AIContext);
 
 $core.addMethod(
 $core.method({

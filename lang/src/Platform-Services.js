@@ -2120,62 +2120,6 @@ $recv(variables)._at_put_("#self",self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["at:put:"]=1;
 //>>excludeEnd("ctx");
-$recv(variables)._at_put_("#home",$self._home());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:put:"]=2;
-//>>excludeEnd("ctx");
-$recv(variables)._at_put_("#receiver",$self._receiver());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:put:"]=3;
-//>>excludeEnd("ctx");
-$recv(variables)._at_put_("#selector",$self._selector());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:put:"]=4;
-//>>excludeEnd("ctx");
-$recv(variables)._at_put_("#locals",$self._locals());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:put:"]=5;
-//>>excludeEnd("ctx");
-$recv($recv($self._class())._instanceVariableNames())._do_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(variables)._at_put_(each,$self._instVarAt_(each));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-$recv(anInspector)._setLabel_($self._printString());
-$recv(anInspector)._setVariables_(variables);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"inspectOn:",{anInspector:anInspector,variables:variables},$globals.MethodContext)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anInspector"],
-source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09variables at: '#home' put: self home.\x0a\x09variables at: '#receiver' put: self receiver.\x0a\x09variables at: '#selector' put: self selector.\x0a\x09variables at: '#locals' put: self locals.\x0a\x09self class instanceVariableNames do: [ :each |\x0a\x09\x09variables at: each put: (self instVarAt: each) ].\x0a\x09anInspector\x0a\x09\x09setLabel: self printString;\x0a\x09\x09setVariables: variables",
-referencedClasses: ["Dictionary"],
-//>>excludeEnd("ide");
-messageSends: ["new", "at:put:", "home", "receiver", "selector", "locals", "do:", "instanceVariableNames", "class", "instVarAt:", "setLabel:", "printString", "setVariables:"]
-}),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
-selector: "inspectOn:",
-protocol: "*Platform-Services",
-fn: function (anInspector){
-var self=this,$self=this;
-var variables;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-variables=$recv($globals.Dictionary)._new();
-$recv(variables)._at_put_("#self",self);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:put:"]=1;
-//>>excludeEnd("ctx");
 $recv($recv($self._class())._allInstanceVariableNames())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -2319,5 +2263,61 @@ referencedClasses: [],
 messageSends: ["inspectOn:", "ifTrue:ifFalse:", ">", "size", "printString", ",", "copyFrom:to:", "setLabel:"]
 }),
 $globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "inspectOn:",
+protocol: "*Platform-Services",
+fn: function (anInspector){
+var self=this,$self=this;
+var variables;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+variables=$recv($globals.Dictionary)._new();
+$recv(variables)._at_put_("#self",self);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=1;
+//>>excludeEnd("ctx");
+$recv(variables)._at_put_("#home",$self._home());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=2;
+//>>excludeEnd("ctx");
+$recv(variables)._at_put_("#receiver",$self._receiver());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=3;
+//>>excludeEnd("ctx");
+$recv(variables)._at_put_("#selector",$self._selector());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=4;
+//>>excludeEnd("ctx");
+$recv(variables)._at_put_("#locals",$self._locals());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=5;
+//>>excludeEnd("ctx");
+$recv($recv($self._class())._instanceVariableNames())._do_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(variables)._at_put_(each,$self._instVarAt_(each));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$recv(anInspector)._setLabel_($self._printString());
+$recv(anInspector)._setVariables_(variables);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"inspectOn:",{anInspector:anInspector,variables:variables},$globals.TMethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anInspector"],
+source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09variables at: '#home' put: self home.\x0a\x09variables at: '#receiver' put: self receiver.\x0a\x09variables at: '#selector' put: self selector.\x0a\x09variables at: '#locals' put: self locals.\x0a\x09self class instanceVariableNames do: [ :each |\x0a\x09\x09variables at: each put: (self instVarAt: each) ].\x0a\x09anInspector\x0a\x09\x09setLabel: self printString;\x0a\x09\x09setVariables: variables",
+referencedClasses: ["Dictionary"],
+//>>excludeEnd("ide");
+messageSends: ["new", "at:put:", "home", "receiver", "selector", "locals", "do:", "instanceVariableNames", "class", "instVarAt:", "setLabel:", "printString", "setVariables:"]
+}),
+$globals.TMethodContext);
 
 });

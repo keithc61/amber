@@ -583,21 +583,6 @@ evaluatedSelector
 	<inlineJS: 'return self.evaluatedSelector'>
 !
 
-findContextSuchThat: testBlock
-	"Search self and my sender chain for first one that satisfies `testBlock`.  
-	Answer `nil` if none satisfy"
-
-	| context |
-	
-	context := self.
-	[ context isNil] whileFalse: [
-		(testBlock value: context) 
-			ifTrue: [ ^ context ].
-		context := context outerContext ].
-
-	^ nil
-!
-
 home
 	<inlineJS: 'return self.homeContext'>
 !
@@ -610,37 +595,8 @@ locals
 	<inlineJS: 'return self.locals || {}'>
 !
 
-method
-	| method lookupClass receiverClass supercall |
-	
-	self methodContext ifNil: [ ^ nil ].
-
-	receiverClass := self methodContext receiver class.
-	method := receiverClass lookupSelector: self methodContext selector.
-	supercall := self outerContext 
-		ifNil: [ false ]
-		ifNotNil: [ :outer | outer supercall ].
-
-	^ supercall
-		ifFalse: [ method ]
-		ifTrue: [ method methodClass superclass lookupSelector: self methodContext selector ]
-!
-
-methodContext
-	self isBlockContext ifFalse: [ ^ self ].
-	
-	^ self outerContext ifNotNil: [ :outer |
-		outer methodContext ]
-!
-
 outerContext
 	<inlineJS: 'return self.outerContext || self.homeContext'>
-!
-
-receiver
-	^ (self isBlockContext and: [ self outerContext notNil ])
-		ifTrue: [ self outerContext receiver ]
-		ifFalse: [ self basicReceiver ]
 !
 
 selector
@@ -651,10 +607,6 @@ selector
 			return nil;
 		}
 	'>
-!
-
-sendIndexAt: aSelector
-	<inlineJS: 'return self.sendIdx[aSelector] || 0'>
 !
 
 sendIndexes
@@ -669,19 +621,6 @@ supercall
 	<inlineJS: 'return self.supercall == true'>
 ! !
 
-!MethodContext methodsFor: 'converting'!
-
-asString
-	^ self isBlockContext
-		ifTrue: [ 'a block (in ', self methodContext asString, ')' ]
-		ifFalse: [ 
-			| methodClass |
-			methodClass := self method methodClass.
-			methodClass = self receiver class 
-				ifTrue: [ self receiver class name, ' >> ', self selector ]
-				ifFalse: [ self receiver class name, '(', methodClass name, ') >> ', self selector ] ]
-! !
-
 !MethodContext methodsFor: 'error handling'!
 
 stubToAtMost: anInteger
@@ -689,24 +628,6 @@ stubToAtMost: anInteger
 	context := self.
 	anInteger timesRepeat: [ context := context ifNotNil: [ context home ] ].
 	context ifNotNil: [ context stubHere ]
-! !
-
-!MethodContext methodsFor: 'printing'!
-
-printOn: aStream
-	super printOn: aStream.
-	aStream 
-		nextPutAll: '(';
-		nextPutAll: self asString;
-		nextPutAll: ')'
-! !
-
-!MethodContext methodsFor: 'testing'!
-
-isBlockContext
-	"Block context do not have selectors."
-	
-	^ self selector isNil
 ! !
 
 Object subclass: #NativeFunction
@@ -891,6 +812,118 @@ isNativeFunction: anObject
 	<inlineJS: 'return typeof anObject === "function"'>
 ! !
 
+Trait named: #TMethodContext
+	package: 'Kernel-Methods'!
+
+!TMethodContext methodsFor: 'accessing'!
+
+basicReceiver
+	self subclassResponsibility
+!
+
+findContextSuchThat: testBlock
+	"Search self and my sender chain for first one that satisfies `testBlock`.  
+	Answer `nil` if none satisfy"
+
+	| context |
+	
+	context := self.
+	[ context isNil] whileFalse: [
+		(testBlock value: context) 
+			ifTrue: [ ^ context ].
+		context := context outerContext ].
+
+	^ nil
+!
+
+home
+	self subclassResponsibility
+!
+
+index
+	self subclassResponsibility
+!
+
+locals
+	self subclassResponsibility
+!
+
+method
+	| method lookupClass receiverClass supercall |
+	
+	self methodContext ifNil: [ ^ nil ].
+
+	receiverClass := self methodContext receiver class.
+	method := receiverClass lookupSelector: self methodContext selector.
+	supercall := self outerContext 
+		ifNil: [ false ]
+		ifNotNil: [ :outer | outer supercall ].
+
+	^ supercall
+		ifFalse: [ method ]
+		ifTrue: [ method methodClass superclass lookupSelector: self methodContext selector ]
+!
+
+methodContext
+	self isBlockContext ifFalse: [ ^ self ].
+	
+	^ self outerContext ifNotNil: [ :outer |
+		outer methodContext ]
+!
+
+outerContext
+	self subclassResponsibility
+!
+
+receiver
+	^ (self isBlockContext and: [ self outerContext notNil ])
+		ifTrue: [ self outerContext receiver ]
+		ifFalse: [ self basicReceiver ]
+!
+
+selector
+	self subclassResponsibility
+!
+
+sendIndexes
+	self subclassResponsibility
+!
+
+supercall
+	self subclassResponsibility
+! !
+
+!TMethodContext methodsFor: 'converting'!
+
+asString
+	^ self isBlockContext
+		ifTrue: [ 'a block (in ', self methodContext asString, ')' ]
+		ifFalse: [ 
+			| methodClass |
+			methodClass := self method methodClass.
+			methodClass = self receiver class 
+				ifTrue: [ self receiver class name, ' >> ', self selector ]
+				ifFalse: [ self receiver class name, '(', methodClass name, ') >> ', self selector ] ]
+! !
+
+!TMethodContext methodsFor: 'printing'!
+
+printOn: aStream
+	super printOn: aStream.
+	aStream 
+		nextPutAll: '(';
+		nextPutAll: self asString;
+		nextPutAll: ')'
+! !
+
+!TMethodContext methodsFor: 'testing'!
+
+isBlockContext
+	"Block context do not have selectors."
+	
+	^ self selector isNil
+! !
+
 Object subclass: #Timeout
 	instanceVariableNames: 'rawTimeout'
 	package: 'Kernel-Methods'!
@@ -927,5 +960,8 @@ clearTimeout
 
 on: anObject
 	^ self new rawTimeout: anObject; yourself
+! !
+
+MethodContext setTraitComposition: {TMethodContext} asTraitComposition!
 ! !
 

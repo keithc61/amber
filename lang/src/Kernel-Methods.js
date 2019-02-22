@@ -2082,98 +2082,6 @@ $globals.MethodContext.comment="I hold all the dynamic state associated with the
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "asString",
-protocol: "converting",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $2,$3,$5,$7,$6,$4,$11,$10,$9,$8,$12,$16,$15,$14,$13,$1;
-$2=$self._isBlockContext();
-if($core.assert($2)){
-$3="a block (in ".__comma($recv($self._methodContext())._asString());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=2;
-//>>excludeEnd("ctx");
-$1=$recv($3).__comma(")");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
-//>>excludeEnd("ctx");
-} else {
-var methodClass;
-methodClass=$recv($self._method())._methodClass();
-$5=methodClass;
-$7=$self._receiver();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["receiver"]=1;
-//>>excludeEnd("ctx");
-$6=$recv($7)._class();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["class"]=1;
-//>>excludeEnd("ctx");
-$4=$recv($5).__eq($6);
-if($core.assert($4)){
-$11=$self._receiver();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["receiver"]=2;
-//>>excludeEnd("ctx");
-$10=$recv($11)._class();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["class"]=2;
-//>>excludeEnd("ctx");
-$9=$recv($10)._name();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["name"]=1;
-//>>excludeEnd("ctx");
-$8=$recv($9).__comma(" >> ");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=4;
-//>>excludeEnd("ctx");
-$12=$self._selector();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["selector"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($8).__comma($12);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=3;
-//>>excludeEnd("ctx");
-} else {
-$16=$recv($recv($self._receiver())._class())._name();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["name"]=2;
-//>>excludeEnd("ctx");
-$15=$recv($16).__comma("(");
-$14=$recv($15).__comma($recv(methodClass)._name());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=7;
-//>>excludeEnd("ctx");
-$13=$recv($14).__comma(") >> ");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=6;
-//>>excludeEnd("ctx");
-$1=$recv($13).__comma($self._selector());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=5;
-//>>excludeEnd("ctx");
-}
-}
-return $1;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asString",{},$globals.MethodContext)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "asString\x0a\x09^ self isBlockContext\x0a\x09\x09ifTrue: [ 'a block (in ', self methodContext asString, ')' ]\x0a\x09\x09ifFalse: [ \x0a\x09\x09\x09| methodClass |\x0a\x09\x09\x09methodClass := self method methodClass.\x0a\x09\x09\x09methodClass = self receiver class \x0a\x09\x09\x09\x09ifTrue: [ self receiver class name, ' >> ', self selector ]\x0a\x09\x09\x09\x09ifFalse: [ self receiver class name, '(', methodClass name, ') >> ', self selector ] ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["ifTrue:ifFalse:", "isBlockContext", ",", "asString", "methodContext", "methodClass", "method", "=", "class", "receiver", "name", "selector"]
-}),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
 selector: "basicReceiver",
 protocol: "accessing",
 fn: function (){
@@ -2217,58 +2125,6 @@ source: "evaluatedSelector\x0a\x09<inlineJS: 'return self.evaluatedSelector'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
-}),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
-selector: "findContextSuchThat:",
-protocol: "accessing",
-fn: function (testBlock){
-var self=this,$self=this;
-var context;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-var $early={};
-try {
-context=self;
-$recv((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(context)._isNil();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}))._whileFalse_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$1=$recv(testBlock)._value_(context);
-if($core.assert($1)){
-throw $early=[context];
-}
-context=$recv(context)._outerContext();
-return context;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
-return nil;
-}
-catch(e) {if(e===$early)return e[0]; throw e}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"findContextSuchThat:",{testBlock:testBlock,context:context},$globals.MethodContext)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["testBlock"],
-source: "findContextSuchThat: testBlock\x0a\x09\x22Search self and my sender chain for first one that satisfies `testBlock`.  \x0a\x09Answer `nil` if none satisfy\x22\x0a\x0a\x09| context |\x0a\x09\x0a\x09context := self.\x0a\x09[ context isNil] whileFalse: [\x0a\x09\x09(testBlock value: context) \x0a\x09\x09\x09ifTrue: [ ^ context ].\x0a\x09\x09context := context outerContext ].\x0a\x0a\x09^ nil",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["whileFalse:", "isNil", "ifTrue:", "value:", "outerContext"]
 }),
 $globals.MethodContext);
 
@@ -2322,29 +2178,6 @@ $globals.MethodContext);
 
 $core.addMethod(
 $core.method({
-selector: "isBlockContext",
-protocol: "testing",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self._selector())._isNil();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isBlockContext",{},$globals.MethodContext)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isBlockContext\x0a\x09\x22Block context do not have selectors.\x22\x0a\x09\x0a\x09^ self selector isNil",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["isNil", "selector"]
-}),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
 selector: "locals",
 protocol: "accessing",
 fn: function (){
@@ -2364,107 +2197,6 @@ source: "locals\x0a\x09<inlineJS: 'return self.locals || {}'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
-}),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
-selector: "method",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-var method,lookupClass,receiverClass,supercall;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$3,$2,$4,$6,$5,$7,$8,$receiver;
-$1=$self._methodContext();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["methodContext"]=1;
-//>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.a$nil){
-return nil;
-} else {
-$1;
-}
-$3=$self._methodContext();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["methodContext"]=2;
-//>>excludeEnd("ctx");
-$2=$recv($3)._receiver();
-receiverClass=$recv($2)._class();
-$4=receiverClass;
-$6=$self._methodContext();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["methodContext"]=3;
-//>>excludeEnd("ctx");
-$5=$recv($6)._selector();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["selector"]=1;
-//>>excludeEnd("ctx");
-method=$recv($4)._lookupSelector_($5);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lookupSelector:"]=1;
-//>>excludeEnd("ctx");
-$7=$self._outerContext();
-if(($receiver = $7) == null || $receiver.a$nil){
-supercall=false;
-} else {
-var outer;
-outer=$receiver;
-supercall=$recv(outer)._supercall();
-}
-$8=supercall;
-if($core.assert($8)){
-return $recv($recv($recv(method)._methodClass())._superclass())._lookupSelector_($recv($self._methodContext())._selector());
-} else {
-return method;
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"method",{method:method,lookupClass:lookupClass,receiverClass:receiverClass,supercall:supercall},$globals.MethodContext)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "method\x0a\x09| method lookupClass receiverClass supercall |\x0a\x09\x0a\x09self methodContext ifNil: [ ^ nil ].\x0a\x0a\x09receiverClass := self methodContext receiver class.\x0a\x09method := receiverClass lookupSelector: self methodContext selector.\x0a\x09supercall := self outerContext \x0a\x09\x09ifNil: [ false ]\x0a\x09\x09ifNotNil: [ :outer | outer supercall ].\x0a\x0a\x09^ supercall\x0a\x09\x09ifFalse: [ method ]\x0a\x09\x09ifTrue: [ method methodClass superclass lookupSelector: self methodContext selector ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["ifNil:", "methodContext", "class", "receiver", "lookupSelector:", "selector", "ifNil:ifNotNil:", "outerContext", "supercall", "ifFalse:ifTrue:", "superclass", "methodClass"]
-}),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
-selector: "methodContext",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$2,$receiver;
-$1=$self._isBlockContext();
-if(!$core.assert($1)){
-return self;
-}
-$2=$self._outerContext();
-if(($receiver = $2) == null || $receiver.a$nil){
-return $2;
-} else {
-var outer;
-outer=$receiver;
-return $recv(outer)._methodContext();
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"methodContext",{},$globals.MethodContext)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "methodContext\x0a\x09self isBlockContext ifFalse: [ ^ self ].\x0a\x09\x0a\x09^ self outerContext ifNotNil: [ :outer |\x0a\x09\x09outer methodContext ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["ifFalse:", "isBlockContext", "ifNotNil:", "outerContext", "methodContext"]
 }),
 $globals.MethodContext);
 
@@ -2494,87 +2226,6 @@ $globals.MethodContext);
 
 $core.addMethod(
 $core.method({
-selector: "printOn:",
-protocol: "printing",
-fn: function (aStream){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = true,
-//>>excludeEnd("ctx");
-($globals.MethodContext.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($self, [aStream]));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = false;
-//>>excludeEnd("ctx");;
-$recv(aStream)._nextPutAll_("(");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=1;
-//>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_($self._asString());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=2;
-//>>excludeEnd("ctx");
-$recv(aStream)._nextPutAll_(")");
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.MethodContext)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aStream"],
-source: "printOn: aStream\x0a\x09super printOn: aStream.\x0a\x09aStream \x0a\x09\x09nextPutAll: '(';\x0a\x09\x09nextPutAll: self asString;\x0a\x09\x09nextPutAll: ')'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["printOn:", "nextPutAll:", "asString"]
-}),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
-selector: "receiver",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $2,$1;
-$1=$recv($self._isBlockContext())._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$2=$self._outerContext();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["outerContext"]=1;
-//>>excludeEnd("ctx");
-return $recv($2)._notNil();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-if($core.assert($1)){
-return $recv($self._outerContext())._receiver();
-} else {
-return $self._basicReceiver();
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"receiver",{},$globals.MethodContext)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "receiver\x0a\x09^ (self isBlockContext and: [ self outerContext notNil ])\x0a\x09\x09ifTrue: [ self outerContext receiver ]\x0a\x09\x09ifFalse: [ self basicReceiver ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["ifTrue:ifFalse:", "and:", "isBlockContext", "notNil", "outerContext", "receiver", "basicReceiver"]
-}),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
 selector: "selector",
 protocol: "accessing",
 fn: function (){
@@ -2597,30 +2248,6 @@ return self;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "selector\x0a\x09<inlineJS: '\x0a\x09\x09if(self.selector) {\x0a\x09\x09\x09return $core.js2st(self.selector);\x0a\x09\x09} else {\x0a\x09\x09\x09return nil;\x0a\x09\x09}\x0a\x09'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
-selector: "sendIndexAt:",
-protocol: "accessing",
-fn: function (aSelector){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.sendIdx[aSelector] || 0;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"sendIndexAt:",{aSelector:aSelector},$globals.MethodContext)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aSelector"],
-source: "sendIndexAt: aSelector\x0a\x09<inlineJS: 'return self.sendIdx[aSelector] || 0'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3408,6 +3035,549 @@ messageSends: []
 $globals.NativeFunction.a$cls);
 
 
+$core.addTrait("TMethodContext", "Kernel-Methods");
+$core.addMethod(
+$core.method({
+selector: "asString",
+protocol: "converting",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$3,$5,$7,$6,$4,$11,$10,$9,$8,$12,$16,$15,$14,$13,$1;
+$2=$self._isBlockContext();
+if($core.assert($2)){
+$3="a block (in ".__comma($recv($self._methodContext())._asString());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=2;
+//>>excludeEnd("ctx");
+$1=$recv($3).__comma(")");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=1;
+//>>excludeEnd("ctx");
+} else {
+var methodClass;
+methodClass=$recv($self._method())._methodClass();
+$5=methodClass;
+$7=$self._receiver();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["receiver"]=1;
+//>>excludeEnd("ctx");
+$6=$recv($7)._class();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["class"]=1;
+//>>excludeEnd("ctx");
+$4=$recv($5).__eq($6);
+if($core.assert($4)){
+$11=$self._receiver();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["receiver"]=2;
+//>>excludeEnd("ctx");
+$10=$recv($11)._class();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["class"]=2;
+//>>excludeEnd("ctx");
+$9=$recv($10)._name();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["name"]=1;
+//>>excludeEnd("ctx");
+$8=$recv($9).__comma(" >> ");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=4;
+//>>excludeEnd("ctx");
+$12=$self._selector();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["selector"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($8).__comma($12);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=3;
+//>>excludeEnd("ctx");
+} else {
+$16=$recv($recv($self._receiver())._class())._name();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["name"]=2;
+//>>excludeEnd("ctx");
+$15=$recv($16).__comma("(");
+$14=$recv($15).__comma($recv(methodClass)._name());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=7;
+//>>excludeEnd("ctx");
+$13=$recv($14).__comma(") >> ");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=6;
+//>>excludeEnd("ctx");
+$1=$recv($13).__comma($self._selector());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=5;
+//>>excludeEnd("ctx");
+}
+}
+return $1;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asString",{},$globals.TMethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asString\x0a\x09^ self isBlockContext\x0a\x09\x09ifTrue: [ 'a block (in ', self methodContext asString, ')' ]\x0a\x09\x09ifFalse: [ \x0a\x09\x09\x09| methodClass |\x0a\x09\x09\x09methodClass := self method methodClass.\x0a\x09\x09\x09methodClass = self receiver class \x0a\x09\x09\x09\x09ifTrue: [ self receiver class name, ' >> ', self selector ]\x0a\x09\x09\x09\x09ifFalse: [ self receiver class name, '(', methodClass name, ') >> ', self selector ] ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["ifTrue:ifFalse:", "isBlockContext", ",", "asString", "methodContext", "methodClass", "method", "=", "class", "receiver", "name", "selector"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "basicReceiver",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"basicReceiver",{},$globals.TMethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "basicReceiver\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "findContextSuchThat:",
+protocol: "accessing",
+fn: function (testBlock){
+var self=this,$self=this;
+var context;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+var $early={};
+try {
+context=self;
+$recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(context)._isNil();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}))._whileFalse_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=$recv(testBlock)._value_(context);
+if($core.assert($1)){
+throw $early=[context];
+}
+context=$recv(context)._outerContext();
+return context;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+return nil;
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"findContextSuchThat:",{testBlock:testBlock,context:context},$globals.TMethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["testBlock"],
+source: "findContextSuchThat: testBlock\x0a\x09\x22Search self and my sender chain for first one that satisfies `testBlock`.  \x0a\x09Answer `nil` if none satisfy\x22\x0a\x0a\x09| context |\x0a\x09\x0a\x09context := self.\x0a\x09[ context isNil] whileFalse: [\x0a\x09\x09(testBlock value: context) \x0a\x09\x09\x09ifTrue: [ ^ context ].\x0a\x09\x09context := context outerContext ].\x0a\x0a\x09^ nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["whileFalse:", "isNil", "ifTrue:", "value:", "outerContext"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "home",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"home",{},$globals.TMethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "home\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "index",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"index",{},$globals.TMethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "index\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "isBlockContext",
+protocol: "testing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._selector())._isNil();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isBlockContext",{},$globals.TMethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isBlockContext\x0a\x09\x22Block context do not have selectors.\x22\x0a\x09\x0a\x09^ self selector isNil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["isNil", "selector"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "locals",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"locals",{},$globals.TMethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "locals\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "method",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+var method,lookupClass,receiverClass,supercall;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$3,$2,$4,$6,$5,$7,$8,$receiver;
+$1=$self._methodContext();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["methodContext"]=1;
+//>>excludeEnd("ctx");
+if(($receiver = $1) == null || $receiver.a$nil){
+return nil;
+} else {
+$1;
+}
+$3=$self._methodContext();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["methodContext"]=2;
+//>>excludeEnd("ctx");
+$2=$recv($3)._receiver();
+receiverClass=$recv($2)._class();
+$4=receiverClass;
+$6=$self._methodContext();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["methodContext"]=3;
+//>>excludeEnd("ctx");
+$5=$recv($6)._selector();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["selector"]=1;
+//>>excludeEnd("ctx");
+method=$recv($4)._lookupSelector_($5);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["lookupSelector:"]=1;
+//>>excludeEnd("ctx");
+$7=$self._outerContext();
+if(($receiver = $7) == null || $receiver.a$nil){
+supercall=false;
+} else {
+var outer;
+outer=$receiver;
+supercall=$recv(outer)._supercall();
+}
+$8=supercall;
+if($core.assert($8)){
+return $recv($recv($recv(method)._methodClass())._superclass())._lookupSelector_($recv($self._methodContext())._selector());
+} else {
+return method;
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"method",{method:method,lookupClass:lookupClass,receiverClass:receiverClass,supercall:supercall},$globals.TMethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "method\x0a\x09| method lookupClass receiverClass supercall |\x0a\x09\x0a\x09self methodContext ifNil: [ ^ nil ].\x0a\x0a\x09receiverClass := self methodContext receiver class.\x0a\x09method := receiverClass lookupSelector: self methodContext selector.\x0a\x09supercall := self outerContext \x0a\x09\x09ifNil: [ false ]\x0a\x09\x09ifNotNil: [ :outer | outer supercall ].\x0a\x0a\x09^ supercall\x0a\x09\x09ifFalse: [ method ]\x0a\x09\x09ifTrue: [ method methodClass superclass lookupSelector: self methodContext selector ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["ifNil:", "methodContext", "class", "receiver", "lookupSelector:", "selector", "ifNil:ifNotNil:", "outerContext", "supercall", "ifFalse:ifTrue:", "superclass", "methodClass"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "methodContext",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$receiver;
+$1=$self._isBlockContext();
+if(!$core.assert($1)){
+return self;
+}
+$2=$self._outerContext();
+if(($receiver = $2) == null || $receiver.a$nil){
+return $2;
+} else {
+var outer;
+outer=$receiver;
+return $recv(outer)._methodContext();
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"methodContext",{},$globals.TMethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "methodContext\x0a\x09self isBlockContext ifFalse: [ ^ self ].\x0a\x09\x0a\x09^ self outerContext ifNotNil: [ :outer |\x0a\x09\x09outer methodContext ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["ifFalse:", "isBlockContext", "ifNotNil:", "outerContext", "methodContext"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "outerContext",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"outerContext",{},$globals.TMethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "outerContext\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "printOn:",
+protocol: "printing",
+fn: function (aStream){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.TMethodContext.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($self, [aStream]));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+$recv(aStream)._nextPutAll_("(");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["nextPutAll:"]=1;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_($self._asString());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["nextPutAll:"]=2;
+//>>excludeEnd("ctx");
+$recv(aStream)._nextPutAll_(")");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.TMethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aStream"],
+source: "printOn: aStream\x0a\x09super printOn: aStream.\x0a\x09aStream \x0a\x09\x09nextPutAll: '(';\x0a\x09\x09nextPutAll: self asString;\x0a\x09\x09nextPutAll: ')'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["printOn:", "nextPutAll:", "asString"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "receiver",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1;
+$1=$recv($self._isBlockContext())._and_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$2=$self._outerContext();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["outerContext"]=1;
+//>>excludeEnd("ctx");
+return $recv($2)._notNil();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+if($core.assert($1)){
+return $recv($self._outerContext())._receiver();
+} else {
+return $self._basicReceiver();
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"receiver",{},$globals.TMethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "receiver\x0a\x09^ (self isBlockContext and: [ self outerContext notNil ])\x0a\x09\x09ifTrue: [ self outerContext receiver ]\x0a\x09\x09ifFalse: [ self basicReceiver ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["ifTrue:ifFalse:", "and:", "isBlockContext", "notNil", "outerContext", "receiver", "basicReceiver"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "selector",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"selector",{},$globals.TMethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "selector\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "sendIndexes",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"sendIndexes",{},$globals.TMethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "sendIndexes\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "supercall",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"supercall",{},$globals.TMethodContext)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "supercall\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TMethodContext);
+
+
 $core.addClass("Timeout", $globals.Object, ["rawTimeout"], "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Timeout.comment="I am wrapping the returns from `set{Timeout,Interval}`.\x0a\x0a## Motivation\x0a\x0aNumber suffices in browsers, but node.js returns an object.";
@@ -3511,5 +3681,7 @@ referencedClasses: [],
 messageSends: ["rawTimeout:", "new", "yourself"]
 }),
 $globals.Timeout.a$cls);
+
+$core.setTraitComposition([{trait: $globals.TMethodContext}], $globals.MethodContext);
 
 });

@@ -100,7 +100,7 @@ forContext: aContext node: aNode
 		yourself
 ! !
 
-MethodContext subclass: #AIContext
+Object subclass: #AIContext
 	instanceVariableNames: 'outerContext innerContext pc locals selector index sendIndexes evaluatedSelector ast interpreter supercall'
 	package: 'Compiler-Interpreter'!
 !AIContext commentStamp!
@@ -969,6 +969,9 @@ visitSendNode: aNode
 	self selector = aNode selector ifTrue: [
 		self trackedIndex = self index ifTrue: [ currentNode := aNode ].
 		self increaseTrackedIndex ]
+! !
+
+AIContext setTraitComposition: {TMethodContext} asTraitComposition!
 ! !
 
 !ASTNode methodsFor: '*Compiler-Interpreter'!
