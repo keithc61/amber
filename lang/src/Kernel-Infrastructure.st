@@ -500,8 +500,9 @@ loadDependencyClasses
 	starCategoryName := '*', self name.
 	^ (self classes collect: [ :each | each superclass ]) asSet
 		addAll: (Smalltalk classes select: [ :each |
-			each protocols, (each theMetaClass ifNil: [ #() ] ifNotNil: [ :meta | meta protocols])
-				includes: starCategoryName ]);
+			({each. each theMetaClass} copyWithout: nil) anySatisfy: [ :any |
+				(any protocols includes: starCategoryName) and: [
+					(any ownMethodsInProtocol: starCategoryName) notEmpty ]]]);
 		addAll: (Array streamContents: [ :as | self traitCompositions valuesDo: [ :each | as write: (each collect: [ :eachTT | eachTT trait ])]]);
 		remove: nil ifAbsent: [];
 		yourself

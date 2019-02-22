@@ -1785,11 +1785,8 @@ var starCategoryName;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $3,$2,$1,$5,$7,$6,$4,$receiver;
+var $3,$2,$1;
 starCategoryName="*".__comma($self._name());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
-//>>excludeEnd("ctx");
 $3=$self._classes();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["classes"]=1;
@@ -1811,20 +1808,23 @@ $recv($1)._addAll_($recv($recv($globals.Smalltalk)._classes())._select_((functio
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$5=$recv(each)._protocols();
+return $recv($recv([each,$recv(each)._theMetaClass()])._copyWithout_(nil))._anySatisfy_((function(any){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["protocols"]=1;
+return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-$7=$recv(each)._theMetaClass();
-if(($receiver = $7) == null || $receiver.a$nil){
-$6=[];
-} else {
-var meta;
-meta=$receiver;
-$6=$recv(meta)._protocols();
-}
-$4=$recv($5).__comma($6);
-return $recv($4)._includes_(starCategoryName);
+return $recv($recv($recv(any)._protocols())._includes_(starCategoryName))._and_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $recv($recv(any)._ownMethodsInProtocol_(starCategoryName))._notEmpty();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({any:any},$ctx2,3)});
+//>>excludeEnd("ctx");
+}));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 //>>excludeEnd("ctx");
@@ -1867,10 +1867,10 @@ return $recv($1)._yourself();
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "loadDependencyClasses\x0a\x09\x22Returns classes needed at the time of loading a package.\x0a\x09These are all that are used to subclass\x0a\x09and to define an extension method\x0a\x09as well as all traits used\x22\x0a\x09\x0a\x09| starCategoryName |\x0a\x09starCategoryName := '*', self name.\x0a\x09^ (self classes collect: [ :each | each superclass ]) asSet\x0a\x09\x09addAll: (Smalltalk classes select: [ :each |\x0a\x09\x09\x09each protocols, (each theMetaClass ifNil: [ #() ] ifNotNil: [ :meta | meta protocols])\x0a\x09\x09\x09\x09includes: starCategoryName ]);\x0a\x09\x09addAll: (Array streamContents: [ :as | self traitCompositions valuesDo: [ :each | as write: (each collect: [ :eachTT | eachTT trait ])]]);\x0a\x09\x09remove: nil ifAbsent: [];\x0a\x09\x09yourself",
+source: "loadDependencyClasses\x0a\x09\x22Returns classes needed at the time of loading a package.\x0a\x09These are all that are used to subclass\x0a\x09and to define an extension method\x0a\x09as well as all traits used\x22\x0a\x09\x0a\x09| starCategoryName |\x0a\x09starCategoryName := '*', self name.\x0a\x09^ (self classes collect: [ :each | each superclass ]) asSet\x0a\x09\x09addAll: (Smalltalk classes select: [ :each |\x0a\x09\x09\x09({each. each theMetaClass} copyWithout: nil) anySatisfy: [ :any |\x0a\x09\x09\x09\x09(any protocols includes: starCategoryName) and: [\x0a\x09\x09\x09\x09\x09(any ownMethodsInProtocol: starCategoryName) notEmpty ]]]);\x0a\x09\x09addAll: (Array streamContents: [ :as | self traitCompositions valuesDo: [ :each | as write: (each collect: [ :eachTT | eachTT trait ])]]);\x0a\x09\x09remove: nil ifAbsent: [];\x0a\x09\x09yourself",
 referencedClasses: ["Smalltalk", "Array"],
 //>>excludeEnd("ide");
-messageSends: [",", "name", "addAll:", "asSet", "collect:", "classes", "superclass", "select:", "includes:", "protocols", "ifNil:ifNotNil:", "theMetaClass", "streamContents:", "valuesDo:", "traitCompositions", "write:", "trait", "remove:ifAbsent:", "yourself"]
+messageSends: [",", "name", "addAll:", "asSet", "collect:", "classes", "superclass", "select:", "anySatisfy:", "copyWithout:", "theMetaClass", "and:", "includes:", "protocols", "notEmpty", "ownMethodsInProtocol:", "streamContents:", "valuesDo:", "traitCompositions", "write:", "trait", "remove:ifAbsent:", "yourself"]
 }),
 $globals.Package);
 
