@@ -2321,12 +2321,12 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $3,$2,$1,$4;
-$self["@theClass"]=$recv($self["@builder"])._addSubclassOf_named_instanceVariableNames_package_($globals.ObjectMock,"ObjectMock2","foo bar","Kernel-Tests");
+$self["@theClass"]=$recv($self["@builder"])._addSubclassOf_named_instanceVariableNames_package_($globals.ObjectMock,"ObjectMock2",["foo", "bar"],"Kernel-Tests");
 $self._assert_equals_($recv($self["@theClass"])._superclass(),$globals.ObjectMock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=1;
 //>>excludeEnd("ctx");
-$self._assert_equals_($recv($self["@theClass"])._instanceVariableNames(),"foo bar");
+$self._assert_equals_($recv($self["@theClass"])._instanceVariableNames(),["foo", "bar"]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=2;
 //>>excludeEnd("ctx");
@@ -2360,7 +2360,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testSubclass\x0a\x09theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' instanceVariableNames: 'foo bar' package: 'Kernel-Tests'.\x0a\x09self assert: theClass superclass equals: ObjectMock.\x0a\x09self assert: theClass instanceVariableNames equals: 'foo bar'.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: (theClass package classes occurrencesOf: theClass) equals: 1.\x0a\x09self assert: theClass package equals: ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys size equals: 0",
+source: "testSubclass\x0a\x09theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' instanceVariableNames: #(foo bar) package: 'Kernel-Tests'.\x0a\x09self assert: theClass superclass equals: ObjectMock.\x0a\x09self assert: theClass instanceVariableNames equals: #(foo bar).\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: (theClass package classes occurrencesOf: theClass) equals: 1.\x0a\x09self assert: theClass package equals: ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys size equals: 0",
 referencedClasses: ["ObjectMock"],
 //>>excludeEnd("ide");
 messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "assert:equals:", "superclass", "instanceVariableNames", "name", "occurrencesOf:", "classes", "package", "size", "keys", "methodDictionary"]

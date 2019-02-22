@@ -441,9 +441,9 @@ testInstanceVariableNames
 !
 
 testSubclass
-	theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' instanceVariableNames: 'foo bar' package: 'Kernel-Tests'.
+	theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' instanceVariableNames: #(foo bar) package: 'Kernel-Tests'.
 	self assert: theClass superclass equals: ObjectMock.
-	self assert: theClass instanceVariableNames equals: 'foo bar'.
+	self assert: theClass instanceVariableNames equals: #(foo bar).
 	self assert: theClass name equals: 'ObjectMock2'.
 	self assert: (theClass package classes occurrencesOf: theClass) equals: 1.
 	self assert: theClass package equals: ObjectMock package.
