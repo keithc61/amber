@@ -250,9 +250,9 @@ deepCopy
 	<inlineJS: '
 		var copy = self.a$cls._new();
 		Object.keys(self).forEach(function (i) {
-		if(/^@.+/.test(i)) {
+		// if(/^@.+/.test(i)) {
 			copy[i] = $recv(self[i])._deepCopy();
-		}
+		// }
 		});
 		return copy;
 	'>
@@ -265,9 +265,9 @@ shallowCopy
 	<inlineJS: '
 		var copy = self.a$cls._new();
 		Object.keys(self).forEach(function(i) {
-		if(/^@.+/.test(i)) {
+		// if(/^@.+/.test(i)) {
 			copy[i] = self[i];
-		}
+		// }
 		});
 		return copy;
 	'>

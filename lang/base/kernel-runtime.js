@@ -63,6 +63,7 @@ define(function () {
         var installMethod = brikz.runtimeMethods.installMethod;
         var traitsOrClasses = brikz.behaviors.traitsOrClasses;
         var wireKlass = brikz.classes.wireKlass;
+        var installIvarCompat = brikz.classes.installIvarCompat;
         var emit = brikz.event.emit;
 
         var detachedRootClasses = [];
@@ -143,6 +144,7 @@ define(function () {
         st.setClassConstructor = this.setClassConstructor = function (klass, constructor) {
             markClassDetachedRoot(klass);
             klass.fn = constructor;
+            installIvarCompat(klass);
             initClass(klass);
         };
     }

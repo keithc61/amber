@@ -310,6 +310,25 @@ define(function () {
             emit.behaviorMethodRemoved(method, this);
         });
 
+        // TODO remove, ["@foo"] backward compatibility
+        function installIvarCompat (klass) {
+            var ivars = klass.instanceVariableNames;
+            ivars.forEach(function (ivar) {
+                Object.defineProperty(klass.fn.prototype, "@" + ivar, {
+                    get: function () {
+                        return this[ivar];
+                    },
+                    set: function (value) {
+                        return this[ivar] = value;
+                    },
+                    enumerable: false,
+                    configurable: true
+                });
+            });
+        }
+
+        this.installIvarCompat = installIvarCompat;
+
         function setInstanceVariables (klass, instanceVariableNames) {
             instanceVariableNames.forEach(function (name) {
                 if (!name.match(/^[a-zA-Z][a-zA-Z0-9]*$/))
@@ -317,6 +336,7 @@ define(function () {
             });
 
             klass.instanceVariableNames = instanceVariableNames;
+            installIvarCompat(klass);
         }
 
         st.setInstanceVariables = setInstanceVariables;
