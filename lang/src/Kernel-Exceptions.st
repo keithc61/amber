@@ -29,7 +29,7 @@ jsStack
 !
 
 messageText
-	^ messageText
+	^ messageText ifNil: [ self basicAt: 'message' ]
 !
 
 messageText: aString

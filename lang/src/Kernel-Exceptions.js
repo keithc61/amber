@@ -158,15 +158,26 @@ selector: "messageText",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@messageText"];
-
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$receiver;
+$1=$self["@messageText"];
+if(($receiver = $1) == null || $receiver.a$nil){
+return $self._basicAt_("message");
+} else {
+return $1;
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"messageText",{},$globals.Error)});
+//>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "messageText\x0a\x09^ messageText",
+source: "messageText\x0a\x09^ messageText ifNil: [ self basicAt: 'message' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["ifNil:", "basicAt:"]
 }),
 $globals.Error);
 
