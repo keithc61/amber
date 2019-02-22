@@ -53,7 +53,7 @@ basicOrganization: aClassOrganizer
 !
 
 instanceVariableNames
-	<inlineJS: 'return self.iVarNames'>
+	<inlineJS: 'return self.instanceVariableNames'>
 !
 
 javascriptConstructor
@@ -489,7 +489,7 @@ basicAddTraitNamed: aString package: anotherString
 basicClass: aClass instanceVariables: aCollection
 
 	aClass isMetaclass ifFalse: [ self error: aClass name, ' is not a metaclass' ].
-	aClass basicAt: 'iVarNames' put: aCollection
+	Smalltalk core setInstanceVariables: aClass to: aCollection
 !
 
 basicRemoveClass: aClass

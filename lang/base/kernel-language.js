@@ -310,6 +310,29 @@ define(function () {
             emit.behaviorMethodRemoved(method, this);
         });
 
+        function setInstanceVariables (klass, instanceVariableNames) {
+            instanceVariableNames.forEach(function (name) {
+                if (!name.match(/^[a-zA-Z][a-zA-Z0-9]*$/))
+                    throw new Error("Wrong identifier name: " + name);
+            });
+
+            klass.instanceVariableNames = instanceVariableNames;
+        }
+
+        st.setInstanceVariables = setInstanceVariables;
+
+        // TODO remove, .iVarNames backward compatibility
+        Object.defineProperty(SmalltalkBehavior.prototype, "iVarNames", {
+            enumerable: true,
+            configurable: true,
+            get: function () {
+                return this.instanceVariableNames;
+            },
+            set: function (instanceVariableNames) {
+                setInstanceVariables(this, instanceVariableNames);
+            }
+        });
+
         this.bootstrapHierarchy = function () {
             var nilSubclasses = [globals.ProtoObject];
             nilAsClass.a$cls = globals.Class;
@@ -324,7 +347,7 @@ define(function () {
          should be added to the system, see smalltalk.addClass().
          Superclass linking is *not* handled here, see api.initialize()  */
 
-        function classBuilder (className, superclass, iVarNames, fn) {
+        function classBuilder (className, superclass, fn) {
             var logicalSuperclass = superclass;
             if (superclass == null || superclass.a$nil) {
                 superclass = nilAsClass;
@@ -337,7 +360,7 @@ define(function () {
                 that.superclass = logicalSuperclass;
                 that.fn = fn || inherits(function () {
                     }, superclass.fn);
-                that.iVarNames = iVarNames || [];
+                that.instanceVariableNames = [];
 
                 that.name = className;
                 that.subclasses = [];
@@ -352,7 +375,7 @@ define(function () {
                 that.superclass = superclass.a$cls;
                 that.fn = inherits(function () {
                 }, that.superclass.fn);
-                that.iVarNames = [];
+                that.instanceVariableNames = [];
 
                 that.instanceClass = new that.fn();
 
@@ -365,9 +388,8 @@ define(function () {
                 name: className,
                 make: klass,
                 updateExisting: function (klass) {
-                    if (klass.superclass == logicalSuperclass && (!fn || fn === klass.fn)) {
-                        if (iVarNames) klass.iVarNames = iVarNames;
-                    } else throw new Error("Incompatible change of class: " + klass.name);
+                    if (klass.superclass != logicalSuperclass || fn && fn !== klass.fn)
+                        throw new Error("Incompatible change of class: " + klass.name);
                 }
             };
         }
@@ -384,13 +406,20 @@ define(function () {
         /* Add a class to the system, creating a new one if needed.
          A Package is lazily created if one with given name does not exist. */
 
-        st.addClass = function (className, superclass, iVarNames, category) {
+        st.addClass = function (className, superclass, category) {
+            // TODO remove, backward compatibility
+            if (arguments[3]) {
+                var added = st.addClass(className, superclass, arguments[3]);
+                setInstanceVariables(added, category);
+                return added;
+            }
+
             // While subclassing nil is allowed, it might be an error, so
             // warn about it.
             if (typeof superclass === 'undefined' || superclass && superclass.a$nil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
-            return buildTraitOrClass(category, classBuilder(className, superclass, iVarNames, coreFns[className]));
+            return buildTraitOrClass(category, classBuilder(className, superclass, coreFns[className]));
         };
 
         st.removeClass = removeTraitOrClass;

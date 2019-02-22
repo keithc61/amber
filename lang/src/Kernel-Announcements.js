@@ -544,7 +544,7 @@ $core.addClass("SystemAnnouncer", $globals.Announcer, [], "Kernel-Announcements"
 $globals.SystemAnnouncer.comment="My unique instance is the global announcer handling all Amber system-related announces.\x0a\x0a## API\x0a\x0aAccess to the unique instance is done via `#current`";
 //>>excludeEnd("ide");
 
-$globals.SystemAnnouncer.a$cls.iVarNames = ["current"];
+$core.setInstanceVariables($globals.SystemAnnouncer.a$cls, ["current"]);
 $core.addMethod(
 $core.method({
 selector: "current",

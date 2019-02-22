@@ -377,7 +377,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self.iVarNames;
+return self.instanceVariableNames;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"instanceVariableNames",{},$globals.Behavior)});
@@ -385,7 +385,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "instanceVariableNames\x0a\x09<inlineJS: 'return self.iVarNames'>",
+source: "instanceVariableNames\x0a\x09<inlineJS: 'return self.instanceVariableNames'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -1374,7 +1374,7 @@ $1=$recv(aClass)._isMetaclass();
 if(!$core.assert($1)){
 $self._error_($recv($recv(aClass)._name()).__comma(" is not a metaclass"));
 }
-$recv(aClass)._basicAt_put_("iVarNames",aCollection);
+$recv($recv($globals.Smalltalk)._core())._setInstanceVariables_to_(aClass,aCollection);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"basicClass:instanceVariables:",{aClass:aClass,aCollection:aCollection},$globals.ClassBuilder)});
@@ -1382,10 +1382,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aCollection"],
-source: "basicClass: aClass instanceVariables: aCollection\x0a\x0a\x09aClass isMetaclass ifFalse: [ self error: aClass name, ' is not a metaclass' ].\x0a\x09aClass basicAt: 'iVarNames' put: aCollection",
-referencedClasses: [],
+source: "basicClass: aClass instanceVariables: aCollection\x0a\x0a\x09aClass isMetaclass ifFalse: [ self error: aClass name, ' is not a metaclass' ].\x0a\x09Smalltalk core setInstanceVariables: aClass to: aCollection",
+referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["ifFalse:", "isMetaclass", "error:", ",", "name", "basicAt:put:"]
+messageSends: ["ifFalse:", "isMetaclass", "error:", ",", "name", "setInstanceVariables:to:", "core"]
 }),
 $globals.ClassBuilder);
 

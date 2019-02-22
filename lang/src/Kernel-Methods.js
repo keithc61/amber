@@ -1472,7 +1472,7 @@ messageSends: []
 $globals.ForkPool);
 
 
-$globals.ForkPool.a$cls.iVarNames = ["default"];
+$core.setInstanceVariables($globals.ForkPool.a$cls, ["default"]);
 $core.addMethod(
 $core.method({
 selector: "default",

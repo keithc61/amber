@@ -1739,7 +1739,7 @@ messageSends: ["log:"]
 $globals.FileServer);
 
 
-$globals.FileServer.a$cls.iVarNames = ["mimeTypes"];
+$core.setInstanceVariables($globals.FileServer.a$cls, ["mimeTypes"]);
 $core.addMethod(
 $core.method({
 selector: "commandLineSwitches",
