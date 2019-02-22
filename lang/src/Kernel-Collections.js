@@ -218,9 +218,9 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var hash = $self['@hashBlock'](anObject);
+		var hash = $self.hashBlock(anObject);
 		if (!hash) return null;
-		var buckets = $self['@buckets'],
+		var buckets = $self.buckets,
 			bucket = buckets[hash];
 		if (!bucket) { bucket = buckets[hash] = $self._newBucket(); }
 		return bucket;
@@ -232,7 +232,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "bucketOfElement: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var hash = $self[''@hashBlock''](anObject);\x0a\x09\x09if (!hash) return null;\x0a\x09\x09var buckets = $self[''@buckets''],\x0a\x09\x09\x09bucket = buckets[hash];\x0a\x09\x09if (!bucket) { bucket = buckets[hash] = $self._newBucket(); }\x0a\x09\x09return bucket;\x0a\x09'>",
+source: "bucketOfElement: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var hash = $self.hashBlock(anObject);\x0a\x09\x09if (!hash) return null;\x0a\x09\x09var buckets = $self.buckets,\x0a\x09\x09\x09bucket = buckets[hash];\x0a\x09\x09if (!bucket) { bucket = buckets[hash] = $self._newBucket(); }\x0a\x09\x09return bucket;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -249,7 +249,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var buckets = $self['@buckets'];
+		var buckets = $self.buckets;
 		var keys = Object.keys(buckets);
 		for (var i = 0; i < keys.length; ++i) { buckets[keys[i]]._do_(aBlock); }
 	;
@@ -260,7 +260,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var buckets = $self[''@buckets''];\x0a\x09\x09var keys = Object.keys(buckets);\x0a\x09\x09for (var i = 0; i < keys.length; ++i) { buckets[keys[i]]._do_(aBlock); }\x0a\x09'>",
+source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var buckets = $self.buckets;\x0a\x09\x09var keys = Object.keys(buckets);\x0a\x09\x09for (var i = 0; i < keys.length; ++i) { buckets[keys[i]]._do_(aBlock); }\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -351,7 +351,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self['@buckets'] = Object.create(null);;
+$self.buckets = Object.create(null);;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"removeAll",{},$globals.BucketStore)});
@@ -359,7 +359,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "removeAll\x0a\x09<inlineJS: '$self[''@buckets''] = Object.create(null);'>",
+source: "removeAll\x0a\x09<inlineJS: '$self.buckets = Object.create(null);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2996,7 +2996,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
 		var index = $self._positionOfKey_(aKey);
-		return index >=0 ? $self['@values'][index] : aBlock._value();
+		return index >=0 ? $self.values[index] : aBlock._value();
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3005,7 +3005,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aKey", "aBlock"],
-source: "at: aKey ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09return index >=0 ? $self[''@values''][index] : aBlock._value();\x0a\x09'>",
+source: "at: aKey ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09return index >=0 ? $self.values[index] : aBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3024,12 +3024,12 @@ return $core.withContext(function($ctx1) {
 
 		var index = $self._positionOfKey_(aKey);
 		if(index === -1) {
-			var keys = $self['@keys'];
+			var keys = $self.keys;
 			index = keys.length;
 			keys.push(aKey);
 		}
 
-		return $self['@values'][index] = aValue;
+		return $self.values[index] = aValue;
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3038,7 +3038,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aKey", "aValue"],
-source: "at: aKey put: aValue\x0a\x09<inlineJS: '\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09var keys = $self[''@keys''];\x0a\x09\x09\x09index = keys.length;\x0a\x09\x09\x09keys.push(aKey);\x0a\x09\x09}\x0a\x0a\x09\x09return $self[''@values''][index] = aValue;\x0a\x09'>",
+source: "at: aKey put: aValue\x0a\x09<inlineJS: '\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09var keys = $self.keys;\x0a\x09\x09\x09index = keys.length;\x0a\x09\x09\x09keys.push(aKey);\x0a\x09\x09}\x0a\x0a\x09\x09return $self.values[index] = aValue;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3215,7 +3215,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var keys = $self['@keys'];
+		var keys = $self.keys;
 		for(var i=0;i<keys.length;i++){
 			if(keys[i].__eq(anObject)) { return i;}
 		}
@@ -3228,7 +3228,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "positionOfKey: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var keys = $self[''@keys''];\x0a\x09\x09for(var i=0;i<keys.length;i++){\x0a\x09\x09\x09if(keys[i].__eq(anObject)) { return i;}\x0a\x09\x09}\x0a\x09\x09return -1;\x0a\x09'>",
+source: "positionOfKey: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var keys = $self.keys;\x0a\x09\x09for(var i=0;i<keys.length;i++){\x0a\x09\x09\x09if(keys[i].__eq(anObject)) { return i;}\x0a\x09\x09}\x0a\x09\x09return -1;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3277,7 +3277,7 @@ return $core.withContext(function($ctx1) {
 		if(index === -1) {
 			return aBlock._value()
 		} else {
-			var keys = $self['@keys'], values = $self['@values'];
+			var keys = $self.keys, values = $self.values;
 			var value = values[index], l = keys.length;
 			keys[index] = keys[l-1];
 			keys.pop();
@@ -3293,7 +3293,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aKey", "aBlock"],
-source: "removeKey: aKey ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09return aBlock._value()\x0a\x09\x09} else {\x0a\x09\x09\x09var keys = $self[''@keys''], values = $self[''@values''];\x0a\x09\x09\x09var value = values[index], l = keys.length;\x0a\x09\x09\x09keys[index] = keys[l-1];\x0a\x09\x09\x09keys.pop();\x0a\x09\x09\x09values[index] = values[l-1];\x0a\x09\x09\x09values.pop();\x0a\x09\x09\x09return value;\x0a\x09\x09}\x0a\x09'>",
+source: "removeKey: aKey ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09return aBlock._value()\x0a\x09\x09} else {\x0a\x09\x09\x09var keys = $self.keys, values = $self.values;\x0a\x09\x09\x09var value = values[index], l = keys.length;\x0a\x09\x09\x09keys[index] = keys[l-1];\x0a\x09\x09\x09keys.pop();\x0a\x09\x09\x09values[index] = values[l-1];\x0a\x09\x09\x09values.pop();\x0a\x09\x09\x09return value;\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7312,7 +7312,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
 		if (anObject in anotherObject.store) { return anObject; }
-		$self['@size']++;
+		$self.size++;
 		anotherObject.store[anObject] = true;
 		return anObject;
 	;
@@ -7323,7 +7323,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject", "anotherObject"],
-source: "add: anObject in: anotherObject\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) { return anObject; }\x0a\x09\x09$self[''@size'']++;\x0a\x09\x09anotherObject.store[anObject] = true;\x0a\x09\x09return anObject;\x0a\x09'>",
+source: "add: anObject in: anotherObject\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) { return anObject; }\x0a\x09\x09$self.size++;\x0a\x09\x09anotherObject.store[anObject] = true;\x0a\x09\x09return anObject;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7341,17 +7341,17 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
 		// include nil to well-known objects under "boolean" fastBucket
-		if (anObject == null || anObject.a$nil) return [ null, $self['@fastBuckets'].boolean ];
+		if (anObject == null || anObject.a$nil) return [ null, $self.fastBuckets.boolean ];
 		
 		var prim = anObject.valueOf();
-		if (typeof prim === "object" || typeof prim === "function" || !$self['@fastBuckets'][typeof prim]) {
+		if (typeof prim === "object" || typeof prim === "function" || !$self.fastBuckets[typeof prim]) {
 			var bucket = null;
-			$self['@slowBucketStores'].some(function (store) {
+			$self.slowBucketStores.some(function (store) {
 				return bucket = store._bucketOfElement_(anObject);
 			});
-			return [ anObject, null, bucket || $self['@defaultBucket'] ];
+			return [ anObject, null, bucket || $self.defaultBucket ];
 		}
-		return [ prim, $self['@fastBuckets'][typeof prim] ];
+		return [ prim, $self.fastBuckets[typeof prim] ];
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -7360,7 +7360,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "bucketsOfElement: anObject\x0a\x09\x22Find the appropriate bucket for `anObject`.\x0a\x09For optimization purposes, directly answer an array with: \x0a\x09- the object to be store\x0a\x09- the primitive bucket\x0a\x09- the slow bucket\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09// include nil to well-known objects under \x22boolean\x22 fastBucket\x0a\x09\x09if (anObject == null || anObject.a$nil) return [ null, $self[''@fastBuckets''].boolean ];\x0a\x09\x09\x0a\x09\x09var prim = anObject.valueOf();\x0a\x09\x09if (typeof prim === \x22object\x22 || typeof prim === \x22function\x22 || !$self[''@fastBuckets''][typeof prim]) {\x0a\x09\x09\x09var bucket = null;\x0a\x09\x09\x09$self[''@slowBucketStores''].some(function (store) {\x0a\x09\x09\x09\x09return bucket = store._bucketOfElement_(anObject);\x0a\x09\x09\x09});\x0a\x09\x09\x09return [ anObject, null, bucket || $self[''@defaultBucket''] ];\x0a\x09\x09}\x0a\x09\x09return [ prim, $self[''@fastBuckets''][typeof prim] ];\x0a\x09'>",
+source: "bucketsOfElement: anObject\x0a\x09\x22Find the appropriate bucket for `anObject`.\x0a\x09For optimization purposes, directly answer an array with: \x0a\x09- the object to be store\x0a\x09- the primitive bucket\x0a\x09- the slow bucket\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09// include nil to well-known objects under \x22boolean\x22 fastBucket\x0a\x09\x09if (anObject == null || anObject.a$nil) return [ null, $self.fastBuckets.boolean ];\x0a\x09\x09\x0a\x09\x09var prim = anObject.valueOf();\x0a\x09\x09if (typeof prim === \x22object\x22 || typeof prim === \x22function\x22 || !$self.fastBuckets[typeof prim]) {\x0a\x09\x09\x09var bucket = null;\x0a\x09\x09\x09$self.slowBucketStores.some(function (store) {\x0a\x09\x09\x09\x09return bucket = store._bucketOfElement_(anObject);\x0a\x09\x09\x09});\x0a\x09\x09\x09return [ anObject, null, bucket || $self.defaultBucket ];\x0a\x09\x09}\x0a\x09\x09return [ prim, $self.fastBuckets[typeof prim] ];\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7436,16 +7436,16 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
 		var el, keys, i;
-		el = $self['@fastBuckets'];
+		el = $self.fastBuckets;
 		keys = Object.keys(el);
 		for (i = 0; i < keys.length; ++i) {
 			var fastBucket = el[keys[i]], fn = fastBucket.fn, store = Object.keys(fastBucket.store);
 			if (fn) { for (var j = 0; j < store.length; ++j) { aBlock._value_(fn(store[j])); } }
 			else { store._do_(aBlock); }
 		}
-		el = $self['@slowBucketStores'];
+		el = $self.slowBucketStores;
 		for (i = 0; i < el.length; ++i) { el[i]._do_(aBlock); }
-		$self['@defaultBucket']._do_(aBlock);
+		$self.defaultBucket._do_(aBlock);
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -7454,7 +7454,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var el, keys, i;\x0a\x09\x09el = $self[''@fastBuckets''];\x0a\x09\x09keys = Object.keys(el);\x0a\x09\x09for (i = 0; i < keys.length; ++i) {\x0a\x09\x09\x09var fastBucket = el[keys[i]], fn = fastBucket.fn, store = Object.keys(fastBucket.store);\x0a\x09\x09\x09if (fn) { for (var j = 0; j < store.length; ++j) { aBlock._value_(fn(store[j])); } }\x0a\x09\x09\x09else { store._do_(aBlock); }\x0a\x09\x09}\x0a\x09\x09el = $self[''@slowBucketStores''];\x0a\x09\x09for (i = 0; i < el.length; ++i) { el[i]._do_(aBlock); }\x0a\x09\x09$self[''@defaultBucket'']._do_(aBlock);\x0a\x09'>",
+source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var el, keys, i;\x0a\x09\x09el = $self.fastBuckets;\x0a\x09\x09keys = Object.keys(el);\x0a\x09\x09for (i = 0; i < keys.length; ++i) {\x0a\x09\x09\x09var fastBucket = el[keys[i]], fn = fastBucket.fn, store = Object.keys(fastBucket.store);\x0a\x09\x09\x09if (fn) { for (var j = 0; j < store.length; ++j) { aBlock._value_(fn(store[j])); } }\x0a\x09\x09\x09else { store._do_(aBlock); }\x0a\x09\x09}\x0a\x09\x09el = $self.slowBucketStores;\x0a\x09\x09for (i = 0; i < el.length; ++i) { el[i]._do_(aBlock); }\x0a\x09\x09$self.defaultBucket._do_(aBlock);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7749,7 +7749,7 @@ return $core.withContext(function($ctx1) {
 
 		if (anObject in anotherObject.store) {
 			delete anotherObject.store[anObject];
-			$self['@size']--;
+			$self.size--;
 			return anObject;
 		} else {
 			return aBlock._value();
@@ -7761,7 +7761,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject", "anotherObject", "aBlock"],
-source: "remove: anObject in: anotherObject ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) {\x0a\x09\x09\x09delete anotherObject.store[anObject];\x0a\x09\x09\x09$self[''@size'']--;\x0a\x09\x09\x09return anObject;\x0a\x09\x09} else {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09}'>",
+source: "remove: anObject in: anotherObject ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) {\x0a\x09\x09\x09delete anotherObject.store[anObject];\x0a\x09\x09\x09$self.size--;\x0a\x09\x09\x09return anObject;\x0a\x09\x09} else {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09}'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -7778,14 +7778,14 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		$self['@fastBuckets'] = {
+		$self.fastBuckets = {
 			"boolean": { store: Object.create(null), fn: function (x) { return {"true": true, "false": false, "null": null}[x]; } },
 			"number": { store: Object.create(null), fn: Number },
 			"string": { store: Object.create(null) }
 		};
-		$self['@slowBucketStores'].forEach(function (x) { x._removeAll(); });
-		$self['@defaultBucket']._removeAll();
-		$self['@size'] = 0;
+		$self.slowBucketStores.forEach(function (x) { x._removeAll(); });
+		$self.defaultBucket._removeAll();
+		$self.size = 0;
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -7794,7 +7794,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "removeAll\x0a\x09<inlineJS: '\x0a\x09\x09$self[''@fastBuckets''] = {\x0a\x09\x09\x09\x22boolean\x22: { store: Object.create(null), fn: function (x) { return {\x22true\x22: true, \x22false\x22: false, \x22null\x22: null}[x]; } },\x0a\x09\x09\x09\x22number\x22: { store: Object.create(null), fn: Number },\x0a\x09\x09\x09\x22string\x22: { store: Object.create(null) }\x0a\x09\x09};\x0a\x09\x09$self[''@slowBucketStores''].forEach(function (x) { x._removeAll(); });\x0a\x09\x09$self[''@defaultBucket'']._removeAll();\x0a\x09\x09$self[''@size''] = 0;\x0a\x09'>",
+source: "removeAll\x0a\x09<inlineJS: '\x0a\x09\x09$self.fastBuckets = {\x0a\x09\x09\x09\x22boolean\x22: { store: Object.create(null), fn: function (x) { return {\x22true\x22: true, \x22false\x22: false, \x22null\x22: null}[x]; } },\x0a\x09\x09\x09\x22number\x22: { store: Object.create(null), fn: Number },\x0a\x09\x09\x09\x22string\x22: { store: Object.create(null) }\x0a\x09\x09};\x0a\x09\x09$self.slowBucketStores.forEach(function (x) { x._removeAll(); });\x0a\x09\x09$self.defaultBucket._removeAll();\x0a\x09\x09$self.size = 0;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

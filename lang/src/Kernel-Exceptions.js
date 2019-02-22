@@ -648,7 +648,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return "JavaScript exception: " + $self["@exception"].toString();
+return "JavaScript exception: " + $self.exception.toString();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"messageText",{},$globals.JavaScriptException)});
@@ -656,7 +656,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "messageText\x0a\x09<inlineJS: 'return \x22JavaScript exception: \x22 + $self[\x22@exception\x22].toString()'>",
+source: "messageText\x0a\x09<inlineJS: 'return \x22JavaScript exception: \x22 + $self.exception.toString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -672,7 +672,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self["@exception"] instanceof RangeError;
+return $self.exception instanceof RangeError;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"shouldBeStubbed",{},$globals.JavaScriptException)});
@@ -680,7 +680,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "shouldBeStubbed\x0a\x09<inlineJS: 'return $self[\x22@exception\x22] instanceof RangeError'>",
+source: "shouldBeStubbed\x0a\x09<inlineJS: 'return $self.exception instanceof RangeError'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

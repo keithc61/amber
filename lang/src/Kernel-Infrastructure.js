@@ -171,7 +171,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self['@jsObject'][aString];
+return $self.jsObject[aString];
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"at:",{aString:aString},$globals.JSObjectProxy)});
@@ -179,7 +179,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "at: aString\x0a\x09<inlineJS: 'return $self[''@jsObject''][aString]'>",
+source: "at: aString\x0a\x09<inlineJS: 'return $self.jsObject[aString]'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -196,7 +196,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var obj = $self['@jsObject'];
+		var obj = $self.jsObject;
 		return aString in obj ? obj[aString] : aBlock._value();
 	;
 return self;
@@ -206,7 +206,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aBlock"],
-source: "at: aString ifAbsent: aBlock\x0a\x09\x22return the aString property or evaluate aBlock if the property is not defined on the object\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = $self[''@jsObject''];\x0a\x09\x09return aString in obj ? obj[aString] : aBlock._value();\x0a\x09'>",
+source: "at: aString ifAbsent: aBlock\x0a\x09\x22return the aString property or evaluate aBlock if the property is not defined on the object\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = $self.jsObject;\x0a\x09\x09return aString in obj ? obj[aString] : aBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -223,7 +223,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var obj = $self['@jsObject'];
+		var obj = $self.jsObject;
 		return aString in obj ? aBlock._value_(obj[aString]) : nil;
 	;
 return self;
@@ -233,7 +233,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aBlock"],
-source: "at: aString ifPresent: aBlock\x0a\x09\x22return the evaluation of aBlock with the value if the property is defined or return nil\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = $self[''@jsObject''];\x0a\x09\x09return aString in obj ? aBlock._value_(obj[aString]) : nil;\x0a\x09'>",
+source: "at: aString ifPresent: aBlock\x0a\x09\x22return the evaluation of aBlock with the value if the property is defined or return nil\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = $self.jsObject;\x0a\x09\x09return aString in obj ? aBlock._value_(obj[aString]) : nil;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -250,7 +250,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var obj = $self['@jsObject'];
+		var obj = $self.jsObject;
 		return aString in obj ? aBlock._value_(obj[aString]) : anotherBlock._value();
 	;
 return self;
@@ -260,7 +260,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aBlock", "anotherBlock"],
-source: "at: aString ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09\x22return the evaluation of aBlock with the value if the property is defined\x0a\x09or return value of anotherBlock\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = $self[''@jsObject''];\x0a\x09\x09return aString in obj ? aBlock._value_(obj[aString]) : anotherBlock._value();\x0a\x09'>",
+source: "at: aString ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09\x22return the evaluation of aBlock with the value if the property is defined\x0a\x09or return value of anotherBlock\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = $self.jsObject;\x0a\x09\x09return aString in obj ? aBlock._value_(obj[aString]) : anotherBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -276,7 +276,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self['@jsObject'][aString] = anObject;
+return $self.jsObject[aString] = anObject;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"at:put:",{aString:aString,anObject:anObject},$globals.JSObjectProxy)});
@@ -284,7 +284,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject"],
-source: "at: aString put: anObject\x0a\x09<inlineJS: 'return $self[''@jsObject''][aString] = anObject'>",
+source: "at: aString put: anObject\x0a\x09<inlineJS: 'return $self.jsObject[aString] = anObject'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -418,7 +418,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var o = $self['@jsObject'];
+		var o = $self.jsObject;
 		for(var i in o) {
 			aBlock._value_value_(i, o[i]);
 		}
@@ -430,7 +430,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "keysAndValuesDo: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var o = $self[''@jsObject''];\x0a\x09\x09for(var i in o) {\x0a\x09\x09\x09aBlock._value_value_(i, o[i]);\x0a\x09\x09}\x0a\x09'>",
+source: "keysAndValuesDo: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var o = $self.jsObject;\x0a\x09\x09for(var i in o) {\x0a\x09\x09\x09aBlock._value_value_(i, o[i]);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -509,7 +509,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var js = $self['@jsObject'];
+		var js = $self.jsObject;
 		return js.toString
 			? js.toString()
 			: Object.prototype.toString.call(js)
@@ -521,7 +521,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "printString\x0a\x09<inlineJS: '\x0a\x09\x09var js = $self[''@jsObject''];\x0a\x09\x09return js.toString\x0a\x09\x09\x09? js.toString()\x0a\x09\x09\x09: Object.prototype.toString.call(js)\x0a\x09'>",
+source: "printString\x0a\x09<inlineJS: '\x0a\x09\x09var js = $self.jsObject;\x0a\x09\x09return js.toString\x0a\x09\x09\x09? js.toString()\x0a\x09\x09\x09: Object.prototype.toString.call(js)\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -561,7 +561,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-delete $self['@jsObject'][aString]; return aString;
+delete $self.jsObject[aString]; return aString;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"removeKey:",{aString:aString},$globals.JSObjectProxy)});
@@ -569,7 +569,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "removeKey: aString\x0a\x09<inlineJS: 'delete $self[''@jsObject''][aString]; return aString'>",
+source: "removeKey: aString\x0a\x09<inlineJS: 'delete $self.jsObject[aString]; return aString'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -625,7 +625,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var jsObject = aProxy['@jsObject'];
+		var jsObject = aProxy.jsObject;
 		for(var i in jsObject) {
 			aDictionary._at_put_(i, jsObject[i]);
 		}
@@ -637,7 +637,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aDictionary", "aProxy"],
-source: "addObjectVariablesTo: aDictionary ofProxy: aProxy\x0a\x09<inlineJS: '\x0a\x09\x09var jsObject = aProxy[''@jsObject''];\x0a\x09\x09for(var i in jsObject) {\x0a\x09\x09\x09aDictionary._at_put_(i, jsObject[i]);\x0a\x09\x09}\x0a\x09'>",
+source: "addObjectVariablesTo: aDictionary ofProxy: aProxy\x0a\x09<inlineJS: '\x0a\x09\x09var jsObject = aProxy.jsObject;\x0a\x09\x09for(var i in jsObject) {\x0a\x09\x09\x09aDictionary._at_put_(i, jsObject[i]);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -654,8 +654,8 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-	var anotherJSObject = anotherProxy.a$cls ? anotherProxy["@jsObject"] : anotherProxy;
-	return aProxy["@jsObject"] === anotherJSObject;
+	var anotherJSObject = anotherProxy.a$cls ? anotherProxy.jsObject : anotherProxy;
+	return aProxy.jsObject === anotherJSObject;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"compareJSObjectOfProxy:withProxy:",{aProxy:aProxy,anotherProxy:anotherProxy},$globals.JSObjectProxy.a$cls)});
@@ -663,7 +663,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aProxy", "anotherProxy"],
-source: "compareJSObjectOfProxy: aProxy withProxy: anotherProxy\x0a<inlineJS: '\x0a\x09var anotherJSObject = anotherProxy.a$cls ? anotherProxy[\x22@jsObject\x22] : anotherProxy;\x0a\x09return aProxy[\x22@jsObject\x22] === anotherJSObject\x0a'>",
+source: "compareJSObjectOfProxy: aProxy withProxy: anotherProxy\x0a<inlineJS: '\x0a\x09var anotherJSObject = anotherProxy.a$cls ? anotherProxy.jsObject : anotherProxy;\x0a\x09return aProxy.jsObject === anotherJSObject\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -705,7 +705,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-aProxy['@jsObject'] = aJSObject;
+aProxy.jsObject = aJSObject;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"jsObject:ofProxy:",{aJSObject:aJSObject,aProxy:aProxy},$globals.JSObjectProxy.a$cls)});
@@ -713,7 +713,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aJSObject", "aProxy"],
-source: "jsObject: aJSObject ofProxy: aProxy\x0a\x09<inlineJS: 'aProxy[''@jsObject''] = aJSObject'>",
+source: "jsObject: aJSObject ofProxy: aProxy\x0a\x09<inlineJS: 'aProxy.jsObject = aJSObject'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

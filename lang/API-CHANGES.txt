@@ -1,6 +1,10 @@
 0.23.0:
 
 * Namespace change: amber_core => amber/core.
+* amber/boot api addClass only takes 3 params; 4 param version deprecated
+
++ amber/boot api
+  + setInstanceVariables(klass, arrayOfNames)
 
 
 0.22.4:

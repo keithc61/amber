@@ -3592,7 +3592,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var interval = $self["@rawTimeout"];
+		var interval = $self.rawTimeout;
 		clearInterval(interval);
 	;
 return self;
@@ -3602,7 +3602,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "clearInterval\x0a\x09<inlineJS: '\x0a\x09\x09var interval = $self[\x22@rawTimeout\x22];\x0a\x09\x09clearInterval(interval);\x0a\x09'>",
+source: "clearInterval\x0a\x09<inlineJS: '\x0a\x09\x09var interval = $self.rawTimeout;\x0a\x09\x09clearInterval(interval);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3619,7 +3619,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		var timeout = $self["@rawTimeout"];
+		var timeout = $self.rawTimeout;
 		clearTimeout(timeout);
 	;
 return self;
@@ -3629,7 +3629,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "clearTimeout\x0a\x09<inlineJS: '\x0a\x09\x09var timeout = $self[\x22@rawTimeout\x22];\x0a\x09\x09clearTimeout(timeout);\x0a\x09'>",
+source: "clearTimeout\x0a\x09<inlineJS: '\x0a\x09\x09var timeout = $self.rawTimeout;\x0a\x09\x09clearTimeout(timeout);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

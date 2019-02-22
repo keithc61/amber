@@ -76,9 +76,9 @@ Types of buckets are the responsibility of subclasses via `#newBucket`.!
 
 bucketOfElement: anObject
 	<inlineJS: '
-		var hash = $self[''@hashBlock''](anObject);
+		var hash = $self.hashBlock(anObject);
 		if (!!hash) return null;
-		var buckets = $self[''@buckets''],
+		var buckets = $self.buckets,
 			bucket = buckets[hash];
 		if (!!bucket) { bucket = buckets[hash] = $self._newBucket(); }
 		return bucket;
@@ -92,14 +92,14 @@ hashBlock: aBlock
 !BucketStore methodsFor: 'adding/removing'!
 
 removeAll
-	<inlineJS: '$self[''@buckets''] = Object.create(null);'>
+	<inlineJS: '$self.buckets = Object.create(null);'>
 ! !
 
 !BucketStore methodsFor: 'enumerating'!
 
 do: aBlock
 	<inlineJS: '
-		var buckets = $self[''@buckets''];
+		var buckets = $self.buckets;
 		var keys = Object.keys(buckets);
 		for (var i = 0; i < keys.length; ++i) { buckets[keys[i]]._do_(aBlock); }
 	'>
@@ -706,7 +706,7 @@ The external name is referred to as the key.!
 at: aKey ifAbsent: aBlock
 	<inlineJS: '
 		var index = $self._positionOfKey_(aKey);
-		return index >=0 ? $self[''@values''][index] : aBlock._value();
+		return index >=0 ? $self.values[index] : aBlock._value();
 	'>
 !
 
@@ -714,12 +714,12 @@ at: aKey put: aValue
 	<inlineJS: '
 		var index = $self._positionOfKey_(aKey);
 		if(index === -1) {
-			var keys = $self[''@keys''];
+			var keys = $self.keys;
 			index = keys.length;
 			keys.push(aKey);
 		}
 
-		return $self[''@values''][index] = aValue;
+		return $self.values[index] = aValue;
 	'>
 !
 
@@ -754,7 +754,7 @@ removeKey: aKey ifAbsent: aBlock
 		if(index === -1) {
 			return aBlock._value()
 		} else {
-			var keys = $self[''@keys''], values = $self[''@values''];
+			var keys = $self.keys, values = $self.values;
 			var value = values[index], l = keys.length;
 			keys[index] = keys[l-1];
 			keys.pop();
@@ -791,7 +791,7 @@ initialize
 
 positionOfKey: anObject
 	<inlineJS: '
-		var keys = $self[''@keys''];
+		var keys = $self.keys;
 		for(var i=0;i<keys.length;i++){
 			if(keys[i].__eq(anObject)) { return i;}
 		}
@@ -1698,14 +1698,14 @@ remove: anObject ifAbsent: aBlock
 
 removeAll
 	<inlineJS: '
-		$self[''@fastBuckets''] = {
+		$self.fastBuckets = {
 			"boolean": { store: Object.create(null), fn: function (x) { return {"true": true, "false": false, "null": null}[x]; } },
 			"number": { store: Object.create(null), fn: Number },
 			"string": { store: Object.create(null) }
 		};
-		$self[''@slowBucketStores''].forEach(function (x) { x._removeAll(); });
-		$self[''@defaultBucket'']._removeAll();
-		$self[''@size''] = 0;
+		$self.slowBucketStores.forEach(function (x) { x._removeAll(); });
+		$self.defaultBucket._removeAll();
+		$self.size = 0;
 	'>
 ! !
 
@@ -1730,16 +1730,16 @@ collect: aBlock
 do: aBlock
 	<inlineJS: '
 		var el, keys, i;
-		el = $self[''@fastBuckets''];
+		el = $self.fastBuckets;
 		keys = Object.keys(el);
 		for (i = 0; i < keys.length; ++i) {
 			var fastBucket = el[keys[i]], fn = fastBucket.fn, store = Object.keys(fastBucket.store);
 			if (fn) { for (var j = 0; j < store.length; ++j) { aBlock._value_(fn(store[j])); } }
 			else { store._do_(aBlock); }
 		}
-		el = $self[''@slowBucketStores''];
+		el = $self.slowBucketStores;
 		for (i = 0; i < el.length; ++i) { el[i]._do_(aBlock); }
-		$self[''@defaultBucket'']._do_(aBlock);
+		$self.defaultBucket._do_(aBlock);
 	'>
 !
 
@@ -1796,7 +1796,7 @@ printOn: aStream
 add: anObject in: anotherObject
 	<inlineJS: '
 		if (anObject in anotherObject.store) { return anObject; }
-		$self[''@size'']++;
+		$self.size++;
 		anotherObject.store[anObject] = true;
 		return anObject;
 	'>
@@ -1811,17 +1811,17 @@ bucketsOfElement: anObject
 	
 	<inlineJS: '
 		// include nil to well-known objects under "boolean" fastBucket
-		if (anObject == null || anObject.a$nil) return [ null, $self[''@fastBuckets''].boolean ];
+		if (anObject == null || anObject.a$nil) return [ null, $self.fastBuckets.boolean ];
 		
 		var prim = anObject.valueOf();
-		if (typeof prim === "object" || typeof prim === "function" || !!$self[''@fastBuckets''][typeof prim]) {
+		if (typeof prim === "object" || typeof prim === "function" || !!$self.fastBuckets[typeof prim]) {
 			var bucket = null;
-			$self[''@slowBucketStores''].some(function (store) {
+			$self.slowBucketStores.some(function (store) {
 				return bucket = store._bucketOfElement_(anObject);
 			});
-			return [ anObject, null, bucket || $self[''@defaultBucket''] ];
+			return [ anObject, null, bucket || $self.defaultBucket ];
 		}
-		return [ prim, $self[''@fastBuckets''][typeof prim] ];
+		return [ prim, $self.fastBuckets[typeof prim] ];
 	'>
 !
 
@@ -1844,7 +1844,7 @@ remove: anObject in: anotherObject ifAbsent: aBlock
 	<inlineJS: '
 		if (anObject in anotherObject.store) {
 			delete anotherObject.store[anObject];
-			$self[''@size'']--;
+			$self.size--;
 			return anObject;
 		} else {
 			return aBlock._value();

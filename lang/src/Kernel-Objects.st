@@ -25,11 +25,11 @@ identityHash
 !
 
 instVarAt: aString
-	<inlineJS: 'return $self[''@''+aString]'>
+	<inlineJS: 'return $self[aString]'>
 !
 
 instVarAt: aString put: anObject
-	<inlineJS: '$self[''@'' + aString] = anObject'>
+	<inlineJS: '$self[aString] = anObject'>
 !
 
 yourself
@@ -250,9 +250,7 @@ deepCopy
 	<inlineJS: '
 		var copy = self.a$cls._new();
 		Object.keys(self).forEach(function (i) {
-		// if(/^@.+/.test(i)) {
 			copy[i] = $recv(self[i])._deepCopy();
-		// }
 		});
 		return copy;
 	'>
@@ -265,9 +263,7 @@ shallowCopy
 	<inlineJS: '
 		var copy = self.a$cls._new();
 		Object.keys(self).forEach(function(i) {
-		// if(/^@.+/.test(i)) {
 			copy[i] = self[i];
-		// }
 		});
 		return copy;
 	'>

@@ -944,14 +944,14 @@ rawTimeout: anObject
 
 clearInterval
 	<inlineJS: '
-		var interval = $self["@rawTimeout"];
+		var interval = $self.rawTimeout;
 		clearInterval(interval);
 	'>
 !
 
 clearTimeout
 	<inlineJS: '
-		var timeout = $self["@rawTimeout"];
+		var timeout = $self.rawTimeout;
 		clearTimeout(timeout);
 	'>
 ! !

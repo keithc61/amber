@@ -172,7 +172,7 @@ exception: anException
 !
 
 messageText
-	<inlineJS: 'return "JavaScript exception: " + $self["@exception"].toString()'>
+	<inlineJS: 'return "JavaScript exception: " + $self.exception.toString()'>
 ! !
 
 !JavaScriptException methodsFor: 'error handling'!
@@ -185,7 +185,7 @@ wrap
 !JavaScriptException methodsFor: 'testing'!
 
 shouldBeStubbed
-	<inlineJS: 'return $self["@exception"] instanceof RangeError'>
+	<inlineJS: 'return $self.exception instanceof RangeError'>
 ! !
 
 !JavaScriptException class methodsFor: 'instance creation'!

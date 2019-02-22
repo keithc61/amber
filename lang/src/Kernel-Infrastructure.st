@@ -56,13 +56,13 @@ __Note:__ For keyword-based messages, only the first keyword is kept: `window fo
 !JSObjectProxy methodsFor: 'accessing'!
 
 at: aString
-	<inlineJS: 'return $self[''@jsObject''][aString]'>
+	<inlineJS: 'return $self.jsObject[aString]'>
 !
 
 at: aString ifAbsent: aBlock
 	"return the aString property or evaluate aBlock if the property is not defined on the object"
 	<inlineJS: '
-		var obj = $self[''@jsObject''];
+		var obj = $self.jsObject;
 		return aString in obj ? obj[aString] : aBlock._value();
 	'>
 !
@@ -70,7 +70,7 @@ at: aString ifAbsent: aBlock
 at: aString ifPresent: aBlock
 	"return the evaluation of aBlock with the value if the property is defined or return nil"
 	<inlineJS: '
-		var obj = $self[''@jsObject''];
+		var obj = $self.jsObject;
 		return aString in obj ? aBlock._value_(obj[aString]) : nil;
 	'>
 !
@@ -79,13 +79,13 @@ at: aString ifPresent: aBlock ifAbsent: anotherBlock
 	"return the evaluation of aBlock with the value if the property is defined
 	or return value of anotherBlock"
 	<inlineJS: '
-		var obj = $self[''@jsObject''];
+		var obj = $self.jsObject;
 		return aString in obj ? aBlock._value_(obj[aString]) : anotherBlock._value();
 	'>
 !
 
 at: aString put: anObject
-	<inlineJS: 'return $self[''@jsObject''][aString] = anObject'>
+	<inlineJS: 'return $self.jsObject[aString] = anObject'>
 !
 
 in: aValuable
@@ -97,7 +97,7 @@ jsObject
 !
 
 removeKey: aString
-	<inlineJS: 'delete $self[''@jsObject''][aString]; return aString'>
+	<inlineJS: 'delete $self.jsObject[aString]; return aString'>
 ! !
 
 !JSObjectProxy methodsFor: 'comparing'!
@@ -119,7 +119,7 @@ asJavaScriptObject
 
 keysAndValuesDo: aBlock
 	<inlineJS: '
-		var o = $self[''@jsObject''];
+		var o = $self.jsObject;
 		for(var i in o) {
 			aBlock._value_value_(i, o[i]);
 		}
@@ -134,7 +134,7 @@ printOn: aStream
 
 printString
 	<inlineJS: '
-		var js = $self[''@jsObject''];
+		var js = $self.jsObject;
 		return js.toString
 			? js.toString()
 			: Object.prototype.toString.call(js)
@@ -202,7 +202,7 @@ on: aJSObject
 
 addObjectVariablesTo: aDictionary ofProxy: aProxy
 	<inlineJS: '
-		var jsObject = aProxy[''@jsObject''];
+		var jsObject = aProxy.jsObject;
 		for(var i in jsObject) {
 			aDictionary._at_put_(i, jsObject[i]);
 		}
@@ -211,8 +211,8 @@ addObjectVariablesTo: aDictionary ofProxy: aProxy
 
 compareJSObjectOfProxy: aProxy withProxy: anotherProxy
 <inlineJS: '
-	var anotherJSObject = anotherProxy.a$cls ? anotherProxy["@jsObject"] : anotherProxy;
-	return aProxy["@jsObject"] === anotherJSObject
+	var anotherJSObject = anotherProxy.a$cls ? anotherProxy.jsObject : anotherProxy;
+	return aProxy.jsObject === anotherJSObject
 '>
 !
 
@@ -223,7 +223,7 @@ forwardMessage: aString withArguments: anArray ofProxy: aProxy
 !
 
 jsObject: aJSObject ofProxy: aProxy
-	<inlineJS: 'aProxy[''@jsObject''] = aJSObject'>
+	<inlineJS: 'aProxy.jsObject = aJSObject'>
 !
 
 lookupProperty: aString ofProxy: aProxy

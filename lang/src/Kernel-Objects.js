@@ -340,7 +340,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self['@'+aString];
+return $self[aString];
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"instVarAt:",{aString:aString},$globals.ProtoObject)});
@@ -348,7 +348,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "instVarAt: aString\x0a\x09<inlineJS: 'return $self[''@''+aString]'>",
+source: "instVarAt: aString\x0a\x09<inlineJS: 'return $self[aString]'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -364,7 +364,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self['@' + aString] = anObject;
+$self[aString] = anObject;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"instVarAt:put:",{aString:aString,anObject:anObject},$globals.ProtoObject)});
@@ -372,7 +372,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject"],
-source: "instVarAt: aString put: anObject\x0a\x09<inlineJS: '$self[''@'' + aString] = anObject'>",
+source: "instVarAt: aString put: anObject\x0a\x09<inlineJS: '$self[aString] = anObject'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -945,9 +945,7 @@ return $core.withContext(function($ctx1) {
 
 		var copy = self.a$cls._new();
 		Object.keys(self).forEach(function (i) {
-		// if(/^@.+/.test(i)) {
 			copy[i] = $recv(self[i])._deepCopy();
-		// }
 		});
 		return copy;
 	;
@@ -958,7 +956,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "deepCopy\x0a\x09<inlineJS: '\x0a\x09\x09var copy = self.a$cls._new();\x0a\x09\x09Object.keys(self).forEach(function (i) {\x0a\x09\x09// if(/^@.+/.test(i)) {\x0a\x09\x09\x09copy[i] = $recv(self[i])._deepCopy();\x0a\x09\x09// }\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09'>",
+source: "deepCopy\x0a\x09<inlineJS: '\x0a\x09\x09var copy = self.a$cls._new();\x0a\x09\x09Object.keys(self).forEach(function (i) {\x0a\x09\x09\x09copy[i] = $recv(self[i])._deepCopy();\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -1434,9 +1432,7 @@ return $core.withContext(function($ctx1) {
 
 		var copy = self.a$cls._new();
 		Object.keys(self).forEach(function(i) {
-		// if(/^@.+/.test(i)) {
 			copy[i] = self[i];
-		// }
 		});
 		return copy;
 	;
@@ -1447,7 +1443,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "shallowCopy\x0a\x09<inlineJS: '\x0a\x09\x09var copy = self.a$cls._new();\x0a\x09\x09Object.keys(self).forEach(function(i) {\x0a\x09\x09// if(/^@.+/.test(i)) {\x0a\x09\x09\x09copy[i] = self[i];\x0a\x09\x09// }\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09'>",
+source: "shallowCopy\x0a\x09<inlineJS: '\x0a\x09\x09var copy = self.a$cls._new();\x0a\x09\x09Object.keys(self).forEach(function(i) {\x0a\x09\x09\x09copy[i] = self[i];\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
