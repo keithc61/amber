@@ -159,9 +159,9 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2;
-$1=$recv($globals.PlatformDom)._isDomNode_($self["@jsObject"]);
+$1=$recv($globals.PlatformDom)._isDomNode_($self.jsObject);
 if($core.assert($1)){
-return $self["@jsObject"];
+return $self.jsObject;
 } else {
 $2=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

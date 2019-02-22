@@ -215,7 +215,7 @@ selector: "basicOrganization",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@organization"];
+return $self.organization;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -233,7 +233,7 @@ selector: "basicOrganization:",
 protocol: "accessing",
 fn: function (aClassOrganizer){
 var self=this,$self=this;
-$self["@organization"]=aClassOrganizer;
+$self.organization=aClassOrganizer;
 return self;
 
 },
@@ -691,7 +691,7 @@ selector: "basicPackage:",
 protocol: "accessing",
 fn: function (aPackage){
 var self=this,$self=this;
-$self["@package"]=aPackage;
+$self.package=aPackage;
 return self;
 
 },
@@ -826,7 +826,7 @@ selector: "package",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@package"];
+return $self.package;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1984,7 +1984,7 @@ return $recv(others)._add_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-$self["@nodes"]=$recv(children)._collect_((function(each){
+$self.nodes=$recv(children)._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -2013,7 +2013,7 @@ selector: "level",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@level"];
+return $self.level;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2031,7 +2031,7 @@ selector: "level:",
 protocol: "accessing",
 fn: function (anInteger){
 var self=this,$self=this;
-$self["@level"]=anInteger;
+$self.level=anInteger;
 return self;
 
 },
@@ -2050,7 +2050,7 @@ selector: "nodes",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@nodes"];
+return $self.nodes;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2068,7 +2068,7 @@ selector: "theClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@theClass"];
+return $self.theClass;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2086,7 +2086,7 @@ selector: "theClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@theClass"]=aClass;
+$self.theClass=aClass;
 return self;
 
 },
@@ -3648,7 +3648,7 @@ selector: "basicOrganization",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@organization"];
+return $self.organization;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3666,7 +3666,7 @@ selector: "basicOrganization:",
 protocol: "accessing",
 fn: function (aClassOrganizer){
 var self=this,$self=this;
-$self["@organization"]=aClassOrganizer;
+$self.organization=aClassOrganizer;
 return self;
 
 },
@@ -3685,7 +3685,7 @@ selector: "basicPackage:",
 protocol: "accessing",
 fn: function (aPackage){
 var self=this,$self=this;
-$self["@package"]=aPackage;
+$self.package=aPackage;
 return self;
 
 },
@@ -3781,7 +3781,7 @@ selector: "package",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@package"];
+return $self.package;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3956,7 +3956,7 @@ var key;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 key=$recv(each)._key();
-return $recv($self["@aliases"])._at_ifPresent_ifAbsent_(key,(function(){
+return $recv($self.aliases)._at_ifPresent_ifAbsent_(key,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -3968,7 +3968,7 @@ return $self._error_("Cannot use same alias name twice.");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv($self["@aliases"])._at_put_(key,$recv(each)._value());
+return $recv($self.aliases)._at_put_(key,$recv(each)._value());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 //>>excludeEnd("ctx");
@@ -4000,7 +4000,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($self["@exclusions"])._addAll_(anArray);
+$recv($self.exclusions)._addAll_(anArray);
 return anArray;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"addExclusions:",{anArray:anArray},$globals.TraitTransformation)});
@@ -4021,7 +4021,7 @@ selector: "aliases",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@aliases"];
+return $self.aliases;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4269,7 +4269,7 @@ selector: "exclusions",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@exclusions"];
+return $self.exclusions;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4298,9 +4298,9 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$self["@aliases"]=$globals.HashedCollection._newFromPairs_([]);
-$self["@exclusions"]=$recv($globals.Set)._new();
-$self["@trait"]=nil;
+$self.aliases=$globals.HashedCollection._newFromPairs_([]);
+$self.exclusions=$recv($globals.Set)._new();
+$self.trait=nil;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.TraitTransformation)});
@@ -4324,11 +4324,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self["@aliases"]=$recv($self["@aliases"])._copy();
+$self.aliases=$recv($self.aliases)._copy();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["copy"]=1;
 //>>excludeEnd("ctx");
-$self["@exclusions"]=$recv($self["@exclusions"])._copy();
+$self.exclusions=$recv($self.exclusions)._copy();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"postCopy",{},$globals.TraitTransformation)});
@@ -4349,7 +4349,7 @@ selector: "trait",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@trait"];
+return $self.trait;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4367,7 +4367,7 @@ selector: "trait:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@trait"]=anObject;
+$self.trait=anObject;
 return self;
 
 },

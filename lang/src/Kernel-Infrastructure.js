@@ -150,7 +150,7 @@ selector: "asJavaScriptObject",
 protocol: "converting",
 fn: function (){
 var self=this,$self=this;
-return $self["@jsObject"];
+return $self.jsObject;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -303,7 +303,7 @@ return $core.withContext(function($ctx1) {
 var $1,$2;
 $1=$recv($globals.NativeFunction)._isNativeFunction_($self._at_("then"));
 if($core.assert($1)){
-return $recv($recv($globals.TThenable).__gt_gt("catch:"))._sendTo_arguments_($self["@jsObject"],[aBlock]);
+return $recv($recv($globals.TThenable).__gt_gt("catch:"))._sendTo_arguments_($self.jsObject,[aBlock]);
 } else {
 $2=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -376,7 +376,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(aValuable)._value_($self["@jsObject"]);
+return $recv(aValuable)._value_($self.jsObject);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"in:",{aValuable:aValuable},$globals.JSObjectProxy)});
 //>>excludeEnd("ctx");
@@ -396,7 +396,7 @@ selector: "jsObject",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@jsObject"];
+return $self.jsObject;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -449,7 +449,7 @@ return $core.withContext(function($ctx1) {
 var $1,$2;
 $1=$recv($globals.NativeFunction)._isNativeFunction_($self._at_("then"));
 if($core.assert($1)){
-return $recv($recv($globals.TThenable).__gt_gt("on:do:"))._sendTo_arguments_($self["@jsObject"],[aClass,aBlock]);
+return $recv($recv($globals.TThenable).__gt_gt("on:do:"))._sendTo_arguments_($self.jsObject,[aClass,aBlock]);
 } else {
 $2=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -537,7 +537,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(aStream)._nextPutJSObject_($self["@jsObject"]);
+$recv(aStream)._nextPutJSObject_($self.jsObject);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"putOn:",{aStream:aStream},$globals.JSObjectProxy)});
@@ -588,7 +588,7 @@ return $core.withContext(function($ctx1) {
 var $1,$2;
 $1=$recv($globals.NativeFunction)._isNativeFunction_($self._at_("then"));
 if($core.assert($1)){
-return $recv($recv($globals.TThenable).__gt_gt("then:"))._sendTo_arguments_($self["@jsObject"],[aBlockOrArray]);
+return $recv($recv($globals.TThenable).__gt_gt("then:"))._sendTo_arguments_($self.jsObject,[aBlockOrArray]);
 } else {
 $2=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -853,7 +853,7 @@ selector: "elements",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@elements"];
+return $self.elements;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -882,7 +882,7 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$self["@elements"]=$recv($globals.Set)._new();
+$self.elements=$recv($globals.Set)._new();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Organizer)});
@@ -1011,7 +1011,7 @@ selector: "theClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@traitOrBehavior"];
+return $self.traitOrBehavior;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1029,7 +1029,7 @@ selector: "theClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@traitOrBehavior"]=aClass;
+$self.traitOrBehavior=aClass;
 return self;
 
 },
@@ -1086,7 +1086,7 @@ selector: "basicTransport",
 protocol: "private",
 fn: function (){
 var self=this,$self=this;
-return $self["@basicTransport"];
+return $self.basicTransport;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1108,7 +1108,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2;
-$self["@dirty"]=false;
+$self.dirty=false;
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.PackageClean)._new();
 $recv($3)._package_(self);
@@ -1138,7 +1138,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2;
-$self["@dirty"]=true;
+$self.dirty=true;
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.PackageDirty)._new();
 $recv($3)._package_(self);
@@ -1308,11 +1308,11 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@evalBlock"];
+$1=$self.evalBlock;
 if(($receiver = $1) == null || $receiver.a$nil){
 return $recv($globals.Compiler)._eval_(aString);
 } else {
-return $recv($self["@evalBlock"])._value_(aString);
+return $recv($self.evalBlock)._value_(aString);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"eval:",{aString:aString},$globals.Package)});
@@ -1333,7 +1333,7 @@ selector: "evalBlock",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@evalBlock"];
+return $self.evalBlock;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1351,7 +1351,7 @@ selector: "evalBlock:",
 protocol: "accessing",
 fn: function (aBlock){
 var self=this,$self=this;
-$self["@evalBlock"]=aBlock;
+$self.evalBlock=aBlock;
 return self;
 
 },
@@ -1374,10 +1374,10 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@imports"];
+$1=$self.imports;
 if(($receiver = $1) == null || $receiver.a$nil){
 $self._imports_([]);
-return $self["@imports"];
+return $self.imports;
 } else {
 return $1;
 }
@@ -1404,7 +1404,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $self._validateImports_(anArray);
-$self["@imports"]=$recv(anArray)._asSet();
+$self.imports=$recv(anArray)._asSet();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"imports:",{anArray:anArray},$globals.Package)});
@@ -1573,15 +1573,15 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$self["@organization"]=$recv($globals.PackageOrganizer)._new();
+$self.organization=$recv($globals.PackageOrganizer)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=1;
 //>>excludeEnd("ctx");
-$self["@evalBlock"]=nil;
-$self["@dirty"]=nil;
-$self["@imports"]=nil;
-$self["@isReady"]=$recv($globals.Promise)._new();
-$self["@transport"]=nil;
+$self.evalBlock=nil;
+$self.dirty=nil;
+$self.imports=nil;
+$self.isReady=$recv($globals.Promise)._new();
+$self.transport=nil;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Package)});
@@ -1606,7 +1606,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@dirty"];
+$1=$self.dirty;
 if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
@@ -1649,7 +1649,7 @@ selector: "isReady",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@isReady"];
+return $self.isReady;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1667,7 +1667,7 @@ selector: "isReady:",
 protocol: "accessing",
 fn: function (aPromise){
 var self=this,$self=this;
-$self["@isReady"]=aPromise;
+$self.isReady=aPromise;
 return self;
 
 },
@@ -1709,7 +1709,7 @@ return [];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["at:ifAbsent:"]=2;
 //>>excludeEnd("ctx");
-$self["@basicTransport"]=$recv(anObject)._at_ifAbsent_("transport",(function(){
+$self.basicTransport=$recv(anObject)._at_ifAbsent_("transport",(function(){
 
 }));
 $recv(anObject)._at_ifPresent_("isReady",(function(aPromise){
@@ -1880,7 +1880,7 @@ selector: "name",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@name"];
+return $self.name;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1898,7 +1898,7 @@ selector: "name:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@name"]=aString;
+$self.name=aString;
 return self;
 
 },
@@ -1917,7 +1917,7 @@ selector: "organization",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@organization"];
+return $self.organization;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2160,10 +2160,10 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@transport"];
+$1=$self.transport;
 if(($receiver = $1) == null || $receiver.a$nil){
 $self._transport_($recv($globals.PackageTransport)._fromJson_($self._basicTransport()));
-return $self["@transport"];
+return $self.transport;
 } else {
 return $1;
 }
@@ -2189,7 +2189,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self["@transport"]=aPackageTransport;
+$self.transport=aPackageTransport;
 $recv(aPackageTransport)._package_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2711,10 +2711,10 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@current"];
+$1=$self.current;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@current"]=$self._new();
-return $self["@current"];
+$self.current=$self._new();
+return $self.current;
 } else {
 return $1;
 }
@@ -2772,7 +2772,7 @@ selector: "defaultValue",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@defaultValue"];
+return $self.defaultValue;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2790,7 +2790,7 @@ selector: "defaultValue:",
 protocol: "accessing",
 fn: function (aStringifiableObject){
 var self=this,$self=this;
-$self["@defaultValue"]=aStringifiableObject;
+$self.defaultValue=aStringifiableObject;
 return self;
 
 },
@@ -2809,7 +2809,7 @@ selector: "key",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@key"];
+return $self.key;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2827,7 +2827,7 @@ selector: "key:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@key"]=aString;
+$self.key=aString;
 return self;
 
 },
@@ -3351,10 +3351,10 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@globalJsVariables"];
+$1=$self.globalJsVariables;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@globalJsVariables"]=["window", "document", "process", "global"];
-return $self["@globalJsVariables"];
+$self.globalJsVariables=["window", "document", "process", "global"];
+return $self.globalJsVariables;
 } else {
 return $1;
 }
@@ -3523,10 +3523,10 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@packageDictionary"];
+$1=$self.packageDictionary;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@packageDictionary"]=$recv($globals.Dictionary)._new();
-return $self["@packageDictionary"];
+$self.packageDictionary=$recv($globals.Dictionary)._new();
+return $self.packageDictionary;
 } else {
 return $1;
 }
@@ -4115,9 +4115,9 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@current"];
+$1=$self.current;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@current"]=(
+$self.current=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
@@ -4125,10 +4125,10 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-return $self["@current"];
+return $self.current;
 } else {
 $self._deprecatedAPI();
-return $self["@current"];
+return $self.current;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"current",{},$globals.SmalltalkImage.a$cls)});

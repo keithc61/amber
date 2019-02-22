@@ -1330,7 +1330,7 @@ selector: "current",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@current"];
+return $self.current;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1372,7 +1372,7 @@ selector: "register:",
 protocol: "registration",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@current"]=anObject;
+$self.current=anObject;
 return self;
 
 },

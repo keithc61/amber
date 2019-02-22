@@ -5529,11 +5529,11 @@ var dx,dy;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $2,$1;
-dx=$recv($recv(aPoint)._x()).__minus($self["@x"]);
+dx=$recv($recv(aPoint)._x()).__minus($self.x);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["-"]=1;
 //>>excludeEnd("ctx");
-dy=$recv($recv(aPoint)._y()).__minus($self["@y"]);
+dy=$recv($recv(aPoint)._y()).__minus($self.y);
 $2=$recv(dx).__star(dx);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["*"]=1;
@@ -5563,11 +5563,11 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=$recv($self["@x"]).__star($recv(aPoint)._x());
+$1=$recv($self.x).__star($recv(aPoint)._x());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["*"]=1;
 //>>excludeEnd("ctx");
-return $recv($1).__plus($recv($self["@y"]).__star($recv(aPoint)._y()));
+return $recv($1).__plus($recv($self.y).__star($recv(aPoint)._y()));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"dotProduct:",{aPoint:aPoint},$globals.Point)});
 //>>excludeEnd("ctx");
@@ -5615,7 +5615,7 @@ var n,d;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $4,$3,$6,$5,$2,$1;
-n=$recv($recv($self["@y"])._negated()).__at($self["@x"]);
+n=$recv($recv($self.y)._negated()).__at($self.x);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["@"]=1;
 //>>excludeEnd("ctx");
@@ -5672,11 +5672,11 @@ $ctx1.sendIdx["x:y:"]=1;
 //>>excludeEnd("ctx");
 return $2;
 } else {
-$3=$recv($self["@x"]).__slash(r);
+$3=$recv($self.x).__slash(r);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["/"]=1;
 //>>excludeEnd("ctx");
-return $recv($globals.Point)._x_y_($3,$recv($self["@y"]).__slash(r));
+return $recv($globals.Point)._x_y_($3,$recv($self.y).__slash(r));
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5702,16 +5702,16 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$recv($self["@x"])._printOn_(aStream);
+$recv($self.x)._printOn_(aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["printOn:"]=1;
 //>>excludeEnd("ctx");
 $recv(aStream)._nextPutAll_("@");
-$1=$recv($recv($self["@y"])._notNil())._and_((function(){
+$1=$recv($recv($self.y)._notNil())._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($self["@y"])._negative();
+return $recv($self.y)._negative();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -5719,7 +5719,7 @@ return $recv($self["@y"])._negative();
 if($core.assert($1)){
 $recv(aStream)._space();
 }
-$recv($self["@y"])._printOn_(aStream);
+$recv($self.y)._printOn_(aStream);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.Point)});
@@ -5744,11 +5744,11 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $2,$1;
-$2=$recv($self["@x"]).__star($self["@x"]);
+$2=$recv($self.x).__star($self.x);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["*"]=1;
 //>>excludeEnd("ctx");
-$1=$recv($2).__plus($recv($self["@y"]).__star($self["@y"]));
+$1=$recv($2).__plus($recv($self.y).__star($self.y));
 return $recv($1)._sqrt();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"r",{},$globals.Point)});
@@ -5796,11 +5796,11 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=$recv($recv(delta)._x()).__plus($self["@x"]);
+$1=$recv($recv(delta)._x()).__plus($self.x);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["+"]=1;
 //>>excludeEnd("ctx");
-return $recv($1).__at($recv($recv(delta)._y()).__plus($self["@y"]));
+return $recv($1).__at($recv($recv(delta)._y()).__plus($self.y));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"translateBy:",{delta:delta},$globals.Point)});
 //>>excludeEnd("ctx");
@@ -5820,7 +5820,7 @@ selector: "x",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@x"];
+return $self.x;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5838,7 +5838,7 @@ selector: "x:",
 protocol: "accessing",
 fn: function (aNumber){
 var self=this,$self=this;
-$self["@x"]=aNumber;
+$self.x=aNumber;
 return self;
 
 },
@@ -5857,7 +5857,7 @@ selector: "y",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@y"];
+return $self.y;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5875,7 +5875,7 @@ selector: "y:",
 protocol: "accessing",
 fn: function (aNumber){
 var self=this,$self=this;
-$self["@y"]=aNumber;
+$self.y=aNumber;
 return self;
 
 },
@@ -6010,7 +6010,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=$recv($self["@origin"]).__eq($recv(aRectangle)._origin());
+$1=$recv($self.origin).__eq($recv(aRectangle)._origin());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["="]=1;
 //>>excludeEnd("ctx");
@@ -6018,7 +6018,7 @@ return $recv($1)._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($self["@corner"]).__eq($recv(aRectangle)._corner());
+return $recv($self.corner).__eq($recv(aRectangle)._corner());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -6045,11 +6045,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv($self["@origin"]).__lt_eq(aPoint))._and_((function(){
+return $recv($recv($self.origin).__lt_eq(aPoint))._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($self["@corner"]).__gt_eq(aPoint);
+return $recv($self.corner).__gt_eq(aPoint);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -6076,11 +6076,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv($recv(aRect)._origin()).__gt_eq($self["@origin"]))._and_((function(){
+return $recv($recv($recv(aRect)._origin()).__gt_eq($self.origin))._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($recv(aRect)._corner()).__lt_eq($self["@corner"]);
+return $recv($recv(aRect)._corner()).__lt_eq($self.corner);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -6104,7 +6104,7 @@ selector: "corner",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@corner"];
+return $self.corner;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6122,7 +6122,7 @@ selector: "origin",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@origin"];
+return $self.origin;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6143,12 +6143,12 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($self["@origin"])._printOn_(aStream);
+$recv($self.origin)._printOn_(aStream);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["printOn:"]=1;
 //>>excludeEnd("ctx");
 $recv(aStream)._nextPutAll_(" corner: ");
-$recv($self["@corner"])._printOn_(aStream);
+$recv($self.corner)._printOn_(aStream);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.Rectangle)});
@@ -6194,7 +6194,7 @@ $6=$recv(pt2)._y();
 $ctx1.sendIdx["y"]=2;
 //>>excludeEnd("ctx");
 $4=$recv($5)._min_($6);
-$self["@origin"]=$recv($1).__at($4);
+$self.origin=$recv($1).__at($4);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["@"]=1;
 //>>excludeEnd("ctx");
@@ -6211,7 +6211,7 @@ $10=$recv(pt1)._y();
 $ctx1.sendIdx["y"]=3;
 //>>excludeEnd("ctx");
 $9=$recv($10)._max_($recv(pt2)._y());
-$self["@corner"]=$recv($7).__at($9);
+$self.corner=$recv($7).__at($9);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setPoint:point:",{pt1:pt1,pt2:pt2},$globals.Rectangle)});

@@ -45,7 +45,7 @@ selector: "currentClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@currentClass"];
+return $self.currentClass;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -63,7 +63,7 @@ selector: "currentClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@currentClass"]=aClass;
+$self.currentClass=aClass;
 return self;
 
 },
@@ -82,7 +82,7 @@ selector: "currentPackage",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@currentPackage"];
+return $self.currentPackage;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -100,7 +100,7 @@ selector: "currentPackage:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@currentPackage"]=anObject;
+$self.currentPackage=anObject;
 return self;
 
 },
@@ -146,7 +146,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@source"];
+$1=$self.source;
 if(($receiver = $1) == null || $receiver.a$nil){
 return "";
 } else {
@@ -171,7 +171,7 @@ selector: "source:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@source"]=aString;
+$self.source=aString;
 return self;
 
 },
@@ -327,7 +327,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$receiver;
-$1=$self["@transformersDictionary"];
+$1=$self.transformersDictionary;
 if(($receiver = $1) == null || $receiver.a$nil){
 $2=$recv($globals.Dictionary)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -346,8 +346,8 @@ $recv($2)._at_put_("5000-astToIr",$self._translator());
 $ctx1.sendIdx["at:put:"]=3;
 //>>excludeEnd("ctx");
 $recv($2)._at_put_("8000-irToJs",$self._irTranslator());
-$self["@transformersDictionary"]=$recv($2)._yourself();
-return $self["@transformersDictionary"];
+$self.transformersDictionary=$recv($2)._yourself();
+return $self.transformersDictionary;
 } else {
 return $1;
 }
@@ -438,7 +438,7 @@ selector: "cleanCodeGenerator",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-$self["@codeGenerator"]=nil;
+$self.codeGenerator=nil;
 return self;
 
 },
@@ -461,14 +461,14 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$receiver;
-$1=$self["@codeGenerator"];
+$1=$self.codeGenerator;
 if(($receiver = $1) == null || $receiver.a$nil){
 $2=$recv($self._codeGeneratorClass())._new();
 $recv($2)._source_($self._source());
 $recv($2)._currentClass_($self._currentClass());
 $recv($2)._currentPackage_($self._currentPackage());
-$self["@codeGenerator"]=$recv($2)._yourself();
-return $self["@codeGenerator"];
+$self.codeGenerator=$recv($2)._yourself();
+return $self.codeGenerator;
 } else {
 return $1;
 }
@@ -495,7 +495,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@codeGeneratorClass"];
+$1=$self.codeGeneratorClass;
 if(($receiver = $1) == null || $receiver.a$nil){
 return $globals.InliningCodeGenerator;
 } else {
@@ -520,7 +520,7 @@ selector: "codeGeneratorClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@codeGeneratorClass"]=aClass;
+$self.codeGeneratorClass=aClass;
 return self;
 
 },
@@ -618,7 +618,7 @@ selector: "currentClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@currentClass"];
+return $self.currentClass;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -636,7 +636,7 @@ selector: "currentClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@currentClass"]=aClass;
+$self.currentClass=aClass;
 return self;
 
 },
@@ -655,7 +655,7 @@ selector: "currentPackage",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@currentPackage"];
+return $self.currentPackage;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -673,7 +673,7 @@ selector: "currentPackage:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@currentPackage"]=anObject;
+$self.currentPackage=anObject;
 return self;
 
 },
@@ -991,7 +991,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@source"];
+$1=$self.source;
 if(($receiver = $1) == null || $receiver.a$nil){
 return "";
 } else {
@@ -1016,7 +1016,7 @@ selector: "source:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@source"]=aString;
+$self.source=aString;
 return self;
 
 },
@@ -1308,7 +1308,7 @@ selector: "methodNode",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@methodNode"];
+return $self.methodNode;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1326,7 +1326,7 @@ selector: "methodNode:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@methodNode"]=anObject;
+$self.methodNode=anObject;
 return self;
 
 },
@@ -1373,7 +1373,7 @@ selector: "sequenceNode",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@sequenceNode"];
+return $self.sequenceNode;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1391,7 +1391,7 @@ selector: "sequenceNode:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@sequenceNode"]=anObject;
+$self.sequenceNode=anObject;
 return self;
 
 },

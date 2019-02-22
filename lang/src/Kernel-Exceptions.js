@@ -162,7 +162,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@messageText"];
+$1=$self.messageText;
 if(($receiver = $1) == null || $receiver.a$nil){
 return $self._basicAt_("message");
 } else {
@@ -187,7 +187,7 @@ selector: "messageText:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@messageText"]=aString;
+$self.messageText=aString;
 return self;
 
 },
@@ -608,7 +608,7 @@ selector: "exception",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@exception"];
+return $self.exception;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -626,7 +626,7 @@ selector: "exception:",
 protocol: "accessing",
 fn: function (anException){
 var self=this,$self=this;
-$self["@exception"]=anException;
+$self.exception=anException;
 return self;
 
 },
@@ -796,7 +796,7 @@ selector: "message",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@message"];
+return $self.message;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -814,7 +814,7 @@ selector: "message:",
 protocol: "accessing",
 fn: function (aMessage){
 var self=this,$self=this;
-$self["@message"]=aMessage;
+$self.message=aMessage;
 return self;
 
 },
@@ -861,7 +861,7 @@ selector: "receiver",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@receiver"];
+return $self.receiver;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -879,7 +879,7 @@ selector: "receiver:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@receiver"]=anObject;
+$self.receiver=anObject;
 return self;
 
 },
@@ -904,7 +904,7 @@ selector: "object",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@object"];
+return $self.object;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -922,7 +922,7 @@ selector: "object:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@object"]=anObject;
+$self.object=anObject;
 return self;
 
 },

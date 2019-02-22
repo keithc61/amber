@@ -2218,7 +2218,7 @@ selector: "last",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@last"];
+return $self.last;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2248,7 +2248,7 @@ $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-char=$recv($self["@stream"])._next();
+char=$recv($self.stream)._next();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["next"]=1;
 //>>excludeEnd("ctx");
@@ -2265,12 +2265,12 @@ $1=$recv(char).__eq("!");
 $ctx2.sendIdx["="]=1;
 //>>excludeEnd("ctx");
 if($core.assert($1)){
-$2=$recv($recv($self["@stream"])._peek()).__eq("!");
+$2=$recv($recv($self.stream)._peek()).__eq("!");
 if($core.assert($2)){
-$recv($self["@stream"])._next();
+$recv($self.stream)._next();
 } else {
-$self["@last"]=$recv($recv(result)._contents())._trimBoth();
-$3=$self["@last"];
+$self.last=$recv($recv(result)._contents())._trimBoth();
+$3=$self.last;
 throw $early=[$3];
 }
 }
@@ -2279,8 +2279,8 @@ return $recv(result)._nextPut_(char);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
-$self["@last"]=nil;
-$4=$self["@last"];
+$self.last=nil;
+$4=$self.last;
 return $4;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
@@ -2303,7 +2303,7 @@ selector: "stream:",
 protocol: "accessing",
 fn: function (aStream){
 var self=this,$self=this;
-$self["@stream"]=aStream;
+$self.stream=aStream;
 return self;
 
 },
@@ -2351,7 +2351,7 @@ selector: "class:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@class"]=aClass;
+$self.class=aClass;
 return self;
 
 },
@@ -2438,7 +2438,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($self["@class"])._comment_(aString);
+$recv($self.class)._comment_(aString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setComment:",{aString:aString},$globals.ClassCommentReader)});
@@ -2465,8 +2465,8 @@ selector: "class:category:",
 protocol: "accessing",
 fn: function (aClass,aString){
 var self=this,$self=this;
-$self["@class"]=aClass;
-$self["@category"]=aString;
+$self.class=aClass;
+$self.category=aString;
 return self;
 
 },
@@ -2488,7 +2488,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($recv($globals.Compiler)._new())._install_forClass_protocol_(aString,$self["@class"],$self["@category"]);
+$recv($recv($globals.Compiler)._new())._install_forClass_protocol_(aString,$self.class,$self.category);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"compileMethod:",{aString:aString},$globals.ClassProtocolReader)});
@@ -2624,7 +2624,7 @@ selector: "name",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@name"];
+return $self.name;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2642,7 +2642,7 @@ selector: "name:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@name"]=aString;
+$self.name=aString;
 return self;
 
 },
@@ -2697,7 +2697,7 @@ selector: "theClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@theClass"];
+return $self.theClass;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2715,7 +2715,7 @@ selector: "theClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@theClass"]=aClass;
+$self.theClass=aClass;
 return self;
 
 },
@@ -2774,8 +2774,8 @@ return $core.withContext(function($ctx1) {
 var $1;
 parser=$recv($globals.ChunkParser)._on_(aStream);
 lastEmpty=false;
-$self["@lastSection"]="n/a, not started";
-$self["@lastChunk"]=nil;
+$self.lastSection="n/a, not started";
+$self.lastChunk=nil;
 $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -2801,7 +2801,7 @@ return lastEmpty;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
-$self["@lastSection"]=chunk;
+$self.lastSection=chunk;
 result=$recv($recv($globals.Compiler)._new())._evaluateExpression_(chunk);
 $1=lastEmpty;
 if($core.assert($1)){
@@ -2816,8 +2816,8 @@ return $recv(result)._scanFrom_(parser);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 //>>excludeEnd("ctx");
 }));
-$self["@lastSection"]="n/a, finished";
-return $self["@lastSection"];
+$self.lastSection="n/a, finished";
+return $self.lastSection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2825,7 +2825,7 @@ return $self["@lastSection"];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$self["@lastChunk"]=$recv(parser)._last();
+$self.lastChunk=$recv(parser)._last();
 return $recv(e)._pass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({e:e},$ctx1,7)});
@@ -2851,7 +2851,7 @@ selector: "lastChunk",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@lastChunk"];
+return $self.lastChunk;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2869,7 +2869,7 @@ selector: "lastSection",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@lastSection"];
+return $self.lastSection;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3819,7 +3819,7 @@ selector: "package",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@package"];
+return $self.package;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3837,7 +3837,7 @@ selector: "package:",
 protocol: "accessing",
 fn: function (aPackage){
 var self=this,$self=this;
-$self["@package"]=aPackage;
+$self.package=aPackage;
 return self;
 
 },
@@ -3859,7 +3859,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($self._commitHandler())._setPath_forPackage_(aString,$self["@package"]);
+$recv($self._commitHandler())._setPath_forPackage_(aString,$self.package);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setPath:",{aString:aString},$globals.PackageTransport)});
@@ -3926,7 +3926,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self["@registry"])._at_(aString);
+return $recv($self.registry)._at_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"classRegisteredFor:",{aString:aString},$globals.PackageTransport.a$cls)});
 //>>excludeEnd("ctx");
@@ -4041,8 +4041,8 @@ $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 $1=$self.__eq_eq($globals.PackageTransport);
 if($core.assert($1)){
-$self["@registry"]=$globals.HashedCollection._newFromPairs_([]);
-$self["@registry"];
+$self.registry=$globals.HashedCollection._newFromPairs_([]);
+$self.registry;
 } else {
 $self._register();
 }
@@ -4101,7 +4101,7 @@ $ctx1.sendIdx["type"]=1;
 if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
-$recv($self["@registry"])._at_put_($recv(aClass)._type(),aClass);
+$recv($self.registry)._at_put_($recv(aClass)._type(),aClass);
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4256,7 +4256,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@namespace"];
+$1=$self.namespace;
 if(($receiver = $1) == null || $receiver.a$nil){
 return $self._defaultNamespace();
 } else {
@@ -4281,7 +4281,7 @@ selector: "namespace:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@namespace"]=aString;
+$self.namespace=aString;
 return self;
 
 },

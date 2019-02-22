@@ -1779,7 +1779,7 @@ selector: "send",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@send"];
+return $self.send;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1797,7 +1797,7 @@ selector: "send:",
 protocol: "accessing",
 fn: function (anIRSend){
 var self=this,$self=this;
-$self["@send"]=anIRSend;
+$self.send=anIRSend;
 return self;
 
 },
@@ -1816,7 +1816,7 @@ selector: "translator",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@translator"];
+return $self.translator;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1834,7 +1834,7 @@ selector: "translator:",
 protocol: "accessing",
 fn: function (anASTTranslator){
 var self=this,$self=this;
-$self["@translator"]=anASTTranslator;
+$self.translator=anASTTranslator;
 return self;
 
 },
@@ -1995,7 +1995,7 @@ selector: "target",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@target"];
+return $self.target;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2013,7 +2013,7 @@ selector: "target:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@target"]=anObject;
+$self.target=anObject;
 return self;
 
 },
@@ -2189,7 +2189,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$receiver;
-$1=$self["@transformersDictionary"];
+$1=$self.transformersDictionary;
 if(($receiver = $1) == null || $receiver.a$nil){
 $2=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2208,8 +2208,8 @@ $recv($2)._at_put_("6000-inliner",$self._inliner());
 $ctx1.sendIdx["at:put:"]=2;
 //>>excludeEnd("ctx");
 $recv($2)._at_put_("8000-irToJs",$self._irTranslator());
-$self["@transformersDictionary"]=$recv($2)._yourself();
-return $self["@transformersDictionary"];
+$self.transformersDictionary=$recv($2)._yourself();
+return $self.transformersDictionary;
 } else {
 return $1;
 }

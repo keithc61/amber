@@ -398,7 +398,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self["@receiver"]=$recv($globals.DoIt)._new();
+$self.receiver=$recv($globals.DoIt)._new();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setUp",{},$globals.CodeGeneratorTest)});
@@ -424,7 +424,7 @@ var method,result;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$3,$receiver;
-$self["@receiver"]=anObject;
+$self.receiver=anObject;
 $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -439,7 +439,7 @@ $2=$recv(anObject)._class();
 $ctx3.sendIdx["class"]=1;
 //>>excludeEnd("ctx");
 method=$recv($1)._install_forClass_protocol_(aString,$2,"tests");
-return $recv($self["@receiver"])._perform_($recv(method)._selector());
+return $recv($self.receiver)._perform_($recv(method)._selector());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 //>>excludeEnd("ctx");
@@ -486,14 +486,14 @@ var method,result;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2;
-$self["@receiver"]=anObject;
+$self.receiver=anObject;
 $1=$self._compiler();
 $2=$recv(anObject)._class();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["class"]=1;
 //>>excludeEnd("ctx");
 method=$recv($1)._install_forClass_protocol_(aString,$2,"tests");
-result=$recv($self["@receiver"])._perform_($recv(method)._selector());
+result=$recv($self.receiver)._perform_($recv(method)._selector());
 $recv($recv(anObject)._class())._removeCompiledMethod_(method);
 $self._assert_equals_(aResult,result);
 return self;
@@ -519,7 +519,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self._should_receiver_return_(aString,$self["@receiver"],anObject);
+return $self._should_receiver_return_(aString,$self.receiver,anObject);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"should:return:",{aString:aString,anObject:anObject},$globals.CodeGeneratorTest)});
 //>>excludeEnd("ctx");
@@ -1059,11 +1059,11 @@ $self._should_return_("foo ^ 1 + 1",(2));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["should:return:"]=2;
 //>>excludeEnd("ctx");
-$self._should_return_("foo ",$self["@receiver"]);
+$self._should_return_("foo ",$self.receiver);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["should:return:"]=3;
 //>>excludeEnd("ctx");
-$self._should_return_("foo self asString",$self["@receiver"]);
+$self._should_return_("foo self asString",$self.receiver);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["should:return:"]=4;
 //>>excludeEnd("ctx");
@@ -1131,7 +1131,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self._should_receiver_raise_("foo < inlineJS: 'return 'foo'' >",$self["@receiver"],$globals.ParseError);
+$self._should_receiver_raise_("foo < inlineJS: 'return 'foo'' >",$self.receiver,$globals.ParseError);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testMistypedPragmaJSStatement",{},$globals.CodeGeneratorTest)});
@@ -1215,7 +1215,7 @@ $self._should_return_("foo true ifTrue: [ false ifFalse: [ ^ 1 ] ]",(1));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["should:return:"]=3;
 //>>excludeEnd("ctx");
-$self._should_return_("foo true ifTrue: [ false ifTrue: [ ^ 1 ] ]",$self["@receiver"]);
+$self._should_return_("foo true ifTrue: [ false ifTrue: [ ^ 1 ] ]",$self.receiver);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testNestedIfTrue",{},$globals.CodeGeneratorTest)});
@@ -1327,7 +1327,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self._should_receiver_raise_("foo ^ [ < fooBar > 4 ] value",$self["@receiver"],$globals.CompilerError);
+$self._should_receiver_raise_("foo ^ [ < fooBar > 4 ] value",$self.receiver,$globals.CompilerError);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testPragmaInBlock",{},$globals.CodeGeneratorTest)});
@@ -1547,7 +1547,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self._should_return_("foo true ifFalse: [ ^ 1 ]",$self["@receiver"]);
+$self._should_return_("foo true ifFalse: [ ^ 1 ]",$self.receiver);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["should:return:"]=1;
 //>>excludeEnd("ctx");
@@ -1627,7 +1627,7 @@ $self._should_return_("foo ^ nil ifNil: [ 2 ]",(2));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["should:return:"]=2;
 //>>excludeEnd("ctx");
-$self._should_return_("foo 1 ifNil: [ ^ 2 ]",$self["@receiver"]);
+$self._should_return_("foo 1 ifNil: [ ^ 2 ]",$self.receiver);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["should:return:"]=3;
 //>>excludeEnd("ctx");
@@ -1703,7 +1703,7 @@ $self._should_return_("foo 1 ifNotNil: [ ^ 2 ]",(2));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["should:return:"]=3;
 //>>excludeEnd("ctx");
-$self._should_return_("foo nil ifNotNil: [ ^ 2 ]",$self["@receiver"]);
+$self._should_return_("foo nil ifNotNil: [ ^ 2 ]",$self.receiver);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testifNotNil",{},$globals.CodeGeneratorTest)});
@@ -1771,7 +1771,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self._should_return_("foo false ifTrue: [ ^ 1 ]",$self["@receiver"]);
+$self._should_return_("foo false ifTrue: [ ^ 1 ]",$self.receiver);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["should:return:"]=1;
 //>>excludeEnd("ctx");
@@ -1910,8 +1910,8 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self["@receiver"]=anObject;
-return $self._assert_equals_($self._interpret_receiver_withArguments_(aString,$self["@receiver"],$globals.HashedCollection._newFromPairs_([])),aResult);
+$self.receiver=anObject;
+return $self._assert_equals_($self._interpret_receiver_withArguments_(aString,$self.receiver,$globals.HashedCollection._newFromPairs_([])),aResult);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"should:receiver:return:",{aString:aString,anObject:anObject,aResult:aResult},$globals.ASTInterpreterTest)});
 //>>excludeEnd("ctx");
@@ -2215,7 +2215,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self["@analyzer"]=$recv($globals.SemanticAnalyzer)._on_($globals.Object);
+$self.analyzer=$recv($globals.SemanticAnalyzer)._on_($globals.Object);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setUp",{},$globals.SemanticAnalyzerTest)});
@@ -2246,7 +2246,7 @@ $self._should_raise_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($self["@analyzer"])._visit_(ast);
+return $recv($self.analyzer)._visit_(ast);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2277,7 +2277,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 src="foo | a | a + 1. ^ a";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 $self._deny_($recv($recv(ast)._scope())._hasNonLocalReturn());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2305,7 +2305,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 src="foo | a | a + 1. [ [ ^ a] ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 $self._assert_($recv($recv(ast)._scope())._hasNonLocalReturn());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2334,7 +2334,7 @@ return $core.withContext(function($ctx1) {
 var $4,$3,$2,$1;
 src="foo | a | a + 1. [ | b | b := a ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 $4=$recv($recv($recv(ast)._dagChildren())._first())._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["dagChildren"]=1;
@@ -2373,7 +2373,7 @@ return $core.withContext(function($ctx1) {
 var $8,$7,$6,$5,$4,$3,$2,$1;
 src="foo | a | a + 1. [ [ | b | b := a ] ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 $8=$recv($recv($recv(ast)._dagChildren())._first())._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["dagChildren"]=3;
@@ -2428,7 +2428,7 @@ return $core.withContext(function($ctx1) {
 var $2,$1,$10,$9,$8,$7,$6,$5,$4,$3;
 src="foo | a | a + 1. [ [ | b | b := a ] ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 $2=$recv(ast)._scope();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["scope"]=1;
@@ -2495,7 +2495,7 @@ $self._should_raise_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($self["@analyzer"])._visit_(ast);
+return $recv($self.analyzer)._visit_(ast);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2530,7 +2530,7 @@ $self._should_raise_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($self["@analyzer"])._visit_(ast);
+return $recv($self.analyzer)._visit_(ast);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2561,7 +2561,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 src="foo | a | a + 1";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testVariableShadowing",{src:src,ast:ast},$globals.SemanticAnalyzerTest)});
@@ -2592,7 +2592,7 @@ $self._should_raise_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($self["@analyzer"])._visit_(ast);
+return $recv($self.analyzer)._visit_(ast);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2623,7 +2623,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 src="foo | a | a + 1. [ | b | b := 2 ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testVariableShadowing3",{src:src,ast:ast},$globals.SemanticAnalyzerTest)});
@@ -2650,7 +2650,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 src="foo | a | a + 1. [ [ [ | b | b := 2 ] ] ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testVariableShadowing4",{src:src,ast:ast},$globals.SemanticAnalyzerTest)});
@@ -2681,7 +2681,7 @@ $self._should_raise_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($self["@analyzer"])._visit_(ast);
+return $recv($self.analyzer)._visit_(ast);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2713,7 +2713,7 @@ return $core.withContext(function($ctx1) {
 var $7,$6,$5,$4,$3,$2,$1,$15,$14,$13,$12,$11,$10,$9,$16,$8,$27,$26,$25,$24,$23,$22,$21,$20,$19,$18,$17,$39,$38,$37,$36,$35,$34,$33,$32,$31,$30,$29,$42,$41,$40,$28;
 src="foo | a | a + 1. [ | b | b := a ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 $7=$recv(ast)._dagChildren();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["dagChildren"]=2;
@@ -2911,7 +2911,7 @@ $ctx1.sendIdx["yourself"]=1;
 //>>excludeEnd("ctx");
 $2=$4;
 $recv($1)._context_($2);
-$self["@analyzer"]=$recv($1)._yourself();
+$self.analyzer=$recv($1)._yourself();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setUp",{},$globals.AISemanticAnalyzerTest)});
@@ -2942,7 +2942,7 @@ $self._shouldnt_raise_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($self["@analyzer"])._visit_(ast);
+return $recv($self.analyzer)._visit_(ast);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");

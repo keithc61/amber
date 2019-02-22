@@ -399,11 +399,11 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$self["@path"]=$recv(require)._value_("path");
+$self.path=$recv(require)._value_("path");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["value:"]=1;
 //>>excludeEnd("ctx");
-$self["@fs"]=$recv(require)._value_("fs");
+$self.fs=$recv(require)._value_("fs");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.BaseFileManipulator)});
@@ -427,7 +427,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self["@path"])._join_with_($self._dirname(),"..");
+return $recv($self.path)._join_with_($self._dirname(),"..");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"rootDirname",{},$globals.BaseFileManipulator)});
 //>>excludeEnd("ctx");
@@ -576,7 +576,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@basePath"];
+$1=$self.basePath;
 if(($receiver = $1) == null || $receiver.a$nil){
 return $recv($self._class())._defaultBasePath();
 } else {
@@ -604,7 +604,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self["@basePath"]=aString;
+$self.basePath=aString;
 $self._validateBasePath();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -630,7 +630,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=$recv($self["@fs"])._existsSync_($self._withBasePath_("index.html"));
+$1=$recv($self.fs)._existsSync_($self._withBasePath_("index.html"));
 if(!$core.assert($1)){
 $recv(console)._warn_("Warning: project directory does not contain index.html.");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -666,7 +666,7 @@ selector: "fallbackPage",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@fallbackPage"];
+return $self.fallbackPage;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -684,7 +684,7 @@ selector: "fallbackPage:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@fallbackPage"]=aString;
+$self.fallbackPage=aString;
 return self;
 
 },
@@ -708,14 +708,14 @@ var uri,filename;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-uri=$recv($self["@url"])._parse_($recv(aRequest)._url());
-filename=$recv($self["@path"])._join_with_($self._basePath(),$recv(uri)._pathname());
-$recv($self["@fs"])._exists_do_(filename,(function(aBoolean){
+uri=$recv($self.url)._parse_($recv(aRequest)._url());
+filename=$recv($self.path)._join_with_($self._basePath(),$recv(uri)._pathname());
+$recv($self.fs)._exists_do_(filename,(function(aBoolean){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if($core.assert(aBoolean)){
-$1=$recv($recv($self["@fs"])._statSync_(filename))._isDirectory();
+$1=$recv($recv($self.fs)._statSync_(filename))._isDirectory();
 if($core.assert($1)){
 return $self._respondDirectoryNamed_from_to_(filename,uri,aResponse);
 } else {
@@ -787,7 +787,7 @@ file=".".__comma($recv(aRequest)._url());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
-stream=$recv($self["@fs"])._createWriteStream_(file);
+stream=$recv($self.fs)._createWriteStream_(file);
 $recv(stream)._on_do_("error",(function(error){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -921,7 +921,7 @@ selector: "host",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@host"];
+return $self.host;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -939,7 +939,7 @@ selector: "host:",
 protocol: "accessing",
 fn: function (hostname){
 var self=this,$self=this;
-$self["@host"]=hostname;
+$self.host=hostname;
 return self;
 
 },
@@ -970,24 +970,24 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$self["@http"]=$self._require_("http");
+$self.http=$self._require_("http");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["require:"]=1;
 //>>excludeEnd("ctx");
-$self["@util"]=$self._require_("util");
+$self.util=$self._require_("util");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["require:"]=2;
 //>>excludeEnd("ctx");
-$self["@url"]=$self._require_("url");
+$self.url=$self._require_("url");
 $1=$self._class();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["class"]=1;
 //>>excludeEnd("ctx");
-$self["@host"]=$recv($1)._defaultHost();
-$self["@port"]=$recv($self._class())._defaultPort();
-$self["@username"]=nil;
-$self["@password"]=nil;
-$self["@fallbackPage"]=nil;
+$self.host=$recv($1)._defaultHost();
+$self.port=$recv($self._class())._defaultPort();
+$self.username=nil;
+$self.password=nil;
+$self.fallbackPage=nil;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.FileServer)});
@@ -1015,7 +1015,7 @@ return $core.withContext(function($ctx1) {
 var $2,$1,$3,$4,$5,$8,$9,$7,$6,$receiver;
 var $early={};
 try {
-$2=$recv($self["@username"])._isNil();
+$2=$recv($self.username)._isNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["isNil"]=1;
 //>>excludeEnd("ctx");
@@ -1023,7 +1023,7 @@ $1=$recv($2)._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($self["@password"])._isNil();
+return $recv($self.password)._isNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1065,7 +1065,7 @@ $ctx2.sendIdx["at:"]=2;
 //>>excludeEnd("ctx");
 auth=$self._base64Decode_($5);
 parts=$recv(auth)._tokenize_(":");
-$8=$self["@username"];
+$8=$self.username;
 $9=$recv(parts)._at_((1));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["at:"]=3;
@@ -1078,7 +1078,7 @@ $6=$recv($7)._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv($self["@password"]).__eq($recv(parts)._at_((2)));
+return $recv($self.password).__eq($recv(parts)._at_((2)));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,7)});
 //>>excludeEnd("ctx");
@@ -1114,7 +1114,7 @@ selector: "password:",
 protocol: "accessing",
 fn: function (aPassword){
 var self=this,$self=this;
-$self["@password"]=aPassword;
+$self.password=aPassword;
 return self;
 
 },
@@ -1133,7 +1133,7 @@ selector: "port",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@port"];
+return $self.port;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1151,7 +1151,7 @@ selector: "port:",
 protocol: "accessing",
 fn: function (aNumber){
 var self=this,$self=this;
-$self["@port"]=aNumber;
+$self.port=aNumber;
 return self;
 
 },
@@ -1299,7 +1299,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$3,$4;
 filename=aFilename;
-$recv($self["@fs"])._readFile_do_(filename,(function(ex,file){
+$recv($self.fs)._readFile_do_(filename,(function(ex,file){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -1509,7 +1509,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$3,$4,$8,$7,$6,$10,$9,$5;
 $self._checkDirectoryLayout();
-$1=$recv($self["@http"])._createServer_((function(request,response){
+$1=$recv($self.http)._createServer_((function(request,response){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -1612,7 +1612,7 @@ selector: "username:",
 protocol: "accessing",
 fn: function (aUsername){
 var self=this,$self=this;
-$self["@username"]=aUsername;
+$self.username=aUsername;
 return self;
 
 },
@@ -1635,7 +1635,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$3,$4,$7,$6,$5,$8,$9,$receiver;
-$1=$self["@fs"];
+$1=$self.fs;
 $2=$self._basePath();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["basePath"]=1;
@@ -1700,7 +1700,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self["@path"])._join_with_($self._basePath(),aBaseRelativePath);
+return $recv($self.path)._join_with_($self._basePath(),aBaseRelativePath);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"withBasePath:",{aBaseRelativePath:aBaseRelativePath},$globals.FileServer)});
 //>>excludeEnd("ctx");
@@ -2066,10 +2066,10 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@mimeTypes"];
+$1=$self.mimeTypes;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@mimeTypes"]=$self._defaultMimeTypes();
-return $self["@mimeTypes"];
+$self.mimeTypes=$self._defaultMimeTypes();
+return $self.mimeTypes;
 } else {
 return $1;
 }
@@ -2202,11 +2202,11 @@ var child,sanitizedTemplatePath;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2;
-sanitizedTemplatePath=$recv($recv($recv($self["@path"])._join_with_($self["@nmPath"],"@ambers/grunt-init-amber-project"))._replace_with_("\x5c\x5c","\x5c\x5c"))._replace_with_(":","\x5c:");
+sanitizedTemplatePath=$recv($recv($recv($self.path)._join_with_($self.nmPath,"@ambers/grunt-init-amber-project"))._replace_with_("\x5c\x5c","\x5c\x5c"))._replace_with_(":","\x5c:");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["replace:with:"]=1;
 //>>excludeEnd("ctx");
-child=$recv($self["@childProcess"])._fork_args_($self._npmScriptForModule_named_("grunt-init","grunt-init"),[sanitizedTemplatePath]);
+child=$recv($self.childProcess)._fork_args_($self._npmScriptForModule_named_("grunt-init","grunt-init"),[sanitizedTemplatePath]);
 $1=child;
 $recv($1)._on_do_("error",aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2252,7 +2252,7 @@ var child;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-child=$recv($self["@childProcess"])._exec_thenDo_("npm run init",aBlock);
+child=$recv($self.childProcess)._exec_thenDo_("npm run init",aBlock);
 $1=$recv(child)._stdout();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["stdout"]=1;
@@ -2289,8 +2289,8 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$self["@childProcess"]=$recv(require)._value_("child_process");
-$self["@nmPath"]=$recv($self["@path"])._join_with_($self._rootDirname(),"node_modules");
+$self.childProcess=$recv(require)._value_("child_process");
+$self.nmPath=$recv($self.path)._join_with_($self._rootDirname(),"node_modules");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Initer)});
@@ -2316,7 +2316,7 @@ var modulePath,packageJson,binSection,scriptPath;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$4,$2,$5;
-$1=$self["@path"];
+$1=$self.path;
 $3=$recv(require)._provided();
 $4=$recv(aString).__comma("/package.json");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2335,7 +2335,7 @@ scriptPath=binSection;
 } else {
 scriptPath=$recv(binSection)._at_(anotherString);
 }
-return $recv($self["@path"])._join_with_(modulePath,scriptPath);
+return $recv($self.path)._join_with_(modulePath,scriptPath);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"npmScriptForModule:named:",{aString:aString,anotherString:anotherString,modulePath:modulePath,packageJson:packageJson,binSection:binSection,scriptPath:scriptPath},$globals.Initer)});
 //>>excludeEnd("ctx");
@@ -2471,7 +2471,7 @@ varName=$self._nextResultName();
 } else {
 varName=name;
 }
-$self["@session"]=$self._addVariableNamed_to_(varName,$self["@session"]);
+$self.session=$self._addVariableNamed_to_(varName,$self.session);
 $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
@@ -2486,7 +2486,7 @@ $1=$recv($2).__comma($3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx[","]=1;
 //>>excludeEnd("ctx");
-value=$self._eval_on_($1,$self["@session"]);
+value=$self._eval_on_($1,$self.session);
 return value;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
@@ -2541,7 +2541,7 @@ cls=$recv($1).__comma("[0;0f");
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
 $recv($recv(process)._stdout())._write_(cls);
-$recv($self["@interface"])._prompt();
+$recv($self.interface)._prompt();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"clearScreen",{esc:esc,cls:cls},$globals.Repl)});
@@ -2586,7 +2586,7 @@ selector: "commands",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@commands"];
+return $self.commands;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2607,8 +2607,8 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self["@interface"]=$recv($self["@readline"])._createInterface_stdout_($recv(process)._stdin(),$recv(process)._stdout());
-$recv($self["@interface"])._on_do_("line",(function(buffer){
+$self.interface=$recv($self.readline)._createInterface_stdout_($recv(process)._stdin(),$recv(process)._stdout());
+$recv($self.interface)._on_do_("line",(function(buffer){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -2620,7 +2620,7 @@ return $self._processLine_(buffer);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["on:do:"]=1;
 //>>excludeEnd("ctx");
-$recv($self["@interface"])._on_do_("close",(function(){
+$recv($self.interface)._on_do_("close",(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -2632,7 +2632,7 @@ return $self._close();
 $self._printWelcome();
 $self._setupHotkeys();
 $self._setPrompt();
-$recv($self["@interface"])._prompt();
+$recv($self.interface)._prompt();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"createInterface",{},$globals.Repl)});
@@ -2833,12 +2833,12 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$self["@session"]=$recv($globals.DoIt)._new();
-$self["@readline"]=$recv(require)._value_("readline");
+$self.session=$recv($globals.DoIt)._new();
+$self.readline=$recv(require)._value_("readline");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["value:"]=1;
 //>>excludeEnd("ctx");
-$self["@util"]=$recv(require)._value_("util");
+$self.util=$recv(require)._value_("util");
 $self._setupCommands();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2922,7 +2922,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self._instanceVariableNamesFor_($recv($self["@session"])._class()))._includes_(aString);
+return $recv($self._instanceVariableNamesFor_($recv($self.session)._class()))._includes_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isVariableDefined:",{aString:aString},$globals.Repl)});
 //>>excludeEnd("ctx");
@@ -2946,13 +2946,13 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@resultCount"];
+$1=$self.resultCount;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@resultCount"]=(1);
+$self.resultCount=(1);
 } else {
-$self["@resultCount"]=$recv($self["@resultCount"]).__plus((1));
+$self.resultCount=$recv($self.resultCount).__plus((1));
 }
-return "res".__comma($recv($self["@resultCount"])._asString());
+return "res".__comma($recv($self.resultCount)._asString());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"nextResultName",{},$globals.Repl)});
 //>>excludeEnd("ctx");
@@ -3080,7 +3080,7 @@ $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
 $recv($globals.Transcript)._show_($1);
 $recv($globals.Transcript)._cr();
-$recv($self["@interface"])._prompt();
+$recv($self.interface)._prompt();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"presentResultNamed:withValue:",{varName:varName,value:value},$globals.Repl)});
@@ -3144,7 +3144,7 @@ $1=$self._executeCommand_(buffer);
 if(!$core.assert($1)){
 $2=$self._isVariableDefined_(buffer);
 if($core.assert($2)){
-$recv(show)._value_value_(buffer,$recv($self["@session"])._perform_(buffer));
+$recv(show)._value_value_(buffer,$recv($self.session)._perform_(buffer));
 } else {
 $self._assignNewVariable_do_(buffer,show);
 }
@@ -3222,7 +3222,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($self["@interface"])._setPrompt_($self._prompt());
+$recv($self.interface)._setPrompt_($self._prompt());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setPrompt",{},$globals.Repl)});
@@ -3263,12 +3263,12 @@ $1=[$2,$recv([""]).__minus_gt((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($self["@interface"])._prompt();
+return $recv($self.interface)._prompt();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
 }))];
-$self["@commands"]=$recv($globals.Dictionary)._from_($1);
+$self.commands=$recv($globals.Dictionary)._from_($1);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setupCommands",{},$globals.Repl)});

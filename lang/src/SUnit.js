@@ -14,7 +14,7 @@ selector: "result",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@result"];
+return $self.result;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -32,7 +32,7 @@ selector: "result:",
 protocol: "accessing",
 fn: function (aTestResult){
 var self=this,$self=this;
-$self["@result"]=aTestResult;
+$self.result=aTestResult;
 return self;
 
 },
@@ -151,7 +151,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $self._errorIfNotAsync_("#async");
-c=$self["@context"];
+c=$self.context;
 return (function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -183,7 +183,7 @@ selector: "context:",
 protocol: "accessing",
 fn: function (aRunningTestContext){
 var self=this,$self=this;
-$self["@context"]=aRunningTestContext;
+$self.context=aRunningTestContext;
 return self;
 
 },
@@ -258,7 +258,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $self._errorIfNotAsync_("#finished");
-$self["@asyncTimeout"]=nil;
+$self.asyncTimeout=nil;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"finished",{},$globals.TestCase)});
@@ -282,7 +282,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self["@asyncTimeout"])._notNil();
+return $recv($self.asyncTimeout)._notNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isAsync",{},$globals.TestCase)});
 //>>excludeEnd("ctx");
@@ -305,7 +305,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self["@asyncTimeout"]=nil;
+$self.asyncTimeout=nil;
 $self._perform_($self._selector());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -351,7 +351,7 @@ selector: "selector",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@testSelector"];
+return $self.testSelector;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -369,7 +369,7 @@ selector: "setTestSelector:",
 protocol: "accessing",
 fn: function (aSelector){
 var self=this,$self=this;
-$self["@testSelector"]=aSelector;
+$self.testSelector=aSelector;
 return self;
 
 },
@@ -551,14 +551,14 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@asyncTimeout"];
+$1=$self.asyncTimeout;
 if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
-$recv($self["@asyncTimeout"])._clearTimeout();
+$recv($self.asyncTimeout)._clearTimeout();
 }
-$self["@asyncTimeout"]=(0);
-$self["@asyncTimeout"]=$recv($self._async_((function(){
+$self.asyncTimeout=(0);
+$self.asyncTimeout=$recv($self._async_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -821,7 +821,7 @@ var failed;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2;
-$recv($self["@testCase"])._context_(self);
+$recv($self.testCase)._context_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["context:"]=1;
 //>>excludeEnd("ctx");
@@ -840,12 +840,12 @@ return failed;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv($self["@testCase"])._context_(nil);
+$recv($self.testCase)._context_(nil);
 $1=$recv(failed)._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv($self["@testCase"])._isAsync();
+return $recv($self.testCase)._isAsync();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["isAsync"]=1;
 //>>excludeEnd("ctx");
@@ -854,11 +854,11 @@ $ctx3.sendIdx["isAsync"]=1;
 //>>excludeEnd("ctx");
 }));
 if($core.assert($1)){
-$recv($self["@testCase"])._finished();
+$recv($self.testCase)._finished();
 }
-$2=$recv($self["@testCase"])._isAsync();
+$2=$recv($self.testCase)._isAsync();
 if(!$core.assert($2)){
-return $recv($self["@testCase"])._tearDown();
+return $recv($self.testCase)._tearDown();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
@@ -891,8 +891,8 @@ $self._execute_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv($self["@testCase"])._setUp();
-return $recv($self["@testCase"])._performTest();
+$recv($self.testCase)._setUp();
+return $recv($self.testCase)._performTest();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -917,7 +917,7 @@ selector: "testCase:",
 protocol: "accessing",
 fn: function (aTestCase){
 var self=this,$self=this;
-$self["@testCase"]=aTestCase;
+$self.testCase=aTestCase;
 return self;
 
 },
@@ -999,10 +999,10 @@ $ctx3.supercall = false;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$recv($self["@testCase"])._isAsync();
+$1=$recv($self.testCase)._isAsync();
 if(!$core.assert($1)){
-$recv($self["@result"])._increaseRuns();
-return $recv($self["@finished"])._value();
+$recv($self.result)._increaseRuns();
+return $recv($self.finished)._value();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
@@ -1028,7 +1028,7 @@ selector: "finished:",
 protocol: "accessing",
 fn: function (aBlock){
 var self=this,$self=this;
-$self["@finished"]=aBlock;
+$self.finished=aBlock;
 return self;
 
 },
@@ -1047,7 +1047,7 @@ selector: "result:",
 protocol: "accessing",
 fn: function (aTestResult){
 var self=this,$self=this;
-$self["@result"]=aTestResult;
+$self.result=aTestResult;
 return self;
 
 },
@@ -1077,7 +1077,7 @@ return $recv(aBlock)._on_do_($globals.TestFailure,(function(ex){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv($self["@result"])._addFailure_($self["@testCase"]);
+return $recv($self.result)._addFailure_($self.testCase);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({ex:ex},$ctx2,2)});
 //>>excludeEnd("ctx");
@@ -1089,7 +1089,7 @@ return $recv($self["@result"])._addFailure_($self["@testCase"]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($self["@result"])._addError_($self["@testCase"]);
+return $recv($self.result)._addError_($self.testCase);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({ex:ex},$ctx1,3)});
 //>>excludeEnd("ctx");
@@ -1211,7 +1211,7 @@ selector: "errors",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@errors"];
+return $self.errors;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1229,7 +1229,7 @@ selector: "failures",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@failures"];
+return $self.failures;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1250,7 +1250,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self["@runs"]=$recv($self["@runs"]).__plus((1));
+$self.runs=$recv($self.runs).__plus((1));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"increaseRuns",{},$globals.TestResult)});
@@ -1282,14 +1282,14 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$self["@timestamp"]=$recv($globals.Date)._now();
-$self["@runs"]=(0);
-$self["@errors"]=$recv($globals.Array)._new();
+$self.timestamp=$recv($globals.Date)._now();
+$self.runs=(0);
+$self.errors=$recv($globals.Array)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=1;
 //>>excludeEnd("ctx");
-$self["@failures"]=$recv($globals.Array)._new();
-$self["@total"]=(0);
+$self.failures=$recv($globals.Array)._new();
+$self.total=(0);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.TestResult)});
@@ -1401,7 +1401,7 @@ selector: "runs",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@runs"];
+return $self.runs;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1464,7 +1464,7 @@ selector: "timestamp",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@timestamp"];
+return $self.timestamp;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1482,7 +1482,7 @@ selector: "total",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@total"];
+return $self.total;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1500,7 +1500,7 @@ selector: "total:",
 protocol: "accessing",
 fn: function (aNumber){
 var self=this,$self=this;
-$self["@total"]=aNumber;
+$self.total=aNumber;
 return self;
 
 },
@@ -1525,7 +1525,7 @@ selector: "announcer",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@announcer"];
+return $self.announcer;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1546,7 +1546,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($globals.ReportingTestContext)._testCase_result_finished_($recv($self["@suite"])._at_(anInteger),$self["@result"],(function(){
+return $recv($globals.ReportingTestContext)._testCase_result_finished_($recv($self.suite)._at_(anInteger),$self.result,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -1586,18 +1586,18 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$self["@announcer"]=$recv($globals.Announcer)._new();
+$self.announcer=$recv($globals.Announcer)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=1;
 //>>excludeEnd("ctx");
-$self["@result"]=$recv($globals.TestResult)._new();
-$self["@runNextTest"]=(function(){
+$self.result=$recv($globals.TestResult)._new();
+$self.runNextTest=(function(){
 var runs;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-runs=$recv($self["@result"])._runs();
-$1=$recv(runs).__lt($recv($self["@result"])._total());
+runs=$recv($self.result)._runs();
+$1=$recv(runs).__lt($recv($self.result)._total());
 if($core.assert($1)){
 return $recv($self._contextOf_($recv(runs).__plus((1))))._start();
 }
@@ -1625,7 +1625,7 @@ selector: "result",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@result"];
+return $self.result;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1646,8 +1646,8 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($self["@runNextTest"])._fork();
-$recv($self["@announcer"])._announce_($recv($recv($globals.ResultAnnouncement)._new())._result_($self["@result"]));
+$recv($self.runNextTest)._fork();
+$recv($self.announcer)._announce_($recv($recv($globals.ResultAnnouncement)._new())._result_($self.result));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"resume",{},$globals.TestSuiteRunner)});
@@ -1671,7 +1671,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($self["@result"])._total_($recv($self["@suite"])._size());
+$recv($self.result)._total_($recv($self.suite)._size());
 $self._resume();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1693,7 +1693,7 @@ selector: "suite:",
 protocol: "accessing",
 fn: function (aCollection){
 var self=this,$self=this;
-$self["@suite"]=aCollection;
+$self.suite=aCollection;
 return self;
 
 },

@@ -80,8 +80,8 @@ selector: "initializeWithContext:node:",
 protocol: "initialization",
 fn: function (aContext,aNode){
 var self=this,$self=this;
-$self["@node"]=aNode;
-$self["@outerContext"]=aContext;
+$self.node=aNode;
+$self.outerContext=aContext;
 return self;
 
 },
@@ -127,7 +127,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv($self["@node"])._temps())._size();
+return $recv($recv($self.node)._temps())._size();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"numArgs",{},$globals.AIBlockClosure)});
 //>>excludeEnd("ctx");
@@ -244,8 +244,8 @@ var context,sequenceNode;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$3;
-context=$recv($self["@outerContext"])._newInnerContext();
-$1=$recv($recv($recv($self["@node"])._dagChildren())._first())._copy();
+context=$recv($self.outerContext)._newInnerContext();
+$1=$recv($recv($recv($self.node)._dagChildren())._first())._copy();
 $recv($1)._parent_(nil);
 sequenceNode=$recv($1)._yourself();
 $recv($recv(sequenceNode)._temps())._do_((function(each){
@@ -260,7 +260,7 @@ $ctx2.sendIdx["defineLocal:"]=1;
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-$recv($recv($self["@node"])._parameters())._withIndexDo_((function(each,index){
+$recv($recv($self.node)._parameters())._withIndexDo_((function(each,index){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -280,7 +280,7 @@ $ctx1.sendIdx["interpreter"]=1;
 $recv($2)._node_(sequenceNode);
 $recv($2)._enterNode();
 $recv($2)._proceed();
-$3=$recv($self["@outerContext"])._interpreter();
+$3=$recv($self.outerContext)._interpreter();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["interpreter"]=2;
 //>>excludeEnd("ctx");
@@ -391,13 +391,13 @@ context=$receiver;
 return $recv(context)._ast();
 }
 }
-$3=$self["@ast"];
+$3=$self.ast;
 if(($receiver = $3) == null || $receiver.a$nil){
 $self._initializeAST();
 } else {
 $3;
 }
-return $self["@ast"];
+return $self.ast;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ast",{},$globals.AIContext)});
 //>>excludeEnd("ctx");
@@ -563,7 +563,7 @@ selector: "evaluatedSelector",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@evaluatedSelector"];
+return $self.evaluatedSelector;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -581,7 +581,7 @@ selector: "evaluatedSelector:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@evaluatedSelector"]=aString;
+$self.evaluatedSelector=aString;
 return self;
 
 },
@@ -604,7 +604,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@index"];
+$1=$self.index;
 if(($receiver = $1) == null || $receiver.a$nil){
 return (0);
 } else {
@@ -629,7 +629,7 @@ selector: "index:",
 protocol: "accessing",
 fn: function (anInteger){
 var self=this,$self=this;
-$self["@index"]=anInteger;
+$self.index=anInteger;
 return self;
 
 },
@@ -656,8 +656,8 @@ $1=$self._method();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["method"]=1;
 //>>excludeEnd("ctx");
-$self["@ast"]=$recv($1)._ast();
-$recv($recv($globals.SemanticAnalyzer)._on_($recv($self._method())._methodClass()))._visit_($self["@ast"]);
+$self.ast=$recv($1)._ast();
+$recv($recv($globals.SemanticAnalyzer)._on_($recv($self._method())._methodClass()))._visit_($self.ast);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initializeAST",{},$globals.AIContext)});
@@ -743,12 +743,12 @@ return $core.withContext(function($ctx1) {
 var $1,$2,$receiver;
 $1=$recv($globals.ASTInterpreter)._new();
 $recv($1)._context_(self);
-$self["@interpreter"]=$recv($1)._yourself();
+$self.interpreter=$recv($1)._yourself();
 $2=$self._innerContext();
 if(($receiver = $2) == null || $receiver.a$nil){
 $2;
 } else {
-$self._setupInterpreter_($self["@interpreter"]);
+$self._setupInterpreter_($self.interpreter);
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -773,8 +773,8 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self["@locals"]=$recv($globals.Dictionary)._new();
-$recv($self["@locals"])._at_put_("thisContext",self);
+$self.locals=$recv($globals.Dictionary)._new();
+$recv($self.locals)._at_put_("thisContext",self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initializeLocals",{},$globals.AIContext)});
@@ -795,7 +795,7 @@ selector: "innerContext",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@innerContext"];
+return $self.innerContext;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -813,7 +813,7 @@ selector: "innerContext:",
 protocol: "accessing",
 fn: function (anAIContext){
 var self=this,$self=this;
-$self["@innerContext"]=anAIContext;
+$self.innerContext=anAIContext;
 return self;
 
 },
@@ -836,13 +836,13 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@interpreter"];
+$1=$self.interpreter;
 if(($receiver = $1) == null || $receiver.a$nil){
 $self._initializeInterpreter();
 } else {
 $1;
 }
-return $self["@interpreter"];
+return $self.interpreter;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"interpreter",{},$globals.AIContext)});
 //>>excludeEnd("ctx");
@@ -862,7 +862,7 @@ selector: "interpreter:",
 protocol: "interpreting",
 fn: function (anInterpreter){
 var self=this,$self=this;
-$self["@interpreter"]=anInterpreter;
+$self.interpreter=anInterpreter;
 return self;
 
 },
@@ -996,13 +996,13 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@locals"];
+$1=$self.locals;
 if(($receiver = $1) == null || $receiver.a$nil){
 $self._initializeLocals();
 } else {
 $1;
 }
-return $self["@locals"];
+return $self.locals;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"locals",{},$globals.AIContext)});
 //>>excludeEnd("ctx");
@@ -1123,7 +1123,7 @@ selector: "outerContext",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@outerContext"];
+return $self.outerContext;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1145,8 +1145,8 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$self["@outerContext"]=anAIContext;
-$1=$self["@outerContext"];
+$self.outerContext=anAIContext;
+$1=$self.outerContext;
 if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
@@ -1198,7 +1198,7 @@ selector: "selector",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@selector"];
+return $self.selector;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1216,7 +1216,7 @@ selector: "selector:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@selector"]=aString;
+$self.selector=aString;
 return self;
 
 },
@@ -1265,7 +1265,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@sendIndexes"];
+$1=$self.sendIndexes;
 if(($receiver = $1) == null || $receiver.a$nil){
 return $recv($globals.Dictionary)._new();
 } else {
@@ -1290,7 +1290,7 @@ selector: "sendIndexes:",
 protocol: "accessing",
 fn: function (aDictionary){
 var self=this,$self=this;
-$self["@sendIndexes"]=aDictionary;
+$self.sendIndexes=aDictionary;
 return self;
 
 },
@@ -1390,7 +1390,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@supercall"];
+$1=$self.supercall;
 if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
@@ -1415,7 +1415,7 @@ selector: "supercall:",
 protocol: "interpreting",
 fn: function (aBoolean){
 var self=this,$self=this;
-$self["@supercall"]=aBoolean;
+$self.supercall=aBoolean;
 return self;
 
 },
@@ -1490,7 +1490,7 @@ selector: "context",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@context"];
+return $self.context;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1508,7 +1508,7 @@ selector: "context:",
 protocol: "accessing",
 fn: function (anAIContext){
 var self=this,$self=this;
-$self["@context"]=anAIContext;
+$self.context=anAIContext;
 return self;
 
 },
@@ -1579,7 +1579,7 @@ selector: "context",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@context"];
+return $self.context;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1597,7 +1597,7 @@ selector: "context:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@context"]=anObject;
+$self.context=anObject;
 return self;
 
 },
@@ -1663,7 +1663,7 @@ selector: "context",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@context"];
+return $self.context;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1681,7 +1681,7 @@ selector: "context:",
 protocol: "accessing",
 fn: function (aContext){
 var self=this,$self=this;
-$self["@context"]=aContext;
+$self.context=aContext;
 return self;
 
 },
@@ -1826,7 +1826,7 @@ $1=$self._interpreter();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["interpreter"]=1;
 //>>excludeEnd("ctx");
-$self["@result"]=$recv($1)._result();
+$self.result=$recv($1)._result();
 $3=$self._interpreter();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["interpreter"]=2;
@@ -1939,7 +1939,7 @@ selector: "result",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@result"];
+return $self.result;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2045,7 +2045,7 @@ selector: "interpreter",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@interpreter"];
+return $self.interpreter;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2063,7 +2063,7 @@ selector: "interpreter:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@interpreter"]=anObject;
+$self.interpreter=anObject;
 return self;
 
 },
@@ -2255,7 +2255,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=$self["@forceAtEnd"];
+$1=$self.forceAtEnd;
 if($core.assert($1)){
 return true;
 }
@@ -2287,7 +2287,7 @@ selector: "context",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@context"];
+return $self.context;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2305,7 +2305,7 @@ selector: "context:",
 protocol: "accessing",
 fn: function (aContext){
 var self=this,$self=this;
-$self["@context"]=aContext;
+$self.context=aContext;
 return self;
 
 },
@@ -2431,7 +2431,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@returned"];
+$1=$self.returned;
 if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
@@ -2467,7 +2467,7 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$self["@forceAtEnd"]=false;
+$self.forceAtEnd=false;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.ASTInterpreter)});
@@ -2609,7 +2609,7 @@ selector: "node",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@node"];
+return $self.node;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2627,7 +2627,7 @@ selector: "node:",
 protocol: "accessing",
 fn: function (aNode){
 var self=this,$self=this;
-$self["@node"]=aNode;
+$self.node=aNode;
 return self;
 
 },
@@ -2825,7 +2825,7 @@ selector: "returnValue",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@returnValue"];
+return $self.returnValue;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2843,7 +2843,7 @@ selector: "returnValue:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@returnValue"]=anObject;
+$self.returnValue=anObject;
 return self;
 
 },
@@ -2930,7 +2930,7 @@ $ctx1.sendIdx["interpreter"]=1;
 //>>excludeEnd("ctx");
 $1=$recv($2)._hasReturned();
 if($core.assert($1)){
-$self["@returned"]=true;
+$self.returned=true;
 $self._returnValue_($recv($recv(aContext)._interpreter())._returnValue());
 }
 return self;
@@ -2981,10 +2981,10 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@stack"];
+$1=$self.stack;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@stack"]=$recv($globals.OrderedCollection)._new();
-return $self["@stack"];
+$self.stack=$recv($globals.OrderedCollection)._new();
+return $self.stack;
 } else {
 return $1;
 }
@@ -3193,7 +3193,7 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$self["@forceAtEnd"]=true;
+$self.forceAtEnd=true;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitBlockSequenceNode:",{aNode:aNode},$globals.ASTInterpreter)});
@@ -3305,7 +3305,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self["@returned"]=true;
+$self.returned=true;
 $self._returnValue_($self._eval_($recv(aNode)._source()));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3330,7 +3330,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self["@returned"]=true;
+$self.returned=true;
 $self._returnValue_($self._pop());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3549,7 +3549,7 @@ selector: "currentNode",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@currentNode"];
+return $self.currentNode;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3570,7 +3570,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self["@trackedIndex"]=$recv($self._trackedIndex()).__plus((1));
+$self.trackedIndex=$recv($self._trackedIndex()).__plus((1));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"increaseTrackedIndex",{},$globals.ASTPCNodeVisitor)});
@@ -3591,7 +3591,7 @@ selector: "index",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@index"];
+return $self.index;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3609,7 +3609,7 @@ selector: "index:",
 protocol: "accessing",
 fn: function (aNumber){
 var self=this,$self=this;
-$self["@index"]=aNumber;
+$self.index=aNumber;
 return self;
 
 },
@@ -3628,7 +3628,7 @@ selector: "selector",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@selector"];
+return $self.selector;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3646,7 +3646,7 @@ selector: "selector:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@selector"]=aString;
+$self.selector=aString;
 return self;
 
 },
@@ -3669,10 +3669,10 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@trackedIndex"];
+$1=$self.trackedIndex;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@trackedIndex"]=(0);
-return $self["@trackedIndex"];
+$self.trackedIndex=(0);
+return $self.trackedIndex;
 } else {
 return $1;
 }
@@ -3695,7 +3695,7 @@ selector: "visitJSStatementNode:",
 protocol: "visiting",
 fn: function (aNode){
 var self=this,$self=this;
-$self["@currentNode"]=aNode;
+$self.currentNode=aNode;
 return self;
 
 },
@@ -3737,8 +3737,8 @@ $ctx1.sendIdx["="]=1;
 if($core.assert($1)){
 $3=$recv($self._trackedIndex()).__eq($self._index());
 if($core.assert($3)){
-$self["@currentNode"]=aNode;
-$self["@currentNode"];
+$self.currentNode=aNode;
+$self.currentNode;
 }
 $self._increaseTrackedIndex();
 }

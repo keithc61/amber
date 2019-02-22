@@ -239,7 +239,7 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$self["@path"]=[];
+$self.path=[];
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.PathDagVisitor)});
@@ -260,7 +260,7 @@ selector: "path",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@path"];
+return $self.path;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -283,12 +283,12 @@ var oldPath,result;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 result=aNode;
-oldPath=$self["@path"];
+oldPath=$self.path;
 $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$self["@path"]=$recv($self["@path"]).__comma([aNode]);
+$self.path=$recv($self.path).__comma([aNode]);
 result=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.supercall = true,
@@ -302,8 +302,8 @@ return result;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
 }))._ensure_((function(){
-$self["@path"]=oldPath;
-return $self["@path"];
+$self.path=oldPath;
+return $self.path;
 
 }));
 return result;
@@ -341,7 +341,7 @@ $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 $1=$recv(aNode).__eq_eq(newNode);
 if(!$core.assert($1)){
-$recv($self["@path"])._at_put_($recv($self["@path"])._size(),newNode);
+$recv($self.path)._at_put_($recv($self.path)._size(),newNode);
 }
 return newNode;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -531,10 +531,10 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self["@nodes"];
+$1=$self.nodes;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@nodes"]=$recv($globals.Array)._new();
-return $self["@nodes"];
+$self.nodes=$recv($globals.Array)._new();
+return $self.nodes;
 } else {
 return $1;
 }
@@ -557,7 +557,7 @@ selector: "dagChildren:",
 protocol: "accessing",
 fn: function (aCollection){
 var self=this,$self=this;
-$self["@nodes"]=aCollection;
+$self.nodes=aCollection;
 return self;
 
 },
