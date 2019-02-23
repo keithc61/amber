@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Kernel-Exceptions'!
 Object subclass: #Error
-	instanceVariableNames: 'message'
+	instanceVariableNames: 'message stack amberHandled context smalltalkError'
 	package: 'Kernel-Exceptions'!
 !Error commentStamp!
 From the ANSI standard:
@@ -13,19 +13,27 @@ As `Error` is explicitly specified to be subclassable, conforming implementation
 !Error methodsFor: 'accessing'!
 
 beHandled
-	<inlineJS: 'self.amberHandled = true'>
+	amberHandled := true
+!
+
+beSmalltalkError
+	smalltalkError := true
 !
 
 beUnhandled
-	<inlineJS: 'self.amberHandled = false'>
+	amberHandled := false
 !
 
 context
-	<inlineJS: 'return self.context'>
+	^ context
+!
+
+context: aMethodContext
+	context := aMethodContext
 !
 
 jsStack
-	<inlineJS: 'return self.stack'>
+	^ stack
 !
 
 messageText
@@ -46,15 +54,21 @@ signalerContextFrom: aContext
 	This will make sure that the same context is found for both, `Error signal` 
 	and `Error new signal`"
 
-	^ aContext findContextSuchThat: [ :context |
-		(context receiver == self 
-		or: [ context receiver == self class ]) not ]
+	^ aContext findContextSuchThat: [ :one |
+		(one receiver == self 
+		or: [ one receiver == self class ]) not ]
 ! !
 
 !Error methodsFor: 'initialization'!
 
 initialize
 	self messageText: 'Errorclass: ', (self class name).
+! !
+
+!Error methodsFor: 'private'!
+
+basicSignal
+	<inlineJS: 'throw self;'>
 ! !
 
 !Error methodsFor: 'signaling'!
@@ -67,11 +81,8 @@ outer
 
 pass
 	"Let outer handler take care of this."
-	
-	<inlineJS: '
-		self.amberHandled = false;
-		throw self;
-	'>
+
+	self beUnhandled; basicSignal
 !
 
 resignal
@@ -80,27 +91,21 @@ resignal
 !
 
 signal
-	<inlineJS: '
-		self.amberHandled = false;
-		self.context = $core.getThisContext(); 
-		self.smalltalkError = true;
-		throw self;
-	'>
+	self beUnhandled; context: thisContext; beSmalltalkError; basicSignal
 !
 
 signal: aString
-	self messageText: aString.
-	self signal
+	self messageText: aString; signal
 ! !
 
 !Error methodsFor: 'testing'!
 
 isSmalltalkError
-	<inlineJS: 'return self.smalltalkError === true'>
+	^ smalltalkError == true
 !
 
 wasHandled
-	<inlineJS: 'return self.amberHandled || false'>
+	^ amberHandled == true
 ! !
 
 !Error class methodsFor: 'accessing'!
@@ -141,10 +146,10 @@ signalerContextFrom: aContext
 	This will find the first context whose method is no longer on `Halt` or 
 	`Halt class` nor is `#halt` method itself."
 	
-	^ aContext findContextSuchThat: [ :context |
-		(context receiver == self 
-		or: [ (context receiver == self class) 
-		or: [ context method selector = #halt ]]) not ]
+	^ aContext findContextSuchThat: [ :one |
+		(one receiver == self 
+		or: [ (one receiver == self class) 
+		or: [ one method selector = #halt ]]) not ]
 ! !
 
 Error subclass: #JavaScriptException
@@ -155,13 +160,6 @@ A JavaScriptException is thrown when a non-Smalltalk exception occurs while in t
 See `boot.js` `inContext()` and `BlockClosure >> on:do:`!
 
 !JavaScriptException methodsFor: 'accessing'!
-
-context: aMethodContext
-	"Set the context from the outside.
-	See boot.js `inContext()` exception handling"
-	
-	<inlineJS: 'self.context = aMethodContext'>
-!
 
 exception
 	^ exception

@@ -4,28 +4,66 @@ var $pkg = $core.addPackage("Kernel-Exceptions");
 $pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("Error", $globals.Object, ["message"], "Kernel-Exceptions");
+$core.addClass("Error", $globals.Object, ["message", "stack", "amberHandled", "context", "smalltalkError"], "Kernel-Exceptions");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Error.comment="From the ANSI standard:\x0a\x0aThis protocol describes the behavior of instances of class `Error`.\x0aThese are used to represent error conditions that prevent the normal continuation of processing.\x0aActual error exceptions used by an application may be subclasses of this class.\x0aAs `Error` is explicitly specified to be subclassable, conforming implementations must implement its behavior in a non-fragile manner.";
 //>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "basicSignal",
+protocol: "private",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+throw self;;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"basicSignal",{},$globals.Error)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "basicSignal\x0a\x09<inlineJS: 'throw self;'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Error);
+
 $core.addMethod(
 $core.method({
 selector: "beHandled",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-self.amberHandled = true;
+$self.amberHandled=true;
 return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"beHandled",{},$globals.Error)});
-//>>excludeEnd("ctx");
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "beHandled\x0a\x09<inlineJS: 'self.amberHandled = true'>",
+source: "beHandled\x0a\x09amberHandled := true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Error);
+
+$core.addMethod(
+$core.method({
+selector: "beSmalltalkError",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+$self.smalltalkError=true;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "beSmalltalkError\x0a\x09smalltalkError := true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -38,18 +76,13 @@ selector: "beUnhandled",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-self.amberHandled = false;
+$self.amberHandled=false;
 return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"beUnhandled",{},$globals.Error)});
-//>>excludeEnd("ctx");
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "beUnhandled\x0a\x09<inlineJS: 'self.amberHandled = false'>",
+source: "beUnhandled\x0a\x09amberHandled := false",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -62,18 +95,31 @@ selector: "context",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.context;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"context",{},$globals.Error)});
-//>>excludeEnd("ctx");
+return $self.context;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "context\x0a\x09<inlineJS: 'return self.context'>",
+source: "context\x0a\x09^ context",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.Error);
+
+$core.addMethod(
+$core.method({
+selector: "context:",
+protocol: "accessing",
+fn: function (aMethodContext){
+var self=this,$self=this;
+$self.context=aMethodContext;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aMethodContext"],
+source: "context: aMethodContext\x0a\x09context := aMethodContext",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -113,18 +159,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self.smalltalkError === true;
-return self;
+return $recv($self.smalltalkError).__eq_eq(true);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isSmalltalkError",{},$globals.Error)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isSmalltalkError\x0a\x09<inlineJS: 'return self.smalltalkError === true'>",
+source: "isSmalltalkError\x0a\x09^ smalltalkError == true",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["=="]
 }),
 $globals.Error);
 
@@ -134,18 +179,12 @@ selector: "jsStack",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.stack;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"jsStack",{},$globals.Error)});
-//>>excludeEnd("ctx");
+return $self.stack;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "jsStack\x0a\x09<inlineJS: 'return self.stack'>",
+source: "jsStack\x0a\x09^ stack",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -221,10 +260,8 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-
-		self.amberHandled = false;
-		throw self;
-	;
+$self._beUnhandled();
+$self._basicSignal();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"pass",{},$globals.Error)});
@@ -232,10 +269,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "pass\x0a\x09\x22Let outer handler take care of this.\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09self.amberHandled = false;\x0a\x09\x09throw self;\x0a\x09'>",
+source: "pass\x0a\x09\x22Let outer handler take care of this.\x22\x0a\x0a\x09self beUnhandled; basicSignal",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["beUnhandled", "basicSignal"]
 }),
 $globals.Error);
 
@@ -272,12 +309,10 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-
-		self.amberHandled = false;
-		self.context = $core.getThisContext(); 
-		self.smalltalkError = true;
-		throw self;
-	;
+$self._beUnhandled();
+$self._context_($core.getThisContext());
+$self._beSmalltalkError();
+$self._basicSignal();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"signal",{},$globals.Error)});
@@ -285,10 +320,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "signal\x0a\x09<inlineJS: '\x0a\x09\x09self.amberHandled = false;\x0a\x09\x09self.context = $core.getThisContext(); \x0a\x09\x09self.smalltalkError = true;\x0a\x09\x09throw self;\x0a\x09'>",
+source: "signal\x0a\x09self beUnhandled; context: thisContext; beSmalltalkError; basicSignal",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["beUnhandled", "context:", "beSmalltalkError", "basicSignal"]
 }),
 $globals.Error);
 
@@ -310,7 +345,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "signal: aString\x0a\x09self messageText: aString.\x0a\x09self signal",
+source: "signal: aString\x0a\x09self messageText: aString; signal",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["messageText:", "signal"]
@@ -350,11 +385,11 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $3,$2,$1;
-return $recv(aContext)._findContextSuchThat_((function(context){
+return $recv(aContext)._findContextSuchThat_((function(one){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$3=$recv(context)._receiver();
+$3=$recv(one)._receiver();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["receiver"]=1;
 //>>excludeEnd("ctx");
@@ -366,14 +401,14 @@ $1=$recv($2)._or_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv($recv(context)._receiver()).__eq_eq($self._class());
+return $recv($recv(one)._receiver()).__eq_eq($self._class());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 //>>excludeEnd("ctx");
 }));
 return $recv($1)._not();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({context:context},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({one:one},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -382,7 +417,7 @@ return $recv($1)._not();
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aContext"],
-source: "signalerContextFrom: aContext\x0a\x09\x22Find the first sender of signal(:), the first context which is neither \x0a\x09for an instance method nor for a class side method of Exception (or subclass).\x0a\x09This will make sure that the same context is found for both, `Error signal` \x0a\x09and `Error new signal`\x22\x0a\x0a\x09^ aContext findContextSuchThat: [ :context |\x0a\x09\x09(context receiver == self \x0a\x09\x09or: [ context receiver == self class ]) not ]",
+source: "signalerContextFrom: aContext\x0a\x09\x22Find the first sender of signal(:), the first context which is neither \x0a\x09for an instance method nor for a class side method of Exception (or subclass).\x0a\x09This will make sure that the same context is found for both, `Error signal` \x0a\x09and `Error new signal`\x22\x0a\x0a\x09^ aContext findContextSuchThat: [ :one |\x0a\x09\x09(one receiver == self \x0a\x09\x09or: [ one receiver == self class ]) not ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["findContextSuchThat:", "not", "or:", "==", "receiver", "class"]
@@ -398,18 +433,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self.amberHandled || false;
-return self;
+return $recv($self.amberHandled).__eq_eq(true);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"wasHandled",{},$globals.Error)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "wasHandled\x0a\x09<inlineJS: 'return self.amberHandled || false'>",
+source: "wasHandled\x0a\x09^ amberHandled == true",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["=="]
 }),
 $globals.Error);
 
@@ -511,11 +545,11 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $3,$2,$1;
-return $recv(aContext)._findContextSuchThat_((function(context){
+return $recv(aContext)._findContextSuchThat_((function(one){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$3=$recv(context)._receiver();
+$3=$recv(one)._receiver();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["receiver"]=1;
 //>>excludeEnd("ctx");
@@ -527,11 +561,11 @@ $1=$recv($2)._or_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv($recv($recv(context)._receiver()).__eq_eq($self._class()))._or_((function(){
+return $recv($recv($recv(one)._receiver()).__eq_eq($self._class()))._or_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
-return $recv($recv($recv(context)._method())._selector()).__eq("halt");
+return $recv($recv($recv(one)._method())._selector()).__eq("halt");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
 //>>excludeEnd("ctx");
@@ -545,7 +579,7 @@ $ctx2.sendIdx["or:"]=1;
 //>>excludeEnd("ctx");
 return $recv($1)._not();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({context:context},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({one:one},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -554,7 +588,7 @@ return $recv($1)._not();
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aContext"],
-source: "signalerContextFrom: aContext\x0a\x09\x22specialized version to find the proper context to open the debugger on.\x0a\x09This will find the first context whose method is no longer on `Halt` or \x0a\x09`Halt class` nor is `#halt` method itself.\x22\x0a\x09\x0a\x09^ aContext findContextSuchThat: [ :context |\x0a\x09\x09(context receiver == self \x0a\x09\x09or: [ (context receiver == self class) \x0a\x09\x09or: [ context method selector = #halt ]]) not ]",
+source: "signalerContextFrom: aContext\x0a\x09\x22specialized version to find the proper context to open the debugger on.\x0a\x09This will find the first context whose method is no longer on `Halt` or \x0a\x09`Halt class` nor is `#halt` method itself.\x22\x0a\x09\x0a\x09^ aContext findContextSuchThat: [ :one |\x0a\x09\x09(one receiver == self \x0a\x09\x09or: [ (one receiver == self class) \x0a\x09\x09or: [ one method selector = #halt ]]) not ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["findContextSuchThat:", "not", "or:", "==", "receiver", "class", "=", "selector", "method"]
@@ -567,30 +601,6 @@ $core.addClass("JavaScriptException", $globals.Error, ["exception"], "Kernel-Exc
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.JavaScriptException.comment="A JavaScriptException is thrown when a non-Smalltalk exception occurs while in the Smalltalk stack.\x0aSee `boot.js` `inContext()` and `BlockClosure >> on:do:`";
 //>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "context:",
-protocol: "accessing",
-fn: function (aMethodContext){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-self.context = aMethodContext;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"context:",{aMethodContext:aMethodContext},$globals.JavaScriptException)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aMethodContext"],
-source: "context: aMethodContext\x0a\x09\x22Set the context from the outside.\x0a\x09See boot.js `inContext()` exception handling\x22\x0a\x09\x0a\x09<inlineJS: 'self.context = aMethodContext'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.JavaScriptException);
-
 $core.addMethod(
 $core.method({
 selector: "exception",
