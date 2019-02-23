@@ -4,7 +4,7 @@ var $pkg = $core.addPackage("Kernel-Methods");
 $pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("BlockClosure", $globals.Object, [], "Kernel-Methods");
+$core.addClass("BlockClosure", $globals.Object, ["prototype"], "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.BlockClosure.comment="I represent a lexical closure.\x0aI am is directly mapped to JavaScript Function.\x0a\x0a## API\x0a\x0a1. Evaluation\x0a\x0a    My instances get evaluated with the `#value*` methods in the 'evaluating' protocol.\x0a\x0a    Example: ` [ :x | x + 1 ] value: 3 \x22Answers 4\x22 `\x0a\x0a2. Control structures\x0a\x0a    Blocks are used (together with `Boolean`) for control structures (methods in the `controlling` protocol).\x0a\x0a    Example: `aBlock whileTrue: [ ... ]`\x0a\x0a3. Error handling\x0a\x0a    I provide the `#on:do:` method for handling exceptions.\x0a\x0a    Example: ` aBlock on: MessageNotUnderstood do: [ :ex | ... ] `";
 //>>excludeEnd("ide");
@@ -339,6 +339,24 @@ source: "on: anErrorClass do: aBlock\x0a\x09\x22All exceptions thrown in the Sma
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 messageSends: ["tryCatch:", "asSmalltalkException:", "ifTrue:ifFalse:", "isKindOf:", "value:", "pass"]
+}),
+$globals.BlockClosure);
+
+$core.addMethod(
+$core.method({
+selector: "prototype",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $self.prototype;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "prototype\x0a\x09^ prototype",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
 }),
 $globals.BlockClosure);
 

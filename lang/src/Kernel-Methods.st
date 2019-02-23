@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Kernel-Methods'!
 Object subclass: #BlockClosure
-	instanceVariableNames: ''
+	instanceVariableNames: 'prototype'
 	package: 'Kernel-Methods'!
 !BlockClosure commentStamp!
 I represent a lexical closure.
@@ -34,6 +34,10 @@ compiledSource
 
 numArgs
 	<inlineJS: 'return self.length'>
+!
+
+prototype
+	^ prototype
 !
 
 receiver
