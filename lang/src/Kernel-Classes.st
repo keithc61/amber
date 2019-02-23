@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Kernel-Classes'!
 Object subclass: #Behavior
-	instanceVariableNames: 'organization'
+	instanceVariableNames: 'organization instanceVariableNames fn superclass'
 	package: 'Kernel-Classes'!
 !Behavior commentStamp!
 I am the superclass of all class objects.
@@ -53,20 +53,20 @@ basicOrganization: aClassOrganizer
 !
 
 instanceVariableNames
-	<inlineJS: 'return self.instanceVariableNames'>
+	^ instanceVariableNames
 !
 
 javascriptConstructor
-	"Answer the JS constructor used to instantiate. See boot.js"
+	"Answer the JS constructor used to instantiate. See kernel-language.js"
 	
-	<inlineJS: 'return self.fn'>
+	^ fn
 !
 
 javascriptConstructor: aJavaScriptFunction
 	"Set the JS constructor used to instantiate.
 	See the JS counter-part in boot.js `$core.setClassConstructor'"
 	
-	<inlineJS: '$core.setClassConstructor(self, aJavaScriptFunction);'>
+	Smalltalk core setClassConstructor: self to: aJavaScriptFunction
 !
 
 lookupSelector: selector
@@ -86,7 +86,7 @@ lookupSelector: selector
 !
 
 prototype
-	<inlineJS: 'return self.fn.prototype'>
+	^ self javascriptConstructor prototype
 !
 
 subclasses
@@ -94,7 +94,7 @@ subclasses
 !
 
 superclass
-	<inlineJS: 'return self.superclass'>
+	^ superclass
 !
 
 theMetaClass
@@ -153,7 +153,7 @@ isBehavior
 ! !
 
 Behavior subclass: #Class
-	instanceVariableNames: 'package'
+	instanceVariableNames: 'package subclasses'
 	package: 'Kernel-Classes'!
 !Class commentStamp!
 I am __the__ class object.
@@ -192,7 +192,7 @@ rename: aString
 !
 
 subclasses
-	<inlineJS: 'return self.subclasses._copy()'>
+	^ subclasses copy
 !
 
 theMetaClass
@@ -216,7 +216,7 @@ isClass
 ! !
 
 Behavior subclass: #Metaclass
-	instanceVariableNames: ''
+	instanceVariableNames: 'instanceClass'
 	package: 'Kernel-Classes'!
 !Metaclass commentStamp!
 I am the root of the class hierarchy.
@@ -236,7 +236,7 @@ definition
 !
 
 instanceClass
-	<inlineJS: 'return self.instanceClass'>
+	^ instanceClass
 !
 
 instanceVariableNames: aCollection
@@ -254,7 +254,7 @@ package
 !
 
 subclasses
-	<inlineJS: 'return $core.metaSubclasses(self)'>
+	^ Smalltalk core metaSubclasses: self
 !
 
 theMetaClass
@@ -916,7 +916,7 @@ asJavaScriptSource
 ! !
 
 Object subclass: #Trait
-	instanceVariableNames: 'organization package'
+	instanceVariableNames: 'organization package traitUsers'
 	package: 'Kernel-Classes'!
 
 !Trait methodsFor: 'accessing'!
@@ -953,7 +953,7 @@ theMetaClass
 !
 
 traitUsers
-	^ (self basicAt: 'traitUsers') copy
+	^ traitUsers copy
 ! !
 
 !Trait methodsFor: 'composition'!

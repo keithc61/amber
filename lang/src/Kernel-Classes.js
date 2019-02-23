@@ -4,7 +4,7 @@ var $pkg = $core.addPackage("Kernel-Classes");
 $pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("Behavior", $globals.Object, ["organization"], "Kernel-Classes");
+$core.addClass("Behavior", $globals.Object, ["organization", "instanceVariableNames", "fn", "superclass"], "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Behavior.comment="I am the superclass of all class objects.\x0a\x0aIn addition to BehaviorBody, I define superclass/subclass relationships and instantiation.\x0a\x0aI define the protocol for creating instances of a class with `#basicNew` and `#new` (see `boot.js` for class constructors details).\x0a\x0aMy instances know about the subclass/superclass relationships between classes and contain the description that instances are created from.\x0a\x0aI also provide iterating over the class hierarchy.";
 //>>excludeEnd("ide");
@@ -374,18 +374,12 @@ selector: "instanceVariableNames",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.instanceVariableNames;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"instanceVariableNames",{},$globals.Behavior)});
-//>>excludeEnd("ctx");
+return $self.instanceVariableNames;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "instanceVariableNames\x0a\x09<inlineJS: 'return self.instanceVariableNames'>",
+source: "instanceVariableNames\x0a\x09^ instanceVariableNames",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -416,18 +410,12 @@ selector: "javascriptConstructor",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.fn;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"javascriptConstructor",{},$globals.Behavior)});
-//>>excludeEnd("ctx");
+return $self.fn;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "javascriptConstructor\x0a\x09\x22Answer the JS constructor used to instantiate. See boot.js\x22\x0a\x09\x0a\x09<inlineJS: 'return self.fn'>",
+source: "javascriptConstructor\x0a\x09\x22Answer the JS constructor used to instantiate. See kernel-language.js\x22\x0a\x09\x0a\x09^ fn",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -443,7 +431,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$core.setClassConstructor(self, aJavaScriptFunction);;
+$recv($recv($globals.Smalltalk)._core())._setClassConstructor_to_(self,aJavaScriptFunction);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"javascriptConstructor:",{aJavaScriptFunction:aJavaScriptFunction},$globals.Behavior)});
@@ -451,10 +439,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aJavaScriptFunction"],
-source: "javascriptConstructor: aJavaScriptFunction\x0a\x09\x22Set the JS constructor used to instantiate.\x0a\x09See the JS counter-part in boot.js `$core.setClassConstructor'\x22\x0a\x09\x0a\x09<inlineJS: '$core.setClassConstructor(self, aJavaScriptFunction);'>",
-referencedClasses: [],
+source: "javascriptConstructor: aJavaScriptFunction\x0a\x09\x22Set the JS constructor used to instantiate.\x0a\x09See the JS counter-part in boot.js `$core.setClassConstructor'\x22\x0a\x09\x0a\x09Smalltalk core setClassConstructor: self to: aJavaScriptFunction",
+referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["setClassConstructor:to:", "core"]
 }),
 $globals.Behavior);
 
@@ -542,18 +530,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self.fn.prototype;
-return self;
+return $recv($self._javascriptConstructor())._prototype();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"prototype",{},$globals.Behavior)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "prototype\x0a\x09<inlineJS: 'return self.fn.prototype'>",
+source: "prototype\x0a\x09^ self javascriptConstructor prototype",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["prototype", "javascriptConstructor"]
 }),
 $globals.Behavior);
 
@@ -587,18 +574,12 @@ selector: "superclass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.superclass;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"superclass",{},$globals.Behavior)});
-//>>excludeEnd("ctx");
+return $self.superclass;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "superclass\x0a\x09<inlineJS: 'return self.superclass'>",
+source: "superclass\x0a\x09^ superclass",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -681,7 +662,7 @@ $globals.Behavior);
 
 
 
-$core.addClass("Class", $globals.Behavior, ["package"], "Kernel-Classes");
+$core.addClass("Class", $globals.Behavior, ["package", "subclasses"], "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Class.comment="I am __the__ class object.\x0a\x0aMy instances are the classes of the system.\x0aClass creation is done throught a `ClassBuilder` instance.";
 //>>excludeEnd("ide");
@@ -894,18 +875,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self.subclasses._copy();
-return self;
+return $recv($self.subclasses)._copy();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"subclasses",{},$globals.Class)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "subclasses\x0a\x09<inlineJS: 'return self.subclasses._copy()'>",
+source: "subclasses\x0a\x09^ subclasses copy",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["copy"]
 }),
 $globals.Class);
 
@@ -934,7 +914,7 @@ $globals.Class);
 
 
 
-$core.addClass("Metaclass", $globals.Behavior, [], "Kernel-Classes");
+$core.addClass("Metaclass", $globals.Behavior, ["instanceClass"], "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Metaclass.comment="I am the root of the class hierarchy.\x0a\x0aMy instances are metaclasses, one for each real class, and have a single instance, which they hold onto: the class that they are the metaclass of.";
 //>>excludeEnd("ide");
@@ -1032,18 +1012,12 @@ selector: "instanceClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.instanceClass;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"instanceClass",{},$globals.Metaclass)});
-//>>excludeEnd("ctx");
+return $self.instanceClass;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "instanceClass\x0a\x09<inlineJS: 'return self.instanceClass'>",
+source: "instanceClass\x0a\x09^ instanceClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -1147,18 +1121,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $core.metaSubclasses(self);
-return self;
+return $recv($recv($globals.Smalltalk)._core())._metaSubclasses_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"subclasses",{},$globals.Metaclass)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "subclasses\x0a\x09<inlineJS: 'return $core.metaSubclasses(self)'>",
-referencedClasses: [],
+source: "subclasses\x0a\x09^ Smalltalk core metaSubclasses: self",
+referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["metaSubclasses:", "core"]
 }),
 $globals.Metaclass);
 
@@ -3549,7 +3522,7 @@ messageSends: []
 $globals.TMasterBehavior);
 
 
-$core.addClass("Trait", $globals.Object, ["organization", "package"], "Kernel-Classes");
+$core.addClass("Trait", $globals.Object, ["organization", "package", "traitUsers"], "Kernel-Classes");
 $core.addMethod(
 $core.method({
 selector: "-",
@@ -3820,17 +3793,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self._basicAt_("traitUsers"))._copy();
+return $recv($self.traitUsers)._copy();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"traitUsers",{},$globals.Trait)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "traitUsers\x0a\x09^ (self basicAt: 'traitUsers') copy",
+source: "traitUsers\x0a\x09^ traitUsers copy",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["copy", "basicAt:"]
+messageSends: ["copy"]
 }),
 $globals.Trait);
 
