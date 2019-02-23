@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Kernel-Exceptions'!
 Object subclass: #Error
-	instanceVariableNames: 'messageText'
+	instanceVariableNames: 'message'
 	package: 'Kernel-Exceptions'!
 !Error commentStamp!
 From the ANSI standard:
@@ -29,11 +29,11 @@ jsStack
 !
 
 messageText
-	^ messageText ifNil: [ self basicAt: 'message' ]
+	^ message
 !
 
 messageText: aString
-	messageText := aString
+	message := aString
 !
 
 signalerContext
@@ -204,7 +204,7 @@ on: anException context: aMethodContext
 ! !
 
 Error subclass: #MessageNotUnderstood
-	instanceVariableNames: 'message receiver'
+	instanceVariableNames: 'smalltalkMessage receiver'
 	package: 'Kernel-Exceptions'!
 !MessageNotUnderstood commentStamp!
 This exception is provided to support `Object>>doesNotUnderstand:`.!
@@ -212,11 +212,11 @@ This exception is provided to support `Object>>doesNotUnderstand:`.!
 !MessageNotUnderstood methodsFor: 'accessing'!
 
 message
-	^ message
+	^ smalltalkMessage
 !
 
 message: aMessage
-	message := aMessage
+	smalltalkMessage := aMessage
 !
 
 messageText

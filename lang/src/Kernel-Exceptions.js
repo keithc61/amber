@@ -4,7 +4,7 @@ var $pkg = $core.addPackage("Kernel-Exceptions");
 $pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("Error", $globals.Object, ["messageText"], "Kernel-Exceptions");
+$core.addClass("Error", $globals.Object, ["message"], "Kernel-Exceptions");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Error.comment="From the ANSI standard:\x0a\x0aThis protocol describes the behavior of instances of class `Error`.\x0aThese are used to represent error conditions that prevent the normal continuation of processing.\x0aActual error exceptions used by an application may be subclasses of this class.\x0aAs `Error` is explicitly specified to be subclassable, conforming implementations must implement its behavior in a non-fragile manner.";
 //>>excludeEnd("ide");
@@ -158,26 +158,15 @@ selector: "messageText",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$receiver;
-$1=$self.messageText;
-if(($receiver = $1) == null || $receiver.a$nil){
-return $self._basicAt_("message");
-} else {
-return $1;
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"messageText",{},$globals.Error)});
-//>>excludeEnd("ctx");
+return $self.message;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "messageText\x0a\x09^ messageText ifNil: [ self basicAt: 'message' ]",
+source: "messageText\x0a\x09^ message",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifNil:", "basicAt:"]
+messageSends: []
 }),
 $globals.Error);
 
@@ -187,13 +176,13 @@ selector: "messageText:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self.messageText=aString;
+$self.message=aString;
 return self;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "messageText: aString\x0a\x09messageText := aString",
+source: "messageText: aString\x0a\x09message := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -786,7 +775,7 @@ messageSends: ["exception:", "new", "context:", "yourself"]
 $globals.JavaScriptException.a$cls);
 
 
-$core.addClass("MessageNotUnderstood", $globals.Error, ["message", "receiver"], "Kernel-Exceptions");
+$core.addClass("MessageNotUnderstood", $globals.Error, ["smalltalkMessage", "receiver"], "Kernel-Exceptions");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MessageNotUnderstood.comment="This exception is provided to support `Object>>doesNotUnderstand:`.";
 //>>excludeEnd("ide");
@@ -796,12 +785,12 @@ selector: "message",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self.message;
+return $self.smalltalkMessage;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "message\x0a\x09^ message",
+source: "message\x0a\x09^ smalltalkMessage",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -814,13 +803,13 @@ selector: "message:",
 protocol: "accessing",
 fn: function (aMessage){
 var self=this,$self=this;
-$self.message=aMessage;
+$self.smalltalkMessage=aMessage;
 return self;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aMessage"],
-source: "message: aMessage\x0a\x09message := aMessage",
+source: "message: aMessage\x0a\x09smalltalkMessage := aMessage",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
