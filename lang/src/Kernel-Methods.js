@@ -4,7 +4,7 @@ var $pkg = $core.addPackage("Kernel-Methods");
 $pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("BlockClosure", $globals.Object, ["prototype"], "Kernel-Methods");
+$core.addClass("BlockClosure", $globals.Object, ["prototype", "length"], "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.BlockClosure.comment="I represent a lexical closure.\x0aI am is directly mapped to JavaScript Function.\x0a\x0a## API\x0a\x0a1. Evaluation\x0a\x0a    My instances get evaluated with the `#value*` methods in the 'evaluating' protocol.\x0a\x0a    Example: ` [ :x | x + 1 ] value: 3 \x22Answers 4\x22 `\x0a\x0a2. Control structures\x0a\x0a    Blocks are used (together with `Boolean`) for control structures (methods in the `controlling` protocol).\x0a\x0a    Example: `aBlock whileTrue: [ ... ]`\x0a\x0a3. Error handling\x0a\x0a    I provide the `#on:do:` method for handling exceptions.\x0a\x0a    Example: ` aBlock on: MessageNotUnderstood do: [ :ex | ... ] `";
 //>>excludeEnd("ide");
@@ -285,18 +285,12 @@ selector: "numArgs",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.length;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"numArgs",{},$globals.BlockClosure)});
-//>>excludeEnd("ctx");
+return $self.length;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "numArgs\x0a\x09<inlineJS: 'return self.length'>",
+source: "numArgs\x0a\x09^ length",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -732,7 +726,7 @@ $globals.BlockClosure);
 
 
 
-$core.addClass("CompiledMethod", $globals.Object, [], "Kernel-Methods");
+$core.addClass("CompiledMethod", $globals.Object, ["args", "fn", "messageSends", "owner", "protocol", "referencedClasses", "selector", "source"], "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.CompiledMethod.comment="I represent a class method of the system. I hold the source and compiled code of a class method.\x0a\x0a## API\x0aMy instances can be accessed using `Behavior >> #methodAt:`\x0a\x0a    Object methodAt: 'asString'\x0a\x0aSource code access:\x0a\x0a\x09(String methodAt: 'lines') source\x0a\x0aReferenced classes:\x0a\x0a\x09(String methodAt: 'lines') referencedClasses\x0a\x0aMessages sent from an instance:\x0a\x09\x0a\x09(String methodAt: 'lines') messageSends";
 //>>excludeEnd("ide");
@@ -745,18 +739,23 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self.args || [];
-return self;
+var $1,$receiver;
+$1=$self.args;
+if(($receiver = $1) == null || $receiver.a$nil){
+return [];
+} else {
+return $1;
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"arguments",{},$globals.CompiledMethod)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "arguments\x0a\x09<inlineJS: 'return self.args || []'>",
+source: "arguments\x0a\x09^ args ifNil: [ #() ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["ifNil:"]
 }),
 $globals.CompiledMethod);
 
@@ -831,20 +830,15 @@ selector: "fn",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self._basicAt_("fn");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fn",{},$globals.CompiledMethod)});
-//>>excludeEnd("ctx");
+return $self.fn;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "fn\x0a\x09^ self basicAt: 'fn'",
+source: "fn\x0a\x09^ fn",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["basicAt:"]
+messageSends: []
 }),
 $globals.CompiledMethod);
 
@@ -854,21 +848,16 @@ selector: "fn:",
 protocol: "accessing",
 fn: function (aBlock){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._basicAt_put_("fn",aBlock);
+$self.fn=aBlock;
 return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fn:",{aBlock:aBlock},$globals.CompiledMethod)});
-//>>excludeEnd("ctx");
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "fn: aBlock\x0a\x09self basicAt: 'fn' put: aBlock",
+source: "fn: aBlock\x0a\x09fn := aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["basicAt:put:"]
+messageSends: []
 }),
 $globals.CompiledMethod);
 
@@ -896,19 +885,17 @@ selector: "isOverridden",
 protocol: "testing",
 fn: function (){
 var self=this,$self=this;
-var selector;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 var $early={};
 try {
-selector=$self._selector();
 $recv($self._methodClass())._allSubclassesDo_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$recv(each)._includesSelector_(selector);
+$1=$recv(each)._includesSelector_($self.selector);
 if($core.assert($1)){
 throw $early=[true];
 }
@@ -920,15 +907,15 @@ return false;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isOverridden",{selector:selector},$globals.CompiledMethod)});
+}, function($ctx1) {$ctx1.fill(self,"isOverridden",{},$globals.CompiledMethod)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isOverridden\x0a\x09| selector |\x0a    \x0a    selector := self selector.\x0a    self methodClass allSubclassesDo: [ :each |\x0a\x09    (each includesSelector: selector)\x0a        \x09ifTrue: [ ^ true ] ].\x0a\x09^ false",
+source: "isOverridden\x0a    self methodClass allSubclassesDo: [ :each |\x0a\x09    (each includesSelector: selector)\x0a        \x09ifTrue: [ ^ true ] ].\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["selector", "allSubclassesDo:", "methodClass", "ifTrue:", "includesSelector:"]
+messageSends: ["allSubclassesDo:", "methodClass", "ifTrue:", "includesSelector:"]
 }),
 $globals.CompiledMethod);
 
@@ -977,20 +964,15 @@ selector: "messageSends",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self._basicAt_("messageSends");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"messageSends",{},$globals.CompiledMethod)});
-//>>excludeEnd("ctx");
+return $self.messageSends;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "messageSends\x0a\x09^ self basicAt: 'messageSends'",
+source: "messageSends\x0a\x09^ messageSends",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["basicAt:"]
+messageSends: []
 }),
 $globals.CompiledMethod);
 
@@ -1000,20 +982,15 @@ selector: "methodClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self._basicAt_("owner");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"methodClass",{},$globals.CompiledMethod)});
-//>>excludeEnd("ctx");
+return $self.owner;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "methodClass\x0a\x09^ self basicAt: 'owner'",
+source: "methodClass\x0a\x09^ owner",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["basicAt:"]
+messageSends: []
 }),
 $globals.CompiledMethod);
 
@@ -1058,7 +1035,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self._basicAt_("protocol");
+$1=$self.protocol;
 if(($receiver = $1) == null || $receiver.a$nil){
 return $self._defaultProtocol();
 } else {
@@ -1070,10 +1047,10 @@ return $1;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "protocol\x0a\x09^ (self basicAt: 'protocol') ifNil: [ self defaultProtocol ]",
+source: "protocol\x0a\x09^ protocol ifNil: [ self defaultProtocol ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifNil:", "basicAt:", "defaultProtocol"]
+messageSends: ["ifNil:", "defaultProtocol"]
 }),
 $globals.CompiledMethod);
 
@@ -1089,7 +1066,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$3,$2,$4,$receiver;
 oldProtocol=$self._protocol();
-$self._basicAt_put_("protocol",aString);
+$self.protocol=aString;
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.MethodMoved)._new();
 $recv($3)._method_(self);
@@ -1112,10 +1089,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "protocol: aString\x0a\x09| oldProtocol |\x0a\x09oldProtocol := self protocol.\x0a\x09self basicAt: 'protocol' put: aString.\x0a\x0a\x09SystemAnnouncer current announce: (MethodMoved new\x0a\x09\x09method: self;\x0a\x09\x09oldProtocol: oldProtocol;\x0a\x09\x09yourself).\x0a\x0a\x09self methodClass ifNotNil: [ :methodClass |\x0a\x09\x09methodClass organization addElement: aString.\x0a\x09\x09methodClass removeProtocolIfEmpty: oldProtocol ]",
+source: "protocol: aString\x0a\x09| oldProtocol |\x0a\x09oldProtocol := self protocol.\x0a\x09protocol := aString.\x0a\x0a\x09SystemAnnouncer current announce: (MethodMoved new\x0a\x09\x09method: self;\x0a\x09\x09oldProtocol: oldProtocol;\x0a\x09\x09yourself).\x0a\x0a\x09self methodClass ifNotNil: [ :methodClass |\x0a\x09\x09methodClass organization addElement: aString.\x0a\x09\x09methodClass removeProtocolIfEmpty: oldProtocol ]",
 referencedClasses: ["SystemAnnouncer", "MethodMoved"],
 //>>excludeEnd("ide");
-messageSends: ["protocol", "basicAt:put:", "announce:", "current", "method:", "new", "oldProtocol:", "yourself", "ifNotNil:", "methodClass", "addElement:", "organization", "removeProtocolIfEmpty:"]
+messageSends: ["protocol", "announce:", "current", "method:", "new", "oldProtocol:", "yourself", "ifNotNil:", "methodClass", "addElement:", "organization", "removeProtocolIfEmpty:"]
 }),
 $globals.CompiledMethod);
 
@@ -1125,20 +1102,15 @@ selector: "referencedClasses",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self._basicAt_("referencedClasses");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"referencedClasses",{},$globals.CompiledMethod)});
-//>>excludeEnd("ctx");
+return $self.referencedClasses;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "referencedClasses\x0a\x09^ self basicAt: 'referencedClasses'",
+source: "referencedClasses\x0a\x09^ referencedClasses",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["basicAt:"]
+messageSends: []
 }),
 $globals.CompiledMethod);
 
@@ -1148,20 +1120,15 @@ selector: "selector",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self._basicAt_("selector");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"selector",{},$globals.CompiledMethod)});
-//>>excludeEnd("ctx");
+return $self.selector;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "selector\x0a\x09^ self basicAt: 'selector'",
+source: "selector\x0a\x09^ selector",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["basicAt:"]
+messageSends: []
 }),
 $globals.CompiledMethod);
 
@@ -1171,21 +1138,16 @@ selector: "selector:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._basicAt_put_("selector",aString);
+$self.selector=aString;
 return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"selector:",{aString:aString},$globals.CompiledMethod)});
-//>>excludeEnd("ctx");
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "selector: aString\x0a\x09self basicAt: 'selector' put: aString",
+source: "selector: aString\x0a\x09selector := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["basicAt:put:"]
+messageSends: []
 }),
 $globals.CompiledMethod);
 
@@ -1222,7 +1184,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$receiver;
-$1=$self._basicAt_("source");
+$1=$self.source;
 if(($receiver = $1) == null || $receiver.a$nil){
 return "";
 } else {
@@ -1234,10 +1196,10 @@ return $1;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "source\x0a\x09^ (self basicAt: 'source') ifNil: [ '' ]",
+source: "source\x0a\x09^ source ifNil: [ '' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifNil:", "basicAt:"]
+messageSends: ["ifNil:"]
 }),
 $globals.CompiledMethod);
 
@@ -1247,21 +1209,16 @@ selector: "source:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._basicAt_put_("source",aString);
+$self.source=aString;
 return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"source:",{aString:aString},$globals.CompiledMethod)});
-//>>excludeEnd("ctx");
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "source: aString\x0a\x09self basicAt: 'source' put: aString",
+source: "source: aString\x0a\x09source := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["basicAt:put:"]
+messageSends: []
 }),
 $globals.CompiledMethod);
 

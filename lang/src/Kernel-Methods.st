@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Kernel-Methods'!
 Object subclass: #BlockClosure
-	instanceVariableNames: 'prototype'
+	instanceVariableNames: 'prototype length'
 	package: 'Kernel-Methods'!
 !BlockClosure commentStamp!
 I represent a lexical closure.
@@ -33,7 +33,7 @@ compiledSource
 !
 
 numArgs
-	<inlineJS: 'return self.length'>
+	^ length
 !
 
 prototype
@@ -201,7 +201,7 @@ valueWithTimeout: aNumber
 ! !
 
 Object subclass: #CompiledMethod
-	instanceVariableNames: ''
+	instanceVariableNames: 'args fn messageSends owner protocol referencedClasses selector source'
 	package: 'Kernel-Methods'!
 !CompiledMethod commentStamp!
 I represent a class method of the system. I hold the source and compiled code of a class method.
@@ -226,7 +226,7 @@ Messages sent from an instance:
 !CompiledMethod methodsFor: 'accessing'!
 
 arguments
-	<inlineJS: 'return self.args || []'>
+	^ args ifNil: [ #() ]
 !
 
 category
@@ -234,19 +234,19 @@ category
 !
 
 fn
-	^ self basicAt: 'fn'
+	^ fn
 !
 
 fn: aBlock
-	self basicAt: 'fn' put: aBlock
+	fn := aBlock
 !
 
 messageSends
-	^ self basicAt: 'messageSends'
+	^ messageSends
 !
 
 methodClass
-	^ self basicAt: 'owner'
+	^ owner
 !
 
 package
@@ -258,13 +258,13 @@ package
 !
 
 protocol
-	^ (self basicAt: 'protocol') ifNil: [ self defaultProtocol ]
+	^ protocol ifNil: [ self defaultProtocol ]
 !
 
 protocol: aString
 	| oldProtocol |
 	oldProtocol := self protocol.
-	self basicAt: 'protocol' put: aString.
+	protocol := aString.
 
 	SystemAnnouncer current announce: (MethodMoved new
 		method: self;
@@ -277,23 +277,23 @@ protocol: aString
 !
 
 referencedClasses
-	^ self basicAt: 'referencedClasses'
+	^ referencedClasses
 !
 
 selector
-	^ self basicAt: 'selector'
+	^ selector
 !
 
 selector: aString
-	self basicAt: 'selector' put: aString
+	selector := aString
 !
 
 source
-	^ (self basicAt: 'source') ifNil: [ '' ]
+	^ source ifNil: [ '' ]
 !
 
 source: aString
-	self basicAt: 'source' put: aString
+	source := aString
 ! !
 
 !CompiledMethod methodsFor: 'browsing'!
@@ -321,9 +321,6 @@ isCompiledMethod
 !
 
 isOverridden
-	| selector |
-    
-    selector := self selector.
     self methodClass allSubclassesDo: [ :each |
 	    (each includesSelector: selector)
         	ifTrue: [ ^ true ] ].
