@@ -2076,7 +2076,7 @@ $globals.MessageSend);
 
 
 
-$core.addClass("MethodContext", $globals.Object, [], "Kernel-Methods");
+$core.addClass("MethodContext", $globals.Object, ["receiver", "evaluatedSelector", "homeContext", "index", "locals", "outerContext", "selector", "sendIdx", "supercall"], "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodContext.comment="I hold all the dynamic state associated with the execution of either a method activation resulting from a message send. I am used to build the call stack while debugging.\x0a\x0aMy instances are JavaScript `SmalltalkMethodContext` objects defined in `boot.js`.";
 //>>excludeEnd("ide");
@@ -2086,18 +2086,12 @@ selector: "basicReceiver",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.receiver;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicReceiver",{},$globals.MethodContext)});
-//>>excludeEnd("ctx");
+return $self.receiver;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "basicReceiver\x0a\x09<inlineJS: 'return self.receiver'>",
+source: "basicReceiver\x0a\x09^ receiver",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2110,18 +2104,12 @@ selector: "evaluatedSelector",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.evaluatedSelector;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"evaluatedSelector",{},$globals.MethodContext)});
-//>>excludeEnd("ctx");
+return $self.evaluatedSelector;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "evaluatedSelector\x0a\x09<inlineJS: 'return self.evaluatedSelector'>",
+source: "evaluatedSelector\x0a\x09^ evaluatedSelector",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2134,18 +2122,12 @@ selector: "home",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.homeContext;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"home",{},$globals.MethodContext)});
-//>>excludeEnd("ctx");
+return $self.homeContext;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "home\x0a\x09<inlineJS: 'return self.homeContext'>",
+source: "home\x0a\x09^ homeContext",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2161,18 +2143,23 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self.index || 0;
-return self;
+var $1,$receiver;
+$1=$self.index;
+if(($receiver = $1) == null || $receiver.a$nil){
+return (0);
+} else {
+return $1;
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"index",{},$globals.MethodContext)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "index\x0a\x09<inlineJS: 'return self.index || 0'>",
+source: "index\x0a\x09^ index ifNil: [ 0 ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["ifNil:"]
 }),
 $globals.MethodContext);
 
@@ -2182,18 +2169,12 @@ selector: "locals",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.locals || {};
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"locals",{},$globals.MethodContext)});
-//>>excludeEnd("ctx");
+return $self.locals;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "locals\x0a\x09<inlineJS: 'return self.locals || {}'>",
+source: "locals\x0a\x09^ locals",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2209,18 +2190,23 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self.outerContext || self.homeContext;
-return self;
+var $1,$receiver;
+$1=$self.outerContext;
+if(($receiver = $1) == null || $receiver.a$nil){
+return $self._home();
+} else {
+return $1;
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"outerContext",{},$globals.MethodContext)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "outerContext\x0a\x09<inlineJS: 'return self.outerContext || self.homeContext'>",
+source: "outerContext\x0a\x09^ outerContext ifNil: [ self home ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["ifNil:", "home"]
 }),
 $globals.MethodContext);
 
@@ -2233,24 +2219,23 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-
-		if(self.selector) {
-			return $core.js2st(self.selector);
-		} else {
-			return nil;
-		}
-	;
-return self;
+var $1,$receiver;
+$1=$self.selector;
+if(($receiver = $1) == null || $receiver.a$nil){
+return $1;
+} else {
+return $recv($recv($globals.Smalltalk)._core())._js2st_($self.selector);
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"selector",{},$globals.MethodContext)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "selector\x0a\x09<inlineJS: '\x0a\x09\x09if(self.selector) {\x0a\x09\x09\x09return $core.js2st(self.selector);\x0a\x09\x09} else {\x0a\x09\x09\x09return nil;\x0a\x09\x09}\x0a\x09'>",
-referencedClasses: [],
+source: "selector\x0a\x09^ selector ifNotNil: [ Smalltalk core js2st: selector ]",
+referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["ifNotNil:", "js2st:", "core"]
 }),
 $globals.MethodContext);
 
@@ -2260,18 +2245,12 @@ selector: "sendIndexes",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return self.sendIdx;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"sendIndexes",{},$globals.MethodContext)});
-//>>excludeEnd("ctx");
+return $self.sendIdx;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "sendIndexes\x0a\x09<inlineJS: 'return self.sendIdx'>",
+source: "sendIndexes\x0a\x09^ sendIdx",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -2287,7 +2266,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-self.homeContext = undefined;
+$self.homeContext=$recv($globals.JSObjectProxy)._undefined();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"stubHere",{},$globals.MethodContext)});
@@ -2295,10 +2274,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "stubHere\x0a\x09<inlineJS: 'self.homeContext = undefined'>",
-referencedClasses: [],
+source: "stubHere\x0a\x09homeContext := JSObjectProxy undefined",
+referencedClasses: ["JSObjectProxy"],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["undefined"]
 }),
 $globals.MethodContext);
 
@@ -2358,18 +2337,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self.supercall == true;
-return self;
+return $recv($self.supercall).__eq(true);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"supercall",{},$globals.MethodContext)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "supercall\x0a\x09<inlineJS: 'return self.supercall == true'>",
+source: "supercall\x0a\x09^ supercall = true",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: []
+messageSends: ["="]
 }),
 $globals.MethodContext);
 

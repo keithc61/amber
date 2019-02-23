@@ -566,7 +566,7 @@ printOn: aStream
 ! !
 
 Object subclass: #MethodContext
-	instanceVariableNames: ''
+	instanceVariableNames: 'receiver evaluatedSelector homeContext index locals outerContext selector sendIdx supercall'
 	package: 'Kernel-Methods'!
 !MethodContext commentStamp!
 I hold all the dynamic state associated with the execution of either a method activation resulting from a message send. I am used to build the call stack while debugging.
@@ -576,49 +576,43 @@ My instances are JavaScript `SmalltalkMethodContext` objects defined in `boot.js
 !MethodContext methodsFor: 'accessing'!
 
 basicReceiver
-	<inlineJS: 'return self.receiver'>
+	^ receiver
 !
 
 evaluatedSelector
-	<inlineJS: 'return self.evaluatedSelector'>
+	^ evaluatedSelector
 !
 
 home
-	<inlineJS: 'return self.homeContext'>
+	^ homeContext
 !
 
 index
-	<inlineJS: 'return self.index || 0'>
+	^ index ifNil: [ 0 ]
 !
 
 locals
-	<inlineJS: 'return self.locals || {}'>
+	^ locals
 !
 
 outerContext
-	<inlineJS: 'return self.outerContext || self.homeContext'>
+	^ outerContext ifNil: [ self home ]
 !
 
 selector
-	<inlineJS: '
-		if(self.selector) {
-			return $core.js2st(self.selector);
-		} else {
-			return nil;
-		}
-	'>
+	^ selector ifNotNil: [ Smalltalk core js2st: selector ]
 !
 
 sendIndexes
-	<inlineJS: 'return self.sendIdx'>
+	^ sendIdx
 !
 
 stubHere
-	<inlineJS: 'self.homeContext = undefined'>
+	homeContext := JSObjectProxy undefined
 !
 
 supercall
-	<inlineJS: 'return self.supercall == true'>
+	^ supercall = true
 ! !
 
 !MethodContext methodsFor: 'error handling'!
