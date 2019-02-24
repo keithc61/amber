@@ -3121,6 +3121,30 @@ $globals.SmalltalkImage);
 
 $core.addMethod(
 $core.method({
+selector: "beClean",
+protocol: "packages",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv($self._packages())._do_("beClean");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"beClean",{},$globals.SmalltalkImage)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "beClean\x0a\x09\x22Marks all packages clean.\x22\x0a\x0a\x09self packages do: #beClean",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["do:", "packages"]
+}),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
 selector: "cancelOptOut:",
 protocol: "accessing",
 fn: function (anObject){

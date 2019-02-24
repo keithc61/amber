@@ -54,6 +54,7 @@
                         return amber.loadPackages(["amber/devel", "amber/legacy/Benchfib", "helios/all", "amber_cli/AmberCli"]);
                     })
                     .then(function () {
+                        amber.beClean();
                         messageBox.appendChild(done);
                     });
             });

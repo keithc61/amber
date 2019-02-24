@@ -993,6 +993,12 @@ postLoad
 
 !SmalltalkImage methodsFor: 'packages'!
 
+beClean
+	"Marks all packages clean."
+
+	self packages do: #beClean
+!
+
 createPackage: packageName
 	| package announcement |
 	

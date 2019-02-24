@@ -70,6 +70,10 @@ define(["amber/boot", "require"], function (boot, require) {
         });
     };
 
+    exports.beClean = function () {
+        return globals.Smalltalk._beClean();
+    };
+
     // Exports
 
     return exports;

@@ -3,6 +3,10 @@
 * Namespace change: amber_core => amber/core.
 * amber/boot api addClass only takes 3 params; 4 param version deprecated
 
++ SmalltalkImage >>
+  + beClean
++ amber/helpers exports >>
+  + beClean
 + amber/boot api
   + setInstanceVariables(klass, arrayOfNames)
 
