@@ -7,7 +7,7 @@
   + beClean
 + amber/helpers exports >>
   + beClean
-+ amber/boot api
++ amber/boot api >>
   + setInstanceVariables(klass, arrayOfNames)
 
 
