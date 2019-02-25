@@ -2095,7 +2095,7 @@ var instance,oldClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1,$4,$3,$5,$6,$7,$8,$10,$9,$12,$11;
+var $2,$1,$3,$4,$5,$6,$8,$7,$10,$9;
 oldClass=$recv($self.builder)._copyClass_named_($globals.ObjectMock,"ObjectMock2");
 $2=$recv($globals.Smalltalk)._globals();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2106,28 +2106,20 @@ $1=$recv($2)._at_("ObjectMock2");
 $ctx1.sendIdx["at:"]=1;
 //>>excludeEnd("ctx");
 instance=$recv($1)._new();
-$4=$recv($globals.Smalltalk)._globals();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["globals"]=2;
-//>>excludeEnd("ctx");
-$3=$recv($4)._at_("ObjectMock2");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:"]=2;
-//>>excludeEnd("ctx");
-$recv($globals.ObjectMock)._subclass_instanceVariableNames_package_($3,"","Kernel-Tests");
-$5=$recv(oldClass).__eq_eq($globals.ObjectMock2);
+$recv($globals.ObjectMock)._subclass_instanceVariableNames_package_("ObjectMock2","","Kernel-Tests");
+$3=$recv(oldClass).__eq_eq($globals.ObjectMock2);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["=="]=1;
 //>>excludeEnd("ctx");
-$self._deny_($5);
+$self._deny_($3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["deny:"]=1;
 //>>excludeEnd("ctx");
-$6=$recv($recv($globals.ObjectMock2)._superclass()).__eq_eq($globals.ObjectMock);
+$4=$recv($recv($globals.ObjectMock2)._superclass()).__eq_eq($globals.ObjectMock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["=="]=2;
 //>>excludeEnd("ctx");
-$self._assert_($6);
+$self._assert_($4);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:"]=1;
 //>>excludeEnd("ctx");
@@ -2135,41 +2127,41 @@ $self._assert_($recv($recv($globals.ObjectMock2)._instanceVariableNames())._isEm
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:"]=2;
 //>>excludeEnd("ctx");
-$7=$recv($globals.ObjectMock2)._selectors();
+$5=$recv($globals.ObjectMock2)._selectors();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["selectors"]=1;
 //>>excludeEnd("ctx");
-$self._assert_equals_($7,$recv(oldClass)._selectors());
+$self._assert_equals_($5,$recv(oldClass)._selectors());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=1;
 //>>excludeEnd("ctx");
-$8=$recv($globals.ObjectMock2)._comment();
+$6=$recv($globals.ObjectMock2)._comment();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["comment"]=1;
 //>>excludeEnd("ctx");
-$self._assert_equals_($8,$recv(oldClass)._comment());
+$self._assert_equals_($6,$recv(oldClass)._comment());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:equals:"]=2;
 //>>excludeEnd("ctx");
-$10=$recv($globals.ObjectMock2)._package();
+$8=$recv($globals.ObjectMock2)._package();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["package"]=1;
 //>>excludeEnd("ctx");
-$9=$recv($10)._name();
+$7=$recv($8)._name();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["name"]=1;
 //>>excludeEnd("ctx");
-$self._assert_equals_($9,"Kernel-Tests");
+$self._assert_equals_($7,"Kernel-Tests");
 $self._assert_($recv($recv($recv($globals.ObjectMock2)._package())._classes())._includes_($globals.ObjectMock2));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["assert:"]=3;
 //>>excludeEnd("ctx");
-$12=$recv(instance)._class();
+$10=$recv(instance)._class();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["class"]=1;
 //>>excludeEnd("ctx");
-$11=$recv($12).__eq_eq($globals.ObjectMock2);
-$self._deny_($11);
+$9=$recv($10).__eq_eq($globals.ObjectMock2);
+$self._deny_($9);
 $self._assert_($recv($recv($recv($globals.Smalltalk)._globals())._at_($recv($recv(instance)._class())._name()))._isNil());
 $recv($globals.Smalltalk)._removeClass_($globals.ObjectMock2);
 return self;
@@ -2179,7 +2171,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testClassMigration\x0a\x09| instance oldClass |\x0a\x09\x0a\x09oldClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09instance := (Smalltalk globals at: 'ObjectMock2') new.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2')\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self deny: oldClass == ObjectMock2.\x0a\x09\x0a\x09self assert: ObjectMock2 superclass == ObjectMock.\x0a\x09self assert: ObjectMock2 instanceVariableNames isEmpty.\x0a\x09self assert: ObjectMock2 selectors equals: oldClass selectors.\x0a\x09self assert: ObjectMock2 comment equals: oldClass comment.\x0a\x09self assert: ObjectMock2 package name equals: 'Kernel-Tests'.\x0a\x09self assert: (ObjectMock2 package classes includes: ObjectMock2).\x0a\x09\x0a\x09self deny: instance class == ObjectMock2.\x0a\x09\x22Commeting this out. Tests implementation detail.\x22\x0a\x09\x22self assert: instance class name equals: 'OldObjectMock2'.\x22\x0a\x09\x0a\x09self assert: (Smalltalk globals at: instance class name) isNil.\x0a\x09\x0a\x09Smalltalk removeClass: ObjectMock2",
+source: "testClassMigration\x0a\x09| instance oldClass |\x0a\x09\x0a\x09oldClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09instance := (Smalltalk globals at: 'ObjectMock2') new.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: #ObjectMock2\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self deny: oldClass == ObjectMock2.\x0a\x09\x0a\x09self assert: ObjectMock2 superclass == ObjectMock.\x0a\x09self assert: ObjectMock2 instanceVariableNames isEmpty.\x0a\x09self assert: ObjectMock2 selectors equals: oldClass selectors.\x0a\x09self assert: ObjectMock2 comment equals: oldClass comment.\x0a\x09self assert: ObjectMock2 package name equals: 'Kernel-Tests'.\x0a\x09self assert: (ObjectMock2 package classes includes: ObjectMock2).\x0a\x09\x0a\x09self deny: instance class == ObjectMock2.\x0a\x09\x22Commeting this out. Tests implementation detail.\x22\x0a\x09\x22self assert: instance class name equals: 'OldObjectMock2'.\x22\x0a\x09\x0a\x09self assert: (Smalltalk globals at: instance class name) isNil.\x0a\x09\x0a\x09Smalltalk removeClass: ObjectMock2",
 referencedClasses: ["ObjectMock", "Smalltalk", "ObjectMock2"],
 //>>excludeEnd("ide");
 messageSends: ["copyClass:named:", "new", "at:", "globals", "subclass:instanceVariableNames:package:", "deny:", "==", "assert:", "superclass", "isEmpty", "instanceVariableNames", "assert:equals:", "selectors", "comment", "name", "package", "includes:", "classes", "class", "isNil", "removeClass:"]
@@ -2202,7 +2194,7 @@ $1=$recv($globals.ObjectMock2)._class();
 $ctx1.sendIdx["class"]=1;
 //>>excludeEnd("ctx");
 $recv($1)._instanceVariableNames_("foo bar");
-$recv($globals.ObjectMock)._subclass_instanceVariableNames_package_($recv($recv($globals.Smalltalk)._globals())._at_("ObjectMock2"),"","Kernel-Tests");
+$recv($globals.ObjectMock)._subclass_instanceVariableNames_package_($recv($recv($recv($globals.Smalltalk)._globals())._at_("ObjectMock2"))._name(),"","Kernel-Tests");
 $self._assert_equals_($recv($recv($globals.ObjectMock2)._class())._instanceVariableNames(),["foo", "bar"]);
 $recv($globals.Smalltalk)._removeClass_($globals.ObjectMock2);
 return self;
@@ -2212,10 +2204,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testClassMigrationWithClassInstanceVariables\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 class instanceVariableNames: 'foo bar'.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2')\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: ObjectMock2 class instanceVariableNames equals: #('foo' 'bar').\x0a\x09\x0a\x09Smalltalk removeClass: ObjectMock2",
+source: "testClassMigrationWithClassInstanceVariables\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 class instanceVariableNames: 'foo bar'.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2') name\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: ObjectMock2 class instanceVariableNames equals: #('foo' 'bar').\x0a\x09\x0a\x09Smalltalk removeClass: ObjectMock2",
 referencedClasses: ["ObjectMock", "ObjectMock2", "Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["copyClass:named:", "instanceVariableNames:", "class", "subclass:instanceVariableNames:package:", "at:", "globals", "assert:equals:", "instanceVariableNames", "removeClass:"]
+messageSends: ["copyClass:named:", "instanceVariableNames:", "class", "subclass:instanceVariableNames:package:", "name", "at:", "globals", "assert:equals:", "instanceVariableNames", "removeClass:"]
 }),
 $globals.ClassBuilderTest);
 
@@ -2238,7 +2230,7 @@ $recv($globals.ObjectMock3)._subclass_instanceVariableNames_package_("ObjectMock
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["subclass:instanceVariableNames:package:"]=2;
 //>>excludeEnd("ctx");
-$recv($globals.ObjectMock)._subclass_instanceVariableNames_package_($recv($recv($globals.Smalltalk)._globals())._at_("ObjectMock2"),"","Kernel-Tests");
+$recv($globals.ObjectMock)._subclass_instanceVariableNames_package_("ObjectMock2","","Kernel-Tests");
 $2=$recv($globals.ObjectMock)._subclasses();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["subclasses"]=1;
@@ -2280,10 +2272,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testClassMigrationWithSubclasses\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 subclass: 'ObjectMock3' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09ObjectMock3 subclass: 'ObjectMock4' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2')\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: (ObjectMock subclasses includes: ObjectMock2).\x0a\x09self assert: (ObjectMock2 subclasses includes: ObjectMock3).\x0a\x09self assert: (ObjectMock3 subclasses includes: ObjectMock4).\x0a\x09\x0a\x09ObjectMock allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ]",
-referencedClasses: ["ObjectMock", "ObjectMock2", "ObjectMock3", "Smalltalk", "ObjectMock4"],
+source: "testClassMigrationWithSubclasses\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 subclass: 'ObjectMock3' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09ObjectMock3 subclass: 'ObjectMock4' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: 'ObjectMock2'\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: (ObjectMock subclasses includes: ObjectMock2).\x0a\x09self assert: (ObjectMock2 subclasses includes: ObjectMock3).\x0a\x09self assert: (ObjectMock3 subclasses includes: ObjectMock4).\x0a\x09\x0a\x09ObjectMock allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ]",
+referencedClasses: ["ObjectMock", "ObjectMock2", "ObjectMock3", "ObjectMock4", "Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["copyClass:named:", "subclass:instanceVariableNames:package:", "at:", "globals", "assert:", "includes:", "subclasses", "reverseDo:", "allSubclasses", "removeClass:"]
+messageSends: ["copyClass:named:", "subclass:instanceVariableNames:package:", "assert:", "includes:", "subclasses", "reverseDo:", "allSubclasses", "removeClass:"]
 }),
 $globals.ClassBuilderTest);
 

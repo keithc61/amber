@@ -6,7 +6,7 @@ Trait named: #TSubclassable
 
 subclass: aString 
 	"Kept for file-in compatibility."
-	^ self subclass: aString instanceVariableNames: '' package: nil
+	^ self subclass: aString slots: #() package: nil
 !
 
 subclass: aString instanceVariableNames: anotherString
@@ -26,13 +26,34 @@ subclass: aString instanceVariableNames: aString2 classVariableNames: classVars 
 
 subclass: aString instanceVariableNames: aString2 package: aString3
 	"Kept for file-in compatibility."
+	^ self subclass: aString slots: (self slotsFromInstanceVariablesString: aString2) package: aString3
+!
+
+subclass: aString slots: aCollection
+	"Kept for file-in compatibility."
+	^ self subclass: aString slots: aCollection package: nil
+!
+
+subclass: aString slots: aCollection classVariables: anObject package: anotherString
+	"Kept for file-in compatibility. ignores class variables."
 	^ ClassBuilder new
-		superclass: self subclass: aString asString slots: (self slotsFromInstanceVariablesString: aString2) package: aString3
+		superclass: self subclass: aString slots: aCollection package: anotherString
+!
+
+subclass: aString slots: aCollection classVariables: anObject poolDictionaries: anotherObject package: anotherString
+	"Kept for file-in compatibility. ignores class variables and pools."
+	^ ClassBuilder new
+		superclass: self subclass: aString slots: aCollection package: anotherString
+!
+
+subclass: aString slots: aCollection package: anotherString
+	^ ClassBuilder new
+		superclass: self subclass: aString slots: aCollection package: anotherString
 !
 
 subclass: aString uses: aTraitCompositionDescription 
 	"Kept for file-in compatibility."
-	^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: '' package: nil
+	^ self subclass: aString uses: aTraitCompositionDescription slots: #() package: nil
 !
 
 subclass: aString uses: aTraitCompositionDescription instanceVariableNames: anotherString
@@ -51,8 +72,18 @@ subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aStr
 !
 
 subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3
+	"Kept for file-in compatibility."
+	^ self subclass: aString uses: aTraitCompositionDescription slots: (self slotsFromInstanceVariablesString: aString2) package: aString3
+!
+
+subclass: aString uses: aTraitCompositionDescription slots: aCollection
+	"Kept for file-in compatibility."
+	^ self subclass: aString uses: aTraitCompositionDescription slots: aCollection package: nil
+!
+
+subclass: aString uses: aTraitCompositionDescription slots: aCollection package: aString3
 	| cls |
-	cls := self subclass: aString instanceVariableNames: aString2 package: aString3.
+	cls := self subclass: aString slots: aCollection package: aString3.
 	cls setTraitComposition: aTraitCompositionDescription asTraitComposition.
 	^ cls
 ! !

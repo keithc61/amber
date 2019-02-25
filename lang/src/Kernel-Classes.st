@@ -270,11 +270,16 @@ theNonMetaClass
 	^ self instanceClass
 !
 
-uses: aTraitCompositionDescription instanceVariableNames: aCollection
-	| metaclass |
-	metaclass := self instanceVariableNames: aCollection.
-	metaclass setTraitComposition: aTraitCompositionDescription asTraitComposition.
-	^ metaclass
+uses: aTraitCompositionDescription instanceVariableNames: aString
+	"Kept for file-in compatibility."
+	^ self uses: aTraitCompositionDescription slots: (self slotsFromInstanceVariablesString: aString)
+!
+
+uses: aTraitCompositionDescription slots: aCollection
+	self
+		slots: aCollection;
+		setTraitComposition: aTraitCompositionDescription asTraitComposition.
+	^ self
 ! !
 
 !Metaclass methodsFor: 'converting'!

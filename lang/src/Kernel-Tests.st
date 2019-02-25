@@ -381,7 +381,7 @@ testClassMigration
 	instance := (Smalltalk globals at: 'ObjectMock2') new.
 	
 	"Change the superclass of ObjectMock2"
-	ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2')
+	ObjectMock subclass: #ObjectMock2
 		instanceVariableNames: ''
 		package: 'Kernel-Tests'.
 	
@@ -409,7 +409,7 @@ testClassMigrationWithClassInstanceVariables
 	ObjectMock2 class instanceVariableNames: 'foo bar'.
 	
 	"Change the superclass of ObjectMock2"
-	ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2')
+	ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2') name
 		instanceVariableNames: ''
 		package: 'Kernel-Tests'.
 	
@@ -425,7 +425,7 @@ testClassMigrationWithSubclasses
 	ObjectMock3 subclass: 'ObjectMock4' instanceVariableNames: '' package: 'Kernel-Tests'.
 	
 	"Change the superclass of ObjectMock2"
-	ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2')
+	ObjectMock subclass: 'ObjectMock2'
 		instanceVariableNames: ''
 		package: 'Kernel-Tests'.
 	

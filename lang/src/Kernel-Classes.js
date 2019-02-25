@@ -1203,25 +1203,47 @@ $core.addMethod(
 $core.method({
 selector: "uses:instanceVariableNames:",
 protocol: "accessing",
-fn: function (aTraitCompositionDescription,aCollection){
+fn: function (aTraitCompositionDescription,aString){
 var self=this,$self=this;
-var metaclass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-metaclass=$self._instanceVariableNames_(aCollection);
-$recv(metaclass)._setTraitComposition_($recv(aTraitCompositionDescription)._asTraitComposition());
-return metaclass;
+return $self._uses_slots_(aTraitCompositionDescription,$self._slotsFromInstanceVariablesString_(aString));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"uses:instanceVariableNames:",{aTraitCompositionDescription:aTraitCompositionDescription,aCollection:aCollection,metaclass:metaclass},$globals.Metaclass)});
+}, function($ctx1) {$ctx1.fill(self,"uses:instanceVariableNames:",{aTraitCompositionDescription:aTraitCompositionDescription,aString:aString},$globals.Metaclass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aTraitCompositionDescription", "aString"],
+source: "uses: aTraitCompositionDescription instanceVariableNames: aString\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self uses: aTraitCompositionDescription slots: (self slotsFromInstanceVariablesString: aString)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["uses:slots:", "slotsFromInstanceVariablesString:"]
+}),
+$globals.Metaclass);
+
+$core.addMethod(
+$core.method({
+selector: "uses:slots:",
+protocol: "accessing",
+fn: function (aTraitCompositionDescription,aCollection){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._slots_(aCollection);
+$self._setTraitComposition_($recv(aTraitCompositionDescription)._asTraitComposition());
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"uses:slots:",{aTraitCompositionDescription:aTraitCompositionDescription,aCollection:aCollection},$globals.Metaclass)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aTraitCompositionDescription", "aCollection"],
-source: "uses: aTraitCompositionDescription instanceVariableNames: aCollection\x0a\x09| metaclass |\x0a\x09metaclass := self instanceVariableNames: aCollection.\x0a\x09metaclass setTraitComposition: aTraitCompositionDescription asTraitComposition.\x0a\x09^ metaclass",
+source: "uses: aTraitCompositionDescription slots: aCollection\x0a\x09self\x0a\x09\x09slots: aCollection;\x0a\x09\x09setTraitComposition: aTraitCompositionDescription asTraitComposition.\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["instanceVariableNames:", "setTraitComposition:", "asTraitComposition"]
+messageSends: ["slots:", "setTraitComposition:", "asTraitComposition"]
 }),
 $globals.Metaclass);
 
