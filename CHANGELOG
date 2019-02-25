@@ -16,6 +16,9 @@
   * You must edit explicit deps (aka `imports:`) as well as Gruntfile, deploy, testing and devel .js files yourself.
 * Instance variables are now compiled as `obj.ivarName` instead of `obj["@ivarName"]`.
   * There is compat layer so old code is loadable.
+* Classes can be created using API containing `slots: {#foo. #bar}` instead of `instanceVariableNames: 'foo bar'`
+  * Smalltalk files are saved using this new API.
+  * No actual slots yet, only 'plain data slots' eg. instance variables.
 
 Commits: https://lolg.it/amber/amber/commits/0.23.0
 
