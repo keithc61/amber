@@ -79,6 +79,7 @@ module.exports = function (grunt) {
                 options: {
                     mainConfigFile: "config.js",
                     rawText: {
+                        "helios/index": "",
                         "__app__": "(" + function () {
                             define(["amber/devel", "amber/core/Platform-Node", "amber_cli/AmberCli"], function (amber) {
                                 amber.initialize().then(function () {
