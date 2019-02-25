@@ -1451,7 +1451,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self._class_instanceVariables_(aClass,$self._instanceVariableNamesFor_(ivarNames));
+$self._class_instanceVariables_(aClass,$self._slotsFromInstanceVariablesString_(ivarNames));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"class:instanceVariableNames:",{aClass:aClass,ivarNames:ivarNames},$globals.ClassBuilder)});
@@ -1459,10 +1459,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "ivarNames"],
-source: "class: aClass instanceVariableNames: ivarNames\x0a\x09self class: aClass instanceVariables:  (self instanceVariableNamesFor: ivarNames)",
+source: "class: aClass instanceVariableNames: ivarNames\x0a\x09self class: aClass instanceVariables:  (self slotsFromInstanceVariablesString: ivarNames)",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["class:instanceVariables:", "instanceVariableNamesFor:"]
+messageSends: ["class:instanceVariables:", "slotsFromInstanceVariablesString:"]
 }),
 $globals.ClassBuilder);
 
@@ -1672,37 +1672,6 @@ $globals.ClassBuilder);
 
 $core.addMethod(
 $core.method({
-selector: "instanceVariableNamesFor:",
-protocol: "accessing",
-fn: function (aString){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($recv(aString)._tokenize_(" "))._reject_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(each)._isEmpty();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"instanceVariableNamesFor:",{aString:aString},$globals.ClassBuilder)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "instanceVariableNamesFor: aString\x0a\x09^ (aString tokenize: ' ') reject: [ :each | each isEmpty ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["reject:", "tokenize:", "isEmpty"]
-}),
-$globals.ClassBuilder);
-
-$core.addMethod(
-$core.method({
 selector: "migrateClass:superclass:",
 protocol: "class migration",
 fn: function (aClass,anotherClass){
@@ -1863,6 +1832,37 @@ $globals.ClassBuilder);
 
 $core.addMethod(
 $core.method({
+selector: "slotsFromInstanceVariablesString:",
+protocol: "accessing",
+fn: function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($recv(aString)._tokenize_(" "))._reject_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(each)._isEmpty();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"slotsFromInstanceVariablesString:",{aString:aString},$globals.ClassBuilder)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "slotsFromInstanceVariablesString: aString\x0a\x09^ (aString tokenize: ' ') reject: [ :each | each isEmpty ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["reject:", "tokenize:", "isEmpty"]
+}),
+$globals.ClassBuilder);
+
+$core.addMethod(
+$core.method({
 selector: "superclass:subclass:",
 protocol: "class definition",
 fn: function (aClass,className){
@@ -1895,7 +1895,7 @@ var newClass;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$3,$5,$4,$receiver;
-$1=$self._instanceVariableNamesFor_(ivarNames);
+$1=$self._slotsFromInstanceVariablesString_(ivarNames);
 if(($receiver = packageName) == null || $receiver.a$nil){
 $2="unclassified";
 } else {
@@ -1914,10 +1914,10 @@ return newClass;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "className", "ivarNames", "packageName"],
-source: "superclass: aClass subclass: className instanceVariableNames: ivarNames package: packageName\x0a\x09| newClass |\x0a\x09\x0a\x09newClass := self addSubclassOf: aClass\x0a\x09\x09named: className instanceVariableNames: (self instanceVariableNamesFor: ivarNames)\x0a\x09\x09package: (packageName ifNil: [ 'unclassified' ]).\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
+source: "superclass: aClass subclass: className instanceVariableNames: ivarNames package: packageName\x0a\x09| newClass |\x0a\x09\x0a\x09newClass := self addSubclassOf: aClass\x0a\x09\x09named: className instanceVariableNames: (self slotsFromInstanceVariablesString: ivarNames)\x0a\x09\x09package: (packageName ifNil: [ 'unclassified' ]).\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
 referencedClasses: ["SystemAnnouncer", "ClassAdded"],
 //>>excludeEnd("ide");
-messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "instanceVariableNamesFor:", "ifNil:", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "slotsFromInstanceVariablesString:", "ifNil:", "announce:", "current", "theClass:", "new", "yourself"]
 }),
 $globals.ClassBuilder);
 

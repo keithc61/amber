@@ -2289,25 +2289,25 @@ $globals.ClassBuilderTest);
 
 $core.addMethod(
 $core.method({
-selector: "testInstanceVariableNames",
+selector: "testSlotsFromInstanceVariablesString",
 protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self._assert_equals_($recv($self.builder)._instanceVariableNamesFor_("  hello   world   "),["hello", "world"]);
+$self._assert_equals_($recv($self.builder)._slotsFromInstanceVariablesString_("  hello   world   "),["hello", "world"]);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testInstanceVariableNames",{},$globals.ClassBuilderTest)});
+}, function($ctx1) {$ctx1.fill(self,"testSlotsFromInstanceVariablesString",{},$globals.ClassBuilderTest)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testInstanceVariableNames\x0a\x09self assert: (builder instanceVariableNamesFor: '  hello   world   ') equals: #('hello' 'world')",
+source: "testSlotsFromInstanceVariablesString\x0a\x09self assert: (builder slotsFromInstanceVariablesString: '  hello   world   ') equals: #('hello' 'world')",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["assert:equals:", "instanceVariableNamesFor:"]
+messageSends: ["assert:equals:", "slotsFromInstanceVariablesString:"]
 }),
 $globals.ClassBuilderTest);
 

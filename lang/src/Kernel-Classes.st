@@ -294,7 +294,7 @@ Rather than using me directly to compile a class, use `Class >> subclass:instanc
 
 !ClassBuilder methodsFor: 'accessing'!
 
-instanceVariableNamesFor: aString
+slotsFromInstanceVariablesString: aString
 	^ (aString tokenize: ' ') reject: [ :each | each isEmpty ]
 ! !
 
@@ -336,7 +336,7 @@ addTraitNamed: traitName package: packageName
 !
 
 class: aClass instanceVariableNames: ivarNames
-	self class: aClass instanceVariables:  (self instanceVariableNamesFor: ivarNames)
+	self class: aClass instanceVariables:  (self slotsFromInstanceVariablesString: ivarNames)
 !
 
 class: aClass instanceVariables: aCollection
@@ -356,7 +356,7 @@ superclass: aClass subclass: className instanceVariableNames: ivarNames package:
 	| newClass |
 	
 	newClass := self addSubclassOf: aClass
-		named: className instanceVariableNames: (self instanceVariableNamesFor: ivarNames)
+		named: className instanceVariableNames: (self slotsFromInstanceVariablesString: ivarNames)
 		package: (packageName ifNil: [ 'unclassified' ]).
 	
 	SystemAnnouncer current

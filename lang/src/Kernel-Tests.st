@@ -436,8 +436,8 @@ testClassMigrationWithSubclasses
 	ObjectMock allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ]
 !
 
-testInstanceVariableNames
-	self assert: (builder instanceVariableNamesFor: '  hello   world   ') equals: #('hello' 'world')
+testSlotsFromInstanceVariablesString
+	self assert: (builder slotsFromInstanceVariablesString: '  hello   world   ') equals: #('hello' 'world')
 !
 
 testSubclass
