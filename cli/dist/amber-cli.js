@@ -1188,507 +1188,6 @@ return Promise$1;
 
 //# sourceMappingURL=es6-promise.map
 ;
-(function () {
-        define('app',["require", "amber/es6-promise"], function (require, promiseLib) {
-            promiseLib.polyfill();
-            return new Promise(function (resolve, reject) {
-                require(["__app__"], resolve, reject);
-            });
-        });
-    }());
-//jshint eqnull:true
-
-define('amber/kernel-runtime',[],function () {
-    "use strict";
-
-    function defineMethod (klass, name, method) {
-        Object.defineProperty(klass.prototype, name, {
-            value: method,
-            enumerable: false, configurable: true, writable: true
-        });
-    }
-
-    function installJSMethod (obj, jsSelector, fn) {
-        Object.defineProperty(obj, jsSelector, {
-            value: fn,
-            enumerable: false, configurable: true, writable: true
-        });
-    }
-
-    RuntimeSelectorsBrik.deps = ["selectors", "selectorConversion", "smalltalkGlobals", "classes"];
-    function RuntimeSelectorsBrik (brikz, st) {
-        var selectors = brikz.selectors.selectors;
-        var globals = brikz.smalltalkGlobals.globals;
-        var nilAsClass = brikz.classes.nilAsClass;
-        var st2js = brikz.selectorConversion.st2js;
-
-        var jsSelectors = this.jsSelectors = [];
-
-        /* Method not implemented handlers */
-
-        function installNewSelectors (newSelectors, targetClasses) {
-            newSelectors.forEach(function (selector) {
-                var jsSelector = st2js(selector);
-                jsSelectors.push(jsSelector);
-                var fn = createDnuHandler(selector);
-                installJSMethod(nilAsClass.fn.prototype, jsSelector, fn);
-                targetClasses.forEach(function (target) {
-                    installJSMethod(target.fn.prototype, jsSelector, fn);
-                });
-            });
-        }
-
-        this.installNewSelectors = installNewSelectors;
-
-        /* Dnu handler method */
-
-        function createDnuHandler (stSelector) {
-            return function () {
-                return globals.Message._selector_arguments_notUnderstoodBy_(
-                    stSelector, [].slice.call(arguments), this
-                );
-            };
-        }
-
-        installNewSelectors(selectors, []);
-    }
-
-    RuntimeClassesBrik.deps = ["event", "smalltalkGlobals", "runtimeSelectors", "behaviors", "classes", "runtimeMethods"];
-    function RuntimeClassesBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
-        var jsSelectors = brikz.runtimeSelectors.jsSelectors;
-        var installNewSelectors = brikz.runtimeSelectors.installNewSelectors;
-        var installMethod = brikz.runtimeMethods.installMethod;
-        var traitsOrClasses = brikz.behaviors.traitsOrClasses;
-        var wireKlass = brikz.classes.wireKlass;
-        var emit = brikz.event.emit;
-
-        var detachedRootClasses = [];
-
-        function markClassDetachedRoot (klass) {
-            klass.detachedRoot = true;
-            detachedRootClasses = traitsOrClasses.filter(function (klass) {
-                return klass.detachedRoot;
-            });
-        }
-
-        emit.selectorsAdded = function (newSelectors) {
-            installNewSelectors(newSelectors, detachedRootClasses);
-        };
-
-        /* Initialize a class in its class hierarchy. Handle both classes and
-         metaclasses. */
-
-        function initClassAndMetaclass (klass) {
-            initClass(klass);
-            if (klass.a$cls && !klass.meta) {
-                initClass(klass.a$cls);
-            }
-        }
-
-        traitsOrClasses.forEach(function (traitOrClass) {
-            if (!traitOrClass.trait) initClassAndMetaclass(traitOrClass);
-        });
-
-        emit.classAdded = function (klass) {
-            initClassAndMetaclass(klass);
-            klass._enterOrganization();
-        };
-
-        emit.traitAdded = function (trait) {
-            trait._enterOrganization();
-        };
-
-        emit.classRemoved = function (klass) {
-            klass._leaveOrganization();
-        };
-
-        emit.traitRemoved = function (trait) {
-            trait._leaveOrganization();
-        };
-
-        function initClass (klass) {
-            wireKlass(klass);
-            if (klass.detachedRoot) {
-                copySuperclass(klass);
-            }
-            installMethods(klass);
-        }
-
-        function copySuperclass (klass) {
-            var myproto = klass.fn.prototype,
-                superproto = klass.superclass.fn.prototype;
-            jsSelectors.forEach(function (jsSelector) {
-                installJSMethod(myproto, jsSelector, superproto[jsSelector]);
-            });
-        }
-
-        function installMethods (klass) {
-            var methods = klass.methods;
-            Object.keys(methods).forEach(function (selector) {
-                installMethod(methods[selector], klass);
-            });
-        }
-
-        /* Create an alias for an existing class */
-
-        st.alias = function (traitOrClass, alias) {
-            globals[alias] = traitOrClass;
-        };
-
-        /* Manually set the constructor of an existing Smalltalk klass, making it a detached root class. */
-
-        st.setClassConstructor = this.setClassConstructor = function (klass, constructor) {
-            markClassDetachedRoot(klass);
-            klass.fn = constructor;
-            initClass(klass);
-        };
-    }
-
-    FrameBindingBrik.deps = ["smalltalkGlobals", "runtimeClasses"];
-    function FrameBindingBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
-        var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
-
-        setClassConstructor(globals.Number, Number);
-        setClassConstructor(globals.BlockClosure, Function);
-        setClassConstructor(globals.Boolean, Boolean);
-        setClassConstructor(globals.Date, Date);
-        setClassConstructor(globals.String, String);
-        setClassConstructor(globals.Array, Array);
-        setClassConstructor(globals.RegularExpression, RegExp);
-        setClassConstructor(globals.Error, Error);
-        setClassConstructor(globals.Promise, Promise);
-
-        this.__init__ = function () {
-            st.alias(globals.Array, "OrderedCollection");
-            st.alias(globals.Date, "Time");
-        }
-    }
-
-    RuntimeMethodsBrik.deps = ["event", "selectorConversion"];
-    function RuntimeMethodsBrik (brikz, st) {
-        var st2js = brikz.selectorConversion.st2js;
-        var emit = brikz.event.emit;
-
-        function installMethod (method, klass) {
-            var jsSelector = method.jsSelector;
-            if (!jsSelector) {
-                jsSelector = method.jsSelector = st2js(method.selector);
-            }
-            installJSMethod(klass.fn.prototype, jsSelector, method.fn);
-        }
-
-        this.installMethod = installMethod;
-
-        emit.behaviorMethodAdded = function (method, klass) {
-            installMethod(method, klass);
-            propagateMethodChange(klass, method, klass);
-        };
-
-        emit.behaviorMethodRemoved = function (method, klass) {
-            delete klass.fn.prototype[method.jsSelector];
-            propagateMethodChange(klass, method, null);
-        };
-
-        emit.methodReplaced = function (newMethod, oldMethod, traitOrBehavior) {
-            traitOrBehavior._methodOrganizationEnter_andLeave_(newMethod, oldMethod);
-        };
-
-        function propagateMethodChange (klass, method, exclude) {
-            var selector = method.selector;
-            var jsSelector = method.jsSelector;
-            st.traverseClassTree(klass, function (subclass, sentinel) {
-                if (subclass === exclude) return;
-                if (subclass.methods[selector]) return sentinel;
-                if (subclass.detachedRoot) {
-                    installJSMethod(subclass.fn.prototype, jsSelector, subclass.superclass.fn.prototype[jsSelector]);
-                }
-            });
-        }
-    }
-
-    PrimitivesBrik.deps = ["smalltalkGlobals"];
-    function PrimitivesBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
-
-        /* Converts a JavaScript object to valid Smalltalk Object */
-        st.readJSObject = function (js) {
-            if (js == null) return null;
-            else if (Array.isArray(js)) return js.map(st.readJSObject);
-            else if (js.constructor !== Object) return js;
-
-            var pairs = [];
-            for (var i in js) {
-                pairs.push(i, st.readJSObject(js[i]));
-            }
-            return globals.Dictionary._newFromPairs_(pairs);
-        };
-
-        /* Boolean assertion */
-        st.assert = function (shouldBeBoolean) {
-            if (typeof shouldBeBoolean === "boolean") return shouldBeBoolean;
-            else if (shouldBeBoolean != null && typeof shouldBeBoolean === "object") {
-                shouldBeBoolean = shouldBeBoolean.valueOf();
-                if (typeof shouldBeBoolean === "boolean") return shouldBeBoolean;
-            }
-            globals.NonBooleanReceiver._signalOn_(shouldBeBoolean);
-        };
-    }
-
-    RuntimeBrik.deps = ["selectorConversion", "smalltalkGlobals", "runtimeClasses"];
-    function RuntimeBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
-        var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
-
-        function SmalltalkMethodContext (home, setup) {
-            // TODO lazy fill of .sendIdx
-            this.sendIdx = {};
-            // TODO very likely .senderContext, not .homeContext here
-            this.homeContext = home;
-            this.setup = setup;
-        }
-
-        // Fallbacks
-        SmalltalkMethodContext.prototype.supercall = false;
-        SmalltalkMethodContext.prototype.locals = Object.freeze({});
-        SmalltalkMethodContext.prototype.receiver = null;
-        SmalltalkMethodContext.prototype.selector = null;
-        SmalltalkMethodContext.prototype.lookupClass = null;
-        SmalltalkMethodContext.prototype.outerContext = null;
-        SmalltalkMethodContext.prototype.index = 0;
-
-        defineMethod(SmalltalkMethodContext, "fill", function (receiver, selector, locals, lookupClass) {
-            this.receiver = receiver;
-            this.selector = selector;
-            if (locals != null) this.locals = locals;
-            this.lookupClass = lookupClass;
-            if (this.homeContext) {
-                this.homeContext.evaluatedSelector = selector;
-            }
-        });
-        defineMethod(SmalltalkMethodContext, "fillBlock", function (locals, ctx, index) {
-            if (locals != null) this.locals = locals;
-            this.outerContext = ctx;
-            if (index) this.index = index;
-        });
-        defineMethod(SmalltalkMethodContext, "method", function () {
-            var method;
-            var lookup = this.lookupClass || this.receiver.a$cls;
-            while (!method && lookup) {
-                method = lookup.methods[st.js2st(this.selector)];
-                lookup = lookup.superclass;
-            }
-            return method;
-        });
-
-        setClassConstructor(globals.MethodContext, SmalltalkMethodContext);
-
-        /* This is the current call context object.
-         In Smalltalk code, it is accessible just by using 'thisContext' variable.
-         In JS code, use api.getThisContext() (see below).
-         */
-
-        var thisContext = null;
-
-        /*
-         Runs worker function so that error handler is not set up
-         if there isn't one. This is accomplished by unconditional
-         wrapping inside a context of a simulated `nil seamlessDoIt` call,
-         which then stops error handler setup (see st.withContext above).
-         The effect is, $core.seamless(fn)'s exceptions are not
-         handed into ST error handler and caller should process them.
-         */
-        st.seamless = function (worker) {
-            var oldContext = thisContext;
-            thisContext = new SmalltalkMethodContext(thisContext, function (ctx) {
-                ctx.fill(null, "seamlessDoIt", {}, globals.UndefinedObject);
-            });
-            var result = worker(thisContext);
-            thisContext = oldContext;
-            return result;
-        };
-
-        function resultWithErrorHandling (worker) {
-            try {
-                return worker(thisContext);
-            } catch (error) {
-                globals.ErrorHandler._handleError_(error);
-                thisContext = null;
-                // Rethrow the error in any case.
-                throw error;
-            }
-        }
-
-        /*
-         Standard way to run within context.
-         Sets up error handler if entering first ST context in a stack.
-         */
-        st.withContext = function (worker, setup) {
-            var oldContext = thisContext;
-            thisContext = new SmalltalkMethodContext(thisContext, setup);
-            var result = oldContext == null ? resultWithErrorHandling(worker) : worker(thisContext);
-            thisContext = oldContext;
-            return result;
-        };
-
-        /* Handle thisContext pseudo variable */
-
-        st.getThisContext = function () {
-            if (!thisContext) return null;
-            for (var frame = thisContext; frame; frame = frame.homeContext) {
-                frame.setup(frame);
-            }
-            return thisContext;
-        };
-    }
-
-    MessageSendBrik.deps = ["smalltalkGlobals", "selectorConversion", "root"];
-    function MessageSendBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
-        var nilAsReceiver = brikz.root.nilAsReceiver;
-
-        /* Send message programmatically. Used to implement #perform: & Co. */
-
-        st.send2 = function (self, selector, args, klass) {
-            if (self == null) {
-                self = nilAsReceiver;
-            }
-            var method = klass ? klass.fn.prototype[st.st2js(selector)] : self.a$cls && self[st.st2js(selector)];
-            return method != null ?
-                method.apply(self, args || []) :
-                globals.Message._selector_arguments_notUnderstoodBy_(
-                    selector, [].slice.call(args), self.a$cls ? self : wrapJavaScript(self)
-                );
-        };
-
-        function wrapJavaScript (o) {
-            return globals.JSObjectProxy._on_(o);
-        }
-
-        st.wrapJavaScript = wrapJavaScript;
-
-        /* If the object property is a function, then call it, except if it starts with
-         an uppercase character (we probably want to answer the function itself in this
-         case and send it #new from Amber).
-         */
-        st.accessJavaScript = function (self, propertyName, args) {
-            var propertyValue = self[propertyName];
-            if (typeof propertyValue === "function" && !/^[A-Z]/.test(propertyName)) {
-                return propertyValue.apply(self, args);
-            } else if (args.length === 0) {
-                return propertyValue;
-            } else {
-                self[propertyName] = args[0];
-                return self;
-            }
-        };
-    }
-
-    function SelectorConversionBrik (brikz, st) {
-        var st2jsMemo = Object.create(null);
-
-        /* Convert a Smalltalk selector into a JS selector */
-        function st2js (string) {
-            return '_' + string
-                .replace(/:/g, '_')
-                .replace(/[\&]/g, '_and')
-                .replace(/[\|]/g, '_or')
-                .replace(/[+]/g, '_plus')
-                .replace(/-/g, '_minus')
-                .replace(/[*]/g, '_star')
-                .replace(/[\/]/g, '_slash')
-                .replace(/[\\]/g, '_backslash')
-                .replace(/[\~]/g, '_tild')
-                .replace(/%/g, '_percent')
-                .replace(/>/g, '_gt')
-                .replace(/</g, '_lt')
-                .replace(/=/g, '_eq')
-                .replace(/,/g, '_comma')
-                .replace(/[@]/g, '_at');
-        };
-
-        st.st2js = function (stSelector) {
-            return st2jsMemo[stSelector] || st2js(stSelector);
-        };
-
-        this.st2js = function (stSelector) {
-            return st2jsMemo[stSelector] || (st2jsMemo[stSelector] = st2js(stSelector));
-        };
-
-        /* Convert a string to a valid smalltalk selector.
-         if you modify the following functions, also change st2js
-         accordingly */
-        st.js2st = function (selector) {
-            if (selector.match(/^__/)) {
-                return binaryJsToSt(selector);
-            } else {
-                return keywordJsToSt(selector);
-            }
-        };
-
-        function keywordJsToSt (selector) {
-            return selector.replace(/^_/, '').replace(/_/g, ':');
-        }
-
-        function binaryJsToSt (selector) {
-            return selector
-                .replace(/^_/, '')
-                .replace(/_and/g, '&')
-                .replace(/_or/g, '|')
-                .replace(/_plus/g, '+')
-                .replace(/_minus/g, '-')
-                .replace(/_star/g, '*')
-                .replace(/_slash/g, '/')
-                .replace(/_backslash/g, '\\')
-                .replace(/_tild/g, '~')
-                .replace(/_percent/g, '%')
-                .replace(/_gt/g, '>')
-                .replace(/_lt/g, '<')
-                .replace(/_eq/g, '=')
-                .replace(/_comma/g, ',')
-                .replace(/_at/g, '@');
-        }
-
-        st.st2prop = function (stSelector) {
-            var colonPosition = stSelector.indexOf(':');
-            return colonPosition === -1 ? stSelector : stSelector.slice(0, colonPosition);
-        };
-    }
-
-    StartImageBrik.deps = ["smalltalkGlobals"];
-    function StartImageBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
-
-        this.run = function () {
-            return globals.AmberBootstrapInitialization._run();
-        };
-    }
-
-    /* Making smalltalk that can run */
-
-    function configureWithRuntime (brikz) {
-        brikz.runtimeSelectors = RuntimeSelectorsBrik;
-        brikz.runtimeClasses = RuntimeClassesBrik;
-        brikz.frameBinding = FrameBindingBrik;
-        brikz.runtimeMethods = RuntimeMethodsBrik;
-        brikz.messageSend = MessageSendBrik;
-        brikz.runtime = RuntimeBrik;
-        brikz.primitives = PrimitivesBrik;
-        brikz.selectorConversion = SelectorConversionBrik;
-        brikz.startImage = StartImageBrik;
-
-        brikz.rebuild();
-    }
-
-    return configureWithRuntime;
-});
-
-// Depend on each module that is loaded lazily.
-// Add to packager tasks as dependency,
-// so the lazy-loaded modules are included.
-define('amber/lazypack',['./kernel-runtime'], {});
-
 //jshint eqnull:true
 
 define('amber/kernel-checks',[],function () {
@@ -2051,17 +1550,6 @@ define('amber/kernel-fundamentals',[],function () {
                 throw new Error("addMethod: Method " + method.selector + " already bound to " + method.owner);
             }
             method.owner = traitOrBehavior;
-            // TODO deprecation helper; remove
-            Object.defineProperty(method, "methodClass", {
-                get: function () {
-                    console.warn("Use of .methodClass deprecated, use .owner");
-                    return method.owner;
-                },
-                set: function (v) {
-                    console.warn("Use of .methodClass= deprecated, use .owner=");
-                    method.owner = v;
-                }
-            });
             registerNewSelectors(method);
             traitOrBehavior.localMethods[method.selector] = method;
             updateMethod(method.selector, traitOrBehavior);
@@ -2294,17 +1782,6 @@ define('amber/kernel-language',[],function () {
                 name: traitName,
                 make: function () {
                     var that = new SmalltalkTrait();
-                    // TODO deprecation helper; remove
-                    Object.defineProperty(that, "className", {
-                        get: function () {
-                            console.warn("Use of .className deprecated, use .name");
-                            return that.name;
-                        },
-                        set: function (v) {
-                            console.warn("Use of .className= deprecated, use .name=");
-                            that.name = v;
-                        }
-                    });
                     that.name = traitName;
                     that.traitUsers = [];
                     setupMethods(that);
@@ -2476,8 +1953,7 @@ define('amber/kernel-language',[],function () {
         // Effective superclass of all classes created with `nil subclass: ...`.
         var nilAsClass = this.nilAsClass = {
             fn: SmalltalkRoot,
-            a$cls: {fn: SmalltalkClass},
-            klass: {fn: SmalltalkClass}
+            a$cls: {fn: SmalltalkClass}
         };
 
         SmalltalkMetaclass.prototype.meta = true;
@@ -2507,9 +1983,52 @@ define('amber/kernel-language',[],function () {
             emit.behaviorMethodRemoved(method, this);
         });
 
+        // TODO remove, ["@foo"] backward compatibility
+        function installIvarCompat (klass) {
+            var ivars = klass.slots;
+            ivars.forEach(function (ivar) {
+                Object.defineProperty(klass.fn.prototype, "@" + ivar, {
+                    get: function () {
+                        return this[ivar];
+                    },
+                    set: function (value) {
+                        return this[ivar] = value;
+                    },
+                    enumerable: false,
+                    configurable: true
+                });
+            });
+        }
+
+        this.installIvarCompat = installIvarCompat;
+
+        function setSlots (klass, slots) {
+            slots.forEach(function (name) {
+                if (!name.match(/^[a-zA-Z][a-zA-Z0-9]*$/))
+                    throw new Error("Wrong identifier name: " + name);
+            });
+
+            klass.slots = slots;
+            installIvarCompat(klass);
+        }
+
+        st.setSlots = setSlots;
+
+        // TODO remove, .iVarNames backward compatibility
+        Object.defineProperty(SmalltalkBehavior.prototype, "iVarNames", {
+            enumerable: true,
+            configurable: true,
+            get: function () {
+                return this.slots;
+            },
+            set: function (instanceVariableNames) {
+                setSlots(this, instanceVariableNames);
+            }
+        });
+
         this.bootstrapHierarchy = function () {
             var nilSubclasses = [globals.ProtoObject];
-            nilAsClass.a$cls = nilAsClass.klass = globals.Class;
+            nilAsClass.a$cls = globals.Class;
             nilSubclasses.forEach(function (each) {
                 each.a$cls.superclass = globals.Class;
                 addSubclass(each.a$cls);
@@ -2521,7 +2040,7 @@ define('amber/kernel-language',[],function () {
          should be added to the system, see smalltalk.addClass().
          Superclass linking is *not* handled here, see api.initialize()  */
 
-        function classBuilder (className, superclass, iVarNames, fn) {
+        function classBuilder (className, superclass, fn) {
             var logicalSuperclass = superclass;
             if (superclass == null || superclass.a$nil) {
                 superclass = nilAsClass;
@@ -2534,19 +2053,8 @@ define('amber/kernel-language',[],function () {
                 that.superclass = logicalSuperclass;
                 that.fn = fn || inherits(function () {
                     }, superclass.fn);
-                that.iVarNames = iVarNames || [];
+                that.slots = [];
 
-                // TODO deprecation helper; remove
-                Object.defineProperty(that, "className", {
-                    get: function () {
-                        console.warn("Use of .className deprecated, use .name");
-                        return that.name;
-                    },
-                    set: function (v) {
-                        console.warn("Use of .className= deprecated, use .name=");
-                        that.name = v;
-                    }
-                });
                 that.name = className;
                 that.subclasses = [];
 
@@ -2560,7 +2068,7 @@ define('amber/kernel-language',[],function () {
                 that.superclass = superclass.a$cls;
                 that.fn = inherits(function () {
                 }, that.superclass.fn);
-                that.iVarNames = [];
+                that.slots = [];
 
                 that.instanceClass = new that.fn();
 
@@ -2573,19 +2081,14 @@ define('amber/kernel-language',[],function () {
                 name: className,
                 make: klass,
                 updateExisting: function (klass) {
-                    if (klass.superclass == logicalSuperclass && (!fn || fn === klass.fn)) {
-                        if (iVarNames) klass.iVarNames = iVarNames;
-                    } else throw new Error("Incompatible change of class: " + klass.name);
+                    if (klass.superclass != logicalSuperclass || fn && fn !== klass.fn)
+                        throw new Error("Incompatible change of class: " + klass.name);
                 }
             };
         }
 
         function wireKlass (klass) {
             Object.defineProperty(klass.fn.prototype, "a$cls", {
-                value: klass,
-                enumerable: false, configurable: true, writable: true
-            });
-            Object.defineProperty(klass.fn.prototype, "klass", {
                 value: klass,
                 enumerable: false, configurable: true, writable: true
             });
@@ -2596,13 +2099,20 @@ define('amber/kernel-language',[],function () {
         /* Add a class to the system, creating a new one if needed.
          A Package is lazily created if one with given name does not exist. */
 
-        st.addClass = function (className, superclass, iVarNames, category) {
+        st.addClass = function (className, superclass, category) {
+            // TODO remove, backward compatibility
+            if (arguments[3]) {
+                var added = st.addClass(className, superclass, arguments[3]);
+                setSlots(added, category);
+                return added;
+            }
+
             // While subclassing nil is allowed, it might be an error, so
             // warn about it.
             if (typeof superclass === 'undefined' || superclass && superclass.a$nil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
-            return buildTraitOrClass(category, classBuilder(className, superclass, iVarNames, coreFns[className]));
+            return buildTraitOrClass(category, classBuilder(className, superclass, coreFns[className]));
         };
 
         st.removeClass = removeTraitOrClass;
@@ -2653,6 +2163,499 @@ define('amber/kernel-language',[],function () {
     }
 
     return configureWithHierarchy;
+});
+
+//jshint eqnull:true
+
+define('amber/kernel-runtime',[],function () {
+    "use strict";
+
+    function defineMethod (klass, name, method) {
+        Object.defineProperty(klass.prototype, name, {
+            value: method,
+            enumerable: false, configurable: true, writable: true
+        });
+    }
+
+    function installJSMethod (obj, jsSelector, fn) {
+        Object.defineProperty(obj, jsSelector, {
+            value: fn,
+            enumerable: false, configurable: true, writable: true
+        });
+    }
+
+    RuntimeSelectorsBrik.deps = ["selectors", "selectorConversion", "smalltalkGlobals", "classes"];
+    function RuntimeSelectorsBrik (brikz, st) {
+        var selectors = brikz.selectors.selectors;
+        var globals = brikz.smalltalkGlobals.globals;
+        var nilAsClass = brikz.classes.nilAsClass;
+        var st2js = brikz.selectorConversion.st2js;
+
+        var jsSelectors = this.jsSelectors = [];
+
+        /* Method not implemented handlers */
+
+        function installNewSelectors (newSelectors, targetClasses) {
+            newSelectors.forEach(function (selector) {
+                var jsSelector = st2js(selector);
+                jsSelectors.push(jsSelector);
+                var fn = createDnuHandler(selector);
+                installJSMethod(nilAsClass.fn.prototype, jsSelector, fn);
+                targetClasses.forEach(function (target) {
+                    installJSMethod(target.fn.prototype, jsSelector, fn);
+                });
+            });
+        }
+
+        this.installNewSelectors = installNewSelectors;
+
+        /* Dnu handler method */
+
+        function createDnuHandler (stSelector) {
+            return function () {
+                return globals.Message._selector_arguments_notUnderstoodBy_(
+                    stSelector, [].slice.call(arguments), this
+                );
+            };
+        }
+
+        installNewSelectors(selectors, []);
+    }
+
+    RuntimeClassesBrik.deps = ["event", "smalltalkGlobals", "runtimeSelectors", "behaviors", "classes", "runtimeMethods"];
+    function RuntimeClassesBrik (brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+        var jsSelectors = brikz.runtimeSelectors.jsSelectors;
+        var installNewSelectors = brikz.runtimeSelectors.installNewSelectors;
+        var installMethod = brikz.runtimeMethods.installMethod;
+        var traitsOrClasses = brikz.behaviors.traitsOrClasses;
+        var wireKlass = brikz.classes.wireKlass;
+        var installIvarCompat = brikz.classes.installIvarCompat;
+        var emit = brikz.event.emit;
+
+        var detachedRootClasses = [];
+
+        function markClassDetachedRoot (klass) {
+            klass.detachedRoot = true;
+            detachedRootClasses = traitsOrClasses.filter(function (klass) {
+                return klass.detachedRoot;
+            });
+        }
+
+        emit.selectorsAdded = function (newSelectors) {
+            installNewSelectors(newSelectors, detachedRootClasses);
+        };
+
+        /* Initialize a class in its class hierarchy. Handle both classes and
+         metaclasses. */
+
+        function initClassAndMetaclass (klass) {
+            initClass(klass);
+            if (klass.a$cls && !klass.meta) {
+                initClass(klass.a$cls);
+            }
+        }
+
+        traitsOrClasses.forEach(function (traitOrClass) {
+            if (!traitOrClass.trait) initClassAndMetaclass(traitOrClass);
+        });
+
+        emit.classAdded = function (klass) {
+            initClassAndMetaclass(klass);
+            klass._enterOrganization();
+        };
+
+        emit.traitAdded = function (trait) {
+            trait._enterOrganization();
+        };
+
+        emit.classRemoved = function (klass) {
+            klass._leaveOrganization();
+        };
+
+        emit.traitRemoved = function (trait) {
+            trait._leaveOrganization();
+        };
+
+        function initClass (klass) {
+            wireKlass(klass);
+            if (klass.detachedRoot) {
+                copySuperclass(klass);
+            }
+            installMethods(klass);
+        }
+
+        function copySuperclass (klass) {
+            var myproto = klass.fn.prototype,
+                superproto = klass.superclass.fn.prototype;
+            jsSelectors.forEach(function (jsSelector) {
+                installJSMethod(myproto, jsSelector, superproto[jsSelector]);
+            });
+        }
+
+        function installMethods (klass) {
+            var methods = klass.methods;
+            Object.keys(methods).forEach(function (selector) {
+                installMethod(methods[selector], klass);
+            });
+        }
+
+        /* Create an alias for an existing class */
+
+        st.alias = function (traitOrClass, alias) {
+            globals[alias] = traitOrClass;
+        };
+
+        /* Manually set the constructor of an existing Smalltalk klass, making it a detached root class. */
+
+        st.setClassConstructor = this.setClassConstructor = function (klass, constructor) {
+            markClassDetachedRoot(klass);
+            klass.fn = constructor;
+            installIvarCompat(klass);
+            initClass(klass);
+        };
+    }
+
+    FrameBindingBrik.deps = ["smalltalkGlobals", "runtimeClasses"];
+    function FrameBindingBrik (brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+        var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
+
+        setClassConstructor(globals.Number, Number);
+        setClassConstructor(globals.BlockClosure, Function);
+        setClassConstructor(globals.Boolean, Boolean);
+        setClassConstructor(globals.Date, Date);
+        setClassConstructor(globals.String, String);
+        setClassConstructor(globals.Array, Array);
+        setClassConstructor(globals.RegularExpression, RegExp);
+        setClassConstructor(globals.Error, Error);
+        setClassConstructor(globals.Promise, Promise);
+
+        this.__init__ = function () {
+            st.alias(globals.Array, "OrderedCollection");
+            st.alias(globals.Date, "Time");
+        }
+    }
+
+    RuntimeMethodsBrik.deps = ["event", "selectorConversion"];
+    function RuntimeMethodsBrik (brikz, st) {
+        var st2js = brikz.selectorConversion.st2js;
+        var emit = brikz.event.emit;
+
+        function installMethod (method, klass) {
+            var jsSelector = method.jsSelector;
+            if (!jsSelector) {
+                jsSelector = method.jsSelector = st2js(method.selector);
+            }
+            installJSMethod(klass.fn.prototype, jsSelector, method.fn);
+        }
+
+        this.installMethod = installMethod;
+
+        emit.behaviorMethodAdded = function (method, klass) {
+            installMethod(method, klass);
+            propagateMethodChange(klass, method, klass);
+        };
+
+        emit.behaviorMethodRemoved = function (method, klass) {
+            delete klass.fn.prototype[method.jsSelector];
+            propagateMethodChange(klass, method, null);
+        };
+
+        emit.methodReplaced = function (newMethod, oldMethod, traitOrBehavior) {
+            traitOrBehavior._methodOrganizationEnter_andLeave_(newMethod, oldMethod);
+        };
+
+        function propagateMethodChange (klass, method, exclude) {
+            var selector = method.selector;
+            var jsSelector = method.jsSelector;
+            st.traverseClassTree(klass, function (subclass, sentinel) {
+                if (subclass === exclude) return;
+                if (subclass.methods[selector]) return sentinel;
+                if (subclass.detachedRoot) {
+                    installJSMethod(subclass.fn.prototype, jsSelector, subclass.superclass.fn.prototype[jsSelector]);
+                }
+            });
+        }
+    }
+
+    PrimitivesBrik.deps = ["smalltalkGlobals"];
+    function PrimitivesBrik (brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+
+        /* Converts a JavaScript object to valid Smalltalk Object */
+        st.readJSObject = function (js) {
+            if (js == null) return null;
+            else if (Array.isArray(js)) return js.map(st.readJSObject);
+            else if (js.constructor !== Object) return js;
+
+            var pairs = [];
+            for (var i in js) {
+                pairs.push(i, st.readJSObject(js[i]));
+            }
+            return globals.Dictionary._newFromPairs_(pairs);
+        };
+
+        /* Boolean assertion */
+        st.assert = function (shouldBeBoolean) {
+            if (typeof shouldBeBoolean === "boolean") return shouldBeBoolean;
+            else if (shouldBeBoolean != null && typeof shouldBeBoolean === "object") {
+                shouldBeBoolean = shouldBeBoolean.valueOf();
+                if (typeof shouldBeBoolean === "boolean") return shouldBeBoolean;
+            }
+            globals.NonBooleanReceiver._signalOn_(shouldBeBoolean);
+        };
+    }
+
+    RuntimeBrik.deps = ["selectorConversion", "smalltalkGlobals", "runtimeClasses"];
+    function RuntimeBrik (brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+        var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
+
+        function SmalltalkMethodContext (home, setup) {
+            // TODO lazy fill of .sendIdx
+            this.sendIdx = {};
+            // TODO very likely .senderContext, not .homeContext here
+            this.homeContext = home;
+            this.setup = setup;
+        }
+
+        // Fallbacks
+        SmalltalkMethodContext.prototype.supercall = false;
+        SmalltalkMethodContext.prototype.locals = Object.freeze({});
+        SmalltalkMethodContext.prototype.receiver = null;
+        SmalltalkMethodContext.prototype.selector = null;
+        SmalltalkMethodContext.prototype.lookupClass = null;
+        SmalltalkMethodContext.prototype.outerContext = null;
+        SmalltalkMethodContext.prototype.index = 0;
+
+        defineMethod(SmalltalkMethodContext, "fill", function (receiver, selector, locals, lookupClass) {
+            this.receiver = receiver;
+            this.selector = selector;
+            if (locals != null) this.locals = locals;
+            this.lookupClass = lookupClass;
+            if (this.homeContext) {
+                this.homeContext.evaluatedSelector = selector;
+            }
+        });
+        defineMethod(SmalltalkMethodContext, "fillBlock", function (locals, ctx, index) {
+            if (locals != null) this.locals = locals;
+            this.outerContext = ctx;
+            if (index) this.index = index;
+        });
+        defineMethod(SmalltalkMethodContext, "method", function () {
+            var method;
+            var lookup = this.lookupClass || this.receiver.a$cls;
+            while (!method && lookup) {
+                method = lookup.methods[st.js2st(this.selector)];
+                lookup = lookup.superclass;
+            }
+            return method;
+        });
+
+        setClassConstructor(globals.MethodContext, SmalltalkMethodContext);
+
+        /* This is the current call context object.
+         In Smalltalk code, it is accessible just by using 'thisContext' variable.
+         In JS code, use api.getThisContext() (see below).
+         */
+
+        var thisContext = null;
+
+        /*
+         Runs worker function so that error handler is not set up
+         if there isn't one. This is accomplished by unconditional
+         wrapping inside a context of a simulated `nil seamlessDoIt` call,
+         which then stops error handler setup (see st.withContext above).
+         The effect is, $core.seamless(fn)'s exceptions are not
+         handed into ST error handler and caller should process them.
+         */
+        st.seamless = function (worker) {
+            var oldContext = thisContext;
+            thisContext = new SmalltalkMethodContext(thisContext, function (ctx) {
+                ctx.fill(null, "seamlessDoIt", {}, globals.UndefinedObject);
+            });
+            var result = worker(thisContext);
+            thisContext = oldContext;
+            return result;
+        };
+
+        function resultWithErrorHandling (worker) {
+            try {
+                return worker(thisContext);
+            } catch (error) {
+                globals.ErrorHandler._handleError_(error);
+                thisContext = null;
+                // Rethrow the error in any case.
+                throw error;
+            }
+        }
+
+        /*
+         Standard way to run within context.
+         Sets up error handler if entering first ST context in a stack.
+         */
+        st.withContext = function (worker, setup) {
+            var oldContext = thisContext;
+            thisContext = new SmalltalkMethodContext(thisContext, setup);
+            var result = oldContext == null ? resultWithErrorHandling(worker) : worker(thisContext);
+            thisContext = oldContext;
+            return result;
+        };
+
+        /* Handle thisContext pseudo variable */
+
+        st.getThisContext = function () {
+            if (!thisContext) return null;
+            for (var frame = thisContext; frame; frame = frame.homeContext) {
+                frame.setup(frame);
+            }
+            return thisContext;
+        };
+    }
+
+    MessageSendBrik.deps = ["smalltalkGlobals", "selectorConversion", "root"];
+    function MessageSendBrik (brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+        var nilAsReceiver = brikz.root.nilAsReceiver;
+
+        /* Send message programmatically. Used to implement #perform: & Co. */
+
+        st.send2 = function (self, selector, args, klass) {
+            if (self == null) {
+                self = nilAsReceiver;
+            }
+            var method = klass ? klass.fn.prototype[st.st2js(selector)] : self.a$cls && self[st.st2js(selector)];
+            return method != null ?
+                method.apply(self, args || []) :
+                globals.Message._selector_arguments_notUnderstoodBy_(
+                    selector, [].slice.call(args), self.a$cls ? self : wrapJavaScript(self)
+                );
+        };
+
+        function wrapJavaScript (o) {
+            return globals.JSObjectProxy._on_(o);
+        }
+
+        st.wrapJavaScript = wrapJavaScript;
+
+        /* If the object property is a function, then call it, except if it starts with
+         an uppercase character (we probably want to answer the function itself in this
+         case and send it #new from Amber).
+         */
+        st.accessJavaScript = function (self, propertyName, args) {
+            var propertyValue = self[propertyName];
+            if (typeof propertyValue === "function" && !(args.length === 0 && /^[A-Z]/.test(propertyName)))
+                return propertyValue.apply(self, args);
+            switch (args.length) {
+                case 0:
+                    return propertyValue;
+                case 1:
+                    self[propertyName] = args[0];
+                    return self;
+                default:
+                    throw new Error("Cannot interpret " + propertyName + " with " + args.length + " arguments; field is a " + typeof propertyValue + ", not a function")
+            }
+        };
+    }
+
+    function SelectorConversionBrik (brikz, st) {
+        var st2jsMemo = Object.create(null);
+
+        /* Convert a Smalltalk selector into a JS selector */
+        function st2js (string) {
+            return '_' + string
+                .replace(/:/g, '_')
+                .replace(/[\&]/g, '_and')
+                .replace(/[\|]/g, '_or')
+                .replace(/[+]/g, '_plus')
+                .replace(/-/g, '_minus')
+                .replace(/[*]/g, '_star')
+                .replace(/[\/]/g, '_slash')
+                .replace(/[\\]/g, '_backslash')
+                .replace(/[\~]/g, '_tild')
+                .replace(/%/g, '_percent')
+                .replace(/>/g, '_gt')
+                .replace(/</g, '_lt')
+                .replace(/=/g, '_eq')
+                .replace(/,/g, '_comma')
+                .replace(/[@]/g, '_at');
+        };
+
+        st.st2js = function (stSelector) {
+            return st2jsMemo[stSelector] || st2js(stSelector);
+        };
+
+        this.st2js = function (stSelector) {
+            return st2jsMemo[stSelector] || (st2jsMemo[stSelector] = st2js(stSelector));
+        };
+
+        /* Convert a string to a valid smalltalk selector.
+         if you modify the following functions, also change st2js
+         accordingly */
+        st.js2st = function (selector) {
+            if (selector.match(/^__/)) {
+                return binaryJsToSt(selector);
+            } else {
+                return keywordJsToSt(selector);
+            }
+        };
+
+        function keywordJsToSt (selector) {
+            return selector.replace(/^_/, '').replace(/_/g, ':');
+        }
+
+        function binaryJsToSt (selector) {
+            return selector
+                .replace(/^_/, '')
+                .replace(/_and/g, '&')
+                .replace(/_or/g, '|')
+                .replace(/_plus/g, '+')
+                .replace(/_minus/g, '-')
+                .replace(/_star/g, '*')
+                .replace(/_slash/g, '/')
+                .replace(/_backslash/g, '\\')
+                .replace(/_tild/g, '~')
+                .replace(/_percent/g, '%')
+                .replace(/_gt/g, '>')
+                .replace(/_lt/g, '<')
+                .replace(/_eq/g, '=')
+                .replace(/_comma/g, ',')
+                .replace(/_at/g, '@');
+        }
+
+        st.st2prop = function (stSelector) {
+            var colonPosition = stSelector.indexOf(':');
+            return colonPosition === -1 ? stSelector : stSelector.slice(0, colonPosition);
+        };
+    }
+
+    StartImageBrik.deps = ["smalltalkGlobals"];
+    function StartImageBrik (brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
+
+        this.run = function () {
+            return globals.AmberBootstrapInitialization._run();
+        };
+    }
+
+    /* Making smalltalk that can run */
+
+    function configureWithRuntime (brikz) {
+        brikz.runtimeSelectors = RuntimeSelectorsBrik;
+        brikz.runtimeClasses = RuntimeClassesBrik;
+        brikz.frameBinding = FrameBindingBrik;
+        brikz.runtimeMethods = RuntimeMethodsBrik;
+        brikz.messageSend = MessageSendBrik;
+        brikz.runtime = RuntimeBrik;
+        brikz.primitives = PrimitivesBrik;
+        brikz.selectorConversion = SelectorConversionBrik;
+        brikz.startImage = StartImageBrik;
+
+        brikz.rebuild();
+    }
+
+    return configureWithRuntime;
 });
 
 /* ====================================================================
@@ -2714,17 +2717,6 @@ define('amber/boot',[
                 if (initialized) return;
                 brikz.classes.bootstrapHierarchy();
                 configureWithRuntime(brikz);
-                // TODO deprecation helper; remove
-                Object.defineProperty(st, "packages", {
-                    get: function () {
-                        console.warn("Use of .packages deprecated, use .packageDescriptors");
-                        return st.packageDescriptors;
-                    },
-                    set: function (v) {
-                        console.trace();
-                        throw new Error("No one should be setting st.packages directly on initialized Amber.");
-                    }
-                });
                 return Promise.resolve(brikz.startImage.run())
                     .then(function () {
                         initialized = true;
@@ -2737,7 +2729,7 @@ define('amber/boot',[
     function AMDBrik (brikz, st) {
         st.amdRequire = require;
         st.defaultTransportType = st.defaultTransportType || "amd";
-        st.defaultAmdNamespace = st.defaultAmdNamespace || "amber_core";
+        st.defaultAmdNamespace = st.defaultAmdNamespace || "amber/core";
     }
 
     /* Defines asReceiver to be present at load time */
@@ -2866,17 +2858,20 @@ define('amber/helpers',["amber/boot", "require"], function (boot, require) {
         });
     };
 
+    exports.beClean = function () {
+        return globals.Smalltalk._beClean();
+    };
+
     // Exports
 
     return exports;
 });
 
-define('amber_core/Kernel-Helpers',["amber/boot"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Kernel-Helpers',["amber/boot", "require"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Helpers");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addTrait("TSubclassable", "Kernel-Helpers");
 $core.addMethod(
@@ -2886,13 +2881,13 @@ protocol: "class creation",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $self._subclass_instanceVariableNames_package_(aString,"",nil);
+return $self._subclass_slots_package_(aString,[],nil);
 }, function($ctx1) {$ctx1.fill(self,"subclass:",{aString:aString},$globals.TSubclassable)});
 },
 args: ["aString"],
-source: "subclass: aString \x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString instanceVariableNames: '' package: nil",
+source: "subclass: aString \x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString slots: #() package: nil",
 referencedClasses: [],
-messageSends: ["subclass:instanceVariableNames:package:"]
+messageSends: ["subclass:slots:package:"]
 }),
 $globals.TSubclassable);
 
@@ -2954,13 +2949,81 @@ protocol: "class creation",
 fn: function (aString,aString2,aString3){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($recv($globals.ClassBuilder)._new())._superclass_subclass_instanceVariableNames_package_(self,$recv(aString)._asString(),aString2,aString3);
+return $self._subclass_slots_package_(aString,$recv(aString2)._instanceVariablesStringAsSlotList(),aString3);
 }, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:package:",{aString:aString,aString2:aString2,aString3:aString3},$globals.TSubclassable)});
 },
 args: ["aString", "aString2", "aString3"],
-source: "subclass: aString instanceVariableNames: aString2 package: aString3\x0a\x09^ ClassBuilder new\x0a\x09\x09superclass: self subclass: aString asString instanceVariableNames: aString2 package: aString3",
+source: "subclass: aString instanceVariableNames: aString2 package: aString3\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString slots: aString2 instanceVariablesStringAsSlotList package: aString3",
+referencedClasses: [],
+messageSends: ["subclass:slots:package:", "instanceVariablesStringAsSlotList"]
+}),
+$globals.TSubclassable);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:slots:",
+protocol: "class creation",
+fn: function (aString,aCollection){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $self._subclass_slots_package_(aString,aCollection,nil);
+}, function($ctx1) {$ctx1.fill(self,"subclass:slots:",{aString:aString,aCollection:aCollection},$globals.TSubclassable)});
+},
+args: ["aString", "aCollection"],
+source: "subclass: aString slots: aCollection\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString slots: aCollection package: nil",
+referencedClasses: [],
+messageSends: ["subclass:slots:package:"]
+}),
+$globals.TSubclassable);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:slots:classVariables:package:",
+protocol: "class creation",
+fn: function (aString,aCollection,anObject,anotherString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($recv($globals.ClassBuilder)._new())._superclass_subclass_slots_package_(self,aString,aCollection,anotherString);
+}, function($ctx1) {$ctx1.fill(self,"subclass:slots:classVariables:package:",{aString:aString,aCollection:aCollection,anObject:anObject,anotherString:anotherString},$globals.TSubclassable)});
+},
+args: ["aString", "aCollection", "anObject", "anotherString"],
+source: "subclass: aString slots: aCollection classVariables: anObject package: anotherString\x0a\x09\x22Kept for file-in compatibility. ignores class variables.\x22\x0a\x09^ ClassBuilder new\x0a\x09\x09superclass: self subclass: aString slots: aCollection package: anotherString",
 referencedClasses: ["ClassBuilder"],
-messageSends: ["superclass:subclass:instanceVariableNames:package:", "new", "asString"]
+messageSends: ["superclass:subclass:slots:package:", "new"]
+}),
+$globals.TSubclassable);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:slots:classVariables:poolDictionaries:package:",
+protocol: "class creation",
+fn: function (aString,aCollection,anObject,anotherObject,anotherString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($recv($globals.ClassBuilder)._new())._superclass_subclass_slots_package_(self,aString,aCollection,anotherString);
+}, function($ctx1) {$ctx1.fill(self,"subclass:slots:classVariables:poolDictionaries:package:",{aString:aString,aCollection:aCollection,anObject:anObject,anotherObject:anotherObject,anotherString:anotherString},$globals.TSubclassable)});
+},
+args: ["aString", "aCollection", "anObject", "anotherObject", "anotherString"],
+source: "subclass: aString slots: aCollection classVariables: anObject poolDictionaries: anotherObject package: anotherString\x0a\x09\x22Kept for file-in compatibility. ignores class variables and pools.\x22\x0a\x09^ ClassBuilder new\x0a\x09\x09superclass: self subclass: aString slots: aCollection package: anotherString",
+referencedClasses: ["ClassBuilder"],
+messageSends: ["superclass:subclass:slots:package:", "new"]
+}),
+$globals.TSubclassable);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:slots:package:",
+protocol: "class creation",
+fn: function (aString,aCollection,anotherString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($recv($globals.ClassBuilder)._new())._superclass_subclass_slots_package_(self,aString,aCollection,anotherString);
+}, function($ctx1) {$ctx1.fill(self,"subclass:slots:package:",{aString:aString,aCollection:aCollection,anotherString:anotherString},$globals.TSubclassable)});
+},
+args: ["aString", "aCollection", "anotherString"],
+source: "subclass: aString slots: aCollection package: anotherString\x0a\x09^ ClassBuilder new\x0a\x09\x09superclass: self subclass: aString slots: aCollection package: anotherString",
+referencedClasses: ["ClassBuilder"],
+messageSends: ["superclass:subclass:slots:package:", "new"]
 }),
 $globals.TSubclassable);
 
@@ -2971,13 +3034,13 @@ protocol: "class creation",
 fn: function (aString,aTraitCompositionDescription){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,"",nil);
+return $self._subclass_uses_slots_package_(aString,aTraitCompositionDescription,[],nil);
 }, function($ctx1) {$ctx1.fill(self,"subclass:uses:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription},$globals.TSubclassable)});
 },
 args: ["aString", "aTraitCompositionDescription"],
-source: "subclass: aString uses: aTraitCompositionDescription \x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: '' package: nil",
+source: "subclass: aString uses: aTraitCompositionDescription \x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription slots: #() package: nil",
 referencedClasses: [],
-messageSends: ["subclass:uses:instanceVariableNames:package:"]
+messageSends: ["subclass:uses:slots:package:"]
 }),
 $globals.TSubclassable);
 
@@ -3038,28 +3101,61 @@ selector: "subclass:uses:instanceVariableNames:package:",
 protocol: "class creation",
 fn: function (aString,aTraitCompositionDescription,aString2,aString3){
 var self=this,$self=this;
-var cls;
 return $core.withContext(function($ctx1) {
-cls=$self._subclass_instanceVariableNames_package_(aString,aString2,aString3);
-$recv(cls)._setTraitComposition_($recv(aTraitCompositionDescription)._asTraitComposition());
-return cls;
-}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:package:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aString2:aString2,aString3:aString3,cls:cls},$globals.TSubclassable)});
+return $self._subclass_uses_slots_package_(aString,aTraitCompositionDescription,$recv(aString2)._instanceVariablesStringAsSlotList(),aString3);
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:package:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aString2:aString2,aString3:aString3},$globals.TSubclassable)});
 },
 args: ["aString", "aTraitCompositionDescription", "aString2", "aString3"],
-source: "subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3\x0a\x09| cls |\x0a\x09cls := self subclass: aString instanceVariableNames: aString2 package: aString3.\x0a\x09cls setTraitComposition: aTraitCompositionDescription asTraitComposition.\x0a\x09^ cls",
+source: "subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription slots: aString2 instanceVariablesStringAsSlotList package: aString3",
 referencedClasses: [],
-messageSends: ["subclass:instanceVariableNames:package:", "setTraitComposition:", "asTraitComposition"]
+messageSends: ["subclass:uses:slots:package:", "instanceVariablesStringAsSlotList"]
+}),
+$globals.TSubclassable);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:uses:slots:",
+protocol: "class creation",
+fn: function (aString,aTraitCompositionDescription,aCollection){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $self._subclass_uses_slots_package_(aString,aTraitCompositionDescription,aCollection,nil);
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:slots:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aCollection:aCollection},$globals.TSubclassable)});
+},
+args: ["aString", "aTraitCompositionDescription", "aCollection"],
+source: "subclass: aString uses: aTraitCompositionDescription slots: aCollection\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription slots: aCollection package: nil",
+referencedClasses: [],
+messageSends: ["subclass:uses:slots:package:"]
+}),
+$globals.TSubclassable);
+
+$core.addMethod(
+$core.method({
+selector: "subclass:uses:slots:package:",
+protocol: "class creation",
+fn: function (aString,aTraitCompositionDescription,aCollection,aString3){
+var self=this,$self=this;
+var cls;
+return $core.withContext(function($ctx1) {
+cls=$self._subclass_slots_package_(aString,aCollection,aString3);
+$recv(cls)._setTraitComposition_($recv(aTraitCompositionDescription)._asTraitComposition());
+return cls;
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:slots:package:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aCollection:aCollection,aString3:aString3,cls:cls},$globals.TSubclassable)});
+},
+args: ["aString", "aTraitCompositionDescription", "aCollection", "aString3"],
+source: "subclass: aString uses: aTraitCompositionDescription slots: aCollection package: aString3\x0a\x09| cls |\x0a\x09cls := self subclass: aString slots: aCollection package: aString3.\x0a\x09cls setTraitComposition: aTraitCompositionDescription asTraitComposition.\x0a\x09^ cls",
+referencedClasses: [],
+messageSends: ["subclass:slots:package:", "setTraitComposition:", "asTraitComposition"]
 }),
 $globals.TSubclassable);
 
 });
 
-define('amber_core/Kernel-Objects',["amber/boot", "amber_core/Kernel-Helpers"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Kernel-Objects',["amber/boot", "require", "amber/core/Kernel-Helpers"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Objects");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("ProtoObject", null, [], "Kernel-Objects");
 $globals.ProtoObject.comment="I implement the basic behavior required for any object in Amber.\x0a\x0aIn most cases, subclassing `ProtoObject` is wrong and `Object` should be used instead. However subclassing `ProtoObject` can be useful in some special cases like proxy implementations.";
@@ -3321,12 +3417,12 @@ protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $self['@'+aString];
+return $self[aString];
 return self;
 }, function($ctx1) {$ctx1.fill(self,"instVarAt:",{aString:aString},$globals.ProtoObject)});
 },
 args: ["aString"],
-source: "instVarAt: aString\x0a\x09<inlineJS: 'return $self[''@''+aString]'>",
+source: "instVarAt: aString\x0a\x09<inlineJS: 'return $self[aString]'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3339,12 +3435,12 @@ protocol: "accessing",
 fn: function (aString,anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self['@' + aString] = anObject;
+$self[aString] = anObject;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"instVarAt:put:",{aString:aString,anObject:anObject},$globals.ProtoObject)});
 },
 args: ["aString", "anObject"],
-source: "instVarAt: aString put: anObject\x0a\x09<inlineJS: '$self[''@'' + aString] = anObject'>",
+source: "instVarAt: aString put: anObject\x0a\x09<inlineJS: '$self[aString] = anObject'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -3776,9 +3872,7 @@ return $core.withContext(function($ctx1) {
 
 		var copy = self.a$cls._new();
 		Object.keys(self).forEach(function (i) {
-		if(/^@.+/.test(i)) {
 			copy[i] = $recv(self[i])._deepCopy();
-		}
 		});
 		return copy;
 	;
@@ -3786,7 +3880,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"deepCopy",{},$globals.Object)});
 },
 args: [],
-source: "deepCopy\x0a\x09<inlineJS: '\x0a\x09\x09var copy = self.a$cls._new();\x0a\x09\x09Object.keys(self).forEach(function (i) {\x0a\x09\x09if(/^@.+/.test(i)) {\x0a\x09\x09\x09copy[i] = $recv(self[i])._deepCopy();\x0a\x09\x09}\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09'>",
+source: "deepCopy\x0a\x09<inlineJS: '\x0a\x09\x09var copy = self.a$cls._new();\x0a\x09\x09Object.keys(self).forEach(function (i) {\x0a\x09\x09\x09copy[i] = $recv(self[i])._deepCopy();\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -4165,9 +4259,7 @@ return $core.withContext(function($ctx1) {
 
 		var copy = self.a$cls._new();
 		Object.keys(self).forEach(function(i) {
-		if(/^@.+/.test(i)) {
 			copy[i] = self[i];
-		}
 		});
 		return copy;
 	;
@@ -4175,7 +4267,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"shallowCopy",{},$globals.Object)});
 },
 args: [],
-source: "shallowCopy\x0a\x09<inlineJS: '\x0a\x09\x09var copy = self.a$cls._new();\x0a\x09\x09Object.keys(self).forEach(function(i) {\x0a\x09\x09if(/^@.+/.test(i)) {\x0a\x09\x09\x09copy[i] = self[i];\x0a\x09\x09}\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09'>",
+source: "shallowCopy\x0a\x09<inlineJS: '\x0a\x09\x09var copy = self.a$cls._new();\x0a\x09\x09Object.keys(self).forEach(function(i) {\x0a\x09\x09\x09copy[i] = self[i];\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -7200,9 +7292,9 @@ var self=this,$self=this;
 var dx,dy;
 return $core.withContext(function($ctx1) {
 var $2,$1;
-dx=$recv($recv(aPoint)._x()).__minus($self["@x"]);
+dx=$recv($recv(aPoint)._x()).__minus($self.x);
 $ctx1.sendIdx["-"]=1;
-dy=$recv($recv(aPoint)._y()).__minus($self["@y"]);
+dy=$recv($recv(aPoint)._y()).__minus($self.y);
 $2=$recv(dx).__star(dx);
 $ctx1.sendIdx["*"]=1;
 $1=$recv($2).__plus($recv(dy).__star(dy));
@@ -7224,9 +7316,9 @@ fn: function (aPoint){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$1=$recv($self["@x"]).__star($recv(aPoint)._x());
+$1=$recv($self.x).__star($recv(aPoint)._x());
 $ctx1.sendIdx["*"]=1;
-return $recv($1).__plus($recv($self["@y"]).__star($recv(aPoint)._y()));
+return $recv($1).__plus($recv($self.y).__star($recv(aPoint)._y()));
 }, function($ctx1) {$ctx1.fill(self,"dotProduct:",{aPoint:aPoint},$globals.Point)});
 },
 args: ["aPoint"],
@@ -7262,7 +7354,7 @@ var self=this,$self=this;
 var n,d;
 return $core.withContext(function($ctx1) {
 var $4,$3,$6,$5,$2,$1;
-n=$recv($recv($self["@y"])._negated()).__at($self["@x"]);
+n=$recv($recv($self.y)._negated()).__at($self.x);
 $ctx1.sendIdx["@"]=1;
 $4=$recv(n)._x();
 $ctx1.sendIdx["x"]=1;
@@ -7303,9 +7395,9 @@ $2=$recv($globals.Point)._x_y_((0),(0));
 $ctx1.sendIdx["x:y:"]=1;
 return $2;
 } else {
-$3=$recv($self["@x"]).__slash(r);
+$3=$recv($self.x).__slash(r);
 $ctx1.sendIdx["/"]=1;
-return $recv($globals.Point)._x_y_($3,$recv($self["@y"]).__slash(r));
+return $recv($globals.Point)._x_y_($3,$recv($self.y).__slash(r));
 }
 return self;
 }, function($ctx1) {$ctx1.fill(self,"normalized",{r:r},$globals.Point)});
@@ -7325,18 +7417,18 @@ fn: function (aStream){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$recv($self["@x"])._printOn_(aStream);
+$recv($self.x)._printOn_(aStream);
 $ctx1.sendIdx["printOn:"]=1;
 $recv(aStream)._nextPutAll_("@");
-$1=$recv($recv($self["@y"])._notNil())._and_((function(){
+$1=$recv($recv($self.y)._notNil())._and_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@y"])._negative();
+return $recv($self.y)._negative();
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
 if($core.assert($1)){
 $recv(aStream)._space();
 }
-$recv($self["@y"])._printOn_(aStream);
+$recv($self.y)._printOn_(aStream);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.Point)});
 },
@@ -7355,9 +7447,9 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $2,$1;
-$2=$recv($self["@x"]).__star($self["@x"]);
+$2=$recv($self.x).__star($self.x);
 $ctx1.sendIdx["*"]=1;
-$1=$recv($2).__plus($recv($self["@y"]).__star($self["@y"]));
+$1=$recv($2).__plus($recv($self.y).__star($self.y));
 return $recv($1)._sqrt();
 }, function($ctx1) {$ctx1.fill(self,"r",{},$globals.Point)});
 },
@@ -7393,9 +7485,9 @@ fn: function (delta){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$1=$recv($recv(delta)._x()).__plus($self["@x"]);
+$1=$recv($recv(delta)._x()).__plus($self.x);
 $ctx1.sendIdx["+"]=1;
-return $recv($1).__at($recv($recv(delta)._y()).__plus($self["@y"]));
+return $recv($1).__at($recv($recv(delta)._y()).__plus($self.y));
 }, function($ctx1) {$ctx1.fill(self,"translateBy:",{delta:delta},$globals.Point)});
 },
 args: ["delta"],
@@ -7411,7 +7503,7 @@ selector: "x",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@x"];
+return $self.x;
 
 },
 args: [],
@@ -7427,7 +7519,7 @@ selector: "x:",
 protocol: "accessing",
 fn: function (aNumber){
 var self=this,$self=this;
-$self["@x"]=aNumber;
+$self.x=aNumber;
 return self;
 
 },
@@ -7444,7 +7536,7 @@ selector: "y",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@y"];
+return $self.y;
 
 },
 args: [],
@@ -7460,7 +7552,7 @@ selector: "y:",
 protocol: "accessing",
 fn: function (aNumber){
 var self=this,$self=this;
-$self["@y"]=aNumber;
+$self.y=aNumber;
 return self;
 
 },
@@ -7563,11 +7655,11 @@ fn: function (aRectangle){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$1=$recv($self["@origin"]).__eq($recv(aRectangle)._origin());
+$1=$recv($self.origin).__eq($recv(aRectangle)._origin());
 $ctx1.sendIdx["="]=1;
 return $recv($1)._and_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@corner"]).__eq($recv(aRectangle)._corner());
+return $recv($self.corner).__eq($recv(aRectangle)._corner());
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"=",{aRectangle:aRectangle},$globals.Rectangle)});
@@ -7586,9 +7678,9 @@ protocol: "testing",
 fn: function (aPoint){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($recv($self["@origin"]).__lt_eq(aPoint))._and_((function(){
+return $recv($recv($self.origin).__lt_eq(aPoint))._and_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@corner"]).__gt_eq(aPoint);
+return $recv($self.corner).__gt_eq(aPoint);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"containsPoint:",{aPoint:aPoint},$globals.Rectangle)});
@@ -7607,9 +7699,9 @@ protocol: "testing",
 fn: function (aRect){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($recv($recv(aRect)._origin()).__gt_eq($self["@origin"]))._and_((function(){
+return $recv($recv($recv(aRect)._origin()).__gt_eq($self.origin))._and_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($recv(aRect)._corner()).__lt_eq($self["@corner"]);
+return $recv($recv(aRect)._corner()).__lt_eq($self.corner);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"containsRect:",{aRect:aRect},$globals.Rectangle)});
@@ -7627,7 +7719,7 @@ selector: "corner",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@corner"];
+return $self.corner;
 
 },
 args: [],
@@ -7643,7 +7735,7 @@ selector: "origin",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@origin"];
+return $self.origin;
 
 },
 args: [],
@@ -7660,10 +7752,10 @@ protocol: "testing",
 fn: function (aStream){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@origin"])._printOn_(aStream);
+$recv($self.origin)._printOn_(aStream);
 $ctx1.sendIdx["printOn:"]=1;
 $recv(aStream)._nextPutAll_(" corner: ");
-$recv($self["@corner"])._printOn_(aStream);
+$recv($self.corner)._printOn_(aStream);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.Rectangle)});
 },
@@ -7693,7 +7785,7 @@ $ctx1.sendIdx["y"]=1;
 $6=$recv(pt2)._y();
 $ctx1.sendIdx["y"]=2;
 $4=$recv($5)._min_($6);
-$self["@origin"]=$recv($1).__at($4);
+$self.origin=$recv($1).__at($4);
 $ctx1.sendIdx["@"]=1;
 $8=$recv(pt1)._x();
 $ctx1.sendIdx["x"]=3;
@@ -7702,7 +7794,7 @@ $ctx1.sendIdx["max:"]=1;
 $10=$recv(pt1)._y();
 $ctx1.sendIdx["y"]=3;
 $9=$recv($10)._max_($recv(pt2)._y());
-$self["@corner"]=$recv($7).__at($9);
+$self.corner=$recv($7).__at($9);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"setPoint:point:",{pt1:pt1,pt2:pt2},$globals.Rectangle)});
 },
@@ -8025,12 +8117,11 @@ $core.setTraitComposition([{trait: $globals.TSubclassable}], $globals.UndefinedO
 
 });
 
-define('amber_core/Kernel-Collections',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Kernel-Collections',["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Collections");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("Association", $globals.Object, ["key", "value"], "Kernel-Collections");
 $globals.Association.comment="I represent a pair of associated objects, a key and a value. My instances can serve as entries in a dictionary.\x0a\x0aInstances can be created with the class-side method `#key:value:`";
@@ -8078,7 +8169,7 @@ selector: "key",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@key"];
+return $self.key;
 
 },
 args: [],
@@ -8094,7 +8185,7 @@ selector: "key:",
 protocol: "accessing",
 fn: function (aKey){
 var self=this,$self=this;
-$self["@key"]=aKey;
+$self.key=aKey;
 return self;
 
 },
@@ -8132,7 +8223,7 @@ selector: "value",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@value"];
+return $self.value;
 
 },
 args: [],
@@ -8148,7 +8239,7 @@ selector: "value:",
 protocol: "accessing",
 fn: function (aValue){
 var self=this,$self=this;
-$self["@value"]=aValue;
+$self.value=aValue;
 return self;
 
 },
@@ -8192,9 +8283,9 @@ fn: function (anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var hash = $self['@hashBlock'](anObject);
+		var hash = $self.hashBlock(anObject);
 		if (!hash) return null;
-		var buckets = $self['@buckets'],
+		var buckets = $self.buckets,
 			bucket = buckets[hash];
 		if (!bucket) { bucket = buckets[hash] = $self._newBucket(); }
 		return bucket;
@@ -8203,7 +8294,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"bucketOfElement:",{anObject:anObject},$globals.BucketStore)});
 },
 args: ["anObject"],
-source: "bucketOfElement: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var hash = $self[''@hashBlock''](anObject);\x0a\x09\x09if (!hash) return null;\x0a\x09\x09var buckets = $self[''@buckets''],\x0a\x09\x09\x09bucket = buckets[hash];\x0a\x09\x09if (!bucket) { bucket = buckets[hash] = $self._newBucket(); }\x0a\x09\x09return bucket;\x0a\x09'>",
+source: "bucketOfElement: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var hash = $self.hashBlock(anObject);\x0a\x09\x09if (!hash) return null;\x0a\x09\x09var buckets = $self.buckets,\x0a\x09\x09\x09bucket = buckets[hash];\x0a\x09\x09if (!bucket) { bucket = buckets[hash] = $self._newBucket(); }\x0a\x09\x09return bucket;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -8217,7 +8308,7 @@ fn: function (aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var buckets = $self['@buckets'];
+		var buckets = $self.buckets;
 		var keys = Object.keys(buckets);
 		for (var i = 0; i < keys.length; ++i) { buckets[keys[i]]._do_(aBlock); }
 	;
@@ -8225,7 +8316,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock},$globals.BucketStore)});
 },
 args: ["aBlock"],
-source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var buckets = $self[''@buckets''];\x0a\x09\x09var keys = Object.keys(buckets);\x0a\x09\x09for (var i = 0; i < keys.length; ++i) { buckets[keys[i]]._do_(aBlock); }\x0a\x09'>",
+source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var buckets = $self.buckets;\x0a\x09\x09var keys = Object.keys(buckets);\x0a\x09\x09for (var i = 0; i < keys.length; ++i) { buckets[keys[i]]._do_(aBlock); }\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -8237,7 +8328,7 @@ selector: "hashBlock:",
 protocol: "accessing",
 fn: function (aBlock){
 var self=this,$self=this;
-$self["@hashBlock"]=aBlock;
+$self.hashBlock=aBlock;
 return self;
 
 },
@@ -8295,12 +8386,12 @@ protocol: "adding/removing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self['@buckets'] = Object.create(null);;
+$self.buckets = Object.create(null);;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"removeAll",{},$globals.BucketStore)});
 },
 args: [],
-source: "removeAll\x0a\x09<inlineJS: '$self[''@buckets''] = Object.create(null);'>",
+source: "removeAll\x0a\x09<inlineJS: '$self.buckets = Object.create(null);'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10212,13 +10303,13 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
 		var index = $self._positionOfKey_(aKey);
-		return index >=0 ? $self['@values'][index] : aBlock._value();
+		return index >=0 ? $self.values[index] : aBlock._value();
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{aKey:aKey,aBlock:aBlock},$globals.Dictionary)});
 },
 args: ["aKey", "aBlock"],
-source: "at: aKey ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09return index >=0 ? $self[''@values''][index] : aBlock._value();\x0a\x09'>",
+source: "at: aKey ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09return index >=0 ? $self.values[index] : aBlock._value();\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10234,18 +10325,18 @@ return $core.withContext(function($ctx1) {
 
 		var index = $self._positionOfKey_(aKey);
 		if(index === -1) {
-			var keys = $self['@keys'];
+			var keys = $self.keys;
 			index = keys.length;
 			keys.push(aKey);
 		}
 
-		return $self['@values'][index] = aValue;
+		return $self.values[index] = aValue;
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"at:put:",{aKey:aKey,aValue:aValue},$globals.Dictionary)});
 },
 args: ["aKey", "aValue"],
-source: "at: aKey put: aValue\x0a\x09<inlineJS: '\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09var keys = $self[''@keys''];\x0a\x09\x09\x09index = keys.length;\x0a\x09\x09\x09keys.push(aKey);\x0a\x09\x09}\x0a\x0a\x09\x09return $self[''@values''][index] = aValue;\x0a\x09'>",
+source: "at: aKey put: aValue\x0a\x09<inlineJS: '\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09var keys = $self.keys;\x0a\x09\x09\x09index = keys.length;\x0a\x09\x09\x09keys.push(aKey);\x0a\x09\x09}\x0a\x0a\x09\x09return $self.values[index] = aValue;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10278,7 +10369,7 @@ var self=this,$self=this;
 var index;
 return $core.withContext(function($ctx1) {
 var $1;
-index=$recv($self["@values"])._indexOf_ifAbsent_(anObject,(function(){
+index=$recv($self.values)._indexOf_ifAbsent_(anObject,(function(){
 return (0);
 
 }));
@@ -10286,7 +10377,7 @@ $1=$recv(index).__eq((0));
 if($core.assert($1)){
 return $recv(aBlock)._value();
 } else {
-return $recv($self["@keys"])._at_(index);
+return $recv($self.keys)._at_(index);
 }
 }, function($ctx1) {$ctx1.fill(self,"indexOf:ifAbsent:",{anObject:anObject,aBlock:aBlock,index:index},$globals.Dictionary)});
 },
@@ -10308,8 +10399,8 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.Dictionary.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@keys"]=[];
-$self["@values"]=[];
+$self.keys=[];
+$self.values=[];
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Dictionary)});
 },
@@ -10327,7 +10418,7 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self["@keys"])._copy();
+return $recv($self.keys)._copy();
 }, function($ctx1) {$ctx1.fill(self,"keys",{},$globals.Dictionary)});
 },
 args: [],
@@ -10344,7 +10435,7 @@ protocol: "enumerating",
 fn: function (aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self["@keys"])._with_do_($self["@values"],aBlock);
+return $recv($self.keys)._with_do_($self.values,aBlock);
 }, function($ctx1) {$ctx1.fill(self,"keysAndValuesDo:",{aBlock:aBlock},$globals.Dictionary)});
 },
 args: ["aBlock"],
@@ -10361,7 +10452,7 @@ protocol: "enumerating",
 fn: function (aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self["@keys"])._do_(aBlock);
+return $recv($self.keys)._do_(aBlock);
 }, function($ctx1) {$ctx1.fill(self,"keysDo:",{aBlock:aBlock},$globals.Dictionary)});
 },
 args: ["aBlock"],
@@ -10379,7 +10470,7 @@ fn: function (anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var keys = $self['@keys'];
+		var keys = $self.keys;
 		for(var i=0;i<keys.length;i++){
 			if(keys[i].__eq(anObject)) { return i;}
 		}
@@ -10389,7 +10480,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"positionOfKey:",{anObject:anObject},$globals.Dictionary)});
 },
 args: ["anObject"],
-source: "positionOfKey: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var keys = $self[''@keys''];\x0a\x09\x09for(var i=0;i<keys.length;i++){\x0a\x09\x09\x09if(keys[i].__eq(anObject)) { return i;}\x0a\x09\x09}\x0a\x09\x09return -1;\x0a\x09'>",
+source: "positionOfKey: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var keys = $self.keys;\x0a\x09\x09for(var i=0;i<keys.length;i++){\x0a\x09\x09\x09if(keys[i].__eq(anObject)) { return i;}\x0a\x09\x09}\x0a\x09\x09return -1;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10402,9 +10493,9 @@ protocol: "adding/removing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@keys"])._removeAll();
+$recv($self.keys)._removeAll();
 $ctx1.sendIdx["removeAll"]=1;
-$recv($self["@values"])._removeAll();
+$recv($self.values)._removeAll();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"removeAll",{},$globals.Dictionary)});
 },
@@ -10427,7 +10518,7 @@ return $core.withContext(function($ctx1) {
 		if(index === -1) {
 			return aBlock._value()
 		} else {
-			var keys = $self['@keys'], values = $self['@values'];
+			var keys = $self.keys, values = $self.values;
 			var value = values[index], l = keys.length;
 			keys[index] = keys[l-1];
 			keys.pop();
@@ -10440,7 +10531,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"removeKey:ifAbsent:",{aKey:aKey,aBlock:aBlock},$globals.Dictionary)});
 },
 args: ["aKey", "aBlock"],
-source: "removeKey: aKey ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09return aBlock._value()\x0a\x09\x09} else {\x0a\x09\x09\x09var keys = $self[''@keys''], values = $self[''@values''];\x0a\x09\x09\x09var value = values[index], l = keys.length;\x0a\x09\x09\x09keys[index] = keys[l-1];\x0a\x09\x09\x09keys.pop();\x0a\x09\x09\x09values[index] = values[l-1];\x0a\x09\x09\x09values.pop();\x0a\x09\x09\x09return value;\x0a\x09\x09}\x0a\x09'>",
+source: "removeKey: aKey ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09return aBlock._value()\x0a\x09\x09} else {\x0a\x09\x09\x09var keys = $self.keys, values = $self.values;\x0a\x09\x09\x09var value = values[index], l = keys.length;\x0a\x09\x09\x09keys[index] = keys[l-1];\x0a\x09\x09\x09keys.pop();\x0a\x09\x09\x09values[index] = values[l-1];\x0a\x09\x09\x09values.pop();\x0a\x09\x09\x09return value;\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -10452,7 +10543,7 @@ selector: "values",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@values"];
+return $self.values;
 
 },
 args: [],
@@ -10469,7 +10560,7 @@ protocol: "enumerating",
 fn: function (aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self["@values"])._do_(aBlock);
+return $recv($self.values)._do_(aBlock);
 }, function($ctx1) {$ctx1.fill(self,"valuesDo:",{aBlock:aBlock},$globals.Dictionary)});
 },
 args: ["aBlock"],
@@ -13388,8 +13479,8 @@ slowBucket=$recv(bucket)._third();
 $recv(slowBucket)._indexOf_ifAbsent_(object,(function(){
 return $core.withContext(function($ctx2) {
 $recv(slowBucket)._add_(object);
-$self["@size"]=$recv($self["@size"]).__plus((1));
-return $self["@size"];
+$self.size=$recv($self.size).__plus((1));
+return $self.size;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }));
 return object;
@@ -13416,7 +13507,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
 		if (anObject in anotherObject.store) { return anObject; }
-		$self['@size']++;
+		$self.size++;
 		anotherObject.store[anObject] = true;
 		return anObject;
 	;
@@ -13424,7 +13515,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"add:in:",{anObject:anObject,anotherObject:anotherObject},$globals.Set)});
 },
 args: ["anObject", "anotherObject"],
-source: "add: anObject in: anotherObject\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) { return anObject; }\x0a\x09\x09$self[''@size'']++;\x0a\x09\x09anotherObject.store[anObject] = true;\x0a\x09\x09return anObject;\x0a\x09'>",
+source: "add: anObject in: anotherObject\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) { return anObject; }\x0a\x09\x09$self.size++;\x0a\x09\x09anotherObject.store[anObject] = true;\x0a\x09\x09return anObject;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -13439,23 +13530,23 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
 		// include nil to well-known objects under "boolean" fastBucket
-		if (anObject == null || anObject.a$nil) return [ null, $self['@fastBuckets'].boolean ];
+		if (anObject == null || anObject.a$nil) return [ null, $self.fastBuckets.boolean ];
 		
 		var prim = anObject.valueOf();
-		if (typeof prim === "object" || typeof prim === "function" || !$self['@fastBuckets'][typeof prim]) {
+		if (typeof prim === "object" || typeof prim === "function" || !$self.fastBuckets[typeof prim]) {
 			var bucket = null;
-			$self['@slowBucketStores'].some(function (store) {
+			$self.slowBucketStores.some(function (store) {
 				return bucket = store._bucketOfElement_(anObject);
 			});
-			return [ anObject, null, bucket || $self['@defaultBucket'] ];
+			return [ anObject, null, bucket || $self.defaultBucket ];
 		}
-		return [ prim, $self['@fastBuckets'][typeof prim] ];
+		return [ prim, $self.fastBuckets[typeof prim] ];
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"bucketsOfElement:",{anObject:anObject},$globals.Set)});
 },
 args: ["anObject"],
-source: "bucketsOfElement: anObject\x0a\x09\x22Find the appropriate bucket for `anObject`.\x0a\x09For optimization purposes, directly answer an array with: \x0a\x09- the object to be store\x0a\x09- the primitive bucket\x0a\x09- the slow bucket\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09// include nil to well-known objects under \x22boolean\x22 fastBucket\x0a\x09\x09if (anObject == null || anObject.a$nil) return [ null, $self[''@fastBuckets''].boolean ];\x0a\x09\x09\x0a\x09\x09var prim = anObject.valueOf();\x0a\x09\x09if (typeof prim === \x22object\x22 || typeof prim === \x22function\x22 || !$self[''@fastBuckets''][typeof prim]) {\x0a\x09\x09\x09var bucket = null;\x0a\x09\x09\x09$self[''@slowBucketStores''].some(function (store) {\x0a\x09\x09\x09\x09return bucket = store._bucketOfElement_(anObject);\x0a\x09\x09\x09});\x0a\x09\x09\x09return [ anObject, null, bucket || $self[''@defaultBucket''] ];\x0a\x09\x09}\x0a\x09\x09return [ prim, $self[''@fastBuckets''][typeof prim] ];\x0a\x09'>",
+source: "bucketsOfElement: anObject\x0a\x09\x22Find the appropriate bucket for `anObject`.\x0a\x09For optimization purposes, directly answer an array with: \x0a\x09- the object to be store\x0a\x09- the primitive bucket\x0a\x09- the slow bucket\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09// include nil to well-known objects under \x22boolean\x22 fastBucket\x0a\x09\x09if (anObject == null || anObject.a$nil) return [ null, $self.fastBuckets.boolean ];\x0a\x09\x09\x0a\x09\x09var prim = anObject.valueOf();\x0a\x09\x09if (typeof prim === \x22object\x22 || typeof prim === \x22function\x22 || !$self.fastBuckets[typeof prim]) {\x0a\x09\x09\x09var bucket = null;\x0a\x09\x09\x09$self.slowBucketStores.some(function (store) {\x0a\x09\x09\x09\x09return bucket = store._bucketOfElement_(anObject);\x0a\x09\x09\x09});\x0a\x09\x09\x09return [ anObject, null, bucket || $self.defaultBucket ];\x0a\x09\x09}\x0a\x09\x09return [ prim, $self.fastBuckets[typeof prim] ];\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -13512,22 +13603,22 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
 		var el, keys, i;
-		el = $self['@fastBuckets'];
+		el = $self.fastBuckets;
 		keys = Object.keys(el);
 		for (i = 0; i < keys.length; ++i) {
 			var fastBucket = el[keys[i]], fn = fastBucket.fn, store = Object.keys(fastBucket.store);
 			if (fn) { for (var j = 0; j < store.length; ++j) { aBlock._value_(fn(store[j])); } }
 			else { store._do_(aBlock); }
 		}
-		el = $self['@slowBucketStores'];
+		el = $self.slowBucketStores;
 		for (i = 0; i < el.length; ++i) { el[i]._do_(aBlock); }
-		$self['@defaultBucket']._do_(aBlock);
+		$self.defaultBucket._do_(aBlock);
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock},$globals.Set)});
 },
 args: ["aBlock"],
-source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var el, keys, i;\x0a\x09\x09el = $self[''@fastBuckets''];\x0a\x09\x09keys = Object.keys(el);\x0a\x09\x09for (i = 0; i < keys.length; ++i) {\x0a\x09\x09\x09var fastBucket = el[keys[i]], fn = fastBucket.fn, store = Object.keys(fastBucket.store);\x0a\x09\x09\x09if (fn) { for (var j = 0; j < store.length; ++j) { aBlock._value_(fn(store[j])); } }\x0a\x09\x09\x09else { store._do_(aBlock); }\x0a\x09\x09}\x0a\x09\x09el = $self[''@slowBucketStores''];\x0a\x09\x09for (i = 0; i < el.length; ++i) { el[i]._do_(aBlock); }\x0a\x09\x09$self[''@defaultBucket'']._do_(aBlock);\x0a\x09'>",
+source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var el, keys, i;\x0a\x09\x09el = $self.fastBuckets;\x0a\x09\x09keys = Object.keys(el);\x0a\x09\x09for (i = 0; i < keys.length; ++i) {\x0a\x09\x09\x09var fastBucket = el[keys[i]], fn = fastBucket.fn, store = Object.keys(fastBucket.store);\x0a\x09\x09\x09if (fn) { for (var j = 0; j < store.length; ++j) { aBlock._value_(fn(store[j])); } }\x0a\x09\x09\x09else { store._do_(aBlock); }\x0a\x09\x09}\x0a\x09\x09el = $self.slowBucketStores;\x0a\x09\x09for (i = 0; i < el.length; ++i) { el[i]._do_(aBlock); }\x0a\x09\x09$self.defaultBucket._do_(aBlock);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -13592,7 +13683,7 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.Set.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@defaultBucket"]=[];
+$self.defaultBucket=[];
 $self._initializeSlowBucketStores();
 $self._removeAll();
 return self;
@@ -13619,7 +13710,7 @@ return $self._classNameOf_(x);
 }, function($ctx2) {$ctx2.fillBlock({x:x},$ctx1,1)});
 }));
 $ctx1.sendIdx["hashBlock:"]=1;
-$self["@slowBucketStores"]=[$1,$recv($globals.ArrayBucketStore)._hashBlock_((function(x){
+$self.slowBucketStores=[$1,$recv($globals.ArrayBucketStore)._hashBlock_((function(x){
 return $core.withContext(function($ctx2) {
 return $self._jsConstructorNameOf_(x);
 }, function($ctx2) {$ctx2.fillBlock({x:x},$ctx1,2)});
@@ -13709,8 +13800,8 @@ return $core.withContext(function($ctx2) {
 throw $early=[$recv(aBlock)._value()];
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }));
-$self["@size"]=$recv($self["@size"]).__minus((1));
-return $self["@size"];
+$self.size=$recv($self.size).__minus((1));
+return $self.size;
 } else {
 var primitiveBucket;
 primitiveBucket=$receiver;
@@ -13737,7 +13828,7 @@ return $core.withContext(function($ctx1) {
 
 		if (anObject in anotherObject.store) {
 			delete anotherObject.store[anObject];
-			$self['@size']--;
+			$self.size--;
 			return anObject;
 		} else {
 			return aBlock._value();
@@ -13746,7 +13837,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"remove:in:ifAbsent:",{anObject:anObject,anotherObject:anotherObject,aBlock:aBlock},$globals.Set)});
 },
 args: ["anObject", "anotherObject", "aBlock"],
-source: "remove: anObject in: anotherObject ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) {\x0a\x09\x09\x09delete anotherObject.store[anObject];\x0a\x09\x09\x09$self[''@size'']--;\x0a\x09\x09\x09return anObject;\x0a\x09\x09} else {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09}'>",
+source: "remove: anObject in: anotherObject ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) {\x0a\x09\x09\x09delete anotherObject.store[anObject];\x0a\x09\x09\x09$self.size--;\x0a\x09\x09\x09return anObject;\x0a\x09\x09} else {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09}'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -13760,20 +13851,20 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		$self['@fastBuckets'] = {
+		$self.fastBuckets = {
 			"boolean": { store: Object.create(null), fn: function (x) { return {"true": true, "false": false, "null": null}[x]; } },
 			"number": { store: Object.create(null), fn: Number },
 			"string": { store: Object.create(null) }
 		};
-		$self['@slowBucketStores'].forEach(function (x) { x._removeAll(); });
-		$self['@defaultBucket']._removeAll();
-		$self['@size'] = 0;
+		$self.slowBucketStores.forEach(function (x) { x._removeAll(); });
+		$self.defaultBucket._removeAll();
+		$self.size = 0;
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"removeAll",{},$globals.Set)});
 },
 args: [],
-source: "removeAll\x0a\x09<inlineJS: '\x0a\x09\x09$self[''@fastBuckets''] = {\x0a\x09\x09\x09\x22boolean\x22: { store: Object.create(null), fn: function (x) { return {\x22true\x22: true, \x22false\x22: false, \x22null\x22: null}[x]; } },\x0a\x09\x09\x09\x22number\x22: { store: Object.create(null), fn: Number },\x0a\x09\x09\x09\x22string\x22: { store: Object.create(null) }\x0a\x09\x09};\x0a\x09\x09$self[''@slowBucketStores''].forEach(function (x) { x._removeAll(); });\x0a\x09\x09$self[''@defaultBucket'']._removeAll();\x0a\x09\x09$self[''@size''] = 0;\x0a\x09'>",
+source: "removeAll\x0a\x09<inlineJS: '\x0a\x09\x09$self.fastBuckets = {\x0a\x09\x09\x09\x22boolean\x22: { store: Object.create(null), fn: function (x) { return {\x22true\x22: true, \x22false\x22: false, \x22null\x22: null}[x]; } },\x0a\x09\x09\x09\x22number\x22: { store: Object.create(null), fn: Number },\x0a\x09\x09\x09\x22string\x22: { store: Object.create(null) }\x0a\x09\x09};\x0a\x09\x09$self.slowBucketStores.forEach(function (x) { x._removeAll(); });\x0a\x09\x09$self.defaultBucket._removeAll();\x0a\x09\x09$self.size = 0;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -13842,7 +13933,7 @@ selector: "size",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@size"];
+return $self.size;
 
 },
 args: [],
@@ -14250,7 +14341,7 @@ selector: "collection",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@collection"];
+return $self.collection;
 
 },
 args: [],
@@ -14326,7 +14417,7 @@ $3=$self._position();
 $ctx1.sendIdx["position"]=1;
 $2=$recv($3).__plus((1));
 $self._position_($2);
-return $recv($self["@collection"])._at_($self._position());
+return $recv($self.collection)._at_($self._position());
 }
 }, function($ctx1) {$ctx1.fill(self,"next",{},$globals.Stream)});
 },
@@ -14421,10 +14512,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@position"];
+$1=$self.position;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@position"]=(0);
-return $self["@position"];
+$self.position=(0);
+return $self.position;
 } else {
 return $1;
 }
@@ -14443,7 +14534,7 @@ selector: "position:",
 protocol: "accessing",
 fn: function (anInteger){
 var self=this,$self=this;
-$self["@position"]=anInteger;
+$self.position=anInteger;
 return self;
 
 },
@@ -14497,7 +14588,7 @@ selector: "setCollection:",
 protocol: "accessing",
 fn: function (aCollection){
 var self=this,$self=this;
-$self["@collection"]=aCollection;
+$self.collection=aCollection;
 return self;
 
 },
@@ -14514,7 +14605,7 @@ selector: "setStreamSize:",
 protocol: "accessing",
 fn: function (anInteger){
 var self=this,$self=this;
-$self["@streamSize"]=anInteger;
+$self.streamSize=anInteger;
 return self;
 
 },
@@ -14584,7 +14675,7 @@ selector: "streamSize",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@streamSize"];
+return $self.streamSize;
 
 },
 args: [],
@@ -14877,10 +14968,10 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.Queue.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@read"]=$recv($globals.OrderedCollection)._new();
+$self.read=$recv($globals.OrderedCollection)._new();
 $ctx1.sendIdx["new"]=1;
-$self["@write"]=$recv($globals.OrderedCollection)._new();
-$self["@readIndex"]=(1);
+$self.write=$recv($globals.OrderedCollection)._new();
+$self.readIndex=(1);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Queue)});
 },
@@ -14923,27 +15014,27 @@ return $core.withContext(function($ctx1) {
 var $1;
 var $early={};
 try {
-result=$recv($self["@read"])._at_ifAbsent_($self["@readIndex"],(function(){
+result=$recv($self.read)._at_ifAbsent_($self.readIndex,(function(){
 return $core.withContext(function($ctx2) {
-$recv($self["@write"])._ifEmpty_((function(){
+$recv($self.write)._ifEmpty_((function(){
 return $core.withContext(function($ctx3) {
-$1=$recv($self["@readIndex"]).__gt((1));
+$1=$recv($self.readIndex).__gt((1));
 if($core.assert($1)){
-$self["@read"]=[];
-$self["@readIndex"]=(1);
-$self["@readIndex"];
+$self.read=[];
+$self.readIndex=(1);
+$self.readIndex;
 }
 throw $early=[$recv(aBlock)._value()];
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 }));
-$self["@read"]=$self["@write"];
-$self["@readIndex"]=(1);
-$self["@write"]=$recv($globals.OrderedCollection)._new();
-return $recv($self["@read"])._first();
+$self.read=$self.write;
+$self.readIndex=(1);
+$self.write=$recv($globals.OrderedCollection)._new();
+return $recv($self.read)._first();
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
-$recv($self["@read"])._at_put_($self["@readIndex"],nil);
-$self["@readIndex"]=$recv($self["@readIndex"]).__plus((1));
+$recv($self.read)._at_put_($self.readIndex,nil);
+$self.readIndex=$recv($self.readIndex).__plus((1));
 return result;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
@@ -14963,7 +15054,7 @@ protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@write"])._add_(anObject);
+$recv($self.write)._add_(anObject);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"nextPut:",{anObject:anObject},$globals.Queue)});
 },
@@ -15493,14 +15584,13 @@ $core.setTraitComposition([{trait: $globals.TNativeZeroBasedCollection}], $globa
 
 });
 
-define('amber_core/Kernel-Classes',["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Helpers", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Kernel-Classes',["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Helpers", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Classes");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("Behavior", $globals.Object, ["organization"], "Kernel-Classes");
+$core.addClass("Behavior", $globals.Object, ["organization", "slots", "fn", "superclass"], "Kernel-Classes");
 $globals.Behavior.comment="I am the superclass of all class objects.\x0a\x0aIn addition to BehaviorBody, I define superclass/subclass relationships and instantiation.\x0a\x0aI define the protocol for creating instances of a class with `#basicNew` and `#new` (see `boot.js` for class constructors details).\x0a\x0aMy instances know about the subclass/superclass relationships between classes and contain the description that instances are created from.\x0a\x0aI also provide iterating over the class hierarchy.";
 $core.addMethod(
 $core.method({
@@ -15653,7 +15743,7 @@ selector: "basicOrganization",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@organization"];
+return $self.organization;
 
 },
 args: [],
@@ -15669,7 +15759,7 @@ selector: "basicOrganization:",
 protocol: "accessing",
 fn: function (aClassOrganizer){
 var self=this,$self=this;
-$self["@organization"]=aClassOrganizer;
+$self.organization=aClassOrganizer;
 return self;
 
 },
@@ -15768,13 +15858,11 @@ selector: "instanceVariableNames",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.iVarNames;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"instanceVariableNames",{},$globals.Behavior)});
+return $self.slots;
+
 },
 args: [],
-source: "instanceVariableNames\x0a\x09<inlineJS: 'return self.iVarNames'>",
+source: "instanceVariableNames\x0a\x09^ slots",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15802,13 +15890,11 @@ selector: "javascriptConstructor",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.fn;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"javascriptConstructor",{},$globals.Behavior)});
+return $self.fn;
+
 },
 args: [],
-source: "javascriptConstructor\x0a\x09\x22Answer the JS constructor used to instantiate. See boot.js\x22\x0a\x09\x0a\x09<inlineJS: 'return self.fn'>",
+source: "javascriptConstructor\x0a\x09\x22Answer the JS constructor used to instantiate. See kernel-language.js\x22\x0a\x09\x0a\x09^ fn",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15821,14 +15907,14 @@ protocol: "accessing",
 fn: function (aJavaScriptFunction){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$core.setClassConstructor(self, aJavaScriptFunction);;
+$recv($recv($globals.Smalltalk)._core())._setClassConstructor_to_(self,aJavaScriptFunction);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"javascriptConstructor:",{aJavaScriptFunction:aJavaScriptFunction},$globals.Behavior)});
 },
 args: ["aJavaScriptFunction"],
-source: "javascriptConstructor: aJavaScriptFunction\x0a\x09\x22Set the JS constructor used to instantiate.\x0a\x09See the JS counter-part in boot.js `$core.setClassConstructor'\x22\x0a\x09\x0a\x09<inlineJS: '$core.setClassConstructor(self, aJavaScriptFunction);'>",
-referencedClasses: [],
-messageSends: []
+source: "javascriptConstructor: aJavaScriptFunction\x0a\x09\x22Set the JS constructor used to instantiate.\x0a\x09See the JS counter-part in boot.js `$core.setClassConstructor'\x22\x0a\x09\x0a\x09Smalltalk core setClassConstructor: self to: aJavaScriptFunction",
+referencedClasses: ["Smalltalk"],
+messageSends: ["setClassConstructor:to:", "core"]
 }),
 $globals.Behavior);
 
@@ -15894,14 +15980,13 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self.fn.prototype;
-return self;
+return $recv($self._javascriptConstructor())._prototype();
 }, function($ctx1) {$ctx1.fill(self,"prototype",{},$globals.Behavior)});
 },
 args: [],
-source: "prototype\x0a\x09<inlineJS: 'return self.fn.prototype'>",
+source: "prototype\x0a\x09^ self javascriptConstructor prototype",
 referencedClasses: [],
-messageSends: []
+messageSends: ["prototype", "javascriptConstructor"]
 }),
 $globals.Behavior);
 
@@ -15929,13 +16014,11 @@ selector: "superclass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.superclass;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"superclass",{},$globals.Behavior)});
+return $self.superclass;
+
 },
 args: [],
-source: "superclass\x0a\x09<inlineJS: 'return self.superclass'>",
+source: "superclass\x0a\x09^ superclass",
 referencedClasses: [],
 messageSends: []
 }),
@@ -15999,7 +16082,7 @@ $globals.Behavior);
 
 
 
-$core.addClass("Class", $globals.Behavior, ["package"], "Kernel-Classes");
+$core.addClass("Class", $globals.Behavior, ["package", "subclasses"], "Kernel-Classes");
 $globals.Class.comment="I am __the__ class object.\x0a\x0aMy instances are the classes of the system.\x0aClass creation is done throught a `ClassBuilder` instance.";
 $core.addMethod(
 $core.method({
@@ -16007,7 +16090,7 @@ selector: "basicPackage:",
 protocol: "accessing",
 fn: function (aPackage){
 var self=this,$self=this;
-$self["@package"]=aPackage;
+$self.package=aPackage;
 return self;
 
 },
@@ -16063,10 +16146,8 @@ return [$1,"uses: ",tcd,$2];
 $ctx2.sendIdx["write:"]=2;
 $recv(stream)._tab();
 $ctx2.sendIdx["tab"]=2;
-$recv(stream)._write_("instanceVariableNames: ");
+$recv(stream)._write_(["slots: {",". "._join_($recv($self._instanceVariableNames())._collect_("symbolPrintString")),"}"]);
 $ctx2.sendIdx["write:"]=3;
-$recv(stream)._print_(" "._join_($self._instanceVariableNames()));
-$ctx2.sendIdx["print:"]=2;
 $recv(stream)._lf();
 $recv(stream)._tab();
 $recv(stream)._write_("package: ");
@@ -16076,9 +16157,9 @@ return $recv(stream)._print_($self._category());
 }, function($ctx1) {$ctx1.fill(self,"definition",{},$globals.Class)});
 },
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self superclass; write: ' subclass: '; printSymbol: self name; lf;\x0a\x09\x09write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);\x0a\x09\x09tab; write: 'instanceVariableNames: '; print: (' ' join: self instanceVariableNames); lf;\x0a\x09\x09tab; write: 'package: '; print: self category ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self superclass; write: ' subclass: '; printSymbol: self name; lf;\x0a\x09\x09write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);\x0a\x09\x09tab; write: {'slots: {'. ('. ' join: (self instanceVariableNames collect: #symbolPrintString)). '}'}; lf;\x0a\x09\x09tab; write: 'package: '; print: self category ]",
 referencedClasses: ["String"],
-messageSends: ["streamContents:", "print:", "superclass", "write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "traitCompositionDefinition", "tab", "join:", "instanceVariableNames", "category"]
+messageSends: ["streamContents:", "print:", "superclass", "write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "traitCompositionDefinition", "tab", "join:", "collect:", "instanceVariableNames", "category"]
 }),
 $globals.Class);
 
@@ -16104,7 +16185,7 @@ selector: "package",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@package"];
+return $self.package;
 
 },
 args: [],
@@ -16156,14 +16237,13 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self.subclasses._copy();
-return self;
+return $recv($self.subclasses)._copy();
 }, function($ctx1) {$ctx1.fill(self,"subclasses",{},$globals.Class)});
 },
 args: [],
-source: "subclasses\x0a\x09<inlineJS: 'return self.subclasses._copy()'>",
+source: "subclasses\x0a\x09^ subclasses copy",
 referencedClasses: [],
-messageSends: []
+messageSends: ["copy"]
 }),
 $globals.Class);
 
@@ -16186,7 +16266,7 @@ $globals.Class);
 
 
 
-$core.addClass("Metaclass", $globals.Behavior, [], "Kernel-Classes");
+$core.addClass("Metaclass", $globals.Behavior, ["instanceClass"], "Kernel-Classes");
 $globals.Metaclass.comment="I am the root of the class hierarchy.\x0a\x0aMy instances are metaclasses, one for each real class, and have a single instance, which they hold onto: the class that they are the metaclass of.";
 $core.addMethod(
 $core.method({
@@ -16219,7 +16299,6 @@ var $1,$2;
 return $recv($globals.String)._streamContents_((function(stream){
 return $core.withContext(function($ctx2) {
 $recv(stream)._print_(self);
-$ctx2.sendIdx["print:"]=1;
 $recv(stream)._write_($recv($self._traitCompositionDefinition())._ifEmpty_ifNotEmpty_((function(){
 return " ";
 
@@ -16233,16 +16312,15 @@ return [$1,$2,"uses: ",tcd,$recv($globals.String)._lf(),$recv($globals.String)._
 }, function($ctx3) {$ctx3.fillBlock({tcd:tcd},$ctx2,3)});
 })));
 $ctx2.sendIdx["write:"]=1;
-$recv(stream)._write_("instanceVariableNames: ");
-return $recv(stream)._print_(" "._join_($self._instanceVariableNames()));
+return $recv(stream)._write_(["slots: {",". "._join_($recv($self._instanceVariableNames())._collect_("symbolPrintString")),"}"]);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"definition",{},$globals.Metaclass)});
 },
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self;\x0a\x09\x09write: (self traitCompositionDefinition\x0a\x09\x09\x09ifEmpty: [' ']\x0a\x09\x09\x09ifNotEmpty: [ :tcd | { String lf. String tab. 'uses: '. tcd. String lf. String tab }]);\x0a\x09\x09write: 'instanceVariableNames: ';\x0a\x09\x09print: (' ' join: self instanceVariableNames) ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self;\x0a\x09\x09write: (self traitCompositionDefinition\x0a\x09\x09\x09ifEmpty: [' ']\x0a\x09\x09\x09ifNotEmpty: [ :tcd | { String lf. String tab. 'uses: '. tcd. String lf. String tab }]);\x0a\x09\x09write: {'slots: {'. ('. ' join: (self instanceVariableNames collect: #symbolPrintString)). '}'} ]",
 referencedClasses: ["String"],
-messageSends: ["streamContents:", "print:", "write:", "ifEmpty:ifNotEmpty:", "traitCompositionDefinition", "lf", "tab", "join:", "instanceVariableNames"]
+messageSends: ["streamContents:", "print:", "write:", "ifEmpty:ifNotEmpty:", "traitCompositionDefinition", "lf", "tab", "join:", "collect:", "instanceVariableNames"]
 }),
 $globals.Metaclass);
 
@@ -16252,13 +16330,11 @@ selector: "instanceClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.instanceClass;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"instanceClass",{},$globals.Metaclass)});
+return $self.instanceClass;
+
 },
 args: [],
-source: "instanceClass\x0a\x09<inlineJS: 'return self.instanceClass'>",
+source: "instanceClass\x0a\x09^ instanceClass",
 referencedClasses: [],
 messageSends: []
 }),
@@ -16268,17 +16344,16 @@ $core.addMethod(
 $core.method({
 selector: "instanceVariableNames:",
 protocol: "accessing",
-fn: function (aCollection){
+fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($recv($globals.ClassBuilder)._new())._class_instanceVariableNames_(self,aCollection);
-return self;
-}, function($ctx1) {$ctx1.fill(self,"instanceVariableNames:",{aCollection:aCollection},$globals.Metaclass)});
+return $self._slots_($recv(aString)._instanceVariablesStringAsSlotList());
+}, function($ctx1) {$ctx1.fill(self,"instanceVariableNames:",{aString:aString},$globals.Metaclass)});
 },
-args: ["aCollection"],
-source: "instanceVariableNames: aCollection\x0a\x09ClassBuilder new\x0a\x09\x09class: self instanceVariableNames: aCollection.\x0a\x09^ self",
-referencedClasses: ["ClassBuilder"],
-messageSends: ["class:instanceVariableNames:", "new"]
+args: ["aString"],
+source: "instanceVariableNames: aString\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self slots: aString instanceVariablesStringAsSlotList",
+referencedClasses: [],
+messageSends: ["slots:", "instanceVariablesStringAsSlotList"]
 }),
 $globals.Metaclass);
 
@@ -16334,19 +16409,36 @@ $globals.Metaclass);
 
 $core.addMethod(
 $core.method({
+selector: "slots:",
+protocol: "accessing",
+fn: function (aCollection){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv($recv($globals.ClassBuilder)._new())._class_slots_(self,aCollection);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"slots:",{aCollection:aCollection},$globals.Metaclass)});
+},
+args: ["aCollection"],
+source: "slots: aCollection\x0a\x09ClassBuilder new\x0a\x09\x09class: self slots: aCollection.\x0a\x09^ self",
+referencedClasses: ["ClassBuilder"],
+messageSends: ["class:slots:", "new"]
+}),
+$globals.Metaclass);
+
+$core.addMethod(
+$core.method({
 selector: "subclasses",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $core.metaSubclasses(self);
-return self;
+return $recv($recv($globals.Smalltalk)._core())._metaSubclasses_(self);
 }, function($ctx1) {$ctx1.fill(self,"subclasses",{},$globals.Metaclass)});
 },
 args: [],
-source: "subclasses\x0a\x09<inlineJS: 'return $core.metaSubclasses(self)'>",
-referencedClasses: [],
-messageSends: []
+source: "subclasses\x0a\x09^ Smalltalk core metaSubclasses: self",
+referencedClasses: ["Smalltalk"],
+messageSends: ["metaSubclasses:", "core"]
 }),
 $globals.Metaclass);
 
@@ -16387,19 +16479,35 @@ $core.addMethod(
 $core.method({
 selector: "uses:instanceVariableNames:",
 protocol: "accessing",
+fn: function (aTraitCompositionDescription,aString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $self._uses_slots_(aTraitCompositionDescription,$recv(aString)._instanceVariablesStringAsSlotList());
+}, function($ctx1) {$ctx1.fill(self,"uses:instanceVariableNames:",{aTraitCompositionDescription:aTraitCompositionDescription,aString:aString},$globals.Metaclass)});
+},
+args: ["aTraitCompositionDescription", "aString"],
+source: "uses: aTraitCompositionDescription instanceVariableNames: aString\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self uses: aTraitCompositionDescription slots: aString instanceVariablesStringAsSlotList",
+referencedClasses: [],
+messageSends: ["uses:slots:", "instanceVariablesStringAsSlotList"]
+}),
+$globals.Metaclass);
+
+$core.addMethod(
+$core.method({
+selector: "uses:slots:",
+protocol: "accessing",
 fn: function (aTraitCompositionDescription,aCollection){
 var self=this,$self=this;
-var metaclass;
 return $core.withContext(function($ctx1) {
-metaclass=$self._instanceVariableNames_(aCollection);
-$recv(metaclass)._setTraitComposition_($recv(aTraitCompositionDescription)._asTraitComposition());
-return metaclass;
-}, function($ctx1) {$ctx1.fill(self,"uses:instanceVariableNames:",{aTraitCompositionDescription:aTraitCompositionDescription,aCollection:aCollection,metaclass:metaclass},$globals.Metaclass)});
+$self._slots_(aCollection);
+$self._setTraitComposition_($recv(aTraitCompositionDescription)._asTraitComposition());
+return self;
+}, function($ctx1) {$ctx1.fill(self,"uses:slots:",{aTraitCompositionDescription:aTraitCompositionDescription,aCollection:aCollection},$globals.Metaclass)});
 },
 args: ["aTraitCompositionDescription", "aCollection"],
-source: "uses: aTraitCompositionDescription instanceVariableNames: aCollection\x0a\x09| metaclass |\x0a\x09metaclass := self instanceVariableNames: aCollection.\x0a\x09metaclass setTraitComposition: aTraitCompositionDescription asTraitComposition.\x0a\x09^ metaclass",
+source: "uses: aTraitCompositionDescription slots: aCollection\x0a\x09self\x0a\x09\x09slots: aCollection;\x0a\x09\x09setTraitComposition: aTraitCompositionDescription asTraitComposition.\x0a\x09^ self",
 referencedClasses: [],
-messageSends: ["instanceVariableNames:", "setTraitComposition:", "asTraitComposition"]
+messageSends: ["slots:", "setTraitComposition:", "asTraitComposition"]
 }),
 $globals.Metaclass);
 
@@ -16520,14 +16628,14 @@ $1=$recv(aClass)._isMetaclass();
 if(!$core.assert($1)){
 $self._error_($recv($recv(aClass)._name()).__comma(" is not a metaclass"));
 }
-$recv(aClass)._basicAt_put_("iVarNames",aCollection);
+$recv($recv($globals.Smalltalk)._core())._setSlots_to_(aClass,aCollection);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"basicClass:instanceVariables:",{aClass:aClass,aCollection:aCollection},$globals.ClassBuilder)});
 },
 args: ["aClass", "aCollection"],
-source: "basicClass: aClass instanceVariables: aCollection\x0a\x0a\x09aClass isMetaclass ifFalse: [ self error: aClass name, ' is not a metaclass' ].\x0a\x09aClass basicAt: 'iVarNames' put: aCollection",
-referencedClasses: [],
-messageSends: ["ifFalse:", "isMetaclass", "error:", ",", "name", "basicAt:put:"]
+source: "basicClass: aClass instanceVariables: aCollection\x0a\x0a\x09aClass isMetaclass ifFalse: [ self error: aClass name, ' is not a metaclass' ].\x0a\x09Smalltalk core setSlots: aClass to: aCollection",
+referencedClasses: ["Smalltalk"],
+messageSends: ["ifFalse:", "isMetaclass", "error:", ",", "name", "setSlots:to:", "core"]
 }),
 $globals.ClassBuilder);
 
@@ -16595,25 +16703,7 @@ $globals.ClassBuilder);
 
 $core.addMethod(
 $core.method({
-selector: "class:instanceVariableNames:",
-protocol: "class definition",
-fn: function (aClass,ivarNames){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._class_instanceVariables_(aClass,$self._instanceVariableNamesFor_(ivarNames));
-return self;
-}, function($ctx1) {$ctx1.fill(self,"class:instanceVariableNames:",{aClass:aClass,ivarNames:ivarNames},$globals.ClassBuilder)});
-},
-args: ["aClass", "ivarNames"],
-source: "class: aClass instanceVariableNames: ivarNames\x0a\x09self class: aClass instanceVariables:  (self instanceVariableNamesFor: ivarNames)",
-referencedClasses: [],
-messageSends: ["class:instanceVariables:", "instanceVariableNamesFor:"]
-}),
-$globals.ClassBuilder);
-
-$core.addMethod(
-$core.method({
-selector: "class:instanceVariables:",
+selector: "class:slots:",
 protocol: "class definition",
 fn: function (aClass,aCollection){
 var self=this,$self=this;
@@ -16626,10 +16716,10 @@ $recv($3)._theClass_(aClass);
 $2=$recv($3)._yourself();
 $recv($1)._announce_($2);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"class:instanceVariables:",{aClass:aClass,aCollection:aCollection},$globals.ClassBuilder)});
+}, function($ctx1) {$ctx1.fill(self,"class:slots:",{aClass:aClass,aCollection:aCollection},$globals.ClassBuilder)});
 },
 args: ["aClass", "aCollection"],
-source: "class: aClass instanceVariables: aCollection\x0a\x09self basicClass: aClass instanceVariables: aCollection.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassDefinitionChanged new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
+source: "class: aClass slots: aCollection\x0a\x09self basicClass: aClass instanceVariables: aCollection.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassDefinitionChanged new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassDefinitionChanged"],
 messageSends: ["basicClass:instanceVariables:", "announce:", "current", "theClass:", "new", "yourself"]
 }),
@@ -16748,27 +16838,6 @@ args: ["aCompiledMethod", "aBehavior", "aString"],
 source: "installMethod: aCompiledMethod forClass: aBehavior protocol: aString\x0a\x09aCompiledMethod protocol: aString.\x0a\x09aBehavior addCompiledMethod: aCompiledMethod.\x0a\x09^ aCompiledMethod",
 referencedClasses: [],
 messageSends: ["protocol:", "addCompiledMethod:"]
-}),
-$globals.ClassBuilder);
-
-$core.addMethod(
-$core.method({
-selector: "instanceVariableNamesFor:",
-protocol: "accessing",
-fn: function (aString){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $recv($recv(aString)._tokenize_(" "))._reject_((function(each){
-return $core.withContext(function($ctx2) {
-return $recv(each)._isEmpty();
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-}));
-}, function($ctx1) {$ctx1.fill(self,"instanceVariableNamesFor:",{aString:aString},$globals.ClassBuilder)});
-},
-args: ["aString"],
-source: "instanceVariableNamesFor: aString\x0a\x09^ (aString tokenize: ' ') reject: [ :each | each isEmpty ]",
-referencedClasses: [],
-messageSends: ["reject:", "tokenize:", "isEmpty"]
 }),
 $globals.ClassBuilder);
 
@@ -16895,44 +16964,43 @@ protocol: "class definition",
 fn: function (aClass,className){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $self._superclass_subclass_instanceVariableNames_package_(aClass,className,"",nil);
+return $self._superclass_subclass_slots_package_(aClass,className,[],nil);
 }, function($ctx1) {$ctx1.fill(self,"superclass:subclass:",{aClass:aClass,className:className},$globals.ClassBuilder)});
 },
 args: ["aClass", "className"],
-source: "superclass: aClass subclass: className\x0a\x09^ self superclass: aClass subclass: className instanceVariableNames: '' package: nil",
+source: "superclass: aClass subclass: className\x0a\x09^ self superclass: aClass subclass: className slots: #() package: nil",
 referencedClasses: [],
-messageSends: ["superclass:subclass:instanceVariableNames:package:"]
+messageSends: ["superclass:subclass:slots:package:"]
 }),
 $globals.ClassBuilder);
 
 $core.addMethod(
 $core.method({
-selector: "superclass:subclass:instanceVariableNames:package:",
+selector: "superclass:subclass:slots:package:",
 protocol: "class definition",
-fn: function (aClass,className,ivarNames,packageName){
+fn: function (aClass,className,aCollection,packageName){
 var self=this,$self=this;
 var newClass;
 return $core.withContext(function($ctx1) {
-var $1,$2,$3,$5,$4,$receiver;
-$1=$self._instanceVariableNamesFor_(ivarNames);
+var $1,$2,$4,$3,$receiver;
 if(($receiver = packageName) == null || $receiver.a$nil){
-$2="unclassified";
+$1="unclassified";
 } else {
-$2=packageName;
+$1=packageName;
 }
-newClass=$self._addSubclassOf_named_instanceVariableNames_package_(aClass,className,$1,$2);
-$3=$recv($globals.SystemAnnouncer)._current();
-$5=$recv($globals.ClassAdded)._new();
-$recv($5)._theClass_(newClass);
-$4=$recv($5)._yourself();
-$recv($3)._announce_($4);
+newClass=$self._addSubclassOf_named_instanceVariableNames_package_(aClass,className,aCollection,$1);
+$2=$recv($globals.SystemAnnouncer)._current();
+$4=$recv($globals.ClassAdded)._new();
+$recv($4)._theClass_(newClass);
+$3=$recv($4)._yourself();
+$recv($2)._announce_($3);
 return newClass;
-}, function($ctx1) {$ctx1.fill(self,"superclass:subclass:instanceVariableNames:package:",{aClass:aClass,className:className,ivarNames:ivarNames,packageName:packageName,newClass:newClass},$globals.ClassBuilder)});
+}, function($ctx1) {$ctx1.fill(self,"superclass:subclass:slots:package:",{aClass:aClass,className:className,aCollection:aCollection,packageName:packageName,newClass:newClass},$globals.ClassBuilder)});
 },
-args: ["aClass", "className", "ivarNames", "packageName"],
-source: "superclass: aClass subclass: className instanceVariableNames: ivarNames package: packageName\x0a\x09| newClass |\x0a\x09\x0a\x09newClass := self addSubclassOf: aClass\x0a\x09\x09named: className instanceVariableNames: (self instanceVariableNamesFor: ivarNames)\x0a\x09\x09package: (packageName ifNil: [ 'unclassified' ]).\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
+args: ["aClass", "className", "aCollection", "packageName"],
+source: "superclass: aClass subclass: className slots: aCollection package: packageName\x0a\x09| newClass |\x0a\x09\x0a\x09newClass := self addSubclassOf: aClass\x0a\x09\x09named: className instanceVariableNames: aCollection\x0a\x09\x09package: (packageName ifNil: [ 'unclassified' ]).\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
 referencedClasses: ["SystemAnnouncer", "ClassAdded"],
-messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "instanceVariableNamesFor:", "ifNil:", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "ifNil:", "announce:", "current", "theClass:", "new", "yourself"]
 }),
 $globals.ClassBuilder);
 
@@ -16962,7 +17030,7 @@ return $recv(others)._add_(each);
 }
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
-$self["@nodes"]=$recv(children)._collect_((function(each){
+$self.nodes=$recv(children)._collect_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv($globals.ClassSorterNode)._on_classes_level_(each,others,$recv($self._level()).__plus((1)));
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,4)});
@@ -16983,7 +17051,7 @@ selector: "level",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@level"];
+return $self.level;
 
 },
 args: [],
@@ -16999,7 +17067,7 @@ selector: "level:",
 protocol: "accessing",
 fn: function (anInteger){
 var self=this,$self=this;
-$self["@level"]=anInteger;
+$self.level=anInteger;
 return self;
 
 },
@@ -17016,7 +17084,7 @@ selector: "nodes",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@nodes"];
+return $self.nodes;
 
 },
 args: [],
@@ -17032,7 +17100,7 @@ selector: "theClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@theClass"];
+return $self.theClass;
 
 },
 args: [],
@@ -17048,7 +17116,7 @@ selector: "theClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@theClass"]=aClass;
+$self.theClass=aClass;
 return self;
 
 },
@@ -18127,7 +18195,7 @@ messageSends: []
 $globals.TMasterBehavior);
 
 
-$core.addClass("Trait", $globals.Object, ["organization", "package"], "Kernel-Classes");
+$core.addClass("Trait", $globals.Object, ["organization", "package", "traitUsers"], "Kernel-Classes");
 $core.addMethod(
 $core.method({
 selector: "-",
@@ -18202,7 +18270,7 @@ selector: "basicOrganization",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@organization"];
+return $self.organization;
 
 },
 args: [],
@@ -18218,7 +18286,7 @@ selector: "basicOrganization:",
 protocol: "accessing",
 fn: function (aClassOrganizer){
 var self=this,$self=this;
-$self["@organization"]=aClassOrganizer;
+$self.organization=aClassOrganizer;
 return self;
 
 },
@@ -18235,7 +18303,7 @@ selector: "basicPackage:",
 protocol: "accessing",
 fn: function (aPackage){
 var self=this,$self=this;
-$self["@package"]=aPackage;
+$self.package=aPackage;
 return self;
 
 },
@@ -18305,7 +18373,7 @@ selector: "package",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@package"];
+return $self.package;
 
 },
 args: [],
@@ -18338,13 +18406,13 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self._basicAt_("traitUsers"))._copy();
+return $recv($self.traitUsers)._copy();
 }, function($ctx1) {$ctx1.fill(self,"traitUsers",{},$globals.Trait)});
 },
 args: [],
-source: "traitUsers\x0a\x09^ (self basicAt: 'traitUsers') copy",
+source: "traitUsers\x0a\x09^ traitUsers copy",
 referencedClasses: [],
-messageSends: ["copy", "basicAt:"]
+messageSends: ["copy"]
 }),
 $globals.Trait);
 
@@ -18440,13 +18508,13 @@ $recv(anArrayOfAssociations)._do_((function(each){
 var key;
 return $core.withContext(function($ctx2) {
 key=$recv(each)._key();
-return $recv($self["@aliases"])._at_ifPresent_ifAbsent_(key,(function(){
+return $recv($self.aliases)._at_ifPresent_ifAbsent_(key,(function(){
 return $core.withContext(function($ctx3) {
 return $self._error_("Cannot use same alias name twice.");
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 }),(function(){
 return $core.withContext(function($ctx3) {
-return $recv($self["@aliases"])._at_put_(key,$recv(each)._value());
+return $recv($self.aliases)._at_put_(key,$recv(each)._value());
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 }));
 }, function($ctx2) {$ctx2.fillBlock({each:each,key:key},$ctx1,1)});
@@ -18468,7 +18536,7 @@ protocol: "accessing",
 fn: function (anArray){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@exclusions"])._addAll_(anArray);
+$recv($self.exclusions)._addAll_(anArray);
 return anArray;
 }, function($ctx1) {$ctx1.fill(self,"addExclusions:",{anArray:anArray},$globals.TraitTransformation)});
 },
@@ -18485,7 +18553,7 @@ selector: "aliases",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@aliases"];
+return $self.aliases;
 
 },
 args: [],
@@ -18647,7 +18715,7 @@ selector: "exclusions",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@exclusions"];
+return $self.exclusions;
 
 },
 args: [],
@@ -18668,9 +18736,9 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.TraitTransformation.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@aliases"]=$globals.HashedCollection._newFromPairs_([]);
-$self["@exclusions"]=$recv($globals.Set)._new();
-$self["@trait"]=nil;
+$self.aliases=$globals.HashedCollection._newFromPairs_([]);
+$self.exclusions=$recv($globals.Set)._new();
+$self.trait=nil;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.TraitTransformation)});
 },
@@ -18688,9 +18756,9 @@ protocol: "copying",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@aliases"]=$recv($self["@aliases"])._copy();
+$self.aliases=$recv($self.aliases)._copy();
 $ctx1.sendIdx["copy"]=1;
-$self["@exclusions"]=$recv($self["@exclusions"])._copy();
+$self.exclusions=$recv($self.exclusions)._copy();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"postCopy",{},$globals.TraitTransformation)});
 },
@@ -18707,7 +18775,7 @@ selector: "trait",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@trait"];
+return $self.trait;
 
 },
 args: [],
@@ -18723,7 +18791,7 @@ selector: "trait:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@trait"]=anObject;
+$self.trait=anObject;
 return self;
 
 },
@@ -18818,16 +18886,36 @@ messageSends: ["collect:", "asTraitTransformation"]
 }),
 $globals.Array);
 
+$core.addMethod(
+$core.method({
+selector: "instanceVariablesStringAsSlotList",
+protocol: "*Kernel-Classes",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._tokenize_(" "))._reject_((function(each){
+return $core.withContext(function($ctx2) {
+return $recv(each)._isEmpty();
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"instanceVariablesStringAsSlotList",{},$globals.String)});
+},
+args: [],
+source: "instanceVariablesStringAsSlotList\x0a\x09^ (self tokenize: ' ') reject: [ :each | each isEmpty ]",
+referencedClasses: [],
+messageSends: ["reject:", "tokenize:", "isEmpty"]
+}),
+$globals.String);
+
 });
 
-define('amber_core/Kernel-Methods',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Kernel-Methods',["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Methods");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("BlockClosure", $globals.Object, [], "Kernel-Methods");
+$core.addClass("BlockClosure", $globals.Object, ["prototype", "length"], "Kernel-Methods");
 $globals.BlockClosure.comment="I represent a lexical closure.\x0aI am is directly mapped to JavaScript Function.\x0a\x0a## API\x0a\x0a1. Evaluation\x0a\x0a    My instances get evaluated with the `#value*` methods in the 'evaluating' protocol.\x0a\x0a    Example: ` [ :x | x + 1 ] value: 3 \x22Answers 4\x22 `\x0a\x0a2. Control structures\x0a\x0a    Blocks are used (together with `Boolean`) for control structures (methods in the `controlling` protocol).\x0a\x0a    Example: `aBlock whileTrue: [ ... ]`\x0a\x0a3. Error handling\x0a\x0a    I provide the `#on:do:` method for handling exceptions.\x0a\x0a    Example: ` aBlock on: MessageNotUnderstood do: [ :ex | ... ] `";
 $core.addMethod(
 $core.method({
@@ -19040,13 +19128,11 @@ selector: "numArgs",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.length;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"numArgs",{},$globals.BlockClosure)});
+return $self.length;
+
 },
 args: [],
-source: "numArgs\x0a\x09<inlineJS: 'return self.length'>",
+source: "numArgs\x0a\x09^ length",
 referencedClasses: [],
 messageSends: []
 }),
@@ -19078,6 +19164,22 @@ args: ["anErrorClass", "aBlock"],
 source: "on: anErrorClass do: aBlock\x0a\x09\x22All exceptions thrown in the Smalltalk stack are cought.\x0a\x09Convert all JS exceptions to JavaScriptException instances.\x22\x0a\x09\x0a\x09^ self tryCatch: [ :error | | smalltalkError |\x0a\x09\x09smalltalkError := Smalltalk asSmalltalkException: error.\x0a\x09\x09(smalltalkError isKindOf: anErrorClass)\x0a\x09\x09ifTrue: [ aBlock value: smalltalkError ]\x0a\x09\x09ifFalse: [ smalltalkError pass ] ]",
 referencedClasses: ["Smalltalk"],
 messageSends: ["tryCatch:", "asSmalltalkException:", "ifTrue:ifFalse:", "isKindOf:", "value:", "pass"]
+}),
+$globals.BlockClosure);
+
+$core.addMethod(
+$core.method({
+selector: "prototype",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $self.prototype;
+
+},
+args: [],
+source: "prototype\x0a\x09^ prototype",
+referencedClasses: [],
+messageSends: []
 }),
 $globals.BlockClosure);
 
@@ -19367,7 +19469,7 @@ $globals.BlockClosure);
 
 
 
-$core.addClass("CompiledMethod", $globals.Object, [], "Kernel-Methods");
+$core.addClass("CompiledMethod", $globals.Object, ["args", "fn", "messageSends", "owner", "protocol", "referencedClasses", "selector", "source"], "Kernel-Methods");
 $globals.CompiledMethod.comment="I represent a class method of the system. I hold the source and compiled code of a class method.\x0a\x0a## API\x0aMy instances can be accessed using `Behavior >> #methodAt:`\x0a\x0a    Object methodAt: 'asString'\x0a\x0aSource code access:\x0a\x0a\x09(String methodAt: 'lines') source\x0a\x0aReferenced classes:\x0a\x0a\x09(String methodAt: 'lines') referencedClasses\x0a\x0aMessages sent from an instance:\x0a\x09\x0a\x09(String methodAt: 'lines') messageSends";
 $core.addMethod(
 $core.method({
@@ -19376,14 +19478,19 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self.args || [];
-return self;
+var $1,$receiver;
+$1=$self.args;
+if(($receiver = $1) == null || $receiver.a$nil){
+return [];
+} else {
+return $1;
+}
 }, function($ctx1) {$ctx1.fill(self,"arguments",{},$globals.CompiledMethod)});
 },
 args: [],
-source: "arguments\x0a\x09<inlineJS: 'return self.args || []'>",
+source: "arguments\x0a\x09^ args ifNil: [ #() ]",
 referencedClasses: [],
-messageSends: []
+messageSends: ["ifNil:"]
 }),
 $globals.CompiledMethod);
 
@@ -19444,14 +19551,13 @@ selector: "fn",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $self._basicAt_("fn");
-}, function($ctx1) {$ctx1.fill(self,"fn",{},$globals.CompiledMethod)});
+return $self.fn;
+
 },
 args: [],
-source: "fn\x0a\x09^ self basicAt: 'fn'",
+source: "fn\x0a\x09^ fn",
 referencedClasses: [],
-messageSends: ["basicAt:"]
+messageSends: []
 }),
 $globals.CompiledMethod);
 
@@ -19461,15 +19567,14 @@ selector: "fn:",
 protocol: "accessing",
 fn: function (aBlock){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._basicAt_put_("fn",aBlock);
+$self.fn=aBlock;
 return self;
-}, function($ctx1) {$ctx1.fill(self,"fn:",{aBlock:aBlock},$globals.CompiledMethod)});
+
 },
 args: ["aBlock"],
-source: "fn: aBlock\x0a\x09self basicAt: 'fn' put: aBlock",
+source: "fn: aBlock\x0a\x09fn := aBlock",
 referencedClasses: [],
-messageSends: ["basicAt:put:"]
+messageSends: []
 }),
 $globals.CompiledMethod);
 
@@ -19495,15 +19600,13 @@ selector: "isOverridden",
 protocol: "testing",
 fn: function (){
 var self=this,$self=this;
-var selector;
 return $core.withContext(function($ctx1) {
 var $1;
 var $early={};
 try {
-selector=$self._selector();
 $recv($self._methodClass())._allSubclassesDo_((function(each){
 return $core.withContext(function($ctx2) {
-$1=$recv(each)._includesSelector_(selector);
+$1=$recv(each)._includesSelector_($self.selector);
 if($core.assert($1)){
 throw $early=[true];
 }
@@ -19512,12 +19615,12 @@ throw $early=[true];
 return false;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
-}, function($ctx1) {$ctx1.fill(self,"isOverridden",{selector:selector},$globals.CompiledMethod)});
+}, function($ctx1) {$ctx1.fill(self,"isOverridden",{},$globals.CompiledMethod)});
 },
 args: [],
-source: "isOverridden\x0a\x09| selector |\x0a    \x0a    selector := self selector.\x0a    self methodClass allSubclassesDo: [ :each |\x0a\x09    (each includesSelector: selector)\x0a        \x09ifTrue: [ ^ true ] ].\x0a\x09^ false",
+source: "isOverridden\x0a    self methodClass allSubclassesDo: [ :each |\x0a\x09    (each includesSelector: selector)\x0a        \x09ifTrue: [ ^ true ] ].\x0a\x09^ false",
 referencedClasses: [],
-messageSends: ["selector", "allSubclassesDo:", "methodClass", "ifTrue:", "includesSelector:"]
+messageSends: ["allSubclassesDo:", "methodClass", "ifTrue:", "includesSelector:"]
 }),
 $globals.CompiledMethod);
 
@@ -19556,14 +19659,13 @@ selector: "messageSends",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $self._basicAt_("messageSends");
-}, function($ctx1) {$ctx1.fill(self,"messageSends",{},$globals.CompiledMethod)});
+return $self.messageSends;
+
 },
 args: [],
-source: "messageSends\x0a\x09^ self basicAt: 'messageSends'",
+source: "messageSends\x0a\x09^ messageSends",
 referencedClasses: [],
-messageSends: ["basicAt:"]
+messageSends: []
 }),
 $globals.CompiledMethod);
 
@@ -19573,14 +19675,13 @@ selector: "methodClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $self._basicAt_("owner");
-}, function($ctx1) {$ctx1.fill(self,"methodClass",{},$globals.CompiledMethod)});
+return $self.owner;
+
 },
 args: [],
-source: "methodClass\x0a\x09^ self basicAt: 'owner'",
+source: "methodClass\x0a\x09^ owner",
 referencedClasses: [],
-messageSends: ["basicAt:"]
+messageSends: []
 }),
 $globals.CompiledMethod);
 
@@ -19617,7 +19718,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self._basicAt_("protocol");
+$1=$self.protocol;
 if(($receiver = $1) == null || $receiver.a$nil){
 return $self._defaultProtocol();
 } else {
@@ -19626,9 +19727,9 @@ return $1;
 }, function($ctx1) {$ctx1.fill(self,"protocol",{},$globals.CompiledMethod)});
 },
 args: [],
-source: "protocol\x0a\x09^ (self basicAt: 'protocol') ifNil: [ self defaultProtocol ]",
+source: "protocol\x0a\x09^ protocol ifNil: [ self defaultProtocol ]",
 referencedClasses: [],
-messageSends: ["ifNil:", "basicAt:", "defaultProtocol"]
+messageSends: ["ifNil:", "defaultProtocol"]
 }),
 $globals.CompiledMethod);
 
@@ -19642,7 +19743,7 @@ var oldProtocol;
 return $core.withContext(function($ctx1) {
 var $1,$3,$2,$4,$receiver;
 oldProtocol=$self._protocol();
-$self._basicAt_put_("protocol",aString);
+$self.protocol=aString;
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.MethodMoved)._new();
 $recv($3)._method_(self);
@@ -19662,9 +19763,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"protocol:",{aString:aString,oldProtocol:oldProtocol},$globals.CompiledMethod)});
 },
 args: ["aString"],
-source: "protocol: aString\x0a\x09| oldProtocol |\x0a\x09oldProtocol := self protocol.\x0a\x09self basicAt: 'protocol' put: aString.\x0a\x0a\x09SystemAnnouncer current announce: (MethodMoved new\x0a\x09\x09method: self;\x0a\x09\x09oldProtocol: oldProtocol;\x0a\x09\x09yourself).\x0a\x0a\x09self methodClass ifNotNil: [ :methodClass |\x0a\x09\x09methodClass organization addElement: aString.\x0a\x09\x09methodClass removeProtocolIfEmpty: oldProtocol ]",
+source: "protocol: aString\x0a\x09| oldProtocol |\x0a\x09oldProtocol := self protocol.\x0a\x09protocol := aString.\x0a\x0a\x09SystemAnnouncer current announce: (MethodMoved new\x0a\x09\x09method: self;\x0a\x09\x09oldProtocol: oldProtocol;\x0a\x09\x09yourself).\x0a\x0a\x09self methodClass ifNotNil: [ :methodClass |\x0a\x09\x09methodClass organization addElement: aString.\x0a\x09\x09methodClass removeProtocolIfEmpty: oldProtocol ]",
 referencedClasses: ["SystemAnnouncer", "MethodMoved"],
-messageSends: ["protocol", "basicAt:put:", "announce:", "current", "method:", "new", "oldProtocol:", "yourself", "ifNotNil:", "methodClass", "addElement:", "organization", "removeProtocolIfEmpty:"]
+messageSends: ["protocol", "announce:", "current", "method:", "new", "oldProtocol:", "yourself", "ifNotNil:", "methodClass", "addElement:", "organization", "removeProtocolIfEmpty:"]
 }),
 $globals.CompiledMethod);
 
@@ -19674,14 +19775,13 @@ selector: "referencedClasses",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $self._basicAt_("referencedClasses");
-}, function($ctx1) {$ctx1.fill(self,"referencedClasses",{},$globals.CompiledMethod)});
+return $self.referencedClasses;
+
 },
 args: [],
-source: "referencedClasses\x0a\x09^ self basicAt: 'referencedClasses'",
+source: "referencedClasses\x0a\x09^ referencedClasses",
 referencedClasses: [],
-messageSends: ["basicAt:"]
+messageSends: []
 }),
 $globals.CompiledMethod);
 
@@ -19691,14 +19791,13 @@ selector: "selector",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $self._basicAt_("selector");
-}, function($ctx1) {$ctx1.fill(self,"selector",{},$globals.CompiledMethod)});
+return $self.selector;
+
 },
 args: [],
-source: "selector\x0a\x09^ self basicAt: 'selector'",
+source: "selector\x0a\x09^ selector",
 referencedClasses: [],
-messageSends: ["basicAt:"]
+messageSends: []
 }),
 $globals.CompiledMethod);
 
@@ -19708,15 +19807,14 @@ selector: "selector:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._basicAt_put_("selector",aString);
+$self.selector=aString;
 return self;
-}, function($ctx1) {$ctx1.fill(self,"selector:",{aString:aString},$globals.CompiledMethod)});
+
 },
 args: ["aString"],
-source: "selector: aString\x0a\x09self basicAt: 'selector' put: aString",
+source: "selector: aString\x0a\x09selector := aString",
 referencedClasses: [],
-messageSends: ["basicAt:put:"]
+messageSends: []
 }),
 $globals.CompiledMethod);
 
@@ -19745,7 +19843,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self._basicAt_("source");
+$1=$self.source;
 if(($receiver = $1) == null || $receiver.a$nil){
 return "";
 } else {
@@ -19754,9 +19852,9 @@ return $1;
 }, function($ctx1) {$ctx1.fill(self,"source",{},$globals.CompiledMethod)});
 },
 args: [],
-source: "source\x0a\x09^ (self basicAt: 'source') ifNil: [ '' ]",
+source: "source\x0a\x09^ source ifNil: [ '' ]",
 referencedClasses: [],
-messageSends: ["ifNil:", "basicAt:"]
+messageSends: ["ifNil:"]
 }),
 $globals.CompiledMethod);
 
@@ -19766,15 +19864,14 @@ selector: "source:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._basicAt_put_("source",aString);
+$self.source=aString;
 return self;
-}, function($ctx1) {$ctx1.fill(self,"source:",{aString:aString},$globals.CompiledMethod)});
+
 },
 args: ["aString"],
-source: "source: aString\x0a\x09self basicAt: 'source' put: aString",
+source: "source: aString\x0a\x09source := aString",
 referencedClasses: [],
-messageSends: ["basicAt:put:"]
+messageSends: []
 }),
 $globals.CompiledMethod);
 
@@ -19789,8 +19886,8 @@ protocol: "private",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@worker"])._valueWithTimeout_((0));
-$self["@poolSize"]=$recv($self["@poolSize"]).__plus((1));
+$recv($self.worker)._valueWithTimeout_((0));
+$self.poolSize=$recv($self.poolSize).__plus((1));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"addWorker",{},$globals.ForkPool)});
 },
@@ -19826,11 +19923,11 @@ fn: function (aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$1=$recv($self["@poolSize"]).__lt($self._maxPoolSize());
+$1=$recv($self.poolSize).__lt($self._maxPoolSize());
 if($core.assert($1)){
 $self._addWorker();
 }
-$recv($self["@queue"])._nextPut_(aBlock);
+$recv($self.queue)._nextPut_(aBlock);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"fork:",{aBlock:aBlock},$globals.ForkPool)});
 },
@@ -19852,9 +19949,9 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.ForkPool.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@poolSize"]=(0);
-$self["@queue"]=$recv($globals.Queue)._new();
-$self["@worker"]=$self._makeWorker();
+$self.poolSize=(0);
+$self.queue=$recv($globals.Queue)._new();
+$self.worker=$self._makeWorker();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.ForkPool)});
 },
@@ -19878,8 +19975,8 @@ sentinel=$recv($globals.Object)._new();
 return (function(){
 var block;
 return $core.withContext(function($ctx2) {
-$self["@poolSize"]=$recv($self["@poolSize"]).__minus((1));
-block=$recv($self["@queue"])._nextIfAbsent_((function(){
+$self.poolSize=$recv($self.poolSize).__minus((1));
+block=$recv($self.queue)._nextIfAbsent_((function(){
 return sentinel;
 
 }));
@@ -19914,7 +20011,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@maxPoolSize"];
+$1=$self.maxPoolSize;
 if(($receiver = $1) == null || $receiver.a$nil){
 return $self._defaultMaxPoolSize();
 } else {
@@ -19935,7 +20032,7 @@ selector: "maxPoolSize:",
 protocol: "accessing",
 fn: function (anInteger){
 var self=this,$self=this;
-$self["@maxPoolSize"]=anInteger;
+$self.maxPoolSize=anInteger;
 return self;
 
 },
@@ -19947,7 +20044,7 @@ messageSends: []
 $globals.ForkPool);
 
 
-$globals.ForkPool.a$cls.iVarNames = ["default"];
+$core.setSlots($globals.ForkPool.a$cls, ["default"]);
 $core.addMethod(
 $core.method({
 selector: "default",
@@ -19956,10 +20053,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@default"];
+$1=$self.default;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@default"]=$self._new();
-return $self["@default"];
+$self.default=$self._new();
+return $self.default;
 } else {
 return $1;
 }
@@ -19994,7 +20091,7 @@ selector: "resetDefault",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-$self["@default"]=nil;
+$self.default=nil;
 return self;
 
 },
@@ -20014,7 +20111,7 @@ selector: "arguments",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@arguments"];
+return $self.arguments;
 
 },
 args: [],
@@ -20030,7 +20127,7 @@ selector: "arguments:",
 protocol: "accessing",
 fn: function (anArray){
 var self=this,$self=this;
-$self["@arguments"]=anArray;
+$self.arguments=anArray;
 return self;
 
 },
@@ -20073,7 +20170,7 @@ selector: "selector",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@selector"];
+return $self.selector;
 
 },
 args: [],
@@ -20089,7 +20186,7 @@ selector: "selector:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@selector"]=aString;
+$self.selector=aString;
 return self;
 
 },
@@ -20166,7 +20263,7 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self["@message"])._arguments();
+return $recv($self.message)._arguments();
 }, function($ctx1) {$ctx1.fill(self,"arguments",{},$globals.MessageSend)});
 },
 args: [],
@@ -20183,7 +20280,7 @@ protocol: "accessing",
 fn: function (aCollection){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@message"])._arguments_(aCollection);
+$recv($self.message)._arguments_(aCollection);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"arguments:",{aCollection:aCollection},$globals.MessageSend)});
 },
@@ -20205,7 +20302,7 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.MessageSend.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@message"]=$recv($globals.Message)._new();
+$self.message=$recv($globals.Message)._new();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.MessageSend)});
 },
@@ -20252,7 +20349,7 @@ selector: "receiver",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@receiver"];
+return $self.receiver;
 
 },
 args: [],
@@ -20268,7 +20365,7 @@ selector: "receiver:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@receiver"]=anObject;
+$self.receiver=anObject;
 return self;
 
 },
@@ -20286,7 +20383,7 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self["@message"])._selector();
+return $recv($self.message)._selector();
 }, function($ctx1) {$ctx1.fill(self,"selector",{},$globals.MessageSend)});
 },
 args: [],
@@ -20303,7 +20400,7 @@ protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@message"])._selector_(aString);
+$recv($self.message)._selector_(aString);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"selector:",{aString:aString},$globals.MessageSend)});
 },
@@ -20321,7 +20418,7 @@ protocol: "evaluating",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self["@message"])._sendTo_($self._receiver());
+return $recv($self.message)._sendTo_($self._receiver());
 }, function($ctx1) {$ctx1.fill(self,"value",{},$globals.MessageSend)});
 },
 args: [],
@@ -20339,7 +20436,7 @@ fn: function (anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$1=$self["@message"];
+$1=$self.message;
 $recv($1)._arguments_([anObject]);
 return $recv($1)._sendTo_($self._receiver());
 }, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject},$globals.MessageSend)});
@@ -20359,7 +20456,7 @@ fn: function (firstArgument,secondArgument){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$1=$self["@message"];
+$1=$self.message;
 $recv($1)._arguments_([firstArgument,secondArgument]);
 return $recv($1)._sendTo_($self._receiver());
 }, function($ctx1) {$ctx1.fill(self,"value:value:",{firstArgument:firstArgument,secondArgument:secondArgument},$globals.MessageSend)});
@@ -20379,7 +20476,7 @@ fn: function (firstArgument,secondArgument,thirdArgument){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$1=$self["@message"];
+$1=$self.message;
 $recv($1)._arguments_([firstArgument,secondArgument,thirdArgument]);
 return $recv($1)._sendTo_($self._receiver());
 }, function($ctx1) {$ctx1.fill(self,"value:value:value:",{firstArgument:firstArgument,secondArgument:secondArgument,thirdArgument:thirdArgument},$globals.MessageSend)});
@@ -20411,79 +20508,19 @@ $globals.MessageSend);
 
 
 
-$core.addClass("MethodContext", $globals.Object, [], "Kernel-Methods");
+$core.addClass("MethodContext", $globals.Object, ["receiver", "evaluatedSelector", "homeContext", "index", "locals", "outerContext", "selector", "sendIdx", "supercall"], "Kernel-Methods");
 $globals.MethodContext.comment="I hold all the dynamic state associated with the execution of either a method activation resulting from a message send. I am used to build the call stack while debugging.\x0a\x0aMy instances are JavaScript `SmalltalkMethodContext` objects defined in `boot.js`.";
-$core.addMethod(
-$core.method({
-selector: "asString",
-protocol: "converting",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-var $2,$3,$5,$7,$6,$4,$11,$10,$9,$8,$12,$16,$15,$14,$13,$1;
-$2=$self._isBlockContext();
-if($core.assert($2)){
-$3="a block (in ".__comma($recv($self._methodContext())._asString());
-$ctx1.sendIdx[","]=2;
-$1=$recv($3).__comma(")");
-$ctx1.sendIdx[","]=1;
-} else {
-var methodClass;
-methodClass=$recv($self._method())._methodClass();
-$5=methodClass;
-$7=$self._receiver();
-$ctx1.sendIdx["receiver"]=1;
-$6=$recv($7)._class();
-$ctx1.sendIdx["class"]=1;
-$4=$recv($5).__eq($6);
-if($core.assert($4)){
-$11=$self._receiver();
-$ctx1.sendIdx["receiver"]=2;
-$10=$recv($11)._class();
-$ctx1.sendIdx["class"]=2;
-$9=$recv($10)._name();
-$ctx1.sendIdx["name"]=1;
-$8=$recv($9).__comma(" >> ");
-$ctx1.sendIdx[","]=4;
-$12=$self._selector();
-$ctx1.sendIdx["selector"]=1;
-$1=$recv($8).__comma($12);
-$ctx1.sendIdx[","]=3;
-} else {
-$16=$recv($recv($self._receiver())._class())._name();
-$ctx1.sendIdx["name"]=2;
-$15=$recv($16).__comma("(");
-$14=$recv($15).__comma($recv(methodClass)._name());
-$ctx1.sendIdx[","]=7;
-$13=$recv($14).__comma(") >> ");
-$ctx1.sendIdx[","]=6;
-$1=$recv($13).__comma($self._selector());
-$ctx1.sendIdx[","]=5;
-}
-}
-return $1;
-}, function($ctx1) {$ctx1.fill(self,"asString",{},$globals.MethodContext)});
-},
-args: [],
-source: "asString\x0a\x09^ self isBlockContext\x0a\x09\x09ifTrue: [ 'a block (in ', self methodContext asString, ')' ]\x0a\x09\x09ifFalse: [ \x0a\x09\x09\x09| methodClass |\x0a\x09\x09\x09methodClass := self method methodClass.\x0a\x09\x09\x09methodClass = self receiver class \x0a\x09\x09\x09\x09ifTrue: [ self receiver class name, ' >> ', self selector ]\x0a\x09\x09\x09\x09ifFalse: [ self receiver class name, '(', methodClass name, ') >> ', self selector ] ]",
-referencedClasses: [],
-messageSends: ["ifTrue:ifFalse:", "isBlockContext", ",", "asString", "methodContext", "methodClass", "method", "=", "class", "receiver", "name", "selector"]
-}),
-$globals.MethodContext);
-
 $core.addMethod(
 $core.method({
 selector: "basicReceiver",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.receiver;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"basicReceiver",{},$globals.MethodContext)});
+return $self.receiver;
+
 },
 args: [],
-source: "basicReceiver\x0a\x09<inlineJS: 'return self.receiver'>",
+source: "basicReceiver\x0a\x09^ receiver",
 referencedClasses: [],
 messageSends: []
 }),
@@ -20495,53 +20532,13 @@ selector: "evaluatedSelector",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.evaluatedSelector;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"evaluatedSelector",{},$globals.MethodContext)});
+return $self.evaluatedSelector;
+
 },
 args: [],
-source: "evaluatedSelector\x0a\x09<inlineJS: 'return self.evaluatedSelector'>",
+source: "evaluatedSelector\x0a\x09^ evaluatedSelector",
 referencedClasses: [],
 messageSends: []
-}),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
-selector: "findContextSuchThat:",
-protocol: "accessing",
-fn: function (testBlock){
-var self=this,$self=this;
-var context;
-return $core.withContext(function($ctx1) {
-var $1;
-var $early={};
-try {
-context=self;
-$recv((function(){
-return $core.withContext(function($ctx2) {
-return $recv(context)._isNil();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}))._whileFalse_((function(){
-return $core.withContext(function($ctx2) {
-$1=$recv(testBlock)._value_(context);
-if($core.assert($1)){
-throw $early=[context];
-}
-context=$recv(context)._outerContext();
-return context;
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-}));
-return nil;
-}
-catch(e) {if(e===$early)return e[0]; throw e}
-}, function($ctx1) {$ctx1.fill(self,"findContextSuchThat:",{testBlock:testBlock,context:context},$globals.MethodContext)});
-},
-args: ["testBlock"],
-source: "findContextSuchThat: testBlock\x0a\x09\x22Search self and my sender chain for first one that satisfies `testBlock`.  \x0a\x09Answer `nil` if none satisfy\x22\x0a\x0a\x09| context |\x0a\x09\x0a\x09context := self.\x0a\x09[ context isNil] whileFalse: [\x0a\x09\x09(testBlock value: context) \x0a\x09\x09\x09ifTrue: [ ^ context ].\x0a\x09\x09context := context outerContext ].\x0a\x0a\x09^ nil",
-referencedClasses: [],
-messageSends: ["whileFalse:", "isNil", "ifTrue:", "value:", "outerContext"]
 }),
 $globals.MethodContext);
 
@@ -20551,13 +20548,11 @@ selector: "home",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.homeContext;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"home",{},$globals.MethodContext)});
+return $self.homeContext;
+
 },
 args: [],
-source: "home\x0a\x09<inlineJS: 'return self.homeContext'>",
+source: "home\x0a\x09^ homeContext",
 referencedClasses: [],
 messageSends: []
 }),
@@ -20570,31 +20565,19 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self.index || 0;
-return self;
+var $1,$receiver;
+$1=$self.index;
+if(($receiver = $1) == null || $receiver.a$nil){
+return (0);
+} else {
+return $1;
+}
 }, function($ctx1) {$ctx1.fill(self,"index",{},$globals.MethodContext)});
 },
 args: [],
-source: "index\x0a\x09<inlineJS: 'return self.index || 0'>",
+source: "index\x0a\x09^ index ifNil: [ 0 ]",
 referencedClasses: [],
-messageSends: []
-}),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
-selector: "isBlockContext",
-protocol: "testing",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $recv($self._selector())._isNil();
-}, function($ctx1) {$ctx1.fill(self,"isBlockContext",{},$globals.MethodContext)});
-},
-args: [],
-source: "isBlockContext\x0a\x09\x22Block context do not have selectors.\x22\x0a\x09\x0a\x09^ self selector isNil",
-referencedClasses: [],
-messageSends: ["isNil", "selector"]
+messageSends: ["ifNil:"]
 }),
 $globals.MethodContext);
 
@@ -20604,94 +20587,13 @@ selector: "locals",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.locals || {};
-return self;
-}, function($ctx1) {$ctx1.fill(self,"locals",{},$globals.MethodContext)});
+return $self.locals;
+
 },
 args: [],
-source: "locals\x0a\x09<inlineJS: 'return self.locals || {}'>",
+source: "locals\x0a\x09^ locals",
 referencedClasses: [],
 messageSends: []
-}),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
-selector: "method",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-var method,lookupClass,receiverClass,supercall;
-return $core.withContext(function($ctx1) {
-var $1,$3,$2,$4,$6,$5,$7,$8,$receiver;
-$1=$self._methodContext();
-$ctx1.sendIdx["methodContext"]=1;
-if(($receiver = $1) == null || $receiver.a$nil){
-return nil;
-} else {
-$1;
-}
-$3=$self._methodContext();
-$ctx1.sendIdx["methodContext"]=2;
-$2=$recv($3)._receiver();
-receiverClass=$recv($2)._class();
-$4=receiverClass;
-$6=$self._methodContext();
-$ctx1.sendIdx["methodContext"]=3;
-$5=$recv($6)._selector();
-$ctx1.sendIdx["selector"]=1;
-method=$recv($4)._lookupSelector_($5);
-$ctx1.sendIdx["lookupSelector:"]=1;
-$7=$self._outerContext();
-if(($receiver = $7) == null || $receiver.a$nil){
-supercall=false;
-} else {
-var outer;
-outer=$receiver;
-supercall=$recv(outer)._supercall();
-}
-$8=supercall;
-if($core.assert($8)){
-return $recv($recv($recv(method)._methodClass())._superclass())._lookupSelector_($recv($self._methodContext())._selector());
-} else {
-return method;
-}
-}, function($ctx1) {$ctx1.fill(self,"method",{method:method,lookupClass:lookupClass,receiverClass:receiverClass,supercall:supercall},$globals.MethodContext)});
-},
-args: [],
-source: "method\x0a\x09| method lookupClass receiverClass supercall |\x0a\x09\x0a\x09self methodContext ifNil: [ ^ nil ].\x0a\x0a\x09receiverClass := self methodContext receiver class.\x0a\x09method := receiverClass lookupSelector: self methodContext selector.\x0a\x09supercall := self outerContext \x0a\x09\x09ifNil: [ false ]\x0a\x09\x09ifNotNil: [ :outer | outer supercall ].\x0a\x0a\x09^ supercall\x0a\x09\x09ifFalse: [ method ]\x0a\x09\x09ifTrue: [ method methodClass superclass lookupSelector: self methodContext selector ]",
-referencedClasses: [],
-messageSends: ["ifNil:", "methodContext", "class", "receiver", "lookupSelector:", "selector", "ifNil:ifNotNil:", "outerContext", "supercall", "ifFalse:ifTrue:", "superclass", "methodClass"]
-}),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
-selector: "methodContext",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-var $1,$2,$receiver;
-$1=$self._isBlockContext();
-if(!$core.assert($1)){
-return self;
-}
-$2=$self._outerContext();
-if(($receiver = $2) == null || $receiver.a$nil){
-return $2;
-} else {
-var outer;
-outer=$receiver;
-return $recv(outer)._methodContext();
-}
-}, function($ctx1) {$ctx1.fill(self,"methodContext",{},$globals.MethodContext)});
-},
-args: [],
-source: "methodContext\x0a\x09self isBlockContext ifFalse: [ ^ self ].\x0a\x09\x0a\x09^ self outerContext ifNotNil: [ :outer |\x0a\x09\x09outer methodContext ]",
-referencedClasses: [],
-messageSends: ["ifFalse:", "isBlockContext", "ifNotNil:", "outerContext", "methodContext"]
 }),
 $globals.MethodContext);
 
@@ -20702,69 +20604,19 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self.outerContext || self.homeContext;
-return self;
+var $1,$receiver;
+$1=$self.outerContext;
+if(($receiver = $1) == null || $receiver.a$nil){
+return $self._home();
+} else {
+return $1;
+}
 }, function($ctx1) {$ctx1.fill(self,"outerContext",{},$globals.MethodContext)});
 },
 args: [],
-source: "outerContext\x0a\x09<inlineJS: 'return self.outerContext || self.homeContext'>",
+source: "outerContext\x0a\x09^ outerContext ifNil: [ self home ]",
 referencedClasses: [],
-messageSends: []
-}),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
-selector: "printOn:",
-protocol: "printing",
-fn: function (aStream){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-(
-$ctx1.supercall = true,
-($globals.MethodContext.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($self, [aStream]));
-$ctx1.supercall = false;
-$recv(aStream)._nextPutAll_("(");
-$ctx1.sendIdx["nextPutAll:"]=1;
-$recv(aStream)._nextPutAll_($self._asString());
-$ctx1.sendIdx["nextPutAll:"]=2;
-$recv(aStream)._nextPutAll_(")");
-return self;
-}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.MethodContext)});
-},
-args: ["aStream"],
-source: "printOn: aStream\x0a\x09super printOn: aStream.\x0a\x09aStream \x0a\x09\x09nextPutAll: '(';\x0a\x09\x09nextPutAll: self asString;\x0a\x09\x09nextPutAll: ')'",
-referencedClasses: [],
-messageSends: ["printOn:", "nextPutAll:", "asString"]
-}),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
-selector: "receiver",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-var $2,$1;
-$1=$recv($self._isBlockContext())._and_((function(){
-return $core.withContext(function($ctx2) {
-$2=$self._outerContext();
-$ctx2.sendIdx["outerContext"]=1;
-return $recv($2)._notNil();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
-if($core.assert($1)){
-return $recv($self._outerContext())._receiver();
-} else {
-return $self._basicReceiver();
-}
-}, function($ctx1) {$ctx1.fill(self,"receiver",{},$globals.MethodContext)});
-},
-args: [],
-source: "receiver\x0a\x09^ (self isBlockContext and: [ self outerContext notNil ])\x0a\x09\x09ifTrue: [ self outerContext receiver ]\x0a\x09\x09ifFalse: [ self basicReceiver ]",
-referencedClasses: [],
-messageSends: ["ifTrue:ifFalse:", "and:", "isBlockContext", "notNil", "outerContext", "receiver", "basicReceiver"]
+messageSends: ["ifNil:", "home"]
 }),
 $globals.MethodContext);
 
@@ -20775,38 +20627,19 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-
-		if(self.selector) {
-			return $core.js2st(self.selector);
-		} else {
-			return nil;
-		}
-	;
-return self;
+var $1,$receiver;
+$1=$self.selector;
+if(($receiver = $1) == null || $receiver.a$nil){
+return $1;
+} else {
+return $recv($recv($globals.Smalltalk)._core())._js2st_($self.selector);
+}
 }, function($ctx1) {$ctx1.fill(self,"selector",{},$globals.MethodContext)});
 },
 args: [],
-source: "selector\x0a\x09<inlineJS: '\x0a\x09\x09if(self.selector) {\x0a\x09\x09\x09return $core.js2st(self.selector);\x0a\x09\x09} else {\x0a\x09\x09\x09return nil;\x0a\x09\x09}\x0a\x09'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
-selector: "sendIndexAt:",
-protocol: "accessing",
-fn: function (aSelector){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.sendIdx[aSelector] || 0;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"sendIndexAt:",{aSelector:aSelector},$globals.MethodContext)});
-},
-args: ["aSelector"],
-source: "sendIndexAt: aSelector\x0a\x09<inlineJS: 'return self.sendIdx[aSelector] || 0'>",
-referencedClasses: [],
-messageSends: []
+source: "selector\x0a\x09^ selector ifNotNil: [ Smalltalk core js2st: selector ]",
+referencedClasses: ["Smalltalk"],
+messageSends: ["ifNotNil:", "js2st:", "core"]
 }),
 $globals.MethodContext);
 
@@ -20816,13 +20649,11 @@ selector: "sendIndexes",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.sendIdx;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"sendIndexes",{},$globals.MethodContext)});
+return $self.sendIdx;
+
 },
 args: [],
-source: "sendIndexes\x0a\x09<inlineJS: 'return self.sendIdx'>",
+source: "sendIndexes\x0a\x09^ sendIdx",
 referencedClasses: [],
 messageSends: []
 }),
@@ -20835,14 +20666,14 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-self.homeContext = undefined;
+$self.homeContext=$recv($globals.JSObjectProxy)._undefined();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"stubHere",{},$globals.MethodContext)});
 },
 args: [],
-source: "stubHere\x0a\x09<inlineJS: 'self.homeContext = undefined'>",
-referencedClasses: [],
-messageSends: []
+source: "stubHere\x0a\x09homeContext := JSObjectProxy undefined",
+referencedClasses: ["JSObjectProxy"],
+messageSends: ["undefined"]
 }),
 $globals.MethodContext);
 
@@ -20890,14 +20721,13 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self.supercall == true;
-return self;
+return $recv($self.supercall).__eq(true);
 }, function($ctx1) {$ctx1.fill(self,"supercall",{},$globals.MethodContext)});
 },
 args: [],
-source: "supercall\x0a\x09<inlineJS: 'return self.supercall == true'>",
+source: "supercall\x0a\x09^ supercall = true",
 referencedClasses: [],
-messageSends: []
+messageSends: ["="]
 }),
 $globals.MethodContext);
 
@@ -21411,6 +21241,399 @@ messageSends: []
 $globals.NativeFunction.a$cls);
 
 
+$core.addTrait("TMethodContext", "Kernel-Methods");
+$core.addMethod(
+$core.method({
+selector: "asString",
+protocol: "converting",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $2,$3,$5,$7,$6,$4,$11,$10,$9,$8,$12,$16,$15,$14,$13,$1;
+$2=$self._isBlockContext();
+if($core.assert($2)){
+$3="a block (in ".__comma($recv($self._methodContext())._asString());
+$ctx1.sendIdx[","]=2;
+$1=$recv($3).__comma(")");
+$ctx1.sendIdx[","]=1;
+} else {
+var methodClass;
+methodClass=$recv($self._method())._methodClass();
+$5=methodClass;
+$7=$self._receiver();
+$ctx1.sendIdx["receiver"]=1;
+$6=$recv($7)._class();
+$ctx1.sendIdx["class"]=1;
+$4=$recv($5).__eq($6);
+if($core.assert($4)){
+$11=$self._receiver();
+$ctx1.sendIdx["receiver"]=2;
+$10=$recv($11)._class();
+$ctx1.sendIdx["class"]=2;
+$9=$recv($10)._name();
+$ctx1.sendIdx["name"]=1;
+$8=$recv($9).__comma(" >> ");
+$ctx1.sendIdx[","]=4;
+$12=$self._selector();
+$ctx1.sendIdx["selector"]=1;
+$1=$recv($8).__comma($12);
+$ctx1.sendIdx[","]=3;
+} else {
+$16=$recv($recv($self._receiver())._class())._name();
+$ctx1.sendIdx["name"]=2;
+$15=$recv($16).__comma("(");
+$14=$recv($15).__comma($recv(methodClass)._name());
+$ctx1.sendIdx[","]=7;
+$13=$recv($14).__comma(") >> ");
+$ctx1.sendIdx[","]=6;
+$1=$recv($13).__comma($self._selector());
+$ctx1.sendIdx[","]=5;
+}
+}
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"asString",{},$globals.TMethodContext)});
+},
+args: [],
+source: "asString\x0a\x09^ self isBlockContext\x0a\x09\x09ifTrue: [ 'a block (in ', self methodContext asString, ')' ]\x0a\x09\x09ifFalse: [ \x0a\x09\x09\x09| methodClass |\x0a\x09\x09\x09methodClass := self method methodClass.\x0a\x09\x09\x09methodClass = self receiver class \x0a\x09\x09\x09\x09ifTrue: [ self receiver class name, ' >> ', self selector ]\x0a\x09\x09\x09\x09ifFalse: [ self receiver class name, '(', methodClass name, ') >> ', self selector ] ]",
+referencedClasses: [],
+messageSends: ["ifTrue:ifFalse:", "isBlockContext", ",", "asString", "methodContext", "methodClass", "method", "=", "class", "receiver", "name", "selector"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "basicReceiver",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"basicReceiver",{},$globals.TMethodContext)});
+},
+args: [],
+source: "basicReceiver\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "findContextSuchThat:",
+protocol: "accessing",
+fn: function (testBlock){
+var self=this,$self=this;
+var context;
+return $core.withContext(function($ctx1) {
+var $1;
+var $early={};
+try {
+context=self;
+$recv((function(){
+return $core.withContext(function($ctx2) {
+return $recv(context)._isNil();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}))._whileFalse_((function(){
+return $core.withContext(function($ctx2) {
+$1=$recv(testBlock)._value_(context);
+if($core.assert($1)){
+throw $early=[context];
+}
+context=$recv(context)._outerContext();
+return context;
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}));
+return nil;
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"findContextSuchThat:",{testBlock:testBlock,context:context},$globals.TMethodContext)});
+},
+args: ["testBlock"],
+source: "findContextSuchThat: testBlock\x0a\x09\x22Search self and my sender chain for first one that satisfies `testBlock`.  \x0a\x09Answer `nil` if none satisfy\x22\x0a\x0a\x09| context |\x0a\x09\x0a\x09context := self.\x0a\x09[ context isNil] whileFalse: [\x0a\x09\x09(testBlock value: context) \x0a\x09\x09\x09ifTrue: [ ^ context ].\x0a\x09\x09context := context outerContext ].\x0a\x0a\x09^ nil",
+referencedClasses: [],
+messageSends: ["whileFalse:", "isNil", "ifTrue:", "value:", "outerContext"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "home",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"home",{},$globals.TMethodContext)});
+},
+args: [],
+source: "home\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "index",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"index",{},$globals.TMethodContext)});
+},
+args: [],
+source: "index\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "isBlockContext",
+protocol: "testing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._selector())._isNil();
+}, function($ctx1) {$ctx1.fill(self,"isBlockContext",{},$globals.TMethodContext)});
+},
+args: [],
+source: "isBlockContext\x0a\x09\x22Block context do not have selectors.\x22\x0a\x09\x0a\x09^ self selector isNil",
+referencedClasses: [],
+messageSends: ["isNil", "selector"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "locals",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"locals",{},$globals.TMethodContext)});
+},
+args: [],
+source: "locals\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "method",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+var method,lookupClass,receiverClass,supercall;
+return $core.withContext(function($ctx1) {
+var $1,$3,$2,$4,$6,$5,$7,$8,$receiver;
+$1=$self._methodContext();
+$ctx1.sendIdx["methodContext"]=1;
+if(($receiver = $1) == null || $receiver.a$nil){
+return nil;
+} else {
+$1;
+}
+$3=$self._methodContext();
+$ctx1.sendIdx["methodContext"]=2;
+$2=$recv($3)._receiver();
+receiverClass=$recv($2)._class();
+$4=receiverClass;
+$6=$self._methodContext();
+$ctx1.sendIdx["methodContext"]=3;
+$5=$recv($6)._selector();
+$ctx1.sendIdx["selector"]=1;
+method=$recv($4)._lookupSelector_($5);
+$ctx1.sendIdx["lookupSelector:"]=1;
+$7=$self._outerContext();
+if(($receiver = $7) == null || $receiver.a$nil){
+supercall=false;
+} else {
+var outer;
+outer=$receiver;
+supercall=$recv(outer)._supercall();
+}
+$8=supercall;
+if($core.assert($8)){
+return $recv($recv($recv(method)._methodClass())._superclass())._lookupSelector_($recv($self._methodContext())._selector());
+} else {
+return method;
+}
+}, function($ctx1) {$ctx1.fill(self,"method",{method:method,lookupClass:lookupClass,receiverClass:receiverClass,supercall:supercall},$globals.TMethodContext)});
+},
+args: [],
+source: "method\x0a\x09| method lookupClass receiverClass supercall |\x0a\x09\x0a\x09self methodContext ifNil: [ ^ nil ].\x0a\x0a\x09receiverClass := self methodContext receiver class.\x0a\x09method := receiverClass lookupSelector: self methodContext selector.\x0a\x09supercall := self outerContext \x0a\x09\x09ifNil: [ false ]\x0a\x09\x09ifNotNil: [ :outer | outer supercall ].\x0a\x0a\x09^ supercall\x0a\x09\x09ifFalse: [ method ]\x0a\x09\x09ifTrue: [ method methodClass superclass lookupSelector: self methodContext selector ]",
+referencedClasses: [],
+messageSends: ["ifNil:", "methodContext", "class", "receiver", "lookupSelector:", "selector", "ifNil:ifNotNil:", "outerContext", "supercall", "ifFalse:ifTrue:", "superclass", "methodClass"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "methodContext",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1,$2,$receiver;
+$1=$self._isBlockContext();
+if(!$core.assert($1)){
+return self;
+}
+$2=$self._outerContext();
+if(($receiver = $2) == null || $receiver.a$nil){
+return $2;
+} else {
+var outer;
+outer=$receiver;
+return $recv(outer)._methodContext();
+}
+}, function($ctx1) {$ctx1.fill(self,"methodContext",{},$globals.TMethodContext)});
+},
+args: [],
+source: "methodContext\x0a\x09self isBlockContext ifFalse: [ ^ self ].\x0a\x09\x0a\x09^ self outerContext ifNotNil: [ :outer |\x0a\x09\x09outer methodContext ]",
+referencedClasses: [],
+messageSends: ["ifFalse:", "isBlockContext", "ifNotNil:", "outerContext", "methodContext"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "outerContext",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"outerContext",{},$globals.TMethodContext)});
+},
+args: [],
+source: "outerContext\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "printOn:",
+protocol: "printing",
+fn: function (aStream){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+(
+$ctx1.supercall = true,
+($globals.TMethodContext.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($self, [aStream]));
+$ctx1.supercall = false;
+$recv(aStream)._nextPutAll_("(");
+$ctx1.sendIdx["nextPutAll:"]=1;
+$recv(aStream)._nextPutAll_($self._asString());
+$ctx1.sendIdx["nextPutAll:"]=2;
+$recv(aStream)._nextPutAll_(")");
+return self;
+}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.TMethodContext)});
+},
+args: ["aStream"],
+source: "printOn: aStream\x0a\x09super printOn: aStream.\x0a\x09aStream \x0a\x09\x09nextPutAll: '(';\x0a\x09\x09nextPutAll: self asString;\x0a\x09\x09nextPutAll: ')'",
+referencedClasses: [],
+messageSends: ["printOn:", "nextPutAll:", "asString"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "receiver",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $2,$1;
+$1=$recv($self._isBlockContext())._and_((function(){
+return $core.withContext(function($ctx2) {
+$2=$self._outerContext();
+$ctx2.sendIdx["outerContext"]=1;
+return $recv($2)._notNil();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+if($core.assert($1)){
+return $recv($self._outerContext())._receiver();
+} else {
+return $self._basicReceiver();
+}
+}, function($ctx1) {$ctx1.fill(self,"receiver",{},$globals.TMethodContext)});
+},
+args: [],
+source: "receiver\x0a\x09^ (self isBlockContext and: [ self outerContext notNil ])\x0a\x09\x09ifTrue: [ self outerContext receiver ]\x0a\x09\x09ifFalse: [ self basicReceiver ]",
+referencedClasses: [],
+messageSends: ["ifTrue:ifFalse:", "and:", "isBlockContext", "notNil", "outerContext", "receiver", "basicReceiver"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "selector",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"selector",{},$globals.TMethodContext)});
+},
+args: [],
+source: "selector\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "sendIndexes",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"sendIndexes",{},$globals.TMethodContext)});
+},
+args: [],
+source: "sendIndexes\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TMethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "supercall",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"supercall",{},$globals.TMethodContext)});
+},
+args: [],
+source: "supercall\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.TMethodContext);
+
+
 $core.addClass("Timeout", $globals.Object, ["rawTimeout"], "Kernel-Methods");
 $globals.Timeout.comment="I am wrapping the returns from `set{Timeout,Interval}`.\x0a\x0a## Motivation\x0a\x0aNumber suffices in browsers, but node.js returns an object.";
 $core.addMethod(
@@ -21421,14 +21644,14 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var interval = $self["@rawTimeout"];
+		var interval = $self.rawTimeout;
 		clearInterval(interval);
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"clearInterval",{},$globals.Timeout)});
 },
 args: [],
-source: "clearInterval\x0a\x09<inlineJS: '\x0a\x09\x09var interval = $self[\x22@rawTimeout\x22];\x0a\x09\x09clearInterval(interval);\x0a\x09'>",
+source: "clearInterval\x0a\x09<inlineJS: '\x0a\x09\x09var interval = $self.rawTimeout;\x0a\x09\x09clearInterval(interval);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21442,14 +21665,14 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var timeout = $self["@rawTimeout"];
+		var timeout = $self.rawTimeout;
 		clearTimeout(timeout);
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"clearTimeout",{},$globals.Timeout)});
 },
 args: [],
-source: "clearTimeout\x0a\x09<inlineJS: '\x0a\x09\x09var timeout = $self[\x22@rawTimeout\x22];\x0a\x09\x09clearTimeout(timeout);\x0a\x09'>",
+source: "clearTimeout\x0a\x09<inlineJS: '\x0a\x09\x09var timeout = $self.rawTimeout;\x0a\x09\x09clearTimeout(timeout);\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -21461,7 +21684,7 @@ selector: "rawTimeout:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@rawTimeout"]=anObject;
+$self.rawTimeout=anObject;
 return self;
 
 },
@@ -21493,14 +21716,15 @@ messageSends: ["rawTimeout:", "new", "yourself"]
 }),
 $globals.Timeout.a$cls);
 
+$core.setTraitComposition([{trait: $globals.TMethodContext}], $globals.MethodContext);
+
 });
 
-define('amber_core/Kernel-Dag',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Kernel-Dag',["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Dag");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AbstractDagVisitor", $globals.Object, [], "Kernel-Dag");
 $globals.AbstractDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x0aConcrete classes should implement `visitDagNode:`,\x0athey can reuse possible variants of implementation\x0aoffered directly: `visitDagNodeVariantSimple:`\x0aand `visitDagNodeVariantRedux:`.";
@@ -21671,7 +21895,7 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.PathDagVisitor.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@path"]=[];
+$self.path=[];
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.PathDagVisitor)});
 },
@@ -21688,7 +21912,7 @@ selector: "path",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@path"];
+return $self.path;
 
 },
 args: [],
@@ -21707,10 +21931,10 @@ var self=this,$self=this;
 var oldPath,result;
 return $core.withContext(function($ctx1) {
 result=aNode;
-oldPath=$self["@path"];
+oldPath=$self.path;
 $recv((function(){
 return $core.withContext(function($ctx2) {
-$self["@path"]=$recv($self["@path"]).__comma([aNode]);
+$self.path=$recv($self.path).__comma([aNode]);
 result=(
 $ctx2.supercall = true,
 ($globals.PathDagVisitor.superclass||$boot.nilAsClass).fn.prototype._visit_.apply($self, [aNode]));
@@ -21718,8 +21942,8 @@ $ctx2.supercall = false;
 return result;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }))._ensure_((function(){
-$self["@path"]=oldPath;
-return $self["@path"];
+$self.path=oldPath;
+return $self.path;
 
 }));
 return result;
@@ -21747,7 +21971,7 @@ $ctx1.supercall = true,
 $ctx1.supercall = false;
 $1=$recv(aNode).__eq_eq(newNode);
 if(!$core.assert($1)){
-$recv($self["@path"])._at_put_($recv($self["@path"])._size(),newNode);
+$recv($self.path)._at_put_($recv($self.path)._size(),newNode);
 }
 return newNode;
 }, function($ctx1) {$ctx1.fill(self,"visitDagNodeVariantRedux:",{aNode:aNode,newNode:newNode},$globals.PathDagVisitor)});
@@ -21889,10 +22113,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@nodes"];
+$1=$self.nodes;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@nodes"]=$recv($globals.Array)._new();
-return $self["@nodes"];
+$self.nodes=$recv($globals.Array)._new();
+return $self.nodes;
 } else {
 return $1;
 }
@@ -21911,7 +22135,7 @@ selector: "dagChildren:",
 protocol: "accessing",
 fn: function (aCollection){
 var self=this,$self=this;
-$self["@nodes"]=aCollection;
+$self.nodes=aCollection;
 return self;
 
 },
@@ -21983,28 +22207,61 @@ $globals.Object);
 
 });
 
-define('amber_core/Kernel-Exceptions',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Kernel-Exceptions',["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Exceptions");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("Error", $globals.Object, ["messageText"], "Kernel-Exceptions");
+$core.addClass("Error", $globals.Object, ["message", "stack", "amberHandled", "context", "smalltalkError"], "Kernel-Exceptions");
 $globals.Error.comment="From the ANSI standard:\x0a\x0aThis protocol describes the behavior of instances of class `Error`.\x0aThese are used to represent error conditions that prevent the normal continuation of processing.\x0aActual error exceptions used by an application may be subclasses of this class.\x0aAs `Error` is explicitly specified to be subclassable, conforming implementations must implement its behavior in a non-fragile manner.";
+$core.addMethod(
+$core.method({
+selector: "basicSignal",
+protocol: "private",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+throw self;;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"basicSignal",{},$globals.Error)});
+},
+args: [],
+source: "basicSignal\x0a\x09<inlineJS: 'throw self;'>",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Error);
+
 $core.addMethod(
 $core.method({
 selector: "beHandled",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-self.amberHandled = true;
+$self.amberHandled=true;
 return self;
-}, function($ctx1) {$ctx1.fill(self,"beHandled",{},$globals.Error)});
+
 },
 args: [],
-source: "beHandled\x0a\x09<inlineJS: 'self.amberHandled = true'>",
+source: "beHandled\x0a\x09amberHandled := true",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Error);
+
+$core.addMethod(
+$core.method({
+selector: "beSmalltalkError",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+$self.smalltalkError=true;
+return self;
+
+},
+args: [],
+source: "beSmalltalkError\x0a\x09smalltalkError := true",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22016,13 +22273,12 @@ selector: "beUnhandled",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-self.amberHandled = false;
+$self.amberHandled=false;
 return self;
-}, function($ctx1) {$ctx1.fill(self,"beUnhandled",{},$globals.Error)});
+
 },
 args: [],
-source: "beUnhandled\x0a\x09<inlineJS: 'self.amberHandled = false'>",
+source: "beUnhandled\x0a\x09amberHandled := false",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22034,13 +22290,28 @@ selector: "context",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.context;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"context",{},$globals.Error)});
+return $self.context;
+
 },
 args: [],
-source: "context\x0a\x09<inlineJS: 'return self.context'>",
+source: "context\x0a\x09^ context",
+referencedClasses: [],
+messageSends: []
+}),
+$globals.Error);
+
+$core.addMethod(
+$core.method({
+selector: "context:",
+protocol: "accessing",
+fn: function (aMethodContext){
+var self=this,$self=this;
+$self.context=aMethodContext;
+return self;
+
+},
+args: ["aMethodContext"],
+source: "context: aMethodContext\x0a\x09context := aMethodContext",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22071,14 +22342,13 @@ protocol: "testing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self.smalltalkError === true;
-return self;
+return $recv($self.smalltalkError).__eq_eq(true);
 }, function($ctx1) {$ctx1.fill(self,"isSmalltalkError",{},$globals.Error)});
 },
 args: [],
-source: "isSmalltalkError\x0a\x09<inlineJS: 'return self.smalltalkError === true'>",
+source: "isSmalltalkError\x0a\x09^ smalltalkError == true",
 referencedClasses: [],
-messageSends: []
+messageSends: ["=="]
 }),
 $globals.Error);
 
@@ -22088,13 +22358,11 @@ selector: "jsStack",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return self.stack;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"jsStack",{},$globals.Error)});
+return $self.stack;
+
 },
 args: [],
-source: "jsStack\x0a\x09<inlineJS: 'return self.stack'>",
+source: "jsStack\x0a\x09^ stack",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22106,11 +22374,11 @@ selector: "messageText",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@messageText"];
+return $self.message;
 
 },
 args: [],
-source: "messageText\x0a\x09^ messageText",
+source: "messageText\x0a\x09^ message",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22122,12 +22390,12 @@ selector: "messageText:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@messageText"]=aString;
+$self.message=aString;
 return self;
 
 },
 args: ["aString"],
-source: "messageText: aString\x0a\x09messageText := aString",
+source: "messageText: aString\x0a\x09message := aString",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22157,17 +22425,15 @@ protocol: "signaling",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-
-		self.amberHandled = false;
-		throw self;
-	;
+$self._beUnhandled();
+$self._basicSignal();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"pass",{},$globals.Error)});
 },
 args: [],
-source: "pass\x0a\x09\x22Let outer handler take care of this.\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09self.amberHandled = false;\x0a\x09\x09throw self;\x0a\x09'>",
+source: "pass\x0a\x09\x22Let outer handler take care of this.\x22\x0a\x0a\x09self beUnhandled; basicSignal",
 referencedClasses: [],
-messageSends: []
+messageSends: ["beUnhandled", "basicSignal"]
 }),
 $globals.Error);
 
@@ -22196,19 +22462,17 @@ protocol: "signaling",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-
-		self.amberHandled = false;
-		self.context = $core.getThisContext(); 
-		self.smalltalkError = true;
-		throw self;
-	;
+$self._beUnhandled();
+$self._context_($core.getThisContext());
+$self._beSmalltalkError();
+$self._basicSignal();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"signal",{},$globals.Error)});
 },
 args: [],
-source: "signal\x0a\x09<inlineJS: '\x0a\x09\x09self.amberHandled = false;\x0a\x09\x09self.context = $core.getThisContext(); \x0a\x09\x09self.smalltalkError = true;\x0a\x09\x09throw self;\x0a\x09'>",
+source: "signal\x0a\x09self beUnhandled; context: thisContext; beSmalltalkError; basicSignal",
 referencedClasses: [],
-messageSends: []
+messageSends: ["beUnhandled", "context:", "beSmalltalkError", "basicSignal"]
 }),
 $globals.Error);
 
@@ -22225,7 +22489,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"signal:",{aString:aString},$globals.Error)});
 },
 args: ["aString"],
-source: "signal: aString\x0a\x09self messageText: aString.\x0a\x09self signal",
+source: "signal: aString\x0a\x09self messageText: aString; signal",
 referencedClasses: [],
 messageSends: ["messageText:", "signal"]
 }),
@@ -22256,24 +22520,24 @@ fn: function (aContext){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $3,$2,$1;
-return $recv(aContext)._findContextSuchThat_((function(context){
+return $recv(aContext)._findContextSuchThat_((function(one){
 return $core.withContext(function($ctx2) {
-$3=$recv(context)._receiver();
+$3=$recv(one)._receiver();
 $ctx2.sendIdx["receiver"]=1;
 $2=$recv($3).__eq_eq(self);
 $ctx2.sendIdx["=="]=1;
 $1=$recv($2)._or_((function(){
 return $core.withContext(function($ctx3) {
-return $recv($recv(context)._receiver()).__eq_eq($self._class());
+return $recv($recv(one)._receiver()).__eq_eq($self._class());
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 }));
 return $recv($1)._not();
-}, function($ctx2) {$ctx2.fillBlock({context:context},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({one:one},$ctx1,1)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"signalerContextFrom:",{aContext:aContext},$globals.Error)});
 },
 args: ["aContext"],
-source: "signalerContextFrom: aContext\x0a\x09\x22Find the first sender of signal(:), the first context which is neither \x0a\x09for an instance method nor for a class side method of Exception (or subclass).\x0a\x09This will make sure that the same context is found for both, `Error signal` \x0a\x09and `Error new signal`\x22\x0a\x0a\x09^ aContext findContextSuchThat: [ :context |\x0a\x09\x09(context receiver == self \x0a\x09\x09or: [ context receiver == self class ]) not ]",
+source: "signalerContextFrom: aContext\x0a\x09\x22Find the first sender of signal(:), the first context which is neither \x0a\x09for an instance method nor for a class side method of Exception (or subclass).\x0a\x09This will make sure that the same context is found for both, `Error signal` \x0a\x09and `Error new signal`\x22\x0a\x0a\x09^ aContext findContextSuchThat: [ :one |\x0a\x09\x09(one receiver == self \x0a\x09\x09or: [ one receiver == self class ]) not ]",
 referencedClasses: [],
 messageSends: ["findContextSuchThat:", "not", "or:", "==", "receiver", "class"]
 }),
@@ -22286,14 +22550,13 @@ protocol: "testing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self.amberHandled || false;
-return self;
+return $recv($self.amberHandled).__eq_eq(true);
 }, function($ctx1) {$ctx1.fill(self,"wasHandled",{},$globals.Error)});
 },
 args: [],
-source: "wasHandled\x0a\x09<inlineJS: 'return self.amberHandled || false'>",
+source: "wasHandled\x0a\x09^ amberHandled == true",
 referencedClasses: [],
-messageSends: []
+messageSends: ["=="]
 }),
 $globals.Error);
 
@@ -22375,29 +22638,29 @@ fn: function (aContext){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $3,$2,$1;
-return $recv(aContext)._findContextSuchThat_((function(context){
+return $recv(aContext)._findContextSuchThat_((function(one){
 return $core.withContext(function($ctx2) {
-$3=$recv(context)._receiver();
+$3=$recv(one)._receiver();
 $ctx2.sendIdx["receiver"]=1;
 $2=$recv($3).__eq_eq(self);
 $ctx2.sendIdx["=="]=1;
 $1=$recv($2)._or_((function(){
 return $core.withContext(function($ctx3) {
-return $recv($recv($recv(context)._receiver()).__eq_eq($self._class()))._or_((function(){
+return $recv($recv($recv(one)._receiver()).__eq_eq($self._class()))._or_((function(){
 return $core.withContext(function($ctx4) {
-return $recv($recv($recv(context)._method())._selector()).__eq("halt");
+return $recv($recv($recv(one)._method())._selector()).__eq("halt");
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
 }));
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 }));
 $ctx2.sendIdx["or:"]=1;
 return $recv($1)._not();
-}, function($ctx2) {$ctx2.fillBlock({context:context},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({one:one},$ctx1,1)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"signalerContextFrom:",{aContext:aContext},$globals.Halt)});
 },
 args: ["aContext"],
-source: "signalerContextFrom: aContext\x0a\x09\x22specialized version to find the proper context to open the debugger on.\x0a\x09This will find the first context whose method is no longer on `Halt` or \x0a\x09`Halt class` nor is `#halt` method itself.\x22\x0a\x09\x0a\x09^ aContext findContextSuchThat: [ :context |\x0a\x09\x09(context receiver == self \x0a\x09\x09or: [ (context receiver == self class) \x0a\x09\x09or: [ context method selector = #halt ]]) not ]",
+source: "signalerContextFrom: aContext\x0a\x09\x22specialized version to find the proper context to open the debugger on.\x0a\x09This will find the first context whose method is no longer on `Halt` or \x0a\x09`Halt class` nor is `#halt` method itself.\x22\x0a\x09\x0a\x09^ aContext findContextSuchThat: [ :one |\x0a\x09\x09(one receiver == self \x0a\x09\x09or: [ (one receiver == self class) \x0a\x09\x09or: [ one method selector = #halt ]]) not ]",
 referencedClasses: [],
 messageSends: ["findContextSuchThat:", "not", "or:", "==", "receiver", "class", "=", "selector", "method"]
 }),
@@ -22409,29 +22672,11 @@ $core.addClass("JavaScriptException", $globals.Error, ["exception"], "Kernel-Exc
 $globals.JavaScriptException.comment="A JavaScriptException is thrown when a non-Smalltalk exception occurs while in the Smalltalk stack.\x0aSee `boot.js` `inContext()` and `BlockClosure >> on:do:`";
 $core.addMethod(
 $core.method({
-selector: "context:",
-protocol: "accessing",
-fn: function (aMethodContext){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-self.context = aMethodContext;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"context:",{aMethodContext:aMethodContext},$globals.JavaScriptException)});
-},
-args: ["aMethodContext"],
-source: "context: aMethodContext\x0a\x09\x22Set the context from the outside.\x0a\x09See boot.js `inContext()` exception handling\x22\x0a\x09\x0a\x09<inlineJS: 'self.context = aMethodContext'>",
-referencedClasses: [],
-messageSends: []
-}),
-$globals.JavaScriptException);
-
-$core.addMethod(
-$core.method({
 selector: "exception",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@exception"];
+return $self.exception;
 
 },
 args: [],
@@ -22447,7 +22692,7 @@ selector: "exception:",
 protocol: "accessing",
 fn: function (anException){
 var self=this,$self=this;
-$self["@exception"]=anException;
+$self.exception=anException;
 return self;
 
 },
@@ -22465,12 +22710,12 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return "JavaScript exception: " + $self["@exception"].toString();
+return "JavaScript exception: " + $self.exception.toString();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"messageText",{},$globals.JavaScriptException)});
 },
 args: [],
-source: "messageText\x0a\x09<inlineJS: 'return \x22JavaScript exception: \x22 + $self[\x22@exception\x22].toString()'>",
+source: "messageText\x0a\x09<inlineJS: 'return \x22JavaScript exception: \x22 + $self.exception.toString()'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22483,12 +22728,12 @@ protocol: "testing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $self["@exception"] instanceof RangeError;
+return $self.exception instanceof RangeError;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"shouldBeStubbed",{},$globals.JavaScriptException)});
 },
 args: [],
-source: "shouldBeStubbed\x0a\x09<inlineJS: 'return $self[\x22@exception\x22] instanceof RangeError'>",
+source: "shouldBeStubbed\x0a\x09<inlineJS: 'return $self.exception instanceof RangeError'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22567,7 +22812,7 @@ messageSends: ["exception:", "new", "context:", "yourself"]
 $globals.JavaScriptException.a$cls);
 
 
-$core.addClass("MessageNotUnderstood", $globals.Error, ["message", "receiver"], "Kernel-Exceptions");
+$core.addClass("MessageNotUnderstood", $globals.Error, ["smalltalkMessage", "receiver"], "Kernel-Exceptions");
 $globals.MessageNotUnderstood.comment="This exception is provided to support `Object>>doesNotUnderstand:`.";
 $core.addMethod(
 $core.method({
@@ -22575,11 +22820,11 @@ selector: "message",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@message"];
+return $self.smalltalkMessage;
 
 },
 args: [],
-source: "message\x0a\x09^ message",
+source: "message\x0a\x09^ smalltalkMessage",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22591,12 +22836,12 @@ selector: "message:",
 protocol: "accessing",
 fn: function (aMessage){
 var self=this,$self=this;
-$self["@message"]=aMessage;
+$self.smalltalkMessage=aMessage;
 return self;
 
 },
 args: ["aMessage"],
-source: "message: aMessage\x0a\x09message := aMessage",
+source: "message: aMessage\x0a\x09smalltalkMessage := aMessage",
 referencedClasses: [],
 messageSends: []
 }),
@@ -22628,7 +22873,7 @@ selector: "receiver",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@receiver"];
+return $self.receiver;
 
 },
 args: [],
@@ -22644,7 +22889,7 @@ selector: "receiver:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@receiver"]=anObject;
+$self.receiver=anObject;
 return self;
 
 },
@@ -22665,7 +22910,7 @@ selector: "object",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@object"];
+return $self.object;
 
 },
 args: [],
@@ -22681,7 +22926,7 @@ selector: "object:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@object"]=anObject;
+$self.object=anObject;
 return self;
 
 },
@@ -22715,12 +22960,11 @@ $globals.NonBooleanReceiver.a$cls);
 
 });
 
-define('amber_core/Kernel-Promises',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Kernel-Promises',["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Promises");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("Promise", $globals.Object, [], "Kernel-Promises");
 
@@ -23000,12 +23244,11 @@ $core.setTraitComposition([{trait: $globals.TThenable}], $globals.Promise);
 
 });
 
-define('amber_core/Kernel-Infrastructure',["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Objects", "amber_core/Kernel-Promises"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Kernel-Infrastructure',["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Objects", "amber/core/Kernel-Promises"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Infrastructure");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AmberBootstrapInitialization", $globals.Object, [], "Kernel-Infrastructure");
 
@@ -23111,7 +23354,7 @@ selector: "asJavaScriptObject",
 protocol: "converting",
 fn: function (){
 var self=this,$self=this;
-return $self["@jsObject"];
+return $self.jsObject;
 
 },
 args: [],
@@ -23128,12 +23371,12 @@ protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $self['@jsObject'][aString];
+return $self.jsObject[aString];
 return self;
 }, function($ctx1) {$ctx1.fill(self,"at:",{aString:aString},$globals.JSObjectProxy)});
 },
 args: ["aString"],
-source: "at: aString\x0a\x09<inlineJS: 'return $self[''@jsObject''][aString]'>",
+source: "at: aString\x0a\x09<inlineJS: 'return $self.jsObject[aString]'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -23147,14 +23390,14 @@ fn: function (aString,aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var obj = $self['@jsObject'];
+		var obj = $self.jsObject;
 		return aString in obj ? obj[aString] : aBlock._value();
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{aString:aString,aBlock:aBlock},$globals.JSObjectProxy)});
 },
 args: ["aString", "aBlock"],
-source: "at: aString ifAbsent: aBlock\x0a\x09\x22return the aString property or evaluate aBlock if the property is not defined on the object\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = $self[''@jsObject''];\x0a\x09\x09return aString in obj ? obj[aString] : aBlock._value();\x0a\x09'>",
+source: "at: aString ifAbsent: aBlock\x0a\x09\x22return the aString property or evaluate aBlock if the property is not defined on the object\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = $self.jsObject;\x0a\x09\x09return aString in obj ? obj[aString] : aBlock._value();\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -23168,14 +23411,14 @@ fn: function (aString,aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var obj = $self['@jsObject'];
+		var obj = $self.jsObject;
 		return aString in obj ? aBlock._value_(obj[aString]) : nil;
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"at:ifPresent:",{aString:aString,aBlock:aBlock},$globals.JSObjectProxy)});
 },
 args: ["aString", "aBlock"],
-source: "at: aString ifPresent: aBlock\x0a\x09\x22return the evaluation of aBlock with the value if the property is defined or return nil\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = $self[''@jsObject''];\x0a\x09\x09return aString in obj ? aBlock._value_(obj[aString]) : nil;\x0a\x09'>",
+source: "at: aString ifPresent: aBlock\x0a\x09\x22return the evaluation of aBlock with the value if the property is defined or return nil\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = $self.jsObject;\x0a\x09\x09return aString in obj ? aBlock._value_(obj[aString]) : nil;\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -23189,14 +23432,14 @@ fn: function (aString,aBlock,anotherBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var obj = $self['@jsObject'];
+		var obj = $self.jsObject;
 		return aString in obj ? aBlock._value_(obj[aString]) : anotherBlock._value();
 	;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{aString:aString,aBlock:aBlock,anotherBlock:anotherBlock},$globals.JSObjectProxy)});
 },
 args: ["aString", "aBlock", "anotherBlock"],
-source: "at: aString ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09\x22return the evaluation of aBlock with the value if the property is defined\x0a\x09or return value of anotherBlock\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = $self[''@jsObject''];\x0a\x09\x09return aString in obj ? aBlock._value_(obj[aString]) : anotherBlock._value();\x0a\x09'>",
+source: "at: aString ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09\x22return the evaluation of aBlock with the value if the property is defined\x0a\x09or return value of anotherBlock\x22\x0a\x09<inlineJS: '\x0a\x09\x09var obj = $self.jsObject;\x0a\x09\x09return aString in obj ? aBlock._value_(obj[aString]) : anotherBlock._value();\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -23209,12 +23452,12 @@ protocol: "accessing",
 fn: function (aString,anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $self['@jsObject'][aString] = anObject;
+return $self.jsObject[aString] = anObject;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"at:put:",{aString:aString,anObject:anObject},$globals.JSObjectProxy)});
 },
 args: ["aString", "anObject"],
-source: "at: aString put: anObject\x0a\x09<inlineJS: 'return $self[''@jsObject''][aString] = anObject'>",
+source: "at: aString put: anObject\x0a\x09<inlineJS: 'return $self.jsObject[aString] = anObject'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -23230,7 +23473,7 @@ return $core.withContext(function($ctx1) {
 var $1,$2;
 $1=$recv($globals.NativeFunction)._isNativeFunction_($self._at_("then"));
 if($core.assert($1)){
-return $recv($recv($globals.TThenable).__gt_gt("catch:"))._sendTo_arguments_($self["@jsObject"],[aBlock]);
+return $recv($recv($globals.TThenable).__gt_gt("catch:"))._sendTo_arguments_($self.jsObject,[aBlock]);
 } else {
 $2=(
 $ctx1.supercall = true,
@@ -23283,7 +23526,7 @@ protocol: "accessing",
 fn: function (aValuable){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv(aValuable)._value_($self["@jsObject"]);
+return $recv(aValuable)._value_($self.jsObject);
 }, function($ctx1) {$ctx1.fill(self,"in:",{aValuable:aValuable},$globals.JSObjectProxy)});
 },
 args: ["aValuable"],
@@ -23299,7 +23542,7 @@ selector: "jsObject",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@jsObject"];
+return $self.jsObject;
 
 },
 args: [],
@@ -23317,7 +23560,7 @@ fn: function (aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var o = $self['@jsObject'];
+		var o = $self.jsObject;
 		for(var i in o) {
 			aBlock._value_value_(i, o[i]);
 		}
@@ -23326,7 +23569,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"keysAndValuesDo:",{aBlock:aBlock},$globals.JSObjectProxy)});
 },
 args: ["aBlock"],
-source: "keysAndValuesDo: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var o = $self[''@jsObject''];\x0a\x09\x09for(var i in o) {\x0a\x09\x09\x09aBlock._value_value_(i, o[i]);\x0a\x09\x09}\x0a\x09'>",
+source: "keysAndValuesDo: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var o = $self.jsObject;\x0a\x09\x09for(var i in o) {\x0a\x09\x09\x09aBlock._value_value_(i, o[i]);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -23342,7 +23585,7 @@ return $core.withContext(function($ctx1) {
 var $1,$2;
 $1=$recv($globals.NativeFunction)._isNativeFunction_($self._at_("then"));
 if($core.assert($1)){
-return $recv($recv($globals.TThenable).__gt_gt("on:do:"))._sendTo_arguments_($self["@jsObject"],[aClass,aBlock]);
+return $recv($recv($globals.TThenable).__gt_gt("on:do:"))._sendTo_arguments_($self.jsObject,[aClass,aBlock]);
 } else {
 $2=(
 $ctx1.supercall = true,
@@ -23386,7 +23629,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var js = $self['@jsObject'];
+		var js = $self.jsObject;
 		return js.toString
 			? js.toString()
 			: Object.prototype.toString.call(js)
@@ -23395,7 +23638,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"printString",{},$globals.JSObjectProxy)});
 },
 args: [],
-source: "printString\x0a\x09<inlineJS: '\x0a\x09\x09var js = $self[''@jsObject''];\x0a\x09\x09return js.toString\x0a\x09\x09\x09? js.toString()\x0a\x09\x09\x09: Object.prototype.toString.call(js)\x0a\x09'>",
+source: "printString\x0a\x09<inlineJS: '\x0a\x09\x09var js = $self.jsObject;\x0a\x09\x09return js.toString\x0a\x09\x09\x09? js.toString()\x0a\x09\x09\x09: Object.prototype.toString.call(js)\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -23408,7 +23651,7 @@ protocol: "streaming",
 fn: function (aStream){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv(aStream)._nextPutJSObject_($self["@jsObject"]);
+$recv(aStream)._nextPutJSObject_($self.jsObject);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"putOn:",{aStream:aStream},$globals.JSObjectProxy)});
 },
@@ -23426,12 +23669,12 @@ protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-delete $self['@jsObject'][aString]; return aString;
+delete $self.jsObject[aString]; return aString;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"removeKey:",{aString:aString},$globals.JSObjectProxy)});
 },
 args: ["aString"],
-source: "removeKey: aString\x0a\x09<inlineJS: 'delete $self[''@jsObject''][aString]; return aString'>",
+source: "removeKey: aString\x0a\x09<inlineJS: 'delete $self.jsObject[aString]; return aString'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -23447,7 +23690,7 @@ return $core.withContext(function($ctx1) {
 var $1,$2;
 $1=$recv($globals.NativeFunction)._isNativeFunction_($self._at_("then"));
 if($core.assert($1)){
-return $recv($recv($globals.TThenable).__gt_gt("then:"))._sendTo_arguments_($self["@jsObject"],[aBlockOrArray]);
+return $recv($recv($globals.TThenable).__gt_gt("then:"))._sendTo_arguments_($self.jsObject,[aBlockOrArray]);
 } else {
 $2=(
 $ctx1.supercall = true,
@@ -23474,7 +23717,7 @@ fn: function (aDictionary,aProxy){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		var jsObject = aProxy['@jsObject'];
+		var jsObject = aProxy.jsObject;
 		for(var i in jsObject) {
 			aDictionary._at_put_(i, jsObject[i]);
 		}
@@ -23483,7 +23726,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"addObjectVariablesTo:ofProxy:",{aDictionary:aDictionary,aProxy:aProxy},$globals.JSObjectProxy.a$cls)});
 },
 args: ["aDictionary", "aProxy"],
-source: "addObjectVariablesTo: aDictionary ofProxy: aProxy\x0a\x09<inlineJS: '\x0a\x09\x09var jsObject = aProxy[''@jsObject''];\x0a\x09\x09for(var i in jsObject) {\x0a\x09\x09\x09aDictionary._at_put_(i, jsObject[i]);\x0a\x09\x09}\x0a\x09'>",
+source: "addObjectVariablesTo: aDictionary ofProxy: aProxy\x0a\x09<inlineJS: '\x0a\x09\x09var jsObject = aProxy.jsObject;\x0a\x09\x09for(var i in jsObject) {\x0a\x09\x09\x09aDictionary._at_put_(i, jsObject[i]);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -23497,13 +23740,13 @@ fn: function (aProxy,anotherProxy){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-	var anotherJSObject = anotherProxy.a$cls ? anotherProxy["@jsObject"] : anotherProxy;
-	return aProxy["@jsObject"] === anotherJSObject;
+	var anotherJSObject = anotherProxy.a$cls ? anotherProxy.jsObject : anotherProxy;
+	return aProxy.jsObject === anotherJSObject;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"compareJSObjectOfProxy:withProxy:",{aProxy:aProxy,anotherProxy:anotherProxy},$globals.JSObjectProxy.a$cls)});
 },
 args: ["aProxy", "anotherProxy"],
-source: "compareJSObjectOfProxy: aProxy withProxy: anotherProxy\x0a<inlineJS: '\x0a\x09var anotherJSObject = anotherProxy.a$cls ? anotherProxy[\x22@jsObject\x22] : anotherProxy;\x0a\x09return aProxy[\x22@jsObject\x22] === anotherJSObject\x0a'>",
+source: "compareJSObjectOfProxy: aProxy withProxy: anotherProxy\x0a<inlineJS: '\x0a\x09var anotherJSObject = anotherProxy.a$cls ? anotherProxy.jsObject : anotherProxy;\x0a\x09return aProxy.jsObject === anotherJSObject\x0a'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -23536,12 +23779,12 @@ protocol: "proxy",
 fn: function (aJSObject,aProxy){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-aProxy['@jsObject'] = aJSObject;
+aProxy.jsObject = aJSObject;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"jsObject:ofProxy:",{aJSObject:aJSObject,aProxy:aProxy},$globals.JSObjectProxy.a$cls)});
 },
 args: ["aJSObject", "aProxy"],
-source: "jsObject: aJSObject ofProxy: aProxy\x0a\x09<inlineJS: 'aProxy[''@jsObject''] = aJSObject'>",
+source: "jsObject: aJSObject ofProxy: aProxy\x0a\x09<inlineJS: 'aProxy.jsObject = aJSObject'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -23648,7 +23891,7 @@ selector: "elements",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@elements"];
+return $self.elements;
 
 },
 args: [],
@@ -23669,7 +23912,7 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.Organizer.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@elements"]=$recv($globals.Set)._new();
+$self.elements=$recv($globals.Set)._new();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Organizer)});
 },
@@ -23766,7 +24009,7 @@ selector: "theClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@traitOrBehavior"];
+return $self.traitOrBehavior;
 
 },
 args: [],
@@ -23782,7 +24025,7 @@ selector: "theClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@traitOrBehavior"]=aClass;
+$self.traitOrBehavior=aClass;
 return self;
 
 },
@@ -23827,7 +24070,7 @@ selector: "basicTransport",
 protocol: "private",
 fn: function (){
 var self=this,$self=this;
-return $self["@basicTransport"];
+return $self.basicTransport;
 
 },
 args: [],
@@ -23845,7 +24088,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$3,$2;
-$self["@dirty"]=false;
+$self.dirty=false;
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.PackageClean)._new();
 $recv($3)._package_(self);
@@ -23869,7 +24112,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$3,$2;
-$self["@dirty"]=true;
+$self.dirty=true;
 $1=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.PackageDirty)._new();
 $recv($3)._package_(self);
@@ -23983,11 +24226,11 @@ fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@evalBlock"];
+$1=$self.evalBlock;
 if(($receiver = $1) == null || $receiver.a$nil){
 return $recv($globals.Compiler)._eval_(aString);
 } else {
-return $recv($self["@evalBlock"])._value_(aString);
+return $recv($self.evalBlock)._value_(aString);
 }
 }, function($ctx1) {$ctx1.fill(self,"eval:",{aString:aString},$globals.Package)});
 },
@@ -24004,7 +24247,7 @@ selector: "evalBlock",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@evalBlock"];
+return $self.evalBlock;
 
 },
 args: [],
@@ -24020,7 +24263,7 @@ selector: "evalBlock:",
 protocol: "accessing",
 fn: function (aBlock){
 var self=this,$self=this;
-$self["@evalBlock"]=aBlock;
+$self.evalBlock=aBlock;
 return self;
 
 },
@@ -24039,10 +24282,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@imports"];
+$1=$self.imports;
 if(($receiver = $1) == null || $receiver.a$nil){
 $self._imports_([]);
-return $self["@imports"];
+return $self.imports;
 } else {
 return $1;
 }
@@ -24063,7 +24306,7 @@ fn: function (anArray){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 $self._validateImports_(anArray);
-$self["@imports"]=$recv(anArray)._asSet();
+$self.imports=$recv(anArray)._asSet();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"imports:",{anArray:anArray},$globals.Package)});
 },
@@ -24176,13 +24419,13 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.Package.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@organization"]=$recv($globals.PackageOrganizer)._new();
+$self.organization=$recv($globals.PackageOrganizer)._new();
 $ctx1.sendIdx["new"]=1;
-$self["@evalBlock"]=nil;
-$self["@dirty"]=nil;
-$self["@imports"]=nil;
-$self["@isReady"]=$recv($globals.Promise)._new();
-$self["@transport"]=nil;
+$self.evalBlock=nil;
+$self.dirty=nil;
+$self.imports=nil;
+$self.isReady=$recv($globals.Promise)._new();
+$self.transport=nil;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Package)});
 },
@@ -24201,7 +24444,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@dirty"];
+$1=$self.dirty;
 if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
@@ -24238,7 +24481,7 @@ selector: "isReady",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@isReady"];
+return $self.isReady;
 
 },
 args: [],
@@ -24254,7 +24497,7 @@ selector: "isReady:",
 protocol: "accessing",
 fn: function (aPromise){
 var self=this,$self=this;
-$self["@isReady"]=aPromise;
+$self.isReady=aPromise;
 return self;
 
 },
@@ -24284,7 +24527,7 @@ return [];
 
 }));
 $ctx1.sendIdx["at:ifAbsent:"]=2;
-$self["@basicTransport"]=$recv(anObject)._at_ifAbsent_("transport",(function(){
+$self.basicTransport=$recv(anObject)._at_ifAbsent_("transport",(function(){
 
 }));
 $recv(anObject)._at_ifPresent_("isReady",(function(aPromise){
@@ -24340,9 +24583,8 @@ fn: function (){
 var self=this,$self=this;
 var starCategoryName;
 return $core.withContext(function($ctx1) {
-var $3,$2,$1,$5,$7,$6,$4,$receiver;
+var $3,$2,$1;
 starCategoryName="*".__comma($self._name());
-$ctx1.sendIdx[","]=1;
 $3=$self._classes();
 $ctx1.sendIdx["classes"]=1;
 $2=$recv($3)._collect_((function(each){
@@ -24354,18 +24596,15 @@ $ctx1.sendIdx["collect:"]=1;
 $1=$recv($2)._asSet();
 $recv($1)._addAll_($recv($recv($globals.Smalltalk)._classes())._select_((function(each){
 return $core.withContext(function($ctx2) {
-$5=$recv(each)._protocols();
-$ctx2.sendIdx["protocols"]=1;
-$7=$recv(each)._theMetaClass();
-if(($receiver = $7) == null || $receiver.a$nil){
-$6=[];
-} else {
-var meta;
-meta=$receiver;
-$6=$recv(meta)._protocols();
-}
-$4=$recv($5).__comma($6);
-return $recv($4)._includes_(starCategoryName);
+return $recv($recv([each,$recv(each)._theMetaClass()])._copyWithout_(nil))._anySatisfy_((function(any){
+return $core.withContext(function($ctx3) {
+return $recv($recv($recv(any)._protocols())._includes_(starCategoryName))._and_((function(){
+return $core.withContext(function($ctx4) {
+return $recv($recv(any)._ownMethodsInProtocol_(starCategoryName))._notEmpty();
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
+}));
+}, function($ctx3) {$ctx3.fillBlock({any:any},$ctx2,3)});
+}));
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 })));
 $ctx1.sendIdx["addAll:"]=1;
@@ -24389,9 +24628,9 @@ return $recv($1)._yourself();
 }, function($ctx1) {$ctx1.fill(self,"loadDependencyClasses",{starCategoryName:starCategoryName},$globals.Package)});
 },
 args: [],
-source: "loadDependencyClasses\x0a\x09\x22Returns classes needed at the time of loading a package.\x0a\x09These are all that are used to subclass\x0a\x09and to define an extension method\x0a\x09as well as all traits used\x22\x0a\x09\x0a\x09| starCategoryName |\x0a\x09starCategoryName := '*', self name.\x0a\x09^ (self classes collect: [ :each | each superclass ]) asSet\x0a\x09\x09addAll: (Smalltalk classes select: [ :each |\x0a\x09\x09\x09each protocols, (each theMetaClass ifNil: [ #() ] ifNotNil: [ :meta | meta protocols])\x0a\x09\x09\x09\x09includes: starCategoryName ]);\x0a\x09\x09addAll: (Array streamContents: [ :as | self traitCompositions valuesDo: [ :each | as write: (each collect: [ :eachTT | eachTT trait ])]]);\x0a\x09\x09remove: nil ifAbsent: [];\x0a\x09\x09yourself",
+source: "loadDependencyClasses\x0a\x09\x22Returns classes needed at the time of loading a package.\x0a\x09These are all that are used to subclass\x0a\x09and to define an extension method\x0a\x09as well as all traits used\x22\x0a\x09\x0a\x09| starCategoryName |\x0a\x09starCategoryName := '*', self name.\x0a\x09^ (self classes collect: [ :each | each superclass ]) asSet\x0a\x09\x09addAll: (Smalltalk classes select: [ :each |\x0a\x09\x09\x09({each. each theMetaClass} copyWithout: nil) anySatisfy: [ :any |\x0a\x09\x09\x09\x09(any protocols includes: starCategoryName) and: [\x0a\x09\x09\x09\x09\x09(any ownMethodsInProtocol: starCategoryName) notEmpty ]]]);\x0a\x09\x09addAll: (Array streamContents: [ :as | self traitCompositions valuesDo: [ :each | as write: (each collect: [ :eachTT | eachTT trait ])]]);\x0a\x09\x09remove: nil ifAbsent: [];\x0a\x09\x09yourself",
 referencedClasses: ["Smalltalk", "Array"],
-messageSends: [",", "name", "addAll:", "asSet", "collect:", "classes", "superclass", "select:", "includes:", "protocols", "ifNil:ifNotNil:", "theMetaClass", "streamContents:", "valuesDo:", "traitCompositions", "write:", "trait", "remove:ifAbsent:", "yourself"]
+messageSends: [",", "name", "addAll:", "asSet", "collect:", "classes", "superclass", "select:", "anySatisfy:", "copyWithout:", "theMetaClass", "and:", "includes:", "protocols", "notEmpty", "ownMethodsInProtocol:", "streamContents:", "valuesDo:", "traitCompositions", "write:", "trait", "remove:ifAbsent:", "yourself"]
 }),
 $globals.Package);
 
@@ -24401,7 +24640,7 @@ selector: "name",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@name"];
+return $self.name;
 
 },
 args: [],
@@ -24417,7 +24656,7 @@ selector: "name:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@name"]=aString;
+$self.name=aString;
 return self;
 
 },
@@ -24434,7 +24673,7 @@ selector: "organization",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@organization"];
+return $self.organization;
 
 },
 args: [],
@@ -24599,10 +24838,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@transport"];
+$1=$self.transport;
 if(($receiver = $1) == null || $receiver.a$nil){
 $self._transport_($recv($globals.PackageTransport)._fromJson_($self._basicTransport()));
-return $self["@transport"];
+return $self.transport;
 } else {
 return $1;
 }
@@ -24622,7 +24861,7 @@ protocol: "accessing",
 fn: function (aPackageTransport){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@transport"]=aPackageTransport;
+$self.transport=aPackageTransport;
 $recv(aPackageTransport)._package_(self);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"transport:",{aPackageTransport:aPackageTransport},$globals.Package)});
@@ -24679,7 +24918,7 @@ messageSends: ["do:", "ifFalse:", "isString", "respondsTo:", "error:", "&", "key
 $globals.Package);
 
 
-$globals.Package.a$cls.iVarNames = ["defaultCommitPathJs", "defaultCommitPathSt"];
+$core.setSlots($globals.Package.a$cls, ["defaultCommitPathJs", "defaultCommitPathSt"]);
 $core.addMethod(
 $core.method({
 selector: "named:",
@@ -24995,7 +25234,7 @@ messageSends: ["ifNotNil:", "package", "beDirty"]
 $globals.PackageStateObserver);
 
 
-$globals.PackageStateObserver.a$cls.iVarNames = ["current"];
+$core.setSlots($globals.PackageStateObserver.a$cls, ["current"]);
 $core.addMethod(
 $core.method({
 selector: "current",
@@ -25004,10 +25243,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@current"];
+$1=$self.current;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@current"]=$self._new();
-return $self["@current"];
+$self.current=$self._new();
+return $self.current;
 } else {
 return $1;
 }
@@ -25051,7 +25290,7 @@ selector: "defaultValue",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@defaultValue"];
+return $self.defaultValue;
 
 },
 args: [],
@@ -25067,7 +25306,7 @@ selector: "defaultValue:",
 protocol: "accessing",
 fn: function (aStringifiableObject){
 var self=this,$self=this;
-$self["@defaultValue"]=aStringifiableObject;
+$self.defaultValue=aStringifiableObject;
 return self;
 
 },
@@ -25084,7 +25323,7 @@ selector: "key",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@key"];
+return $self.key;
 
 },
 args: [],
@@ -25100,7 +25339,7 @@ selector: "key:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@key"]=aString;
+$self.key=aString;
 return self;
 
 },
@@ -25314,17 +25553,35 @@ $globals.SmalltalkImage);
 
 $core.addMethod(
 $core.method({
+selector: "beClean",
+protocol: "packages",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv($self._packages())._do_("beClean");
+return self;
+}, function($ctx1) {$ctx1.fill(self,"beClean",{},$globals.SmalltalkImage)});
+},
+args: [],
+source: "beClean\x0a\x09\x22Marks all packages clean.\x22\x0a\x0a\x09self packages do: #beClean",
+referencedClasses: [],
+messageSends: ["do:", "packages"]
+}),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
 selector: "cancelOptOut:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-delete anObject.klass; delete anObject.a$cls;;
+delete anObject.a$cls;;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"cancelOptOut:",{anObject:anObject},$globals.SmalltalkImage)});
 },
 args: ["anObject"],
-source: "cancelOptOut: anObject\x0a\x09\x22A Smalltalk object has a 'a$cls' property.\x0a\x09If this property is shadowed for anObject by optOut:,\x0a\x09the object is treated as plain JS object.\x0a\x09This removes the shadow and anObject is Smalltalk object\x0a\x09again if it was before.\x22\x0a\x09\x0a\x09<inlineJS: 'delete anObject.klass; delete anObject.a$cls;'>",
+source: "cancelOptOut: anObject\x0a\x09\x22A Smalltalk object has a 'a$cls' property.\x0a\x09If this property is shadowed for anObject by optOut:,\x0a\x09the object is treated as plain JS object.\x0a\x09This removes the shadow and anObject is Smalltalk object\x0a\x09again if it was before.\x22\x0a\x09\x0a\x09<inlineJS: 'delete anObject.a$cls;'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -25488,10 +25745,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@globalJsVariables"];
+$1=$self.globalJsVariables;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@globalJsVariables"]=["window", "document", "process", "global"];
-return $self["@globalJsVariables"];
+$self.globalJsVariables=["window", "document", "process", "global"];
+return $self.globalJsVariables;
 } else {
 return $1;
 }
@@ -25565,12 +25822,12 @@ protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-anObject.klass = null; anObject.a$cls = null;
+anObject.a$cls = null;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"optOut:",{anObject:anObject},$globals.SmalltalkImage)});
 },
 args: ["anObject"],
-source: "optOut: anObject\x0a\x09\x22A Smalltalk object has a 'a$cls' property.\x0a\x09This shadows the property for anObject.\x0a\x09The object is treated as plain JS object following this.\x22\x0a\x09\x0a\x09<inlineJS: 'anObject.klass = null; anObject.a$cls = null'>",
+source: "optOut: anObject\x0a\x09\x22A Smalltalk object has a 'a$cls' property.\x0a\x09This shadows the property for anObject.\x0a\x09The object is treated as plain JS object following this.\x22\x0a\x09\x0a\x09<inlineJS: 'anObject.a$cls = null'>",
 referencedClasses: [],
 messageSends: []
 }),
@@ -25618,10 +25875,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@packageDictionary"];
+$1=$self.packageDictionary;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@packageDictionary"]=$recv($globals.Dictionary)._new();
-return $self["@packageDictionary"];
+$self.packageDictionary=$recv($globals.Dictionary)._new();
+return $self.packageDictionary;
 } else {
 return $1;
 }
@@ -26022,18 +26279,18 @@ selector: "version",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return "0.22.6";
+return "0.23.0";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.22.6'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.23.0'",
 referencedClasses: [],
 messageSends: []
 }),
 $globals.SmalltalkImage);
 
 
-$globals.SmalltalkImage.a$cls.iVarNames = ["current"];
+$core.setSlots($globals.SmalltalkImage.a$cls, ["current"]);
 $core.addMethod(
 $core.method({
 selector: "current",
@@ -26042,16 +26299,16 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@current"];
+$1=$self.current;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@current"]=(
+$self.current=(
 $ctx1.supercall = true,
 ($globals.SmalltalkImage.a$cls.superclass||$boot.nilAsClass).fn.prototype._new.apply($self, []));
 $ctx1.supercall = false;
-return $self["@current"];
+return $self.current;
 } else {
 $self._deprecatedAPI();
-return $self["@current"];
+return $self.current;
 }
 }, function($ctx1) {$ctx1.fill(self,"current",{},$globals.SmalltalkImage.a$cls)});
 },
@@ -26225,12 +26482,11 @@ $globals.String);
 
 });
 
-define('amber_core/Kernel-Announcements',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Kernel-Announcements',["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Announcements");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AnnouncementSubscription", $globals.Object, ["valuable", "announcementClass"], "Kernel-Announcements");
 $globals.AnnouncementSubscription.comment="I am a single entry in a subscription registry of an `Announcer`.\x0aSeveral subscriptions by the same object is possible.";
@@ -26240,7 +26496,7 @@ selector: "announcementClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@announcementClass"];
+return $self.announcementClass;
 
 },
 args: [],
@@ -26257,7 +26513,7 @@ protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@announcementClass"]=$recv($recv($globals.Smalltalk)._globals())._at_($recv(aClass)._name());
+$self.announcementClass=$recv($recv($globals.Smalltalk)._globals())._at_($recv(aClass)._name());
 return self;
 }, function($ctx1) {$ctx1.fill(self,"announcementClass:",{aClass:aClass},$globals.AnnouncementSubscription)});
 },
@@ -26330,7 +26586,7 @@ selector: "valuable",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@valuable"];
+return $self.valuable;
 
 },
 args: [],
@@ -26346,7 +26602,7 @@ selector: "valuable:",
 protocol: "accessing",
 fn: function (aValuable){
 var self=this,$self=this;
-$self["@valuable"]=aValuable;
+$self.valuable=aValuable;
 return self;
 
 },
@@ -26367,7 +26623,7 @@ selector: "receiver",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@receiver"];
+return $self.receiver;
 
 },
 args: [],
@@ -26383,7 +26639,7 @@ selector: "receiver:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@receiver"]=anObject;
+$self.receiver=anObject;
 return self;
 
 },
@@ -26400,7 +26656,7 @@ selector: "valuable",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@valuable"];
+return $self.valuable;
 
 },
 args: [],
@@ -26416,7 +26672,7 @@ selector: "valuable:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@valuable"]=anObject;
+$self.valuable=anObject;
 return self;
 
 },
@@ -26472,7 +26728,7 @@ protocol: "announcing",
 fn: function (anAnnouncement){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@subscriptions"])._do_((function(each){
+$recv($self.subscriptions)._do_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(each)._deliver_(anAnnouncement);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -26498,7 +26754,7 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.Announcer.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@subscriptions"]=$recv($globals.OrderedCollection)._new();
+$self.subscriptions=$recv($globals.OrderedCollection)._new();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Announcer)});
 },
@@ -26535,7 +26791,7 @@ fn: function (aClass,aBlock,aReceiver){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$3,$5,$6,$4,$2;
-$1=$self["@subscriptions"];
+$1=$self.subscriptions;
 $3=$recv($globals.AnnouncementSubscription)._new();
 $ctx1.sendIdx["new"]=1;
 $5=$recv($globals.AnnouncementValuable)._new();
@@ -26573,11 +26829,11 @@ $recv($1)._announcementClass_(aClass);
 subscription=$recv($1)._yourself();
 $recv(subscription)._valuable_((function(ann){
 return $core.withContext(function($ctx2) {
-$recv($self["@subscriptions"])._remove_(subscription);
+$recv($self.subscriptions)._remove_(subscription);
 return $recv(aBlock)._value_(ann);
 }, function($ctx2) {$ctx2.fillBlock({ann:ann},$ctx1,1)});
 }));
-$recv($self["@subscriptions"])._add_(subscription);
+$recv($self.subscriptions)._add_(subscription);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"on:doOnce:",{aClass:aClass,aBlock:aBlock,subscription:subscription},$globals.Announcer)});
 },
@@ -26596,7 +26852,7 @@ fn: function (aClass,aSelector,anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$3,$5,$6,$4,$2;
-$1=$self["@subscriptions"];
+$1=$self.subscriptions;
 $3=$recv($globals.AnnouncementSubscription)._new();
 $ctx1.sendIdx["new"]=1;
 $5=$recv($globals.MessageSend)._new();
@@ -26626,7 +26882,7 @@ protocol: "subscribing",
 fn: function (anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@subscriptions"]=$recv($self["@subscriptions"])._reject_((function(each){
+$self.subscriptions=$recv($self.subscriptions)._reject_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv($recv(each)._receiver()).__eq(anObject);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -26646,7 +26902,7 @@ $globals.Announcer);
 $core.addClass("SystemAnnouncer", $globals.Announcer, [], "Kernel-Announcements");
 $globals.SystemAnnouncer.comment="My unique instance is the global announcer handling all Amber system-related announces.\x0a\x0a## API\x0a\x0aAccess to the unique instance is done via `#current`";
 
-$globals.SystemAnnouncer.a$cls.iVarNames = ["current"];
+$core.setSlots($globals.SystemAnnouncer.a$cls, ["current"]);
 $core.addMethod(
 $core.method({
 selector: "current",
@@ -26655,13 +26911,13 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@current"];
+$1=$self.current;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@current"]=(
+$self.current=(
 $ctx1.supercall = true,
 ($globals.SystemAnnouncer.a$cls.superclass||$boot.nilAsClass).fn.prototype._new.apply($self, []));
 $ctx1.supercall = false;
-return $self["@current"];
+return $self.current;
 } else {
 return $1;
 }
@@ -26721,7 +26977,7 @@ selector: "theClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@theClass"];
+return $self.theClass;
 
 },
 args: [],
@@ -26737,7 +26993,7 @@ selector: "theClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@theClass"]=aClass;
+$self.theClass=aClass;
 return self;
 
 },
@@ -26770,7 +27026,7 @@ selector: "oldClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@oldClass"];
+return $self.oldClass;
 
 },
 args: [],
@@ -26786,7 +27042,7 @@ selector: "oldClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@oldClass"]=aClass;
+$self.oldClass=aClass;
 return self;
 
 },
@@ -26807,7 +27063,7 @@ selector: "oldPackage",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@oldPackage"];
+return $self.oldPackage;
 
 },
 args: [],
@@ -26823,7 +27079,7 @@ selector: "oldPackage:",
 protocol: "accessing",
 fn: function (aPackage){
 var self=this,$self=this;
-$self["@oldPackage"]=aPackage;
+$self.oldPackage=aPackage;
 return self;
 
 },
@@ -26852,7 +27108,7 @@ selector: "method",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@method"];
+return $self.method;
 
 },
 args: [],
@@ -26868,7 +27124,7 @@ selector: "method:",
 protocol: "accessing",
 fn: function (aCompiledMethod){
 var self=this,$self=this;
-$self["@method"]=aCompiledMethod;
+$self.method=aCompiledMethod;
 return self;
 
 },
@@ -26893,7 +27149,7 @@ selector: "oldMethod",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@oldMethod"];
+return $self.oldMethod;
 
 },
 args: [],
@@ -26909,7 +27165,7 @@ selector: "oldMethod:",
 protocol: "accessing",
 fn: function (aMethod){
 var self=this,$self=this;
-$self["@oldMethod"]=aMethod;
+$self.oldMethod=aMethod;
 return self;
 
 },
@@ -26930,7 +27186,7 @@ selector: "oldProtocol",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@oldProtocol"];
+return $self.oldProtocol;
 
 },
 args: [],
@@ -26946,7 +27202,7 @@ selector: "oldProtocol:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@oldProtocol"]=aString;
+$self.oldProtocol=aString;
 return self;
 
 },
@@ -26971,7 +27227,7 @@ selector: "package",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@package"];
+return $self.package;
 
 },
 args: [],
@@ -26987,7 +27243,7 @@ selector: "package:",
 protocol: "accessing",
 fn: function (aPackage){
 var self=this,$self=this;
-$self["@package"]=aPackage;
+$self.package=aPackage;
 return self;
 
 },
@@ -27049,7 +27305,7 @@ selector: "protocol",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@protocol"];
+return $self.protocol;
 
 },
 args: [],
@@ -27065,7 +27321,7 @@ selector: "protocol:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@protocol"]=aString;
+$self.protocol=aString;
 return self;
 
 },
@@ -27082,7 +27338,7 @@ selector: "theClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@theClass"];
+return $self.theClass;
 
 },
 args: [],
@@ -27098,7 +27354,7 @@ selector: "theClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@theClass"]=aClass;
+$self.theClass=aClass;
 return self;
 
 },
@@ -27120,12 +27376,11 @@ $globals.ProtocolRemoved.comment="I am emitted when a protocol is removed from a
 
 });
 
-define('amber_core/Platform-Services',["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Platform-Services',["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Infrastructure", "amber/core/Kernel-Methods", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-Services");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("ConsoleErrorHandler", $globals.Object, [], "Platform-Services");
 $globals.ConsoleErrorHandler.comment="I am manage Smalltalk errors, displaying the stack in the console.";
@@ -27247,7 +27502,7 @@ messageSends: ["ifNotNil:", "home", "logContext:"]
 $globals.ConsoleErrorHandler);
 
 
-$globals.ConsoleErrorHandler.a$cls.iVarNames = ["current"];
+$core.setSlots($globals.ConsoleErrorHandler.a$cls, ["current"]);
 $core.addMethod(
 $core.method({
 selector: "initialize",
@@ -27371,7 +27626,7 @@ $1=$recv(aClass)._isMetaclass();
 if($core.assert($1)){
 $2=$self._classBuilder();
 $ctx1.sendIdx["classBuilder"]=1;
-$recv($2)._class_instanceVariables_(aClass,newInstVars);
+$recv($2)._class_slots_(aClass,newInstVars);
 } else {
 $3=$self._classBuilder();
 $4=$recv(aClass)._superclass();
@@ -27383,9 +27638,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"addInstVarNamed:to:",{aString:aString,aClass:aClass,newInstVars:newInstVars},$globals.Environment)});
 },
 args: ["aString", "aClass"],
-source: "addInstVarNamed: aString to: aClass\x0a\x09| newInstVars |\x0a\x09newInstVars := aClass instanceVariableNames copyWith: aString.\x0a\x0a\x09aClass isMetaclass\x0a\x09\x09ifTrue: [ self classBuilder\x0a\x09\x09\x09class: aClass instanceVariables: newInstVars ]\x0a\x09\x09ifFalse: [ self classBuilder\x0a\x09\x09\x09addSubclassOf: aClass superclass \x0a\x09\x09\x09named: aClass name \x0a\x09\x09\x09instanceVariableNames: newInstVars\x0a\x09\x09\x09package: aClass package name ]",
+source: "addInstVarNamed: aString to: aClass\x0a\x09| newInstVars |\x0a\x09newInstVars := aClass instanceVariableNames copyWith: aString.\x0a\x0a\x09aClass isMetaclass\x0a\x09\x09ifTrue: [ self classBuilder\x0a\x09\x09\x09class: aClass slots: newInstVars ]\x0a\x09\x09ifFalse: [ self classBuilder\x0a\x09\x09\x09addSubclassOf: aClass superclass \x0a\x09\x09\x09named: aClass name \x0a\x09\x09\x09instanceVariableNames: newInstVars\x0a\x09\x09\x09package: aClass package name ]",
 referencedClasses: [],
-messageSends: ["copyWith:", "instanceVariableNames", "ifTrue:ifFalse:", "isMetaclass", "class:instanceVariables:", "classBuilder", "addSubclassOf:named:instanceVariableNames:package:", "superclass", "name", "package"]
+messageSends: ["copyWith:", "instanceVariableNames", "ifTrue:ifFalse:", "isMetaclass", "class:slots:", "classBuilder", "addSubclassOf:named:instanceVariableNames:package:", "superclass", "name", "package"]
 }),
 $globals.Environment);
 
@@ -28095,7 +28350,7 @@ messageSends: ["do:"]
 $globals.NullProgressHandler);
 
 
-$globals.NullProgressHandler.a$cls.iVarNames = ["current"];
+$core.setSlots($globals.NullProgressHandler.a$cls, ["current"]);
 $core.addMethod(
 $core.method({
 selector: "initialize",
@@ -28118,14 +28373,14 @@ $globals.NullProgressHandler.a$cls);
 $core.addClass("Service", $globals.Object, [], "Platform-Services");
 $globals.Service.comment="I implement the basic behavior for class registration to a service.\x0a\x0aSee the `Transcript` class for a concrete service.\x0a\x0a## API\x0a\x0aUse class-side methods `#register:` and `#registerIfNone:` to register classes to a specific service.";
 
-$globals.Service.a$cls.iVarNames = ["current"];
+$core.setSlots($globals.Service.a$cls, ["current"]);
 $core.addMethod(
 $core.method({
 selector: "current",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@current"];
+return $self.current;
 
 },
 args: [],
@@ -28159,7 +28414,7 @@ selector: "register:",
 protocol: "registration",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@current"]=anObject;
+$self.current=anObject;
 return self;
 
 },
@@ -28709,42 +28964,6 @@ return $core.withContext(function($ctx1) {
 variables=$recv($globals.Dictionary)._new();
 $recv(variables)._at_put_("#self",self);
 $ctx1.sendIdx["at:put:"]=1;
-$recv(variables)._at_put_("#home",$self._home());
-$ctx1.sendIdx["at:put:"]=2;
-$recv(variables)._at_put_("#receiver",$self._receiver());
-$ctx1.sendIdx["at:put:"]=3;
-$recv(variables)._at_put_("#selector",$self._selector());
-$ctx1.sendIdx["at:put:"]=4;
-$recv(variables)._at_put_("#locals",$self._locals());
-$ctx1.sendIdx["at:put:"]=5;
-$recv($recv($self._class())._instanceVariableNames())._do_((function(each){
-return $core.withContext(function($ctx2) {
-return $recv(variables)._at_put_(each,$self._instVarAt_(each));
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-}));
-$recv(anInspector)._setLabel_($self._printString());
-$recv(anInspector)._setVariables_(variables);
-return self;
-}, function($ctx1) {$ctx1.fill(self,"inspectOn:",{anInspector:anInspector,variables:variables},$globals.MethodContext)});
-},
-args: ["anInspector"],
-source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09variables at: '#home' put: self home.\x0a\x09variables at: '#receiver' put: self receiver.\x0a\x09variables at: '#selector' put: self selector.\x0a\x09variables at: '#locals' put: self locals.\x0a\x09self class instanceVariableNames do: [ :each |\x0a\x09\x09variables at: each put: (self instVarAt: each) ].\x0a\x09anInspector\x0a\x09\x09setLabel: self printString;\x0a\x09\x09setVariables: variables",
-referencedClasses: ["Dictionary"],
-messageSends: ["new", "at:put:", "home", "receiver", "selector", "locals", "do:", "instanceVariableNames", "class", "instVarAt:", "setLabel:", "printString", "setVariables:"]
-}),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
-selector: "inspectOn:",
-protocol: "*Platform-Services",
-fn: function (anInspector){
-var self=this,$self=this;
-var variables;
-return $core.withContext(function($ctx1) {
-variables=$recv($globals.Dictionary)._new();
-$recv(variables)._at_put_("#self",self);
-$ctx1.sendIdx["at:put:"]=1;
 $recv($recv($self._class())._allInstanceVariableNames())._do_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(variables)._at_put_(each,$self._instVarAt_(each));
@@ -28849,23 +29068,59 @@ messageSends: ["inspectOn:", "ifTrue:ifFalse:", ">", "size", "printString", ",",
 }),
 $globals.String);
 
+$core.addMethod(
+$core.method({
+selector: "inspectOn:",
+protocol: "*Platform-Services",
+fn: function (anInspector){
+var self=this,$self=this;
+var variables;
+return $core.withContext(function($ctx1) {
+variables=$recv($globals.Dictionary)._new();
+$recv(variables)._at_put_("#self",self);
+$ctx1.sendIdx["at:put:"]=1;
+$recv(variables)._at_put_("#home",$self._home());
+$ctx1.sendIdx["at:put:"]=2;
+$recv(variables)._at_put_("#receiver",$self._receiver());
+$ctx1.sendIdx["at:put:"]=3;
+$recv(variables)._at_put_("#selector",$self._selector());
+$ctx1.sendIdx["at:put:"]=4;
+$recv(variables)._at_put_("#locals",$self._locals());
+$ctx1.sendIdx["at:put:"]=5;
+$recv($recv($self._class())._instanceVariableNames())._do_((function(each){
+return $core.withContext(function($ctx2) {
+return $recv(variables)._at_put_(each,$self._instVarAt_(each));
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}));
+$recv(anInspector)._setLabel_($self._printString());
+$recv(anInspector)._setVariables_(variables);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"inspectOn:",{anInspector:anInspector,variables:variables},$globals.TMethodContext)});
+},
+args: ["anInspector"],
+source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09variables at: '#home' put: self home.\x0a\x09variables at: '#receiver' put: self receiver.\x0a\x09variables at: '#selector' put: self selector.\x0a\x09variables at: '#locals' put: self locals.\x0a\x09self class instanceVariableNames do: [ :each |\x0a\x09\x09variables at: each put: (self instVarAt: each) ].\x0a\x09anInspector\x0a\x09\x09setLabel: self printString;\x0a\x09\x09setVariables: variables",
+referencedClasses: ["Dictionary"],
+messageSends: ["new", "at:put:", "home", "receiver", "selector", "locals", "do:", "instanceVariableNames", "class", "instVarAt:", "setLabel:", "printString", "setVariables:"]
+}),
+$globals.TMethodContext);
+
 });
 
 define('amber/deploy',[
     './helpers',
     './boot', // pre-fetch, dep of ./helpers
     // --- packages of the core Amber begin here ---
-    'amber_core/Kernel-Helpers',
-    'amber_core/Kernel-Objects',
-    'amber_core/Kernel-Classes',
-    'amber_core/Kernel-Methods',
-    'amber_core/Kernel-Collections',
-    'amber_core/Kernel-Dag',
-    'amber_core/Kernel-Infrastructure',
-    'amber_core/Kernel-Promises',
-    'amber_core/Kernel-Exceptions',
-    'amber_core/Kernel-Announcements',
-    'amber_core/Platform-Services',
+    'amber/core/Kernel-Helpers',
+    'amber/core/Kernel-Objects',
+    'amber/core/Kernel-Classes',
+    'amber/core/Kernel-Methods',
+    'amber/core/Kernel-Collections',
+    'amber/core/Kernel-Dag',
+    'amber/core/Kernel-Infrastructure',
+    'amber/core/Kernel-Promises',
+    'amber/core/Kernel-Exceptions',
+    'amber/core/Kernel-Announcements',
+    'amber/core/Platform-Services',
     // --- packages of the core Amber end here ---
 ], function (amber) {
     return amber;
@@ -32903,12 +33158,11 @@ $globals.SmalltalkParser = (function() {
   };
 })();
 });
-define('amber_core/Platform-ImportExport',["amber/boot", "amber_core/Kernel-Classes", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Platform-ImportExport',["amber/boot", "require", "amber/core/Kernel-Classes", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Infrastructure", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-ImportExport");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AbstractExporter", $globals.Object, [], "Platform-ImportExport");
 $globals.AbstractExporter.comment="I am an abstract exporter for Amber source code.\x0a\x0a## API\x0a\x0aUse `#exportPackage:on:` to export a given package on a Stream.";
@@ -33099,17 +33353,15 @@ $1=$recv(aStream)._lf();
 $ctx1.sendIdx["lf"]=1;
 $recv(aStream)._tab();
 $ctx1.sendIdx["tab"]=1;
-$recv(aStream)._write_("instanceVariableNames: ");
+$recv(aStream)._write_(["slots: {",". "._join_($recv($recv(aClass)._instanceVariableNames())._collect_("symbolPrintString")),"}"]);
 $ctx1.sendIdx["write:"]=2;
-$recv(aStream)._print_(" "._join_($recv(aClass)._instanceVariableNames()));
-$ctx1.sendIdx["print:"]=2;
 $recv(aStream)._lf();
 $ctx1.sendIdx["lf"]=2;
 $recv(aStream)._tab();
 $recv(aStream)._write_("package: ");
 $ctx1.sendIdx["write:"]=3;
 $recv(aStream)._print_($recv(aClass)._category());
-$ctx1.sendIdx["print:"]=3;
+$ctx1.sendIdx["print:"]=2;
 $recv(aStream)._write_("!");
 $ctx1.sendIdx["write:"]=4;
 $2=$recv(aStream)._lf();
@@ -33136,9 +33388,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"exportDefinitionOf:on:",{aClass:aClass,aStream:aStream},$globals.ChunkExporter)});
 },
 args: ["aClass", "aStream"],
-source: "exportDefinitionOf: aClass on: aStream\x0a\x09\x22Chunk format.\x22\x0a\x0a\x09aStream\x0a\x09\x09print: aClass superclass;\x0a\x09\x09write: ' subclass: ';\x0a\x09\x09printSymbol: aClass name;\x0a\x09\x09lf.\x0a\x09\x22aClass traitComposition\x0a\x09\x09ifNotEmpty: [ aStream tab; write: {'uses: '. aClass traitCompositionDefinition}; lf ].\x22\x0a\x09aStream\x0a\x09\x09tab;\x0a\x09\x09write: 'instanceVariableNames: ';\x0a\x09\x09print: (' ' join: aClass instanceVariableNames);\x0a\x09\x09lf;\x0a\x09\x09tab;\x0a\x09\x09write: 'package: ';\x0a\x09\x09print: aClass category;\x0a\x09\x09write: '!';\x0a\x09\x09lf.\x0a\x09aClass comment ifNotEmpty: [ aStream\x0a\x09\x09write: '!'; print: aClass; write: ' commentStamp!'; lf;\x0a\x09\x09write: { self chunkEscape: aClass comment. '!' }; lf ].\x0a\x09aStream lf",
+source: "exportDefinitionOf: aClass on: aStream\x0a\x09\x22Chunk format.\x22\x0a\x0a\x09aStream\x0a\x09\x09print: aClass superclass;\x0a\x09\x09write: ' subclass: ';\x0a\x09\x09printSymbol: aClass name;\x0a\x09\x09lf.\x0a\x09\x22aClass traitComposition\x0a\x09\x09ifNotEmpty: [ aStream tab; write: {'uses: '. aClass traitCompositionDefinition}; lf ].\x22\x0a\x09aStream\x0a\x09\x09tab;\x0a\x09\x09write: {'slots: {'. ('. ' join: (aClass instanceVariableNames collect: #symbolPrintString)). '}'};\x0a\x09\x09lf;\x0a\x09\x09tab;\x0a\x09\x09write: 'package: ';\x0a\x09\x09print: aClass category;\x0a\x09\x09write: '!';\x0a\x09\x09lf.\x0a\x09aClass comment ifNotEmpty: [ aStream\x0a\x09\x09write: '!'; print: aClass; write: ' commentStamp!'; lf;\x0a\x09\x09write: { self chunkEscape: aClass comment. '!' }; lf ].\x0a\x09aStream lf",
 referencedClasses: [],
-messageSends: ["print:", "superclass", "write:", "printSymbol:", "name", "lf", "tab", "join:", "instanceVariableNames", "category", "ifNotEmpty:", "comment", "chunkEscape:"]
+messageSends: ["print:", "superclass", "write:", "printSymbol:", "name", "lf", "tab", "join:", "collect:", "instanceVariableNames", "category", "ifNotEmpty:", "comment", "chunkEscape:"]
 }),
 $globals.ChunkExporter);
 
@@ -33158,12 +33410,8 @@ classTraitComposition=$recv($recv(aClass)._class())._traitComposition();
 $2=$recv(classIvars)._notEmpty();
 if($core.assert($2)){
 $recv(aStream)._print_($recv(aClass)._theMetaClass());
-$ctx1.sendIdx["print:"]=1;
 $recv(aStream)._space();
-$recv(aStream)._write_("instanceVariableNames: ");
-$ctx1.sendIdx["write:"]=1;
-$recv(aStream)._print_(" "._join_(classIvars));
-$recv(aStream)._write_("!");
+$recv(aStream)._write_(["slots: {",". "._join_($recv(classIvars)._collect_("symbolPrintString")),"}!"]);
 $recv(aStream)._lf();
 $ctx1.sendIdx["lf"]=1;
 $recv(aStream)._lf();
@@ -33172,9 +33420,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"exportMetaDefinitionOf:on:",{aClass:aClass,aStream:aStream,classIvars:classIvars,classTraitComposition:classTraitComposition},$globals.ChunkExporter)});
 },
 args: ["aClass", "aStream"],
-source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x0a\x09| classIvars classTraitComposition |\x0a\x09classIvars := aClass class instanceVariableNames.\x0a\x09classTraitComposition := aClass class traitComposition.\x0a\x0a\x09(classIvars notEmpty \x22or: [classTraitComposition notEmpty]\x22) ifTrue: [\x0a\x09\x09aStream\x0a\x09\x09\x09print: aClass theMetaClass.\x0a\x09\x09aStream space. \x22classTraitComposition\x0a\x09\x09\x09ifEmpty: [ aStream space ]\x0a\x09\x09\x09ifNotEmpty: [ aStream lf; tab; write: {'uses: '. aClass class traitCompositionDefinition}; lf; tab ].\x22\x0a\x09\x09aStream\x0a\x09\x09\x09write: 'instanceVariableNames: ';\x0a\x09\x09\x09print: (' ' join: classIvars);\x0a\x09\x09\x09write: '!'; lf; lf ]",
+source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x0a\x09| classIvars classTraitComposition |\x0a\x09classIvars := aClass class instanceVariableNames.\x0a\x09classTraitComposition := aClass class traitComposition.\x0a\x0a\x09(classIvars notEmpty \x22or: [classTraitComposition notEmpty]\x22) ifTrue: [\x0a\x09\x09aStream\x0a\x09\x09\x09print: aClass theMetaClass.\x0a\x09\x09aStream space. \x22classTraitComposition\x0a\x09\x09\x09ifEmpty: [ aStream space ]\x0a\x09\x09\x09ifNotEmpty: [ aStream lf; tab; write: {'uses: '. aClass class traitCompositionDefinition}; lf; tab ].\x22\x0a\x09\x09aStream\x0a\x09\x09\x09write: {'slots: {'. ('. ' join: (classIvars collect: #symbolPrintString)). '}!'}; lf; lf ]",
 referencedClasses: [],
-messageSends: ["instanceVariableNames", "class", "traitComposition", "ifTrue:", "notEmpty", "print:", "theMetaClass", "space", "write:", "join:", "lf"]
+messageSends: ["instanceVariableNames", "class", "traitComposition", "ifTrue:", "notEmpty", "print:", "theMetaClass", "space", "write:", "join:", "collect:", "lf"]
 }),
 $globals.ChunkExporter);
 
@@ -33720,7 +33968,7 @@ $recv($1)._ifNotEmpty_((function(classIvars){
 return $core.withContext(function($ctx2) {
 $4=$recv($recv(aClass)._theMetaClass())._asJavaScriptSource();
 $ctx2.sendIdx["asJavaScriptSource"]=1;
-$3=[$4,".iVarNames = ",$recv(classIvars)._asJavaScriptSource(),";"];
+$3=["$core.setSlots(",$4,", ",$recv(classIvars)._asJavaScriptSource(),");"];
 $recv(aStream)._write_($3);
 return $recv(aStream)._lf();
 }, function($ctx2) {$ctx2.fillBlock({classIvars:classIvars},$ctx1,1)});
@@ -33729,7 +33977,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"exportMetaDefinitionOf:on:",{aClass:aClass,aStream:aStream},$globals.Exporter)});
 },
 args: ["aClass", "aStream"],
-source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x09aStream lf.\x0a\x09aClass theMetaClass instanceVariableNames ifNotEmpty: [ :classIvars | aStream\x0a\x09\x09write: { aClass theMetaClass asJavaScriptSource. '.iVarNames = '. classIvars asJavaScriptSource. ';' };\x0a\x09\x09lf ]",
+source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x09aStream lf.\x0a\x09aClass theMetaClass instanceVariableNames ifNotEmpty: [ :classIvars | aStream\x0a\x09\x09write: { '$core.setSlots('. aClass theMetaClass asJavaScriptSource. ', '. classIvars asJavaScriptSource. ');' };\x0a\x09\x09lf ]",
 referencedClasses: [],
 messageSends: ["lf", "ifNotEmpty:", "instanceVariableNames", "theMetaClass", "write:", "asJavaScriptSource"]
 }),
@@ -33875,17 +34123,13 @@ protocol: "output",
 fn: function (aPackage,aStream){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv(aStream)._write_("if(!(\x22nilAsValue\x22 in $boot))$boot.nilAsValue=$boot.nilAsReceiver;");
-$ctx1.sendIdx["write:"]=1;
-$recv(aStream)._lf();
-$ctx1.sendIdx["lf"]=1;
 $recv(aStream)._write_("var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;");
 $recv(aStream)._lf();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"exportPackageBodyBlockPrologueOf:on:",{aPackage:aPackage,aStream:aStream},$globals.Exporter)});
 },
 args: ["aPackage", "aStream"],
-source: "exportPackageBodyBlockPrologueOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: 'if(!(\x22nilAsValue\x22 in $boot))$boot.nilAsValue=$boot.nilAsReceiver;'; lf;\x0a\x09\x09write: 'var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;'; lf",
+source: "exportPackageBodyBlockPrologueOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: 'var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;'; lf",
 referencedClasses: [],
 messageSends: ["write:", "lf"]
 }),
@@ -34230,68 +34474,112 @@ $globals.AmdExporter);
 
 $core.addMethod(
 $core.method({
+selector: "exportPackageImportsOf:on:",
+protocol: "output",
+fn: function (aPackage,aStream){
+var self=this,$self=this;
+var importsForOutput,pragmaStart,pragmaEnd;
+return $core.withContext(function($ctx1) {
+var $1,$2,$4,$3,$5,$7,$11,$10,$12,$9,$8,$13,$6;
+$1=$recv($globals.String)._lf();
+$ctx1.sendIdx["lf"]=1;
+pragmaStart="//>>excludeStart(\x22imports\x22, pragmas.excludeImports);".__comma($1);
+$ctx1.sendIdx[","]=1;
+$2=$recv($globals.String)._lf();
+$ctx1.sendIdx["lf"]=2;
+pragmaEnd="//>>excludeEnd(\x22imports\x22);".__comma($2);
+$ctx1.sendIdx[","]=2;
+(
+$ctx1.supercall = true,
+($globals.AmdExporter.superclass||$boot.nilAsClass).fn.prototype._exportPackageImportsOf_on_.apply($self, [aPackage,aStream]));
+$ctx1.supercall = false;
+importsForOutput=$self._importsForOutput_(aPackage);
+$recv($recv(importsForOutput)._value())._ifNotEmpty_((function(imports){
+var vars;
+return $core.withContext(function($ctx2) {
+$recv(aStream)._write_(pragmaStart);
+$ctx2.sendIdx["write:"]=1;
+vars=$recv(importsForOutput)._key();
+$recv(vars)._ifNotEmpty_((function(){
+return $core.withContext(function($ctx3) {
+$4=","._join_(vars);
+$ctx3.sendIdx["join:"]=1;
+$3=["var ",$4,";"];
+$recv(aStream)._write_($3);
+$ctx3.sendIdx["write:"]=2;
+$5=$recv(aStream)._lf();
+$ctx3.sendIdx["lf"]=3;
+return $5;
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+}));
+$7=$recv(imports)._asJavaScriptSource();
+$11=$recv(vars)._size();
+$ctx2.sendIdx["size"]=1;
+$10=(1)._to_($11);
+$ctx2.sendIdx["to:"]=1;
+$9=$recv($10)._collect_((function(each){
+return $core.withContext(function($ctx3) {
+$12=$recv(each)._asString();
+$ctx3.sendIdx["asString"]=1;
+return "$".__comma($12);
+$ctx3.sendIdx[","]=3;
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,3)});
+}));
+$ctx2.sendIdx["collect:"]=1;
+$8=","._join_($9);
+$6=["$pkg.isReady = new Promise(function (resolve, reject) { requirejs(",$7,", function (",$8,") {",$recv((1)._to_($recv(vars)._size()))._collect_((function(each){
+return $core.withContext(function($ctx3) {
+$13=$recv($recv($recv(vars)._at_(each)).__comma("=$")).__comma($recv(each)._asString());
+$ctx3.sendIdx[","]=5;
+return $recv($13).__comma("; ");
+$ctx3.sendIdx[","]=4;
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,4)});
+})),"resolve();}, reject); });"];
+$recv(aStream)._write_($6);
+$ctx2.sendIdx["write:"]=3;
+$recv(aStream)._lf();
+return $recv(aStream)._write_(pragmaEnd);
+}, function($ctx2) {$ctx2.fillBlock({imports:imports,vars:vars},$ctx1,1)});
+}));
+$ctx1.sendIdx["ifNotEmpty:"]=1;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"exportPackageImportsOf:on:",{aPackage:aPackage,aStream:aStream,importsForOutput:importsForOutput,pragmaStart:pragmaStart,pragmaEnd:pragmaEnd},$globals.AmdExporter)});
+},
+args: ["aPackage", "aStream"],
+source: "exportPackageImportsOf: aPackage on: aStream\x0a\x09| importsForOutput pragmaStart pragmaEnd |\x0a\x09pragmaStart := '//>>excludeStart(\x22imports\x22, pragmas.excludeImports);', String lf.\x0a\x09pragmaEnd := '//>>excludeEnd(\x22imports\x22);', String lf.\x0a\x09super exportPackageImportsOf: aPackage on: aStream.\x0a\x09importsForOutput := self importsForOutput: aPackage.\x0a\x09importsForOutput value ifNotEmpty: [ :imports |\x0a\x09\x09| vars |\x0a\x09\x09aStream write: pragmaStart.\x0a\x09\x09vars := importsForOutput key.\x0a\x09\x09vars ifNotEmpty: [ aStream write: { 'var '. ',' join: vars. ';' }; lf ]. \x0a\x09\x09aStream\x0a\x09\x09\x09write: {\x0a\x09\x09\x09\x09'$pkg.isReady = new Promise(function (resolve, reject) { requirejs('.\x0a\x09\x09\x09\x09imports asJavaScriptSource.\x0a\x09\x09\x09\x09', function ('.\x0a\x09\x09\x09\x09',' join: ((1 to: vars size) collect: [ :each | '$', each asString ]).\x0a\x09\x09\x09\x09') {'.\x0a\x09\x09\x09\x09(1 to: vars size) collect: [ :each | (vars at: each), '=$', each asString, '; ' ].\x0a\x09\x09\x09\x09'resolve();}, reject); });' };\x0a\x09\x09\x09lf;\x0a\x09\x09\x09write: pragmaEnd ]",
+referencedClasses: ["String"],
+messageSends: [",", "lf", "exportPackageImportsOf:on:", "importsForOutput:", "ifNotEmpty:", "value", "write:", "key", "join:", "asJavaScriptSource", "collect:", "to:", "size", "asString", "at:"]
+}),
+$globals.AmdExporter);
+
+$core.addMethod(
+$core.method({
 selector: "exportPackagePrologueOf:on:",
 protocol: "output",
 fn: function (aPackage,aStream){
 var self=this,$self=this;
-var importsForOutput,loadDependencies,pragmaStart,pragmaEnd;
+var loadDependencies,pragmaStart,pragmaEnd;
 return $core.withContext(function($ctx1) {
-var $1,$3,$2,$4,$6,$5,$7,$14,$13,$12,$11,$10,$9,$18,$17,$16,$15,$8;
-pragmaStart="";
-pragmaEnd="";
-importsForOutput=$self._importsForOutput_(aPackage);
+var $1,$2;
+$1=$recv($globals.String)._lf();
+$ctx1.sendIdx["lf"]=1;
+pragmaStart="//>>excludeStart(\x22imports\x22, pragmas.excludeImports);".__comma($1);
+$ctx1.sendIdx[","]=1;
+$2=$recv($globals.String)._lf();
+$ctx1.sendIdx["lf"]=2;
+pragmaEnd="//>>excludeEnd(\x22imports\x22);".__comma($2);
+$ctx1.sendIdx[","]=2;
 loadDependencies=$self._amdNamesOfPackages_($recv(aPackage)._loadDependencies());
-$1=$recv(importsForOutput)._value();
-$ctx1.sendIdx["value"]=1;
-$recv($1)._ifNotEmpty_((function(){
-return $core.withContext(function($ctx2) {
-$3=$recv($globals.String)._lf();
-$ctx2.sendIdx["lf"]=1;
-$2=$recv($3).__comma("//>>excludeStart(\x22imports\x22, pragmas.excludeImports);");
-$ctx2.sendIdx[","]=2;
-$4=$recv($globals.String)._lf();
-$ctx2.sendIdx["lf"]=2;
-pragmaStart=$recv($2).__comma($4);
-$ctx2.sendIdx[","]=1;
-$6=$recv($globals.String)._lf();
-$ctx2.sendIdx["lf"]=3;
-$5=$recv($6).__comma("//>>excludeEnd(\x22imports\x22);");
-$ctx2.sendIdx[","]=4;
-$7=$recv($globals.String)._lf();
-$ctx2.sendIdx["lf"]=4;
-pragmaEnd=$recv($5).__comma($7);
-$ctx2.sendIdx[","]=3;
-return pragmaEnd;
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
-$14=["amber/boot", ":1:"].__comma($recv(importsForOutput)._value());
-$ctx1.sendIdx[","]=7;
-$13=$recv($14).__comma([":2:"]);
-$ctx1.sendIdx[","]=6;
-$12=$recv($13).__comma($recv($recv(loadDependencies)._asArray())._sorted());
-$ctx1.sendIdx[","]=5;
-$11=$recv($12)._asJavaScriptSource();
-$10=$recv($11)._replace_with_(",\x5cs*[\x22']:1:[\x22']",pragmaStart);
-$ctx1.sendIdx["replace:with:"]=2;
-$9=$recv($10)._replace_with_(",\x5cs*[\x22']:2:[\x22']",pragmaEnd);
-$ctx1.sendIdx["replace:with:"]=1;
-$18=$recv(["$boot", ":1:"].__comma($recv(importsForOutput)._key())).__comma([":2:"]);
-$ctx1.sendIdx[","]=8;
-$17=$recv($18)._join_(",");
-$16=$recv($17)._replace_with_(",\x5cs*:1:",pragmaStart);
-$15=$recv($16)._replace_with_(",\x5cs*:2:",pragmaEnd);
-$ctx1.sendIdx["replace:with:"]=3;
-$8=["define(",$9,", function(",$15,"){\x22use strict\x22;"];
-$recv(aStream)._write_($8);
+$recv(aStream)._write_(["define(",$recv(["amber/boot", "require"].__comma($recv($recv(loadDependencies)._asArray())._sorted()))._asJavaScriptSource(),", function($boot,requirejs){\x22use strict\x22;"]);
 $recv(aStream)._lf();
 $self._exportPackageBodyBlockPrologueOf_on_(aPackage,aStream);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"exportPackagePrologueOf:on:",{aPackage:aPackage,aStream:aStream,importsForOutput:importsForOutput,loadDependencies:loadDependencies,pragmaStart:pragmaStart,pragmaEnd:pragmaEnd},$globals.AmdExporter)});
+}, function($ctx1) {$ctx1.fill(self,"exportPackagePrologueOf:on:",{aPackage:aPackage,aStream:aStream,loadDependencies:loadDependencies,pragmaStart:pragmaStart,pragmaEnd:pragmaEnd},$globals.AmdExporter)});
 },
 args: ["aPackage", "aStream"],
-source: "exportPackagePrologueOf: aPackage on: aStream\x0a\x09| importsForOutput loadDependencies pragmaStart pragmaEnd |\x0a\x09pragmaStart := ''.\x0a\x09pragmaEnd := ''.\x0a\x09importsForOutput := self importsForOutput: aPackage.\x0a\x09loadDependencies := self amdNamesOfPackages: aPackage loadDependencies.\x0a\x09importsForOutput value ifNotEmpty: [\x0a\x09\x09pragmaStart := String lf, '//>>excludeStart(\x22imports\x22, pragmas.excludeImports);', String lf.\x0a\x09\x09pragmaEnd := String lf, '//>>excludeEnd(\x22imports\x22);', String lf ].\x0a\x09aStream\x0a\x09\x09write: {\x0a\x09\x09\x09'define('.\x0a\x09\x09\x09((#('amber/boot' ':1:'), importsForOutput value, #(':2:'), loadDependencies asArray sorted) asJavaScriptSource\x0a\x09\x09\x09\x09replace: ',\x5cs*[\x22'']:1:[\x22'']' with: pragmaStart)\x0a\x09\x09\x09\x09replace: ',\x5cs*[\x22'']:2:[\x22'']' with: pragmaEnd.\x0a\x09\x09\x09', function('.\x0a\x09\x09\x09((((#('$boot' ':1:'), importsForOutput key, #(':2:')) join: ',') \x0a\x09\x09\x09\x09replace: ',\x5cs*:1:' with: pragmaStart)\x0a\x09\x09\x09\x09replace: ',\x5cs*:2:' with: pragmaEnd).\x0a\x09\x09\x09'){\x22use strict\x22;' };\x0a\x09\x09lf.\x0a\x09self exportPackageBodyBlockPrologueOf: aPackage on: aStream",
+source: "exportPackagePrologueOf: aPackage on: aStream\x0a\x09| loadDependencies pragmaStart pragmaEnd |\x0a\x09pragmaStart := '//>>excludeStart(\x22imports\x22, pragmas.excludeImports);', String lf.\x0a\x09pragmaEnd := '//>>excludeEnd(\x22imports\x22);', String lf.\x0a\x09loadDependencies := self amdNamesOfPackages: aPackage loadDependencies.\x0a\x09aStream\x0a\x09\x09write: {\x0a\x09\x09\x09'define('.\x0a\x09\x09\x09(#('amber/boot' 'require'), loadDependencies asArray sorted) asJavaScriptSource.\x0a\x09\x09\x09', function($boot,requirejs){\x22use strict\x22;' };\x0a\x09\x09lf.\x0a\x09self exportPackageBodyBlockPrologueOf: aPackage on: aStream",
 referencedClasses: ["String"],
-messageSends: ["importsForOutput:", "amdNamesOfPackages:", "loadDependencies", "ifNotEmpty:", "value", ",", "lf", "write:", "replace:with:", "asJavaScriptSource", "sorted", "asArray", "join:", "key", "exportPackageBodyBlockPrologueOf:on:"]
+messageSends: [",", "lf", "amdNamesOfPackages:", "loadDependencies", "write:", "asJavaScriptSource", "sorted", "asArray", "exportPackageBodyBlockPrologueOf:on:"]
 }),
 $globals.AmdExporter);
 
@@ -34340,7 +34628,7 @@ selector: "last",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@last"];
+return $self.last;
 
 },
 args: [],
@@ -34364,7 +34652,7 @@ try {
 result=""._writeStream();
 $recv((function(){
 return $core.withContext(function($ctx2) {
-char=$recv($self["@stream"])._next();
+char=$recv($self.stream)._next();
 $ctx2.sendIdx["next"]=1;
 return $recv(char)._notNil();
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -34373,20 +34661,20 @@ return $core.withContext(function($ctx2) {
 $1=$recv(char).__eq("!");
 $ctx2.sendIdx["="]=1;
 if($core.assert($1)){
-$2=$recv($recv($self["@stream"])._peek()).__eq("!");
+$2=$recv($recv($self.stream)._peek()).__eq("!");
 if($core.assert($2)){
-$recv($self["@stream"])._next();
+$recv($self.stream)._next();
 } else {
-$self["@last"]=$recv($recv(result)._contents())._trimBoth();
-$3=$self["@last"];
+$self.last=$recv($recv(result)._contents())._trimBoth();
+$3=$self.last;
 throw $early=[$3];
 }
 }
 return $recv(result)._nextPut_(char);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }));
-$self["@last"]=nil;
-$4=$self["@last"];
+$self.last=nil;
+$4=$self.last;
 return $4;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
@@ -34405,7 +34693,7 @@ selector: "stream:",
 protocol: "accessing",
 fn: function (aStream){
 var self=this,$self=this;
-$self["@stream"]=aStream;
+$self.stream=aStream;
 return self;
 
 },
@@ -34443,7 +34731,7 @@ selector: "class:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@class"]=aClass;
+$self.class=aClass;
 return self;
 
 },
@@ -34506,7 +34794,7 @@ protocol: "private",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@class"])._comment_(aString);
+$recv($self.class)._comment_(aString);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"setComment:",{aString:aString},$globals.ClassCommentReader)});
 },
@@ -34527,8 +34815,8 @@ selector: "class:category:",
 protocol: "accessing",
 fn: function (aClass,aString){
 var self=this,$self=this;
-$self["@class"]=aClass;
-$self["@category"]=aString;
+$self.class=aClass;
+$self.category=aString;
 return self;
 
 },
@@ -34546,7 +34834,7 @@ protocol: "private",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($recv($globals.Compiler)._new())._install_forClass_protocol_(aString,$self["@class"],$self["@category"]);
+$recv($recv($globals.Compiler)._new())._install_forClass_protocol_(aString,$self.class,$self.category);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"compileMethod:",{aString:aString},$globals.ClassProtocolReader)});
 },
@@ -34640,7 +34928,7 @@ selector: "name",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@name"];
+return $self.name;
 
 },
 args: [],
@@ -34656,7 +34944,7 @@ selector: "name:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@name"]=aString;
+$self.name=aString;
 return self;
 
 },
@@ -34697,7 +34985,7 @@ selector: "theClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@theClass"];
+return $self.theClass;
 
 },
 args: [],
@@ -34713,7 +35001,7 @@ selector: "theClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@theClass"]=aClass;
+$self.theClass=aClass;
 return self;
 
 },
@@ -34760,8 +35048,8 @@ return $core.withContext(function($ctx1) {
 var $1;
 parser=$recv($globals.ChunkParser)._on_(aStream);
 lastEmpty=false;
-$self["@lastSection"]="n/a, not started";
-$self["@lastChunk"]=nil;
+$self.lastSection="n/a, not started";
+$self.lastChunk=nil;
 $recv((function(){
 return $core.withContext(function($ctx2) {
 $recv((function(){
@@ -34777,7 +35065,7 @@ return lastEmpty;
 
 }),(function(){
 return $core.withContext(function($ctx4) {
-$self["@lastSection"]=chunk;
+$self.lastSection=chunk;
 result=$recv($recv($globals.Compiler)._new())._evaluateExpression_(chunk);
 $1=lastEmpty;
 if($core.assert($1)){
@@ -34788,12 +35076,12 @@ return $recv(result)._scanFrom_(parser);
 }));
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 }));
-$self["@lastSection"]="n/a, finished";
-return $self["@lastSection"];
+$self.lastSection="n/a, finished";
+return $self.lastSection;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }))._on_do_($globals.Error,(function(e){
 return $core.withContext(function($ctx2) {
-$self["@lastChunk"]=$recv(parser)._last();
+$self.lastChunk=$recv(parser)._last();
 return $recv(e)._pass();
 }, function($ctx2) {$ctx2.fillBlock({e:e},$ctx1,7)});
 }));
@@ -34813,7 +35101,7 @@ selector: "lastChunk",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@lastChunk"];
+return $self.lastChunk;
 
 },
 args: [],
@@ -34829,7 +35117,7 @@ selector: "lastSection",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@lastSection"];
+return $self.lastSection;
 
 },
 args: [],
@@ -35174,6 +35462,24 @@ messageSends: ["messageText:", "new", ",", "responseText", "signal"]
 }),
 $globals.PackageHandler);
 
+$core.addMethod(
+$core.method({
+selector: "setPath:forPackage:",
+protocol: "accessing",
+fn: function (aString,aPackage){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"setPath:forPackage:",{aString:aString,aPackage:aPackage},$globals.PackageHandler)});
+},
+args: ["aString", "aPackage"],
+source: "setPath: aString forPackage: aPackage\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+messageSends: ["subclassResponsibility"]
+}),
+$globals.PackageHandler);
+
 
 
 $core.addClass("AmdPackageHandler", $globals.PackageHandler, [], "Platform-ImportExport");
@@ -35293,6 +35599,24 @@ args: ["aPackage"],
 source: "namespaceFor: aPackage\x0a\x09^ aPackage transport namespace",
 referencedClasses: [],
 messageSends: ["namespace", "transport"]
+}),
+$globals.AmdPackageHandler);
+
+$core.addMethod(
+$core.method({
+selector: "setPath:forPackage:",
+protocol: "accessing",
+fn: function (aString,aPackage){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv($recv(require)._provided())._config_($globals.HashedCollection._newFromPairs_(["paths",$globals.HashedCollection._newFromPairs_([$self._namespaceFor_(aPackage),aString])]));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"setPath:forPackage:",{aString:aString,aPackage:aPackage},$globals.AmdPackageHandler)});
+},
+args: ["aString", "aPackage"],
+source: "setPath: aString forPackage: aPackage\x0a\x09\x22Set the path the the package's `namespace`\x22\x0a\x09\x0a\x09\x22Smalltalk amdRequire\x0a\x09\x09ifNil: [ self error: 'AMD loader not present' ]\x0a\x09\x09ifNotNil: [ :require |\x22\x0a\x09\x09\x09require provided config: #{\x0a\x09\x09\x09\x09'paths' -> #{\x0a\x09\x09\x09\x09\x09(self namespaceFor: aPackage) -> aString\x0a\x09\x09\x09\x09}\x0a\x09\x09\x09}\x0a\x09\x09\x22]\x22",
+referencedClasses: [],
+messageSends: ["config:", "provided", "namespaceFor:"]
 }),
 $globals.AmdPackageHandler);
 
@@ -35491,7 +35815,7 @@ selector: "package",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@package"];
+return $self.package;
 
 },
 args: [],
@@ -35507,7 +35831,7 @@ selector: "package:",
 protocol: "accessing",
 fn: function (aPackage){
 var self=this,$self=this;
-$self["@package"]=aPackage;
+$self.package=aPackage;
 return self;
 
 },
@@ -35515,6 +35839,24 @@ args: ["aPackage"],
 source: "package: aPackage\x0a\x09package := aPackage",
 referencedClasses: [],
 messageSends: []
+}),
+$globals.PackageTransport);
+
+$core.addMethod(
+$core.method({
+selector: "setPath:",
+protocol: "actions",
+fn: function (aString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv($self._commitHandler())._setPath_forPackage_(aString,$self.package);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"setPath:",{aString:aString},$globals.PackageTransport)});
+},
+args: ["aString"],
+source: "setPath: aString\x0a\x09\x22Set the commit path for the package\x22\x0a\x0a\x09self commitHandler setPath: aString forPackage: package",
+referencedClasses: [],
+messageSends: ["setPath:forPackage:", "commitHandler"]
 }),
 $globals.PackageTransport);
 
@@ -35552,7 +35894,7 @@ messageSends: ["type", "class"]
 $globals.PackageTransport);
 
 
-$globals.PackageTransport.a$cls.iVarNames = ["registry"];
+$core.setSlots($globals.PackageTransport.a$cls, ["registry"]);
 $core.addMethod(
 $core.method({
 selector: "classRegisteredFor:",
@@ -35560,7 +35902,7 @@ protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self["@registry"])._at_(aString);
+return $recv($self.registry)._at_(aString);
 }, function($ctx1) {$ctx1.fill(self,"classRegisteredFor:",{aString:aString},$globals.PackageTransport.a$cls)});
 },
 args: ["aString"],
@@ -35645,8 +35987,8 @@ $ctx1.supercall = true,
 $ctx1.supercall = false;
 $1=$self.__eq_eq($globals.PackageTransport);
 if($core.assert($1)){
-$self["@registry"]=$globals.HashedCollection._newFromPairs_([]);
-$self["@registry"];
+$self.registry=$globals.HashedCollection._newFromPairs_([]);
+$self.registry;
 } else {
 $self._register();
 }
@@ -35691,7 +36033,7 @@ $ctx1.sendIdx["type"]=1;
 if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
-$recv($self["@registry"])._at_put_($recv(aClass)._type(),aClass);
+$recv($self.registry)._at_put_($recv(aClass)._type(),aClass);
 }
 return self;
 }, function($ctx1) {$ctx1.fill(self,"register:",{aClass:aClass},$globals.PackageTransport.a$cls)});
@@ -35808,7 +36150,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@namespace"];
+$1=$self.namespace;
 if(($receiver = $1) == null || $receiver.a$nil){
 return $self._defaultNamespace();
 } else {
@@ -35829,7 +36171,7 @@ selector: "namespace:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@namespace"]=aString;
+$self.namespace=aString;
 return self;
 
 },
@@ -35863,24 +36205,6 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09super printOn: aStream.\x0a\x09aStream\x0a\x09\x09nextPutAll: ' (AMD Namespace: ';\x0a\x09\x09nextPutAll: self namespace;\x0a\x09\x09nextPutAll: ')'",
 referencedClasses: [],
 messageSends: ["printOn:", "nextPutAll:", "namespace"]
-}),
-$globals.AmdPackageTransport);
-
-$core.addMethod(
-$core.method({
-selector: "setPath:",
-protocol: "actions",
-fn: function (aString){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$recv($recv(require)._provided())._config_($globals.HashedCollection._newFromPairs_(["paths",$globals.HashedCollection._newFromPairs_([$self._namespace(),aString])]));
-return self;
-}, function($ctx1) {$ctx1.fill(self,"setPath:",{aString:aString},$globals.AmdPackageTransport)});
-},
-args: ["aString"],
-source: "setPath: aString\x0a\x09\x22Set the path the the receiver's `namespace`\x22\x0a\x09\x0a\x09require provided config: #{\x0a\x09\x09'paths' -> #{\x0a\x09\x09\x09self namespace -> aString\x0a\x09\x09}\x0a\x09}.",
-referencedClasses: [],
-messageSends: ["config:", "provided", "namespace"]
 }),
 $globals.AmdPackageTransport);
 
@@ -36157,12 +36481,11 @@ $globals.Trait);
 
 });
 
-define('amber_core/Compiler-AST',["amber/boot", "amber_core/Kernel-Dag", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Methods"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Compiler-AST',["amber/boot", "require", "amber/core/Kernel-Dag", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Methods"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-AST");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("ASTNode", $globals.DagParentNode, ["parent", "position", "source", "shouldBeAliased"], "Compiler-AST");
 $globals.ASTNode.comment="I am the abstract root class of the abstract syntax tree.\x0a\x0aConcrete classes should implement `#accept:` to allow visiting.\x0a\x0a`position` holds a point containing line and column number of the symbol location in the original source file.";
@@ -36494,7 +36817,7 @@ selector: "parent",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@parent"];
+return $self.parent;
 
 },
 args: [],
@@ -36510,7 +36833,7 @@ selector: "parent:",
 protocol: "accessing",
 fn: function (aNode){
 var self=this,$self=this;
-$self["@parent"]=aNode;
+$self.parent=aNode;
 return self;
 
 },
@@ -36529,7 +36852,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$2,$receiver;
-$1=$self["@position"];
+$1=$self.position;
 if(($receiver = $1) == null || $receiver.a$nil){
 $2=$self._parent();
 if(($receiver = $2) == null || $receiver.a$nil){
@@ -36557,7 +36880,7 @@ selector: "position:",
 protocol: "accessing",
 fn: function (aPosition){
 var self=this,$self=this;
-$self["@position"]=aPosition;
+$self.position=aPosition;
 return self;
 
 },
@@ -36645,7 +36968,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@shouldBeAliased"];
+$1=$self.shouldBeAliased;
 if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
@@ -36666,7 +36989,7 @@ selector: "shouldBeAliased:",
 protocol: "accessing",
 fn: function (aBoolean){
 var self=this,$self=this;
-$self["@shouldBeAliased"]=aBoolean;
+$self.shouldBeAliased=aBoolean;
 return self;
 
 },
@@ -36702,7 +37025,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@source"];
+$1=$self.source;
 if(($receiver = $1) == null || $receiver.a$nil){
 return "";
 } else {
@@ -36723,7 +37046,7 @@ selector: "source:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@source"]=aString;
+$self.source=aString;
 return self;
 
 },
@@ -36822,7 +37145,7 @@ selector: "left",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@left"];
+return $self.left;
 
 },
 args: [],
@@ -36838,7 +37161,7 @@ selector: "left:",
 protocol: "accessing",
 fn: function (aNode){
 var self=this,$self=this;
-$self["@left"]=aNode;
+$self.left=aNode;
 return self;
 
 },
@@ -36855,7 +37178,7 @@ selector: "right",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@right"];
+return $self.right;
 
 },
 args: [],
@@ -36871,7 +37194,7 @@ selector: "right:",
 protocol: "accessing",
 fn: function (aNode){
 var self=this,$self=this;
-$self["@right"]=aNode;
+$self.right=aNode;
 return self;
 
 },
@@ -36927,10 +37250,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@parameters"];
+$1=$self.parameters;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@parameters"]=$recv($globals.Array)._new();
-return $self["@parameters"];
+$self.parameters=$recv($globals.Array)._new();
+return $self.parameters;
 } else {
 return $1;
 }
@@ -36949,7 +37272,7 @@ selector: "parameters:",
 protocol: "accessing",
 fn: function (aCollection){
 var self=this,$self=this;
-$self["@parameters"]=aCollection;
+$self.parameters=aCollection;
 return self;
 
 },
@@ -36966,7 +37289,7 @@ selector: "scope",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@scope"];
+return $self.scope;
 
 },
 args: [],
@@ -36982,7 +37305,7 @@ selector: "scope:",
 protocol: "accessing",
 fn: function (aLexicalScope){
 var self=this,$self=this;
-$self["@scope"]=aLexicalScope;
+$self.scope=aLexicalScope;
 return self;
 
 },
@@ -37036,7 +37359,7 @@ selector: "receiver",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@receiver"];
+return $self.receiver;
 
 },
 args: [],
@@ -37052,7 +37375,7 @@ selector: "receiver:",
 protocol: "accessing",
 fn: function (aNode){
 var self=this,$self=this;
-$self["@receiver"]=aNode;
+$self.receiver=aNode;
 return self;
 
 },
@@ -37187,7 +37510,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@arguments"];
+$1=$self.arguments;
 if(($receiver = $1) == null || $receiver.a$nil){
 return [];
 } else {
@@ -37208,7 +37531,7 @@ selector: "arguments:",
 protocol: "accessing",
 fn: function (aCollection){
 var self=this,$self=this;
-$self["@arguments"]=aCollection;
+$self.arguments=aCollection;
 return self;
 
 },
@@ -37225,7 +37548,7 @@ selector: "classReferences",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@classReferences"];
+return $self.classReferences;
 
 },
 args: [],
@@ -37241,7 +37564,7 @@ selector: "classReferences:",
 protocol: "accessing",
 fn: function (aCollection){
 var self=this,$self=this;
-$self["@classReferences"]=aCollection;
+$self.classReferences=aCollection;
 return self;
 
 },
@@ -37291,7 +37614,7 @@ selector: "scope",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@scope"];
+return $self.scope;
 
 },
 args: [],
@@ -37307,7 +37630,7 @@ selector: "scope:",
 protocol: "accessing",
 fn: function (aMethodScope){
 var self=this,$self=this;
-$self["@scope"]=aMethodScope;
+$self.scope=aMethodScope;
 return self;
 
 },
@@ -37324,7 +37647,7 @@ selector: "selector",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@selector"];
+return $self.selector;
 
 },
 args: [],
@@ -37340,7 +37663,7 @@ selector: "selector:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@selector"]=aString;
+$self.selector=aString;
 return self;
 
 },
@@ -37357,7 +37680,7 @@ selector: "sendIndexes",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@sendIndexes"];
+return $self.sendIndexes;
 
 },
 args: [],
@@ -37373,7 +37696,7 @@ selector: "sendIndexes:",
 protocol: "accessing",
 fn: function (aDictionary){
 var self=this,$self=this;
-$self["@sendIndexes"]=aDictionary;
+$self.sendIndexes=aDictionary;
 return self;
 
 },
@@ -37420,7 +37743,7 @@ selector: "source",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@source"];
+return $self.source;
 
 },
 args: [],
@@ -37436,7 +37759,7 @@ selector: "source:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@source"]=aString;
+$self.source=aString;
 return self;
 
 },
@@ -37507,7 +37830,7 @@ selector: "scope",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@scope"];
+return $self.scope;
 
 },
 args: [],
@@ -37523,7 +37846,7 @@ selector: "scope:",
 protocol: "accessing",
 fn: function (aLexicalScope){
 var self=this,$self=this;
-$self["@scope"]=aLexicalScope;
+$self.scope=aLexicalScope;
 return self;
 
 },
@@ -37563,10 +37886,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@arguments"];
+$1=$self.arguments;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@arguments"]=[];
-return $self["@arguments"];
+$self.arguments=[];
+return $self.arguments;
 } else {
 return $1;
 }
@@ -37585,7 +37908,7 @@ selector: "arguments:",
 protocol: "accessing",
 fn: function (aCollection){
 var self=this,$self=this;
-$self["@arguments"]=aCollection;
+$self.arguments=aCollection;
 return self;
 
 },
@@ -37631,7 +37954,7 @@ selector: "index",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@index"];
+return $self.index;
 
 },
 args: [],
@@ -37647,7 +37970,7 @@ selector: "index:",
 protocol: "accessing",
 fn: function (anInteger){
 var self=this,$self=this;
-$self["@index"]=anInteger;
+$self.index=anInteger;
 return self;
 
 },
@@ -37713,7 +38036,7 @@ selector: "receiver",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@receiver"];
+return $self.receiver;
 
 },
 args: [],
@@ -37729,7 +38052,7 @@ selector: "receiver:",
 protocol: "accessing",
 fn: function (aNode){
 var self=this,$self=this;
-$self["@receiver"]=aNode;
+$self.receiver=aNode;
 return self;
 
 },
@@ -37762,7 +38085,7 @@ selector: "selector",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@selector"];
+return $self.selector;
 
 },
 args: [],
@@ -37778,7 +38101,7 @@ selector: "selector:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@selector"]=aString;
+$self.selector=aString;
 return self;
 
 },
@@ -37797,7 +38120,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@shouldBeInlined"];
+$1=$self.shouldBeInlined;
 if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
@@ -37818,7 +38141,7 @@ selector: "shouldBeInlined:",
 protocol: "accessing",
 fn: function (aBoolean){
 var self=this,$self=this;
-$self["@shouldBeInlined"]=aBoolean;
+$self.shouldBeInlined=aBoolean;
 return self;
 
 },
@@ -37923,7 +38246,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@pragmas"];
+$1=$self.pragmas;
 if(($receiver = $1) == null || $receiver.a$nil){
 return [];
 } else {
@@ -37944,7 +38267,7 @@ selector: "pragmas:",
 protocol: "accessing",
 fn: function (aCollection){
 var self=this,$self=this;
-$self["@pragmas"]=aCollection;
+$self.pragmas=aCollection;
 return self;
 
 },
@@ -37961,7 +38284,7 @@ selector: "scope",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@scope"];
+return $self.scope;
 
 },
 args: [],
@@ -37977,7 +38300,7 @@ selector: "scope:",
 protocol: "accessing",
 fn: function (aLexicalScope){
 var self=this,$self=this;
-$self["@scope"]=aLexicalScope;
+$self.scope=aLexicalScope;
 return self;
 
 },
@@ -37996,7 +38319,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@temps"];
+$1=$self.temps;
 if(($receiver = $1) == null || $receiver.a$nil){
 return [];
 } else {
@@ -38017,7 +38340,7 @@ selector: "temps:",
 protocol: "accessing",
 fn: function (aCollection){
 var self=this,$self=this;
-$self["@temps"]=aCollection;
+$self.temps=aCollection;
 return self;
 
 },
@@ -38152,7 +38475,7 @@ selector: "value",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@value"];
+return $self.value;
 
 },
 args: [],
@@ -38168,7 +38491,7 @@ selector: "value:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@value"]=anObject;
+$self.value=anObject;
 return self;
 
 },
@@ -38225,7 +38548,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@assigned"];
+$1=$self.assigned;
 if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
@@ -38246,7 +38569,7 @@ selector: "assigned:",
 protocol: "accessing",
 fn: function (aBoolean){
 var self=this,$self=this;
-$self["@assigned"]=aBoolean;
+$self.assigned=aBoolean;
 return self;
 
 },
@@ -38265,7 +38588,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 $recv($self._binding())._validateAssignment();
-$self["@assigned"]=true;
+$self.assigned=true;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"beAssigned",{},$globals.VariableNode)});
 },
@@ -38282,7 +38605,7 @@ selector: "binding",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@binding"];
+return $self.binding;
 
 },
 args: [],
@@ -38298,7 +38621,7 @@ selector: "binding:",
 protocol: "accessing",
 fn: function (aScopeVar){
 var self=this,$self=this;
-$self["@binding"]=aScopeVar;
+$self.binding=aScopeVar;
 return self;
 
 },
@@ -38714,12 +39037,11 @@ $globals.CompiledMethod);
 
 });
 
-define('amber_core/Compiler-Core',["amber/boot", "amber_core/Compiler-AST", "amber_core/Kernel-Collections", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Compiler-Core',["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Kernel-Collections", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Core");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AbstractCodeGenerator", $globals.Object, ["currentClass", "currentPackage", "source"], "Compiler-Core");
 $globals.AbstractCodeGenerator.comment="I am the abstract super class of all code generators and provide their common API.";
@@ -38750,7 +39072,7 @@ selector: "currentClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@currentClass"];
+return $self.currentClass;
 
 },
 args: [],
@@ -38766,7 +39088,7 @@ selector: "currentClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@currentClass"]=aClass;
+$self.currentClass=aClass;
 return self;
 
 },
@@ -38783,7 +39105,7 @@ selector: "currentPackage",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@currentPackage"];
+return $self.currentPackage;
 
 },
 args: [],
@@ -38799,7 +39121,7 @@ selector: "currentPackage:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@currentPackage"]=anObject;
+$self.currentPackage=anObject;
 return self;
 
 },
@@ -38835,7 +39157,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@source"];
+$1=$self.source;
 if(($receiver = $1) == null || $receiver.a$nil){
 return "";
 } else {
@@ -38856,7 +39178,7 @@ selector: "source:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@source"]=aString;
+$self.source=aString;
 return self;
 
 },
@@ -38976,7 +39298,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$2,$receiver;
-$1=$self["@transformersDictionary"];
+$1=$self.transformersDictionary;
 if(($receiver = $1) == null || $receiver.a$nil){
 $2=$recv($globals.Dictionary)._new();
 $ctx1.sendIdx["new"]=1;
@@ -38987,8 +39309,8 @@ $ctx1.sendIdx["at:put:"]=2;
 $recv($2)._at_put_("5000-astToIr",$self._translator());
 $ctx1.sendIdx["at:put:"]=3;
 $recv($2)._at_put_("8000-irToJs",$self._irTranslator());
-$self["@transformersDictionary"]=$recv($2)._yourself();
-return $self["@transformersDictionary"];
+$self.transformersDictionary=$recv($2)._yourself();
+return $self.transformersDictionary;
 } else {
 return $1;
 }
@@ -39061,7 +39383,7 @@ selector: "cleanCodeGenerator",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-$self["@codeGenerator"]=nil;
+$self.codeGenerator=nil;
 return self;
 
 },
@@ -39080,14 +39402,14 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$2,$receiver;
-$1=$self["@codeGenerator"];
+$1=$self.codeGenerator;
 if(($receiver = $1) == null || $receiver.a$nil){
 $2=$recv($self._codeGeneratorClass())._new();
 $recv($2)._source_($self._source());
 $recv($2)._currentClass_($self._currentClass());
 $recv($2)._currentPackage_($self._currentPackage());
-$self["@codeGenerator"]=$recv($2)._yourself();
-return $self["@codeGenerator"];
+$self.codeGenerator=$recv($2)._yourself();
+return $self.codeGenerator;
 } else {
 return $1;
 }
@@ -39108,7 +39430,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@codeGeneratorClass"];
+$1=$self.codeGeneratorClass;
 if(($receiver = $1) == null || $receiver.a$nil){
 return $globals.InliningCodeGenerator;
 } else {
@@ -39129,7 +39451,7 @@ selector: "codeGeneratorClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@codeGeneratorClass"]=aClass;
+$self.codeGeneratorClass=aClass;
 return self;
 
 },
@@ -39205,7 +39527,7 @@ selector: "currentClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@currentClass"];
+return $self.currentClass;
 
 },
 args: [],
@@ -39221,7 +39543,7 @@ selector: "currentClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@currentClass"]=aClass;
+$self.currentClass=aClass;
 return self;
 
 },
@@ -39238,7 +39560,7 @@ selector: "currentPackage",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@currentPackage"];
+return $self.currentPackage;
 
 },
 args: [],
@@ -39254,7 +39576,7 @@ selector: "currentPackage:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@currentPackage"]=anObject;
+$self.currentPackage=anObject;
 return self;
 
 },
@@ -39492,7 +39814,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@source"];
+$1=$self.source;
 if(($receiver = $1) == null || $receiver.a$nil){
 return "";
 } else {
@@ -39513,7 +39835,7 @@ selector: "source:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@source"]=aString;
+$self.source=aString;
 return self;
 
 },
@@ -39725,7 +40047,7 @@ selector: "methodNode",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@methodNode"];
+return $self.methodNode;
 
 },
 args: [],
@@ -39741,7 +40063,7 @@ selector: "methodNode:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@methodNode"]=anObject;
+$self.methodNode=anObject;
 return self;
 
 },
@@ -39780,7 +40102,7 @@ selector: "sequenceNode",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@sequenceNode"];
+return $self.sequenceNode;
 
 },
 args: [],
@@ -39796,7 +40118,7 @@ selector: "sequenceNode:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@sequenceNode"]=anObject;
+$self.sequenceNode=anObject;
 return self;
 
 },
@@ -39887,12 +40209,11 @@ $globals.String);
 
 });
 
-define('amber_core/Compiler-Semantic',["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Core", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Compiler-Semantic',["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Compiler-Core", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Semantic");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("LexicalScope", $globals.Object, ["node", "instruction", "temps", "args", "outerScope", "blockIndex"], "Compiler-Semantic");
 $globals.LexicalScope.comment="I represent a lexical scope where variable names are associated with ScopeVars\x0aInstances are used for block scopes. Method scopes are instances of MethodLexicalScope.\x0a\x0aI am attached to a ScopeVar and method/block nodes.\x0aEach context (method/closure) get a fresh scope that inherits from its outer scope.";
@@ -39985,10 +40306,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@args"];
+$1=$self.args;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@args"]=$recv($globals.Dictionary)._new();
-return $self["@args"];
+$self.args=$recv($globals.Dictionary)._new();
+return $self.args;
 } else {
 return $1;
 }
@@ -40047,7 +40368,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@blockIndex"];
+$1=$self.blockIndex;
 if(($receiver = $1) == null || $receiver.a$nil){
 return (0);
 } else {
@@ -40068,7 +40389,7 @@ selector: "blockIndex:",
 protocol: "accessing",
 fn: function (anInteger){
 var self=this,$self=this;
-$self["@blockIndex"]=anInteger;
+$self.blockIndex=anInteger;
 return self;
 
 },
@@ -40106,7 +40427,7 @@ selector: "instruction",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@instruction"];
+return $self.instruction;
 
 },
 args: [],
@@ -40122,7 +40443,7 @@ selector: "instruction:",
 protocol: "accessing",
 fn: function (anIRInstruction){
 var self=this,$self=this;
-$self["@instruction"]=anIRInstruction;
+$self.instruction=anIRInstruction;
 return self;
 
 },
@@ -40254,7 +40575,7 @@ selector: "node",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@node"];
+return $self.node;
 
 },
 args: [],
@@ -40270,7 +40591,7 @@ selector: "node:",
 protocol: "accessing",
 fn: function (aNode){
 var self=this,$self=this;
-$self["@node"]=aNode;
+$self.node=aNode;
 return self;
 
 },
@@ -40287,7 +40608,7 @@ selector: "outerScope",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@outerScope"];
+return $self.outerScope;
 
 },
 args: [],
@@ -40303,7 +40624,7 @@ selector: "outerScope:",
 protocol: "accessing",
 fn: function (aLexicalScope){
 var self=this,$self=this;
-$self["@outerScope"]=aLexicalScope;
+$self.outerScope=aLexicalScope;
 return self;
 
 },
@@ -40372,10 +40693,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@temps"];
+$1=$self.temps;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@temps"]=$recv($globals.Dictionary)._new();
-return $self["@temps"];
+$self.temps=$recv($globals.Dictionary)._new();
+return $self.temps;
 } else {
 return $1;
 }
@@ -40541,10 +40862,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@iVars"];
+$1=$self.iVars;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@iVars"]=$recv($globals.Dictionary)._new();
-return $self["@iVars"];
+$self.iVars=$recv($globals.Dictionary)._new();
+return $self.iVars;
 } else {
 return $1;
 }
@@ -40581,7 +40902,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@localReturn"];
+$1=$self.localReturn;
 if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
@@ -40602,7 +40923,7 @@ selector: "localReturn:",
 protocol: "accessing",
 fn: function (aBoolean){
 var self=this,$self=this;
-$self["@localReturn"]=aBoolean;
+$self.localReturn=aBoolean;
 return self;
 
 },
@@ -40637,10 +40958,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@nonLocalReturns"];
+$1=$self.nonLocalReturns;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@nonLocalReturns"]=$recv($globals.OrderedCollection)._new();
-return $self["@nonLocalReturns"];
+$self.nonLocalReturns=$recv($globals.OrderedCollection)._new();
+return $self.nonLocalReturns;
 } else {
 return $1;
 }
@@ -40661,12 +40982,12 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$2,$4,$3,$receiver;
-$1=$self["@pseudoVars"];
+$1=$self.pseudoVars;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@pseudoVars"]=$recv($globals.Dictionary)._new();
+$self.pseudoVars=$recv($globals.Dictionary)._new();
 $recv($recv($globals.Smalltalk)._pseudoVariableNames())._do_((function(each){
 return $core.withContext(function($ctx2) {
-$2=$self["@pseudoVars"];
+$2=$self.pseudoVars;
 $4=$recv($globals.PseudoVar)._on_(each);
 $recv($4)._scope_($self._methodScope());
 $3=$recv($4)._yourself();
@@ -40676,7 +40997,7 @@ return $recv($2)._at_put_(each,$3);
 } else {
 $1;
 }
-return $self["@pseudoVars"];
+return $self.pseudoVars;
 }, function($ctx1) {$ctx1.fill(self,"pseudoVars",{},$globals.MethodLexicalScope)});
 },
 args: [],
@@ -40714,10 +41035,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@unknownVariables"];
+$1=$self.unknownVariables;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@unknownVariables"]=$recv($globals.OrderedCollection)._new();
-return $self["@unknownVariables"];
+$self.unknownVariables=$recv($globals.OrderedCollection)._new();
+return $self.unknownVariables;
 } else {
 return $1;
 }
@@ -40901,7 +41222,7 @@ selector: "name",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@name"];
+return $self.name;
 
 },
 args: [],
@@ -40917,7 +41238,7 @@ selector: "name:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@name"]=aString;
+$self.name=aString;
 return self;
 
 },
@@ -40934,7 +41255,7 @@ selector: "scope",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@scope"];
+return $self.scope;
 
 },
 args: [],
@@ -40950,7 +41271,7 @@ selector: "scope:",
 protocol: "accessing",
 fn: function (aScope){
 var self=this,$self=this;
-$self["@scope"]=aScope;
+$self.scope=aScope;
 return self;
 
 },
@@ -41035,7 +41356,7 @@ selector: "node",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@node"];
+return $self.node;
 
 },
 args: [],
@@ -41051,7 +41372,7 @@ selector: "node:",
 protocol: "accessing",
 fn: function (aNode){
 var self=this,$self=this;
-$self["@node"]=aNode;
+$self.node=aNode;
 return self;
 
 },
@@ -41162,14 +41483,11 @@ protocol: "testing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $1;
-$1=$recv("$self[\x22@".__comma($self._name())).__comma("\x22]");
-$ctx1.sendIdx[","]=1;
-return $1;
+return "$self.".__comma($self._name());
 }, function($ctx1) {$ctx1.fill(self,"alias",{},$globals.InstanceVar)});
 },
 args: [],
-source: "alias\x0a\x09^ '$self[\x22@', self name, '\x22]'",
+source: "alias\x0a\x09^ '$self.', self name",
 referencedClasses: [],
 messageSends: [",", "name"]
 }),
@@ -41251,7 +41569,7 @@ protocol: "testing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self["@name"]).__eq("self");
+return $recv($self.name).__eq("self");
 }, function($ctx1) {$ctx1.fill(self,"isSelf",{},$globals.PseudoVar)});
 },
 args: [],
@@ -41268,7 +41586,7 @@ protocol: "testing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self["@name"]).__eq("super");
+return $recv($self.name).__eq("super");
 }, function($ctx1) {$ctx1.fill(self,"isSuper",{},$globals.PseudoVar)});
 },
 args: [],
@@ -41330,10 +41648,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@classReferences"];
+$1=$self.classReferences;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@classReferences"]=$recv($globals.Set)._new();
-return $self["@classReferences"];
+$self.classReferences=$recv($globals.Set)._new();
+return $self.classReferences;
 } else {
 return $1;
 }
@@ -41390,7 +41708,7 @@ $ctx1.sendIdx["value"]=2;
 $recv($2)._variableName_($3);
 $recv($2)._signal();
 } else {
-$recv($recv($recv($self["@currentScope"])._methodScope())._unknownVariables())._add_($recv(aNode)._value());
+$recv($recv($recv($self.currentScope)._methodScope())._unknownVariables())._add_($recv(aNode)._value());
 }
 return self;
 }, function($ctx1) {$ctx1.fill(self,"errorUnknownVariable:",{aNode:aNode,identifier:identifier},$globals.SemanticAnalyzer)});
@@ -41440,10 +41758,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@messageSends"];
+$1=$self.messageSends;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@messageSends"]=$recv($globals.Dictionary)._new();
-return $self["@messageSends"];
+$self.messageSends=$recv($globals.Dictionary)._new();
+return $self.messageSends;
 } else {
 return $1;
 }
@@ -41499,7 +41817,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
 $1=$recv(aLexicalScopeClass)._new();
-$recv($1)._outerScope_($self["@currentScope"]);
+$recv($1)._outerScope_($self.currentScope);
 return $recv($1)._yourself();
 }, function($ctx1) {$ctx1.fill(self,"newScopeOfClass:",{aLexicalScopeClass:aLexicalScopeClass},$globals.SemanticAnalyzer)});
 },
@@ -41518,15 +41836,15 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@blockIndex"];
+$1=$self.blockIndex;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@blockIndex"]=(0);
-$self["@blockIndex"];
+$self.blockIndex=(0);
+$self.blockIndex;
 } else {
 $1;
 }
-$self["@blockIndex"]=$recv($self["@blockIndex"]).__plus((1));
-return $self["@blockIndex"];
+$self.blockIndex=$recv($self.blockIndex).__plus((1));
+return $self.blockIndex;
 }, function($ctx1) {$ctx1.fill(self,"nextBlockIndex",{},$globals.SemanticAnalyzer)});
 },
 args: [],
@@ -41544,12 +41862,12 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@currentScope"];
+$1=$self.currentScope;
 if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
-$self["@currentScope"]=$recv($self["@currentScope"])._outerScope();
-$self["@currentScope"];
+$self.currentScope=$recv($self.currentScope)._outerScope();
+$self.currentScope;
 }
 return self;
 }, function($ctx1) {$ctx1.fill(self,"popScope",{},$globals.SemanticAnalyzer)});
@@ -41568,8 +41886,8 @@ protocol: "scope",
 fn: function (aScope){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv(aScope)._outerScope_($self["@currentScope"]);
-$self["@currentScope"]=aScope;
+$recv(aScope)._outerScope_($self.currentScope);
+$self.currentScope=aScope;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"pushScope:",{aScope:aScope},$globals.SemanticAnalyzer)});
 },
@@ -41586,7 +41904,7 @@ selector: "theClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@theClass"];
+return $self.theClass;
 
 },
 args: [],
@@ -41602,7 +41920,7 @@ selector: "theClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@theClass"]=aClass;
+$self.theClass=aClass;
 return self;
 
 },
@@ -41619,7 +41937,7 @@ selector: "thePackage",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@thePackage"];
+return $self.thePackage;
 
 },
 args: [],
@@ -41635,7 +41953,7 @@ selector: "thePackage:",
 protocol: "accessing",
 fn: function (aPackage){
 var self=this,$self=this;
-$self["@thePackage"]=aPackage;
+$self.thePackage=aPackage;
 return self;
 
 },
@@ -41654,7 +41972,7 @@ fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$recv($self["@currentScope"])._lookupVariable_(aString);
+$1=$recv($self.currentScope)._lookupVariable_(aString);
 if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
@@ -41700,13 +42018,13 @@ fn: function (aNode){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 $self._pushScope_($self._newBlockScope());
-$recv(aNode)._scope_($self["@currentScope"]);
-$recv($self["@currentScope"])._node_(aNode);
-$recv($self["@currentScope"])._blockIndex_($self._nextBlockIndex());
+$recv(aNode)._scope_($self.currentScope);
+$recv($self.currentScope)._node_(aNode);
+$recv($self.currentScope)._blockIndex_($self._nextBlockIndex());
 $recv($recv(aNode)._parameters())._do_((function(each){
 return $core.withContext(function($ctx2) {
 $self._validateVariableScope_(each);
-return $recv($self["@currentScope"])._addArg_(each);
+return $recv($self.currentScope)._addArg_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 (
@@ -41754,18 +42072,18 @@ fn: function (aNode){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 $self._pushScope_($self._newMethodScope());
-$recv(aNode)._scope_($self["@currentScope"]);
-$recv($self["@currentScope"])._node_(aNode);
+$recv(aNode)._scope_($self.currentScope);
+$recv($self.currentScope)._node_(aNode);
 $recv($recv($self._theClass())._allInstanceVariableNames())._do_((function(each){
 return $core.withContext(function($ctx2) {
-return $recv($self["@currentScope"])._addIVar_(each);
+return $recv($self.currentScope)._addIVar_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 $ctx1.sendIdx["do:"]=1;
 $recv($recv(aNode)._arguments())._do_((function(each){
 return $core.withContext(function($ctx2) {
 $self._validateVariableScope_(each);
-return $recv($self["@currentScope"])._addArg_(each);
+return $recv($self.currentScope)._addArg_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 }));
 (
@@ -41793,12 +42111,12 @@ fn: function (aNode){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$recv(aNode)._scope_($self["@currentScope"]);
-$1=$recv($self["@currentScope"])._isMethodScope();
+$recv(aNode)._scope_($self.currentScope);
+$1=$recv($self.currentScope)._isMethodScope();
 if($core.assert($1)){
-$recv($self["@currentScope"])._localReturn_(true);
+$recv($self.currentScope)._localReturn_(true);
 } else {
-$recv($recv($self["@currentScope"])._methodScope())._addNonLocalReturn_($self["@currentScope"]);
+$recv($recv($self.currentScope)._methodScope())._addNonLocalReturn_($self.currentScope);
 }
 (
 $ctx1.supercall = true,
@@ -41853,7 +42171,7 @@ return $core.withContext(function($ctx1) {
 $recv($recv(aNode)._temps())._do_((function(each){
 return $core.withContext(function($ctx2) {
 $self._validateVariableScope_(each);
-return $recv($self["@currentScope"])._addTemp_(each);
+return $recv($self.currentScope)._addTemp_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 (
@@ -41879,7 +42197,7 @@ var self=this,$self=this;
 var binding;
 return $core.withContext(function($ctx1) {
 var $1,$3,$2,$4,$5,$6,$7,$8,$9,$receiver;
-binding=$recv($self["@currentScope"])._lookupVariable_(aNode);
+binding=$recv($self.currentScope)._lookupVariable_(aNode);
 $1=binding;
 if(($receiver = $1) == null || $receiver.a$nil){
 $3=$recv(aNode)._value();
@@ -41971,7 +42289,7 @@ selector: "variableName",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@variableName"];
+return $self.variableName;
 
 },
 args: [],
@@ -41987,7 +42305,7 @@ selector: "variableName:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@variableName"]=aString;
+$self.variableName=aString;
 return self;
 
 },
@@ -42028,7 +42346,7 @@ selector: "variableName",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@variableName"];
+return $self.variableName;
 
 },
 args: [],
@@ -42044,7 +42362,7 @@ selector: "variableName:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@variableName"]=aString;
+$self.variableName=aString;
 return self;
 
 },
@@ -42085,7 +42403,7 @@ selector: "variableName",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@variableName"];
+return $self.variableName;
 
 },
 args: [],
@@ -42101,7 +42419,7 @@ selector: "variableName:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@variableName"]=aString;
+$self.variableName=aString;
 return self;
 
 },
@@ -42146,12 +42464,11 @@ $globals.EarlyPragmator);
 
 });
 
-define('amber_core/Compiler-IR',["amber/boot", "amber_core/Compiler-AST", "amber_core/Kernel-Dag", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Compiler-IR',["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Kernel-Dag", "amber/core/Kernel-Methods", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-IR");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("IRASTTranslator", $globals.NodeVisitor, ["source", "theClass", "method", "sequence", "nextAlias"], "Compiler-IR");
 $globals.IRASTTranslator.comment="I am the AST (abstract syntax tree) visitor responsible for building the intermediate representation graph.";
@@ -42272,7 +42589,7 @@ selector: "method",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@method"];
+return $self.method;
 
 },
 args: [],
@@ -42288,7 +42605,7 @@ selector: "method:",
 protocol: "accessing",
 fn: function (anIRMethod){
 var self=this,$self=this;
-$self["@method"]=anIRMethod;
+$self.method=anIRMethod;
 return self;
 
 },
@@ -42307,15 +42624,15 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@nextAlias"];
+$1=$self.nextAlias;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@nextAlias"]=(0);
-$self["@nextAlias"];
+$self.nextAlias=(0);
+$self.nextAlias;
 } else {
 $1;
 }
-$self["@nextAlias"]=$recv($self["@nextAlias"]).__plus((1));
-return $recv($self["@nextAlias"])._asString();
+$self.nextAlias=$recv($self.nextAlias).__plus((1));
+return $recv($self.nextAlias)._asString();
 }, function($ctx1) {$ctx1.fill(self,"nextAlias",{},$globals.IRASTTranslator)});
 },
 args: [],
@@ -42331,7 +42648,7 @@ selector: "sequence",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@sequence"];
+return $self.sequence;
 
 },
 args: [],
@@ -42347,7 +42664,7 @@ selector: "sequence:",
 protocol: "accessing",
 fn: function (anIRSequence){
 var self=this,$self=this;
-$self["@sequence"]=anIRSequence;
+$self.sequence=anIRSequence;
 return self;
 
 },
@@ -42364,7 +42681,7 @@ selector: "source",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@source"];
+return $self.source;
 
 },
 args: [],
@@ -42380,7 +42697,7 @@ selector: "source:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@source"]=aString;
+$self.source=aString;
 return self;
 
 },
@@ -42397,7 +42714,7 @@ selector: "theClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@theClass"];
+return $self.theClass;
 
 },
 args: [],
@@ -42413,7 +42730,7 @@ selector: "theClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@theClass"]=aClass;
+$self.theClass=aClass;
 return self;
 
 },
@@ -43140,7 +43457,7 @@ selector: "parent",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@parent"];
+return $self.parent;
 
 },
 args: [],
@@ -43156,7 +43473,7 @@ selector: "parent:",
 protocol: "accessing",
 fn: function (anIRInstruction){
 var self=this,$self=this;
-$self["@parent"]=anIRInstruction;
+$self.parent=anIRInstruction;
 return self;
 
 },
@@ -43389,7 +43706,7 @@ selector: "scope",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@scope"];
+return $self.scope;
 
 },
 args: [],
@@ -43405,7 +43722,7 @@ selector: "scope:",
 protocol: "accessing",
 fn: function (aScope){
 var self=this,$self=this;
-$self["@scope"]=aScope;
+$self.scope=aScope;
 return self;
 
 },
@@ -43427,7 +43744,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@arguments"];
+$1=$self.arguments;
 if(($receiver = $1) == null || $receiver.a$nil){
 return [];
 } else {
@@ -43448,7 +43765,7 @@ selector: "arguments:",
 protocol: "accessing",
 fn: function (aCollection){
 var self=this,$self=this;
-$self["@arguments"]=aCollection;
+$self.arguments=aCollection;
 return self;
 
 },
@@ -43491,7 +43808,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@requiresSmalltalkContext"];
+$1=$self.requiresSmalltalkContext;
 if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
@@ -43512,7 +43829,7 @@ selector: "requiresSmalltalkContext:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@requiresSmalltalkContext"]=anObject;
+$self.requiresSmalltalkContext=anObject;
 return self;
 
 },
@@ -43646,7 +43963,7 @@ selector: "classReferences",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@classReferences"];
+return $self.classReferences;
 
 },
 args: [],
@@ -43662,7 +43979,7 @@ selector: "classReferences:",
 protocol: "accessing",
 fn: function (aCollection){
 var self=this,$self=this;
-$self["@classReferences"]=aCollection;
+$self.classReferences=aCollection;
 return self;
 
 },
@@ -43681,10 +43998,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@internalVariables"];
+$1=$self.internalVariables;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@internalVariables"]=$recv($globals.Set)._new();
-return $self["@internalVariables"];
+$self.internalVariables=$recv($globals.Set)._new();
+return $self.internalVariables;
 } else {
 return $1;
 }
@@ -43752,7 +44069,7 @@ selector: "selector",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@selector"];
+return $self.selector;
 
 },
 args: [],
@@ -43768,7 +44085,7 @@ selector: "selector:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@selector"]=aString;
+$self.selector=aString;
 return self;
 
 },
@@ -43785,7 +44102,7 @@ selector: "sendIndexes",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@sendIndexes"];
+return $self.sendIndexes;
 
 },
 args: [],
@@ -43801,7 +44118,7 @@ selector: "sendIndexes:",
 protocol: "accessing",
 fn: function (aDictionary){
 var self=this,$self=this;
-$self["@sendIndexes"]=aDictionary;
+$self.sendIndexes=aDictionary;
 return self;
 
 },
@@ -43818,7 +44135,7 @@ selector: "source",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@source"];
+return $self.source;
 
 },
 args: [],
@@ -43834,7 +44151,7 @@ selector: "source:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@source"]=aString;
+$self.source=aString;
 return self;
 
 },
@@ -43851,7 +44168,7 @@ selector: "theClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@theClass"];
+return $self.theClass;
 
 },
 args: [],
@@ -43867,7 +44184,7 @@ selector: "theClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@theClass"]=aClass;
+$self.theClass=aClass;
 return self;
 
 },
@@ -43924,7 +44241,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@scope"];
+$1=$self.scope;
 if(($receiver = $1) == null || $receiver.a$nil){
 return $recv($self._parent())._scope();
 } else {
@@ -44039,7 +44356,7 @@ selector: "name",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@name"];
+return $self.name;
 
 },
 args: [],
@@ -44055,7 +44372,7 @@ selector: "name:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@name"]=aString;
+$self.name=aString;
 return self;
 
 },
@@ -44110,7 +44427,7 @@ selector: "index",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@index"];
+return $self.index;
 
 },
 args: [],
@@ -44126,7 +44443,7 @@ selector: "index:",
 protocol: "accessing",
 fn: function (anInteger){
 var self=this,$self=this;
-$self["@index"]=anInteger;
+$self.index=anInteger;
 return self;
 
 },
@@ -44176,7 +44493,7 @@ selector: "selector",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@selector"];
+return $self.selector;
 
 },
 args: [],
@@ -44192,7 +44509,7 @@ selector: "selector:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@selector"]=aString;
+$self.selector=aString;
 return self;
 
 },
@@ -44302,7 +44619,7 @@ selector: "value",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@value"];
+return $self.value;
 
 },
 args: [],
@@ -44318,7 +44635,7 @@ selector: "value:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@value"]=aString;
+$self.value=aString;
 return self;
 
 },
@@ -44423,7 +44740,7 @@ selector: "variable",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@variable"];
+return $self.variable;
 
 },
 args: [],
@@ -44439,7 +44756,7 @@ selector: "variable:",
 protocol: "accessing",
 fn: function (aScopeVariable){
 var self=this,$self=this;
-$self["@variable"]=aScopeVariable;
+$self.variable=aScopeVariable;
 return self;
 
 },
@@ -44476,7 +44793,7 @@ selector: "source",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@source"];
+return $self.source;
 
 },
 args: [],
@@ -44492,7 +44809,7 @@ selector: "source:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@source"]=aString;
+$self.source=aString;
 return self;
 
 },
@@ -44855,7 +45172,7 @@ selector: "currentClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@currentClass"];
+return $self.currentClass;
 
 },
 args: [],
@@ -44871,7 +45188,7 @@ selector: "currentClass:",
 protocol: "accessing",
 fn: function (aClass){
 var self=this,$self=this;
-$self["@currentClass"]=aClass;
+$self.currentClass=aClass;
 return self;
 
 },
@@ -44893,7 +45210,7 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.IRJSTranslator.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@stream"]=$recv($globals.JSStream)._new();
+$self.stream=$recv($globals.JSStream)._new();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.IRJSTranslator)});
 },
@@ -44910,7 +45227,7 @@ selector: "stream",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@stream"];
+return $self.stream;
 
 },
 args: [],
@@ -44926,7 +45243,7 @@ selector: "stream:",
 protocol: "accessing",
 fn: function (aStream){
 var self=this,$self=this;
-$self["@stream"]=aStream;
+$self.stream=aStream;
 return self;
 
 },
@@ -45323,7 +45640,7 @@ return $recv($self._stream())._nextPutAll_(",");
 $ctx2.sendIdx["nextPutAll:"]=2;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }));
-$recv($self["@stream"])._nextPutAll_(anotherString);
+$recv($self.stream)._nextPutAll_(anotherString);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitInstructionList:enclosedBetween:and:",{anArray:anArray,aString:aString,anotherString:anotherString},$globals.IRJSTranslator)});
 },
@@ -45479,7 +45796,7 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self["@stream"])._contents();
+return $recv($self.stream)._contents();
 }, function($ctx1) {$ctx1.fill(self,"contents",{},$globals.JSStream)});
 },
 args: [],
@@ -45500,7 +45817,7 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.JSStream.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@stream"]=""._writeStream();
+$self.stream=""._writeStream();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.JSStream)});
 },
@@ -45518,7 +45835,7 @@ protocol: "streaming",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@stream"])._lf();
+$recv($self.stream)._lf();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"lf",{},$globals.JSStream)});
 },
@@ -45536,7 +45853,7 @@ protocol: "streaming",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@stream"])._nextPut_(aString);
+$recv($self.stream)._nextPut_(aString);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"nextPut:",{aString:aString},$globals.JSStream)});
 },
@@ -45554,7 +45871,7 @@ protocol: "streaming",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@stream"])._nextPutAll_(aString);
+$recv($self.stream)._nextPutAll_(aString);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"nextPutAll:",{aString:aString},$globals.JSStream)});
 },
@@ -45574,7 +45891,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 $recv(aBlock)._value();
 $ctx1.sendIdx["value"]=1;
-$recv($self["@stream"])._nextPutAll_("=");
+$recv($self.stream)._nextPutAll_("=");
 $recv(anotherBlock)._value();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"nextPutAssignLhs:rhs:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.JSStream)});
@@ -45694,25 +46011,25 @@ fn: function (aBlock,anArray){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$2,$3;
-$recv($self["@stream"])._nextPutAll_("(function(");
+$recv($self.stream)._nextPutAll_("(function(");
 $ctx1.sendIdx["nextPutAll:"]=1;
 $recv(anArray)._do_separatedBy_((function(each){
 return $core.withContext(function($ctx2) {
-return $recv($self["@stream"])._nextPutAll_($recv(each)._asVariableName());
+return $recv($self.stream)._nextPutAll_($recv(each)._asVariableName());
 $ctx2.sendIdx["nextPutAll:"]=2;
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }),(function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@stream"])._nextPut_(",");
+return $recv($self.stream)._nextPut_(",");
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }));
-$1=$self["@stream"];
+$1=$self.stream;
 $recv($1)._nextPutAll_("){");
 $ctx1.sendIdx["nextPutAll:"]=3;
 $2=$recv($1)._lf();
 $ctx1.sendIdx["lf"]=1;
 $recv(aBlock)._value();
-$3=$self["@stream"];
+$3=$self.stream;
 $recv($3)._lf();
 $recv($3)._nextPutAll_("})");
 return self;
@@ -45827,30 +46144,30 @@ fn: function (aBlock,anArray){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$2,$3,$4,$5;
-$recv($self["@stream"])._nextPutAll_("fn: function (");
+$recv($self.stream)._nextPutAll_("fn: function (");
 $ctx1.sendIdx["nextPutAll:"]=1;
 $recv(anArray)._do_separatedBy_((function(each){
 return $core.withContext(function($ctx2) {
-return $recv($self["@stream"])._nextPutAll_($recv(each)._asVariableName());
+return $recv($self.stream)._nextPutAll_($recv(each)._asVariableName());
 $ctx2.sendIdx["nextPutAll:"]=2;
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }),(function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@stream"])._nextPut_(",");
+return $recv($self.stream)._nextPut_(",");
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }));
-$1=$self["@stream"];
+$1=$self.stream;
 $recv($1)._nextPutAll_("){");
 $ctx1.sendIdx["nextPutAll:"]=3;
 $2=$recv($1)._lf();
 $ctx1.sendIdx["lf"]=1;
-$3=$self["@stream"];
+$3=$self.stream;
 $recv($3)._nextPutAll_("var self=this,$self=this;");
 $ctx1.sendIdx["nextPutAll:"]=4;
 $4=$recv($3)._lf();
 $ctx1.sendIdx["lf"]=2;
 $recv(aBlock)._value();
-$5=$self["@stream"];
+$5=$self.stream;
 $recv($5)._lf();
 $recv($5)._nextPutAll_("}");
 return self;
@@ -45871,16 +46188,16 @@ fn: function (aBlock,anotherBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$recv($self["@stream"])._nextPutAll_("if(");
+$recv($self.stream)._nextPutAll_("if(");
 $ctx1.sendIdx["nextPutAll:"]=1;
 $recv(aBlock)._value();
 $ctx1.sendIdx["value"]=1;
-$1=$self["@stream"];
+$1=$self.stream;
 $recv($1)._nextPutAll_("){");
 $ctx1.sendIdx["nextPutAll:"]=2;
 $recv($1)._lf();
 $recv(anotherBlock)._value();
-$recv($self["@stream"])._nextPutAll_("}");
+$recv($self.stream)._nextPutAll_("}");
 $self._omitSemicolon_(true);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"nextPutIf:then:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.JSStream)});
@@ -45900,23 +46217,23 @@ fn: function (aBlock,ifBlock,elseBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$2,$3;
-$recv($self["@stream"])._nextPutAll_("if(");
+$recv($self.stream)._nextPutAll_("if(");
 $ctx1.sendIdx["nextPutAll:"]=1;
 $recv(aBlock)._value();
 $ctx1.sendIdx["value"]=1;
-$1=$self["@stream"];
+$1=$self.stream;
 $recv($1)._nextPutAll_("){");
 $ctx1.sendIdx["nextPutAll:"]=2;
 $2=$recv($1)._lf();
 $ctx1.sendIdx["lf"]=1;
 $recv(ifBlock)._value();
 $ctx1.sendIdx["value"]=2;
-$3=$self["@stream"];
+$3=$self.stream;
 $recv($3)._nextPutAll_("} else {");
 $ctx1.sendIdx["nextPutAll:"]=3;
 $recv($3)._lf();
 $recv(elseBlock)._value();
-$recv($self["@stream"])._nextPutAll_("}");
+$recv($self.stream)._nextPutAll_("}");
 $self._omitSemicolon_(true);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"nextPutIf:then:else:",{aBlock:aBlock,ifBlock:ifBlock,elseBlock:elseBlock},$globals.JSStream)});
@@ -45936,7 +46253,7 @@ fn: function (aMethod,aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$4,$3,$2,$7,$6,$5,$8,$9,$12,$11,$10,$15,$14,$13,$18,$17,$16,$19,$20;
-$1=$self["@stream"];
+$1=$self.stream;
 $recv($1)._nextPutAll_("$core.method({");
 $ctx1.sendIdx["nextPutAll:"]=1;
 $recv($1)._lf();
@@ -45963,7 +46280,7 @@ $8=$recv($1)._lf();
 $ctx1.sendIdx["lf"]=3;
 $recv(aBlock)._value();
 $ctx1.sendIdx["value"]=1;
-$9=$self["@stream"];
+$9=$self.stream;
 $12=$recv($globals.String)._lf();
 $ctx1.sendIdx["lf"]=4;
 $11=",".__comma($12);
@@ -45998,16 +46315,16 @@ $19=$recv($9)._nextPutAll_("referencedClasses: [");
 $ctx1.sendIdx["nextPutAll:"]=7;
 $recv($recv(aMethod)._classReferences())._do_separatedBy_((function(each){
 return $core.withContext(function($ctx2) {
-return $recv($self["@stream"])._nextPutAll_($recv(each)._asJavaScriptSource());
+return $recv($self.stream)._nextPutAll_($recv(each)._asJavaScriptSource());
 $ctx2.sendIdx["nextPutAll:"]=8;
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 }),(function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@stream"])._nextPutAll_(",");
+return $recv($self.stream)._nextPutAll_(",");
 $ctx2.sendIdx["nextPutAll:"]=9;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
 }));
-$20=$self["@stream"];
+$20=$self.stream;
 $recv($20)._nextPutAll_("]");
 $ctx1.sendIdx["nextPutAll:"]=10;
 $recv($20)._nextPutAll_("})");
@@ -46029,7 +46346,7 @@ fn: function (aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$2,$3;
-$1=$self["@stream"];
+$1=$self.stream;
 $recv($1)._nextPutAll_("var $early={};");
 $ctx1.sendIdx["nextPutAll:"]=1;
 $recv($1)._lf();
@@ -46039,7 +46356,7 @@ $ctx1.sendIdx["nextPutAll:"]=2;
 $2=$recv($1)._lf();
 $ctx1.sendIdx["lf"]=2;
 $recv(aBlock)._value();
-$3=$self["@stream"];
+$3=$self.stream;
 $recv($3)._nextPutAll_("}");
 $ctx1.sendIdx["nextPutAll:"]=3;
 $recv($3)._lf();
@@ -46063,10 +46380,10 @@ protocol: "streaming",
 fn: function (aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@stream"])._nextPutAll_("throw $early=[");
+$recv($self.stream)._nextPutAll_("throw $early=[");
 $ctx1.sendIdx["nextPutAll:"]=1;
 $recv(aBlock)._value();
-$recv($self["@stream"])._nextPutAll_("]");
+$recv($self.stream)._nextPutAll_("]");
 return self;
 }, function($ctx1) {$ctx1.fill(self,"nextPutNonLocalReturnWith:",{aBlock:aBlock},$globals.JSStream)});
 },
@@ -46084,7 +46401,7 @@ protocol: "streaming",
 fn: function (aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@stream"])._nextPutAll_("return ");
+$recv($self.stream)._nextPutAll_("return ");
 $recv(aBlock)._value();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"nextPutReturnWith:",{aBlock:aBlock},$globals.JSStream)});
@@ -46148,10 +46465,10 @@ $ctx1.sendIdx["omitSemicolon:"]=1;
 $recv(aBlock)._value();
 $1=$self._omitSemicolon();
 if(!$core.assert($1)){
-$recv($self["@stream"])._nextPutAll_(";");
+$recv($self.stream)._nextPutAll_(";");
 }
 $self._omitSemicolon_(false);
-$recv($self["@stream"])._lf();
+$recv($self.stream)._lf();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"nextPutStatementWith:",{aBlock:aBlock},$globals.JSStream)});
 },
@@ -46172,20 +46489,20 @@ return $core.withContext(function($ctx1) {
 var $1;
 $recv(aCollection)._ifNotEmpty_((function(){
 return $core.withContext(function($ctx2) {
-$recv($self["@stream"])._nextPutAll_("var ");
+$recv($self.stream)._nextPutAll_("var ");
 $ctx2.sendIdx["nextPutAll:"]=1;
 $recv(aCollection)._do_separatedBy_((function(each){
 return $core.withContext(function($ctx3) {
-return $recv($self["@stream"])._nextPutAll_(each);
+return $recv($self.stream)._nextPutAll_(each);
 $ctx3.sendIdx["nextPutAll:"]=2;
 }, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
 }),(function(){
 return $core.withContext(function($ctx3) {
-return $recv($self["@stream"])._nextPutAll_(",");
+return $recv($self.stream)._nextPutAll_(",");
 $ctx3.sendIdx["nextPutAll:"]=3;
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 }));
-$1=$self["@stream"];
+$1=$self.stream;
 $recv($1)._nextPutAll_(";");
 return $recv($1)._lf();
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -46206,7 +46523,7 @@ selector: "omitSemicolon",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@omitSemicolon"];
+return $self.omitSemicolon;
 
 },
 args: [],
@@ -46222,7 +46539,7 @@ selector: "omitSemicolon:",
 protocol: "accessing",
 fn: function (aBoolean){
 var self=this,$self=this;
-$self["@omitSemicolon"]=aBoolean;
+$self.omitSemicolon=aBoolean;
 return self;
 
 },
@@ -46427,12 +46744,11 @@ $globals.SendNode);
 
 });
 
-define('amber_core/Compiler-Inlining',["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Core", "amber_core/Compiler-IR", "amber_core/Compiler-Semantic", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Compiler-Inlining',["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Compiler-Core", "amber/core/Compiler-IR", "amber/core/Compiler-Semantic", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Inlining");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("ASTPreInliner", $globals.NodeVisitor, [], "Compiler-Inlining");
 $core.addMethod(
@@ -47667,7 +47983,7 @@ selector: "send",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@send"];
+return $self.send;
 
 },
 args: [],
@@ -47683,7 +47999,7 @@ selector: "send:",
 protocol: "accessing",
 fn: function (anIRSend){
 var self=this,$self=this;
-$self["@send"]=anIRSend;
+$self.send=anIRSend;
 return self;
 
 },
@@ -47700,7 +48016,7 @@ selector: "translator",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@translator"];
+return $self.translator;
 
 },
 args: [],
@@ -47716,7 +48032,7 @@ selector: "translator:",
 protocol: "accessing",
 fn: function (anASTTranslator){
 var self=this,$self=this;
-$self["@translator"]=anASTTranslator;
+$self.translator=anASTTranslator;
 return self;
 
 },
@@ -47839,7 +48155,7 @@ selector: "target",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@target"];
+return $self.target;
 
 },
 args: [],
@@ -47855,7 +48171,7 @@ selector: "target:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@target"]=anObject;
+$self.target=anObject;
 return self;
 
 },
@@ -47989,7 +48305,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$2,$receiver;
-$1=$self["@transformersDictionary"];
+$1=$self.transformersDictionary;
 if(($receiver = $1) == null || $receiver.a$nil){
 $2=(
 $ctx1.supercall = true,
@@ -48000,8 +48316,8 @@ $ctx1.sendIdx["at:put:"]=1;
 $recv($2)._at_put_("6000-inliner",$self._inliner());
 $ctx1.sendIdx["at:put:"]=2;
 $recv($2)._at_put_("8000-irToJs",$self._irTranslator());
-$self["@transformersDictionary"]=$recv($2)._yourself();
-return $self["@transformersDictionary"];
+$self.transformersDictionary=$recv($2)._yourself();
+return $self.transformersDictionary;
 } else {
 return $1;
 }
@@ -48094,12 +48410,11 @@ $globals.IRInstruction);
 
 });
 
-define('amber_core/Compiler-Interpreter',["amber/boot", "amber_core/Compiler-AST", "amber_core/Compiler-Semantic", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Methods", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Compiler-Interpreter',["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Compiler-Semantic", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Methods", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Interpreter");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AIBlockClosure", $globals.BlockClosure, ["node", "outerContext"], "Compiler-Interpreter");
 $globals.AIBlockClosure.comment="I am a special `BlockClosure` subclass used by an interpreter to interpret a block node.\x0a\x0aWhile I am polymorphic with `BlockClosure`, some methods such as `#new` will raise interpretation errors. Unlike a `BlockClosure`, my instance are not JavaScript functions.\x0a\x0aEvaluating an instance will result in interpreting the `node` instance variable (instance of `BlockNode`).";
@@ -48161,8 +48476,8 @@ selector: "initializeWithContext:node:",
 protocol: "initialization",
 fn: function (aContext,aNode){
 var self=this,$self=this;
-$self["@node"]=aNode;
-$self["@outerContext"]=aContext;
+$self.node=aNode;
+$self.outerContext=aContext;
 return self;
 
 },
@@ -48198,7 +48513,7 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($recv($self["@node"])._temps())._size();
+return $recv($recv($self.node)._temps())._size();
 }, function($ctx1) {$ctx1.fill(self,"numArgs",{},$globals.AIBlockClosure)});
 },
 args: [],
@@ -48285,8 +48600,8 @@ var self=this,$self=this;
 var context,sequenceNode;
 return $core.withContext(function($ctx1) {
 var $1,$2,$3;
-context=$recv($self["@outerContext"])._newInnerContext();
-$1=$recv($recv($recv($self["@node"])._dagChildren())._first())._copy();
+context=$recv($self.outerContext)._newInnerContext();
+$1=$recv($recv($recv($self.node)._dagChildren())._first())._copy();
 $recv($1)._parent_(nil);
 sequenceNode=$recv($1)._yourself();
 $recv($recv(sequenceNode)._temps())._do_((function(each){
@@ -48295,7 +48610,7 @@ return $recv(context)._defineLocal_(each);
 $ctx2.sendIdx["defineLocal:"]=1;
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
-$recv($recv($self["@node"])._parameters())._withIndexDo_((function(each,index){
+$recv($recv($self.node)._parameters())._withIndexDo_((function(each,index){
 return $core.withContext(function($ctx2) {
 $recv(context)._defineLocal_(each);
 return $recv(context)._localAt_put_(each,$recv(aCollection)._at_ifAbsent_(index,(function(){
@@ -48309,7 +48624,7 @@ $ctx1.sendIdx["interpreter"]=1;
 $recv($2)._node_(sequenceNode);
 $recv($2)._enterNode();
 $recv($2)._proceed();
-$3=$recv($self["@outerContext"])._interpreter();
+$3=$recv($self.outerContext)._interpreter();
 $ctx1.sendIdx["interpreter"]=2;
 $recv($3)._setNonLocalReturnFromContext_(context);
 return $recv($recv(context)._interpreter())._pop();
@@ -48344,7 +48659,7 @@ messageSends: ["initializeWithContext:node:", "new", "yourself"]
 $globals.AIBlockClosure.a$cls);
 
 
-$core.addClass("AIContext", $globals.MethodContext, ["outerContext", "innerContext", "pc", "locals", "selector", "index", "sendIndexes", "evaluatedSelector", "ast", "interpreter", "supercall"], "Compiler-Interpreter");
+$core.addClass("AIContext", $globals.Object, ["outerContext", "innerContext", "pc", "locals", "selector", "index", "sendIndexes", "evaluatedSelector", "ast", "interpreter", "supercall"], "Compiler-Interpreter");
 $globals.AIContext.comment="I am like a `MethodContext`, used by the `ASTInterpreter`.\x0aUnlike a `MethodContext`, my instances are not read-only.\x0a\x0aWhen debugging, my instances are created by copying the current `MethodContext` (thisContext)";
 $core.addMethod(
 $core.method({
@@ -48390,13 +48705,13 @@ context=$receiver;
 return $recv(context)._ast();
 }
 }
-$3=$self["@ast"];
+$3=$self.ast;
 if(($receiver = $3) == null || $receiver.a$nil){
 $self._initializeAST();
 } else {
 $3;
 }
-return $self["@ast"];
+return $self.ast;
 }, function($ctx1) {$ctx1.fill(self,"ast",{},$globals.AIContext)});
 },
 args: [],
@@ -48522,7 +48837,7 @@ selector: "evaluatedSelector",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@evaluatedSelector"];
+return $self.evaluatedSelector;
 
 },
 args: [],
@@ -48538,7 +48853,7 @@ selector: "evaluatedSelector:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@evaluatedSelector"]=aString;
+$self.evaluatedSelector=aString;
 return self;
 
 },
@@ -48557,7 +48872,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@index"];
+$1=$self.index;
 if(($receiver = $1) == null || $receiver.a$nil){
 return (0);
 } else {
@@ -48578,7 +48893,7 @@ selector: "index:",
 protocol: "accessing",
 fn: function (anInteger){
 var self=this,$self=this;
-$self["@index"]=anInteger;
+$self.index=anInteger;
 return self;
 
 },
@@ -48599,8 +48914,8 @@ return $core.withContext(function($ctx1) {
 var $1;
 $1=$self._method();
 $ctx1.sendIdx["method"]=1;
-$self["@ast"]=$recv($1)._ast();
-$recv($recv($globals.SemanticAnalyzer)._on_($recv($self._method())._methodClass()))._visit_($self["@ast"]);
+$self.ast=$recv($1)._ast();
+$recv($recv($globals.SemanticAnalyzer)._on_($recv($self._method())._methodClass()))._visit_($self.ast);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initializeAST",{},$globals.AIContext)});
 },
@@ -48666,12 +48981,12 @@ return $core.withContext(function($ctx1) {
 var $1,$2,$receiver;
 $1=$recv($globals.ASTInterpreter)._new();
 $recv($1)._context_(self);
-$self["@interpreter"]=$recv($1)._yourself();
+$self.interpreter=$recv($1)._yourself();
 $2=$self._innerContext();
 if(($receiver = $2) == null || $receiver.a$nil){
 $2;
 } else {
-$self._setupInterpreter_($self["@interpreter"]);
+$self._setupInterpreter_($self.interpreter);
 }
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initializeInterpreter",{},$globals.AIContext)});
@@ -48690,8 +49005,8 @@ protocol: "initialization",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@locals"]=$recv($globals.Dictionary)._new();
-$recv($self["@locals"])._at_put_("thisContext",self);
+$self.locals=$recv($globals.Dictionary)._new();
+$recv($self.locals)._at_put_("thisContext",self);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initializeLocals",{},$globals.AIContext)});
 },
@@ -48708,7 +49023,7 @@ selector: "innerContext",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@innerContext"];
+return $self.innerContext;
 
 },
 args: [],
@@ -48724,7 +49039,7 @@ selector: "innerContext:",
 protocol: "accessing",
 fn: function (anAIContext){
 var self=this,$self=this;
-$self["@innerContext"]=anAIContext;
+$self.innerContext=anAIContext;
 return self;
 
 },
@@ -48743,13 +49058,13 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@interpreter"];
+$1=$self.interpreter;
 if(($receiver = $1) == null || $receiver.a$nil){
 $self._initializeInterpreter();
 } else {
 $1;
 }
-return $self["@interpreter"];
+return $self.interpreter;
 }, function($ctx1) {$ctx1.fill(self,"interpreter",{},$globals.AIContext)});
 },
 args: [],
@@ -48765,7 +49080,7 @@ selector: "interpreter:",
 protocol: "interpreting",
 fn: function (anInterpreter){
 var self=this,$self=this;
-$self["@interpreter"]=anInterpreter;
+$self.interpreter=anInterpreter;
 return self;
 
 },
@@ -48867,13 +49182,13 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@locals"];
+$1=$self.locals;
 if(($receiver = $1) == null || $receiver.a$nil){
 $self._initializeLocals();
 } else {
 $1;
 }
-return $self["@locals"];
+return $self.locals;
 }, function($ctx1) {$ctx1.fill(self,"locals",{},$globals.AIContext)});
 },
 args: [],
@@ -48960,7 +49275,7 @@ selector: "outerContext",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@outerContext"];
+return $self.outerContext;
 
 },
 args: [],
@@ -48978,8 +49293,8 @@ fn: function (anAIContext){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$self["@outerContext"]=anAIContext;
-$1=$self["@outerContext"];
+$self.outerContext=anAIContext;
+$1=$self.outerContext;
 if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
@@ -49021,7 +49336,7 @@ selector: "selector",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@selector"];
+return $self.selector;
 
 },
 args: [],
@@ -49037,7 +49352,7 @@ selector: "selector:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@selector"]=aString;
+$self.selector=aString;
 return self;
 
 },
@@ -49076,7 +49391,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@sendIndexes"];
+$1=$self.sendIndexes;
 if(($receiver = $1) == null || $receiver.a$nil){
 return $recv($globals.Dictionary)._new();
 } else {
@@ -49097,7 +49412,7 @@ selector: "sendIndexes:",
 protocol: "accessing",
 fn: function (aDictionary){
 var self=this,$self=this;
-$self["@sendIndexes"]=aDictionary;
+$self.sendIndexes=aDictionary;
 return self;
 
 },
@@ -49169,7 +49484,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@supercall"];
+$1=$self.supercall;
 if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
@@ -49190,7 +49505,7 @@ selector: "supercall:",
 protocol: "interpreting",
 fn: function (aBoolean){
 var self=this,$self=this;
-$self["@supercall"]=aBoolean;
+$self.supercall=aBoolean;
 return self;
 
 },
@@ -49249,7 +49564,7 @@ selector: "context",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@context"];
+return $self.context;
 
 },
 args: [],
@@ -49265,7 +49580,7 @@ selector: "context:",
 protocol: "accessing",
 fn: function (anAIContext){
 var self=this,$self=this;
-$self["@context"]=anAIContext;
+$self.context=anAIContext;
 return self;
 
 },
@@ -49318,7 +49633,7 @@ selector: "context",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@context"];
+return $self.context;
 
 },
 args: [],
@@ -49334,7 +49649,7 @@ selector: "context:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@context"]=anObject;
+$self.context=anObject;
 return self;
 
 },
@@ -49384,7 +49699,7 @@ selector: "context",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@context"];
+return $self.context;
 
 },
 args: [],
@@ -49400,7 +49715,7 @@ selector: "context:",
 protocol: "accessing",
 fn: function (aContext){
 var self=this,$self=this;
-$self["@context"]=aContext;
+$self.context=aContext;
 return self;
 
 },
@@ -49513,7 +49828,7 @@ return $core.withContext(function($ctx1) {
 var $1,$3,$2,$4,$6,$5,$receiver;
 $1=$self._interpreter();
 $ctx1.sendIdx["interpreter"]=1;
-$self["@result"]=$recv($1)._result();
+$self.result=$recv($1)._result();
 $3=$self._interpreter();
 $ctx1.sendIdx["interpreter"]=2;
 $2=$recv($3)._atEnd();
@@ -49596,7 +49911,7 @@ selector: "result",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@result"];
+return $self.result;
 
 },
 args: [],
@@ -49680,7 +49995,7 @@ selector: "interpreter",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@interpreter"];
+return $self.interpreter;
 
 },
 args: [],
@@ -49696,7 +50011,7 @@ selector: "interpreter:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@interpreter"]=anObject;
+$self.interpreter=anObject;
 return self;
 
 },
@@ -49840,7 +50155,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$1=$self["@forceAtEnd"];
+$1=$self.forceAtEnd;
 if($core.assert($1)){
 return true;
 }
@@ -49864,7 +50179,7 @@ selector: "context",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@context"];
+return $self.context;
 
 },
 args: [],
@@ -49880,7 +50195,7 @@ selector: "context:",
 protocol: "accessing",
 fn: function (aContext){
 var self=this,$self=this;
-$self["@context"]=aContext;
+$self.context=aContext;
 return self;
 
 },
@@ -49964,7 +50279,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@returned"];
+$1=$self.returned;
 if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
@@ -49990,7 +50305,7 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.ASTInterpreter.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@forceAtEnd"]=false;
+$self.forceAtEnd=false;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.ASTInterpreter)});
 },
@@ -50104,7 +50419,7 @@ selector: "node",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@node"];
+return $self.node;
 
 },
 args: [],
@@ -50120,7 +50435,7 @@ selector: "node:",
 protocol: "accessing",
 fn: function (aNode){
 var self=this,$self=this;
-$self["@node"]=aNode;
+$self.node=aNode;
 return self;
 
 },
@@ -50270,7 +50585,7 @@ selector: "returnValue",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@returnValue"];
+return $self.returnValue;
 
 },
 args: [],
@@ -50286,7 +50601,7 @@ selector: "returnValue:",
 protocol: "accessing",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@returnValue"]=anObject;
+$self.returnValue=anObject;
 return self;
 
 },
@@ -50351,7 +50666,7 @@ $2=$recv(aContext)._interpreter();
 $ctx1.sendIdx["interpreter"]=1;
 $1=$recv($2)._hasReturned();
 if($core.assert($1)){
-$self["@returned"]=true;
+$self.returned=true;
 $self._returnValue_($recv($recv(aContext)._interpreter())._returnValue());
 }
 return self;
@@ -50390,10 +50705,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@stack"];
+$1=$self.stack;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@stack"]=$recv($globals.OrderedCollection)._new();
-return $self["@stack"];
+$self.stack=$recv($globals.OrderedCollection)._new();
+return $self.stack;
 } else {
 return $1;
 }
@@ -50540,7 +50855,7 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.ASTInterpreter.superclass||$boot.nilAsClass).fn.prototype._visitBlockSequenceNode_.apply($self, [aNode]));
 $ctx1.supercall = false;
-$self["@forceAtEnd"]=true;
+$self.forceAtEnd=true;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitBlockSequenceNode:",{aNode:aNode},$globals.ASTInterpreter)});
 },
@@ -50624,7 +50939,7 @@ protocol: "visiting",
 fn: function (aNode){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@returned"]=true;
+$self.returned=true;
 $self._returnValue_($self._eval_($recv(aNode)._source()));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitJSStatementNode:",{aNode:aNode},$globals.ASTInterpreter)});
@@ -50643,7 +50958,7 @@ protocol: "visiting",
 fn: function (aNode){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@returned"]=true;
+$self.returned=true;
 $self._returnValue_($self._pop());
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitReturnNode:",{aNode:aNode},$globals.ASTInterpreter)});
@@ -50792,7 +51107,7 @@ selector: "currentNode",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@currentNode"];
+return $self.currentNode;
 
 },
 args: [],
@@ -50809,7 +51124,7 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@trackedIndex"]=$recv($self._trackedIndex()).__plus((1));
+$self.trackedIndex=$recv($self._trackedIndex()).__plus((1));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"increaseTrackedIndex",{},$globals.ASTPCNodeVisitor)});
 },
@@ -50826,7 +51141,7 @@ selector: "index",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@index"];
+return $self.index;
 
 },
 args: [],
@@ -50842,7 +51157,7 @@ selector: "index:",
 protocol: "accessing",
 fn: function (aNumber){
 var self=this,$self=this;
-$self["@index"]=aNumber;
+$self.index=aNumber;
 return self;
 
 },
@@ -50859,7 +51174,7 @@ selector: "selector",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@selector"];
+return $self.selector;
 
 },
 args: [],
@@ -50875,7 +51190,7 @@ selector: "selector:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@selector"]=aString;
+$self.selector=aString;
 return self;
 
 },
@@ -50894,10 +51209,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@trackedIndex"];
+$1=$self.trackedIndex;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@trackedIndex"]=(0);
-return $self["@trackedIndex"];
+$self.trackedIndex=(0);
+return $self.trackedIndex;
 } else {
 return $1;
 }
@@ -50916,7 +51231,7 @@ selector: "visitJSStatementNode:",
 protocol: "visiting",
 fn: function (aNode){
 var self=this,$self=this;
-$self["@currentNode"]=aNode;
+$self.currentNode=aNode;
 return self;
 
 },
@@ -50946,8 +51261,8 @@ $ctx1.sendIdx["="]=1;
 if($core.assert($1)){
 $3=$recv($self._trackedIndex()).__eq($self._index());
 if($core.assert($3)){
-$self["@currentNode"]=aNode;
-$self["@currentNode"];
+$self.currentNode=aNode;
+$self.currentNode;
 }
 $self._increaseTrackedIndex();
 }
@@ -50961,6 +51276,8 @@ messageSends: ["visitSendNode:", "ifTrue:", "=", "selector", "trackedIndex", "in
 }),
 $globals.ASTPCNodeVisitor);
 
+
+$core.setTraitComposition([{trait: $globals.TMethodContext}], $globals.AIContext);
 
 $core.addMethod(
 $core.method({
@@ -51159,24 +51476,23 @@ define('amber/lang',[
     './helpers', // pre-fetch, dep of ./deploy
     './parser',
     // --- packages for the Amber reflection begin here ---
-    'amber_core/Platform-ImportExport',
-    'amber_core/Compiler-Core',
-    'amber_core/Compiler-AST',
-    'amber_core/Compiler-Semantic',
-    'amber_core/Compiler-IR',
-    'amber_core/Compiler-Inlining',
-    'amber_core/Compiler-Interpreter'
+    'amber/core/Platform-ImportExport',
+    'amber/core/Compiler-Core',
+    'amber/core/Compiler-AST',
+    'amber/core/Compiler-Semantic',
+    'amber/core/Compiler-IR',
+    'amber/core/Compiler-Inlining',
+    'amber/core/Compiler-Interpreter'
     // --- packages for the Amber reflection end here ---
 ], function (amber) {
     return amber;
 });
 
-define('amber_core/Platform-DOM',["amber/boot", "amber_core/Kernel-Collections", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Platform-DOM',["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Infrastructure", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-DOM");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("PlatformDom", $globals.Object, [], "Platform-DOM");
 
@@ -51297,9 +51613,9 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$2;
-$1=$recv($globals.PlatformDom)._isDomNode_($self["@jsObject"]);
+$1=$recv($globals.PlatformDom)._isDomNode_($self.jsObject);
 if($core.assert($1)){
-return $self["@jsObject"];
+return $self.jsObject;
 } else {
 $2=(
 $ctx1.supercall = true,
@@ -51354,12 +51670,11 @@ $globals.String);
 
 });
 
-define('amber_core/SUnit',["amber/boot", "amber_core/Kernel-Classes", "amber_core/Kernel-Exceptions", "amber_core/Kernel-Infrastructure", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/SUnit',["amber/boot", "require", "amber/core/Kernel-Classes", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Infrastructure", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("SUnit");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("ResultAnnouncement", $globals.Object, ["result"], "SUnit");
 $globals.ResultAnnouncement.comment="I get signaled when a `TestCase` has been run.\x0a\x0aMy instances hold the result (instance of `TestResult`) of the test run.";
@@ -51369,7 +51684,7 @@ selector: "result",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@result"];
+return $self.result;
 
 },
 args: [],
@@ -51385,7 +51700,7 @@ selector: "result:",
 protocol: "accessing",
 fn: function (aTestResult){
 var self=this,$self=this;
-$self["@result"]=aTestResult;
+$self.result=aTestResult;
 return self;
 
 },
@@ -51474,7 +51789,7 @@ var c;
 return $core.withContext(function($ctx1) {
 var $1;
 $self._errorIfNotAsync_("#async");
-c=$self["@context"];
+c=$self.context;
 return (function(){
 return $core.withContext(function($ctx2) {
 $1=$self._isAsync();
@@ -51498,7 +51813,7 @@ selector: "context:",
 protocol: "accessing",
 fn: function (aRunningTestContext){
 var self=this,$self=this;
-$self["@context"]=aRunningTestContext;
+$self.context=aRunningTestContext;
 return self;
 
 },
@@ -51557,7 +51872,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 $self._errorIfNotAsync_("#finished");
-$self["@asyncTimeout"]=nil;
+$self.asyncTimeout=nil;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"finished",{},$globals.TestCase)});
 },
@@ -51575,7 +51890,7 @@ protocol: "testing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self["@asyncTimeout"])._notNil();
+return $recv($self.asyncTimeout)._notNil();
 }, function($ctx1) {$ctx1.fill(self,"isAsync",{},$globals.TestCase)});
 },
 args: [],
@@ -51592,7 +51907,7 @@ protocol: "running",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@asyncTimeout"]=nil;
+$self.asyncTimeout=nil;
 $self._perform_($self._selector());
 return self;
 }, function($ctx1) {$ctx1.fill(self,"performTest",{},$globals.TestCase)});
@@ -51628,7 +51943,7 @@ selector: "selector",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@testSelector"];
+return $self.testSelector;
 
 },
 args: [],
@@ -51644,7 +51959,7 @@ selector: "setTestSelector:",
 protocol: "accessing",
 fn: function (aSelector){
 var self=this,$self=this;
-$self["@testSelector"]=aSelector;
+$self.testSelector=aSelector;
 return self;
 
 },
@@ -51786,14 +52101,14 @@ fn: function (aNumber){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@asyncTimeout"];
+$1=$self.asyncTimeout;
 if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
-$recv($self["@asyncTimeout"])._clearTimeout();
+$recv($self.asyncTimeout)._clearTimeout();
 }
-$self["@asyncTimeout"]=(0);
-$self["@asyncTimeout"]=$recv($self._async_((function(){
+$self.asyncTimeout=(0);
+$self.asyncTimeout=$recv($self._async_((function(){
 return $core.withContext(function($ctx2) {
 return $self._assert_description_(false,"SUnit grace time exhausted");
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
@@ -51990,7 +52305,7 @@ var self=this,$self=this;
 var failed;
 return $core.withContext(function($ctx1) {
 var $1,$2;
-$recv($self["@testCase"])._context_(self);
+$recv($self.testCase)._context_(self);
 $ctx1.sendIdx["context:"]=1;
 $recv((function(){
 return $core.withContext(function($ctx2) {
@@ -52001,19 +52316,19 @@ return failed;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }))._ensure_((function(){
 return $core.withContext(function($ctx2) {
-$recv($self["@testCase"])._context_(nil);
+$recv($self.testCase)._context_(nil);
 $1=$recv(failed)._and_((function(){
 return $core.withContext(function($ctx3) {
-return $recv($self["@testCase"])._isAsync();
+return $recv($self.testCase)._isAsync();
 $ctx3.sendIdx["isAsync"]=1;
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 }));
 if($core.assert($1)){
-$recv($self["@testCase"])._finished();
+$recv($self.testCase)._finished();
 }
-$2=$recv($self["@testCase"])._isAsync();
+$2=$recv($self.testCase)._isAsync();
 if(!$core.assert($2)){
-return $recv($self["@testCase"])._tearDown();
+return $recv($self.testCase)._tearDown();
 }
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }));
@@ -52036,8 +52351,8 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 $self._execute_((function(){
 return $core.withContext(function($ctx2) {
-$recv($self["@testCase"])._setUp();
-return $recv($self["@testCase"])._performTest();
+$recv($self.testCase)._setUp();
+return $recv($self.testCase)._performTest();
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
 return self;
@@ -52056,7 +52371,7 @@ selector: "testCase:",
 protocol: "accessing",
 fn: function (aTestCase){
 var self=this,$self=this;
-$self["@testCase"]=aTestCase;
+$self.testCase=aTestCase;
 return self;
 
 },
@@ -52112,10 +52427,10 @@ $ctx3.supercall = false;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }))._ensure_((function(){
 return $core.withContext(function($ctx2) {
-$1=$recv($self["@testCase"])._isAsync();
+$1=$recv($self.testCase)._isAsync();
 if(!$core.assert($1)){
-$recv($self["@result"])._increaseRuns();
-return $recv($self["@finished"])._value();
+$recv($self.result)._increaseRuns();
+return $recv($self.finished)._value();
 }
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
 }));
@@ -52135,7 +52450,7 @@ selector: "finished:",
 protocol: "accessing",
 fn: function (aBlock){
 var self=this,$self=this;
-$self["@finished"]=aBlock;
+$self.finished=aBlock;
 return self;
 
 },
@@ -52152,7 +52467,7 @@ selector: "result:",
 protocol: "accessing",
 fn: function (aTestResult){
 var self=this,$self=this;
-$self["@result"]=aTestResult;
+$self.result=aTestResult;
 return self;
 
 },
@@ -52174,13 +52489,13 @@ $recv((function(){
 return $core.withContext(function($ctx2) {
 return $recv(aBlock)._on_do_($globals.TestFailure,(function(ex){
 return $core.withContext(function($ctx3) {
-return $recv($self["@result"])._addFailure_($self["@testCase"]);
+return $recv($self.result)._addFailure_($self.testCase);
 }, function($ctx3) {$ctx3.fillBlock({ex:ex},$ctx2,2)});
 }));
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }))._on_do_($globals.Error,(function(ex){
 return $core.withContext(function($ctx2) {
-return $recv($self["@result"])._addError_($self["@testCase"]);
+return $recv($self.result)._addError_($self.testCase);
 }, function($ctx2) {$ctx2.fillBlock({ex:ex},$ctx1,3)});
 }));
 $ctx1.sendIdx["on:do:"]=1;
@@ -52268,7 +52583,7 @@ selector: "errors",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@errors"];
+return $self.errors;
 
 },
 args: [],
@@ -52284,7 +52599,7 @@ selector: "failures",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@failures"];
+return $self.failures;
 
 },
 args: [],
@@ -52301,7 +52616,7 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@runs"]=$recv($self["@runs"]).__plus((1));
+$self.runs=$recv($self.runs).__plus((1));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"increaseRuns",{},$globals.TestResult)});
 },
@@ -52323,12 +52638,12 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.TestResult.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@timestamp"]=$recv($globals.Date)._now();
-$self["@runs"]=(0);
-$self["@errors"]=$recv($globals.Array)._new();
+$self.timestamp=$recv($globals.Date)._now();
+$self.runs=(0);
+$self.errors=$recv($globals.Array)._new();
 $ctx1.sendIdx["new"]=1;
-$self["@failures"]=$recv($globals.Array)._new();
-$self["@total"]=(0);
+$self.failures=$recv($globals.Array)._new();
+$self.total=(0);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.TestResult)});
 },
@@ -52404,7 +52719,7 @@ selector: "runs",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@runs"];
+return $self.runs;
 
 },
 args: [],
@@ -52453,7 +52768,7 @@ selector: "timestamp",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@timestamp"];
+return $self.timestamp;
 
 },
 args: [],
@@ -52469,7 +52784,7 @@ selector: "total",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@total"];
+return $self.total;
 
 },
 args: [],
@@ -52485,7 +52800,7 @@ selector: "total:",
 protocol: "accessing",
 fn: function (aNumber){
 var self=this,$self=this;
-$self["@total"]=aNumber;
+$self.total=aNumber;
 return self;
 
 },
@@ -52506,7 +52821,7 @@ selector: "announcer",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@announcer"];
+return $self.announcer;
 
 },
 args: [],
@@ -52523,7 +52838,7 @@ protocol: "private",
 fn: function (anInteger){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($globals.ReportingTestContext)._testCase_result_finished_($recv($self["@suite"])._at_(anInteger),$self["@result"],(function(){
+return $recv($globals.ReportingTestContext)._testCase_result_finished_($recv($self.suite)._at_(anInteger),$self.result,(function(){
 return $core.withContext(function($ctx2) {
 return $self._resume();
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -52549,14 +52864,14 @@ var $1;
 $ctx1.supercall = true,
 ($globals.TestSuiteRunner.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@announcer"]=$recv($globals.Announcer)._new();
+$self.announcer=$recv($globals.Announcer)._new();
 $ctx1.sendIdx["new"]=1;
-$self["@result"]=$recv($globals.TestResult)._new();
-$self["@runNextTest"]=(function(){
+$self.result=$recv($globals.TestResult)._new();
+$self.runNextTest=(function(){
 var runs;
 return $core.withContext(function($ctx2) {
-runs=$recv($self["@result"])._runs();
-$1=$recv(runs).__lt($recv($self["@result"])._total());
+runs=$recv($self.result)._runs();
+$1=$recv(runs).__lt($recv($self.result)._total());
 if($core.assert($1)){
 return $recv($self._contextOf_($recv(runs).__plus((1))))._start();
 }
@@ -52578,7 +52893,7 @@ selector: "result",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@result"];
+return $self.result;
 
 },
 args: [],
@@ -52595,8 +52910,8 @@ protocol: "actions",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@runNextTest"])._fork();
-$recv($self["@announcer"])._announce_($recv($recv($globals.ResultAnnouncement)._new())._result_($self["@result"]));
+$recv($self.runNextTest)._fork();
+$recv($self.announcer)._announce_($recv($recv($globals.ResultAnnouncement)._new())._result_($self.result));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"resume",{},$globals.TestSuiteRunner)});
 },
@@ -52614,7 +52929,7 @@ protocol: "actions",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@result"])._total_($recv($self["@suite"])._size());
+$recv($self.result)._total_($recv($self.suite)._size());
 $self._resume();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"run",{},$globals.TestSuiteRunner)});
@@ -52632,7 +52947,7 @@ selector: "suite:",
 protocol: "accessing",
 fn: function (aCollection){
 var self=this,$self=this;
-$self["@suite"]=aCollection;
+$self.suite=aCollection;
 return self;
 
 },
@@ -52723,12 +53038,11 @@ $globals.TBehaviorDefaults);
 
 });
 
-define('amber_core/Compiler-Tests',["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Compiler-Tests',["amber/boot", "require", "amber/core/SUnit"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Tests");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("ASTParsingTest", $globals.TestCase, [], "Compiler-Tests");
 $core.addMethod(
@@ -53030,7 +53344,7 @@ protocol: "initialization",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@receiver"]=$recv($globals.DoIt)._new();
+$self.receiver=$recv($globals.DoIt)._new();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"setUp",{},$globals.CodeGeneratorTest)});
 },
@@ -53050,7 +53364,7 @@ var self=this,$self=this;
 var method,result;
 return $core.withContext(function($ctx1) {
 var $1,$2,$3,$receiver;
-$self["@receiver"]=anObject;
+$self.receiver=anObject;
 $recv((function(){
 return $core.withContext(function($ctx2) {
 return $self._should_raise_((function(){
@@ -53059,7 +53373,7 @@ $1=$self._compiler();
 $2=$recv(anObject)._class();
 $ctx3.sendIdx["class"]=1;
 method=$recv($1)._install_forClass_protocol_(aString,$2,"tests");
-return $recv($self["@receiver"])._perform_($recv(method)._selector());
+return $recv($self.receiver)._perform_($recv(method)._selector());
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 }),anErrorClass);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -53092,12 +53406,12 @@ var self=this,$self=this;
 var method,result;
 return $core.withContext(function($ctx1) {
 var $1,$2;
-$self["@receiver"]=anObject;
+$self.receiver=anObject;
 $1=$self._compiler();
 $2=$recv(anObject)._class();
 $ctx1.sendIdx["class"]=1;
 method=$recv($1)._install_forClass_protocol_(aString,$2,"tests");
-result=$recv($self["@receiver"])._perform_($recv(method)._selector());
+result=$recv($self.receiver)._perform_($recv(method)._selector());
 $recv($recv(anObject)._class())._removeCompiledMethod_(method);
 $self._assert_equals_(aResult,result);
 return self;
@@ -53117,7 +53431,7 @@ protocol: "testing",
 fn: function (aString,anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $self._should_receiver_return_(aString,$self["@receiver"],anObject);
+return $self._should_receiver_return_(aString,$self.receiver,anObject);
 }, function($ctx1) {$ctx1.fill(self,"should:return:",{aString:aString,anObject:anObject},$globals.CodeGeneratorTest)});
 },
 args: ["aString", "anObject"],
@@ -53493,9 +53807,9 @@ $self._should_return_("foo ^ 1",(1));
 $ctx1.sendIdx["should:return:"]=1;
 $self._should_return_("foo ^ 1 + 1",(2));
 $ctx1.sendIdx["should:return:"]=2;
-$self._should_return_("foo ",$self["@receiver"]);
+$self._should_return_("foo ",$self.receiver);
 $ctx1.sendIdx["should:return:"]=3;
-$self._should_return_("foo self asString",$self["@receiver"]);
+$self._should_return_("foo self asString",$self.receiver);
 $ctx1.sendIdx["should:return:"]=4;
 $self._should_return_("foo | a b | a := 1. b := 2. ^ a + b",(3));
 return self;
@@ -53541,7 +53855,7 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self._should_receiver_raise_("foo < inlineJS: 'return 'foo'' >",$self["@receiver"],$globals.ParseError);
+$self._should_receiver_raise_("foo < inlineJS: 'return 'foo'' >",$self.receiver,$globals.ParseError);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testMistypedPragmaJSStatement",{},$globals.CodeGeneratorTest)});
 },
@@ -53601,7 +53915,7 @@ $self._should_return_("foo ^ true ifTrue: [ false ifTrue: [ 1 ] ]",nil);
 $ctx1.sendIdx["should:return:"]=2;
 $self._should_return_("foo true ifTrue: [ false ifFalse: [ ^ 1 ] ]",(1));
 $ctx1.sendIdx["should:return:"]=3;
-$self._should_return_("foo true ifTrue: [ false ifTrue: [ ^ 1 ] ]",$self["@receiver"]);
+$self._should_return_("foo true ifTrue: [ false ifTrue: [ ^ 1 ] ]",$self.receiver);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testNestedIfTrue",{},$globals.CodeGeneratorTest)});
 },
@@ -53681,7 +53995,7 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self._should_receiver_raise_("foo ^ [ < fooBar > 4 ] value",$self["@receiver"],$globals.CompilerError);
+$self._should_receiver_raise_("foo ^ [ < fooBar > 4 ] value",$self.receiver,$globals.CompilerError);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testPragmaInBlock",{},$globals.CodeGeneratorTest)});
 },
@@ -53839,7 +54153,7 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self._should_return_("foo true ifFalse: [ ^ 1 ]",$self["@receiver"]);
+$self._should_return_("foo true ifFalse: [ ^ 1 ]",$self.receiver);
 $ctx1.sendIdx["should:return:"]=1;
 $self._should_return_("foo false ifFalse: [ ^ 2 ]",(2));
 $ctx1.sendIdx["should:return:"]=2;
@@ -53891,7 +54205,7 @@ $self._should_return_("foo ^ 1 ifNil: [ 2 ]",(1));
 $ctx1.sendIdx["should:return:"]=1;
 $self._should_return_("foo ^ nil ifNil: [ 2 ]",(2));
 $ctx1.sendIdx["should:return:"]=2;
-$self._should_return_("foo 1 ifNil: [ ^ 2 ]",$self["@receiver"]);
+$self._should_return_("foo 1 ifNil: [ ^ 2 ]",$self.receiver);
 $ctx1.sendIdx["should:return:"]=3;
 $self._should_return_("foo nil ifNil: [ ^ 2 ]",(2));
 return self;
@@ -53941,7 +54255,7 @@ $self._should_return_("foo ^ nil ifNotNil: [ 2 ]",nil);
 $ctx1.sendIdx["should:return:"]=2;
 $self._should_return_("foo 1 ifNotNil: [ ^ 2 ]",(2));
 $ctx1.sendIdx["should:return:"]=3;
-$self._should_return_("foo nil ifNotNil: [ ^ 2 ]",$self["@receiver"]);
+$self._should_return_("foo nil ifNotNil: [ ^ 2 ]",$self.receiver);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testifNotNil",{},$globals.CodeGeneratorTest)});
 },
@@ -53987,7 +54301,7 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self._should_return_("foo false ifTrue: [ ^ 1 ]",$self["@receiver"]);
+$self._should_return_("foo false ifTrue: [ ^ 1 ]",$self.receiver);
 $ctx1.sendIdx["should:return:"]=1;
 $self._should_return_("foo true ifTrue: [ ^ 2 ]",(2));
 $ctx1.sendIdx["should:return:"]=2;
@@ -54086,8 +54400,8 @@ protocol: "testing",
 fn: function (aString,anObject,aResult){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@receiver"]=anObject;
-return $self._assert_equals_($self._interpret_receiver_withArguments_(aString,$self["@receiver"],$globals.HashedCollection._newFromPairs_([])),aResult);
+$self.receiver=anObject;
+return $self._assert_equals_($self._interpret_receiver_withArguments_(aString,$self.receiver,$globals.HashedCollection._newFromPairs_([])),aResult);
 }, function($ctx1) {$ctx1.fill(self,"should:receiver:return:",{aString:aString,anObject:anObject,aResult:aResult},$globals.ASTInterpreterTest)});
 },
 args: ["aString", "anObject", "aResult"],
@@ -54317,7 +54631,7 @@ protocol: "running",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@analyzer"]=$recv($globals.SemanticAnalyzer)._on_($globals.Object);
+$self.analyzer=$recv($globals.SemanticAnalyzer)._on_($globals.Object);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"setUp",{},$globals.SemanticAnalyzerTest)});
 },
@@ -54340,7 +54654,7 @@ src="foo self := 1";
 ast=$recv($globals.Smalltalk)._parse_(src);
 $self._should_raise_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@analyzer"])._visit_(ast);
+return $recv($self.analyzer)._visit_(ast);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }),$globals.InvalidAssignmentError);
 return self;
@@ -54363,7 +54677,7 @@ var src,ast;
 return $core.withContext(function($ctx1) {
 src="foo | a | a + 1. ^ a";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 $self._deny_($recv($recv(ast)._scope())._hasNonLocalReturn());
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testNonLocalReturn",{src:src,ast:ast},$globals.SemanticAnalyzerTest)});
@@ -54385,7 +54699,7 @@ var src,ast;
 return $core.withContext(function($ctx1) {
 src="foo | a | a + 1. [ [ ^ a] ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 $self._assert_($recv($recv(ast)._scope())._hasNonLocalReturn());
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testNonLocalReturn2",{src:src,ast:ast},$globals.SemanticAnalyzerTest)});
@@ -54408,7 +54722,7 @@ return $core.withContext(function($ctx1) {
 var $4,$3,$2,$1;
 src="foo | a | a + 1. [ | b | b := a ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 $4=$recv($recv($recv(ast)._dagChildren())._first())._dagChildren();
 $ctx1.sendIdx["dagChildren"]=1;
 $3=$recv($4)._last();
@@ -54437,7 +54751,7 @@ return $core.withContext(function($ctx1) {
 var $8,$7,$6,$5,$4,$3,$2,$1;
 src="foo | a | a + 1. [ [ | b | b := a ] ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 $8=$recv($recv($recv(ast)._dagChildren())._first())._dagChildren();
 $ctx1.sendIdx["dagChildren"]=3;
 $7=$recv($8)._last();
@@ -54474,7 +54788,7 @@ return $core.withContext(function($ctx1) {
 var $2,$1,$10,$9,$8,$7,$6,$5,$4,$3;
 src="foo | a | a + 1. [ [ | b | b := a ] ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 $2=$recv(ast)._scope();
 $ctx1.sendIdx["scope"]=1;
 $1=$recv($2)._scopeLevel();
@@ -54517,7 +54831,7 @@ src="foo | a | b + a";
 ast=$recv($globals.Smalltalk)._parse_(src);
 $self._should_raise_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@analyzer"])._visit_(ast);
+return $recv($self.analyzer)._visit_(ast);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }),$globals.UnknownVariableError);
 return self;
@@ -54542,7 +54856,7 @@ src="foo | a b | [ c + 1. [ a + 1. d + 1 ]]";
 ast=$recv($globals.Smalltalk)._parse_(src);
 $self._should_raise_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@analyzer"])._visit_(ast);
+return $recv($self.analyzer)._visit_(ast);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }),$globals.UnknownVariableError);
 return self;
@@ -54565,7 +54879,7 @@ var src,ast;
 return $core.withContext(function($ctx1) {
 src="foo | a | a + 1";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testVariableShadowing",{src:src,ast:ast},$globals.SemanticAnalyzerTest)});
 },
@@ -54588,7 +54902,7 @@ src="foo | a | a + 1. [ | a | a := 2 ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
 $self._should_raise_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@analyzer"])._visit_(ast);
+return $recv($self.analyzer)._visit_(ast);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }),$globals.ShadowingVariableError);
 return self;
@@ -54611,7 +54925,7 @@ var src,ast;
 return $core.withContext(function($ctx1) {
 src="foo | a | a + 1. [ | b | b := 2 ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testVariableShadowing3",{src:src,ast:ast},$globals.SemanticAnalyzerTest)});
 },
@@ -54632,7 +54946,7 @@ var src,ast;
 return $core.withContext(function($ctx1) {
 src="foo | a | a + 1. [ [ [ | b | b := 2 ] ] ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testVariableShadowing4",{src:src,ast:ast},$globals.SemanticAnalyzerTest)});
 },
@@ -54655,7 +54969,7 @@ src="foo | a | a + 1. [ [ [ | a | a := 2 ] ] ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
 $self._should_raise_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@analyzer"])._visit_(ast);
+return $recv($self.analyzer)._visit_(ast);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }),$globals.ShadowingVariableError);
 return self;
@@ -54679,7 +54993,7 @@ return $core.withContext(function($ctx1) {
 var $7,$6,$5,$4,$3,$2,$1,$15,$14,$13,$12,$11,$10,$9,$16,$8,$27,$26,$25,$24,$23,$22,$21,$20,$19,$18,$17,$39,$38,$37,$36,$35,$34,$33,$32,$31,$30,$29,$42,$41,$40,$28;
 src="foo | a | a + 1. [ | b | b := a ]";
 ast=$recv($globals.Smalltalk)._parse_(src);
-$recv($self["@analyzer"])._visit_(ast);
+$recv($self.analyzer)._visit_(ast);
 $7=$recv(ast)._dagChildren();
 $ctx1.sendIdx["dagChildren"]=2;
 $6=$recv($7)._first();
@@ -54793,7 +55107,7 @@ $4=$recv($3)._yourself();
 $ctx1.sendIdx["yourself"]=1;
 $2=$4;
 $recv($1)._context_($2);
-$self["@analyzer"]=$recv($1)._yourself();
+$self.analyzer=$recv($1)._yourself();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"setUp",{},$globals.AISemanticAnalyzerTest)});
 },
@@ -54816,7 +55130,7 @@ src="foo | a | local + a";
 ast=$recv($globals.Smalltalk)._parse_(src);
 $self._shouldnt_raise_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@analyzer"])._visit_(ast);
+return $recv($self.analyzer)._visit_(ast);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }),$globals.UnknownVariableError);
 return self;
@@ -54832,12 +55146,11 @@ $globals.AISemanticAnalyzerTest);
 
 });
 
-define('amber_core/Kernel-Tests',["amber/boot", "amber_core/Kernel-Objects", "amber_core/SUnit"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Kernel-Tests',["amber/boot", "require", "amber/core/Kernel-Objects", "amber/core/SUnit"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Tests");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AnnouncementSubscriptionTest", $globals.TestCase, [], "Kernel-Tests");
 $core.addMethod(
@@ -56093,7 +56406,7 @@ protocol: "running",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@builder"]=$recv($globals.ClassBuilder)._new();
+$self.builder=$recv($globals.ClassBuilder)._new();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"setUp",{},$globals.ClassBuilderTest)});
 },
@@ -56112,22 +56425,23 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@theClass"];
+$1=$self.theClass;
 if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
-$recv($globals.Smalltalk)._removeClass_($self["@theClass"]);
-$self._deny_($recv($recv($recv($self["@theClass"])._package())._classes())._includes_($self["@theClass"]));
-$self["@theClass"]=nil;
-$self["@theClass"];
+$recv($globals.Smalltalk)._removeClass_($self.theClass);
+$self._deny_($recv($recv($recv($self.theClass)._package())._classes())._includes_($self.theClass));
+$self._assert_equals_($recv($recv($globals.Smalltalk)._globals())._at_($recv($self.theClass)._name()),nil);
+$self.theClass=nil;
+$self.theClass;
 }
 return self;
 }, function($ctx1) {$ctx1.fill(self,"tearDown",{},$globals.ClassBuilderTest)});
 },
 args: [],
-source: "tearDown\x0a\x09theClass ifNotNil: [\x0a\x09\x09Smalltalk removeClass: theClass.\x0a\x09\x09self deny: (theClass package classes includes: theClass).\x0a\x09\x09theClass := nil ]",
+source: "tearDown\x0a\x09theClass ifNotNil: [\x0a\x09\x09Smalltalk removeClass: theClass.\x0a\x09\x09self deny: (theClass package classes includes: theClass).\x0a\x09\x09self assert: (Smalltalk globals at: theClass name) equals: nil.\x0a\x09\x09theClass := nil ]",
 referencedClasses: ["Smalltalk"],
-messageSends: ["ifNotNil:", "removeClass:", "deny:", "includes:", "classes", "package"]
+messageSends: ["ifNotNil:", "removeClass:", "deny:", "includes:", "classes", "package", "assert:equals:", "at:", "globals", "name"]
 }),
 $globals.ClassBuilderTest);
 
@@ -56139,16 +56453,16 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $3,$2,$1,$4;
-$self["@theClass"]=$recv($self["@builder"])._addTraitNamed_package_("ObjectMock2","Kernel-Tests");
-$self._assert_equals_($recv($self["@theClass"])._name(),"ObjectMock2");
+$self.theClass=$recv($self.builder)._addTraitNamed_package_("ObjectMock2","Kernel-Tests");
+$self._assert_equals_($recv($self.theClass)._name(),"ObjectMock2");
 $ctx1.sendIdx["assert:equals:"]=1;
-$3=$recv($self["@theClass"])._package();
+$3=$recv($self.theClass)._package();
 $ctx1.sendIdx["package"]=1;
 $2=$recv($3)._classes();
-$1=$recv($2)._occurrencesOf_($self["@theClass"]);
+$1=$recv($2)._occurrencesOf_($self.theClass);
 $self._assert_equals_($1,(1));
 $ctx1.sendIdx["assert:equals:"]=2;
-$4=$recv($self["@theClass"])._package();
+$4=$recv($self.theClass)._package();
 $ctx1.sendIdx["package"]=2;
 $self._assert_equals_($4,$recv($globals.ObjectMock)._package());
 return self;
@@ -56169,30 +56483,30 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $2,$1,$4,$3,$6,$7,$5,$9,$8;
-$self["@theClass"]=$recv($self["@builder"])._copyClass_named_($globals.ObjectMock,"ObjectMock2");
-$2=$recv($self["@theClass"])._superclass();
+$self.theClass=$recv($self.builder)._copyClass_named_($globals.ObjectMock,"ObjectMock2");
+$2=$recv($self.theClass)._superclass();
 $ctx1.sendIdx["superclass"]=1;
 $1=$recv($2).__eq_eq($recv($globals.ObjectMock)._superclass());
 $ctx1.sendIdx["=="]=1;
 $self._assert_($1);
 $ctx1.sendIdx["assert:"]=1;
-$4=$recv($self["@theClass"])._instanceVariableNames();
+$4=$recv($self.theClass)._instanceVariableNames();
 $ctx1.sendIdx["instanceVariableNames"]=1;
 $3=$recv($4).__eq_eq($recv($globals.ObjectMock)._instanceVariableNames());
 $ctx1.sendIdx["=="]=2;
 $self._assert_($3);
 $ctx1.sendIdx["assert:"]=2;
-$self._assert_equals_($recv($self["@theClass"])._name(),"ObjectMock2");
+$self._assert_equals_($recv($self.theClass)._name(),"ObjectMock2");
 $ctx1.sendIdx["assert:equals:"]=1;
-$6=$recv($self["@theClass"])._package();
+$6=$recv($self.theClass)._package();
 $ctx1.sendIdx["package"]=1;
 $7=$recv($globals.ObjectMock)._package();
 $ctx1.sendIdx["package"]=2;
 $5=$recv($6).__eq_eq($7);
 $self._assert_($5);
 $ctx1.sendIdx["assert:"]=3;
-$self._assert_($recv($recv($recv($self["@theClass"])._package())._classes())._includes_($self["@theClass"]));
-$9=$recv($self["@theClass"])._methodDictionary();
+$self._assert_($recv($recv($recv($self.theClass)._package())._classes())._includes_($self.theClass));
+$9=$recv($self.theClass)._methodDictionary();
 $ctx1.sendIdx["methodDictionary"]=1;
 $8=$recv($9)._keys();
 $ctx1.sendIdx["keys"]=1;
@@ -56215,54 +56529,50 @@ fn: function (){
 var self=this,$self=this;
 var instance,oldClass;
 return $core.withContext(function($ctx1) {
-var $2,$1,$4,$3,$5,$6,$7,$8,$10,$9,$12,$11;
-oldClass=$recv($self["@builder"])._copyClass_named_($globals.ObjectMock,"ObjectMock2");
+var $2,$1,$3,$4,$5,$6,$8,$7,$10,$9;
+oldClass=$recv($self.builder)._copyClass_named_($globals.ObjectMock,"ObjectMock2");
 $2=$recv($globals.Smalltalk)._globals();
 $ctx1.sendIdx["globals"]=1;
 $1=$recv($2)._at_("ObjectMock2");
 $ctx1.sendIdx["at:"]=1;
 instance=$recv($1)._new();
-$4=$recv($globals.Smalltalk)._globals();
-$ctx1.sendIdx["globals"]=2;
-$3=$recv($4)._at_("ObjectMock2");
-$ctx1.sendIdx["at:"]=2;
-$recv($globals.ObjectMock)._subclass_instanceVariableNames_package_($3,"","Kernel-Tests");
-$5=$recv(oldClass).__eq_eq($globals.ObjectMock2);
+$recv($globals.ObjectMock)._subclass_instanceVariableNames_package_("ObjectMock2","","Kernel-Tests");
+$3=$recv(oldClass).__eq_eq($globals.ObjectMock2);
 $ctx1.sendIdx["=="]=1;
-$self._deny_($5);
+$self._deny_($3);
 $ctx1.sendIdx["deny:"]=1;
-$6=$recv($recv($globals.ObjectMock2)._superclass()).__eq_eq($globals.ObjectMock);
+$4=$recv($recv($globals.ObjectMock2)._superclass()).__eq_eq($globals.ObjectMock);
 $ctx1.sendIdx["=="]=2;
-$self._assert_($6);
+$self._assert_($4);
 $ctx1.sendIdx["assert:"]=1;
 $self._assert_($recv($recv($globals.ObjectMock2)._instanceVariableNames())._isEmpty());
 $ctx1.sendIdx["assert:"]=2;
-$7=$recv($globals.ObjectMock2)._selectors();
+$5=$recv($globals.ObjectMock2)._selectors();
 $ctx1.sendIdx["selectors"]=1;
-$self._assert_equals_($7,$recv(oldClass)._selectors());
+$self._assert_equals_($5,$recv(oldClass)._selectors());
 $ctx1.sendIdx["assert:equals:"]=1;
-$8=$recv($globals.ObjectMock2)._comment();
+$6=$recv($globals.ObjectMock2)._comment();
 $ctx1.sendIdx["comment"]=1;
-$self._assert_equals_($8,$recv(oldClass)._comment());
+$self._assert_equals_($6,$recv(oldClass)._comment());
 $ctx1.sendIdx["assert:equals:"]=2;
-$10=$recv($globals.ObjectMock2)._package();
+$8=$recv($globals.ObjectMock2)._package();
 $ctx1.sendIdx["package"]=1;
-$9=$recv($10)._name();
+$7=$recv($8)._name();
 $ctx1.sendIdx["name"]=1;
-$self._assert_equals_($9,"Kernel-Tests");
+$self._assert_equals_($7,"Kernel-Tests");
 $self._assert_($recv($recv($recv($globals.ObjectMock2)._package())._classes())._includes_($globals.ObjectMock2));
 $ctx1.sendIdx["assert:"]=3;
-$12=$recv(instance)._class();
+$10=$recv(instance)._class();
 $ctx1.sendIdx["class"]=1;
-$11=$recv($12).__eq_eq($globals.ObjectMock2);
-$self._deny_($11);
+$9=$recv($10).__eq_eq($globals.ObjectMock2);
+$self._deny_($9);
 $self._assert_($recv($recv($recv($globals.Smalltalk)._globals())._at_($recv($recv(instance)._class())._name()))._isNil());
 $recv($globals.Smalltalk)._removeClass_($globals.ObjectMock2);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testClassMigration",{instance:instance,oldClass:oldClass},$globals.ClassBuilderTest)});
 },
 args: [],
-source: "testClassMigration\x0a\x09| instance oldClass |\x0a\x09\x0a\x09oldClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09instance := (Smalltalk globals at: 'ObjectMock2') new.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2')\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self deny: oldClass == ObjectMock2.\x0a\x09\x0a\x09self assert: ObjectMock2 superclass == ObjectMock.\x0a\x09self assert: ObjectMock2 instanceVariableNames isEmpty.\x0a\x09self assert: ObjectMock2 selectors equals: oldClass selectors.\x0a\x09self assert: ObjectMock2 comment equals: oldClass comment.\x0a\x09self assert: ObjectMock2 package name equals: 'Kernel-Tests'.\x0a\x09self assert: (ObjectMock2 package classes includes: ObjectMock2).\x0a\x09\x0a\x09self deny: instance class == ObjectMock2.\x0a\x09\x22Commeting this out. Tests implementation detail.\x22\x0a\x09\x22self assert: instance class name equals: 'OldObjectMock2'.\x22\x0a\x09\x0a\x09self assert: (Smalltalk globals at: instance class name) isNil.\x0a\x09\x0a\x09Smalltalk removeClass: ObjectMock2",
+source: "testClassMigration\x0a\x09| instance oldClass |\x0a\x09\x0a\x09oldClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09instance := (Smalltalk globals at: 'ObjectMock2') new.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: #ObjectMock2\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self deny: oldClass == ObjectMock2.\x0a\x09\x0a\x09self assert: ObjectMock2 superclass == ObjectMock.\x0a\x09self assert: ObjectMock2 instanceVariableNames isEmpty.\x0a\x09self assert: ObjectMock2 selectors equals: oldClass selectors.\x0a\x09self assert: ObjectMock2 comment equals: oldClass comment.\x0a\x09self assert: ObjectMock2 package name equals: 'Kernel-Tests'.\x0a\x09self assert: (ObjectMock2 package classes includes: ObjectMock2).\x0a\x09\x0a\x09self deny: instance class == ObjectMock2.\x0a\x09\x22Commeting this out. Tests implementation detail.\x22\x0a\x09\x22self assert: instance class name equals: 'OldObjectMock2'.\x22\x0a\x09\x0a\x09self assert: (Smalltalk globals at: instance class name) isNil.\x0a\x09\x0a\x09Smalltalk removeClass: ObjectMock2",
 referencedClasses: ["ObjectMock", "Smalltalk", "ObjectMock2"],
 messageSends: ["copyClass:named:", "new", "at:", "globals", "subclass:instanceVariableNames:package:", "deny:", "==", "assert:", "superclass", "isEmpty", "instanceVariableNames", "assert:equals:", "selectors", "comment", "name", "package", "includes:", "classes", "class", "isNil", "removeClass:"]
 }),
@@ -56276,20 +56586,20 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$recv($self["@builder"])._copyClass_named_($globals.ObjectMock,"ObjectMock2");
+$recv($self.builder)._copyClass_named_($globals.ObjectMock,"ObjectMock2");
 $1=$recv($globals.ObjectMock2)._class();
 $ctx1.sendIdx["class"]=1;
 $recv($1)._instanceVariableNames_("foo bar");
-$recv($globals.ObjectMock)._subclass_instanceVariableNames_package_($recv($recv($globals.Smalltalk)._globals())._at_("ObjectMock2"),"","Kernel-Tests");
+$recv($globals.ObjectMock)._subclass_instanceVariableNames_package_($recv($recv($recv($globals.Smalltalk)._globals())._at_("ObjectMock2"))._name(),"","Kernel-Tests");
 $self._assert_equals_($recv($recv($globals.ObjectMock2)._class())._instanceVariableNames(),["foo", "bar"]);
 $recv($globals.Smalltalk)._removeClass_($globals.ObjectMock2);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testClassMigrationWithClassInstanceVariables",{},$globals.ClassBuilderTest)});
 },
 args: [],
-source: "testClassMigrationWithClassInstanceVariables\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 class instanceVariableNames: 'foo bar'.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2')\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: ObjectMock2 class instanceVariableNames equals: #('foo' 'bar').\x0a\x09\x0a\x09Smalltalk removeClass: ObjectMock2",
+source: "testClassMigrationWithClassInstanceVariables\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 class instanceVariableNames: 'foo bar'.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2') name\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: ObjectMock2 class instanceVariableNames equals: #('foo' 'bar').\x0a\x09\x0a\x09Smalltalk removeClass: ObjectMock2",
 referencedClasses: ["ObjectMock", "ObjectMock2", "Smalltalk"],
-messageSends: ["copyClass:named:", "instanceVariableNames:", "class", "subclass:instanceVariableNames:package:", "at:", "globals", "assert:equals:", "instanceVariableNames", "removeClass:"]
+messageSends: ["copyClass:named:", "instanceVariableNames:", "class", "subclass:instanceVariableNames:package:", "name", "at:", "globals", "assert:equals:", "instanceVariableNames", "removeClass:"]
 }),
 $globals.ClassBuilderTest);
 
@@ -56301,12 +56611,12 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $2,$1,$4,$3;
-$recv($self["@builder"])._copyClass_named_($globals.ObjectMock,"ObjectMock2");
+$recv($self.builder)._copyClass_named_($globals.ObjectMock,"ObjectMock2");
 $recv($globals.ObjectMock2)._subclass_instanceVariableNames_package_("ObjectMock3","","Kernel-Tests");
 $ctx1.sendIdx["subclass:instanceVariableNames:package:"]=1;
 $recv($globals.ObjectMock3)._subclass_instanceVariableNames_package_("ObjectMock4","","Kernel-Tests");
 $ctx1.sendIdx["subclass:instanceVariableNames:package:"]=2;
-$recv($globals.ObjectMock)._subclass_instanceVariableNames_package_($recv($recv($globals.Smalltalk)._globals())._at_("ObjectMock2"),"","Kernel-Tests");
+$recv($globals.ObjectMock)._subclass_instanceVariableNames_package_("ObjectMock2","","Kernel-Tests");
 $2=$recv($globals.ObjectMock)._subclasses();
 $ctx1.sendIdx["subclasses"]=1;
 $1=$recv($2)._includes_($globals.ObjectMock2);
@@ -56329,27 +56639,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testClassMigrationWithSubclasses",{},$globals.ClassBuilderTest)});
 },
 args: [],
-source: "testClassMigrationWithSubclasses\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 subclass: 'ObjectMock3' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09ObjectMock3 subclass: 'ObjectMock4' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2')\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: (ObjectMock subclasses includes: ObjectMock2).\x0a\x09self assert: (ObjectMock2 subclasses includes: ObjectMock3).\x0a\x09self assert: (ObjectMock3 subclasses includes: ObjectMock4).\x0a\x09\x0a\x09ObjectMock allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ]",
-referencedClasses: ["ObjectMock", "ObjectMock2", "ObjectMock3", "Smalltalk", "ObjectMock4"],
-messageSends: ["copyClass:named:", "subclass:instanceVariableNames:package:", "at:", "globals", "assert:", "includes:", "subclasses", "reverseDo:", "allSubclasses", "removeClass:"]
-}),
-$globals.ClassBuilderTest);
-
-$core.addMethod(
-$core.method({
-selector: "testInstanceVariableNames",
-protocol: "tests",
-fn: function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$self._assert_equals_($recv($self["@builder"])._instanceVariableNamesFor_("  hello   world   "),["hello", "world"]);
-return self;
-}, function($ctx1) {$ctx1.fill(self,"testInstanceVariableNames",{},$globals.ClassBuilderTest)});
-},
-args: [],
-source: "testInstanceVariableNames\x0a\x09self assert: (builder instanceVariableNamesFor: '  hello   world   ') equals: #('hello' 'world')",
-referencedClasses: [],
-messageSends: ["assert:equals:", "instanceVariableNamesFor:"]
+source: "testClassMigrationWithSubclasses\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 subclass: 'ObjectMock3' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09ObjectMock3 subclass: 'ObjectMock4' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: 'ObjectMock2'\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: (ObjectMock subclasses includes: ObjectMock2).\x0a\x09self assert: (ObjectMock2 subclasses includes: ObjectMock3).\x0a\x09self assert: (ObjectMock3 subclasses includes: ObjectMock4).\x0a\x09\x0a\x09ObjectMock allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ]",
+referencedClasses: ["ObjectMock", "ObjectMock2", "ObjectMock3", "ObjectMock4", "Smalltalk"],
+messageSends: ["copyClass:named:", "subclass:instanceVariableNames:package:", "assert:", "includes:", "subclasses", "reverseDo:", "allSubclasses", "removeClass:"]
 }),
 $globals.ClassBuilderTest);
 
@@ -56361,29 +56653,29 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $3,$2,$1,$4;
-$self["@theClass"]=$recv($self["@builder"])._addSubclassOf_named_instanceVariableNames_package_($globals.ObjectMock,"ObjectMock2","foo bar","Kernel-Tests");
-$self._assert_equals_($recv($self["@theClass"])._superclass(),$globals.ObjectMock);
+$self.theClass=$recv($self.builder)._addSubclassOf_named_instanceVariableNames_package_($globals.ObjectMock,"ObjectMock2",["foo", "bar"],"Kernel-Tests");
+$self._assert_equals_($recv($self.theClass)._superclass(),$globals.ObjectMock);
 $ctx1.sendIdx["assert:equals:"]=1;
-$self._assert_equals_($recv($self["@theClass"])._instanceVariableNames(),"foo bar");
+$self._assert_equals_($recv($self.theClass)._instanceVariableNames(),["foo", "bar"]);
 $ctx1.sendIdx["assert:equals:"]=2;
-$self._assert_equals_($recv($self["@theClass"])._name(),"ObjectMock2");
+$self._assert_equals_($recv($self.theClass)._name(),"ObjectMock2");
 $ctx1.sendIdx["assert:equals:"]=3;
-$3=$recv($self["@theClass"])._package();
+$3=$recv($self.theClass)._package();
 $ctx1.sendIdx["package"]=1;
 $2=$recv($3)._classes();
-$1=$recv($2)._occurrencesOf_($self["@theClass"]);
+$1=$recv($2)._occurrencesOf_($self.theClass);
 $self._assert_equals_($1,(1));
 $ctx1.sendIdx["assert:equals:"]=4;
-$4=$recv($self["@theClass"])._package();
+$4=$recv($self.theClass)._package();
 $ctx1.sendIdx["package"]=2;
 $self._assert_equals_($4,$recv($globals.ObjectMock)._package());
 $ctx1.sendIdx["assert:equals:"]=5;
-$self._assert_equals_($recv($recv($recv($self["@theClass"])._methodDictionary())._keys())._size(),(0));
+$self._assert_equals_($recv($recv($recv($self.theClass)._methodDictionary())._keys())._size(),(0));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testSubclass",{},$globals.ClassBuilderTest)});
 },
 args: [],
-source: "testSubclass\x0a\x09theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' instanceVariableNames: 'foo bar' package: 'Kernel-Tests'.\x0a\x09self assert: theClass superclass equals: ObjectMock.\x0a\x09self assert: theClass instanceVariableNames equals: 'foo bar'.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: (theClass package classes occurrencesOf: theClass) equals: 1.\x0a\x09self assert: theClass package equals: ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys size equals: 0",
+source: "testSubclass\x0a\x09theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' instanceVariableNames: #(foo bar) package: 'Kernel-Tests'.\x0a\x09self assert: theClass superclass equals: ObjectMock.\x0a\x09self assert: theClass instanceVariableNames equals: #(foo bar).\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: (theClass package classes occurrencesOf: theClass) equals: 1.\x0a\x09self assert: theClass package equals: ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys size equals: 0",
 referencedClasses: ["ObjectMock"],
 messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "assert:equals:", "superclass", "instanceVariableNames", "name", "occurrencesOf:", "classes", "package", "size", "keys", "methodDictionary"]
 }),
@@ -56421,7 +56713,7 @@ protocol: "running",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@builder"]=$recv($globals.ClassBuilder)._new();
+$self.builder=$recv($globals.ClassBuilder)._new();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"setUp",{},$globals.ClassTest)});
 },
@@ -56440,19 +56732,19 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@theClass"];
+$1=$self.theClass;
 if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
-$recv($recv($self["@theClass"])._allSubclasses())._reverseDo_((function(each){
+$recv($recv($self.theClass)._allSubclasses())._reverseDo_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv($globals.Smalltalk)._removeClass_(each);
 $ctx2.sendIdx["removeClass:"]=1;
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 }));
-$recv($globals.Smalltalk)._removeClass_($self["@theClass"]);
-$self["@theClass"]=nil;
-$self["@theClass"];
+$recv($globals.Smalltalk)._removeClass_($self.theClass);
+$self.theClass=nil;
+$self.theClass;
 }
 return self;
 }, function($ctx1) {$ctx1.fill(self,"tearDown",{},$globals.ClassTest)});
@@ -56541,36 +56833,36 @@ var self=this,$self=this;
 var instance;
 return $core.withContext(function($ctx1) {
 var $2,$1,$4,$3,$6,$5,$8,$7;
-$self["@theClass"]=$recv($self["@builder"])._copyClass_named_($globals.ObjectMock,"ObjectMock2");
-$recv($self["@theClass"])._javascriptConstructor_($self._jsConstructor());
-$2=$recv($self["@theClass"])._superclass();
+$self.theClass=$recv($self.builder)._copyClass_named_($globals.ObjectMock,"ObjectMock2");
+$recv($self.theClass)._javascriptConstructor_($self._jsConstructor());
+$2=$recv($self.theClass)._superclass();
 $ctx1.sendIdx["superclass"]=1;
 $1=$recv($2).__eq_eq($recv($globals.ObjectMock)._superclass());
 $ctx1.sendIdx["=="]=1;
 $self._assert_($1);
 $ctx1.sendIdx["assert:"]=1;
-$4=$recv($self["@theClass"])._instanceVariableNames();
+$4=$recv($self.theClass)._instanceVariableNames();
 $ctx1.sendIdx["instanceVariableNames"]=1;
 $3=$recv($4).__eq_eq($recv($globals.ObjectMock)._instanceVariableNames());
 $ctx1.sendIdx["=="]=2;
 $self._assert_($3);
 $ctx1.sendIdx["assert:"]=2;
-$self._assert_equals_($recv($self["@theClass"])._name(),"ObjectMock2");
+$self._assert_equals_($recv($self.theClass)._name(),"ObjectMock2");
 $ctx1.sendIdx["assert:equals:"]=1;
-$6=$recv($self["@theClass"])._package();
+$6=$recv($self.theClass)._package();
 $ctx1.sendIdx["package"]=1;
 $5=$recv($6).__eq_eq($recv($globals.ObjectMock)._package());
 $ctx1.sendIdx["=="]=3;
 $self._assert_($5);
 $ctx1.sendIdx["assert:"]=3;
-$8=$recv($self["@theClass"])._methodDictionary();
+$8=$recv($self.theClass)._methodDictionary();
 $ctx1.sendIdx["methodDictionary"]=1;
 $7=$recv($8)._keys();
 $ctx1.sendIdx["keys"]=1;
 $self._assert_equals_($7,$recv($recv($globals.ObjectMock)._methodDictionary())._keys());
 $ctx1.sendIdx["assert:equals:"]=2;
-instance=$recv($self["@theClass"])._new();
-$self._assert_($recv($recv(instance)._class()).__eq_eq($self["@theClass"]));
+instance=$recv($self.theClass)._new();
+$self._assert_($recv($recv(instance)._class()).__eq_eq($self.theClass));
 $self._assert_equals_($recv(instance)._value(),(4));
 $ctx1.sendIdx["assert:equals:"]=3;
 $self._shouldnt_raise_((function(){
@@ -56591,6 +56883,24 @@ $globals.ClassTest);
 
 $core.addMethod(
 $core.method({
+selector: "testSlotsFromInstanceVariablesString",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._assert_equals_("  hello   world   "._instanceVariablesStringAsSlotList(),["hello", "world"]);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testSlotsFromInstanceVariablesString",{},$globals.ClassTest)});
+},
+args: [],
+source: "testSlotsFromInstanceVariablesString\x0a\x09self assert: '  hello   world   ' instanceVariablesStringAsSlotList equals: #('hello' 'world')",
+referencedClasses: [],
+messageSends: ["assert:equals:", "instanceVariablesStringAsSlotList"]
+}),
+$globals.ClassTest);
+
+$core.addMethod(
+$core.method({
 selector: "testTrickySetJavaScriptConstructor",
 protocol: "tests",
 fn: function (){
@@ -56598,36 +56908,36 @@ var self=this,$self=this;
 var instance;
 return $core.withContext(function($ctx1) {
 var $2,$1,$4,$3,$6,$5,$8,$7;
-$self["@theClass"]=$recv($self["@builder"])._copyClass_named_($globals.ObjectMock,"ObjectMock2");
-$recv($self["@theClass"])._javascriptConstructor_($self._trickyJsConstructor());
-$2=$recv($self["@theClass"])._superclass();
+$self.theClass=$recv($self.builder)._copyClass_named_($globals.ObjectMock,"ObjectMock2");
+$recv($self.theClass)._javascriptConstructor_($self._trickyJsConstructor());
+$2=$recv($self.theClass)._superclass();
 $ctx1.sendIdx["superclass"]=1;
 $1=$recv($2).__eq_eq($recv($globals.ObjectMock)._superclass());
 $ctx1.sendIdx["=="]=1;
 $self._assert_($1);
 $ctx1.sendIdx["assert:"]=1;
-$4=$recv($self["@theClass"])._instanceVariableNames();
+$4=$recv($self.theClass)._instanceVariableNames();
 $ctx1.sendIdx["instanceVariableNames"]=1;
 $3=$recv($4).__eq_eq($recv($globals.ObjectMock)._instanceVariableNames());
 $ctx1.sendIdx["=="]=2;
 $self._assert_($3);
 $ctx1.sendIdx["assert:"]=2;
-$self._assert_equals_($recv($self["@theClass"])._name(),"ObjectMock2");
+$self._assert_equals_($recv($self.theClass)._name(),"ObjectMock2");
 $ctx1.sendIdx["assert:equals:"]=1;
-$6=$recv($self["@theClass"])._package();
+$6=$recv($self.theClass)._package();
 $ctx1.sendIdx["package"]=1;
 $5=$recv($6).__eq_eq($recv($globals.ObjectMock)._package());
 $ctx1.sendIdx["=="]=3;
 $self._assert_($5);
 $ctx1.sendIdx["assert:"]=3;
-$8=$recv($self["@theClass"])._methodDictionary();
+$8=$recv($self.theClass)._methodDictionary();
 $ctx1.sendIdx["methodDictionary"]=1;
 $7=$recv($8)._keys();
 $ctx1.sendIdx["keys"]=1;
 $self._assert_equals_($7,$recv($recv($globals.ObjectMock)._methodDictionary())._keys());
 $ctx1.sendIdx["assert:equals:"]=2;
-instance=$recv($self["@theClass"])._new();
-$self._assert_($recv($recv(instance)._class()).__eq_eq($self["@theClass"]));
+instance=$recv($self.theClass)._new();
+$self._assert_($recv($recv(instance)._class()).__eq_eq($self.theClass));
 $self._assert_equals_($recv(instance)._value(),(4));
 $ctx1.sendIdx["assert:equals:"]=3;
 $self._shouldnt_raise_((function(){
@@ -56822,7 +57132,7 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.CollectionTest.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@sampleBlock"]=(function(){
+$self.sampleBlock=(function(){
 
 });
 return self;
@@ -59009,7 +59319,7 @@ $recv($1)._at_put_(true,(3));
 $ctx1.sendIdx["at:put:"]=3;
 $recv($1)._at_put_((1).__at((3)),(-4));
 $ctx1.sendIdx["at:put:"]=4;
-$recv($1)._at_put_($self["@sampleBlock"],(9));
+$recv($1)._at_put_($self.sampleBlock,(9));
 return $recv($1)._yourself();
 }, function($ctx1) {$ctx1.fill(self,"collection",{},$globals.DictionaryTest)});
 },
@@ -59027,7 +59337,7 @@ protocol: "fixture",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return [(1),"a",true,(1).__at((3)),$self["@sampleBlock"]];
+return [(1),"a",true,(1).__at((3)),$self.sampleBlock];
 }, function($ctx1) {$ctx1.fill(self,"collectionKeys",{},$globals.DictionaryTest)});
 },
 args: [],
@@ -59054,7 +59364,7 @@ $recv($1)._at_put_(true,"3");
 $ctx1.sendIdx["at:put:"]=3;
 $recv($1)._at_put_((1).__at((3)),"-4");
 $ctx1.sendIdx["at:put:"]=4;
-$recv($1)._at_put_($self["@sampleBlock"],"9");
+$recv($1)._at_put_($self.sampleBlock,"9");
 return $recv($1)._yourself();
 }, function($ctx1) {$ctx1.fill(self,"collectionOfPrintStrings",{},$globals.DictionaryTest)});
 },
@@ -59114,7 +59424,7 @@ $recv($1)._at_put_(true,(3));
 $ctx1.sendIdx["at:put:"]=3;
 $recv($1)._at_put_((4),(-4));
 $ctx1.sendIdx["at:put:"]=4;
-$recv($1)._at_put_($self["@sampleBlock"],(9));
+$recv($1)._at_put_($self.sampleBlock,(9));
 $ctx1.sendIdx["at:put:"]=5;
 $recv($1)._at_put_("b",(1));
 $ctx1.sendIdx["at:put:"]=6;
@@ -59148,7 +59458,7 @@ $recv($1)._at_put_(true,(3));
 $ctx1.sendIdx["at:put:"]=3;
 $recv($1)._at_put_((1).__at((3)),(-4));
 $ctx1.sendIdx["at:put:"]=4;
-$recv($1)._at_put_($self["@sampleBlock"],(9));
+$recv($1)._at_put_($self.sampleBlock,(9));
 $ctx1.sendIdx["at:put:"]=5;
 $recv($1)._at_put_("new","N");
 return $recv($1)._yourself();
@@ -59196,7 +59506,7 @@ $recv(aBlock)._value_value_(true,(3));
 $ctx1.sendIdx["value:value:"]=1;
 $recv(aBlock)._value_value_((1).__at((3)),(-4));
 $ctx1.sendIdx["value:value:"]=2;
-$recv(aBlock)._value_value_($self["@sampleBlock"],(9));
+$recv(aBlock)._value_value_($self.sampleBlock,(9));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"samplesDo:",{aBlock:aBlock},$globals.DictionaryTest)});
 },
@@ -61253,7 +61563,7 @@ $recv($1)._add_((3).__at((3)));
 $ctx1.sendIdx["add:"]=3;
 $recv($1)._add_(false);
 $ctx1.sendIdx["add:"]=4;
-$recv($1)._add_($self["@sampleBlock"]);
+$recv($1)._add_($self.sampleBlock);
 return $recv($1)._yourself();
 }, function($ctx1) {$ctx1.fill(self,"collection",{},$globals.SetTest)});
 },
@@ -61347,7 +61657,7 @@ $recv($1)._add_("N");
 $ctx1.sendIdx["add:"]=4;
 $recv($1)._add_(false);
 $ctx1.sendIdx["add:"]=5;
-$recv($1)._add_($self["@sampleBlock"]);
+$recv($1)._add_($self.sampleBlock);
 return $recv($1)._yourself();
 }, function($ctx1) {$ctx1.fill(self,"collectionWithNewValue",{},$globals.SetTest)});
 },
@@ -62667,7 +62977,7 @@ protocol: "testing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self._targetClassBottom())._removeCompiledMethod_($self["@method"]);
+$recv($self._targetClassBottom())._removeCompiledMethod_($self.method);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"deinstallBottom",{},$globals.MethodInheritanceTest)});
 },
@@ -62685,7 +62995,7 @@ protocol: "testing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self._targetClassMiddle())._removeCompiledMethod_($self["@method"]);
+$recv($self._targetClassMiddle())._removeCompiledMethod_($self.method);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"deinstallMiddle",{},$globals.MethodInheritanceTest)});
 },
@@ -62703,7 +63013,7 @@ protocol: "testing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self._targetClassTop())._removeCompiledMethod_($self["@method"]);
+$recv($self._targetClassTop())._removeCompiledMethod_($self.method);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"deinstallTop",{},$globals.MethodInheritanceTest)});
 },
@@ -62721,7 +63031,7 @@ protocol: "testing",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@method"]=$recv($self._compiler())._install_forClass_protocol_(aString,$self._targetClassBottom(),"tests");
+$self.method=$recv($self._compiler())._install_forClass_protocol_(aString,$self._targetClassBottom(),"tests");
 return self;
 }, function($ctx1) {$ctx1.fill(self,"installBottom:",{aString:aString},$globals.MethodInheritanceTest)});
 },
@@ -62739,7 +63049,7 @@ protocol: "testing",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@method"]=$recv($self._compiler())._install_forClass_protocol_(aString,$self._targetClassMiddle(),"tests");
+$self.method=$recv($self._compiler())._install_forClass_protocol_(aString,$self._targetClassMiddle(),"tests");
 return self;
 }, function($ctx1) {$ctx1.fill(self,"installMiddle:",{aString:aString},$globals.MethodInheritanceTest)});
 },
@@ -62757,7 +63067,7 @@ protocol: "testing",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@method"]=$recv($self._compiler())._install_forClass_protocol_(aString,$self._targetClassTop(),"tests");
+$self.method=$recv($self._compiler())._install_forClass_protocol_(aString,$self._targetClassTop(),"tests");
 return self;
 }, function($ctx1) {$ctx1.fill(self,"installTop:",{aString:aString},$globals.MethodInheritanceTest)});
 },
@@ -62775,13 +63085,13 @@ protocol: "initialization",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@receiverTop"]=$recv($self._targetClassTop())._new();
+$self.receiverTop=$recv($self._targetClassTop())._new();
 $ctx1.sendIdx["new"]=1;
-$self["@receiverMiddle"]=$recv($self._targetClassMiddle())._new();
+$self.receiverMiddle=$recv($self._targetClassMiddle())._new();
 $ctx1.sendIdx["new"]=2;
-$self["@receiverBottom"]=$recv($self._targetClassBottom())._new();
-$self["@method"]=nil;
-$self["@performBlock"]=(function(){
+$self.receiverBottom=$recv($self._targetClassBottom())._new();
+$self.method=nil;
+$self.performBlock=(function(){
 return $core.withContext(function($ctx2) {
 return $self._error_("performBlock not initialized");
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -62825,7 +63135,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 $self._should_raise_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@performBlock"])._value_($self["@receiverBottom"]);
+return $recv($self.performBlock)._value_($self.receiverBottom);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }),$globals.MessageNotUnderstood);
 return self;
@@ -62847,7 +63157,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 $self._should_raise_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@performBlock"])._value_($self["@receiverMiddle"]);
+return $recv($self.performBlock)._value_($self.receiverMiddle);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }),$globals.MessageNotUnderstood);
 return self;
@@ -62869,7 +63179,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 $self._should_raise_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@performBlock"])._value_($self["@receiverTop"]);
+return $recv($self.performBlock)._value_($self.receiverTop);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }),$globals.MessageNotUnderstood);
 return self;
@@ -62890,15 +63200,15 @@ fn: function (anObject){
 var self=this,$self=this;
 var result;
 return $core.withContext(function($ctx1) {
-result=$recv($self["@performBlock"])._value_($self["@receiverTop"]);
+result=$recv($self.performBlock)._value_($self.receiverTop);
 $ctx1.sendIdx["value:"]=1;
 $self._assert_equals_(["top",anObject],["top",result]);
 $ctx1.sendIdx["assert:equals:"]=1;
-result=$recv($self["@performBlock"])._value_($self["@receiverMiddle"]);
+result=$recv($self.performBlock)._value_($self.receiverMiddle);
 $ctx1.sendIdx["value:"]=2;
 $self._assert_equals_(["middle",anObject],["middle",result]);
 $ctx1.sendIdx["assert:equals:"]=2;
-result=$recv($self["@performBlock"])._value_($self["@receiverBottom"]);
+result=$recv($self.performBlock)._value_($self.receiverBottom);
 $self._assert_equals_(["bottom",anObject],["bottom",result]);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"shouldReturn:",{anObject:anObject,result:result},$globals.MethodInheritanceTest)});
@@ -62918,15 +63228,15 @@ fn: function (anObject,anObject2,anObject3){
 var self=this,$self=this;
 var result;
 return $core.withContext(function($ctx1) {
-result=$recv($self["@performBlock"])._value_($self["@receiverTop"]);
+result=$recv($self.performBlock)._value_($self.receiverTop);
 $ctx1.sendIdx["value:"]=1;
 $self._assert_equals_(["top",anObject],["top",result]);
 $ctx1.sendIdx["assert:equals:"]=1;
-result=$recv($self["@performBlock"])._value_($self["@receiverMiddle"]);
+result=$recv($self.performBlock)._value_($self.receiverMiddle);
 $ctx1.sendIdx["value:"]=2;
 $self._assert_equals_(["middle",anObject2],["middle",result]);
 $ctx1.sendIdx["assert:equals:"]=2;
-result=$recv($self["@performBlock"])._value_($self["@receiverBottom"]);
+result=$recv($self.performBlock)._value_($self.receiverBottom);
 $self._assert_equals_(["bottom",anObject3],["bottom",result]);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"shouldReturn:and:and:",{anObject:anObject,anObject2:anObject2,anObject3:anObject3,result:result},$globals.MethodInheritanceTest)});
@@ -63033,7 +63343,7 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@performBlock"]=(function(x){
+$self.performBlock=(function(x){
 return $core.withContext(function($ctx2) {
 return $recv(x)._foo();
 }, function($ctx2) {$ctx2.fillBlock({x:x},$ctx1,1)});
@@ -63062,7 +63372,7 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@performBlock"]=(function(x){
+$self.performBlock=(function(x){
 return $core.withContext(function($ctx2) {
 return $recv(x)._foo();
 }, function($ctx2) {$ctx2.fillBlock({x:x},$ctx1,1)});
@@ -63091,7 +63401,7 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@performBlock"]=(function(x){
+$self.performBlock=(function(x){
 return $core.withContext(function($ctx2) {
 return $recv(x)._foo();
 }, function($ctx2) {$ctx2.fillBlock({x:x},$ctx1,1)});
@@ -64371,7 +64681,7 @@ selector: "foo",
 protocol: "not yet classified",
 fn: function (){
 var self=this,$self=this;
-return $self["@foo"];
+return $self.foo;
 
 },
 args: [],
@@ -64387,7 +64697,7 @@ selector: "foo:",
 protocol: "not yet classified",
 fn: function (anObject){
 var self=this,$self=this;
-$self["@foo"]=anObject;
+$self.foo=anObject;
 return self;
 
 },
@@ -65964,12 +66274,11 @@ $globals.UndefinedTest);
 
 });
 
-define('amber_core/Platform-DOM-Tests',["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Platform-DOM-Tests',["amber/boot", "require", "amber/core/SUnit"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-DOM-Tests");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("PlatformDomTest", $globals.TestCase, ["fixtureDiv"], "Platform-DOM-Tests");
 $core.addMethod(
@@ -66023,12 +66332,11 @@ $globals.PlatformDomTest);
 
 });
 
-define('amber_core/SUnit-Tests',["amber/boot", "amber_core/SUnit"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/SUnit-Tests',["amber/boot", "require", "amber/core/SUnit"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("SUnit-Tests");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("ExampleSetTest", $globals.TestCase, ["empty", "full"], "SUnit-Tests");
 $globals.ExampleSetTest.comment="ExampleSetTest is taken from Pharo 1.4.\x0a\x0aTHe purpose of this class is to demonstrate a simple use case of the test framework.";
@@ -66039,8 +66347,8 @@ protocol: "running",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@empty"]=$recv($globals.Set)._new();
-$self["@full"]=$recv($globals.Set)._with_with_((5),"abc");
+$self.empty=$recv($globals.Set)._new();
+$self.full=$recv($globals.Set)._with_with_((5),"abc");
 return self;
 }, function($ctx1) {$ctx1.fill(self,"setUp",{},$globals.ExampleSetTest)});
 },
@@ -66058,8 +66366,8 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@empty"])._add_((5));
-$self._assert_($recv($self["@empty"])._includes_((5)));
+$recv($self.empty)._add_((5));
+$self._assert_($recv($self.empty)._includes_((5)));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testAdd",{},$globals.ExampleSetTest)});
 },
@@ -66077,8 +66385,8 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@empty"])._addAll_((1)._to_((100)));
-$self._assert_equals_($recv($self["@empty"])._size(),(100));
+$recv($self.empty)._addAll_((1)._to_((100)));
+$self._assert_equals_($recv($self.empty)._size(),(100));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testGrow",{},$globals.ExampleSetTest)});
 },
@@ -66098,13 +66406,13 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 $self._should_raise_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@empty"])._at_((5));
+return $recv($self.empty)._at_((5));
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }),$globals.Error);
 $ctx1.sendIdx["should:raise:"]=1;
 $self._should_raise_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@empty"])._at_put_((5),"abc");
+return $recv($self.empty)._at_put_((5),"abc");
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }),$globals.Error);
 return self;
@@ -66125,11 +66433,11 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$1=$recv($self["@full"])._includes_((5));
+$1=$recv($self.full)._includes_((5));
 $ctx1.sendIdx["includes:"]=1;
 $self._assert_($1);
 $ctx1.sendIdx["assert:"]=1;
-$self._assert_($recv($self["@full"])._includes_("abc"));
+$self._assert_($recv($self.full)._includes_("abc"));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testIncludes",{},$globals.ExampleSetTest)});
 },
@@ -66148,16 +66456,16 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$2;
-$1=$recv($self["@empty"])._occurrencesOf_((0));
+$1=$recv($self.empty)._occurrencesOf_((0));
 $ctx1.sendIdx["occurrencesOf:"]=1;
 $self._assert_equals_($1,(0));
 $ctx1.sendIdx["assert:equals:"]=1;
-$2=$recv($self["@full"])._occurrencesOf_((5));
+$2=$recv($self.full)._occurrencesOf_((5));
 $ctx1.sendIdx["occurrencesOf:"]=2;
 $self._assert_equals_($2,(1));
 $ctx1.sendIdx["assert:equals:"]=2;
-$recv($self["@full"])._add_((5));
-$self._assert_equals_($recv($self["@full"])._occurrencesOf_((5)),(1));
+$recv($self.full)._add_((5));
+$self._assert_equals_($recv($self.full)._occurrencesOf_((5)),(1));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testOccurrences",{},$globals.ExampleSetTest)});
 },
@@ -66176,11 +66484,11 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$recv($self["@full"])._remove_((5));
-$1=$recv($self["@full"])._includes_("abc");
+$recv($self.full)._remove_((5));
+$1=$recv($self.full)._includes_("abc");
 $ctx1.sendIdx["includes:"]=1;
 $self._assert_($1);
-$self._deny_($recv($self["@full"])._includes_((5)));
+$self._deny_($recv($self.full)._includes_((5)));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testRemove",{},$globals.ExampleSetTest)});
 },
@@ -66201,11 +66509,11 @@ protocol: "helpers",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@flag"]="bad";
+$self.flag="bad";
 $self._timeout_((30));
-$self["@flag"]=$recv($self._async_((function(){
+$self.flag=$recv($self._async_((function(){
 return $core.withContext(function($ctx2) {
-$self["@flag"]="ok";
+$self.flag="ok";
 return $self._error_("Intentional");
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 })))._valueWithTimeout_((20));
@@ -66226,9 +66534,9 @@ protocol: "helpers",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@flag"]="bad";
+$self.flag="bad";
 $self._timeout_((30));
-$self["@flag"]=$recv($self._async_((function(){
+$self.flag=$recv($self._async_((function(){
 return $core.withContext(function($ctx2) {
 return $self._error_("Intentional");
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -66250,11 +66558,11 @@ protocol: "helpers",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@flag"]="bad";
+$self.flag="bad";
 $self._timeout_((30));
-$self["@flag"]=$recv($self._async_((function(){
+$self.flag=$recv($self._async_((function(){
 return $core.withContext(function($ctx2) {
-$self["@flag"]="ok";
+$self.flag="ok";
 return $self._assert_(false);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 })))._valueWithTimeout_((20));
@@ -66384,7 +66692,7 @@ selector: "setUp",
 protocol: "running",
 fn: function (){
 var self=this,$self=this;
-$self["@flag"]="ok";
+$self.flag="ok";
 return self;
 
 },
@@ -66402,7 +66710,7 @@ protocol: "running",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self._assert_equals_("ok",$self["@flag"]);
+$self._assert_equals_("ok",$self.flag);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"tearDown",{},$globals.SUnitAsyncTest)});
 },
@@ -66561,14 +66869,14 @@ protocol: "tests",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@flag"]="bad";
+$self.flag="bad";
 $self._timeout_((10));
-$self["@flag"]=$recv($self._async_((function(){
+$self.flag=$recv($self._async_((function(){
 return $core.withContext(function($ctx2) {
 $self._assert_(true);
 $self._finished();
-$self["@flag"]="ok";
-return $self["@flag"];
+$self.flag="ok";
+return $self.flag;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 })))._valueWithTimeout_((5));
 return self;
@@ -66638,14 +66946,14 @@ var self=this,$self=this;
 var x;
 return $core.withContext(function($ctx1) {
 var $1;
-$self["@flag"]="bad";
+$self.flag="bad";
 $self._timeout_((10));
 x=(0);
 $1=$self._async_((function(){
 return $core.withContext(function($ctx2) {
 $self._finished();
 $ctx2.sendIdx["finished"]=1;
-$self["@flag"]="ok";
+$self.flag="ok";
 x=$recv(x).__plus((1));
 $ctx2.sendIdx["+"]=1;
 return $self._assert_equals_(x,(1));
@@ -66653,12 +66961,12 @@ $ctx2.sendIdx["assert:equals:"]=1;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
 $ctx1.sendIdx["async:"]=1;
-$self["@flag"]=$recv($1)._valueWithTimeout_((0));
+$self.flag=$recv($1)._valueWithTimeout_((0));
 $ctx1.sendIdx["valueWithTimeout:"]=1;
-$self["@flag"]=$recv($self._async_((function(){
+$self.flag=$recv($self._async_((function(){
 return $core.withContext(function($ctx2) {
 $self._finished();
-$self["@flag"]="ok";
+$self.flag="ok";
 x=$recv(x).__plus((1));
 return $self._assert_equals_(x,(1));
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
@@ -66685,28 +66993,24 @@ define('amber/devel',[
     './boot', // pre-fetch, class loader
     './deploy', // pre-fetch, dep of ./lang
     // --- packages of the development only Amber begin here ---
-    'amber_core/Platform-DOM',
-    'amber_core/SUnit',
-    'amber_core/Compiler-Tests',
-    'amber_core/Kernel-Tests',
-    'amber_core/Platform-DOM-Tests',
-    'amber_core/SUnit-Tests'
+    'amber/core/Platform-DOM',
+    'amber/core/SUnit',
+    'amber/core/Compiler-Tests',
+    'amber/core/Kernel-Tests',
+    'amber/core/Platform-DOM-Tests',
+    'amber/core/SUnit-Tests'
     // --- packages of the development only Amber end here ---
 ], function (amber) {
     return amber;
 });
 
-define('amber_core/Platform-Node',["amber/boot"
-, "amber_core/Platform-Services"
-, "amber_core/Kernel-Objects"], function($boot
-
-){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber/core/Platform-Node',["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-Node");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.imports = ["amber_core/Platform-Services"];
-$pkg.transport = {"type":"amd","amdNamespace":"amber_core"};
+$pkg.imports = ["amber/core/Platform-Services"];
+$pkg.isReady = new Promise(function (resolve, reject) { requirejs(["amber/core/Platform-Services"], function () {resolve();}, reject); });
+$pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("NodePlatform", $globals.Object, [], "Platform-Node");
 $globals.NodePlatform.comment="I am `Platform` service implementation for node-like environment.";
@@ -66792,8 +67096,7 @@ $globals.NodePlatform.a$cls);
 
 });
 
-define('amber_cli/AmberCli',["amber/boot", "amber_core/Kernel-Objects"], function($boot){"use strict";
-if(!("nilAsValue" in $boot))$boot.nilAsValue=$boot.nilAsReceiver;
+define('amber_cli/AmberCli',["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("AmberCli");
 $pkg.innerEval = function (expr) { return eval(expr); };
@@ -67080,9 +67383,9 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.BaseFileManipulator.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@path"]=$recv(require)._value_("path");
+$self.path=$recv(require)._value_("path");
 $ctx1.sendIdx["value:"]=1;
-$self["@fs"]=$recv(require)._value_("fs");
+$self.fs=$recv(require)._value_("fs");
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.BaseFileManipulator)});
 },
@@ -67100,7 +67403,7 @@ protocol: "private",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self["@path"])._join_with_($self._dirname(),"..");
+return $recv($self.path)._join_with_($self._dirname(),"..");
 }, function($ctx1) {$ctx1.fill(self,"rootDirname",{},$globals.BaseFileManipulator)});
 },
 args: [],
@@ -67209,7 +67512,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@basePath"];
+$1=$self.basePath;
 if(($receiver = $1) == null || $receiver.a$nil){
 return $recv($self._class())._defaultBasePath();
 } else {
@@ -67231,7 +67534,7 @@ protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@basePath"]=aString;
+$self.basePath=aString;
 $self._validateBasePath();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"basePath:",{aString:aString},$globals.FileServer)});
@@ -67251,7 +67554,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-$1=$recv($self["@fs"])._existsSync_($self._withBasePath_("index.html"));
+$1=$recv($self.fs)._existsSync_($self._withBasePath_("index.html"));
 if(!$core.assert($1)){
 $recv(console)._warn_("Warning: project directory does not contain index.html.");
 $ctx1.sendIdx["warn:"]=1;
@@ -67277,7 +67580,7 @@ selector: "fallbackPage",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@fallbackPage"];
+return $self.fallbackPage;
 
 },
 args: [],
@@ -67293,7 +67596,7 @@ selector: "fallbackPage:",
 protocol: "accessing",
 fn: function (aString){
 var self=this,$self=this;
-$self["@fallbackPage"]=aString;
+$self.fallbackPage=aString;
 return self;
 
 },
@@ -67313,12 +67616,12 @@ var self=this,$self=this;
 var uri,filename;
 return $core.withContext(function($ctx1) {
 var $1;
-uri=$recv($self["@url"])._parse_($recv(aRequest)._url());
-filename=$recv($self["@path"])._join_with_($self._basePath(),$recv(uri)._pathname());
-$recv($self["@fs"])._exists_do_(filename,(function(aBoolean){
+uri=$recv($self.url)._parse_($recv(aRequest)._url());
+filename=$recv($self.path)._join_with_($self._basePath(),$recv(uri)._pathname());
+$recv($self.fs)._exists_do_(filename,(function(aBoolean){
 return $core.withContext(function($ctx2) {
 if($core.assert(aBoolean)){
-$1=$recv($recv($self["@fs"])._statSync_(filename))._isDirectory();
+$1=$recv($recv($self.fs)._statSync_(filename))._isDirectory();
 if($core.assert($1)){
 return $self._respondDirectoryNamed_from_to_(filename,uri,aResponse);
 } else {
@@ -67374,7 +67677,7 @@ return nil;
 }
 file=".".__comma($recv(aRequest)._url());
 $ctx1.sendIdx[","]=1;
-stream=$recv($self["@fs"])._createWriteStream_(file);
+stream=$recv($self.fs)._createWriteStream_(file);
 $recv(stream)._on_do_("error",(function(error){
 return $core.withContext(function($ctx2) {
 $2=console;
@@ -67462,7 +67765,7 @@ selector: "host",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@host"];
+return $self.host;
 
 },
 args: [],
@@ -67478,7 +67781,7 @@ selector: "host:",
 protocol: "accessing",
 fn: function (hostname){
 var self=this,$self=this;
-$self["@host"]=hostname;
+$self.host=hostname;
 return self;
 
 },
@@ -67501,18 +67804,18 @@ var $1;
 $ctx1.supercall = true,
 ($globals.FileServer.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@http"]=$self._require_("http");
+$self.http=$self._require_("http");
 $ctx1.sendIdx["require:"]=1;
-$self["@util"]=$self._require_("util");
+$self.util=$self._require_("util");
 $ctx1.sendIdx["require:"]=2;
-$self["@url"]=$self._require_("url");
+$self.url=$self._require_("url");
 $1=$self._class();
 $ctx1.sendIdx["class"]=1;
-$self["@host"]=$recv($1)._defaultHost();
-$self["@port"]=$recv($self._class())._defaultPort();
-$self["@username"]=nil;
-$self["@password"]=nil;
-$self["@fallbackPage"]=nil;
+$self.host=$recv($1)._defaultHost();
+$self.port=$recv($self._class())._defaultPort();
+$self.username=nil;
+$self.password=nil;
+$self.fallbackPage=nil;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.FileServer)});
 },
@@ -67534,11 +67837,11 @@ return $core.withContext(function($ctx1) {
 var $2,$1,$3,$4,$5,$8,$9,$7,$6,$receiver;
 var $early={};
 try {
-$2=$recv($self["@username"])._isNil();
+$2=$recv($self.username)._isNil();
 $ctx1.sendIdx["isNil"]=1;
 $1=$recv($2)._and_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@password"])._isNil();
+return $recv($self.password)._isNil();
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
 $ctx1.sendIdx["and:"]=1;
@@ -67568,14 +67871,14 @@ $5=$recv(token)._at_((2));
 $ctx2.sendIdx["at:"]=2;
 auth=$self._base64Decode_($5);
 parts=$recv(auth)._tokenize_(":");
-$8=$self["@username"];
+$8=$self.username;
 $9=$recv(parts)._at_((1));
 $ctx2.sendIdx["at:"]=3;
 $7=$recv($8).__eq($9);
 $ctx2.sendIdx["="]=1;
 $6=$recv($7)._and_((function(){
 return $core.withContext(function($ctx3) {
-return $recv($self["@password"]).__eq($recv(parts)._at_((2)));
+return $recv($self.password).__eq($recv(parts)._at_((2)));
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,7)});
 }));
 if($core.assert($6)){
@@ -67603,7 +67906,7 @@ selector: "password:",
 protocol: "accessing",
 fn: function (aPassword){
 var self=this,$self=this;
-$self["@password"]=aPassword;
+$self.password=aPassword;
 return self;
 
 },
@@ -67620,7 +67923,7 @@ selector: "port",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@port"];
+return $self.port;
 
 },
 args: [],
@@ -67636,7 +67939,7 @@ selector: "port:",
 protocol: "accessing",
 fn: function (aNumber){
 var self=this,$self=this;
-$self["@port"]=aNumber;
+$self.port=aNumber;
 return self;
 
 },
@@ -67750,7 +68053,7 @@ var type,filename;
 return $core.withContext(function($ctx1) {
 var $1,$2,$3,$4;
 filename=aFilename;
-$recv($self["@fs"])._readFile_do_(filename,(function(ex,file){
+$recv($self.fs)._readFile_do_(filename,(function(ex,file){
 return $core.withContext(function($ctx2) {
 $1=$recv(ex)._notNil();
 if($core.assert($1)){
@@ -67906,7 +68209,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$2,$3,$4,$8,$7,$6,$10,$9,$5;
 $self._checkDirectoryLayout();
-$1=$recv($self["@http"])._createServer_((function(request,response){
+$1=$recv($self.http)._createServer_((function(request,response){
 return $core.withContext(function($ctx2) {
 return $self._handleRequest_respondTo_(request,response);
 }, function($ctx2) {$ctx2.fillBlock({request:request,response:response},$ctx1,1)});
@@ -67973,7 +68276,7 @@ selector: "username:",
 protocol: "accessing",
 fn: function (aUsername){
 var self=this,$self=this;
-$self["@username"]=aUsername;
+$self.username=aUsername;
 return self;
 
 },
@@ -67992,7 +68295,7 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$2,$3,$4,$7,$6,$5,$8,$9,$receiver;
-$1=$self["@fs"];
+$1=$self.fs;
 $2=$self._basePath();
 $ctx1.sendIdx["basePath"]=1;
 $recv($1)._stat_then_($2,(function(err,stat){
@@ -68035,7 +68338,7 @@ protocol: "private",
 fn: function (aBaseRelativePath){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self["@path"])._join_with_($self._basePath(),aBaseRelativePath);
+return $recv($self.path)._join_with_($self._basePath(),aBaseRelativePath);
 }, function($ctx1) {$ctx1.fill(self,"withBasePath:",{aBaseRelativePath:aBaseRelativePath},$globals.FileServer)});
 },
 args: ["aBaseRelativePath"],
@@ -68064,7 +68367,7 @@ messageSends: ["log:"]
 $globals.FileServer);
 
 
-$globals.FileServer.a$cls.iVarNames = ["mimeTypes"];
+$core.setSlots($globals.FileServer.a$cls, ["mimeTypes"]);
 $core.addMethod(
 $core.method({
 selector: "commandLineSwitches",
@@ -68305,10 +68608,10 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@mimeTypes"];
+$1=$self.mimeTypes;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@mimeTypes"]=$self._defaultMimeTypes();
-return $self["@mimeTypes"];
+$self.mimeTypes=$self._defaultMimeTypes();
+return $self.mimeTypes;
 } else {
 return $1;
 }
@@ -68403,9 +68706,9 @@ var self=this,$self=this;
 var child,sanitizedTemplatePath;
 return $core.withContext(function($ctx1) {
 var $1,$3,$2;
-sanitizedTemplatePath=$recv($recv($recv($self["@path"])._join_with_($self["@nmPath"],"@ambers/grunt-init-amber-project"))._replace_with_("\x5c\x5c","\x5c\x5c"))._replace_with_(":","\x5c:");
+sanitizedTemplatePath=$recv($recv($recv($self.path)._join_with_($self.nmPath,"@ambers/grunt-init-amber-project"))._replace_with_("\x5c\x5c","\x5c\x5c"))._replace_with_(":","\x5c:");
 $ctx1.sendIdx["replace:with:"]=1;
-child=$recv($self["@childProcess"])._fork_args_($self._npmScriptForModule_named_("grunt-init","grunt-init"),[sanitizedTemplatePath]);
+child=$recv($self.childProcess)._fork_args_($self._npmScriptForModule_named_("grunt-init","grunt-init"),[sanitizedTemplatePath]);
 $1=child;
 $recv($1)._on_do_("error",aBlock);
 $ctx1.sendIdx["on:do:"]=1;
@@ -68439,7 +68742,7 @@ var self=this,$self=this;
 var child;
 return $core.withContext(function($ctx1) {
 var $1;
-child=$recv($self["@childProcess"])._exec_thenDo_("npm run init",aBlock);
+child=$recv($self.childProcess)._exec_thenDo_("npm run init",aBlock);
 $1=$recv(child)._stdout();
 $ctx1.sendIdx["stdout"]=1;
 $recv($1)._pipe_options_($recv(process)._stdout(),$globals.HashedCollection._newFromPairs_(["end",false]));
@@ -68464,8 +68767,8 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.Initer.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@childProcess"]=$recv(require)._value_("child_process");
-$self["@nmPath"]=$recv($self["@path"])._join_with_($self._rootDirname(),"node_modules");
+$self.childProcess=$recv(require)._value_("child_process");
+$self.nmPath=$recv($self.path)._join_with_($self._rootDirname(),"node_modules");
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Initer)});
 },
@@ -68485,7 +68788,7 @@ var self=this,$self=this;
 var modulePath,packageJson,binSection,scriptPath;
 return $core.withContext(function($ctx1) {
 var $1,$3,$4,$2,$5;
-$1=$self["@path"];
+$1=$self.path;
 $3=$recv(require)._provided();
 $4=$recv(aString).__comma("/package.json");
 $ctx1.sendIdx[","]=1;
@@ -68500,7 +68803,7 @@ scriptPath=binSection;
 } else {
 scriptPath=$recv(binSection)._at_(anotherString);
 }
-return $recv($self["@path"])._join_with_(modulePath,scriptPath);
+return $recv($self.path)._join_with_(modulePath,scriptPath);
 }, function($ctx1) {$ctx1.fill(self,"npmScriptForModule:named:",{aString:aString,anotherString:anotherString,modulePath:modulePath,packageJson:packageJson,binSection:binSection,scriptPath:scriptPath},$globals.Initer)});
 },
 args: ["aString", "anotherString"],
@@ -68598,7 +68901,7 @@ varName=$self._nextResultName();
 } else {
 varName=name;
 }
-$self["@session"]=$self._addVariableNamed_to_(varName,$self["@session"]);
+$self.session=$self._addVariableNamed_to_(varName,$self.session);
 $recv((function(){
 return $core.withContext(function($ctx3) {
 $2=$recv(varName).__comma(" := ");
@@ -68609,7 +68912,7 @@ $3=expr;
 }
 $1=$recv($2).__comma($3);
 $ctx3.sendIdx[","]=1;
-value=$self._eval_on_($1,$self["@session"]);
+value=$self._eval_on_($1,$self.session);
 return value;
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 }))._on_do_($globals.Error,(function(e){
@@ -68646,7 +68949,7 @@ $ctx1.sendIdx[","]=2;
 cls=$recv($1).__comma("[0;0f");
 $ctx1.sendIdx[","]=1;
 $recv($recv(process)._stdout())._write_(cls);
-$recv($self["@interface"])._prompt();
+$recv($self.interface)._prompt();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"clearScreen",{esc:esc,cls:cls},$globals.Repl)});
 },
@@ -68681,7 +68984,7 @@ selector: "commands",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self["@commands"];
+return $self.commands;
 
 },
 args: [],
@@ -68698,14 +69001,14 @@ protocol: "actions",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self["@interface"]=$recv($self["@readline"])._createInterface_stdout_($recv(process)._stdin(),$recv(process)._stdout());
-$recv($self["@interface"])._on_do_("line",(function(buffer){
+$self.interface=$recv($self.readline)._createInterface_stdout_($recv(process)._stdin(),$recv(process)._stdout());
+$recv($self.interface)._on_do_("line",(function(buffer){
 return $core.withContext(function($ctx2) {
 return $self._processLine_(buffer);
 }, function($ctx2) {$ctx2.fillBlock({buffer:buffer},$ctx1,1)});
 }));
 $ctx1.sendIdx["on:do:"]=1;
-$recv($self["@interface"])._on_do_("close",(function(){
+$recv($self.interface)._on_do_("close",(function(){
 return $core.withContext(function($ctx2) {
 return $self._close();
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
@@ -68713,7 +69016,7 @@ return $self._close();
 $self._printWelcome();
 $self._setupHotkeys();
 $self._setPrompt();
-$recv($self["@interface"])._prompt();
+$recv($self.interface)._prompt();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"createInterface",{},$globals.Repl)});
 },
@@ -68854,10 +69157,10 @@ return $core.withContext(function($ctx1) {
 $ctx1.supercall = true,
 ($globals.Repl.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
 $ctx1.supercall = false;
-$self["@session"]=$recv($globals.DoIt)._new();
-$self["@readline"]=$recv(require)._value_("readline");
+$self.session=$recv($globals.DoIt)._new();
+$self.readline=$recv(require)._value_("readline");
 $ctx1.sendIdx["value:"]=1;
-$self["@util"]=$recv(require)._value_("util");
+$self.util=$recv(require)._value_("util");
 $self._setupCommands();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Repl)});
@@ -68919,7 +69222,7 @@ protocol: "private",
 fn: function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self._instanceVariableNamesFor_($recv($self["@session"])._class()))._includes_(aString);
+return $recv($self._instanceVariableNamesFor_($recv($self.session)._class()))._includes_(aString);
 }, function($ctx1) {$ctx1.fill(self,"isVariableDefined:",{aString:aString},$globals.Repl)});
 },
 args: ["aString"],
@@ -68937,13 +69240,13 @@ fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$receiver;
-$1=$self["@resultCount"];
+$1=$self.resultCount;
 if(($receiver = $1) == null || $receiver.a$nil){
-$self["@resultCount"]=(1);
+$self.resultCount=(1);
 } else {
-$self["@resultCount"]=$recv($self["@resultCount"]).__plus((1));
+$self.resultCount=$recv($self.resultCount).__plus((1));
 }
-return "res".__comma($recv($self["@resultCount"])._asString());
+return "res".__comma($recv($self.resultCount)._asString());
 }, function($ctx1) {$ctx1.fill(self,"nextResultName",{},$globals.Repl)});
 },
 args: [],
@@ -69031,7 +69334,7 @@ $1=$recv($2).__comma($recv(value)._asString());
 $ctx1.sendIdx[","]=1;
 $recv($globals.Transcript)._show_($1);
 $recv($globals.Transcript)._cr();
-$recv($self["@interface"])._prompt();
+$recv($self.interface)._prompt();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"presentResultNamed:withValue:",{varName:varName,value:value},$globals.Repl)});
 },
@@ -69079,7 +69382,7 @@ $1=$self._executeCommand_(buffer);
 if(!$core.assert($1)){
 $2=$self._isVariableDefined_(buffer);
 if($core.assert($2)){
-$recv(show)._value_value_(buffer,$recv($self["@session"])._perform_(buffer));
+$recv(show)._value_value_(buffer,$recv($self.session)._perform_(buffer));
 } else {
 $self._assignNewVariable_do_(buffer,show);
 }
@@ -69139,7 +69442,7 @@ protocol: "actions",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv($self["@interface"])._setPrompt_($self._prompt());
+$recv($self.interface)._setPrompt_($self._prompt());
 return self;
 }, function($ctx1) {$ctx1.fill(self,"setPrompt",{},$globals.Repl)});
 },
@@ -69166,10 +69469,10 @@ return $recv(process)._exit();
 $ctx1.sendIdx["->"]=1;
 $1=[$2,$recv([""]).__minus_gt((function(){
 return $core.withContext(function($ctx2) {
-return $recv($self["@interface"])._prompt();
+return $recv($self.interface)._prompt();
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }))];
-$self["@commands"]=$recv($globals.Dictionary)._from_($1);
+$self.commands=$recv($globals.Dictionary)._from_($1);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"setupCommands",{},$globals.Repl)});
 },
@@ -69281,12 +69584,20 @@ $globals.Repl.a$cls);
 });
 
 (function () {
-                            define('__app__',["amber/devel", "amber_core/Platform-Node", "amber_cli/AmberCli"], function (amber) {
+                            define('__app__',["amber/devel", "amber/core/Platform-Node", "amber_cli/AmberCli"], function (amber) {
                                 amber.initialize().then(function () {
                                     amber.globals.AmberCli._main();
                                 });
                             });
                         }());
+(function () {
+        define('app',["require", "amber/es6-promise"], function (require, promiseLib) {
+            promiseLib.polyfill();
+            return new Promise(function (resolve, reject) {
+                require(["__app__"], resolve, reject);
+            });
+        });
+    }());
 
 require(["app"]);
 });
