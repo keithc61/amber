@@ -228,7 +228,7 @@ addInstVarNamed: aString to: aClass
 
 	aClass isMetaclass
 		ifTrue: [ self classBuilder
-			class: aClass instanceVariables: newInstVars ]
+			class: aClass slots: newInstVars ]
 		ifFalse: [ self classBuilder
 			addSubclassOf: aClass superclass 
 			named: aClass name 

@@ -239,10 +239,9 @@ instanceClass
 	^ instanceClass
 !
 
-instanceVariableNames: aCollection
-	ClassBuilder new
-		class: self instanceVariableNames: aCollection.
-	^ self
+instanceVariableNames: aString
+	"Kept for file-in compatibility."
+	^ self slots: (self slotsFromInstanceVariablesString: aString)
 !
 
 name
@@ -251,6 +250,12 @@ name
 
 package
 	^ self instanceClass package
+!
+
+slots: aCollection
+	ClassBuilder new
+		class: self slots: aCollection.
+	^ self
 !
 
 subclasses
@@ -292,12 +297,6 @@ I am responsible for compiling new classes or modifying existing classes in the 
 
 Rather than using me directly to compile a class, use `Class >> subclass:instanceVariableNames:package:`.!
 
-!ClassBuilder methodsFor: 'accessing'!
-
-slotsFromInstanceVariablesString: aString
-	^ (aString tokenize: ' ') reject: [ :each | each isEmpty ]
-! !
-
 !ClassBuilder methodsFor: 'class definition'!
 
 addSubclassOf: aClass named: className instanceVariableNames: aCollection package: packageName
@@ -335,11 +334,7 @@ addTraitNamed: traitName package: packageName
 		package: packageName
 !
 
-class: aClass instanceVariableNames: ivarNames
-	self class: aClass instanceVariables:  (self slotsFromInstanceVariablesString: ivarNames)
-!
-
-class: aClass instanceVariables: aCollection
+class: aClass slots: aCollection
 	self basicClass: aClass instanceVariables: aCollection.
 	
 	SystemAnnouncer current
@@ -349,14 +344,14 @@ class: aClass instanceVariables: aCollection
 !
 
 superclass: aClass subclass: className
-	^ self superclass: aClass subclass: className instanceVariableNames: '' package: nil
+	^ self superclass: aClass subclass: className slots: #() package: nil
 !
 
-superclass: aClass subclass: className instanceVariableNames: ivarNames package: packageName
+superclass: aClass subclass: className slots: aCollection package: packageName
 	| newClass |
 	
 	newClass := self addSubclassOf: aClass
-		named: className instanceVariableNames: (self slotsFromInstanceVariablesString: ivarNames)
+		named: className instanceVariableNames: aCollection
 		package: (packageName ifNil: [ 'unclassified' ]).
 	
 	SystemAnnouncer current
@@ -721,6 +716,10 @@ removeProtocolIfEmpty: aString
 
 selectors
 	^ self methodDictionary keys
+!
+
+slotsFromInstanceVariablesString: aString
+	^ (aString tokenize: ' ') reject: [ :each | each isEmpty ]
 !
 
 traitComposition

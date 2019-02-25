@@ -2289,30 +2289,6 @@ $globals.ClassBuilderTest);
 
 $core.addMethod(
 $core.method({
-selector: "testSlotsFromInstanceVariablesString",
-protocol: "tests",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._assert_equals_($recv($self.builder)._slotsFromInstanceVariablesString_("  hello   world   "),["hello", "world"]);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testSlotsFromInstanceVariablesString",{},$globals.ClassBuilderTest)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testSlotsFromInstanceVariablesString\x0a\x09self assert: (builder slotsFromInstanceVariablesString: '  hello   world   ') equals: #('hello' 'world')",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["assert:equals:", "slotsFromInstanceVariablesString:"]
-}),
-$globals.ClassBuilderTest);
-
-$core.addMethod(
-$core.method({
 selector: "testSubclass",
 protocol: "tests",
 fn: function (){
@@ -2660,6 +2636,48 @@ source: "testSetJavaScriptConstructor\x0a\x09| instance |\x0a\x09theClass := bui
 referencedClasses: ["ObjectMock", "Error"],
 //>>excludeEnd("ide");
 messageSends: ["copyClass:named:", "javascriptConstructor:", "jsConstructor", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "keys", "methodDictionary", "new", "class", "value", "shouldnt:raise:", "foo:", "foo"]
+}),
+$globals.ClassTest);
+
+$core.addMethod(
+$core.method({
+selector: "testSlotsFromInstanceVariablesString",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1,$4,$3;
+$2=$self._class();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["class"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2)._slotsFromInstanceVariablesString_("  hello   world   ");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["slotsFromInstanceVariablesString:"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($1,["hello", "world"]);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+$4=$recv($self._class())._class();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["class"]=2;
+//>>excludeEnd("ctx");
+$3=$recv($4)._slotsFromInstanceVariablesString_("  hello   world   ");
+$self._assert_equals_($3,["hello", "world"]);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testSlotsFromInstanceVariablesString",{},$globals.ClassTest)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSlotsFromInstanceVariablesString\x0a\x09self assert: (self class slotsFromInstanceVariablesString: '  hello   world   ') equals: #('hello' 'world').\x0a\x09self assert: (self class class slotsFromInstanceVariablesString: '  hello   world   ') equals: #('hello' 'world')",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["assert:equals:", "slotsFromInstanceVariablesString:", "class"]
 }),
 $globals.ClassTest);
 

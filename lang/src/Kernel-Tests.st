@@ -436,10 +436,6 @@ testClassMigrationWithSubclasses
 	ObjectMock allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ]
 !
 
-testSlotsFromInstanceVariablesString
-	self assert: (builder slotsFromInstanceVariablesString: '  hello   world   ') equals: #('hello' 'world')
-!
-
 testSubclass
 	theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' instanceVariableNames: #(foo bar) package: 'Kernel-Tests'.
 	self assert: theClass superclass equals: ObjectMock.
@@ -524,6 +520,11 @@ testSetJavaScriptConstructor
 	self assert: instance value equals: 4.
 	self shouldnt: [ instance foo: 9 ] raise: Error.
 	self assert: instance foo equals: 9
+!
+
+testSlotsFromInstanceVariablesString
+	self assert: (self class slotsFromInstanceVariablesString: '  hello   world   ') equals: #('hello' 'world').
+	self assert: (self class class slotsFromInstanceVariablesString: '  hello   world   ') equals: #('hello' 'world')
 !
 
 testTrickySetJavaScriptConstructor

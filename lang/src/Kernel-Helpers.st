@@ -25,8 +25,9 @@ subclass: aString instanceVariableNames: aString2 classVariableNames: classVars 
 !
 
 subclass: aString instanceVariableNames: aString2 package: aString3
+	"Kept for file-in compatibility."
 	^ ClassBuilder new
-		superclass: self subclass: aString asString instanceVariableNames: aString2 package: aString3
+		superclass: self subclass: aString asString slots: (self slotsFromInstanceVariablesString: aString2) package: aString3
 !
 
 subclass: aString uses: aTraitCompositionDescription 

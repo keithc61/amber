@@ -106,17 +106,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv($globals.ClassBuilder)._new())._superclass_subclass_instanceVariableNames_package_(self,$recv(aString)._asString(),aString2,aString3);
+return $recv($recv($globals.ClassBuilder)._new())._superclass_subclass_slots_package_(self,$recv(aString)._asString(),$self._slotsFromInstanceVariablesString_(aString2),aString3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:package:",{aString:aString,aString2:aString2,aString3:aString3},$globals.TSubclassable)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aString2", "aString3"],
-source: "subclass: aString instanceVariableNames: aString2 package: aString3\x0a\x09^ ClassBuilder new\x0a\x09\x09superclass: self subclass: aString asString instanceVariableNames: aString2 package: aString3",
+source: "subclass: aString instanceVariableNames: aString2 package: aString3\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ ClassBuilder new\x0a\x09\x09superclass: self subclass: aString asString slots: (self slotsFromInstanceVariablesString: aString2) package: aString3",
 referencedClasses: ["ClassBuilder"],
 //>>excludeEnd("ide");
-messageSends: ["superclass:subclass:instanceVariableNames:package:", "new", "asString"]
+messageSends: ["superclass:subclass:slots:package:", "new", "asString", "slotsFromInstanceVariablesString:"]
 }),
 $globals.TSubclassable);
 

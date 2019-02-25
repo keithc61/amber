@@ -318,7 +318,7 @@ $2=$self._classBuilder();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["classBuilder"]=1;
 //>>excludeEnd("ctx");
-$recv($2)._class_instanceVariables_(aClass,newInstVars);
+$recv($2)._class_slots_(aClass,newInstVars);
 } else {
 $3=$self._classBuilder();
 $4=$recv(aClass)._superclass();
@@ -335,10 +335,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aClass"],
-source: "addInstVarNamed: aString to: aClass\x0a\x09| newInstVars |\x0a\x09newInstVars := aClass instanceVariableNames copyWith: aString.\x0a\x0a\x09aClass isMetaclass\x0a\x09\x09ifTrue: [ self classBuilder\x0a\x09\x09\x09class: aClass instanceVariables: newInstVars ]\x0a\x09\x09ifFalse: [ self classBuilder\x0a\x09\x09\x09addSubclassOf: aClass superclass \x0a\x09\x09\x09named: aClass name \x0a\x09\x09\x09instanceVariableNames: newInstVars\x0a\x09\x09\x09package: aClass package name ]",
+source: "addInstVarNamed: aString to: aClass\x0a\x09| newInstVars |\x0a\x09newInstVars := aClass instanceVariableNames copyWith: aString.\x0a\x0a\x09aClass isMetaclass\x0a\x09\x09ifTrue: [ self classBuilder\x0a\x09\x09\x09class: aClass slots: newInstVars ]\x0a\x09\x09ifFalse: [ self classBuilder\x0a\x09\x09\x09addSubclassOf: aClass superclass \x0a\x09\x09\x09named: aClass name \x0a\x09\x09\x09instanceVariableNames: newInstVars\x0a\x09\x09\x09package: aClass package name ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["copyWith:", "instanceVariableNames", "ifTrue:ifFalse:", "isMetaclass", "class:instanceVariables:", "classBuilder", "addSubclassOf:named:instanceVariableNames:package:", "superclass", "name", "package"]
+messageSends: ["copyWith:", "instanceVariableNames", "ifTrue:ifFalse:", "isMetaclass", "class:slots:", "classBuilder", "addSubclassOf:named:instanceVariableNames:package:", "superclass", "name", "package"]
 }),
 $globals.Environment);
 
