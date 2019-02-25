@@ -4,7 +4,7 @@ var $pkg = $core.addPackage("Kernel-Classes");
 $pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("Behavior", $globals.Object, ["organization", "instanceVariableNames", "fn", "superclass"], "Kernel-Classes");
+$core.addClass("Behavior", $globals.Object, ["organization", "slots", "fn", "superclass"], "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Behavior.comment="I am the superclass of all class objects.\x0a\x0aIn addition to BehaviorBody, I define superclass/subclass relationships and instantiation.\x0a\x0aI define the protocol for creating instances of a class with `#basicNew` and `#new` (see `boot.js` for class constructors details).\x0a\x0aMy instances know about the subclass/superclass relationships between classes and contain the description that instances are created from.\x0a\x0aI also provide iterating over the class hierarchy.";
 //>>excludeEnd("ide");
@@ -374,12 +374,12 @@ selector: "instanceVariableNames",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self.instanceVariableNames;
+return $self.slots;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "instanceVariableNames\x0a\x09^ instanceVariableNames",
+source: "instanceVariableNames\x0a\x09^ slots",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []

@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Kernel-Classes'!
 Object subclass: #Behavior
-	instanceVariableNames: 'organization instanceVariableNames fn superclass'
+	instanceVariableNames: 'organization slots fn superclass'
 	package: 'Kernel-Classes'!
 !Behavior commentStamp!
 I am the superclass of all class objects.
@@ -53,7 +53,7 @@ basicOrganization: aClassOrganizer
 !
 
 instanceVariableNames
-	^ instanceVariableNames
+	^ slots
 !
 
 javascriptConstructor

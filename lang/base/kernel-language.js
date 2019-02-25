@@ -312,7 +312,7 @@ define(function () {
 
         // TODO remove, ["@foo"] backward compatibility
         function installIvarCompat (klass) {
-            var ivars = klass.instanceVariableNames;
+            var ivars = klass.slots;
             ivars.forEach(function (ivar) {
                 Object.defineProperty(klass.fn.prototype, "@" + ivar, {
                     get: function () {
@@ -335,7 +335,7 @@ define(function () {
                     throw new Error("Wrong identifier name: " + name);
             });
 
-            klass.instanceVariableNames = slots;
+            klass.slots = slots;
             installIvarCompat(klass);
         }
 
@@ -346,7 +346,7 @@ define(function () {
             enumerable: true,
             configurable: true,
             get: function () {
-                return this.instanceVariableNames;
+                return this.slots;
             },
             set: function (instanceVariableNames) {
                 setSlots(this, instanceVariableNames);
@@ -380,7 +380,7 @@ define(function () {
                 that.superclass = logicalSuperclass;
                 that.fn = fn || inherits(function () {
                     }, superclass.fn);
-                that.instanceVariableNames = [];
+                that.slots = [];
 
                 that.name = className;
                 that.subclasses = [];
@@ -395,7 +395,7 @@ define(function () {
                 that.superclass = superclass.a$cls;
                 that.fn = inherits(function () {
                 }, that.superclass.fn);
-                that.instanceVariableNames = [];
+                that.slots = [];
 
                 that.instanceClass = new that.fn();
 
