@@ -1447,7 +1447,7 @@ messageSends: []
 $globals.ForkPool);
 
 
-$core.setInstanceVariables($globals.ForkPool.a$cls, ["default"]);
+$core.setSlots($globals.ForkPool.a$cls, ["default"]);
 $core.addMethod(
 $core.method({
 selector: "default",

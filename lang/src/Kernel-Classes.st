@@ -489,7 +489,7 @@ basicAddTraitNamed: aString package: anotherString
 basicClass: aClass instanceVariables: aCollection
 
 	aClass isMetaclass ifFalse: [ self error: aClass name, ' is not a metaclass' ].
-	Smalltalk core setInstanceVariables: aClass to: aCollection
+	Smalltalk core setSlots: aClass to: aCollection
 !
 
 basicRemoveClass: aClass

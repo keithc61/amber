@@ -162,7 +162,7 @@ messageSends: ["ifNotNil:", "home", "logContext:"]
 $globals.ConsoleErrorHandler);
 
 
-$core.setInstanceVariables($globals.ConsoleErrorHandler.a$cls, ["current"]);
+$core.setSlots($globals.ConsoleErrorHandler.a$cls, ["current"]);
 $core.addMethod(
 $core.method({
 selector: "initialize",
@@ -1292,7 +1292,7 @@ messageSends: ["do:"]
 $globals.NullProgressHandler);
 
 
-$core.setInstanceVariables($globals.NullProgressHandler.a$cls, ["current"]);
+$core.setSlots($globals.NullProgressHandler.a$cls, ["current"]);
 $core.addMethod(
 $core.method({
 selector: "initialize",
@@ -1323,7 +1323,7 @@ $core.addClass("Service", $globals.Object, [], "Platform-Services");
 $globals.Service.comment="I implement the basic behavior for class registration to a service.\x0a\x0aSee the `Transcript` class for a concrete service.\x0a\x0a## API\x0a\x0aUse class-side methods `#register:` and `#registerIfNone:` to register classes to a specific service.";
 //>>excludeEnd("ide");
 
-$core.setInstanceVariables($globals.Service.a$cls, ["current"]);
+$core.setSlots($globals.Service.a$cls, ["current"]);
 $core.addMethod(
 $core.method({
 selector: "current",

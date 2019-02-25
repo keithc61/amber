@@ -329,17 +329,17 @@ define(function () {
 
         this.installIvarCompat = installIvarCompat;
 
-        function setInstanceVariables (klass, instanceVariableNames) {
-            instanceVariableNames.forEach(function (name) {
+        function setSlots (klass, slots) {
+            slots.forEach(function (name) {
                 if (!name.match(/^[a-zA-Z][a-zA-Z0-9]*$/))
                     throw new Error("Wrong identifier name: " + name);
             });
 
-            klass.instanceVariableNames = instanceVariableNames;
+            klass.instanceVariableNames = slots;
             installIvarCompat(klass);
         }
 
-        st.setInstanceVariables = setInstanceVariables;
+        st.setSlots = setSlots;
 
         // TODO remove, .iVarNames backward compatibility
         Object.defineProperty(SmalltalkBehavior.prototype, "iVarNames", {
@@ -349,7 +349,7 @@ define(function () {
                 return this.instanceVariableNames;
             },
             set: function (instanceVariableNames) {
-                setInstanceVariables(this, instanceVariableNames);
+                setSlots(this, instanceVariableNames);
             }
         });
 
@@ -430,7 +430,7 @@ define(function () {
             // TODO remove, backward compatibility
             if (arguments[3]) {
                 var added = st.addClass(className, superclass, arguments[3]);
-                setInstanceVariables(added, category);
+                setSlots(added, category);
                 return added;
             }
 

@@ -1347,7 +1347,7 @@ $1=$recv(aClass)._isMetaclass();
 if(!$core.assert($1)){
 $self._error_($recv($recv(aClass)._name()).__comma(" is not a metaclass"));
 }
-$recv($recv($globals.Smalltalk)._core())._setInstanceVariables_to_(aClass,aCollection);
+$recv($recv($globals.Smalltalk)._core())._setSlots_to_(aClass,aCollection);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"basicClass:instanceVariables:",{aClass:aClass,aCollection:aCollection},$globals.ClassBuilder)});
@@ -1355,10 +1355,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aCollection"],
-source: "basicClass: aClass instanceVariables: aCollection\x0a\x0a\x09aClass isMetaclass ifFalse: [ self error: aClass name, ' is not a metaclass' ].\x0a\x09Smalltalk core setInstanceVariables: aClass to: aCollection",
+source: "basicClass: aClass instanceVariables: aCollection\x0a\x0a\x09aClass isMetaclass ifFalse: [ self error: aClass name, ' is not a metaclass' ].\x0a\x09Smalltalk core setSlots: aClass to: aCollection",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["ifFalse:", "isMetaclass", "error:", ",", "name", "setInstanceVariables:to:", "core"]
+messageSends: ["ifFalse:", "isMetaclass", "error:", ",", "name", "setSlots:to:", "core"]
 }),
 $globals.ClassBuilder);
 

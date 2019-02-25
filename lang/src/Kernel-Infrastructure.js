@@ -2270,7 +2270,7 @@ messageSends: ["do:", "ifFalse:", "isString", "respondsTo:", "error:", "&", "key
 $globals.Package);
 
 
-$core.setInstanceVariables($globals.Package.a$cls, ["defaultCommitPathJs", "defaultCommitPathSt"]);
+$core.setSlots($globals.Package.a$cls, ["defaultCommitPathJs", "defaultCommitPathSt"]);
 $core.addMethod(
 $core.method({
 selector: "named:",
@@ -2700,7 +2700,7 @@ messageSends: ["ifNotNil:", "package", "beDirty"]
 $globals.PackageStateObserver);
 
 
-$core.setInstanceVariables($globals.PackageStateObserver.a$cls, ["current"]);
+$core.setSlots($globals.PackageStateObserver.a$cls, ["current"]);
 $core.addMethod(
 $core.method({
 selector: "current",
@@ -4128,7 +4128,7 @@ messageSends: []
 $globals.SmalltalkImage);
 
 
-$core.setInstanceVariables($globals.SmalltalkImage.a$cls, ["current"]);
+$core.setSlots($globals.SmalltalkImage.a$cls, ["current"]);
 $core.addMethod(
 $core.method({
 selector: "current",

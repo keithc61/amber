@@ -8,7 +8,7 @@
 + amber/helpers exports >>
   + beClean
 + amber/boot api >>
-  + setInstanceVariables(klass, arrayOfNames)
+  + setSlots(klass, arrayOfNames)
 
 
 0.22.4:

@@ -1220,7 +1220,7 @@ $4=$recv($recv(aClass)._theMetaClass())._asJavaScriptSource();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["asJavaScriptSource"]=1;
 //>>excludeEnd("ctx");
-$3=["$core.setInstanceVariables(",$4,", ",$recv(classIvars)._asJavaScriptSource(),");"];
+$3=["$core.setSlots(",$4,", ",$recv(classIvars)._asJavaScriptSource(),");"];
 $recv(aStream)._write_($3);
 return $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1234,7 +1234,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aStream"],
-source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x09aStream lf.\x0a\x09aClass theMetaClass instanceVariableNames ifNotEmpty: [ :classIvars | aStream\x0a\x09\x09write: { '$core.setInstanceVariables('. aClass theMetaClass asJavaScriptSource. ', '. classIvars asJavaScriptSource. ');' };\x0a\x09\x09lf ]",
+source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x09aStream lf.\x0a\x09aClass theMetaClass instanceVariableNames ifNotEmpty: [ :classIvars | aStream\x0a\x09\x09write: { '$core.setSlots('. aClass theMetaClass asJavaScriptSource. ', '. classIvars asJavaScriptSource. ');' };\x0a\x09\x09lf ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["lf", "ifNotEmpty:", "instanceVariableNames", "theMetaClass", "write:", "asJavaScriptSource"]
@@ -3916,7 +3916,7 @@ messageSends: ["type", "class"]
 $globals.PackageTransport);
 
 
-$core.setInstanceVariables($globals.PackageTransport.a$cls, ["registry"]);
+$core.setSlots($globals.PackageTransport.a$cls, ["registry"]);
 $core.addMethod(
 $core.method({
 selector: "classRegisteredFor:",

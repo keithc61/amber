@@ -329,7 +329,7 @@ exportDefinitionOf: aClass on: aStream
 exportMetaDefinitionOf: aClass on: aStream
 	aStream lf.
 	aClass theMetaClass instanceVariableNames ifNotEmpty: [ :classIvars | aStream
-		write: { '$core.setInstanceVariables('. aClass theMetaClass asJavaScriptSource. ', '. classIvars asJavaScriptSource. ');' };
+		write: { '$core.setSlots('. aClass theMetaClass asJavaScriptSource. ', '. classIvars asJavaScriptSource. ');' };
 		lf ]
 !
 
