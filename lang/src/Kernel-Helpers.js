@@ -106,17 +106,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self._subclass_slots_package_(aString,$self._slotsFromInstanceVariablesString_(aString2),aString3);
+return $self._subclass_slots_package_(aString,$recv(aString2)._instanceVariablesStringAsSlotList(),aString3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:package:",{aString:aString,aString2:aString2,aString3:aString3},$globals.TSubclassable)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aString2", "aString3"],
-source: "subclass: aString instanceVariableNames: aString2 package: aString3\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString slots: (self slotsFromInstanceVariablesString: aString2) package: aString3",
+source: "subclass: aString instanceVariableNames: aString2 package: aString3\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString slots: aString2 instanceVariablesStringAsSlotList package: aString3",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["subclass:slots:package:", "slotsFromInstanceVariablesString:"]
+messageSends: ["subclass:slots:package:", "instanceVariablesStringAsSlotList"]
 }),
 $globals.TSubclassable);
 
@@ -313,17 +313,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self._subclass_uses_slots_package_(aString,aTraitCompositionDescription,$self._slotsFromInstanceVariablesString_(aString2),aString3);
+return $self._subclass_uses_slots_package_(aString,aTraitCompositionDescription,$recv(aString2)._instanceVariablesStringAsSlotList(),aString3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:package:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aString2:aString2,aString3:aString3},$globals.TSubclassable)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aTraitCompositionDescription", "aString2", "aString3"],
-source: "subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription slots: (self slotsFromInstanceVariablesString: aString2) package: aString3",
+source: "subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription slots: aString2 instanceVariablesStringAsSlotList package: aString3",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["subclass:uses:slots:package:", "slotsFromInstanceVariablesString:"]
+messageSends: ["subclass:uses:slots:package:", "instanceVariablesStringAsSlotList"]
 }),
 $globals.TSubclassable);
 

@@ -26,7 +26,7 @@ subclass: aString instanceVariableNames: aString2 classVariableNames: classVars 
 
 subclass: aString instanceVariableNames: aString2 package: aString3
 	"Kept for file-in compatibility."
-	^ self subclass: aString slots: (self slotsFromInstanceVariablesString: aString2) package: aString3
+	^ self subclass: aString slots: aString2 instanceVariablesStringAsSlotList package: aString3
 !
 
 subclass: aString slots: aCollection
@@ -73,7 +73,7 @@ subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aStr
 
 subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3
 	"Kept for file-in compatibility."
-	^ self subclass: aString uses: aTraitCompositionDescription slots: (self slotsFromInstanceVariablesString: aString2) package: aString3
+	^ self subclass: aString uses: aTraitCompositionDescription slots: aString2 instanceVariablesStringAsSlotList package: aString3
 !
 
 subclass: aString uses: aTraitCompositionDescription slots: aCollection

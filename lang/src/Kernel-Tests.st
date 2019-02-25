@@ -523,8 +523,7 @@ testSetJavaScriptConstructor
 !
 
 testSlotsFromInstanceVariablesString
-	self assert: (self class slotsFromInstanceVariablesString: '  hello   world   ') equals: #('hello' 'world').
-	self assert: (self class class slotsFromInstanceVariablesString: '  hello   world   ') equals: #('hello' 'world')
+	self assert: '  hello   world   ' instanceVariablesStringAsSlotList equals: #('hello' 'world')
 !
 
 testTrickySetJavaScriptConstructor

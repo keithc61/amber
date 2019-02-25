@@ -1033,17 +1033,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self._slots_($self._slotsFromInstanceVariablesString_(aString));
+return $self._slots_($recv(aString)._instanceVariablesStringAsSlotList());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"instanceVariableNames:",{aString:aString},$globals.Metaclass)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "instanceVariableNames: aString\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self slots: (self slotsFromInstanceVariablesString: aString)",
+source: "instanceVariableNames: aString\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self slots: aString instanceVariablesStringAsSlotList",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["slots:", "slotsFromInstanceVariablesString:"]
+messageSends: ["slots:", "instanceVariablesStringAsSlotList"]
 }),
 $globals.Metaclass);
 
@@ -1208,17 +1208,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self._uses_slots_(aTraitCompositionDescription,$self._slotsFromInstanceVariablesString_(aString));
+return $self._uses_slots_(aTraitCompositionDescription,$recv(aString)._instanceVariablesStringAsSlotList());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"uses:instanceVariableNames:",{aTraitCompositionDescription:aTraitCompositionDescription,aString:aString},$globals.Metaclass)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aTraitCompositionDescription", "aString"],
-source: "uses: aTraitCompositionDescription instanceVariableNames: aString\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self uses: aTraitCompositionDescription slots: (self slotsFromInstanceVariablesString: aString)",
+source: "uses: aTraitCompositionDescription instanceVariableNames: aString\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self uses: aTraitCompositionDescription slots: aString instanceVariablesStringAsSlotList",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["uses:slots:", "slotsFromInstanceVariablesString:"]
+messageSends: ["uses:slots:", "instanceVariablesStringAsSlotList"]
 }),
 $globals.Metaclass);
 
@@ -3050,37 +3050,6 @@ $globals.TBehaviorProvider);
 
 $core.addMethod(
 $core.method({
-selector: "slotsFromInstanceVariablesString:",
-protocol: "accessing",
-fn: function (aString){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($recv(aString)._tokenize_(" "))._reject_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(each)._isEmpty();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"slotsFromInstanceVariablesString:",{aString:aString},$globals.TBehaviorProvider)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "slotsFromInstanceVariablesString: aString\x0a\x09^ (aString tokenize: ' ') reject: [ :each | each isEmpty ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["reject:", "tokenize:", "isEmpty"]
-}),
-$globals.TBehaviorProvider);
-
-$core.addMethod(
-$core.method({
 selector: "traitComposition",
 protocol: "accessing",
 fn: function (){
@@ -4488,5 +4457,36 @@ referencedClasses: [],
 messageSends: ["collect:", "asTraitTransformation"]
 }),
 $globals.Array);
+
+$core.addMethod(
+$core.method({
+selector: "instanceVariablesStringAsSlotList",
+protocol: "*Kernel-Classes",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._tokenize_(" "))._reject_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(each)._isEmpty();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"instanceVariablesStringAsSlotList",{},$globals.String)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "instanceVariablesStringAsSlotList\x0a\x09^ (self tokenize: ' ') reject: [ :each | each isEmpty ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["reject:", "tokenize:", "isEmpty"]
+}),
+$globals.String);
 
 });

@@ -241,7 +241,7 @@ instanceClass
 
 instanceVariableNames: aString
 	"Kept for file-in compatibility."
-	^ self slots: (self slotsFromInstanceVariablesString: aString)
+	^ self slots: aString instanceVariablesStringAsSlotList
 !
 
 name
@@ -272,7 +272,7 @@ theNonMetaClass
 
 uses: aTraitCompositionDescription instanceVariableNames: aString
 	"Kept for file-in compatibility."
-	^ self uses: aTraitCompositionDescription slots: (self slotsFromInstanceVariablesString: aString)
+	^ self uses: aTraitCompositionDescription slots: aString instanceVariablesStringAsSlotList
 !
 
 uses: aTraitCompositionDescription slots: aCollection
@@ -723,10 +723,6 @@ selectors
 	^ self methodDictionary keys
 !
 
-slotsFromInstanceVariablesString: aString
-	^ (aString tokenize: ' ') reject: [ :each | each isEmpty ]
-!
-
 traitComposition
 	^ (self basicAt: 'traitComposition')
 		ifNil: [ #() ]
@@ -1129,5 +1125,11 @@ Trait setTraitComposition: {TBehaviorDefaults. TBehaviorProvider. TMasterBehavio
 asTraitComposition
 	"not implemented yet, noop atm"
 	^ self collect: [ :each | each asTraitTransformation ]
+! !
+
+!String methodsFor: '*Kernel-Classes'!
+
+instanceVariablesStringAsSlotList
+	^ (self tokenize: ' ') reject: [ :each | each isEmpty ]
 ! !
 
