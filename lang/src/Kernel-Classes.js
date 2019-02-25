@@ -754,13 +754,9 @@ $recv(stream)._tab();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["tab"]=2;
 //>>excludeEnd("ctx");
-$recv(stream)._write_("instanceVariableNames: ");
+$recv(stream)._write_(["slots: {",". "._join_($recv($self._instanceVariableNames())._collect_("symbolPrintString")),"}"]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["write:"]=3;
-//>>excludeEnd("ctx");
-$recv(stream)._print_(" "._join_($self._instanceVariableNames()));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["print:"]=2;
 //>>excludeEnd("ctx");
 $recv(stream)._lf();
 $recv(stream)._tab();
@@ -776,10 +772,10 @@ return $recv(stream)._print_($self._category());
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self superclass; write: ' subclass: '; printSymbol: self name; lf;\x0a\x09\x09write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);\x0a\x09\x09tab; write: 'instanceVariableNames: '; print: (' ' join: self instanceVariableNames); lf;\x0a\x09\x09tab; write: 'package: '; print: self category ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self superclass; write: ' subclass: '; printSymbol: self name; lf;\x0a\x09\x09write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);\x0a\x09\x09tab; write: {'slots: {'. ('. ' join: (self instanceVariableNames collect: #symbolPrintString)). '}'}; lf;\x0a\x09\x09tab; write: 'package: '; print: self category ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "print:", "superclass", "write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "traitCompositionDefinition", "tab", "join:", "instanceVariableNames", "category"]
+messageSends: ["streamContents:", "print:", "superclass", "write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "traitCompositionDefinition", "tab", "join:", "collect:", "instanceVariableNames", "category"]
 }),
 $globals.Class);
 
@@ -961,9 +957,6 @@ return $recv($globals.String)._streamContents_((function(stream){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $recv(stream)._print_(self);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["print:"]=1;
-//>>excludeEnd("ctx");
 $recv(stream)._write_($recv($self._traitCompositionDefinition())._ifEmpty_ifNotEmpty_((function(){
 return " ";
 
@@ -987,8 +980,7 @@ return [$1,$2,"uses: ",tcd,$recv($globals.String)._lf(),$recv($globals.String)._
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["write:"]=1;
 //>>excludeEnd("ctx");
-$recv(stream)._write_("instanceVariableNames: ");
-return $recv(stream)._print_(" "._join_($self._instanceVariableNames()));
+return $recv(stream)._write_(["slots: {",". "._join_($recv($self._instanceVariableNames())._collect_("symbolPrintString")),"}"]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -999,10 +991,10 @@ return $recv(stream)._print_(" "._join_($self._instanceVariableNames()));
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self;\x0a\x09\x09write: (self traitCompositionDefinition\x0a\x09\x09\x09ifEmpty: [' ']\x0a\x09\x09\x09ifNotEmpty: [ :tcd | { String lf. String tab. 'uses: '. tcd. String lf. String tab }]);\x0a\x09\x09write: 'instanceVariableNames: ';\x0a\x09\x09print: (' ' join: self instanceVariableNames) ]",
+source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self;\x0a\x09\x09write: (self traitCompositionDefinition\x0a\x09\x09\x09ifEmpty: [' ']\x0a\x09\x09\x09ifNotEmpty: [ :tcd | { String lf. String tab. 'uses: '. tcd. String lf. String tab }]);\x0a\x09\x09write: {'slots: {'. ('. ' join: (self instanceVariableNames collect: #symbolPrintString)). '}'} ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
-messageSends: ["streamContents:", "print:", "write:", "ifEmpty:ifNotEmpty:", "traitCompositionDefinition", "lf", "tab", "join:", "instanceVariableNames"]
+messageSends: ["streamContents:", "print:", "write:", "ifEmpty:ifNotEmpty:", "traitCompositionDefinition", "lf", "tab", "join:", "collect:", "instanceVariableNames"]
 }),
 $globals.Metaclass);
 

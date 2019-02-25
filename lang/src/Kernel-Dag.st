@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Kernel-Dag'!
 Object subclass: #AbstractDagVisitor
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Dag'!
 !AbstractDagVisitor commentStamp!
 I am base class of `DagNode` visitor.
@@ -59,7 +59,7 @@ visitDagNodeVariantSimple: aNode
 ! !
 
 AbstractDagVisitor subclass: #PathDagVisitor
-	instanceVariableNames: 'path'
+	slots: {#path}
 	package: 'Kernel-Dag'!
 !PathDagVisitor commentStamp!
 I am base class of `DagNode` visitor.
@@ -102,7 +102,7 @@ visitDagNodeVariantRedux: aNode
 ! !
 
 Object subclass: #DagNode
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Dag'!
 !DagNode commentStamp!
 I am the abstract root class of any directed acyclic graph.
@@ -143,7 +143,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 DagNode subclass: #DagParentNode
-	instanceVariableNames: 'nodes'
+	slots: {#nodes}
 	package: 'Kernel-Dag'!
 !DagParentNode commentStamp!
 I am `DagNode` that stores a collection of its children,
@@ -166,7 +166,7 @@ dagChildren: aCollection
 ! !
 
 DagNode subclass: #DagSink
-	instanceVariableNames: 'nodes'
+	slots: {#nodes}
 	package: 'Kernel-Dag'!
 !DagSink commentStamp!
 I am `DagNode` with no direct successors.

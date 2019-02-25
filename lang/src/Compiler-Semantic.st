@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Compiler-Semantic'!
 Object subclass: #LexicalScope
-	instanceVariableNames: 'node instruction temps args outerScope blockIndex'
+	slots: {#node. #instruction. #temps. #args. #outerScope. #blockIndex}
 	package: 'Compiler-Semantic'!
 !LexicalScope commentStamp!
 I represent a lexical scope where variable names are associated with ScopeVars
@@ -124,7 +124,7 @@ isMethodScope
 ! !
 
 LexicalScope subclass: #MethodLexicalScope
-	instanceVariableNames: 'iVars pseudoVars unknownVariables localReturn nonLocalReturns'
+	slots: {#iVars. #pseudoVars. #unknownVariables. #localReturn. #nonLocalReturns}
 	package: 'Compiler-Semantic'!
 !MethodLexicalScope commentStamp!
 I represent a method scope.!
@@ -208,7 +208,7 @@ isMethodScope
 ! !
 
 Object subclass: #ScopeVar
-	instanceVariableNames: 'scope name'
+	slots: {#scope. #name}
 	package: 'Compiler-Semantic'!
 !ScopeVar commentStamp!
 I am an entry in a LexicalScope that gets associated with variable nodes of the same name.
@@ -290,7 +290,7 @@ on: aString
 ! !
 
 ScopeVar subclass: #AliasVar
-	instanceVariableNames: 'node'
+	slots: {#node}
 	package: 'Compiler-Semantic'!
 !AliasVar commentStamp!
 I am an internally defined variable by the compiler!
@@ -312,7 +312,7 @@ isImmutable
 ! !
 
 ScopeVar subclass: #ArgVar
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Semantic'!
 !ArgVar commentStamp!
 I am an argument of a method or block.!
@@ -328,7 +328,7 @@ isImmutable
 ! !
 
 ScopeVar subclass: #ClassRefVar
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Semantic'!
 !ClassRefVar commentStamp!
 I am an class reference variable!
@@ -354,7 +354,7 @@ isImmutable
 ! !
 
 ScopeVar subclass: #InstanceVar
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Semantic'!
 !InstanceVar commentStamp!
 I am an instance variable of a method or block.!
@@ -370,7 +370,7 @@ isInstanceVar
 ! !
 
 ScopeVar subclass: #PseudoVar
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Semantic'!
 !PseudoVar commentStamp!
 I am an pseudo variable.
@@ -402,7 +402,7 @@ isSuper
 ! !
 
 ScopeVar subclass: #TempVar
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Semantic'!
 !TempVar commentStamp!
 I am an temporary variable of a method or block.!
@@ -414,7 +414,7 @@ isTempVar
 ! !
 
 ScopeVar subclass: #UnknownVar
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Semantic'!
 !UnknownVar commentStamp!
 I am an unknown variable. Amber uses unknown variables as JavaScript globals!
@@ -426,7 +426,7 @@ isUnknownVar
 ! !
 
 NodeVisitor subclass: #SemanticAnalyzer
-	instanceVariableNames: 'currentScope blockIndex thePackage theClass classReferences messageSends'
+	slots: {#currentScope. #blockIndex. #thePackage. #theClass. #classReferences. #messageSends}
 	package: 'Compiler-Semantic'!
 !SemanticAnalyzer commentStamp!
 I semantically analyze the abstract syntax tree and annotate it with informations such as non local returns and variable scopes.!
@@ -644,7 +644,7 @@ on: aClass
 ! !
 
 CompilerError subclass: #SemanticError
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Semantic'!
 !SemanticError commentStamp!
 I represent an abstract semantic error thrown by the SemanticAnalyzer.
@@ -654,7 +654,7 @@ See my subclasses for concrete errors.
 The IDE should catch instances of Semantic error to deal with them when compiling!
 
 SemanticError subclass: #InvalidAssignmentError
-	instanceVariableNames: 'variableName'
+	slots: {#variableName}
 	package: 'Compiler-Semantic'!
 !InvalidAssignmentError commentStamp!
 I get signaled when a pseudo variable gets assigned.!
@@ -674,7 +674,7 @@ variableName: aString
 ! !
 
 SemanticError subclass: #ShadowingVariableError
-	instanceVariableNames: 'variableName'
+	slots: {#variableName}
 	package: 'Compiler-Semantic'!
 !ShadowingVariableError commentStamp!
 I get signaled when a variable in a block or method scope shadows a variable of the same name in an outer scope.!
@@ -694,7 +694,7 @@ variableName: aString
 ! !
 
 SemanticError subclass: #UnknownVariableError
-	instanceVariableNames: 'variableName'
+	slots: {#variableName}
 	package: 'Compiler-Semantic'!
 !UnknownVariableError commentStamp!
 I get signaled when a variable is not defined.

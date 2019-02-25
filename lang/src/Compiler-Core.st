@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Compiler-Core'!
 Object subclass: #AbstractCodeGenerator
-	instanceVariableNames: 'currentClass currentPackage source'
+	slots: {#currentClass. #currentPackage. #source}
 	package: 'Compiler-Core'!
 !AbstractCodeGenerator commentStamp!
 I am the abstract super class of all code generators and provide their common API.!
@@ -54,7 +54,7 @@ transformersDictionary
 ! !
 
 AbstractCodeGenerator subclass: #CodeGenerator
-	instanceVariableNames: 'transformersDictionary'
+	slots: {#transformersDictionary}
 	package: 'Compiler-Core'!
 !CodeGenerator commentStamp!
 I am a basic code generator. I generate a valid JavaScript output, but no not perform any inlining.
@@ -95,7 +95,7 @@ translator
 ! !
 
 Object subclass: #Compiler
-	instanceVariableNames: 'currentClass currentPackage source codeGeneratorClass codeGenerator'
+	slots: {#currentClass. #currentPackage. #source. #codeGeneratorClass. #codeGenerator}
 	package: 'Compiler-Core'!
 !Compiler commentStamp!
 I provide the public interface for compiling Amber source code into JavaScript.
@@ -271,13 +271,13 @@ eval: aString
 ! !
 
 Object subclass: #DoIt
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Core'!
 !DoIt commentStamp!
 `DoIt` is the class used to compile and evaluate expressions. See `Compiler >> evaluateExpression:`.!
 
 Object subclass: #Evaluator
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Core'!
 !Evaluator commentStamp!
 I evaluate code against a receiver, dispatching #evaluate:on: to the receiver.!
@@ -325,7 +325,7 @@ evaluate: aString for: anObject
 ! !
 
 NodeVisitor subclass: #Pragmator
-	instanceVariableNames: 'methodNode sequenceNode'
+	slots: {#methodNode. #sequenceNode}
 	package: 'Compiler-Core'!
 !Pragmator commentStamp!
 I am abstract superclass for pragma-processing transformer.
@@ -385,7 +385,7 @@ visitSequenceNode: aNode
 ! !
 
 Pragmator subclass: #EarlyPragmator
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Core'!
 
 !String methodsFor: '*Compiler-Core'!

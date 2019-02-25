@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Kernel-Announcements'!
 Object subclass: #AnnouncementSubscription
-	instanceVariableNames: 'valuable announcementClass'
+	slots: {#valuable. #announcementClass}
 	package: 'Kernel-Announcements'!
 !AnnouncementSubscription commentStamp!
 I am a single entry in a subscription registry of an `Announcer`.
@@ -42,7 +42,7 @@ handlesAnnouncement: anAnnouncement
 ! !
 
 Object subclass: #AnnouncementValuable
-	instanceVariableNames: 'valuable receiver'
+	slots: {#valuable. #receiver}
 	package: 'Kernel-Announcements'!
 !AnnouncementValuable commentStamp!
 I wrap `valuable` objects (typically instances of `BlockClosure`) with a `receiver` to be able to unregister subscriptions based on a `receiver`.!
@@ -76,7 +76,7 @@ value: anObject
 ! !
 
 Object subclass: #Announcer
-	instanceVariableNames: 'registry subscriptions'
+	slots: {#registry. #subscriptions}
 	package: 'Kernel-Announcements'!
 !Announcer commentStamp!
 I hold annoncement subscriptions (instances of `AnnouncementSubscription`) in a private registry.
@@ -157,7 +157,7 @@ unsubscribe: anObject
 ! !
 
 Announcer subclass: #SystemAnnouncer
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Announcements'!
 !SystemAnnouncer commentStamp!
 My unique instance is the global announcer handling all Amber system-related announces.
@@ -166,7 +166,7 @@ My unique instance is the global announcer handling all Amber system-related ann
 
 Access to the unique instance is done via `#current`!
 
-SystemAnnouncer class instanceVariableNames: 'current'!
+SystemAnnouncer class slots: {#current}!
 
 !SystemAnnouncer class methodsFor: 'accessing'!
 
@@ -181,7 +181,7 @@ new
 ! !
 
 Object subclass: #SystemAnnouncement
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Announcements'!
 !SystemAnnouncement commentStamp!
 I am the superclass of all system announcements!
@@ -197,7 +197,7 @@ classTag
 ! !
 
 SystemAnnouncement subclass: #ClassAnnouncement
-	instanceVariableNames: 'theClass'
+	slots: {#theClass}
 	package: 'Kernel-Announcements'!
 !ClassAnnouncement commentStamp!
 I am the abstract superclass of class-related announcements.!
@@ -213,27 +213,27 @@ theClass: aClass
 ! !
 
 ClassAnnouncement subclass: #ClassAdded
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Announcements'!
 !ClassAdded commentStamp!
 I am emitted when a class is added to the system.
 See ClassBuilder >> #addSubclassOf:... methods!
 
 ClassAnnouncement subclass: #ClassCommentChanged
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Announcements'!
 !ClassCommentChanged commentStamp!
 I am emitted when the comment of a class changes. (Behavior >> #comment)!
 
 ClassAnnouncement subclass: #ClassDefinitionChanged
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Announcements'!
 !ClassDefinitionChanged commentStamp!
 I am emitted when the definition of a class changes.
 See ClassBuilder >> #class:instanceVariableNames:!
 
 ClassAnnouncement subclass: #ClassMigrated
-	instanceVariableNames: 'oldClass'
+	slots: {#oldClass}
 	package: 'Kernel-Announcements'!
 !ClassMigrated commentStamp!
 I am emitted when a class is migrated.!
@@ -249,7 +249,7 @@ oldClass: aClass
 ! !
 
 ClassAnnouncement subclass: #ClassMoved
-	instanceVariableNames: 'oldPackage'
+	slots: {#oldPackage}
 	package: 'Kernel-Announcements'!
 !ClassMoved commentStamp!
 I am emitted when a class is moved from one package to another.!
@@ -265,21 +265,21 @@ oldPackage: aPackage
 ! !
 
 ClassAnnouncement subclass: #ClassRemoved
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Announcements'!
 !ClassRemoved commentStamp!
 I am emitted when a class is removed.
 See Smalltalk >> #removeClass:!
 
 ClassAnnouncement subclass: #ClassRenamed
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Announcements'!
 !ClassRenamed commentStamp!
 I am emitted when a class is renamed.
 See ClassBuilder >> #renameClass:to:!
 
 SystemAnnouncement subclass: #MethodAnnouncement
-	instanceVariableNames: 'method'
+	slots: {#method}
 	package: 'Kernel-Announcements'!
 !MethodAnnouncement commentStamp!
 I am the abstract superclass of method-related announcements.!
@@ -295,13 +295,13 @@ method: aCompiledMethod
 ! !
 
 MethodAnnouncement subclass: #MethodAdded
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Announcements'!
 !MethodAdded commentStamp!
 I am emitted when a `CompiledMethod` is added to a class.!
 
 MethodAnnouncement subclass: #MethodModified
-	instanceVariableNames: 'oldMethod'
+	slots: {#oldMethod}
 	package: 'Kernel-Announcements'!
 !MethodModified commentStamp!
 I am emitted when a `CompiledMethod` is modified (a new method is installed). I hold a reference to the old method being replaced.!
@@ -317,7 +317,7 @@ oldMethod: aMethod
 ! !
 
 MethodAnnouncement subclass: #MethodMoved
-	instanceVariableNames: 'oldProtocol'
+	slots: {#oldProtocol}
 	package: 'Kernel-Announcements'!
 !MethodMoved commentStamp!
 I am emitted when a `CompiledMethod` is moved to another protocol. I hold a refernce to the old protocol of the method.!
@@ -333,13 +333,13 @@ oldProtocol: aString
 ! !
 
 MethodAnnouncement subclass: #MethodRemoved
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Announcements'!
 !MethodRemoved commentStamp!
 I am emitted when a `CompiledMethod` is removed from a class.!
 
 SystemAnnouncement subclass: #PackageAnnouncement
-	instanceVariableNames: 'package'
+	slots: {#package}
 	package: 'Kernel-Announcements'!
 !PackageAnnouncement commentStamp!
 I am the abstract superclass of package-related announcements.!
@@ -355,31 +355,31 @@ package: aPackage
 ! !
 
 PackageAnnouncement subclass: #PackageAdded
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Announcements'!
 !PackageAdded commentStamp!
 I am emitted when a `Package` is added to the system.!
 
 PackageAnnouncement subclass: #PackageClean
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Announcements'!
 !PackageClean commentStamp!
 I am emitted when a package is committed and becomes clean.!
 
 PackageAnnouncement subclass: #PackageDirty
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Announcements'!
 !PackageDirty commentStamp!
 I am emitted when a package becomes dirty.!
 
 PackageAnnouncement subclass: #PackageRemoved
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Announcements'!
 !PackageRemoved commentStamp!
 I am emitted when a `Package` is removed from the system.!
 
 SystemAnnouncement subclass: #ProtocolAnnouncement
-	instanceVariableNames: 'theClass protocol'
+	slots: {#theClass. #protocol}
 	package: 'Kernel-Announcements'!
 !ProtocolAnnouncement commentStamp!
 I am the abstract superclass of protocol-related announcements.!
@@ -408,13 +408,13 @@ theClass: aClass
 ! !
 
 ProtocolAnnouncement subclass: #ProtocolAdded
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Announcements'!
 !ProtocolAdded commentStamp!
 I am emitted when a protocol is added to a class.!
 
 ProtocolAnnouncement subclass: #ProtocolRemoved
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Announcements'!
 !ProtocolRemoved commentStamp!
 I am emitted when a protocol is removed from a class.!

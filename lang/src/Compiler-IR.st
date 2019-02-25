@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Compiler-IR'!
 NodeVisitor subclass: #IRASTTranslator
-	instanceVariableNames: 'source theClass method sequence nextAlias'
+	slots: {#source. #theClass. #method. #sequence. #nextAlias}
 	package: 'Compiler-IR'!
 !IRASTTranslator commentStamp!
 I am the AST (abstract syntax tree) visitor responsible for building the intermediate representation graph.!
@@ -260,7 +260,7 @@ visitVariableNode: aNode
 ! !
 
 DagParentNode subclass: #IRInstruction
-	instanceVariableNames: 'parent'
+	slots: {#parent}
 	package: 'Compiler-IR'!
 !IRInstruction commentStamp!
 I am the abstract root class of the IR (intermediate representation) instructions class hierarchy.
@@ -362,7 +362,7 @@ on: aBuilder
 ! !
 
 IRInstruction subclass: #IRAssignment
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-IR'!
 
 !IRAssignment methodsFor: 'accessing'!
@@ -382,7 +382,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRInstruction subclass: #IRDynamicArray
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-IR'!
 
 !IRDynamicArray methodsFor: 'visiting'!
@@ -392,7 +392,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRInstruction subclass: #IRDynamicDictionary
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-IR'!
 
 !IRDynamicDictionary methodsFor: 'visiting'!
@@ -402,7 +402,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRInstruction subclass: #IRScopedInstruction
-	instanceVariableNames: 'scope'
+	slots: {#scope}
 	package: 'Compiler-IR'!
 
 !IRScopedInstruction methodsFor: 'accessing'!
@@ -416,7 +416,7 @@ scope: aScope
 ! !
 
 IRScopedInstruction subclass: #IRClosureInstruction
-	instanceVariableNames: 'arguments requiresSmalltalkContext'
+	slots: {#arguments. #requiresSmalltalkContext}
 	package: 'Compiler-IR'!
 
 !IRClosureInstruction methodsFor: 'accessing'!
@@ -454,7 +454,7 @@ tempDeclarations
 ! !
 
 IRClosureInstruction subclass: #IRClosure
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-IR'!
 
 !IRClosure methodsFor: 'accessing'!
@@ -476,7 +476,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRClosureInstruction subclass: #IRMethod
-	instanceVariableNames: 'theClass source selector classReferences sendIndexes requiresSmalltalkContext internalVariables'
+	slots: {#theClass. #source. #selector. #classReferences. #sendIndexes. #requiresSmalltalkContext. #internalVariables}
 	package: 'Compiler-IR'!
 !IRMethod commentStamp!
 I am a method instruction!
@@ -548,7 +548,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRScopedInstruction subclass: #IRReturn
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-IR'!
 !IRReturn commentStamp!
 I am a local return instruction.!
@@ -576,7 +576,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRReturn subclass: #IRBlockReturn
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-IR'!
 !IRBlockReturn commentStamp!
 Smalltalk blocks return their last statement. I am a implicit block return instruction.!
@@ -588,7 +588,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRReturn subclass: #IRNonLocalReturn
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-IR'!
 !IRNonLocalReturn commentStamp!
 I am a non local return instruction.
@@ -603,7 +603,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRScopedInstruction subclass: #IRTempDeclaration
-	instanceVariableNames: 'name'
+	slots: {#name}
 	package: 'Compiler-IR'!
 
 !IRTempDeclaration methodsFor: 'accessing'!
@@ -629,7 +629,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRInstruction subclass: #IRSend
-	instanceVariableNames: 'selector index'
+	slots: {#selector. #index}
 	package: 'Compiler-IR'!
 !IRSend commentStamp!
 I am a message send instruction.!
@@ -673,7 +673,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRInstruction subclass: #IRSequence
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-IR'!
 
 !IRSequence methodsFor: 'testing'!
@@ -689,7 +689,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRSequence subclass: #IRBlockSequence
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-IR'!
 
 !IRBlockSequence methodsFor: 'visiting'!
@@ -699,7 +699,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRInstruction subclass: #IRValue
-	instanceVariableNames: 'value'
+	slots: {#value}
 	package: 'Compiler-IR'!
 !IRValue commentStamp!
 I am the simplest possible instruction. I represent a value.!
@@ -727,7 +727,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRInstruction subclass: #IRVariable
-	instanceVariableNames: 'variable'
+	slots: {#variable}
 	package: 'Compiler-IR'!
 !IRVariable commentStamp!
 I am a variable instruction.!
@@ -767,7 +767,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRInstruction subclass: #IRVerbatim
-	instanceVariableNames: 'source'
+	slots: {#source}
 	package: 'Compiler-IR'!
 
 !IRVerbatim methodsFor: 'accessing'!
@@ -787,7 +787,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 ParentFakingPathDagVisitor subclass: #IRVisitor
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-IR'!
 
 !IRVisitor methodsFor: 'visiting'!
@@ -869,7 +869,7 @@ visitIRVerbatim: anIRVerbatim
 ! !
 
 IRVisitor subclass: #IRJSTranslator
-	instanceVariableNames: 'stream currentClass'
+	slots: {#stream. #currentClass}
 	package: 'Compiler-IR'!
 
 !IRJSTranslator methodsFor: 'accessing'!
@@ -1053,7 +1053,7 @@ visitSuperSend: anIRSend
 ! !
 
 Object subclass: #JSStream
-	instanceVariableNames: 'stream omitSemicolon'
+	slots: {#stream. #omitSemicolon}
 	package: 'Compiler-IR'!
 
 !JSStream methodsFor: 'accessing'!

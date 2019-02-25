@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Kernel-Objects'!
 nil subclass: #ProtoObject
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Objects'!
 !ProtoObject commentStamp!
 I implement the basic behavior required for any object in Amber.
@@ -155,7 +155,7 @@ initialize
 ! !
 
 ProtoObject subclass: #Object
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Objects'!
 !Object commentStamp!
 **I am the root of the Smalltalk class system**. With the exception of unual subclasses of `ProtoObject`, all other classes in the system are subclasses of me.
@@ -407,7 +407,7 @@ initialize
 ! !
 
 Object subclass: #Boolean
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Objects'!
 !Boolean commentStamp!
 I define the protocol for logic testing operations and conditional control structures for the logical values (see the `controlling` protocol).
@@ -535,7 +535,7 @@ isImmutable
 ! !
 
 Object subclass: #Date
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Objects'!
 !Date commentStamp!
 I am used to work with both dates and times. Therefore `Date today` and `Date now` are both valid in
@@ -742,7 +742,7 @@ today
 ! !
 
 Object subclass: #Number
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Objects'!
 !Number commentStamp!
 I am the Amber representation for all numbers.
@@ -1145,7 +1145,7 @@ radiansPerDegree
 ! !
 
 Object subclass: #Point
-	instanceVariableNames: 'x y'
+	slots: {#x. #y}
 	package: 'Kernel-Objects'!
 !Point commentStamp!
 I represent an x-y pair of numbers usually designating a geometric coordinate.
@@ -1338,7 +1338,7 @@ x: aNumber y: anotherNumber
 ! !
 
 Object subclass: #Random
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Objects'!
 !Random commentStamp!
 I an used to generate a random number and I am implemented as a trivial wrapper around javascript `Math.random()`.
@@ -1382,7 +1382,7 @@ next: anInteger
 ! !
 
 Object subclass: #Rectangle
-	instanceVariableNames: 'origin corner'
+	slots: {#origin. #corner}
 	package: 'Kernel-Objects'!
 !Rectangle commentStamp!
 I represent a Rectangle defined by my two corners.
@@ -1450,7 +1450,7 @@ point: anOrigin point: aCorner
 ! !
 
 Object subclass: #UndefinedObject
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Objects'!
 !UndefinedObject commentStamp!
 I describe the behavior of my sole instance, `nil`. `nil` represents a prior value for variables that have not been initialized, or for results which are meaningless.

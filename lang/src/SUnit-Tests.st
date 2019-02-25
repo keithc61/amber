@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'SUnit-Tests'!
 TestCase subclass: #ExampleSetTest
-	instanceVariableNames: 'empty full'
+	slots: {#empty. #full}
 	package: 'SUnit-Tests'!
 !ExampleSetTest commentStamp!
 ExampleSetTest is taken from Pharo 1.4.
@@ -54,7 +54,7 @@ testRemove
 ! !
 
 TestCase subclass: #SUnitAsyncTest
-	instanceVariableNames: 'flag'
+	slots: {#flag}
 	package: 'SUnit-Tests'!
 
 !SUnitAsyncTest methodsFor: 'helpers'!

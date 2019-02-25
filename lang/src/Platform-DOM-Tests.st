@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Platform-DOM-Tests'!
 TestCase subclass: #PlatformDomTest
-	instanceVariableNames: 'fixtureDiv'
+	slots: {#fixtureDiv}
 	package: 'Platform-DOM-Tests'!
 
 !PlatformDomTest methodsFor: 'testing'!

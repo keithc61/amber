@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Kernel-Methods'!
 Object subclass: #BlockClosure
-	instanceVariableNames: 'prototype length'
+	slots: {#prototype. #length}
 	package: 'Kernel-Methods'!
 !BlockClosure commentStamp!
 I represent a lexical closure.
@@ -201,7 +201,7 @@ valueWithTimeout: aNumber
 ! !
 
 Object subclass: #CompiledMethod
-	instanceVariableNames: 'args fn messageSends owner protocol referencedClasses selector source'
+	slots: {#args. #fn. #messageSends. #owner. #protocol. #referencedClasses. #selector. #source}
 	package: 'Kernel-Methods'!
 !CompiledMethod commentStamp!
 I represent a class method of the system. I hold the source and compiled code of a class method.
@@ -337,7 +337,7 @@ isOverride
 ! !
 
 Object subclass: #ForkPool
-	instanceVariableNames: 'poolSize maxPoolSize queue worker'
+	slots: {#poolSize. #maxPoolSize. #queue. #worker}
 	package: 'Kernel-Methods'!
 !ForkPool commentStamp!
 I am responsible for handling forked blocks.
@@ -400,7 +400,7 @@ addWorker
 	poolSize := poolSize + 1
 ! !
 
-ForkPool class instanceVariableNames: 'default'!
+ForkPool class slots: {#default}!
 
 !ForkPool class methodsFor: 'accessing'!
 
@@ -417,7 +417,7 @@ resetDefault
 ! !
 
 Object subclass: #Message
-	instanceVariableNames: 'selector arguments'
+	slots: {#selector. #arguments}
 	package: 'Kernel-Methods'!
 !Message commentStamp!
 In general, the system does not use instances of me for efficiency reasons.
@@ -483,7 +483,7 @@ selector: aString arguments: anArray
 ! !
 
 Object subclass: #MessageSend
-	instanceVariableNames: 'receiver message'
+	slots: {#receiver. #message}
 	package: 'Kernel-Methods'!
 !MessageSend commentStamp!
 I encapsulate message sends to objects. Arguments can be either predefined or supplied when the message send is performed. 
@@ -567,7 +567,7 @@ printOn: aStream
 ! !
 
 Object subclass: #MethodContext
-	instanceVariableNames: 'receiver evaluatedSelector homeContext index locals outerContext selector sendIdx supercall'
+	slots: {#receiver. #evaluatedSelector. #homeContext. #index. #locals. #outerContext. #selector. #sendIdx. #supercall}
 	package: 'Kernel-Methods'!
 !MethodContext commentStamp!
 I hold all the dynamic state associated with the execution of either a method activation resulting from a message send. I am used to build the call stack while debugging.
@@ -626,7 +626,7 @@ stubToAtMost: anInteger
 ! !
 
 Object subclass: #NativeFunction
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Methods'!
 !NativeFunction commentStamp!
 I am a wrapper around native functions, such as `WebSocket`.
@@ -920,7 +920,7 @@ isBlockContext
 ! !
 
 Object subclass: #Timeout
-	instanceVariableNames: 'rawTimeout'
+	slots: {#rawTimeout}
 	package: 'Kernel-Methods'!
 !Timeout commentStamp!
 I am wrapping the returns from `set{Timeout,Interval}`.

@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'NodeTestRunner'!
 Object subclass: #NodeTestRunner
-	instanceVariableNames: ''
+	slots: {}
 	package: 'NodeTestRunner'!
 
 !NodeTestRunner class methodsFor: 'not yet classified'!

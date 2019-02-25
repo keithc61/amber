@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'SUnit'!
 Object subclass: #ResultAnnouncement
-	instanceVariableNames: 'result'
+	slots: {#result}
 	package: 'SUnit'!
 !ResultAnnouncement commentStamp!
 I get signaled when a `TestCase` has been run.
@@ -18,7 +18,7 @@ result: aTestResult
 ! !
 
 Object subclass: #TestCase
-	instanceVariableNames: 'testSelector asyncTimeout context'
+	slots: {#testSelector. #asyncTimeout. #context}
 	package: 'SUnit'!
 !TestCase commentStamp!
 I am an implementation of the command pattern to run a test.
@@ -197,7 +197,7 @@ shouldInheritSelectors
 ! !
 
 Object subclass: #TestContext
-	instanceVariableNames: 'testCase'
+	slots: {#testCase}
 	package: 'SUnit'!
 !TestContext commentStamp!
 I govern running a particular test case.
@@ -245,7 +245,7 @@ testCase: aTestCase
 ! !
 
 TestContext subclass: #ReportingTestContext
-	instanceVariableNames: 'finished result'
+	slots: {#finished. #result}
 	package: 'SUnit'!
 !ReportingTestContext commentStamp!
 I add `TestResult` reporting to `TestContext`.
@@ -295,7 +295,7 @@ testCase: aTestCase result: aTestResult finished: aBlock
 ! !
 
 Error subclass: #TestFailure
-	instanceVariableNames: ''
+	slots: {}
 	package: 'SUnit'!
 !TestFailure commentStamp!
 I am raised when the boolean parameter of an #`assert:` or `#deny:` call is the opposite of what the assertion claims.
@@ -305,7 +305,7 @@ A failure is an event whose possibiity is explicitly anticipated and checked for
 whereas an error is an unanticipated problem like a division by 0 or an index out of bounds.!
 
 Object subclass: #TestResult
-	instanceVariableNames: 'timestamp runs errors failures total'
+	slots: {#timestamp. #runs. #errors. #failures. #total}
 	package: 'SUnit'!
 !TestResult commentStamp!
 I implement the collecting parameter pattern for running a bunch of tests.
@@ -385,7 +385,7 @@ runCase: aTestCase
 ! !
 
 Object subclass: #TestSuiteRunner
-	instanceVariableNames: 'suite result announcer runNextTest'
+	slots: {#suite. #result. #announcer. #runNextTest}
 	package: 'SUnit'!
 !TestSuiteRunner commentStamp!
 I am responsible for running a collection (`suite`) of tests.

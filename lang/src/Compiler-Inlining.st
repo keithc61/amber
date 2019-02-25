@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Compiler-Inlining'!
 NodeVisitor subclass: #ASTPreInliner
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Inlining'!
 
 !ASTPreInliner methodsFor: 'visiting'!
@@ -17,7 +17,7 @@ visitSendNode: aNode
 ! !
 
 IRClosure subclass: #IRInlinedClosure
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Inlining'!
 !IRInlinedClosure commentStamp!
 I represent an inlined closure instruction.!
@@ -35,7 +35,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRSend subclass: #IRInlinedSend
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Inlining'!
 !IRInlinedSend commentStamp!
 I am the abstract super class of inlined message send instructions.!
@@ -62,7 +62,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRInlinedSend subclass: #IRInlinedIfFalse
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Inlining'!
 !IRInlinedIfFalse commentStamp!
 I represent an inlined `#ifFalse:` message send instruction.!
@@ -74,7 +74,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRInlinedSend subclass: #IRInlinedIfNilIfNotNil
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Inlining'!
 !IRInlinedIfNilIfNotNil commentStamp!
 I represent an inlined `#ifNil:ifNotNil:` message send instruction.!
@@ -102,7 +102,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRInlinedSend subclass: #IRInlinedIfTrue
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Inlining'!
 !IRInlinedIfTrue commentStamp!
 I represent an inlined `#ifTrue:` message send instruction.!
@@ -114,7 +114,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRInlinedSend subclass: #IRInlinedIfTrueIfFalse
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Inlining'!
 !IRInlinedIfTrueIfFalse commentStamp!
 I represent an inlined `#ifTrue:ifFalse:` message send instruction.!
@@ -126,7 +126,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRBlockSequence subclass: #IRInlinedSequence
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Inlining'!
 !IRInlinedSequence commentStamp!
 I represent a (block) sequence inside an inlined closure instruction (instance of `IRInlinedClosure`).!
@@ -144,7 +144,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRVisitor subclass: #IRInliner
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Inlining'!
 !IRInliner commentStamp!
 I visit an IR tree, inlining message sends and block closures.
@@ -225,7 +225,7 @@ visitIRSend: anIRSend
 ! !
 
 IRJSTranslator subclass: #IRInliningJSTranslator
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Inlining'!
 !IRInliningJSTranslator commentStamp!
 I am a specialized JavaScript translator able to write inlined IR instructions to JavaScript stream (`JSStream` instance).!
@@ -277,7 +277,7 @@ visitIRInlinedIfTrueIfFalse: anIRInlinedIfTrueIfFalse
 ! !
 
 Object subclass: #IRSendInliner
-	instanceVariableNames: 'send translator'
+	slots: {#send. #translator}
 	package: 'Compiler-Inlining'!
 !IRSendInliner commentStamp!
 I inline some message sends and block closure arguments. I heavily rely on #perform: to dispatch inlining methods.!
@@ -470,7 +470,7 @@ shouldInline: anIRSend
 ! !
 
 IRSendInliner subclass: #IRAssignmentInliner
-	instanceVariableNames: 'target'
+	slots: {#target}
 	package: 'Compiler-Inlining'!
 !IRAssignmentInliner commentStamp!
 I inline message sends together with assignments by moving them around into the inline closure instructions.
@@ -524,7 +524,7 @@ inlineClosure: anIRClosure
 ! !
 
 IRSendInliner subclass: #IRReturnInliner
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Inlining'!
 !IRReturnInliner commentStamp!
 I inline message sends with inlined closure together with a return instruction.!
@@ -554,7 +554,7 @@ inlineReturn: anIRReturn
 ! !
 
 CodeGenerator subclass: #InliningCodeGenerator
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Inlining'!
 !InliningCodeGenerator commentStamp!
 I am a specialized code generator that uses inlining to produce more optimized JavaScript output!
@@ -582,13 +582,13 @@ transformersDictionary
 ! !
 
 SemanticError subclass: #InliningError
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Inlining'!
 !InliningError commentStamp!
 Instances of InliningError are signaled when using an `InliningCodeGenerator`in a `Compiler`.!
 
 SemanticAnalyzer subclass: #InliningSemanticAnalyzer
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Inlining'!
 
 !InliningSemanticAnalyzer methodsFor: 'visiting'!

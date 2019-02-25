@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Platform-DOM'!
 Object subclass: #PlatformDom
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-DOM'!
 
 !PlatformDom class methodsFor: 'converting'!

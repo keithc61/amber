@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Compiler-Interpreter'!
 BlockClosure subclass: #AIBlockClosure
-	instanceVariableNames: 'node outerContext'
+	slots: {#node. #outerContext}
 	package: 'Compiler-Interpreter'!
 !AIBlockClosure commentStamp!
 I am a special `BlockClosure` subclass used by an interpreter to interpret a block node.
@@ -101,7 +101,7 @@ forContext: aContext node: aNode
 ! !
 
 Object subclass: #AIContext
-	instanceVariableNames: 'outerContext innerContext pc locals selector index sendIndexes evaluatedSelector ast interpreter supercall'
+	slots: {#outerContext. #innerContext. #pc. #locals. #selector. #index. #sendIndexes. #evaluatedSelector. #ast. #interpreter. #supercall}
 	package: 'Compiler-Interpreter'!
 !AIContext commentStamp!
 I am like a `MethodContext`, used by the `ASTInterpreter`.
@@ -386,7 +386,7 @@ fromMethodContext: aMethodContext
 ! !
 
 SemanticAnalyzer subclass: #AISemanticAnalyzer
-	instanceVariableNames: 'context'
+	slots: {#context}
 	package: 'Compiler-Interpreter'!
 !AISemanticAnalyzer commentStamp!
 I perform the same semantic analysis than `SemanticAnalyzer`, with the difference that provided an `AIContext` context, variables are bound with the context variables.!
@@ -412,7 +412,7 @@ visitVariableNode: aNode
 ! !
 
 ScopeVar subclass: #ASTContextVar
-	instanceVariableNames: 'context'
+	slots: {#context}
 	package: 'Compiler-Interpreter'!
 !ASTContextVar commentStamp!
 I am a variable defined in a `context`.!
@@ -428,7 +428,7 @@ context: anObject
 ! !
 
 Object subclass: #ASTDebugger
-	instanceVariableNames: 'interpreter context result'
+	slots: {#interpreter. #context. #result}
 	package: 'Compiler-Interpreter'!
 !ASTDebugger commentStamp!
 I am a stepping debugger interface for Amber code.
@@ -539,7 +539,7 @@ context: aContext
 ! !
 
 NodeVisitor subclass: #ASTEnterNode
-	instanceVariableNames: 'interpreter'
+	slots: {#interpreter}
 	package: 'Compiler-Interpreter'!
 
 !ASTEnterNode methodsFor: 'accessing'!
@@ -581,7 +581,7 @@ on: anInterpreter
 ! !
 
 NodeVisitor subclass: #ASTInterpreter
-	instanceVariableNames: 'node context stack returnValue returned forceAtEnd'
+	slots: {#node. #context. #stack. #returnValue. #returned. #forceAtEnd}
 	package: 'Compiler-Interpreter'!
 !ASTInterpreter commentStamp!
 I visit an AST, interpreting (evaluating) nodes one after the other, using a small stack machine.
@@ -907,13 +907,13 @@ visitVariableNode: aNode
 ! !
 
 Error subclass: #ASTInterpreterError
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Interpreter'!
 !ASTInterpreterError commentStamp!
 I get signaled when an AST interpreter is unable to interpret a node.!
 
 NodeVisitor subclass: #ASTPCNodeVisitor
-	instanceVariableNames: 'index trackedIndex selector currentNode'
+	slots: {#index. #trackedIndex. #selector. #currentNode}
 	package: 'Compiler-Interpreter'!
 !ASTPCNodeVisitor commentStamp!
 I visit an AST until I get to the current node for the `context` and answer it.

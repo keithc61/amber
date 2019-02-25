@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Compiler-AST'!
 DagParentNode subclass: #ASTNode
-	instanceVariableNames: 'parent position source shouldBeAliased'
+	slots: {#parent. #position. #source. #shouldBeAliased}
 	package: 'Compiler-AST'!
 !ASTNode commentStamp!
 I am the abstract root class of the abstract syntax tree.
@@ -171,7 +171,7 @@ requiresSmalltalkContext
 ! !
 
 ASTNode subclass: #AssignmentNode
-	instanceVariableNames: 'left right'
+	slots: {#left. #right}
 	package: 'Compiler-AST'!
 !AssignmentNode commentStamp!
 I represent an assignment node.!
@@ -211,7 +211,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 ASTNode subclass: #BlockNode
-	instanceVariableNames: 'parameters scope'
+	slots: {#parameters. #scope}
 	package: 'Compiler-AST'!
 !BlockNode commentStamp!
 I represent an block closure node.!
@@ -247,7 +247,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 ASTNode subclass: #CascadeNode
-	instanceVariableNames: 'receiver'
+	slots: {#receiver}
 	package: 'Compiler-AST'!
 !CascadeNode commentStamp!
 I represent an cascade node.!
@@ -275,7 +275,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 ASTNode subclass: #DynamicArrayNode
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-AST'!
 !DynamicArrayNode commentStamp!
 I represent an dynamic array node.!
@@ -287,7 +287,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 ASTNode subclass: #DynamicDictionaryNode
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-AST'!
 !DynamicDictionaryNode commentStamp!
 I represent an dynamic dictionary node.!
@@ -299,7 +299,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 ASTNode subclass: #JSStatementNode
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-AST'!
 !JSStatementNode commentStamp!
 I represent an JavaScript statement node.!
@@ -321,7 +321,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 ASTNode subclass: #MethodNode
-	instanceVariableNames: 'selector arguments source scope classReferences sendIndexes'
+	slots: {#selector. #arguments. #source. #scope. #classReferences. #sendIndexes}
 	package: 'Compiler-AST'!
 !MethodNode commentStamp!
 I represent an method node.
@@ -400,7 +400,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 ASTNode subclass: #ReturnNode
-	instanceVariableNames: 'scope'
+	slots: {#scope}
 	package: 'Compiler-AST'!
 !ReturnNode commentStamp!
 I represent an return node. At the AST level, there is not difference between a local return or non-local return.!
@@ -432,7 +432,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 ASTNode subclass: #SendNode
-	instanceVariableNames: 'selector arguments receiver index shouldBeInlined'
+	slots: {#selector. #arguments. #receiver. #index. #shouldBeInlined}
 	package: 'Compiler-AST'!
 !SendNode commentStamp!
 I represent an message send node.!
@@ -516,7 +516,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 ASTNode subclass: #SequenceNode
-	instanceVariableNames: 'temps pragmas scope'
+	slots: {#temps. #pragmas. #scope}
 	package: 'Compiler-AST'!
 !SequenceNode commentStamp!
 I represent an sequence node. A sequence represent a set of instructions inside the same scope (the method scope or a block scope).!
@@ -572,7 +572,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 SequenceNode subclass: #BlockSequenceNode
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-AST'!
 !BlockSequenceNode commentStamp!
 I represent an special sequence node for block scopes.!
@@ -596,7 +596,7 @@ pragmas: aCollection
 ! !
 
 ASTNode subclass: #ValueNode
-	instanceVariableNames: 'value'
+	slots: {#value}
 	package: 'Compiler-AST'!
 !ValueNode commentStamp!
 I represent a value node.!
@@ -628,7 +628,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 ValueNode subclass: #VariableNode
-	instanceVariableNames: 'assigned binding'
+	slots: {#assigned. #binding}
 	package: 'Compiler-AST'!
 !VariableNode commentStamp!
 I represent an variable node.!
@@ -693,13 +693,13 @@ acceptDagVisitor: aVisitor
 ! !
 
 Error subclass: #CompilerError
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-AST'!
 !CompilerError commentStamp!
 I am the common superclass of all compiling errors.!
 
 PathDagVisitor subclass: #ParentFakingPathDagVisitor
-	instanceVariableNames: 'setParentSelector'
+	slots: {#setParentSelector}
 	package: 'Compiler-AST'!
 !ParentFakingPathDagVisitor commentStamp!
 I am base class of `DagNode` visitor.
@@ -715,7 +715,7 @@ visit: aNode
 ! !
 
 ParentFakingPathDagVisitor subclass: #NodeVisitor
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-AST'!
 !NodeVisitor commentStamp!
 I am the abstract super class of all AST node visitors.!

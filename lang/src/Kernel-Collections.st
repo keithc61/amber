@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Kernel-Collections'!
 Object subclass: #Association
-	instanceVariableNames: 'key value'
+	slots: {#key. #value}
 	package: 'Kernel-Collections'!
 !Association commentStamp!
 I represent a pair of associated objects, a key and a value. My instances can serve as entries in a dictionary.
@@ -51,7 +51,7 @@ key: aKey value: aValue
 ! !
 
 Object subclass: #BucketStore
-	instanceVariableNames: 'buckets hashBlock'
+	slots: {#buckets. #hashBlock}
 	package: 'Kernel-Collections'!
 !BucketStore commentStamp!
 I am an helper class for hash-based stores.
@@ -127,7 +127,7 @@ hashBlock: aBlock
 ! !
 
 BucketStore subclass: #ArrayBucketStore
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Collections'!
 !ArrayBucketStore commentStamp!
 I am a concrete `BucketStore` with buckets being instance of `Array`.!
@@ -139,7 +139,7 @@ newBucket
 ! !
 
 Object subclass: #Collection
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Collections'!
 !Collection commentStamp!
 I am the abstract superclass of all classes that represent a group of elements.
@@ -462,7 +462,7 @@ withAll: aCollection
 ! !
 
 Collection subclass: #AssociativeCollection
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Collections'!
 !AssociativeCollection commentStamp!
 I am a base class for object-indexed collections (Dictionary et.al.).!
@@ -693,7 +693,7 @@ newFromPairs: aCollection
 ! !
 
 AssociativeCollection subclass: #Dictionary
-	instanceVariableNames: 'keys values'
+	slots: {#keys. #values}
 	package: 'Kernel-Collections'!
 !Dictionary commentStamp!
 I represent a set of elements that can be viewed from one of two perspectives: a set of associations,
@@ -806,7 +806,7 @@ includesKey: aKey
 ! !
 
 AssociativeCollection subclass: #HashedCollection
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Collections'!
 !HashedCollection commentStamp!
 I am a traditional JavaScript object, or a Smalltalk `Dictionary`.
@@ -863,7 +863,7 @@ includesKey: aKey
 ! !
 
 Collection subclass: #SequenceableCollection
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Collections'!
 !SequenceableCollection commentStamp!
 I am an IndexableCollection
@@ -1032,7 +1032,7 @@ streamContents: aBlock
 ! !
 
 SequenceableCollection subclass: #Array
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Collections'!
 !Array commentStamp!
 I represent a collection of objects ordered by the collector. The size of arrays is dynamic.
@@ -1205,7 +1205,7 @@ withAll: aCollection
 ! !
 
 SequenceableCollection subclass: #String
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Collections'!
 !String commentStamp!
 I am an indexed collection of Characters. Unlike most Smalltalk dialects, Amber doesn't provide the Character class. Instead, elements of a String are single character strings.
@@ -1639,7 +1639,7 @@ randomNotIn: aString
 ! !
 
 Collection subclass: #Set
-	instanceVariableNames: 'defaultBucket slowBucketStores fastBuckets size'
+	slots: {#defaultBucket. #slowBucketStores. #fastBuckets. #size}
 	package: 'Kernel-Collections'!
 !Set commentStamp!
 I represent an unordered set of objects without duplicates.
@@ -1862,7 +1862,7 @@ includes: anObject
 ! !
 
 Object subclass: #ProtoStream
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Collections'!
 !ProtoStream commentStamp!
 I am the abstract base for different accessor for a sequence of objects. This sequence is referred to as my "contents".
@@ -1961,7 +1961,7 @@ on: aCollection
 ! !
 
 ProtoStream subclass: #Stream
-	instanceVariableNames: 'collection position streamSize'
+	slots: {#collection. #position. #streamSize}
 	package: 'Kernel-Collections'!
 !Stream commentStamp!
 I represent an accessor for a sequence of objects. This sequence is referred to as my "contents".
@@ -2086,7 +2086,7 @@ on: aCollection
 ! !
 
 Stream subclass: #StringStream
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Collections'!
 !StringStream commentStamp!
 I am a Stream specific to `String` objects.!
@@ -2152,7 +2152,7 @@ tab
 ! !
 
 Object subclass: #Queue
-	instanceVariableNames: 'read readIndex write'
+	slots: {#read. #readIndex. #write}
 	package: 'Kernel-Collections'!
 !Queue commentStamp!
 I am a one-sided queue.
@@ -2207,7 +2207,7 @@ initialize
 ! !
 
 Object subclass: #RegularExpression
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Collections'!
 !RegularExpression commentStamp!
 I represent a regular expression object. My instances are JavaScript `RegExp` object.!

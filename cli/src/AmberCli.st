@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'AmberCli'!
 Object subclass: #AmberCli
-	instanceVariableNames: ''
+	slots: {}
 	package: 'AmberCli'!
 !AmberCli commentStamp!
 I am the Amber CLI (CommandLine Interface) tool which runs on Node.js.
@@ -99,7 +99,7 @@ main
 ! !
 
 Object subclass: #BaseFileManipulator
-	instanceVariableNames: 'path fs'
+	slots: {#path. #fs}
 	package: 'AmberCli'!
 
 !BaseFileManipulator methodsFor: 'initialization'!
@@ -121,7 +121,7 @@ rootDirname
 ! !
 
 BaseFileManipulator subclass: #Configurator
-	instanceVariableNames: ''
+	slots: {}
 	package: 'AmberCli'!
 
 !Configurator methodsFor: 'action'!
@@ -146,7 +146,7 @@ initialize
 ! !
 
 BaseFileManipulator subclass: #FileServer
-	instanceVariableNames: 'http url host port basePath util username password fallbackPage'
+	slots: {#http. #url. #host. #port. #basePath. #util. #username. #password. #fallbackPage}
 	package: 'AmberCli'!
 !FileServer commentStamp!
 I am the Amber Smalltalk FileServer.
@@ -447,7 +447,7 @@ startOn: aPort
 	self start
 ! !
 
-FileServer class instanceVariableNames: 'mimeTypes'!
+FileServer class slots: {#mimeTypes}!
 
 !FileServer class methodsFor: 'accessing'!
 
@@ -977,7 +977,7 @@ main
 ! !
 
 BaseFileManipulator subclass: #Initer
-	instanceVariableNames: 'childProcess nmPath'
+	slots: {#childProcess. #nmPath}
 	package: 'AmberCli'!
 
 !Initer methodsFor: 'action'!
@@ -1054,7 +1054,7 @@ npmScriptForModule: aString named: anotherString
 ! !
 
 Object subclass: #Repl
-	instanceVariableNames: 'readline interface util session resultCount commands'
+	slots: {#readline. #interface. #util. #session. #resultCount. #commands}
 	package: 'AmberCli'!
 !Repl commentStamp!
 I am a class representing a REPL (Read Evaluate Print Loop) and provide a command line interface to Amber Smalltalk.

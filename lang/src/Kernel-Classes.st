@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Kernel-Classes'!
 Object subclass: #Behavior
-	instanceVariableNames: 'organization slots fn superclass'
+	slots: {#organization. #slots. #fn. #superclass}
 	package: 'Kernel-Classes'!
 !Behavior commentStamp!
 I am the superclass of all class objects.
@@ -153,7 +153,7 @@ isBehavior
 ! !
 
 Behavior subclass: #Class
-	instanceVariableNames: 'package subclasses'
+	slots: {#package. #subclasses}
 	package: 'Kernel-Classes'!
 !Class commentStamp!
 I am __the__ class object.
@@ -179,7 +179,7 @@ definition
 	^ String streamContents: [ :stream | stream
 		print: self superclass; write: ' subclass: '; printSymbol: self name; lf;
 		write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);
-		tab; write: 'instanceVariableNames: '; print: (' ' join: self instanceVariableNames); lf;
+		tab; write: {'slots: {'. ('. ' join: (self instanceVariableNames collect: #symbolPrintString)). '}'}; lf;
 		tab; write: 'package: '; print: self category ]
 !
 
@@ -216,7 +216,7 @@ isClass
 ! !
 
 Behavior subclass: #Metaclass
-	instanceVariableNames: 'instanceClass'
+	slots: {#instanceClass}
 	package: 'Kernel-Classes'!
 !Metaclass commentStamp!
 I am the root of the class hierarchy.
@@ -231,8 +231,7 @@ definition
 		write: (self traitCompositionDefinition
 			ifEmpty: [' ']
 			ifNotEmpty: [ :tcd | { String lf. String tab. 'uses: '. tcd. String lf. String tab }]);
-		write: 'instanceVariableNames: ';
-		print: (' ' join: self instanceVariableNames) ]
+		write: {'slots: {'. ('. ' join: (self instanceVariableNames collect: #symbolPrintString)). '}'} ]
 !
 
 instanceClass
@@ -295,7 +294,7 @@ isMetaclass
 ! !
 
 Object subclass: #ClassBuilder
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Classes'!
 !ClassBuilder commentStamp!
 I am responsible for compiling new classes or modifying existing classes in the system.
@@ -519,7 +518,7 @@ rawRenameClass: aClass to: aString
 ! !
 
 Object subclass: #ClassSorterNode
-	instanceVariableNames: 'theClass level nodes'
+	slots: {#theClass. #level. #nodes}
 	package: 'Kernel-Classes'!
 !ClassSorterNode commentStamp!
 I provide an algorithm for sorting classes alphabetically.
@@ -916,7 +915,7 @@ asJavaScriptSource
 ! !
 
 Object subclass: #Trait
-	instanceVariableNames: 'organization package traitUsers'
+	slots: {#organization. #package. #traitUsers}
 	package: 'Kernel-Classes'!
 
 !Trait methodsFor: 'accessing'!
@@ -990,7 +989,7 @@ named: aString uses: aTraitCompositionDescription package: anotherString
 ! !
 
 Object subclass: #TraitTransformation
-	instanceVariableNames: 'trait aliases exclusions'
+	slots: {#trait. #aliases. #exclusions}
 	package: 'Kernel-Classes'!
 !TraitTransformation commentStamp!
 I am a single step in trait composition.

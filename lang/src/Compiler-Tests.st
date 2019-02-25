@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Compiler-Tests'!
 TestCase subclass: #ASTParsingTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Tests'!
 
 !ASTParsingTest methodsFor: 'parsing'!
@@ -13,7 +13,7 @@ parse: aString forClass: aClass
 ! !
 
 ASTParsingTest subclass: #ASTPCNodeVisitorTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Tests'!
 
 !ASTPCNodeVisitorTest methodsFor: 'factory'!
@@ -84,7 +84,7 @@ testNoMessageSend
 ! !
 
 ASTParsingTest subclass: #ASTPositionTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Tests'!
 
 !ASTPositionTest methodsFor: 'tests'!
@@ -109,7 +109,7 @@ testNodeAtPosition
 ! !
 
 ASTParsingTest subclass: #CodeGeneratorTest
-	instanceVariableNames: 'receiver'
+	slots: {#receiver}
 	package: 'Compiler-Tests'!
 
 !CodeGeneratorTest methodsFor: 'accessing'!
@@ -473,7 +473,7 @@ testifTrueIfFalse
 ! !
 
 CodeGeneratorTest subclass: #ASTInterpreterTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Tests'!
 
 !ASTInterpreterTest methodsFor: 'private'!
@@ -518,7 +518,7 @@ should: aString receiver: anObject return: aResult
 ! !
 
 ASTInterpreterTest subclass: #ASTDebuggerTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Tests'!
 
 !ASTDebuggerTest methodsFor: 'private'!
@@ -551,7 +551,7 @@ interpret: aString receiver: anObject withArguments: aDictionary
 ! !
 
 CodeGeneratorTest subclass: #InliningCodeGeneratorTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Tests'!
 
 !InliningCodeGeneratorTest methodsFor: 'accessing'!
@@ -561,7 +561,7 @@ codeGeneratorClass
 ! !
 
 TestCase subclass: #ScopeVarTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Tests'!
 
 !ScopeVarTest methodsFor: 'tests'!
@@ -616,7 +616,7 @@ testUnknownVar
 ! !
 
 TestCase subclass: #SemanticAnalyzerTest
-	instanceVariableNames: 'analyzer'
+	slots: {#analyzer}
 	package: 'Compiler-Tests'!
 
 !SemanticAnalyzerTest methodsFor: 'running'!
@@ -756,7 +756,7 @@ testVariablesLookup
 ! !
 
 SemanticAnalyzerTest subclass: #AISemanticAnalyzerTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Compiler-Tests'!
 
 !AISemanticAnalyzerTest methodsFor: 'running'!

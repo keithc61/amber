@@ -1,7 +1,7 @@
 Smalltalk createPackage: 'Platform-Node'!
 (Smalltalk packageAt: 'Platform-Node' ifAbsent: [ self error: 'Package not created: Platform-Node' ]) imports: {'amber/core/Platform-Services'}!
 Object subclass: #NodePlatform
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-Node'!
 !NodePlatform commentStamp!
 I am `Platform` service implementation for node-like environment.!

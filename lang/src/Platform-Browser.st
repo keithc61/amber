@@ -1,7 +1,7 @@
 Smalltalk createPackage: 'Platform-Browser'!
 (Smalltalk packageAt: 'Platform-Browser' ifAbsent: [ self error: 'Package not created: Platform-Browser' ]) imports: {'amber/core/Platform-Services'}!
 Object subclass: #BrowserPlatform
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-Browser'!
 !BrowserPlatform commentStamp!
 I am `Platform` service implementation for browser.!
@@ -29,7 +29,7 @@ isFeasible
 ! !
 
 Object subclass: #BrowserTerminal
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-Browser'!
 !BrowserTerminal commentStamp!
 I am `Terminal` service implementation for browser.!

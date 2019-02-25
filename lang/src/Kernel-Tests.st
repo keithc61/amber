@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Kernel-Tests'!
 TestCase subclass: #AnnouncementSubscriptionTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !AnnouncementSubscriptionTest methodsFor: 'tests'!
@@ -34,7 +34,7 @@ testHandlesAnnouncement
 ! !
 
 TestCase subclass: #AnnouncerTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !AnnouncerTest methodsFor: 'tests'!
@@ -87,7 +87,7 @@ testOnDoOnce
 ! !
 
 TestCase subclass: #BlockClosureTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !BlockClosureTest methodsFor: 'fixture'!
@@ -219,7 +219,7 @@ testWhileTrue
 ! !
 
 TestCase subclass: #BooleanTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !BooleanTest methodsFor: 'tests'!
@@ -338,7 +338,7 @@ testNonBooleanError
 ! !
 
 TestCase subclass: #ClassBuilderTest
-	instanceVariableNames: 'builder theClass'
+	slots: {#builder. #theClass}
 	package: 'Kernel-Tests'!
 
 !ClassBuilderTest methodsFor: 'running'!
@@ -447,7 +447,7 @@ testSubclass
 ! !
 
 TestCase subclass: #ClassTest
-	instanceVariableNames: 'builder theClass'
+	slots: {#builder. #theClass}
 	package: 'Kernel-Tests'!
 
 !ClassTest methodsFor: 'running'!
@@ -545,7 +545,7 @@ testTrickySetJavaScriptConstructor
 ! !
 
 TestCase subclass: #CollectionTest
-	instanceVariableNames: 'sampleBlock'
+	slots: {#sampleBlock}
 	package: 'Kernel-Tests'!
 
 !CollectionTest methodsFor: 'convenience'!
@@ -840,7 +840,7 @@ isAbstract
 ! !
 
 CollectionTest subclass: #IndexableCollectionTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !IndexableCollectionTest methodsFor: 'fixture'!
@@ -959,7 +959,7 @@ testWithIndexDo
 ! !
 
 IndexableCollectionTest subclass: #AssociativeCollectionTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !AssociativeCollectionTest methodsFor: 'fixture'!
@@ -1079,7 +1079,7 @@ testValues
 ! !
 
 AssociativeCollectionTest subclass: #DictionaryTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !DictionaryTest methodsFor: 'fixture'!
@@ -1189,7 +1189,7 @@ collectionClass
 ! !
 
 AssociativeCollectionTest subclass: #HashedCollectionTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !HashedCollectionTest methodsFor: 'fixture'!
@@ -1239,7 +1239,7 @@ collectionClass
 ! !
 
 IndexableCollectionTest subclass: #SequenceableCollectionTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !SequenceableCollectionTest methodsFor: 'fixture'!
@@ -1360,7 +1360,7 @@ testThird
 ! !
 
 SequenceableCollectionTest subclass: #ArrayTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !ArrayTest methodsFor: 'fixture'!
@@ -1491,7 +1491,7 @@ collectionClass
 ! !
 
 SequenceableCollectionTest subclass: #StringTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !StringTest methodsFor: 'fixture'!
@@ -1720,7 +1720,7 @@ collectionClass
 ! !
 
 CollectionTest subclass: #SetTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !SetTest methodsFor: 'fixture'!
@@ -1871,7 +1871,7 @@ collectionClass
 ! !
 
 TestCase subclass: #ConsoleTranscriptTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !ConsoleTranscriptTest methodsFor: 'tests'!
@@ -1888,7 +1888,7 @@ Transcript register: originalTranscript.
 ! !
 
 TestCase subclass: #DateTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !DateTest methodsFor: 'tests'!
@@ -1920,7 +1920,7 @@ testIdentity
 ! !
 
 TestCase subclass: #JSObjectProxyTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !JSObjectProxyTest methodsFor: 'accessing'!
@@ -2073,7 +2073,7 @@ testYourself
 ! !
 
 TestCase subclass: #JavaScriptExceptionTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !JavaScriptExceptionTest methodsFor: 'helpers'!
@@ -2096,7 +2096,7 @@ testRaisingException
 ! !
 
 TestCase subclass: #MessageSendTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !MessageSendTest methodsFor: 'tests'!
@@ -2126,7 +2126,7 @@ testValueWithArguments
 ! !
 
 TestCase subclass: #MethodInheritanceTest
-	instanceVariableNames: 'receiverTop receiverMiddle receiverBottom method performBlock'
+	slots: {#receiverTop. #receiverMiddle. #receiverBottom. #method. #performBlock}
 	package: 'Kernel-Tests'!
 
 !MethodInheritanceTest methodsFor: 'accessing'!
@@ -2266,7 +2266,7 @@ testReturns1
 ! !
 
 TestCase subclass: #NumberTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !NumberTest methodsFor: 'tests'!
@@ -2569,7 +2569,7 @@ testTruncated
 ! !
 
 Object subclass: #ObjectMock
-	instanceVariableNames: 'foo bar'
+	slots: {#foo. #bar}
 	package: 'Kernel-Tests'!
 !ObjectMock commentStamp!
 ObjectMock is there only to perform tests on classes.!
@@ -2585,7 +2585,7 @@ foo: anObject
 ! !
 
 TestCase subclass: #ObjectTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !ObjectTest methodsFor: 'tests'!
@@ -2670,7 +2670,7 @@ testYourself
 ! !
 
 TestCase subclass: #PointTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !PointTest methodsFor: 'tests'!
@@ -2756,7 +2756,7 @@ testTranslateBy
 ! !
 
 TestCase subclass: #QueueTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !QueueTest methodsFor: 'tests'!
@@ -2783,7 +2783,7 @@ testQueueNext
 ! !
 
 TestCase subclass: #RandomTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !RandomTest methodsFor: 'tests'!
@@ -2819,7 +2819,7 @@ textNext
 ! !
 
 TestCase subclass: #RectangleTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !RectangleTest methodsFor: 'tests'!
@@ -2846,7 +2846,7 @@ testOriginExtent
 ! !
 
 TestCase subclass: #StreamTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !StreamTest methodsFor: 'accessing'!
@@ -2975,7 +2975,7 @@ isAbstract
 ! !
 
 StreamTest subclass: #ArrayStreamTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !ArrayStreamTest methodsFor: 'accessing'!
@@ -2991,7 +2991,7 @@ collectionClass
 ! !
 
 StreamTest subclass: #StringStreamTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !StringStreamTest methodsFor: 'accessing'!
@@ -3007,7 +3007,7 @@ collectionClass
 ! !
 
 TestCase subclass: #UndefinedTest
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Tests'!
 
 !UndefinedTest methodsFor: 'tests'!

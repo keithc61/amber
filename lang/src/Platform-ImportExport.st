@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Platform-ImportExport'!
 Object subclass: #AbstractExporter
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-ImportExport'!
 !AbstractExporter commentStamp!
 I am an abstract exporter for Amber source code.
@@ -49,7 +49,7 @@ exportPackage: aPackage on: aStream
 ! !
 
 AbstractExporter subclass: #ChunkExporter
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-ImportExport'!
 !ChunkExporter commentStamp!
 I am an exporter dedicated to outputting Amber source code in the classic Smalltalk chunk format.
@@ -142,8 +142,7 @@ exportDefinitionOf: aClass on: aStream
 		ifNotEmpty: [ aStream tab; write: {'uses: '. aClass traitCompositionDefinition}; lf ]."
 	aStream
 		tab;
-		write: 'instanceVariableNames: ';
-		print: (' ' join: aClass instanceVariableNames);
+		write: {'slots: {'. ('. ' join: (aClass instanceVariableNames collect: #symbolPrintString)). '}'};
 		lf;
 		tab;
 		write: 'package: ';
@@ -169,9 +168,7 @@ exportMetaDefinitionOf: aClass on: aStream
 			ifEmpty: [ aStream space ]
 			ifNotEmpty: [ aStream lf; tab; write: {'uses: '. aClass class traitCompositionDefinition}; lf; tab ]."
 		aStream
-			write: 'instanceVariableNames: ';
-			print: (' ' join: classIvars);
-			write: '!!'; lf; lf ]
+			write: {'slots: {'. ('. ' join: (classIvars collect: #symbolPrintString)). '}!!'}; lf; lf ]
 !
 
 exportMethod: aMethod on: aStream
@@ -273,7 +270,7 @@ exportTraitDefinitionOf: aClass on: aStream
 ! !
 
 AbstractExporter subclass: #Exporter
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-ImportExport'!
 !Exporter commentStamp!
 I am responsible for outputting Amber code into a JavaScript string.
@@ -443,7 +440,7 @@ exportTraitDefinitionOf: aClass on: aStream
 ! !
 
 Exporter subclass: #AmdExporter
-	instanceVariableNames: 'namespace'
+	slots: {#namespace}
 	package: 'Platform-ImportExport'!
 !AmdExporter commentStamp!
 I am used to export Packages in an AMD (Asynchronous Module Definition) JavaScript format.!
@@ -527,7 +524,7 @@ importsForOutput: aPackage
 ! !
 
 Object subclass: #ChunkParser
-	instanceVariableNames: 'stream last'
+	slots: {#stream. #last}
 	package: 'Platform-ImportExport'!
 !ChunkParser commentStamp!
 I am responsible for parsing aStream contents in the chunk format.
@@ -580,7 +577,7 @@ on: aStream
 ! !
 
 Object subclass: #ClassCommentReader
-	instanceVariableNames: 'class'
+	slots: {#class}
 	package: 'Platform-ImportExport'!
 !ClassCommentReader commentStamp!
 I provide a mechanism for retrieving class comments stored on a file.
@@ -615,7 +612,7 @@ setComment: aString
 ! !
 
 Object subclass: #ClassProtocolReader
-	instanceVariableNames: 'class category'
+	slots: {#class. #category}
 	package: 'Platform-ImportExport'!
 !ClassProtocolReader commentStamp!
 I provide a mechanism for retrieving class descriptions stored on a file in the Smalltalk chunk format.!
@@ -649,7 +646,7 @@ compileMethod: aString
 ! !
 
 Object subclass: #ExportMethodProtocol
-	instanceVariableNames: 'name theClass'
+	slots: {#name. #theClass}
 	package: 'Platform-ImportExport'!
 !ExportMethodProtocol commentStamp!
 I am an abstraction for a method protocol in a class / metaclass.
@@ -695,7 +692,7 @@ name: aString theClass: aClass
 ! !
 
 Object subclass: #Importer
-	instanceVariableNames: 'lastSection lastChunk'
+	slots: {#lastSection. #lastChunk}
 	package: 'Platform-ImportExport'!
 !Importer commentStamp!
 I can import Amber code from a string in the chunk format.
@@ -739,13 +736,13 @@ import: aStream
 ! !
 
 Error subclass: #PackageCommitError
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-ImportExport'!
 !PackageCommitError commentStamp!
 I get signaled when an attempt to commit a package has failed.!
 
 Object subclass: #PackageHandler
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-ImportExport'!
 !PackageHandler commentStamp!
 I am responsible for handling package loading and committing.
@@ -863,7 +860,7 @@ ajaxPutAt: aURL data: aString onSuccess: aBlock onError: anotherBlock
 ! !
 
 PackageHandler subclass: #AmdPackageHandler
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-ImportExport'!
 !AmdPackageHandler commentStamp!
 I am responsible for handling package loading and committing.
@@ -942,7 +939,7 @@ defaultNamespace: aString
 ! !
 
 Object subclass: #PackageTransport
-	instanceVariableNames: 'package'
+	slots: {#package}
 	package: 'Platform-ImportExport'!
 !PackageTransport commentStamp!
 I represent the transport mechanism used to commit a package.
@@ -1017,7 +1014,7 @@ load
 		then: [ Smalltalk postLoad ]
 ! !
 
-PackageTransport class instanceVariableNames: 'registry'!
+PackageTransport class slots: {#registry}!
 
 !PackageTransport class methodsFor: 'accessing'!
 
@@ -1069,7 +1066,7 @@ register: aClass
 ! !
 
 PackageTransport subclass: #AmdPackageTransport
-	instanceVariableNames: 'namespace'
+	slots: {#namespace}
 	package: 'Platform-ImportExport'!
 !AmdPackageTransport commentStamp!
 I am the default transport for committing packages.

@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Kernel-Infrastructure'!
 Object subclass: #AmberBootstrapInitialization
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Infrastructure'!
 
 !AmberBootstrapInitialization class methodsFor: 'organization'!
@@ -26,7 +26,7 @@ run
 ! !
 
 ProtoObject subclass: #JSObjectProxy
-	instanceVariableNames: 'jsObject'
+	slots: {#jsObject}
 	package: 'Kernel-Infrastructure'!
 !JSObjectProxy commentStamp!
 I handle sending messages to JavaScript objects, making  JavaScript object accessing from Amber fully transparent.
@@ -234,7 +234,7 @@ lookupProperty: aString ofProxy: aProxy
 ! !
 
 Object subclass: #Organizer
-	instanceVariableNames: 'elements'
+	slots: {#elements}
 	package: 'Kernel-Infrastructure'!
 !Organizer commentStamp!
 I represent categorization information. 
@@ -265,7 +265,7 @@ initialize
 ! !
 
 Organizer subclass: #ClassOrganizer
-	instanceVariableNames: 'traitOrBehavior'
+	slots: {#traitOrBehavior}
 	package: 'Kernel-Infrastructure'!
 !ClassOrganizer commentStamp!
 I am an organizer specific to classes. I hold method categorization information for classes.!
@@ -307,13 +307,13 @@ on: aClass
 ! !
 
 Organizer subclass: #PackageOrganizer
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Infrastructure'!
 !PackageOrganizer commentStamp!
 I am an organizer specific to packages. I hold classes categorization information.!
 
 Object subclass: #Package
-	instanceVariableNames: 'evalBlock basicTransport name transport imports dirty organization isReady'
+	slots: {#evalBlock. #basicTransport. #name. #transport. #imports. #dirty. #organization. #isReady}
 	package: 'Kernel-Infrastructure'!
 !Package commentStamp!
 I am similar to a "class category" typically found in other Smalltalks like Pharo or Squeak. Amber does not have class categories anymore, it had in the beginning but now each class in the system knows which package it belongs to.
@@ -591,7 +591,7 @@ validateImports: aCollection
 				self error: 'Keys must be identifiers' ]]]
 ! !
 
-Package class instanceVariableNames: 'defaultCommitPathJs defaultCommitPathSt'!
+Package class slots: {#defaultCommitPathJs. #defaultCommitPathSt}!
 
 !Package class methodsFor: 'accessing'!
 
@@ -663,7 +663,7 @@ sortedClasses: classes
 ! !
 
 Object subclass: #PackageStateObserver
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Infrastructure'!
 !PackageStateObserver commentStamp!
 My current instance listens for any changes in the system that might affect the state of a package (being dirty).!
@@ -713,7 +713,7 @@ onProtocolModification: anAnnouncement
 	anAnnouncement package ifNotNil: [ :package | package beDirty ]
 ! !
 
-PackageStateObserver class instanceVariableNames: 'current'!
+PackageStateObserver class slots: {#current}!
 
 !PackageStateObserver class methodsFor: 'accessing'!
 
@@ -728,14 +728,14 @@ initialize
 ! !
 
 Error subclass: #ParseError
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Infrastructure'!
 !ParseError commentStamp!
 Instance of ParseError are signaled on any parsing error.
 See `Smalltalk >> #parse:`!
 
 Object subclass: #Setting
-	instanceVariableNames: 'key value defaultValue'
+	slots: {#key. #value. #defaultValue}
 	package: 'Kernel-Infrastructure'!
 !Setting commentStamp!
 I represent a setting **stored** at `Smalltalk settings`. 
@@ -796,7 +796,7 @@ new
 ! !
 
 Object subclass: #SmalltalkImage
-	instanceVariableNames: 'globalJsVariables packageDictionary'
+	slots: {#globalJsVariables. #packageDictionary}
 	package: 'Kernel-Infrastructure'!
 !SmalltalkImage commentStamp!
 I represent the Smalltalk system, wrapping
@@ -1104,7 +1104,7 @@ isSmalltalkObject: anObject
 	<inlineJS: 'return anObject.a$cls !!= null'>
 ! !
 
-SmalltalkImage class instanceVariableNames: 'current'!
+SmalltalkImage class slots: {#current}!
 
 !SmalltalkImage class methodsFor: 'initialization'!
 

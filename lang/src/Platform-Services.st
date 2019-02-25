@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Platform-Services'!
 Object subclass: #ConsoleErrorHandler
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-Services'!
 !ConsoleErrorHandler commentStamp!
 I am manage Smalltalk errors, displaying the stack in the console.!
@@ -34,7 +34,7 @@ logErrorContext: aContext
 			self logContext: aContext home ]]
 ! !
 
-ConsoleErrorHandler class instanceVariableNames: 'current'!
+ConsoleErrorHandler class slots: {#current}!
 
 !ConsoleErrorHandler class methodsFor: 'initialization'!
 
@@ -43,7 +43,7 @@ initialize
 ! !
 
 Object subclass: #ConsoleTranscript
-	instanceVariableNames: 'textarea'
+	slots: {#textarea}
 	package: 'Platform-Services'!
 !ConsoleTranscript commentStamp!
 I am a specific transcript emitting to the JavaScript console.
@@ -77,7 +77,7 @@ initialize
 ! !
 
 Object subclass: #Environment
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-Services'!
 !Environment commentStamp!
 I provide an unified entry point to manipulate Amber packages, classes and methods.
@@ -292,7 +292,7 @@ registerTranscript: aTranscript
 ! !
 
 Object subclass: #NullProgressHandler
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-Services'!
 !NullProgressHandler commentStamp!
 I am the default progress handler. I do not display any progress, and simply iterate over the collection.!
@@ -303,7 +303,7 @@ do: aBlock on: aCollection displaying: aString
 	aCollection do: aBlock
 ! !
 
-NullProgressHandler class instanceVariableNames: 'current'!
+NullProgressHandler class slots: {#current}!
 
 !NullProgressHandler class methodsFor: 'initialization'!
 
@@ -312,7 +312,7 @@ initialize
 ! !
 
 Object subclass: #Service
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-Services'!
 !Service commentStamp!
 I implement the basic behavior for class registration to a service.
@@ -323,7 +323,7 @@ See the `Transcript` class for a concrete service.
 
 Use class-side methods `#register:` and `#registerIfNone:` to register classes to a specific service.!
 
-Service class instanceVariableNames: 'current'!
+Service class slots: {#current}!
 
 !Service class methodsFor: 'accessing'!
 
@@ -348,7 +348,7 @@ registerIfNone: anObject
 ! !
 
 Service subclass: #ErrorHandler
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-Services'!
 !ErrorHandler commentStamp!
 I am the service used to handle Smalltalk errors.
@@ -375,7 +375,7 @@ handleUnhandledError: anError
 ! !
 
 Service subclass: #Finder
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-Services'!
 !Finder commentStamp!
 I am the service responsible for finding classes/methods.
@@ -400,7 +400,7 @@ findString: aString
 ! !
 
 Service subclass: #Inspector
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-Services'!
 !Inspector commentStamp!
 I am the service responsible for inspecting objects.
@@ -414,7 +414,7 @@ inspect: anObject
 ! !
 
 Service subclass: #Platform
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-Services'!
 !Platform commentStamp!
 I am bridge to JS environment.
@@ -444,7 +444,7 @@ includesGlobal: aString
 ! !
 
 Service subclass: #ProgressHandler
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-Services'!
 !ProgressHandler commentStamp!
 I am used to manage progress in collection iterations, see `SequenceableCollection >> #do:displayingProgress:`.
@@ -460,7 +460,7 @@ do: aBlock on: aCollection displaying: aString
 ! !
 
 Service subclass: #Terminal
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-Services'!
 !Terminal commentStamp!
 I am UI interface service.
@@ -490,7 +490,7 @@ prompt: aString default: defaultString
 ! !
 
 Service subclass: #Transcript
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Platform-Services'!
 !Transcript commentStamp!
 I am a facade for Transcript actions.

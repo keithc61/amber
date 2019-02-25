@@ -279,13 +279,9 @@ $recv(aStream)._tab();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["tab"]=1;
 //>>excludeEnd("ctx");
-$recv(aStream)._write_("instanceVariableNames: ");
+$recv(aStream)._write_(["slots: {",". "._join_($recv($recv(aClass)._instanceVariableNames())._collect_("symbolPrintString")),"}"]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["write:"]=2;
-//>>excludeEnd("ctx");
-$recv(aStream)._print_(" "._join_($recv(aClass)._instanceVariableNames()));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["print:"]=2;
 //>>excludeEnd("ctx");
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -298,7 +294,7 @@ $ctx1.sendIdx["write:"]=3;
 //>>excludeEnd("ctx");
 $recv(aStream)._print_($recv(aClass)._category());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["print:"]=3;
+$ctx1.sendIdx["print:"]=2;
 //>>excludeEnd("ctx");
 $recv(aStream)._write_("!");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -347,10 +343,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aStream"],
-source: "exportDefinitionOf: aClass on: aStream\x0a\x09\x22Chunk format.\x22\x0a\x0a\x09aStream\x0a\x09\x09print: aClass superclass;\x0a\x09\x09write: ' subclass: ';\x0a\x09\x09printSymbol: aClass name;\x0a\x09\x09lf.\x0a\x09\x22aClass traitComposition\x0a\x09\x09ifNotEmpty: [ aStream tab; write: {'uses: '. aClass traitCompositionDefinition}; lf ].\x22\x0a\x09aStream\x0a\x09\x09tab;\x0a\x09\x09write: 'instanceVariableNames: ';\x0a\x09\x09print: (' ' join: aClass instanceVariableNames);\x0a\x09\x09lf;\x0a\x09\x09tab;\x0a\x09\x09write: 'package: ';\x0a\x09\x09print: aClass category;\x0a\x09\x09write: '!';\x0a\x09\x09lf.\x0a\x09aClass comment ifNotEmpty: [ aStream\x0a\x09\x09write: '!'; print: aClass; write: ' commentStamp!'; lf;\x0a\x09\x09write: { self chunkEscape: aClass comment. '!' }; lf ].\x0a\x09aStream lf",
+source: "exportDefinitionOf: aClass on: aStream\x0a\x09\x22Chunk format.\x22\x0a\x0a\x09aStream\x0a\x09\x09print: aClass superclass;\x0a\x09\x09write: ' subclass: ';\x0a\x09\x09printSymbol: aClass name;\x0a\x09\x09lf.\x0a\x09\x22aClass traitComposition\x0a\x09\x09ifNotEmpty: [ aStream tab; write: {'uses: '. aClass traitCompositionDefinition}; lf ].\x22\x0a\x09aStream\x0a\x09\x09tab;\x0a\x09\x09write: {'slots: {'. ('. ' join: (aClass instanceVariableNames collect: #symbolPrintString)). '}'};\x0a\x09\x09lf;\x0a\x09\x09tab;\x0a\x09\x09write: 'package: ';\x0a\x09\x09print: aClass category;\x0a\x09\x09write: '!';\x0a\x09\x09lf.\x0a\x09aClass comment ifNotEmpty: [ aStream\x0a\x09\x09write: '!'; print: aClass; write: ' commentStamp!'; lf;\x0a\x09\x09write: { self chunkEscape: aClass comment. '!' }; lf ].\x0a\x09aStream lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["print:", "superclass", "write:", "printSymbol:", "name", "lf", "tab", "join:", "instanceVariableNames", "category", "ifNotEmpty:", "comment", "chunkEscape:"]
+messageSends: ["print:", "superclass", "write:", "printSymbol:", "name", "lf", "tab", "join:", "collect:", "instanceVariableNames", "category", "ifNotEmpty:", "comment", "chunkEscape:"]
 }),
 $globals.ChunkExporter);
 
@@ -374,16 +370,8 @@ classTraitComposition=$recv($recv(aClass)._class())._traitComposition();
 $2=$recv(classIvars)._notEmpty();
 if($core.assert($2)){
 $recv(aStream)._print_($recv(aClass)._theMetaClass());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["print:"]=1;
-//>>excludeEnd("ctx");
 $recv(aStream)._space();
-$recv(aStream)._write_("instanceVariableNames: ");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["write:"]=1;
-//>>excludeEnd("ctx");
-$recv(aStream)._print_(" "._join_(classIvars));
-$recv(aStream)._write_("!");
+$recv(aStream)._write_(["slots: {",". "._join_($recv(classIvars)._collect_("symbolPrintString")),"}!"]);
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=1;
@@ -397,10 +385,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aStream"],
-source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x0a\x09| classIvars classTraitComposition |\x0a\x09classIvars := aClass class instanceVariableNames.\x0a\x09classTraitComposition := aClass class traitComposition.\x0a\x0a\x09(classIvars notEmpty \x22or: [classTraitComposition notEmpty]\x22) ifTrue: [\x0a\x09\x09aStream\x0a\x09\x09\x09print: aClass theMetaClass.\x0a\x09\x09aStream space. \x22classTraitComposition\x0a\x09\x09\x09ifEmpty: [ aStream space ]\x0a\x09\x09\x09ifNotEmpty: [ aStream lf; tab; write: {'uses: '. aClass class traitCompositionDefinition}; lf; tab ].\x22\x0a\x09\x09aStream\x0a\x09\x09\x09write: 'instanceVariableNames: ';\x0a\x09\x09\x09print: (' ' join: classIvars);\x0a\x09\x09\x09write: '!'; lf; lf ]",
+source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x0a\x09| classIvars classTraitComposition |\x0a\x09classIvars := aClass class instanceVariableNames.\x0a\x09classTraitComposition := aClass class traitComposition.\x0a\x0a\x09(classIvars notEmpty \x22or: [classTraitComposition notEmpty]\x22) ifTrue: [\x0a\x09\x09aStream\x0a\x09\x09\x09print: aClass theMetaClass.\x0a\x09\x09aStream space. \x22classTraitComposition\x0a\x09\x09\x09ifEmpty: [ aStream space ]\x0a\x09\x09\x09ifNotEmpty: [ aStream lf; tab; write: {'uses: '. aClass class traitCompositionDefinition}; lf; tab ].\x22\x0a\x09\x09aStream\x0a\x09\x09\x09write: {'slots: {'. ('. ' join: (classIvars collect: #symbolPrintString)). '}!'}; lf; lf ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["instanceVariableNames", "class", "traitComposition", "ifTrue:", "notEmpty", "print:", "theMetaClass", "space", "write:", "join:", "lf"]
+messageSends: ["instanceVariableNames", "class", "traitComposition", "ifTrue:", "notEmpty", "print:", "theMetaClass", "space", "write:", "join:", "collect:", "lf"]
 }),
 $globals.ChunkExporter);
 

@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Kernel-Promises'!
 Object subclass: #Promise
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Promises'!
 
 !Promise class methodsFor: 'composites'!

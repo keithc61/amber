@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Kernel-Exceptions'!
 Object subclass: #Error
-	instanceVariableNames: 'message stack amberHandled context smalltalkError'
+	slots: {#message. #stack. #amberHandled. #context. #smalltalkError}
 	package: 'Kernel-Exceptions'!
 !Error commentStamp!
 From the ANSI standard:
@@ -130,7 +130,7 @@ signal: aString
 ! !
 
 Error subclass: #Halt
-	instanceVariableNames: ''
+	slots: {}
 	package: 'Kernel-Exceptions'!
 !Halt commentStamp!
 I am provided to support `Object>>#halt`.!
@@ -153,7 +153,7 @@ signalerContextFrom: aContext
 ! !
 
 Error subclass: #JavaScriptException
-	instanceVariableNames: 'exception'
+	slots: {#exception}
 	package: 'Kernel-Exceptions'!
 !JavaScriptException commentStamp!
 A JavaScriptException is thrown when a non-Smalltalk exception occurs while in the Smalltalk stack.
@@ -202,7 +202,7 @@ on: anException context: aMethodContext
 ! !
 
 Error subclass: #MessageNotUnderstood
-	instanceVariableNames: 'smalltalkMessage receiver'
+	slots: {#smalltalkMessage. #receiver}
 	package: 'Kernel-Exceptions'!
 !MessageNotUnderstood commentStamp!
 This exception is provided to support `Object>>doesNotUnderstand:`.!
@@ -230,7 +230,7 @@ receiver: anObject
 ! !
 
 Error subclass: #NonBooleanReceiver
-	instanceVariableNames: 'object'
+	slots: {#object}
 	package: 'Kernel-Exceptions'!
 !NonBooleanReceiver commentStamp!
 NonBooleanReceiver exceptions may be thrown when executing inlined methods such as `#ifTrue:` with a non boolean receiver.!
