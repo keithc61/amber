@@ -587,23 +587,6 @@ SemanticError subclass: #InliningError
 !InliningError commentStamp!
 Instances of InliningError are signaled when using an `InliningCodeGenerator`in a `Compiler`.!
 
-SemanticAnalyzer subclass: #InliningSemanticAnalyzer
-	slots: {}
-	package: 'Compiler-Inlining'!
-
-!InliningSemanticAnalyzer methodsFor: 'visiting'!
-
-visitSendNode: aNode
-
-	aNode superSend ifFalse: [ 
-		(IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [
-			aNode shouldBeInlined: true.
-			aNode receiver ifNotNil: [ :receiver |
-				receiver shouldBeAliased: true ] ] ].
-
-	super visitSendNode: aNode
-! !
-
 !IRBlockReturn methodsFor: '*Compiler-Inlining'!
 
 asInlinedBlockResult
