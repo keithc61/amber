@@ -60,6 +60,7 @@ module.exports = function (grunt) {
                 options: {
                     mainConfigFile: "config.js",
                     rawText: {
+                        "helios/index": "",
                         "app": '(' + polyfillThenPromiseApp + '());',
                         "__app__": 'define(["deploy", "amber/core/Platform-Browser"],function(x){return x});'
                     },
@@ -69,6 +70,7 @@ module.exports = function (grunt) {
                     },
                     include: ['config', 'node_modules/requirejs/require', 'app'],
                     findNestedDependencies: true,
+                    exclude: ['helios/index'],
                     optimize: "uglify2",
                     out: "the.js"
                 }
