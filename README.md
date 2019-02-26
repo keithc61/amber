@@ -67,6 +67,9 @@ Use ``amber init``  to create a project of your own
     cd /path/to/myproject
     amber init
 
+The new project has its own `.gitignore` and is ready to use with git as-is.
+Eg. just run `git init` and your Amber project is under version control.
+
 If you want to run Amber in older environments,
 you should install additional polyfills (`Promise` polyfill
 is included by default) and link them up in `Gruntfile.js`.
