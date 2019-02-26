@@ -2109,36 +2109,6 @@ $globals.SequenceNode);
 
 $core.addMethod(
 $core.method({
-selector: "asBlockSequenceNode",
-protocol: "building",
-fn: function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$recv($globals.BlockSequenceNode)._new();
-$recv($1)._position_($self._position());
-$recv($1)._source_($self._source());
-$recv($1)._dagChildren_($self._dagChildren());
-$recv($1)._temps_($self._temps());
-$recv($1)._pragmas_($self._pragmas());
-return $recv($1)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asBlockSequenceNode",{},$globals.SequenceNode)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "asBlockSequenceNode\x0a\x09^ BlockSequenceNode new\x0a\x09\x09position: self position;\x0a\x09\x09source: self source;\x0a\x09\x09dagChildren: self dagChildren;\x0a\x09\x09temps: self temps;\x0a\x09\x09pragmas: self pragmas;\x0a\x09\x09yourself",
-referencedClasses: ["BlockSequenceNode"],
-//>>excludeEnd("ide");
-messageSends: ["position:", "new", "position", "source:", "source", "dagChildren:", "dagChildren", "temps:", "temps", "pragmas:", "pragmas", "yourself"]
-}),
-$globals.SequenceNode);
-
-$core.addMethod(
-$core.method({
 selector: "isSequenceNode",
 protocol: "testing",
 fn: function (){
@@ -2344,35 +2314,18 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$recv(aCollection)._ifNotEmpty_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($globals.CompilerError)._signal_("Block must have no pragmas.");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-$1=(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = true,
-//>>excludeEnd("ctx");
-($globals.BlockSequenceNode.superclass||$boot.nilAsClass).fn.prototype._pragmas_.apply($self, [aCollection]));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = false;
-//>>excludeEnd("ctx");;
-return $1;
+$self._shouldNotImplement();
+return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"pragmas:",{aCollection:aCollection},$globals.BlockSequenceNode)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aCollection"],
-source: "pragmas: aCollection\x0a\x09aCollection ifNotEmpty: [\x0a\x09\x09CompilerError signal: 'Block must have no pragmas.' ].\x0a\x09^ super pragmas: aCollection",
-referencedClasses: ["CompilerError"],
+source: "pragmas: aCollection\x0a\x09self shouldNotImplement",
+referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["ifNotEmpty:", "signal:", "pragmas:"]
+messageSends: ["shouldNotImplement"]
 }),
 $globals.BlockSequenceNode);
 

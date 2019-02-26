@@ -218,12 +218,20 @@ wsSequenceWs = aPragmas:wsPragmas? ws temps:temps? zPragmas:wsPragmas? statement
 		._dagChildren_(statements || []);
 }
 
-block = '[' params:wsBlockParamList? sequence:wsSequenceWs ']' {
+wsBlockSequenceWs = ws temps:temps? statements:wsStatements? maybeDotsWs {
+	return $globals.BlockSequenceNode._new()
+		._location_(location())
+		._source_(text())
+		._temps_(temps || [])
+		._dagChildren_(statements || []);
+}
+
+block = '[' params:wsBlockParamList? sequence:wsBlockSequenceWs ']' {
 	return $globals.BlockNode._new()
 		._location_(location())
 		._source_(text())
 		._parameters_(params || [])
-		._dagChildren_([sequence._asBlockSequenceNode()]);
+		._dagChildren_([sequence]);
 }
 
 operand = literal / reference / subexpression

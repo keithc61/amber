@@ -547,18 +547,6 @@ temps: aCollection
 	temps := aCollection
 ! !
 
-!SequenceNode methodsFor: 'building'!
-
-asBlockSequenceNode
-	^ BlockSequenceNode new
-		position: self position;
-		source: self source;
-		dagChildren: self dagChildren;
-		temps: self temps;
-		pragmas: self pragmas;
-		yourself
-! !
-
 !SequenceNode methodsFor: 'testing'!
 
 isSequenceNode
@@ -590,9 +578,7 @@ acceptDagVisitor: aVisitor
 !
 
 pragmas: aCollection
-	aCollection ifNotEmpty: [
-		CompilerError signal: 'Block must have no pragmas.' ].
-	^ super pragmas: aCollection
+	self shouldNotImplement
 ! !
 
 ASTNode subclass: #ValueNode
