@@ -10,7 +10,7 @@
  | Copyright (c) 2010-2014
  | Nicolas Petton <petton.nicolas@gmail.com>
  |
- | Copyright (c) 2012-2017
+ | Copyright (c) 2012-2019
  | The Amber team https://lolg.it/org/amber/members
  | Amber contributors (see /CONTRIBUTORS)
  |
