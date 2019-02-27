@@ -22,6 +22,7 @@ args: [],
 source: "announcementClass\x0a\x09^ announcementClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AnnouncementSubscription);
@@ -46,6 +47,7 @@ args: ["aClass"],
 source: "announcementClass: aClass\x0a\x09announcementClass := Smalltalk globals at: aClass name",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:", "globals", "name"]
 }),
 $globals.AnnouncementSubscription);
@@ -74,6 +76,7 @@ args: ["anAnnouncement"],
 source: "deliver: anAnnouncement\x0a\x09(self handlesAnnouncement: anAnnouncement)\x0a\x09\x09ifTrue: [ self valuable value: anAnnouncement ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "handlesAnnouncement:", "value:", "valuable"]
 }),
 $globals.AnnouncementSubscription);
@@ -97,6 +100,7 @@ args: ["anAnnouncement"],
 source: "handlesAnnouncement: anAnnouncement\x0a\x09\x22anAnnouncement might be announced from within another Amber environment\x22\x0a\x09\x0a\x09^ (Smalltalk globals at: anAnnouncement class name) includesBehavior: self announcementClass",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["includesBehavior:", "at:", "globals", "name", "class", "announcementClass"]
 }),
 $globals.AnnouncementSubscription);
@@ -120,6 +124,7 @@ args: [],
 source: "receiver\x0a\x09^ self valuable receiver",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["receiver", "valuable"]
 }),
 $globals.AnnouncementSubscription);
@@ -138,6 +143,7 @@ args: [],
 source: "valuable\x0a\x09^ valuable",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AnnouncementSubscription);
@@ -157,6 +163,7 @@ args: ["aValuable"],
 source: "valuable: aValuable\x0a\x09valuable := aValuable",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AnnouncementSubscription);
@@ -181,6 +188,7 @@ args: [],
 source: "receiver\x0a\x09^ receiver",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AnnouncementValuable);
@@ -200,6 +208,7 @@ args: ["anObject"],
 source: "receiver: anObject\x0a\x09receiver := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AnnouncementValuable);
@@ -218,6 +227,7 @@ args: [],
 source: "valuable\x0a\x09^ valuable",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AnnouncementValuable);
@@ -237,6 +247,7 @@ args: ["anObject"],
 source: "valuable: anObject\x0a\x09valuable := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AnnouncementValuable);
@@ -260,6 +271,7 @@ args: [],
 source: "value\x0a\x09^ self valuable value",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value", "valuable"]
 }),
 $globals.AnnouncementValuable);
@@ -283,6 +295,7 @@ args: ["anObject"],
 source: "value: anObject\x0a\x09^ self valuable value: anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value:", "valuable"]
 }),
 $globals.AnnouncementValuable);
@@ -321,6 +334,7 @@ args: ["anAnnouncement"],
 source: "announce: anAnnouncement\x0a\x09subscriptions do: [ :each |\x0a\x09\x09each deliver: anAnnouncement ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "deliver:"]
 }),
 $globals.Announcer);
@@ -353,6 +367,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x09subscriptions := OrderedCollection new",
 referencedClasses: ["OrderedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize", "new"]
 }),
 $globals.Announcer);
@@ -377,6 +392,7 @@ args: ["aClass", "aBlock"],
 source: "on: aClass do: aBlock\x0a\x09self on: aClass do: aBlock for: nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["on:do:for:"]
 }),
 $globals.Announcer);
@@ -421,6 +437,7 @@ args: ["aClass", "aBlock", "aReceiver"],
 source: "on: aClass do: aBlock for: aReceiver\x0a\x09subscriptions add: (AnnouncementSubscription new\x0a\x09\x09valuable: (AnnouncementValuable new\x0a\x09\x09\x09valuable: aBlock;\x0a\x09\x09\x09receiver: aReceiver;\x0a\x09\x09\x09yourself);\x0a\x09\x09announcementClass: aClass;\x0a\x09\x09yourself)",
 referencedClasses: ["AnnouncementSubscription", "AnnouncementValuable"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:", "valuable:", "new", "receiver:", "yourself", "announcementClass:"]
 }),
 $globals.Announcer);
@@ -460,6 +477,7 @@ args: ["aClass", "aBlock"],
 source: "on: aClass doOnce: aBlock\x0a\x09| subscription |\x0a\x09\x0a\x09subscription := AnnouncementSubscription new\x0a\x09\x09announcementClass: aClass;\x0a\x09\x09yourself.\x0a\x09subscription valuable: [ :ann |\x0a\x09\x09subscriptions remove: subscription.\x0a\x09\x09aBlock value: ann ].\x0a\x0a\x09subscriptions add: subscription",
 referencedClasses: ["AnnouncementSubscription"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["announcementClass:", "new", "yourself", "valuable:", "remove:", "value:", "add:"]
 }),
 $globals.Announcer);
@@ -501,6 +519,7 @@ args: ["aClass", "aSelector", "anObject"],
 source: "on: aClass send: aSelector to: anObject\x0a\x09subscriptions add: (AnnouncementSubscription new\x0a\x09\x09valuable: (MessageSend new\x0a\x09\x09\x09receiver: anObject;\x0a\x09\x09\x09selector: aSelector;\x0a\x09\x09\x09yourself);\x0a\x09\x09announcementClass: aClass;\x0a\x09\x09yourself)",
 referencedClasses: ["AnnouncementSubscription", "MessageSend"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:", "valuable:", "new", "receiver:", "selector:", "yourself", "announcementClass:"]
 }),
 $globals.Announcer);
@@ -533,6 +552,7 @@ args: ["anObject"],
 source: "unsubscribe: anObject\x0a\x09subscriptions := subscriptions reject: [ :each |\x0a\x09\x09each receiver = anObject ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["reject:", "=", "receiver"]
 }),
 $globals.Announcer);
@@ -578,6 +598,7 @@ args: [],
 source: "current\x0a\x09^ current ifNil: [ current := super new ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "new"]
 }),
 $globals.SystemAnnouncer.a$cls);
@@ -602,6 +623,7 @@ args: [],
 source: "new\x0a\x09self shouldNotImplement",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["shouldNotImplement"]
 }),
 $globals.SystemAnnouncer.a$cls);
@@ -626,6 +648,7 @@ args: [],
 source: "classTag\x0a\x09\x22Returns a tag or general category for this class.\x0a\x09Typically used to help tools do some reflection.\x0a\x09Helios, for example, uses this to decide what icon the class should display.\x22\x0a\x09\x0a\x09^ 'announcement'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SystemAnnouncement.a$cls);
@@ -649,6 +672,7 @@ args: [],
 source: "theClass\x0a\x09^ theClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ClassAnnouncement);
@@ -668,6 +692,7 @@ args: ["aClass"],
 source: "theClass: aClass\x0a\x09theClass := aClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ClassAnnouncement);
@@ -710,6 +735,7 @@ args: [],
 source: "oldClass\x0a\x09^ oldClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ClassMigrated);
@@ -729,6 +755,7 @@ args: ["aClass"],
 source: "oldClass: aClass\x0a\x09oldClass := aClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ClassMigrated);
@@ -753,6 +780,7 @@ args: [],
 source: "oldPackage\x0a\x09^ oldPackage",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ClassMoved);
@@ -772,6 +800,7 @@ args: ["aPackage"],
 source: "oldPackage: aPackage\x0a\x09oldPackage := aPackage",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ClassMoved);
@@ -808,6 +837,7 @@ args: [],
 source: "method\x0a\x09^ method",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodAnnouncement);
@@ -827,6 +857,7 @@ args: ["aCompiledMethod"],
 source: "method: aCompiledMethod\x0a\x09method := aCompiledMethod",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodAnnouncement);
@@ -857,6 +888,7 @@ args: [],
 source: "oldMethod\x0a\x09^ oldMethod",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodModified);
@@ -876,6 +908,7 @@ args: ["aMethod"],
 source: "oldMethod: aMethod\x0a\x09oldMethod := aMethod",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodModified);
@@ -900,6 +933,7 @@ args: [],
 source: "oldProtocol\x0a\x09^ oldProtocol",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodMoved);
@@ -919,6 +953,7 @@ args: ["aString"],
 source: "oldProtocol: aString\x0a\x09oldProtocol := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodMoved);
@@ -949,6 +984,7 @@ args: [],
 source: "package\x0a\x09^ package",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.PackageAnnouncement);
@@ -968,6 +1004,7 @@ args: ["aPackage"],
 source: "package: aPackage\x0a\x09package := aPackage",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.PackageAnnouncement);
@@ -1029,6 +1066,7 @@ args: [],
 source: "package\x0a\x09\x0a\x09^ self theClass ifNotNil: [ :class | class packageOfProtocol: self protocol ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "theClass", "packageOfProtocol:", "protocol"]
 }),
 $globals.ProtocolAnnouncement);
@@ -1047,6 +1085,7 @@ args: [],
 source: "protocol\x0a\x09^ protocol",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ProtocolAnnouncement);
@@ -1066,6 +1105,7 @@ args: ["aString"],
 source: "protocol: aString\x0a\x09protocol := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ProtocolAnnouncement);
@@ -1084,6 +1124,7 @@ args: [],
 source: "theClass\x0a\x09^ theClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ProtocolAnnouncement);
@@ -1103,6 +1144,7 @@ args: ["aClass"],
 source: "theClass: aClass\x0a\x09theClass := aClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ProtocolAnnouncement);

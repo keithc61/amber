@@ -48,6 +48,7 @@ args: ["aNode"],
 source: "visitSendNode: aNode\x0a\x0a\x09aNode superSend ifFalse: [ \x0a\x09\x09(IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [\x0a\x09\x09\x09aNode shouldBeInlined: true.\x0a\x09\x09\x09aNode receiver ifNotNil: [ :receiver |\x0a\x09\x09\x09\x09receiver shouldBeAliased: true ] ] ].\x0a\x0a\x09^ super visitSendNode: aNode",
 referencedClasses: ["IRSendInliner"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "superSend", "ifTrue:", "includes:", "inlinedSelectors", "selector", "shouldBeInlined:", "ifNotNil:", "receiver", "shouldBeAliased:", "visitSendNode:"]
 }),
 $globals.ASTPreInliner);
@@ -78,6 +79,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedClosure: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRInlinedClosure:"]
 }),
 $globals.IRInlinedClosure);
@@ -96,6 +98,7 @@ args: [],
 source: "isInlined\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInlinedClosure);
@@ -126,6 +129,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitInlinedSend: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitInlinedSend:"]
 }),
 $globals.IRInlinedSend);
@@ -144,6 +148,7 @@ args: [],
 source: "internalVariables\x0a\x09\x22Answer a collection of internal variables required \x0a\x09to perform the inlining\x22\x0a\x09\x0a\x09^ #()",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInlinedSend);
@@ -162,6 +167,7 @@ args: [],
 source: "isInlined\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInlinedSend);
@@ -192,6 +198,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedIfFalse: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRInlinedIfFalse:"]
 }),
 $globals.IRInlinedIfFalse);
@@ -222,6 +229,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedIfNilIfNotNil: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRInlinedIfNilIfNotNil:"]
 }),
 $globals.IRInlinedIfNilIfNotNil);
@@ -245,6 +253,7 @@ args: [],
 source: "internalVariables\x0a\x09^ Array with: self receiverInternalVariable",
 referencedClasses: ["Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["with:", "receiverInternalVariable"]
 }),
 $globals.IRInlinedIfNilIfNotNil);
@@ -274,6 +283,7 @@ args: [],
 source: "receiverInternalVariable\x0a\x09^ IRVariable new\x0a\x09\x09variable: (AliasVar new name: self receiverInternalVariableName);\x0a\x09\x09yourself.",
 referencedClasses: ["IRVariable", "AliasVar"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["variable:", "new", "name:", "receiverInternalVariableName", "yourself"]
 }),
 $globals.IRInlinedIfNilIfNotNil);
@@ -292,6 +302,7 @@ args: [],
 source: "receiverInternalVariableName\x0a\x09^ '$receiver'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInlinedIfNilIfNotNil);
@@ -322,6 +333,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedIfTrue: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRInlinedIfTrue:"]
 }),
 $globals.IRInlinedIfTrue);
@@ -352,6 +364,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedIfTrueIfFalse: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRInlinedIfTrueIfFalse:"]
 }),
 $globals.IRInlinedIfTrueIfFalse);
@@ -382,6 +395,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedSequence: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRInlinedSequence:"]
 }),
 $globals.IRInlinedSequence);
@@ -400,6 +414,7 @@ args: [],
 source: "isInlined\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInlinedSequence);
@@ -432,6 +447,7 @@ args: [],
 source: "assignmentInliner\x0a\x09^ IRAssignmentInliner new\x0a\x09\x09translator: self;\x0a\x09\x09yourself",
 referencedClasses: ["IRAssignmentInliner"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["translator:", "new", "yourself"]
 }),
 $globals.IRInliner);
@@ -458,6 +474,7 @@ args: [],
 source: "returnInliner\x0a\x09^ IRReturnInliner new\x0a\x09\x09translator: self;\x0a\x09\x09yourself",
 referencedClasses: ["IRReturnInliner"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["translator:", "new", "yourself"]
 }),
 $globals.IRInliner);
@@ -484,6 +501,7 @@ args: [],
 source: "sendInliner\x0a\x09^ IRSendInliner new\x0a\x09\x09translator: self;\x0a\x09\x09yourself",
 referencedClasses: ["IRSendInliner"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["translator:", "new", "yourself"]
 }),
 $globals.IRInliner);
@@ -533,6 +551,7 @@ args: ["anIRAssignment"],
 source: "shouldInlineAssignment: anIRAssignment\x0a\x09^ anIRAssignment isInlined not and: [\x0a\x09\x09anIRAssignment right isSend and: [\x0a\x09\x09\x09self shouldInlineSend: anIRAssignment right ]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", "not", "isInlined", "isSend", "right", "shouldInlineSend:"]
 }),
 $globals.IRInliner);
@@ -582,6 +601,7 @@ args: ["anIRReturn"],
 source: "shouldInlineReturn: anIRReturn\x0a\x09^ anIRReturn isInlined not and: [\x0a\x09\x09anIRReturn expression isSend and: [\x0a\x09\x09\x09self shouldInlineSend: anIRReturn expression ]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", "not", "isInlined", "isSend", "expression", "shouldInlineSend:"]
 }),
 $globals.IRInliner);
@@ -613,6 +633,7 @@ args: ["anIRSend"],
 source: "shouldInlineSend: anIRSend\x0a\x09^ anIRSend isInlined not and: [\x0a\x09\x09IRSendInliner shouldInline: anIRSend ]",
 referencedClasses: ["IRSendInliner"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", "not", "isInlined", "shouldInline:"]
 }),
 $globals.IRInliner);
@@ -649,6 +670,7 @@ args: ["anIRAssignment"],
 source: "visitIRAssignment: anIRAssignment\x0a\x09^ (self shouldInlineAssignment: anIRAssignment)\x0a\x09\x09ifTrue: [ self assignmentInliner inlineAssignment: anIRAssignment ]\x0a\x09\x09ifFalse: [ super visitIRAssignment: anIRAssignment ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "shouldInlineAssignment:", "inlineAssignment:", "assignmentInliner", "visitIRAssignment:"]
 }),
 $globals.IRInliner);
@@ -713,6 +735,7 @@ args: ["anIRNonLocalReturn"],
 source: "visitIRNonLocalReturn: anIRNonLocalReturn\x0a\x09| localReturn |\x0a\x09anIRNonLocalReturn scope canInlineNonLocalReturns ifTrue: [\x0a\x09\x09anIRNonLocalReturn scope methodScope removeNonLocalReturn: anIRNonLocalReturn scope.\x0a\x09\x09localReturn := IRReturn new\x0a\x09\x09\x09scope: anIRNonLocalReturn scope;\x0a\x09\x09\x09yourself.\x0a\x09\x09anIRNonLocalReturn dagChildren do: [ :each |\x0a\x09\x09\x09localReturn add: each ].\x0a\x09\x09anIRNonLocalReturn replaceWith: localReturn.\x0a\x09\x09^ self visitIRReturn: localReturn ].\x0a\x09^ super visitIRNonLocalReturn: anIRNonLocalReturn",
 referencedClasses: ["IRReturn"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "canInlineNonLocalReturns", "scope", "removeNonLocalReturn:", "methodScope", "scope:", "new", "yourself", "do:", "dagChildren", "add:", "replaceWith:", "visitIRReturn:", "visitIRNonLocalReturn:"]
 }),
 $globals.IRInliner);
@@ -749,6 +772,7 @@ args: ["anIRReturn"],
 source: "visitIRReturn: anIRReturn\x0a\x09^ (self shouldInlineReturn: anIRReturn)\x0a\x09\x09ifTrue: [ self returnInliner inlineReturn: anIRReturn ]\x0a\x09\x09ifFalse: [ super visitIRReturn: anIRReturn ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "shouldInlineReturn:", "inlineReturn:", "returnInliner", "visitIRReturn:"]
 }),
 $globals.IRInliner);
@@ -785,6 +809,7 @@ args: ["anIRSend"],
 source: "visitIRSend: anIRSend\x0a\x09^ (self shouldInlineSend: anIRSend)\x0a\x09\x09ifTrue: [ self sendInliner inlineSend: anIRSend ]\x0a\x09\x09ifFalse: [ super visitIRSend: anIRSend ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "shouldInlineSend:", "inlineSend:", "sendInliner", "visitIRSend:"]
 }),
 $globals.IRInliner);
@@ -824,6 +849,7 @@ args: ["anIRInlinedClosure"],
 source: "visitIRInlinedClosure: anIRInlinedClosure\x0a\x09self stream nextPutVars: (anIRInlinedClosure tempDeclarations collect: [ :each |\x0a\x09\x09each name asVariableName ]).\x0a\x09self visitAll: anIRInlinedClosure dagChildren",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutVars:", "stream", "collect:", "tempDeclarations", "asVariableName", "name", "visitAll:", "dagChildren"]
 }),
 $globals.IRInliningJSTranslator);
@@ -886,6 +912,7 @@ args: ["anIRInlinedIfFalse"],
 source: "visitIRInlinedIfFalse: anIRInlinedIfFalse\x0a\x09self stream nextPutIf: [\x0a\x09\x09self stream nextPutAll: '!$core.assert('.\x0a\x09\x09self visit: anIRInlinedIfFalse dagChildren first.\x0a\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfFalse dagChildren last ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutIf:then:", "stream", "nextPutAll:", "visit:", "first", "dagChildren", "last"]
 }),
 $globals.IRInliningJSTranslator);
@@ -979,6 +1006,7 @@ args: ["anIRInlinedIfNilIfNotNil"],
 source: "visitIRInlinedIfNilIfNotNil: anIRInlinedIfNilIfNotNil\x0a\x09self stream\x0a\x09\x09nextPutIf: [\x0a\x09\x09\x09| recvVarName |\x0a\x09\x09\x09recvVarName := anIRInlinedIfNilIfNotNil receiverInternalVariableName.\x0a\x09\x09\x09self stream nextPutAll: '(', recvVarName, ' = '.\x0a\x09\x09\x09self visit: anIRInlinedIfNilIfNotNil dagChildren first.\x0a\x09\x09\x09self stream nextPutAll: ') == null || ', recvVarName, '.a$nil' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfNilIfNotNil dagChildren second ]\x0a\x09\x09else: [ self visit: anIRInlinedIfNilIfNotNil dagChildren third ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutIf:then:else:", "stream", "receiverInternalVariableName", "nextPutAll:", ",", "visit:", "first", "dagChildren", "second", "third"]
 }),
 $globals.IRInliningJSTranslator);
@@ -1041,6 +1069,7 @@ args: ["anIRInlinedIfTrue"],
 source: "visitIRInlinedIfTrue: anIRInlinedIfTrue\x0a\x09self stream nextPutIf: [\x0a\x09\x09self stream nextPutAll: '$core.assert('.\x0a\x09\x09self visit: anIRInlinedIfTrue dagChildren first.\x0a\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfTrue dagChildren last ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutIf:then:", "stream", "nextPutAll:", "visit:", "first", "dagChildren", "last"]
 }),
 $globals.IRInliningJSTranslator);
@@ -1119,6 +1148,7 @@ args: ["anIRInlinedIfTrueIfFalse"],
 source: "visitIRInlinedIfTrueIfFalse: anIRInlinedIfTrueIfFalse\x0a\x09self stream\x0a\x09\x09nextPutIf: [\x0a\x09\x09\x09self stream nextPutAll: '$core.assert('.\x0a\x09\x09\x09self visit: anIRInlinedIfTrueIfFalse dagChildren first.\x0a\x09\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfTrueIfFalse dagChildren second ]\x0a\x09\x09else: [ self visit: anIRInlinedIfTrueIfFalse dagChildren third ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutIf:then:else:", "stream", "nextPutAll:", "visit:", "first", "dagChildren", "second", "third"]
 }),
 $globals.IRInliningJSTranslator);
@@ -1148,6 +1178,7 @@ args: ["anIRInstruction"],
 source: "ifFalse: anIRInstruction\x0a\x09^ self inlinedSend: IRInlinedIfFalse new withBlock: anIRInstruction",
 referencedClasses: ["IRInlinedIfFalse"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["inlinedSend:withBlock:", "new"]
 }),
 $globals.IRSendInliner);
@@ -1171,6 +1202,7 @@ args: ["anIRInstruction", "anotherIRInstruction"],
 source: "ifFalse: anIRInstruction ifTrue: anotherIRInstruction\x0a\x09^ self perform: #ifTrue:ifFalse: withArguments: { anotherIRInstruction. anIRInstruction }",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["perform:withArguments:"]
 }),
 $globals.IRSendInliner);
@@ -1216,6 +1248,7 @@ args: ["anIRInstruction"],
 source: "ifNil: anIRInstruction\x0a\x09^ self\x0a\x09\x09inlinedSend: IRInlinedIfNilIfNotNil new\x0a\x09\x09withBlock: anIRInstruction\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: (IRBlockSequence new\x0a\x09\x09\x09\x09add: self send receiver;\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself)",
 referencedClasses: ["IRInlinedIfNilIfNotNil", "IRClosure", "IRBlockSequence"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "receiver", "send", "yourself"]
 }),
 $globals.IRSendInliner);
@@ -1239,6 +1272,7 @@ args: ["anIRInstruction", "anotherIRInstruction"],
 source: "ifNil: anIRInstruction ifNotNil: anotherIRInstruction\x0a\x09^ self inlinedSend: IRInlinedIfNilIfNotNil new withBlock: anIRInstruction withBlock: anotherIRInstruction",
 referencedClasses: ["IRInlinedIfNilIfNotNil"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["inlinedSend:withBlock:withBlock:", "new"]
 }),
 $globals.IRSendInliner);
@@ -1284,6 +1318,7 @@ args: ["anIRInstruction"],
 source: "ifNotNil: anIRInstruction\x0a\x09^ self\x0a\x09\x09inlinedSend: IRInlinedIfNilIfNotNil new\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: (IRBlockSequence new\x0a\x09\x09\x09\x09add: self send receiver;\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself)\x0a\x09\x09withBlock: anIRInstruction",
 referencedClasses: ["IRInlinedIfNilIfNotNil", "IRClosure", "IRBlockSequence"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "receiver", "send", "yourself"]
 }),
 $globals.IRSendInliner);
@@ -1307,6 +1342,7 @@ args: ["anIRInstruction", "anotherIRInstruction"],
 source: "ifNotNil: anIRInstruction ifNil: anotherIRInstruction\x0a\x09^ self inlinedSend: IRInlinedIfNilIfNotNil new withBlock: anotherIRInstruction withBlock: anIRInstruction",
 referencedClasses: ["IRInlinedIfNilIfNotNil"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["inlinedSend:withBlock:withBlock:", "new"]
 }),
 $globals.IRSendInliner);
@@ -1330,6 +1366,7 @@ args: ["anIRInstruction"],
 source: "ifTrue: anIRInstruction\x0a\x09^ self inlinedSend: IRInlinedIfTrue new withBlock: anIRInstruction",
 referencedClasses: ["IRInlinedIfTrue"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["inlinedSend:withBlock:", "new"]
 }),
 $globals.IRSendInliner);
@@ -1353,6 +1390,7 @@ args: ["anIRInstruction", "anotherIRInstruction"],
 source: "ifTrue: anIRInstruction ifFalse: anotherIRInstruction\x0a\x09^ self inlinedSend: IRInlinedIfTrueIfFalse new withBlock: anIRInstruction withBlock: anotherIRInstruction",
 referencedClasses: ["IRInlinedIfTrueIfFalse"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["inlinedSend:withBlock:withBlock:", "new"]
 }),
 $globals.IRSendInliner);
@@ -1520,6 +1558,7 @@ args: ["anIRClosure"],
 source: "inlineClosure: anIRClosure\x0a\x09| inlinedClosure sequence statements |\x0a\x0a\x09inlinedClosure := self inlinedClosure.\x0a\x09inlinedClosure \x0a\x09\x09scope: anIRClosure scope;\x0a\x09\x09parent: anIRClosure parent.\x0a\x0a\x09\x22Add the possible temp declarations\x22\x0a\x09anIRClosure tempDeclarations do: [ :each |\x0a\x09\x09\x09inlinedClosure add: each ].\x0a\x0a\x09\x22Add a block sequence\x22\x0a\x09sequence := self inlinedSequence.\x0a\x0a\x09\x22Map the closure arguments to the receiver of the message send\x22\x0a\x09anIRClosure arguments do: [ :each |\x0a\x09\x09inlinedClosure add: (IRTempDeclaration new name: each; yourself).\x0a\x09\x09sequence add: (IRAssignment new\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: each; yourself));\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: '$receiver'; yourself));\x0a\x09\x09\x09yourself) ].\x0a\x09\x09\x09\x0a\x09\x22To ensure the correct order of the closure instructions: first the temps then the sequence\x22\x0a\x09inlinedClosure add: sequence.\x0a\x0a\x09\x22Get all the statements\x22\x0a\x09statements := anIRClosure sequence dagChildren.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements allButLast do: [ :each | sequence add: each ].\x0a\x0a\x09\x09\x22Inlined closures change local returns into result value itself\x22\x0a\x09\x09sequence add: statements last asInlinedBlockResult ].\x0a\x0a\x09^ inlinedClosure",
 referencedClasses: ["IRTempDeclaration", "IRAssignment", "IRVariable", "AliasVar"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["inlinedClosure", "scope:", "scope", "parent:", "parent", "do:", "tempDeclarations", "add:", "inlinedSequence", "arguments", "name:", "new", "yourself", "variable:", "dagChildren", "sequence", "ifNotEmpty:", "allButLast", "asInlinedBlockResult", "last"]
 }),
 $globals.IRSendInliner);
@@ -1550,6 +1589,7 @@ args: ["anIRSend"],
 source: "inlineSend: anIRSend\x0a\x09self send: anIRSend.\x0a\x09^ self\x0a\x09\x09perform: self send selector\x0a\x09\x09withArguments: self send arguments",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["send:", "perform:withArguments:", "selector", "send", "arguments"]
 }),
 $globals.IRSendInliner);
@@ -1574,6 +1614,7 @@ args: ["anIRSend", "anIRInstruction"],
 source: "inlineSend: anIRSend andReplace: anIRInstruction\x0a\x09anIRInstruction replaceWith: anIRSend.\x0a\x09^ self inlineSend: anIRSend",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["replaceWith:", "inlineSend:"]
 }),
 $globals.IRSendInliner);
@@ -1597,6 +1638,7 @@ args: [],
 source: "inlinedClosure\x0a\x09^ IRInlinedClosure new",
 referencedClasses: ["IRInlinedClosure"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new"]
 }),
 $globals.IRSendInliner);
@@ -1650,6 +1692,7 @@ args: ["inlinedSend", "anIRInstruction"],
 source: "inlinedSend: inlinedSend withBlock: anIRInstruction\x0a\x09| inlinedClosure |\x0a\x0a\x09anIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].\x0a\x09anIRInstruction arguments size = 0 ifFalse: [ self inliningError: 'Inlined block should have zero argument' ].\x0a\x0a\x09inlinedClosure := self translator visit: (self inlineClosure: anIRInstruction).\x0a\x0a\x09inlinedSend\x0a\x09\x09add: self send receiver;\x0a\x09\x09add: inlinedClosure.\x0a\x0a\x09self send replaceWith: inlinedSend.\x0a\x09inlinedSend method internalVariables \x0a\x09\x09addAll: inlinedSend internalVariables.\x0a\x0a\x09^ inlinedSend",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "isClosure", "inliningError:", "=", "size", "arguments", "visit:", "translator", "inlineClosure:", "add:", "receiver", "send", "replaceWith:", "addAll:", "internalVariables", "method"]
 }),
 $globals.IRSendInliner);
@@ -1722,6 +1765,7 @@ args: ["inlinedSend", "anIRInstruction", "anotherIRInstruction"],
 source: "inlinedSend: inlinedSend withBlock: anIRInstruction withBlock: anotherIRInstruction\x0a\x09| inlinedClosure1 inlinedClosure2 |\x0a\x0a\x09anIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].\x0a\x09anotherIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].\x0a\x0a\x09inlinedClosure1 := self translator visit: (self inlineClosure: anIRInstruction).\x0a\x09inlinedClosure2 := self translator visit: (self inlineClosure: anotherIRInstruction).\x0a\x0a\x09inlinedSend\x0a\x09\x09add: self send receiver;\x0a\x09\x09add: inlinedClosure1;\x0a\x09\x09add: inlinedClosure2.\x0a\x0a\x09self send replaceWith: inlinedSend.\x0a\x09inlinedSend method internalVariables \x0a\x09\x09addAll: inlinedSend internalVariables.\x0a\x09\x09\x0a\x09^ inlinedSend",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "isClosure", "inliningError:", "visit:", "translator", "inlineClosure:", "add:", "receiver", "send", "replaceWith:", "addAll:", "internalVariables", "method"]
 }),
 $globals.IRSendInliner);
@@ -1745,6 +1789,7 @@ args: [],
 source: "inlinedSequence\x0a\x09^ IRInlinedSequence new",
 referencedClasses: ["IRInlinedSequence"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new"]
 }),
 $globals.IRSendInliner);
@@ -1769,6 +1814,7 @@ args: ["aString"],
 source: "inliningError: aString\x0a\x09InliningError signal: aString",
 referencedClasses: ["InliningError"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["signal:"]
 }),
 $globals.IRSendInliner);
@@ -1787,6 +1833,7 @@ args: [],
 source: "send\x0a\x09^ send",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRSendInliner);
@@ -1806,6 +1853,7 @@ args: ["anIRSend"],
 source: "send: anIRSend\x0a\x09send := anIRSend",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRSendInliner);
@@ -1824,6 +1872,7 @@ args: [],
 source: "translator\x0a\x09^ translator",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRSendInliner);
@@ -1843,6 +1892,7 @@ args: ["anASTTranslator"],
 source: "translator: anASTTranslator\x0a\x09translator := anASTTranslator",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRSendInliner);
@@ -1862,6 +1912,7 @@ args: [],
 source: "inlinedSelectors\x0a\x09^ #('ifTrue:' 'ifFalse:' 'ifTrue:ifFalse:' 'ifFalse:ifTrue:' 'ifNil:' 'ifNotNil:' 'ifNil:ifNotNil:' 'ifNotNil:ifNil:')",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRSendInliner.a$cls);
@@ -1898,6 +1949,7 @@ args: ["anIRSend"],
 source: "shouldInline: anIRSend\x0a\x09(self inlinedSelectors includes: anIRSend selector) ifFalse: [ ^ false ].\x0a\x09^ anIRSend arguments allSatisfy: [ :each | each isClosure ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "includes:", "inlinedSelectors", "selector", "allSatisfy:", "arguments", "isClosure"]
 }),
 $globals.IRSendInliner.a$cls);
@@ -1927,6 +1979,7 @@ args: ["anIRAssignment"],
 source: "inlineAssignment: anIRAssignment\x0a\x09self target: anIRAssignment left.\x0a\x09^ self inlineSend: anIRAssignment right andReplace: anIRAssignment",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["target:", "left", "inlineSend:andReplace:", "right"]
 }),
 $globals.IRAssignmentInliner);
@@ -1985,6 +2038,7 @@ args: ["anIRClosure"],
 source: "inlineClosure: anIRClosure\x0a\x09| closure sequence statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09sequence := closure sequence.\x0a\x09statements := sequence dagChildren.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09| final |\x0a\x09\x09final := statements last.\x0a\x09\x09final yieldsValue ifTrue: [\x0a\x09\x09\x09sequence replace: final with: (IRAssignment new\x0a\x09\x09\x09\x09add: self target;\x0a\x09\x09\x09\x09add: final copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ closure",
 referencedClasses: ["IRAssignment"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["inlineClosure:", "sequence", "dagChildren", "ifNotEmpty:", "last", "ifTrue:", "yieldsValue", "replace:with:", "add:", "new", "target", "copy", "yourself"]
 }),
 $globals.IRAssignmentInliner);
@@ -2003,6 +2057,7 @@ args: [],
 source: "target\x0a\x09^ target",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRAssignmentInliner);
@@ -2022,6 +2077,7 @@ args: ["anObject"],
 source: "target: anObject\x0a\x09target := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRAssignmentInliner);
@@ -2082,6 +2138,7 @@ args: ["anIRClosure"],
 source: "inlineClosure: anIRClosure\x0a\x09| closure sequence statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09sequence := closure sequence.\x0a\x09statements := sequence dagChildren.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09| final |\x0a\x09\x09final := statements last.\x0a\x09\x09final yieldsValue ifTrue: [\x0a\x09\x09\x09sequence replace: final with: (IRReturn new\x0a\x09\x09\x09\x09add: final copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ closure",
 referencedClasses: ["IRReturn"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["inlineClosure:", "sequence", "dagChildren", "ifNotEmpty:", "last", "ifTrue:", "yieldsValue", "replace:with:", "add:", "new", "copy", "yourself"]
 }),
 $globals.IRReturnInliner);
@@ -2105,6 +2162,7 @@ args: ["anIRReturn"],
 source: "inlineReturn: anIRReturn\x0a\x09^ self inlineSend: anIRReturn expression andReplace: anIRReturn",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["inlineSend:andReplace:", "expression"]
 }),
 $globals.IRReturnInliner);
@@ -2134,6 +2192,7 @@ args: [],
 source: "inliner\x0a\x09^ IRInliner new",
 referencedClasses: ["IRInliner"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new"]
 }),
 $globals.InliningCodeGenerator);
@@ -2152,6 +2211,7 @@ args: [],
 source: "irTranslatorClass\x0a\x09^ IRInliningJSTranslator",
 referencedClasses: ["IRInliningJSTranslator"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.InliningCodeGenerator);
@@ -2175,6 +2235,7 @@ args: [],
 source: "preInliner\x0a\x09^ ASTPreInliner new",
 referencedClasses: ["ASTPreInliner"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new"]
 }),
 $globals.InliningCodeGenerator);
@@ -2222,6 +2283,7 @@ args: [],
 source: "transformersDictionary\x0a\x09^ transformersDictionary ifNil: [ transformersDictionary := super transformersDictionary\x0a\x09\x09at: '3000-inlinerTagging' put: self preInliner;\x0a\x09\x09at: '6000-inliner' put: self inliner;\x0a\x09\x09at: '8000-irToJs' put: self irTranslator;\x0a\x09\x09yourself ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "at:put:", "transformersDictionary", "preInliner", "inliner", "irTranslator", "yourself"]
 }),
 $globals.InliningCodeGenerator);
@@ -2252,6 +2314,7 @@ args: [],
 source: "asInlinedBlockResult\x0a\x09^ self expression",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["expression"]
 }),
 $globals.IRBlockReturn);
@@ -2270,6 +2333,7 @@ args: [],
 source: "asInlinedBlockResult\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInstruction);

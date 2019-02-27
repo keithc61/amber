@@ -28,6 +28,7 @@ args: ["anObject", "aCollection"],
 source: "applyTo: anObject arguments: aCollection\x0a\x09<inlineJS: 'return self.apply(anObject, aCollection)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.apply(anObject, aCollection)"]]],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -52,6 +53,7 @@ args: ["aString"],
 source: "asCompiledMethod: aString\x0a\x09<inlineJS: 'return $core.method({selector:aString, fn:self});'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return $core.method({selector:aString, fn:self});"]]],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -76,6 +78,7 @@ args: [],
 source: "compiledSource\x0a\x09<inlineJS: 'return self.toString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.toString()"]]],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -106,6 +109,7 @@ args: [],
 source: "currySelf\x0a\x09\x22Transforms [ :selfarg :x :y | stcode ] block\x0a\x09which represents JS function (selfarg, x, y, ...) {jscode}\x0a\x09into function (x, y, ...) {jscode} that takes selfarg from 'this'.\x0a\x09IOW, it is usable as JS method and first arg takes the receiver.\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09return function () {\x0a\x09\x09\x09var args = [ this ];\x0a\x09\x09\x09args.push.apply(args, arguments);\x0a\x09\x09\x09return self.apply(null, args);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return function () {\x0a\x09\x09\x09var args = [ this ];\x0a\x09\x09\x09args.push.apply(args, arguments);\x0a\x09\x09\x09return self.apply(null, args);\x0a\x09\x09}\x0a\x09"]]],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -130,6 +134,7 @@ args: ["aBlock"],
 source: "ensure: aBlock\x0a\x09<inlineJS: 'try{return $self._value()}finally{aBlock._value()}'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["try{return $self._value()}finally{aBlock._value()}"]]],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -154,6 +159,7 @@ args: [],
 source: "fork\x0a\x09ForkPool default fork: self",
 referencedClasses: ["ForkPool"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["fork:", "default"]
 }),
 $globals.BlockClosure);
@@ -178,6 +184,7 @@ args: [],
 source: "new\x0a\x09\x22Use the receiver as a JS constructor.\x0a\x09*Do not* use this method to instanciate Smalltalk objects!\x22\x0a\x09<inlineJS: 'return new self()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return new self()"]]],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -201,6 +208,7 @@ args: ["anObject"],
 source: "newValue: anObject\x0a\x09^ self newWithValues: { anObject }",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["newWithValues:"]
 }),
 $globals.BlockClosure);
@@ -224,6 +232,7 @@ args: ["anObject", "anObject2"],
 source: "newValue: anObject value: anObject2\x0a\x09^ self newWithValues: { anObject. anObject2 }.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["newWithValues:"]
 }),
 $globals.BlockClosure);
@@ -247,6 +256,7 @@ args: ["anObject", "anObject2", "anObject3"],
 source: "newValue: anObject value: anObject2 value: anObject3\x0a\x09^ self newWithValues: { anObject. anObject2. anObject3 }.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["newWithValues:"]
 }),
 $globals.BlockClosure);
@@ -275,6 +285,7 @@ args: ["aCollection"],
 source: "newWithValues: aCollection\x0a\x09\x22Simulates JS new operator by combination of Object.create and .apply\x22\x0a\x09<inlineJS: '\x0a\x09\x09var object = Object.create(self.prototype);\x0a\x09\x09var result = self.apply(object, aCollection);\x0a\x09\x09return typeof result === \x22object\x22 ? result : object;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var object = Object.create(self.prototype);\x0a\x09\x09var result = self.apply(object, aCollection);\x0a\x09\x09return typeof result === \x22object\x22 ? result : object;\x0a\x09"]]],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -293,6 +304,7 @@ args: [],
 source: "numArgs\x0a\x09^ length",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -332,6 +344,7 @@ args: ["anErrorClass", "aBlock"],
 source: "on: anErrorClass do: aBlock\x0a\x09\x22All exceptions thrown in the Smalltalk stack are cought.\x0a\x09Convert all JS exceptions to JavaScriptException instances.\x22\x0a\x09\x0a\x09^ self tryCatch: [ :error | | smalltalkError |\x0a\x09\x09smalltalkError := Smalltalk asSmalltalkException: error.\x0a\x09\x09(smalltalkError isKindOf: anErrorClass)\x0a\x09\x09ifTrue: [ aBlock value: smalltalkError ]\x0a\x09\x09ifFalse: [ smalltalkError pass ] ]",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["tryCatch:", "asSmalltalkException:", "ifTrue:ifFalse:", "isKindOf:", "value:", "pass"]
 }),
 $globals.BlockClosure);
@@ -350,6 +363,7 @@ args: [],
 source: "prototype\x0a\x09^ prototype",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -373,6 +387,7 @@ args: [],
 source: "provided\x0a\x09\x22Returns JS proxy that allows to access 'static API', as in\x0a\x09  require provided resolve: ...\x0a\x09or\x0a\x09  XMLHttpRequest provided DONE\x22\x0a\x09\x0a\x09^ JSObjectProxy on: self",
 referencedClasses: ["JSObjectProxy"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["on:"]
 }),
 $globals.BlockClosure);
@@ -391,6 +406,7 @@ args: [],
 source: "receiver\x0a\x09^ nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -414,6 +430,7 @@ args: [],
 source: "timeToRun\x0a\x09\x22Answer the number of milliseconds taken to execute this block.\x22\x0a\x0a\x09^ Date millisecondsToRun: self",
 referencedClasses: ["Date"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["millisecondsToRun:"]
 }),
 $globals.BlockClosure);
@@ -446,6 +463,7 @@ args: ["aBlock"],
 source: "tryCatch: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09try {\x0a\x09\x09\x09return $self._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09return aBlock._value_(error);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09try {\x0a\x09\x09\x09return $self._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09return aBlock._value_(error);\x0a\x09\x09}\x0a\x09"]]],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -470,6 +488,7 @@ args: [],
 source: "value\x0a\x09<inlineJS: 'return self();'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self();"]]],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -494,6 +513,7 @@ args: ["anArg"],
 source: "value: anArg\x0a\x09<inlineJS: 'return self(anArg);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self(anArg);"]]],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -518,6 +538,7 @@ args: ["firstArg", "secondArg"],
 source: "value: firstArg value: secondArg\x0a\x09<inlineJS: 'return self(firstArg, secondArg);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self(firstArg, secondArg);"]]],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -542,6 +563,7 @@ args: ["firstArg", "secondArg", "thirdArg"],
 source: "value: firstArg value: secondArg value: thirdArg\x0a\x09<inlineJS: 'return self(firstArg, secondArg, thirdArg);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self(firstArg, secondArg, thirdArg);"]]],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -569,6 +591,7 @@ args: ["aNumber"],
 source: "valueWithInterval: aNumber\x0a\x09<inlineJS: '\x0a\x09\x09var interval = setInterval(self, aNumber);\x0a\x09\x09return $globals.Timeout._on_(interval);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var interval = setInterval(self, aNumber);\x0a\x09\x09return $globals.Timeout._on_(interval);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -593,6 +616,7 @@ args: ["aCollection"],
 source: "valueWithPossibleArguments: aCollection\x0a\x09<inlineJS: 'return self.apply(null, aCollection);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.apply(null, aCollection);"]]],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -620,6 +644,7 @@ args: ["aNumber"],
 source: "valueWithTimeout: aNumber\x0a\x09<inlineJS: '\x0a\x09\x09var timeout = setTimeout(self, aNumber);\x0a\x09\x09return $globals.Timeout._on_(timeout);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var timeout = setTimeout(self, aNumber);\x0a\x09\x09return $globals.Timeout._on_(timeout);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -646,6 +671,7 @@ args: [],
 source: "whileFalse\x0a\x09self whileFalse: []",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["whileFalse:"]
 }),
 $globals.BlockClosure);
@@ -670,6 +696,7 @@ args: ["aBlock"],
 source: "whileFalse: aBlock\x0a\x09<inlineJS: 'while(!$core.assert($self._value())) {aBlock._value()}'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["while(!$core.assert($self._value())) {aBlock._value()}"]]],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -696,6 +723,7 @@ args: [],
 source: "whileTrue\x0a\x09self whileTrue: []",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["whileTrue:"]
 }),
 $globals.BlockClosure);
@@ -720,6 +748,7 @@ args: ["aBlock"],
 source: "whileTrue: aBlock\x0a\x09<inlineJS: 'while($core.assert($self._value())) {aBlock._value()}'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["while($core.assert($self._value())) {aBlock._value()}"]]],
 messageSends: []
 }),
 $globals.BlockClosure);
@@ -755,6 +784,7 @@ args: [],
 source: "arguments\x0a\x09^ args ifNil: [ #() ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.CompiledMethod);
@@ -779,6 +809,7 @@ args: [],
 source: "browse\x0a\x09Finder findMethod: self",
 referencedClasses: ["Finder"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["findMethod:"]
 }),
 $globals.CompiledMethod);
@@ -802,6 +833,7 @@ args: [],
 source: "category\x0a\x09^ self protocol",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["protocol"]
 }),
 $globals.CompiledMethod);
@@ -820,6 +852,7 @@ args: [],
 source: "defaultProtocol\x0a\x09^ 'as yet unclassified'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CompiledMethod);
@@ -838,6 +871,7 @@ args: [],
 source: "fn\x0a\x09^ fn",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CompiledMethod);
@@ -857,6 +891,7 @@ args: ["aBlock"],
 source: "fn: aBlock\x0a\x09fn := aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CompiledMethod);
@@ -875,6 +910,7 @@ args: [],
 source: "isCompiledMethod\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CompiledMethod);
@@ -915,6 +951,7 @@ args: [],
 source: "isOverridden\x0a    self methodClass allSubclassesDo: [ :each |\x0a\x09    (each includesSelector: selector)\x0a        \x09ifTrue: [ ^ true ] ].\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["allSubclassesDo:", "methodClass", "ifTrue:", "includesSelector:"]
 }),
 $globals.CompiledMethod);
@@ -954,6 +991,7 @@ args: [],
 source: "isOverride\x0a\x09| superclass |\x0a    \x0a    superclass := self methodClass superclass.\x0a\x09superclass ifNil: [ ^ false ].\x0a\x09\x0a    ^ (self methodClass superclass lookupSelector: self selector) notNil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["superclass", "methodClass", "ifNil:", "notNil", "lookupSelector:", "selector"]
 }),
 $globals.CompiledMethod);
@@ -972,6 +1010,7 @@ args: [],
 source: "messageSends\x0a\x09^ messageSends",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CompiledMethod);
@@ -990,6 +1029,7 @@ args: [],
 source: "methodClass\x0a\x09^ owner",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CompiledMethod);
@@ -1021,6 +1061,7 @@ args: [],
 source: "package\x0a\x09\x22Answer the package the receiver belongs to:\x0a\x09- if it is an extension method, answer the corresponding package\x0a\x09- else answer the `methodClass` package\x22\x0a\x09\x0a\x09^ self methodClass ifNotNil: [ :class | class packageOfProtocol: self protocol ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "methodClass", "packageOfProtocol:", "protocol"]
 }),
 $globals.CompiledMethod);
@@ -1100,6 +1141,7 @@ args: [],
 source: "protocol\x0a\x09^ protocol ifNil: [ self defaultProtocol ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "defaultProtocol"]
 }),
 $globals.CompiledMethod);
@@ -1147,6 +1189,7 @@ args: ["aString"],
 source: "protocol: aString\x0a\x09| oldProtocol |\x0a\x09oldProtocol := self protocol.\x0a\x09protocol := aString.\x0a\x0a\x09oldProtocol ifNotNil: [\x0a\x09\x09SystemAnnouncer current announce: (MethodMoved new\x0a\x09\x09\x09method: self;\x0a\x09\x09\x09oldProtocol: oldProtocol;\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09self methodClass ifNotNil: [ :methodClass |\x0a\x09\x09methodClass organization addElement: aString.\x0a\x09\x09methodClass removeProtocolIfEmpty: oldProtocol ]",
 referencedClasses: ["SystemAnnouncer", "MethodMoved"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["protocol", "ifNotNil:", "announce:", "current", "method:", "new", "oldProtocol:", "yourself", "methodClass", "addElement:", "organization", "removeProtocolIfEmpty:"]
 }),
 $globals.CompiledMethod);
@@ -1165,6 +1208,7 @@ args: [],
 source: "referencedClasses\x0a\x09^ referencedClasses",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CompiledMethod);
@@ -1183,6 +1227,7 @@ args: [],
 source: "selector\x0a\x09^ selector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CompiledMethod);
@@ -1202,6 +1247,7 @@ args: ["aString"],
 source: "selector: aString\x0a\x09selector := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CompiledMethod);
@@ -1225,6 +1271,7 @@ args: ["anObject", "aCollection"],
 source: "sendTo: anObject arguments: aCollection\x0a\x09^ self fn applyTo: anObject arguments: aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["applyTo:arguments:", "fn"]
 }),
 $globals.CompiledMethod);
@@ -1254,6 +1301,7 @@ args: [],
 source: "source\x0a\x09^ source ifNil: [ '' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.CompiledMethod);
@@ -1273,6 +1321,7 @@ args: ["aString"],
 source: "source: aString\x0a\x09source := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CompiledMethod);
@@ -1304,6 +1353,7 @@ args: [],
 source: "addWorker\x0a\x09worker valueWithTimeout: 0.\x0a\x09poolSize := poolSize + 1",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["valueWithTimeout:", "+"]
 }),
 $globals.ForkPool);
@@ -1327,6 +1377,7 @@ args: [],
 source: "defaultMaxPoolSize\x0a\x09^ self class defaultMaxPoolSize",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["defaultMaxPoolSize", "class"]
 }),
 $globals.ForkPool);
@@ -1356,6 +1407,7 @@ args: ["aBlock"],
 source: "fork: aBlock\x0a\x09poolSize < self maxPoolSize ifTrue: [ self addWorker ].\x0a\x09queue nextPut: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "<", "maxPoolSize", "addWorker", "nextPut:"]
 }),
 $globals.ForkPool);
@@ -1390,6 +1442,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x09\x0a\x09poolSize := 0.\x0a\x09queue := Queue new.\x0a\x09worker := self makeWorker",
 referencedClasses: ["Queue"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize", "new", "makeWorker"]
 }),
 $globals.ForkPool);
@@ -1449,6 +1502,7 @@ args: [],
 source: "makeWorker\x0a\x09| sentinel |\x0a\x09sentinel := Object new.\x0a\x09^ [ | block |\x0a\x09\x09poolSize := poolSize - 1.\x0a\x09\x09block := queue nextIfAbsent: [ sentinel ].\x0a\x09\x09block == sentinel ifFalse: [\x0a\x09\x09\x09[ block value ] ensure: [ self addWorker ] ]]",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "-", "nextIfAbsent:", "ifFalse:", "==", "ensure:", "value", "addWorker"]
 }),
 $globals.ForkPool);
@@ -1478,6 +1532,7 @@ args: [],
 source: "maxPoolSize\x0a\x09^ maxPoolSize ifNil: [ self defaultMaxPoolSize ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "defaultMaxPoolSize"]
 }),
 $globals.ForkPool);
@@ -1497,6 +1552,7 @@ args: ["anInteger"],
 source: "maxPoolSize: anInteger\x0a\x09maxPoolSize := anInteger",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ForkPool);
@@ -1529,6 +1585,7 @@ args: [],
 source: "default\x0a\x09^ default ifNil: [ default := self new ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "new"]
 }),
 $globals.ForkPool.a$cls);
@@ -1547,6 +1604,7 @@ args: [],
 source: "defaultMaxPoolSize\x0a\x09^ 100",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ForkPool.a$cls);
@@ -1566,6 +1624,7 @@ args: [],
 source: "resetDefault\x0a\x09default := nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ForkPool.a$cls);
@@ -1589,6 +1648,7 @@ args: [],
 source: "arguments\x0a\x09^ arguments",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Message);
@@ -1608,6 +1668,7 @@ args: ["anArray"],
 source: "arguments: anArray\x0a\x09arguments := anArray",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Message);
@@ -1648,6 +1709,7 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09super printOn: aStream.\x0a\x09aStream\x0a\x09\x09nextPutAll: '(';\x0a\x09\x09nextPutAll: self selector;\x0a\x09\x09nextPutAll: ')'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["printOn:", "nextPutAll:", "selector"]
 }),
 $globals.Message);
@@ -1666,6 +1728,7 @@ args: [],
 source: "selector\x0a\x09^ selector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Message);
@@ -1685,6 +1748,7 @@ args: ["aString"],
 source: "selector: aString\x0a\x09selector := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Message);
@@ -1708,6 +1772,7 @@ args: ["anObject"],
 source: "sendTo: anObject\x0a\x09^ anObject perform: self selector withArguments: self arguments",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["perform:withArguments:", "selector", "arguments"]
 }),
 $globals.Message);
@@ -1736,6 +1801,7 @@ args: ["aString", "anArray"],
 source: "selector: aString arguments: anArray\x0a\x09^ self new\x0a\x09\x09selector: aString;\x0a\x09\x09arguments: anArray;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["selector:", "new", "arguments:", "yourself"]
 }),
 $globals.Message.a$cls);
@@ -1759,6 +1825,7 @@ args: ["aString", "anArray", "anObject"],
 source: "selector: aString arguments: anArray notUnderstoodBy: anObject\x0a\x09\x22Creates the message and passes it to #doesNotUnderstand:.\x0a\x09Used by kernel to handle MNU.\x22\x0a\x09^ anObject doesNotUnderstand:\x0a\x09\x09(self selector: aString arguments: anArray)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["doesNotUnderstand:", "selector:arguments:"]
 }),
 $globals.Message.a$cls);
@@ -1787,6 +1854,7 @@ args: [],
 source: "arguments\x0a\x09^ message arguments",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["arguments"]
 }),
 $globals.MessageSend);
@@ -1811,6 +1879,7 @@ args: ["aCollection"],
 source: "arguments: aCollection\x0a\x09message arguments: aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["arguments:"]
 }),
 $globals.MessageSend);
@@ -1843,6 +1912,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x09message := Message new",
 referencedClasses: ["Message"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize", "new"]
 }),
 $globals.MessageSend);
@@ -1891,6 +1961,7 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09super printOn: aStream.\x0a\x09aStream\x0a\x09\x09nextPutAll: '(';\x0a\x09\x09nextPutAll: self receiver;\x0a\x09\x09nextPutAll: ' >> ';\x0a\x09\x09nextPutAll: self selector;\x0a\x09\x09nextPutAll: ')'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["printOn:", "nextPutAll:", "receiver", "selector"]
 }),
 $globals.MessageSend);
@@ -1909,6 +1980,7 @@ args: [],
 source: "receiver\x0a\x09^ receiver",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MessageSend);
@@ -1928,6 +2000,7 @@ args: ["anObject"],
 source: "receiver: anObject\x0a\x09receiver := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MessageSend);
@@ -1951,6 +2024,7 @@ args: [],
 source: "selector\x0a\x09^ message selector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["selector"]
 }),
 $globals.MessageSend);
@@ -1975,6 +2049,7 @@ args: ["aString"],
 source: "selector: aString\x0a\x09message selector: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["selector:"]
 }),
 $globals.MessageSend);
@@ -1998,6 +2073,7 @@ args: [],
 source: "value\x0a\x09^ message sendTo: self receiver",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["sendTo:", "receiver"]
 }),
 $globals.MessageSend);
@@ -2024,6 +2100,7 @@ args: ["anObject"],
 source: "value: anObject\x0a\x09^ message \x0a\x09\x09arguments: { anObject };\x0a\x09\x09sendTo: self receiver",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["arguments:", "sendTo:", "receiver"]
 }),
 $globals.MessageSend);
@@ -2050,6 +2127,7 @@ args: ["firstArgument", "secondArgument"],
 source: "value: firstArgument value: secondArgument\x0a\x09^ message \x0a\x09\x09arguments: { firstArgument. secondArgument };\x0a\x09\x09sendTo: self receiver",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["arguments:", "sendTo:", "receiver"]
 }),
 $globals.MessageSend);
@@ -2076,6 +2154,7 @@ args: ["firstArgument", "secondArgument", "thirdArgument"],
 source: "value: firstArgument value: secondArgument value: thirdArgument\x0a\x09^ message \x0a\x09\x09arguments: { firstArgument. secondArgument. thirdArgument };\x0a\x09\x09sendTo: self receiver",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["arguments:", "sendTo:", "receiver"]
 }),
 $globals.MessageSend);
@@ -2100,6 +2179,7 @@ args: ["aCollection"],
 source: "valueWithPossibleArguments: aCollection\x0a\x09self arguments: aCollection.\x0a\x09^ self value",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["arguments:", "value"]
 }),
 $globals.MessageSend);
@@ -2124,6 +2204,7 @@ args: [],
 source: "basicReceiver\x0a\x09^ receiver",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodContext);
@@ -2142,6 +2223,7 @@ args: [],
 source: "evaluatedSelector\x0a\x09^ evaluatedSelector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodContext);
@@ -2160,6 +2242,7 @@ args: [],
 source: "home\x0a\x09^ homeContext",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodContext);
@@ -2189,6 +2272,7 @@ args: [],
 source: "index\x0a\x09^ index ifNil: [ 0 ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.MethodContext);
@@ -2207,6 +2291,7 @@ args: [],
 source: "locals\x0a\x09^ locals",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodContext);
@@ -2236,6 +2321,7 @@ args: [],
 source: "outerContext\x0a\x09^ outerContext ifNil: [ self home ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "home"]
 }),
 $globals.MethodContext);
@@ -2265,6 +2351,7 @@ args: [],
 source: "selector\x0a\x09^ selector ifNotNil: [ Smalltalk core js2st: selector ]",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "js2st:", "core"]
 }),
 $globals.MethodContext);
@@ -2283,6 +2370,7 @@ args: [],
 source: "sendIndexes\x0a\x09^ sendIdx",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodContext);
@@ -2307,6 +2395,7 @@ args: [],
 source: "stubHere\x0a\x09homeContext := JSObjectProxy undefined",
 referencedClasses: ["JSObjectProxy"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["undefined"]
 }),
 $globals.MethodContext);
@@ -2354,6 +2443,7 @@ args: ["anInteger"],
 source: "stubToAtMost: anInteger\x0a\x09| context |\x0a\x09context := self.\x0a\x09anInteger timesRepeat: [ context := context ifNotNil: [ context home ] ].\x0a\x09context ifNotNil: [ context stubHere ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["timesRepeat:", "ifNotNil:", "home", "stubHere"]
 }),
 $globals.MethodContext);
@@ -2377,6 +2467,7 @@ args: [],
 source: "supercall\x0a\x09^ supercall = true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["="]
 }),
 $globals.MethodContext);
@@ -2411,6 +2502,7 @@ args: ["aString"],
 source: "constructorNamed: aString\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return new nativeFunc();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return new nativeFunc();\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2438,6 +2530,7 @@ args: ["aString", "anObject"],
 source: "constructorNamed: aString value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return new nativeFunc(anObject);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return new nativeFunc(anObject);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2465,6 +2558,7 @@ args: ["aString", "anObject", "anObject2"],
 source: "constructorNamed: aString value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var nativeFunc=$globals.Platform._globals[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2492,6 +2586,7 @@ args: ["aString", "anObject", "anObject2", "anObject3"],
 source: "constructorNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var nativeFunc=$globals.Platform._globals[aString];\x0a\x09\x09return new nativeFunc(anObject,anObject2, anObject3);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2518,6 +2613,7 @@ args: ["nativeFunc"],
 source: "constructorOf: nativeFunc\x0a\x09<inlineJS: '\x0a\x09\x09return new nativeFunc();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return new nativeFunc();\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2544,6 +2640,7 @@ args: ["nativeFunc", "anObject"],
 source: "constructorOf: nativeFunc value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09return new nativeFunc(anObject);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return new nativeFunc(anObject);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2570,6 +2667,7 @@ args: ["nativeFunc", "anObject", "anObject2"],
 source: "constructorOf: nativeFunc value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09return new nativeFunc(anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return new nativeFunc(anObject,anObject2);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2596,6 +2694,7 @@ args: ["nativeFunc", "anObject", "anObject2", "anObject3"],
 source: "constructorOf: nativeFunc value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09return new nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return new nativeFunc(anObject,anObject2, anObject3);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2619,6 +2718,7 @@ args: ["aString"],
 source: "exists: aString\x0a\x09^ Platform includesGlobal: aString",
 referencedClasses: ["Platform"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["includesGlobal:"]
 }),
 $globals.NativeFunction.a$cls);
@@ -2646,6 +2746,7 @@ args: ["aString"],
 source: "functionNamed: aString\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals[aString];\x0a\x09\x09return nativeFunc();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var nativeFunc=$globals.Platform._globals[aString];\x0a\x09\x09return nativeFunc();\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2673,6 +2774,7 @@ args: ["aString", "anObject"],
 source: "functionNamed: aString value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return nativeFunc(anObject);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return nativeFunc(anObject);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2700,6 +2802,7 @@ args: ["aString", "anObject", "anObject2"],
 source: "functionNamed: aString value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2727,6 +2830,7 @@ args: ["aString", "anObject", "anObject2", "anObject3"],
 source: "functionNamed: aString value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return nativeFunc(anObject,anObject2, anObject3);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2754,6 +2858,7 @@ args: ["aString", "args"],
 source: "functionNamed: aString valueWithArgs: args\x0a\x09<inlineJS: '\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, null, args);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var nativeFunc=$globals.Platform._globals()[aString];\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, null, args);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2780,6 +2885,7 @@ args: ["nativeFunc"],
 source: "functionOf: nativeFunc\x0a\x09<inlineJS: '\x0a\x09\x09return nativeFunc();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return nativeFunc();\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2806,6 +2912,7 @@ args: ["nativeFunc", "anObject"],
 source: "functionOf: nativeFunc value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09return nativeFunc(anObject);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return nativeFunc(anObject);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2832,6 +2939,7 @@ args: ["nativeFunc", "anObject", "anObject2"],
 source: "functionOf: nativeFunc value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09return nativeFunc(anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return nativeFunc(anObject,anObject2);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2858,6 +2966,7 @@ args: ["nativeFunc", "anObject", "anObject2", "anObject3"],
 source: "functionOf: nativeFunc value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09return nativeFunc(anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return nativeFunc(anObject,anObject2, anObject3);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2884,6 +2993,7 @@ args: ["nativeFunc", "args"],
 source: "functionOf: nativeFunc valueWithArgs: args\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, null, args);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, null, args);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2908,6 +3018,7 @@ args: ["anObject"],
 source: "isNativeFunction: anObject\x0a\x09<inlineJS: 'return typeof anObject === \x22function\x22'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return typeof anObject === \x22function\x22"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2934,6 +3045,7 @@ args: ["nativeFunc", "thisObject"],
 source: "methodOf: nativeFunc this: thisObject\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2960,6 +3072,7 @@ args: ["nativeFunc", "thisObject", "anObject"],
 source: "methodOf: nativeFunc this: thisObject value: anObject\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject, anObject);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject, anObject);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -2986,6 +3099,7 @@ args: ["nativeFunc", "thisObject", "anObject", "anObject2"],
 source: "methodOf: nativeFunc this: thisObject value: anObject value: anObject2\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject,anObject,anObject2);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject,anObject,anObject2);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -3012,6 +3126,7 @@ args: ["nativeFunc", "thisObject", "anObject", "anObject2", "anObject3"],
 source: "methodOf: nativeFunc this: thisObject value: anObject value: anObject2 value: anObject3\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject,anObject,anObject2, anObject3);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return Function.prototype.call.call(nativeFunc, thisObject,anObject,anObject2, anObject3);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -3038,6 +3153,7 @@ args: ["nativeFunc", "thisObject", "args"],
 source: "methodOf: nativeFunc this: thisObject valueWithArgs: args\x0a\x09<inlineJS: '\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, thisObject, args);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return Function.prototype.apply.call(nativeFunc, thisObject, args);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.NativeFunction.a$cls);
@@ -3132,6 +3248,7 @@ args: [],
 source: "asString\x0a\x09^ self isBlockContext\x0a\x09\x09ifTrue: [ 'a block (in ', self methodContext asString, ')' ]\x0a\x09\x09ifFalse: [ \x0a\x09\x09\x09| methodClass |\x0a\x09\x09\x09methodClass := self method methodClass.\x0a\x09\x09\x09methodClass = self receiver class \x0a\x09\x09\x09\x09ifTrue: [ self receiver class name, ' >> ', self selector ]\x0a\x09\x09\x09\x09ifFalse: [ self receiver class name, '(', methodClass name, ') >> ', self selector ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "isBlockContext", ",", "asString", "methodContext", "methodClass", "method", "=", "class", "receiver", "name", "selector"]
 }),
 $globals.TMethodContext);
@@ -3156,6 +3273,7 @@ args: [],
 source: "basicReceiver\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.TMethodContext);
@@ -3208,6 +3326,7 @@ args: ["testBlock"],
 source: "findContextSuchThat: testBlock\x0a\x09\x22Search self and my sender chain for first one that satisfies `testBlock`.  \x0a\x09Answer `nil` if none satisfy\x22\x0a\x0a\x09| context |\x0a\x09\x0a\x09context := self.\x0a\x09[ context isNil] whileFalse: [\x0a\x09\x09(testBlock value: context) \x0a\x09\x09\x09ifTrue: [ ^ context ].\x0a\x09\x09context := context outerContext ].\x0a\x0a\x09^ nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["whileFalse:", "isNil", "ifTrue:", "value:", "outerContext"]
 }),
 $globals.TMethodContext);
@@ -3232,6 +3351,7 @@ args: [],
 source: "home\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.TMethodContext);
@@ -3256,6 +3376,7 @@ args: [],
 source: "index\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.TMethodContext);
@@ -3279,6 +3400,7 @@ args: [],
 source: "isBlockContext\x0a\x09\x22Block context do not have selectors.\x22\x0a\x09\x0a\x09^ self selector isNil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["isNil", "selector"]
 }),
 $globals.TMethodContext);
@@ -3303,6 +3425,7 @@ args: [],
 source: "locals\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.TMethodContext);
@@ -3369,6 +3492,7 @@ args: [],
 source: "method\x0a\x09| method lookupClass receiverClass supercall |\x0a\x09\x0a\x09self methodContext ifNil: [ ^ nil ].\x0a\x0a\x09receiverClass := self methodContext receiver class.\x0a\x09method := receiverClass lookupSelector: self methodContext selector.\x0a\x09supercall := self outerContext \x0a\x09\x09ifNil: [ false ]\x0a\x09\x09ifNotNil: [ :outer | outer supercall ].\x0a\x0a\x09^ supercall\x0a\x09\x09ifFalse: [ method ]\x0a\x09\x09ifTrue: [ method methodClass superclass lookupSelector: self methodContext selector ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "methodContext", "class", "receiver", "lookupSelector:", "selector", "ifNil:ifNotNil:", "outerContext", "supercall", "ifFalse:ifTrue:", "superclass", "methodClass"]
 }),
 $globals.TMethodContext);
@@ -3404,6 +3528,7 @@ args: [],
 source: "methodContext\x0a\x09self isBlockContext ifFalse: [ ^ self ].\x0a\x09\x0a\x09^ self outerContext ifNotNil: [ :outer |\x0a\x09\x09outer methodContext ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "isBlockContext", "ifNotNil:", "outerContext", "methodContext"]
 }),
 $globals.TMethodContext);
@@ -3428,6 +3553,7 @@ args: [],
 source: "outerContext\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.TMethodContext);
@@ -3468,6 +3594,7 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09super printOn: aStream.\x0a\x09aStream \x0a\x09\x09nextPutAll: '(';\x0a\x09\x09nextPutAll: self asString;\x0a\x09\x09nextPutAll: ')'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["printOn:", "nextPutAll:", "asString"]
 }),
 $globals.TMethodContext);
@@ -3509,6 +3636,7 @@ args: [],
 source: "receiver\x0a\x09^ (self isBlockContext and: [ self outerContext notNil ])\x0a\x09\x09ifTrue: [ self outerContext receiver ]\x0a\x09\x09ifFalse: [ self basicReceiver ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "and:", "isBlockContext", "notNil", "outerContext", "receiver", "basicReceiver"]
 }),
 $globals.TMethodContext);
@@ -3533,6 +3661,7 @@ args: [],
 source: "selector\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.TMethodContext);
@@ -3557,6 +3686,7 @@ args: [],
 source: "sendIndexes\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.TMethodContext);
@@ -3581,6 +3711,7 @@ args: [],
 source: "supercall\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.TMethodContext);
@@ -3613,6 +3744,7 @@ args: [],
 source: "clearInterval\x0a\x09<inlineJS: '\x0a\x09\x09var interval = $self.rawTimeout;\x0a\x09\x09clearInterval(interval);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var interval = $self.rawTimeout;\x0a\x09\x09clearInterval(interval);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.Timeout);
@@ -3640,6 +3772,7 @@ args: [],
 source: "clearTimeout\x0a\x09<inlineJS: '\x0a\x09\x09var timeout = $self.rawTimeout;\x0a\x09\x09clearTimeout(timeout);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var timeout = $self.rawTimeout;\x0a\x09\x09clearTimeout(timeout);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.Timeout);
@@ -3659,6 +3792,7 @@ args: ["anObject"],
 source: "rawTimeout: anObject\x0a\x09rawTimeout := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Timeout);
@@ -3686,6 +3820,7 @@ args: ["anObject"],
 source: "on: anObject\x0a\x09^ self new rawTimeout: anObject; yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["rawTimeout:", "new", "yourself"]
 }),
 $globals.Timeout.a$cls);

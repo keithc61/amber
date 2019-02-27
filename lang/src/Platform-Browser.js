@@ -26,6 +26,7 @@ args: [],
 source: "globals\x0a\x09^ window",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.BrowserPlatform);
@@ -55,6 +56,7 @@ args: [],
 source: "newXhr\x0a\x09XMLHttpRequest\x0a\x09\x09ifNotNil: [ ^ NativeFunction constructorOf: XMLHttpRequest ]\x0a\x09\x09ifNil: [ self error: 'XMLHttpRequest not available.' ]",
 referencedClasses: ["XMLHttpRequest", "NativeFunction"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:ifNil:", "constructorOf:", "error:"]
 }),
 $globals.BrowserPlatform);
@@ -84,6 +86,7 @@ args: [],
 source: "initialize\x0a\x09self isFeasible ifTrue: [ Platform registerIfNone: self new ]",
 referencedClasses: ["Platform"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "isFeasible", "registerIfNone:", "new"]
 }),
 $globals.BrowserPlatform.a$cls);
@@ -108,6 +111,7 @@ args: [],
 source: "isFeasible\x0a<inlineJS: 'return typeof window !== \x22undefined\x22'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return typeof window !== \x22undefined\x22"]]],
 messageSends: []
 }),
 $globals.BrowserPlatform.a$cls);
@@ -136,6 +140,7 @@ args: ["aString"],
 source: "alert: aString\x0a\x09^ window alert: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["alert:"]
 }),
 $globals.BrowserTerminal);
@@ -159,6 +164,7 @@ args: ["aString"],
 source: "confirm: aString\x0a\x09^ window confirm: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["confirm:"]
 }),
 $globals.BrowserTerminal);
@@ -182,6 +188,7 @@ args: ["aString"],
 source: "prompt: aString\x0a\x09^ window prompt: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["prompt:"]
 }),
 $globals.BrowserTerminal);
@@ -205,6 +212,7 @@ args: ["aString", "defaultString"],
 source: "prompt: aString default: defaultString\x0a\x09^ window prompt: aString default: defaultString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["prompt:default:"]
 }),
 $globals.BrowserTerminal);
@@ -234,6 +242,7 @@ args: [],
 source: "initialize\x0a\x09self isFeasible ifTrue: [ Terminal registerIfNone: self new ]",
 referencedClasses: ["Terminal"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "isFeasible", "registerIfNone:", "new"]
 }),
 $globals.BrowserTerminal.a$cls);
@@ -258,6 +267,7 @@ args: [],
 source: "isFeasible\x0a<inlineJS: 'return typeof window !== \x22undefined\x22'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return typeof window !== \x22undefined\x22"]]],
 messageSends: []
 }),
 $globals.BrowserTerminal.a$cls);
@@ -281,6 +291,7 @@ args: ["aFrame"],
 source: "postMessageTo: aFrame\x0a^ self postMessageTo: aFrame origin: '*'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["postMessageTo:origin:"]
 }),
 $globals.Object);
@@ -305,6 +316,7 @@ args: ["aFrame", "aString"],
 source: "postMessageTo: aFrame origin: aString\x0a<inlineJS: 'return aFrame.postMessage(self, aString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aFrame.postMessage(self, aString)"]]],
 messageSends: []
 }),
 $globals.Object);

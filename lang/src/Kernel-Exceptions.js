@@ -28,6 +28,7 @@ args: [],
 source: "basicSignal\x0a\x09<inlineJS: 'throw self;'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["throw self;"]]],
 messageSends: []
 }),
 $globals.Error);
@@ -47,6 +48,7 @@ args: [],
 source: "beHandled\x0a\x09amberHandled := true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Error);
@@ -66,6 +68,7 @@ args: [],
 source: "beSmalltalkError\x0a\x09smalltalkError := true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Error);
@@ -85,6 +88,7 @@ args: [],
 source: "beUnhandled\x0a\x09amberHandled := false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Error);
@@ -103,6 +107,7 @@ args: [],
 source: "context\x0a\x09^ context",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Error);
@@ -122,6 +127,7 @@ args: ["aMethodContext"],
 source: "context: aMethodContext\x0a\x09context := aMethodContext",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Error);
@@ -146,6 +152,7 @@ args: [],
 source: "initialize\x0a\x09self messageText: 'Errorclass: ', (self class name).",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["messageText:", ",", "name", "class"]
 }),
 $globals.Error);
@@ -169,6 +176,7 @@ args: [],
 source: "isSmalltalkError\x0a\x09^ smalltalkError == true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["=="]
 }),
 $globals.Error);
@@ -187,6 +195,7 @@ args: [],
 source: "jsStack\x0a\x09^ stack",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Error);
@@ -205,6 +214,7 @@ args: [],
 source: "messageText\x0a\x09^ message",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Error);
@@ -224,6 +234,7 @@ args: ["aString"],
 source: "messageText: aString\x0a\x09message := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Error);
@@ -247,6 +258,7 @@ args: [],
 source: "outer\x0a\x09\x22Pharo compatibility. Just sends #pass.\x22\x0a\x09\x0a\x09^ self pass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["pass"]
 }),
 $globals.Error);
@@ -272,6 +284,7 @@ args: [],
 source: "pass\x0a\x09\x22Let outer handler take care of this.\x22\x0a\x0a\x09self beUnhandled; basicSignal",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["beUnhandled", "basicSignal"]
 }),
 $globals.Error);
@@ -296,6 +309,7 @@ args: [],
 source: "resignal\x0a\x09self deprecatedAPI: 'Use #pass.'.\x0a\x09^ self pass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["deprecatedAPI:", "pass"]
 }),
 $globals.Error);
@@ -323,6 +337,7 @@ args: [],
 source: "signal\x0a\x09self beUnhandled; context: thisContext; beSmalltalkError; basicSignal",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["beUnhandled", "context:", "beSmalltalkError", "basicSignal"]
 }),
 $globals.Error);
@@ -348,6 +363,7 @@ args: ["aString"],
 source: "signal: aString\x0a\x09self messageText: aString; signal",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["messageText:", "signal"]
 }),
 $globals.Error);
@@ -371,6 +387,7 @@ args: [],
 source: "signalerContext\x0a\x09^ self signalerContextFrom: self context",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["signalerContextFrom:", "context"]
 }),
 $globals.Error);
@@ -420,6 +437,7 @@ args: ["aContext"],
 source: "signalerContextFrom: aContext\x0a\x09\x22Find the first sender of signal(:), the first context which is neither \x0a\x09for an instance method nor for a class side method of Exception (or subclass).\x0a\x09This will make sure that the same context is found for both, `Error signal` \x0a\x09and `Error new signal`\x22\x0a\x0a\x09^ aContext findContextSuchThat: [ :one |\x0a\x09\x09(one receiver == self \x0a\x09\x09or: [ one receiver == self class ]) not ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["findContextSuchThat:", "not", "or:", "==", "receiver", "class"]
 }),
 $globals.Error);
@@ -443,6 +461,7 @@ args: [],
 source: "wasHandled\x0a\x09^ amberHandled == true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["=="]
 }),
 $globals.Error);
@@ -462,6 +481,7 @@ args: [],
 source: "classTag\x0a\x09\x22Returns a tag or general category for this class.\x0a\x09Typically used to help tools do some reflection.\x0a\x09Helios, for example, uses this to decide what icon the class should display.\x22\x0a\x09\x0a\x09^ 'exception'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Error.a$cls);
@@ -485,6 +505,7 @@ args: [],
 source: "signal\x0a\x09^ self new signal",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["signal", "new"]
 }),
 $globals.Error.a$cls);
@@ -508,6 +529,7 @@ args: ["aString"],
 source: "signal: aString\x0a\x09^ self new\x0a\x09\x09signal: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["signal:", "new"]
 }),
 $globals.Error.a$cls);
@@ -531,6 +553,7 @@ args: [],
 source: "messageText\x0a\x09^ 'Halt encountered'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Halt);
@@ -591,6 +614,7 @@ args: ["aContext"],
 source: "signalerContextFrom: aContext\x0a\x09\x22specialized version to find the proper context to open the debugger on.\x0a\x09This will find the first context whose method is no longer on `Halt` or \x0a\x09`Halt class` nor is `#halt` method itself.\x22\x0a\x09\x0a\x09^ aContext findContextSuchThat: [ :one |\x0a\x09\x09(one receiver == self \x0a\x09\x09or: [ (one receiver == self class) \x0a\x09\x09or: [ one method selector = #halt ]]) not ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["findContextSuchThat:", "not", "or:", "==", "receiver", "class", "=", "selector", "method"]
 }),
 $globals.Halt);
@@ -615,6 +639,7 @@ args: [],
 source: "exception\x0a\x09^ exception",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.JavaScriptException);
@@ -634,6 +659,7 @@ args: ["anException"],
 source: "exception: anException\x0a\x09exception := anException",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.JavaScriptException);
@@ -658,6 +684,7 @@ args: [],
 source: "messageText\x0a\x09<inlineJS: 'return \x22JavaScript exception: \x22 + $self.exception.toString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return \x22JavaScript exception: \x22 + $self.exception.toString()"]]],
 messageSends: []
 }),
 $globals.JavaScriptException);
@@ -682,6 +709,7 @@ args: [],
 source: "shouldBeStubbed\x0a\x09<inlineJS: 'return $self.exception instanceof RangeError'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return $self.exception instanceof RangeError"]]],
 messageSends: []
 }),
 $globals.JavaScriptException);
@@ -726,6 +754,7 @@ args: [],
 source: "wrap\x0a\x09[ self signal ] tryCatch:\x0a\x09\x09[ self shouldBeStubbed ifTrue: [ self context stubToAtMost: 100 ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["tryCatch:", "signal", "ifTrue:", "shouldBeStubbed", "stubToAtMost:", "context"]
 }),
 $globals.JavaScriptException);
@@ -753,6 +782,7 @@ args: ["anException"],
 source: "on: anException\x0a\x09^ self new\x0a\x09\x09exception: anException;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["exception:", "new", "yourself"]
 }),
 $globals.JavaScriptException.a$cls);
@@ -780,6 +810,7 @@ args: ["anException", "aMethodContext"],
 source: "on: anException context: aMethodContext\x0a\x09^ self new\x0a\x09\x09exception: anException;\x0a\x09\x09context: aMethodContext;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["exception:", "new", "context:", "yourself"]
 }),
 $globals.JavaScriptException.a$cls);
@@ -803,6 +834,7 @@ args: [],
 source: "message\x0a\x09^ smalltalkMessage",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MessageNotUnderstood);
@@ -822,6 +854,7 @@ args: ["aMessage"],
 source: "message: aMessage\x0a\x09smalltalkMessage := aMessage",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MessageNotUnderstood);
@@ -850,6 +883,7 @@ args: [],
 source: "messageText\x0a\x09^ self receiver asString, ' does not understand #', self message selector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "asString", "receiver", "selector", "message"]
 }),
 $globals.MessageNotUnderstood);
@@ -868,6 +902,7 @@ args: [],
 source: "receiver\x0a\x09^ receiver",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MessageNotUnderstood);
@@ -887,6 +922,7 @@ args: ["anObject"],
 source: "receiver: anObject\x0a\x09receiver := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MessageNotUnderstood);
@@ -911,6 +947,7 @@ args: [],
 source: "object\x0a\x09^ object",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.NonBooleanReceiver);
@@ -930,6 +967,7 @@ args: ["anObject"],
 source: "object: anObject\x0a\x09object := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.NonBooleanReceiver);
@@ -957,6 +995,7 @@ args: ["anObject"],
 source: "signalOn: anObject\x0a\x09^ self new\x0a\x09\x09object: anObject;\x0a\x09\x09signal",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["object:", "new", "signal"]
 }),
 $globals.NonBooleanReceiver.a$cls);

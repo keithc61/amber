@@ -26,6 +26,7 @@ args: [],
 source: "globals\x0a\x09^ global",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.NodePlatform);
@@ -55,6 +56,7 @@ args: [],
 source: "newXhr\x0a\x09XMLHttpRequest\x0a\x09\x09ifNotNil: [ ^ XMLHttpRequest new ]\x0a\x09\x09ifNil: [ self error: 'XMLHttpRequest not available.' ]",
 referencedClasses: ["XMLHttpRequest"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:ifNil:", "new", "error:"]
 }),
 $globals.NodePlatform);
@@ -84,6 +86,7 @@ args: [],
 source: "initialize\x0a\x09self isFeasible ifTrue: [ Platform registerIfNone: self new ]",
 referencedClasses: ["Platform"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "isFeasible", "registerIfNone:", "new"]
 }),
 $globals.NodePlatform.a$cls);
@@ -108,6 +111,7 @@ args: [],
 source: "isFeasible\x0a<inlineJS: 'return typeof process !== \x22undefined\x22 && process && process.versions && process.versions.node != null'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return typeof process !== \x22undefined\x22 && process && process.versions && process.versions.node != null"]]],
 messageSends: []
 }),
 $globals.NodePlatform.a$cls);

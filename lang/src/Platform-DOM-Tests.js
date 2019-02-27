@@ -29,6 +29,7 @@ args: [],
 source: "testEntityConversion\x0a\x09PlatformDom isFeasible ifTrue: [ self assert: '&copy;' htmlTextContent equals: '©' ]",
 referencedClasses: ["PlatformDom"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "isFeasible", "assert:equals:", "htmlTextContent"]
 }),
 $globals.PlatformDomTest);
@@ -65,6 +66,7 @@ args: [],
 source: "testTextContentDoesNotRunScript\x0a\x09PlatformDom isFeasible ifTrue: [\x0a\x09\x09self shouldnt: [ '<script>throw new Error(\x22Intentional\x22)</script>' htmlTextContent ] raise: Error ]",
 referencedClasses: ["PlatformDom", "Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "isFeasible", "shouldnt:raise:", "htmlTextContent"]
 }),
 $globals.PlatformDomTest);

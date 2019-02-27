@@ -24,6 +24,7 @@ args: ["aString", "aClass"],
 source: "parse: aString forClass: aClass\x0a\x09^ Compiler new\x0a\x09\x09ast: aString\x0a\x09\x09forClass: aClass\x0a\x09\x09protocol: 'test'",
 referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ast:forClass:protocol:", "new"]
 }),
 $globals.ASTParsingTest);
@@ -53,6 +54,7 @@ args: [],
 source: "astPCNodeVisitor\x0a\x09^ ASTPCNodeVisitor new\x0a\x09\x09index: 0;\x0a\x09\x09yourself",
 referencedClasses: ["ASTPCNodeVisitor"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["index:", "new", "yourself"]
 }),
 $globals.ASTPCNodeVisitorTest);
@@ -80,6 +82,7 @@ args: ["aString"],
 source: "astPCNodeVisitorForSelector: aString\x0a\x09^ ASTPCNodeVisitor new\x0a\x09\x09selector: aString;\x0a\x09\x09index: 0;\x0a\x09\x09yourself",
 referencedClasses: ["ASTPCNodeVisitor"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["selector:", "new", "index:", "yourself"]
 }),
 $globals.ASTPCNodeVisitorTest);
@@ -111,6 +114,7 @@ args: [],
 source: "testJSStatementNode\x0a\x09| ast visitor |\x0a\x09\x0a\x09ast := self parse: 'foo <inlineJS: ''consolee.log(1)''>' forClass: Object.\x0a\x09self assert: (self astPCNodeVisitor\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) isJSStatementNode",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:forClass:", "assert:", "isJSStatementNode", "visit:", "astPCNodeVisitor", "currentNode"]
 }),
 $globals.ASTPCNodeVisitorTest);
@@ -142,6 +146,7 @@ args: [],
 source: "testMessageSend\x0a\x09| ast |\x0a\x09\x0a\x09ast := self parse: 'foo self asString yourself. ^ self asBoolean' forClass: Object.\x0a\x09self assert: ((self astPCNodeVisitorForSelector: 'yourself')\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) selector equals: 'yourself'",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:forClass:", "assert:equals:", "selector", "visit:", "astPCNodeVisitorForSelector:", "currentNode"]
 }),
 $globals.ASTPCNodeVisitorTest);
@@ -173,6 +178,7 @@ args: [],
 source: "testMessageSendWithBlocks\x0a\x09| ast |\x0a\x09\x0a\x09ast := self parse: 'foo true ifTrue: [ [ self asString yourself ] value.  ]. ^ self asBoolean' forClass: Object.\x0a\x09self assert: ((self astPCNodeVisitorForSelector: 'yourself')\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) selector equals: 'yourself'",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:forClass:", "assert:equals:", "selector", "visit:", "astPCNodeVisitorForSelector:", "currentNode"]
 }),
 $globals.ASTPCNodeVisitorTest);
@@ -229,6 +235,7 @@ args: [],
 source: "testMessageSendWithInlining\x0a\x09| ast |\x0a\x09\x0a\x09ast := self parse: 'foo true ifTrue: [ self asString yourself ]. ^ self asBoolean' forClass: Object.\x0a\x09self assert: ((self astPCNodeVisitorForSelector: 'yourself')\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) selector equals: 'yourself'.\x0a\x09\x09\x0a\x09ast := self parse: 'foo true ifTrue: [ self asString yourself ]. ^ self asBoolean' forClass: Object.\x0a\x09self assert: ((self astPCNodeVisitorForSelector: 'asBoolean')\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) selector equals: 'asBoolean'",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:forClass:", "assert:equals:", "selector", "visit:", "astPCNodeVisitorForSelector:", "currentNode"]
 }),
 $globals.ASTPCNodeVisitorTest);
@@ -260,6 +267,7 @@ args: [],
 source: "testNoMessageSend\x0a\x09| ast |\x0a\x09\x0a\x09ast := self parse: 'foo ^ self' forClass: Object.\x0a\x09self assert: (self astPCNodeVisitor\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) isNil",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:forClass:", "assert:", "isNil", "visit:", "astPCNodeVisitor", "currentNode"]
 }),
 $globals.ASTPCNodeVisitorTest);
@@ -338,6 +346,7 @@ args: [],
 source: "testNodeAtPosition\x0a\x09| node |\x0a\x09\x0a\x09node := self parse: 'yourself\x0a\x09^ self' forClass: Object.\x0a\x09\x0a\x09self assert: (node navigationNodeAt: 2@4 ifAbsent: [ nil ]) source equals: 'self'.\x0a\x09\x0a\x09node := self parse: 'foo\x0a\x09true ifTrue: [ 1 ]' forClass: Object.\x0a\x09\x0a\x09self assert: (node navigationNodeAt: 2@7 ifAbsent: [ nil ]) selector equals: 'ifTrue:'.\x0a\x09\x0a\x09node := self parse: 'foo\x0a\x09self foo; bar; baz' forClass: Object.\x0a\x09\x0a\x09self assert: (node navigationNodeAt: 2@8 ifAbsent: [ nil ]) selector equals: 'foo'",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:forClass:", "assert:equals:", "source", "navigationNodeAt:ifAbsent:", "@", "selector"]
 }),
 $globals.ASTPositionTest);
@@ -359,6 +368,7 @@ args: [],
 source: "codeGeneratorClass\x0a\x09^ CodeGenerator",
 referencedClasses: ["CodeGenerator"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CodeGeneratorTest);
@@ -385,6 +395,7 @@ args: [],
 source: "compiler\x0a\x09^ Compiler new\x0a\x09\x09codeGeneratorClass: self codeGeneratorClass;\x0a\x09\x09yourself",
 referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["codeGeneratorClass:", "new", "codeGeneratorClass", "yourself"]
 }),
 $globals.CodeGeneratorTest);
@@ -409,6 +420,7 @@ args: [],
 source: "setUp\x0a\x09receiver := DoIt new",
 referencedClasses: ["DoIt"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new"]
 }),
 $globals.CodeGeneratorTest);
@@ -471,6 +483,7 @@ args: ["aString", "anObject", "anErrorClass"],
 source: "should: aString receiver: anObject raise: anErrorClass\x0a\x09| method result |\x0a\x0a\x09receiver := anObject.\x0a\x09[ self should: [\x0a\x09\x09method := self compiler install: aString forClass: anObject class protocol: 'tests'.\x0a\x09\x09receiver perform: method selector ] raise: anErrorClass ]\x0a\x09ensure: [ method ifNotNil: [ anObject class removeCompiledMethod: method ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ensure:", "should:raise:", "install:forClass:protocol:", "compiler", "class", "perform:", "selector", "ifNotNil:", "removeCompiledMethod:"]
 }),
 $globals.CodeGeneratorTest);
@@ -506,6 +519,7 @@ args: ["aString", "anObject", "aResult"],
 source: "should: aString receiver: anObject return: aResult\x0a\x09| method result |\x0a\x0a\x09receiver := anObject.\x0a\x09method := self compiler install: aString forClass: anObject class protocol: 'tests'.\x0a\x09result := receiver perform: method selector.\x0a\x09anObject class removeCompiledMethod: method.\x0a\x09self assert: aResult equals: result",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["install:forClass:protocol:", "compiler", "class", "perform:", "selector", "removeCompiledMethod:", "assert:equals:"]
 }),
 $globals.CodeGeneratorTest);
@@ -529,6 +543,7 @@ args: ["aString", "anObject"],
 source: "should: aString return: anObject\x0a\x09^ self \x0a\x09\x09should: aString \x0a\x09\x09receiver: receiver \x0a\x09\x09return: anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:receiver:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -547,6 +562,7 @@ args: [],
 source: "tearDown\x0a\x09\x22receiver := nil\x22",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CodeGeneratorTest);
@@ -579,6 +595,7 @@ args: [],
 source: "testAssignment\x0a\x09self should: 'foo | a | a := true ifTrue: [ 1 ]. ^ a' return: 1.\x0a\x09self should: 'foo | a | a := false ifTrue: [ 1 ]. ^ a' return: nil.\x0a\x0a\x09self should: 'foo | a | ^ a := true ifTrue: [ 1 ]' return: 1",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -607,6 +624,7 @@ args: [],
 source: "testBackslashSelectors\x0a\x09\x0a\x09self should: '\x5c arg ^ 4' return: 4.\x0a\x09self should: '\x5c\x5c arg ^ 42' return: 42",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -639,6 +657,7 @@ args: [],
 source: "testBlockReturn\x0a\x09self should: 'foo ^ #(1 2 3) collect: [ :each | true ifTrue: [ each + 1 ] ]' return: #(2 3 4).\x0a\x09self should: 'foo ^ #(1 2 3) collect: [ :each | false ifFalse: [ each + 1 ] ]' return: #(2 3 4).\x0a\x09self should: 'foo ^ #(1 2 3) collect: [ :each | each odd ifTrue: [ each + 1 ] ifFalse: [ each - 1 ] ]' return: #(2 1 4).",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -663,6 +682,7 @@ args: [],
 source: "testCascades\x0a\x09\x0a\x09self should: 'foo ^ Array new add: 3; add: 4; yourself' return: #(3 4)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -687,6 +707,7 @@ args: [],
 source: "testCascadesInDynamicArray\x0a\x09self should: 'foo | x | x := 1. ^ {x. [x:=2] value; in: [x]}' return: #(1 2)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -711,6 +732,7 @@ args: [],
 source: "testCascadesInDynamicDictioary\x0a\x09self should: 'foo | x | x := 1. ^ #{''one'' -> x. ''two'' -> ([x:=2] value; in: [x])}' return: #{'one' -> 1. 'two' -> 2}",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -735,6 +757,7 @@ args: [],
 source: "testCascadesInSend\x0a\x09self should: 'foo | x | x := 1. ^ Array with: x with: ([x:=2] value; in: [x])' return: #(1 2)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -763,6 +786,7 @@ args: [],
 source: "testCascadesWithInlining\x0a\x09\x0a\x09self should: 'foo ^ true class; ifTrue: [ 1 ] ifFalse: [ 2 ]' return: 1.\x0a\x09self should: 'foo ^ false class; ifTrue: [ 1 ] ifFalse: [ 2 ]' return: 2",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -791,6 +815,7 @@ args: [],
 source: "testDynamicArrayElementsOrdered\x0a\x09self should: 'foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ { x. x := 2 }\x0a' return: #(1 2).\x0a\x0a\x09self should: 'foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ { x. true ifTrue: [ x := 2 ] }\x0a' return: #(1 2).",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -815,6 +840,7 @@ args: [],
 source: "testDynamicDictionaryElementsOrdered\x0a\x09self should: 'foo\x0a\x09| x |\x0a\x09x := ''foo''.\x0a\x09^ #{ x->1. ''bar''->(true ifTrue: [ 2 ]) }\x0a' return: #{'foo'->1. 'bar'->2}.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -845,6 +871,7 @@ args: [],
 source: "testDynamicDictionaryWithMoreArrows\x0a\x09self should: 'foo ^ #{1->2->3}' return: (HashedCollection with: 1->2->3)",
 referencedClasses: ["HashedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:", "with:", "->"]
 }),
 $globals.CodeGeneratorTest);
@@ -877,6 +904,7 @@ args: [],
 source: "testGlobalVar\x0a\x09self should: 'foo ^ eval class' return: BlockClosure.\x0a\x09self should: 'foo ^ Math cos: 0' return: 1.\x0a\x09self should: 'foo ^ NonExistingVar' return: nil",
 referencedClasses: ["BlockClosure"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -950,6 +978,7 @@ args: [],
 source: "testInnerTemporalDependentElementsOrdered\x0a\x09self should: 'foo\x0a\x09| x |\x0a\x09x := Array.\x0a\x09^ x with: ''foo''->x with: ''bar''->(x := 2)\x0a' return: {'foo'->Array. 'bar'->2}.\x0a\x0a\x09self should: 'foo\x0a\x09| x |\x0a\x09x := Array.\x0a\x09^ x with: ''foo''->x with: ''bar''->(true ifTrue: [ x := 2 ])\x0a' return: {'foo'->Array. 'bar'->2}.\x0a\x0a\x09self should: 'foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ Array with: ''foo''->x with: ''bar''->(true ifTrue: [ x := 2 ])\x0a' return: {'foo'->1. 'bar'->2}.\x0a\x0a\x09self should: 'foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ { ''foo''->x. ''bar''->(true ifTrue: [ x := 2 ]) }\x0a' return: {'foo'->1. 'bar'->2}.\x0a\x0a\x09self should: 'foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ #{ ''foo''->x. ''bar''->(true ifTrue: [ x := 2 ]) }\x0a' return: #{'foo'->1. 'bar'->2}.",
 referencedClasses: ["Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:", "->"]
 }),
 $globals.CodeGeneratorTest);
@@ -974,6 +1003,7 @@ args: [],
 source: "testLexicalScope\x0a\x09self should: 'foo | a | a := 1. [ a := 2 ] value. ^ a' return: 2",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1038,6 +1068,7 @@ args: [],
 source: "testLiterals\x0a\x09self should: 'foo ^ 1' return: 1.\x0a\x09self should: 'foo ^ ''hello''' return: 'hello'.\x0a\x09self should: 'foo ^ #(1 2 3 4)' return: #(1 2 3 4).\x0a\x09self should: 'foo ^ {1. [:x | x ] value: 2. 3. [4] value}' return: #(1 2 3 4).\x0a\x09self should: 'foo ^ true' return: true.\x0a\x09self should: 'foo ^ false' return: false.\x0a\x09self should: 'foo ^ #{1->2. 3->4}' return: #{1->2. 3->4}.\x0a\x09self should: 'foo ^ #hello' return: #hello.\x0a\x09self should: 'foo ^ $h' return: 'h'.\x0a\x09self should: 'foo ^ -123.456' return: -123.456.\x0a\x09self should: 'foo ^ -2.5e4' return: -25000.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1078,6 +1109,7 @@ args: [],
 source: "testLocalReturn\x0a\x09self should: 'foo ^ 1' return: 1.\x0a\x09self should: 'foo ^ 1 + 1' return: 2.\x0a\x09self should: 'foo ' return: receiver.\x0a\x09self should: 'foo self asString' return: receiver.\x0a\x09self should: 'foo | a b | a := 1. b := 2. ^ a + b' return: 3",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1118,6 +1150,7 @@ args: [],
 source: "testMessageSends\x0a\x09self should: 'foo ^ 1 asString' return: '1'.\x0a\x0a\x09self should: 'foo ^ 1 + 1' return: 2.\x0a\x09self should: 'foo ^ 1 + 2 * 3' return: 9.\x0a\x0a\x09self should: 'foo ^ 1 to: 3' return: #(1 2 3).\x0a\x09self should: 'foo ^ 1 to: 5 by: 2' return: #(1 3 5)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1142,6 +1175,7 @@ args: [],
 source: "testMistypedPragmaJSStatement\x0a\x09self should: 'foo < inlineJS: ''return ''foo'''' >' receiver: receiver raise: ParseError",
 referencedClasses: ["ParseError"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:receiver:raise:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1166,6 +1200,7 @@ args: [],
 source: "testMultipleSequences\x0a\x09self should: 'foo | a b c | a := 2. b := 3. c := a + b. ^ c * 6' return: 30",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1190,6 +1225,7 @@ args: [],
 source: "testMutableLiterals\x0a\x09\x22Mutable literals must be aliased in cascades.\x0a\x09See https://lolg.it/amber/amber/issues/428\x22\x0a\x09\x0a\x09self \x0a\x09\x09should: 'foo ^ #( 1 2 ) at: 1 put: 3; yourself' \x0a\x09\x09return: #(3 2)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1226,6 +1262,7 @@ args: [],
 source: "testNestedIfTrue\x0a\x09self should: 'foo ^ true ifTrue: [ false ifFalse: [ 1 ] ]' return: 1.\x0a\x09self should: 'foo ^ true ifTrue: [ false ifTrue: [ 1 ] ]' return: nil.\x0a\x0a\x09self should: 'foo true ifTrue: [ false ifFalse: [ ^ 1 ] ]' return: 1.\x0a\x09self should: 'foo true ifTrue: [ false ifTrue: [ ^ 1 ] ]' return: receiver.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1250,6 +1287,7 @@ args: [],
 source: "testNestedSends\x0a\x09self should: 'foo ^ (Point x: (Point x: 2 y: 3) y: 4) asString' return: (Point x: (2@3) y: 4) asString",
 referencedClasses: ["Point"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:", "asString", "x:y:", "@"]
 }),
 $globals.CodeGeneratorTest);
@@ -1286,6 +1324,7 @@ args: [],
 source: "testNonLocalReturn\x0a\x09self should: 'foo [ ^ 1 ] value' return: 1.\x0a\x09self should: 'foo [ ^ 1 + 1 ] value' return: 2.\x0a\x09self should: 'foo | a b | a := 1. b := 2. [ ^ a + b ] value. self halt' return: 3.\x0a\x09self should: 'foo [ :x | ^ x + x ] value: 4. ^ 2' return: 8",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1314,6 +1353,7 @@ args: [],
 source: "testPascalCaseGlobal\x0a\x09self should: 'foo ^Object' return: (Smalltalk globals at: 'Object').\x0a\x09self should: 'foo ^NonExistent' return: nil",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:", "at:", "globals"]
 }),
 $globals.CodeGeneratorTest);
@@ -1338,6 +1378,7 @@ args: [],
 source: "testPragmaInBlock\x0a\x09self should: 'foo ^ [ < fooBar > 4 ] value' receiver: receiver raise: ParseError",
 referencedClasses: ["ParseError"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:receiver:raise:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1362,6 +1403,7 @@ args: [],
 source: "testPragmaJSStatement\x0a\x09self should: 'foo < inlineJS: ''return 2+3'' >' return: 5",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1386,6 +1428,7 @@ args: [],
 source: "testRootSuperSend\x0a\x09self \x0a\x09\x09should: 'foo ^ super class' \x0a\x09\x09receiver: ProtoObject new\x0a\x09\x09raise: MessageNotUnderstood",
 referencedClasses: ["ProtoObject", "MessageNotUnderstood"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:receiver:raise:", "new"]
 }),
 $globals.CodeGeneratorTest);
@@ -1414,6 +1457,7 @@ args: [],
 source: "testSendReceiverAndArgumentsOrdered\x0a\x09self should: 'foo\x0a\x09| x |\x0a\x09x := 1.\x0a\x09^ Array with: x with: (true ifTrue: [ x := 2 ])\x0a' return: #(1 2).\x0a\x0a\x09self should: 'foo\x0a\x09| x |\x0a\x09x := Array.\x0a\x09^ x with: x with: (true ifTrue: [ x := 2 ])\x0a' return: {Array. 2}.",
 referencedClasses: ["Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1438,6 +1482,7 @@ args: [],
 source: "testSuperSend\x0a\x09self \x0a\x09\x09should: 'foo ^ super isBoolean' \x0a\x09\x09receiver: true\x0a\x09\x09return: false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:receiver:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1482,6 +1527,7 @@ args: [],
 source: "testTempVariables\x0a\x09self should: 'foo | a | ^ a' return: nil.\x0a\x09self should: 'foo | AVariable | ^ AVariable' return: nil.\x0a\x09self should: 'foo | a b c | ^ c' return: nil.\x0a\x09self should: 'foo | a | [ | d | ^ d ] value' return: nil.\x0a\x09\x0a\x09self should: 'foo | a | a:= 1. ^ a' return: 1.\x0a\x09self should: 'foo | AVariable | AVariable := 1. ^ AVariable' return: 1.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1506,6 +1552,7 @@ args: [],
 source: "testThisContext\x0a\x09self should: 'foo ^ [ thisContext ] value outerContext == thisContext' return: true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1534,6 +1581,7 @@ args: [],
 source: "testUnknownPragma\x0a\x09self should: 'foo < fooBar: ''return 2+3'' > | x | ^ x := 6' return: 6.\x0a\x09self should: 'foo | x | < fooBar: ''return 2+3'' > ^ x := 6' return: 6",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1570,6 +1618,7 @@ args: [],
 source: "testifFalse\x0a\x09self should: 'foo true ifFalse: [ ^ 1 ]' return: receiver.\x0a\x09self should: 'foo false ifFalse: [ ^ 2 ]' return: 2.\x0a\x09\x0a\x09self should: 'foo ^ true ifFalse: [ 1 ]' return: nil.\x0a\x09self should: 'foo ^ false ifFalse: [ 2 ]' return: 2.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1606,6 +1655,7 @@ args: [],
 source: "testifFalseIfTrue\x0a\x09self should: 'foo true ifFalse: [ ^ 1 ] ifTrue: [ ^ 2 ]' return: 2.\x0a\x09self should: 'foo false ifFalse: [ ^ 2 ] ifTrue: [ ^1 ]' return: 2.\x0a\x09\x0a\x09self should: 'foo ^ true ifFalse: [ 1 ] ifTrue: [ 2 ]' return: 2.\x0a\x09self should: 'foo ^ false ifFalse: [ 2 ] ifTrue: [ 1 ]' return: 2.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1642,6 +1692,7 @@ args: [],
 source: "testifNil\x0a\x09self should: 'foo ^ 1 ifNil: [ 2 ]' return: 1.\x0a\x09self should: 'foo ^ nil ifNil: [ 2 ]' return: 2.\x0a\x0a\x09self should: 'foo 1 ifNil: [ ^ 2 ]' return: receiver.\x0a\x09self should: 'foo nil ifNil: [ ^ 2 ]' return: 2.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1678,6 +1729,7 @@ args: [],
 source: "testifNilIfNotNil\x0a\x09self should: 'foo ^ 1 ifNil: [ 2 ] ifNotNil: [ 3 ]' return: 3.\x0a\x09self should: 'foo ^ nil ifNil: [ 2 ] ifNotNil: [ 3 ]' return: 2.\x0a\x0a\x09self should: 'foo 1 ifNil: [ ^ 2 ] ifNotNil: [ ^3 ]' return: 3.\x0a\x09self should: 'foo nil ifNil: [ ^ 2 ] ifNotNil: [ ^3 ]' return: 2.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1714,6 +1766,7 @@ args: [],
 source: "testifNotNil\x0a\x09self should: 'foo ^ 1 ifNotNil: [ 2 ]' return: 2.\x0a\x09self should: 'foo ^ nil ifNotNil: [ 2 ]' return: nil.\x0a\x0a\x09self should: 'foo 1 ifNotNil: [ ^ 2 ]' return: 2.\x0a\x09self should: 'foo nil ifNotNil: [ ^ 2 ]' return: receiver.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1758,6 +1811,7 @@ args: [],
 source: "testifNotNilWithArgument\x0a\x09self should: 'foo ^ 1 ifNotNil: [ :val | val + 2 ]' return: 3.\x0a\x09self should: 'foo ^ nil ifNotNil: [ :val | val + 2 ]' return: nil.\x0a\x09\x0a\x09self should: 'foo ^ 1 ifNil: [ 5 ] ifNotNil: [ :val | val + 2 ]' return: 3.\x0a\x09self should: 'foo ^ nil ifNil: [ 5 ] ifNotNil: [ :val | val + 2 ]' return: 5.\x0a\x09\x0a\x09self should: 'foo ^ 1 ifNotNil: [ :val | val + 2 ] ifNil: [ 5 ]' return: 3.\x0a\x09self should: 'foo ^ nil ifNotNil: [ :val | val + 2 ] ifNil: [ 5 ]' return: 5",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1794,6 +1848,7 @@ args: [],
 source: "testifTrue\x0a\x09self should: 'foo false ifTrue: [ ^ 1 ]' return: receiver.\x0a\x09self should: 'foo true ifTrue: [ ^ 2 ]' return: 2.\x0a\x09\x0a\x09self should: 'foo ^ false ifTrue: [ 1 ]' return: nil.\x0a\x09self should: 'foo ^ true ifTrue: [ 2 ]' return: 2.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1830,6 +1885,7 @@ args: [],
 source: "testifTrueIfFalse\x0a\x09self should: 'foo false ifTrue: [ ^ 1 ] ifFalse: [ ^2 ]' return: 2.\x0a\x09self should: 'foo true ifTrue: [ ^ 1 ] ifFalse: [ ^ 2 ]' return: 1.\x0a\x09\x0a\x09self should: 'foo ^ false ifTrue: [ 2 ] ifFalse: [ 1 ]' return: 1.\x0a\x09self should: 'foo ^ true ifTrue: [ 2 ] ifFalse: [ 1 ]' return: 2.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:return:"]
 }),
 $globals.CodeGeneratorTest);
@@ -1897,6 +1953,7 @@ args: ["aString", "anObject", "aDictionary"],
 source: "interpret: aString receiver: anObject withArguments: aDictionary\x0a\x09\x22The food is a methodNode. Interpret the sequenceNode only\x22\x0a\x09\x0a\x09| ctx ast interpreter |\x0a\x09\x0a\x09interpreter := ASTInterpreter new.\x0a\x09ast := self parse: aString forClass: anObject class.\x0a\x09\x0a\x09ctx := AIContext new\x0a\x09\x09receiver: anObject;\x0a\x09\x09interpreter: interpreter;\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09\x22Define locals for the context\x22\x0a\x09ast sequenceNode ifNotNil: [ :sequence |\x0a\x09\x09sequence temps do: [ :each |\x0a\x09\x09\x09ctx defineLocal: each ] ].\x0a\x09\x09\x0a\x09aDictionary keysAndValuesDo: [ :key :value |\x0a\x09\x09ctx localAt: key put: value ].\x0a\x09\x0a\x09^ interpreter\x0a\x09\x09context: ctx;\x0a\x09\x09node: ast;\x0a\x09\x09enterNode;\x0a\x09\x09proceed;\x0a\x09\x09result",
 referencedClasses: ["ASTInterpreter", "AIContext"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "parse:forClass:", "class", "receiver:", "interpreter:", "yourself", "ifNotNil:", "sequenceNode", "do:", "temps", "defineLocal:", "keysAndValuesDo:", "localAt:put:", "context:", "node:", "enterNode", "proceed", "result"]
 }),
 $globals.ASTInterpreterTest);
@@ -1921,6 +1978,7 @@ args: ["aString", "anObject", "aResult"],
 source: "should: aString receiver: anObject return: aResult\x0a\x09receiver := anObject.\x0a\x09\x0a\x09^ self \x0a\x09\x09assert: (self interpret: aString receiver: receiver withArguments: #{})\x0a\x09\x09equals: aResult",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "interpret:receiver:withArguments:"]
 }),
 $globals.ASTInterpreterTest);
@@ -1996,6 +2054,7 @@ args: ["aString", "anObject", "aDictionary"],
 source: "interpret: aString receiver: anObject withArguments: aDictionary\x0a\x09| ctx ast debugger |\x0a\x09\x0a\x09ctx := AIContext new\x0a\x09\x09receiver: anObject;\x0a\x09\x09interpreter: ASTInterpreter new;\x0a\x09\x09yourself.\x0a\x09ast := self parse: aString forClass: anObject class.\x0a\x09\x09\x0a\x09\x22Define locals for the context\x22\x0a\x09ast sequenceNode ifNotNil: [ :sequence |\x0a\x09\x09sequence temps do: [ :each |\x0a\x09\x09\x09ctx defineLocal: each ] ].\x0a\x09\x0a\x09aDictionary keysAndValuesDo: [ :key :value |\x0a\x09\x09ctx localAt: key put: value ].\x0a\x09ctx interpreter context: ctx.\x0a\x09\x0a\x09ctx interpreter node: ast; enterNode.\x0a\x09\x0a\x09debugger := ASTDebugger context: ctx.\x0a\x09\x0a\x09^ debugger \x0a\x09\x09proceed; \x0a\x09\x09result",
 referencedClasses: ["AIContext", "ASTInterpreter", "ASTDebugger"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["receiver:", "new", "interpreter:", "yourself", "parse:forClass:", "class", "ifNotNil:", "sequenceNode", "do:", "temps", "defineLocal:", "keysAndValuesDo:", "localAt:put:", "context:", "interpreter", "node:", "enterNode", "proceed", "result"]
 }),
 $globals.ASTDebuggerTest);
@@ -2017,6 +2076,7 @@ args: [],
 source: "codeGeneratorClass\x0a\x09^ InliningCodeGenerator",
 referencedClasses: ["InliningCodeGenerator"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.InliningCodeGeneratorTest);
@@ -2058,6 +2118,7 @@ args: [],
 source: "testClassRefVar\x0a\x09| node |\x0a\x09node := VariableNode new\x0a\x09\x09value: 'Object';\x0a\x09\x09yourself.\x0a\x09SemanticAnalyzer new \x0a\x09\x09pushScope: MethodLexicalScope new;\x0a\x09\x09visit: node.\x0a\x09self assert: node binding isClassRefVar",
 referencedClasses: ["VariableNode", "SemanticAnalyzer", "MethodLexicalScope"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value:", "new", "yourself", "pushScope:", "visit:", "assert:", "isClassRefVar", "binding"]
 }),
 $globals.ScopeVarTest);
@@ -2092,6 +2153,7 @@ args: [],
 source: "testInstanceVar\x0a\x09| node scope |\x0a\x09node := VariableNode new\x0a\x09\x09value: 'bzzz';\x0a\x09\x09yourself.\x0a\x09scope := MethodLexicalScope new.\x0a\x09scope addIVar: 'bzzz'.\x0a\x09self assert: (scope bindingFor: node) isInstanceVar",
 referencedClasses: ["VariableNode", "MethodLexicalScope"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value:", "new", "yourself", "addIVar:", "assert:", "isInstanceVar", "bindingFor:"]
 }),
 $globals.ScopeVarTest);
@@ -2133,6 +2195,7 @@ args: [],
 source: "testPseudoVar\x0a\x09| node pseudoVars |\x0a\x09pseudoVars := #('self' 'super' 'true' 'false' 'nil').\x0a\x09pseudoVars do: [:each |\x0a\x09\x09node := VariableNode new\x0a\x09\x09value: each;\x0a\x09\x09yourself.\x0a\x09\x09self assert: (MethodLexicalScope new bindingFor: node) isPseudoVar]",
 referencedClasses: ["VariableNode", "MethodLexicalScope"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "value:", "new", "yourself", "assert:", "isPseudoVar", "bindingFor:"]
 }),
 $globals.ScopeVarTest);
@@ -2167,6 +2230,7 @@ args: [],
 source: "testTempVar\x0a\x09| node scope |\x0a\x09node := VariableNode new\x0a\x09\x09value: 'bzzz';\x0a\x09\x09yourself.\x0a\x09scope := MethodLexicalScope new.\x0a\x09scope addTemp: 'bzzz'.\x0a\x09self assert: (scope bindingFor: node) isTempVar",
 referencedClasses: ["VariableNode", "MethodLexicalScope"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value:", "new", "yourself", "addTemp:", "assert:", "isTempVar", "bindingFor:"]
 }),
 $globals.ScopeVarTest);
@@ -2199,6 +2263,7 @@ args: [],
 source: "testUnknownVar\x0a\x09| node |\x0a\x09node := VariableNode new\x0a\x09\x09value: 'bzzz';\x0a\x09\x09yourself.\x0a\x09self assert: (MethodLexicalScope new bindingFor: node) isNil",
 referencedClasses: ["VariableNode", "MethodLexicalScope"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value:", "new", "yourself", "assert:", "isNil", "bindingFor:"]
 }),
 $globals.ScopeVarTest);
@@ -2226,6 +2291,7 @@ args: [],
 source: "setUp\x0a\x09analyzer := SemanticAnalyzer on: Object",
 referencedClasses: ["SemanticAnalyzer", "Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["on:"]
 }),
 $globals.SemanticAnalyzerTest);
@@ -2261,6 +2327,7 @@ args: [],
 source: "testAssignment\x0a\x09| src ast |\x0a\x0a\x09src := 'foo self := 1'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09self should: [analyzer visit: ast] raise: InvalidAssignmentError",
 referencedClasses: ["Smalltalk", "InvalidAssignmentError"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "should:raise:", "visit:"]
 }),
 $globals.SemanticAnalyzerTest);
@@ -2289,6 +2356,7 @@ args: [],
 source: "testNonLocalReturn\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. ^ a'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09self deny: ast scope hasNonLocalReturn",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "visit:", "deny:", "hasNonLocalReturn", "scope"]
 }),
 $globals.SemanticAnalyzerTest);
@@ -2317,6 +2385,7 @@ args: [],
 source: "testNonLocalReturn2\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ [ ^ a] ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09self assert: ast scope hasNonLocalReturn",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "visit:", "assert:", "hasNonLocalReturn", "scope"]
 }),
 $globals.SemanticAnalyzerTest);
@@ -2356,6 +2425,7 @@ args: [],
 source: "testScope\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ | b | b := a ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09self deny: ast dagChildren first dagChildren last scope == ast scope.",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "visit:", "deny:", "==", "scope", "last", "dagChildren", "first"]
 }),
 $globals.SemanticAnalyzerTest);
@@ -2411,6 +2481,7 @@ args: [],
 source: "testScope2\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ [ | b | b := a ] ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09self deny: ast dagChildren first dagChildren last dagChildren first dagChildren first scope == ast scope.",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "visit:", "deny:", "==", "scope", "first", "dagChildren", "last"]
 }),
 $globals.SemanticAnalyzerTest);
@@ -2475,6 +2546,7 @@ args: [],
 source: "testScopeLevel\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ [ | b | b := a ] ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09self assert: ast scope scopeLevel equals: 1.\x0a\x09self assert: ast dagChildren first dagChildren last dagChildren first dagChildren first scope scopeLevel equals: 3",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "visit:", "assert:equals:", "scopeLevel", "scope", "first", "dagChildren", "last"]
 }),
 $globals.SemanticAnalyzerTest);
@@ -2510,6 +2582,7 @@ args: [],
 source: "testUnknownVariables\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | b + a'.\x0a\x09ast := Smalltalk parse: src.\x0a\x0a\x09self should: [ analyzer visit: ast ] raise: UnknownVariableError",
 referencedClasses: ["Smalltalk", "UnknownVariableError"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "should:raise:", "visit:"]
 }),
 $globals.SemanticAnalyzerTest);
@@ -2545,6 +2618,7 @@ args: [],
 source: "testUnknownVariablesWithScope\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a b | [ c + 1. [ a + 1. d + 1 ]]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09\x0a\x09self should: [ analyzer visit: ast ] raise: UnknownVariableError",
 referencedClasses: ["Smalltalk", "UnknownVariableError"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "should:raise:", "visit:"]
 }),
 $globals.SemanticAnalyzerTest);
@@ -2572,6 +2646,7 @@ args: [],
 source: "testVariableShadowing\x0a\x09| src ast |\x0a\x09src := 'foo | a | a + 1'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "visit:"]
 }),
 $globals.SemanticAnalyzerTest);
@@ -2607,6 +2682,7 @@ args: [],
 source: "testVariableShadowing2\x0a\x09| src ast |\x0a\x09src := 'foo | a | a + 1. [ | a | a := 2 ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09self should: [analyzer visit: ast] raise: ShadowingVariableError",
 referencedClasses: ["Smalltalk", "ShadowingVariableError"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "should:raise:", "visit:"]
 }),
 $globals.SemanticAnalyzerTest);
@@ -2634,6 +2710,7 @@ args: [],
 source: "testVariableShadowing3\x0a\x09| src ast |\x0a\x09src := 'foo | a | a + 1. [ | b | b := 2 ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "visit:"]
 }),
 $globals.SemanticAnalyzerTest);
@@ -2661,6 +2738,7 @@ args: [],
 source: "testVariableShadowing4\x0a\x09| src ast |\x0a\x09src := 'foo | a | a + 1. [ [ [ | b | b := 2 ] ] ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "visit:"]
 }),
 $globals.SemanticAnalyzerTest);
@@ -2696,6 +2774,7 @@ args: [],
 source: "testVariableShadowing5\x0a\x09| src ast |\x0a\x09src := 'foo | a | a + 1. [ [ [ | a | a := 2 ] ] ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09self should: [analyzer visit: ast] raise: ShadowingVariableError",
 referencedClasses: ["Smalltalk", "ShadowingVariableError"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "should:raise:", "visit:"]
 }),
 $globals.SemanticAnalyzerTest);
@@ -2884,6 +2963,7 @@ args: [],
 source: "testVariablesLookup\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ | b | b := a ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09\x22Binding for `a` in the message send\x22\x0a\x09self assert: ast dagChildren first dagChildren first receiver binding isTempVar.\x0a\x09self assert: ast dagChildren first dagChildren first receiver binding scope == ast scope.\x0a\x0a\x09\x22Binding for `b`\x22\x0a\x09self assert: ast dagChildren first dagChildren last dagChildren first dagChildren first left binding isTempVar.\x0a\x09self assert: ast dagChildren first dagChildren last dagChildren first dagChildren first left binding scope == ast dagChildren first dagChildren last scope.",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "visit:", "assert:", "isTempVar", "binding", "receiver", "first", "dagChildren", "==", "scope", "left", "last"]
 }),
 $globals.SemanticAnalyzerTest);
@@ -2922,6 +3002,7 @@ args: [],
 source: "setUp\x0a\x09analyzer := (AISemanticAnalyzer on: Object)\x0a\x09\x09context: (AIContext new\x0a\x09\x09\x09defineLocal: 'local';\x0a\x09\x09\x09localAt: 'local' put: 3;\x0a\x09\x09\x09yourself);\x0a\x09\x09yourself",
 referencedClasses: ["AISemanticAnalyzer", "Object", "AIContext"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["context:", "on:", "defineLocal:", "new", "localAt:put:", "yourself"]
 }),
 $globals.AISemanticAnalyzerTest);
@@ -2957,6 +3038,7 @@ args: [],
 source: "testContextVariables\x0a\x09| src ast |\x0a\x09\x0a\x09src := 'foo | a | local + a'.\x0a\x09ast := Smalltalk parse: src.\x0a\x0a\x09self shouldnt: [ analyzer visit: ast ] raise: UnknownVariableError",
 referencedClasses: ["Smalltalk", "UnknownVariableError"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "shouldnt:raise:", "visit:"]
 }),
 $globals.AISemanticAnalyzerTest);

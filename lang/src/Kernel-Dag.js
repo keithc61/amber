@@ -27,6 +27,7 @@ args: ["anObject"],
 source: "value: anObject\x0a\x09^ self visit: anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visit:"]
 }),
 $globals.AbstractDagVisitor);
@@ -50,6 +51,7 @@ args: ["aNode"],
 source: "visit: aNode\x0a\x09^ aNode acceptDagVisitor: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["acceptDagVisitor:"]
 }),
 $globals.AbstractDagVisitor);
@@ -81,6 +83,7 @@ args: ["aCollection"],
 source: "visitAll: aCollection\x0a\x09^ aCollection collect: [ :each | self visit: each ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collect:", "visit:"]
 }),
 $globals.AbstractDagVisitor);
@@ -104,6 +107,7 @@ args: ["aDagNode"],
 source: "visitAllChildren: aDagNode\x0a\x09^ self visitAll: aDagNode dagChildren",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitAll:", "dagChildren"]
 }),
 $globals.AbstractDagVisitor);
@@ -128,6 +132,7 @@ args: ["aNode"],
 source: "visitDagNode: aNode\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.AbstractDagVisitor);
@@ -188,6 +193,7 @@ args: ["aNode"],
 source: "visitDagNodeVariantRedux: aNode\x0a\x09\x22Immutable-guarded implementation of visitDagNode:.\x0a\x09Visits all children and checks if there were changes.\x0a\x09If not, returns aNode.\x0a\x09If yes, returns copy of aNode with new children.\x22\x0a\x0a\x09| newChildren oldChildren |\x0a\x09oldChildren := aNode dagChildren.\x0a\x09newChildren := self visitAllChildren: aNode.\x0a\x09oldChildren size = newChildren size ifTrue: [\x0a\x09\x09(1 to: oldChildren size) detect: [ :i |\x0a\x09\x09\x09(oldChildren at: i) ~= (newChildren at: i)\x0a\x09\x09] ifNone: [ \x22no change\x22 ^ aNode ] ].\x0a\x09^ aNode copy dagChildren: newChildren; yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["dagChildren", "visitAllChildren:", "ifTrue:", "=", "size", "detect:ifNone:", "to:", "~=", "at:", "dagChildren:", "copy", "yourself"]
 }),
 $globals.AbstractDagVisitor);
@@ -212,6 +218,7 @@ args: ["aNode"],
 source: "visitDagNodeVariantSimple: aNode\x0a\x09\x22Simple implementation of visitDagNode:.\x0a\x09Visits children, then returns aNode\x22\x0a\x0a\x09self visitAllChildren: aNode.\x0a\x09^ aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitAllChildren:"]
 }),
 $globals.AbstractDagVisitor);
@@ -250,6 +257,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x0a\x09path := #()",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize"]
 }),
 $globals.PathDagVisitor);
@@ -268,6 +276,7 @@ args: [],
 source: "path\x0a\x09^ path",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.PathDagVisitor);
@@ -316,6 +325,7 @@ args: ["aNode"],
 source: "visit: aNode\x0a\x09| oldPath result |\x0a\x09result := aNode.\x0a\x09oldPath := path.\x0a\x09[\x0a\x09\x09path := path, {aNode}.\x0a\x09\x09result := super visit: aNode\x0a\x09] ensure: [ path := oldPath ].\x0a\x09^ result",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ensure:", ",", "visit:"]
 }),
 $globals.PathDagVisitor);
@@ -353,6 +363,7 @@ args: ["aNode"],
 source: "visitDagNodeVariantRedux: aNode\x0a\x09| newNode |\x0a\x09newNode := super visitDagNodeVariantRedux: aNode.\x0a\x09aNode == newNode ifFalse: [ path at: path size put: newNode ].\x0a\x09^ newNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNodeVariantRedux:", "ifFalse:", "==", "at:put:", "size"]
 }),
 $globals.PathDagVisitor);
@@ -382,6 +393,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitDagNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.DagNode);
@@ -421,6 +433,7 @@ args: [],
 source: "allDagChildren\x0a\x09| allNodes |\x0a\x09\x0a\x09allNodes := self dagChildren asSet.\x0a\x09self dagChildren do: [ :each | \x0a\x09\x09allNodes addAll: each allDagChildren ].\x0a\x09\x0a\x09^ allNodes",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["asSet", "dagChildren", "do:", "addAll:", "allDagChildren"]
 }),
 $globals.DagNode);
@@ -445,6 +458,7 @@ args: [],
 source: "dagChildren\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.DagNode);
@@ -469,6 +483,7 @@ args: ["aCollection"],
 source: "dagChildren: aCollection\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.DagNode);
@@ -487,6 +502,7 @@ args: [],
 source: "isDagNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.DagNode);
@@ -517,6 +533,7 @@ args: ["aDagNode"],
 source: "addDagChild: aDagNode\x0a\x09self dagChildren add: aDagNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:", "dagChildren"]
 }),
 $globals.DagParentNode);
@@ -547,6 +564,7 @@ args: [],
 source: "dagChildren\x0a\x09^ nodes ifNil: [ nodes := Array new ]",
 referencedClasses: ["Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "new"]
 }),
 $globals.DagParentNode);
@@ -566,6 +584,7 @@ args: ["aCollection"],
 source: "dagChildren: aCollection\x0a\x09nodes := aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.DagParentNode);
@@ -590,6 +609,7 @@ args: [],
 source: "dagChildren\x0a\x09^ #()",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.DagSink);
@@ -622,6 +642,7 @@ args: ["aCollection"],
 source: "dagChildren: aCollection\x0a\x09aCollection ifNotEmpty: [ self error: 'A DagSink cannot have children.' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotEmpty:", "error:"]
 }),
 $globals.DagSink);
@@ -641,6 +662,7 @@ args: [],
 source: "isDagNode\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Object);

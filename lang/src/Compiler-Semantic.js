@@ -34,6 +34,7 @@ args: ["aString"],
 source: "addArg: aString\x0a\x09self args at: aString put: (ArgVar on: aString).\x0a\x09(self args at: aString) scope: self",
 referencedClasses: ["ArgVar"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:put:", "args", "on:", "scope:", "at:"]
 }),
 $globals.LexicalScope);
@@ -64,6 +65,7 @@ args: ["aString"],
 source: "addTemp: aString\x0a\x09self temps at: aString put: (TempVar on: aString).\x0a\x09(self temps at: aString) scope: self",
 referencedClasses: ["TempVar"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:put:", "temps", "on:", "scope:", "at:"]
 }),
 $globals.LexicalScope);
@@ -87,6 +89,7 @@ args: [],
 source: "alias\x0a\x09^ '$ctx', self scopeLevel asString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "asString", "scopeLevel"]
 }),
 $globals.LexicalScope);
@@ -115,6 +118,7 @@ args: [],
 source: "allVariableNames\x0a\x09^ self args keys, self temps keys",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "keys", "args", "temps"]
 }),
 $globals.LexicalScope);
@@ -145,6 +149,7 @@ args: [],
 source: "args\x0a\x09^ args ifNil: [ args := Dictionary new ]",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "new"]
 }),
 $globals.LexicalScope);
@@ -205,6 +210,7 @@ args: ["aStringOrNode"],
 source: "bindingFor: aStringOrNode\x0a\x09^ self pseudoVars at: aStringOrNode value ifAbsent: [\x0a\x09\x09self args at: aStringOrNode value ifAbsent: [\x0a\x09\x09\x09self temps at: aStringOrNode value ifAbsent: [ nil ]]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:ifAbsent:", "pseudoVars", "value", "args", "temps"]
 }),
 $globals.LexicalScope);
@@ -234,6 +240,7 @@ args: [],
 source: "blockIndex\x0a\x09^ blockIndex ifNil: [ 0 ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.LexicalScope);
@@ -253,6 +260,7 @@ args: ["anInteger"],
 source: "blockIndex: anInteger \x0a\x09blockIndex := anInteger",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.LexicalScope);
@@ -284,6 +292,7 @@ args: [],
 source: "canInlineNonLocalReturns\x0a\x09^ self isInlined and: [ self outerScope canInlineNonLocalReturns ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", "isInlined", "canInlineNonLocalReturns", "outerScope"]
 }),
 $globals.LexicalScope);
@@ -302,6 +311,7 @@ args: [],
 source: "instruction\x0a\x09^ instruction",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.LexicalScope);
@@ -321,6 +331,7 @@ args: ["anIRInstruction"],
 source: "instruction: anIRInstruction\x0a\x09instruction := anIRInstruction",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.LexicalScope);
@@ -344,6 +355,7 @@ args: [],
 source: "isBlockScope\x0a\x09^ self isMethodScope not",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["not", "isMethodScope"]
 }),
 $globals.LexicalScope);
@@ -381,6 +393,7 @@ args: [],
 source: "isInlined\x0a\x09^ self instruction notNil and: [\x0a\x09\x09self instruction isInlined ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", "notNil", "instruction", "isInlined"]
 }),
 $globals.LexicalScope);
@@ -399,6 +412,7 @@ args: [],
 source: "isMethodScope\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.LexicalScope);
@@ -440,6 +454,7 @@ args: ["aNode"],
 source: "lookupVariable: aNode\x0a\x09| lookup |\x0a\x09lookup := (self bindingFor: aNode).\x0a\x09lookup ifNil: [\x0a\x09\x09lookup := self outerScope ifNotNil: [\x0a\x09\x09\x09(self outerScope lookupVariable: aNode) ]].\x0a\x09^ lookup",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["bindingFor:", "ifNil:", "ifNotNil:", "outerScope", "lookupVariable:"]
 }),
 $globals.LexicalScope);
@@ -472,6 +487,7 @@ args: [],
 source: "methodScope\x0a\x09^ self outerScope ifNotNil: [\x0a\x09\x09self outerScope methodScope ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "outerScope", "methodScope"]
 }),
 $globals.LexicalScope);
@@ -490,6 +506,7 @@ args: [],
 source: "node\x0a\x09\x22Answer the node in which I am defined\x22\x0a\x09\x0a\x09^ node",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.LexicalScope);
@@ -509,6 +526,7 @@ args: ["aNode"],
 source: "node: aNode\x0a\x09node := aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.LexicalScope);
@@ -527,6 +545,7 @@ args: [],
 source: "outerScope\x0a\x09^ outerScope",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.LexicalScope);
@@ -546,6 +565,7 @@ args: ["aLexicalScope"],
 source: "outerScope: aLexicalScope\x0a\x09outerScope := aLexicalScope",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.LexicalScope);
@@ -569,6 +589,7 @@ args: [],
 source: "pseudoVars\x0a\x09^ self methodScope pseudoVars",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["pseudoVars", "methodScope"]
 }),
 $globals.LexicalScope);
@@ -614,6 +635,7 @@ args: [],
 source: "scopeLevel\x0a\x09self outerScope ifNil: [ ^ 1 ].\x0a\x09self isInlined ifTrue: [ ^ self outerScope scopeLevel ].\x0a\x09\x0a\x09^ self outerScope scopeLevel + 1",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "outerScope", "ifTrue:", "isInlined", "scopeLevel", "+"]
 }),
 $globals.LexicalScope);
@@ -644,6 +666,7 @@ args: [],
 source: "temps\x0a\x09^ temps ifNil: [ temps := Dictionary new ]",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "new"]
 }),
 $globals.LexicalScope);
@@ -680,6 +703,7 @@ args: ["aString"],
 source: "addIVar: aString\x0a\x09self iVars at: aString put: (InstanceVar on: aString).\x0a\x09(self iVars at: aString) scope: self",
 referencedClasses: ["InstanceVar"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:put:", "iVars", "on:", "scope:", "at:"]
 }),
 $globals.MethodLexicalScope);
@@ -704,6 +728,7 @@ args: ["aScope"],
 source: "addNonLocalReturn: aScope\x0a\x09self nonLocalReturns add: aScope",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:", "nonLocalReturns"]
 }),
 $globals.MethodLexicalScope);
@@ -736,6 +761,7 @@ args: [],
 source: "allVariableNames\x0a\x09^ super allVariableNames, self iVars keys",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "allVariableNames", "keys", "iVars"]
 }),
 $globals.MethodLexicalScope);
@@ -775,6 +801,7 @@ args: ["aNode"],
 source: "bindingFor: aNode\x0a\x09^ (super bindingFor: aNode) ifNil: [\x0a\x09\x09self iVars at: aNode value ifAbsent: [ nil ]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "bindingFor:", "at:ifAbsent:", "iVars", "value"]
 }),
 $globals.MethodLexicalScope);
@@ -793,6 +820,7 @@ args: [],
 source: "canInlineNonLocalReturns\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodLexicalScope);
@@ -816,6 +844,7 @@ args: [],
 source: "hasLocalReturn\x0a\x09^ self localReturn",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["localReturn"]
 }),
 $globals.MethodLexicalScope);
@@ -839,6 +868,7 @@ args: [],
 source: "hasNonLocalReturn\x0a\x09^ self nonLocalReturns notEmpty",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["notEmpty", "nonLocalReturns"]
 }),
 $globals.MethodLexicalScope);
@@ -869,6 +899,7 @@ args: [],
 source: "iVars\x0a\x09^ iVars ifNil: [ iVars := Dictionary new ]",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "new"]
 }),
 $globals.MethodLexicalScope);
@@ -887,6 +918,7 @@ args: [],
 source: "isMethodScope\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodLexicalScope);
@@ -916,6 +948,7 @@ args: [],
 source: "localReturn\x0a\x09^ localReturn ifNil: [ false ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.MethodLexicalScope);
@@ -935,6 +968,7 @@ args: ["aBoolean"],
 source: "localReturn: aBoolean\x0a\x09localReturn := aBoolean",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodLexicalScope);
@@ -953,6 +987,7 @@ args: [],
 source: "methodScope\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodLexicalScope);
@@ -983,6 +1018,7 @@ args: [],
 source: "nonLocalReturns\x0a\x09^ nonLocalReturns ifNil: [ nonLocalReturns := OrderedCollection new ]",
 referencedClasses: ["OrderedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "new"]
 }),
 $globals.MethodLexicalScope);
@@ -1026,6 +1062,7 @@ args: [],
 source: "pseudoVars\x0a\x09pseudoVars ifNil: [\x0a\x09\x09pseudoVars := Dictionary new.\x0a\x09\x09Smalltalk pseudoVariableNames do: [ :each |\x0a\x09\x09\x09pseudoVars at: each put: ((PseudoVar on: each)\x0a\x09\x09\x09\x09scope: self methodScope;\x0a\x09\x09\x09\x09yourself) ]].\x0a\x09^ pseudoVars",
 referencedClasses: ["Dictionary", "Smalltalk", "PseudoVar"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "new", "do:", "pseudoVariableNames", "at:put:", "scope:", "on:", "methodScope", "yourself"]
 }),
 $globals.MethodLexicalScope);
@@ -1052,6 +1089,7 @@ args: ["aScope"],
 source: "removeNonLocalReturn: aScope\x0a\x09self nonLocalReturns remove: aScope ifAbsent: []",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["remove:ifAbsent:", "nonLocalReturns"]
 }),
 $globals.MethodLexicalScope);
@@ -1082,6 +1120,7 @@ args: [],
 source: "unknownVariables\x0a\x09^ unknownVariables ifNil: [ unknownVariables := OrderedCollection new ]",
 referencedClasses: ["OrderedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "new"]
 }),
 $globals.MethodLexicalScope);
@@ -1111,6 +1150,7 @@ args: [],
 source: "alias\x0a\x09^ self name asVariableName",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["asVariableName", "name"]
 }),
 $globals.ScopeVar);
@@ -1129,6 +1169,7 @@ args: [],
 source: "isArgVar\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ScopeVar);
@@ -1147,6 +1188,7 @@ args: [],
 source: "isClassRefVar\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ScopeVar);
@@ -1165,6 +1207,7 @@ args: [],
 source: "isImmutable\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ScopeVar);
@@ -1183,6 +1226,7 @@ args: [],
 source: "isInstanceVar\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ScopeVar);
@@ -1201,6 +1245,7 @@ args: [],
 source: "isPseudoVar\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ScopeVar);
@@ -1219,6 +1264,7 @@ args: [],
 source: "isSelf\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ScopeVar);
@@ -1237,6 +1283,7 @@ args: [],
 source: "isSuper\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ScopeVar);
@@ -1255,6 +1302,7 @@ args: [],
 source: "isTempVar\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ScopeVar);
@@ -1273,6 +1321,7 @@ args: [],
 source: "isUnknownVar\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ScopeVar);
@@ -1291,6 +1340,7 @@ args: [],
 source: "name\x0a\x09^ name",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ScopeVar);
@@ -1310,6 +1360,7 @@ args: ["aString"],
 source: "name: aString\x0a\x09name := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ScopeVar);
@@ -1328,6 +1379,7 @@ args: [],
 source: "scope\x0a\x09^ scope",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ScopeVar);
@@ -1347,6 +1399,7 @@ args: ["aScope"],
 source: "scope: aScope\x0a\x09scope := aScope",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ScopeVar);
@@ -1385,6 +1438,7 @@ args: [],
 source: "validateAssignment\x0a\x09(self isArgVar or: [ self isPseudoVar ]) ifTrue: [\x0a\x09\x09InvalidAssignmentError new\x0a\x09\x09\x09variableName: self name;\x0a\x09\x09\x09signal]",
 referencedClasses: ["InvalidAssignmentError"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "or:", "isArgVar", "isPseudoVar", "variableName:", "new", "name", "signal"]
 }),
 $globals.ScopeVar);
@@ -1412,6 +1466,7 @@ args: ["aString"],
 source: "on: aString\x0a\x09^ self new\x0a\x09\x09name: aString;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["name:", "new", "yourself"]
 }),
 $globals.ScopeVar.a$cls);
@@ -1435,6 +1490,7 @@ args: [],
 source: "isImmutable\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AliasVar);
@@ -1453,6 +1509,7 @@ args: [],
 source: "node\x0a\x09^ node",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AliasVar);
@@ -1472,6 +1529,7 @@ args: ["aNode"],
 source: "node: aNode\x0a\x09node := aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AliasVar);
@@ -1496,6 +1554,7 @@ args: [],
 source: "isArgVar\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ArgVar);
@@ -1514,6 +1573,7 @@ args: [],
 source: "isImmutable\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ArgVar);
@@ -1543,6 +1603,7 @@ args: [],
 source: "alias\x0a\x09\x22Fixes issue #190.\x0a\x09A function is created in the method definition, answering the class or nil.\x0a\x09See JSStream >> #nextPutClassRefFunction:\x22\x0a\x09\x0a\x09^ '$globals.', self name",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "name"]
 }),
 $globals.ClassRefVar);
@@ -1561,6 +1622,7 @@ args: [],
 source: "isClassRefVar\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ClassRefVar);
@@ -1579,6 +1641,7 @@ args: [],
 source: "isImmutable\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ClassRefVar);
@@ -1608,6 +1671,7 @@ args: [],
 source: "alias\x0a\x09^ '$self.', self name",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "name"]
 }),
 $globals.InstanceVar);
@@ -1626,6 +1690,7 @@ args: [],
 source: "isInstanceVar\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.InstanceVar);
@@ -1655,6 +1720,7 @@ args: [],
 source: "alias\x0a\x09^ self name",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["name"]
 }),
 $globals.PseudoVar);
@@ -1673,6 +1739,7 @@ args: [],
 source: "isImmutable\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.PseudoVar);
@@ -1691,6 +1758,7 @@ args: [],
 source: "isPseudoVar\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.PseudoVar);
@@ -1714,6 +1782,7 @@ args: [],
 source: "isSelf\x0a\x09^ name = 'self'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["="]
 }),
 $globals.PseudoVar);
@@ -1737,6 +1806,7 @@ args: [],
 source: "isSuper\x0a\x09^ name = 'super'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["="]
 }),
 $globals.PseudoVar);
@@ -1761,6 +1831,7 @@ args: [],
 source: "isTempVar\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TempVar);
@@ -1785,6 +1856,7 @@ args: [],
 source: "isUnknownVar\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.UnknownVar);
@@ -1821,6 +1893,7 @@ args: [],
 source: "classReferences\x0a\x09^ classReferences ifNil: [ classReferences := Set new ]",
 referencedClasses: ["Set"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "new"]
 }),
 $globals.SemanticAnalyzer);
@@ -1848,6 +1921,7 @@ args: ["aString"],
 source: "errorShadowingVariable: aString\x0a\x09ShadowingVariableError new\x0a\x09\x09variableName: aString;\x0a\x09\x09signal",
 referencedClasses: ["ShadowingVariableError"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["variableName:", "new", "signal"]
 }),
 $globals.SemanticAnalyzer);
@@ -1897,6 +1971,7 @@ args: ["aNode"],
 source: "errorUnknownVariable: aNode\x0a\x09\x22Throw an error if the variable is undeclared in the global JS scope (i.e. window).\x0a\x09We allow all variables listed by Smalltalk>>#globalJsVariables.\x0a\x09This list includes: `window`, `document`,  `process` and `global`\x0a\x09for nodejs and browser environments.\x0a\x09\x0a\x09This is only to make sure compilation works on both browser-based and nodejs environments.\x0a\x09The ideal solution would be to use a pragma instead\x22\x0a\x0a\x09| identifier |\x0a\x09identifier := aNode value.\x0a\x09\x0a\x09((Smalltalk globalJsVariables includes: identifier) not\x0a\x09\x09and: [ self isVariableUndefined: identifier inPackage: self thePackage ])\x0a\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09UnknownVariableError new\x0a\x09\x09\x09\x09\x09variableName: aNode value;\x0a\x09\x09\x09\x09\x09signal ]\x0a\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09currentScope methodScope unknownVariables add: aNode value ]",
 referencedClasses: ["Smalltalk", "UnknownVariableError"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value", "ifTrue:ifFalse:", "and:", "not", "includes:", "globalJsVariables", "isVariableUndefined:inPackage:", "thePackage", "variableName:", "new", "signal", "add:", "unknownVariables", "methodScope"]
 }),
 $globals.SemanticAnalyzer);
@@ -1935,6 +2010,7 @@ args: ["aString", "aPackage"],
 source: "isVariableUndefined: aString inPackage: aPackage\x0a\x09aPackage ifNotNil: [\x0a\x09\x09| packageKnownVars |\x0a\x09\x09packageKnownVars := (aPackage imports\x0a\x09\x09\x09reject: #isString)\x0a\x09\x09\x09collect: #key.\x0a\x09\x09(packageKnownVars includes: aString) ifTrue: [ ^ false ]].\x0a\x09^ Compiler eval: 'typeof ', aString, ' === \x22undefined\x22'",
 referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "collect:", "reject:", "imports", "ifTrue:", "includes:", "eval:", ","]
 }),
 $globals.SemanticAnalyzer);
@@ -1965,6 +2041,7 @@ args: [],
 source: "messageSends\x0a\x09^ messageSends ifNil: [ messageSends := Dictionary new ]",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "new"]
 }),
 $globals.SemanticAnalyzer);
@@ -1988,6 +2065,7 @@ args: [],
 source: "newBlockScope\x0a\x09^ self newScopeOfClass: LexicalScope",
 referencedClasses: ["LexicalScope"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["newScopeOfClass:"]
 }),
 $globals.SemanticAnalyzer);
@@ -2011,6 +2089,7 @@ args: [],
 source: "newMethodScope\x0a\x09^ self newScopeOfClass: MethodLexicalScope",
 referencedClasses: ["MethodLexicalScope"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["newScopeOfClass:"]
 }),
 $globals.SemanticAnalyzer);
@@ -2037,6 +2116,7 @@ args: ["aLexicalScopeClass"],
 source: "newScopeOfClass: aLexicalScopeClass\x0a\x09^ aLexicalScopeClass new\x0a\x09\x09outerScope: currentScope;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["outerScope:", "new", "yourself"]
 }),
 $globals.SemanticAnalyzer);
@@ -2069,6 +2149,7 @@ args: [],
 source: "nextBlockIndex\x0a\x09blockIndex ifNil: [ blockIndex := 0 ].\x0a\x09\x0a\x09blockIndex := blockIndex + 1.\x0a\x09^ blockIndex",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "+"]
 }),
 $globals.SemanticAnalyzer);
@@ -2100,6 +2181,7 @@ args: [],
 source: "popScope\x0a\x09currentScope ifNotNil: [\x0a\x09\x09currentScope := currentScope outerScope ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "outerScope"]
 }),
 $globals.SemanticAnalyzer);
@@ -2125,6 +2207,7 @@ args: ["aScope"],
 source: "pushScope: aScope\x0a\x09aScope outerScope: currentScope.\x0a\x09currentScope := aScope",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["outerScope:"]
 }),
 $globals.SemanticAnalyzer);
@@ -2143,6 +2226,7 @@ args: [],
 source: "theClass\x0a\x09^ theClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SemanticAnalyzer);
@@ -2162,6 +2246,7 @@ args: ["aClass"],
 source: "theClass: aClass\x0a\x09theClass := aClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SemanticAnalyzer);
@@ -2180,6 +2265,7 @@ args: [],
 source: "thePackage\x0a\x09^ thePackage",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SemanticAnalyzer);
@@ -2199,6 +2285,7 @@ args: ["aPackage"],
 source: "thePackage: aPackage\x0a\x09thePackage := aPackage",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SemanticAnalyzer);
@@ -2229,6 +2316,7 @@ args: ["aString"],
 source: "validateVariableScope: aString\x0a\x09\x22Validate the variable scope in by doing a recursive lookup, up to the method scope\x22\x0a\x0a\x09(currentScope lookupVariable: aString) ifNotNil: [\x0a\x09\x09self errorShadowingVariable: aString ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "lookupVariable:", "errorShadowingVariable:"]
 }),
 $globals.SemanticAnalyzer);
@@ -2261,6 +2349,7 @@ args: ["aNode"],
 source: "visitAssignmentNode: aNode\x0a\x09super visitAssignmentNode: aNode.\x0a\x09aNode left beAssigned",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitAssignmentNode:", "beAssigned", "left"]
 }),
 $globals.SemanticAnalyzer);
@@ -2307,6 +2396,7 @@ args: ["aNode"],
 source: "visitBlockNode: aNode\x0a\x09self pushScope: self newBlockScope.\x0a\x09aNode scope: currentScope.\x0a\x09currentScope node: aNode.\x0a\x09currentScope blockIndex: self nextBlockIndex.\x0a\x0a\x09aNode parameters do: [ :each |\x0a\x09\x09self validateVariableScope: each.\x0a\x09\x09currentScope addArg: each ].\x0a\x0a\x09super visitBlockNode: aNode.\x0a\x09self popScope",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["pushScope:", "newBlockScope", "scope:", "node:", "blockIndex:", "nextBlockIndex", "do:", "parameters", "validateVariableScope:", "addArg:", "visitBlockNode:", "popScope"]
 }),
 $globals.SemanticAnalyzer);
@@ -2339,6 +2429,7 @@ args: ["aNode"],
 source: "visitCascadeNode: aNode\x0a\x09aNode receiver: aNode dagChildren first receiver.\x0a\x09super visitCascadeNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["receiver:", "receiver", "first", "dagChildren", "visitCascadeNode:"]
 }),
 $globals.SemanticAnalyzer);
@@ -2398,6 +2489,7 @@ args: ["aNode"],
 source: "visitMethodNode: aNode\x0a\x09self pushScope: self newMethodScope.\x0a\x09aNode scope: currentScope.\x0a\x09currentScope node: aNode.\x0a\x0a\x09self theClass allInstanceVariableNames do: [ :each |\x0a\x09\x09currentScope addIVar: each ].\x0a\x09aNode arguments do: [ :each |\x0a\x09\x09self validateVariableScope: each.\x0a\x09\x09currentScope addArg: each ].\x0a\x0a\x09super visitMethodNode: aNode.\x0a\x0a\x09aNode\x0a\x09\x09classReferences: self classReferences;\x0a\x09\x09sendIndexes: self messageSends.\x0a\x09self popScope.\x0a\x09^ aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["pushScope:", "newMethodScope", "scope:", "node:", "do:", "allInstanceVariableNames", "theClass", "addIVar:", "arguments", "validateVariableScope:", "addArg:", "visitMethodNode:", "classReferences:", "classReferences", "sendIndexes:", "messageSends", "popScope"]
 }),
 $globals.SemanticAnalyzer);
@@ -2437,6 +2529,7 @@ args: ["aNode"],
 source: "visitReturnNode: aNode\x0a\x09aNode scope: currentScope.\x0a\x09currentScope isMethodScope\x0a\x09\x09ifTrue: [ currentScope localReturn: true ]\x0a\x09\x09ifFalse: [ currentScope methodScope addNonLocalReturn: currentScope ].\x0a\x09super visitReturnNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["scope:", "ifTrue:ifFalse:", "isMethodScope", "localReturn:", "addNonLocalReturn:", "methodScope", "visitReturnNode:"]
 }),
 $globals.SemanticAnalyzer);
@@ -2480,6 +2573,7 @@ args: ["aNode"],
 source: "visitSendNode: aNode\x0a\x0a\x09| sends |\x0a\x09sends := self messageSends at: aNode selector ifAbsentPut: [ OrderedCollection new ].\x0a\x09sends add: aNode.\x0a\x0a\x09aNode index: sends size.\x0a\x0a\x09super visitSendNode: aNode",
 referencedClasses: ["OrderedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:ifAbsentPut:", "messageSends", "selector", "new", "add:", "index:", "size", "visitSendNode:"]
 }),
 $globals.SemanticAnalyzer);
@@ -2521,6 +2615,7 @@ args: ["aNode"],
 source: "visitSequenceNode: aNode\x0a\x09aNode temps do: [ :each |\x0a\x09\x09self validateVariableScope: each.\x0a\x09\x09currentScope addTemp: each ].\x0a\x0a\x09super visitSequenceNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "temps", "validateVariableScope:", "addTemp:", "visitSequenceNode:"]
 }),
 $globals.SemanticAnalyzer);
@@ -2589,6 +2684,7 @@ args: ["aNode"],
 source: "visitVariableNode: aNode\x0a\x09\x22Bind a ScopeVar to aNode by doing a lookup in the current scope.\x0a\x09If no ScopeVar is found, bind a UnknowVar and throw an error.\x22\x0a\x0a\x09| binding |\x0a\x09binding := currentScope lookupVariable: aNode.\x0a\x09\x0a\x09binding ifNil: [\x0a\x09\x09aNode value isCapitalized\x0a\x09\x09\x09ifTrue: [ \x22Capital letter variables might be globals.\x22\x0a\x09\x09\x09\x09binding := ClassRefVar new name: aNode value; yourself.\x0a\x09\x09\x09\x09self classReferences add: aNode value]\x0a\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09self errorUnknownVariable: aNode.\x0a\x09\x09\x09\x09binding := UnknownVar new name: aNode value; yourself ] ].\x0a\x09\x09\x0a\x09aNode binding: binding.",
 referencedClasses: ["ClassRefVar", "UnknownVar"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["lookupVariable:", "ifNil:", "ifTrue:ifFalse:", "isCapitalized", "value", "name:", "new", "yourself", "add:", "classReferences", "errorUnknownVariable:", "binding:"]
 }),
 $globals.SemanticAnalyzer);
@@ -2616,6 +2712,7 @@ args: ["aClass"],
 source: "on: aClass\x0a\x09^ self new\x0a\x09\x09theClass: aClass;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["theClass:", "new", "yourself"]
 }),
 $globals.SemanticAnalyzer.a$cls);
@@ -2650,6 +2747,7 @@ args: [],
 source: "messageText\x0a\x09^ ' Invalid assignment to variable: ', self variableName",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "variableName"]
 }),
 $globals.InvalidAssignmentError);
@@ -2668,6 +2766,7 @@ args: [],
 source: "variableName\x0a\x09^ variableName",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.InvalidAssignmentError);
@@ -2687,6 +2786,7 @@ args: ["aString"],
 source: "variableName: aString\x0a\x09variableName := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.InvalidAssignmentError);
@@ -2721,6 +2821,7 @@ args: [],
 source: "messageText\x0a\x09^ 'Variable shadowing error: ', self variableName, ' is already defined'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "variableName"]
 }),
 $globals.ShadowingVariableError);
@@ -2739,6 +2840,7 @@ args: [],
 source: "variableName\x0a\x09^ variableName",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ShadowingVariableError);
@@ -2758,6 +2860,7 @@ args: ["aString"],
 source: "variableName: aString\x0a\x09variableName := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ShadowingVariableError);
@@ -2792,6 +2895,7 @@ args: [],
 source: "messageText\x0a\x09^ 'Unknown Variable error: ', self variableName, ' is not defined'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "variableName"]
 }),
 $globals.UnknownVariableError);
@@ -2810,6 +2914,7 @@ args: [],
 source: "variableName\x0a\x09^ variableName",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.UnknownVariableError);
@@ -2829,6 +2934,7 @@ args: ["aString"],
 source: "variableName: aString\x0a\x09variableName := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.UnknownVariableError);

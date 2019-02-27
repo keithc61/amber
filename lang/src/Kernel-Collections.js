@@ -68,6 +68,7 @@ args: ["anAssociation"],
 source: "= anAssociation\x0a\x09^ self class = anAssociation class and: [\x0a\x09\x09self key = anAssociation key and: [\x0a\x09\x09self value = anAssociation value ]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", "=", "class", "key", "value"]
 }),
 $globals.Association);
@@ -86,6 +87,7 @@ args: [],
 source: "key\x0a\x09^ key",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Association);
@@ -105,6 +107,7 @@ args: ["aKey"],
 source: "key: aKey\x0a\x09key := aKey",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Association);
@@ -134,6 +137,7 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09self key printOn: aStream.\x0a\x09aStream nextPutAll: ' -> '.\x0a\x09self value printOn: aStream",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["printOn:", "key", "nextPutAll:", "value"]
 }),
 $globals.Association);
@@ -152,6 +156,7 @@ args: [],
 source: "value\x0a\x09^ value",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Association);
@@ -171,6 +176,7 @@ args: ["aValue"],
 source: "value: aValue\x0a\x09value := aValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Association);
@@ -199,6 +205,7 @@ args: ["aKey", "aValue"],
 source: "key: aKey value: aValue\x0a\x09\x09^ self new\x0a\x09\x09key: aKey;\x0a\x09\x09value: aValue;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["key:", "new", "value:", "yourself"]
 }),
 $globals.Association.a$cls);
@@ -235,6 +242,7 @@ args: ["anObject"],
 source: "bucketOfElement: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var hash = $self.hashBlock(anObject);\x0a\x09\x09if (!hash) return null;\x0a\x09\x09var buckets = $self.buckets,\x0a\x09\x09\x09bucket = buckets[hash];\x0a\x09\x09if (!bucket) { bucket = buckets[hash] = $self._newBucket(); }\x0a\x09\x09return bucket;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var hash = $self.hashBlock(anObject);\x0a\x09\x09if (!hash) return null;\x0a\x09\x09var buckets = $self.buckets,\x0a\x09\x09\x09bucket = buckets[hash];\x0a\x09\x09if (!bucket) { bucket = buckets[hash] = $self._newBucket(); }\x0a\x09\x09return bucket;\x0a\x09"]]],
 messageSends: []
 }),
 $globals.BucketStore);
@@ -263,6 +271,7 @@ args: ["aBlock"],
 source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var buckets = $self.buckets;\x0a\x09\x09var keys = Object.keys(buckets);\x0a\x09\x09for (var i = 0; i < keys.length; ++i) { buckets[keys[i]]._do_(aBlock); }\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var buckets = $self.buckets;\x0a\x09\x09var keys = Object.keys(buckets);\x0a\x09\x09for (var i = 0; i < keys.length; ++i) { buckets[keys[i]]._do_(aBlock); }\x0a\x09"]]],
 messageSends: []
 }),
 $globals.BucketStore);
@@ -282,6 +291,7 @@ args: ["aBlock"],
 source: "hashBlock: aBlock\x0a\x09hashBlock := aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.BucketStore);
@@ -314,6 +324,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x09self removeAll",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize", "removeAll"]
 }),
 $globals.BucketStore);
@@ -338,6 +349,7 @@ args: [],
 source: "newBucket\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.BucketStore);
@@ -362,6 +374,7 @@ args: [],
 source: "removeAll\x0a\x09<inlineJS: '$self.buckets = Object.create(null);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["$self.buckets = Object.create(null);"]]],
 messageSends: []
 }),
 $globals.BucketStore);
@@ -389,6 +402,7 @@ args: ["aBlock"],
 source: "hashBlock: aBlock\x0a\x09^ self new\x0a\x09\x09hashBlock: aBlock;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["hashBlock:", "new", "yourself"]
 }),
 $globals.BucketStore.a$cls);
@@ -412,6 +426,7 @@ args: [],
 source: "newBucket\x0a\x09^ #()",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ArrayBucketStore);
@@ -444,6 +459,7 @@ args: ["aCollection"],
 source: ", aCollection\x0a\x09^ self copy\x0a\x09\x09addAll: aCollection;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["addAll:", "copy", "yourself"]
 }),
 $globals.Collection);
@@ -468,6 +484,7 @@ args: ["anObject"],
 source: "add: anObject\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.Collection);
@@ -500,6 +517,7 @@ args: ["aCollection"],
 source: "addAll: aCollection\x0a\x09aCollection do: [ :each |\x0a\x09\x09self add: each ].\x0a\x09^ aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "add:"]
 }),
 $globals.Collection);
@@ -540,6 +558,7 @@ args: ["aBlock"],
 source: "allSatisfy: aBlock\x0a\x09\x22Evaluate aBlock with the elements of the receiver.\x0a\x09If aBlock returns false for any element return false.\x0a\x09Otherwise return true.\x22\x0a\x0a\x09self do: [ :each | (aBlock value: each) ifFalse: [ ^ false ] ].\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "ifFalse:", "value:"]
 }),
 $globals.Collection);
@@ -580,6 +599,7 @@ args: [],
 source: "anyOne\x0a\x09\x22Answer a representative sample of the receiver. This method can\x0a\x09be helpful when needing to preinfer the nature of the contents of \x0a\x09semi-homogeneous collections.\x22\x0a\x0a\x09self ifEmpty: [ self error: 'Collection is empty' ].\x0a\x09self do: [ :each | ^ each ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifEmpty:", "error:", "do:"]
 }),
 $globals.Collection);
@@ -620,6 +640,7 @@ args: ["aBlock"],
 source: "anySatisfy: aBlock\x0a\x09\x22Evaluate aBlock with the elements of the receiver.\x0a\x09If aBlock returns true for any element return true.\x0a\x09Otherwise return false.\x22\x0a\x0a\x09self do: [ :each | (aBlock value: each) ifTrue: [ ^ true ] ].\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "ifTrue:", "value:"]
 }),
 $globals.Collection);
@@ -643,6 +664,7 @@ args: [],
 source: "asArray\x0a\x09^ Array withAll: self",
 referencedClasses: ["Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["withAll:"]
 }),
 $globals.Collection);
@@ -674,6 +696,7 @@ args: [],
 source: "asJavaScriptObject\x0a\x09^ self asArray collect: [ :each | each asJavaScriptObject ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collect:", "asArray", "asJavaScriptObject"]
 }),
 $globals.Collection);
@@ -697,6 +720,7 @@ args: [],
 source: "asOrderedCollection\x0a\x09^ self asArray",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["asArray"]
 }),
 $globals.Collection);
@@ -720,6 +744,7 @@ args: [],
 source: "asSet\x0a\x09^ Set withAll: self",
 referencedClasses: ["Set"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["withAll:"]
 }),
 $globals.Collection);
@@ -754,6 +779,7 @@ args: ["aBlock"],
 source: "collect: aBlock\x0a\x09| stream |\x0a\x09stream := self class new writeStream.\x0a\x09self do: [ :each |\x0a\x09\x09stream nextPut: (aBlock value: each) ].\x0a\x09^ stream contents",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["writeStream", "new", "class", "do:", "nextPut:", "value:", "contents"]
 }),
 $globals.Collection);
@@ -780,6 +806,7 @@ args: ["anObject"],
 source: "copyWith: anObject\x0a\x09^ self copy add: anObject; yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:", "copy", "yourself"]
 }),
 $globals.Collection);
@@ -804,6 +831,7 @@ args: ["aCollection"],
 source: "copyWithAll: aCollection\x0a\x09self deprecatedAPI: 'Use #, instead.'.\x0a\x09^ self, aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["deprecatedAPI:", ","]
 }),
 $globals.Collection);
@@ -835,6 +863,7 @@ args: ["anObject"],
 source: "copyWithout: anObject\x0a\x09\x22Answer a copy of the receiver that does not contain\x0a\x09any occurrences of anObject.\x22\x0a\x0a\x09^ self reject: [ :each | each = anObject ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["reject:", "="]
 }),
 $globals.Collection);
@@ -866,6 +895,7 @@ args: ["aCollection"],
 source: "copyWithoutAll: aCollection\x0a\x09\x22Answer a copy of the receiver that does not contain any elements\x0a\x09equal to those in aCollection.\x22\x0a\x0a\x09^ self reject: [ :each | aCollection includes: each ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["reject:", "includes:"]
 }),
 $globals.Collection);
@@ -897,6 +927,7 @@ args: [],
 source: "deepCopy\x0a\x09^ self collect: [ :each | each deepCopy ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collect:", "deepCopy"]
 }),
 $globals.Collection);
@@ -928,6 +959,7 @@ args: ["aBlock"],
 source: "detect: aBlock\x0a\x09^ self detect: aBlock ifNone: [ self errorNotFound ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["detect:ifNone:", "errorNotFound"]
 }),
 $globals.Collection);
@@ -968,6 +1000,7 @@ args: ["aBlock", "anotherBlock"],
 source: "detect: aBlock ifNone: anotherBlock\x0a\x09self do: [ :each | (aBlock value: each) ifTrue: [ ^each ] ].\x0a\x09^ anotherBlock value",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "ifTrue:", "value:", "value"]
 }),
 $globals.Collection);
@@ -992,6 +1025,7 @@ args: ["aBlock"],
 source: "do: aBlock\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.Collection);
@@ -1031,6 +1065,7 @@ args: ["aBlock", "anotherBlock"],
 source: "do: aBlock separatedBy: anotherBlock\x0a\x09| actionBeforeElement |\x0a\x09actionBeforeElement := [ actionBeforeElement := anotherBlock ].\x0a\x09self do: [ :each |\x0a\x09\x09actionBeforeElement value.\x0a\x09\x09aBlock value: each ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "value", "value:"]
 }),
 $globals.Collection);
@@ -1055,6 +1090,7 @@ args: [],
 source: "errorNotFound\x0a\x09self error: 'Object is not in the collection'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["error:"]
 }),
 $globals.Collection);
@@ -1084,6 +1120,7 @@ args: ["aBlock"],
 source: "ifEmpty: aBlock\x0a\x09\x22Evaluate the given block with the receiver as argument, answering its value if the receiver is empty, otherwise answer the receiver. \x0a\x09Note that the fact that this method returns its argument in case the receiver is not empty allows one to write expressions like the following ones: \x0a\x09\x09self classifyMethodAs:\x0a\x09\x09\x09(myProtocol ifEmpty: ['As yet unclassified'])\x22\x0a\x09^ self isEmpty\x0a\x09\x09ifTrue: \x22aBlock\x22 [ aBlock value ]\x0a\x09\x09ifFalse: [ self ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "isEmpty", "value"]
 }),
 $globals.Collection);
@@ -1113,6 +1150,7 @@ args: ["aBlock", "anotherBlock"],
 source: "ifEmpty: aBlock ifNotEmpty: anotherBlock\x0a\x09^ self isEmpty\x0a\x09\x09ifTrue: \x22aBlock\x22 [ aBlock value ]\x0a\x09\x09ifFalse: [ anotherBlock value: self ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "isEmpty", "value", "value:"]
 }),
 $globals.Collection);
@@ -1142,6 +1180,7 @@ args: ["aBlock"],
 source: "ifNotEmpty: aBlock\x0a\x09^ self notEmpty\x0a\x09\x09ifTrue: [ aBlock value: self ]\x0a\x09\x09ifFalse: [ self ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "notEmpty", "value:"]
 }),
 $globals.Collection);
@@ -1171,6 +1210,7 @@ args: ["aBlock", "anotherBlock"],
 source: "ifNotEmpty: aBlock ifEmpty: anotherBlock\x0a\x09^ self notEmpty\x0a\x09\x09ifTrue: [ aBlock value: self ]\x0a\x09\x09ifFalse: \x22anotherBlock\x22 [ anotherBlock value ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "notEmpty", "value:", "value"]
 }),
 $globals.Collection);
@@ -1202,6 +1242,7 @@ args: ["anObject"],
 source: "includes: anObject\x0a\x09^ self anySatisfy: [ :each | each = anObject ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["anySatisfy:", "="]
 }),
 $globals.Collection);
@@ -1237,6 +1278,7 @@ args: ["anObject", "aBlock"],
 source: "inject: anObject into: aBlock\x0a\x09| result |\x0a\x09result := anObject.\x0a\x09self do: [ :each |\x0a\x09\x09result := aBlock value: result value: each ].\x0a\x09^ result",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "value:value:"]
 }),
 $globals.Collection);
@@ -1288,6 +1330,7 @@ args: ["aCollection"],
 source: "intersection: aCollection\x0a\x09\x22Answer the set theoretic intersection of two collections.\x22\x0a\x0a\x09| set outputSet |\x0a\x09\x0a\x09set := self asSet.\x0a\x09outputSet := Set new.\x0a\x09\x0a\x09aCollection do: [ :each |\x0a\x09\x09((set includes: each) and: [ (outputSet includes: each) not ])\x0a\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09outputSet add: each ]].\x0a\x09\x09\x0a\x09^ self class withAll: outputSet asArray",
 referencedClasses: ["Set"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["asSet", "new", "do:", "ifTrue:", "and:", "includes:", "not", "add:", "withAll:", "class", "asArray"]
 }),
 $globals.Collection);
@@ -1311,6 +1354,7 @@ args: [],
 source: "isEmpty\x0a\x09^ self size = 0",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["=", "size"]
 }),
 $globals.Collection);
@@ -1351,6 +1395,7 @@ args: ["aBlock"],
 source: "noneSatisfy: aBlock\x0a\x09\x22Evaluate aBlock with the elements of the receiver.\x0a\x09If aBlock returns false for all elements return true.\x0a\x09Otherwise return false\x22\x0a\x0a\x09self do: [ :item | (aBlock value: item) ifTrue: [ ^ false ] ].\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "ifTrue:", "value:"]
 }),
 $globals.Collection);
@@ -1374,6 +1419,7 @@ args: [],
 source: "notEmpty\x0a\x09^ self isEmpty not",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["not", "isEmpty"]
 }),
 $globals.Collection);
@@ -1413,6 +1459,7 @@ args: ["anObject"],
 source: "occurrencesOf: anObject\x0a\x09\x22Answer how many of the receiver's elements are equal to anObject.\x22\x0a\x0a\x09| tally |\x0a\x09tally := 0.\x0a\x09self do: [ :each | anObject = each ifTrue: [ tally := tally + 1 ]].\x0a\x09^ tally",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "ifTrue:", "=", "+"]
 }),
 $globals.Collection);
@@ -1445,6 +1492,7 @@ args: ["aStream"],
 source: "putOn: aStream\x0a\x09self do: [ :each | each putOn: aStream ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "putOn:"]
 }),
 $globals.Collection);
@@ -1476,6 +1524,7 @@ args: ["aBlock"],
 source: "reject: aBlock\x0a\x09^ self select: [ :each | (aBlock value: each) = false ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["select:", "=", "value:"]
 }),
 $globals.Collection);
@@ -1507,6 +1556,7 @@ args: ["anObject"],
 source: "remove: anObject\x0a\x09^ self remove: anObject ifAbsent: [ self errorNotFound ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["remove:ifAbsent:", "errorNotFound"]
 }),
 $globals.Collection);
@@ -1531,6 +1581,7 @@ args: ["anObject", "aBlock"],
 source: "remove: anObject ifAbsent: aBlock\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.Collection);
@@ -1555,6 +1606,7 @@ args: [],
 source: "removeAll\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.Collection);
@@ -1593,6 +1645,7 @@ args: ["aBlock"],
 source: "select: aBlock\x0a\x09| stream |\x0a\x09stream := self class new writeStream.\x0a\x09self do: [ :each |\x0a\x09\x09(aBlock value: each) ifTrue: [\x0a\x09\x09stream nextPut: each ] ].\x0a\x09^ stream contents",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["writeStream", "new", "class", "do:", "ifTrue:", "value:", "nextPut:", "contents"]
 }),
 $globals.Collection);
@@ -1634,6 +1687,7 @@ args: ["selectBlock", "collectBlock"],
 source: "select: selectBlock thenCollect: collectBlock\x0a\x09| stream |\x0a\x09stream := self class new writeStream.\x0a\x09self do: [ :each |\x0a\x09\x09(selectBlock value: each) ifTrue: [\x0a\x09\x09stream nextPut: (collectBlock value: each) ] ].\x0a\x09^ stream contents",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["writeStream", "new", "class", "do:", "ifTrue:", "value:", "nextPut:", "contents"]
 }),
 $globals.Collection);
@@ -1660,6 +1714,7 @@ args: [],
 source: "shallowCopy\x0a\x09^ self collect: [ :each | each ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collect:"]
 }),
 $globals.Collection);
@@ -1700,6 +1755,7 @@ args: [],
 source: "single\x0a\x09\x22Answer a single element.\x0a\x09Raise an error if collection holds less or more than one element.\x22\x0a\x0a\x09self ifEmpty: [ self error: 'Collection is empty' ].\x0a\x09self size > 1 ifTrue: [ self error: 'Collection holds more than one element' ].\x0a\x09^ self anyOne",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifEmpty:", "error:", "ifTrue:", ">", "size", "anyOne"]
 }),
 $globals.Collection);
@@ -1724,6 +1780,7 @@ args: [],
 source: "size\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.Collection);
@@ -1743,6 +1800,7 @@ args: [],
 source: "classTag\x0a\x09\x22Returns a tag or general category for this class.\x0a\x09Typically used to help tools do some reflection.\x0a\x09Helios, for example, uses this to decide what icon the class should display.\x22\x0a\x09\x0a\x09^ 'collection'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Collection.a$cls);
@@ -1766,6 +1824,7 @@ args: ["anInteger"],
 source: "new: anInteger\x0a\x09^ self new",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new"]
 }),
 $globals.Collection.a$cls);
@@ -1792,6 +1851,7 @@ args: ["anObject"],
 source: "with: anObject\x0a\x09\x09^ self new\x0a\x09\x09add: anObject;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:", "new", "yourself"]
 }),
 $globals.Collection.a$cls);
@@ -1822,6 +1882,7 @@ args: ["anObject", "anotherObject"],
 source: "with: anObject with: anotherObject\x0a\x09\x09^ self new\x0a\x09\x09add: anObject;\x0a\x09\x09add: anotherObject;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:", "new", "yourself"]
 }),
 $globals.Collection.a$cls);
@@ -1856,6 +1917,7 @@ args: ["firstObject", "secondObject", "thirdObject"],
 source: "with: firstObject with: secondObject with: thirdObject\x0a\x09\x09^ self new\x0a\x09\x09add: firstObject;\x0a\x09\x09add: secondObject;\x0a\x09\x09add: thirdObject;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:", "new", "yourself"]
 }),
 $globals.Collection.a$cls);
@@ -1882,6 +1944,7 @@ args: ["aCollection"],
 source: "withAll: aCollection\x0a\x09\x09^ self new\x0a\x09\x09addAll: aCollection;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["addAll:", "new", "yourself"]
 }),
 $globals.Collection.a$cls);
@@ -1937,6 +2000,7 @@ args: ["anAssocitativeCollection"],
 source: "= anAssocitativeCollection\x0a\x09self class = anAssocitativeCollection class ifFalse: [ ^ false ].\x0a\x09self size = anAssocitativeCollection size ifFalse: [ ^ false ].\x0a\x09^ self associations = anAssocitativeCollection associations",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "=", "class", "size", "associations"]
 }),
 $globals.AssociativeCollection);
@@ -1961,6 +2025,7 @@ args: ["anAssociation"],
 source: "add: anAssociation\x0a\x09self at: anAssociation key put: anAssociation value",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:put:", "key", "value"]
 }),
 $globals.AssociativeCollection);
@@ -1992,6 +2057,7 @@ args: ["anAssociativeCollection"],
 source: "addAll: anAssociativeCollection\x0a\x09super addAll: anAssociativeCollection associations.\x0a\x09^ anAssociativeCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["addAll:", "associations"]
 }),
 $globals.AssociativeCollection);
@@ -2015,6 +2081,7 @@ args: [],
 source: "asDictionary\x0a\x09^ Dictionary from: self associations",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["from:", "associations"]
 }),
 $globals.AssociativeCollection);
@@ -2038,6 +2105,7 @@ args: [],
 source: "asHashedCollection\x0a\x09^ HashedCollection from: self associations",
 referencedClasses: ["HashedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["from:", "associations"]
 }),
 $globals.AssociativeCollection);
@@ -2072,6 +2140,7 @@ args: [],
 source: "asJavaScriptObject\x0a\x09| hash |\x0a\x09hash := HashedCollection new.\x0a\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09hash at: key put: value asJavaScriptObject ].\x0a\x09^ hash",
 referencedClasses: ["HashedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "keysAndValuesDo:", "at:put:", "asJavaScriptObject"]
 }),
 $globals.AssociativeCollection);
@@ -2106,6 +2175,7 @@ args: [],
 source: "associations\x0a\x09| associations |\x0a\x09associations := #().\x0a\x09self associationsDo: [ :each | associations add: each ].\x0a\x09^ associations",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["associationsDo:", "add:"]
 }),
 $globals.AssociativeCollection);
@@ -2138,6 +2208,7 @@ args: ["aBlock"],
 source: "associationsDo: aBlock\x0a\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09aBlock value: (Association key: key value: value) ]",
 referencedClasses: ["Association"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["keysAndValuesDo:", "value:", "key:value:"]
 }),
 $globals.AssociativeCollection);
@@ -2167,6 +2238,7 @@ args: ["aKey", "aBlock", "anotherBlock"],
 source: "at: aKey ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09\x22Lookup the given key in the receiver.\x0a\x09If it is present, answer the value of evaluating the oneArgBlock \x0a\x09with the value associated with the key, otherwise answer the value \x0a\x09of absentBlock.\x22\x0a\x09\x0a\x09^ (self includesKey: aKey)\x0a\x09\x09ifTrue: [ aBlock value: (self at: aKey) ]\x0a\x09\x09ifFalse: [ anotherBlock value ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "includesKey:", "value:", "at:", "value"]
 }),
 $globals.AssociativeCollection);
@@ -2201,6 +2273,7 @@ args: ["aBlock"],
 source: "collect: aBlock\x0a\x09| newDict |\x0a\x09newDict := self class new.\x0a\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09newDict at: key put: (aBlock value: value) ].\x0a\x09^ newDict",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "class", "keysAndValuesDo:", "at:put:", "value:"]
 }),
 $globals.AssociativeCollection);
@@ -2235,6 +2308,7 @@ args: [],
 source: "deepCopy\x0a\x09| copy |\x0a\x09copy := self class new.\x0a\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09copy at: key put: value deepCopy ].\x0a\x09^ copy",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "class", "keysAndValuesDo:", "at:put:", "deepCopy"]
 }),
 $globals.AssociativeCollection);
@@ -2258,6 +2332,7 @@ args: ["aBlock", "anotherBlock"],
 source: "detect: aBlock ifNone: anotherBlock\x0a\x09^ self values detect: aBlock ifNone: anotherBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["detect:ifNone:", "values"]
 }),
 $globals.AssociativeCollection);
@@ -2282,6 +2357,7 @@ args: ["aBlock"],
 source: "do: aBlock\x0a\x09self valuesDo: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["valuesDo:"]
 }),
 $globals.AssociativeCollection);
@@ -2305,6 +2381,7 @@ args: ["anObject"],
 source: "includes: anObject\x0a\x09^ self values includes: anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["includes:", "values"]
 }),
 $globals.AssociativeCollection);
@@ -2329,6 +2406,7 @@ args: ["aKey"],
 source: "includesKey: aKey\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.AssociativeCollection);
@@ -2360,6 +2438,7 @@ args: ["anObject", "aBlock"],
 source: "indexOf: anObject ifAbsent: aBlock\x0a\x09^ self keys \x0a\x09\x09detect: [ :each | (self at: each) = anObject ] \x0a\x09\x09ifNone: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["detect:ifNone:", "keys", "=", "at:"]
 }),
 $globals.AssociativeCollection);
@@ -2391,6 +2470,7 @@ args: ["anObject"],
 source: "keyAtValue: anObject\x0a\x09^ self keyAtValue: anObject ifAbsent: [ self errorNotFound ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["keyAtValue:ifAbsent:", "errorNotFound"]
 }),
 $globals.AssociativeCollection);
@@ -2414,6 +2494,7 @@ args: ["anObject", "aBlock"],
 source: "keyAtValue: anObject ifAbsent: aBlock\x0a\x09^ self indexOf: anObject ifAbsent: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["indexOf:ifAbsent:"]
 }),
 $globals.AssociativeCollection);
@@ -2438,6 +2519,7 @@ args: [],
 source: "keys\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.AssociativeCollection);
@@ -2470,6 +2552,7 @@ args: ["aBlock"],
 source: "keysAndValuesDo: aBlock\x0a\x09self keysDo: [ :each |\x0a\x09\x09aBlock value: each value: (self at: each) ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["keysDo:", "value:value:", "at:"]
 }),
 $globals.AssociativeCollection);
@@ -2494,6 +2577,7 @@ args: ["aBlock"],
 source: "keysDo: aBlock\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.AssociativeCollection);
@@ -2553,6 +2637,7 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09super printOn: aStream.\x0a\x09\x0a\x09aStream nextPutAll: ' ('.\x0a\x09self associations\x0a\x09\x09do: [ :each | each printOn: aStream ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ' , ' ].\x0a\x09aStream nextPutAll: ')'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["printOn:", "nextPutAll:", "do:separatedBy:", "associations"]
 }),
 $globals.AssociativeCollection);
@@ -2576,6 +2661,7 @@ args: ["aKey", "aBlock"],
 source: "remove: aKey ifAbsent: aBlock\x0a\x09^ self removeKey: aKey ifAbsent: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["removeKey:ifAbsent:"]
 }),
 $globals.AssociativeCollection);
@@ -2607,6 +2693,7 @@ args: [],
 source: "removeAll\x0a\x09^ self keys do: [ :each | self removeKey: each ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "keys", "removeKey:"]
 }),
 $globals.AssociativeCollection);
@@ -2630,6 +2717,7 @@ args: ["aKey"],
 source: "removeKey: aKey\x0a\x09^ self remove: aKey",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["remove:"]
 }),
 $globals.AssociativeCollection);
@@ -2654,6 +2742,7 @@ args: ["aKey", "aBlock"],
 source: "removeKey: aKey ifAbsent: aBlock\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.AssociativeCollection);
@@ -2692,6 +2781,7 @@ args: ["aBlock"],
 source: "select: aBlock\x0a\x09| newDict |\x0a\x09newDict := self class new.\x0a\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09(aBlock value: value) ifTrue: [ newDict at: key put: value ]].\x0a\x09^ newDict",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "class", "keysAndValuesDo:", "ifTrue:", "value:", "at:put:"]
 }),
 $globals.AssociativeCollection);
@@ -2733,6 +2823,7 @@ args: ["selectBlock", "collectBlock"],
 source: "select: selectBlock thenCollect: collectBlock\x0a\x09| newDict |\x0a\x09newDict := self class new.\x0a\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09(selectBlock value: value) ifTrue: [ newDict at: key put: (collectBlock value: value) ]].\x0a\x09^ newDict",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "class", "keysAndValuesDo:", "ifTrue:", "value:", "at:put:"]
 }),
 $globals.AssociativeCollection);
@@ -2767,6 +2858,7 @@ args: [],
 source: "shallowCopy\x0a\x09| copy |\x0a\x09copy := self class new.\x0a\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09copy at: key put: value ].\x0a\x09^ copy",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "class", "keysAndValuesDo:", "at:put:"]
 }),
 $globals.AssociativeCollection);
@@ -2790,6 +2882,7 @@ args: [],
 source: "size\x0a\x09^ self keys size",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["size", "keys"]
 }),
 $globals.AssociativeCollection);
@@ -2814,6 +2907,7 @@ args: [],
 source: "values\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.AssociativeCollection);
@@ -2838,6 +2932,7 @@ args: ["aBlock"],
 source: "valuesDo: aBlock\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.AssociativeCollection);
@@ -2870,6 +2965,7 @@ args: ["aBlock"],
 source: "withIndexDo: aBlock\x0a\x09self keysAndValuesDo: [ :key :value | aBlock value: value value: key ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["keysAndValuesDo:", "value:value:"]
 }),
 $globals.AssociativeCollection);
@@ -2905,6 +3001,7 @@ args: ["aCollection"],
 source: "from: aCollection\x0a\x09| newCollection |\x0a\x09newCollection := self new.\x0a\x09aCollection do: [ :each | newCollection add: each ].\x0a\x09^ newCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "do:", "add:"]
 }),
 $globals.AssociativeCollection.a$cls);
@@ -2928,6 +3025,7 @@ args: ["aCollection"],
 source: "fromPairs: aCollection\x0a\x09\x22This message is poorly named and has been replaced by #from:\x22\x0a\x09^ self from: aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["from:"]
 }),
 $globals.AssociativeCollection.a$cls);
@@ -2976,6 +3074,7 @@ args: ["aCollection"],
 source: "newFromPairs: aCollection\x0a\x09\x22Accept an array of elements where every two elements form an \x0a\x09association - the odd element being the key, and the even element the value.\x22\x0a\x09\x0a\x09| newCollection |\x0a\x09\x0a\x09aCollection size even ifFalse: [ \x0a\x09\x09self error: '#newFromPairs only accepts arrays of an even length' ].\x0a\x09\x09\x0a\x09newCollection := self new.\x0a\x09( 1 to: aCollection size by: 2 ) do: [ :each | \x0a\x09\x09newCollection at: (aCollection at: each) put: (aCollection at: each + 1) ].\x0a\x09\x09\x0a\x09^ newCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "even", "size", "error:", "new", "do:", "to:by:", "at:put:", "at:", "+"]
 }),
 $globals.AssociativeCollection.a$cls);
@@ -3008,6 +3107,7 @@ args: ["aKey", "aBlock"],
 source: "at: aKey ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09return index >=0 ? $self.values[index] : aBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09return index >=0 ? $self.values[index] : aBlock._value();\x0a\x09"]]],
 messageSends: []
 }),
 $globals.Dictionary);
@@ -3041,6 +3141,7 @@ args: ["aKey", "aValue"],
 source: "at: aKey put: aValue\x0a\x09<inlineJS: '\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09var keys = $self.keys;\x0a\x09\x09\x09index = keys.length;\x0a\x09\x09\x09keys.push(aKey);\x0a\x09\x09}\x0a\x0a\x09\x09return $self.values[index] = aValue;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09var keys = $self.keys;\x0a\x09\x09\x09index = keys.length;\x0a\x09\x09\x09keys.push(aKey);\x0a\x09\x09}\x0a\x0a\x09\x09return $self.values[index] = aValue;\x0a\x09"]]],
 messageSends: []
 }),
 $globals.Dictionary);
@@ -3065,6 +3166,7 @@ args: ["aKey"],
 source: "includesKey: aKey\x0a\x09<inlineJS: 'return $self._positionOfKey_(aKey) >= 0;'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return $self._positionOfKey_(aKey) >= 0;"]]],
 messageSends: []
 }),
 $globals.Dictionary);
@@ -3099,6 +3201,7 @@ args: ["anObject", "aBlock"],
 source: "indexOf: anObject ifAbsent: aBlock\x0a\x09| index |\x0a\x09index := values \x0a\x09\x09indexOf: anObject \x0a\x09\x09ifAbsent: [ 0 ].\x0a\x09^ index = 0 \x0a\x09\x09ifTrue: [ aBlock value ] \x0a\x09\x09ifFalse: [ keys at: index ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["indexOf:ifAbsent:", "ifTrue:ifFalse:", "=", "value", "at:"]
 }),
 $globals.Dictionary);
@@ -3132,6 +3235,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x09keys := #().\x0a\x09values := #()",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize"]
 }),
 $globals.Dictionary);
@@ -3155,6 +3259,7 @@ args: [],
 source: "keys\x0a\x09^ keys copy",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["copy"]
 }),
 $globals.Dictionary);
@@ -3178,6 +3283,7 @@ args: ["aBlock"],
 source: "keysAndValuesDo: aBlock\x0a\x09^ keys with: values do: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["with:do:"]
 }),
 $globals.Dictionary);
@@ -3201,6 +3307,7 @@ args: ["aBlock"],
 source: "keysDo: aBlock\x0a\x09^ keys do: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:"]
 }),
 $globals.Dictionary);
@@ -3231,6 +3338,7 @@ args: ["anObject"],
 source: "positionOfKey: anObject\x0a\x09<inlineJS: '\x0a\x09\x09var keys = $self.keys;\x0a\x09\x09for(var i=0;i<keys.length;i++){\x0a\x09\x09\x09if(keys[i].__eq(anObject)) { return i;}\x0a\x09\x09}\x0a\x09\x09return -1;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var keys = $self.keys;\x0a\x09\x09for(var i=0;i<keys.length;i++){\x0a\x09\x09\x09if(keys[i].__eq(anObject)) { return i;}\x0a\x09\x09}\x0a\x09\x09return -1;\x0a\x09"]]],
 messageSends: []
 }),
 $globals.Dictionary);
@@ -3259,6 +3367,7 @@ args: [],
 source: "removeAll\x0a\x09keys removeAll.\x0a\x09values removeAll",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["removeAll"]
 }),
 $globals.Dictionary);
@@ -3296,6 +3405,7 @@ args: ["aKey", "aBlock"],
 source: "removeKey: aKey ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09return aBlock._value()\x0a\x09\x09} else {\x0a\x09\x09\x09var keys = $self.keys, values = $self.values;\x0a\x09\x09\x09var value = values[index], l = keys.length;\x0a\x09\x09\x09keys[index] = keys[l-1];\x0a\x09\x09\x09keys.pop();\x0a\x09\x09\x09values[index] = values[l-1];\x0a\x09\x09\x09values.pop();\x0a\x09\x09\x09return value;\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var index = $self._positionOfKey_(aKey);\x0a\x09\x09if(index === -1) {\x0a\x09\x09\x09return aBlock._value()\x0a\x09\x09} else {\x0a\x09\x09\x09var keys = $self.keys, values = $self.values;\x0a\x09\x09\x09var value = values[index], l = keys.length;\x0a\x09\x09\x09keys[index] = keys[l-1];\x0a\x09\x09\x09keys.pop();\x0a\x09\x09\x09values[index] = values[l-1];\x0a\x09\x09\x09values.pop();\x0a\x09\x09\x09return value;\x0a\x09\x09}\x0a\x09"]]],
 messageSends: []
 }),
 $globals.Dictionary);
@@ -3314,6 +3424,7 @@ args: [],
 source: "values\x0a\x09^ values",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Dictionary);
@@ -3337,6 +3448,7 @@ args: ["aBlock"],
 source: "valuesDo: aBlock\x0a\x09^ values do: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:"]
 }),
 $globals.Dictionary);
@@ -3372,6 +3484,7 @@ args: ["aKey", "aBlock"],
 source: "at: aKey ifAbsent: aBlock\x0a\x09^ (self includesKey: aKey)\x0a\x09\x09ifTrue: [ self basicAt: aKey ]\x0a\x09\x09ifFalse: [ aBlock value ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "includesKey:", "basicAt:", "value"]
 }),
 $globals.HashedCollection);
@@ -3395,6 +3508,7 @@ args: ["aKey", "aValue"],
 source: "at: aKey put: aValue\x0a\x09^ self basicAt: aKey put: aValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["basicAt:put:"]
 }),
 $globals.HashedCollection);
@@ -3419,6 +3533,7 @@ args: ["aKey"],
 source: "includesKey: aKey\x0a\x09<inlineJS: 'return self.hasOwnProperty(aKey)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.hasOwnProperty(aKey)"]]],
 messageSends: []
 }),
 $globals.HashedCollection);
@@ -3443,6 +3558,7 @@ args: [],
 source: "keys\x0a\x09<inlineJS: 'return Object.keys(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Object.keys(self)"]]],
 messageSends: []
 }),
 $globals.HashedCollection);
@@ -3467,6 +3583,7 @@ args: ["aBlock"],
 source: "keysDo: aBlock\x0a\x09self keys do: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "keys"]
 }),
 $globals.HashedCollection);
@@ -3507,6 +3624,7 @@ args: ["aKey", "aBlock"],
 source: "removeKey: aKey ifAbsent: aBlock\x0a\x09^ self\x0a\x09\x09at: aKey\x0a\x09\x09ifPresent: [ :removed | self basicDelete: aKey. removed ]\x0a\x09\x09ifAbsent: [ aBlock value ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:ifPresent:ifAbsent:", "basicDelete:", "value"]
 }),
 $globals.HashedCollection);
@@ -3535,6 +3653,7 @@ args: [],
 source: "values\x0a\x09<inlineJS: '\x0a\x09\x09return $self._keys().map(function(key){\x0a\x09\x09\x09return $self._at_(key);\x0a\x09\x09});\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return $self._keys().map(function(key){\x0a\x09\x09\x09return $self._at_(key);\x0a\x09\x09});\x0a\x09"]]],
 messageSends: []
 }),
 $globals.HashedCollection);
@@ -3559,6 +3678,7 @@ args: ["aBlock"],
 source: "valuesDo: aBlock\x0a\x09self values do: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "values"]
 }),
 $globals.HashedCollection);
@@ -3632,6 +3752,7 @@ args: ["aCollection"],
 source: "= aCollection\x0a\x09(self class = aCollection class and: [\x0a\x09\x09self size = aCollection size ]) ifFalse: [ ^ false ].\x0a\x09self withIndexDo: [ :each :i |\x0a\x09\x09\x09\x09(aCollection at: i) = each ifFalse: [ ^ false ]].\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "and:", "=", "class", "size", "withIndexDo:", "at:"]
 }),
 $globals.SequenceableCollection);
@@ -3656,6 +3777,7 @@ args: ["anObject"],
 source: "addLast: anObject\x0a\x09self add: anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:"]
 }),
 $globals.SequenceableCollection);
@@ -3679,6 +3801,7 @@ args: [],
 source: "allButFirst\x0a\x09^ self copyFrom: 2 to: self size",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["copyFrom:to:", "size"]
 }),
 $globals.SequenceableCollection);
@@ -3702,6 +3825,7 @@ args: [],
 source: "allButLast\x0a\x09^ self copyFrom: 1 to: self size - 1",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["copyFrom:to:", "-", "size"]
 }),
 $globals.SequenceableCollection);
@@ -3725,6 +3849,7 @@ args: [],
 source: "anyOne\x0a\x09^ self at: 1",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:"]
 }),
 $globals.SequenceableCollection);
@@ -3748,6 +3873,7 @@ args: [],
 source: "atRandom\x0a\x09^ self at: self size atRandom",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:", "atRandom", "size"]
 }),
 $globals.SequenceableCollection);
@@ -3784,6 +3910,7 @@ args: ["prefix"],
 source: "beginsWith: prefix\x0a\x09self size < prefix size ifTrue: [ ^ false ].\x0a\x09^ (self first: prefix size) = prefix",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "<", "size", "=", "first:"]
 }),
 $globals.SequenceableCollection);
@@ -3808,6 +3935,7 @@ args: ["anIndex", "anotherIndex"],
 source: "copyFrom: anIndex to: anotherIndex\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.SequenceableCollection);
@@ -3844,6 +3972,7 @@ args: ["suffix"],
 source: "endsWith: suffix\x0a\x09self size < suffix size ifTrue: [ ^ false ].\x0a\x09^ (self last: suffix size) = suffix",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "<", "size", "=", "last:"]
 }),
 $globals.SequenceableCollection);
@@ -3867,6 +3996,7 @@ args: [],
 source: "first\x0a\x09^ self at: 1",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:"]
 }),
 $globals.SequenceableCollection);
@@ -3895,6 +4025,7 @@ args: ["aNumber"],
 source: "first: aNumber\x0a\x09\x22Answer the first `aNumber` elements of the receiver.\x0a\x09Raise an error if there are not enough elements in the receiver.\x22\x0a\x0a\x09self size < aNumber ifTrue: [ self error: 'Invalid number of elements' ].\x0a\x0a\x09^ self copyFrom: 1 to: aNumber",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "<", "size", "error:", "copyFrom:to:"]
 }),
 $globals.SequenceableCollection);
@@ -3918,6 +4049,7 @@ args: [],
 source: "fourth\x0a\x09^ self at: 4",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:"]
 }),
 $globals.SequenceableCollection);
@@ -3944,6 +4076,7 @@ args: ["anObject"],
 source: "includes: anObject\x0a\x09^ (self indexOf: anObject ifAbsent: [ nil ]) notNil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["notNil", "indexOf:ifAbsent:"]
 }),
 $globals.SequenceableCollection);
@@ -3970,6 +4103,7 @@ args: ["anObject", "start"],
 source: "indexOf: anObject startingAt: start\x0a\x09\x22Answer the index of the first occurence of anElement after start\x0a\x09within the receiver. If the receiver does not contain anElement,\x0a\x09answer 0.\x22\x0a\x09^ self indexOf: anObject startingAt: start ifAbsent: [ 0 ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["indexOf:startingAt:ifAbsent:"]
 }),
 $globals.SequenceableCollection);
@@ -3994,6 +4128,7 @@ args: ["anObject", "start", "aBlock"],
 source: "indexOf: anObject startingAt: start ifAbsent: aBlock\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.SequenceableCollection);
@@ -4017,6 +4152,7 @@ args: [],
 source: "last\x0a\x09^ self at: self size",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:", "size"]
 }),
 $globals.SequenceableCollection);
@@ -4055,6 +4191,7 @@ args: ["aNumber"],
 source: "last: aNumber\x0a\x09\x22Answer the last aNumber elements of the receiver.\x0a\x09Raise an error if there are not enough elements in the receiver.\x22\x0a\x0a\x09self size < aNumber ifTrue: [ self error: 'Invalid number of elements' ].\x0a\x0a\x09^ self copyFrom: self size - aNumber + 1 to: self size",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "<", "size", "error:", "copyFrom:to:", "+", "-"]
 }),
 $globals.SequenceableCollection);
@@ -4078,6 +4215,7 @@ args: [],
 source: "newStream\x0a\x09^ self streamClass on: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["on:", "streamClass"]
 }),
 $globals.SequenceableCollection);
@@ -4101,6 +4239,7 @@ args: [],
 source: "readStream\x0a\x09\x22For Pharo compatibility\x22\x0a\x09\x0a\x09^ self stream",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["stream"]
 }),
 $globals.SequenceableCollection);
@@ -4124,6 +4263,7 @@ args: [],
 source: "removeLast\x0a\x09^ self remove: self last",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["remove:", "last"]
 }),
 $globals.SequenceableCollection);
@@ -4148,6 +4288,7 @@ args: ["aBlock"],
 source: "reverseDo: aBlock\x0a\x09self reversed do: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "reversed"]
 }),
 $globals.SequenceableCollection);
@@ -4172,6 +4313,7 @@ args: [],
 source: "reversed\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.SequenceableCollection);
@@ -4195,6 +4337,7 @@ args: [],
 source: "second\x0a\x09^ self at: 2",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:"]
 }),
 $globals.SequenceableCollection);
@@ -4218,6 +4361,7 @@ args: [],
 source: "stream\x0a\x09^ self newStream",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["newStream"]
 }),
 $globals.SequenceableCollection);
@@ -4241,6 +4385,7 @@ args: [],
 source: "streamClass\x0a\x09^ self class streamClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["streamClass", "class"]
 }),
 $globals.SequenceableCollection);
@@ -4264,6 +4409,7 @@ args: [],
 source: "third\x0a\x09^ self at: 3",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:"]
 }),
 $globals.SequenceableCollection);
@@ -4287,6 +4433,7 @@ args: [],
 source: "writeStream\x0a\x09\x22For Pharo compatibility\x22\x0a\x09\x0a\x09^ self stream",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["stream"]
 }),
 $globals.SequenceableCollection);
@@ -4306,6 +4453,7 @@ args: [],
 source: "streamClass\x0a\x09\x09^ Stream",
 referencedClasses: ["Stream"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SequenceableCollection.a$cls);
@@ -4332,6 +4480,7 @@ args: ["aBlock"],
 source: "streamContents: aBlock\x0a\x09| stream |\x0a\x09stream := (self streamClass on: self new).\x0a\x09aBlock value: stream.\x0a\x09^ stream contents",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["on:", "streamClass", "new", "value:", "contents"]
 }),
 $globals.SequenceableCollection.a$cls);
@@ -4361,6 +4510,7 @@ args: ["anObject"],
 source: "add: anObject\x0a\x09<inlineJS: 'self.push(anObject); return anObject;'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["self.push(anObject); return anObject;"]]],
 messageSends: []
 }),
 $globals.Array);
@@ -4388,6 +4538,7 @@ args: ["aCollection"],
 source: "addAll: aCollection\x0a<inlineJS: '\x0a\x09if (Array.isArray(aCollection) && aCollection.length < 65000) self.push.apply(self, aCollection);\x0a\x09else $globals.Array.superclass.fn.prototype._addAll_.call($self, aCollection);\x0a\x09return aCollection;\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09if (Array.isArray(aCollection) && aCollection.length < 65000) self.push.apply(self, aCollection);\x0a\x09else $globals.Array.superclass.fn.prototype._addAll_.call($self, aCollection);\x0a\x09return aCollection;\x0a"]]],
 messageSends: []
 }),
 $globals.Array);
@@ -4412,6 +4563,7 @@ args: ["anObject"],
 source: "addFirst: anObject\x0a\x09<inlineJS: 'self.unshift(anObject); return anObject;'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["self.unshift(anObject); return anObject;"]]],
 messageSends: []
 }),
 $globals.Array);
@@ -4448,6 +4600,7 @@ args: [],
 source: "asJavaScriptSource\x0a\x09^ '[', ((self collect: [:each | each asJavaScriptSource ]) join: ', '), ']'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "join:", "collect:", "asJavaScriptSource"]
 }),
 $globals.Array);
@@ -4472,6 +4625,7 @@ args: ["anIndex", "anObject"],
 source: "at: anIndex put: anObject\x0a\x09<inlineJS: 'return self[anIndex - 1] = anObject'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self[anIndex - 1] = anObject"]]],
 messageSends: []
 }),
 $globals.Array);
@@ -4496,6 +4650,7 @@ args: ["aBlock"],
 source: "collect: aBlock\x0a\x09\x22Optimized version\x22\x0a\x09\x0a\x09<inlineJS: 'return self.map(function(each) {return aBlock._value_(each)})'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.map(function(each) {return aBlock._value_(each)})"]]],
 messageSends: []
 }),
 $globals.Array);
@@ -4527,6 +4682,7 @@ args: ["anIndex", "anotherIndex"],
 source: "copyFrom: anIndex to: anotherIndex\x0a<inlineJS: '\x0a\x09if (anIndex >= 1 && anotherIndex <= self.length) {\x0a\x09\x09return self.slice(anIndex - 1, anotherIndex);\x0a\x09} else {\x0a\x09\x09self._at_(anIndex);\x0a\x09\x09self._at_(self.length + 1);\x0a\x09\x09throw new Error(\x22Incorrect indexes in #copyFrom:to: not caught by #at:\x22);\x0a\x09}\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09if (anIndex >= 1 && anotherIndex <= self.length) {\x0a\x09\x09return self.slice(anIndex - 1, anotherIndex);\x0a\x09} else {\x0a\x09\x09self._at_(anIndex);\x0a\x09\x09self._at_(self.length + 1);\x0a\x09\x09throw new Error(\x22Incorrect indexes in #copyFrom:to: not caught by #at:\x22);\x0a\x09}\x0a"]]],
 messageSends: []
 }),
 $globals.Array);
@@ -4551,6 +4707,7 @@ args: ["aString"],
 source: "join: aString\x0a\x09<inlineJS: 'return self.join(aString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.join(aString)"]]],
 messageSends: []
 }),
 $globals.Array);
@@ -4610,6 +4767,7 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09super printOn: aStream.\x0a\x09\x0a\x09aStream nextPutAll: ' ('.\x0a\x09self \x0a\x09\x09do: [ :each | each printOn: aStream ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ' ' ].\x0a\x09aStream nextPutAll: ')'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["printOn:", "nextPutAll:", "do:separatedBy:"]
 }),
 $globals.Array);
@@ -4645,6 +4803,7 @@ args: ["anObject", "aBlock"],
 source: "remove: anObject ifAbsent: aBlock\x0a\x09| index |\x0a\x09index := self indexOf: anObject ifAbsent: [ 0 ].\x0a\x09^ index = 0\x0a\x09\x09ifFalse: [ self removeIndex: index. anObject ]\x0a\x09\x09ifTrue: [ aBlock value ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["indexOf:ifAbsent:", "ifFalse:ifTrue:", "=", "removeIndex:", "value"]
 }),
 $globals.Array);
@@ -4669,6 +4828,7 @@ args: [],
 source: "removeAll\x0a\x09<inlineJS: 'self.length = 0'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["self.length = 0"]]],
 messageSends: []
 }),
 $globals.Array);
@@ -4693,6 +4853,7 @@ args: ["aNumber", "anotherNumber"],
 source: "removeFrom: aNumber to: anotherNumber\x0a\x09<inlineJS: 'self.splice(aNumber -1, anotherNumber - aNumber + 1)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["self.splice(aNumber -1, anotherNumber - aNumber + 1)"]]],
 messageSends: []
 }),
 $globals.Array);
@@ -4717,6 +4878,7 @@ args: ["anInteger"],
 source: "removeIndex: anInteger\x0a\x09<inlineJS: 'self.splice(anInteger - 1, 1)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["self.splice(anInteger - 1, 1)"]]],
 messageSends: []
 }),
 $globals.Array);
@@ -4741,6 +4903,7 @@ args: [],
 source: "removeLast\x0a\x09<inlineJS: 'return self.pop();'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.pop();"]]],
 messageSends: []
 }),
 $globals.Array);
@@ -4765,6 +4928,7 @@ args: [],
 source: "reversed\x0a\x09<inlineJS: 'return self.slice().reverse()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.slice().reverse()"]]],
 messageSends: []
 }),
 $globals.Array);
@@ -4789,6 +4953,7 @@ args: ["aBlock"],
 source: "select: aBlock\x0a\x09\x22Optimized version\x22\x0a\x09\x0a\x09<inlineJS: 'return self.filter(function(each) {return aBlock._value_(each)})'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.filter(function(each) {return aBlock._value_(each)})"]]],
 messageSends: []
 }),
 $globals.Array);
@@ -4813,6 +4978,7 @@ args: [],
 source: "shallowCopy\x0a\x09<inlineJS: 'return self.slice()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.slice()"]]],
 messageSends: []
 }),
 $globals.Array);
@@ -4844,6 +5010,7 @@ args: [],
 source: "sort\x0a\x09^ self sort: [ :a :b | a < b ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["sort:", "<"]
 }),
 $globals.Array);
@@ -4872,6 +5039,7 @@ args: ["aBlock"],
 source: "sort: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09return self.sort(function(a, b) {\x0a\x09\x09\x09if(aBlock._value_value_(a,b)) {return -1} else {return 1}\x0a\x09\x09})\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return self.sort(function(a, b) {\x0a\x09\x09\x09if(aBlock._value_value_(a,b)) {return -1} else {return 1}\x0a\x09\x09})\x0a\x09"]]],
 messageSends: []
 }),
 $globals.Array);
@@ -4895,6 +5063,7 @@ args: [],
 source: "sorted\x0a\x09^ self copy sort",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["sort", "copy"]
 }),
 $globals.Array);
@@ -4918,6 +5087,7 @@ args: ["aBlock"],
 source: "sorted: aBlock\x0a\x09^ self copy sort: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["sort:", "copy"]
 }),
 $globals.Array);
@@ -4943,6 +5113,7 @@ args: ["anInteger"],
 source: "new: anInteger\x0a\x09<inlineJS: 'return new Array(anInteger)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return new Array(anInteger)"]]],
 messageSends: []
 }),
 $globals.Array.a$cls);
@@ -4969,6 +5140,7 @@ args: ["anObject"],
 source: "with: anObject\x0a\x09\x09^ (self new: 1)\x0a\x09\x09at: 1 put: anObject;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:put:", "new:", "yourself"]
 }),
 $globals.Array.a$cls);
@@ -4999,6 +5171,7 @@ args: ["anObject", "anObject2"],
 source: "with: anObject with: anObject2\x0a\x09\x09^ (self new: 2)\x0a\x09\x09at: 1 put: anObject;\x0a\x09\x09at: 2 put: anObject2;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:put:", "new:", "yourself"]
 }),
 $globals.Array.a$cls);
@@ -5033,6 +5206,7 @@ args: ["anObject", "anObject2", "anObject3"],
 source: "with: anObject with: anObject2 with: anObject3\x0a\x09\x09^ (self new: 3)\x0a\x09\x09at: 1 put: anObject;\x0a\x09\x09at: 2 put: anObject2;\x0a\x09\x09at: 3 put: anObject3;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:put:", "new:", "yourself"]
 }),
 $globals.Array.a$cls);
@@ -5070,6 +5244,7 @@ args: ["aCollection"],
 source: "withAll: aCollection\x0a\x09| instance index |\x0a\x09index := 1.\x0a\x09instance := self new: aCollection size.\x0a\x09aCollection do: [ :each |\x0a\x09\x09instance at: index put: each.\x0a\x09\x09index := index + 1 ].\x0a\x09^ instance",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new:", "size", "do:", "at:put:", "+"]
 }),
 $globals.Array.a$cls);
@@ -5099,6 +5274,7 @@ args: ["aString"],
 source: ", aString\x0a\x09<inlineJS: 'return String(self) + aString'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return String(self) + aString"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5123,6 +5299,7 @@ args: ["aString"],
 source: "< aString\x0a\x09<inlineJS: 'return String(self) < aString._asString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return String(self) < aString._asString()"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5147,6 +5324,7 @@ args: ["aString"],
 source: "<= aString\x0a\x09<inlineJS: 'return String(self) <= aString._asString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return String(self) <= aString._asString()"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5171,6 +5349,7 @@ args: ["aString"],
 source: "= aString\x0a<inlineJS:\x0a\x09'return aString != null && String(self) === (typeof aString === \x22string\x22 ? aString : aString.valueOf())'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aString != null && String(self) === (typeof aString === \x22string\x22 ? aString : aString.valueOf())"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5198,6 +5377,7 @@ args: ["aString"],
 source: "== aString\x0a<inlineJS: '\x0a\x09if (typeof aString === \x22string\x22) return String(self) === aString;\x0a\x09else if (aString != null && typeof aString === \x22object\x22) return String(self) === aString.valueOf();\x0a\x09else return false;\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09if (typeof aString === \x22string\x22) return String(self) === aString;\x0a\x09else if (aString != null && typeof aString === \x22object\x22) return String(self) === aString.valueOf();\x0a\x09else return false;\x0a"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5222,6 +5402,7 @@ args: ["aString"],
 source: "> aString\x0a\x09<inlineJS: 'return String(self) > aString._asString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return String(self) > aString._asString()"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5246,6 +5427,7 @@ args: ["aString"],
 source: ">= aString\x0a\x09<inlineJS: 'return String(self) >= aString._asString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return String(self) >= aString._asString()"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5270,6 +5452,7 @@ args: ["anObject"],
 source: "add: anObject\x0a\x09self errorReadOnly",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["errorReadOnly"]
 }),
 $globals.String);
@@ -5294,6 +5477,7 @@ args: [],
 source: "asJavaScriptMethodName\x0a\x09<inlineJS: 'return $core.st2js(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return $core.st2js(self)"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5312,6 +5496,7 @@ args: [],
 source: "asJavaScriptObject\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.String);
@@ -5341,6 +5526,7 @@ args: [],
 source: "asJavaScriptSource\x0a\x09<inlineJS: '\x0a\x09\x09if(self.search(/^[a-zA-Z0-9_:.$ ]*$/) == -1)\x0a\x09\x09\x09return \x22\x5c\x22\x22 + self.replace(/[\x5cx00-\x5cx1f\x22\x5c\x5c\x5cx7f-\x5cx9f]/g, function(ch){var c=ch.charCodeAt(0);return \x22\x5c\x5cx\x22+(\x220\x22+c.toString(16)).slice(-2)}) + \x22\x5c\x22\x22;\x0a\x09\x09else\x0a\x09\x09\x09return \x22\x5c\x22\x22 + self + \x22\x5c\x22\x22;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09if(self.search(/^[a-zA-Z0-9_:.$ ]*$/) == -1)\x0a\x09\x09\x09return \x22\x5c\x22\x22 + self.replace(/[\x5cx00-\x5cx1f\x22\x5c\x5c\x5cx7f-\x5cx9f]/g, function(ch){var c=ch.charCodeAt(0);return \x22\x5c\x5cx\x22+(\x220\x22+c.toString(16)).slice(-2)}) + \x22\x5c\x22\x22;\x0a\x09\x09else\x0a\x09\x09\x09return \x22\x5c\x22\x22 + self + \x22\x5c\x22\x22;\x0a\x09"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5365,6 +5551,7 @@ args: [],
 source: "asLowercase\x0a\x09<inlineJS: 'return self.toLowerCase()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.toLowerCase()"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5393,6 +5580,7 @@ args: [],
 source: "asMutator\x0a\x09\x22Answer a setter selector. For example,\x0a\x09#name asMutator returns #name:\x22\x0a\x0a\x09self last = ':' ifFalse: [  ^ self, ':' ].\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "=", "last", ","]
 }),
 $globals.String);
@@ -5417,6 +5605,7 @@ args: [],
 source: "asNumber\x0a\x09<inlineJS: 'return Number(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Number(self)"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5440,6 +5629,7 @@ args: [],
 source: "asRegexp\x0a\x09^ RegularExpression fromString: self",
 referencedClasses: ["RegularExpression"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["fromString:"]
 }),
 $globals.String);
@@ -5458,6 +5648,7 @@ args: [],
 source: "asString\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.String);
@@ -5476,6 +5667,7 @@ args: [],
 source: "asSymbol\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.String);
@@ -5507,6 +5699,7 @@ args: ["aStream"],
 source: "asSymbolPrintOn: aStream\x0a\x09aStream nextPutAll: '#'.\x0a\x09self asString isSelector\x0a\x09\x09ifTrue: [ aStream nextPut: self ]\x0a\x09\x09ifFalse: [ self printOn: aStream ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "ifTrue:ifFalse:", "isSelector", "asString", "nextPut:", "printOn:"]
 }),
 $globals.String);
@@ -5531,6 +5724,7 @@ args: [],
 source: "asUppercase\x0a\x09<inlineJS: 'return self.toUpperCase()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.toUpperCase()"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5555,6 +5749,7 @@ args: [],
 source: "asciiValue\x0a\x09<inlineJS: 'return self.charCodeAt(0);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.charCodeAt(0);"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5579,6 +5774,7 @@ args: ["anIndex", "aBlock"],
 source: "at: anIndex ifAbsent: aBlock\x0a\x09<inlineJS: 'return String(self)[anIndex - 1] || aBlock._value()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return String(self)[anIndex - 1] || aBlock._value()"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5606,6 +5802,7 @@ args: ["anIndex", "aBlock", "anotherBlock"],
 source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09var result = String(self)[anIndex - 1];\x0a\x09\x09return result ? aBlock._value_(result) : anotherBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var result = String(self)[anIndex - 1];\x0a\x09\x09return result ? aBlock._value_(result) : anotherBlock._value();\x0a\x09"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5630,6 +5827,7 @@ args: ["anIndex", "anObject"],
 source: "at: anIndex put: anObject\x0a\x09self errorReadOnly",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["errorReadOnly"]
 }),
 $globals.String);
@@ -5661,6 +5859,7 @@ args: [],
 source: "capitalized\x0a\x09^ self ifNotEmpty: [ self first asUppercase, self allButFirst ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotEmpty:", ",", "asUppercase", "first", "allButFirst"]
 }),
 $globals.String);
@@ -5685,6 +5884,7 @@ args: ["anInteger"],
 source: "charCodeAt: anInteger\x0a\x09<inlineJS: 'return self.charCodeAt(anInteger - 1)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.charCodeAt(anInteger - 1)"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5709,6 +5909,7 @@ args: ["anIndex", "anotherIndex"],
 source: "copyFrom: anIndex to: anotherIndex\x0a\x09<inlineJS: 'return self.substring(anIndex - 1, anotherIndex)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.substring(anIndex - 1, anotherIndex)"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5732,6 +5933,7 @@ args: [],
 source: "crlfSanitized\x0a\x09^ self lines join: String lf",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["join:", "lines", "lf"]
 }),
 $globals.String);
@@ -5755,6 +5957,7 @@ args: [],
 source: "deepCopy\x0a\x09^ self shallowCopy",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["shallowCopy"]
 }),
 $globals.String);
@@ -5779,6 +5982,7 @@ args: [],
 source: "errorReadOnly\x0a\x09self error: 'Object is read-only'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["error:"]
 }),
 $globals.String);
@@ -5803,6 +6007,7 @@ args: [],
 source: "escaped\x0a\x09<inlineJS: 'return escape(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return escape(self)"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5827,6 +6032,7 @@ args: ["subString"],
 source: "includesSubString: subString\x0a\x09<inlineJS: 'return self.indexOf(subString) != -1'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.indexOf(subString) != -1"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5856,6 +6062,7 @@ args: [],
 source: "isCapitalized\x0a\x09^ self first asUppercase == self first",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["==", "asUppercase", "first"]
 }),
 $globals.String);
@@ -5874,6 +6081,7 @@ args: [],
 source: "isImmutable\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.String);
@@ -5898,6 +6106,7 @@ args: [],
 source: "isSelector\x0a<inlineJS:\x0a\x09'return !!self.match(/^([a-zA-Z][a-zA-Z0-9]*|[\x5c\x5c+*/=><,@%~|&-]+|([a-zA-Z][a-zA-Z0-9]*\x5c:)+)$/)'\x0a>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return !!self.match(/^([a-zA-Z][a-zA-Z0-9]*|[\x5c\x5c+*/=><,@%~|&-]+|([a-zA-Z][a-zA-Z0-9]*\x5c:)+)$/)"]]],
 messageSends: []
 }),
 $globals.String);
@@ -5916,6 +6125,7 @@ args: [],
 source: "isString\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.String);
@@ -5947,6 +6157,7 @@ args: [],
 source: "isVowel\x0a\x09\x22Answer true if the receiver is a one character string containing a voyel\x22\x0a\x09\x0a\x09^ self size = 1 and: [ 'aeiou' includes: self asLowercase ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", "=", "size", "includes:", "asLowercase"]
 }),
 $globals.String);
@@ -5997,6 +6208,7 @@ args: ["aCollection"],
 source: "join: aCollection\x0a\x09^ String\x0a\x09\x09streamContents: [ :stream | aCollection\x0a\x09\x09\x09\x09do: [ :each | stream nextPutAll: each asString ]\x0a\x09\x09\x09\x09separatedBy: [ stream nextPutAll: self ]]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["streamContents:", "do:separatedBy:", "nextPutAll:", "asString"]
 }),
 $globals.String);
@@ -6160,6 +6372,7 @@ args: ["aBlock"],
 source: "lineIndicesDo: aBlock\x0a\x09\x22execute aBlock with 3 arguments for each line:\x0a\x09- start index of line\x0a\x09- end index of line without line delimiter\x0a\x09- end index of line including line delimiter(s) CR, LF or CRLF\x22\x0a\x09\x0a\x09| cr lf start sz nextLF nextCR |\x0a\x09start := 1.\x0a\x09sz := self size.\x0a\x09cr := String cr.\x0a\x09nextCR := self indexOf: cr startingAt: 1.\x0a\x09lf := String lf.\x0a\x09nextLF := self indexOf: lf startingAt: 1.\x0a\x09[ start <= sz ] whileTrue: [ \x0a\x09\x09(nextLF = 0 and: [ nextCR = 0 ])\x0a\x09\x09\x09ifTrue: [ \x22No more CR, nor LF, the string is over\x22\x0a\x09\x09\x09\x09\x09aBlock value: start value: sz value: sz.\x0a\x09\x09\x09\x09\x09^ self ].\x0a\x09\x09(nextCR = 0 or: [ 0 < nextLF and: [ nextLF < nextCR ] ])\x0a\x09\x09\x09ifTrue: [ \x22Found a LF\x22\x0a\x09\x09\x09\x09\x09aBlock value: start value: nextLF - 1 value: nextLF.\x0a\x09\x09\x09\x09\x09start := 1 + nextLF.\x0a\x09\x09\x09\x09\x09nextLF := self indexOf: lf startingAt: start ]\x0a\x09\x09\x09ifFalse: [ 1 + nextCR = nextLF\x0a\x09\x09\x09\x09ifTrue: [ \x22Found a CR-LF pair\x22\x0a\x09\x09\x09\x09\x09aBlock value: start value: nextCR - 1 value: nextLF.\x0a\x09\x09\x09\x09\x09start := 1 + nextLF.\x0a\x09\x09\x09\x09\x09nextCR := self indexOf: cr startingAt: start.\x0a\x09\x09\x09\x09\x09nextLF := self indexOf: lf startingAt: start ]\x0a\x09\x09\x09\x09ifFalse: [ \x22Found a CR\x22\x0a\x09\x09\x09\x09\x09aBlock value: start value: nextCR - 1 value: nextCR.\x0a\x09\x09\x09\x09\x09start := 1 + nextCR.\x0a\x09\x09\x09\x09\x09nextCR := self indexOf: cr startingAt: start ] ]]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["size", "cr", "indexOf:startingAt:", "lf", "whileTrue:", "<=", "ifTrue:", "and:", "=", "value:value:value:", "ifTrue:ifFalse:", "or:", "<", "-", "+"]
 }),
 $globals.String);
@@ -6204,6 +6417,7 @@ args: ["anIndex"],
 source: "lineNumber: anIndex\x0a\x09\x22Answer a string containing the characters in the given line number.\x22\x0a\x0a\x09| lineCount |\x0a\x09lineCount := 0.\x0a\x09self lineIndicesDo: [ :start :endWithoutDelimiters :end |\x0a\x09\x09(lineCount := lineCount + 1) = anIndex ifTrue: [ ^ self copyFrom: start to: endWithoutDelimiters ]].\x0a\x09^ nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["lineIndicesDo:", "ifTrue:", "=", "+", "copyFrom:to:"]
 }),
 $globals.String);
@@ -6231,6 +6445,7 @@ args: [],
 source: "lines\x0a\x09\x22Answer an array of lines composing this receiver without the line ending delimiters.\x22\x0a<inlineJS: '\x0a\x09var result = self.split(/\x5cr\x5cn|\x5cr|\x5cn/);\x0a\x09if (!result[result.length-1]) result.pop();\x0a\x09return result;\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09var result = self.split(/\x5cr\x5cn|\x5cr|\x5cn/);\x0a\x09if (!result[result.length-1]) result.pop();\x0a\x09return result;\x0a"]]],
 messageSends: []
 }),
 $globals.String);
@@ -6255,6 +6470,7 @@ args: ["aBlock"],
 source: "linesDo: aBlock\x0a\x09\x22Execute aBlock with each line in this string. The terminating line\x0a\x09delimiters CR, LF or CRLF pairs are not included in what is passed to aBlock\x22\x0a\x0a\x09self lines do: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "lines"]
 }),
 $globals.String);
@@ -6279,6 +6495,7 @@ args: ["aRegexp"],
 source: "match: aRegexp\x0a\x09<inlineJS: 'return self.search(aRegexp) != -1'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.search(aRegexp) != -1"]]],
 messageSends: []
 }),
 $globals.String);
@@ -6303,6 +6520,7 @@ args: ["aRegularExpression"],
 source: "matchesOf: aRegularExpression\x0a\x09<inlineJS: 'return self.match(aRegularExpression)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.match(aRegularExpression)"]]],
 messageSends: []
 }),
 $globals.String);
@@ -6327,6 +6545,7 @@ args: [],
 source: "printNl\x0a\x09<inlineJS: 'console.log(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["console.log(self)"]]],
 messageSends: []
 }),
 $globals.String);
@@ -6359,6 +6578,7 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09aStream \x0a\x09\x09nextPutAll: '''';\x0a\x09\x09nextPutAll: (self replace: '''' with: '''''');\x0a\x09\x09nextPutAll: ''''",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "replace:with:"]
 }),
 $globals.String);
@@ -6383,6 +6603,7 @@ args: ["aStream"],
 source: "putOn: aStream\x0a\x09aStream nextPutString: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutString:"]
 }),
 $globals.String);
@@ -6407,6 +6628,7 @@ args: ["anObject"],
 source: "remove: anObject\x0a\x09self errorReadOnly",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["errorReadOnly"]
 }),
 $globals.String);
@@ -6431,6 +6653,7 @@ args: ["anObject", "aBlock"],
 source: "remove: anObject ifAbsent: aBlock\x0a\x09self errorReadOnly",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["errorReadOnly"]
 }),
 $globals.String);
@@ -6454,6 +6677,7 @@ args: ["aString", "anotherString"],
 source: "replace: aString with: anotherString\x0a\x09^ self replaceRegexp: (RegularExpression fromString: aString flag: 'g') with: anotherString",
 referencedClasses: ["RegularExpression"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["replaceRegexp:with:", "fromString:flag:"]
 }),
 $globals.String);
@@ -6478,6 +6702,7 @@ args: ["aRegexp", "aString"],
 source: "replaceRegexp: aRegexp with: aString\x0a\x09<inlineJS: 'return self.replace(aRegexp, aString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.replace(aRegexp, aString)"]]],
 messageSends: []
 }),
 $globals.String);
@@ -6502,6 +6727,7 @@ args: [],
 source: "reversed\x0a\x09<inlineJS: 'return self.split(\x22\x22).reverse().join(\x22\x22)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.split(\x22\x22).reverse().join(\x22\x22)"]]],
 messageSends: []
 }),
 $globals.String);
@@ -6520,6 +6746,7 @@ args: [],
 source: "shallowCopy\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.String);
@@ -6543,6 +6770,7 @@ args: ["aString"],
 source: "subStrings: aString\x0a\x09^ self tokenize: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["tokenize:"]
 }),
 $globals.String);
@@ -6574,6 +6802,7 @@ args: [],
 source: "symbolPrintString\x0a\x09^ String streamContents: [ :str | self asSymbolPrintOn: str ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["streamContents:", "asSymbolPrintOn:"]
 }),
 $globals.String);
@@ -6598,6 +6827,7 @@ args: ["aString"],
 source: "tokenize: aString\x0a\x09<inlineJS: 'return self.split(aString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.split(aString)"]]],
 messageSends: []
 }),
 $globals.String);
@@ -6621,6 +6851,7 @@ args: [],
 source: "trimBoth\x0a\x09^ self trimBoth: '\x5cs'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["trimBoth:"]
 }),
 $globals.String);
@@ -6644,6 +6875,7 @@ args: ["separators"],
 source: "trimBoth: separators\x0a\x09^ (self trimLeft: separators) trimRight: separators",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["trimRight:", "trimLeft:"]
 }),
 $globals.String);
@@ -6667,6 +6899,7 @@ args: [],
 source: "trimLeft\x0a\x09^ self trimLeft: '\x5cs'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["trimLeft:"]
 }),
 $globals.String);
@@ -6696,6 +6929,7 @@ args: ["separators"],
 source: "trimLeft: separators\x0a\x09^ self replaceRegexp: (RegularExpression fromString: '^[', separators, ']+' flag: 'g') with: ''",
 referencedClasses: ["RegularExpression"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["replaceRegexp:with:", "fromString:flag:", ","]
 }),
 $globals.String);
@@ -6719,6 +6953,7 @@ args: [],
 source: "trimRight\x0a\x09^ self trimRight: '\x5cs'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["trimRight:"]
 }),
 $globals.String);
@@ -6748,6 +6983,7 @@ args: ["separators"],
 source: "trimRight: separators\x0a\x09^ self replaceRegexp: (RegularExpression fromString: '[', separators, ']+$' flag: 'g') with: ''",
 referencedClasses: ["RegularExpression"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["replaceRegexp:with:", "fromString:flag:", ","]
 }),
 $globals.String);
@@ -6772,6 +7008,7 @@ args: [],
 source: "unescaped\x0a\x09<inlineJS: 'return unescape(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return unescape(self)"]]],
 messageSends: []
 }),
 $globals.String);
@@ -6796,6 +7033,7 @@ args: [],
 source: "uriComponentDecoded\x0a\x09<inlineJS: 'return decodeURIComponent(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return decodeURIComponent(self)"]]],
 messageSends: []
 }),
 $globals.String);
@@ -6820,6 +7058,7 @@ args: [],
 source: "uriComponentEncoded\x0a\x09<inlineJS: 'return encodeURIComponent(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return encodeURIComponent(self)"]]],
 messageSends: []
 }),
 $globals.String);
@@ -6844,6 +7083,7 @@ args: [],
 source: "uriDecoded\x0a\x09<inlineJS: 'return decodeURI(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return decodeURI(self)"]]],
 messageSends: []
 }),
 $globals.String);
@@ -6868,6 +7108,7 @@ args: [],
 source: "uriEncoded\x0a\x09<inlineJS: 'return encodeURI(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return encodeURI(self)"]]],
 messageSends: []
 }),
 $globals.String);
@@ -6891,6 +7132,7 @@ args: ["anObject"],
 source: "value: anObject \x0a\x09^ anObject perform: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["perform:"]
 }),
 $globals.String);
@@ -6916,6 +7158,7 @@ args: [],
 source: "cr\x0a\x09<inlineJS: 'return \x22\x5cr\x22'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return \x22\x5cr\x22"]]],
 messageSends: []
 }),
 $globals.String.a$cls);
@@ -6940,6 +7183,7 @@ args: [],
 source: "crlf\x0a\x09<inlineJS: 'return \x22\x5cr\x5cn\x22'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return \x22\x5cr\x5cn\x22"]]],
 messageSends: []
 }),
 $globals.String.a$cls);
@@ -6963,6 +7207,7 @@ args: [],
 source: "esc\x0a\x09^ self fromCharCode: 27",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["fromCharCode:"]
 }),
 $globals.String.a$cls);
@@ -6987,6 +7232,7 @@ args: ["anInteger"],
 source: "fromCharCode: anInteger\x0a\x09<inlineJS: 'return String.fromCharCode(anInteger)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return String.fromCharCode(anInteger)"]]],
 messageSends: []
 }),
 $globals.String.a$cls);
@@ -7011,6 +7257,7 @@ args: ["aString"],
 source: "fromString: aString\x0a\x09\x09<inlineJS: 'return String(aString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return String(aString)"]]],
 messageSends: []
 }),
 $globals.String.a$cls);
@@ -7035,6 +7282,7 @@ args: [],
 source: "lf\x0a\x09<inlineJS: 'return \x22\x5cn\x22'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return \x22\x5cn\x22"]]],
 messageSends: []
 }),
 $globals.String.a$cls);
@@ -7059,6 +7307,7 @@ args: [],
 source: "random\x0a\x09\x22Returns random alphanumeric string beginning with letter\x22\x0a\x09<inlineJS: 'return ((10+22*Math.random())/32).toString(32).slice(2);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return ((10+22*Math.random())/32).toString(32).slice(2);"]]],
 messageSends: []
 }),
 $globals.String.a$cls);
@@ -7093,6 +7342,7 @@ args: ["aString"],
 source: "randomNotIn: aString\x0a\x09| result |\x0a\x09[ result := self random. aString includesSubString: result ] whileTrue.\x0a\x09^ result",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["whileTrue", "random", "includesSubString:"]
 }),
 $globals.String.a$cls);
@@ -7117,6 +7367,7 @@ args: [],
 source: "space\x0a\x09<inlineJS: 'return \x22 \x22'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return \x22 \x22"]]],
 messageSends: []
 }),
 $globals.String.a$cls);
@@ -7135,6 +7386,7 @@ args: [],
 source: "streamClass\x0a\x09\x09^ StringStream",
 referencedClasses: ["StringStream"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.String.a$cls);
@@ -7159,6 +7411,7 @@ args: [],
 source: "tab\x0a\x09<inlineJS: 'return \x22\x5ct\x22'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return \x22\x5ct\x22"]]],
 messageSends: []
 }),
 $globals.String.a$cls);
@@ -7183,6 +7436,7 @@ args: ["aUTFCharCode"],
 source: "value: aUTFCharCode\x0a\x0a\x09<inlineJS: 'return String.fromCharCode(aUTFCharCode);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return String.fromCharCode(aUTFCharCode);"]]],
 messageSends: []
 }),
 $globals.String.a$cls);
@@ -7247,6 +7501,7 @@ args: ["aCollection"],
 source: "= aCollection\x0a\x09self class = aCollection class ifFalse: [ ^ false ].\x0a\x09self size = aCollection size ifFalse: [ ^ false ].\x0a\x09self do: [ :each | (aCollection includes: each) ifFalse: [ ^ false ] ].\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "=", "class", "size", "do:", "includes:"]
 }),
 $globals.Set);
@@ -7297,6 +7552,7 @@ args: ["anObject"],
 source: "add: anObject\x0a\x09| bucket |\x0a\x09bucket := self bucketsOfElement: anObject.\x0a\x09^ bucket second\x0a\x09\x09ifNil: [\x0a\x09\x09\x09| object slowBucket |\x0a\x09\x09\x09object := bucket first.\x0a\x09\x09\x09slowBucket := bucket third.\x0a\x09\x09\x09slowBucket \x0a\x09\x09\x09\x09indexOf: object \x0a\x09\x09\x09\x09ifAbsent: [ \x0a\x09\x09\x09\x09\x09slowBucket add: object. \x0a\x09\x09\x09\x09\x09size := size + 1 ].\x0a\x09\x09\x09object ]\x0a\x09\x09ifNotNil: [ :primitiveBucket | \x0a\x09\x09\x09self \x0a\x09\x09\x09\x09add: bucket first \x0a\x09\x09\x09\x09in: primitiveBucket ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["bucketsOfElement:", "ifNil:ifNotNil:", "second", "first", "third", "indexOf:ifAbsent:", "add:", "+", "add:in:"]
 }),
 $globals.Set);
@@ -7326,6 +7582,7 @@ args: ["anObject", "anotherObject"],
 source: "add: anObject in: anotherObject\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) { return anObject; }\x0a\x09\x09$self.size++;\x0a\x09\x09anotherObject.store[anObject] = true;\x0a\x09\x09return anObject;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09if (anObject in anotherObject.store) { return anObject; }\x0a\x09\x09$self.size++;\x0a\x09\x09anotherObject.store[anObject] = true;\x0a\x09\x09return anObject;\x0a\x09"]]],
 messageSends: []
 }),
 $globals.Set);
@@ -7363,6 +7620,7 @@ args: ["anObject"],
 source: "bucketsOfElement: anObject\x0a\x09\x22Find the appropriate bucket for `anObject`.\x0a\x09For optimization purposes, directly answer an array with: \x0a\x09- the object to be store\x0a\x09- the primitive bucket\x0a\x09- the slow bucket\x22\x0a\x09\x0a\x09<inlineJS: '\x0a\x09\x09// include nil to well-known objects under \x22boolean\x22 fastBucket\x0a\x09\x09if (anObject == null || anObject.a$nil) return [ null, $self.fastBuckets.boolean ];\x0a\x09\x09\x0a\x09\x09var prim = anObject.valueOf();\x0a\x09\x09if (typeof prim === \x22object\x22 || typeof prim === \x22function\x22 || !$self.fastBuckets[typeof prim]) {\x0a\x09\x09\x09var bucket = null;\x0a\x09\x09\x09$self.slowBucketStores.some(function (store) {\x0a\x09\x09\x09\x09return bucket = store._bucketOfElement_(anObject);\x0a\x09\x09\x09});\x0a\x09\x09\x09return [ anObject, null, bucket || $self.defaultBucket ];\x0a\x09\x09}\x0a\x09\x09return [ prim, $self.fastBuckets[typeof prim] ];\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09// include nil to well-known objects under \x22boolean\x22 fastBucket\x0a\x09\x09if (anObject == null || anObject.a$nil) return [ null, $self.fastBuckets.boolean ];\x0a\x09\x09\x0a\x09\x09var prim = anObject.valueOf();\x0a\x09\x09if (typeof prim === \x22object\x22 || typeof prim === \x22function\x22 || !$self.fastBuckets[typeof prim]) {\x0a\x09\x09\x09var bucket = null;\x0a\x09\x09\x09$self.slowBucketStores.some(function (store) {\x0a\x09\x09\x09\x09return bucket = store._bucketOfElement_(anObject);\x0a\x09\x09\x09});\x0a\x09\x09\x09return [ anObject, null, bucket || $self.defaultBucket ];\x0a\x09\x09}\x0a\x09\x09return [ prim, $self.fastBuckets[typeof prim] ];\x0a\x09"]]],
 messageSends: []
 }),
 $globals.Set);
@@ -7387,6 +7645,7 @@ args: ["anObject"],
 source: "classNameOf: anObject\x0a\x09\x22Answer the class name of `anObject`, or `undefined` \x0a\x09if `anObject` is not an Smalltalk object\x22\x0a\x09\x0a\x09<inlineJS: 'return anObject.a$cls != null && anObject.a$cls.name'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return anObject.a$cls != null && anObject.a$cls.name"]]],
 messageSends: []
 }),
 $globals.Set);
@@ -7421,6 +7680,7 @@ args: ["aBlock"],
 source: "collect: aBlock\x0a\x09| collection |\x0a\x09collection := self class new.\x0a\x09self do: [ :each | collection add: (aBlock value: each) ].\x0a\x09^ collection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "class", "do:", "add:", "value:"]
 }),
 $globals.Set);
@@ -7457,6 +7717,7 @@ args: ["aBlock"],
 source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09var el, keys, i;\x0a\x09\x09el = $self.fastBuckets;\x0a\x09\x09keys = Object.keys(el);\x0a\x09\x09for (i = 0; i < keys.length; ++i) {\x0a\x09\x09\x09var fastBucket = el[keys[i]], fn = fastBucket.fn, store = Object.keys(fastBucket.store);\x0a\x09\x09\x09if (fn) { for (var j = 0; j < store.length; ++j) { aBlock._value_(fn(store[j])); } }\x0a\x09\x09\x09else { store._do_(aBlock); }\x0a\x09\x09}\x0a\x09\x09el = $self.slowBucketStores;\x0a\x09\x09for (i = 0; i < el.length; ++i) { el[i]._do_(aBlock); }\x0a\x09\x09$self.defaultBucket._do_(aBlock);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var el, keys, i;\x0a\x09\x09el = $self.fastBuckets;\x0a\x09\x09keys = Object.keys(el);\x0a\x09\x09for (i = 0; i < keys.length; ++i) {\x0a\x09\x09\x09var fastBucket = el[keys[i]], fn = fastBucket.fn, store = Object.keys(fastBucket.store);\x0a\x09\x09\x09if (fn) { for (var j = 0; j < store.length; ++j) { aBlock._value_(fn(store[j])); } }\x0a\x09\x09\x09else { store._do_(aBlock); }\x0a\x09\x09}\x0a\x09\x09el = $self.slowBucketStores;\x0a\x09\x09for (i = 0; i < el.length; ++i) { el[i]._do_(aBlock); }\x0a\x09\x09$self.defaultBucket._do_(aBlock);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.Set);
@@ -7495,6 +7756,7 @@ args: ["anObject"],
 source: "includes: anObject\x0a\x09| bucket |\x0a\x09bucket := self bucketsOfElement: anObject.\x0a\x09^ bucket second\x0a\x09\x09ifNil: [ bucket third includes: bucket first ]\x0a\x09\x09ifNotNil: [ :primitiveBucket | self includes: bucket first in: primitiveBucket ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["bucketsOfElement:", "ifNil:ifNotNil:", "second", "includes:", "third", "first", "includes:in:"]
 }),
 $globals.Set);
@@ -7519,6 +7781,7 @@ args: ["anObject", "anotherObject"],
 source: "includes: anObject in: anotherObject\x0a\x09<inlineJS: 'return anObject in anotherObject.store'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return anObject in anotherObject.store"]]],
 messageSends: []
 }),
 $globals.Set);
@@ -7553,6 +7816,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x09\x0a\x09defaultBucket := #().\x0a\x09self\x0a\x09\x09initializeSlowBucketStores;\x0a\x09\x09removeAll",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize", "initializeSlowBucketStores", "removeAll"]
 }),
 $globals.Set);
@@ -7598,6 +7862,7 @@ args: [],
 source: "initializeSlowBucketStores\x0a\x09slowBucketStores := {\x0a\x09\x09ArrayBucketStore hashBlock: [ :x | self classNameOf: x ].\x0a\x09\x09ArrayBucketStore hashBlock: [ :x | self jsConstructorNameOf: x ]\x0a\x09}",
 referencedClasses: ["ArrayBucketStore"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["hashBlock:", "classNameOf:", "jsConstructorNameOf:"]
 }),
 $globals.Set);
@@ -7622,6 +7887,7 @@ args: ["anObject"],
 source: "jsConstructorNameOf: anObject\x0a\x09<inlineJS: 'return anObject.constructor && anObject.constructor.name'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return anObject.constructor && anObject.constructor.name"]]],
 messageSends: []
 }),
 $globals.Set);
@@ -7681,6 +7947,7 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09super printOn: aStream.\x0a\x09\x0a\x09aStream nextPutAll: ' ('.\x0a\x09self \x0a\x09\x09do: [ :each | each printOn: aStream ]\x0a\x09\x09separatedBy: [ aStream nextPutAll: ' ' ].\x0a\x09aStream nextPutAll: ')'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["printOn:", "nextPutAll:", "do:separatedBy:"]
 }),
 $globals.Set);
@@ -7733,6 +8000,7 @@ args: ["anObject", "aBlock"],
 source: "remove: anObject ifAbsent: aBlock\x0a\x09| bucket |\x0a\x09bucket := self bucketsOfElement: anObject.\x0a\x09^ bucket second\x0a\x09\x09ifNil: [ bucket third remove: bucket first ifAbsent: [ ^aBlock value ]. size := size - 1 ]\x0a\x09\x09ifNotNil: [ :primitiveBucket | self remove: bucket first in: primitiveBucket ifAbsent: aBlock ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["bucketsOfElement:", "ifNil:ifNotNil:", "second", "remove:ifAbsent:", "third", "first", "value", "-", "remove:in:ifAbsent:"]
 }),
 $globals.Set);
@@ -7764,6 +8032,7 @@ args: ["anObject", "anotherObject", "aBlock"],
 source: "remove: anObject in: anotherObject ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09if (anObject in anotherObject.store) {\x0a\x09\x09\x09delete anotherObject.store[anObject];\x0a\x09\x09\x09$self.size--;\x0a\x09\x09\x09return anObject;\x0a\x09\x09} else {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09}'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09if (anObject in anotherObject.store) {\x0a\x09\x09\x09delete anotherObject.store[anObject];\x0a\x09\x09\x09$self.size--;\x0a\x09\x09\x09return anObject;\x0a\x09\x09} else {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09}"]]],
 messageSends: []
 }),
 $globals.Set);
@@ -7797,6 +8066,7 @@ args: [],
 source: "removeAll\x0a\x09<inlineJS: '\x0a\x09\x09$self.fastBuckets = {\x0a\x09\x09\x09\x22boolean\x22: { store: Object.create(null), fn: function (x) { return {\x22true\x22: true, \x22false\x22: false, \x22null\x22: null}[x]; } },\x0a\x09\x09\x09\x22number\x22: { store: Object.create(null), fn: Number },\x0a\x09\x09\x09\x22string\x22: { store: Object.create(null) }\x0a\x09\x09};\x0a\x09\x09$self.slowBucketStores.forEach(function (x) { x._removeAll(); });\x0a\x09\x09$self.defaultBucket._removeAll();\x0a\x09\x09$self.size = 0;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09$self.fastBuckets = {\x0a\x09\x09\x09\x22boolean\x22: { store: Object.create(null), fn: function (x) { return {\x22true\x22: true, \x22false\x22: false, \x22null\x22: null}[x]; } },\x0a\x09\x09\x09\x22number\x22: { store: Object.create(null), fn: Number },\x0a\x09\x09\x09\x22string\x22: { store: Object.create(null) }\x0a\x09\x09};\x0a\x09\x09$self.slowBucketStores.forEach(function (x) { x._removeAll(); });\x0a\x09\x09$self.defaultBucket._removeAll();\x0a\x09\x09$self.size = 0;\x0a\x09"]]],
 messageSends: []
 }),
 $globals.Set);
@@ -7835,6 +8105,7 @@ args: ["aBlock"],
 source: "select: aBlock\x0a\x09| collection |\x0a\x09collection := self class new.\x0a\x09self do: [ :each |\x0a\x09\x09(aBlock value: each) ifTrue: [\x0a\x09\x09\x09collection add: each ] ].\x0a\x09^ collection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "class", "do:", "ifTrue:", "value:", "add:"]
 }),
 $globals.Set);
@@ -7876,6 +8147,7 @@ args: ["selectBlock", "collectBlock"],
 source: "select: selectBlock thenCollect: collectBlock\x0a\x09| collection |\x0a\x09collection := self class new.\x0a\x09self do: [ :each |\x0a\x09\x09(selectBlock value: each) ifTrue: [\x0a\x09\x09\x09collection add: (collectBlock value: each) ] ].\x0a\x09^ collection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "class", "do:", "ifTrue:", "value:", "add:"]
 }),
 $globals.Set);
@@ -7894,6 +8166,7 @@ args: [],
 source: "size\x0a\x09^ size",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Set);
@@ -7924,6 +8197,7 @@ args: ["anObject"],
 source: "<< anObject\x0a\x09self write: anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["write:"]
 }),
 $globals.ProtoStream);
@@ -7948,6 +8222,7 @@ args: [],
 source: "atEnd\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.ProtoStream);
@@ -7972,6 +8247,7 @@ args: [],
 source: "atStart\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.ProtoStream);
@@ -7996,6 +8272,7 @@ args: [],
 source: "contents\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.ProtoStream);
@@ -8036,6 +8313,7 @@ args: ["aBlock"],
 source: "do: aBlock\x0a\x09[ self atEnd ] whileFalse: [ aBlock value: self next ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["whileFalse:", "atEnd", "value:", "next"]
 }),
 $globals.ProtoStream);
@@ -8067,6 +8345,7 @@ args: [],
 source: "isEmpty\x0a\x09^ self atStart and: [ self atEnd ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", "atStart", "atEnd"]
 }),
 $globals.ProtoStream);
@@ -8096,6 +8375,7 @@ args: [],
 source: "next\x0a\x09^ self atEnd\x0a\x09\x09ifTrue: [ nil ]\x0a\x09\x09ifFalse: [ self subclassResponsibility ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "atEnd", "subclassResponsibility"]
 }),
 $globals.ProtoStream);
@@ -8120,6 +8400,7 @@ args: ["anObject"],
 source: "nextPut: anObject\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.ProtoStream);
@@ -8152,6 +8433,7 @@ args: ["aCollection"],
 source: "nextPutAll: aCollection\x0a\x09aCollection do: [ :each |\x0a\x09\x09self nextPut: each ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "nextPut:"]
 }),
 $globals.ProtoStream);
@@ -8176,6 +8458,7 @@ args: ["aString"],
 source: "nextPutString: aString\x0a\x09self nextPut: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPut:"]
 }),
 $globals.ProtoStream);
@@ -8205,6 +8488,7 @@ args: [],
 source: "peek\x0a\x09^ self atEnd\x0a\x09\x09ifTrue: [ nil ]\x0a\x09\x09ifFalse: [ self subclassResponsibility ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "atEnd", "subclassResponsibility"]
 }),
 $globals.ProtoStream);
@@ -8229,6 +8513,7 @@ args: [],
 source: "reset\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.ProtoStream);
@@ -8253,6 +8538,7 @@ args: [],
 source: "resetContents\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.ProtoStream);
@@ -8277,6 +8563,7 @@ args: [],
 source: "setToEnd\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.ProtoStream);
@@ -8301,6 +8588,7 @@ args: [],
 source: "setToStart\x0a\x09self reset",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["reset"]
 }),
 $globals.ProtoStream);
@@ -8325,6 +8613,7 @@ args: ["anObject"],
 source: "write: anObject\x0a\x09anObject putOn: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["putOn:"]
 }),
 $globals.ProtoStream);
@@ -8353,6 +8642,7 @@ args: ["aCollection"],
 source: "on: aCollection\x0a\x09\x09^ self new\x0a\x09\x09setCollection: aCollection;\x0a\x09\x09setStreamSize: aCollection size;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["setCollection:", "new", "setStreamSize:", "size", "yourself"]
 }),
 $globals.ProtoStream.a$cls);
@@ -8381,6 +8671,7 @@ args: [],
 source: "atEnd\x0a\x09^ self position = self size",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["=", "position", "size"]
 }),
 $globals.Stream);
@@ -8404,6 +8695,7 @@ args: [],
 source: "atStart\x0a\x09^ self position = 0",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["=", "position"]
 }),
 $globals.Stream);
@@ -8422,6 +8714,7 @@ args: [],
 source: "close",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Stream);
@@ -8440,6 +8733,7 @@ args: [],
 source: "collection\x0a\x09^ collection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Stream);
@@ -8463,6 +8757,7 @@ args: [],
 source: "contents\x0a\x09^ self collection\x0a\x09\x09copyFrom: 1\x0a\x09\x09to: self streamSize",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["copyFrom:to:", "collection", "streamSize"]
 }),
 $globals.Stream);
@@ -8481,6 +8776,7 @@ args: [],
 source: "flush",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Stream);
@@ -8504,6 +8800,7 @@ args: [],
 source: "isEmpty\x0a\x09^ self size = 0",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["=", "size"]
 }),
 $globals.Stream);
@@ -8539,6 +8836,7 @@ args: [],
 source: "next\x0a\x09^ self atEnd\x0a\x09\x09ifTrue: [ nil ]\x0a\x09\x09ifFalse: [\x0a\x09\x09\x09self position: self position + 1.\x0a\x09\x09\x09collection at: self position ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "atEnd", "position:", "+", "position", "at:"]
 }),
 $globals.Stream);
@@ -8577,6 +8875,7 @@ args: ["anInteger"],
 source: "next: anInteger\x0a\x09| tempCollection |\x0a\x09tempCollection := self collection class new.\x0a\x09anInteger timesRepeat: [\x0a\x09\x09self atEnd ifFalse: [\x0a\x09\x09tempCollection add: self next ]].\x0a\x09^ tempCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "class", "collection", "timesRepeat:", "ifFalse:", "atEnd", "add:", "next"]
 }),
 $globals.Stream);
@@ -8614,6 +8913,7 @@ args: ["anObject"],
 source: "nextPut: anObject\x0a\x09self position: self position + 1.\x0a\x09self collection at: self position put: anObject.\x0a\x09self setStreamSize: (self streamSize max: self position)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["position:", "+", "position", "at:put:", "collection", "setStreamSize:", "max:", "streamSize"]
 }),
 $globals.Stream);
@@ -8641,6 +8941,7 @@ args: [],
 source: "peek\x0a\x09^ self atEnd ifFalse: [\x0a\x09\x09self collection at: self position + 1 ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "atEnd", "at:", "collection", "+", "position"]
 }),
 $globals.Stream);
@@ -8671,6 +8972,7 @@ args: [],
 source: "position\x0a\x09^ position ifNil: [ position := 0 ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.Stream);
@@ -8690,6 +8992,7 @@ args: ["anInteger"],
 source: "position: anInteger\x0a\x09position := anInteger",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Stream);
@@ -8714,6 +9017,7 @@ args: [],
 source: "reset\x0a\x09self position: 0",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["position:"]
 }),
 $globals.Stream);
@@ -8739,6 +9043,7 @@ args: [],
 source: "resetContents\x0a\x09self reset.\x0a\x09self setStreamSize: 0",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["reset", "setStreamSize:"]
 }),
 $globals.Stream);
@@ -8758,6 +9063,7 @@ args: ["aCollection"],
 source: "setCollection: aCollection\x0a\x09collection := aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Stream);
@@ -8777,6 +9083,7 @@ args: ["anInteger"],
 source: "setStreamSize: anInteger\x0a\x09streamSize := anInteger",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Stream);
@@ -8801,6 +9108,7 @@ args: [],
 source: "setToEnd\x0a\x09self position: self size",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["position:", "size"]
 }),
 $globals.Stream);
@@ -8824,6 +9132,7 @@ args: [],
 source: "size\x0a\x09^ self streamSize",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["streamSize"]
 }),
 $globals.Stream);
@@ -8848,6 +9157,7 @@ args: ["anInteger"],
 source: "skip: anInteger\x0a\x09self position: ((self position + anInteger) min: self size max: 0)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["position:", "min:max:", "+", "position", "size"]
 }),
 $globals.Stream);
@@ -8866,6 +9176,7 @@ args: [],
 source: "streamSize\x0a\x09^ streamSize",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Stream);
@@ -8894,6 +9205,7 @@ args: ["aCollection"],
 source: "on: aCollection\x0a\x09\x09^ self new\x0a\x09\x09setCollection: aCollection;\x0a\x09\x09setStreamSize: aCollection size;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["setCollection:", "new", "setStreamSize:", "size", "yourself"]
 }),
 $globals.Stream.a$cls);
@@ -8922,6 +9234,7 @@ args: [],
 source: "cr\x0a\x09^ self nextPutAll: String cr",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "cr"]
 }),
 $globals.StringStream);
@@ -8945,6 +9258,7 @@ args: [],
 source: "crlf\x0a\x09^ self nextPutAll: String crlf",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "crlf"]
 }),
 $globals.StringStream);
@@ -8968,6 +9282,7 @@ args: [],
 source: "lf\x0a\x09^ self nextPutAll: String lf",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "lf"]
 }),
 $globals.StringStream);
@@ -9007,6 +9322,7 @@ args: ["anInteger"],
 source: "next: anInteger\x0a\x09| tempCollection |\x0a\x09tempCollection := self collection class new.\x0a\x09anInteger timesRepeat: [\x0a\x09\x09self atEnd ifFalse: [\x0a\x09\x09tempCollection := tempCollection, self next ]].\x0a\x09^ tempCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "class", "collection", "timesRepeat:", "ifFalse:", "atEnd", ",", "next"]
 }),
 $globals.StringStream);
@@ -9031,6 +9347,7 @@ args: ["aString"],
 source: "nextPut: aString\x0a\x09self nextPutAll: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:"]
 }),
 $globals.StringStream);
@@ -9121,6 +9438,7 @@ args: ["aString"],
 source: "nextPutAll: aString\x0a\x09| pre post |\x0a\x09self atEnd ifTrue: [ self setCollection: self collection, aString ] ifFalse: [\x0a\x09\x09pre := self collection copyFrom: 1 to: self position.\x0a\x09\x09post := self collection copyFrom: (self position + 1 + aString size) to: self collection size.\x0a\x09\x09self setCollection: pre, aString, post\x0a\x09].\x0a\x09self position: self position + aString size.\x0a\x09self setStreamSize: (self streamSize max: self position)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "atEnd", "setCollection:", ",", "collection", "copyFrom:to:", "position", "+", "size", "position:", "setStreamSize:", "max:", "streamSize"]
 }),
 $globals.StringStream);
@@ -9145,6 +9463,7 @@ args: ["aString"],
 source: "nextPutString: aString\x0a\x09self nextPutAll: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:"]
 }),
 $globals.StringStream);
@@ -9169,6 +9488,7 @@ args: ["anObject"],
 source: "print: anObject\x0a\x09anObject printOn: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["printOn:"]
 }),
 $globals.StringStream);
@@ -9193,6 +9513,7 @@ args: ["anObject"],
 source: "printSymbol: anObject\x0a\x09anObject asSymbolPrintOn: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["asSymbolPrintOn:"]
 }),
 $globals.StringStream);
@@ -9217,6 +9538,7 @@ args: [],
 source: "space\x0a\x09self nextPut: ' '",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPut:"]
 }),
 $globals.StringStream);
@@ -9240,6 +9562,7 @@ args: [],
 source: "tab\x0a\x09^ self nextPutAll: String tab",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "tab"]
 }),
 $globals.StringStream);
@@ -9283,6 +9606,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x09read := OrderedCollection new.\x0a\x09write := OrderedCollection new.\x0a\x09readIndex := 1",
 referencedClasses: ["OrderedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize", "new"]
 }),
 $globals.Queue);
@@ -9314,6 +9638,7 @@ args: [],
 source: "next\x0a\x09^ self nextIfAbsent: [ self error: 'Cannot read from empty Queue.' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextIfAbsent:", "error:"]
 }),
 $globals.Queue);
@@ -9372,6 +9697,7 @@ args: ["aBlock"],
 source: "nextIfAbsent: aBlock\x0a\x09| result |\x0a\x09result := read at: readIndex ifAbsent: [\x0a\x09\x09write ifEmpty: [\x0a\x09\x09\x09readIndex > 1 ifTrue: [ read := #(). readIndex := 1 ].\x0a\x09\x09\x09^ aBlock value ].\x0a\x09\x09read := write.\x0a\x09\x09readIndex := 1.\x0a\x09\x09write := OrderedCollection new.\x0a\x09\x09read first ].\x0a\x09read at: readIndex put: nil.\x0a\x09readIndex := readIndex + 1.\x0a\x09^ result",
 referencedClasses: ["OrderedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:ifAbsent:", "ifEmpty:", "ifTrue:", ">", "value", "new", "first", "at:put:", "+"]
 }),
 $globals.Queue);
@@ -9396,6 +9722,7 @@ args: ["anObject"],
 source: "nextPut: anObject\x0a\x09write add: anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:"]
 }),
 $globals.Queue);
@@ -9426,6 +9753,7 @@ args: ["aString"],
 source: "compile: aString\x0a\x09<inlineJS: 'return self.compile(aString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.compile(aString)"]]],
 messageSends: []
 }),
 $globals.RegularExpression);
@@ -9450,6 +9778,7 @@ args: ["aString"],
 source: "exec: aString\x0a\x09<inlineJS: 'return self.exec(aString) || nil'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.exec(aString) || nil"]]],
 messageSends: []
 }),
 $globals.RegularExpression);
@@ -9474,6 +9803,7 @@ args: ["aString"],
 source: "test: aString\x0a\x09<inlineJS: 'return self.test(aString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.test(aString)"]]],
 messageSends: []
 }),
 $globals.RegularExpression);
@@ -9498,6 +9828,7 @@ args: ["aString"],
 source: "fromString: aString\x0a\x09\x09^ self fromString: aString flag: ''",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["fromString:flag:"]
 }),
 $globals.RegularExpression.a$cls);
@@ -9522,6 +9853,7 @@ args: ["aString", "anotherString"],
 source: "fromString: aString flag: anotherString\x0a\x09<inlineJS: 'return new RegExp(aString, anotherString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return new RegExp(aString, anotherString)"]]],
 messageSends: []
 }),
 $globals.RegularExpression.a$cls);
@@ -9555,6 +9887,7 @@ args: ["anIndex"],
 source: "at: anIndex\x0a\x09\x22Lookup the given index in the receiver.\x0a\x09If it is present, answer the value stored at anIndex.\x0a\x09Otherwise, raise an error.\x22\x0a\x0a\x09^ self at: anIndex ifAbsent: [ self errorNotFound ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:ifAbsent:", "errorNotFound"]
 }),
 $globals.TKeyValueCollection);
@@ -9579,6 +9912,7 @@ args: ["anIndex", "aBlock"],
 source: "at: anIndex ifAbsent: aBlock\x0a\x09\x22Lookup the given index in the receiver.\x0a\x09If it is present, answer the value stored at anIndex.\x0a\x09Otherwise, answer the value of aBlock.\x22\x0a\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.TKeyValueCollection);
@@ -9610,6 +9944,7 @@ args: ["aKey", "aBlock"],
 source: "at: aKey ifAbsentPut: aBlock\x0a\x09^ self at: aKey ifAbsent: [\x0a\x09\x09self at: aKey put: aBlock value ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:ifAbsent:", "at:put:", "value"]
 }),
 $globals.TKeyValueCollection);
@@ -9636,6 +9971,7 @@ args: ["anIndex", "aBlock"],
 source: "at: anIndex ifPresent: aBlock\x0a\x09\x22Lookup the given index in the receiver.\x0a\x09If it is present, answer the value of evaluating aBlock with the value stored at anIndex.\x0a\x09Otherwise, answer nil.\x22\x0a\x0a\x09^ self at: anIndex ifPresent: aBlock ifAbsent: [ nil ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:ifPresent:ifAbsent:"]
 }),
 $globals.TKeyValueCollection);
@@ -9660,6 +9996,7 @@ args: ["anIndex", "aBlock", "anotherBlock"],
 source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09\x22Lookup the given index in the receiver.\x0a\x09If it is present, answer the value of evaluating aBlock with the value stored at anIndex.\x0a\x09Otherwise, answer the value of anotherBlock.\x22\x0a\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.TKeyValueCollection);
@@ -9684,6 +10021,7 @@ args: ["anIndex", "anObject"],
 source: "at: anIndex put: anObject\x0a\x09\x22Store anObject under the given index in the receiver.\x22\x0a\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.TKeyValueCollection);
@@ -9715,6 +10053,7 @@ args: ["anObject"],
 source: "indexOf: anObject\x0a\x09\x22Lookup index at which anObject is stored in the receiver.\x0a\x09If not present, raise an error.\x22\x0a\x0a\x09^ self indexOf: anObject ifAbsent: [ self errorNotFound ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["indexOf:ifAbsent:", "errorNotFound"]
 }),
 $globals.TKeyValueCollection);
@@ -9739,6 +10078,7 @@ args: ["anObject", "aBlock"],
 source: "indexOf: anObject ifAbsent: aBlock\x0a\x09\x22Lookup index at which anObject is stored in the receiver.\x0a\x09If not present, return value of executing aBlock.\x22\x0a\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.TKeyValueCollection);
@@ -9771,6 +10111,7 @@ args: ["anotherCollection", "aBlock"],
 source: "with: anotherCollection do: aBlock\x0a\x09\x22Calls aBlock with every value from self\x0a\x09and with indetically-indexed value from anotherCollection\x22\x0a\x0a\x09self withIndexDo: [ :each :index |\x0a\x09\x09aBlock value: each value: (anotherCollection at: index) ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["withIndexDo:", "value:value:", "at:"]
 }),
 $globals.TKeyValueCollection);
@@ -9795,6 +10136,7 @@ args: ["aBlock"],
 source: "withIndexDo: aBlock\x0a\x09\x22Calls aBlock with every value from self\x0a\x09and with its index as the second argument\x22\x0a\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.TKeyValueCollection);
@@ -9825,6 +10167,7 @@ args: ["anIndex", "aBlock"],
 source: "at: anIndex ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09return anIndex >= 1 && anIndex <= self.length\x0a\x09\x09\x09? self[anIndex - 1]\x0a\x09\x09\x09: aBlock._value()\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return anIndex >= 1 && anIndex <= self.length\x0a\x09\x09\x09? self[anIndex - 1]\x0a\x09\x09\x09: aBlock._value()\x0a\x09"]]],
 messageSends: []
 }),
 $globals.TNativeZeroBasedCollection);
@@ -9853,6 +10196,7 @@ args: ["anIndex", "aBlock", "anotherBlock"],
 source: "at: anIndex ifPresent: aBlock ifAbsent: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09return anIndex >= 1 && anIndex <= self.length\x0a\x09\x09\x09? aBlock._value_(self[anIndex - 1])\x0a\x09\x09\x09: anotherBlock._value()\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return anIndex >= 1 && anIndex <= self.length\x0a\x09\x09\x09? aBlock._value_(self[anIndex - 1])\x0a\x09\x09\x09: anotherBlock._value()\x0a\x09"]]],
 messageSends: []
 }),
 $globals.TNativeZeroBasedCollection);
@@ -9882,6 +10226,7 @@ args: ["aBlock", "anotherBlock"],
 source: "detect: aBlock ifNone: anotherBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i = 0; i < self.length; i++)\x0a\x09\x09\x09if(aBlock._value_(self[i]))\x0a\x09\x09\x09\x09return self[i];\x0a\x09\x09return anotherBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09for(var i = 0; i < self.length; i++)\x0a\x09\x09\x09if(aBlock._value_(self[i]))\x0a\x09\x09\x09\x09return self[i];\x0a\x09\x09return anotherBlock._value();\x0a\x09"]]],
 messageSends: []
 }),
 $globals.TNativeZeroBasedCollection);
@@ -9910,6 +10255,7 @@ args: ["aBlock"],
 source: "do: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_(self[i]);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_(self[i]);\x0a\x09\x09}\x0a\x09"]]],
 messageSends: []
 }),
 $globals.TNativeZeroBasedCollection);
@@ -9939,6 +10285,7 @@ args: ["anObject", "aBlock"],
 source: "indexOf: anObject ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09};\x0a\x09\x09return aBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09};\x0a\x09\x09return aBlock._value();\x0a\x09"]]],
 messageSends: []
 }),
 $globals.TNativeZeroBasedCollection);
@@ -9968,6 +10315,7 @@ args: ["anObject", "start", "aBlock"],
 source: "indexOf: anObject startingAt: start ifAbsent: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=start - 1; i < self.length; i++){\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09}\x0a\x09\x09return aBlock._value();\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09for(var i=start - 1; i < self.length; i++){\x0a\x09\x09\x09if($recv(self[i]).__eq(anObject)) {return i+1}\x0a\x09\x09}\x0a\x09\x09return aBlock._value();\x0a\x09"]]],
 messageSends: []
 }),
 $globals.TNativeZeroBasedCollection);
@@ -9995,6 +10343,7 @@ args: [],
 source: "single\x0a<inlineJS: '\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length > 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return self[0];\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length > 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return self[0];\x0a"]]],
 messageSends: []
 }),
 $globals.TNativeZeroBasedCollection);
@@ -10019,6 +10368,7 @@ args: [],
 source: "size\x0a\x09<inlineJS: 'return self.length'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.length"]]],
 messageSends: []
 }),
 $globals.TNativeZeroBasedCollection);
@@ -10048,6 +10398,7 @@ args: ["anotherCollection", "aBlock"],
 source: "with: anotherCollection do: aBlock\x0a\x09<inlineJS: '\x0a\x09    $recv(anotherCollection)._first_(0); // #guardSequenceableCollection\x0a\x09\x09for(var i=0; i<self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], anotherCollection[i]);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09    $recv(anotherCollection)._first_(0); // #guardSequenceableCollection\x0a\x09\x09for(var i=0; i<self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], anotherCollection[i]);\x0a\x09\x09}\x0a\x09"]]],
 messageSends: []
 }),
 $globals.TNativeZeroBasedCollection);
@@ -10076,6 +10427,7 @@ args: ["aBlock"],
 source: "withIndexDo: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], i+1);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09for(var i=0; i < self.length; i++) {\x0a\x09\x09\x09aBlock._value_value_(self[i], i+1);\x0a\x09\x09}\x0a\x09"]]],
 messageSends: []
 }),
 $globals.TNativeZeroBasedCollection);

@@ -24,6 +24,7 @@ args: ["aString"],
 source: "subclass: aString \x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString slots: #() package: nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclass:slots:package:"]
 }),
 $globals.TSubclassable);
@@ -47,6 +48,7 @@ args: ["aString", "anotherString"],
 source: "subclass: aString instanceVariableNames: anotherString\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString instanceVariableNames: anotherString package: nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclass:instanceVariableNames:package:"]
 }),
 $globals.TSubclassable);
@@ -70,6 +72,7 @@ args: ["aString", "aString2", "aString3"],
 source: "subclass: aString instanceVariableNames: aString2 category: aString3\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString instanceVariableNames: aString2 package: aString3",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclass:instanceVariableNames:package:"]
 }),
 $globals.TSubclassable);
@@ -93,6 +96,7 @@ args: ["aString", "aString2", "classVars", "pools", "aString3"],
 source: "subclass: aString instanceVariableNames: aString2 classVariableNames: classVars poolDictionaries: pools category: aString3\x0a\x09\x22Kept for file-in compatibility. ignores class variables and pools.\x22\x0a\x09^ self subclass: aString instanceVariableNames: aString2 package: aString3",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclass:instanceVariableNames:package:"]
 }),
 $globals.TSubclassable);
@@ -116,6 +120,7 @@ args: ["aString", "aString2", "aString3"],
 source: "subclass: aString instanceVariableNames: aString2 package: aString3\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString slots: aString2 instanceVariablesStringAsSlotList package: aString3",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclass:slots:package:", "instanceVariablesStringAsSlotList"]
 }),
 $globals.TSubclassable);
@@ -139,6 +144,7 @@ args: ["aString", "aCollection"],
 source: "subclass: aString slots: aCollection\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString slots: aCollection package: nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclass:slots:package:"]
 }),
 $globals.TSubclassable);
@@ -162,6 +168,7 @@ args: ["aString", "aCollection", "anObject", "anotherString"],
 source: "subclass: aString slots: aCollection classVariables: anObject package: anotherString\x0a\x09\x22Kept for file-in compatibility. ignores class variables.\x22\x0a\x09^ ClassBuilder new\x0a\x09\x09superclass: self subclass: aString slots: aCollection package: anotherString",
 referencedClasses: ["ClassBuilder"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["superclass:subclass:slots:package:", "new"]
 }),
 $globals.TSubclassable);
@@ -185,6 +192,7 @@ args: ["aString", "aCollection", "anObject", "anotherObject", "anotherString"],
 source: "subclass: aString slots: aCollection classVariables: anObject poolDictionaries: anotherObject package: anotherString\x0a\x09\x22Kept for file-in compatibility. ignores class variables and pools.\x22\x0a\x09^ ClassBuilder new\x0a\x09\x09superclass: self subclass: aString slots: aCollection package: anotherString",
 referencedClasses: ["ClassBuilder"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["superclass:subclass:slots:package:", "new"]
 }),
 $globals.TSubclassable);
@@ -208,6 +216,7 @@ args: ["aString", "aCollection", "anotherString"],
 source: "subclass: aString slots: aCollection package: anotherString\x0a\x09^ ClassBuilder new\x0a\x09\x09superclass: self subclass: aString slots: aCollection package: anotherString",
 referencedClasses: ["ClassBuilder"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["superclass:subclass:slots:package:", "new"]
 }),
 $globals.TSubclassable);
@@ -231,6 +240,7 @@ args: ["aString", "aTraitCompositionDescription"],
 source: "subclass: aString uses: aTraitCompositionDescription \x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription slots: #() package: nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclass:uses:slots:package:"]
 }),
 $globals.TSubclassable);
@@ -254,6 +264,7 @@ args: ["aString", "aTraitCompositionDescription", "anotherString"],
 source: "subclass: aString uses: aTraitCompositionDescription instanceVariableNames: anotherString\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: anotherString package: nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclass:uses:instanceVariableNames:package:"]
 }),
 $globals.TSubclassable);
@@ -277,6 +288,7 @@ args: ["aString", "aTraitCompositionDescription", "aString2", "aString3"],
 source: "subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 category: aString3\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclass:uses:instanceVariableNames:package:"]
 }),
 $globals.TSubclassable);
@@ -300,6 +312,7 @@ args: ["aString", "aTraitCompositionDescription", "aString2", "classVars", "pool
 source: "subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 classVariableNames: classVars poolDictionaries: pools category: aString3\x0a\x09\x22Kept for file-in compatibility. ignores class variables and pools.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclass:uses:instanceVariableNames:package:"]
 }),
 $globals.TSubclassable);
@@ -323,6 +336,7 @@ args: ["aString", "aTraitCompositionDescription", "aString2", "aString3"],
 source: "subclass: aString uses: aTraitCompositionDescription instanceVariableNames: aString2 package: aString3\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription slots: aString2 instanceVariablesStringAsSlotList package: aString3",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclass:uses:slots:package:", "instanceVariablesStringAsSlotList"]
 }),
 $globals.TSubclassable);
@@ -346,6 +360,7 @@ args: ["aString", "aTraitCompositionDescription", "aCollection"],
 source: "subclass: aString uses: aTraitCompositionDescription slots: aCollection\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self subclass: aString uses: aTraitCompositionDescription slots: aCollection package: nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclass:uses:slots:package:"]
 }),
 $globals.TSubclassable);
@@ -372,6 +387,7 @@ args: ["aString", "aTraitCompositionDescription", "aCollection", "aString3"],
 source: "subclass: aString uses: aTraitCompositionDescription slots: aCollection package: aString3\x0a\x09| cls |\x0a\x09cls := self subclass: aString slots: aCollection package: aString3.\x0a\x09cls setTraitComposition: aTraitCompositionDescription asTraitComposition.\x0a\x09^ cls",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclass:slots:package:", "setTraitComposition:", "asTraitComposition"]
 }),
 $globals.TSubclassable);

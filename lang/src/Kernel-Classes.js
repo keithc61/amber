@@ -39,6 +39,7 @@ args: [],
 source: "allInstanceVariableNames\x0a\x09| result |\x0a\x09result := self instanceVariableNames copy.\x0a\x09self superclass ifNotNil: [\x0a\x09\x09result addAll: self superclass allInstanceVariableNames ].\x0a\x09^ result",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["copy", "instanceVariableNames", "ifNotNil:", "superclass", "addAll:", "allInstanceVariableNames"]
 }),
 $globals.Behavior);
@@ -77,6 +78,7 @@ args: [],
 source: "allSelectors\x0a\x09^ self allSuperclasses\x0a\x09\x09inject: self selectors\x0a\x09\x09into: [ :acc :each | acc addAll: each selectors; yourself ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["inject:into:", "allSuperclasses", "selectors", "addAll:", "yourself"]
 }),
 $globals.Behavior);
@@ -116,6 +118,7 @@ args: [],
 source: "allSubclasses\x0a\x09\x22Answer an collection of the receiver's and the receiver's descendent's subclasses. \x22\x0a\x0a\x09^ Array streamContents: [ :str | self allSubclassesDo: [ :each | str nextPut: each ] ]",
 referencedClasses: ["Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["streamContents:", "allSubclassesDo:", "nextPut:"]
 }),
 $globals.Behavior);
@@ -142,6 +145,7 @@ args: ["aBlock"],
 source: "allSubclassesDo: aBlock\x0a\x09\x22Evaluate the argument, aBlock, for each of the receiver's subclasses.\x22\x0a\x0a<inlineJS: '$core.traverseClassTree(self, function(subclass) {\x0a\x09if (subclass !== self) aBlock._value_(subclass);\x0a})'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["$core.traverseClassTree(self, function(subclass) {\x0a\x09if (subclass !== self) aBlock._value_(subclass);\x0a})"]]],
 messageSends: []
 }),
 $globals.Behavior);
@@ -181,6 +185,7 @@ args: [],
 source: "allSuperclasses\x0a\x09\x0a\x09self superclass ifNil: [ ^ #() ].\x0a\x09\x0a\x09^ (OrderedCollection with: self superclass)\x0a\x09\x09addAll: self superclass allSuperclasses;\x0a\x09\x09yourself",
 referencedClasses: ["OrderedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "superclass", "addAll:", "with:", "allSuperclasses", "yourself"]
 }),
 $globals.Behavior);
@@ -205,6 +210,7 @@ args: [],
 source: "basicNew\x0a\x09<inlineJS: 'return new self.fn()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return new self.fn()"]]],
 messageSends: []
 }),
 $globals.Behavior);
@@ -223,6 +229,7 @@ args: [],
 source: "basicOrganization\x0a\x09^ organization",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Behavior);
@@ -242,6 +249,7 @@ args: ["aClassOrganizer"],
 source: "basicOrganization: aClassOrganizer\x0a\x09organization := aClassOrganizer",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Behavior);
@@ -287,6 +295,7 @@ args: ["aSelector"],
 source: "canUnderstand: aSelector\x0a\x09^ (self includesSelector: aSelector asString) or: [\x0a\x09\x09self superclass notNil and: [ self superclass canUnderstand: aSelector ]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["or:", "includesSelector:", "asString", "and:", "notNil", "superclass", "canUnderstand:"]
 }),
 $globals.Behavior);
@@ -318,6 +327,7 @@ args: ["aClass"],
 source: "includesBehavior: aClass\x0a\x09^ self == aClass or: [\x0a\x09\x09\x09self inheritsFrom: aClass ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["or:", "==", "inheritsFrom:"]
 }),
 $globals.Behavior);
@@ -364,6 +374,7 @@ args: ["aClass"],
 source: "inheritsFrom: aClass\x0a\x09self superclass ifNil: [ ^ false ].\x0a\x0a\x09^ aClass == self superclass or: [ \x0a\x09\x09self superclass inheritsFrom: aClass ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "superclass", "or:", "==", "inheritsFrom:"]
 }),
 $globals.Behavior);
@@ -382,6 +393,7 @@ args: [],
 source: "instanceVariableNames\x0a\x09^ slots",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Behavior);
@@ -400,6 +412,7 @@ args: [],
 source: "isBehavior\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Behavior);
@@ -418,6 +431,7 @@ args: [],
 source: "javascriptConstructor\x0a\x09\x22Answer the JS constructor used to instantiate. See kernel-language.js\x22\x0a\x09\x0a\x09^ fn",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Behavior);
@@ -442,6 +456,7 @@ args: ["aJavaScriptFunction"],
 source: "javascriptConstructor: aJavaScriptFunction\x0a\x09\x22Set the JS constructor used to instantiate.\x0a\x09See the JS counter-part in boot.js `$core.setClassConstructor'\x22\x0a\x09\x0a\x09Smalltalk core setClassConstructor: self to: aJavaScriptFunction",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["setClassConstructor:to:", "core"]
 }),
 $globals.Behavior);
@@ -494,6 +509,7 @@ args: ["selector"],
 source: "lookupSelector: selector\x0a\x09\x22Look up the given selector in my methodDictionary.\x0a\x09Return the corresponding method if found.\x0a\x09Otherwise chase the superclass chain and try again.\x0a\x09Return nil if no method is found.\x22\x0a\x09\x0a\x09| lookupClass |\x0a\x09\x0a\x09lookupClass := self.\x0a\x09[ lookupClass = nil ] whileFalse: [\x0a\x09\x09(lookupClass includesSelector: selector)\x0a\x09\x09\x09\x09ifTrue: [ ^ lookupClass methodAt: selector ].\x0a\x09\x09\x09lookupClass := lookupClass superclass ].\x0a\x09^ nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["whileFalse:", "=", "ifTrue:", "includesSelector:", "methodAt:", "superclass"]
 }),
 $globals.Behavior);
@@ -517,6 +533,7 @@ args: [],
 source: "new\x0a\x09^ self basicNew initialize",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize", "basicNew"]
 }),
 $globals.Behavior);
@@ -540,6 +557,7 @@ args: [],
 source: "prototype\x0a\x09^ self javascriptConstructor prototype",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["prototype", "javascriptConstructor"]
 }),
 $globals.Behavior);
@@ -564,6 +582,7 @@ args: [],
 source: "subclasses\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.Behavior);
@@ -582,6 +601,7 @@ args: [],
 source: "superclass\x0a\x09^ superclass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Behavior);
@@ -606,6 +626,7 @@ args: [],
 source: "theMetaClass\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.Behavior);
@@ -630,6 +651,7 @@ args: [],
 source: "theNonMetaClass\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.Behavior);
@@ -656,6 +678,7 @@ args: [],
 source: "withAllSubclasses\x0a\x09^ (Array with: self) addAll: self allSubclasses; yourself",
 referencedClasses: ["Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["addAll:", "with:", "allSubclasses", "yourself"]
 }),
 $globals.Behavior);
@@ -681,6 +704,7 @@ args: ["aPackage"],
 source: "basicPackage: aPackage\x0a\x09package := aPackage",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Class);
@@ -699,6 +723,7 @@ args: [],
 source: "classTag\x0a\x09\x22Returns a tag or general category for this class.\x0a\x09Typically used to help tools do some reflection.\x0a\x09Helios, for example, uses this to decide what icon the class should display.\x22\x0a\x09\x0a\x09^ 'class'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Class);
@@ -775,6 +800,7 @@ args: [],
 source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self superclass; write: ' subclass: '; printSymbol: self name; lf;\x0a\x09\x09write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);\x0a\x09\x09tab; write: {'slots: {'. ('. ' join: (self instanceVariableNames collect: #symbolPrintString)). '}'}; lf;\x0a\x09\x09tab; write: 'package: '; print: self category ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["streamContents:", "print:", "superclass", "write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "traitCompositionDefinition", "tab", "join:", "collect:", "instanceVariableNames", "category"]
 }),
 $globals.Class);
@@ -793,6 +819,7 @@ args: [],
 source: "isClass\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Class);
@@ -811,6 +838,7 @@ args: [],
 source: "package\x0a\x09^ package",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Class);
@@ -834,6 +862,7 @@ args: [],
 source: "provided\x0a\x09\x22Returns JS proxy that allows to access 'static API', as in\x0a\x09  Number provided EPSILON\x0a\x09that forwards to (wrapped JS) constructor function.\x22\x0a\x09\x0a\x09^ self javascriptConstructor provided",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["provided", "javascriptConstructor"]
 }),
 $globals.Class);
@@ -858,6 +887,7 @@ args: ["aString"],
 source: "rename: aString\x0a\x09ClassBuilder new renameClass: self to: aString",
 referencedClasses: ["ClassBuilder"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["renameClass:to:", "new"]
 }),
 $globals.Class);
@@ -881,6 +911,7 @@ args: [],
 source: "subclasses\x0a\x09^ subclasses copy",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["copy"]
 }),
 $globals.Class);
@@ -904,6 +935,7 @@ args: [],
 source: "theMetaClass\x0a\x09^ self class",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["class"]
 }),
 $globals.Class);
@@ -938,6 +970,7 @@ args: [],
 source: "asJavaScriptSource\x0a\x09^ '$globals.', self instanceClass name, '.a$cls'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "name", "instanceClass"]
 }),
 $globals.Metaclass);
@@ -994,6 +1027,7 @@ args: [],
 source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09print: self;\x0a\x09\x09write: (self traitCompositionDefinition\x0a\x09\x09\x09ifEmpty: [' ']\x0a\x09\x09\x09ifNotEmpty: [ :tcd | { String lf. String tab. 'uses: '. tcd. String lf. String tab }]);\x0a\x09\x09write: {'slots: {'. ('. ' join: (self instanceVariableNames collect: #symbolPrintString)). '}'} ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["streamContents:", "print:", "write:", "ifEmpty:ifNotEmpty:", "traitCompositionDefinition", "lf", "tab", "join:", "collect:", "instanceVariableNames"]
 }),
 $globals.Metaclass);
@@ -1012,6 +1046,7 @@ args: [],
 source: "instanceClass\x0a\x09^ instanceClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Metaclass);
@@ -1035,6 +1070,7 @@ args: ["aString"],
 source: "instanceVariableNames: aString\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self slots: aString instanceVariablesStringAsSlotList",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["slots:", "instanceVariablesStringAsSlotList"]
 }),
 $globals.Metaclass);
@@ -1053,6 +1089,7 @@ args: [],
 source: "isMetaclass\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Metaclass);
@@ -1076,6 +1113,7 @@ args: [],
 source: "name\x0a\x09^ self instanceClass name, ' class'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "name", "instanceClass"]
 }),
 $globals.Metaclass);
@@ -1099,6 +1137,7 @@ args: [],
 source: "package\x0a\x09^ self instanceClass package",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["package", "instanceClass"]
 }),
 $globals.Metaclass);
@@ -1123,6 +1162,7 @@ args: ["aCollection"],
 source: "slots: aCollection\x0a\x09ClassBuilder new\x0a\x09\x09class: self slots: aCollection.\x0a\x09^ self",
 referencedClasses: ["ClassBuilder"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["class:slots:", "new"]
 }),
 $globals.Metaclass);
@@ -1146,6 +1186,7 @@ args: [],
 source: "subclasses\x0a\x09^ Smalltalk core metaSubclasses: self",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["metaSubclasses:", "core"]
 }),
 $globals.Metaclass);
@@ -1164,6 +1205,7 @@ args: [],
 source: "theMetaClass\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Metaclass);
@@ -1187,6 +1229,7 @@ args: [],
 source: "theNonMetaClass\x0a\x09^ self instanceClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["instanceClass"]
 }),
 $globals.Metaclass);
@@ -1210,6 +1253,7 @@ args: ["aTraitCompositionDescription", "aString"],
 source: "uses: aTraitCompositionDescription instanceVariableNames: aString\x0a\x09\x22Kept for file-in compatibility.\x22\x0a\x09^ self uses: aTraitCompositionDescription slots: aString instanceVariablesStringAsSlotList",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["uses:slots:", "instanceVariablesStringAsSlotList"]
 }),
 $globals.Metaclass);
@@ -1235,6 +1279,7 @@ args: ["aTraitCompositionDescription", "aCollection"],
 source: "uses: aTraitCompositionDescription slots: aCollection\x0a\x09self\x0a\x09\x09slots: aCollection;\x0a\x09\x09setTraitComposition: aTraitCompositionDescription asTraitComposition.\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["slots:", "setTraitComposition:", "asTraitComposition"]
 }),
 $globals.Metaclass);
@@ -1280,6 +1325,7 @@ args: ["aClass", "className", "aCollection", "packageName"],
 source: "addSubclassOf: aClass named: className instanceVariableNames: aCollection package: packageName\x0a\x09| theClass thePackage |\x0a\x09\x0a\x09theClass := Smalltalk globals at: className.\x0a\x09thePackage := Package named: packageName.\x0a\x09\x0a\x09theClass ifNotNil: [\x0a\x09\x09theClass package: thePackage.\x0a\x09\x09theClass superclass == aClass\x0a\x09\x09\x09ifFalse: [ ^ self\x0a\x09\x09\x09\x09migrateClassNamed: className\x0a\x09\x09\x09\x09superclass: aClass\x0a\x09\x09\x09\x09instanceVariableNames: aCollection\x0a\x09\x09\x09\x09package: packageName ] ].\x0a\x09\x09\x0a\x09^ (self\x0a\x09\x09basicAddSubclassOf: aClass\x0a\x09\x09named: className\x0a\x09\x09instanceVariableNames: aCollection\x0a\x09\x09package: packageName) recompile; yourself",
 referencedClasses: ["Smalltalk", "Package"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:", "globals", "named:", "ifNotNil:", "package:", "ifFalse:", "==", "superclass", "migrateClassNamed:superclass:instanceVariableNames:package:", "recompile", "basicAddSubclassOf:named:instanceVariableNames:package:", "yourself"]
 }),
 $globals.ClassBuilder);
@@ -1316,6 +1362,7 @@ args: ["traitName", "packageName"],
 source: "addTraitNamed: traitName package: packageName\x0a\x09| theTrait thePackage |\x0a\x09\x0a\x09theTrait := Smalltalk globals at: traitName.\x0a\x09thePackage := Package named: packageName.\x0a\x09\x0a\x09theTrait ifNotNil: [ ^ theTrait package: thePackage; recompile; yourself ].\x0a\x09\x09\x0a\x09^ self\x0a\x09\x09basicAddTraitNamed: traitName\x0a\x09\x09package: packageName",
 referencedClasses: ["Smalltalk", "Package"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:", "globals", "named:", "ifNotNil:", "package:", "recompile", "yourself", "basicAddTraitNamed:package:"]
 }),
 $globals.ClassBuilder);
@@ -1342,6 +1389,7 @@ args: ["aClass", "aString", "aCollection", "packageName"],
 source: "basicAddSubclassOf: aClass named: aString instanceVariableNames: aCollection package: packageName\x0a\x09<inlineJS: '\x0a\x09\x09return $core.addClass(aString, aClass, aCollection, packageName);\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return $core.addClass(aString, aClass, aCollection, packageName);\x0a\x09"]]],
 messageSends: []
 }),
 $globals.ClassBuilder);
@@ -1366,6 +1414,7 @@ args: ["aString", "anotherString"],
 source: "basicAddTraitNamed: aString package: anotherString\x0a\x09<inlineJS: 'return $core.addTrait(aString, anotherString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return $core.addTrait(aString, anotherString)"]]],
 messageSends: []
 }),
 $globals.ClassBuilder);
@@ -1395,6 +1444,7 @@ args: ["aClass", "aCollection"],
 source: "basicClass: aClass instanceVariables: aCollection\x0a\x0a\x09aClass isMetaclass ifFalse: [ self error: aClass name, ' is not a metaclass' ].\x0a\x09Smalltalk core setSlots: aClass to: aCollection",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "isMetaclass", "error:", ",", "name", "setSlots:to:", "core"]
 }),
 $globals.ClassBuilder);
@@ -1419,6 +1469,7 @@ args: ["aClass"],
 source: "basicRemoveClass: aClass\x0a\x09<inlineJS: '$core.removeClass(aClass)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["$core.removeClass(aClass)"]]],
 messageSends: []
 }),
 $globals.ClassBuilder);
@@ -1447,6 +1498,7 @@ args: ["aClass", "aString"],
 source: "basicRenameClass: aClass to: aString\x0a\x09<inlineJS: '\x0a\x09\x09$globals[aString] = aClass;\x0a\x09\x09delete $globals[aClass.name];\x0a\x09\x09aClass.name = aString;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09$globals[aString] = aClass;\x0a\x09\x09delete $globals[aClass.name];\x0a\x09\x09aClass.name = aString;\x0a\x09"]]],
 messageSends: []
 }),
 $globals.ClassBuilder);
@@ -1475,6 +1527,7 @@ args: ["aClass", "anotherClass"],
 source: "basicSwapClassNames: aClass with: anotherClass\x0a\x09<inlineJS: '\x0a\x09\x09var tmp = aClass.name;\x0a\x09\x09aClass.name = anotherClass.name;\x0a\x09\x09anotherClass.name = tmp;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var tmp = aClass.name;\x0a\x09\x09aClass.name = anotherClass.name;\x0a\x09\x09anotherClass.name = tmp;\x0a\x09"]]],
 messageSends: []
 }),
 $globals.ClassBuilder);
@@ -1505,6 +1558,7 @@ args: ["aClass", "aCollection"],
 source: "class: aClass slots: aCollection\x0a\x09self basicClass: aClass instanceVariables: aCollection.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassDefinitionChanged new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassDefinitionChanged"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["basicClass:instanceVariables:", "announce:", "current", "theClass:", "new", "yourself"]
 }),
 $globals.ClassBuilder);
@@ -1537,6 +1591,7 @@ args: ["aClass", "className"],
 source: "copyClass: aClass named: className\x0a\x09| newClass |\x0a\x0a\x09newClass := self\x0a\x09\x09addSubclassOf: aClass superclass\x0a\x09\x09named: className\x0a\x09\x09instanceVariableNames: aClass instanceVariableNames\x0a\x09\x09package: aClass package name.\x0a\x0a\x09self copyClass: aClass to: newClass.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
 referencedClasses: ["SystemAnnouncer", "ClassAdded"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "superclass", "instanceVariableNames", "name", "package", "copyClass:to:", "announce:", "current", "theClass:", "new", "yourself"]
 }),
 $globals.ClassBuilder);
@@ -1654,6 +1709,7 @@ args: ["aClass", "anotherClass"],
 source: "copyClass: aClass to: anotherClass\x0a\x0a\x09anotherClass comment: aClass comment.\x0a\x0a\x09aClass methodDictionary valuesDo: [ :each |\x0a\x09\x09each methodClass = aClass ifTrue: [\x0a\x09\x09\x09Compiler new install: each source forClass: anotherClass protocol: each protocol ] ].\x0a\x09anotherClass setTraitComposition: aClass traitComposition.\x0a\x0a\x09self basicClass: anotherClass class instanceVariables: aClass class instanceVariableNames.\x0a\x0a\x09aClass class methodDictionary valuesDo: [ :each |\x0a\x09\x09each methodClass = aClass class ifTrue: [\x0a\x09\x09\x09Compiler new install: each source forClass: anotherClass class protocol: each protocol ] ].\x0a\x09anotherClass class setTraitComposition: aClass class traitComposition",
 referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["comment:", "comment", "valuesDo:", "methodDictionary", "ifTrue:", "=", "methodClass", "install:forClass:protocol:", "new", "source", "protocol", "setTraitComposition:", "traitComposition", "basicClass:instanceVariables:", "class", "instanceVariableNames"]
 }),
 $globals.ClassBuilder);
@@ -1682,6 +1738,7 @@ args: ["aClass", "anotherClass"],
 source: "migrateClass: aClass superclass: anotherClass\x0a\x09^ self\x0a\x09\x09migrateClassNamed: aClass name\x0a\x09\x09superclass: anotherClass\x0a\x09\x09instanceVariableNames: aClass instanceVariableNames\x0a\x09\x09package: aClass package name",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["migrateClassNamed:superclass:instanceVariableNames:package:", "name", "instanceVariableNames", "package"]
 }),
 $globals.ClassBuilder);
@@ -1757,6 +1814,7 @@ args: ["className", "aClass", "aCollection", "packageName"],
 source: "migrateClassNamed: className superclass: aClass instanceVariableNames: aCollection package: packageName\x0a\x09| oldClass newClass tmp |\x0a\x09\x0a\x09tmp := 'new*', className.\x0a\x09oldClass := Smalltalk globals at: className.\x0a\x09\x0a\x09newClass := self\x0a\x09\x09addSubclassOf: aClass\x0a\x09\x09named: tmp\x0a\x09\x09instanceVariableNames: aCollection\x0a\x09\x09package: packageName.\x0a\x0a\x09self basicSwapClassNames: oldClass with: newClass.\x0a\x0a\x09[ self copyClass: oldClass to: newClass ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :exception |\x0a\x09\x09\x09self\x0a\x09\x09\x09\x09basicSwapClassNames: oldClass with: newClass;\x0a\x09\x09\x09\x09basicRemoveClass: newClass.\x0a\x09\x09\x09\x09exception pass ].\x0a\x0a\x09self\x0a\x09\x09rawRenameClass: oldClass to: tmp;\x0a\x09\x09rawRenameClass: newClass to: className.\x0a\x0a\x09oldClass subclasses \x0a\x09\x09do: [ :each | self migrateClass: each superclass: newClass ].\x0a\x0a\x09self basicRemoveClass: oldClass.\x0a\x09\x0a\x09SystemAnnouncer current announce: (ClassMigrated new\x0a\x09\x09theClass: newClass;\x0a\x09\x09oldClass: oldClass;\x0a\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
 referencedClasses: ["Smalltalk", "Error", "SystemAnnouncer", "ClassMigrated"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "at:", "globals", "addSubclassOf:named:instanceVariableNames:package:", "basicSwapClassNames:with:", "on:do:", "copyClass:to:", "basicRemoveClass:", "pass", "rawRenameClass:to:", "do:", "subclasses", "migrateClass:superclass:", "announce:", "current", "theClass:", "new", "oldClass:", "yourself"]
 }),
 $globals.ClassBuilder);
@@ -1783,6 +1841,7 @@ args: ["aClass", "aString"],
 source: "rawRenameClass: aClass to: aString\x0a\x09<inlineJS: '\x0a\x09\x09$globals[aString] = aClass;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09$globals[aString] = aClass;\x0a\x09"]]],
 messageSends: []
 }),
 $globals.ClassBuilder);
@@ -1814,6 +1873,7 @@ args: ["aClass", "className"],
 source: "renameClass: aClass to: className\x0a\x09self basicRenameClass: aClass to: className.\x0a\x09\x0a\x09\x22Recompile the class to fix potential issues with super sends\x22\x0a\x09aClass recompile.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassRenamed new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassRenamed"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["basicRenameClass:to:", "recompile", "announce:", "current", "theClass:", "new", "yourself"]
 }),
 $globals.ClassBuilder);
@@ -1837,6 +1897,7 @@ args: ["aClass", "className"],
 source: "superclass: aClass subclass: className\x0a\x09^ self superclass: aClass subclass: className slots: #() package: nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["superclass:subclass:slots:package:"]
 }),
 $globals.ClassBuilder);
@@ -1873,6 +1934,7 @@ args: ["aClass", "className", "aCollection", "packageName"],
 source: "superclass: aClass subclass: className slots: aCollection package: packageName\x0a\x09| newClass |\x0a\x09\x0a\x09newClass := self addSubclassOf: aClass\x0a\x09\x09named: className instanceVariableNames: aCollection\x0a\x09\x09package: (packageName ifNil: [ 'unclassified' ]).\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
 referencedClasses: ["SystemAnnouncer", "ClassAdded"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "ifNil:", "announce:", "current", "theClass:", "new", "yourself"]
 }),
 $globals.ClassBuilder);
@@ -1932,6 +1994,7 @@ args: ["aCollection"],
 source: "getNodesFrom: aCollection\x0a\x09| children others |\x0a\x09children := #().\x0a\x09others := #().\x0a\x09aCollection do: [ :each |\x0a\x09\x09(each superclass = self theClass)\x0a\x09\x09\x09ifTrue: [ children add: each ]\x0a\x09\x09\x09ifFalse: [ others add: each ]].\x0a\x09nodes:= children collect: [ :each |\x0a\x09\x09ClassSorterNode on: each classes: others level: self level + 1 ]",
 referencedClasses: ["ClassSorterNode"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "ifTrue:ifFalse:", "=", "superclass", "theClass", "add:", "collect:", "on:classes:level:", "+", "level"]
 }),
 $globals.ClassSorterNode);
@@ -1950,6 +2013,7 @@ args: [],
 source: "level\x0a\x09^ level",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ClassSorterNode);
@@ -1969,6 +2033,7 @@ args: ["anInteger"],
 source: "level: anInteger\x0a\x09level := anInteger",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ClassSorterNode);
@@ -1987,6 +2052,7 @@ args: [],
 source: "nodes\x0a\x09^ nodes",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ClassSorterNode);
@@ -2005,6 +2071,7 @@ args: [],
 source: "theClass\x0a\x09^ theClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ClassSorterNode);
@@ -2024,6 +2091,7 @@ args: ["aClass"],
 source: "theClass: aClass\x0a\x09theClass := aClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ClassSorterNode);
@@ -2078,6 +2146,7 @@ args: ["aCollection"],
 source: "traverseClassesWith: aCollection\x0a\x09\x22sort classes alphabetically Issue #143\x22\x0a\x0a\x09aCollection add: self theClass.\x0a\x09(self nodes sorted: [ :a :b | a theClass name <= b theClass name ]) do: [ :aNode |\x0a\x09\x09aNode traverseClassesWith: aCollection ].",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:", "theClass", "do:", "sorted:", "nodes", "<=", "name", "traverseClassesWith:"]
 }),
 $globals.ClassSorterNode);
@@ -2107,6 +2176,7 @@ args: ["aClass", "aCollection", "anInteger"],
 source: "on: aClass classes: aCollection level: anInteger\x0a\x09^ self new\x0a\x09\x09theClass: aClass;\x0a\x09\x09level: anInteger;\x0a\x09\x09getNodesFrom: aCollection;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["theClass:", "new", "level:", "getNodesFrom:", "yourself"]
 }),
 $globals.ClassSorterNode.a$cls);
@@ -2127,6 +2197,7 @@ args: [],
 source: "allInstanceVariableNames\x0a\x09\x22Default for non-classes; to be able to send #allInstanceVariableNames to any class / trait.\x22\x0a\x09^ #()",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TBehaviorDefaults);
@@ -2145,6 +2216,7 @@ args: ["aBlock"],
 source: "allSubclassesDo: aBlock\x0a\x09\x22Default for non-classes; to be able to send #allSubclassesDo: to any class / trait.\x22",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TBehaviorDefaults);
@@ -2163,6 +2235,7 @@ args: [],
 source: "name\x0a\x09^ nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TBehaviorDefaults);
@@ -2202,6 +2275,7 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09self name\x0a\x09\x09ifNil: [ super printOn: aStream ]\x0a\x09\x09ifNotNil: [ :name | aStream nextPutAll: name ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:ifNotNil:", "name", "printOn:", "nextPutAll:"]
 }),
 $globals.TBehaviorDefaults);
@@ -2220,6 +2294,7 @@ args: [],
 source: "superclass\x0a\x09\x22Default for non-classes; to be able to send #superclass to any class / trait.\x22\x0a\x09^ nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TBehaviorDefaults);
@@ -2238,6 +2313,7 @@ args: [],
 source: "traitUsers\x0a\x09\x22Default for non-traits; to be able to send #traitUsers to any class / trait\x22\x0a\x09^ #()",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TBehaviorDefaults);
@@ -2266,6 +2342,7 @@ args: ["aString"],
 source: ">> aString\x0a\x09^ self methodAt: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["methodAt:"]
 }),
 $globals.TBehaviorProvider);
@@ -2318,6 +2395,7 @@ args: ["aMethod"],
 source: "addCompiledMethod: aMethod\x0a\x09| oldMethod announcement |\x0a\x09\x0a\x09oldMethod := self methodDictionary\x0a\x09\x09at: aMethod selector\x0a\x09\x09ifAbsent: [ nil ].\x0a\x09\x0a\x09self basicAddCompiledMethod: aMethod.\x0a\x09\x0a\x09announcement := oldMethod\x0a\x09\x09ifNil: [\x0a\x09\x09\x09MethodAdded new\x0a\x09\x09\x09\x09\x09method: aMethod;\x0a\x09\x09\x09\x09\x09yourself ]\x0a\x09\x09ifNotNil: [\x0a\x09\x09\x09MethodModified new\x0a\x09\x09\x09\x09\x09oldMethod: oldMethod;\x0a\x09\x09\x09\x09\x09method: aMethod;\x0a\x09\x09\x09\x09\x09yourself ].\x0a\x09\x09\x09\x09\x09\x0a\x09\x09\x09\x09\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09\x09\x09announce: announcement",
 referencedClasses: ["MethodAdded", "MethodModified", "SystemAnnouncer"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:ifAbsent:", "methodDictionary", "selector", "basicAddCompiledMethod:", "ifNil:ifNotNil:", "method:", "new", "yourself", "oldMethod:", "announce:", "current"]
 }),
 $globals.TBehaviorProvider);
@@ -2342,6 +2420,7 @@ args: ["aMethod"],
 source: "basicAddCompiledMethod: aMethod\x0a\x09<inlineJS: '$core.addMethod(aMethod, self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["$core.addMethod(aMethod, self)"]]],
 messageSends: []
 }),
 $globals.TBehaviorProvider);
@@ -2366,6 +2445,7 @@ args: ["aMethod"],
 source: "basicRemoveCompiledMethod: aMethod\x0a\x09<inlineJS: '$core.removeMethod(aMethod,self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["$core.removeMethod(aMethod,self)"]]],
 messageSends: []
 }),
 $globals.TBehaviorProvider);
@@ -2389,6 +2469,7 @@ args: ["aString", "anotherString"],
 source: "compile: aString protocol: anotherString\x0a\x09^ Compiler new\x0a\x09\x09install: aString\x0a\x09\x09forClass: self\x0a\x09\x09protocol: anotherString",
 referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["install:forClass:protocol:", "new"]
 }),
 $globals.TBehaviorProvider);
@@ -2412,6 +2493,7 @@ args: ["aString"],
 source: "includesSelector: aString\x0a\x09^ self methodDictionary includesKey: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["includesKey:", "methodDictionary"]
 }),
 $globals.TBehaviorProvider);
@@ -2435,6 +2517,7 @@ args: ["aString"],
 source: "methodAt: aString\x0a\x09^ self methodDictionary at: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:", "methodDictionary"]
 }),
 $globals.TBehaviorProvider);
@@ -2466,6 +2549,7 @@ args: [],
 source: "methodDictionary\x0a\x09<inlineJS: 'var dict = $globals.HashedCollection._new();\x0a\x09var methods = self.methods;\x0a\x09Object.keys(methods).forEach(function(i) {\x0a\x09\x09if(methods[i].selector) {\x0a\x09\x09\x09dict._at_put_(methods[i].selector, methods[i]);\x0a\x09\x09}\x0a\x09});\x0a\x09return dict'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["var dict = $globals.HashedCollection._new();\x0a\x09var methods = self.methods;\x0a\x09Object.keys(methods).forEach(function(i) {\x0a\x09\x09if(methods[i].selector) {\x0a\x09\x09\x09dict._at_put_(methods[i].selector, methods[i]);\x0a\x09\x09}\x0a\x09});\x0a\x09return dict"]]],
 messageSends: []
 }),
 $globals.TBehaviorProvider);
@@ -2505,6 +2589,7 @@ args: ["aMethod", "oldMethod"],
 source: "methodOrganizationEnter: aMethod andLeave: oldMethod\x0a\x09aMethod ifNotNil: [\x0a\x09\x09self organization addElement: aMethod protocol ].\x0a\x09\x0a\x09oldMethod ifNotNil: [\x0a\x09\x09self removeProtocolIfEmpty: oldMethod protocol ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "addElement:", "organization", "protocol", "removeProtocolIfEmpty:"]
 }),
 $globals.TBehaviorProvider);
@@ -2570,6 +2655,7 @@ args: [],
 source: "methodTemplate\x0a\x09^ String streamContents: [ :stream | stream \x0a\x09\x09write: 'messageSelectorAndArgumentNames'; lf;\x0a\x09\x09tab; write: '\x22comment stating purpose of message\x22'; lf;\x0a\x09\x09lf;\x0a\x09\x09tab; write: '| temporary variable names |'; lf;\x0a\x09\x09tab; write: 'statements' ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["streamContents:", "write:", "lf", "tab"]
 }),
 $globals.TBehaviorProvider);
@@ -2593,6 +2679,7 @@ args: [],
 source: "methods\x0a\x09^ self methodDictionary values",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["values", "methodDictionary"]
 }),
 $globals.TBehaviorProvider);
@@ -2624,6 +2711,7 @@ args: ["aString"],
 source: "methodsInProtocol: aString\x0a\x09^ self methods select: [ :each | each protocol = aString ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["select:", "methods", "=", "protocol"]
 }),
 $globals.TBehaviorProvider);
@@ -2657,6 +2745,7 @@ args: [],
 source: "organization\x0a\x09^ self basicOrganization ifNil: [\x0a\x09\x09self basicOrganization: (ClassOrganizer on: self).\x0a\x09\x09self basicOrganization ]",
 referencedClasses: ["ClassOrganizer"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "basicOrganization", "basicOrganization:", "on:"]
 }),
 $globals.TBehaviorProvider);
@@ -2701,6 +2790,7 @@ args: [],
 source: "ownMethods\x0a\x09\x22Answer the methods of the receiver that are not package extensions\x0a\x09nor obtained via trait composition\x22\x0a\x0a\x09^ (self ownProtocols \x0a\x09\x09inject: OrderedCollection new\x0a\x09\x09into: [ :acc :each | acc, (self ownMethodsInProtocol: each) ])\x0a\x09\x09\x09sorted: [ :a :b | a selector <= b selector ]",
 referencedClasses: ["OrderedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["sorted:", "inject:into:", "ownProtocols", "new", ",", "ownMethodsInProtocol:", "<=", "selector"]
 }),
 $globals.TBehaviorProvider);
@@ -2732,6 +2822,7 @@ args: ["aString"],
 source: "ownMethodsInProtocol: aString\x0a\x09^ (self methodsInProtocol: aString) select: [ :each | each methodClass = self ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["select:", "methodsInProtocol:", "=", "methodClass"]
 }),
 $globals.TBehaviorProvider);
@@ -2763,6 +2854,7 @@ args: [],
 source: "ownProtocols\x0a\x09\x22Answer the protocols of the receiver that are not package extensions\x22\x0a\x0a\x09^ self protocols reject: [ :each |\x0a\x09\x09each match: '^\x5c*' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["reject:", "protocols", "match:"]
 }),
 $globals.TBehaviorProvider);
@@ -2794,6 +2886,7 @@ args: ["aString"],
 source: "packageOfProtocol: aString\x0a\x09\x22Answer the package the method of receiver belongs to:\x0a\x09- if it is an extension method, answer the corresponding package\x0a\x09- else answer the receiver's package\x22\x0a\x09\x0a\x09(aString beginsWith: '*') ifFalse: [\x0a\x09\x09^ self package ].\x0a\x09\x09\x0a\x09^ Package \x0a\x09\x09named: aString allButFirst\x0a\x09\x09ifAbsent: [ nil ]",
 referencedClasses: ["Package"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "beginsWith:", "package", "named:ifAbsent:", "allButFirst"]
 }),
 $globals.TBehaviorProvider);
@@ -2817,6 +2910,7 @@ args: [],
 source: "protocols\x0a\x09^ self organization elements asArray sorted",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["sorted", "asArray", "elements", "organization"]
 }),
 $globals.TBehaviorProvider);
@@ -2871,6 +2965,7 @@ args: ["aBlock"],
 source: "protocolsDo: aBlock\x0a\x09\x22Execute aBlock for each method protocol with\x0a\x09its collection of methods in the sort order of protocol name.\x22\x0a\x0a\x09| methodsByProtocol |\x0a\x09methodsByProtocol := HashedCollection new.\x0a\x09self methodDictionary valuesDo: [ :m |\x0a\x09\x09(methodsByProtocol at: m protocol ifAbsentPut: [ Array new ])\x0a\x09\x09\x09add: m ].\x0a\x09self protocols do: [ :protocol |\x0a\x09\x09aBlock value: protocol value: (methodsByProtocol at: protocol) ]",
 referencedClasses: ["HashedCollection", "Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "valuesDo:", "methodDictionary", "add:", "at:ifAbsentPut:", "protocol", "do:", "protocols", "value:value:", "at:"]
 }),
 $globals.TBehaviorProvider);
@@ -2894,6 +2989,7 @@ args: [],
 source: "recompile\x0a\x09^ Compiler new recompile: self",
 referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["recompile:", "new"]
 }),
 $globals.TBehaviorProvider);
@@ -2924,6 +3020,7 @@ args: ["aMethod"],
 source: "removeCompiledMethod: aMethod\x0a\x09self basicRemoveCompiledMethod: aMethod.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (MethodRemoved new\x0a\x09\x09\x09method: aMethod;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "MethodRemoved"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["basicRemoveCompiledMethod:", "announce:", "current", "method:", "new", "yourself"]
 }),
 $globals.TBehaviorProvider);
@@ -2964,6 +3061,7 @@ args: ["aString"],
 source: "removeProtocolIfEmpty: aString\x0a\x09self methods\x0a\x09\x09detect: [ :each | each protocol = aString ]\x0a\x09\x09ifNone: [ self organization removeElement: aString ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["detect:ifNone:", "methods", "=", "protocol", "removeElement:", "organization"]
 }),
 $globals.TBehaviorProvider);
@@ -2987,6 +3085,7 @@ args: [],
 source: "selectors\x0a\x09^ self methodDictionary keys",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["keys", "methodDictionary"]
 }),
 $globals.TBehaviorProvider);
@@ -3011,6 +3110,7 @@ args: ["aTraitComposition"],
 source: "setTraitComposition: aTraitComposition\x0a\x09<inlineJS: '$core.setTraitComposition(aTraitComposition._asJavaScriptObject(), self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["$core.setTraitComposition(aTraitComposition._asJavaScriptObject(), self)"]]],
 messageSends: []
 }),
 $globals.TBehaviorProvider);
@@ -3050,6 +3150,7 @@ args: [],
 source: "traitComposition\x0a\x09^ (self basicAt: 'traitComposition')\x0a\x09\x09ifNil: [ #() ]\x0a\x09\x09ifNotNil: [ :aCollection | aCollection collect: [ :each | TraitTransformation fromJSON: each ] ]",
 referencedClasses: ["TraitTransformation"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:ifNotNil:", "basicAt:", "collect:", "fromJSON:"]
 }),
 $globals.TBehaviorProvider);
@@ -3116,6 +3217,7 @@ args: [],
 source: "traitCompositionDefinition\x0a\x09^ self traitComposition ifNotEmpty: [ :traitComposition |\x0a\x09\x09String streamContents: [ :str |\x0a\x09\x09\x09str write: '{'.\x0a\x09\x09\x09traitComposition\x0a\x09\x09\x09\x09do: [ :each | str write: each definition ]\x0a\x09\x09\x09\x09separatedBy: [ str write: '. ' ].\x0a\x09\x09\x09str write: '}' ] ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotEmpty:", "traitComposition", "streamContents:", "write:", "do:separatedBy:", "definition"]
 }),
 $globals.TBehaviorProvider);
@@ -3144,6 +3246,7 @@ args: [],
 source: "asJavaScriptSource\x0a\x09^ '$globals.', self name",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "name"]
 }),
 $globals.TMasterBehavior);
@@ -3168,6 +3271,7 @@ args: [],
 source: "browse\x0a\x09Finder findClass: self",
 referencedClasses: ["Finder"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["findClass:"]
 }),
 $globals.TMasterBehavior);
@@ -3200,6 +3304,7 @@ args: [],
 source: "category\x0a\x09^ self package ifNil: [ 'Unclassified' ] ifNotNil: [ self package name ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:ifNotNil:", "package", "name"]
 }),
 $globals.TMasterBehavior);
@@ -3223,6 +3328,7 @@ args: [],
 source: "classTag\x0a\x09\x22Every master behavior should define a class tag.\x22\x0a\x09^ self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.TMasterBehavior);
@@ -3252,6 +3358,7 @@ args: [],
 source: "comment\x0a\x09^ (self basicAt: 'comment') ifNil: [ '' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "basicAt:"]
 }),
 $globals.TMasterBehavior);
@@ -3282,6 +3389,7 @@ args: ["aString"],
 source: "comment: aString\x0a\x09self basicAt: 'comment' put: aString.\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassCommentChanged new\x0a\x09\x09\x09theClass: self;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassCommentChanged"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["basicAt:put:", "announce:", "current", "theClass:", "new", "yourself"]
 }),
 $globals.TMasterBehavior);
@@ -3319,6 +3427,7 @@ args: [],
 source: "definedMethods\x0a\x09\x22Answers methods of me and derived 'meta' part if present\x22\x0a\x09| methods |\x0a\x09methods := self methods.\x0a\x09self theMetaClass\x0a\x09\x09ifNil: [ ^ methods ]\x0a\x09\x09ifNotNil: [ :meta | ^ methods, meta methods ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["methods", "ifNil:ifNotNil:", "theMetaClass", ","]
 }),
 $globals.TMasterBehavior);
@@ -3359,6 +3468,7 @@ args: [],
 source: "enterOrganization\x0a\x09Smalltalk ifNotNil: [\x0a\x09\x09(self basicAt: 'category')\x0a\x09\x09\x09ifNil: [ self basicPackage: nil ]\x0a\x09\x09\x09ifNotNil: [ :category |\x0a\x09\x09\x09\x09\x22Amber has 1-1 correspondence between cat and pkg, atm\x22\x0a\x09\x09\x09\x09self basicPackage: (Package named: category).\x0a\x09\x09\x09\x09self package organization addElement: self ] ]",
 referencedClasses: ["Smalltalk", "Package"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "ifNil:ifNotNil:", "basicAt:", "basicPackage:", "named:", "addElement:", "organization", "package"]
 }),
 $globals.TMasterBehavior);
@@ -3388,6 +3498,7 @@ args: [],
 source: "leaveOrganization\x0a\x09Smalltalk ifNotNil: [\x0a\x09\x09self package organization removeElement: self ]",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "removeElement:", "organization", "package"]
 }),
 $globals.TMasterBehavior);
@@ -3412,6 +3523,7 @@ args: [],
 source: "name\x0a\x09<inlineJS: 'return self.name'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.name"]]],
 messageSends: []
 }),
 $globals.TMasterBehavior);
@@ -3455,6 +3567,7 @@ args: ["aPackage"],
 source: "package: aPackage\x0a\x09| oldPackage |\x0a\x09\x0a\x09self package = aPackage ifTrue: [ ^ self ].\x0a\x09\x0a\x09oldPackage := self package.\x0a\x09\x0a\x09self\x0a\x09\x09leaveOrganization;\x0a\x09\x09basicAt: 'category' put: aPackage name;\x0a\x09\x09enterOrganization.\x0a\x0a\x09SystemAnnouncer current announce: (ClassMoved new\x0a\x09\x09theClass: self;\x0a\x09\x09oldPackage: oldPackage;\x0a\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassMoved"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "=", "package", "leaveOrganization", "basicAt:put:", "name", "enterOrganization", "announce:", "current", "theClass:", "new", "oldPackage:", "yourself"]
 }),
 $globals.TMasterBehavior);
@@ -3473,6 +3586,7 @@ args: [],
 source: "theNonMetaClass\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TMasterBehavior);
@@ -3498,6 +3612,7 @@ args: ["anArray"],
 source: "- anArray\x0a\x09^ self asTraitTransformation - anArray",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["-", "asTraitTransformation"]
 }),
 $globals.Trait);
@@ -3521,6 +3636,7 @@ args: ["anArrayOfAssociations"],
 source: "@ anArrayOfAssociations\x0a\x09^ self asTraitTransformation @ anArrayOfAssociations",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["@", "asTraitTransformation"]
 }),
 $globals.Trait);
@@ -3544,6 +3660,7 @@ args: [],
 source: "asTraitComposition\x0a\x09^ self asTraitTransformation asTraitComposition",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["asTraitComposition", "asTraitTransformation"]
 }),
 $globals.Trait);
@@ -3567,6 +3684,7 @@ args: [],
 source: "asTraitTransformation\x0a\x09^ TraitTransformation on: self",
 referencedClasses: ["TraitTransformation"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["on:"]
 }),
 $globals.Trait);
@@ -3585,6 +3703,7 @@ args: [],
 source: "basicOrganization\x0a\x09^ organization",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Trait);
@@ -3604,6 +3723,7 @@ args: ["aClassOrganizer"],
 source: "basicOrganization: aClassOrganizer\x0a\x09organization := aClassOrganizer",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Trait);
@@ -3623,6 +3743,7 @@ args: ["aPackage"],
 source: "basicPackage: aPackage\x0a\x09package := aPackage",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Trait);
@@ -3641,6 +3762,7 @@ args: [],
 source: "classTag\x0a\x09^ 'trait'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Trait);
@@ -3700,6 +3822,7 @@ args: [],
 source: "definition\x0a\x09^ String streamContents: [ :stream | stream\x0a\x09\x09write: 'Trait named: '; printSymbol: self name; lf;\x0a\x09\x09write: (self traitCompositionDefinition ifNotEmpty: [ :tcd | { String tab. 'uses: '. tcd. String lf }]);\x0a\x09\x09tab; write: 'package: '; print: self category ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["streamContents:", "write:", "printSymbol:", "name", "lf", "ifNotEmpty:", "traitCompositionDefinition", "tab", "print:", "category"]
 }),
 $globals.Trait);
@@ -3718,6 +3841,7 @@ args: [],
 source: "package\x0a\x09^ package",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Trait);
@@ -3736,6 +3860,7 @@ args: [],
 source: "theMetaClass\x0a\x09^ nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Trait);
@@ -3759,6 +3884,7 @@ args: [],
 source: "traitUsers\x0a\x09^ traitUsers copy",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["copy"]
 }),
 $globals.Trait);
@@ -3783,6 +3909,7 @@ args: ["aString", "anotherString"],
 source: "named: aString package: anotherString\x0a\x09^ ClassBuilder new addTraitNamed: aString package: anotherString",
 referencedClasses: ["ClassBuilder"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["addTraitNamed:package:", "new"]
 }),
 $globals.Trait.a$cls);
@@ -3809,6 +3936,7 @@ args: ["aString", "aTraitCompositionDescription", "anotherString"],
 source: "named: aString uses: aTraitCompositionDescription package: anotherString\x0a\x09| trait |\x0a\x09trait := self named: aString package: anotherString.\x0a\x09trait setTraitComposition: aTraitCompositionDescription asTraitComposition.\x0a\x09^ trait",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["named:package:", "setTraitComposition:", "asTraitComposition"]
 }),
 $globals.Trait.a$cls);
@@ -3840,6 +3968,7 @@ args: ["anArray"],
 source: "- anArray\x0a\x09^ self copy addExclusions: anArray; yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["addExclusions:", "copy", "yourself"]
 }),
 $globals.TraitTransformation);
@@ -3866,6 +3995,7 @@ args: ["anArrayOfAssociations"],
 source: "@ anArrayOfAssociations\x0a\x09^ self copy addAliases: anArrayOfAssociations; yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["addAliases:", "copy", "yourself"]
 }),
 $globals.TraitTransformation);
@@ -3916,6 +4046,7 @@ args: ["anArrayOfAssociations"],
 source: "addAliases: anArrayOfAssociations\x0a\x09anArrayOfAssociations do: [ :each |\x0a\x09\x09| key |\x0a\x09\x09key := each key.\x0a\x09\x09aliases at: key\x0a\x09\x09\x09ifPresent: [ self error: 'Cannot use same alias name twice.' ]\x0a\x09\x09\x09ifAbsent: [ aliases at: key put: each value ] ].\x0a\x09^ anArrayOfAssociations",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "key", "at:ifPresent:ifAbsent:", "error:", "at:put:", "value"]
 }),
 $globals.TraitTransformation);
@@ -3940,6 +4071,7 @@ args: ["anArray"],
 source: "addExclusions: anArray\x0a\x09exclusions addAll: anArray.\x0a\x09^ anArray",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["addAll:"]
 }),
 $globals.TraitTransformation);
@@ -3958,6 +4090,7 @@ args: [],
 source: "aliases\x0a\x09^ aliases",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TraitTransformation);
@@ -3981,6 +4114,7 @@ args: [],
 source: "asJavaScriptObject\x0a\x09^ #{\x0a\x09\x09'trait' -> self trait.\x0a\x09\x09'aliases' -> self aliases.\x0a\x09\x09'exclusions' -> self exclusions asArray sorted }",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["trait", "aliases", "sorted", "asArray", "exclusions"]
 }),
 $globals.TraitTransformation);
@@ -4038,6 +4172,7 @@ args: [],
 source: "asJavaScriptSource\x0a\x09^ String streamContents: [ :str | str write: {\x0a\x09\x09'{trait: '. self trait asJavaScriptSource.\x0a\x09\x09self aliases ifNotEmpty: [ :al |\x0a\x09\x09\x09{', aliases: '. al asJSONString} ].\x0a\x09\x09self exclusions ifNotEmpty: [ :ex |\x0a\x09\x09\x09{', exclusions: '. ex asArray sorted asJavaScriptSource} ].\x0a\x09\x09'}' } ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["streamContents:", "write:", "asJavaScriptSource", "trait", "ifNotEmpty:", "aliases", "asJSONString", "exclusions", "sorted", "asArray"]
 }),
 $globals.TraitTransformation);
@@ -4056,6 +4191,7 @@ args: [],
 source: "asTraitComposition\x0a\x09^ { self }",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TraitTransformation);
@@ -4074,6 +4210,7 @@ args: [],
 source: "asTraitTransformation\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TraitTransformation);
@@ -4188,6 +4325,7 @@ args: [],
 source: "definition\x0a\x09^ String streamContents: [ :str |\x0a\x09\x09str print: self trait.\x0a\x09\x09self aliases ifNotEmpty: [ :al |\x0a\x09\x09\x09str write: ' @ {'.\x0a\x09\x09\x09al associations\x0a\x09\x09\x09\x09do: [ :each | str printSymbol: each key; write: ' -> '; printSymbol: each value ]\x0a\x09\x09\x09\x09separatedBy: [ str write: '. ' ].\x0a\x09\x09\x09str write: '}' ].\x0a\x09\x09self exclusions ifNotEmpty: [ :ex |\x0a\x09\x09\x09str write: ' - #('.\x0a\x09\x09\x09ex asArray sorted \x0a\x09\x09\x09\x09do: [ :each | str write: each symbolPrintString allButFirst ]\x0a\x09\x09\x09\x09separatedBy: [ str space ].\x0a\x09\x09\x09str write: ')' ] ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["streamContents:", "print:", "trait", "ifNotEmpty:", "aliases", "write:", "do:separatedBy:", "associations", "printSymbol:", "key", "value", "exclusions", "sorted", "asArray", "allButFirst", "symbolPrintString", "space"]
 }),
 $globals.TraitTransformation);
@@ -4206,6 +4344,7 @@ args: [],
 source: "exclusions\x0a\x09^ exclusions",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TraitTransformation);
@@ -4240,6 +4379,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x0a\x09aliases := #{}.\x0a\x09exclusions := Set new.\x0a\x09trait := nil",
 referencedClasses: ["Set"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize", "new"]
 }),
 $globals.TraitTransformation);
@@ -4268,6 +4408,7 @@ args: [],
 source: "postCopy\x0a\x09aliases := aliases copy.\x0a\x09exclusions := exclusions copy",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["copy"]
 }),
 $globals.TraitTransformation);
@@ -4286,6 +4427,7 @@ args: [],
 source: "trait\x0a\x09^ trait",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TraitTransformation);
@@ -4305,6 +4447,7 @@ args: ["anObject"],
 source: "trait: anObject\x0a\x09trait := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TraitTransformation);
@@ -4353,6 +4496,7 @@ args: ["aJSObject"],
 source: "fromJSON: aJSObject\x0a\x09^ super new\x0a\x09\x09trait: (aJSObject at: #trait);\x0a\x09\x09addAliases: (Smalltalk readJSObject: (aJSObject at: #aliases ifAbsent: [#{}])) associations;\x0a\x09\x09addExclusions: (aJSObject at: #exclusions ifAbsent: [#()]);\x0a\x09\x09yourself",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["trait:", "new", "at:", "addAliases:", "associations", "readJSObject:", "at:ifAbsent:", "addExclusions:", "yourself"]
 }),
 $globals.TraitTransformation.a$cls);
@@ -4386,6 +4530,7 @@ args: ["aTrait"],
 source: "on: aTrait\x0a\x09^ super new trait: aTrait; yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["trait:", "new", "yourself"]
 }),
 $globals.TraitTransformation.a$cls);
@@ -4421,6 +4566,7 @@ args: [],
 source: "asTraitComposition\x0a\x09\x22not implemented yet, noop atm\x22\x0a\x09^ self collect: [ :each | each asTraitTransformation ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collect:", "asTraitTransformation"]
 }),
 $globals.Array);
@@ -4452,6 +4598,7 @@ args: [],
 source: "instanceVariablesStringAsSlotList\x0a\x09^ (self tokenize: ' ') reject: [ :each | each isEmpty ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["reject:", "tokenize:", "isEmpty"]
 }),
 $globals.String);

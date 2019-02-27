@@ -71,6 +71,7 @@ args: [],
 source: "testAddExtensionMethod\x0a\x09| method dirty |\x0a\x09dirty := self class package isDirty.\x0a\x09self class package beClean.\x0a\x09method := self class compile: 'doNothing' protocol: '**not-a-package'.\x0a\x09self deny: self class package isDirty.\x0a\x09\x0a\x09self class removeCompiledMethod: method.\x0a\x09dirty ifTrue: [ self class package beDirty ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["isDirty", "package", "class", "beClean", "compile:protocol:", "deny:", "removeCompiledMethod:", "ifTrue:", "beDirty"]
 }),
 $globals.AnnouncementSubscriptionTest);
@@ -134,6 +135,7 @@ args: [],
 source: "testHandlesAnnouncement\x0a\x09| subscription announcementClass1 announcementClass2 classBuilder |\x0a\x09\x0a\x09classBuilder := ClassBuilder new.\x0a\x09announcementClass1 := classBuilder basicAddSubclassOf: SystemAnnouncement named: 'TestAnnouncement1' instanceVariableNames: #() package: 'Kernel-Tests'.\x0a\x09\x0a\x09subscription := AnnouncementSubscription new announcementClass: SystemAnnouncement.\x0a\x09\x22Test whether the same class triggers the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: SystemAnnouncement new) equals: true.\x0a\x09\x22Test whether a subclass triggers the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: announcementClass1 new) equals: true.\x0a\x09\x22Test whether an unrelated class does not trigger the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: Object new) equals: false.\x0a\x09\x0a\x09classBuilder basicRemoveClass: announcementClass1.",
 referencedClasses: ["ClassBuilder", "SystemAnnouncement", "AnnouncementSubscription", "Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "basicAddSubclassOf:named:instanceVariableNames:package:", "announcementClass:", "assert:equals:", "handlesAnnouncement:", "basicRemoveClass:"]
 }),
 $globals.AnnouncementSubscriptionTest);
@@ -192,6 +194,7 @@ args: [],
 source: "testOnDo\x0a\x09| counter announcer |\x0a\x09\x0a\x09counter := 0.\x0a\x09announcer := Announcer new.\x0a\x09announcer on: SystemAnnouncement do: [ counter := counter + 1 ].\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 1.\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 2.",
 referencedClasses: ["Announcer", "SystemAnnouncement"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "on:do:", "+", "announce:", "assert:equals:"]
 }),
 $globals.AnnouncerTest);
@@ -261,6 +264,7 @@ args: [],
 source: "testOnDoFor\x0a\x09| counter announcer |\x0a\x09\x0a\x09counter := 0.\x0a\x09announcer := Announcer new.\x0a\x09announcer on: SystemAnnouncement do: [ counter := counter + 1 ] for: self.\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 1.\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 2.\x0a\x09\x0a\x09announcer unsubscribe: self.\x0a\x09\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 2.",
 referencedClasses: ["Announcer", "SystemAnnouncement"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "on:do:for:", "+", "announce:", "assert:equals:", "unsubscribe:"]
 }),
 $globals.AnnouncerTest);
@@ -316,6 +320,7 @@ args: [],
 source: "testOnDoOnce\x0a\x09| counter announcer |\x0a\x09\x0a\x09counter := 0.\x0a\x09announcer := Announcer new.\x0a\x09announcer on: SystemAnnouncement doOnce: [ counter := counter + 1 ].\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 1.\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 1.",
 referencedClasses: ["Announcer", "SystemAnnouncement"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "on:doOnce:", "+", "announce:", "assert:equals:"]
 }),
 $globals.AnnouncerTest);
@@ -352,6 +357,7 @@ args: [],
 source: "localReturnOnDoCatch\x0a    [ ^ 2 ] on: Error do: [].\x0a    ^ 3",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["on:do:"]
 }),
 $globals.BlockClosureTest);
@@ -385,6 +391,7 @@ args: [],
 source: "localReturnOnDoMiss\x0a    [ ^ 2 ] on: Class do: [].\x0a    ^ 3",
 referencedClasses: ["Class"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["on:do:"]
 }),
 $globals.BlockClosureTest);
@@ -425,6 +432,7 @@ args: [],
 source: "testCanClearInterval\x0a\x09self shouldnt: [ ([ Error new signal ] valueWithInterval: 0) clearInterval ] raise: Error",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["shouldnt:raise:", "clearInterval", "valueWithInterval:", "signal", "new"]
 }),
 $globals.BlockClosureTest);
@@ -465,6 +473,7 @@ args: [],
 source: "testCanClearTimeout\x0a\x09self shouldnt: [ ([ Error new signal ] valueWithTimeout: 0) clearTimeout ] raise: Error",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["shouldnt:raise:", "clearTimeout", "valueWithTimeout:", "signal", "new"]
 }),
 $globals.BlockClosureTest);
@@ -497,6 +506,7 @@ args: [],
 source: "testCompiledSource\x0a\x09self assert: ([ 1+1 ] compiledSource includesSubString: 'function')",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "includesSubString:", "compiledSource", "+"]
 }),
 $globals.BlockClosureTest);
@@ -550,6 +560,7 @@ args: [],
 source: "testCurrySelf\x0a\x09| curriedMethod array |\x0a\x09curriedMethod := [ :selfarg :x | selfarg at: x ] currySelf asCompiledMethod: 'foo:'.\x0a\x09curriedMethod protocol: '**test helper'.\x0a\x09array := #(3 1 4).\x0a\x09Array addCompiledMethod: curriedMethod.\x0a\x09[ self assert: (array foo: 2) equals: 1 ]\x0a\x09ensure: [ Array removeCompiledMethod: curriedMethod ]",
 referencedClasses: ["Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["asCompiledMethod:", "currySelf", "at:", "protocol:", "addCompiledMethod:", "ensure:", "assert:equals:", "foo:", "removeCompiledMethod:"]
 }),
 $globals.BlockClosureTest);
@@ -580,6 +591,7 @@ args: [],
 source: "testEnsure\x0a\x09self assert: ([ 3 ] ensure: [ 4 ]) equals: 3",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "ensure:"]
 }),
 $globals.BlockClosureTest);
@@ -623,6 +635,7 @@ args: [],
 source: "testEnsureRaises\x0a\x09self should: [ [Error new signal ] ensure: [ true ]] raise: Error",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "ensure:", "signal", "new"]
 }),
 $globals.BlockClosureTest);
@@ -678,6 +691,7 @@ args: [],
 source: "testExceptionSemantics\x0a\x09\x22See https://lolg.it/amber/amber/issues/314\x22\x0a\x09self timeout: 100.\x0a\x09\x0a\x09(self async: [\x0a\x09\x09[\x0a\x09\x09\x09self assert: true.\x0a\x09\x09\x09Error signal.\x0a\x09\x09\x09\x22The following should *not* be run\x22\x0a\x09\x09\x09self deny: true.\x0a\x09\x09\x09self finished.\x0a\x09\x09] on: Error do: [ :ex | self finished ]\x0a\x09]) valueWithTimeout: 0",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["timeout:", "valueWithTimeout:", "async:", "on:do:", "assert:", "signal", "deny:", "finished"]
 }),
 $globals.BlockClosureTest);
@@ -702,6 +716,7 @@ args: [],
 source: "testLocalReturnOnDoCatch\x0a\x09self assert: self localReturnOnDoCatch equals: 2",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "localReturnOnDoCatch"]
 }),
 $globals.BlockClosureTest);
@@ -726,6 +741,7 @@ args: [],
 source: "testLocalReturnOnDoMiss\x0a\x09self assert: self localReturnOnDoMiss equals: 2",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "localReturnOnDoMiss"]
 }),
 $globals.BlockClosureTest);
@@ -760,6 +776,7 @@ args: [],
 source: "testNewWithValues\x0a<inlineJS: '\x0a\x09function TestConstructor(arg1, arg2, arg3) {}\x0a\x09TestConstructor.prototype.name = \x22theTestPrototype\x22;\x0a\x0a\x09var wrappedConstructor = $recv(TestConstructor);\x0a\x09var result = wrappedConstructor._newWithValues_([1, 2, 3]);\x0a\x09$self._assert_(result instanceof TestConstructor);\x0a\x09$self._assert_equals_(result.name, \x22theTestPrototype\x22);\x0a\x0a\x09/* newWithValues: cannot help if the argument list is wrong, and should warn that a mistake was made. */\x0a\x09$self._should_raise_(function () {wrappedConstructor._newWithValues_(\x22single argument\x22);}, $globals.Error);\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09function TestConstructor(arg1, arg2, arg3) {}\x0a\x09TestConstructor.prototype.name = \x22theTestPrototype\x22;\x0a\x0a\x09var wrappedConstructor = $recv(TestConstructor);\x0a\x09var result = wrappedConstructor._newWithValues_([1, 2, 3]);\x0a\x09$self._assert_(result instanceof TestConstructor);\x0a\x09$self._assert_equals_(result.name, \x22theTestPrototype\x22);\x0a\x0a\x09/* newWithValues: cannot help if the argument list is wrong, and should warn that a mistake was made. */\x0a\x09$self._should_raise_(function () {wrappedConstructor._newWithValues_(\x22single argument\x22);}, $globals.Error);\x0a"]]],
 messageSends: []
 }),
 $globals.BlockClosureTest);
@@ -797,6 +814,7 @@ args: [],
 source: "testNumArgs\x0a\x09self assert: [] numArgs equals: 0.\x0a\x09self assert: [ :a :b | ] numArgs equals: 2",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "numArgs"]
 }),
 $globals.BlockClosureTest);
@@ -832,6 +850,7 @@ args: [],
 source: "testOnDo\x0a\x09self assert: ([ Error new signal ] on: Error do: [ :ex | true ])",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "on:do:", "signal", "new"]
 }),
 $globals.BlockClosureTest);
@@ -903,6 +922,7 @@ args: [],
 source: "testValue\x0a\x09self assert: ([ 1+1 ] value) equals: 2.\x0a\x09self assert: ([ :x | x +1 ] value: 2) equals: 3.\x0a\x09self assert: ([ :x :y | x*y ] value: 2 value: 4) equals: 8.\x0a\x0a\x09\x22Arguments are optional in Amber. This isn't ANSI compliant.\x22\x0a\x0a\x09self assert: ([ :a :b :c | 1 ] value) equals: 1",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "value", "+", "value:", "value:value:", "*"]
 }),
 $globals.BlockClosureTest);
@@ -966,6 +986,7 @@ args: [],
 source: "testValueWithPossibleArguments\x0a\x09self assert: ([ 1 ] valueWithPossibleArguments: #(3 4)) equals: 1.\x0a\x09self assert: ([ :a | a + 4 ] valueWithPossibleArguments: #(3 4)) equals: 7.\x0a\x09self assert: ([ :a :b | a + b ] valueWithPossibleArguments: #(3 4 5)) equals: 7.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "valueWithPossibleArguments:", "+"]
 }),
 $globals.BlockClosureTest);
@@ -1031,6 +1052,7 @@ args: [],
 source: "testWhileFalse\x0a\x09| i |\x0a\x09i := 0.\x0a\x09[ i > 5 ] whileFalse: [ i := i + 1 ].\x0a\x09self assert: i equals: 6.\x0a\x0a\x09i := 0.\x0a\x09[ i := i + 1. i > 5 ] whileFalse.\x0a\x09self assert: i equals: 6",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["whileFalse:", ">", "+", "assert:equals:", "whileFalse"]
 }),
 $globals.BlockClosureTest);
@@ -1096,6 +1118,7 @@ args: [],
 source: "testWhileTrue\x0a\x09| i |\x0a\x09i := 0.\x0a\x09[ i < 5 ] whileTrue: [ i := i + 1 ].\x0a\x09self assert: i equals: 5.\x0a\x0a\x09i := 0.\x0a\x09[ i := i + 1. i < 5 ] whileTrue.\x0a\x09self assert: i equals: 5",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["whileTrue:", "<", "+", "assert:equals:", "whileTrue"]
 }),
 $globals.BlockClosureTest);
@@ -1202,6 +1225,7 @@ args: [],
 source: "testEquality\x0a\x09\x22We're on top of JS...just be sure to check the basics!\x22\x0a\x0a\x09self deny: 0 = false.\x0a\x09self deny: false = 0.\x0a\x09self deny: '' = false.\x0a\x09self deny: false = ''.\x0a\x0a\x09self assert: (true = true).\x0a\x09self deny: false = true.\x0a\x09self deny: true = false.\x0a\x09self assert: (false = false).\x0a\x0a\x09\x22JS may do some type coercing after sending a message\x22\x0a\x09self assert: (true yourself = true).\x0a\x09self assert: (true yourself = true yourself)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["deny:", "=", "assert:", "yourself"]
 }),
 $globals.BooleanTest);
@@ -1305,6 +1329,7 @@ args: [],
 source: "testIdentity\x0a\x09\x22We're on top of JS...just be sure to check the basics!\x22\x0a\x0a\x09self deny: 0 == false.\x0a\x09self deny: false == 0.\x0a\x09self deny: '' == false.\x0a\x09self deny: false == ''.\x0a\x0a\x09self assert: true == true.\x0a\x09self deny: false == true.\x0a\x09self deny: true == false.\x0a\x09self assert: false == false.\x0a\x0a\x09\x22JS may do some type coercing after sending a message\x22\x0a\x09self assert: true yourself == true.\x0a\x09self assert: true yourself == true yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["deny:", "==", "assert:", "yourself"]
 }),
 $globals.BooleanTest);
@@ -1390,6 +1415,7 @@ args: [],
 source: "testIfTrueIfFalse\x0a\x0a\x09self assert: (true ifTrue: [ 'alternative block' ]) equals: 'alternative block'.\x0a\x09self assert: (true ifFalse: [ 'alternative block' ]) equals: nil.\x0a\x0a\x09self assert: (false ifTrue: [ 'alternative block' ]) equals: nil.\x0a\x09self assert: (false ifFalse: [ 'alternative block' ]) equals: 'alternative block'.\x0a\x0a\x09self assert: (false ifTrue: [ 'alternative block' ] ifFalse: [ 'alternative block2' ]) equals: 'alternative block2'.\x0a\x09self assert: (false ifFalse: [ 'alternative block' ] ifTrue: [ 'alternative block2' ]) equals: 'alternative block'.\x0a\x0a\x09self assert: (true ifTrue: [ 'alternative block' ] ifFalse: [ 'alternative block2' ]) equals: 'alternative block'.\x0a\x09self assert: (true ifFalse: [ 'alternative block' ] ifTrue: [ 'alternative block2' ]) equals: 'alternative block2'.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "ifTrue:", "ifFalse:", "ifTrue:ifFalse:", "ifFalse:ifTrue:"]
 }),
 $globals.BooleanTest);
@@ -1504,6 +1530,7 @@ args: [],
 source: "testIfTrueIfFalseWithBoxing\x0a\x0a\x09self assert: (true yourself ifTrue: [ 'alternative block' ]) equals: 'alternative block'.\x0a\x09self assert: (true yourself ifFalse: [ 'alternative block' ]) equals: nil.\x0a\x0a\x09self assert: (false yourself ifTrue: [ 'alternative block' ]) equals: nil.\x0a\x09self assert: (false yourself ifFalse: [ 'alternative block' ]) equals: 'alternative block'.\x0a\x0a\x09self assert: (false yourself ifTrue: [ 'alternative block' ] ifFalse: [ 'alternative block2' ]) equals: 'alternative block2'.\x0a\x09self assert: (false yourself ifFalse: [ 'alternative block' ] ifTrue: [ 'alternative block2' ]) equals: 'alternative block'.\x0a\x0a\x09self assert: (true yourself ifTrue: [ 'alternative block' ] ifFalse: [ 'alternative block2' ]) equals: 'alternative block'.\x0a\x09self assert: (true yourself ifFalse: [ 'alternative block' ] ifTrue: [ 'alternative block2' ]) equals: 'alternative block2'.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "ifTrue:", "yourself", "ifFalse:", "ifTrue:ifFalse:", "ifFalse:ifTrue:"]
 }),
 $globals.BooleanTest);
@@ -1656,6 +1683,7 @@ args: [],
 source: "testLogic\x0a\x09\x22Trivial logic table\x22\x0a\x09self assert: (true & true);\x0a\x09\x09deny: (true & false);\x0a\x09\x09deny: (false & true);\x0a\x09\x09deny: (false & false).\x0a\x09self assert: (true | true);\x0a\x09\x09assert: (true | false);\x0a\x09\x09assert: (false | true);\x0a\x09\x09deny: (false | false).\x0a\x09\x22Checking that expressions work fine too\x22\x0a\x09self assert: (true & (1 > 0));\x0a\x09\x09deny: ((1 > 0) & false);\x0a\x09\x09deny: ((1 > 0) & (1 > 2)).\x0a\x09self assert: (false | (1 > 0));\x0a\x09\x09assert: ((1 > 0) | false);\x0a\x09\x09assert: ((1 > 0) | (1 > 2))",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "&", "deny:", "|", ">"]
 }),
 $globals.BooleanTest);
@@ -1867,6 +1895,7 @@ args: [],
 source: "testLogicKeywords\x0a\x09\x22Trivial logic table\x22\x0a\x09self\x0a\x09\x09assert: (true and: [ true ]);\x0a\x09\x09deny: (true and: [ false ]);\x0a\x09\x09deny: (false and: [ true ]);\x0a\x09\x09deny: (false and: [ false ]).\x0a\x09self\x0a\x09\x09assert: (true or: [ true ]);\x0a\x09\x09assert: (true or: [ false ]);\x0a\x09\x09assert: (false or: [ true ]);\x0a\x09\x09deny: (false or: [ false ]).\x0a\x09\x09\x0a\x09\x22Checking that expressions work fine too\x22\x0a\x09self\x0a\x09\x09assert: (true and: [ 1 > 0 ]);\x0a\x09\x09deny: ((1 > 0) and: [ false ]);\x0a\x09\x09deny: ((1 > 0) and: [ 1 > 2 ]).\x0a\x09self\x0a\x09\x09assert: (false or: [ 1 > 0 ]);\x0a\x09\x09assert: ((1 > 0) or: [ false ]);\x0a\x09\x09assert: ((1 > 0) or: [ 1 > 2 ])",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "and:", "deny:", "or:", ">"]
 }),
 $globals.BooleanTest);
@@ -1901,6 +1930,7 @@ args: [],
 source: "testNonBooleanError\x0a\x09self should: [ '' ifTrue: [] ifFalse: [] ] raise: NonBooleanReceiver",
 referencedClasses: ["NonBooleanReceiver"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "ifTrue:ifFalse:"]
 }),
 $globals.BooleanTest);
@@ -1928,6 +1958,7 @@ args: [],
 source: "setUp\x0a\x09builder := ClassBuilder new",
 referencedClasses: ["ClassBuilder"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new"]
 }),
 $globals.ClassBuilderTest);
@@ -1962,6 +1993,7 @@ args: [],
 source: "tearDown\x0a\x09theClass ifNotNil: [\x0a\x09\x09Smalltalk removeClass: theClass.\x0a\x09\x09self deny: (theClass package classes includes: theClass).\x0a\x09\x09self assert: (Smalltalk globals at: theClass name) equals: nil.\x0a\x09\x09theClass := nil ]",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "removeClass:", "deny:", "includes:", "classes", "package", "assert:equals:", "at:", "globals", "name"]
 }),
 $globals.ClassBuilderTest);
@@ -2006,6 +2038,7 @@ args: [],
 source: "testAddTrait\x0a\x09theClass := builder addTraitNamed: 'ObjectMock2' package: 'Kernel-Tests'.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: (theClass package classes occurrencesOf: theClass) equals: 1.\x0a\x09self assert: theClass package equals: ObjectMock package",
 referencedClasses: ["ObjectMock"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["addTraitNamed:package:", "assert:equals:", "name", "occurrencesOf:", "classes", "package"]
 }),
 $globals.ClassBuilderTest);
@@ -2082,6 +2115,7 @@ args: [],
 source: "testClassCopy\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: (theClass package classes includes: theClass).\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys",
 referencedClasses: ["ObjectMock"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["copyClass:named:", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "includes:", "classes", "keys", "methodDictionary"]
 }),
 $globals.ClassBuilderTest);
@@ -2175,6 +2209,7 @@ args: [],
 source: "testClassMigration\x0a\x09| instance oldClass |\x0a\x09\x0a\x09oldClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09instance := (Smalltalk globals at: 'ObjectMock2') new.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: #ObjectMock2\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self deny: oldClass == ObjectMock2.\x0a\x09\x0a\x09self assert: ObjectMock2 superclass == ObjectMock.\x0a\x09self assert: ObjectMock2 instanceVariableNames isEmpty.\x0a\x09self assert: ObjectMock2 selectors equals: oldClass selectors.\x0a\x09self assert: ObjectMock2 comment equals: oldClass comment.\x0a\x09self assert: ObjectMock2 package name equals: 'Kernel-Tests'.\x0a\x09self assert: (ObjectMock2 package classes includes: ObjectMock2).\x0a\x09\x0a\x09self deny: instance class == ObjectMock2.\x0a\x09\x22Commeting this out. Tests implementation detail.\x22\x0a\x09\x22self assert: instance class name equals: 'OldObjectMock2'.\x22\x0a\x09\x0a\x09self assert: (Smalltalk globals at: instance class name) isNil.\x0a\x09\x0a\x09Smalltalk removeClass: ObjectMock2",
 referencedClasses: ["ObjectMock", "Smalltalk", "ObjectMock2"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["copyClass:named:", "new", "at:", "globals", "subclass:instanceVariableNames:package:", "deny:", "==", "assert:", "superclass", "isEmpty", "instanceVariableNames", "assert:equals:", "selectors", "comment", "name", "package", "includes:", "classes", "class", "isNil", "removeClass:"]
 }),
 $globals.ClassBuilderTest);
@@ -2208,6 +2243,7 @@ args: [],
 source: "testClassMigrationWithClassInstanceVariables\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 class instanceVariableNames: 'foo bar'.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2') name\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: ObjectMock2 class instanceVariableNames equals: #('foo' 'bar').\x0a\x09\x0a\x09Smalltalk removeClass: ObjectMock2",
 referencedClasses: ["ObjectMock", "ObjectMock2", "Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["copyClass:named:", "instanceVariableNames:", "class", "subclass:instanceVariableNames:package:", "name", "at:", "globals", "assert:equals:", "instanceVariableNames", "removeClass:"]
 }),
 $globals.ClassBuilderTest);
@@ -2276,6 +2312,7 @@ args: [],
 source: "testClassMigrationWithSubclasses\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 subclass: 'ObjectMock3' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09ObjectMock3 subclass: 'ObjectMock4' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: 'ObjectMock2'\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: (ObjectMock subclasses includes: ObjectMock2).\x0a\x09self assert: (ObjectMock2 subclasses includes: ObjectMock3).\x0a\x09self assert: (ObjectMock3 subclasses includes: ObjectMock4).\x0a\x09\x0a\x09ObjectMock allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ]",
 referencedClasses: ["ObjectMock", "ObjectMock2", "ObjectMock3", "ObjectMock4", "Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["copyClass:named:", "subclass:instanceVariableNames:package:", "assert:", "includes:", "subclasses", "reverseDo:", "allSubclasses", "removeClass:"]
 }),
 $globals.ClassBuilderTest);
@@ -2332,6 +2369,7 @@ args: [],
 source: "testSubclass\x0a\x09theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' instanceVariableNames: #(foo bar) package: 'Kernel-Tests'.\x0a\x09self assert: theClass superclass equals: ObjectMock.\x0a\x09self assert: theClass instanceVariableNames equals: #(foo bar).\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: (theClass package classes occurrencesOf: theClass) equals: 1.\x0a\x09self assert: theClass package equals: ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys size equals: 0",
 referencedClasses: ["ObjectMock"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "assert:equals:", "superclass", "instanceVariableNames", "name", "occurrencesOf:", "classes", "package", "size", "keys", "methodDictionary"]
 }),
 $globals.ClassBuilderTest);
@@ -2363,6 +2401,7 @@ args: [],
 source: "jsConstructor\x0a\x09<inlineJS: '\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09return Foo;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09return Foo;\x0a\x09"]]],
 messageSends: []
 }),
 $globals.ClassTest);
@@ -2387,6 +2426,7 @@ args: [],
 source: "setUp\x0a\x09builder := ClassBuilder new",
 referencedClasses: ["ClassBuilder"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new"]
 }),
 $globals.ClassTest);
@@ -2431,6 +2471,7 @@ args: [],
 source: "tearDown\x0a\x09theClass ifNotNil: [\x0a\x09\x09theClass allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ].\x0a\x09\x09Smalltalk removeClass: theClass.\x0a\x09\x09theClass := nil ]",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "reverseDo:", "allSubclasses", "removeClass:"]
 }),
 $globals.ClassTest);
@@ -2480,6 +2521,7 @@ args: [],
 source: "testAllSubclasses\x0a\x09| subclasses index |\x0a\x0a\x09subclasses := Object subclasses.\x0a\x09index := 1.\x0a\x09[ index > subclasses size ]\x0a\x09\x09whileFalse: [ subclasses addAll: (subclasses at: index) subclasses.\x0a\x09\x09\x09index := index + 1 ].\x0a\x0a\x09self assert: Object allSubclasses equals: subclasses",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclasses", "whileFalse:", ">", "size", "addAll:", "at:", "+", "assert:equals:", "allSubclasses"]
 }),
 $globals.ClassTest);
@@ -2533,6 +2575,7 @@ args: [],
 source: "testMetaclassSubclasses\x0a\x09| subclasses |\x0a\x0a\x09subclasses := (Object class instanceClass subclasses \x0a\x09\x09select: [ :each | each isMetaclass not ])\x0a\x09\x09collect: [ :each | each theMetaClass ].\x0a\x0a\x09self assert: Object class subclasses equals: subclasses",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collect:", "select:", "subclasses", "instanceClass", "class", "not", "isMetaclass", "theMetaClass", "assert:equals:"]
 }),
 $globals.ClassTest);
@@ -2628,6 +2671,7 @@ args: [],
 source: "testSetJavaScriptConstructor\x0a\x09| instance |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09theClass javascriptConstructor: self jsConstructor.\x0a\x09\x22part took from copy class test\x22\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.\x0a\x09\x22testing specific to late-coupled detached root class\x22\x0a\x09instance := theClass new.\x0a\x09self assert: instance class == theClass.\x0a\x09self assert: instance value equals: 4.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
 referencedClasses: ["ObjectMock", "Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["copyClass:named:", "javascriptConstructor:", "jsConstructor", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "keys", "methodDictionary", "new", "class", "value", "shouldnt:raise:", "foo:", "foo"]
 }),
 $globals.ClassTest);
@@ -2652,6 +2696,7 @@ args: [],
 source: "testSlotsFromInstanceVariablesString\x0a\x09self assert: '  hello   world   ' instanceVariablesStringAsSlotList equals: #('hello' 'world')",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "instanceVariablesStringAsSlotList"]
 }),
 $globals.ClassTest);
@@ -2747,6 +2792,7 @@ args: [],
 source: "testTrickySetJavaScriptConstructor\x0a\x09| instance |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09theClass javascriptConstructor: self trickyJsConstructor.\x0a\x09\x22part took from copy class test\x22\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.\x0a\x09\x22testing specific to late-coupled detached root class\x22\x0a\x09instance := theClass new.\x0a\x09self assert: instance class == theClass.\x0a\x09self assert: instance value equals: 4.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
 referencedClasses: ["ObjectMock", "Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["copyClass:named:", "javascriptConstructor:", "trickyJsConstructor", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "keys", "methodDictionary", "new", "class", "value", "shouldnt:raise:", "foo:", "foo"]
 }),
 $globals.ClassTest);
@@ -2776,6 +2822,7 @@ args: [],
 source: "trickyJsConstructor\x0a\x09<inlineJS: '\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09Foo.prototype._foo = function () {return \x22bar\x22;};\x0a\x09\x09return Foo;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09Foo.prototype._foo = function () {return \x22bar\x22;};\x0a\x09\x09return Foo;\x0a\x09"]]],
 messageSends: []
 }),
 $globals.ClassTest);
@@ -2829,6 +2876,7 @@ args: ["aCollection", "anotherCollection"],
 source: "assertSameContents: aCollection as: anotherCollection\x0a\x09self assert: (aCollection size = anotherCollection size).\x0a\x09aCollection do: [ :each |\x0a\x09\x09self assert: ((aCollection occurrencesOf: each) = (anotherCollection occurrencesOf: each)) ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "=", "size", "do:", "occurrencesOf:"]
 }),
 $globals.CollectionTest);
@@ -2853,6 +2901,7 @@ args: [],
 source: "collection\x0a\x09\x22Answers pre-filled collection of type tested.\x22\x0a\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.CollectionTest);
@@ -2876,6 +2925,7 @@ args: [],
 source: "collectionClass\x0a\x09\x22Answers class of collection type tested\x22\x0a\x0a\x09^ self class collectionClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collectionClass", "class"]
 }),
 $globals.CollectionTest);
@@ -2900,6 +2950,7 @@ args: [],
 source: "collectionOfPrintStrings\x0a\x09\x22Answers self collection but with values\x0a\x09changed to their printStrings\x22\x0a\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.CollectionTest);
@@ -2924,6 +2975,7 @@ args: [],
 source: "collectionSize\x0a\x09\x22Answers size of self collection.\x22\x0a\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.CollectionTest);
@@ -2948,6 +3000,7 @@ args: [],
 source: "collectionWithDuplicates\x0a\x09\x22Answers pre-filled collection of type tested,\x0a\x09with exactly six distinct elements,\x0a\x09some of them appearing multiple times, if possible.\x22\x0a\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.CollectionTest);
@@ -2972,6 +3025,7 @@ args: [],
 source: "collectionWithNewValue\x0a\x09\x22Answers a collection which shows how\x0a\x09self collection would look after adding\x0a\x09self sampleNewValue\x22\x0a\x09\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.CollectionTest);
@@ -3006,6 +3060,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x0a\x09sampleBlock := []",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize"]
 }),
 $globals.CollectionTest);
@@ -3024,6 +3079,7 @@ args: [],
 source: "sampleNewValue\x0a\x09\x22Answers a value that is not yet there\x0a\x09and can be put into a tested collection\x22\x0a\x09\x0a\x09^ 'N'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CollectionTest);
@@ -3047,6 +3103,7 @@ args: [],
 source: "sampleNewValueAsCollection\x0a\x09\x22Answers self sampleNewValue\x0a\x09wrapped in single element collection\x0a\x09of tested type\x22\x0a\x09\x0a\x09^ self collectionClass with: self sampleNewValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["with:", "collectionClass", "sampleNewValue"]
 }),
 $globals.CollectionTest);
@@ -3184,6 +3241,7 @@ args: [],
 source: "testAddAll\x0a\x09self assert: (self collection addAll: self collectionClass new; yourself) equals: self collection.\x0a\x09self assert: (self collectionClass new addAll: self collection; yourself) equals: self collection.\x0a\x09self assert: (self collectionClass new addAll: self collectionClass new; yourself) equals: self collectionClass new.\x0a\x09self assert: (self collection addAll: self sampleNewValueAsCollection; yourself) equals: self collectionWithNewValue.\x0a\x09self assertSameContents: (self sampleNewValueAsCollection addAll: self collection; yourself) as: self collectionWithNewValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "addAll:", "collection", "new", "collectionClass", "yourself", "sampleNewValueAsCollection", "collectionWithNewValue", "assertSameContents:as:"]
 }),
 $globals.CollectionTest);
@@ -3233,6 +3291,7 @@ args: [],
 source: "testAllSatisfy\x0a\x09| collection anyOne |\x0a\x09collection := self collection.\x0a\x09anyOne := collection anyOne.\x0a\x09self assert: (collection allSatisfy: [ :each | collection includes: each ]).\x0a\x09self deny: (collection allSatisfy: [ :each | each ~= anyOne ])",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collection", "anyOne", "assert:", "allSatisfy:", "includes:", "deny:", "~="]
 }),
 $globals.CollectionTest);
@@ -3275,6 +3334,7 @@ args: [],
 source: "testAnyOne\x0a\x09self should: [ self collectionClass new anyOne ] raise: Error.\x0a\x09self assert: (self collection includes: self collection anyOne)",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "anyOne", "new", "collectionClass", "assert:", "includes:", "collection"]
 }),
 $globals.CollectionTest);
@@ -3334,6 +3394,7 @@ args: [],
 source: "testAnySatisfy\x0a\x09| anyOne |\x0a\x09anyOne := self collection anyOne.\x0a\x09self assert: (self collection anySatisfy: [ :each | each = anyOne ]).\x0a\x09self deny: (self collection anySatisfy: [ :each | each = Object new ])",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["anyOne", "collection", "assert:", "anySatisfy:", "=", "deny:", "new"]
 }),
 $globals.CollectionTest);
@@ -3363,6 +3424,7 @@ args: [],
 source: "testAsArray\x0a\x09self\x0a\x09\x09assertSameContents: self collection\x0a\x09\x09as: self collection asArray",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assertSameContents:as:", "collection", "asArray"]
 }),
 $globals.CollectionTest);
@@ -3392,6 +3454,7 @@ args: [],
 source: "testAsOrderedCollection\x0a\x09self\x0a\x09\x09assertSameContents: self collection\x0a\x09\x09as: self collection asOrderedCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assertSameContents:as:", "collection", "asOrderedCollection"]
 }),
 $globals.CollectionTest);
@@ -3428,6 +3491,7 @@ args: [],
 source: "testAsSet\x0a\x09| c set |\x0a\x09c := self collectionWithDuplicates.\x0a\x09set := c asSet.\x0a\x09self assert: set size equals: 6.\x0a\x09c do: [ :each |\x0a\x09\x09self assert: (set includes: each) ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collectionWithDuplicates", "asSet", "assert:equals:", "size", "do:", "assert:", "includes:"]
 }),
 $globals.CollectionTest);
@@ -3549,6 +3613,7 @@ args: [],
 source: "testCollect\x0a\x09self assert: (self collection collect: [ :each | each ]) equals: self collection.\x0a\x09self assert: (self collectionWithNewValue collect: [ :each | each ]) equals: self collectionWithNewValue.\x0a\x09self assert: (self collectionClass new collect: [ :each | each printString ]) equals: self collectionClass new.\x0a\x09self assert: ((self collection collect: [ self sampleNewValue ]) detect: [ true ]) equals: self sampleNewValue.\x0a\x09self assert: (self collection collect: [ :each | each printString ]) equals: self collectionOfPrintStrings",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "collect:", "collection", "collectionWithNewValue", "new", "collectionClass", "printString", "detect:", "sampleNewValue", "collectionOfPrintStrings"]
 }),
 $globals.CollectionTest);
@@ -3663,6 +3728,7 @@ args: [],
 source: "testComma\x0a\x09self assert: self collection, self collectionClass new equals: self collection.\x0a\x09self assert: self collectionClass new, self collection equals: self collection.\x0a\x09self assert: self collectionClass new, self collectionClass new equals: self collectionClass new.\x0a\x09self assert: self collection, self sampleNewValueAsCollection equals: self collectionWithNewValue.\x0a\x09self assertSameContents: self sampleNewValueAsCollection, self collection as: self collectionWithNewValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", ",", "collection", "new", "collectionClass", "sampleNewValueAsCollection", "collectionWithNewValue", "assertSameContents:as:"]
 }),
 $globals.CollectionTest);
@@ -3781,6 +3847,7 @@ args: [],
 source: "testCopy\x0a\x09self assert: self collectionClass new copy equals: self collectionClass new.\x0a\x09self assert: self collection copy equals: self collection.\x0a\x09self assert: self collectionWithNewValue copy equals: self collectionWithNewValue.\x0a\x09\x0a\x09self deny: self collectionClass new copy = self collection.\x0a\x09self deny: self collection copy = self collectionClass new.\x0a\x09self deny: self collection copy = self collectionWithNewValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "copy", "new", "collectionClass", "collection", "collectionWithNewValue", "deny:", "="]
 }),
 $globals.CollectionTest);
@@ -3812,6 +3879,7 @@ args: [],
 source: "testCopySeparates\x0a\x09| original copy |\x0a\x09original := self collection.\x0a\x09copy := original copy.\x0a\x09copy addAll: self sampleNewValueAsCollection.\x0a\x09self assert: original = self collection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collection", "copy", "addAll:", "sampleNewValueAsCollection", "assert:", "="]
 }),
 $globals.CollectionTest);
@@ -3933,6 +4001,7 @@ args: [],
 source: "testDetect\x0a\x09self\x0a\x09\x09shouldnt: [ self collection detect: [ true ] ]\x0a\x09\x09raise: Error.\x0a\x09self\x0a\x09\x09should: [ self collection detect: [ false ] ]\x0a\x09\x09raise: Error.\x0a\x09self assert: (self sampleNewValueAsCollection detect: [ true ]) equals: self sampleNewValue.\x0a\x09self assert: (self collectionWithNewValue detect: [ :each | each = self sampleNewValue ]) equals: self sampleNewValue.\x0a\x09self\x0a\x09\x09should: [ self collection detect: [ :each | each = self sampleNewValue ] ]\x0a\x09\x09raise: Error",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["shouldnt:raise:", "detect:", "collection", "should:raise:", "assert:equals:", "sampleNewValueAsCollection", "sampleNewValue", "collectionWithNewValue", "="]
 }),
 $globals.CollectionTest);
@@ -4053,6 +4122,7 @@ args: [],
 source: "testDetectIfNone\x0a\x09| sentinel |\x0a\x09sentinel := Object new.\x0a\x09self assert: (self collection detect: [ true ] ifNone: [ sentinel ]) ~= sentinel.\x0a\x09self assert: (self collection detect: [ false ] ifNone: [ sentinel ]) equals: sentinel.\x0a\x09self assert: (self sampleNewValueAsCollection detect: [ true ] ifNone: [ sentinel ]) equals: self sampleNewValue.\x0a\x09self assert: (self collectionWithNewValue detect: [ :each | each = self sampleNewValue ] ifNone: [ sentinel ]) equals: self sampleNewValue.\x0a\x09self assert: (self collection detect: [ :each | each = self sampleNewValue ] ifNone: [ sentinel ]) equals: sentinel",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "assert:", "~=", "detect:ifNone:", "collection", "assert:equals:", "sampleNewValueAsCollection", "sampleNewValue", "collectionWithNewValue", "="]
 }),
 $globals.CollectionTest);
@@ -4120,6 +4190,7 @@ args: [],
 source: "testDo\x0a\x09| newCollection |\x0a\x09newCollection := OrderedCollection new.\x0a\x09self collection do: [ :each |\x0a\x09\x09newCollection add: each ].\x0a\x09self\x0a\x09\x09assertSameContents: self collection\x0a\x09\x09as: newCollection.\x0a\x09newCollection := OrderedCollection new.\x0a\x09self collectionWithDuplicates do: [ :each |\x0a\x09\x09newCollection add: each ].\x0a\x09self\x0a\x09\x09assertSameContents: self collectionWithDuplicates\x0a\x09\x09as: newCollection",
 referencedClasses: ["OrderedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "do:", "collection", "add:", "assertSameContents:as:", "collectionWithDuplicates"]
 }),
 $globals.CollectionTest);
@@ -4218,6 +4289,7 @@ args: [],
 source: "testEquality\x0a\x09self assert: self collectionClass new equals: self collectionClass new.\x0a\x09self assert: self collection equals: self collection.\x0a\x09self assert: self collectionWithNewValue equals: self collectionWithNewValue.\x0a\x09\x0a\x09self deny: self collectionClass new = self collection.\x0a\x09self deny: self collection = self collectionClass new.\x0a\x09self deny: self collection = self collectionWithNewValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "new", "collectionClass", "collection", "collectionWithNewValue", "deny:", "="]
 }),
 $globals.CollectionTest);
@@ -4438,6 +4510,7 @@ args: [],
 source: "testIfEmptyFamily\x0a\x09self assert: (self collectionClass new ifEmpty: [ 42 ]) equals: 42.\x0a\x09self assert: (self collection ifEmpty: [ 42 ]) equals: self collection.\x0a\x0a\x09self assert: (self collectionClass new ifNotEmpty: [ 42 ]) equals: self collectionClass new.\x0a\x09self assert: (self collection ifNotEmpty: [ 42 ]) equals: 42.\x0a\x09self assert: (self collection ifNotEmpty: [ :col | col ]) equals: self collection.\x0a\x09\x0a\x09self assert: (self collectionClass new ifEmpty: [ 42 ] ifNotEmpty: [ 999 ]) equals: 42.\x0a\x09self assert: (self collection ifEmpty: [ 42 ] ifNotEmpty: [ 999 ]) equals: 999.\x0a\x09self assert: (self collection ifEmpty: [ 42 ] ifNotEmpty: [ :col | col ]) equals: self collection.\x0a\x0a\x09self assert: (self collectionClass new ifNotEmpty: [ 42 ] ifEmpty: [ 999 ]) equals: 999.\x0a\x09self assert: (self collection ifNotEmpty: [ 42 ] ifEmpty: [ 999 ]) equals: 42.\x0a\x09self assert: (self collection ifNotEmpty: [ :col | col ] ifEmpty: [ 999 ]) equals: self collection.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "ifEmpty:", "new", "collectionClass", "collection", "ifNotEmpty:", "ifEmpty:ifNotEmpty:", "ifNotEmpty:ifEmpty:"]
 }),
 $globals.CollectionTest);
@@ -4468,6 +4541,7 @@ args: [],
 source: "testIsEmpty\x0a\x09self assert: self collectionClass new isEmpty.\x0a\x09self deny: self collection isEmpty",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "isEmpty", "new", "collectionClass", "deny:", "collection"]
 }),
 $globals.CollectionTest);
@@ -4527,6 +4601,7 @@ args: [],
 source: "testNoneSatisfy\x0a\x09| anyOne |\x0a\x09anyOne := self collection anyOne.\x0a\x09self deny: (self collection noneSatisfy: [ :each | each = anyOne ]).\x0a\x09self assert: (self collection noneSatisfy: [ :each | each = Object new ])",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["anyOne", "collection", "deny:", "noneSatisfy:", "=", "assert:", "new"]
 }),
 $globals.CollectionTest);
@@ -4558,6 +4633,7 @@ args: [],
 source: "testRegression1224\x0a\x09self assert: (self collectionClass new\x0a\x09\x09remove: self sampleNewValue ifAbsent: [];\x0a\x09\x09yourself) size equals: 0",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "size", "remove:ifAbsent:", "new", "collectionClass", "sampleNewValue", "yourself"]
 }),
 $globals.CollectionTest);
@@ -4586,6 +4662,7 @@ args: [],
 source: "testRemoveAll\x0a\x09self assert: (self collection removeAll; yourself) equals: self collectionClass new",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "removeAll", "collection", "yourself", "new", "collectionClass"]
 }),
 $globals.CollectionTest);
@@ -4743,6 +4820,7 @@ args: [],
 source: "testSelect\x0a\x09self assert: (self collection select: [ false ]) equals: self collectionClass new.\x0a\x09self assert: (self collection select: [ true ]) equals: self collection.\x0a\x09self assert: (self collectionWithNewValue select: [ :each | each = self sampleNewValue ]) equals: self sampleNewValueAsCollection.\x0a\x09self assert: (self collectionWithNewValue select: [ :each | each ~= self sampleNewValue ]) equals: self collection.\x0a\x09self assert: (self collection select: [ :each | each = self sampleNewValue ]) equals: self collectionClass new.\x0a\x09self assert: (self collectionWithNewValue select: [ :each | each ~= self sampleNewValue ]) equals: self collection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "select:", "collection", "new", "collectionClass", "collectionWithNewValue", "=", "sampleNewValue", "sampleNewValueAsCollection", "~="]
 }),
 $globals.CollectionTest);
@@ -4844,6 +4922,7 @@ args: [],
 source: "testSelectThenCollect\x0a\x09self assert: (self collection select: [ false ] thenCollect: #isString) equals: self collectionClass new.\x0a\x09self assert: (self collection select: [ true ] thenCollect: [:x|x]) equals: self collection.\x0a\x09self assert: (self collection select: [ :each | each = self sampleNewValue ] thenCollect: [:x|x]) equals: self collectionClass new.\x0a\x09self assert: (self collectionWithNewValue select: [ :each | each ~= self sampleNewValue ] thenCollect: #printString) equals: self collectionOfPrintStrings",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "select:thenCollect:", "collection", "new", "collectionClass", "=", "sampleNewValue", "collectionWithNewValue", "~=", "collectionOfPrintStrings"]
 }),
 $globals.CollectionTest);
@@ -4895,6 +4974,7 @@ args: [],
 source: "testSingle\x0a\x09self should: [ self collectionClass new single ] raise: Error.\x0a\x09self should: [ self collection single ] raise: Error.\x0a\x09self assert: self sampleNewValueAsCollection single equals: self sampleNewValue",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "single", "new", "collectionClass", "collection", "assert:equals:", "sampleNewValueAsCollection", "sampleNewValue"]
 }),
 $globals.CollectionTest);
@@ -4936,6 +5016,7 @@ args: [],
 source: "testSize\x0a\x09self assert: self collectionClass new size equals: 0.\x0a\x09self assert: self sampleNewValueAsCollection size equals: 1.\x0a\x09self assert: self collection size equals: self collectionSize",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "size", "new", "collectionClass", "sampleNewValueAsCollection", "collection", "collectionSize"]
 }),
 $globals.CollectionTest);
@@ -4955,6 +5036,7 @@ args: [],
 source: "collectionClass\x0a\x09\x22Answers class of collection type tested,\x0a\x09or nil if test is abstract\x22\x0a\x0a\x09^ nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CollectionTest.a$cls);
@@ -4978,6 +5060,7 @@ args: [],
 source: "isAbstract\x0a\x09^ self collectionClass isNil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["isNil", "collectionClass"]
 }),
 $globals.CollectionTest.a$cls);
@@ -5004,6 +5087,7 @@ args: [],
 source: "collectionWithNewValue\x0a\x09\x22Answers a collection which shows how\x0a\x09self collection would look after adding\x0a\x09self sampleNewValue at self sampleNewIndex\x22\x0a\x09\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.IndexableCollectionTest);
@@ -5028,6 +5112,7 @@ args: ["aBlock"],
 source: "nonIndexesDo: aBlock\x0a\x09\x22Executes block a few times,\x0a\x09each time passing value that is known\x0a\x09not to be an index, as the first parameter\x22\x0a\x09\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.IndexableCollectionTest);
@@ -5052,6 +5137,7 @@ args: [],
 source: "sampleNewIndex\x0a\x09\x22Answers a value that can be used as index in at:put: or at:ifAbsentPut:\x22\x0a\x09\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.IndexableCollectionTest);
@@ -5076,6 +5162,7 @@ args: ["aBlock"],
 source: "samplesDo: aBlock\x0a\x09\x22Executes block a few times,\x0a\x09each time passing known index and value stored\x0a\x09under that index as the parameters\x22\x0a\x09\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.IndexableCollectionTest);
@@ -5133,6 +5220,7 @@ args: [],
 source: "testAt\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09self should: [ self collection at: each ] raise: Error ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection at: index) equals: value ]",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nonIndexesDo:", "should:raise:", "at:", "collection", "samplesDo:", "assert:equals:"]
 }),
 $globals.IndexableCollectionTest);
@@ -5209,6 +5297,7 @@ args: [],
 source: "testAtIfAbsent\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09self assert: (self collection at: each ifAbsent: [ self sampleNewValue ]) equals: self sampleNewValue ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection at: index ifAbsent: [ self sampleNewValue ]) equals: value ].",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nonIndexesDo:", "assert:equals:", "at:ifAbsent:", "collection", "sampleNewValue", "samplesDo:"]
 }),
 $globals.IndexableCollectionTest);
@@ -5285,6 +5374,7 @@ args: [],
 source: "testAtIfAbsentPut\x0a\x09| newCollection |\x0a\x09newCollection := self collection.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (newCollection at: index ifAbsentPut: [ self sampleNewValue ]) equals: value ].\x0a\x09self assert: newCollection equals: self collection.\x0a\x09self assert: (newCollection at: self sampleNewIndex ifAbsentPut: [ self sampleNewValue ]) equals: self sampleNewValue.\x0a\x09self assert: newCollection equals: self collectionWithNewValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collection", "samplesDo:", "assert:equals:", "at:ifAbsentPut:", "sampleNewValue", "sampleNewIndex", "collectionWithNewValue"]
 }),
 $globals.IndexableCollectionTest);
@@ -5360,6 +5450,7 @@ args: [],
 source: "testAtIfPresent\x0a\x09| visited sentinel |\x0a\x09sentinel := Object new.\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: each ifPresent: [ :value1 | visited := value1. sentinel ]) equals: nil.\x0a\x09\x09self assert: visited isNil ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: index ifPresent: [ :value2 | visited := value2. sentinel ]) equals: sentinel.\x0a\x09\x09self assert: visited equals: (self collection at: index) ]",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "nonIndexesDo:", "assert:equals:", "at:ifPresent:", "collection", "assert:", "isNil", "samplesDo:", "at:"]
 }),
 $globals.IndexableCollectionTest);
@@ -5458,6 +5549,7 @@ args: [],
 source: "testAtIfPresentIfAbsent\x0a\x09| visited sentinel |\x0a\x09sentinel := Object new.\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: each ifPresent: [ :value1 | visited := value1. sentinel ] ifAbsent: [ self sampleNewValue ] ) equals: self sampleNewValue.\x0a\x09\x09self assert: visited isNil ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: index ifPresent: [ :value2 | visited := value2. sentinel ] ifAbsent: [ self sampleNewValue ]) equals: sentinel.\x0a\x09\x09self assert: visited equals: (self collection at: index) ]",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "nonIndexesDo:", "assert:equals:", "at:ifPresent:ifAbsent:", "collection", "sampleNewValue", "assert:", "isNil", "samplesDo:", "at:"]
 }),
 $globals.IndexableCollectionTest);
@@ -5504,6 +5596,7 @@ args: [],
 source: "testAtPut\x0a\x09| newCollection |\x0a\x09newCollection := self collection.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09newCollection at: index put: value ].\x0a\x09self assert: newCollection equals: self collection.\x0a\x09newCollection at: self sampleNewIndex put: self sampleNewValue.\x0a\x09self assert: newCollection equals: self collectionWithNewValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collection", "samplesDo:", "at:put:", "assert:equals:", "sampleNewIndex", "sampleNewValue", "collectionWithNewValue"]
 }),
 $globals.IndexableCollectionTest);
@@ -5553,6 +5646,7 @@ args: [],
 source: "testIndexOf\x0a\x09self should: [ self collection indexOf: self sampleNewValue ] raise: Error.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection indexOf: value) equals: index ]",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "indexOf:", "collection", "sampleNewValue", "samplesDo:", "assert:equals:"]
 }),
 $globals.IndexableCollectionTest);
@@ -5591,6 +5685,7 @@ args: [],
 source: "testIndexOfWithNull\x0a\x09| jsNull |\x0a\x09jsNull := JSON parse: 'null'.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection at: index put: jsNull; indexOf: jsNull) equals: index ]",
 referencedClasses: ["JSON"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "samplesDo:", "assert:equals:", "at:put:", "collection", "indexOf:"]
 }),
 $globals.IndexableCollectionTest);
@@ -5628,6 +5723,7 @@ args: [],
 source: "testWithIndexDo\x0a\x09| collection |\x0a\x09collection := self collection.\x0a\x09\x0a\x09self collection withIndexDo: [ :each :index |\x0a\x09\x09self assert: (collection at: index) equals: each ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collection", "withIndexDo:", "assert:equals:", "at:"]
 }),
 $globals.IndexableCollectionTest);
@@ -5655,6 +5751,7 @@ args: [],
 source: "collectionKeys\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.AssociativeCollectionTest);
@@ -5679,6 +5776,7 @@ args: [],
 source: "collectionValues\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.AssociativeCollectionTest);
@@ -5717,6 +5815,7 @@ args: ["aBlock"],
 source: "nonIndexesDo: aBlock\x0a\x09aBlock value: 5.\x0a\x09aBlock value: [].\x0a\x09aBlock value: Object new.\x0a\x09aBlock value: 'z'",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value:", "new"]
 }),
 $globals.AssociativeCollectionTest);
@@ -5735,6 +5834,7 @@ args: [],
 source: "sampleNewIndex\x0a\x09^ 'new'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AssociativeCollectionTest);
@@ -5759,6 +5859,7 @@ args: ["aBlock"],
 source: "samplesDo: aBlock\x0a\x09aBlock value: 'a' value: 2",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value:value:"]
 }),
 $globals.AssociativeCollectionTest);
@@ -5848,6 +5949,7 @@ args: [],
 source: "testAddAll\x0a\x09super testAddAll.\x0a\x09self assert: (self collection addAll: self collection; yourself) equals: self collection.\x0a\x09self assert: (self collection addAll: self collectionWithNewValue; yourself) equals: self collectionWithNewValue.\x0a\x09self assert: (self collectionWithNewValue addAll: self collection; yourself) equals: self collectionWithNewValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["testAddAll", "assert:equals:", "addAll:", "collection", "yourself", "collectionWithNewValue"]
 }),
 $globals.AssociativeCollectionTest);
@@ -5872,6 +5974,7 @@ args: [],
 source: "testAsDictionary\x0aself assert: ( self collectionClass new asDictionary isMemberOf: Dictionary ).",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "isMemberOf:", "asDictionary", "new", "collectionClass"]
 }),
 $globals.AssociativeCollectionTest);
@@ -5896,6 +5999,7 @@ args: [],
 source: "testAsHashedCollection\x0aself assert: ( self collectionClass new asHashedCollection isMemberOf: HashedCollection ).",
 referencedClasses: ["HashedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "isMemberOf:", "asHashedCollection", "new", "collectionClass"]
 }),
 $globals.AssociativeCollectionTest);
@@ -5974,6 +6078,7 @@ args: [],
 source: "testComma\x0a\x09super testComma.\x0a\x09self assert: self collection, self collection equals: self collection.\x0a\x09self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.\x0a\x09self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["testComma", "assert:equals:", ",", "collection", "collectionWithNewValue"]
 }),
 $globals.AssociativeCollectionTest);
@@ -6005,6 +6110,7 @@ args: [],
 source: "testFrom\x0a\x22Accept a collection of associations.\x22\x0a| associations |\x0aassociations := { 'a' -> 1. 'b' -> 2 }.\x0aself assertSameContents: ( self class collectionClass from: associations ) as: #{ 'a' -> 1. 'b' -> 2 }.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["->", "assertSameContents:as:", "from:", "collectionClass", "class"]
 }),
 $globals.AssociativeCollectionTest);
@@ -6048,6 +6154,7 @@ args: [],
 source: "testKeys\x0a\x09self assert:self collectionClass new keys isEmpty.\x0a\x09self assertSameContents:self collection keys as: self collectionKeys.\x0a\x09self assertSameContents:self collectionWithNewValue keys as: self collectionKeys, { self sampleNewIndex }",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "isEmpty", "keys", "new", "collectionClass", "assertSameContents:as:", "collection", "collectionKeys", "collectionWithNewValue", ",", "sampleNewIndex"]
 }),
 $globals.AssociativeCollectionTest);
@@ -6074,6 +6181,7 @@ args: [],
 source: "testNewFromPairs\x0a\x22Accept an array in which all odd indexes are keys and evens are values.\x22\x0a| flattenedAssociations |\x0aflattenedAssociations := { 'a'. 1. 'b'. 2 }.\x0aself assertSameContents: ( self class collectionClass newFromPairs: flattenedAssociations ) as: #{ 'a' -> 1. 'b' -> 2 }.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assertSameContents:as:", "newFromPairs:", "collectionClass", "class"]
 }),
 $globals.AssociativeCollectionTest);
@@ -6114,6 +6222,7 @@ args: [],
 source: "testPrintString\x0a\x09self\x0a\x09\x09assert: (self collectionClass new\x0a\x09\x09\x09\x09\x09\x09\x09at:'firstname' put: 'James';\x0a\x09\x09\x09\x09\x09\x09\x09at:'lastname' put: 'Bond';\x0a\x09\x09\x09\x09\x09\x09\x09printString)\x0a\x09\x09equals: 'a ', self collectionClass name, ' (''firstname'' -> ''James'' , ''lastname'' -> ''Bond'')'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "at:put:", "new", "collectionClass", "printString", ",", "name"]
 }),
 $globals.AssociativeCollectionTest);
@@ -6204,6 +6313,7 @@ args: [],
 source: "testRemoveKey\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09| collection |\x0a\x09\x09collection := self collection.\x0a\x09\x09self should: [ collection removeKey: each ] raise: Error.\x0a\x09\x09self assert: collection equals: self collection ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09| collection |\x0a\x09\x09collection := self collection.\x0a\x09\x09self assert: (collection removeKey: index) equals: value.\x0a\x09\x09self deny: collection = self collection ].\x0a\x09self\x0a\x09\x09assert: (self collectionWithNewValue removeKey: self sampleNewIndex; yourself)\x0a\x09\x09equals: self collection",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nonIndexesDo:", "collection", "should:raise:", "removeKey:", "assert:equals:", "samplesDo:", "deny:", "=", "collectionWithNewValue", "sampleNewIndex", "yourself"]
 }),
 $globals.AssociativeCollectionTest);
@@ -6321,6 +6431,7 @@ args: [],
 source: "testRemoveKeyIfAbsent\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09| collection |\x0a\x09\x09collection := self collection.\x0a\x09\x09self assert: (collection removeKey: each ifAbsent: [ self sampleNewValue ]) equals: self sampleNewValue.\x0a\x09\x09self assert: collection equals: self collection ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09| collection |\x0a\x09\x09collection := self collection.\x0a\x09\x09self assert: (collection removeKey: index ifAbsent: [ self sampleNewValue ]) equals: value.\x0a\x09\x09self deny: collection = self collection ].\x0a\x09self\x0a\x09\x09assert: (self collectionWithNewValue removeKey: self sampleNewIndex ifAbsent: [ self assert: false ]; yourself)\x0a\x09\x09equals: self collection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nonIndexesDo:", "collection", "assert:equals:", "removeKey:ifAbsent:", "sampleNewValue", "samplesDo:", "deny:", "=", "collectionWithNewValue", "sampleNewIndex", "assert:", "yourself"]
 }),
 $globals.AssociativeCollectionTest);
@@ -6364,6 +6475,7 @@ args: [],
 source: "testValues\x0a\x09self assert:self collectionClass new values isEmpty.\x0a\x09self assertSameContents:self collection values as: self collectionValues.\x0a\x09self assertSameContents:self collectionWithNewValue values as: self collectionValues, { self sampleNewValue }",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "isEmpty", "values", "new", "collectionClass", "assertSameContents:as:", "collection", "collectionValues", "collectionWithNewValue", ",", "sampleNewValue"]
 }),
 $globals.AssociativeCollectionTest);
@@ -6409,6 +6521,7 @@ args: [],
 source: "collection\x0a\x09^ Dictionary new\x0a\x09\x09at: 1 put: 1;\x0a\x09\x09at: 'a' put: 2;\x0a\x09\x09at: true put: 3;\x0a\x09\x09at: 1@3 put: -4;\x0a\x09\x09at: sampleBlock put: 9;\x0a\x09\x09yourself",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:put:", "new", "@", "yourself"]
 }),
 $globals.DictionaryTest);
@@ -6432,6 +6545,7 @@ args: [],
 source: "collectionKeys\x0a\x09^ {1. 'a'. true. 1@3. sampleBlock}",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["@"]
 }),
 $globals.DictionaryTest);
@@ -6474,6 +6588,7 @@ args: [],
 source: "collectionOfPrintStrings\x0a\x09^ Dictionary new\x0a\x09\x09at: 1 put: '1';\x0a\x09\x09at: 'a' put: '2';\x0a\x09\x09at: true put: '3';\x0a\x09\x09at: 1@3 put: '-4';\x0a\x09\x09at: sampleBlock put: '9';\x0a\x09\x09yourself",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:put:", "new", "@", "yourself"]
 }),
 $globals.DictionaryTest);
@@ -6492,6 +6607,7 @@ args: [],
 source: "collectionSize\x0a\x09^ 5",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.DictionaryTest);
@@ -6510,6 +6626,7 @@ args: [],
 source: "collectionValues\x0a\x09^ {1. 2. 3. -4. 9}",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.DictionaryTest);
@@ -6564,6 +6681,7 @@ args: [],
 source: "collectionWithDuplicates\x0a\x09^ Dictionary new\x0a\x09\x09at: 1 put: 1;\x0a\x09\x09at: 'a' put: 2;\x0a\x09\x09at: true put: 3;\x0a\x09\x09at: 4 put: -4;\x0a\x09\x09at: sampleBlock put: 9;\x0a\x09\x09at: 'b' put: 1;\x0a\x09\x09at: 3 put: 3;\x0a\x09\x09at: false put: 12;\x0a\x09\x09yourself",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:put:", "new", "yourself"]
 }),
 $globals.DictionaryTest);
@@ -6610,6 +6728,7 @@ args: [],
 source: "collectionWithNewValue\x0a\x09^ Dictionary new\x0a\x09\x09at: 1 put: 1;\x0a\x09\x09at: 'a' put: 2;\x0a\x09\x09at: true put: 3;\x0a\x09\x09at: 1@3 put: -4;\x0a\x09\x09at: sampleBlock put: 9;\x0a\x09\x09at: 'new' put: 'N';\x0a\x09\x09yourself",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:put:", "new", "@", "yourself"]
 }),
 $globals.DictionaryTest);
@@ -6636,6 +6755,7 @@ args: [],
 source: "sampleNewValueAsCollection\x0a\x09^ Dictionary new\x0a\x09\x09at: 'new' put: 'N';\x0a\x09\x09yourself",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:put:", "new", "yourself"]
 }),
 $globals.DictionaryTest);
@@ -6676,6 +6796,7 @@ args: ["aBlock"],
 source: "samplesDo: aBlock\x0a\x09super samplesDo: aBlock.\x0a\x09aBlock value: true value: 3.\x0a\x09aBlock value: 1@3 value: -4.\x0a\x09aBlock value: sampleBlock value: 9",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["samplesDo:", "value:value:", "@"]
 }),
 $globals.DictionaryTest);
@@ -6784,6 +6905,7 @@ args: [],
 source: "testAccessing\x0a\x09| d |\x0a\x0a\x09d := Dictionary new.\x0a\x0a\x09d at: 'hello' put: 'world'.\x0a\x09self assert: (d at: 'hello') equals: 'world'.\x0a\x09self assert: (d at: 'hello' ifAbsent: [ nil ]) equals: 'world'.\x0a\x09self deny: (d at: 'foo' ifAbsent: [ nil ]) = 'world'.\x0a\x0a\x09self assert: (d includesKey: 'hello').\x0a\x09self deny: (d includesKey: 'foo').\x0a\x0a\x09d at: 1 put: 2.\x0a\x09self assert: (d at: 1) equals: 2.\x0a\x0a\x09d at: 1@3 put: 3.\x0a\x09self assert: (d at: 1@3) equals: 3.\x0a\x0a\x09self assert: (d includesKey: 1@3).\x0a\x09self deny: (d includesKey: 3@1)",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "at:put:", "assert:equals:", "at:", "at:ifAbsent:", "deny:", "=", "assert:", "includesKey:", "@"]
 }),
 $globals.DictionaryTest);
@@ -6808,6 +6930,7 @@ args: [],
 source: "testDynamicDictionaries\x0a\x09self assert: #{'hello' -> 1} asDictionary equals: (Dictionary with: 'hello' -> 1)",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "asDictionary", "with:", "->"]
 }),
 $globals.DictionaryTest);
@@ -6827,6 +6950,7 @@ args: [],
 source: "collectionClass\x0a\x09^ Dictionary",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.DictionaryTest.a$cls);
@@ -6847,6 +6971,7 @@ args: [],
 source: "collection\x0a\x09^ #{ 'b' -> 1. 'a' -> 2. 'c' -> 3. 'd' -> -4 }",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.HashedCollectionTest);
@@ -6865,6 +6990,7 @@ args: [],
 source: "collectionKeys\x0a\x09^ { 'b'. 'a'. 'c'. 'd' }",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.HashedCollectionTest);
@@ -6883,6 +7009,7 @@ args: [],
 source: "collectionOfPrintStrings\x0a\x09^ #{ 'b' -> '1'. 'a' -> '2'. 'c' -> '3'. 'd' -> '-4' }",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.HashedCollectionTest);
@@ -6901,6 +7028,7 @@ args: [],
 source: "collectionSize\x0a\x09^ 4",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.HashedCollectionTest);
@@ -6919,6 +7047,7 @@ args: [],
 source: "collectionValues\x0a\x09^ { 1. 2. 3. -4 }",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.HashedCollectionTest);
@@ -6937,6 +7066,7 @@ args: [],
 source: "collectionWithDuplicates\x0a\x09^ #{ 'b' -> 1. 'a' -> 2. 'c' -> 3. 'd' -> -4. 'e' -> 1. 'f' -> 2. 'g' -> 10. 'h' -> 0 }",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.HashedCollectionTest);
@@ -6955,6 +7085,7 @@ args: [],
 source: "collectionWithNewValue\x0a\x09^ #{ 'b' -> 1. 'a' -> 2. 'c' -> 3. 'd' -> -4. 'new' -> 'N' }",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.HashedCollectionTest);
@@ -6973,6 +7104,7 @@ args: [],
 source: "sampleNewValueAsCollection\x0a\x09^ #{ 'new' -> 'N' }",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.HashedCollectionTest);
@@ -6997,6 +7129,7 @@ args: [],
 source: "testDynamicDictionaries\x0a\x09self assert: #{'hello' -> 1} asHashedCollection equals: (HashedCollection with: 'hello' -> 1)",
 referencedClasses: ["HashedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "asHashedCollection", "with:", "->"]
 }),
 $globals.HashedCollectionTest);
@@ -7016,6 +7149,7 @@ args: [],
 source: "collectionClass\x0a\x09^ HashedCollection",
 referencedClasses: ["HashedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.HashedCollectionTest.a$cls);
@@ -7042,6 +7176,7 @@ args: [],
 source: "collectionFirst\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.SequenceableCollectionTest);
@@ -7066,6 +7201,7 @@ args: [],
 source: "collectionFirstTwo\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.SequenceableCollectionTest);
@@ -7090,6 +7226,7 @@ args: [],
 source: "collectionLast\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.SequenceableCollectionTest);
@@ -7114,6 +7251,7 @@ args: [],
 source: "collectionLastTwo\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.SequenceableCollectionTest);
@@ -7146,6 +7284,7 @@ args: ["aBlock"],
 source: "nonIndexesDo: aBlock\x0a\x09aBlock value: 0.\x0a\x09aBlock value: self collectionSize + 1.\x0a\x09aBlock value: 'z'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value:", "+", "collectionSize"]
 }),
 $globals.SequenceableCollectionTest);
@@ -7174,6 +7313,7 @@ args: ["aBlock"],
 source: "samplesDo: aBlock\x0a\x09aBlock value: 1 value: self collectionFirst.\x0a\x09aBlock value: self collectionSize value: self collectionLast",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value:value:", "collectionFirst", "collectionSize", "collectionLast"]
 }),
 $globals.SequenceableCollectionTest);
@@ -7236,6 +7376,7 @@ args: [],
 source: "testBeginsWith\x0a\x09self assert: (self collection beginsWith: self collectionClass new).\x0a\x09self assert: (self collection beginsWith: self collection).\x0a\x09self assert: (self collection beginsWith: self collectionFirstTwo).\x0a\x09self deny: (self collection beginsWith: self collectionLastTwo)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "beginsWith:", "collection", "new", "collectionClass", "collectionFirstTwo", "deny:", "collectionLastTwo"]
 }),
 $globals.SequenceableCollectionTest);
@@ -7298,6 +7439,7 @@ args: [],
 source: "testEndsWith\x0a\x09self assert: (self collection endsWith: self collectionClass new).\x0a\x09self assert: (self collection endsWith: self collection).\x0a\x09self assert: (self collection endsWith: self collectionLastTwo).\x0a\x09self deny: (self collection endsWith: self collectionFirstTwo)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "endsWith:", "collection", "new", "collectionClass", "collectionLastTwo", "deny:", "collectionFirstTwo"]
 }),
 $globals.SequenceableCollectionTest);
@@ -7322,6 +7464,7 @@ args: [],
 source: "testFirst\x0a\x09self assert: self collection first equals: self collectionFirst",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "first", "collection", "collectionFirst"]
 }),
 $globals.SequenceableCollectionTest);
@@ -7392,6 +7535,7 @@ args: [],
 source: "testFirstN\x0a\x09self \x0a\x09\x09assert: (self collection first: 2)\x0a\x09\x09equals: self collectionFirstTwo.\x0a\x09\x09\x0a\x09self\x0a\x09\x09assert: (self collection first: 0)\x0a\x09\x09equals: self collectionClass new.\x0a\x09\x09\x0a\x09self\x0a\x09\x09assert: (self collection first: self collectionSize)\x0a\x09\x09equals: self collection.\x0a\x09\x09\x0a\x09self should: [ self collection first: 33 ] raise: Error",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "first:", "collection", "collectionFirstTwo", "new", "collectionClass", "collectionSize", "should:raise:"]
 }),
 $globals.SequenceableCollectionTest);
@@ -7422,6 +7566,7 @@ args: [],
 source: "testFourth\x0a\x09self assert: (self collection fourth) equals: (self collection at: 4)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "fourth", "collection", "at:"]
 }),
 $globals.SequenceableCollectionTest);
@@ -7481,6 +7626,7 @@ args: [],
 source: "testIndexOfStartingAt\x0a\x09| jsNull |\x0a\x09jsNull := JSON parse: 'null'.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection indexOf: value startingAt: 1) equals: index.\x0a\x09\x09self assert: (self collection indexOf: value startingAt: index) equals: index.\x0a\x09\x09self assert: (self collection indexOf: value startingAt: index+1) equals: 0 ]",
 referencedClasses: ["JSON"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "samplesDo:", "assert:equals:", "indexOf:startingAt:", "collection", "+"]
 }),
 $globals.SequenceableCollectionTest);
@@ -7535,6 +7681,7 @@ args: [],
 source: "testIndexOfStartingAtWithNull\x0a\x09| jsNull |\x0a\x09jsNull := JSON parse: 'null'.\x0a\x09self samplesDo: [ :index :value | | collection |\x0a\x09\x09collection := self collection.\x0a\x09\x09collection at: index put: jsNull.\x0a\x09\x09self assert: (collection indexOf: jsNull startingAt: 1) equals: index.\x0a\x09\x09self assert: (collection indexOf: jsNull startingAt: index) equals: index.\x0a\x09\x09self assert: (collection indexOf: jsNull startingAt: index+1) equals: 0 ]",
 referencedClasses: ["JSON"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", "samplesDo:", "collection", "at:put:", "assert:equals:", "indexOf:startingAt:", "+"]
 }),
 $globals.SequenceableCollectionTest);
@@ -7559,6 +7706,7 @@ args: [],
 source: "testLast\x0a\x09self assert: self collection last equals: self collectionLast",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "last", "collection", "collectionLast"]
 }),
 $globals.SequenceableCollectionTest);
@@ -7629,6 +7777,7 @@ args: [],
 source: "testLastN\x0a\x09self \x0a\x09\x09assert: (self collection last: 2) \x0a\x09\x09equals: self collectionLastTwo.\x0a\x09\x09\x0a\x09self\x0a\x09\x09assert: (self collection last: 0)\x0a\x09\x09equals: self collectionClass new.\x0a\x0a\x09self\x0a\x09\x09assert: (self collection last: self collectionSize)\x0a\x09\x09equals: self collection.\x0a\x0a\x09self should: [ self collection last: 33 ] raise: Error",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "last:", "collection", "collectionLastTwo", "new", "collectionClass", "collectionSize", "should:raise:"]
 }),
 $globals.SequenceableCollectionTest);
@@ -7659,6 +7808,7 @@ args: [],
 source: "testSecond\x0a\x09self assert: (self collection second) equals: (self collection at: 2)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "second", "collection", "at:"]
 }),
 $globals.SequenceableCollectionTest);
@@ -7689,6 +7839,7 @@ args: [],
 source: "testThird\x0a\x09self assert: (self collection third) equals: (self collection at: 3)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "third", "collection", "at:"]
 }),
 $globals.SequenceableCollectionTest);
@@ -7710,6 +7861,7 @@ args: [],
 source: "collection\x0a\x09^ #(1 2 3 -4)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ArrayTest);
@@ -7728,6 +7880,7 @@ args: [],
 source: "collectionFirst\x0a\x09^ 1",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ArrayTest);
@@ -7746,6 +7899,7 @@ args: [],
 source: "collectionFirstTwo\x0a\x09^ #(1 2)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ArrayTest);
@@ -7764,6 +7918,7 @@ args: [],
 source: "collectionLast\x0a\x09^ -4",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ArrayTest);
@@ -7782,6 +7937,7 @@ args: [],
 source: "collectionLastTwo\x0a\x09^ #(3 -4)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ArrayTest);
@@ -7800,6 +7956,7 @@ args: [],
 source: "collectionOfPrintStrings\x0a\x09^ #('1' '2' '3' '-4')",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ArrayTest);
@@ -7818,6 +7975,7 @@ args: [],
 source: "collectionSize\x0a\x09^ 4",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ArrayTest);
@@ -7836,6 +7994,7 @@ args: [],
 source: "collectionWithDuplicates\x0a\x09^ #('a' 'b' 'c' 1 2 1 'a' ())",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ArrayTest);
@@ -7854,6 +8013,7 @@ args: [],
 source: "collectionWithNewValue\x0a\x09^ #(1 2 3 -4 'N')",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ArrayTest);
@@ -7872,6 +8032,7 @@ args: [],
 source: "sampleNewIndex\x0a\x09^ 5",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ArrayTest);
@@ -7904,6 +8065,7 @@ args: ["aBlock"],
 source: "samplesDo: aBlock\x0a\x09super samplesDo: aBlock.\x0a\x09aBlock value: 3 value: 3.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["samplesDo:", "value:value:"]
 }),
 $globals.ArrayTest);
@@ -7931,6 +8093,7 @@ args: [],
 source: "testAdd \x0a\x09| array | \x0a\x09array := self collection. \x0a\x09array add: 6.\x0a\x09\x0a\x09self assert: array last equals: 6",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collection", "add:", "assert:equals:", "last"]
 }),
 $globals.ArrayTest);
@@ -7960,6 +8123,7 @@ args: [],
 source: "testAddFirst\x0a\x09self assert: (self collection addFirst: 0; yourself) first equals: 0",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "first", "addFirst:", "collection", "yourself"]
 }),
 $globals.ArrayTest);
@@ -8048,6 +8212,7 @@ args: [],
 source: "testPrintString\x0a\x09| array |\x0a\x09array := Array new.\x0a\x09self assert: array printString equals: 'an Array ()'.\x0a\x09array add: 1; add: 3.\x0a\x09self assert: array printString equals: 'an Array (1 3)'.\x0a\x09array add: 'foo'.\x0a\x09self assert: array printString equals: 'an Array (1 3 ''foo'')'.\x0a\x09array remove: 1; remove: 3.\x0a\x09self assert: array printString equals: 'an Array (''foo'')'.\x0a\x09array addLast: 3.\x0a\x09self assert: array printString equals: 'an Array (''foo'' 3)'.\x0a\x09array addLast: 3.\x0a\x09self assert: array printString equals: 'an Array (''foo'' 3 3)'.",
 referencedClasses: ["Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "assert:equals:", "printString", "add:", "remove:", "addLast:"]
 }),
 $globals.ArrayTest);
@@ -8087,6 +8252,7 @@ args: [],
 source: "testRemove \x0a\x09| array |\x0a\x09array := #(1 2 3 4 5). \x0a\x09array remove: 3.\x0a\x0a\x09self assert: array equals: #(1 2 4 5).\x0a\x09self should: [ array remove: 3 ] raise: Error",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["remove:", "assert:equals:", "should:raise:"]
 }),
 $globals.ArrayTest);
@@ -8128,6 +8294,7 @@ args: [],
 source: "testRemoveFromTo\x0a\x09\x0a\x09self assert: (#(1 2 3 4) removeFrom: 1 to: 3) equals: #(4).\x0a\x09self assert: (#(1 2 3 4) removeFrom: 2 to: 3) equals: #(1 4).\x0a\x09self assert: (#(1 2 3 4) removeFrom: 2 to: 4) equals: #(1)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "removeFrom:to:"]
 }),
 $globals.ArrayTest);
@@ -8169,6 +8336,7 @@ args: [],
 source: "testRemoveIndex\x0a\x09\x0a\x09self assert: (#(1 2 3 4) removeIndex: 2) equals: #(1 3 4).\x0a\x09self assert: (#(1 2 3 4) removeIndex: 1) equals: #(2 3 4).\x0a\x09self assert: (#('hello') removeIndex: 1) equals: #()",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "removeIndex:"]
 }),
 $globals.ArrayTest);
@@ -8196,6 +8364,7 @@ args: [],
 source: "testRemoveLast \x0a\x09| array |\x0a\x09array := #(1 2). \x0a\x09array removeLast.\x0a\x09\x0a\x09self assert: array last equals: 1",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["removeLast", "assert:equals:", "last"]
 }),
 $globals.ArrayTest);
@@ -8222,6 +8391,7 @@ args: [],
 source: "testReversed\x0a\x09|array|\x0a\x09array := #(5 4 3 2 1). \x0a\x09self assert: (array reversed) equals: #(1 2 3 4 5)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "reversed"]
 }),
 $globals.ArrayTest);
@@ -8249,6 +8419,7 @@ args: [],
 source: "testSort\x0a\x09| array |\x0a\x09array := #(10 1 5). \x0a\x09array sort.\x0a\x09self assert: array equals: #(1 5 10)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["sort", "assert:equals:"]
 }),
 $globals.ArrayTest);
@@ -8268,6 +8439,7 @@ args: [],
 source: "collectionClass\x0a\x09^ Array",
 referencedClasses: ["Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ArrayTest.a$cls);
@@ -8288,6 +8460,7 @@ args: [],
 source: "collection\x0a\x09^ 'helLo'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.StringTest);
@@ -8306,6 +8479,7 @@ args: [],
 source: "collectionFirst\x0a\x09^ 'h'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.StringTest);
@@ -8324,6 +8498,7 @@ args: [],
 source: "collectionFirstTwo\x0a\x09^ 'he'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.StringTest);
@@ -8342,6 +8517,7 @@ args: [],
 source: "collectionLast\x0a\x09^ 'o'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.StringTest);
@@ -8360,6 +8536,7 @@ args: [],
 source: "collectionLastTwo\x0a\x09^ 'Lo'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.StringTest);
@@ -8378,6 +8555,7 @@ args: [],
 source: "collectionOfPrintStrings\x0a\x09^ '''h''''e''''l''''L''''o'''",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.StringTest);
@@ -8396,6 +8574,7 @@ args: [],
 source: "collectionSize\x0a\x09^ 5",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.StringTest);
@@ -8414,6 +8593,7 @@ args: [],
 source: "collectionWithDuplicates\x0a\x09^ 'abbaerten'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.StringTest);
@@ -8432,6 +8612,7 @@ args: [],
 source: "collectionWithNewValue\x0a\x09^ 'helLoN'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.StringTest);
@@ -8450,6 +8631,7 @@ args: [],
 source: "sampleNewValueAsCollection\x0a\x09^ 'N'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.StringTest);
@@ -8482,6 +8664,7 @@ args: ["aBlock"],
 source: "samplesDo: aBlock\x0a\x09super samplesDo: aBlock.\x0a\x09aBlock value: 3 value: 'l'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["samplesDo:", "value:value:"]
 }),
 $globals.StringTest);
@@ -8519,6 +8702,7 @@ args: [],
 source: "testAddAll\x0a\x09\x22String instances are read-only\x22\x0a\x09self should: [ self collection addAll: self collection ] raise: Error",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "addAll:", "collection"]
 }),
 $globals.StringTest);
@@ -8563,6 +8747,7 @@ args: [],
 source: "testAddRemove\x0a\x09self should: [ 'hello' add: 'a' ] raise: Error.\x0a\x09self should: [ 'hello' remove: 'h' ] raise: Error",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "add:", "remove:"]
 }),
 $globals.StringTest);
@@ -8587,6 +8772,7 @@ args: [],
 source: "testAsArray\x0a\x09self assert: 'hello' asArray equals: #('h' 'e' 'l' 'l' 'o').",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "asArray"]
 }),
 $globals.StringTest);
@@ -8611,6 +8797,7 @@ args: [],
 source: "testAsLowerCase\x0a\x09self assert: 'JACKIE' asLowercase equals: 'jackie'.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "asLowercase"]
 }),
 $globals.StringTest);
@@ -8652,6 +8839,7 @@ args: [],
 source: "testAsNumber\x0a\x09self assert: '3' asNumber equals: 3.\x0a\x09self assert: '-3' asNumber equals: -3.\x0a\x09self assert: '-1.5' asNumber equals: -1.5.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "asNumber"]
 }),
 $globals.StringTest);
@@ -8676,6 +8864,7 @@ args: [],
 source: "testAsUpperCase\x0a\x09self assert: 'jackie' asUppercase equals: 'JACKIE'.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "asUppercase"]
 }),
 $globals.StringTest);
@@ -8712,6 +8901,7 @@ args: [],
 source: "testAsciiValue\x0a    | characterA characterU |\x0a    characterA := 'A'.\x0a    characterU := 'U'.\x0a    self assert: (characterA asciiValue) equals:65.\x0a    self assert: (characterU asciiValue) equals:85",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "asciiValue"]
 }),
 $globals.StringTest);
@@ -8747,6 +8937,7 @@ args: [],
 source: "testAtIfAbsentPut\x0a\x09\x22String instances are read-only\x22\x0a\x09self should: [ 'hello' at: 6 ifAbsentPut: [ 'a' ] ] raise: Error",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "at:ifAbsentPut:"]
 }),
 $globals.StringTest);
@@ -8779,6 +8970,7 @@ args: [],
 source: "testAtPut\x0a\x09\x22String instances are read-only\x22\x0a\x09self should: [ 'hello' at: 1 put: 'a' ] raise: Error",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "at:put:"]
 }),
 $globals.StringTest);
@@ -8832,6 +9024,7 @@ args: [],
 source: "testCapitalized\x0a\x09self assert: 'test' capitalized equals: 'Test'.\x0a\x09self assert: 'Test' capitalized equals: 'Test'.\x0a\x09self assert: '' capitalized equals: ''.\x0a\x09self assert: 'Test' isCapitalized equals: true.\x0a\x09self assert: 'test' isCapitalized equals: false.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "capitalized", "isCapitalized"]
 }),
 $globals.StringTest);
@@ -8897,6 +9090,7 @@ args: [],
 source: "testCharCodeAt\x0a\x09self assert: ('jackie' charCodeAt:1) equals: 106.\x0a\x09self assert: ('jackie' charCodeAt:2) equals: 97.\x0a\x09self assert: ('jackie' charCodeAt:3) equals: 99.\x0a\x09self assert: ('jackie' charCodeAt:4) equals: 107.\x0a\x09self assert: ('jackie' charCodeAt:5) equals: 105.\x0a\x09self assert: ('jackie' charCodeAt:6) equals: 101",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "charCodeAt:"]
 }),
 $globals.StringTest);
@@ -8930,6 +9124,7 @@ args: [],
 source: "testCopyFromTo\x0a\x09self assert: ('jackie' copyFrom: 1 to: 3) equals: 'jac'.\x0a\x09self assert: ('jackie' copyFrom: 4 to: 6) equals: 'kie'.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "copyFrom:to:"]
 }),
 $globals.StringTest);
@@ -8961,6 +9156,7 @@ args: [],
 source: "testCopySeparates\x0a\x09\x22String instances are immutable\x22\x0a\x09self assert: self collection copy == self collection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "==", "copy", "collection"]
 }),
 $globals.StringTest);
@@ -8985,6 +9181,7 @@ args: [],
 source: "testCopyWithoutAll\x0a\x09self\x0a\x09\x09assert: ('*hello* *world*' copyWithoutAll: '*')\x0a\x09\x09equals: 'hello world'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "copyWithoutAll:"]
 }),
 $globals.StringTest);
@@ -9041,6 +9238,7 @@ args: [],
 source: "testEquality\x0a\x09self assert: 'hello' equals: 'hello'.\x0a\x09self deny: 'hello' = 'world'.\x0a\x09\x0a\x09\x22Test for issue 459\x22\x0a\x09self deny: 'hello' = (#() at: 1 ifAbsent: [ ]).\x0a\x0a\x09self assert: 'hello' equals: 'hello' yourself.\x0a\x09self assert: 'hello' yourself equals: 'hello'.\x0a\x0a\x09\x22test JS falsy value\x22\x0a\x09self deny: '' = 0",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "deny:", "=", "at:ifAbsent:", "yourself"]
 }),
 $globals.StringTest);
@@ -9099,6 +9297,7 @@ args: [],
 source: "testIdentity\x0a\x09self assert: 'hello' == 'hello'.\x0a\x09self deny: 'hello' == 'world'.\x0a\x0a\x09self assert: 'hello' == 'hello' yourself.\x0a\x09self assert: 'hello' yourself == 'hello'.\x0a\x0a\x09\x22test JS falsy value\x22\x0a\x09self deny: '' == 0",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "==", "deny:", "yourself"]
 }),
 $globals.StringTest);
@@ -9129,6 +9328,7 @@ args: [],
 source: "testIncludesSubString\x0a\x09self assert: ('amber' includesSubString: 'ber').\x0a\x09self deny: ('amber' includesSubString: 'zork').",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "includesSubString:", "deny:"]
 }),
 $globals.StringTest);
@@ -9147,6 +9347,7 @@ args: [],
 source: "testIndexOfStartingAtWithNull\x0a\x09\x22String cannot hold JS null\x22",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.StringTest);
@@ -9165,6 +9366,7 @@ args: [],
 source: "testIndexOfWithNull\x0a\x09\x22String cannot hold JS null\x22",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.StringTest);
@@ -9201,6 +9403,7 @@ args: [],
 source: "testIsVowel\x0a    |vowel consonant|\x0a    vowel := 'u'.\x0a    consonant := 'z'.\x0a    self assert: vowel isVowel equals: true.\x0a    self assert: consonant isVowel equals: false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "isVowel"]
 }),
 $globals.StringTest);
@@ -9225,6 +9428,7 @@ args: [],
 source: "testJoin\x0a\x09self assert: (',' join: #('hello' 'world')) equals: 'hello,world'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "join:"]
 }),
 $globals.StringTest);
@@ -9263,6 +9467,7 @@ args: [],
 source: "testRegression1224\x0a\x09\x22String instances are read-only\x22\x0a\x09self should: [ (self collectionClass new\x0a\x09\x09remove: self sampleNewValue ifAbsent: [];\x0a\x09\x09yourself) size ] raise: Error",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "size", "remove:ifAbsent:", "new", "collectionClass", "sampleNewValue", "yourself"]
 }),
 $globals.StringTest);
@@ -9295,6 +9500,7 @@ args: [],
 source: "testRemoveAll\x0a\x09self should: [ self collection removeAll ] raise: Error",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "removeAll", "collection"]
 }),
 $globals.StringTest);
@@ -9319,6 +9525,7 @@ args: [],
 source: "testReversed\x0a\x09self assert: 'jackiechan' reversed equals: 'nahceikcaj'.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "reversed"]
 }),
 $globals.StringTest);
@@ -9356,6 +9563,7 @@ args: [],
 source: "testStreamContents\x0a\x09self\x0a\x09\x09assert: (String streamContents: [ :aStream |\x0a\x09\x09\x09aStream\x0a\x09\x09\x09\x09nextPutAll: 'hello'; space;\x0a\x09\x09\x09\x09nextPutAll: 'world' ])\x0a\x09\x09equals: 'hello world'",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "streamContents:", "nextPutAll:", "space"]
 }),
 $globals.StringTest);
@@ -9380,6 +9588,7 @@ args: [],
 source: "testSubStrings\x0a\x09self assert: ('jackiechan' subStrings: 'ie') equals: #( 'jack' 'chan' ).",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "subStrings:"]
 }),
 $globals.StringTest);
@@ -9408,6 +9617,7 @@ args: [],
 source: "testTrim\x0a\x09self assert: '       jackie' trimLeft equals: 'jackie'.\x0a\x09self assert: 'jackie               ' trimRight equals: 'jackie'.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "trimLeft", "trimRight"]
 }),
 $globals.StringTest);
@@ -9436,6 +9646,7 @@ args: [],
 source: "testValue\x0a\x0a\x09self assert: (#asString value: 1) equals: '1'.\x0a\x0a\x09\x22Which (since String and BlockClosure are now polymorphic) enables the nice idiom...\x22\x0a\x09self assert: (#(1 2 3) collect: #asString) equals: #('1' '2' '3')",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "value:", "collect:"]
 }),
 $globals.StringTest);
@@ -9455,6 +9666,7 @@ args: [],
 source: "collectionClass\x0a\x09^ String",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.StringTest.a$cls);
@@ -9499,6 +9711,7 @@ args: [],
 source: "collection\x0a\x09^ Set new\x0a\x09\x09add: Smalltalk;\x0a\x09\x09add: nil;\x0a\x09\x09add: 3@3;\x0a\x09\x09add: false;\x0a\x09\x09add: sampleBlock;\x0a\x09\x09yourself",
 referencedClasses: ["Set", "Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:", "new", "@", "yourself"]
 }),
 $globals.SetTest);
@@ -9541,6 +9754,7 @@ args: [],
 source: "collectionOfPrintStrings\x0a\x09^ Set new\x0a\x09\x09add: 'a SmalltalkImage';\x0a\x09\x09add: 'nil';\x0a\x09\x09add: '3@3';\x0a\x09\x09add: 'false';\x0a\x09\x09add: 'a BlockClosure';\x0a\x09\x09yourself",
 referencedClasses: ["Set"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:", "new", "yourself"]
 }),
 $globals.SetTest);
@@ -9559,6 +9773,7 @@ args: [],
 source: "collectionSize\x0a\x09^ 5",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SetTest);
@@ -9585,6 +9800,7 @@ args: [],
 source: "collectionWithDuplicates\x0a\x09\x22Set has no duplicates\x22\x0a\x09^ self collection add: 0; yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:", "collection", "yourself"]
 }),
 $globals.SetTest);
@@ -9631,6 +9847,7 @@ args: [],
 source: "collectionWithNewValue\x0a\x09^ Set new\x0a\x09\x09add: Smalltalk;\x0a\x09\x09add: nil;\x0a\x09\x09add: 3@3;\x0a\x09\x09add: 'N';\x0a\x09\x09add: false;\x0a\x09\x09add: sampleBlock;\x0a\x09\x09yourself",
 referencedClasses: ["Set", "Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:", "new", "@", "yourself"]
 }),
 $globals.SetTest);
@@ -9720,6 +9937,7 @@ args: [],
 source: "testAddAll\x0a\x09super testAddAll.\x0a\x09self assert: (self collection addAll: self collection; yourself) equals: self collection.\x0a\x09self assert: (self collection addAll: self collectionWithNewValue; yourself) equals: self collectionWithNewValue.\x0a\x09self assert: (self collectionWithNewValue addAll: self collection; yourself) equals: self collectionWithNewValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["testAddAll", "assert:equals:", "addAll:", "collection", "yourself", "collectionWithNewValue"]
 }),
 $globals.SetTest);
@@ -9770,6 +9988,7 @@ args: [],
 source: "testAddRemove\x0a\x09| set |\x0a\x09set := Set new.\x0a\x09\x0a\x09self assert: set isEmpty.\x0a\x0a\x09set add: 3.\x0a\x09self assert: (set includes: 3).\x0a\x0a\x09set add: 5.\x0a\x09self assert: (set includes: 5).\x0a\x0a\x09set remove: 3.\x0a\x09self deny: (set includes: 3)",
 referencedClasses: ["Set"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "assert:", "isEmpty", "add:", "includes:", "remove:", "deny:"]
 }),
 $globals.SetTest);
@@ -9802,6 +10021,7 @@ args: [],
 source: "testAt\x0a\x09self should: [ Set new at: 1 put: 2 ] raise: Error",
 referencedClasses: ["Set", "Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "at:put:", "new"]
 }),
 $globals.SetTest);
@@ -9848,6 +10068,7 @@ args: [],
 source: "testCollect\x0a\x09super testCollect.\x0a\x09self assert: (#(5 6 8) asSet collect: [ :x | x \x5c\x5c 3 ]) equals: #(0 2) asSet",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["testCollect", "assert:equals:", "collect:", "asSet", "\x5c\x5c"]
 }),
 $globals.SetTest);
@@ -9926,6 +10147,7 @@ args: [],
 source: "testComma\x0a\x09super testComma.\x0a\x09self assert: self collection, self collection equals: self collection.\x0a\x09self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.\x0a\x09self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["testComma", "assert:equals:", ",", "collection", "collectionWithNewValue"]
 }),
 $globals.SetTest);
@@ -9993,6 +10215,7 @@ args: [],
 source: "testComparing\x0a\x09self assert: #(0 2) asSet equals: #(0 2) asSet.\x0a\x09self assert: #(2 0) asSet equals: #(0 2) asSet.\x0a\x09self deny: #(0 2 3) asSet = #(0 2) asSet.\x0a\x09self deny: #(1 2) asSet = #(0 2) asSet",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "asSet", "deny:", "="]
 }),
 $globals.SetTest);
@@ -10084,6 +10307,7 @@ args: [],
 source: "testPrintString\x0a\x09| set |\x0a\x09set := Set new.\x0a\x09self assert: set printString equals: 'a Set ()'.\x0a\x09set add: 1; add: 3.\x0a\x09self assert: set printString equals: 'a Set (1 3)'.\x0a\x09set add: 'foo'.\x0a\x09self assert: set printString equals: 'a Set (1 3 ''foo'')'.\x0a\x09set remove: 1; remove: 3.\x0a\x09self assert: set printString equals: 'a Set (''foo'')'.\x0a\x09set add: 3.\x0a\x09self assert: set printString equals: 'a Set (3 ''foo'')'.\x0a\x09set add: 3.\x0a\x09self assert: set printString equals: 'a Set (3 ''foo'')'",
 referencedClasses: ["Set"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "assert:equals:", "printString", "add:", "remove:"]
 }),
 $globals.SetTest);
@@ -10108,6 +10332,7 @@ args: [],
 source: "testRegression1225\x0a\x09self assert: (#(1 2 3) asSet add: 3) equals: 3",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "add:", "asSet"]
 }),
 $globals.SetTest);
@@ -10132,6 +10357,7 @@ args: [],
 source: "testRegression1226\x0a\x09self assert: (#(1 2 3) asSet remove: 3) equals: 3",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "remove:", "asSet"]
 }),
 $globals.SetTest);
@@ -10159,6 +10385,7 @@ args: [],
 source: "testRegression1227\x0a\x09self assert: (#(1 2 3) asSet remove: 4 ifAbsent: [5]) equals: 5",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "remove:ifAbsent:", "asSet"]
 }),
 $globals.SetTest);
@@ -10191,6 +10418,7 @@ args: [],
 source: "testRegression1228\x0a\x09self should: [#(1 2 3) asSet remove: 4] raise: Error",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "remove:", "asSet"]
 }),
 $globals.SetTest);
@@ -10223,6 +10451,7 @@ args: [],
 source: "testUnboxedObjects\x0a\x09self assert: {'foo' yourself. 'foo' yourself} asSet asArray equals: #('foo')",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "asArray", "asSet", "yourself"]
 }),
 $globals.SetTest);
@@ -10275,6 +10504,7 @@ args: [],
 source: "testUnicity\x0a\x09| set |\x0a\x09set := Set new.\x0a\x09set add: 21.\x0a\x09set add: 'hello'.\x0a\x0a\x09set add: 21.\x0a\x09self assert: set size equals: 2.\x0a\x09\x0a\x09set add: 'hello'.\x0a\x09self assert: set size equals: 2.\x0a\x0a\x09self assert: set asArray equals: #(21 'hello')",
 referencedClasses: ["Set"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "add:", "assert:equals:", "size", "asArray"]
 }),
 $globals.SetTest);
@@ -10294,6 +10524,7 @@ args: [],
 source: "collectionClass\x0a\x09^ Set",
 referencedClasses: ["Set"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SetTest.a$cls);
@@ -10350,6 +10581,7 @@ args: [],
 source: "testShow\x0a| originalTranscript |\x0aoriginalTranscript := Transcript current.\x0aTranscript register: ConsoleTranscript new.\x0a\x0aself shouldnt: [ Transcript show: 'Hello console!' ] raise: Error.\x0aself shouldnt: [ Transcript show: console ] raise: Error.\x0a\x0aTranscript register: originalTranscript.",
 referencedClasses: ["Transcript", "ConsoleTranscript", "Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["current", "register:", "new", "shouldnt:raise:", "show:"]
 }),
 $globals.ConsoleTranscriptTest);
@@ -10431,6 +10663,7 @@ args: [],
 source: "testEquality\x0a\x09| now |\x0a\x09now := Date new.\x0a\x0a\x09self assert: now = now.\x0a\x0a\x09self deny: now = (Date fromMilliseconds: 0).\x0a\x0a\x09self assert: (Date fromMilliseconds: 12345678) = (Date fromMilliseconds: 12345678).\x0a\x09self assert: now = (Date fromMilliseconds: now asMilliseconds).\x0a\x09self assert: (Date fromMilliseconds: now asMilliseconds) = now",
 referencedClasses: ["Date"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "assert:", "=", "deny:", "fromMilliseconds:", "asMilliseconds"]
 }),
 $globals.DateTest);
@@ -10509,6 +10742,7 @@ args: [],
 source: "testIdentity\x0a\x09| now |\x0a\x09now := Date new.\x0a\x0a\x09self assert: now == now.\x0a\x0a\x09self deny: now == (Date fromMilliseconds: 0).\x0a\x0a\x09self deny: (Date fromMilliseconds: 12345678) == (Date fromMilliseconds: 12345678).\x0a\x09self deny: now == (Date fromMilliseconds: now asMilliseconds).\x0a\x09self deny: (Date fromMilliseconds: now asMilliseconds) == now",
 referencedClasses: ["Date"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "assert:", "==", "deny:", "fromMilliseconds:", "asMilliseconds"]
 }),
 $globals.DateTest);
@@ -10536,6 +10770,7 @@ args: [],
 source: "jsObject\x0a\x09<inlineJS: \x0a\x09\x09'return {a: 1, b: function() {return 2;}, c: function(object) {return object;}, d: \x22\x22, \x22e\x22: null, \x22f\x22: void 0}'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return {a: 1, b: function() {return 2;}, c: function(object) {return object;}, d: \x22\x22, \x22e\x22: null, \x22f\x22: void 0}"]]],
 messageSends: []
 }),
 $globals.JSObjectProxyTest);
@@ -10560,6 +10795,7 @@ args: [],
 source: "jsUndefined\x0a\x09<inlineJS: 'return'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return"]]],
 messageSends: []
 }),
 $globals.JSObjectProxyTest);
@@ -10623,6 +10859,7 @@ args: [],
 source: "testAtIfAbsent\x0a\x09| testObject |\x0a\x09testObject := self jsObject.\x0a\x09self assert: (testObject at: 'abc' ifAbsent: [ 'Property does not exist' ]) equals: 'Property does not exist'.\x0a\x09self assert: (testObject at: 'e' ifAbsent: [ 'Property does not exist' ]) equals: nil.\x0a\x09self assert: (testObject at: 'a' ifAbsent: [ 'Property does not exist' ]) equals: 1.\x0a\x09self assert: (testObject at: 'f' ifAbsent: [ 'Property does not exist' ]) equals: nil.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["jsObject", "assert:equals:", "at:ifAbsent:"]
 }),
 $globals.JSObjectProxyTest);
@@ -10727,6 +10964,7 @@ args: [],
 source: "testAtIfPresent\x0a\x09| testObject |\x0a\x09\x0a\x09testObject := self jsObject.\x0a\x09\x0a\x09self assert: (testObject at: 'abc' ifPresent: [ :x | 'hello ',x asString ]) equals: nil.\x0a\x09self assert: (testObject at: 'e' ifPresent: [ :x | 'hello ',x asString ]) equals: 'hello nil'.\x0a\x09self assert: (testObject at: 'a' ifPresent: [ :x | 'hello ',x asString ]) equals: 'hello 1'.\x0a\x09self assert: (testObject at: 'f' ifPresent: [ :x | 'hello ',x asString ]) equals: 'hello nil'.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["jsObject", "assert:equals:", "at:ifPresent:", ",", "asString"]
 }),
 $globals.JSObjectProxyTest);
@@ -10843,6 +11081,7 @@ args: [],
 source: "testAtIfPresentIfAbsent\x0a\x09| testObject |\x0a\x09testObject := self jsObject.\x0a\x09self assert: (testObject at: 'abc' ifPresent: [ :x|'hello ',x asString ] ifAbsent: [ 'not present' ]) equals: 'not present'.\x0a\x09self assert: (testObject at: 'e' ifPresent: [ :x|'hello ',x asString ] ifAbsent: [ 'not present' ]) equals: 'hello nil'.\x0a\x09self assert: (testObject at: 'a' ifPresent: [ :x|'hello ',x asString ] ifAbsent: [ 'not present' ]) equals: 'hello 1'.\x0a\x09self assert: (testObject at: 'f' ifPresent: [ :x|'hello ',x asString ] ifAbsent: [ 'not present' ]) equals: 'hello nil'.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["jsObject", "assert:equals:", "at:ifPresent:ifAbsent:", ",", "asString"]
 }),
 $globals.JSObjectProxyTest);
@@ -10880,6 +11119,7 @@ args: [],
 source: "testAtPut\x0a\x09| testObject |\x0a\x09testObject := self jsObject.\x0a\x09\x0a\x09self assert: (testObject at: 'abc') ~= 'xyz'.\x0a\x09self assert: (testObject at: 'abc' put: 'xyz') equals: 'xyz'.\x0a\x09self assert: (testObject at: 'abc') equals: 'xyz'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["jsObject", "assert:", "~=", "at:", "assert:equals:", "at:put:"]
 }),
 $globals.JSObjectProxyTest);
@@ -10919,6 +11159,7 @@ args: [],
 source: "testComparison\x0a\x09self assert: ({ console. 2 } indexOf: console) equals: 1.\x0a\x09self assert: console = console.\x0a\x09self deny: console = Object new.\x0a\x09self deny: console = self jsObject",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "indexOf:", "assert:", "=", "deny:", "new", "jsObject"]
 }),
 $globals.JSObjectProxyTest);
@@ -10951,6 +11192,7 @@ args: [],
 source: "testDNU\x0a\x09self should: [ self jsObject foo ] raise: MessageNotUnderstood",
 referencedClasses: ["MessageNotUnderstood"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "foo", "jsObject"]
 }),
 $globals.JSObjectProxyTest);
@@ -10986,6 +11228,7 @@ args: [],
 source: "testDNUWithAllowJavaScriptCalls\x0a\x09| jsObject |\x0a\x09jsObject := #().\x0a\x09jsObject basicAt: 'allowJavaScriptCalls' put: true.\x0a\x09self should: [ jsObject foo ] raise: MessageNotUnderstood",
 referencedClasses: ["MessageNotUnderstood"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["basicAt:put:", "should:raise:", "foo"]
 }),
 $globals.JSObjectProxyTest);
@@ -11029,6 +11272,7 @@ args: [],
 source: "testMessageSend\x0a\x0a\x09self assert: self jsObject a equals: 1.\x0a\x09self assert: self jsObject b equals: 2.\x0a\x09self assert: (self jsObject c: 3) equals: 3",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "a", "jsObject", "b", "c:"]
 }),
 $globals.JSObjectProxyTest);
@@ -11053,6 +11297,7 @@ args: [],
 source: "testMethodWithArguments\x0a\x09self assert: (self jsObject c: 1) equals: 1",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "c:", "jsObject"]
 }),
 $globals.JSObjectProxyTest);
@@ -11084,6 +11329,7 @@ args: [],
 source: "testNull\x0a\x09self assert: JSObjectProxy null isNil.\x0a\x09self\x0a\x09\x09assert: (JSON stringify: #{#foo -> JSObjectProxy null})\x0a\x09\x09equals: '{\x22foo\x22:null}'",
 referencedClasses: ["JSObjectProxy", "JSON"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "isNil", "null", "assert:equals:", "stringify:"]
 }),
 $globals.JSObjectProxyTest);
@@ -11108,6 +11354,7 @@ args: [],
 source: "testPrinting\x0a\x09self assert: self jsObject printString equals: '[object Object]'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "printString", "jsObject"]
 }),
 $globals.JSObjectProxyTest);
@@ -11144,6 +11391,7 @@ args: [],
 source: "testPropertyThatReturnsEmptyString\x0a\x09| object |\x0a\x0a\x09object := self jsObject.\x0a\x09self assert: object d equals: ''.\x0a\x0a\x09object d: 'hello'.\x0a\x09self assert: object d equals: 'hello'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["jsObject", "assert:equals:", "d", "d:"]
 }),
 $globals.JSObjectProxyTest);
@@ -11182,6 +11430,7 @@ args: [],
 source: "testPropertyThatReturnsUndefined\x0a\x09| object |\x0a\x0a\x09object := self jsObject.\x0a\x09self shouldnt: [ object e ] raise: MessageNotUnderstood.\x0a\x09self assert: object e isNil",
 referencedClasses: ["MessageNotUnderstood"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["jsObject", "shouldnt:raise:", "e", "assert:", "isNil"]
 }),
 $globals.JSObjectProxyTest);
@@ -11266,6 +11515,7 @@ args: [],
 source: "testSetPropertyWithFalsyValue\x0a\x09| jsObject |\x0a\x09jsObject := self jsObject.\x0a\x09self assert: (jsObject a) equals: 1.\x0a\x0a\x09jsObject a: JSObjectProxy null.\x0a\x09self assert: (jsObject a) equals: nil.\x0a\x09jsObject a: 0.\x0a\x09self assert: (jsObject a) equals: 0.\x0a\x09jsObject a: self jsUndefined.\x0a\x09self assert: (jsObject a) equals: nil.\x0a\x09jsObject a: ''.\x0a\x09self assert: (jsObject a) equals: ''.\x0a\x09jsObject a: false.\x0a\x09self assert: (jsObject a) equals: false",
 referencedClasses: ["JSObjectProxy"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["jsObject", "assert:equals:", "a", "a:", "null", "jsUndefined"]
 }),
 $globals.JSObjectProxyTest);
@@ -11297,6 +11547,7 @@ args: [],
 source: "testUndefined\x0a\x09self assert: JSObjectProxy undefined isNil.\x0a\x09self\x0a\x09\x09assert: (JSON stringify: #{#foo -> JSObjectProxy undefined})\x0a\x09\x09equals: '{}'",
 referencedClasses: ["JSObjectProxy", "JSON"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "isNil", "undefined", "assert:equals:", "stringify:"]
 }),
 $globals.JSObjectProxyTest);
@@ -11324,6 +11575,7 @@ args: [],
 source: "testValue\x0a\x09| testObject |\x0a\x09testObject := self jsObject.\x0a\x09testObject at: 'value' put: 'aValue'.\x0a\x09self assert: testObject value equals: 'aValue'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["jsObject", "at:put:", "assert:equals:", "value"]
 }),
 $globals.JSObjectProxyTest);
@@ -11353,6 +11605,7 @@ args: [],
 source: "testYourself\x0a\x09| object |\x0a\x09object := self jsObject\x0a\x09\x09d: 'test';\x0a\x09\x09yourself.\x0a\x0a\x09self assert: object d equals: 'test'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["d:", "jsObject", "yourself", "assert:equals:", "d"]
 }),
 $globals.JSObjectProxyTest);
@@ -11396,6 +11649,7 @@ args: [],
 source: "testCatchingException\x0a\x09[ self throwException ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :error |\x0a\x09\x09\x09self assert: error exception = 'test' ]",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["on:do:", "throwException", "assert:", "=", "exception"]
 }),
 $globals.JavaScriptExceptionTest);
@@ -11428,6 +11682,7 @@ args: [],
 source: "testRaisingException\x0a\x09self should: [ self throwException ] raise: JavaScriptException",
 referencedClasses: ["JavaScriptException"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "throwException"]
 }),
 $globals.JavaScriptExceptionTest);
@@ -11452,6 +11707,7 @@ args: [],
 source: "throwException\x0a\x09<inlineJS: 'throw \x22test\x22'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["throw \x22test\x22"]]],
 messageSends: []
 }),
 $globals.JavaScriptExceptionTest);
@@ -11488,6 +11744,7 @@ args: [],
 source: "testValue\x0a\x09| messageSend |\x0a\x09\x0a\x09messageSend := MessageSend new\x0a\x09\x09receiver: Object new;\x0a\x09\x09selector: #asString;\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09self assert: messageSend value equals: 'an Object'",
 referencedClasses: ["MessageSend", "Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["receiver:", "new", "selector:", "yourself", "assert:equals:", "value"]
 }),
 $globals.MessageSendTest);
@@ -11522,6 +11779,7 @@ args: [],
 source: "testValueWithArguments\x0a\x09| messageSend |\x0a\x09\x0a\x09messageSend := MessageSend new\x0a\x09\x09receiver: 2;\x0a\x09\x09selector: '+';\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09self assert: (messageSend value: 3) equals: 5.\x0a\x09\x0a\x09self assert: (messageSend valueWithPossibleArguments: #(4)) equals: 6",
 referencedClasses: ["MessageSend"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["receiver:", "new", "selector:", "yourself", "assert:equals:", "value:", "valueWithPossibleArguments:"]
 }),
 $globals.MessageSendTest);
@@ -11543,6 +11801,7 @@ args: [],
 source: "codeGeneratorClass\x0a\x09^ CodeGenerator",
 referencedClasses: ["CodeGenerator"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodInheritanceTest);
@@ -11569,6 +11828,7 @@ args: [],
 source: "compiler\x0a\x09^ Compiler new\x0a\x09\x09codeGeneratorClass: self codeGeneratorClass;\x0a\x09\x09yourself",
 referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["codeGeneratorClass:", "new", "codeGeneratorClass", "yourself"]
 }),
 $globals.MethodInheritanceTest);
@@ -11593,6 +11853,7 @@ args: [],
 source: "deinstallBottom\x0a\x09self targetClassBottom removeCompiledMethod: method",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["removeCompiledMethod:", "targetClassBottom"]
 }),
 $globals.MethodInheritanceTest);
@@ -11617,6 +11878,7 @@ args: [],
 source: "deinstallMiddle\x0a\x09self targetClassMiddle removeCompiledMethod: method",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["removeCompiledMethod:", "targetClassMiddle"]
 }),
 $globals.MethodInheritanceTest);
@@ -11641,6 +11903,7 @@ args: [],
 source: "deinstallTop\x0a\x09self targetClassTop removeCompiledMethod: method",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["removeCompiledMethod:", "targetClassTop"]
 }),
 $globals.MethodInheritanceTest);
@@ -11665,6 +11928,7 @@ args: ["aString"],
 source: "installBottom: aString\x0a\x09method := self compiler install: aString forClass: self targetClassBottom protocol: 'tests'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["install:forClass:protocol:", "compiler", "targetClassBottom"]
 }),
 $globals.MethodInheritanceTest);
@@ -11689,6 +11953,7 @@ args: ["aString"],
 source: "installMiddle: aString\x0a\x09method := self compiler install: aString forClass: self targetClassMiddle protocol: 'tests'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["install:forClass:protocol:", "compiler", "targetClassMiddle"]
 }),
 $globals.MethodInheritanceTest);
@@ -11713,6 +11978,7 @@ args: ["aString"],
 source: "installTop: aString\x0a\x09method := self compiler install: aString forClass: self targetClassTop protocol: 'tests'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["install:forClass:protocol:", "compiler", "targetClassTop"]
 }),
 $globals.MethodInheritanceTest);
@@ -11755,6 +12021,7 @@ args: [],
 source: "setUp\x0a\x09receiverTop := self targetClassTop new.\x0a\x09receiverMiddle := self targetClassMiddle new.\x0a\x09receiverBottom := self targetClassBottom new.\x0a\x09method := nil.\x0a\x09performBlock := [ self error: 'performBlock not initialized' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "targetClassTop", "targetClassMiddle", "targetClassBottom", "error:"]
 }),
 $globals.MethodInheritanceTest);
@@ -11781,6 +12048,7 @@ args: [],
 source: "shouldMNU\x0a\x09self shouldMNUTop.\x0a\x09self shouldMNUMiddle.\x0a\x09self shouldMNUBottom",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["shouldMNUTop", "shouldMNUMiddle", "shouldMNUBottom"]
 }),
 $globals.MethodInheritanceTest);
@@ -11813,6 +12081,7 @@ args: [],
 source: "shouldMNUBottom\x0a\x09self should: [ performBlock value: receiverBottom ] raise: MessageNotUnderstood",
 referencedClasses: ["MessageNotUnderstood"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "value:"]
 }),
 $globals.MethodInheritanceTest);
@@ -11845,6 +12114,7 @@ args: [],
 source: "shouldMNUMiddle\x0a\x09self should: [ performBlock value: receiverMiddle ] raise: MessageNotUnderstood",
 referencedClasses: ["MessageNotUnderstood"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "value:"]
 }),
 $globals.MethodInheritanceTest);
@@ -11877,6 +12147,7 @@ args: [],
 source: "shouldMNUTop\x0a\x09self should: [ performBlock value: receiverTop ] raise: MessageNotUnderstood",
 referencedClasses: ["MessageNotUnderstood"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "value:"]
 }),
 $globals.MethodInheritanceTest);
@@ -11919,6 +12190,7 @@ args: ["anObject"],
 source: "shouldReturn: anObject\x0a\x09| result |\x0a\x0a\x09result := performBlock value: receiverTop.\x0a\x09self assert: { 'top'. anObject } equals: { 'top'. result }.\x0a\x09result := performBlock value: receiverMiddle.\x0a\x09self assert: { 'middle'. anObject } equals: { 'middle'. result }.\x0a\x09result := performBlock value: receiverBottom.\x0a\x09self assert: { 'bottom'. anObject } equals: { 'bottom'. result }",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value:", "assert:equals:"]
 }),
 $globals.MethodInheritanceTest);
@@ -11961,6 +12233,7 @@ args: ["anObject", "anObject2", "anObject3"],
 source: "shouldReturn: anObject and: anObject2 and: anObject3\x0a\x09| result |\x0a\x0a\x09result := performBlock value: receiverTop.\x0a\x09self assert: { 'top'. anObject } equals: { 'top'. result }.\x0a\x09result := performBlock value: receiverMiddle.\x0a\x09self assert: { 'middle'. anObject2 } equals: { 'middle'. result }.\x0a\x09result := performBlock value: receiverBottom.\x0a\x09self assert: { 'bottom'. anObject3 } equals: { 'bottom'. result }",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value:", "assert:equals:"]
 }),
 $globals.MethodInheritanceTest);
@@ -11979,6 +12252,7 @@ args: [],
 source: "targetClassBottom\x0a\x09^ JavaScriptException",
 referencedClasses: ["JavaScriptException"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodInheritanceTest);
@@ -11997,6 +12271,7 @@ args: [],
 source: "targetClassMiddle\x0a\x09^ Error",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodInheritanceTest);
@@ -12015,6 +12290,7 @@ args: [],
 source: "targetClassTop\x0a\x09^ Object",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodInheritanceTest);
@@ -12077,6 +12353,7 @@ args: [],
 source: "tearDown\x0a\x09[ self deinstallTop ] on: Error do: [ ].\x0a\x09[ self deinstallMiddle ] on: Error do: [ ].\x0a\x09[ self deinstallBottom ] on: Error do: [ ]",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["on:do:", "deinstallTop", "deinstallMiddle", "deinstallBottom"]
 }),
 $globals.MethodInheritanceTest);
@@ -12120,6 +12397,7 @@ args: [],
 source: "testMNU11\x0a\x09performBlock := [ :x | x foo ].\x0a\x09self shouldMNU.\x0a\x09self installTop: 'foo ^ false'.\x0a\x09self installTop: 'foo ^ true'.\x0a\x09self deinstallTop.\x0a\x09self shouldMNU",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["foo", "shouldMNU", "installTop:", "deinstallTop"]
 }),
 $globals.MethodInheritanceTest);
@@ -12163,6 +12441,7 @@ args: [],
 source: "testMNU22\x0a\x09performBlock := [ :x | x foo ].\x0a\x09self shouldMNU.\x0a\x09self installMiddle: 'foo ^ false'.\x0a\x09self installMiddle: 'foo ^ true'.\x0a\x09self deinstallMiddle.\x0a\x09self shouldMNU",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["foo", "shouldMNU", "installMiddle:", "deinstallMiddle"]
 }),
 $globals.MethodInheritanceTest);
@@ -12205,6 +12484,7 @@ args: [],
 source: "testReturns1\x0a\x09performBlock := [ :x | x foo ].\x0a\x09self installTop: 'foo ^ false'.\x0a\x09self shouldReturn: false.\x0a\x09self installTop: 'foo ^ true'.\x0a\x09self shouldReturn: true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["foo", "installTop:", "shouldReturn:"]
 }),
 $globals.MethodInheritanceTest);
@@ -12241,6 +12521,7 @@ args: [],
 source: "testAbs\x0a\x09self assert: 4 abs equals: 4.\x0a\x09self assert: -4 abs equals: 4",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "abs"]
 }),
 $globals.NumberTest);
@@ -12318,6 +12599,7 @@ args: [],
 source: "testArithmetic\x0a\x09\x0a\x09\x22We rely on JS here, so we won't test complex behavior, just check if\x0a\x09message sends are corrects\x22\x0a\x0a\x09self assert: 1.5 + 1 equals: 2.5.\x0a\x09self assert: 2 - 1 equals: 1.\x0a\x09self assert: -2 - 1 equals: -3.\x0a\x09self assert: 12 / 2 equals: 6.\x0a\x09self assert: 3 * 4 equals: 12.\x0a\x09self assert: 7 // 2 equals: 3.\x0a\x09self assert: 7 \x5c\x5c 2 equals: 1.\x0a\x0a\x09\x22Simple parenthesis and execution order\x22\x0a\x09self assert: 1 + 2 * 3 equals: 9.\x0a\x09self assert: 1 + (2 * 3) equals: 7",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "+", "-", "/", "*", "//", "\x5c\x5c"]
 }),
 $globals.NumberTest);
@@ -12342,6 +12624,7 @@ args: [],
 source: "testAsNumber\x0a\x09self assert: 3 asNumber equals: 3.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "asNumber"]
 }),
 $globals.NumberTest);
@@ -12396,6 +12679,7 @@ args: [],
 source: "testBetweenAnd\x0a\x09self assert: (4 between: 3 and: 5).\x0a\x09self assert: (1 between: 5 and: 6) not.\x0a\x09self assert: (90 between: 67 and: 87) not.\x0a\x09self assert: (1 between: 1 and: 1).",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "between:and:", "not"]
 }),
 $globals.NumberTest);
@@ -12437,6 +12721,7 @@ args: [],
 source: "testBitAnd\x0a\x09self assert: (15 bitAnd: 2) equals: 2.\x0a\x09self assert: (15 bitAnd: 15) equals: 15.\x0a\x09self assert: (-1 bitAnd: 1021) equals: 1021",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "bitAnd:"]
 }),
 $globals.NumberTest);
@@ -12478,6 +12763,7 @@ args: [],
 source: "testBitNot\x0a\x09self assert: 2 bitNot equals: -3.\x0a\x09self assert: -1 bitNot equals: 0.\x0a\x09self assert: -1022 bitNot equals: 1021",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "bitNot"]
 }),
 $globals.NumberTest);
@@ -12519,6 +12805,7 @@ args: [],
 source: "testBitOr\x0a\x09self assert: (2 bitOr: 4) equals: 6.\x0a\x09self assert: (7 bitOr: 2) equals: 7.\x0a\x09self assert: (-1 bitOr: 1021) equals: -1",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "bitOr:"]
 }),
 $globals.NumberTest);
@@ -12568,6 +12855,7 @@ args: [],
 source: "testBitXor\x0a\x09self assert: (2 bitXor: 4) equals: 6.\x0a\x09self assert: (7 bitXor: 2) equals: 5.\x0a\x09self assert: (-1 bitXor: 1021) equals: -1022.\x0a\x09self assert: (91 bitXor: 91) equals: 0",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "bitXor:"]
 }),
 $globals.NumberTest);
@@ -12609,6 +12897,7 @@ args: [],
 source: "testCeiling\x0a\x09self assert: 1.2 ceiling equals: 2.\x0a\x09self assert: -1.2 ceiling equals: -1.\x0a\x09self assert: 1.0 ceiling equals: 1.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "ceiling"]
 }),
 $globals.NumberTest);
@@ -12675,6 +12964,7 @@ args: [],
 source: "testComparison\x0a\x0a\x09self assert: 3 > 2.\x0a\x09self assert: 2 < 3.\x0a\x09\x0a\x09self deny: 3 < 2.\x0a\x09self deny: 2 > 3.\x0a\x0a\x09self assert: 3 >= 3.\x0a\x09self assert: 3.1 >= 3.\x0a\x09self assert: 3 <= 3.\x0a\x09self assert: 3 <= 3.1",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", ">", "<", "deny:", ">=", "<="]
 }),
 $globals.NumberTest);
@@ -12708,6 +12998,7 @@ args: [],
 source: "testCopying\x0a\x09self assert: 1 copy == 1.\x0a\x09self assert: 1 deepCopy == 1",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "==", "copy", "deepCopy"]
 }),
 $globals.NumberTest);
@@ -12732,6 +13023,7 @@ args: [],
 source: "testDegreesToRadians\x0a\x09self assert: (180 degreesToRadians - Number pi) abs <= 0.01.",
 referencedClasses: ["Number"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "<=", "abs", "-", "degreesToRadians", "pi"]
 }),
 $globals.NumberTest);
@@ -12838,6 +13130,7 @@ args: [],
 source: "testEquality\x0a\x09self assert: (1 = 1).\x0a\x09self assert: (0 = 0).\x0a\x09self deny: (1 = 0).\x0a\x0a\x09self assert: (1 yourself = 1).\x0a\x09self assert: (1 = 1 yourself).\x0a\x09self assert: (1 yourself = 1 yourself).\x0a\x09\x0a\x09self deny: 0 = false.\x0a\x09self deny: false = 0.\x0a\x09self deny: '' = 0.\x0a\x09self deny: 0 = ''",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "=", "deny:", "yourself"]
 }),
 $globals.NumberTest);
@@ -12879,6 +13172,7 @@ args: [],
 source: "testFloor\x0a\x09self assert: 1.2 floor equals: 1.\x0a\x09self assert: -1.2 floor equals: -2.\x0a\x09self assert: 1.0 floor equals: 1.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "floor"]
 }),
 $globals.NumberTest);
@@ -12948,6 +13242,7 @@ args: [],
 source: "testHexNumbers\x0a\x0a\x09self assert: 16r9 equals: 9.\x0a\x09self assert: 16rA truncated equals: 10.\x0a\x09self assert: 16rB truncated equals: 11.\x0a\x09self assert: 16rC truncated equals: 12.\x0a\x09self assert: 16rD truncated equals: 13.\x0a\x09self assert: 16rE truncated equals: 14.\x0a\x09self assert: 16rF truncated equals: 15",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "truncated"]
 }),
 $globals.NumberTest);
@@ -13030,6 +13325,7 @@ args: [],
 source: "testIdentity\x0a\x09self assert: 1 == 1.\x0a\x09self assert: 0 == 0.\x0a\x09self deny: 1 == 0.\x0a\x0a\x09self assert: 1 yourself == 1.\x0a\x09self assert: 1 == 1 yourself.\x0a\x09self assert: 1 yourself == 1 yourself.\x0a\x09\x0a\x09self deny: 1 == 2",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "==", "deny:", "yourself"]
 }),
 $globals.NumberTest);
@@ -13542,6 +13838,7 @@ args: [],
 source: "testInvalidHexNumbers\x0a\x0a\x09self should: [ 16rG ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rg ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rH ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rh ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rI ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16ri ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rJ ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rj ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rK ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rk ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rL ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rl ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rM ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rm ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rN ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rn ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rO ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16ro ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rP ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rp ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rQ ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rq ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rR ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rr ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rS ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rs ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rT ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rt ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rU ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16ru ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rV ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rv ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rW ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rw ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rX ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rx ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rY ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16ry ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rZ ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rz ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rABcdEfZ ] raise: MessageNotUnderstood.",
 referencedClasses: ["MessageNotUnderstood"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "rG", "rg", "rH", "rh", "rI", "ri", "rJ", "rj", "rK", "rk", "rL", "rl", "rM", "rm", "rN", "rn", "rO", "ro", "rP", "rp", "rQ", "rq", "rR", "rr", "rS", "rs", "rT", "rt", "rU", "ru", "rV", "rv", "rW", "rw", "rX", "rx", "rY", "ry", "rZ", "rz", "Z"]
 }),
 $globals.NumberTest);
@@ -13574,6 +13871,7 @@ args: [],
 source: "testLog\x0a\x09self assert: 10000 log equals: 4.\x0a\x09self assert: (512 log: 2) equals: 9.\x0a\x09self assert: Number e ln equals: 1.",
 referencedClasses: ["Number"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "log", "log:", "ln", "e"]
 }),
 $globals.NumberTest);
@@ -13623,6 +13921,7 @@ args: [],
 source: "testMinMax\x0a\x09\x0a\x09self assert: (2 max: 5) equals: 5.\x0a\x09self assert: (2 min: 5) equals: 2.\x0a\x09self assert: (2 min: 5 max: 3) equals: 3.\x0a\x09self assert: (7 min: 5 max: 3) equals: 5.\x0a\x09self assert: (4 min: 5 max: 3) equals: 4.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "max:", "min:", "min:max:"]
 }),
 $globals.NumberTest);
@@ -13656,6 +13955,7 @@ args: [],
 source: "testNegated\x0a\x09self assert: 3 negated equals: -3.\x0a\x09self assert: -3 negated equals: 3",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "negated"]
 }),
 $globals.NumberTest);
@@ -13789,6 +14089,7 @@ args: [],
 source: "testPrintShowingDecimalPlaces\x0a\x09self assert: (23 printShowingDecimalPlaces: 2) equals: '23.00'.\x0a\x09self assert: (23.5698 printShowingDecimalPlaces: 2) equals: '23.57'.\x0a\x09self assert: (234.567 negated printShowingDecimalPlaces: 5) equals: '-234.56700'.\x0a\x09self assert: (23.4567 printShowingDecimalPlaces: 0) equals: '23'.\x0a\x09self assert: (23.5567 printShowingDecimalPlaces: 0) equals: '24'.\x0a\x09self assert: (23.4567 negated printShowingDecimalPlaces: 0) equals: '-23'.\x0a\x09self assert: (23.5567 negated printShowingDecimalPlaces: 0) equals: '-24'.\x0a\x09self assert: (100000000 printShowingDecimalPlaces: 1) equals: '100000000.0'.\x0a\x09self assert: (0.98 printShowingDecimalPlaces: 5) equals: '0.98000'.\x0a\x09self assert: (0.98 negated printShowingDecimalPlaces: 2) equals: '-0.98'.\x0a\x09self assert: (2.567 printShowingDecimalPlaces: 2) equals: '2.57'.\x0a\x09self assert: (-2.567 printShowingDecimalPlaces: 2) equals: '-2.57'.\x0a\x09self assert: (0 printShowingDecimalPlaces: 2) equals: '0.00'.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "printShowingDecimalPlaces:", "negated"]
 }),
 $globals.NumberTest);
@@ -13838,6 +14139,7 @@ args: [],
 source: "testPrintStringBase\x0a\x09self assert: (15 printStringBase: 2) equals: '1111'.\x0a\x09self assert: (15 printStringBase: 16) equals: 'f'.\x0a\x09self assert: (256 printStringBase: 16) equals: '100'.\x0a\x09self assert: (256 printStringBase: 2) equals: '100000000'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "printStringBase:"]
 }),
 $globals.NumberTest);
@@ -13862,6 +14164,7 @@ args: [],
 source: "testRadiansToDegrees\x0a\x09self assert: (Number pi radiansToDegrees - 180) abs <= 0.01.",
 referencedClasses: ["Number"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "<=", "abs", "-", "radiansToDegrees", "pi"]
 }),
 $globals.NumberTest);
@@ -13915,6 +14218,7 @@ args: [],
 source: "testRaisedTo\x0a\x09self assert: (2 raisedTo: 4) equals: 16.\x0a\x09self assert: (2 raisedTo: 0) equals: 1.\x0a\x09self assert: (2 raisedTo: -3) equals: 0.125.\x0a\x09self assert: (4 raisedTo: 0.5) equals: 2.\x0a\x09\x0a\x09self assert: 2 ** 4 equals: 16.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "raisedTo:", "**"]
 }),
 $globals.NumberTest);
@@ -13956,6 +14260,7 @@ args: [],
 source: "testRounded\x0a\x09\x0a\x09self assert: 3 rounded equals: 3.\x0a\x09self assert: 3.212 rounded equals: 3.\x0a\x09self assert: 3.51 rounded equals: 4",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "rounded"]
 }),
 $globals.NumberTest);
@@ -13997,6 +14302,7 @@ args: [],
 source: "testSign\x0a\x09self assert: 5 sign equals: 1.\x0a\x09self assert: 0 sign equals: 0.\x0a\x09self assert: -1.4 sign equals: -1.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "sign"]
 }),
 $globals.NumberTest);
@@ -14030,6 +14336,7 @@ args: [],
 source: "testSqrt\x0a\x09\x0a\x09self assert: 4 sqrt equals: 2.\x0a\x09self assert: 16 sqrt equals: 4",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "sqrt"]
 }),
 $globals.NumberTest);
@@ -14054,6 +14361,7 @@ args: [],
 source: "testSquared\x0a\x09\x0a\x09self assert: 4 squared equals: 16",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "squared"]
 }),
 $globals.NumberTest);
@@ -14110,6 +14418,7 @@ args: [],
 source: "testTimesRepeat\x0a\x09| i |\x0a\x0a\x09i := 0.\x0a\x090 timesRepeat: [ i := i + 1 ].\x0a\x09self assert: i equals: 0.\x0a\x0a\x095 timesRepeat: [ i := i + 1 ].\x0a\x09self assert: i equals: 5",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["timesRepeat:", "+", "assert:equals:"]
 }),
 $globals.NumberTest);
@@ -14134,6 +14443,7 @@ args: [],
 source: "testTo\x0a\x09self assert: (1 to: 5) equals: #(1 2 3 4 5)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "to:"]
 }),
 $globals.NumberTest);
@@ -14172,6 +14482,7 @@ args: [],
 source: "testToBy\x0a\x09self assert: (0 to: 6 by: 2) equals: #(0 2 4 6).\x0a\x0a\x09self should: [ 1 to: 4 by: 0 ] raise: Error",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "to:by:", "should:raise:"]
 }),
 $globals.NumberTest);
@@ -14229,6 +14540,7 @@ args: [],
 source: "testTrigonometry\x0a\x09self assert: 0 cos equals: 1.\x0a\x09self assert: 0 sin equals: 0.\x0a\x09self assert: 0 tan equals: 0.\x0a\x09self assert: 1 arcCos equals: 0.\x0a\x09self assert: 0 arcSin equals: 0.\x0a\x09self assert: 0 arcTan equals: 0.\x0a\x09\x0a\x09self assert: (0 arcTan: 1) equals: 0.\x0a\x09self assert: (1 arcTan: 0) equals: (Number pi / 2)",
 referencedClasses: ["Number"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "cos", "sin", "tan", "arcCos", "arcSin", "arcTan", "arcTan:", "/", "pi"]
 }),
 $globals.NumberTest);
@@ -14270,6 +14582,7 @@ args: [],
 source: "testTruncated\x0a\x09\x0a\x09self assert: 3 truncated equals: 3.\x0a\x09self assert: 3.212 truncated equals: 3.\x0a\x09self assert: 3.51 truncated equals: 3",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "truncated"]
 }),
 $globals.NumberTest);
@@ -14294,6 +14607,7 @@ args: [],
 source: "foo\x0a\x09^ foo",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ObjectMock);
@@ -14313,6 +14627,7 @@ args: ["anObject"],
 source: "foo: anObject\x0a\x09foo := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ObjectMock);
@@ -14340,6 +14655,7 @@ args: [],
 source: "notDefined\x0a\x09<inlineJS: 'return void 0;'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return void 0;"]]],
 messageSends: []
 }),
 $globals.ObjectTest);
@@ -14376,6 +14692,7 @@ args: [],
 source: "testBasicAccess\x0a\x09| o |\x0a\x09o := Object new.\x0a\x09o basicAt: 'a' put: 1.\x0a\x09self assert: (o basicAt: 'a') equals: 1.\x0a\x09self assert: (o basicAt: 'b') equals: nil",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "basicAt:put:", "assert:equals:", "basicAt:"]
 }),
 $globals.ObjectTest);
@@ -14422,6 +14739,7 @@ args: [],
 source: "testBasicPerform\x0a\x09| o |\x0a\x09o := Object new.\x0a\x09o basicAt: 'func' put: [ 'hello' ].\x0a\x09o basicAt: 'func2' put: [ :a | a + 1 ].\x0a\x0a\x09self assert: (o basicPerform: 'func') equals: 'hello'.\x0a\x09self assert: (o basicPerform: 'func2' withArguments: #(3)) equals: 4",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "basicAt:put:", "+", "assert:equals:", "basicPerform:", "basicPerform:withArguments:"]
 }),
 $globals.ObjectTest);
@@ -14454,6 +14772,7 @@ args: [],
 source: "testDNU\x0a\x09self should: [ Object new foo ] raise: MessageNotUnderstood",
 referencedClasses: ["Object", "MessageNotUnderstood"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "foo", "new"]
 }),
 $globals.ObjectTest);
@@ -14509,6 +14828,7 @@ args: [],
 source: "testEquality\x0a\x09| o |\x0a\x09o := Object new.\x0a\x09self deny: o = Object new.\x0a\x09self assert: (o = o).\x0a\x09self assert: (o yourself = o).\x0a\x09self assert: (o = o yourself)",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "deny:", "=", "assert:", "yourself"]
 }),
 $globals.ObjectTest);
@@ -14541,6 +14861,7 @@ args: [],
 source: "testHalt\x0a\x09self should: [ Object new halt ] raise: Error",
 referencedClasses: ["Object", "Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "halt", "new"]
 }),
 $globals.ObjectTest);
@@ -14596,6 +14917,7 @@ args: [],
 source: "testIdentity\x0a\x09| o |\x0a\x09o := Object new.\x0a\x09self deny: o == Object new.\x0a\x09self assert: o == o.\x0a\x09self assert: o yourself == o.\x0a\x09self assert: o == o yourself",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "deny:", "==", "assert:", "yourself"]
 }),
 $globals.ObjectTest);
@@ -14673,6 +14995,7 @@ args: [],
 source: "testIfNil\x0a\x09self deny: Object new isNil.\x0a\x09self deny: (Object new ifNil: [ true ]) = true.\x0a\x09self assert: (Object new ifNotNil: [ true ]) equals: true.\x0a\x0a\x09self assert: (Object new ifNil: [ false ] ifNotNil: [ true ]) equals: true.\x0a\x09self assert: (Object new ifNotNil: [ true ] ifNil: [ false ]) equals: true",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["deny:", "isNil", "new", "=", "ifNil:", "assert:equals:", "ifNotNil:", "ifNil:ifNotNil:", "ifNotNil:ifNil:"]
 }),
 $globals.ObjectTest);
@@ -14717,6 +15040,7 @@ args: [],
 source: "testInstVars\x0a\x09| o |\x0a\x09o := ObjectMock new.\x0a\x09self assert: (o instVarAt: #foo) equals: nil.\x0a\x0a\x09o instVarAt: #foo put: 1.\x0a\x09self assert: (o instVarAt: #foo) equals: 1.\x0a\x09self assert: (o instVarAt: 'foo') equals: 1",
 referencedClasses: ["ObjectMock"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "assert:equals:", "instVarAt:", "instVarAt:put:"]
 }),
 $globals.ObjectTest);
@@ -14741,6 +15065,7 @@ args: [],
 source: "testNilUndefined\x0a\x09\x22nil in Smalltalk is the undefined object in JS\x22\x0a\x0a\x09self assert: self notDefined equals: nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "notDefined"]
 }),
 $globals.ObjectTest);
@@ -14767,6 +15092,7 @@ args: [],
 source: "testYourself\x0a\x09| o |\x0a\x09o := ObjectMock new.\x0a\x09self assert: o yourself == o",
 referencedClasses: ["ObjectMock"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "assert:", "==", "yourself"]
 }),
 $globals.ObjectTest);
@@ -14825,6 +15151,7 @@ args: [],
 source: "testAccessing\x0a\x09self assert: (Point x: 3 y: 4) x equals: 3.\x0a\x09self assert: (Point x: 3 y: 4) y equals: 4.\x0a\x09self assert: (Point new x: 3) x equals: 3.\x0a\x09self assert: (Point new y: 4) y equals: 4",
 referencedClasses: ["Point"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "x", "x:y:", "y", "x:", "new", "y:"]
 }),
 $globals.PointTest);
@@ -14849,6 +15176,7 @@ args: [],
 source: "testAngle\x0a\x09self assert: (-1@0) angle equals: Number pi",
 referencedClasses: ["Number"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "angle", "@", "pi"]
 }),
 $globals.PointTest);
@@ -14930,6 +15258,7 @@ args: [],
 source: "testArithmetic\x0a\x09self assert: 3@4 * (3@4 ) equals: (Point x: 9 y: 16).\x0a\x09self assert: 3@4 + (3@4 ) equals: (Point x: 6 y: 8).\x0a\x09self assert: 3@4 - (3@4 ) equals: (Point x: 0 y: 0).\x0a\x09self assert: 6@8 / (3@4 ) equals: (Point x: 2 y: 2)",
 referencedClasses: ["Point"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "*", "@", "x:y:", "+", "-", "/"]
 }),
 $globals.PointTest);
@@ -14954,6 +15283,7 @@ args: [],
 source: "testAt\x0a\x09self assert: 3@4 equals: (Point x: 3 y: 4)",
 referencedClasses: ["Point"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "@", "x:y:"]
 }),
 $globals.PointTest);
@@ -15084,6 +15414,7 @@ args: [],
 source: "testComparison\x0a\x09self assert: 3@4 < (4@5).\x0a\x09self deny: 3@4 < (4@4).\x0a\x09\x0a\x09self assert: 4@5 <= (4@5).\x0a\x09self deny: 4@5 <= (3@5).\x0a\x09\x0a\x09self assert: 5@6 > (4@5).\x0a\x09self deny: 5@6 > (6@6).\x0a\x09\x0a\x09self assert: 4@5 >= (4@5).\x0a\x09self deny: 4@5 >= (5@5)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "<", "@", "deny:", "<=", ">", ">="]
 }),
 $globals.PointTest);
@@ -15114,6 +15445,7 @@ args: [],
 source: "testDotProduct\x0a\x09self assert: (2@3 dotProduct: 3@7) equals: 27",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "dotProduct:", "@"]
 }),
 $globals.PointTest);
@@ -15157,6 +15489,7 @@ args: [],
 source: "testEgality\x0a\x09self assert: (3@4 = (3@4)).\x0a\x09self deny: 3@5 = (3@6)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "=", "@", "deny:"]
 }),
 $globals.PointTest);
@@ -15225,6 +15558,7 @@ args: [],
 source: "testNew\x0a\x0a\x09self assert: (Point new x: 3) y equals: nil.\x0a\x09self deny: (Point new x: 3) x = 0.\x0a\x09self assert: (Point new y: 4) x equals: nil.\x0a\x09self deny: (Point new y: 4) y = 0",
 referencedClasses: ["Point"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "y", "x:", "new", "deny:", "=", "x", "y:"]
 }),
 $globals.PointTest);
@@ -15255,6 +15589,7 @@ args: [],
 source: "testNormal\x0a\x09self assert: (1@0) normal equals: 0@1",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "normal", "@"]
 }),
 $globals.PointTest);
@@ -15301,6 +15636,7 @@ args: [],
 source: "testNormalized\x0a\x09self assert: (0@2) normalized equals: 0@1.\x0a\x09self assert: (0@0) normalized equals: 0@0.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "normalized", "@"]
 }),
 $globals.PointTest);
@@ -15338,6 +15674,7 @@ args: [],
 source: "testPolarCoordinates\x0a\x09self assert: (1@0) r equals: 1.\x0a\x09self assert: (0@0) r equals: 0.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "r", "@"]
 }),
 $globals.PointTest);
@@ -15421,6 +15758,7 @@ args: [],
 source: "testRectangleCreation\x0a\x09self assert: (1@1 corner: 2@2) equals: (Rectangle origin: 1@1 corner: 2@2).\x0a\x09self assert: (1@1 rectangle: 2@2) equals: (Rectangle point: 1@1 point: 2@2).\x0a\x09self assert: (1@1 extent: 2@2) equals: (Rectangle origin: 1@1 extent: 2@2)",
 referencedClasses: ["Rectangle"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "corner:", "@", "origin:corner:", "rectangle:", "point:point:", "extent:", "origin:extent:"]
 }),
 $globals.PointTest);
@@ -15519,6 +15857,7 @@ args: [],
 source: "testTranslateBy\x0a\x09self assert: (3@3 translateBy: 0@1) equals: 3@4.\x0a\x09self assert: (3@3 translateBy: 0@1 negated) equals: 3@2.\x0a\x09self assert: (3@3 translateBy: 2@3) equals: 5@6.\x0a\x09self assert: (3@3 translateBy: 3 negated @0) equals: 0@3.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "translateBy:", "@", "negated"]
 }),
 $globals.PointTest);
@@ -15559,6 +15898,7 @@ args: [],
 source: "testNextIfAbsent\x0a\x09| queue |\x0a\x09queue := Queue new.\x0a\x09queue nextPut: 'index1'. \x0a\x0a\x09self assert: (queue  nextIfAbsent: 'empty') = 'index1'.\x0a\x09self deny: (queue  nextIfAbsent: 'empty') = 'index1'",
 referencedClasses: ["Queue"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "nextPut:", "assert:", "=", "nextIfAbsent:", "deny:"]
 }),
 $globals.QueueTest);
@@ -15615,6 +15955,7 @@ args: [],
 source: "testQueueNext\x0a\x09| queue |               \x0a\x09queue := Queue new.\x0a\x09queue \x0a\x09\x09nextPut: 'index1';\x0a\x09\x09nextPut: 'index2'.\x0a\x0a\x09self assert: queue next = 'index1'.\x0a\x09self deny: queue next = 'index'.\x0a\x09self should: [ queue next ] raise: Error",
 referencedClasses: ["Queue", "Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "nextPut:", "assert:", "=", "next", "deny:", "should:raise:"]
 }),
 $globals.QueueTest);
@@ -15656,6 +15997,7 @@ args: [],
 source: "testAtRandomNumber\x0a\x09|val|\x09\x0a\x0a\x09100 timesRepeat: [\x0a\x09\x09val := 10 atRandom.\x09\x0a\x09\x09self assert: (val > 0).\x0a\x09\x09self assert: (val <11)\x0a\x09]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["timesRepeat:", "atRandom", "assert:", ">", "<"]
 }),
 $globals.RandomTest);
@@ -15704,6 +16046,7 @@ args: [],
 source: "testAtRandomSequenceableCollection\x0a\x09|val|\x0a\x09\x0a\x09100 timesRepeat: [\x0a\x09\x09val := 'abc' atRandom.\x0a\x09\x09self assert: ((val = 'a') | (val = 'b') | (val = 'c' )).\x0a\x09].",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["timesRepeat:", "atRandom", "assert:", "|", "="]
 }),
 $globals.RandomTest);
@@ -15749,6 +16092,7 @@ args: [],
 source: "textNext\x0a\x0a\x0910000 timesRepeat: [\x0a\x09\x09\x09| current next |\x0a\x09\x09\x09next := Random new next.\x0a\x09\x09\x09self assert: (next >= 0).\x0a\x09\x09\x09self assert: (next < 1).\x0a\x09\x09\x09self deny: current = next.\x0a\x09\x09\x09next = current ]",
 referencedClasses: ["Random"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["timesRepeat:", "next", "new", "assert:", ">=", "<", "deny:", "="]
 }),
 $globals.RandomTest);
@@ -15800,6 +16144,7 @@ args: [],
 source: "testContainsPoint\x0a\x09| rect |\x0a\x09rect := Rectangle origin: 0@0 corner: 4@4.\x0a\x09\x0a\x09self assert: (rect containsPoint: 1@2).\x0a\x09self assert: (rect containsPoint: 5@4) not.",
 referencedClasses: ["Rectangle"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["origin:corner:", "@", "assert:", "containsPoint:", "not"]
 }),
 $globals.RectangleTest);
@@ -15876,6 +16221,7 @@ args: [],
 source: "testContainsRect\x0a\x09self assert: ((Rectangle origin: 0@0 corner: 6@6) containsRect: (Rectangle origin: 1@1 corner: 5@5)).\x0a\x09self assert: ((Rectangle origin: 0@0 corner: 6@6) containsRect: (Rectangle origin: 1@(-1) corner: 5@5)) not.",
 referencedClasses: ["Rectangle"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "containsRect:", "origin:corner:", "@", "not"]
 }),
 $globals.RectangleTest);
@@ -15920,6 +16266,7 @@ args: [],
 source: "testOriginExtent\x0a\x09| rectangle |\x0a\x09rectangle := Rectangle origin: 3@4 extent: 7@8.\x0a\x09\x0a\x09self assert: rectangle origin equals: 3@4.\x0a\x09self assert: rectangle corner equals: 10@12.",
 referencedClasses: ["Rectangle"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["origin:extent:", "@", "assert:equals:", "origin", "corner"]
 }),
 $globals.RectangleTest);
@@ -15946,6 +16293,7 @@ args: [],
 source: "collectionClass\x0a\x09^ self class collectionClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collectionClass", "class"]
 }),
 $globals.StreamTest);
@@ -15969,6 +16317,7 @@ args: [],
 source: "newCollection\x0a\x09^ self collectionClass new",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "collectionClass"]
 }),
 $globals.StreamTest);
@@ -15992,6 +16341,7 @@ args: [],
 source: "newStream\x0a\x09^ self collectionClass new stream",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["stream", "new", "collectionClass"]
 }),
 $globals.StreamTest);
@@ -16054,6 +16404,7 @@ args: [],
 source: "testAtStartAtEnd\x0a\x09| stream |\x0a\x09\x0a\x09stream := self newStream.\x0a\x09self assert: stream atStart.\x0a\x09self assert: stream atEnd.\x0a\x09\x0a\x09stream nextPutAll: self newCollection.\x0a\x09self assert: stream atEnd.\x0a\x09self deny: stream atStart.\x0a\x09\x0a\x09stream position: 1.\x0a\x09self deny: stream atEnd.\x0a\x09self deny: stream atStart",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["newStream", "assert:", "atStart", "atEnd", "nextPutAll:", "newCollection", "deny:", "position:"]
 }),
 $globals.StreamTest);
@@ -16087,6 +16438,7 @@ args: [],
 source: "testContents\x0a\x09| stream |\x0a\x09\x0a\x09stream := self newStream.\x0a\x09stream nextPutAll: self newCollection.\x0a\x09\x0a\x09self assert: stream contents equals: self newCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["newStream", "nextPutAll:", "newCollection", "assert:equals:", "contents"]
 }),
 $globals.StreamTest);
@@ -16120,6 +16472,7 @@ args: [],
 source: "testIsEmpty\x0a\x09| stream |\x0a\x09\x0a\x09stream := self newStream.\x0a\x09self assert: stream isEmpty.\x0a\x09\x0a\x09stream nextPutAll: self newCollection.\x0a\x09self deny: stream isEmpty",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["newStream", "assert:", "isEmpty", "nextPutAll:", "newCollection", "deny:"]
 }),
 $globals.StreamTest);
@@ -16179,6 +16532,7 @@ args: [],
 source: "testPosition\x0a\x09| collection stream |\x0a\x09\x0a\x09collection := self newCollection.\x0a\x09stream := self newStream.\x0a\x09\x0a\x09stream nextPutAll: collection.\x0a\x09self assert: stream position equals: collection size.\x0a\x09\x0a\x09stream position: 0.\x0a\x09self assert: stream position equals: 0.\x0a\x09\x0a\x09stream next.\x0a\x09self assert: stream position equals: 1.\x0a\x09\x0a\x09stream next.\x0a\x09self assert: stream position equals: 2",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["newCollection", "newStream", "nextPutAll:", "assert:equals:", "position", "size", "position:", "next"]
 }),
 $globals.StreamTest);
@@ -16223,6 +16577,7 @@ args: [],
 source: "testReading\x0a\x09| stream collection |\x0a\x09\x0a\x09collection := self newCollection.\x0a\x09stream := self newStream.\x0a\x09\x0a\x09stream \x0a\x09\x09nextPutAll: collection;\x0a\x09\x09position: 0.\x0a\x09\x0a\x09collection do: [ :each |\x0a\x09\x09self assert: stream next equals: each ].\x0a\x09\x09\x0a\x09self assert: stream next isNil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["newCollection", "newStream", "nextPutAll:", "position:", "do:", "assert:equals:", "next", "assert:", "isNil"]
 }),
 $globals.StreamTest);
@@ -16241,6 +16596,7 @@ args: [],
 source: "testStreamContents",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.StreamTest);
@@ -16277,6 +16633,7 @@ args: [],
 source: "testWrite\x0a\x09| stream collection |\x0a\x09\x0a\x09collection := self newCollection.\x0a\x09stream := self newStream.\x0a\x09\x0a\x09collection do: [ :each | stream << each ].\x0a\x09self assert: stream contents equals: collection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["newCollection", "newStream", "do:", "<<", "assert:equals:", "contents"]
 }),
 $globals.StreamTest);
@@ -16327,6 +16684,7 @@ args: [],
 source: "testWriting\x0a\x09| stream collection |\x0a\x09\x0a\x09collection := self newCollection.\x0a\x09stream := self newStream.\x0a\x09\x0a\x09collection do: [ :each | stream nextPut: each ].\x0a\x09self assert: stream contents equals: collection.\x0a\x09\x0a\x09stream := self newStream.\x0a\x09stream nextPutAll: collection.\x0a\x09self assert: stream contents equals: collection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["newCollection", "newStream", "do:", "nextPut:", "assert:equals:", "contents", "nextPutAll:"]
 }),
 $globals.StreamTest);
@@ -16346,6 +16704,7 @@ args: [],
 source: "collectionClass\x0a\x09^ nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.StreamTest.a$cls);
@@ -16369,6 +16728,7 @@ args: [],
 source: "isAbstract\x0a\x09^ self collectionClass isNil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["isNil", "collectionClass"]
 }),
 $globals.StreamTest.a$cls);
@@ -16394,6 +16754,7 @@ args: [],
 source: "newCollection\x0a\x09^ { true. 1. 3@4. 'foo' }",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["@"]
 }),
 $globals.ArrayStreamTest);
@@ -16413,6 +16774,7 @@ args: [],
 source: "collectionClass\x0a\x09^ Array",
 referencedClasses: ["Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ArrayStreamTest.a$cls);
@@ -16433,6 +16795,7 @@ args: [],
 source: "newCollection\x0a\x09^ 'hello world'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.StringStreamTest);
@@ -16452,6 +16815,7 @@ args: [],
 source: "collectionClass\x0a\x09^ String",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.StringStreamTest.a$cls);
@@ -16478,6 +16842,7 @@ args: [],
 source: "testCopying\x0a\x09self assert: nil copy equals: nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "copy"]
 }),
 $globals.UndefinedTest);
@@ -16502,6 +16867,7 @@ args: [],
 source: "testDeepCopy\x0a\x09self assert: nil deepCopy = nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "=", "deepCopy"]
 }),
 $globals.UndefinedTest);
@@ -16561,6 +16927,7 @@ args: [],
 source: "testIfNil\x0a\x09self assert: (nil ifNil: [ true ]) equals: true.\x0a\x09self deny: (nil ifNotNil: [ true ]) = true.\x0a\x09self assert: (nil ifNil: [ true ] ifNotNil: [ false ]) equals: true.\x0a\x09self deny: (nil ifNotNil: [ true ] ifNil: [ false ]) = true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "ifNil:", "deny:", "=", "ifNotNil:", "ifNil:ifNotNil:", "ifNotNil:ifNil:"]
 }),
 $globals.UndefinedTest);
@@ -16586,6 +16953,7 @@ args: [],
 source: "testIsNil\x0a\x09self assert: nil isNil.\x0a\x09self deny: nil notNil.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "isNil", "deny:", "notNil"]
 }),
 $globals.UndefinedTest);

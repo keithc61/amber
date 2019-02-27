@@ -29,6 +29,7 @@ args: [],
 source: "setUp\x0a\x09empty := Set new.\x0a\x09full := Set with: 5 with: #abc",
 referencedClasses: ["Set"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "with:with:"]
 }),
 $globals.ExampleSetTest);
@@ -54,6 +55,7 @@ args: [],
 source: "testAdd\x0a\x09empty add: 5.\x0a\x09self assert: (empty includes: 5)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:", "assert:", "includes:"]
 }),
 $globals.ExampleSetTest);
@@ -79,6 +81,7 @@ args: [],
 source: "testGrow\x0a\x09empty addAll: (1 to: 100).\x0a\x09self assert: empty size equals: 100",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["addAll:", "to:", "assert:equals:", "size"]
 }),
 $globals.ExampleSetTest);
@@ -123,6 +126,7 @@ args: [],
 source: "testIllegal\x0a\x09self\x0a\x09\x09should: [ empty at: 5 ]\x0a\x09\x09raise: Error.\x0a\x09self\x0a\x09\x09should: [ empty at: 5 put: #abc ]\x0a\x09\x09raise: Error",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "at:", "at:put:"]
 }),
 $globals.ExampleSetTest);
@@ -156,6 +160,7 @@ args: [],
 source: "testIncludes\x0a\x09self assert: (full includes: 5).\x0a\x09self assert: (full includes: #abc)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "includes:"]
 }),
 $globals.ExampleSetTest);
@@ -198,6 +203,7 @@ args: [],
 source: "testOccurrences\x0a\x09self assert: (empty occurrencesOf: 0) equals: 0.\x0a\x09self assert: (full occurrencesOf: 5) equals: 1.\x0a\x09full add: 5.\x0a\x09self assert: (full occurrencesOf: 5) equals: 1",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:", "occurrencesOf:", "add:"]
 }),
 $globals.ExampleSetTest);
@@ -229,6 +235,7 @@ args: [],
 source: "testRemove\x0a\x09full remove: 5.\x0a\x09self assert: (full includes: #abc).\x0a\x09self deny: (full includes: 5)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["remove:", "assert:", "includes:", "deny:"]
 }),
 $globals.ExampleSetTest);
@@ -267,6 +274,7 @@ args: [],
 source: "fakeError\x0a\x09flag := 'bad'.\x0a\x09self timeout: 30.\x0a\x09flag := (self async: [ flag := 'ok'. self error: 'Intentional' ]) valueWithTimeout: 20",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["timeout:", "valueWithTimeout:", "async:", "error:"]
 }),
 $globals.SUnitAsyncTest);
@@ -301,6 +309,7 @@ args: [],
 source: "fakeErrorFailingInTearDown\x0a\x09flag := 'bad'.\x0a\x09self timeout: 30.\x0a\x09flag := (self async: [ self error: 'Intentional' ]) valueWithTimeout: 20",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["timeout:", "valueWithTimeout:", "async:", "error:"]
 }),
 $globals.SUnitAsyncTest);
@@ -336,6 +345,7 @@ args: [],
 source: "fakeFailure\x0a\x09flag := 'bad'.\x0a\x09self timeout: 30.\x0a\x09flag := (self async: [ flag := 'ok'. self assert: false ]) valueWithTimeout: 20",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["timeout:", "valueWithTimeout:", "async:", "assert:"]
 }),
 $globals.SUnitAsyncTest);
@@ -389,6 +399,7 @@ args: [],
 source: "fakeMultipleTimeoutFailing\x0a\x09self timeout: 100.\x0a\x09(self async: [ \x0a\x09\x09self timeout: 20.\x0a\x09\x09(self async: [ self finished ]) valueWithTimeout: 30\x0a\x09]) valueWithTimeout: 20",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["timeout:", "valueWithTimeout:", "async:", "finished"]
 }),
 $globals.SUnitAsyncTest);
@@ -442,6 +453,7 @@ args: [],
 source: "fakeMultipleTimeoutPassing\x0a\x09self timeout: 20.\x0a\x09(self async: [\x0a\x09\x09self timeout: 40.\x0a\x09\x09(self async: [ self finished ]) valueWithTimeout: 20\x0a\x09]) valueWithTimeout: 10",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["timeout:", "valueWithTimeout:", "async:", "finished"]
 }),
 $globals.SUnitAsyncTest);
@@ -475,6 +487,7 @@ args: [],
 source: "fakeTimeout\x0a\x09self timeout: 10.\x0a\x09(self async: [ self finished ]) valueWithTimeout: 20",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["timeout:", "valueWithTimeout:", "async:", "finished"]
 }),
 $globals.SUnitAsyncTest);
@@ -506,6 +519,7 @@ args: ["aCollection"],
 source: "selectorSetOf: aCollection\x0a\x09^ (aCollection collect: [ :each | each selector ]) asSet",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["asSet", "collect:", "selector"]
 }),
 $globals.SUnitAsyncTest);
@@ -525,6 +539,7 @@ args: [],
 source: "setUp\x0a\x09flag := 'ok'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SUnitAsyncTest);
@@ -549,6 +564,7 @@ args: [],
 source: "tearDown\x0a\x09self assert: 'ok' equals: flag",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:equals:"]
 }),
 $globals.SUnitAsyncTest);
@@ -625,6 +641,7 @@ args: [],
 source: "testAsyncErrorsAndFailures\x0a\x09| suite runner result assertBlock |\x0a\x09suite := #('fakeError' 'fakeErrorFailingInTearDown' 'fakeFailure' 'testPass') collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09assertBlock := self async: [\x0a\x09\x09self assert: (self selectorSetOf: result errors) equals: #('fakeError') asSet.\x0a\x09\x09self assert: (self selectorSetOf: result failures) equals: #('fakeErrorFailingInTearDown' 'fakeFailure') asSet.\x0a\x09\x09self finished\x0a\x09].\x0a\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09ann result == result ifTrue: [ result runs = result total ifTrue: assertBlock ] ].\x0a\x09runner run",
 referencedClasses: ["TestSuiteRunner", "ResultAnnouncement"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collect:", "selector:", "class", "on:", "timeout:", "result", "async:", "assert:equals:", "selectorSetOf:", "errors", "asSet", "failures", "finished", "on:do:", "announcer", "ifTrue:", "==", "=", "runs", "total", "run"]
 }),
 $globals.SUnitAsyncTest);
@@ -675,6 +692,7 @@ args: [],
 source: "testAsyncNeedsTimeout\x0a\x09self should: [ self async: [ ] ] raise: Error.\x0a\x09self timeout: 0.\x0a\x09self shouldnt: [ self async: [ ] ] raise: Error.\x0a\x09self finished",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "async:", "timeout:", "shouldnt:raise:", "finished"]
 }),
 $globals.SUnitAsyncTest);
@@ -720,6 +738,7 @@ args: [],
 source: "testFinishedNeedsTimeout\x0a\x09self should: [ self finished ] raise: Error.\x0a\x09self timeout: 0.\x0a\x09self shouldnt: [ self finished ] raise: Error.",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["should:raise:", "finished", "timeout:", "shouldnt:raise:"]
 }),
 $globals.SUnitAsyncTest);
@@ -760,6 +779,7 @@ args: [],
 source: "testIsAsyncReturnsCorrectValues\x0a\x09self deny: self isAsync.\x0a\x09self timeout: 0.\x0a\x09self assert: self isAsync.\x0a\x09self finished.\x0a\x09self deny: self isAsync",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["deny:", "isAsync", "timeout:", "assert:", "finished"]
 }),
 $globals.SUnitAsyncTest);
@@ -797,6 +817,7 @@ args: [],
 source: "testPass\x0a\x09flag := 'bad'.\x0a\x09self timeout: 10.\x0a\x09flag := (self async: [ self assert: true. self finished. flag := 'ok' ]) valueWithTimeout: 5",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["timeout:", "valueWithTimeout:", "async:", "assert:", "finished"]
 }),
 $globals.SUnitAsyncTest);
@@ -869,6 +890,7 @@ args: [],
 source: "testTimeouts\x0a\x09| suite runner result assertBlock |\x0a\x09suite := #('fakeTimeout' 'fakeMultipleTimeoutFailing' 'fakeMultipleTimeoutPassing' 'testPass') collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09assertBlock := self async: [\x0a\x09\x09self assert: (self selectorSetOf: result errors) equals: Set new.\x0a\x09\x09self assert: (self selectorSetOf: result failures) equals: #('fakeMultipleTimeoutFailing' 'fakeTimeout') asSet.\x0a\x09\x09self finished\x0a\x09].\x0a\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09ann result == result ifTrue: [ result runs = result total ifTrue: assertBlock ] ].\x0a\x09runner run",
 referencedClasses: ["TestSuiteRunner", "Set", "ResultAnnouncement"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collect:", "selector:", "class", "on:", "timeout:", "result", "async:", "assert:equals:", "selectorSetOf:", "errors", "new", "failures", "asSet", "finished", "on:do:", "announcer", "ifTrue:", "==", "=", "runs", "total", "run"]
 }),
 $globals.SUnitAsyncTest);
@@ -937,6 +959,7 @@ args: [],
 source: "testTwoAsyncPassesWithFinishedOnlyOneIsRun\x0a\x09| x |\x0a\x09flag := 'bad'.\x0a\x09self timeout: 10.\x0a\x09x := 0.\x0a\x09flag := (self async: [ self finished. flag := 'ok'. x := x+1. self assert: x equals: 1 ]) valueWithTimeout: 0.\x0a\x09flag := (self async: [ self finished. flag := 'ok'. x := x+1. self assert: x equals: 1 ]) valueWithTimeout: 0.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["timeout:", "valueWithTimeout:", "async:", "finished", "+", "assert:equals:"]
 }),
 $globals.SUnitAsyncTest);

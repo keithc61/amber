@@ -35,6 +35,7 @@ args: ["aPoint"],
 source: "inPosition: aPoint\x0a\x09^ (self positionStart <= aPoint and: [\x0a\x09\x09self positionEnd >= aPoint ])",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", "<=", "positionStart", ">=", "positionEnd"]
 }),
 $globals.ASTNode);
@@ -53,6 +54,7 @@ args: [],
 source: "isAssignmentNode\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -71,6 +73,7 @@ args: [],
 source: "isBlockNode\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -89,6 +92,7 @@ args: [],
 source: "isBlockSequenceNode\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -107,6 +111,7 @@ args: [],
 source: "isCascadeNode\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -125,6 +130,7 @@ args: [],
 source: "isImmutable\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -143,6 +149,7 @@ args: [],
 source: "isJSStatementNode\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -161,6 +168,7 @@ args: [],
 source: "isNavigationNode\x0a\x09\x22Answer true if the node can be navigated to\x22\x0a\x09\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -179,6 +187,7 @@ args: [],
 source: "isReturnNode\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -197,6 +206,7 @@ args: [],
 source: "isSendNode\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -215,6 +225,7 @@ args: [],
 source: "isSequenceNode\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -233,6 +244,7 @@ args: [],
 source: "isSuperKeyword\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -251,6 +263,7 @@ args: [],
 source: "isValueNode\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -269,6 +282,7 @@ args: [],
 source: "isVariableNode\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -300,6 +314,7 @@ args: ["aLocation"],
 source: "location: aLocation\x0a\x09self position: aLocation start line @ aLocation start column",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["position:", "@", "line", "start", "column"]
 }),
 $globals.ASTNode);
@@ -331,6 +346,7 @@ args: [],
 source: "method\x0a\x09^ self parent ifNotNil: [ :node | node method ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "parent", "method"]
 }),
 $globals.ASTNode);
@@ -402,6 +418,7 @@ args: ["aPoint", "aBlock"],
 source: "navigationNodeAt: aPoint ifAbsent: aBlock\x0a\x09\x22Answer the navigation node in the receiver's tree at aPoint \x0a\x09or nil if no navigation node was found.\x0a\x09\x0a\x09See `node >> isNaviationNode`\x22\x0a\x09\x0a\x09| children |\x0a\x09\x0a\x09children := self allDagChildren select: [ :each | \x0a\x09\x09each isNavigationNode and: [ each inPosition: aPoint ] ].\x0a\x09\x0a\x09children ifEmpty: [ ^ aBlock value ].\x0a\x09\x0a\x09^ (children asArray sort: [ :a :b | \x0a\x09\x09(a positionStart dist: aPoint) <= \x0a\x09\x09(b positionStart dist: aPoint) ]) first",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["select:", "allDagChildren", "and:", "isNavigationNode", "inPosition:", "ifEmpty:", "value", "first", "sort:", "asArray", "<=", "dist:", "positionStart"]
 }),
 $globals.ASTNode);
@@ -420,6 +437,7 @@ args: [],
 source: "parent\x0a\x09^ parent",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -439,6 +457,7 @@ args: ["aNode"],
 source: "parent: aNode\x0a\x09parent := aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -475,6 +494,7 @@ args: [],
 source: "position\x0a\x09\x22answer the line and column of the receiver in the source code\x22\x0a\x09\x0a\x09^ position ifNil: [ \x0a\x09\x09self parent ifNotNil: [ :node | node position ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "ifNotNil:", "parent", "position"]
 }),
 $globals.ASTNode);
@@ -494,6 +514,7 @@ args: ["aPosition"],
 source: "position: aPosition\x0a\x09position := aPosition",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -536,6 +557,7 @@ args: [],
 source: "positionEnd\x0a\x09^ self positionStart + ((self source lines size - 1) @ (self source lines last size - 1))",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["+", "positionStart", "@", "-", "size", "lines", "source", "last"]
 }),
 $globals.ASTNode);
@@ -559,6 +581,7 @@ args: [],
 source: "positionStart\x0a\x09^ self position",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["position"]
 }),
 $globals.ASTNode);
@@ -593,6 +616,7 @@ args: [],
 source: "requiresSmalltalkContext\x0a\x09\x22Answer true if the receiver requires a smalltalk context.\x0a\x09Only send nodes require a context.\x0a\x09\x0a\x09If no node requires a context, the method will be compiled without one.\x0a\x09See `IRJSTranslator` and `JSStream` for context creation\x22\x0a\x09\x0a\x09^ (self dagChildren \x0a\x09\x09detect: [ :each | each requiresSmalltalkContext ]\x0a\x09\x09ifNone: [ nil ]) notNil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["notNil", "detect:ifNone:", "dagChildren", "requiresSmalltalkContext"]
 }),
 $globals.ASTNode);
@@ -622,6 +646,7 @@ args: [],
 source: "shouldBeAliased\x0a\x09^ shouldBeAliased ifNil: [ false ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.ASTNode);
@@ -641,6 +666,7 @@ args: ["aBoolean"],
 source: "shouldBeAliased: aBoolean\x0a\x09shouldBeAliased := aBoolean",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -664,6 +690,7 @@ args: [],
 source: "size\x0a\x09^ self source size",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["size", "source"]
 }),
 $globals.ASTNode);
@@ -693,6 +720,7 @@ args: [],
 source: "source\x0a\x09^ source ifNil: [ '' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.ASTNode);
@@ -712,6 +740,7 @@ args: ["aString"],
 source: "source: aString\x0a\x09source := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -750,6 +779,7 @@ args: ["aCollection"],
 source: "withTail: aCollection\x0a\x09^ aCollection inject: self into: [\x0a\x09\x09:receiver :send | SendNode new\x0a\x09\x09\x09position: send position;\x0a\x09\x09\x09source: send source;\x0a\x09\x09\x09receiver: receiver;\x0a\x09\x09\x09selector: send selector;\x0a\x09\x09\x09arguments: send arguments;\x0a\x09\x09\x09yourself ]",
 referencedClasses: ["SendNode"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["inject:into:", "position:", "new", "position", "source:", "source", "receiver:", "selector:", "selector", "arguments:", "arguments", "yourself"]
 }),
 $globals.ASTNode);
@@ -779,6 +809,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitAssignmentNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitAssignmentNode:"]
 }),
 $globals.AssignmentNode);
@@ -802,6 +833,7 @@ args: [],
 source: "dagChildren\x0a\x09^ Array with: self left with: self right",
 referencedClasses: ["Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["with:with:", "left", "right"]
 }),
 $globals.AssignmentNode);
@@ -820,6 +852,7 @@ args: [],
 source: "isAssignmentNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AssignmentNode);
@@ -838,6 +871,7 @@ args: [],
 source: "left\x0a\x09^ left",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AssignmentNode);
@@ -857,6 +891,7 @@ args: ["aNode"],
 source: "left: aNode\x0a\x09left := aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AssignmentNode);
@@ -875,6 +910,7 @@ args: [],
 source: "right\x0a\x09^ right",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AssignmentNode);
@@ -894,6 +930,7 @@ args: ["aNode"],
 source: "right: aNode\x0a\x09right := aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AssignmentNode);
@@ -923,6 +960,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitBlockNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitBlockNode:"]
 }),
 $globals.BlockNode);
@@ -941,6 +979,7 @@ args: [],
 source: "isBlockNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.BlockNode);
@@ -971,6 +1010,7 @@ args: [],
 source: "parameters\x0a\x09^ parameters ifNil: [ parameters := Array new ]",
 referencedClasses: ["Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "new"]
 }),
 $globals.BlockNode);
@@ -990,6 +1030,7 @@ args: ["aCollection"],
 source: "parameters: aCollection\x0a\x09parameters := aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.BlockNode);
@@ -1008,6 +1049,7 @@ args: [],
 source: "scope\x0a\x09^ scope",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.BlockNode);
@@ -1027,6 +1069,7 @@ args: ["aLexicalScope"],
 source: "scope: aLexicalScope\x0a\x09scope := aLexicalScope",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.BlockNode);
@@ -1056,6 +1099,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitCascadeNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitCascadeNode:"]
 }),
 $globals.CascadeNode);
@@ -1074,6 +1118,7 @@ args: [],
 source: "isCascadeNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CascadeNode);
@@ -1092,6 +1137,7 @@ args: [],
 source: "receiver\x0a\x09^ receiver",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CascadeNode);
@@ -1111,6 +1157,7 @@ args: ["aNode"],
 source: "receiver: aNode\x0a\x09receiver := aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CascadeNode);
@@ -1140,6 +1187,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitDynamicArrayNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDynamicArrayNode:"]
 }),
 $globals.DynamicArrayNode);
@@ -1169,6 +1217,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitDynamicDictionaryNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDynamicDictionaryNode:"]
 }),
 $globals.DynamicDictionaryNode);
@@ -1198,6 +1247,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitJSStatementNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitJSStatementNode:"]
 }),
 $globals.JSStatementNode);
@@ -1216,6 +1266,7 @@ args: [],
 source: "isJSStatementNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.JSStatementNode);
@@ -1234,6 +1285,7 @@ args: [],
 source: "requiresSmalltalkContext\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.JSStatementNode);
@@ -1263,6 +1315,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitMethodNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitMethodNode:"]
 }),
 $globals.MethodNode);
@@ -1292,6 +1345,7 @@ args: [],
 source: "arguments\x0a\x09^ arguments ifNil: [ #() ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.MethodNode);
@@ -1311,6 +1365,7 @@ args: ["aCollection"],
 source: "arguments: aCollection\x0a\x09arguments := aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodNode);
@@ -1329,6 +1384,7 @@ args: [],
 source: "classReferences\x0a\x09^ classReferences",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodNode);
@@ -1348,6 +1404,7 @@ args: ["aCollection"],
 source: "classReferences: aCollection\x0a\x09classReferences := aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodNode);
@@ -1371,6 +1428,7 @@ args: [],
 source: "messageSends\x0a\x09^ self sendIndexes keys",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["keys", "sendIndexes"]
 }),
 $globals.MethodNode);
@@ -1389,6 +1447,7 @@ args: [],
 source: "method\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodNode);
@@ -1418,6 +1477,7 @@ args: [],
 source: "pragmas\x0a\x09^ pragmas ifNil: [ #() ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.MethodNode);
@@ -1437,6 +1497,7 @@ args: ["aCollection"],
 source: "pragmas: aCollection\x0a\x09pragmas := aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodNode);
@@ -1455,6 +1516,7 @@ args: [],
 source: "scope\x0a\x09^ scope",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodNode);
@@ -1474,6 +1536,7 @@ args: ["aMethodScope"],
 source: "scope: aMethodScope\x0a\x09scope := aMethodScope",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodNode);
@@ -1492,6 +1555,7 @@ args: [],
 source: "selector\x0a\x09^ selector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodNode);
@@ -1511,6 +1575,7 @@ args: ["aString"],
 source: "selector: aString\x0a\x09selector := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodNode);
@@ -1529,6 +1594,7 @@ args: [],
 source: "sendIndexes\x0a\x09^ sendIndexes",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodNode);
@@ -1548,6 +1614,7 @@ args: ["aDictionary"],
 source: "sendIndexes: aDictionary\x0a\x09sendIndexes := aDictionary",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodNode);
@@ -1588,6 +1655,7 @@ args: [],
 source: "sequenceNode\x0a\x09self dagChildren do: [ :each |\x0a\x09\x09each isSequenceNode ifTrue: [ ^ each ] ].\x0a\x09\x09\x0a\x09^ nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "dagChildren", "ifTrue:", "isSequenceNode"]
 }),
 $globals.MethodNode);
@@ -1606,6 +1674,7 @@ args: [],
 source: "source\x0a\x09^ source",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodNode);
@@ -1625,6 +1694,7 @@ args: ["aString"],
 source: "source: aString\x0a\x09source := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.MethodNode);
@@ -1654,6 +1724,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitReturnNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitReturnNode:"]
 }),
 $globals.ReturnNode);
@@ -1672,6 +1743,7 @@ args: [],
 source: "isReturnNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ReturnNode);
@@ -1695,6 +1767,7 @@ args: [],
 source: "nonLocalReturn\x0a\x09^ self scope isMethodScope not",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["not", "isMethodScope", "scope"]
 }),
 $globals.ReturnNode);
@@ -1713,6 +1786,7 @@ args: [],
 source: "scope\x0a\x09^ scope",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ReturnNode);
@@ -1732,6 +1806,7 @@ args: ["aLexicalScope"],
 source: "scope: aLexicalScope\x0a\x09scope := aLexicalScope",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ReturnNode);
@@ -1761,6 +1836,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitSendNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitSendNode:"]
 }),
 $globals.SendNode);
@@ -1791,6 +1867,7 @@ args: [],
 source: "arguments\x0a\x09^ arguments ifNil: [ arguments := #() ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.SendNode);
@@ -1810,6 +1887,7 @@ args: ["aCollection"],
 source: "arguments: aCollection\x0a\x09arguments := aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SendNode);
@@ -1849,6 +1927,7 @@ args: [],
 source: "dagChildren\x0a\x09self receiver ifNil: [ ^ self arguments copy ].\x0a\x09\x0a\x09^ (Array with: self receiver)\x0a\x09\x09addAll: self arguments;\x0a\x09\x09yourself",
 referencedClasses: ["Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "receiver", "copy", "arguments", "addAll:", "with:", "yourself"]
 }),
 $globals.SendNode);
@@ -1867,6 +1946,7 @@ args: [],
 source: "index\x0a\x09^ index",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SendNode);
@@ -1886,6 +1966,7 @@ args: ["anInteger"],
 source: "index: anInteger\x0a\x09index := anInteger",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SendNode);
@@ -1904,6 +1985,7 @@ args: [],
 source: "isNavigationNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SendNode);
@@ -1922,6 +2004,7 @@ args: [],
 source: "isSendNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SendNode);
@@ -1945,6 +2028,7 @@ args: [],
 source: "navigationLink\x0a\x09^ self selector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["selector"]
 }),
 $globals.SendNode);
@@ -1963,6 +2047,7 @@ args: [],
 source: "receiver\x0a\x09^ receiver",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SendNode);
@@ -1982,6 +2067,7 @@ args: ["aNode"],
 source: "receiver: aNode\x0a\x09receiver := aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SendNode);
@@ -2000,6 +2086,7 @@ args: [],
 source: "requiresSmalltalkContext\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SendNode);
@@ -2018,6 +2105,7 @@ args: [],
 source: "selector\x0a\x09^ selector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SendNode);
@@ -2037,6 +2125,7 @@ args: ["aString"],
 source: "selector: aString\x0a\x09selector := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SendNode);
@@ -2066,6 +2155,7 @@ args: [],
 source: "shouldBeInlined\x0a\x09^ shouldBeInlined ifNil: [ false ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.SendNode);
@@ -2085,6 +2175,7 @@ args: ["aBoolean"],
 source: "shouldBeInlined: aBoolean\x0a\x09shouldBeInlined := aBoolean",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SendNode);
@@ -2122,6 +2213,7 @@ args: [],
 source: "superSend\x0a\x09^ self receiver notNil and: [ self receiver isSuperKeyword ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", "notNil", "receiver", "isSuperKeyword"]
 }),
 $globals.SendNode);
@@ -2151,6 +2243,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitSequenceNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitSequenceNode:"]
 }),
 $globals.SequenceNode);
@@ -2169,6 +2262,7 @@ args: [],
 source: "isSequenceNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SequenceNode);
@@ -2187,6 +2281,7 @@ args: [],
 source: "scope\x0a\x09^ scope",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SequenceNode);
@@ -2206,6 +2301,7 @@ args: ["aLexicalScope"],
 source: "scope: aLexicalScope\x0a\x09scope := aLexicalScope",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SequenceNode);
@@ -2235,6 +2331,7 @@ args: [],
 source: "temps\x0a\x09^ temps ifNil: [ #() ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.SequenceNode);
@@ -2254,6 +2351,7 @@ args: ["aCollection"],
 source: "temps: aCollection\x0a\x09temps := aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SequenceNode);
@@ -2283,6 +2381,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitBlockSequenceNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitBlockSequenceNode:"]
 }),
 $globals.BlockSequenceNode);
@@ -2301,6 +2400,7 @@ args: [],
 source: "isBlockSequenceNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.BlockSequenceNode);
@@ -2330,6 +2430,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitValueNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitValueNode:"]
 }),
 $globals.ValueNode);
@@ -2353,6 +2454,7 @@ args: [],
 source: "isImmutable\x0a\x09^ self value isImmutable",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["isImmutable", "value"]
 }),
 $globals.ValueNode);
@@ -2371,6 +2473,7 @@ args: [],
 source: "isValueNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ValueNode);
@@ -2389,6 +2492,7 @@ args: [],
 source: "value\x0a\x09^ value",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ValueNode);
@@ -2408,6 +2512,7 @@ args: ["anObject"],
 source: "value: anObject\x0a\x09value := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ValueNode);
@@ -2437,6 +2542,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitVariableNode: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitVariableNode:"]
 }),
 $globals.VariableNode);
@@ -2460,6 +2566,7 @@ args: [],
 source: "alias\x0a\x09^ self binding alias",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["alias", "binding"]
 }),
 $globals.VariableNode);
@@ -2489,6 +2596,7 @@ args: [],
 source: "assigned\x0a\x09^ assigned ifNil: [ false ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.VariableNode);
@@ -2508,6 +2616,7 @@ args: ["aBoolean"],
 source: "assigned: aBoolean\x0a\x09assigned := aBoolean",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.VariableNode);
@@ -2533,6 +2642,7 @@ args: [],
 source: "beAssigned\x0a\x09self binding validateAssignment.\x0a\x09assigned := true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["validateAssignment", "binding"]
 }),
 $globals.VariableNode);
@@ -2551,6 +2661,7 @@ args: [],
 source: "binding\x0a\x09^ binding",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.VariableNode);
@@ -2570,6 +2681,7 @@ args: ["aScopeVar"],
 source: "binding: aScopeVar\x0a\x09binding := aScopeVar",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.VariableNode);
@@ -2593,6 +2705,7 @@ args: [],
 source: "isArgument\x0a\x09^ self binding isArgVar",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["isArgVar", "binding"]
 }),
 $globals.VariableNode);
@@ -2616,6 +2729,7 @@ args: [],
 source: "isImmutable\x0a\x09^ self binding isImmutable",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["isImmutable", "binding"]
 }),
 $globals.VariableNode);
@@ -2634,6 +2748,7 @@ args: [],
 source: "isNavigationNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.VariableNode);
@@ -2657,6 +2772,7 @@ args: [],
 source: "isSuperKeyword\x0a\x09^ self value = 'super'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["=", "value"]
 }),
 $globals.VariableNode);
@@ -2675,6 +2791,7 @@ args: [],
 source: "isVariableNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.VariableNode);
@@ -2698,6 +2815,7 @@ args: [],
 source: "navigationLink\x0a\x09^ self value",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value"]
 }),
 $globals.VariableNode);
@@ -2751,6 +2869,7 @@ args: ["aNode"],
 source: "visit: aNode\x0a\x09self path ifNotEmpty: [ :p | aNode parent: p last ].\x0a\x09^ super visit: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotEmpty:", "path", "parent:", "last", "visit:"]
 }),
 $globals.ParentFakingPathDagVisitor);
@@ -2780,6 +2899,7 @@ args: ["aNode"],
 source: "visitAssignmentNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
@@ -2803,6 +2923,7 @@ args: ["aNode"],
 source: "visitBlockNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
@@ -2826,6 +2947,7 @@ args: ["aNode"],
 source: "visitBlockSequenceNode: aNode\x0a\x09^ self visitSequenceNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitSequenceNode:"]
 }),
 $globals.NodeVisitor);
@@ -2849,6 +2971,7 @@ args: ["aNode"],
 source: "visitCascadeNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
@@ -2872,6 +2995,7 @@ args: ["aNode"],
 source: "visitDagNode: aNode\x0a\x09^ self visitDagNodeVariantSimple: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNodeVariantSimple:"]
 }),
 $globals.NodeVisitor);
@@ -2895,6 +3019,7 @@ args: ["aNode"],
 source: "visitDynamicArrayNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
@@ -2918,6 +3043,7 @@ args: ["aNode"],
 source: "visitDynamicDictionaryNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
@@ -2941,6 +3067,7 @@ args: ["aNode"],
 source: "visitJSStatementNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
@@ -2964,6 +3091,7 @@ args: ["aNode"],
 source: "visitMethodNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
@@ -2987,6 +3115,7 @@ args: ["aNode"],
 source: "visitReturnNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
@@ -3010,6 +3139,7 @@ args: ["aNode"],
 source: "visitSendNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
@@ -3033,6 +3163,7 @@ args: ["aNode"],
 source: "visitSequenceNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
@@ -3056,6 +3187,7 @@ args: ["aNode"],
 source: "visitValueNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
@@ -3079,6 +3211,7 @@ args: ["aNode"],
 source: "visitVariableNode: aNode\x0a\x09^ self visitDagNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.NodeVisitor);
@@ -3118,6 +3251,7 @@ args: ["aMessage"],
 source: "canProcessPragma: aMessage\x0a\x09| selector |\x0a\x09selector := aMessage selector.\x0a\x09^ (self respondsTo: selector) and: [\x0a\x09\x09(self class superclass canUnderstand: selector) not]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["selector", "and:", "respondsTo:", "not", "canUnderstand:", "superclass", "class"]
 }),
 $globals.AstPragmator);
@@ -3136,6 +3270,7 @@ args: [],
 source: "methodNode\x0a\x09^ methodNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AstPragmator);
@@ -3155,6 +3290,7 @@ args: ["anObject"],
 source: "methodNode: anObject\x0a\x09methodNode := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AstPragmator);
@@ -3183,6 +3319,7 @@ args: ["aMessage"],
 source: "processPragma: aMessage\x0a\x09(self canProcessPragma: aMessage) ifTrue: [\x0a\x09\x09^ aMessage sendTo: self ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "canProcessPragma:", "sendTo:"]
 }),
 $globals.AstPragmator);
@@ -3225,6 +3362,7 @@ args: ["aNode"],
 source: "visitMethodNode: aNode\x0a\x09self methodNode: aNode.\x0a\x09aNode pragmas do: [ :each | self processPragma: each ].\x0a\x09^ super visitMethodNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["methodNode:", "do:", "pragmas", "processPragma:", "visitMethodNode:"]
 }),
 $globals.AstPragmator);
@@ -3275,6 +3413,7 @@ args: ["aString"],
 source: "inlineJS: aString\x0a\x09self methodNode sequenceNode dagChildren ifNotEmpty: [\x0a\x09\x09CompilerError signal: 'There must be no other code or code generator pragma than a lone inlineJS:' ].\x0a\x09self methodNode sequenceNode addDagChild: (\x0a\x09\x09JSStatementNode new\x0a\x09\x09\x09source: aString;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["CompilerError", "JSStatementNode"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotEmpty:", "dagChildren", "sequenceNode", "methodNode", "signal:", "addDagChild:", "source:", "new", "yourself"]
 }),
 $globals.AstEarlyPragmator);
@@ -3313,6 +3452,7 @@ args: [],
 source: "ast\x0a\x09self source ifEmpty: [ CompilerError signal: 'Method source is empty' ].\x0a\x09\x0a\x09^ Compiler new\x0a\x09\x09ast: self source\x0a\x09\x09forClass: self methodClass\x0a\x09\x09protocol: self protocol",
 referencedClasses: ["CompilerError", "Compiler"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifEmpty:", "source", "signal:", "ast:forClass:protocol:", "new", "methodClass", "protocol"]
 }),
 $globals.CompiledMethod);

@@ -22,6 +22,7 @@ args: [],
 source: "result\x0a\x09^ result",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ResultAnnouncement);
@@ -41,6 +42,7 @@ args: ["aTestResult"],
 source: "result: aTestResult\x0a\x09result := aTestResult",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ResultAnnouncement);
@@ -71,6 +73,7 @@ args: ["aBoolean"],
 source: "assert: aBoolean\x0a\x09self assert: aBoolean description: 'Assertion failed'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:description:"]
 }),
 $globals.TestCase);
@@ -97,6 +100,7 @@ args: ["aBoolean", "aString"],
 source: "assert: aBoolean description: aString\x0a\x09aBoolean ifFalse: [ self signalFailure: aString ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "signalFailure:"]
 }),
 $globals.TestCase);
@@ -135,6 +139,7 @@ args: ["actual", "expected"],
 source: "assert: actual equals: expected\x0a\x09^ self assert: (actual = expected) description: 'Expected: ', expected printString, ' but was: ', actual printString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:description:", "=", ",", "printString"]
 }),
 $globals.TestCase);
@@ -173,6 +178,7 @@ args: ["aBlock"],
 source: "async: aBlock\x0a\x09| c |\x0a\x09self errorIfNotAsync: '#async'.\x0a\x09c := context.\x0a\x09^ [ self isAsync ifTrue: [ c execute: aBlock ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["errorIfNotAsync:", "ifTrue:", "isAsync", "execute:"]
 }),
 $globals.TestCase);
@@ -192,6 +198,7 @@ args: ["aRunningTestContext"],
 source: "context: aRunningTestContext\x0a\x09context := aRunningTestContext",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TestCase);
@@ -216,6 +223,7 @@ args: ["aBoolean"],
 source: "deny: aBoolean\x0a\x09self assert: aBoolean not",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "not"]
 }),
 $globals.TestCase);
@@ -244,6 +252,7 @@ args: ["aString"],
 source: "errorIfNotAsync: aString\x0a\x09self isAsync ifFalse: [\x0a\x09\x09self error: aString, ' used without prior #timeout:' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "isAsync", "error:", ","]
 }),
 $globals.TestCase);
@@ -269,6 +278,7 @@ args: [],
 source: "finished\x0a\x09self errorIfNotAsync: '#finished'.\x0a\x09asyncTimeout := nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["errorIfNotAsync:"]
 }),
 $globals.TestCase);
@@ -292,6 +302,7 @@ args: [],
 source: "isAsync\x0a\x09^ asyncTimeout notNil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["notNil"]
 }),
 $globals.TestCase);
@@ -317,6 +328,7 @@ args: [],
 source: "performTest\x0a\x09asyncTimeout := nil.\x0a\x09self perform: self selector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["perform:", "selector"]
 }),
 $globals.TestCase);
@@ -341,6 +353,7 @@ args: [],
 source: "runCase\x0a\x09\x22Runs a test case in isolated context, leaking all errors.\x22\x0a\x0a\x09(TestContext testCase: self) start",
 referencedClasses: ["TestContext"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["start", "testCase:"]
 }),
 $globals.TestCase);
@@ -359,6 +372,7 @@ args: [],
 source: "selector\x0a\x09^ testSelector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TestCase);
@@ -378,6 +392,7 @@ args: ["aSelector"],
 source: "setTestSelector: aSelector\x0a\x09testSelector := aSelector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TestCase);
@@ -396,6 +411,7 @@ args: [],
 source: "setUp",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TestCase);
@@ -420,6 +436,7 @@ args: ["aBlock"],
 source: "should: aBlock\x0a\x09self assert: aBlock value",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "value"]
 }),
 $globals.TestCase);
@@ -456,6 +473,7 @@ args: ["aBlock", "anExceptionClass"],
 source: "should: aBlock raise: anExceptionClass\x0a\x09self assert: ([ aBlock value. false ]\x0a\x09\x09on: anExceptionClass\x0a\x09\x09do: [ :ex | true ])",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "on:do:", "value"]
 }),
 $globals.TestCase);
@@ -492,6 +510,7 @@ args: ["aBlock", "anExceptionClass"],
 source: "shouldnt: aBlock raise: anExceptionClass\x0a\x09self assert: ([ aBlock value. true ]\x0a\x09\x09on: anExceptionClass\x0a\x09\x09do: [ :ex | false ])",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["assert:", "on:do:", "value"]
 }),
 $globals.TestCase);
@@ -519,6 +538,7 @@ args: ["aString"],
 source: "signalFailure: aString\x0a\x09TestFailure new\x0a\x09\x09messageText: aString;\x0a\x09\x09signal",
 referencedClasses: ["TestFailure"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["messageText:", "new", "signal"]
 }),
 $globals.TestCase);
@@ -537,6 +557,7 @@ args: [],
 source: "tearDown",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TestCase);
@@ -577,6 +598,7 @@ args: ["aNumber"],
 source: "timeout: aNumber\x0a\x09\x22Set a grace time timeout in milliseconds to run the test asynchronously\x22\x0a\x09\x0a\x09asyncTimeout ifNotNil: [ asyncTimeout clearTimeout ].\x0a\x09\x0a\x09\x22to allow #async: message send without throwing an error\x22\x0a\x09asyncTimeout := 0.\x0a\x09\x0a\x09asyncTimeout := (self async: [\x0a\x09\x09self assert: false description: 'SUnit grace time exhausted' ])\x0a\x09\x09\x09valueWithTimeout: aNumber",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "clearTimeout", "valueWithTimeout:", "async:", "assert:description:"]
 }),
 $globals.TestCase);
@@ -608,6 +630,7 @@ args: [],
 source: "allTestSelectors\x0a\x09| selectors |\x0a\x09selectors := self testSelectors.\x0a\x09self shouldInheritSelectors ifTrue: [\x0a\x09\x09selectors addAll: self superclass allTestSelectors ].\x0a\x09^ selectors",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["testSelectors", "ifTrue:", "shouldInheritSelectors", "addAll:", "allTestSelectors", "superclass"]
 }),
 $globals.TestCase.a$cls);
@@ -639,6 +662,7 @@ args: [],
 source: "buildSuite\x0a\x09^ self allTestSelectors collect: [ :each | self selector: each ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collect:", "allTestSelectors", "selector:"]
 }),
 $globals.TestCase.a$cls);
@@ -657,6 +681,7 @@ args: [],
 source: "classTag\x0a\x09\x22Returns a tag or general category for this class.\x0a\x09Typically used to help tools do some reflection.\x0a\x09Helios, for example, uses this to decide what icon the class should display.\x22\x0a\x09\x0a\x09^ 'test'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TestCase.a$cls);
@@ -680,6 +705,7 @@ args: [],
 source: "isAbstract\x0a\x09^ self name = 'TestCase'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["=", "name"]
 }),
 $globals.TestCase.a$cls);
@@ -703,6 +729,7 @@ args: [],
 source: "isTestClass\x0a\x09^ self isAbstract not",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["not", "isAbstract"]
 }),
 $globals.TestCase.a$cls);
@@ -721,6 +748,7 @@ args: [],
 source: "lookupHierarchyRoot\x0a\x09^ TestCase",
 referencedClasses: ["TestCase"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TestCase.a$cls);
@@ -747,6 +775,7 @@ args: ["aSelector"],
 source: "selector: aSelector\x0a\x09^ self new\x0a\x09\x09setTestSelector: aSelector;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["setTestSelector:", "new", "yourself"]
 }),
 $globals.TestCase.a$cls);
@@ -770,6 +799,7 @@ args: [],
 source: "shouldInheritSelectors\x0a\x09^ self ~= self lookupHierarchyRoot",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["~=", "lookupHierarchyRoot"]
 }),
 $globals.TestCase.a$cls);
@@ -801,6 +831,7 @@ args: [],
 source: "testSelectors\x0a\x09^ self methodDictionary keys select: [ :each | each match: '^test' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["select:", "keys", "methodDictionary", "match:"]
 }),
 $globals.TestCase.a$cls);
@@ -874,6 +905,7 @@ args: ["aBlock"],
 source: "execute: aBlock\x0a\x09| failed |\x0a\x09\x0a\x09testCase context: self.\x0a\x09[\x0a\x09\x09failed := true.\x0a\x09\x09aBlock value.\x0a\x09\x09failed := false\x0a\x09]\x0a\x09\x09ensure: [\x0a\x09\x09\x09testCase context: nil.\x0a\x09\x09\x09\x0a\x09\x09\x09(failed and: [ testCase isAsync ]) ifTrue: [\x0a\x09\x09\x09\x09testCase finished ].\x0a\x09\x09\x09testCase isAsync ifFalse: [\x0a\x09\x09\x09\x09testCase tearDown ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["context:", "ensure:", "value", "ifTrue:", "and:", "isAsync", "finished", "ifFalse:", "tearDown"]
 }),
 $globals.TestContext);
@@ -907,6 +939,7 @@ args: [],
 source: "start\x0a\x09self execute: [\x0a\x09\x09testCase setUp.\x0a\x09\x09testCase performTest ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["execute:", "setUp", "performTest"]
 }),
 $globals.TestContext);
@@ -926,6 +959,7 @@ args: ["aTestCase"],
 source: "testCase: aTestCase\x0a\x09testCase := aTestCase",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TestContext);
@@ -953,6 +987,7 @@ args: ["aTestCase"],
 source: "testCase: aTestCase\x0a\x09^ self new\x0a\x09\x09testCase: aTestCase;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["testCase:", "new", "yourself"]
 }),
 $globals.TestContext.a$cls);
@@ -1018,6 +1053,7 @@ args: ["aBlock"],
 source: "execute: aBlock\x0a\x09[\x0a\x09\x09self withErrorReporting: [ super execute: aBlock ]\x0a\x09]\x0a\x09\x09ensure: [\x0a\x09\x09\x09testCase isAsync ifFalse: [\x0a\x09\x09\x09\x09result increaseRuns. finished value ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ensure:", "withErrorReporting:", "execute:", "ifFalse:", "isAsync", "increaseRuns", "value"]
 }),
 $globals.ReportingTestContext);
@@ -1037,6 +1073,7 @@ args: ["aBlock"],
 source: "finished: aBlock\x0a\x09finished := aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ReportingTestContext);
@@ -1056,6 +1093,7 @@ args: ["aTestResult"],
 source: "result: aTestResult\x0a\x09result := aTestResult",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ReportingTestContext);
@@ -1107,6 +1145,7 @@ args: ["aBlock"],
 source: "withErrorReporting: aBlock\x0a\x09[ aBlock\x0a\x09\x09on: TestFailure\x0a\x09\x09do: [ :ex | result addFailure: testCase ]\x0a\x09]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :ex | result addError: testCase ]",
 referencedClasses: ["TestFailure", "Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["on:do:", "addFailure:", "addError:"]
 }),
 $globals.ReportingTestContext);
@@ -1142,6 +1181,7 @@ args: ["aTestCase", "aTestResult", "aBlock"],
 source: "testCase: aTestCase result: aTestResult finished: aBlock\x0a\x09^ (super testCase: aTestCase)\x0a\x09\x09result: aTestResult;\x0a\x09\x09finished: aBlock;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["result:", "testCase:", "finished:", "yourself"]
 }),
 $globals.ReportingTestContext.a$cls);
@@ -1177,6 +1217,7 @@ args: ["anError"],
 source: "addError: anError\x0a\x09self errors add: anError",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:", "errors"]
 }),
 $globals.TestResult);
@@ -1201,6 +1242,7 @@ args: ["aFailure"],
 source: "addFailure: aFailure\x0a\x09self failures add: aFailure",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:", "failures"]
 }),
 $globals.TestResult);
@@ -1219,6 +1261,7 @@ args: [],
 source: "errors\x0a\x09^ errors",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TestResult);
@@ -1237,6 +1280,7 @@ args: [],
 source: "failures\x0a\x09^ failures",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TestResult);
@@ -1261,6 +1305,7 @@ args: [],
 source: "increaseRuns\x0a\x09runs := runs + 1",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["+"]
 }),
 $globals.TestResult);
@@ -1300,6 +1345,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x09timestamp := Date now.\x0a\x09runs := 0.\x0a\x09errors := Array new.\x0a\x09failures := Array new.\x0a\x09total := 0",
 referencedClasses: ["Date", "Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize", "now", "new"]
 }),
 $globals.TestResult);
@@ -1331,6 +1377,7 @@ args: ["aBlock"],
 source: "nextRunDo: aBlock\x0a\x09\x22Runs aBlock with index of next run or does nothing if no more runs\x22\x0a\x09^ self runs == self total\x0a\x09\x09ifFalse: [ aBlock value: self runs + 1 ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "==", "runs", "total", "value:", "+"]
 }),
 $globals.TestResult);
@@ -1391,6 +1438,7 @@ args: ["aTestCase"],
 source: "runCase: aTestCase\x0a\x09[ [ self increaseRuns.\x0a\x09\x09aTestCase runCase ]\x0a\x09on: TestFailure do: [ :ex | self addFailure: aTestCase ]]\x0a\x09on: Error do: [ :ex | self addError: aTestCase ]",
 referencedClasses: ["TestFailure", "Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["on:do:", "increaseRuns", "runCase", "addFailure:", "addError:"]
 }),
 $globals.TestResult);
@@ -1409,6 +1457,7 @@ args: [],
 source: "runs\x0a\x09^ runs",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TestResult);
@@ -1454,6 +1503,7 @@ args: [],
 source: "status\x0a\x09^ self errors ifNotEmpty: [ 'error' ] ifEmpty: [\x0a\x09\x09self failures ifNotEmpty: [ 'failure' ] ifEmpty: [\x0a\x09\x09\x09'success' ]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotEmpty:ifEmpty:", "errors", "failures"]
 }),
 $globals.TestResult);
@@ -1472,6 +1522,7 @@ args: [],
 source: "timestamp\x0a\x09^ timestamp",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TestResult);
@@ -1490,6 +1541,7 @@ args: [],
 source: "total\x0a\x09^ total",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TestResult);
@@ -1509,6 +1561,7 @@ args: ["aNumber"],
 source: "total: aNumber\x0a\x09total := aNumber",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TestResult);
@@ -1533,6 +1586,7 @@ args: [],
 source: "announcer\x0a\x09^ announcer",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TestSuiteRunner);
@@ -1564,6 +1618,7 @@ args: ["anInteger"],
 source: "contextOf: anInteger\x0a\x09^ ReportingTestContext testCase: (suite at: anInteger) result: result finished: [ self resume ]",
 referencedClasses: ["ReportingTestContext"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["testCase:result:finished:", "at:", "resume"]
 }),
 $globals.TestSuiteRunner);
@@ -1615,6 +1670,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x09announcer := Announcer new.\x0a\x09result := TestResult new.\x0a\x09runNextTest := [ | runs | runs := result runs. runs < result total ifTrue: [ (self contextOf: runs + 1) start ] ].",
 referencedClasses: ["Announcer", "TestResult"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize", "new", "runs", "ifTrue:", "<", "total", "start", "contextOf:", "+"]
 }),
 $globals.TestSuiteRunner);
@@ -1633,6 +1689,7 @@ args: [],
 source: "result\x0a\x09^ result",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TestSuiteRunner);
@@ -1658,6 +1715,7 @@ args: [],
 source: "resume\x0a\x09runNextTest fork.\x0a\x09announcer announce: (ResultAnnouncement new result: result)",
 referencedClasses: ["ResultAnnouncement"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["fork", "announce:", "result:", "new"]
 }),
 $globals.TestSuiteRunner);
@@ -1683,6 +1741,7 @@ args: [],
 source: "run\x0a\x09result total: suite size.\x0a\x09self resume",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["total:", "size", "resume"]
 }),
 $globals.TestSuiteRunner);
@@ -1702,6 +1761,7 @@ args: ["aCollection"],
 source: "suite: aCollection\x0a\x09suite := aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TestSuiteRunner);
@@ -1727,6 +1787,7 @@ args: [],
 source: "new\x0a\x09self shouldNotImplement",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["shouldNotImplement"]
 }),
 $globals.TestSuiteRunner.a$cls);
@@ -1759,6 +1820,7 @@ args: ["aCollection"],
 source: "on: aCollection\x0a\x09^ super new suite: aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["suite:", "new"]
 }),
 $globals.TestSuiteRunner.a$cls);
@@ -1790,6 +1852,7 @@ args: [],
 source: "isTestPackage\x0a\x09^ self classes anySatisfy: [ :each | each isTestClass ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["anySatisfy:", "classes", "isTestClass"]
 }),
 $globals.Package);
@@ -1808,6 +1871,7 @@ args: [],
 source: "isTestClass\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.TBehaviorDefaults);

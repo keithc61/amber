@@ -35,6 +35,7 @@ args: ["aNode"],
 source: "compileNode: aNode\x0a\x09^ self transformers\x0a\x09\x09inject: aNode\x0a\x09\x09into: [ :input :transformer | transformer value: input ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["inject:into:", "transformers", "value:"]
 }),
 $globals.AbstractCodeGenerator);
@@ -53,6 +54,7 @@ args: [],
 source: "currentClass\x0a\x09^ currentClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AbstractCodeGenerator);
@@ -72,6 +74,7 @@ args: ["aClass"],
 source: "currentClass: aClass\x0a\x09currentClass := aClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AbstractCodeGenerator);
@@ -90,6 +93,7 @@ args: [],
 source: "currentPackage\x0a\x09^ currentPackage",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AbstractCodeGenerator);
@@ -109,6 +113,7 @@ args: ["anObject"],
 source: "currentPackage: anObject\x0a\x09currentPackage := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AbstractCodeGenerator);
@@ -132,6 +137,7 @@ args: [],
 source: "pseudoVariables\x0a\x09^ Smalltalk pseudoVariableNames",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["pseudoVariableNames"]
 }),
 $globals.AbstractCodeGenerator);
@@ -161,6 +167,7 @@ args: [],
 source: "source\x0a\x09^ source ifNil: [ '' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.AbstractCodeGenerator);
@@ -180,6 +187,7 @@ args: ["aString"],
 source: "source: aString\x0a\x09source := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AbstractCodeGenerator);
@@ -213,6 +221,7 @@ args: [],
 source: "transformers\x0a\x09| dict |\x0a\x09dict := self transformersDictionary.\x0a\x09^ dict keys asArray sort collect: [ :each | dict at: each ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["transformersDictionary", "collect:", "sort", "asArray", "keys", "at:"]
 }),
 $globals.AbstractCodeGenerator);
@@ -237,6 +246,7 @@ args: [],
 source: "transformersDictionary\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.AbstractCodeGenerator);
@@ -266,6 +276,7 @@ args: [],
 source: "earlyAstPragmator\x0a\x09^ AstEarlyPragmator new",
 referencedClasses: ["AstEarlyPragmator"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new"]
 }),
 $globals.CodeGenerator);
@@ -292,6 +303,7 @@ args: [],
 source: "irTranslator\x0a\x09^ self irTranslatorClass new\x0a\x09\x09currentClass: self currentClass;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["currentClass:", "new", "irTranslatorClass", "currentClass", "yourself"]
 }),
 $globals.CodeGenerator);
@@ -310,6 +322,7 @@ args: [],
 source: "irTranslatorClass\x0a\x09^ IRJSTranslator",
 referencedClasses: ["IRJSTranslator"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.CodeGenerator);
@@ -336,6 +349,7 @@ args: [],
 source: "semanticAnalyzer\x0a\x09^ (SemanticAnalyzer on: self currentClass)\x0a\x09\x09thePackage: self currentPackage;\x0a\x09\x09yourself",
 referencedClasses: ["SemanticAnalyzer"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["thePackage:", "on:", "currentClass", "currentPackage", "yourself"]
 }),
 $globals.CodeGenerator);
@@ -380,6 +394,7 @@ args: [],
 source: "transformersDictionary\x0a\x09^ transformersDictionary ifNil: [ transformersDictionary := Dictionary new\x0a\x09\x09at: '1000-earlyPragmas' put: self earlyAstPragmator;\x0a\x09\x09at: '2000-semantic' put: self semanticAnalyzer;\x0a\x09\x09at: '5000-astToIr' put: self translator;\x0a\x09\x09at: '8000-irToJs' put: self irTranslator;\x0a\x09\x09yourself ]",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "at:put:", "new", "earlyAstPragmator", "semanticAnalyzer", "translator", "irTranslator", "yourself"]
 }),
 $globals.CodeGenerator);
@@ -407,6 +422,7 @@ args: [],
 source: "translator\x0a\x09^ IRASTTranslator new\x0a\x09\x09source: self source;\x0a\x09\x09theClass: self currentClass;\x0a\x09\x09yourself",
 referencedClasses: ["IRASTTranslator"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["source:", "new", "source", "theClass:", "currentClass", "yourself"]
 }),
 $globals.CodeGenerator);
@@ -448,6 +464,7 @@ args: ["aString", "aClass", "anotherString"],
 source: "ast: aString forClass: aClass protocol: anotherString\x0a\x09self\x0a\x09\x09source: aString;\x0a\x09\x09forClass: aClass protocol: anotherString.\x0a\x0a\x09self codeGenerator transformersDictionary at: '2500-astCheckpoint' put: [ :x | ^x ].\x0a\x09\x0a\x09self compileNode: (self parse: aString).\x0a\x0a\x09CompilerError signal: 'AST transformation failed.'",
 referencedClasses: ["CompilerError"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["source:", "forClass:protocol:", "at:put:", "transformersDictionary", "codeGenerator", "compileNode:", "parse:", "signal:"]
 }),
 $globals.Compiler);
@@ -467,6 +484,7 @@ args: [],
 source: "cleanCodeGenerator\x0a\x09codeGenerator := nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Compiler);
@@ -501,6 +519,7 @@ args: [],
 source: "codeGenerator\x0a\x09^ codeGenerator ifNil: [ codeGenerator := self codeGeneratorClass new\x0a\x09\x09\x09source: self source;\x0a\x09\x09\x09currentClass: self currentClass;\x0a\x09\x09\x09currentPackage: self currentPackage;\x0a\x09\x09\x09yourself ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "source:", "new", "codeGeneratorClass", "source", "currentClass:", "currentClass", "currentPackage:", "currentPackage", "yourself"]
 }),
 $globals.Compiler);
@@ -530,6 +549,7 @@ args: [],
 source: "codeGeneratorClass\x0a\x09^ codeGeneratorClass ifNil: [ InliningCodeGenerator ]",
 referencedClasses: ["InliningCodeGenerator"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.Compiler);
@@ -549,6 +569,7 @@ args: ["aClass"],
 source: "codeGeneratorClass: aClass\x0a\x09codeGeneratorClass := aClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Compiler);
@@ -596,6 +617,7 @@ args: ["aString", "aClass", "anotherString"],
 source: "compile: aString forClass: aClass protocol: anotherString\x0a\x09| compilationResult result |\x0a\x09compilationResult :=\x0a\x09\x09self compileSource: aString forClass: aClass protocol: anotherString.\x0a\x09compilationResult\x0a\x09\x09at: #fn\x0a\x09\x09put: (self eval: (compilationResult at: #fn) forPackage: self currentPackage);\x0a\x09\x09at: #pragmas\x0a\x09\x09put: ((compilationResult at: #pragmas) collect: [ :each | { each selector. each arguments } ]).\x0a\x09result := Smalltalk core method: compilationResult.\x0a\x09result protocol: anotherString.\x0a\x09^ result",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["compileSource:forClass:protocol:", "at:put:", "eval:forPackage:", "at:", "currentPackage", "collect:", "selector", "arguments", "method:", "core", "protocol:"]
 }),
 $globals.Compiler);
@@ -624,6 +646,7 @@ args: ["aString", "anObject"],
 source: "compileExpression: aString on: anObject\x0a\x09^ self\x0a\x09\x09compile: 'xxxDoIt ^ [ ', aString, ' ] value'\x0a\x09\x09forClass: anObject class\x0a\x09\x09protocol: '**xxxDoIt'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["compile:forClass:protocol:", ",", "class"]
 }),
 $globals.Compiler);
@@ -650,6 +673,7 @@ args: ["aNode"],
 source: "compileNode: aNode\x0a    | result |\x0a\x09result := self codeGenerator compileNode: aNode.\x0a\x09self cleanCodeGenerator.\x0a\x09^ result",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["compileNode:", "codeGenerator", "cleanCodeGenerator"]
 }),
 $globals.Compiler);
@@ -675,6 +699,7 @@ args: ["aString", "aClass", "anotherString"],
 source: "compileSource: aString forClass: aClass protocol: anotherString\x0a\x09^ self\x0a\x09\x09source: aString;\x0a\x09\x09forClass: aClass protocol: anotherString;\x0a\x09\x09compileNode: (self parse: aString)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["source:", "forClass:protocol:", "compileNode:", "parse:"]
 }),
 $globals.Compiler);
@@ -693,6 +718,7 @@ args: [],
 source: "currentClass\x0a\x09^ currentClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Compiler);
@@ -712,6 +738,7 @@ args: ["aClass"],
 source: "currentClass: aClass\x0a\x09currentClass := aClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Compiler);
@@ -730,6 +757,7 @@ args: [],
 source: "currentPackage\x0a\x09^ currentPackage",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Compiler);
@@ -749,6 +777,7 @@ args: ["anObject"],
 source: "currentPackage: anObject\x0a\x09currentPackage := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Compiler);
@@ -773,6 +802,7 @@ args: ["aString"],
 source: "eval: aString\x0a\x09<inlineJS: 'return eval(aString)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return eval(aString)"]]],
 messageSends: []
 }),
 $globals.Compiler);
@@ -804,6 +834,7 @@ args: ["aString", "aPackage"],
 source: "eval: aString forPackage: aPackage\x0a\x09^ aPackage\x0a\x09\x09ifNil: [ self eval: aString ]\x0a\x09\x09ifNotNil: [ aPackage eval: aString ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:ifNotNil:", "eval:"]
 }),
 $globals.Compiler);
@@ -827,6 +858,7 @@ args: ["aString"],
 source: "evaluateExpression: aString\x0a\x09\x22Unlike #eval: evaluate a Smalltalk expression and answer the returned object\x22\x0a\x09^ self evaluateExpression: aString on: DoIt new",
 referencedClasses: ["DoIt"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["evaluateExpression:on:", "new"]
 }),
 $globals.Compiler);
@@ -860,6 +892,7 @@ args: ["aString", "anObject"],
 source: "evaluateExpression: aString on: anObject\x0a\x09\x22Unlike #eval: evaluate a Smalltalk expression with anObject as the receiver and answer the returned object\x22\x0a\x09| result method |\x0a\x09method := self compileExpression: aString on: anObject.\x0a\x09anObject class addCompiledMethod: method.\x0a\x09result := anObject xxxDoIt.\x0a\x09anObject class removeCompiledMethod: method.\x0a\x09^ result",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["compileExpression:on:", "addCompiledMethod:", "class", "xxxDoIt", "removeCompiledMethod:"]
 }),
 $globals.Compiler);
@@ -885,6 +918,7 @@ args: ["aClass", "anotherString"],
 source: "forClass: aClass protocol: anotherString\x0a\x09self\x0a\x09\x09currentPackage: (aClass packageOfProtocol: anotherString);\x0a\x09\x09currentClass: aClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["currentPackage:", "packageOfProtocol:", "currentClass:"]
 }),
 $globals.Compiler);
@@ -911,6 +945,7 @@ args: ["aString", "aBehavior", "anotherString"],
 source: "install: aString forClass: aBehavior protocol: anotherString\x0a\x09| compiledMethod |\x0a\x09compiledMethod := self compile: aString forClass: aBehavior protocol: anotherString.\x0a\x09aBehavior addCompiledMethod: compiledMethod.\x0a\x09^ compiledMethod",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["compile:forClass:protocol:", "addCompiledMethod:"]
 }),
 $globals.Compiler);
@@ -934,6 +969,7 @@ args: ["aString"],
 source: "parse: aString\x0a\x09^ Smalltalk parse: aString",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:"]
 }),
 $globals.Compiler);
@@ -962,6 +998,7 @@ args: ["aString"],
 source: "parseExpression: aString\x0a\x09^ self parse: 'doIt ^ [ ', aString, ' ] value'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parse:", ","]
 }),
 $globals.Compiler);
@@ -1012,6 +1049,7 @@ args: ["aClass"],
 source: "recompile: aClass\x0a\x09aClass methodDictionary values\x0a\x09\x09do: [ :each | each methodClass = aClass ifTrue: [ \x0a\x09\x09\x09self \x0a\x09\x09\x09\x09install: each source \x0a\x09\x09\x09\x09forClass: aClass \x0a\x09\x09\x09\x09protocol: each protocol ] ]\x0a\x09\x09displayingProgress: 'Recompiling ', aClass name.\x0a\x09aClass theMetaClass ifNotNil: [ :meta |\x0a\x09\x09meta = aClass ifFalse: [ self recompile: meta ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:displayingProgress:", "values", "methodDictionary", "ifTrue:", "=", "methodClass", "install:forClass:protocol:", "source", "protocol", ",", "name", "ifNotNil:", "theMetaClass", "ifFalse:", "recompile:"]
 }),
 $globals.Compiler);
@@ -1044,6 +1082,7 @@ args: [],
 source: "recompileAll\x0a\x09Smalltalk classes \x0a\x09\x09do: [ :each | self recompile: each ]\x0a\x09\x09displayingProgress: 'Compiling all classes...'",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:displayingProgress:", "classes", "recompile:"]
 }),
 $globals.Compiler);
@@ -1073,6 +1112,7 @@ args: [],
 source: "source\x0a\x09^ source ifNil: [ '' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.Compiler);
@@ -1092,6 +1132,7 @@ args: ["aString"],
 source: "source: aString\x0a\x09source := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Compiler);
@@ -1116,6 +1157,7 @@ args: ["aString"],
 source: "eval: aString\x0a\x09^ self new eval: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["eval:", "new"]
 }),
 $globals.Compiler.a$cls);
@@ -1140,6 +1182,7 @@ args: ["aClass"],
 source: "recompile: aClass\x0a\x09self new recompile: aClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["recompile:", "new"]
 }),
 $globals.Compiler.a$cls);
@@ -1172,6 +1215,7 @@ args: [],
 source: "recompileAll\x0a\x09Smalltalk classes do: [ :each |\x0a\x09\x09self recompile: each ]",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "classes", "recompile:"]
 }),
 $globals.Compiler.a$cls);
@@ -1234,6 +1278,7 @@ args: ["aString", "aContext"],
 source: "evaluate: aString context: aContext\x0a\x09\x22Similar to #evaluate:for:, with the following differences:\x0a\x09- instead of compiling and running `aString`, `aString` is interpreted using an `ASTInterpreter`\x0a\x09- instead of evaluating against a receiver, evaluate in the context of `aContext`\x22\x0a\x0a\x09| compiler ast |\x0a\x09\x0a\x09compiler := Compiler new.\x0a\x09[ ast := compiler parseExpression: aString ] \x0a\x09\x09on: Error \x0a\x09\x09do: [ :ex | ^ Terminal alert: ex messageText ].\x0a\x09\x09\x0a\x09(AISemanticAnalyzer on: aContext receiver class)\x0a\x09\x09context: aContext;\x0a\x09\x09visit: ast.\x0a\x0a\x09^ aContext evaluateNode: ast",
 referencedClasses: ["Compiler", "Error", "Terminal", "AISemanticAnalyzer"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "on:do:", "parseExpression:", "alert:", "messageText", "context:", "on:", "class", "receiver", "visit:", "evaluateNode:"]
 }),
 $globals.Evaluator);
@@ -1257,6 +1302,7 @@ args: ["aString", "anObject"],
 source: "evaluate: aString for: anObject\x0a\x09^ anObject evaluate: aString on: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["evaluate:on:"]
 }),
 $globals.Evaluator);
@@ -1303,6 +1349,7 @@ args: ["aString", "anObject"],
 source: "evaluate: aString receiver: anObject\x0a\x09| compiler |\x0a\x09\x0a\x09compiler := Compiler new.\x0a\x09[ compiler parseExpression: aString ] \x0a\x09\x09on: Error \x0a\x09\x09do: [ :ex | ^ Terminal alert: ex messageText ].\x0a\x0a\x09^ compiler evaluateExpression: aString on: anObject",
 referencedClasses: ["Compiler", "Error", "Terminal"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "on:do:", "parseExpression:", "alert:", "messageText", "evaluateExpression:on:"]
 }),
 $globals.Evaluator);
@@ -1327,6 +1374,7 @@ args: ["aString", "anObject"],
 source: "evaluate: aString for: anObject\x0a\x09^ self new evaluate: aString for: anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["evaluate:for:", "new"]
 }),
 $globals.Evaluator.a$cls);
@@ -1356,6 +1404,7 @@ args: [],
 source: "asVariableName\x0a\x09^ (Smalltalk reservedWords includes: self)\x0a\x09\x09ifTrue: [ self, '_' ]\x0a\x09\x09ifFalse: [ self ]",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "includes:", "reservedWords", ","]
 }),
 $globals.String);

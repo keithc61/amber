@@ -26,6 +26,7 @@ args: ["aCollection"],
 source: "all: aCollection\x0a\x22Returns a Promise resolved with results of sub-promises.\x22\x0a<inlineJS: 'return Promise.all($recv(aCollection)._asArray())'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Promise.all($recv(aCollection)._asArray())"]]],
 messageSends: []
 }),
 $globals.Promise.a$cls);
@@ -50,6 +51,7 @@ args: ["aCollection"],
 source: "any: aCollection\x0a\x22Returns a Promise resolved with first result of sub-promises.\x22\x0a<inlineJS: 'return Promise.race($recv(aCollection)._asArray())'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Promise.race($recv(aCollection)._asArray())"]]],
 messageSends: []
 }),
 $globals.Promise.a$cls);
@@ -73,6 +75,7 @@ args: ["aBlock"],
 source: "forBlock: aBlock\x0a\x22Returns a Promise that is resolved with the value of aBlock,\x0aand rejected if error happens while evaluating aBlock.\x22\x0a\x09^ self new then: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["then:", "new"]
 }),
 $globals.Promise.a$cls);
@@ -97,6 +100,7 @@ args: [],
 source: "new\x0a\x22Returns a dumb Promise resolved with nil.\x22\x0a<inlineJS: 'return Promise.resolve()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Promise.resolve()"]]],
 messageSends: []
 }),
 $globals.Promise.a$cls);
@@ -124,6 +128,7 @@ args: ["aBlock"],
 source: "new: aBlock\x0a\x22Returns a Promise that is eventually resolved or rejected.\x0aPass a block that is called with one argument, model.\x0aYou should call model value: ... to resolve the promise\x0aand model signal: ... to reject the promise.\x0aIf error happens during run of the block,\x0apromise is rejected with that error as well.\x22\x0a<inlineJS: 'return new Promise(function (resolve, reject) {\x0a    var model = {value: resolve, signal: reject};\x0a    aBlock._value_(model);\x0a})'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return new Promise(function (resolve, reject) {\x0a    var model = {value: resolve, signal: reject};\x0a    aBlock._value_(model);\x0a})"]]],
 messageSends: []
 }),
 $globals.Promise.a$cls);
@@ -148,6 +153,7 @@ args: ["anObject"],
 source: "signal: anObject\x0a\x22Returns a Promise rejected with anObject.\x22\x0a<inlineJS: 'return $recv(anObject)._in_(function (x) {return Promise.reject(x)})'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return $recv(anObject)._in_(function (x) {return Promise.reject(x)})"]]],
 messageSends: []
 }),
 $globals.Promise.a$cls);
@@ -172,6 +178,7 @@ args: ["anObject"],
 source: "value: anObject\x0a\x22Returns a Promise resolved with anObject.\x22\x0a<inlineJS: 'return $recv(anObject)._in_(function (x) {return Promise.resolve(x)})'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return $recv(anObject)._in_(function (x) {return Promise.resolve(x)})"]]],
 messageSends: []
 }),
 $globals.Promise.a$cls);
@@ -200,6 +207,7 @@ args: ["aBlock"],
 source: "catch: aBlock\x0a<inlineJS: 'return self.then(null, function (err) {return $core.seamless(function () {\x0a    return aBlock._value_(err);\x0a})})'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.then(null, function (err) {return $core.seamless(function () {\x0a    return aBlock._value_(err);\x0a})})"]]],
 messageSends: []
 }),
 $globals.TThenable);
@@ -227,6 +235,7 @@ args: ["aClass", "aBlock"],
 source: "on: aClass do: aBlock\x0a<inlineJS: 'return self.then(null, function (err) {return $core.seamless(function () {\x0a    if (err._isKindOf_(aClass)) return aBlock._value_(err);\x0a    else throw err;\x0a})})'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.then(null, function (err) {return $core.seamless(function () {\x0a    if (err._isKindOf_(aClass)) return aBlock._value_(err);\x0a    else throw err;\x0a})})"]]],
 messageSends: []
 }),
 $globals.TThenable);
@@ -250,6 +259,7 @@ args: ["aClass", "aBlock", "anotherBlock"],
 source: "on: aClass do: aBlock catch: anotherBlock\x0a\x09^ (self on: aClass do: aBlock) catch: anotherBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["catch:", "on:do:"]
 }),
 $globals.TThenable);
@@ -289,6 +299,7 @@ args: ["aBlockOrArray"],
 source: "then: aBlockOrArray\x0a\x22Accepts a block or array of blocks.\x0aEach of blocks in the array or the singleton one is\x0aused in .then call to a promise, to accept a result\x0aand transform it to the result for the next one.\x0aIn case a block has more than one argument\x0aand result is an array, first n-1 elements of the array\x0aare put into additional arguments beyond the first.\x0aThe first argument always contains the result as-is.\x22\x0a<inlineJS: '\x0avar array = Array.isArray(aBlockOrArray) ? aBlockOrArray : [aBlockOrArray];\x0areturn array.reduce(function (soFar, aBlock) {\x0a    return soFar.then(typeof aBlock === \x22function\x22 && aBlock.length > 1 ?\x0a        function (result) {return $core.seamless(function () {\x0a            if (Array.isArray(result)) {\x0a                return aBlock._valueWithPossibleArguments_([result].concat(result.slice(0, aBlock.length-1)));\x0a            } else {\x0a                return aBlock._value_(result);\x0a            }\x0a        })} :\x0a        function (result) {return $core.seamless(function () {\x0a            return aBlock._value_(result);\x0a        })}\x0a    );\x0a}, self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0avar array = Array.isArray(aBlockOrArray) ? aBlockOrArray : [aBlockOrArray];\x0areturn array.reduce(function (soFar, aBlock) {\x0a    return soFar.then(typeof aBlock === \x22function\x22 && aBlock.length > 1 ?\x0a        function (result) {return $core.seamless(function () {\x0a            if (Array.isArray(result)) {\x0a                return aBlock._valueWithPossibleArguments_([result].concat(result.slice(0, aBlock.length-1)));\x0a            } else {\x0a                return aBlock._value_(result);\x0a            }\x0a        })} :\x0a        function (result) {return $core.seamless(function () {\x0a            return aBlock._value_(result);\x0a        })}\x0a    );\x0a}, self)"]]],
 messageSends: []
 }),
 $globals.TThenable);
@@ -312,6 +323,7 @@ args: ["aBlockOrArray", "anotherBlock"],
 source: "then: aBlockOrArray catch: anotherBlock\x0a\x09^ (self then: aBlockOrArray) catch: anotherBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["catch:", "then:"]
 }),
 $globals.TThenable);
@@ -335,6 +347,7 @@ args: ["aBlockOrArray", "aClass", "aBlock"],
 source: "then: aBlockOrArray on: aClass do: aBlock\x0a\x09^ (self then: aBlockOrArray) on: aClass do: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["on:do:", "then:"]
 }),
 $globals.TThenable);
@@ -358,6 +371,7 @@ args: ["aBlockOrArray", "aClass", "aBlock", "anotherBlock"],
 source: "then: aBlockOrArray on: aClass do: aBlock catch: anotherBlock\x0a\x09^ ((self then: aBlockOrArray) on: aClass do: aBlock) catch: anotherBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["catch:", "on:do:", "then:"]
 }),
 $globals.TThenable);

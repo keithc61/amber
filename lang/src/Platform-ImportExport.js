@@ -28,6 +28,7 @@ args: ["aPackage", "aStream"],
 source: "exportPackage: aPackage on: aStream\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.AbstractExporter);
@@ -62,6 +63,7 @@ args: ["aPackage"],
 source: "extensionMethodsOfPackage: aPackage\x0a\x09| result |\x0a\x09\x0a\x09result := OrderedCollection new.\x0a\x09\x0a\x09(self extensionProtocolsOfPackage: aPackage) do: [ :each |\x0a\x09\x09result addAll: each ownMethods ].\x0a\x09\x09\x0a\x09^ result",
 referencedClasses: ["OrderedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "do:", "extensionProtocolsOfPackage:", "addAll:", "ownMethods"]
 }),
 $globals.AbstractExporter);
@@ -128,6 +130,7 @@ args: ["aPackage"],
 source: "extensionProtocolsOfPackage: aPackage\x0a\x09| extensionName result |\x0a\x09\x0a\x09extensionName := '*', aPackage name.\x0a\x09result := OrderedCollection new.\x0a\x09\x0a\x09\x22The classes must be loaded since it is extensions only.\x0a\x09Therefore topological sorting (dependency resolution) does not matter here.\x0a\x09Not sorting topologically improves the speed by a number of magnitude.\x0a\x09\x0a\x09Not to shuffle diffs, classes are sorted by their name.\x22\x0a\x09\x0a\x09(Smalltalk classes asArray sorted: [ :a :b | a name < b name ]) do: [ :each |\x0a\x09\x09({each. each theMetaClass} copyWithout: nil) do: [ :behavior |\x0a\x09\x09\x09(behavior protocols includes: extensionName) ifTrue: [\x0a\x09\x09\x09\x09result add: (ExportMethodProtocol name: extensionName theClass: behavior) ] ] ].\x0a\x0a\x09^ result",
 referencedClasses: ["OrderedCollection", "Smalltalk", "ExportMethodProtocol"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "name", "new", "do:", "sorted:", "asArray", "classes", "<", "copyWithout:", "theMetaClass", "ifTrue:", "includes:", "protocols", "add:", "name:theClass:"]
 }),
 $globals.AbstractExporter);
@@ -157,6 +160,7 @@ args: ["aString"],
 source: "chunkEscape: aString\x0a\x09\x22Replace all occurrences of ! with !! and trim at both ends.\x22\x0a\x0a\x09^ (aString replace: '!' with: '!!') trimBoth",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["trimBoth", "replace:with:"]
 }),
 $globals.ChunkExporter);
@@ -182,6 +186,7 @@ args: ["aBehavior", "aStream"],
 source: "exportBehavior: aBehavior on: aStream\x0a\x09aBehavior exportBehaviorDefinitionTo: aStream using: self.\x0a\x09self \x0a\x09\x09exportProtocols: (self ownMethodProtocolsOfClass: aBehavior)\x0a\x09\x09on: aStream",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["exportBehaviorDefinitionTo:using:", "exportProtocols:on:", "ownMethodProtocolsOfClass:"]
 }),
 $globals.ChunkExporter);
@@ -211,6 +216,7 @@ args: ["aCategory", "aStream"],
 source: "exportCategoryEpilogueOf: aCategory on: aStream\x0a\x09aStream write: ' !'; lf; lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["write:", "lf"]
 }),
 $globals.ChunkExporter);
@@ -248,6 +254,7 @@ args: ["aCategory", "aStream"],
 source: "exportCategoryPrologueOf: aCategory on: aStream\x0a\x09aStream\x0a\x09\x09write: '!';\x0a\x09\x09print: aCategory theClass;\x0a\x09\x09write: ' methodsFor: ';\x0a\x09\x09print: aCategory;\x0a\x09\x09write: '!'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["write:", "print:", "theClass"]
 }),
 $globals.ChunkExporter);
@@ -346,6 +353,7 @@ args: ["aClass", "aStream"],
 source: "exportDefinitionOf: aClass on: aStream\x0a\x09\x22Chunk format.\x22\x0a\x0a\x09aStream\x0a\x09\x09print: aClass superclass;\x0a\x09\x09write: ' subclass: ';\x0a\x09\x09printSymbol: aClass name;\x0a\x09\x09lf.\x0a\x09\x22aClass traitComposition\x0a\x09\x09ifNotEmpty: [ aStream tab; write: {'uses: '. aClass traitCompositionDefinition}; lf ].\x22\x0a\x09aStream\x0a\x09\x09tab;\x0a\x09\x09write: {'slots: {'. ('. ' join: (aClass instanceVariableNames collect: #symbolPrintString)). '}'};\x0a\x09\x09lf;\x0a\x09\x09tab;\x0a\x09\x09write: 'package: ';\x0a\x09\x09print: aClass category;\x0a\x09\x09write: '!';\x0a\x09\x09lf.\x0a\x09aClass comment ifNotEmpty: [ aStream\x0a\x09\x09write: '!'; print: aClass; write: ' commentStamp!'; lf;\x0a\x09\x09write: { self chunkEscape: aClass comment. '!' }; lf ].\x0a\x09aStream lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["print:", "superclass", "write:", "printSymbol:", "name", "lf", "tab", "join:", "collect:", "instanceVariableNames", "category", "ifNotEmpty:", "comment", "chunkEscape:"]
 }),
 $globals.ChunkExporter);
@@ -388,6 +396,7 @@ args: ["aClass", "aStream"],
 source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x0a\x09| classIvars classTraitComposition |\x0a\x09classIvars := aClass class instanceVariableNames.\x0a\x09classTraitComposition := aClass class traitComposition.\x0a\x0a\x09(classIvars notEmpty \x22or: [classTraitComposition notEmpty]\x22) ifTrue: [\x0a\x09\x09aStream\x0a\x09\x09\x09print: aClass theMetaClass.\x0a\x09\x09aStream space. \x22classTraitComposition\x0a\x09\x09\x09ifEmpty: [ aStream space ]\x0a\x09\x09\x09ifNotEmpty: [ aStream lf; tab; write: {'uses: '. aClass class traitCompositionDefinition}; lf; tab ].\x22\x0a\x09\x09aStream\x0a\x09\x09\x09write: {'slots: {'. ('. ' join: (classIvars collect: #symbolPrintString)). '}!'}; lf; lf ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["instanceVariableNames", "class", "traitComposition", "ifTrue:", "notEmpty", "print:", "theMetaClass", "space", "write:", "join:", "collect:", "lf"]
 }),
 $globals.ChunkExporter);
@@ -425,6 +434,7 @@ args: ["aMethod", "aStream"],
 source: "exportMethod: aMethod on: aStream\x0a\x09aStream\x0a\x09\x09lf; lf; write: (self chunkEscape: aMethod source); lf;\x0a\x09\x09write: '!'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["lf", "write:", "chunkEscape:", "source"]
 }),
 $globals.ChunkExporter);
@@ -473,6 +483,7 @@ args: ["aPackage", "aStream"],
 source: "exportPackage: aPackage on: aStream\x0a\x0a\x09self\x0a\x09\x09exportPackageDefinitionOf: aPackage on: aStream;\x0a\x09\x09exportPackageImportsOf: aPackage on: aStream.\x0a\x09\x0a\x09aPackage sortedClasses do: [ :each |\x0a\x09\x09self exportBehavior: each on: aStream.\x0a\x09\x09each theMetaClass ifNotNil: [ :meta | self exportBehavior: meta on: aStream ] ].\x0a\x09\x0a\x09self exportPackageTraitCompositionsOf: aPackage on: aStream.\x0a\x0a\x09self \x0a\x09\x09exportProtocols: (self extensionProtocolsOfPackage: aPackage)\x0a\x09\x09on: aStream",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["exportPackageDefinitionOf:on:", "exportPackageImportsOf:on:", "do:", "sortedClasses", "exportBehavior:on:", "ifNotNil:", "theMetaClass", "exportPackageTraitCompositionsOf:on:", "exportProtocols:on:", "extensionProtocolsOfPackage:"]
 }),
 $globals.ChunkExporter);
@@ -503,6 +514,7 @@ args: ["aPackage", "aStream"],
 source: "exportPackageDefinitionOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: 'Smalltalk createPackage: ';\x0a\x09\x09print: aPackage name;\x0a\x09\x09write: '!';\x0a\x09\x09lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["write:", "print:", "name", "lf"]
 }),
 $globals.ChunkExporter);
@@ -554,6 +566,7 @@ args: ["aPackage", "aStream"],
 source: "exportPackageImportsOf: aPackage on: aStream\x0a\x09aPackage imports ifNotEmpty: [ :imports | aStream\x0a\x09\x09write: '(Smalltalk packageAt: ';\x0a\x09\x09print: aPackage name;\x0a\x09\x09write: ' ifAbsent: [ self error: ';\x0a\x09\x09print: 'Package not created: ', aPackage name;\x0a\x09\x09write: { ' ]) imports: '. self chunkEscape: aPackage importsDefinition. '!' };\x0a\x09\x09lf ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotEmpty:", "imports", "write:", "print:", "name", ",", "chunkEscape:", "importsDefinition", "lf"]
 }),
 $globals.ChunkExporter);
@@ -600,6 +613,7 @@ args: ["aPackage", "aStream"],
 source: "exportPackageTraitCompositionsOf: aPackage on: aStream\x0a\x09aPackage traitCompositions ifNotEmpty: [ :traitCompositions |\x0a\x09\x09traitCompositions keysAndValuesDo: [ :key :value | self exportTraitComposition: value of: key on: aStream ].\x0a\x09\x09aStream write: '! !'; lf; lf ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotEmpty:", "traitCompositions", "keysAndValuesDo:", "exportTraitComposition:of:on:", "write:", "lf"]
 }),
 $globals.ChunkExporter);
@@ -642,6 +656,7 @@ args: ["aProtocol", "aStream"],
 source: "exportProtocol: aProtocol on: aStream\x0a\x09aProtocol ownMethods ifNotEmpty: [ :methods |\x0a\x09\x09self exportProtocolPrologueOf: aProtocol on: aStream.\x0a\x09\x09methods do: [ :method | \x0a\x09\x09\x09self exportMethod: method on: aStream ].\x0a\x09\x09self exportProtocolEpilogueOf: aProtocol on: aStream ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotEmpty:", "ownMethods", "exportProtocolPrologueOf:on:", "do:", "exportMethod:on:", "exportProtocolEpilogueOf:on:"]
 }),
 $globals.ChunkExporter);
@@ -671,6 +686,7 @@ args: ["aProtocol", "aStream"],
 source: "exportProtocolEpilogueOf: aProtocol on: aStream\x0a\x09aStream write: ' !'; lf; lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["write:", "lf"]
 }),
 $globals.ChunkExporter);
@@ -708,6 +724,7 @@ args: ["aProtocol", "aStream"],
 source: "exportProtocolPrologueOf: aProtocol on: aStream\x0a\x09aStream\x0a\x09\x09write: '!';\x0a\x09\x09print: aProtocol theClass;\x0a\x09\x09write: ' methodsFor: ';\x0a\x09\x09print: aProtocol name;\x0a\x09\x09write: '!'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["write:", "print:", "theClass", "name"]
 }),
 $globals.ChunkExporter);
@@ -740,6 +757,7 @@ args: ["aCollection", "aStream"],
 source: "exportProtocols: aCollection on: aStream\x0a\x09aCollection do: [ :each |\x0a\x09\x09self exportProtocol: each on: aStream ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "exportProtocol:on:"]
 }),
 $globals.ChunkExporter);
@@ -774,6 +792,7 @@ args: ["aTraitComposition", "aBehavior", "aStream"],
 source: "exportTraitComposition: aTraitComposition of: aBehavior on: aStream\x0a\x09aStream \x0a\x09\x09print: aBehavior;\x0a\x09\x09write: ' setTraitComposition: ';\x0a\x09\x09write: aBehavior traitCompositionDefinition;\x0a\x09\x09write: ' asTraitComposition!';\x0a\x09\x09lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["print:", "write:", "traitCompositionDefinition", "lf"]
 }),
 $globals.ChunkExporter);
@@ -856,6 +875,7 @@ args: ["aClass", "aStream"],
 source: "exportTraitDefinitionOf: aClass on: aStream\x0a\x09\x22Chunk format.\x22\x0a\x0a\x09aStream\x0a\x09\x09write: 'Trait named: '; printSymbol: aClass name; lf.\x0a\x09\x22aClass traitComposition\x0a\x09\x09ifNotEmpty: [ aStream tab; write: {'uses: '. aClass traitCompositionDefinition}; lf ].\x22\x0a\x09aStream\x0a\x09\x09tab; write: 'package: '; print:\x09aClass category; write: '!'; lf.\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09write: '!'; print: aClass; write: ' commentStamp!'; lf;\x0a\x09\x09write: { self chunkEscape: aClass comment. '!' }; lf ].\x0a\x09aStream lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["write:", "printSymbol:", "name", "lf", "tab", "print:", "category", "ifNotEmpty:", "comment", "chunkEscape:"]
 }),
 $globals.ChunkExporter);
@@ -935,6 +955,7 @@ args: ["aPackage"],
 source: "extensionCategoriesOfPackage: aPackage\x0a\x09\x22Issue #143: sort protocol alphabetically\x22\x0a\x0a\x09| name map result |\x0a\x09name := aPackage name.\x0a\x09result := OrderedCollection new.\x0a\x09(Package sortedClasses: Smalltalk classes) do: [ :each |\x0a\x09\x09{each. each theMetaClass} do: [ :aClass |\x0a\x09\x09\x09map := Dictionary new.\x0a\x09\x09\x09aClass protocolsDo: [ :category :methods |\x0a\x09\x09\x09\x09category = ('*', name) ifTrue: [ map at: category put: methods ] ].\x0a\x09\x09\x09result addAll: ((map keys sorted: [ :a :b | a <= b ]) collect: [ :category |\x0a\x09\x09\x09\x09MethodCategory name: category theClass: aClass methods: (map at: category) ]) ] ].\x0a\x09^ result",
 referencedClasses: ["OrderedCollection", "Package", "Smalltalk", "Dictionary", "MethodCategory"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["name", "new", "do:", "sortedClasses:", "classes", "theMetaClass", "protocolsDo:", "ifTrue:", "=", ",", "at:put:", "addAll:", "collect:", "sorted:", "keys", "<=", "name:theClass:methods:", "at:"]
 }),
 $globals.ChunkExporter);
@@ -989,6 +1010,7 @@ args: ["aClass"],
 source: "ownCategoriesOfClass: aClass\x0a\x09\x22Answer the protocols of aClass that are not package extensions\x22\x0a\x09\x0a\x09\x22Issue #143: sort protocol alphabetically\x22\x0a\x0a\x09| map |\x0a\x09map := Dictionary new.\x0a\x09aClass protocolsDo: [ :each :methods |\x0a\x09\x09(each match: '^\x5c*') ifFalse: [ map at: each put: methods ] ].\x0a\x09^ (map keys sorted: [ :a :b | a <= b ]) collect: [ :each |\x0a\x09\x09MethodCategory name: each theClass: aClass methods: (map at: each) ]",
 referencedClasses: ["Dictionary", "MethodCategory"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "protocolsDo:", "ifFalse:", "match:", "at:put:", "collect:", "sorted:", "keys", "<=", "name:theClass:methods:", "at:"]
 }),
 $globals.ChunkExporter);
@@ -1012,6 +1034,7 @@ args: ["aClass"],
 source: "ownCategoriesOfMetaClass: aClass\x0a\x09\x22Issue #143: sort protocol alphabetically\x22\x0a\x0a\x09^ self ownCategoriesOfClass: aClass theMetaClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ownCategoriesOfClass:", "theMetaClass"]
 }),
 $globals.ChunkExporter);
@@ -1043,6 +1066,7 @@ args: ["aClass"],
 source: "ownMethodProtocolsOfClass: aClass\x0a\x09\x22Answer a collection of ExportMethodProtocol object of aClass that are not package extensions\x22\x0a\x09\x0a\x09^ aClass ownProtocols collect: [ :each |\x0a\x09\x09ExportMethodProtocol name: each theClass: aClass ]",
 referencedClasses: ["ExportMethodProtocol"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collect:", "ownProtocols", "name:theClass:"]
 }),
 $globals.ChunkExporter);
@@ -1082,6 +1106,7 @@ args: ["aBehavior", "aStream"],
 source: "exportBehavior: aBehavior on: aStream\x0a\x09aBehavior exportBehaviorDefinitionTo: aStream using: self.\x0a\x09aBehavior ownMethods do: [ :method |\x0a\x09\x09self exportMethod: method on: aStream ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["exportBehaviorDefinitionTo:using:", "do:", "ownMethods", "exportMethod:on:"]
 }),
 $globals.Exporter);
@@ -1177,6 +1202,7 @@ args: ["aClass", "aStream"],
 source: "exportDefinitionOf: aClass on: aStream\x0a\x09aStream\x0a\x09\x09lf;\x0a\x09\x09write: {\x0a\x09\x09\x09'$core.addClass('.\x0a\x09\x09\x09aClass name asJavaScriptSource. ', '.\x0a\x09\x09\x09aClass superclass ifNil: [ 'null' ] ifNotNil: [ :superclass | superclass asJavaScriptSource ]. ', '.\x0a\x09\x09\x09aClass instanceVariableNames asJavaScriptSource. ', '.\x0a\x09\x09\x09aClass category asJavaScriptSource.\x0a\x09\x09\x09');' }.\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09\x09lf;\x0a\x09\x09\x09write: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);'; lf;\x0a\x09\x09\x09write: { aClass asJavaScriptSource. '.comment='. aClass comment crlfSanitized asJavaScriptSource. ';' }; lf;\x0a\x09\x09\x09write: '//>>excludeEnd(\x22ide\x22);' ].\x0a\x09aStream lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["lf", "write:", "asJavaScriptSource", "name", "ifNil:ifNotNil:", "superclass", "instanceVariableNames", "category", "ifNotEmpty:", "comment", "crlfSanitized"]
 }),
 $globals.Exporter);
@@ -1225,6 +1251,7 @@ args: ["aClass", "aStream"],
 source: "exportMetaDefinitionOf: aClass on: aStream\x0a\x09aStream lf.\x0a\x09aClass theMetaClass instanceVariableNames ifNotEmpty: [ :classIvars | aStream\x0a\x09\x09write: { '$core.setSlots('. aClass theMetaClass asJavaScriptSource. ', '. classIvars asJavaScriptSource. ');' };\x0a\x09\x09lf ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["lf", "ifNotEmpty:", "instanceVariableNames", "theMetaClass", "write:", "asJavaScriptSource"]
 }),
 $globals.Exporter);
@@ -1458,6 +1485,7 @@ args: ["aPackage", "aStream"],
 source: "exportPackage: aPackage on: aStream\x0a\x09\x0a\x09self \x0a\x09\x09exportPackagePrologueOf: aPackage on: aStream;\x0a\x09\x09exportPackageDefinitionOf: aPackage on: aStream;\x0a\x09\x09exportPackageContextOf: aPackage on: aStream;\x0a\x09\x09exportPackageImportsOf: aPackage on: aStream;\x0a\x09\x09exportPackageTransportOf: aPackage on: aStream.\x0a\x09\x0a\x09aPackage sortedClasses do: [ :each |\x0a\x09\x09self exportBehavior: each on: aStream.\x0a\x09\x09each theMetaClass ifNotNil: [ :meta | self exportBehavior: meta on: aStream ] ].\x0a\x09\x09\x09\x0a\x09self exportPackageTraitCompositionsOf: aPackage on: aStream.\x0a\x0a\x09(self extensionMethodsOfPackage: aPackage) do: [ :each |\x0a\x09\x09self exportMethod: each on: aStream ].\x0a\x09\x09\x0a\x09self exportPackageEpilogueOf: aPackage on: aStream",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["exportPackagePrologueOf:on:", "exportPackageDefinitionOf:on:", "exportPackageContextOf:on:", "exportPackageImportsOf:on:", "exportPackageTransportOf:on:", "do:", "sortedClasses", "exportBehavior:on:", "ifNotNil:", "theMetaClass", "exportPackageTraitCompositionsOf:on:", "extensionMethodsOfPackage:", "exportMethod:on:", "exportPackageEpilogueOf:on:"]
 }),
 $globals.Exporter);
@@ -1483,6 +1511,7 @@ args: ["aPackage", "aStream"],
 source: "exportPackageBodyBlockPrologueOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: 'var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;'; lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["write:", "lf"]
 }),
 $globals.Exporter);
@@ -1508,6 +1537,7 @@ args: ["aPackage", "aStream"],
 source: "exportPackageContextOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: '$pkg.innerEval = function (expr) { return eval(expr); };';\x0a\x09\x09lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["write:", "lf"]
 }),
 $globals.Exporter);
@@ -1533,6 +1563,7 @@ args: ["aPackage", "aStream"],
 source: "exportPackageDefinitionOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: { 'var $pkg = $core.addPackage('. aPackage name asJavaScriptSource. ');' };\x0a\x09\x09lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["write:", "asJavaScriptSource", "name", "lf"]
 }),
 $globals.Exporter);
@@ -1557,6 +1588,7 @@ args: ["aPackage", "aStream"],
 source: "exportPackageEpilogueOf: aPackage on: aStream\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.Exporter);
@@ -1590,6 +1622,7 @@ args: ["aPackage", "aStream"],
 source: "exportPackageImportsOf: aPackage on: aStream\x0a\x09aPackage importsAsJson ifNotEmpty: [ :imports |\x0a\x09\x09aStream\x0a\x09\x09\x09write: { '$pkg.imports = '. imports asJavaScriptSource. ';' };\x0a\x09\x09\x09lf ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotEmpty:", "importsAsJson", "write:", "asJavaScriptSource", "lf"]
 }),
 $globals.Exporter);
@@ -1614,6 +1647,7 @@ args: ["aPackage", "aStream"],
 source: "exportPackagePrologueOf: aPackage on: aStream\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.Exporter);
@@ -1655,6 +1689,7 @@ args: ["aPackage", "aStream"],
 source: "exportPackageTraitCompositionsOf: aPackage on: aStream\x0a\x09aPackage traitCompositions ifNotEmpty: [ :traitCompositions |\x0a\x09\x09traitCompositions keysAndValuesDo: [ :key :value | self exportTraitComposition: value of: key on: aStream ].\x0a\x09\x09aStream lf ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotEmpty:", "traitCompositions", "keysAndValuesDo:", "exportTraitComposition:of:on:", "lf"]
 }),
 $globals.Exporter);
@@ -1680,6 +1715,7 @@ args: ["aPackage", "aStream"],
 source: "exportPackageTransportOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: { '$pkg.transport = '. aPackage transport asJSONString. ';' };\x0a\x09\x09lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["write:", "asJSONString", "transport", "lf"]
 }),
 $globals.Exporter);
@@ -1711,6 +1747,7 @@ args: ["aTraitComposition", "aBehavior", "aStream"],
 source: "exportTraitComposition: aTraitComposition of: aBehavior on: aStream\x0a\x09aStream write: {\x0a\x09\x09'$core.setTraitComposition('.\x0a\x09\x09aTraitComposition asJavaScriptSource.\x0a\x09\x09', '.\x0a\x09\x09aBehavior asJavaScriptSource.\x0a\x09\x09');' };\x0a\x09lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["write:", "asJavaScriptSource", "lf"]
 }),
 $globals.Exporter);
@@ -1791,6 +1828,7 @@ args: ["aClass", "aStream"],
 source: "exportTraitDefinitionOf: aClass on: aStream\x0a\x09aStream\x0a\x09\x09lf;\x0a\x09\x09write: {\x0a\x09\x09\x09'$core.addTrait('.\x0a\x09\x09\x09aClass name asJavaScriptSource. ', '.\x0a\x09\x09\x09aClass category asJavaScriptSource.\x0a\x09\x09\x09');' }.\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09\x09lf;\x0a\x09\x09\x09write: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);'; lf;\x0a\x09\x09\x09write: { aClass asJavaScriptSource. '.comment='. aClass comment crlfSanitized asJavaScriptSource. ';' }; lf;\x0a\x09\x09\x09write: '//>>excludeEnd(\x22ide\x22);' ].\x0a\x09aStream lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["lf", "write:", "asJavaScriptSource", "name", "category", "ifNotEmpty:", "comment", "crlfSanitized"]
 }),
 $globals.Exporter);
@@ -1835,6 +1873,7 @@ args: ["aClass"],
 source: "ownMethodsOfClass: aClass\x0a\x09\x22Issue #143: sort methods alphabetically\x22\x0a\x0a\x09^ ((aClass methodDictionary values) sorted: [ :a :b | a selector <= b selector ])\x0a\x09\x09reject: [ :each | (each protocol match: '^\x5c*') ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["reject:", "sorted:", "values", "methodDictionary", "<=", "selector", "match:", "protocol"]
 }),
 $globals.Exporter);
@@ -1858,6 +1897,7 @@ args: ["aClass"],
 source: "ownMethodsOfMetaClass: aClass\x0a\x09\x22Issue #143: sort methods alphabetically\x22\x0a\x0a\x09^ self ownMethodsOfClass: aClass theMetaClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ownMethodsOfClass:", "theMetaClass"]
 }),
 $globals.Exporter);
@@ -1911,6 +1951,7 @@ args: ["anArray"],
 source: "amdNamesOfPackages: anArray\x0a\x09^ (anArray\x0a\x09\x09select: [ :each | (self amdNamespaceOfPackage: each) notNil ])\x0a\x09\x09collect: [ :each | (self amdNamespaceOfPackage: each), '/', each name ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collect:", "select:", "notNil", "amdNamespaceOfPackage:", ",", "name"]
 }),
 $globals.AmdExporter);
@@ -1945,6 +1986,7 @@ args: ["aPackage"],
 source: "amdNamespaceOfPackage: aPackage\x0a\x09^ (aPackage transport type = 'amd')\x0a\x09\x09ifTrue: [ aPackage transport namespace ]\x0a\x09\x09ifFalse: [ nil ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "=", "type", "transport", "namespace"]
 }),
 $globals.AmdExporter);
@@ -1970,6 +2012,7 @@ args: ["aPackage", "aStream"],
 source: "exportPackageEpilogueOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: '});';\x0a\x09\x09lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["write:", "lf"]
 }),
 $globals.AmdExporter);
@@ -2110,6 +2153,7 @@ args: ["aPackage", "aStream"],
 source: "exportPackageImportsOf: aPackage on: aStream\x0a\x09| importsForOutput pragmaStart pragmaEnd |\x0a\x09pragmaStart := '//>>excludeStart(\x22imports\x22, pragmas.excludeImports);', String lf.\x0a\x09pragmaEnd := '//>>excludeEnd(\x22imports\x22);', String lf.\x0a\x09super exportPackageImportsOf: aPackage on: aStream.\x0a\x09importsForOutput := self importsForOutput: aPackage.\x0a\x09importsForOutput value ifNotEmpty: [ :imports |\x0a\x09\x09| vars |\x0a\x09\x09aStream write: pragmaStart.\x0a\x09\x09vars := importsForOutput key.\x0a\x09\x09vars ifNotEmpty: [ aStream write: { 'var '. ',' join: vars. ';' }; lf ]. \x0a\x09\x09aStream\x0a\x09\x09\x09write: {\x0a\x09\x09\x09\x09'$pkg.isReady = new Promise(function (resolve, reject) { requirejs('.\x0a\x09\x09\x09\x09imports asJavaScriptSource.\x0a\x09\x09\x09\x09', function ('.\x0a\x09\x09\x09\x09',' join: ((1 to: vars size) collect: [ :each | '$', each asString ]).\x0a\x09\x09\x09\x09') {'.\x0a\x09\x09\x09\x09(1 to: vars size) collect: [ :each | (vars at: each), '=$', each asString, '; ' ].\x0a\x09\x09\x09\x09'resolve();}, reject); });' };\x0a\x09\x09\x09lf;\x0a\x09\x09\x09write: pragmaEnd ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "lf", "exportPackageImportsOf:on:", "importsForOutput:", "ifNotEmpty:", "value", "write:", "key", "join:", "asJavaScriptSource", "collect:", "to:", "size", "asString", "at:"]
 }),
 $globals.AmdExporter);
@@ -2155,6 +2199,7 @@ args: ["aPackage", "aStream"],
 source: "exportPackagePrologueOf: aPackage on: aStream\x0a\x09| loadDependencies pragmaStart pragmaEnd |\x0a\x09pragmaStart := '//>>excludeStart(\x22imports\x22, pragmas.excludeImports);', String lf.\x0a\x09pragmaEnd := '//>>excludeEnd(\x22imports\x22);', String lf.\x0a\x09loadDependencies := self amdNamesOfPackages: aPackage loadDependencies.\x0a\x09aStream\x0a\x09\x09write: {\x0a\x09\x09\x09'define('.\x0a\x09\x09\x09(#('amber/boot' 'require'), loadDependencies asArray sorted) asJavaScriptSource.\x0a\x09\x09\x09', function($boot,requirejs){\x22use strict\x22;' };\x0a\x09\x09lf.\x0a\x09self exportPackageBodyBlockPrologueOf: aPackage on: aStream",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "lf", "amdNamesOfPackages:", "loadDependencies", "write:", "asJavaScriptSource", "sorted", "asArray", "exportPackageBodyBlockPrologueOf:on:"]
 }),
 $globals.AmdExporter);
@@ -2204,6 +2249,7 @@ args: ["aPackage"],
 source: "importsForOutput: aPackage\x0a\x09\x22Returns an association where key is list of import variables\x0a\x09and value is list of external dependencies, with ones imported as variables\x0a\x09put at the beginning with same order as is in key.\x0a\x09\x0a\x09For example imports:{'jQuery'->'jquery'. 'bootstrap'} would yield\x0a\x09#('jQuery') -> #('jquery' 'bootstrap')\x22\x0a\x09| namedImports anonImports importVarNames |\x0a\x09namedImports := #().\x0a\x09anonImports := #().\x0a\x09importVarNames := #().\x0a\x09aPackage imports do: [ :each | each isString\x0a\x09\x09ifTrue: [ anonImports add: each ]\x0a\x09\x09ifFalse: [ namedImports add: each value.\x0a\x09\x09\x09importVarNames add: each key ]].\x0a\x09^ importVarNames -> (namedImports, anonImports)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "imports", "ifTrue:ifFalse:", "isString", "add:", "value", "key", "->", ","]
 }),
 $globals.AmdExporter);
@@ -2228,6 +2274,7 @@ args: [],
 source: "last\x0a\x09^ last",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ChunkParser);
@@ -2295,6 +2342,7 @@ args: [],
 source: "nextChunk\x0a\x09\x22The chunk format (Smalltalk Interchange Format or Fileout format)\x0a\x09is a trivial format but can be a bit tricky to understand:\x0a\x09\x09- Uses the exclamation mark as delimiter of chunks.\x0a\x09\x09- Inside a chunk a normal exclamation mark must be doubled.\x0a\x09\x09- A non empty chunk must be a valid Smalltalk expression.\x0a\x09\x09- A chunk on top level with a preceding empty chunk is an instruction chunk:\x0a\x09\x09\x09- The object created by the expression then takes over reading chunks.\x0a\x0a\x09This method returns next chunk as a String (trimmed), empty String (all whitespace) or nil.\x22\x0a\x0a\x09| char result chunk |\x0a\x09result := '' writeStream.\x0a\x09\x09[ char := stream next.\x0a\x09\x09char notNil ] whileTrue: [\x0a\x09\x09\x09\x09char = '!' ifTrue: [\x0a\x09\x09\x09\x09\x09\x09stream peek = '!'\x0a\x09\x09\x09\x09\x09\x09\x09\x09ifTrue: [ stream next \x22skipping the escape double\x22 ]\x0a\x09\x09\x09\x09\x09\x09\x09\x09ifFalse: [ ^ last := result contents trimBoth \x22chunk end marker found\x22 ]].\x0a\x09\x09\x09\x09result nextPut: char ].\x0a\x09^ last := nil \x22a chunk needs to end with !\x22",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["writeStream", "whileTrue:", "next", "notNil", "ifTrue:", "=", "ifTrue:ifFalse:", "peek", "trimBoth", "contents", "nextPut:"]
 }),
 $globals.ChunkParser);
@@ -2314,6 +2362,7 @@ args: ["aStream"],
 source: "stream: aStream\x0a\x09stream := aStream",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ChunkParser);
@@ -2338,6 +2387,7 @@ args: ["aStream"],
 source: "on: aStream\x0a\x09^ self new stream: aStream",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["stream:", "new"]
 }),
 $globals.ChunkParser.a$cls);
@@ -2362,6 +2412,7 @@ args: ["aClass"],
 source: "class: aClass\x0a\x09class := aClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ClassCommentReader);
@@ -2393,6 +2444,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize"]
 }),
 $globals.ClassCommentReader);
@@ -2427,6 +2479,7 @@ args: ["aChunkParser"],
 source: "scanFrom: aChunkParser\x0a\x09| chunk |\x0a\x09chunk := aChunkParser nextChunk.\x0a\x09chunk ifNotEmpty: [\x0a\x09\x09self setComment: chunk ].",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextChunk", "ifNotEmpty:", "setComment:"]
 }),
 $globals.ClassCommentReader);
@@ -2451,6 +2504,7 @@ args: ["aString"],
 source: "setComment: aString\x0a\x09class comment: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["comment:"]
 }),
 $globals.ClassCommentReader);
@@ -2477,6 +2531,7 @@ args: ["aClass", "aString"],
 source: "class: aClass category: aString\x0a\x09class := aClass.\x0a\x09category := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ClassProtocolReader);
@@ -2501,6 +2556,7 @@ args: ["aString"],
 source: "compileMethod: aString\x0a\x09Compiler new install: aString forClass: class protocol: category",
 referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["install:forClass:protocol:", "new"]
 }),
 $globals.ClassProtocolReader);
@@ -2532,6 +2588,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize"]
 }),
 $globals.ClassProtocolReader);
@@ -2574,6 +2631,7 @@ args: ["aChunkParser"],
 source: "scanFrom: aChunkParser\x0a\x09| chunk |\x0a\x09[ chunk := aChunkParser nextChunk.\x0a\x09chunk isEmpty ] whileFalse: [\x0a\x09\x09self compileMethod: chunk ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["whileFalse:", "nextChunk", "isEmpty", "compileMethod:"]
 }),
 $globals.ClassProtocolReader);
@@ -2616,6 +2674,7 @@ args: [],
 source: "methods\x0a\x09^ (self theClass methodsInProtocol: self name)\x0a\x09\x09sorted: [ :a :b | a selector <= b selector ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["sorted:", "methodsInProtocol:", "theClass", "name", "<=", "selector"]
 }),
 $globals.ExportMethodProtocol);
@@ -2634,6 +2693,7 @@ args: [],
 source: "name\x0a\x09^ name",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ExportMethodProtocol);
@@ -2653,6 +2713,7 @@ args: ["aString"],
 source: "name: aString\x0a\x09name := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ExportMethodProtocol);
@@ -2689,6 +2750,7 @@ args: [],
 source: "ownMethods\x0a\x09^ (self theClass ownMethodsInProtocol: self name)\x0a\x09\x09sorted: [ :a :b | a selector <= b selector ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["sorted:", "ownMethodsInProtocol:", "theClass", "name", "<=", "selector"]
 }),
 $globals.ExportMethodProtocol);
@@ -2707,6 +2769,7 @@ args: [],
 source: "theClass\x0a\x09^ theClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ExportMethodProtocol);
@@ -2726,6 +2789,7 @@ args: ["aClass"],
 source: "theClass: aClass\x0a\x09theClass := aClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ExportMethodProtocol);
@@ -2754,6 +2818,7 @@ args: ["aString", "aClass"],
 source: "name: aString theClass: aClass\x0a\x09^ self new\x0a\x09\x09name: aString;\x0a\x09\x09theClass: aClass;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["name:", "new", "theClass:", "yourself"]
 }),
 $globals.ExportMethodProtocol.a$cls);
@@ -2843,6 +2908,7 @@ args: ["aStream"],
 source: "import: aStream\x0a\x09| chunk result parser lastEmpty |\x0a\x09parser := ChunkParser on: aStream.\x0a\x09lastEmpty := false.\x0a\x09lastSection := 'n/a, not started'.\x0a\x09lastChunk := nil.\x0a\x09[\x0a\x09[ chunk := parser nextChunk.\x0a\x09chunk isNil ] whileFalse: [\x0a\x09\x09chunk\x0a\x09\x09\x09ifEmpty: [ lastEmpty := true ]\x0a\x09\x09\x09ifNotEmpty: [\x0a\x09\x09\x09\x09lastSection := chunk.\x0a\x09\x09\x09\x09result := Compiler new evaluateExpression: chunk.\x0a\x09\x09\x09\x09lastEmpty\x0a\x09\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09lastEmpty := false.\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09result scanFrom: parser ]] ].\x0a\x09lastSection := 'n/a, finished'\x0a\x09] on: Error do: [:e | lastChunk := parser last. e pass ].",
 referencedClasses: ["ChunkParser", "Compiler", "Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["on:", "on:do:", "whileFalse:", "nextChunk", "isNil", "ifEmpty:ifNotEmpty:", "evaluateExpression:", "new", "ifTrue:", "scanFrom:", "last", "pass"]
 }),
 $globals.Importer);
@@ -2861,6 +2927,7 @@ args: [],
 source: "lastChunk\x0a\x09^ lastChunk",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Importer);
@@ -2879,6 +2946,7 @@ args: [],
 source: "lastSection\x0a\x09^ lastSection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Importer);
@@ -2945,6 +3013,7 @@ args: ["aURL", "aString", "aBlock", "anotherBlock"],
 source: "ajaxPutAt: aURL data: aString onSuccess: aBlock onError: anotherBlock\x0a\x09| xhr |\x0a\x09xhr := Platform newXhr.\x0a\x09xhr open: 'PUT' url: aURL async: true.\x0a\x09xhr onreadystatechange: [\x0a\x09\x09xhr readyState = 4 ifTrue: [\x0a\x09\x09\x09(xhr status >= 200 and: [ xhr status < 300 ])\x0a\x09\x09\x09\x09ifTrue: aBlock\x0a\x09\x09\x09\x09ifFalse: anotherBlock ]].\x0a\x09xhr send: aString",
 referencedClasses: ["Platform"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["newXhr", "open:url:async:", "onreadystatechange:", "ifTrue:", "=", "readyState", "ifTrue:ifFalse:", "and:", ">=", "status", "<", "send:"]
 }),
 $globals.PackageHandler);
@@ -2976,6 +3045,7 @@ args: ["aPackage"],
 source: "chunkContentsFor: aPackage\x0a\x09^ String streamContents: [ :str |\x0a\x09\x09self chunkExporter exportPackage: aPackage on: str ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["streamContents:", "exportPackage:on:", "chunkExporter"]
 }),
 $globals.PackageHandler);
@@ -2999,6 +3069,7 @@ args: [],
 source: "chunkExporter\x0a\x09^ self chunkExporterClass new",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "chunkExporterClass"]
 }),
 $globals.PackageHandler);
@@ -3017,6 +3088,7 @@ args: [],
 source: "chunkExporterClass\x0a\x09^ ChunkExporter",
 referencedClasses: ["ChunkExporter"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.PackageHandler);
@@ -3058,6 +3130,7 @@ args: ["aPackage"],
 source: "commit: aPackage\x0a\x09self \x0a\x09\x09commit: aPackage\x0a\x09\x09onSuccess: []\x0a\x09\x09onError: [ :error |\x0a\x09\x09\x09PackageCommitError new\x0a\x09\x09\x09\x09messageText: 'Commiting failed with reason: \x22' , (error responseText) , '\x22';\x0a\x09\x09\x09\x09signal ]",
 referencedClasses: ["PackageCommitError"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["commit:onSuccess:onError:", "messageText:", "new", ",", "responseText", "signal"]
 }),
 $globals.PackageHandler);
@@ -3099,6 +3172,7 @@ args: ["aPackage", "aBlock", "anotherBlock"],
 source: "commit: aPackage onSuccess: aBlock onError: anotherBlock\x0a\x09self \x0a\x09\x09commitJsFileFor: aPackage \x0a\x09\x09onSuccess: [\x0a\x09\x09\x09self \x0a\x09\x09\x09\x09commitStFileFor: aPackage \x0a\x09\x09\x09\x09onSuccess: [ aPackage beClean. aBlock value ]\x0a\x09\x09\x09\x09onError: anotherBlock ] \x0a\x09\x09onError: anotherBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["commitJsFileFor:onSuccess:onError:", "commitStFileFor:onSuccess:onError:", "beClean", "value"]
 }),
 $globals.PackageHandler);
@@ -3132,6 +3206,7 @@ args: ["aPackage", "aBlock", "anotherBlock"],
 source: "commitJsFileFor: aPackage onSuccess: aBlock onError: anotherBlock\x0a\x09self \x0a\x09\x09ajaxPutAt: (self commitPathJsFor: aPackage), '/', aPackage name, '.js'\x0a\x09\x09data: (self contentsFor: aPackage)\x0a\x09\x09onSuccess: aBlock\x0a\x09\x09onError: anotherBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ajaxPutAt:data:onSuccess:onError:", ",", "commitPathJsFor:", "name", "contentsFor:"]
 }),
 $globals.PackageHandler);
@@ -3156,6 +3231,7 @@ args: ["aPackage"],
 source: "commitPathJsFor: aPackage\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.PackageHandler);
@@ -3180,6 +3256,7 @@ args: ["aPackage"],
 source: "commitPathStFor: aPackage\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.PackageHandler);
@@ -3213,6 +3290,7 @@ args: ["aPackage", "aBlock", "anotherBlock"],
 source: "commitStFileFor: aPackage onSuccess: aBlock onError: anotherBlock\x0a\x09self \x0a\x09\x09ajaxPutAt: (self commitPathStFor: aPackage), '/', aPackage name, '.st'\x0a\x09\x09data: (self chunkContentsFor: aPackage)\x0a\x09\x09onSuccess: aBlock\x0a\x09\x09onError: anotherBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ajaxPutAt:data:onSuccess:onError:", ",", "commitPathStFor:", "name", "chunkContentsFor:"]
 }),
 $globals.PackageHandler);
@@ -3244,6 +3322,7 @@ args: ["aPackage"],
 source: "contentsFor: aPackage\x0a\x09^ String streamContents: [ :str |\x0a\x09\x09self exporter exportPackage: aPackage on: str ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["streamContents:", "exportPackage:on:", "exporter"]
 }),
 $globals.PackageHandler);
@@ -3267,6 +3346,7 @@ args: [],
 source: "exporter\x0a\x09^ self exporterClass new",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "exporterClass"]
 }),
 $globals.PackageHandler);
@@ -3291,6 +3371,7 @@ args: [],
 source: "exporterClass\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.PackageHandler);
@@ -3315,6 +3396,7 @@ args: ["aPackage"],
 source: "load: aPackage\x0a\x09\x22Should return a TThenable\x22\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.PackageHandler);
@@ -3346,6 +3428,7 @@ args: ["anError"],
 source: "onCommitError: anError\x0a\x09PackageCommitError new\x0a\x09\x09messageText: 'Commiting failed with reason: \x22' , (anError responseText) , '\x22';\x0a\x09\x09signal",
 referencedClasses: ["PackageCommitError"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["messageText:", "new", ",", "responseText", "signal"]
 }),
 $globals.PackageHandler);
@@ -3370,6 +3453,7 @@ args: ["aString", "aPackage"],
 source: "setPath: aString forPackage: aPackage\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.PackageHandler);
@@ -3399,6 +3483,7 @@ args: ["aPackage"],
 source: "commitPathJsFor: aPackage\x0a\x09^ self toUrl: (self namespaceFor: aPackage)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["toUrl:", "namespaceFor:"]
 }),
 $globals.AmdPackageHandler);
@@ -3435,6 +3520,7 @@ args: ["aPackage"],
 source: "commitPathStFor: aPackage\x0a\x09\x22If _source is not mapped, .st will be committed to .js path.\x0a\x09It is recommended not to use _source as it can be deprecated.\x22\x0a\x09\x0a\x09| path pathWithout |\x0a\x09path := self toUrl: (self namespaceFor: aPackage), '/_source'.\x0a\x09pathWithout := self commitPathJsFor: aPackage.\x0a\x09^ path = (pathWithout, '/_source') ifTrue: [ pathWithout ] ifFalse: [ path ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["toUrl:", ",", "namespaceFor:", "commitPathJsFor:", "ifTrue:ifFalse:", "="]
 }),
 $globals.AmdPackageHandler);
@@ -3453,6 +3539,7 @@ args: [],
 source: "exporterClass\x0a\x09^ AmdExporter",
 referencedClasses: ["AmdExporter"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AmdPackageHandler);
@@ -3513,6 +3600,7 @@ args: ["aPackage"],
 source: "load: aPackage\x0a\x09^ Promise new: [ :model |\x0a\x09\x09Smalltalk amdRequire\x0a\x09\x09\x09ifNil: [ self error: 'AMD loader not present' ]\x0a\x09\x09\x09ifNotNil: [ :require |\x0a\x09\x09\x09\x09require\x0a\x09\x09\x09\x09\x09value: { (self namespaceFor: aPackage), '/', aPackage name }\x0a\x09\x09\x09\x09\x09value: [ :result | model value: result ]\x0a\x09\x09\x09\x09\x09value: [ :error | model signal: error ] ] ]",
 referencedClasses: ["Promise", "Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new:", "ifNil:ifNotNil:", "amdRequire", "error:", "value:value:value:", ",", "namespaceFor:", "name", "value:", "signal:"]
 }),
 $globals.AmdPackageHandler);
@@ -3536,6 +3624,7 @@ args: ["aPackage"],
 source: "namespaceFor: aPackage\x0a\x09^ aPackage transport namespace",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["namespace", "transport"]
 }),
 $globals.AmdPackageHandler);
@@ -3560,6 +3649,7 @@ args: ["aString", "aPackage"],
 source: "setPath: aString forPackage: aPackage\x0a\x09\x22Set the path the the package's `namespace`\x22\x0a\x09\x0a\x09\x22Smalltalk amdRequire\x0a\x09\x09ifNil: [ self error: 'AMD loader not present' ]\x0a\x09\x09ifNotNil: [ :require |\x22\x0a\x09\x09\x09require provided config: #{\x0a\x09\x09\x09\x09'paths' -> #{\x0a\x09\x09\x09\x09\x09(self namespaceFor: aPackage) -> aString\x0a\x09\x09\x09\x09}\x0a\x09\x09\x09}\x0a\x09\x09\x22]\x22",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["config:", "provided", "namespaceFor:"]
 }),
 $globals.AmdPackageHandler);
@@ -3591,6 +3681,7 @@ args: ["aString"],
 source: "toUrl: aString\x0a\x09^ Smalltalk amdRequire\x0a\x09\x09ifNil: [ self error: 'AMD loader not present' ]\x0a\x09\x09ifNotNil: [ :require | require provided toUrl: aString ]",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:ifNotNil:", "amdRequire", "error:", "toUrl:", "provided"]
 }),
 $globals.AmdPackageHandler);
@@ -3615,6 +3706,7 @@ args: [],
 source: "defaultNamespace\x0a\x09^ Smalltalk defaultAmdNamespace",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["defaultAmdNamespace"]
 }),
 $globals.AmdPackageHandler.a$cls);
@@ -3639,6 +3731,7 @@ args: ["aString"],
 source: "defaultNamespace: aString\x0a\x09Smalltalk defaultAmdNamespace: aString",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["defaultAmdNamespace:"]
 }),
 $globals.AmdPackageHandler.a$cls);
@@ -3667,6 +3760,7 @@ args: [],
 source: "asJavaScriptObject\x0a\x09^ #{ 'type' -> self type }",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["type"]
 }),
 $globals.PackageTransport);
@@ -3691,6 +3785,7 @@ args: [],
 source: "commit\x0a\x09self commitHandler commit: self package",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["commit:", "commitHandler", "package"]
 }),
 $globals.PackageTransport);
@@ -3714,6 +3809,7 @@ args: [],
 source: "commitHandler\x0a\x09^ self commitHandlerClass new",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "commitHandlerClass"]
 }),
 $globals.PackageTransport);
@@ -3738,6 +3834,7 @@ args: [],
 source: "commitHandlerClass\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["subclassResponsibility"]
 }),
 $globals.PackageTransport);
@@ -3762,6 +3859,7 @@ args: ["aBlock", "anotherBlock"],
 source: "commitOnSuccess: aBlock onError: anotherBlock\x0a\x09self commitHandler \x0a\x09\x09commit: self package\x0a\x09\x09onSuccess: aBlock\x0a\x09\x09onError: anotherBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["commit:onSuccess:onError:", "commitHandler", "package"]
 }),
 $globals.PackageTransport);
@@ -3780,6 +3878,7 @@ args: [],
 source: "definition\x0a\x09^ ''",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.PackageTransport);
@@ -3811,6 +3910,7 @@ args: [],
 source: "load\x0a\x09^ (self commitHandler load: self package)\x0a\x09\x09then: [ Smalltalk postLoad ]",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["then:", "load:", "commitHandler", "package", "postLoad"]
 }),
 $globals.PackageTransport);
@@ -3829,6 +3929,7 @@ args: [],
 source: "package\x0a\x09^ package",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.PackageTransport);
@@ -3848,6 +3949,7 @@ args: ["aPackage"],
 source: "package: aPackage\x0a\x09package := aPackage",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.PackageTransport);
@@ -3872,6 +3974,7 @@ args: ["aString"],
 source: "setPath: aString\x0a\x09\x22Set the commit path for the package\x22\x0a\x0a\x09self commitHandler setPath: aString forPackage: package",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["setPath:forPackage:", "commitHandler"]
 }),
 $globals.PackageTransport);
@@ -3890,6 +3993,7 @@ args: ["anObject"],
 source: "setupFromJson: anObject\x0a\x09\x22no op. override if needed in subclasses\x22",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.PackageTransport);
@@ -3913,6 +4017,7 @@ args: [],
 source: "type\x0a\x09^ self class type",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["type", "class"]
 }),
 $globals.PackageTransport);
@@ -3938,6 +4043,7 @@ args: ["aString"],
 source: "classRegisteredFor: aString\x0a\x09^ registry at: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:"]
 }),
 $globals.PackageTransport.a$cls);
@@ -3961,6 +4067,7 @@ args: [],
 source: "defaultType\x0a\x09^ AmdPackageTransport type",
 referencedClasses: ["AmdPackageTransport"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["type"]
 }),
 $globals.PackageTransport.a$cls);
@@ -3984,6 +4091,7 @@ args: ["aString"],
 source: "for: aString\x0a\x09^ (self classRegisteredFor: aString) new",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "classRegisteredFor:"]
 }),
 $globals.PackageTransport.a$cls);
@@ -4019,6 +4127,7 @@ args: ["anObject"],
 source: "fromJson: anObject\x0a\x09anObject ifNil: [ ^ self for: self defaultType ].\x0a\x09\x0a\x09^ (self for: anObject type)\x0a\x09\x09setupFromJson: anObject;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "for:", "defaultType", "setupFromJson:", "type", "yourself"]
 }),
 $globals.PackageTransport.a$cls);
@@ -4058,6 +4167,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x09self == PackageTransport\x0a\x09\x09ifTrue: [ registry := #{} ]\x0a\x09\x09ifFalse: [ self register ]",
 referencedClasses: ["PackageTransport"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize", "ifTrue:ifFalse:", "==", "register"]
 }),
 $globals.PackageTransport.a$cls);
@@ -4082,6 +4192,7 @@ args: [],
 source: "register\x0a\x09PackageTransport register: self",
 referencedClasses: ["PackageTransport"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["register:"]
 }),
 $globals.PackageTransport.a$cls);
@@ -4115,6 +4226,7 @@ args: ["aClass"],
 source: "register: aClass\x0a\x09aClass type ifNotNil: [\x0a\x09\x09registry at: aClass type put: aClass ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "type", "at:put:"]
 }),
 $globals.PackageTransport.a$cls);
@@ -4133,6 +4245,7 @@ args: [],
 source: "type\x0a\x09\x22Override in subclasses\x22\x0a\x09^ nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.PackageTransport.a$cls);
@@ -4171,6 +4284,7 @@ args: [],
 source: "asJavaScriptObject\x0a\x09^ super asJavaScriptObject\x0a\x09\x09at: 'amdNamespace' put: self namespace;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:put:", "asJavaScriptObject", "namespace", "yourself"]
 }),
 $globals.AmdPackageTransport);
@@ -4189,6 +4303,7 @@ args: [],
 source: "commitHandlerClass\x0a\x09^ AmdPackageHandler",
 referencedClasses: ["AmdPackageHandler"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AmdPackageTransport);
@@ -4212,6 +4327,7 @@ args: [],
 source: "defaultNamespace\x0a\x09^ Smalltalk defaultAmdNamespace",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["defaultAmdNamespace"]
 }),
 $globals.AmdPackageTransport);
@@ -4244,6 +4360,7 @@ args: [],
 source: "definition\x0a\x09^ String streamContents: [ :stream | stream \x0a\x09\x09write: { self class name. ' namespace: ' }; print: self namespace ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["streamContents:", "write:", "name", "class", "print:", "namespace"]
 }),
 $globals.AmdPackageTransport);
@@ -4273,6 +4390,7 @@ args: [],
 source: "namespace\x0a\x09^ namespace ifNil: [ self defaultNamespace ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "defaultNamespace"]
 }),
 $globals.AmdPackageTransport);
@@ -4292,6 +4410,7 @@ args: ["aString"],
 source: "namespace: aString\x0a\x09namespace := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AmdPackageTransport);
@@ -4332,6 +4451,7 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09super printOn: aStream.\x0a\x09aStream\x0a\x09\x09nextPutAll: ' (AMD Namespace: ';\x0a\x09\x09nextPutAll: self namespace;\x0a\x09\x09nextPutAll: ')'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["printOn:", "nextPutAll:", "namespace"]
 }),
 $globals.AmdPackageTransport);
@@ -4356,6 +4476,7 @@ args: ["anObject"],
 source: "setupFromJson: anObject\x0a\x09self namespace: (anObject at: 'amdNamespace')",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["namespace:", "at:"]
 }),
 $globals.AmdPackageTransport);
@@ -4383,6 +4504,7 @@ args: ["aString"],
 source: "namespace: aString\x0a\x09^ self new\x0a\x09\x09namespace: aString;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["namespace:", "new", "yourself"]
 }),
 $globals.AmdPackageTransport.a$cls);
@@ -4401,6 +4523,7 @@ args: [],
 source: "type\x0a\x09^ 'amd'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AmdPackageTransport.a$cls);
@@ -4425,6 +4548,7 @@ args: ["aStream", "anExporter"],
 source: "exportBehaviorDefinitionTo: aStream using: anExporter\x0a\x09anExporter exportDefinitionOf: self on: aStream",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["exportDefinitionOf:on:"]
 }),
 $globals.Class);
@@ -4449,6 +4573,7 @@ args: ["aStream", "anExporter"],
 source: "exportBehaviorDefinitionTo: aStream using: anExporter\x0a\x09anExporter exportMetaDefinitionOf: self instanceClass on: aStream",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["exportMetaDefinitionOf:on:", "instanceClass"]
 }),
 $globals.Metaclass);
@@ -4472,6 +4597,7 @@ args: [],
 source: "commit\x0a\x09^ self transport commit",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["commit", "transport"]
 }),
 $globals.Package);
@@ -4495,6 +4621,7 @@ args: [],
 source: "load\x0a\x09^ self transport load",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["load", "transport"]
 }),
 $globals.Package);
@@ -4521,6 +4648,7 @@ args: ["aString"],
 source: "loadFromNamespace: aString\x0a\x09^ self transport\x0a\x09\x09namespace: aString;\x0a\x09\x09load",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["namespace:", "transport", "load"]
 }),
 $globals.Package);
@@ -4544,6 +4672,7 @@ args: ["aPackageName"],
 source: "load: aPackageName\x0a\x09^ (self named: aPackageName) load",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["load", "named:"]
 }),
 $globals.Package.a$cls);
@@ -4567,6 +4696,7 @@ args: ["aPackageName", "aString"],
 source: "load: aPackageName fromNamespace: aString\x0a\x09^ (self named: aPackageName) loadFromNamespace: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["loadFromNamespace:", "named:"]
 }),
 $globals.Package.a$cls);
@@ -4593,6 +4723,7 @@ args: ["aString"],
 source: "methodsFor: aString\x0a\x09^ ClassProtocolReader new\x0a\x09\x09class: self category: aString;\x0a\x09\x09yourself",
 referencedClasses: ["ClassProtocolReader"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["class:category:", "new", "yourself"]
 }),
 $globals.TBehaviorProvider);
@@ -4616,6 +4747,7 @@ args: ["aString", "aStamp"],
 source: "methodsFor: aString stamp: aStamp\x0a\x09\x22Added for file-in compatibility, ignores stamp.\x22\x0a\x09^ self methodsFor: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["methodsFor:"]
 }),
 $globals.TBehaviorProvider);
@@ -4642,6 +4774,7 @@ args: [],
 source: "commentStamp\x0a\x09^ ClassCommentReader new\x0a\x09class: self;\x0a\x09yourself",
 referencedClasses: ["ClassCommentReader"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["class:", "new", "yourself"]
 }),
 $globals.TMasterBehavior);
@@ -4665,6 +4798,7 @@ args: ["aStamp", "prior"],
 source: "commentStamp: aStamp prior: prior\x0a\x09\x09^ self commentStamp",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["commentStamp"]
 }),
 $globals.TMasterBehavior);
@@ -4689,6 +4823,7 @@ args: ["aStream", "anExporter"],
 source: "exportBehaviorDefinitionTo: aStream using: anExporter\x0a\x09anExporter exportTraitDefinitionOf: self on: aStream",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["exportTraitDefinitionOf:on:"]
 }),
 $globals.Trait);

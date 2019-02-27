@@ -28,6 +28,7 @@ args: ["anObject", "aCollection"],
 source: "applyTo: anObject arguments: aCollection\x0a\x09self interpreterError",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["interpreterError"]
 }),
 $globals.AIBlockClosure);
@@ -46,6 +47,7 @@ args: [],
 source: "compiledSource\x0a\x09\x22Unlike blocks, the receiver doesn't represent a JS function\x22\x0a\x09\x0a\x09^ '[ AST Block closure ]'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AIBlockClosure);
@@ -70,6 +72,7 @@ args: [],
 source: "currySelf\x0a\x09self interpreterError",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["interpreterError"]
 }),
 $globals.AIBlockClosure);
@@ -90,6 +93,7 @@ args: ["aContext", "aNode"],
 source: "initializeWithContext: aContext node: aNode\x0a\x09node := aNode.\x0a\x09outerContext := aContext",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AIBlockClosure);
@@ -114,6 +118,7 @@ args: [],
 source: "interpreterError\x0a\x09ASTInterpreterError signal: 'Method cannot be interpreted by the interpreter.'",
 referencedClasses: ["ASTInterpreterError"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["signal:"]
 }),
 $globals.AIBlockClosure);
@@ -137,6 +142,7 @@ args: [],
 source: "numArgs\x0a\x09^ node temps size",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["size", "temps"]
 }),
 $globals.AIBlockClosure);
@@ -160,6 +166,7 @@ args: [],
 source: "value\x0a\x09^ self valueWithPossibleArguments: #()",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["valueWithPossibleArguments:"]
 }),
 $globals.AIBlockClosure);
@@ -183,6 +190,7 @@ args: ["anArgument"],
 source: "value: anArgument\x0a\x09^ self valueWithPossibleArguments: {anArgument}",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["valueWithPossibleArguments:"]
 }),
 $globals.AIBlockClosure);
@@ -206,6 +214,7 @@ args: ["firstArgument", "secondArgument"],
 source: "value: firstArgument value: secondArgument\x0a\x09^ self valueWithPossibleArguments: {firstArgument . secondArgument}",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["valueWithPossibleArguments:"]
 }),
 $globals.AIBlockClosure);
@@ -229,6 +238,7 @@ args: ["firstArgument", "secondArgument", "thirdArgument"],
 source: "value: firstArgument value: secondArgument value: thirdArgument\x0a\x09^ self valueWithPossibleArguments: {firstArgument . secondArgument . thirdArgument}",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["valueWithPossibleArguments:"]
 }),
 $globals.AIBlockClosure);
@@ -295,6 +305,7 @@ args: ["aCollection"],
 source: "valueWithPossibleArguments: aCollection\x0a\x09| context sequenceNode |\x0a\x09context := outerContext newInnerContext.\x0a\x0a\x09\x22Interpret a copy of the sequence node to avoid creating a new AIBlockClosure\x22\x0a\x09sequenceNode := node dagChildren first copy\x0a\x09\x09parent: nil;\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09\x22Define locals in the context\x22\x0a\x09sequenceNode temps do: [ :each |\x0a\x09\x09context defineLocal: each ].\x0a\x09\x09\x0a\x09\x22Populate the arguments into the context locals\x22\x09\x0a\x09node parameters withIndexDo: [ :each :index |\x0a\x09\x09context defineLocal: each.\x0a\x09\x09context localAt: each put: (aCollection at: index ifAbsent: [ nil ]) ].\x0a\x0a\x09\x22Interpret the first node of the BlockSequenceNode\x22\x0a\x09context interpreter\x0a\x09\x09node: sequenceNode;\x0a\x09\x09enterNode;\x0a\x09\x09proceed.\x0a\x09\x09\x0a\x09outerContext interpreter\x0a\x09\x09setNonLocalReturnFromContext: context.\x0a\x09\x09\x0a\x09^ context interpreter pop",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["newInnerContext", "parent:", "copy", "first", "dagChildren", "yourself", "do:", "temps", "defineLocal:", "withIndexDo:", "parameters", "localAt:put:", "at:ifAbsent:", "node:", "interpreter", "enterNode", "proceed", "setNonLocalReturnFromContext:", "pop"]
 }),
 $globals.AIBlockClosure);
@@ -322,6 +333,7 @@ args: ["aContext", "aNode"],
 source: "forContext: aContext node: aNode\x0a\x09^ self new\x0a\x09\x09initializeWithContext: aContext node: aNode;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initializeWithContext:node:", "new", "yourself"]
 }),
 $globals.AIBlockClosure.a$cls);
@@ -366,6 +378,7 @@ args: [],
 source: "arguments\x0a\x09^ self ast arguments collect: [ :each |\x0a\x09\x09self localAt: each ifAbsent: [ self error: 'Argument not in context' ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collect:", "arguments", "ast", "localAt:ifAbsent:", "error:"]
 }),
 $globals.AIContext);
@@ -407,6 +420,7 @@ args: [],
 source: "ast\x0a\x09self isBlockContext ifTrue: [ \x0a\x09\x09^ self outerContext ifNotNil: [ :context | context ast ] ].\x0a\x0a\x09ast ifNil: [ self initializeAST ].\x0a\x09^ ast",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "isBlockContext", "ifNotNil:", "outerContext", "ast", "ifNil:", "initializeAST"]
 }),
 $globals.AIContext);
@@ -430,6 +444,7 @@ args: ["aString"],
 source: "basicLocalAt: aString\x0a\x09^ self locals at: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:", "locals"]
 }),
 $globals.AIContext);
@@ -454,6 +469,7 @@ args: ["aString", "anObject"],
 source: "basicLocalAt: aString put: anObject\x0a\x09self locals at: aString put: anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:put:", "locals"]
 }),
 $globals.AIContext);
@@ -477,6 +493,7 @@ args: [],
 source: "basicReceiver\x0a\x09^ self localAt: 'self'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["localAt:"]
 }),
 $globals.AIContext);
@@ -501,6 +518,7 @@ args: ["aString"],
 source: "defineLocal: aString\x0a\x09self locals at: aString put: nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:put:", "locals"]
 }),
 $globals.AIContext);
@@ -524,6 +542,7 @@ args: ["aString", "anEvaluator"],
 source: "evaluate: aString on: anEvaluator\x0a\x09^ anEvaluator evaluate: aString context: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["evaluate:context:"]
 }),
 $globals.AIContext);
@@ -553,6 +572,7 @@ args: ["aNode"],
 source: "evaluateNode: aNode\x0a\x09^ ASTInterpreter new\x0a\x09\x09context: self;\x0a\x09\x09node: aNode;\x0a\x09\x09enterNode;\x0a\x09\x09proceed;\x0a\x09\x09result",
 referencedClasses: ["ASTInterpreter"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["context:", "new", "node:", "enterNode", "proceed", "result"]
 }),
 $globals.AIContext);
@@ -571,6 +591,7 @@ args: [],
 source: "evaluatedSelector\x0a\x09^ evaluatedSelector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AIContext);
@@ -590,6 +611,7 @@ args: ["aString"],
 source: "evaluatedSelector: aString\x0a\x09evaluatedSelector := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AIContext);
@@ -619,6 +641,7 @@ args: [],
 source: "index\x0a\x09^ index ifNil: [ 0 ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.AIContext);
@@ -638,6 +661,7 @@ args: ["anInteger"],
 source: "index: anInteger\x0a\x09index := anInteger",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AIContext);
@@ -668,6 +692,7 @@ args: [],
 source: "initializeAST\x0a\x09ast := self method ast.\x0a\x09(SemanticAnalyzer on: self method methodClass)\x0a\x09\x09visit: ast",
 referencedClasses: ["SemanticAnalyzer"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ast", "method", "visit:", "on:", "methodClass"]
 }),
 $globals.AIContext);
@@ -727,6 +752,7 @@ args: ["aMethodContext"],
 source: "initializeFromMethodContext: aMethodContext\x0a\x0a\x09self\x0a\x09\x09evaluatedSelector: aMethodContext evaluatedSelector;\x0a\x09\x09index: aMethodContext index;\x0a\x09\x09sendIndexes: aMethodContext sendIndexes;\x0a\x09\x09receiver: aMethodContext receiver;\x0a\x09\x09supercall: aMethodContext supercall;\x0a\x09\x09selector: aMethodContext selector.\x0a\x09\x09\x0a\x09aMethodContext outerContext ifNotNil: [ :outer |\x0a\x09\x09\x22If the method context is nil, the block was defined in JS, so ignore it\x22\x0a\x09\x09outer methodContext ifNotNil: [\x0a\x09\x09\x09self outerContext: (self class fromMethodContext: aMethodContext outerContext) ].\x0a\x09\x09\x09aMethodContext locals keysAndValuesDo: [ :key :value |\x0a\x09\x09\x09\x09self locals at: key put: value ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["evaluatedSelector:", "evaluatedSelector", "index:", "index", "sendIndexes:", "sendIndexes", "receiver:", "receiver", "supercall:", "supercall", "selector:", "selector", "ifNotNil:", "outerContext", "methodContext", "outerContext:", "fromMethodContext:", "class", "keysAndValuesDo:", "locals", "at:put:"]
 }),
 $globals.AIContext);
@@ -760,6 +786,7 @@ args: [],
 source: "initializeInterpreter\x0a\x09interpreter := ASTInterpreter new\x0a\x09\x09context: self;\x0a\x09\x09yourself.\x0a\x09\x0a\x09self innerContext ifNotNil: [\x0a\x09\x09self setupInterpreter: interpreter ]",
 referencedClasses: ["ASTInterpreter"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["context:", "new", "yourself", "ifNotNil:", "innerContext", "setupInterpreter:"]
 }),
 $globals.AIContext);
@@ -785,6 +812,7 @@ args: [],
 source: "initializeLocals\x0a\x09locals := Dictionary new.\x0a\x09locals at: 'thisContext' put: self.",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "at:put:"]
 }),
 $globals.AIContext);
@@ -803,6 +831,7 @@ args: [],
 source: "innerContext\x0a\x09^ innerContext",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AIContext);
@@ -822,6 +851,7 @@ args: ["anAIContext"],
 source: "innerContext: anAIContext\x0a\x09innerContext := anAIContext",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AIContext);
@@ -852,6 +882,7 @@ args: [],
 source: "interpreter\x0a\x09interpreter ifNil: [ self initializeInterpreter ].\x0a\x09^ interpreter",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "initializeInterpreter"]
 }),
 $globals.AIContext);
@@ -871,6 +902,7 @@ args: ["anInterpreter"],
 source: "interpreter: anInterpreter\x0a\x09interpreter := anInterpreter",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AIContext);
@@ -894,6 +926,7 @@ args: [],
 source: "isTopContext\x0a\x09^ self innerContext isNil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["isNil", "innerContext"]
 }),
 $globals.AIContext);
@@ -919,6 +952,7 @@ args: ["aString"],
 source: "localAt: aString\x0a\x09\x22Lookup the local value up to the method context\x22\x0a\x0a\x09| context |\x0a\x09\x0a\x09context := self lookupContextForLocal: aString.\x0a\x09^ context basicLocalAt: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["lookupContextForLocal:", "basicLocalAt:"]
 }),
 $globals.AIContext);
@@ -956,6 +990,7 @@ args: ["aString", "aBlock"],
 source: "localAt: aString ifAbsent: aBlock\x0a\x09\x22Lookup the local value up to the method context\x22\x0a\x0a\x09| context |\x0a\x09\x0a\x09context := self \x09\x0a\x09\x09lookupContextForLocal: aString \x0a\x09\x09ifNone: [ ^ aBlock value ].\x0a\x09\x0a\x09^ context basicLocalAt: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["lookupContextForLocal:ifNone:", "value", "basicLocalAt:"]
 }),
 $globals.AIContext);
@@ -982,6 +1017,7 @@ args: ["aString", "anObject"],
 source: "localAt: aString put: anObject\x0a\x09| context |\x0a\x09\x0a\x09context := self lookupContextForLocal: aString.\x0a\x09context basicLocalAt: aString put: anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["lookupContextForLocal:", "basicLocalAt:put:"]
 }),
 $globals.AIContext);
@@ -1012,6 +1048,7 @@ args: [],
 source: "locals\x0a\x09locals ifNil: [ self initializeLocals ].\x0a\x09\x0a\x09^ locals",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "initializeLocals"]
 }),
 $globals.AIContext);
@@ -1043,6 +1080,7 @@ args: ["aString"],
 source: "lookupContextForLocal: aString\x0a\x09\x22Lookup the context defining the local named `aString` \x0a\x09up to the method context\x22\x0a\x0a\x09^ self \x0a\x09\x09lookupContextForLocal: aString \x0a\x09\x09ifNone: [ self variableNotFound ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["lookupContextForLocal:ifNone:", "variableNotFound"]
 }),
 $globals.AIContext);
@@ -1087,6 +1125,7 @@ args: ["aString", "aBlock"],
 source: "lookupContextForLocal: aString ifNone: aBlock\x0a\x09\x22Lookup the context defining the local named `aString` \x0a\x09up to the method context\x22\x0a\x0a\x09^ self locals \x0a\x09\x09at: aString\x0a\x09\x09ifPresent: [ self ]\x0a\x09\x09ifAbsent: [ \x0a\x09\x09\x09self outerContext \x0a\x09\x09\x09\x09ifNil: aBlock\x0a\x09\x09\x09\x09ifNotNil: [ :context | \x0a\x09\x09\x09\x09\x09context lookupContextForLocal: aString ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:ifPresent:ifAbsent:", "locals", "ifNil:ifNotNil:", "outerContext", "lookupContextForLocal:"]
 }),
 $globals.AIContext);
@@ -1113,6 +1152,7 @@ args: [],
 source: "newInnerContext\x0a\x09^ self class new\x0a\x09\x09outerContext: self;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["outerContext:", "new", "class", "yourself"]
 }),
 $globals.AIContext);
@@ -1131,6 +1171,7 @@ args: [],
 source: "outerContext\x0a\x09^ outerContext",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AIContext);
@@ -1164,6 +1205,7 @@ args: ["anAIContext"],
 source: "outerContext: anAIContext\x0a\x09outerContext := anAIContext.\x0a\x09outerContext ifNotNil: [ :context | \x0a\x09\x09context innerContext: self ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "innerContext:"]
 }),
 $globals.AIContext);
@@ -1188,6 +1230,7 @@ args: ["anObject"],
 source: "receiver: anObject\x0a\x09self locals at: 'self' put: anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:put:", "locals"]
 }),
 $globals.AIContext);
@@ -1206,6 +1249,7 @@ args: [],
 source: "selector\x0a\x09^ selector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AIContext);
@@ -1225,6 +1269,7 @@ args: ["aString"],
 source: "selector: aString\x0a\x09selector := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AIContext);
@@ -1251,6 +1296,7 @@ args: ["aString"],
 source: "sendIndexAt: aString\x0a\x09^ self sendIndexes at: aString ifAbsent: [ 0 ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:ifAbsent:", "sendIndexes"]
 }),
 $globals.AIContext);
@@ -1280,6 +1326,7 @@ args: [],
 source: "sendIndexes\x0a\x09^ sendIndexes ifNil: [ Dictionary new ]",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "new"]
 }),
 $globals.AIContext);
@@ -1299,6 +1346,7 @@ args: ["aDictionary"],
 source: "sendIndexes: aDictionary\x0a\x09sendIndexes := aDictionary",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AIContext);
@@ -1376,6 +1424,7 @@ args: ["anInterpreter"],
 source: "setupInterpreter: anInterpreter\x0a\x09| currentNode |\x0a\x09\x0a\x09\x22Retrieve the current node\x22\x0a\x09currentNode := ASTPCNodeVisitor new\x0a\x09\x09\x09selector: self evaluatedSelector;\x0a\x09\x09\x09index: (self sendIndexAt: self evaluatedSelector);\x0a\x09\x09\x09visit: self ast;\x0a\x09\x09\x09currentNode.\x0a\x09\x0a\x09\x22Define locals for the context\x22\x0a\x09self ast sequenceNode ifNotNil: [ :sequence |\x0a\x09\x09sequence temps do: [ :each |\x0a\x09\x09\x09self defineLocal: each ] ].\x0a\x09\x0a\x09anInterpreter node: currentNode.\x0a\x0a\x09\x22Push the send args and receiver to the interpreter stack\x22\x09\x0a\x09self innerContext arguments reversed do: [ :each | \x0a\x09\x09anInterpreter push: each ].\x0a\x09\x09\x0a\x09anInterpreter push: (self innerContext receiver)",
 referencedClasses: ["ASTPCNodeVisitor"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["selector:", "new", "evaluatedSelector", "index:", "sendIndexAt:", "visit:", "ast", "currentNode", "ifNotNil:", "sequenceNode", "do:", "temps", "defineLocal:", "node:", "reversed", "arguments", "innerContext", "push:", "receiver"]
 }),
 $globals.AIContext);
@@ -1405,6 +1454,7 @@ args: [],
 source: "supercall\x0a\x09^ supercall ifNil: [ false ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.AIContext);
@@ -1424,6 +1474,7 @@ args: ["aBoolean"],
 source: "supercall: aBoolean\x0a\x09supercall := aBoolean",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AIContext);
@@ -1448,6 +1499,7 @@ args: [],
 source: "variableNotFound\x0a\x09\x22Error thrown whenever a variable lookup fails\x22\x0a\x09\x0a\x09self error: 'Variable missing'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["error:"]
 }),
 $globals.AIContext);
@@ -1475,6 +1527,7 @@ args: ["aMethodContext"],
 source: "fromMethodContext: aMethodContext\x0a\x09^ self new\x0a\x09\x09initializeFromMethodContext: aMethodContext;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initializeFromMethodContext:", "new", "yourself"]
 }),
 $globals.AIContext.a$cls);
@@ -1498,6 +1551,7 @@ args: [],
 source: "context\x0a\x09^ context",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AISemanticAnalyzer);
@@ -1517,6 +1571,7 @@ args: ["anAIContext"],
 source: "context: anAIContext\x0a\x09context := anAIContext",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AISemanticAnalyzer);
@@ -1563,6 +1618,7 @@ args: ["aNode"],
 source: "visitVariableNode: aNode\x0a\x09self context \x0a\x09\x09localAt: aNode value \x0a\x09\x09ifAbsent: [ ^ super visitVariableNode: aNode ].\x0a\x0a\x09aNode binding: ASTContextVar new",
 referencedClasses: ["ASTContextVar"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["localAt:ifAbsent:", "context", "value", "visitVariableNode:", "binding:", "new"]
 }),
 $globals.AISemanticAnalyzer);
@@ -1587,6 +1643,7 @@ args: [],
 source: "context\x0a\x09^ context",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTContextVar);
@@ -1606,6 +1663,7 @@ args: ["anObject"],
 source: "context: anObject\x0a\x09context := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTContextVar);
@@ -1653,6 +1711,7 @@ args: [],
 source: "atEnd\x09\x0a\x09self context ifNil: [ ^ true ].\x0a\x09\x0a\x09^ self interpreter atEnd and: [ \x0a\x09\x09self context isTopContext ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "context", "and:", "atEnd", "interpreter", "isTopContext"]
 }),
 $globals.ASTDebugger);
@@ -1671,6 +1730,7 @@ args: [],
 source: "context\x0a\x09^ context",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTDebugger);
@@ -1690,6 +1750,7 @@ args: ["aContext"],
 source: "context: aContext\x0a\x09context := aContext",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTDebugger);
@@ -1722,6 +1783,7 @@ args: [],
 source: "flushInnerContexts\x0a\x09\x22When stepping, the inner contexts are not relevent anymore,\x0a\x09and can be flushed\x22\x0a\x09\x0a\x09self context ifNotNil: [ :cxt | \x0a\x09\x09cxt innerContext: nil ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "context", "innerContext:"]
 }),
 $globals.ASTDebugger);
@@ -1753,6 +1815,7 @@ args: [],
 source: "interpreter\x0a\x09^ self context ifNotNil: [ :ctx | \x0a\x09\x09ctx interpreter ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "context", "interpreter"]
 }),
 $globals.ASTDebugger);
@@ -1776,6 +1839,7 @@ args: [],
 source: "method\x0a\x09^ self context method",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["method", "context"]
 }),
 $globals.ASTDebugger);
@@ -1808,6 +1872,7 @@ args: [],
 source: "node\x0a\x09^ self interpreter ifNotNil: [\x0a\x09\x09self interpreter node ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "interpreter", "node"]
 }),
 $globals.ASTDebugger);
@@ -1864,6 +1929,7 @@ args: [],
 source: "onStep\x0a\x09\x22After each step, check if the interpreter is at the end,\x0a\x09and if it is move to its outer context if any, skipping its \x0a\x09current node (which was just evaluated by the current \x0a\x09interpreter).\x0a\x09\x0a\x09After each step we also flush inner contexts.\x22\x0a\x09\x0a\x09result := self interpreter result.\x0a\x09\x0a\x09self interpreter atEnd ifTrue: [\x0a\x09\x09self context outerContext ifNotNil: [ :outerContext | \x0a\x09\x09\x09self context: outerContext ].\x0a\x09\x09self interpreter atEnd ifFalse: [ self interpreter skip ] ].\x0a\x09\x09\x0a\x09self flushInnerContexts",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["result", "interpreter", "ifTrue:", "atEnd", "ifNotNil:", "outerContext", "context", "context:", "ifFalse:", "skip", "flushInnerContexts"]
 }),
 $globals.ASTDebugger);
@@ -1904,6 +1970,7 @@ args: [],
 source: "proceed\x0a\x09[ self atEnd ] whileFalse: [ self stepOver ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["whileFalse:", "atEnd", "stepOver"]
 }),
 $globals.ASTDebugger);
@@ -1929,6 +1996,7 @@ args: [],
 source: "restart\x0a\x09self interpreter restart.\x0a\x09self flushInnerContexts",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["restart", "interpreter", "flushInnerContexts"]
 }),
 $globals.ASTDebugger);
@@ -1947,6 +2015,7 @@ args: [],
 source: "result\x0a\x09^ result",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTDebugger);
@@ -1971,6 +2040,7 @@ args: [],
 source: "stepInto\x0a\x09self shouldBeImplemented",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["shouldBeImplemented"]
 }),
 $globals.ASTDebugger);
@@ -2006,6 +2076,7 @@ args: [],
 source: "stepOver\x0a\x09self context isTopContext \x0a\x09\x09ifFalse: [ self interpreter skip ]\x0a\x09\x09ifTrue: [ self interpreter stepOver ].\x0a\x09self onStep",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:ifTrue:", "isTopContext", "context", "skip", "interpreter", "stepOver", "onStep"]
 }),
 $globals.ASTDebugger);
@@ -2033,6 +2104,7 @@ args: ["aContext"],
 source: "context: aContext\x0a\x09^ self new\x0a\x09\x09context: aContext;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["context:", "new", "yourself"]
 }),
 $globals.ASTDebugger.a$cls);
@@ -2053,6 +2125,7 @@ args: [],
 source: "interpreter\x0a\x09^ interpreter",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTEnterNode);
@@ -2072,6 +2145,7 @@ args: ["anObject"],
 source: "interpreter: anObject\x0a\x09interpreter := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTEnterNode);
@@ -2090,6 +2164,7 @@ args: ["aNode"],
 source: "visitBlockNode: aNode\x0a\x09\x22Answer the node as we want to avoid eager evaluation\x22\x0a\x09\x0a\x09^ aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTEnterNode);
@@ -2129,6 +2204,7 @@ args: ["aNode"],
 source: "visitDagNode: aNode\x0a\x09aNode dagChildren\x0a\x09\x09ifEmpty: [ ^ aNode ]\x0a\x09\x09ifNotEmpty: [ :nodes | ^ self visit: nodes first ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifEmpty:ifNotEmpty:", "dagChildren", "visit:", "first"]
 }),
 $globals.ASTEnterNode);
@@ -2170,6 +2246,7 @@ args: ["aNode"],
 source: "visitSequenceNode: aNode\x0a\x09aNode temps do: [ :each |\x0a\x09\x09self interpreter context defineLocal: each ].\x0a\x09^ super visitSequenceNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "temps", "defineLocal:", "context", "interpreter", "visitSequenceNode:"]
 }),
 $globals.ASTEnterNode);
@@ -2197,6 +2274,7 @@ args: ["anInterpreter"],
 source: "on: anInterpreter\x0a\x09^ self new\x0a\x09\x09interpreter: anInterpreter;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["interpreter:", "new", "yourself"]
 }),
 $globals.ASTEnterNode.a$cls);
@@ -2241,6 +2319,7 @@ args: ["aNode", "anObject"],
 source: "assign: aNode to: anObject\x0a\x09aNode binding isInstanceVar\x0a\x09\x09ifTrue: [ self context receiver instVarAt: aNode value put: anObject ]\x0a\x09\x09ifFalse: [ self context localAt: aNode value put: anObject ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "isInstanceVar", "binding", "instVarAt:put:", "receiver", "context", "value", "localAt:put:"]
 }),
 $globals.ASTInterpreter);
@@ -2277,6 +2356,7 @@ args: [],
 source: "atEnd\x0a\x09forceAtEnd ifTrue: [ ^ true ].\x0a\x09\x0a\x09^ self hasReturned or: [ self node isNil ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "or:", "hasReturned", "isNil", "node"]
 }),
 $globals.ASTInterpreter);
@@ -2295,6 +2375,7 @@ args: [],
 source: "context\x0a\x09^ context",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTInterpreter);
@@ -2314,6 +2395,7 @@ args: ["aContext"],
 source: "context: aContext\x0a\x09context := aContext",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTInterpreter);
@@ -2338,6 +2420,7 @@ args: [],
 source: "enterNode\x0a\x09self node: ((ASTEnterNode on: self) visit: self node)",
 referencedClasses: ["ASTEnterNode"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["node:", "visit:", "on:", "node"]
 }),
 $globals.ASTInterpreter);
@@ -2417,6 +2500,7 @@ args: ["aString"],
 source: "eval: aString\x0a\x09\x22Evaluate aString as JS source inside an JS function.\x0a\x09aString is not sandboxed.\x22\x0a\x09\x0a\x09| source function |\x0a\x09\x0a\x09source := String streamContents: [ :str |\x0a\x09\x09str nextPutAll: '0,(function('.\x0a\x09\x09self context locals keys\x0a\x09\x09\x09do: [ :each | str nextPutAll: each ]\x0a\x09\x09\x09separatedBy: [ str nextPutAll: ',' ].\x0a\x09\x09str\x0a\x09\x09\x09nextPutAll: '){ return (function() {';\x0a\x09\x09\x09nextPutAll: aString;\x0a\x09\x09\x09nextPutAll: '})()})' ].\x0a\x09\x09\x09\x0a\x09function := Compiler eval: source.\x0a\x09\x0a\x09^ function valueWithPossibleArguments: self context locals values",
 referencedClasses: ["String", "Compiler"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["streamContents:", "nextPutAll:", "do:separatedBy:", "keys", "locals", "context", "eval:", "valueWithPossibleArguments:", "values"]
 }),
 $globals.ASTInterpreter);
@@ -2446,6 +2530,7 @@ args: [],
 source: "hasReturned\x0a\x09^ returned ifNil: [ false ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.ASTInterpreter);
@@ -2478,6 +2563,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x0a\x09forceAtEnd := false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize"]
 }),
 $globals.ASTInterpreter);
@@ -2502,6 +2588,7 @@ args: [],
 source: "interpret\x0a\x09\x22Interpret the next node to be evaluated\x22\x0a\x09\x0a\x09self visit: self node",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visit:", "node"]
 }),
 $globals.ASTInterpreter);
@@ -2529,6 +2616,7 @@ args: ["aSendNode", "aCollection"],
 source: "messageFromSendNode: aSendNode arguments: aCollection\x0a\x09^ Message new\x0a\x09\x09selector: aSendNode selector;\x0a\x09\x09arguments: aCollection;\x0a\x09\x09yourself",
 referencedClasses: ["Message"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["selector:", "new", "selector", "arguments:", "yourself"]
 }),
 $globals.ASTInterpreter);
@@ -2557,6 +2645,7 @@ args: ["aMessage", "anObject"],
 source: "messageNotUnderstood: aMessage receiver: anObject\x0a\x09MessageNotUnderstood new\x0a\x09\x09message: aMessage;\x0a\x09\x09receiver: anObject;\x0a\x09\x09signal",
 referencedClasses: ["MessageNotUnderstood"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["message:", "new", "receiver:", "signal"]
 }),
 $globals.ASTInterpreter);
@@ -2599,6 +2688,7 @@ args: [],
 source: "next\x0a\x09| nd nextNode |\x0a\x09nd := self node.\x0a\x09nextNode := nd parent ifNotNil: [ :parent |\x0a\x09\x09(parent nextSiblingNode: nd)\x0a\x09\x09\x09ifNil: [ parent ]\x0a\x09\x09\x09ifNotNil: [ :sibling | (ASTEnterNode on: self) visit: sibling ] ].\x0a\x09self node: nextNode",
 referencedClasses: ["ASTEnterNode"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["node", "ifNotNil:", "parent", "ifNil:ifNotNil:", "nextSiblingNode:", "visit:", "on:", "node:"]
 }),
 $globals.ASTInterpreter);
@@ -2617,6 +2707,7 @@ args: [],
 source: "node\x0a\x09\x22Answer the next node, ie the node to be evaluated in the next step\x22\x0a\x09\x0a\x09^ node",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTInterpreter);
@@ -2636,6 +2727,7 @@ args: ["aNode"],
 source: "node: aNode\x0a\x09node := aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTInterpreter);
@@ -2672,6 +2764,7 @@ args: [],
 source: "peek\x0a\x09\x22Peek the top object of the context stack\x22\x0a\x09\x0a\x09self stack ifEmpty: [ ^ nil ].\x0a\x09\x0a\x09^ self stack last",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifEmpty:", "stack", "last"]
 }),
 $globals.ASTInterpreter);
@@ -2698,6 +2791,7 @@ args: [],
 source: "pop\x0a\x09\x22Pop an object from the context stack\x22\x0a\x09\x0a\x09| peekedValue |\x0a\x09\x0a\x09peekedValue := self peek.\x0a\x09self stack removeLast.\x0a\x09^ peekedValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["peek", "removeLast", "stack"]
 }),
 $globals.ASTInterpreter);
@@ -2738,6 +2832,7 @@ args: [],
 source: "proceed\x0a\x09\x22Eagerly evaluate the ast\x22\x0a\x09\x0a\x09[ self atEnd ] \x0a\x09\x09whileFalse: [ self step ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["whileFalse:", "atEnd", "step"]
 }),
 $globals.ASTInterpreter);
@@ -2761,6 +2856,7 @@ args: ["anObject"],
 source: "push: anObject\x0a\x09\x22Push an object to the context stack\x22\x0a\x09\x0a\x09^ self stack add: anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["add:", "stack"]
 }),
 $globals.ASTInterpreter);
@@ -2786,6 +2882,7 @@ args: [],
 source: "restart\x0a\x09self node: self context ast; enterNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["node:", "ast", "context", "enterNode"]
 }),
 $globals.ASTInterpreter);
@@ -2815,6 +2912,7 @@ args: [],
 source: "result\x0a\x09^ self hasReturned \x0a\x09\x09ifTrue: [ self returnValue ] \x0a\x09\x09ifFalse: [ self context receiver ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "hasReturned", "returnValue", "receiver", "context"]
 }),
 $globals.ASTInterpreter);
@@ -2833,6 +2931,7 @@ args: [],
 source: "returnValue\x0a\x09^ returnValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTInterpreter);
@@ -2852,6 +2951,7 @@ args: ["anObject"],
 source: "returnValue: anObject\x0a\x09returnValue := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTInterpreter);
@@ -2910,6 +3010,7 @@ args: ["aMessage", "anObject", "aBoolean"],
 source: "sendMessage: aMessage to: anObject superSend: aBoolean\x0a\x09| method |\x0a\x09\x0a\x09aBoolean ifFalse: [ ^ aMessage sendTo: anObject ].\x0a\x09anObject class superclass ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].\x0a\x09\x0a\x09method := anObject class superclass methodDictionary\x0a\x09\x09at: aMessage selector\x0a\x09\x09ifAbsent: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].\x0a\x09\x09\x0a\x09^ method sendTo: anObject arguments: aMessage arguments",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "sendTo:", "ifNil:", "superclass", "class", "messageNotUnderstood:receiver:", "at:ifAbsent:", "methodDictionary", "selector", "sendTo:arguments:", "arguments"]
 }),
 $globals.ASTInterpreter);
@@ -2943,6 +3044,7 @@ args: ["aContext"],
 source: "setNonLocalReturnFromContext: aContext\x0a\x09aContext interpreter hasReturned ifTrue: [\x0a\x09\x09returned := true.\x0a\x09\x09self returnValue: aContext interpreter returnValue ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "hasReturned", "interpreter", "returnValue:", "returnValue"]
 }),
 $globals.ASTInterpreter);
@@ -2967,6 +3069,7 @@ args: [],
 source: "skip\x0a\x09self next",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["next"]
 }),
 $globals.ASTInterpreter);
@@ -2997,6 +3100,7 @@ args: [],
 source: "stack\x0a\x09^ stack ifNil: [ stack := OrderedCollection new ]",
 referencedClasses: ["OrderedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "new"]
 }),
 $globals.ASTInterpreter);
@@ -3022,6 +3126,7 @@ args: [],
 source: "step\x0a\x09self \x0a\x09\x09interpret; \x0a\x09\x09next",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["interpret", "next"]
 }),
 $globals.ASTInterpreter);
@@ -3080,6 +3185,7 @@ args: [],
 source: "stepOver\x0a\x09self step.\x0a\x09\x0a\x09[ self node isNil or: [ self node isSteppingNode ] ] whileFalse: [ \x0a\x09\x09self step ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["step", "whileFalse:", "or:", "isNil", "node", "isSteppingNode"]
 }),
 $globals.ASTInterpreter);
@@ -3115,6 +3221,7 @@ args: ["aNode"],
 source: "visit: aNode\x0a\x09self hasReturned ifFalse: [ super visit: aNode ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "hasReturned", "visit:"]
 }),
 $globals.ASTInterpreter);
@@ -3146,6 +3253,7 @@ args: ["aNode"],
 source: "visitAssignmentNode: aNode\x0a\x09| poppedValue |\x0a\x09\x0a\x09poppedValue := self pop.\x0a\x09\x0a\x09\x22Pop the left side of the assignment.\x0a\x09It already has been visited, and we don't need its value.\x22\x0a\x09self pop.\x0a\x09\x0a\x09self push: poppedValue.\x0a\x09self assign: aNode left to: poppedValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["pop", "push:", "assign:to:", "left"]
 }),
 $globals.ASTInterpreter);
@@ -3172,6 +3280,7 @@ args: ["aNode"],
 source: "visitBlockNode: aNode\x0a\x09\x22Do not evaluate the block node.\x0a\x09Instead, put all instructions into a block that we push to the stack for later evaluation\x22\x0a\x09\x0a\x09| block |\x0a\x09\x0a\x09block := AIBlockClosure forContext: self context node: aNode.\x0a\x09\x0a\x09self push: block",
 referencedClasses: ["AIBlockClosure"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["forContext:node:", "context", "push:"]
 }),
 $globals.ASTInterpreter);
@@ -3204,6 +3313,7 @@ args: ["aNode"],
 source: "visitBlockSequenceNode: aNode\x0a\x09\x22If the receiver is actually visiting a BlockSequenceNode,\x0a\x09it means the the context is a block context. Evaluation should \x0a\x09stop right after evaluating the block sequence and the outer\x0a\x09context's interpreter should take over. \x0a\x09Therefore we force #atEnd.\x22\x0a\x09\x0a\x09super visitBlockSequenceNode: aNode.\x0a\x09forceAtEnd := true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitBlockSequenceNode:"]
 }),
 $globals.ASTInterpreter);
@@ -3222,6 +3332,7 @@ args: ["aNode"],
 source: "visitDagNode: aNode\x0a\x09\x22Do nothing by default. Especially, do not visit children recursively.\x22",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTInterpreter);
@@ -3257,6 +3368,7 @@ args: ["aNode"],
 source: "visitDynamicArrayNode: aNode\x0a\x09| array |\x0a\x09\x0a\x09array := #().\x0a\x09aNode dagChildren do: [ :each |\x0a\x09\x09array addFirst: self pop ].\x0a\x09\x0a\x09self push: array",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "dagChildren", "addFirst:", "pop", "push:"]
 }),
 $globals.ASTInterpreter);
@@ -3292,6 +3404,7 @@ args: ["aNode"],
 source: "visitDynamicDictionaryNode: aNode\x0a\x09| keyValueList |\x0a\x09\x0a\x09keyValueList := OrderedCollection new.\x0a\x09\x0a\x09aNode dagChildren do: [ :each | \x0a\x09\x09keyValueList add: self pop ].\x0a\x09\x0a\x09self push: (HashedCollection newFromPairs: keyValueList reversed)",
 referencedClasses: ["OrderedCollection", "HashedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "do:", "dagChildren", "add:", "pop", "push:", "newFromPairs:", "reversed"]
 }),
 $globals.ASTInterpreter);
@@ -3317,6 +3430,7 @@ args: ["aNode"],
 source: "visitJSStatementNode: aNode\x0a\x09returned := true.\x0a\x09self returnValue: (self eval: aNode source)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["returnValue:", "eval:", "source"]
 }),
 $globals.ASTInterpreter);
@@ -3342,6 +3456,7 @@ args: ["aNode"],
 source: "visitReturnNode: aNode\x0a\x09returned := true.\x0a\x09self returnValue: self pop",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["returnValue:", "pop"]
 }),
 $globals.ASTInterpreter);
@@ -3395,6 +3510,7 @@ args: ["aNode"],
 source: "visitSendNode: aNode\x0a\x09| receiver args message result |\x0a\x09\x0a\x09args := aNode arguments collect: [ :each | self pop ].\x0a\x09receiver := self peek.\x0a\x09\x0a\x09message := self\x0a\x09\x09messageFromSendNode: aNode\x0a\x09\x09arguments: args reversed.\x0a\x09\x0a\x09result := self sendMessage: message to: receiver superSend: aNode superSend.\x0a\x09\x0a\x09\x22For cascade sends, push the reciever if the send is not the last one\x22\x0a\x09(aNode isCascadeSendNode and: [ aNode isLastChild not ])\x0a\x09\x09ifFalse: [ self pop; push: result ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collect:", "arguments", "pop", "peek", "messageFromSendNode:arguments:", "reversed", "sendMessage:to:superSend:", "superSend", "ifFalse:", "and:", "isCascadeSendNode", "not", "isLastChild", "push:"]
 }),
 $globals.ASTInterpreter);
@@ -3419,6 +3535,7 @@ args: ["aNode"],
 source: "visitValueNode: aNode\x0a\x09self push: aNode value",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["push:", "value"]
 }),
 $globals.ASTInterpreter);
@@ -3527,6 +3644,7 @@ args: ["aNode"],
 source: "visitVariableNode: aNode\x0a\x09aNode binding isUnknownVar ifTrue: [\x0a\x09\x09^ self push: (Platform globals at: aNode value ifAbsent: [ self error: 'Unknown variable' ]) ].\x0a\x09\x09\x0a\x09self push: (aNode binding isInstanceVar\x0a\x09\x09ifTrue: [ self context receiver instVarAt: aNode value ]\x0a\x09\x09ifFalse: [ self context \x0a\x09\x09\x09localAt: aNode value\x0a\x09\x09\x09ifAbsent: [\x0a\x09\x09\x09\x09aNode value isCapitalized\x0a\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09Smalltalk globals \x0a\x09\x09\x09\x09\x09\x09\x09at: aNode value \x0a\x09\x09\x09\x09\x09\x09\x09ifAbsent: [ Platform globals at: aNode value ] ] ] ])",
 referencedClasses: ["Platform", "Smalltalk"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "isUnknownVar", "binding", "push:", "at:ifAbsent:", "globals", "value", "error:", "ifTrue:ifFalse:", "isInstanceVar", "instVarAt:", "receiver", "context", "localAt:ifAbsent:", "isCapitalized", "at:"]
 }),
 $globals.ASTInterpreter);
@@ -3557,6 +3675,7 @@ args: [],
 source: "currentNode\x0a\x09^ currentNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTPCNodeVisitor);
@@ -3581,6 +3700,7 @@ args: [],
 source: "increaseTrackedIndex\x0a\x09trackedIndex := self trackedIndex + 1",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["+", "trackedIndex"]
 }),
 $globals.ASTPCNodeVisitor);
@@ -3599,6 +3719,7 @@ args: [],
 source: "index\x0a\x09^ index",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTPCNodeVisitor);
@@ -3618,6 +3739,7 @@ args: ["aNumber"],
 source: "index: aNumber\x0a\x09index := aNumber",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTPCNodeVisitor);
@@ -3636,6 +3758,7 @@ args: [],
 source: "selector\x0a\x09^ selector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTPCNodeVisitor);
@@ -3655,6 +3778,7 @@ args: ["aString"],
 source: "selector: aString\x0a\x09selector := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTPCNodeVisitor);
@@ -3685,6 +3809,7 @@ args: [],
 source: "trackedIndex\x0a\x09^ trackedIndex ifNil: [ trackedIndex := 0 ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.ASTPCNodeVisitor);
@@ -3704,6 +3829,7 @@ args: ["aNode"],
 source: "visitJSStatementNode: aNode\x0a\x09\x22If a JSStatementNode is encountered, it always is the current node.\x0a\x09Stop visiting the AST there\x22\x0a\x09\x0a\x09currentNode := aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTPCNodeVisitor);
@@ -3752,6 +3878,7 @@ args: ["aNode"],
 source: "visitSendNode: aNode\x0a\x09super visitSendNode: aNode.\x0a\x09\x0a\x09self selector = aNode selector ifTrue: [\x0a\x09\x09self trackedIndex = self index ifTrue: [ currentNode := aNode ].\x0a\x09\x09self increaseTrackedIndex ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitSendNode:", "ifTrue:", "=", "selector", "trackedIndex", "index", "increaseTrackedIndex"]
 }),
 $globals.ASTPCNodeVisitor);
@@ -3778,6 +3905,7 @@ args: [],
 source: "isLastChild\x0a\x09^ self parent dagChildren last = self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["=", "last", "dagChildren", "parent"]
 }),
 $globals.ASTNode);
@@ -3796,6 +3924,7 @@ args: [],
 source: "isSteppingNode\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ASTNode);
@@ -3831,6 +3960,7 @@ args: ["aNode"],
 source: "nextSiblingNode: aNode\x0a\x09\x22Answer the next node after aNode or nil\x22\x0a\x09\x0a\x09^ self dagChildren \x0a\x09\x09at: (self dagChildren indexOf: aNode) + 1\x0a\x09\x09ifAbsent: [ ^ nil ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["at:ifAbsent:", "dagChildren", "+", "indexOf:"]
 }),
 $globals.ASTNode);
@@ -3849,6 +3979,7 @@ args: [],
 source: "isSteppingNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.AssignmentNode);
@@ -3867,6 +3998,7 @@ args: [],
 source: "isSteppingNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.BlockNode);
@@ -3885,6 +4017,7 @@ args: ["aNode"],
 source: "nextSiblingNode: aNode\x0a\x09\x22Answer nil as we want to avoid eager evaluation\x22\x0a\x09\x0a\x09\x22In fact, this should not have been called, ever. IMO. -- herby\x22\x0a\x09\x0a\x09^ nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.BlockNode);
@@ -3903,6 +4036,7 @@ args: [],
 source: "isSteppingNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.DynamicArrayNode);
@@ -3921,6 +4055,7 @@ args: [],
 source: "isSteppingNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.DynamicDictionaryNode);
@@ -3939,6 +4074,7 @@ args: [],
 source: "isSteppingNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.JSStatementNode);
@@ -3962,6 +4098,7 @@ args: [],
 source: "isCascadeSendNode\x0a\x09^ self parent isCascadeNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["isCascadeNode", "parent"]
 }),
 $globals.SendNode);
@@ -3980,6 +4117,7 @@ args: [],
 source: "isSteppingNode\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.SendNode);

@@ -36,6 +36,7 @@ args: ["anInstruction"],
 source: "addToSequence: anInstruction\x0a\x09anInstruction ifNotNil: [\x0a\x09\x09anInstruction isVariable ifFalse: [\x0a\x09\x09\x09self sequence add: anInstruction ] ].\x0a\x09^ anInstruction",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "ifFalse:", "isVariable", "add:", "sequence"]
 }),
 $globals.IRASTTranslator);
@@ -96,6 +97,7 @@ args: ["aNode"],
 source: "alias: aNode\x0a\x09| variable |\x0a\x0a\x09aNode isImmutable ifTrue: [ ^ self visit: aNode ].\x0a\x0a\x09variable := IRVariable new\x0a\x09\x09variable: (AliasVar new name: '$', self nextAlias);\x0a\x09\x09yourself.\x0a\x0a\x09self addToSequence: (IRAssignment new\x0a\x09\x09add: variable;\x0a\x09\x09add: (self visit: aNode);\x0a\x09\x09yourself).\x0a\x0a\x09self method internalVariables add: variable.\x0a\x0a\x09^ variable",
 referencedClasses: ["IRVariable", "AliasVar", "IRAssignment"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "isImmutable", "visit:", "variable:", "new", "name:", ",", "nextAlias", "yourself", "addToSequence:", "add:", "internalVariables", "method"]
 }),
 $globals.IRASTTranslator);
@@ -155,6 +157,7 @@ args: ["aCollection"],
 source: "aliasTemporally: aCollection\x0a\x09\x22https://lolg.it/amber/amber/issues/296\x0a\x09\x0a\x09If a node is aliased, all preceding ones are aliased as well.\x0a\x09The tree is iterated twice. First we get the aliasing dependency,\x0a\x09then the aliasing itself is done\x22\x0a\x0a\x09| threshold result |\x0a\x09threshold := 0.\x0a\x09\x0a\x09aCollection withIndexDo: [ :each :i |\x0a\x09\x09each subtreeNeedsAliasing\x0a\x09\x09\x09ifTrue: [ threshold := i ] ].\x0a\x0a\x09result := OrderedCollection new.\x0a\x09aCollection withIndexDo: [ :each :i |\x0a\x09\x09result add: (i <= threshold\x0a\x09\x09\x09ifTrue: [ self alias: each ]\x0a\x09\x09\x09ifFalse: [ self visit: each ]) ].\x0a\x0a\x09^ result",
 referencedClasses: ["OrderedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["withIndexDo:", "ifTrue:", "subtreeNeedsAliasing", "new", "add:", "ifTrue:ifFalse:", "<=", "alias:", "visit:"]
 }),
 $globals.IRASTTranslator);
@@ -173,6 +176,7 @@ args: [],
 source: "method\x0a\x09^ method",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRASTTranslator);
@@ -192,6 +196,7 @@ args: ["anIRMethod"],
 source: "method: anIRMethod\x0a\x09method := anIRMethod",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRASTTranslator);
@@ -224,6 +229,7 @@ args: [],
 source: "nextAlias\x0a\x09nextAlias ifNil: [ nextAlias := 0 ].\x0a\x09nextAlias := nextAlias + 1.\x0a\x09^ nextAlias asString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "+", "asString"]
 }),
 $globals.IRASTTranslator);
@@ -242,6 +248,7 @@ args: [],
 source: "sequence\x0a\x09^ sequence",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRASTTranslator);
@@ -261,6 +268,7 @@ args: ["anIRSequence"],
 source: "sequence: anIRSequence\x0a\x09sequence := anIRSequence",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRASTTranslator);
@@ -279,6 +287,7 @@ args: [],
 source: "source\x0a\x09^ source",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRASTTranslator);
@@ -298,6 +307,7 @@ args: ["aString"],
 source: "source: aString\x0a\x09source := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRASTTranslator);
@@ -316,6 +326,7 @@ args: [],
 source: "theClass\x0a\x09^ theClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRASTTranslator);
@@ -335,6 +346,7 @@ args: ["aClass"],
 source: "theClass: aClass\x0a\x09theClass := aClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRASTTranslator);
@@ -373,6 +385,7 @@ args: ["aNode"],
 source: "visitAssignmentNode: aNode\x0a\x09| left right assignment |\x0a\x09right := self visit: aNode right.\x0a\x09left := self visit: aNode left.\x0a\x09self addToSequence: (IRAssignment new\x0a\x09\x09add: left;\x0a\x09\x09add: right;\x0a\x09\x09yourself).\x0a\x09^ left",
 referencedClasses: ["IRAssignment"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visit:", "right", "left", "addToSequence:", "add:", "new", "yourself"]
 }),
 $globals.IRASTTranslator);
@@ -451,6 +464,7 @@ args: ["aNode"],
 source: "visitBlockNode: aNode\x0a\x09| closure |\x0a\x09closure := IRClosure new\x0a\x09\x09arguments: aNode parameters;\x0a\x09\x09requiresSmalltalkContext: aNode requiresSmalltalkContext;\x0a\x09\x09scope: aNode scope;\x0a\x09\x09yourself.\x0a\x09aNode scope temps do: [ :each |\x0a\x09\x09closure add: (IRTempDeclaration new\x0a\x09\x09\x09name: each name;\x0a\x09\x09\x09scope: aNode scope;\x0a\x09\x09\x09yourself) ].\x0a\x09aNode dagChildren do: [ :each | closure add: (self visit: each) ].\x0a\x09^ closure",
 referencedClasses: ["IRClosure", "IRTempDeclaration"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["arguments:", "new", "parameters", "requiresSmalltalkContext:", "requiresSmalltalkContext", "scope:", "scope", "yourself", "do:", "temps", "add:", "name:", "name", "dagChildren", "visit:"]
 }),
 $globals.IRASTTranslator);
@@ -551,6 +565,7 @@ args: ["aNode"],
 source: "visitBlockSequenceNode: aNode\x0a\x09^ self\x0a\x09\x09withSequence: IRBlockSequence new\x0a\x09\x09do: [\x0a\x09\x09\x09aNode dagChildren ifNotEmpty: [\x0a\x09\x09\x09\x09aNode dagChildren allButLast do: [ :each |\x0a\x09\x09\x09\x09\x09self addToSequence: (self visitOrAlias: each) ].\x0a\x09\x09\x09\x09aNode dagChildren last isReturnNode\x0a\x09\x09\x09\x09\x09ifFalse: [ self addToSequence: (IRBlockReturn new add: (self visitOrAlias: aNode dagChildren last); yourself) ]\x0a\x09\x09\x09\x09\x09ifTrue: [ self addToSequence: (self visitOrAlias: aNode dagChildren last) ] ]]",
 referencedClasses: ["IRBlockSequence", "IRBlockReturn"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["withSequence:do:", "new", "ifNotEmpty:", "dagChildren", "do:", "allButLast", "addToSequence:", "visitOrAlias:", "ifFalse:ifTrue:", "isReturnNode", "last", "add:", "yourself"]
 }),
 $globals.IRASTTranslator);
@@ -614,6 +629,7 @@ args: ["aNode"],
 source: "visitCascadeNode: aNode\x0a\x09| receiver |\x0a\x09receiver := aNode receiver.\x0a\x09receiver isImmutable ifFalse: [\x0a\x09\x09| alias |\x0a\x09\x09alias := self alias: receiver.\x0a\x09\x09receiver := VariableNode new binding: alias variable ].\x0a\x09aNode dagChildren do: [ :each | each receiver: receiver ].\x0a\x0a\x09aNode dagChildren allButLast do: [ :each |\x0a\x09\x09self addToSequence: (self visit: each) ].\x0a\x0a\x09^ self visitOrAlias: aNode dagChildren last",
 referencedClasses: ["VariableNode"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["receiver", "ifFalse:", "isImmutable", "alias:", "binding:", "new", "variable", "do:", "dagChildren", "receiver:", "allButLast", "addToSequence:", "visit:", "visitOrAlias:", "last"]
 }),
 $globals.IRASTTranslator);
@@ -648,6 +664,7 @@ args: ["aNode"],
 source: "visitDynamicArrayNode: aNode\x0a\x09| array |\x0a\x09array := IRDynamicArray new.\x0a\x09(self aliasTemporally: aNode dagChildren) do: [ :each | array add: each ].\x0a\x09^ array",
 referencedClasses: ["IRDynamicArray"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "do:", "aliasTemporally:", "dagChildren", "add:"]
 }),
 $globals.IRASTTranslator);
@@ -682,6 +699,7 @@ args: ["aNode"],
 source: "visitDynamicDictionaryNode: aNode\x0a\x09| dictionary |\x0a\x09dictionary := IRDynamicDictionary new.\x0a\x09(self aliasTemporally: aNode dagChildren) do: [ :each | dictionary add: each ].\x0a\x09^ dictionary",
 referencedClasses: ["IRDynamicDictionary"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "do:", "aliasTemporally:", "dagChildren", "add:"]
 }),
 $globals.IRASTTranslator);
@@ -708,6 +726,7 @@ args: ["aNode"],
 source: "visitJSStatementNode: aNode\x0a\x09^ IRVerbatim new\x0a\x09\x09source: aNode source crlfSanitized;\x0a\x09\x09yourself",
 referencedClasses: ["IRVerbatim"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["source:", "new", "crlfSanitized", "source", "yourself"]
 }),
 $globals.IRASTTranslator);
@@ -858,6 +877,7 @@ args: ["aNode"],
 source: "visitMethodNode: aNode\x0a\x0a\x09self method: (IRMethod new\x0a\x09\x09source: self source crlfSanitized;\x0a\x09\x09pragmas: aNode pragmas;\x0a\x09\x09theClass: self theClass;\x0a\x09\x09arguments: aNode arguments;\x0a\x09\x09selector: aNode selector;\x0a\x09\x09sendIndexes: aNode sendIndexes;\x0a\x09\x09requiresSmalltalkContext: aNode requiresSmalltalkContext;\x0a\x09\x09classReferences: aNode classReferences;\x0a\x09\x09scope: aNode scope;\x0a\x09\x09yourself).\x0a\x0a\x09aNode scope temps do: [ :each |\x0a\x09\x09self method add: (IRTempDeclaration new\x0a\x09\x09\x09name: each name;\x0a\x09\x09\x09scope: aNode scope;\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09aNode dagChildren do: [ :each | self method add: (self visit: each) ].\x0a\x0a\x09aNode scope hasLocalReturn ifFalse: [self method\x0a\x09\x09add: (IRReturn new\x0a\x09\x09\x09add: (IRVariable new\x0a\x09\x09\x09\x09variable: (aNode scope pseudoVars at: 'self');\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself);\x0a\x09\x09add: (IRVerbatim new source: ';', String lf; yourself) ].\x0a\x0a\x09^ self method",
 referencedClasses: ["IRMethod", "IRTempDeclaration", "IRReturn", "IRVariable", "IRVerbatim", "String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["method:", "source:", "new", "crlfSanitized", "source", "pragmas:", "pragmas", "theClass:", "theClass", "arguments:", "arguments", "selector:", "selector", "sendIndexes:", "sendIndexes", "requiresSmalltalkContext:", "requiresSmalltalkContext", "classReferences:", "classReferences", "scope:", "scope", "yourself", "do:", "temps", "add:", "method", "name:", "name", "dagChildren", "visit:", "ifFalse:", "hasLocalReturn", "variable:", "at:", "pseudoVars", ",", "lf"]
 }),
 $globals.IRASTTranslator);
@@ -887,6 +907,7 @@ args: ["aNode"],
 source: "visitOrAlias: aNode\x0a\x09^ aNode shouldBeAliased\x0a\x09\x09ifTrue: [ self alias: aNode ]\x0a\x09\x09ifFalse: [ self visit: aNode ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "shouldBeAliased", "alias:", "visit:"]
 }),
 $globals.IRASTTranslator);
@@ -931,6 +952,7 @@ args: ["aNode"],
 source: "visitReturnNode: aNode\x0a\x09| return |\x0a\x09return := aNode nonLocalReturn\x0a\x09\x09ifTrue: [ IRNonLocalReturn new ]\x0a\x09\x09ifFalse: [ IRReturn new ].\x0a\x09return scope: aNode scope.\x0a\x09aNode dagChildren do: [ :each |\x0a\x09\x09return add: (self visitOrAlias: each) ].\x0a\x09^ return",
 referencedClasses: ["IRNonLocalReturn", "IRReturn"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "nonLocalReturn", "new", "scope:", "scope", "do:", "dagChildren", "add:", "visitOrAlias:"]
 }),
 $globals.IRASTTranslator);
@@ -969,6 +991,7 @@ args: ["aNode"],
 source: "visitSendNode: aNode\x0a\x09| send |\x0a\x09send := IRSend new.\x0a\x09send\x0a\x09\x09selector: aNode selector;\x0a\x09\x09index: aNode index.\x0a\x09\x0a\x09(self aliasTemporally: aNode dagChildren) do: [ :each | send add: each ].\x0a\x0a\x09^ send",
 referencedClasses: ["IRSend"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "selector:", "selector", "index:", "index", "do:", "aliasTemporally:", "dagChildren", "add:"]
 }),
 $globals.IRASTTranslator);
@@ -1008,6 +1031,7 @@ args: ["aNode"],
 source: "visitSequenceNode: aNode\x0a\x09^ self\x0a\x09\x09withSequence: IRSequence new\x0a\x09\x09do: [ aNode dagChildren do: [ :each |\x0a\x09\x09\x09self addToSequence: (self visitOrAlias: each) ] ]",
 referencedClasses: ["IRSequence"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["withSequence:do:", "new", "do:", "dagChildren", "addToSequence:", "visitOrAlias:"]
 }),
 $globals.IRASTTranslator);
@@ -1034,6 +1058,7 @@ args: ["aNode"],
 source: "visitValueNode: aNode\x0a\x09^ IRValue new\x0a\x09\x09value: aNode value;\x0a\x09\x09yourself",
 referencedClasses: ["IRValue"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value:", "new", "value", "yourself"]
 }),
 $globals.IRASTTranslator);
@@ -1060,6 +1085,7 @@ args: ["aNode"],
 source: "visitVariableNode: aNode\x0a\x09^ IRVariable new\x0a\x09\x09variable: aNode binding;\x0a\x09\x09yourself",
 referencedClasses: ["IRVariable"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["variable:", "new", "binding", "yourself"]
 }),
 $globals.IRASTTranslator);
@@ -1091,6 +1117,7 @@ args: ["aSequence", "aBlock"],
 source: "withSequence: aSequence do: aBlock\x0a\x09| outerSequence |\x0a\x09outerSequence := self sequence.\x0a\x09self sequence: aSequence.\x0a\x09aBlock value.\x0a\x09self sequence: outerSequence.\x0a\x09^ aSequence",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["sequence", "sequence:", "value"]
 }),
 $globals.IRASTTranslator);
@@ -1121,6 +1148,7 @@ args: ["anObject"],
 source: "add: anObject\x0a\x09anObject parent: self.\x0a\x09^ self dagChildren add: anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parent:", "add:", "dagChildren"]
 }),
 $globals.IRInstruction);
@@ -1139,6 +1167,7 @@ args: [],
 source: "isClosure\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInstruction);
@@ -1157,6 +1186,7 @@ args: [],
 source: "isInlined\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInstruction);
@@ -1175,6 +1205,7 @@ args: [],
 source: "isMethod\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInstruction);
@@ -1193,6 +1224,7 @@ args: [],
 source: "isSelf\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInstruction);
@@ -1211,6 +1243,7 @@ args: [],
 source: "isSend\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInstruction);
@@ -1229,6 +1262,7 @@ args: [],
 source: "isSequence\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInstruction);
@@ -1247,6 +1281,7 @@ args: [],
 source: "isSuper\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInstruction);
@@ -1265,6 +1300,7 @@ args: [],
 source: "isTempDeclaration\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInstruction);
@@ -1283,6 +1319,7 @@ args: [],
 source: "isVariable\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInstruction);
@@ -1306,6 +1343,7 @@ args: [],
 source: "method\x0a\x09^ self parent method",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["method", "parent"]
 }),
 $globals.IRInstruction);
@@ -1324,6 +1362,7 @@ args: [],
 source: "needsBoxingAsReceiver\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInstruction);
@@ -1342,6 +1381,7 @@ args: [],
 source: "parent\x0a\x09^ parent",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInstruction);
@@ -1361,6 +1401,7 @@ args: ["anIRInstruction"],
 source: "parent: anIRInstruction\x0a\x09parent := anIRInstruction",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInstruction);
@@ -1385,6 +1426,7 @@ args: ["anIRInstruction"],
 source: "remove: anIRInstruction\x0a\x09self dagChildren remove: anIRInstruction",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["remove:", "dagChildren"]
 }),
 $globals.IRInstruction);
@@ -1415,6 +1457,7 @@ args: ["anIRInstruction", "anotherIRInstruction"],
 source: "replace: anIRInstruction with: anotherIRInstruction\x0a\x09anotherIRInstruction parent: self.\x0a\x09self dagChildren\x0a\x09\x09at: (self dagChildren indexOf: anIRInstruction)\x0a\x09\x09put: anotherIRInstruction",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["parent:", "at:put:", "dagChildren", "indexOf:"]
 }),
 $globals.IRInstruction);
@@ -1439,6 +1482,7 @@ args: ["anIRInstruction"],
 source: "replaceWith: anIRInstruction\x0a\x09self parent replace: self with: anIRInstruction",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["replace:with:", "parent"]
 }),
 $globals.IRInstruction);
@@ -1470,6 +1514,7 @@ args: [],
 source: "scope\x0a\x09^ self parent ifNotNil: [ :node | \x0a\x09\x09node scope ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotNil:", "parent", "scope"]
 }),
 $globals.IRInstruction);
@@ -1488,6 +1533,7 @@ args: [],
 source: "yieldsValue\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRInstruction);
@@ -1515,6 +1561,7 @@ args: ["aBuilder"],
 source: "on: aBuilder\x0a\x09^ self new\x0a\x09\x09builder: aBuilder;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["builder:", "new", "yourself"]
 }),
 $globals.IRInstruction.a$cls);
@@ -1540,6 +1587,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRAssignment: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRAssignment:"]
 }),
 $globals.IRAssignment);
@@ -1563,6 +1611,7 @@ args: [],
 source: "left\x0a\x09^ self dagChildren first",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["first", "dagChildren"]
 }),
 $globals.IRAssignment);
@@ -1586,6 +1635,7 @@ args: [],
 source: "right\x0a\x09^ self dagChildren last",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["last", "dagChildren"]
 }),
 $globals.IRAssignment);
@@ -1612,6 +1662,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRDynamicArray: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRDynamicArray:"]
 }),
 $globals.IRDynamicArray);
@@ -1638,6 +1689,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRDynamicDictionary: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRDynamicDictionary:"]
 }),
 $globals.IRDynamicDictionary);
@@ -1659,6 +1711,7 @@ args: [],
 source: "scope\x0a\x09^ scope",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRScopedInstruction);
@@ -1678,6 +1731,7 @@ args: ["aScope"],
 source: "scope: aScope\x0a\x09scope := aScope",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRScopedInstruction);
@@ -1710,6 +1764,7 @@ args: [],
 source: "arguments\x0a\x09^ arguments ifNil: [ #() ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.IRClosureInstruction);
@@ -1729,6 +1784,7 @@ args: ["aCollection"],
 source: "arguments: aCollection\x0a\x09arguments := aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRClosureInstruction);
@@ -1763,6 +1819,7 @@ args: [],
 source: "locals\x0a\x09^ self arguments copy\x0a\x09\x09addAll: (self tempDeclarations collect: [ :each | each name ]);\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["addAll:", "copy", "arguments", "collect:", "tempDeclarations", "name", "yourself"]
 }),
 $globals.IRClosureInstruction);
@@ -1792,6 +1849,7 @@ args: [],
 source: "requiresSmalltalkContext\x0a\x09^ requiresSmalltalkContext ifNil: [ false ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:"]
 }),
 $globals.IRClosureInstruction);
@@ -1811,6 +1869,7 @@ args: ["anObject"],
 source: "requiresSmalltalkContext: anObject\x0a\x09requiresSmalltalkContext := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRClosureInstruction);
@@ -1843,6 +1902,7 @@ args: ["aScope"],
 source: "scope: aScope\x0a\x09super scope: aScope.\x0a\x09aScope instruction: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["scope:", "instruction:"]
 }),
 $globals.IRClosureInstruction);
@@ -1874,6 +1934,7 @@ args: [],
 source: "tempDeclarations\x0a\x09^ self dagChildren select: [ :each |\x0a\x09\x09each isTempDeclaration ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["select:", "dagChildren", "isTempDeclaration"]
 }),
 $globals.IRClosureInstruction);
@@ -1900,6 +1961,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRClosure: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRClosure:"]
 }),
 $globals.IRClosure);
@@ -1918,6 +1980,7 @@ args: [],
 source: "isClosure\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRClosure);
@@ -1941,6 +2004,7 @@ args: [],
 source: "sequence\x0a\x09^ self dagChildren last",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["last", "dagChildren"]
 }),
 $globals.IRClosure);
@@ -1970,6 +2034,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRMethod: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRMethod:"]
 }),
 $globals.IRMethod);
@@ -1988,6 +2053,7 @@ args: [],
 source: "classReferences\x0a\x09^ classReferences",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRMethod);
@@ -2007,6 +2073,7 @@ args: ["aCollection"],
 source: "classReferences: aCollection\x0a\x09classReferences := aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRMethod);
@@ -2037,6 +2104,7 @@ args: [],
 source: "internalVariables\x0a\x09^ internalVariables ifNil: [ internalVariables := Set new ]",
 referencedClasses: ["Set"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "new"]
 }),
 $globals.IRMethod);
@@ -2055,6 +2123,7 @@ args: [],
 source: "isMethod\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRMethod);
@@ -2078,6 +2147,7 @@ args: [],
 source: "messageSends\x0a\x09^ self sendIndexes keys",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["keys", "sendIndexes"]
 }),
 $globals.IRMethod);
@@ -2096,6 +2166,7 @@ args: [],
 source: "method\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRMethod);
@@ -2114,6 +2185,7 @@ args: [],
 source: "pragmas\x0a\x09^ pragmas",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRMethod);
@@ -2133,6 +2205,7 @@ args: ["aCollection"],
 source: "pragmas: aCollection\x0a\x09pragmas := aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRMethod);
@@ -2151,6 +2224,7 @@ args: [],
 source: "selector\x0a\x09^ selector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRMethod);
@@ -2170,6 +2244,7 @@ args: ["aString"],
 source: "selector: aString\x0a\x09selector := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRMethod);
@@ -2188,6 +2263,7 @@ args: [],
 source: "sendIndexes\x0a\x09^ sendIndexes",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRMethod);
@@ -2207,6 +2283,7 @@ args: ["aDictionary"],
 source: "sendIndexes: aDictionary\x0a\x09sendIndexes := aDictionary",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRMethod);
@@ -2225,6 +2302,7 @@ args: [],
 source: "source\x0a\x09^ source",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRMethod);
@@ -2244,6 +2322,7 @@ args: ["aString"],
 source: "source: aString\x0a\x09source := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRMethod);
@@ -2262,6 +2341,7 @@ args: [],
 source: "theClass\x0a\x09^ theClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRMethod);
@@ -2281,6 +2361,7 @@ args: ["aClass"],
 source: "theClass: aClass\x0a\x09theClass := aClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRMethod);
@@ -2310,6 +2391,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRReturn: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRReturn:"]
 }),
 $globals.IRReturn);
@@ -2333,6 +2415,7 @@ args: [],
 source: "expression\x0a\x09^ self dagChildren single",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["single", "dagChildren"]
 }),
 $globals.IRReturn);
@@ -2362,6 +2445,7 @@ args: [],
 source: "scope\x0a\x09^ scope ifNil: [ self parent scope ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:", "scope", "parent"]
 }),
 $globals.IRReturn);
@@ -2380,6 +2464,7 @@ args: [],
 source: "yieldsValue\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRReturn);
@@ -2409,6 +2494,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRBlockReturn: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRBlockReturn:"]
 }),
 $globals.IRBlockReturn);
@@ -2438,6 +2524,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRNonLocalReturn: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRNonLocalReturn:"]
 }),
 $globals.IRNonLocalReturn);
@@ -2464,6 +2551,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRTempDeclaration: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRTempDeclaration:"]
 }),
 $globals.IRTempDeclaration);
@@ -2482,6 +2570,7 @@ args: [],
 source: "isTempDeclaration\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRTempDeclaration);
@@ -2500,6 +2589,7 @@ args: [],
 source: "name\x0a\x09^ name",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRTempDeclaration);
@@ -2519,6 +2609,7 @@ args: ["aString"],
 source: "name: aString\x0a\x09name := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRTempDeclaration);
@@ -2548,6 +2639,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRSend: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRSend:"]
 }),
 $globals.IRSend);
@@ -2571,6 +2663,7 @@ args: [],
 source: "arguments\x0a\x09^ self dagChildren allButFirst",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["allButFirst", "dagChildren"]
 }),
 $globals.IRSend);
@@ -2589,6 +2682,7 @@ args: [],
 source: "index\x0a\x09^ index",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRSend);
@@ -2608,6 +2702,7 @@ args: ["anInteger"],
 source: "index: anInteger\x0a\x09index := anInteger",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRSend);
@@ -2626,6 +2721,7 @@ args: [],
 source: "isSend\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRSend);
@@ -2649,6 +2745,7 @@ args: [],
 source: "receiver\x0a\x09^ self dagChildren first",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["first", "dagChildren"]
 }),
 $globals.IRSend);
@@ -2667,6 +2764,7 @@ args: [],
 source: "selector\x0a\x09^ selector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRSend);
@@ -2686,6 +2784,7 @@ args: ["aString"],
 source: "selector: aString\x0a\x09selector := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRSend);
@@ -2712,6 +2811,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRSequence: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRSequence:"]
 }),
 $globals.IRSequence);
@@ -2730,6 +2830,7 @@ args: [],
 source: "isSequence\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRSequence);
@@ -2756,6 +2857,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRBlockSequence: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRBlockSequence:"]
 }),
 $globals.IRBlockSequence);
@@ -2785,6 +2887,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRValue: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRValue:"]
 }),
 $globals.IRValue);
@@ -2803,6 +2906,7 @@ args: [],
 source: "needsBoxingAsReceiver\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRValue);
@@ -2821,6 +2925,7 @@ args: [],
 source: "value\x0a\x09^ value",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRValue);
@@ -2840,6 +2945,7 @@ args: ["aString"],
 source: "value: aString\x0a\x09value := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRValue);
@@ -2869,6 +2975,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRVariable: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRVariable:"]
 }),
 $globals.IRVariable);
@@ -2892,6 +2999,7 @@ args: [],
 source: "isSelf\x0a\x09^ self variable isSelf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["isSelf", "variable"]
 }),
 $globals.IRVariable);
@@ -2915,6 +3023,7 @@ args: [],
 source: "isSuper\x0a\x09^ self variable isSuper",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["isSuper", "variable"]
 }),
 $globals.IRVariable);
@@ -2933,6 +3042,7 @@ args: [],
 source: "isVariable\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRVariable);
@@ -2956,6 +3066,7 @@ args: [],
 source: "needsBoxingAsReceiver\x0a\x09^ self variable isPseudoVar not",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["not", "isPseudoVar", "variable"]
 }),
 $globals.IRVariable);
@@ -2974,6 +3085,7 @@ args: [],
 source: "variable\x0a\x09^ variable",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRVariable);
@@ -2993,6 +3105,7 @@ args: ["aScopeVariable"],
 source: "variable: aScopeVariable\x0a\x09variable := aScopeVariable",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRVariable);
@@ -3019,6 +3132,7 @@ args: ["aVisitor"],
 source: "acceptDagVisitor: aVisitor\x0a\x09^ aVisitor visitIRVerbatim: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRVerbatim:"]
 }),
 $globals.IRVerbatim);
@@ -3037,6 +3151,7 @@ args: [],
 source: "source\x0a\x09^ source",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRVerbatim);
@@ -3056,6 +3171,7 @@ args: ["aString"],
 source: "source: aString\x0a\x09source := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRVerbatim);
@@ -3082,6 +3198,7 @@ args: ["aNode"],
 source: "visitDagNode: aNode\x0a\x09^ self visitDagNodeVariantSimple: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNodeVariantSimple:"]
 }),
 $globals.IRVisitor);
@@ -3105,6 +3222,7 @@ args: ["anIRAssignment"],
 source: "visitIRAssignment: anIRAssignment\x0a\x09^ self visitDagNode: anIRAssignment",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
@@ -3128,6 +3246,7 @@ args: ["anIRBlockReturn"],
 source: "visitIRBlockReturn: anIRBlockReturn\x0a\x09^ self visitIRReturn: anIRBlockReturn",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRReturn:"]
 }),
 $globals.IRVisitor);
@@ -3151,6 +3270,7 @@ args: ["anIRBlockSequence"],
 source: "visitIRBlockSequence: anIRBlockSequence\x0a\x09^ self visitIRSequence: anIRBlockSequence",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRSequence:"]
 }),
 $globals.IRVisitor);
@@ -3174,6 +3294,7 @@ args: ["anIRClosure"],
 source: "visitIRClosure: anIRClosure\x0a\x09^ self visitDagNode: anIRClosure",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
@@ -3197,6 +3318,7 @@ args: ["anIRDynamicArray"],
 source: "visitIRDynamicArray: anIRDynamicArray\x0a\x09^ self visitDagNode: anIRDynamicArray",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
@@ -3220,6 +3342,7 @@ args: ["anIRDynamicDictionary"],
 source: "visitIRDynamicDictionary: anIRDynamicDictionary\x0a\x09^ self visitDagNode: anIRDynamicDictionary",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
@@ -3243,6 +3366,7 @@ args: ["anIRInlinedClosure"],
 source: "visitIRInlinedClosure: anIRInlinedClosure\x0a\x09^ self visitIRClosure: anIRInlinedClosure",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRClosure:"]
 }),
 $globals.IRVisitor);
@@ -3266,6 +3390,7 @@ args: ["anIRInlinedSequence"],
 source: "visitIRInlinedSequence: anIRInlinedSequence\x0a\x09^ self visitIRSequence: anIRInlinedSequence",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitIRSequence:"]
 }),
 $globals.IRVisitor);
@@ -3289,6 +3414,7 @@ args: ["anIRMethod"],
 source: "visitIRMethod: anIRMethod\x0a\x09^ self visitDagNode: anIRMethod",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
@@ -3312,6 +3438,7 @@ args: ["anIRNonLocalReturn"],
 source: "visitIRNonLocalReturn: anIRNonLocalReturn\x0a\x09^ self visitDagNode: anIRNonLocalReturn",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
@@ -3335,6 +3462,7 @@ args: ["anIRNonLocalReturnHandling"],
 source: "visitIRNonLocalReturnHandling: anIRNonLocalReturnHandling\x0a\x09^ self visitDagNode: anIRNonLocalReturnHandling",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
@@ -3358,6 +3486,7 @@ args: ["anIRReturn"],
 source: "visitIRReturn: anIRReturn\x0a\x09^ self visitDagNode: anIRReturn",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
@@ -3381,6 +3510,7 @@ args: ["anIRSend"],
 source: "visitIRSend: anIRSend\x0a\x09^ self visitDagNode: anIRSend",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
@@ -3404,6 +3534,7 @@ args: ["anIRSequence"],
 source: "visitIRSequence: anIRSequence\x0a\x09^ self visitDagNode: anIRSequence",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
@@ -3427,6 +3558,7 @@ args: ["anIRTempDeclaration"],
 source: "visitIRTempDeclaration: anIRTempDeclaration\x0a\x09^ self visitDagNode: anIRTempDeclaration",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
@@ -3450,6 +3582,7 @@ args: ["anIRValue"],
 source: "visitIRValue: anIRValue\x0a\x09^ self visitDagNode: anIRValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
@@ -3473,6 +3606,7 @@ args: ["anIRVariable"],
 source: "visitIRVariable: anIRVariable\x0a\x09^ self visitDagNode: anIRVariable",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
@@ -3496,6 +3630,7 @@ args: ["anIRVerbatim"],
 source: "visitIRVerbatim: anIRVerbatim\x0a\x09^ self visitDagNode: anIRVerbatim",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitDagNode:"]
 }),
 $globals.IRVisitor);
@@ -3558,6 +3693,7 @@ args: ["aMethod", "aBlock"],
 source: "buildMethodDeclaration: aMethod with: aBlock\x0a\x09^ #{\x0a\x09\x09#selector -> aMethod selector.\x0a\x09\x09#source -> aMethod source.\x0a\x09\x09#pragmas -> aMethod pragmas.\x0a\x09\x09#fn -> [ aBlock value. self contents ] value.\x0a\x09\x09#messageSends -> aMethod messageSends asArray.\x0a\x09\x09#args -> (aMethod arguments collect: [ :each | each value ]) asArray.\x0a\x09\x09#referencedClasses -> aMethod classReferences asArray.\x0a\x09}",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["selector", "source", "pragmas", "value", "contents", "asArray", "messageSends", "collect:", "arguments", "classReferences"]
 }),
 $globals.IRJSTranslator);
@@ -3581,6 +3717,7 @@ args: [],
 source: "contents\x0a\x09^ self stream contents",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["contents", "stream"]
 }),
 $globals.IRJSTranslator);
@@ -3599,6 +3736,7 @@ args: [],
 source: "currentClass\x0a\x09^ currentClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRJSTranslator);
@@ -3618,6 +3756,7 @@ args: ["aClass"],
 source: "currentClass: aClass\x0a\x09currentClass := aClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRJSTranslator);
@@ -3650,6 +3789,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x09stream := JSStream new.",
 referencedClasses: ["JSStream"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize", "new"]
 }),
 $globals.IRJSTranslator);
@@ -3668,6 +3808,7 @@ args: [],
 source: "stream\x0a\x09^ stream",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRJSTranslator);
@@ -3687,6 +3828,7 @@ args: ["aStream"],
 source: "stream: aStream\x0a\x09stream := aStream",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRJSTranslator);
@@ -3730,6 +3872,7 @@ args: ["anIRAssignment"],
 source: "visitIRAssignment: anIRAssignment\x0a\x09self stream\x0a\x09\x09nextPutAssignLhs: [self visit: anIRAssignment left]\x0a\x09\x09rhs: [self visit: anIRAssignment right].",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAssignLhs:rhs:", "stream", "visit:", "left", "right"]
 }),
 $globals.IRJSTranslator);
@@ -3795,6 +3938,7 @@ args: ["anIRClosure"],
 source: "visitIRClosure: anIRClosure\x0a\x09self stream\x0a\x09\x09nextPutClosureWith: [\x0a\x09\x09\x09self stream nextPutVars: (anIRClosure tempDeclarations collect: [ :each |\x0a\x09\x09\x09\x09\x09each name asVariableName ]).\x0a\x09\x09\x09self stream\x0a\x09\x09\x09\x09nextPutBlockContextFor: anIRClosure\x0a\x09\x09\x09\x09during: [ super visitIRClosure: anIRClosure ] ]\x0a\x09\x09arguments: anIRClosure arguments",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutClosureWith:arguments:", "stream", "nextPutVars:", "collect:", "tempDeclarations", "asVariableName", "name", "nextPutBlockContextFor:during:", "visitIRClosure:", "arguments"]
 }),
 $globals.IRJSTranslator);
@@ -3819,6 +3963,7 @@ args: ["anIRDynamicArray"],
 source: "visitIRDynamicArray: anIRDynamicArray\x0a\x09self\x0a\x09\x09visitInstructionList: anIRDynamicArray dagChildren\x0a\x09\x09enclosedBetween: '[' and: ']'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitInstructionList:enclosedBetween:and:", "dagChildren"]
 }),
 $globals.IRJSTranslator);
@@ -3843,6 +3988,7 @@ args: ["anIRDynamicDictionary"],
 source: "visitIRDynamicDictionary: anIRDynamicDictionary\x0a\x09self\x0a\x09\x09visitInstructionList: anIRDynamicDictionary dagChildren\x0a\x09\x09enclosedBetween: '$globals.HashedCollection._newFromPairs_([' and: '])'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitInstructionList:enclosedBetween:and:", "dagChildren"]
 }),
 $globals.IRJSTranslator);
@@ -3970,6 +4116,7 @@ args: ["anIRMethod"],
 source: "visitIRMethod: anIRMethod\x0a\x0a\x09^ self\x0a\x09\x09buildMethodDeclaration: anIRMethod\x0a\x09\x09with: [ self stream\x0a\x09\x09\x09nextPutFunctionWith: [\x0a\x09\x09\x09\x09self stream nextPutVars: (anIRMethod tempDeclarations collect: [ :each |\x0a\x09\x09\x09\x09\x09each name asVariableName ]).\x0a\x09\x09\x09\x09self stream nextPutContextFor: anIRMethod during: [\x0a\x09\x09\x09\x09\x09anIRMethod internalVariables ifNotEmpty: [ :internalVars |\x0a\x09\x09\x09\x09\x09\x09self stream nextPutVars: \x0a\x09\x09\x09\x09\x09\x09\x09(internalVars asSet collect: [ :each | each variable alias ]) ].\x0a\x09\x09\x09\x09anIRMethod scope hasNonLocalReturn\x0a\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09self stream nextPutNonLocalReturnHandlingWith: [\x0a\x09\x09\x09\x09\x09\x09\x09super visitIRMethod: anIRMethod ] ]\x0a\x09\x09\x09\x09\x09ifFalse: [ super visitIRMethod: anIRMethod ] ]]\x0a\x09\x09\x09arguments: anIRMethod arguments ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["buildMethodDeclaration:with:", "nextPutFunctionWith:arguments:", "stream", "nextPutVars:", "collect:", "tempDeclarations", "asVariableName", "name", "nextPutContextFor:during:", "ifNotEmpty:", "internalVariables", "asSet", "alias", "variable", "ifTrue:ifFalse:", "hasNonLocalReturn", "scope", "nextPutNonLocalReturnHandlingWith:", "visitIRMethod:", "arguments"]
 }),
 $globals.IRJSTranslator);
@@ -4009,6 +4156,7 @@ args: ["anIRNonLocalReturn"],
 source: "visitIRNonLocalReturn: anIRNonLocalReturn\x0a\x09self stream nextPutNonLocalReturnWith: [\x0a\x09\x09super visitIRNonLocalReturn: anIRNonLocalReturn ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutNonLocalReturnWith:", "stream", "visitIRNonLocalReturn:"]
 }),
 $globals.IRJSTranslator);
@@ -4048,6 +4196,7 @@ args: ["anIRReturn"],
 source: "visitIRReturn: anIRReturn\x0a\x09self stream nextPutReturnWith: [\x0a\x09\x09super visitIRReturn: anIRReturn ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutReturnWith:", "stream", "visitIRReturn:"]
 }),
 $globals.IRJSTranslator);
@@ -4084,6 +4233,7 @@ args: ["anIRSend"],
 source: "visitIRSend: anIRSend\x0a\x09| sends superclass |\x0a\x09sends := (anIRSend method sendIndexes at: anIRSend selector) size.\x0a\x09\x0a\x09anIRSend receiver isSuper\x0a\x09\x09ifTrue: [ self visitSuperSend: anIRSend ]\x0a\x09\x09ifFalse: [ self visitSend: anIRSend ].\x0a\x09\x09\x0a\x09anIRSend index < sends\x0a\x09\x09ifTrue: [ self stream nextPutSendIndexFor: anIRSend ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["size", "at:", "sendIndexes", "method", "selector", "ifTrue:ifFalse:", "isSuper", "receiver", "visitSuperSend:", "visitSend:", "ifTrue:", "<", "index", "nextPutSendIndexFor:", "stream"]
 }),
 $globals.IRJSTranslator);
@@ -4124,6 +4274,7 @@ args: ["anIRSequence"],
 source: "visitIRSequence: anIRSequence\x0a\x09anIRSequence dagChildren do: [ :each |\x0a\x09\x09self stream nextPutStatementWith: [ self visit: each ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["do:", "dagChildren", "nextPutStatementWith:", "stream", "visit:"]
 }),
 $globals.IRJSTranslator);
@@ -4142,6 +4293,7 @@ args: ["anIRTempDeclaration"],
 source: "visitIRTempDeclaration: anIRTempDeclaration\x0a\x09\x22self stream\x0a\x09\x09nextPutAll: 'var ', anIRTempDeclaration name asVariableName, ';';\x0a\x09\x09lf\x22",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.IRJSTranslator);
@@ -4166,6 +4318,7 @@ args: ["anIRValue"],
 source: "visitIRValue: anIRValue\x0a\x09self stream nextPutAll: anIRValue value asJavaScriptSource",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "stream", "asJavaScriptSource", "value"]
 }),
 $globals.IRJSTranslator);
@@ -4208,6 +4361,7 @@ args: ["anIRVariable"],
 source: "visitIRVariable: anIRVariable\x0a\x09anIRVariable variable name = 'thisContext'\x0a\x09\x09ifTrue: [ self stream nextPutAll: '$core.getThisContext()' ]\x0a\x09\x09ifFalse: [ self stream nextPutAll: anIRVariable variable alias ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "=", "name", "variable", "nextPutAll:", "stream", "alias"]
 }),
 $globals.IRJSTranslator);
@@ -4232,6 +4386,7 @@ args: ["anIRVerbatim"],
 source: "visitIRVerbatim: anIRVerbatim\x0a\x09self stream nextPutAll: anIRVerbatim source",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "stream", "source"]
 }),
 $globals.IRJSTranslator);
@@ -4285,6 +4440,7 @@ args: ["anArray", "aString", "anotherString"],
 source: "visitInstructionList: anArray enclosedBetween: aString and: anotherString\x0a\x09self stream nextPutAll: aString.\x0a\x09anArray\x0a\x09\x09do: [ :each | self visit: each ]\x0a\x09\x09separatedBy: [ self stream nextPutAll: ',' ].\x0a\x09stream nextPutAll: anotherString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "stream", "do:separatedBy:", "visit:"]
 }),
 $globals.IRJSTranslator);
@@ -4348,6 +4504,7 @@ args: ["anIRInstruction"],
 source: "visitReceiver: anIRInstruction\x0a\x09| instr |\x0a\x0a\x09anIRInstruction isSelf\x0a\x09\x09ifTrue: [ instr := anIRInstruction copy\x0a\x09\x09\x09variable: (anIRInstruction variable copy name: '$self'; yourself);\x0a\x09\x09\x09yourself ]\x0a\x09\x09ifFalse: [ instr := anIRInstruction ].\x0a\x09\x0a\x09instr needsBoxingAsReceiver ifFalse: [ ^ self visit: instr ].\x0a\x09\x0a\x09self stream nextPutAll: '$recv('.\x0a\x09self visit: instr.\x0a\x09self stream nextPutAll: ')'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "isSelf", "variable:", "copy", "name:", "variable", "yourself", "ifFalse:", "needsBoxingAsReceiver", "visit:", "nextPutAll:", "stream"]
 }),
 $globals.IRJSTranslator);
@@ -4374,6 +4531,7 @@ args: ["anIRSend"],
 source: "visitSend: anIRSend\x0a\x09self visitReceiver: anIRSend receiver.\x0a\x09self stream nextPutAll: '.', anIRSend selector asJavaScriptMethodName.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09enclosedBetween: '(' and: ')'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["visitReceiver:", "receiver", "nextPutAll:", "stream", ",", "asJavaScriptMethodName", "selector", "visitInstructionList:enclosedBetween:and:", "arguments"]
 }),
 $globals.IRJSTranslator);
@@ -4494,6 +4652,7 @@ args: ["anIRSend"],
 source: "visitSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: '('; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'; lf;\x0a\x09\x09nextPutAll: '(', self currentClass asJavaScriptSource;\x0a\x09\x09nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';\x0a\x09\x09nextPutAll: anIRSend selector asJavaScriptMethodName, '.apply(';\x0a\x09\x09nextPutAll: '$self, '.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09enclosedBetween: '[' and: ']'.\x0a\x09self stream \x0a\x09\x09nextPutAll: '));'; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "stream", "lf", ",", "alias", "scope", "asJavaScriptSource", "currentClass", "asJavaScriptMethodName", "selector", "visitInstructionList:enclosedBetween:and:", "arguments"]
 }),
 $globals.IRJSTranslator);
@@ -4520,6 +4679,7 @@ args: [],
 source: "contents\x0a\x09^ stream contents",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["contents"]
 }),
 $globals.JSStream);
@@ -4552,6 +4712,7 @@ args: [],
 source: "initialize\x0a\x09super initialize.\x0a\x09stream := '' writeStream.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initialize", "writeStream"]
 }),
 $globals.JSStream);
@@ -4576,6 +4737,7 @@ args: [],
 source: "lf\x0a\x09stream lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["lf"]
 }),
 $globals.JSStream);
@@ -4600,6 +4762,7 @@ args: ["aString"],
 source: "nextPut: aString\x0a\x09stream nextPut: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPut:"]
 }),
 $globals.JSStream);
@@ -4624,6 +4787,7 @@ args: ["aString"],
 source: "nextPutAll: aString\x0a\x09stream nextPutAll: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:"]
 }),
 $globals.JSStream);
@@ -4653,6 +4817,7 @@ args: ["aBlock", "anotherBlock"],
 source: "nextPutAssignLhs: aBlock rhs: anotherBlock\x0a\x09aBlock value.\x0a\x09stream nextPutAll: '='.\x0a\x09anotherBlock value",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value", "nextPutAll:"]
 }),
 $globals.JSStream);
@@ -4831,6 +4996,7 @@ args: ["anIRClosure", "aBlock"],
 source: "nextPutBlockContextFor: anIRClosure during: aBlock\x0a\x09anIRClosure requiresSmalltalkContext ifFalse: [ ^ aBlock value ].\x0a\x09self\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);';\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: 'return $core.withContext(function(', anIRClosure scope alias, ') {';\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);';\x0a\x09\x09lf.\x0a\x09\x0a\x09aBlock value.\x0a\x09\x0a\x09self\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);';\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: '}, function(', anIRClosure scope alias, ') {';\x0a\x09\x09nextPutAll: anIRClosure scope alias, '.fillBlock({'.\x0a\x09\x0a\x09anIRClosure locals\x0a\x09\x09do: [ :each |\x0a\x09\x09\x09self\x0a\x09\x09\x09\x09nextPutAll: each asVariableName;\x0a\x09\x09\x09\x09nextPutAll: ':';\x0a\x09\x09\x09\x09nextPutAll: each asVariableName ]\x0a\x09\x09separatedBy: [ self nextPutAll: ',' ].\x0a\x09\x0a\x09self\x0a\x09\x09nextPutAll: '},';\x0a\x09\x09nextPutAll: anIRClosure scope outerScope alias, ',', anIRClosure scope blockIndex asString, ')});';\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "requiresSmalltalkContext", "value", "nextPutAll:", "lf", ",", "alias", "scope", "do:separatedBy:", "locals", "asVariableName", "outerScope", "asString", "blockIndex"]
 }),
 $globals.JSStream);
@@ -4892,6 +5058,7 @@ args: ["aBlock", "anArray"],
 source: "nextPutClosureWith: aBlock arguments: anArray\x0a\x09stream nextPutAll: '(function('.\x0a\x09anArray\x0a\x09\x09do: [ :each | stream nextPutAll: each asVariableName ]\x0a\x09\x09separatedBy: [ stream nextPut: ',' ].\x0a\x09stream nextPutAll: '){'; lf.\x0a\x09aBlock value.\x0a\x09stream lf; nextPutAll: '})'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "do:separatedBy:", "asVariableName", "nextPut:", "lf", "value"]
 }),
 $globals.JSStream);
@@ -5060,6 +5227,7 @@ args: ["aMethod", "aBlock"],
 source: "nextPutContextFor: aMethod during: aBlock\x0a\x09aMethod requiresSmalltalkContext ifFalse: [ ^ aBlock value ].\x0a\x09\x0a\x09self\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);';\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: 'return $core.withContext(function(', aMethod scope alias, ') {';\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);';\x0a\x09\x09lf.\x0a\x0a\x09aBlock value.\x0a\x09\x0a\x09self\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);';\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: '}, function(', aMethod scope alias, ') {', aMethod scope alias;\x0a\x09\x09nextPutAll: '.fill(self,', aMethod selector asJavaScriptSource, ',{'.\x0a\x0a\x09aMethod locals\x0a\x09\x09do: [ :each |\x0a\x09\x09\x09self\x0a\x09\x09\x09\x09nextPutAll: each asVariableName;\x0a\x09\x09\x09\x09nextPutAll: ':';\x0a\x09\x09\x09\x09nextPutAll: each asVariableName ]\x0a\x09\x09separatedBy: [ self nextPutAll: ',' ].\x0a\x09\x0a\x09self\x0a\x09\x09nextPutAll: '},';\x0a\x09\x09nextPutAll: aMethod theClass asJavaScriptSource;\x0a\x09\x09nextPutAll: ')});';\x0a\x09\x09lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifFalse:", "requiresSmalltalkContext", "value", "nextPutAll:", "lf", ",", "alias", "scope", "asJavaScriptSource", "selector", "do:separatedBy:", "locals", "asVariableName", "theClass"]
 }),
 $globals.JSStream);
@@ -5130,6 +5298,7 @@ args: ["aBlock", "anArray"],
 source: "nextPutFunctionWith: aBlock arguments: anArray\x0a\x09stream nextPutAll: '(function ('.\x0a\x09anArray\x0a\x09\x09do: [ :each | stream nextPutAll: each asVariableName ]\x0a\x09\x09separatedBy: [ stream nextPut: ',' ].\x0a\x09stream nextPutAll: '){'; lf.\x0a\x09stream nextPutAll: 'var self=this,$self=this;'; lf.\x0a\x09aBlock value.\x0a\x09stream lf; nextPutAll: '})'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "do:separatedBy:", "asVariableName", "nextPut:", "lf", "value"]
 }),
 $globals.JSStream);
@@ -5171,6 +5340,7 @@ args: ["aBlock", "anotherBlock"],
 source: "nextPutIf: aBlock then: anotherBlock\x0a\x09stream nextPutAll: 'if('.\x0a\x09aBlock value.\x0a\x09stream nextPutAll: '){'; lf.\x0a\x09anotherBlock value.\x0a\x09stream nextPutAll: '}'.\x0a\x09self omitSemicolon: true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "value", "lf", "omitSemicolon:"]
 }),
 $globals.JSStream);
@@ -5225,6 +5395,7 @@ args: ["aBlock", "ifBlock", "elseBlock"],
 source: "nextPutIf: aBlock then: ifBlock else: elseBlock\x0a\x09stream nextPutAll: 'if('.\x0a\x09aBlock value.\x0a\x09stream nextPutAll: '){'; lf.\x0a\x09ifBlock value.\x0a\x09stream nextPutAll: '} else {'; lf.\x0a\x09elseBlock value.\x0a\x09stream nextPutAll: '}'.\x0a\x09self omitSemicolon: true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "value", "lf", "omitSemicolon:"]
 }),
 $globals.JSStream);
@@ -5394,6 +5565,7 @@ args: ["aMethod", "aBlock"],
 source: "nextPutMethodDeclaration: aMethod with: aBlock\x0a\x09stream\x0a\x09\x09nextPutAll: '$core.method({'; lf;\x0a\x09\x09nextPutAll: 'selector: ', aMethod selector asJavaScriptSource, ','; lf;\x0a\x09\x09nextPutAll: 'source: ', aMethod source asJavaScriptSource, ',';lf.\x0a\x09aBlock value.\x0a\x09stream\x0a\x09\x09nextPutAll: ',', String lf, 'messageSends: ';\x0a\x09\x09nextPutAll: aMethod messageSends asArray asJavaScriptSource, ','; lf;\x0a\x09\x09nextPutAll: 'args: ', (aMethod arguments collect: [ :each | each value ]) asArray asJavaScriptSource, ','; lf;\x0a\x09\x09nextPutAll: 'referencedClasses: ['.\x0a\x09aMethod classReferences\x0a\x09\x09do: [ :each | stream nextPutAll: each asJavaScriptSource ]\x0a\x09\x09separatedBy: [ stream nextPutAll: ',' ].\x0a\x09stream\x0a\x09\x09nextPutAll: ']';\x0a\x09\x09nextPutAll: '})'",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "lf", ",", "asJavaScriptSource", "selector", "source", "value", "asArray", "messageSends", "collect:", "arguments", "do:separatedBy:", "classReferences"]
 }),
 $globals.JSStream);
@@ -5447,6 +5619,7 @@ args: ["aBlock"],
 source: "nextPutNonLocalReturnHandlingWith: aBlock\x0a\x09stream\x0a\x09\x09nextPutAll: 'var $early={};'; lf;\x0a\x09\x09nextPutAll: 'try {'; lf.\x0a\x09aBlock value.\x0a\x09stream\x0a\x09\x09nextPutAll: '}'; lf;\x0a\x09\x09nextPutAll: 'catch(e) {if(e===$early)return e[0]; throw e}'; lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "lf", "value"]
 }),
 $globals.JSStream);
@@ -5476,6 +5649,7 @@ args: ["aBlock"],
 source: "nextPutNonLocalReturnWith: aBlock\x0a\x09stream nextPutAll: 'throw $early=['.\x0a\x09aBlock value.\x0a\x09stream nextPutAll: ']'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "value"]
 }),
 $globals.JSStream);
@@ -5501,6 +5675,7 @@ args: ["aBlock"],
 source: "nextPutReturnWith: aBlock\x0a\x09stream nextPutAll: 'return '.\x0a\x09aBlock value",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "value"]
 }),
 $globals.JSStream);
@@ -5566,6 +5741,7 @@ args: ["anIRSend"],
 source: "nextPutSendIndexFor: anIRSend\x0a\x09self \x0a\x09\x09nextPutAll: ';'; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias;\x0a\x09\x09nextPutAll: '.sendIdx[';\x0a\x09\x09nextPutAll: anIRSend selector asJavaScriptSource;\x0a\x09\x09nextPutAll: ']=';\x0a\x09\x09nextPutAll: anIRSend index asString;\x0a\x09\x09nextPutAll: ';'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22)'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "lf", "alias", "scope", "asJavaScriptSource", "selector", "asString", "index"]
 }),
 $globals.JSStream);
@@ -5601,6 +5777,7 @@ args: ["aBlock"],
 source: "nextPutStatementWith: aBlock\x0a\x09self omitSemicolon: false.\x0a\x09aBlock value.\x0a\x09self omitSemicolon ifFalse: [ stream nextPutAll: ';' ].\x0a\x09self omitSemicolon: false.\x0a\x09stream lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["omitSemicolon:", "value", "ifFalse:", "omitSemicolon", "nextPutAll:", "lf"]
 }),
 $globals.JSStream);
@@ -5663,6 +5840,7 @@ args: ["aCollection"],
 source: "nextPutVars: aCollection\x0a\x09aCollection ifNotEmpty: [\x0a\x09\x09stream nextPutAll: 'var '.\x0a\x09\x09aCollection\x0a\x09\x09\x09do: [ :each | stream nextPutAll: each ]\x0a\x09\x09\x09separatedBy: [ stream nextPutAll: ',' ].\x0a\x09\x09stream nextPutAll: ';'; lf ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNotEmpty:", "nextPutAll:", "do:separatedBy:", "lf"]
 }),
 $globals.JSStream);
@@ -5681,6 +5859,7 @@ args: [],
 source: "omitSemicolon\x0a\x09^ omitSemicolon",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.JSStream);
@@ -5700,6 +5879,7 @@ args: ["aBoolean"],
 source: "omitSemicolon: aBoolean\x0a\x09omitSemicolon := aBoolean",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.JSStream);
@@ -5739,6 +5919,7 @@ args: [],
 source: "isReferenced\x0a\x09\x22Answer true if the receiver is referenced by other nodes.\x0a\x09Do not take sequences or assignments into account\x22\x0a\x09\x0a\x09^ (self parent isSequenceNode or: [\x0a\x09\x09self parent isAssignmentNode ]) not",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["not", "or:", "isSequenceNode", "parent", "isAssignmentNode"]
 }),
 $globals.ASTNode);
@@ -5778,6 +5959,7 @@ args: [],
 source: "subtreeNeedsAliasing\x0a\x09^ self shouldBeAliased or: [\x0a\x09\x09self dagChildren anySatisfy: [ :each | each subtreeNeedsAliasing ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["or:", "shouldBeAliased", "anySatisfy:", "dagChildren", "subtreeNeedsAliasing"]
 }),
 $globals.ASTNode);
@@ -5818,6 +6000,7 @@ args: [],
 source: "shouldBeAliased\x0a\x09^ super shouldBeAliased or: [ self isReferenced ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["or:", "shouldBeAliased", "isReferenced"]
 }),
 $globals.AssignmentNode);
@@ -5842,6 +6025,7 @@ args: ["anIRInstruction"],
 source: "appendToInstruction: anIRInstruction\x0a\x09anIRInstruction appendBlock: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["appendBlock:"]
 }),
 $globals.BlockClosure);
@@ -5865,6 +6049,7 @@ args: [],
 source: "subtreeNeedsAliasing\x0a\x09^ self shouldBeAliased",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["shouldBeAliased"]
 }),
 $globals.BlockNode);
@@ -5888,6 +6073,7 @@ args: [],
 source: "subtreeNeedsAliasing\x0a\x09^ self parent isSequenceNode not",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["not", "isSequenceNode", "parent"]
 }),
 $globals.CascadeNode);
@@ -5950,6 +6136,7 @@ args: [],
 source: "shouldBeAliased\x0a\x09\x22Because we keep track of send indexes, some send nodes need additional care for aliasing. \x0a\x09See IRJSVisitor >> visitIRSend:\x22\x0a\x09\x0a\x09| sends |\x0a\x09\x0a\x09sends := (self method sendIndexes at: self selector) size.\x0a\x09\x0a\x09^ (super shouldBeAliased or: [\x0a\x09\x09self isReferenced and: [\x0a\x09\x09\x09self index < sends or: [\x0a\x09\x09\x09\x09self superSend ] ] ])",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["size", "at:", "sendIndexes", "method", "selector", "or:", "shouldBeAliased", "and:", "isReferenced", "<", "index", "superSend"]
 }),
 $globals.SendNode);
@@ -5988,6 +6175,7 @@ args: [],
 source: "subtreeNeedsAliasing\x0a\x09^ self shouldBeInlined or: [ super subtreeNeedsAliasing ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["or:", "shouldBeInlined", "subtreeNeedsAliasing"]
 }),
 $globals.SendNode);

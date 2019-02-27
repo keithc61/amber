@@ -27,6 +27,7 @@ args: ["anObject"],
 source: "= anObject\x0a\x09^ self == anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["=="]
 }),
 $globals.ProtoObject);
@@ -51,6 +52,7 @@ args: ["anObject"],
 source: "== anObject\x0a<inlineJS: 'return self === anObject'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self === anObject"]]],
 messageSends: []
 }),
 $globals.ProtoObject);
@@ -74,6 +76,7 @@ args: [],
 source: "asString\x0a\x09^ self printString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["printString"]
 }),
 $globals.ProtoObject);
@@ -98,6 +101,7 @@ args: [],
 source: "class\x0a\x09<inlineJS: 'return $self.a$cls'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return $self.a$cls"]]],
 messageSends: []
 }),
 $globals.ProtoObject);
@@ -126,6 +130,7 @@ args: ["aMessage"],
 source: "doesNotUnderstand: aMessage\x0a\x09MessageNotUnderstood new\x0a\x09\x09receiver: self;\x0a\x09\x09message: aMessage;\x0a\x09\x09signal",
 referencedClasses: ["MessageNotUnderstood"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["receiver:", "new", "message:", "signal"]
 }),
 $globals.ProtoObject);
@@ -149,6 +154,7 @@ args: ["aString", "anEvaluator"],
 source: "evaluate: aString on: anEvaluator\x0a\x09^ anEvaluator evaluate: aString receiver: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["evaluate:receiver:"]
 }),
 $globals.ProtoObject);
@@ -180,6 +186,7 @@ args: [],
 source: "identityHash\x0a\x09<inlineJS: '\x0a\x09\x09self._deprecatedAPI();\x0a\x09\x09var hash=self.identityHash;\x0a\x09\x09if (hash) return hash;\x0a\x09\x09hash=$core.nextId();\x0a\x09\x09Object.defineProperty(self, ''identityHash'', {value:hash});\x0a\x09\x09return hash;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09self._deprecatedAPI();\x0a\x09\x09var hash=self.identityHash;\x0a\x09\x09if (hash) return hash;\x0a\x09\x09hash=$core.nextId();\x0a\x09\x09Object.defineProperty(self, 'identityHash', {value:hash});\x0a\x09\x09return hash;\x0a\x09"]]],
 messageSends: []
 }),
 $globals.ProtoObject);
@@ -198,6 +205,7 @@ args: ["aBlock"],
 source: "ifNil: aBlock\x0a\x09\x22inlined in the Compiler\x22\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ProtoObject);
@@ -221,6 +229,7 @@ args: ["aBlock", "anotherBlock"],
 source: "ifNil: aBlock ifNotNil: anotherBlock\x0a\x09\x22inlined in the Compiler\x22\x0a\x09^ anotherBlock value: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value:"]
 }),
 $globals.ProtoObject);
@@ -244,6 +253,7 @@ args: ["aBlock"],
 source: "ifNotNil: aBlock\x0a\x09\x22inlined in the Compiler\x22\x0a\x09^ aBlock value: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value:"]
 }),
 $globals.ProtoObject);
@@ -267,6 +277,7 @@ args: ["aBlock", "anotherBlock"],
 source: "ifNotNil: aBlock ifNil: anotherBlock\x0a\x09\x22inlined in the Compiler\x22\x0a\x09^ aBlock value: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value:"]
 }),
 $globals.ProtoObject);
@@ -285,6 +296,7 @@ args: [],
 source: "initialize",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ProtoObject);
@@ -309,6 +321,7 @@ args: [],
 source: "inspect\x0a\x09Inspector inspect: self",
 referencedClasses: ["Inspector"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["inspect:"]
 }),
 $globals.ProtoObject);
@@ -327,6 +340,7 @@ args: ["anInspector"],
 source: "inspectOn: anInspector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ProtoObject);
@@ -351,6 +365,7 @@ args: ["aString"],
 source: "instVarAt: aString\x0a\x09<inlineJS: 'return $self[aString]'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return $self[aString]"]]],
 messageSends: []
 }),
 $globals.ProtoObject);
@@ -375,6 +390,7 @@ args: ["aString", "anObject"],
 source: "instVarAt: aString put: anObject\x0a\x09<inlineJS: '$self[aString] = anObject'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["$self[aString] = anObject"]]],
 messageSends: []
 }),
 $globals.ProtoObject);
@@ -404,6 +420,7 @@ args: ["aClass"],
 source: "isKindOf: aClass\x0a\x09^ (self isMemberOf: aClass)\x0a\x09\x09ifTrue: [ true ]\x0a\x09\x09ifFalse: [ self class inheritsFrom: aClass ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "isMemberOf:", "inheritsFrom:", "class"]
 }),
 $globals.ProtoObject);
@@ -422,6 +439,7 @@ args: [],
 source: "isNil\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ProtoObject);
@@ -445,6 +463,7 @@ args: [],
 source: "notNil\x0a\x09^ self isNil not",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["not", "isNil"]
 }),
 $globals.ProtoObject);
@@ -468,6 +487,7 @@ args: ["aString"],
 source: "perform: aString\x0a\x09^ self perform: aString withArguments: #()",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["perform:withArguments:"]
 }),
 $globals.ProtoObject);
@@ -492,6 +512,7 @@ args: ["aString", "aCollection"],
 source: "perform: aString withArguments: aCollection\x0a\x09<inlineJS: 'return $core.send2(self, aString, aCollection)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return $core.send2(self, aString, aCollection)"]]],
 messageSends: []
 }),
 $globals.ProtoObject);
@@ -536,6 +557,7 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09aStream nextPutAll: (self class name first isVowel\x0a\x09\x09ifTrue: [ 'an ' ]\x0a\x09\x09ifFalse: [ 'a ' ]).\x0a\x09aStream nextPutAll: self class name",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "ifTrue:ifFalse:", "isVowel", "first", "name", "class"]
 }),
 $globals.ProtoObject);
@@ -567,6 +589,7 @@ args: [],
 source: "printString\x0a\x09^ String streamContents: [ :str | \x0a\x09\x09self printOn: str ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["streamContents:", "printOn:"]
 }),
 $globals.ProtoObject);
@@ -585,6 +608,7 @@ args: [],
 source: "yourself\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ProtoObject);
@@ -613,6 +637,7 @@ args: ["anObject"],
 source: "~= anObject\x0a\x09^ (self = anObject) = false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["="]
 }),
 $globals.ProtoObject);
@@ -636,6 +661,7 @@ args: ["anObject"],
 source: "~~ anObject\x0a\x09^ (self == anObject) = false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["=", "=="]
 }),
 $globals.ProtoObject);
@@ -655,6 +681,7 @@ args: [],
 source: "initialize",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.ProtoObject.a$cls);
@@ -683,6 +710,7 @@ args: ["anObject"],
 source: "-> anObject\x0a\x09^ Association key: self value: anObject",
 referencedClasses: ["Association"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["key:value:"]
 }),
 $globals.Object);
@@ -706,6 +734,7 @@ args: [],
 source: "asJSONString\x0a\x09^ JSON stringify: self asJavaScriptObject",
 referencedClasses: ["JSON"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["stringify:", "asJavaScriptObject"]
 }),
 $globals.Object);
@@ -740,6 +769,7 @@ args: [],
 source: "asJavaScriptObject\x0a\x09| variables |\x0a\x09variables := HashedCollection new.\x0a\x09self class allInstanceVariableNames do: [ :each |\x0a\x09\x09variables at: each put: (self instVarAt: each) asJavaScriptObject ].\x0a\x09^ variables",
 referencedClasses: ["HashedCollection"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "do:", "allInstanceVariableNames", "class", "at:put:", "asJavaScriptObject", "instVarAt:"]
 }),
 $globals.Object);
@@ -763,6 +793,7 @@ args: [],
 source: "asJavaScriptSource\x0a\x09^ self asString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["asString"]
 }),
 $globals.Object);
@@ -787,6 +818,7 @@ args: ["aString"],
 source: "basicAt: aString\x0a\x09<inlineJS: 'return self[aString]'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self[aString]"]]],
 messageSends: []
 }),
 $globals.Object);
@@ -811,6 +843,7 @@ args: ["aString", "anObject"],
 source: "basicAt: aString put: anObject\x0a\x09<inlineJS: 'return self[aString] = anObject'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self[aString] = anObject"]]],
 messageSends: []
 }),
 $globals.Object);
@@ -835,6 +868,7 @@ args: ["aString"],
 source: "basicDelete: aString\x0a\x09<inlineJS: 'delete self[aString]; return aString'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["delete self[aString]; return aString"]]],
 messageSends: []
 }),
 $globals.Object);
@@ -858,6 +892,7 @@ args: ["aString"],
 source: "basicPerform: aString\x0a\x09^ self basicPerform: aString withArguments: #()",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["basicPerform:withArguments:"]
 }),
 $globals.Object);
@@ -882,6 +917,7 @@ args: ["aString", "aCollection"],
 source: "basicPerform: aString withArguments: aCollection\x0a\x09<inlineJS: 'return self[aString].apply(self, aCollection);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self[aString].apply(self, aCollection);"]]],
 messageSends: []
 }),
 $globals.Object);
@@ -906,6 +942,7 @@ args: [],
 source: "browse\x0a\x09Finder findClass: self class",
 referencedClasses: ["Finder"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["findClass:", "class"]
 }),
 $globals.Object);
@@ -929,6 +966,7 @@ args: [],
 source: "copy\x0a\x09^ self shallowCopy postCopy",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["postCopy", "shallowCopy"]
 }),
 $globals.Object);
@@ -959,6 +997,7 @@ args: [],
 source: "deepCopy\x0a\x09<inlineJS: '\x0a\x09\x09var copy = self.a$cls._new();\x0a\x09\x09Object.keys(self).forEach(function (i) {\x0a\x09\x09\x09copy[i] = $recv(self[i])._deepCopy();\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var copy = self.a$cls._new();\x0a\x09\x09Object.keys(self).forEach(function (i) {\x0a\x09\x09\x09copy[i] = $recv(self[i])._deepCopy();\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09"]]],
 messageSends: []
 }),
 $globals.Object);
@@ -1007,6 +1046,7 @@ args: [],
 source: "deprecatedAPI\x0a\x09\x22Just a simple way to deprecate methods.\x0a\x09#deprecatedAPI is in the 'error handling' protocol even if it doesn't throw an error,\x0a\x09but it could in the future.\x22\x0a\x09console warn: thisContext home asString, ' is deprecated! (in ', thisContext home home asString, ')'.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["warn:", ",", "asString", "home"]
 }),
 $globals.Object);
@@ -1059,6 +1099,7 @@ args: ["aString"],
 source: "deprecatedAPI: aString\x0a\x09\x22Just a simple way to deprecate methods.\x0a\x09#deprecatedAPI is in the 'error handling' protocol even if it doesn't throw an error,\x0a\x09but it could in the future.\x22\x0a\x09console warn: thisContext home asString, ' is deprecated! (in ', thisContext home home asString, ')'.\x0a\x09console warn: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["warn:", ",", "asString", "home"]
 }),
 $globals.Object);
@@ -1083,6 +1124,7 @@ args: ["aString"],
 source: "error: aString\x0a\x09Error signal: aString",
 referencedClasses: ["Error"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["signal:"]
 }),
 $globals.Object);
@@ -1107,6 +1149,7 @@ args: [],
 source: "halt\x0a\x09Halt signal",
 referencedClasses: ["Halt"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["signal"]
 }),
 $globals.Object);
@@ -1130,6 +1173,7 @@ args: ["aValuable"],
 source: "in: aValuable\x0a\x09^ aValuable value: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value:"]
 }),
 $globals.Object);
@@ -1148,6 +1192,7 @@ args: [],
 source: "isBehavior\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Object);
@@ -1166,6 +1211,7 @@ args: [],
 source: "isBoolean\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Object);
@@ -1184,6 +1230,7 @@ args: [],
 source: "isClass\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Object);
@@ -1202,6 +1249,7 @@ args: [],
 source: "isCompiledMethod\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Object);
@@ -1220,6 +1268,7 @@ args: [],
 source: "isImmutable\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Object);
@@ -1243,6 +1292,7 @@ args: ["aClass"],
 source: "isMemberOf: aClass\x0a\x09^ self class = aClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["=", "class"]
 }),
 $globals.Object);
@@ -1261,6 +1311,7 @@ args: [],
 source: "isMetaclass\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Object);
@@ -1279,6 +1330,7 @@ args: [],
 source: "isNumber\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Object);
@@ -1297,6 +1349,7 @@ args: [],
 source: "isPackage\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Object);
@@ -1315,6 +1368,7 @@ args: [],
 source: "isParseFailure\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Object);
@@ -1333,6 +1387,7 @@ args: [],
 source: "isString\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Object);
@@ -1351,6 +1406,7 @@ args: [],
 source: "isSymbol\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Object);
@@ -1369,6 +1425,7 @@ args: [],
 source: "postCopy",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Object);
@@ -1393,6 +1450,7 @@ args: ["aStream"],
 source: "putOn: aStream\x0a\x09aStream nextPut: self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPut:"]
 }),
 $globals.Object);
@@ -1416,6 +1474,7 @@ args: ["aSelector"],
 source: "respondsTo: aSelector\x0a\x09^ self class canUnderstand: aSelector",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["canUnderstand:", "class"]
 }),
 $globals.Object);
@@ -1446,6 +1505,7 @@ args: [],
 source: "shallowCopy\x0a\x09<inlineJS: '\x0a\x09\x09var copy = self.a$cls._new();\x0a\x09\x09Object.keys(self).forEach(function(i) {\x0a\x09\x09\x09copy[i] = self[i];\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var copy = self.a$cls._new();\x0a\x09\x09Object.keys(self).forEach(function(i) {\x0a\x09\x09\x09copy[i] = self[i];\x0a\x09\x09});\x0a\x09\x09return copy;\x0a\x09"]]],
 messageSends: []
 }),
 $globals.Object);
@@ -1470,6 +1530,7 @@ args: [],
 source: "shouldNotImplement\x0a\x09self error: 'This method should not be implemented in ', self class name",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["error:", ",", "name", "class"]
 }),
 $globals.Object);
@@ -1494,6 +1555,7 @@ args: [],
 source: "size\x0a\x09self error: 'Object not indexable'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["error:"]
 }),
 $globals.Object);
@@ -1518,6 +1580,7 @@ args: [],
 source: "subclassResponsibility\x0a\x09self error: 'This method is a responsibility of a subclass'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["error:"]
 }),
 $globals.Object);
@@ -1542,6 +1605,7 @@ args: [],
 source: "value\x0a\x09<inlineJS: 'return self.valueOf()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.valueOf()"]]],
 messageSends: []
 }),
 $globals.Object);
@@ -1567,6 +1631,7 @@ args: ["aGenerator"],
 source: "accessorProtocolWith: aGenerator\x0a\x09aGenerator accessorProtocolForObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["accessorProtocolForObject"]
 }),
 $globals.Object.a$cls);
@@ -1591,6 +1656,7 @@ args: ["aGenerator"],
 source: "accessorsSourceCodesWith: aGenerator\x0a\x09aGenerator accessorsForObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["accessorsForObject"]
 }),
 $globals.Object.a$cls);
@@ -1609,6 +1675,7 @@ args: [],
 source: "initialize\x0a\x09\x22no op\x22",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Object.a$cls);
@@ -1633,6 +1700,7 @@ args: ["aGenerator"],
 source: "initializeProtocolWith: aGenerator\x0a\x09aGenerator initializeProtocolForObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initializeProtocolForObject"]
 }),
 $globals.Object.a$cls);
@@ -1657,6 +1725,7 @@ args: ["aGenerator"],
 source: "initializeSourceCodesWith: aGenerator\x0a\x09aGenerator initializeForObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["initializeForObject"]
 }),
 $globals.Object.a$cls);
@@ -1692,6 +1761,7 @@ args: ["aBoolean"],
 source: "& aBoolean\x0a\x09<inlineJS: '\x0a\x09\x09if(self == true) {\x0a\x09\x09return aBoolean;\x0a\x09\x09} else {\x0a\x09\x09return false;\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09if(self == true) {\x0a\x09\x09return aBoolean;\x0a\x09\x09} else {\x0a\x09\x09return false;\x0a\x09\x09}\x0a\x09"]]],
 messageSends: []
 }),
 $globals.Boolean);
@@ -1719,6 +1789,7 @@ args: ["aBoolean"],
 source: "== aBoolean\x0a<inlineJS: '\x0a\x09if (typeof aBoolean === \x22boolean\x22) return (self == true) === aBoolean;\x0a\x09else if (aBoolean != null && typeof aBoolean === \x22object\x22) return (self == true) === aBoolean.valueOf();\x0a\x09else return false;\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09if (typeof aBoolean === \x22boolean\x22) return (self == true) === aBoolean;\x0a\x09else if (aBoolean != null && typeof aBoolean === \x22object\x22) return (self == true) === aBoolean.valueOf();\x0a\x09else return false;\x0a"]]],
 messageSends: []
 }),
 $globals.Boolean);
@@ -1746,6 +1817,7 @@ args: ["aBlock"],
 source: "and: aBlock\x0a\x09^ self\x0a\x09\x09ifTrue: \x22aBlock\x22 [ aBlock value ]\x0a\x09\x09ifFalse: [ false ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "value"]
 }),
 $globals.Boolean);
@@ -1773,6 +1845,7 @@ args: [],
 source: "asBit\x0a\x09^ self ifTrue: [ 1 ] ifFalse: [ 0 ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:"]
 }),
 $globals.Boolean);
@@ -1791,6 +1864,7 @@ args: [],
 source: "asJavaScriptObject\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Boolean);
@@ -1815,6 +1889,7 @@ args: [],
 source: "asString\x0a\x09<inlineJS: 'return self.toString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.toString()"]]],
 messageSends: []
 }),
 $globals.Boolean);
@@ -1833,6 +1908,7 @@ args: [],
 source: "deepCopy\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Boolean);
@@ -1858,6 +1934,7 @@ args: ["aBlock"],
 source: "ifFalse: aBlock\x0a\x09\x22inlined in the Compiler\x22\x0a\x09^ self ifTrue: [] ifFalse: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:"]
 }),
 $globals.Boolean);
@@ -1881,6 +1958,7 @@ args: ["aBlock", "anotherBlock"],
 source: "ifFalse: aBlock ifTrue: anotherBlock\x0a\x09\x22inlined in the Compiler\x22\x0a\x09^ self ifTrue: anotherBlock ifFalse: aBlock",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:"]
 }),
 $globals.Boolean);
@@ -1906,6 +1984,7 @@ args: ["aBlock"],
 source: "ifTrue: aBlock\x0a\x09\x22inlined in the Compiler\x22\x0a\x09^ self ifTrue: aBlock ifFalse: []",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:"]
 }),
 $globals.Boolean);
@@ -1936,6 +2015,7 @@ args: ["aBlock", "anotherBlock"],
 source: "ifTrue: aBlock ifFalse: anotherBlock\x0a\x09\x22inlined in the Compiler\x22\x0a\x09<inlineJS: '\x0a\x09\x09if(self == true) {\x0a\x09\x09return aBlock._value();\x0a\x09\x09} else {\x0a\x09\x09return anotherBlock._value();\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09if(self == true) {\x0a\x09\x09return aBlock._value();\x0a\x09\x09} else {\x0a\x09\x09return anotherBlock._value();\x0a\x09\x09}\x0a\x09"]]],
 messageSends: []
 }),
 $globals.Boolean);
@@ -1954,6 +2034,7 @@ args: [],
 source: "isBoolean\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Boolean);
@@ -1972,6 +2053,7 @@ args: [],
 source: "isImmutable\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Boolean);
@@ -1995,6 +2077,7 @@ args: [],
 source: "not\x0a\x09^ self = false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["="]
 }),
 $globals.Boolean);
@@ -2022,6 +2105,7 @@ args: ["aBlock"],
 source: "or: aBlock\x0a\x09^ self\x0a\x09\x09ifTrue: [ true ]\x0a\x09\x09ifFalse: \x22aBlock\x22 [ aBlock value ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "value"]
 }),
 $globals.Boolean);
@@ -2046,6 +2130,7 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09aStream nextPutAll: self asString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "asString"]
 }),
 $globals.Boolean);
@@ -2064,6 +2149,7 @@ args: [],
 source: "shallowCopy\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Boolean);
@@ -2094,6 +2180,7 @@ args: ["aBoolean"],
 source: "| aBoolean\x0a\x09<inlineJS: '\x0a\x09\x09if(self == true) {\x0a\x09\x09return true;\x0a\x09\x09} else {\x0a\x09\x09return aBoolean;\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09if(self == true) {\x0a\x09\x09return true;\x0a\x09\x09} else {\x0a\x09\x09return aBoolean;\x0a\x09\x09}\x0a\x09"]]],
 messageSends: []
 }),
 $globals.Boolean);
@@ -2124,6 +2211,7 @@ args: ["aDate"],
 source: "+ aDate\x0a\x09<inlineJS: 'return self + aDate'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self + aDate"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2148,6 +2236,7 @@ args: ["aDate"],
 source: "- aDate\x0a\x09<inlineJS: 'return self - aDate'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self - aDate"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2172,6 +2261,7 @@ args: ["aDate"],
 source: "< aDate\x0a\x09<inlineJS: 'return self < aDate'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self < aDate"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2196,6 +2286,7 @@ args: ["aDate"],
 source: "<= aDate\x0a\x09<inlineJS: 'return self <= aDate'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self <= aDate"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2240,6 +2331,7 @@ args: ["aDate"],
 source: "= aDate\x0a\x09^ (aDate class == self class) and: [ self asMilliseconds == aDate asMilliseconds ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", "==", "class", "asMilliseconds"]
 }),
 $globals.Date);
@@ -2264,6 +2356,7 @@ args: ["aDate"],
 source: "> aDate\x0a\x09<inlineJS: 'return self > aDate'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self > aDate"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2288,6 +2381,7 @@ args: ["aDate"],
 source: ">= aDate\x0a\x09<inlineJS: 'return self >= aDate'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self >= aDate"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2312,6 +2406,7 @@ args: [],
 source: "asDateString\x0a\x09<inlineJS: 'return self.toDateString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.toDateString()"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2336,6 +2431,7 @@ args: [],
 source: "asLocaleString\x0a\x09<inlineJS: 'return self.toLocaleString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.toLocaleString()"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2359,6 +2455,7 @@ args: [],
 source: "asMilliseconds\x0a\x09^ self time",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["time"]
 }),
 $globals.Date);
@@ -2382,6 +2479,7 @@ args: [],
 source: "asNumber\x0a\x09^ self asMilliseconds",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["asMilliseconds"]
 }),
 $globals.Date);
@@ -2406,6 +2504,7 @@ args: [],
 source: "asString\x0a\x09<inlineJS: 'return self.toString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.toString()"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2430,6 +2529,7 @@ args: [],
 source: "asTimeString\x0a\x09<inlineJS: 'return self.toTimeString()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.toTimeString()"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2453,6 +2553,7 @@ args: [],
 source: "day\x0a\x09^ self dayOfWeek",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["dayOfWeek"]
 }),
 $globals.Date);
@@ -2477,6 +2578,7 @@ args: ["aNumber"],
 source: "day: aNumber\x0a\x09self dayOfWeek: aNumber",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["dayOfWeek:"]
 }),
 $globals.Date);
@@ -2501,6 +2603,7 @@ args: [],
 source: "dayOfMonth\x0a\x09<inlineJS: 'return self.getDate()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.getDate()"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2525,6 +2628,7 @@ args: ["aNumber"],
 source: "dayOfMonth: aNumber\x0a\x09<inlineJS: 'self.setDate(aNumber)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["self.setDate(aNumber)"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2549,6 +2653,7 @@ args: [],
 source: "dayOfWeek\x0a\x09<inlineJS: 'return self.getDay() + 1'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.getDay() + 1"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2573,6 +2678,7 @@ args: ["aNumber"],
 source: "dayOfWeek: aNumber\x0a\x09<inlineJS: 'return self.setDay(aNumber - 1)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.setDay(aNumber - 1)"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2597,6 +2703,7 @@ args: [],
 source: "hours\x0a\x09<inlineJS: 'return self.getHours()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.getHours()"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2621,6 +2728,7 @@ args: ["aNumber"],
 source: "hours: aNumber\x0a\x09<inlineJS: 'self.setHours(aNumber)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["self.setHours(aNumber)"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2645,6 +2753,7 @@ args: [],
 source: "milliseconds\x0a\x09<inlineJS: 'return self.getMilliseconds()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.getMilliseconds()"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2669,6 +2778,7 @@ args: ["aNumber"],
 source: "milliseconds: aNumber\x0a\x09<inlineJS: 'self.setMilliseconds(aNumber)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["self.setMilliseconds(aNumber)"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2693,6 +2803,7 @@ args: [],
 source: "minutes\x0a\x09<inlineJS: 'return self.getMinutes()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.getMinutes()"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2717,6 +2828,7 @@ args: ["aNumber"],
 source: "minutes: aNumber\x0a\x09<inlineJS: 'self.setMinutes(aNumber)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["self.setMinutes(aNumber)"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2741,6 +2853,7 @@ args: [],
 source: "month\x0a\x09<inlineJS: 'return self.getMonth() + 1'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.getMonth() + 1"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2765,6 +2878,7 @@ args: ["aNumber"],
 source: "month: aNumber\x0a\x09<inlineJS: 'self.setMonth(aNumber - 1)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["self.setMonth(aNumber - 1)"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2789,6 +2903,7 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09aStream nextPutAll: self asString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "asString"]
 }),
 $globals.Date);
@@ -2813,6 +2928,7 @@ args: [],
 source: "seconds\x0a\x09<inlineJS: 'return self.getSeconds()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.getSeconds()"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2837,6 +2953,7 @@ args: ["aNumber"],
 source: "seconds: aNumber\x0a\x09<inlineJS: 'self.setSeconds(aNumber)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["self.setSeconds(aNumber)"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2861,6 +2978,7 @@ args: [],
 source: "time\x0a\x09<inlineJS: 'return self.getTime()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.getTime()"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2885,6 +3003,7 @@ args: ["aNumber"],
 source: "time: aNumber\x0a\x09<inlineJS: 'self.setTime(aNumber)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["self.setTime(aNumber)"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2909,6 +3028,7 @@ args: [],
 source: "year\x0a\x09<inlineJS: 'return self.getFullYear()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.getFullYear()"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2933,6 +3053,7 @@ args: ["aNumber"],
 source: "year: aNumber\x0a\x09<inlineJS: 'self.setFullYear(aNumber)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["self.setFullYear(aNumber)"]]],
 messageSends: []
 }),
 $globals.Date);
@@ -2952,6 +3073,7 @@ args: [],
 source: "classTag\x0a\x09\x22Returns a tag or general category for this class.\x0a\x09Typically used to help tools do some reflection.\x0a\x09Helios, for example, uses this to decide what icon the class should display.\x22\x0a\x09\x0a\x09^ 'magnitude'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Date.a$cls);
@@ -2975,6 +3097,7 @@ args: ["aNumber"],
 source: "fromMilliseconds: aNumber\x0a\x09^ self new: aNumber",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new:"]
 }),
 $globals.Date.a$cls);
@@ -2998,6 +3121,7 @@ args: ["aNumber"],
 source: "fromSeconds: aNumber\x0a\x09^ self fromMilliseconds: aNumber * 1000",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["fromMilliseconds:", "*"]
 }),
 $globals.Date.a$cls);
@@ -3021,6 +3145,7 @@ args: ["aString"],
 source: "fromString: aString\x0a\x09\x22Example: Date fromString('2011/04/15 00:00:00')\x22\x0a\x09^ self new: aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new:"]
 }),
 $globals.Date.a$cls);
@@ -3050,6 +3175,7 @@ args: ["aBlock"],
 source: "millisecondsToRun: aBlock\x0a\x09| t |\x0a\x09t := Date now.\x0a\x09aBlock value.\x0a\x09^ Date now - t",
 referencedClasses: ["Date"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["now", "value", "-"]
 }),
 $globals.Date.a$cls);
@@ -3074,6 +3200,7 @@ args: ["anObject"],
 source: "new: anObject\x0a\x09<inlineJS: 'return new Date(anObject)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return new Date(anObject)"]]],
 messageSends: []
 }),
 $globals.Date.a$cls);
@@ -3097,6 +3224,7 @@ args: [],
 source: "now\x0a\x09^ self today",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["today"]
 }),
 $globals.Date.a$cls);
@@ -3120,6 +3248,7 @@ args: [],
 source: "today\x0a\x09^ self new",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new"]
 }),
 $globals.Date.a$cls);
@@ -3149,6 +3278,7 @@ args: ["aNumber"],
 source: "& aNumber\x0a\x09<inlineJS: 'return self & aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self & aNumber"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3173,6 +3303,7 @@ args: ["aNumber"],
 source: "* aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self * aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self * aNumber"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3196,6 +3327,7 @@ args: ["exponent"],
 source: "** exponent\x0a\x09^ self raisedTo: exponent",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["raisedTo:"]
 }),
 $globals.Number);
@@ -3220,6 +3352,7 @@ args: ["aNumber"],
 source: "+ aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self + aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self + aNumber"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3244,6 +3377,7 @@ args: ["aNumber"],
 source: "- aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self - aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self - aNumber"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3268,6 +3402,7 @@ args: ["aNumber"],
 source: "/ aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self / aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self / aNumber"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3291,6 +3426,7 @@ args: ["aNumber"],
 source: "// aNumber\x0a\x09^ (self / aNumber) floor",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["floor", "/"]
 }),
 $globals.Number);
@@ -3315,6 +3451,7 @@ args: ["aNumber"],
 source: "< aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self < aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self < aNumber"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3339,6 +3476,7 @@ args: ["aNumber"],
 source: "<= aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self <= aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self <= aNumber"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3366,6 +3504,7 @@ args: ["aNumber"],
 source: "== aNumber\x0a<inlineJS: '\x0a\x09if (typeof aNumber === \x22number\x22) return Number(self) === aNumber;\x0a\x09else if (aNumber != null && typeof aNumber === \x22object\x22) return Number(self) === aNumber.valueOf();\x0a\x09else return false;\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09if (typeof aNumber === \x22number\x22) return Number(self) === aNumber;\x0a\x09else if (aNumber != null && typeof aNumber === \x22object\x22) return Number(self) === aNumber.valueOf();\x0a\x09else return false;\x0a"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3390,6 +3529,7 @@ args: ["aNumber"],
 source: "> aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self > aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self > aNumber"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3414,6 +3554,7 @@ args: ["aNumber"],
 source: ">= aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self >= aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self >= aNumber"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3437,6 +3578,7 @@ args: ["aNumber"],
 source: "@ aNumber\x0a\x09^ Point x: self y: aNumber",
 referencedClasses: ["Point"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["x:y:"]
 }),
 $globals.Number);
@@ -3461,6 +3603,7 @@ args: ["aNumber"],
 source: "\x5c\x5c aNumber\x0a\x09<inlineJS: 'return self % aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self % aNumber"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3485,6 +3628,7 @@ args: [],
 source: "abs\x0a\x09<inlineJS: 'return Math.abs(self);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.abs(self);"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3509,6 +3653,7 @@ args: [],
 source: "arcCos\x0a\x09<inlineJS: 'return Math.acos(self);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.acos(self);"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3533,6 +3678,7 @@ args: [],
 source: "arcSin\x0a\x09<inlineJS: 'return Math.asin(self);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.asin(self);"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3557,6 +3703,7 @@ args: [],
 source: "arcTan\x0a\x09<inlineJS: 'return Math.atan(self);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.atan(self);"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3581,6 +3728,7 @@ args: ["aNumber"],
 source: "arcTan: aNumber\x0a\x09<inlineJS: 'return Math.atan2(self, aNumber);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.atan2(self, aNumber);"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3599,6 +3747,7 @@ args: [],
 source: "asJavaScriptObject\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Number);
@@ -3627,6 +3776,7 @@ args: [],
 source: "asJavaScriptSource\x0a\x09^ '(', self printString, ')'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [",", "printString"]
 }),
 $globals.Number);
@@ -3645,6 +3795,7 @@ args: [],
 source: "asNumber\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Number);
@@ -3668,6 +3819,7 @@ args: [],
 source: "asPoint\x0a\x09^ Point x: self y: self",
 referencedClasses: ["Point"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["x:y:"]
 }),
 $globals.Number);
@@ -3692,6 +3844,7 @@ args: [],
 source: "asString\x0a\x09<inlineJS: 'return String(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return String(self)"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3715,6 +3868,7 @@ args: [],
 source: "atRandom\x0a\x09^ (Random new next * self) truncated + 1",
 referencedClasses: ["Random"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["+", "truncated", "*", "next", "new"]
 }),
 $globals.Number);
@@ -3746,6 +3900,7 @@ args: ["min", "max"],
 source: "between: min and: max\x0a ^ self >= min and: [ self <= max ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", ">=", "<="]
 }),
 $globals.Number);
@@ -3770,6 +3925,7 @@ args: ["aNumber"],
 source: "bitAnd: aNumber\x0a\x09<inlineJS: 'return self & aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self & aNumber"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3794,6 +3950,7 @@ args: [],
 source: "bitNot\x0a\x09<inlineJS: 'return ~self'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return ~self"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3818,6 +3975,7 @@ args: ["aNumber"],
 source: "bitOr: aNumber\x0a\x09<inlineJS: 'return self | aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self | aNumber"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3842,6 +4000,7 @@ args: ["aNumber"],
 source: "bitXor: aNumber\x0a\x09<inlineJS: 'return self ^ aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self ^ aNumber"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3866,6 +4025,7 @@ args: [],
 source: "ceiling\x0a\x09<inlineJS: 'return Math.ceil(self);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.ceil(self);"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3884,6 +4044,7 @@ args: [],
 source: "copy\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Number);
@@ -3908,6 +4069,7 @@ args: [],
 source: "cos\x0a\x09<inlineJS: 'return Math.cos(self);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.cos(self);"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -3931,6 +4093,7 @@ args: [],
 source: "deepCopy\x0a\x09^ self copy",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["copy"]
 }),
 $globals.Number);
@@ -3954,6 +4117,7 @@ args: [],
 source: "degreesToRadians\x0a\x09^ self * Number radiansPerDegree",
 referencedClasses: ["Number"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["*", "radiansPerDegree"]
 }),
 $globals.Number);
@@ -3977,6 +4141,7 @@ args: [],
 source: "even\x0a\x09^ 0 = (self \x5c\x5c 2)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["=", "\x5c\x5c"]
 }),
 $globals.Number);
@@ -4001,6 +4166,7 @@ args: [],
 source: "floor\x0a\x09<inlineJS: 'return Math.floor(self);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.floor(self);"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -4019,6 +4185,7 @@ args: [],
 source: "isImmutable\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Number);
@@ -4037,6 +4204,7 @@ args: [],
 source: "isNumber\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Number);
@@ -4060,6 +4228,7 @@ args: [],
 source: "isZero\x0a\x09^ self = 0",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["="]
 }),
 $globals.Number);
@@ -4084,6 +4253,7 @@ args: [],
 source: "ln\x0a\x09<inlineJS: 'return Math.log(self);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.log(self);"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -4108,6 +4278,7 @@ args: [],
 source: "ln1p\x0a\x09<inlineJS: 'return Math.log1p(self);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.log1p(self);"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -4132,6 +4303,7 @@ args: [],
 source: "log\x0a\x09<inlineJS: 'return Math.log(self) / Math.LN10;'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.log(self) / Math.LN10;"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -4156,6 +4328,7 @@ args: ["aNumber"],
 source: "log: aNumber\x0a\x09<inlineJS: 'return Math.log(self) / Math.log(aNumber);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.log(self) / Math.log(aNumber);"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -4180,6 +4353,7 @@ args: ["aNumber"],
 source: "max: aNumber\x0a\x09<inlineJS: 'return Math.max(self, aNumber);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.max(self, aNumber);"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -4204,6 +4378,7 @@ args: ["aNumber"],
 source: "min: aNumber\x0a\x09<inlineJS: 'return Math.min(self, aNumber);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.min(self, aNumber);"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -4227,6 +4402,7 @@ args: ["aMin", "aMax"],
 source: "min: aMin max: aMax\x0a\x09^ (self min: aMin) max: aMax",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["max:", "min:"]
 }),
 $globals.Number);
@@ -4250,6 +4426,7 @@ args: [],
 source: "negated\x0a\x09^ 0 - self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["-"]
 }),
 $globals.Number);
@@ -4273,6 +4450,7 @@ args: [],
 source: "negative\x0a\x09\x22Answer whether the receiver is mathematically negative.\x22\x0a\x0a\x09^ self < 0",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["<"]
 }),
 $globals.Number);
@@ -4296,6 +4474,7 @@ args: [],
 source: "odd\x0a\x09^ self even not",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["not", "even"]
 }),
 $globals.Number);
@@ -4319,6 +4498,7 @@ args: [],
 source: "positive\x0a\x09\x22Answer whether the receiver is positive or equal to 0. (ST-80 protocol).\x22\x0a\x0a\x09^ self >= 0",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: [">="]
 }),
 $globals.Number);
@@ -4343,6 +4523,7 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09aStream nextPutAll: self asString",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:", "asString"]
 }),
 $globals.Number);
@@ -4367,6 +4548,7 @@ args: ["placesDesired"],
 source: "printShowingDecimalPlaces: placesDesired\x0a\x09<inlineJS: 'return self.toFixed(placesDesired)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.toFixed(placesDesired)"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -4391,6 +4573,7 @@ args: ["aBase"],
 source: "printStringBase: aBase\x0a\x09<inlineJS: 'return self.toString(aBase)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self.toString(aBase)"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -4414,6 +4597,7 @@ args: [],
 source: "radiansToDegrees\x0a\x09^ self / Number radiansPerDegree",
 referencedClasses: ["Number"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["/", "radiansPerDegree"]
 }),
 $globals.Number);
@@ -4438,6 +4622,7 @@ args: ["exponent"],
 source: "raisedTo: exponent\x0a\x09<inlineJS: 'return Math.pow(self, exponent);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.pow(self, exponent);"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -4462,6 +4647,7 @@ args: [],
 source: "rounded\x0a\x09<inlineJS: 'return Math.round(self);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.round(self);"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -4496,6 +4682,7 @@ args: [],
 source: "sign\x0a\x09self isZero \x0a\x09\x09ifTrue: [ ^ 0 ].\x0a\x09self positive\x0a\x09\x09ifTrue: [ ^ 1 ]\x0a\x09\x09ifFalse: [ ^ -1 ].",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "isZero", "ifTrue:ifFalse:", "positive"]
 }),
 $globals.Number);
@@ -4520,6 +4707,7 @@ args: [],
 source: "sin\x0a\x09<inlineJS: 'return Math.sin(self);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.sin(self);"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -4544,6 +4732,7 @@ args: [],
 source: "sqrt\x0a\x09<inlineJS: 'return Math.sqrt(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.sqrt(self)"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -4567,6 +4756,7 @@ args: [],
 source: "squared\x0a\x09^ self * self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["*"]
 }),
 $globals.Number);
@@ -4591,6 +4781,7 @@ args: [],
 source: "tan\x0a\x09<inlineJS: 'return Math.tan(self);'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.tan(self);"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -4635,6 +4826,7 @@ args: ["aBlock"],
 source: "timesRepeat: aBlock\x0a\x09| count |\x0a\x09count := 1.\x0a\x09[ count > self ] whileFalse: [\x0a\x09\x09aBlock value.\x0a\x09\x09count := count + 1 ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["whileFalse:", ">", "value", "+"]
 }),
 $globals.Number);
@@ -4684,6 +4876,7 @@ args: ["aNumber"],
 source: "to: aNumber\x0a\x09| array first last count |\x0a\x09first := self truncated.\x0a\x09last := aNumber truncated + 1.\x0a\x09count := 1.\x0a\x09array := Array new.\x0a\x09(last - first) timesRepeat: [\x0a\x09\x09array at: count put: first.\x0a\x09\x09count := count + 1.\x0a\x09\x09first := first + 1 ].\x0a\x09^ array",
 referencedClasses: ["Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["truncated", "+", "new", "timesRepeat:", "-", "at:put:"]
 }),
 $globals.Number);
@@ -4775,6 +4968,7 @@ args: ["stop", "step"],
 source: "to: stop by: step\x0a\x09| array value pos |\x0a\x09value := self.\x0a\x09array := Array new.\x0a\x09pos := 1.\x0a\x09step = 0 ifTrue: [ self error: 'step must be non-zero' ].\x0a\x09step < 0\x0a\x09\x09ifTrue: [ [ value >= stop ] whileTrue: [\x0a\x09\x09\x09\x09\x09array at: pos put: value.\x0a\x09\x09\x09\x09\x09pos := pos + 1.\x0a\x09\x09\x09\x09\x09value := value + step ]]\x0a\x09\x09ifFalse: [ [ value <= stop ] whileTrue: [\x0a\x09\x09\x09\x09\x09array at: pos put: value.\x0a\x09\x09\x09\x09pos := pos + 1.\x0a\x09\x09\x09\x09\x09value := value + step ]].\x0a\x09^ array",
 referencedClasses: ["Array"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["new", "ifTrue:", "=", "error:", "ifTrue:ifFalse:", "<", "whileTrue:", ">=", "at:put:", "+", "<="]
 }),
 $globals.Number);
@@ -4856,6 +5050,7 @@ args: ["stop", "step", "aBlock"],
 source: "to: stop by: step do: aBlock\x0a\x09| value |\x0a\x09value := self.\x0a\x09step = 0 ifTrue: [ self error: 'step must be non-zero' ].\x0a\x09step < 0\x0a\x09\x09ifTrue: [ [ value >= stop ] whileTrue: [\x0a\x09\x09\x09\x09\x09aBlock value: value.\x0a\x09\x09\x09\x09\x09value := value + step ]]\x0a\x09\x09ifFalse: [ [ value <= stop ] whileTrue: [\x0a\x09\x09\x09\x09\x09aBlock value: value.\x0a\x09\x09\x09\x09\x09value := value + step ]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifTrue:", "=", "error:", "ifTrue:ifFalse:", "<", "whileTrue:", ">=", "value:", "+", "<="]
 }),
 $globals.Number);
@@ -4900,6 +5095,7 @@ args: ["stop", "aBlock"],
 source: "to: stop do: aBlock\x0a\x09\x22Evaluate aBlock for each number from self to aNumber.\x22\x0a\x09| nextValue |\x0a\x09nextValue := self.\x0a\x09[ nextValue <= stop ]\x0a\x09\x09whileTrue:\x0a\x09\x09\x09[ aBlock value: nextValue.\x0a\x09\x09\x09nextValue := nextValue + 1 ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["whileTrue:", "<=", "value:", "+"]
 }),
 $globals.Number);
@@ -4930,6 +5126,7 @@ args: [],
 source: "truncated\x0a\x09<inlineJS: '\x0a\x09\x09if(self >= 0) {\x0a\x09\x09\x09return Math.floor(self);\x0a\x09\x09} else {\x0a\x09\x09\x09return Math.floor(self * (-1)) * (-1);\x0a\x09\x09};\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09if(self >= 0) {\x0a\x09\x09\x09return Math.floor(self);\x0a\x09\x09} else {\x0a\x09\x09\x09return Math.floor(self * (-1)) * (-1);\x0a\x09\x09};\x0a\x09"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -4954,6 +5151,7 @@ args: ["aNumber"],
 source: "| aNumber\x0a\x09<inlineJS: 'return self | aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return self | aNumber"]]],
 messageSends: []
 }),
 $globals.Number);
@@ -4973,6 +5171,7 @@ args: [],
 source: "classTag\x0a\x09\x22Returns a tag or general category for this class.\x0a\x09Typically used to help tools do some reflection.\x0a\x09Helios, for example, uses this to decide what icon the class should display.\x22\x0a\x09\x0a\x09^ 'magnitude'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Number.a$cls);
@@ -4997,6 +5196,7 @@ args: [],
 source: "e\x0a\x09<inlineJS: 'return Math.E;'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.E;"]]],
 messageSends: []
 }),
 $globals.Number.a$cls);
@@ -5021,6 +5221,7 @@ args: [],
 source: "pi\x0a\x09<inlineJS: 'return Math.PI'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.PI"]]],
 messageSends: []
 }),
 $globals.Number.a$cls);
@@ -5044,6 +5245,7 @@ args: [],
 source: "radiansPerDegree\x0a\x09^ (self pi) / 180",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["/", "pi"]
 }),
 $globals.Number.a$cls);
@@ -5091,6 +5293,7 @@ args: ["aPoint"],
 source: "* aPoint\x0a\x09^ Point x: self x * aPoint asPoint x y: self y * aPoint asPoint y",
 referencedClasses: ["Point"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["x:y:", "*", "x", "asPoint", "y"]
 }),
 $globals.Point);
@@ -5133,6 +5336,7 @@ args: ["aPoint"],
 source: "+ aPoint\x0a\x09^ Point x: self x + aPoint asPoint x y: self y + aPoint asPoint y",
 referencedClasses: ["Point"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["x:y:", "+", "x", "asPoint", "y"]
 }),
 $globals.Point);
@@ -5175,6 +5379,7 @@ args: ["aPoint"],
 source: "- aPoint\x0a\x09^ Point x: self x - aPoint asPoint x y: self y - aPoint asPoint y",
 referencedClasses: ["Point"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["x:y:", "-", "x", "asPoint", "y"]
 }),
 $globals.Point);
@@ -5217,6 +5422,7 @@ args: ["aPoint"],
 source: "/ aPoint\x0a\x09^ Point x: self x / aPoint asPoint x y: self y / aPoint asPoint y",
 referencedClasses: ["Point"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["x:y:", "/", "x", "asPoint", "y"]
 }),
 $globals.Point);
@@ -5261,6 +5467,7 @@ args: ["aPoint"],
 source: "< aPoint\x0a\x09^ self x < aPoint x and: [\x0a\x09\x09self y < aPoint y ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", "<", "x", "y"]
 }),
 $globals.Point);
@@ -5305,6 +5512,7 @@ args: ["aPoint"],
 source: "<= aPoint\x0a\x09^ self x <= aPoint x and: [\x0a\x09\x09self y <= aPoint y ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", "<=", "x", "y"]
 }),
 $globals.Point);
@@ -5358,6 +5566,7 @@ args: ["aPoint"],
 source: "= aPoint\x0a\x09^ aPoint class = self class and: [\x0a\x09\x09(aPoint x = self x) & (aPoint y = self y) ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", "=", "class", "&", "x", "y"]
 }),
 $globals.Point);
@@ -5402,6 +5611,7 @@ args: ["aPoint"],
 source: "> aPoint\x0a\x09^ self x > aPoint x and: [\x0a\x09\x09self y > aPoint y ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", ">", "x", "y"]
 }),
 $globals.Point);
@@ -5446,6 +5656,7 @@ args: ["aPoint"],
 source: ">= aPoint\x0a\x09^ self x >= aPoint x and: [\x0a\x09\x09self y >= aPoint y ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", ">=", "x", "y"]
 }),
 $globals.Point);
@@ -5469,6 +5680,7 @@ args: [],
 source: "angle\x0a\x09^ self y arcTan: self x",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["arcTan:", "y", "x"]
 }),
 $globals.Point);
@@ -5487,6 +5699,7 @@ args: [],
 source: "asPoint\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Point);
@@ -5510,6 +5723,7 @@ args: ["aPoint"],
 source: "corner: aPoint\x0a\x09^ Rectangle origin: self corner: aPoint",
 referencedClasses: ["Rectangle"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["origin:corner:"]
 }),
 $globals.Point);
@@ -5545,6 +5759,7 @@ args: ["aPoint"],
 source: "dist: aPoint \x0a\x09\x22Answer the distance between aPoint and the receiver.\x22\x0a\x09| dx dy |\x0a\x09dx := aPoint x - x.\x0a\x09dy := aPoint y - y.\x0a\x09^ (dx * dx + (dy * dy)) sqrt",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["-", "x", "y", "sqrt", "+", "*"]
 }),
 $globals.Point);
@@ -5573,6 +5788,7 @@ args: ["aPoint"],
 source: "dotProduct: aPoint\x0a\x09^ (x * aPoint x) + (y * aPoint y)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["+", "*", "x", "y"]
 }),
 $globals.Point);
@@ -5596,6 +5812,7 @@ args: ["aPoint"],
 source: "extent: aPoint\x0a\x09^ Rectangle origin: self extent: aPoint",
 referencedClasses: ["Rectangle"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["origin:extent:"]
 }),
 $globals.Point);
@@ -5644,6 +5861,7 @@ args: [],
 source: "normal\x0a\x09\x22Answer a Point representing the unit vector rotated 90 deg clockwise. For the zero point return -1@0.\x22\x0a\x0a\x09| n d |\x0a\x09n := y negated @ x.\x0a\x09(d := (n x * n x + (n y * n y))) = 0\x0a\x09\x09 ifTrue: [ ^ -1 @0 ].\x0a\x09^ n / d sqrt",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["@", "negated", "ifTrue:", "=", "+", "*", "x", "y", "/", "sqrt"]
 }),
 $globals.Point);
@@ -5684,6 +5902,7 @@ args: [],
 source: "normalized\x0a\x09| r |\x0a\x09r := self r.\x0a\x09\x0a\x09r = 0\x0a\x09\x09ifTrue: [ ^ Point x: 0 y: 0 ]\x0a\x09\x09ifFalse: [ ^ Point x: x / r y: y / r ]",
 referencedClasses: ["Point"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["r", "ifTrue:ifFalse:", "=", "x:y:", "/"]
 }),
 $globals.Point);
@@ -5726,6 +5945,7 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09\x22Print receiver in classic x@y notation.\x22\x0a\x0a\x09x printOn: aStream.\x0a\x09\x0a\x09aStream nextPutAll: '@'.\x0a\x09(y notNil and: [ y negative ]) ifTrue: [\x0a\x09\x09\x09\x22Avoid ambiguous @- construct\x22\x0a\x09\x09\x09aStream space ].\x0a\x09\x0a\x09y printOn: aStream",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["printOn:", "nextPutAll:", "ifTrue:", "and:", "notNil", "negative", "space"]
 }),
 $globals.Point);
@@ -5755,6 +5975,7 @@ args: [],
 source: "r\x0a\x09^ ((x * x) + (y * y)) sqrt",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["sqrt", "+", "*"]
 }),
 $globals.Point);
@@ -5778,6 +5999,7 @@ args: ["aPoint"],
 source: "rectangle: aPoint\x0a\x09^ Rectangle point: self point: aPoint",
 referencedClasses: ["Rectangle"],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["point:point:"]
 }),
 $globals.Point);
@@ -5806,6 +6028,7 @@ args: ["delta"],
 source: "translateBy: delta\x0a\x09\x22Answer a Point translated by delta (an instance of Point).\x22\x0a\x09^ (delta x + x) @ (delta y + y)",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["@", "+", "x", "y"]
 }),
 $globals.Point);
@@ -5824,6 +6047,7 @@ args: [],
 source: "x\x0a\x09^ x",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Point);
@@ -5843,6 +6067,7 @@ args: ["aNumber"],
 source: "x: aNumber\x0a\x09x := aNumber",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Point);
@@ -5861,6 +6086,7 @@ args: [],
 source: "y\x0a\x09^ y",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Point);
@@ -5880,6 +6106,7 @@ args: ["aNumber"],
 source: "y: aNumber\x0a\x09y := aNumber",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Point);
@@ -5899,6 +6126,7 @@ args: [],
 source: "classTag\x0a\x09\x22Returns a tag or general category for this class.\x0a\x09Typically used to help tools do some reflection.\x0a\x09Helios, for example, uses this to decide what icon the class should display.\x22\x0a\x09\x0a\x09^ 'magnitude'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Point.a$cls);
@@ -5926,6 +6154,7 @@ args: ["aNumber", "anotherNumber"],
 source: "x: aNumber y: anotherNumber\x0a\x09^ self new\x0a\x09\x09x: aNumber;\x0a\x09\x09y: anotherNumber;\x0a\x09\x09yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["x:", "new", "y:", "yourself"]
 }),
 $globals.Point.a$cls);
@@ -5955,6 +6184,7 @@ args: [],
 source: "next\x0a\x09<inlineJS: 'return Math.random()'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Math.random()"]]],
 messageSends: []
 }),
 $globals.Random);
@@ -5986,6 +6216,7 @@ args: ["anInteger"],
 source: "next: anInteger\x0a\x09^ (1 to: anInteger) collect: [ :each | self next ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["collect:", "to:", "next"]
 }),
 $globals.Random);
@@ -6028,6 +6259,7 @@ args: ["aRectangle"],
 source: "= aRectangle\x0a\x09^ origin = aRectangle origin and: [ corner = aRectangle corner ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", "=", "origin", "corner"]
 }),
 $globals.Rectangle);
@@ -6059,6 +6291,7 @@ args: ["aPoint"],
 source: "containsPoint: aPoint\x0a\x09^ origin <= aPoint and: [ corner >= aPoint ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", "<=", ">="]
 }),
 $globals.Rectangle);
@@ -6090,6 +6323,7 @@ args: ["aRect"],
 source: "containsRect: aRect\x0a\x09^ aRect origin >= origin and: [ aRect corner <= corner ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["and:", ">=", "origin", "<=", "corner"]
 }),
 $globals.Rectangle);
@@ -6108,6 +6342,7 @@ args: [],
 source: "corner\x0a\x09^ corner",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Rectangle);
@@ -6126,6 +6361,7 @@ args: [],
 source: "origin\x0a\x09^ origin",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.Rectangle);
@@ -6155,6 +6391,7 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09origin printOn: aStream.\x0a\x09aStream nextPutAll: ' corner: '.\x0a\x09corner printOn: aStream.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["printOn:", "nextPutAll:"]
 }),
 $globals.Rectangle);
@@ -6218,6 +6455,7 @@ args: ["pt1", "pt2"],
 source: "setPoint: pt1 point: pt2\x0a\x0a\x09origin := (pt1 x min: pt2 x)@(pt1 y min: pt2 y).\x0a\x09corner := (pt1 x max: pt2 x)@(pt1 y max: pt2 y).",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["@", "min:", "x", "y", "max:"]
 }),
 $globals.Rectangle);
@@ -6242,6 +6480,7 @@ args: ["anOrigin", "aCorner"],
 source: "origin: anOrigin corner: aCorner\x0a\x09^ self basicNew setPoint: anOrigin point: aCorner.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["setPoint:point:", "basicNew"]
 }),
 $globals.Rectangle.a$cls);
@@ -6265,6 +6504,7 @@ args: ["anOrigin", "anExtent"],
 source: "origin: anOrigin extent: anExtent\x0a\x09^ self basicNew setPoint: anOrigin point: anOrigin + anExtent.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["setPoint:point:", "basicNew", "+"]
 }),
 $globals.Rectangle.a$cls);
@@ -6288,6 +6528,7 @@ args: ["anOrigin", "aCorner"],
 source: "point: anOrigin point: aCorner\x0a\x09^ self basicNew setPoint: anOrigin point: aCorner.",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["setPoint:point:", "basicNew"]
 }),
 $globals.Rectangle.a$cls);
@@ -6316,6 +6557,7 @@ args: ["anObject"],
 source: "== anObject\x0a\x09^ anObject isNil",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["isNil"]
 }),
 $globals.UndefinedObject);
@@ -6334,6 +6576,7 @@ args: [],
 source: "asJavaScriptObject\x0a\x09^ null",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.UndefinedObject);
@@ -6352,6 +6595,7 @@ args: [],
 source: "deepCopy\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.UndefinedObject);
@@ -6370,6 +6614,7 @@ args: [],
 source: "identityHash\x0a\x09^ 'NIL'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.UndefinedObject);
@@ -6395,6 +6640,7 @@ args: ["aBlock"],
 source: "ifNil: aBlock\x0a\x09\x22inlined in the Compiler\x22\x0a\x09^ self ifNil: aBlock ifNotNil: []",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["ifNil:ifNotNil:"]
 }),
 $globals.UndefinedObject);
@@ -6418,6 +6664,7 @@ args: ["aBlock", "anotherBlock"],
 source: "ifNil: aBlock ifNotNil: anotherBlock\x0a\x09\x22inlined in the Compiler\x22\x0a\x09^ aBlock value",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value"]
 }),
 $globals.UndefinedObject);
@@ -6436,6 +6683,7 @@ args: ["aBlock"],
 source: "ifNotNil: aBlock\x0a\x09\x22inlined in the Compiler\x22\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.UndefinedObject);
@@ -6459,6 +6707,7 @@ args: ["aBlock", "anotherBlock"],
 source: "ifNotNil: aBlock ifNil: anotherBlock\x0a\x09\x22inlined in the Compiler\x22\x0a\x09^ anotherBlock value",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["value"]
 }),
 $globals.UndefinedObject);
@@ -6477,6 +6726,7 @@ args: [],
 source: "isImmutable\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.UndefinedObject);
@@ -6495,6 +6745,7 @@ args: [],
 source: "isNil\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.UndefinedObject);
@@ -6513,6 +6764,7 @@ args: [],
 source: "notNil\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.UndefinedObject);
@@ -6537,6 +6789,7 @@ args: ["aStream"],
 source: "printOn: aStream\x0a\x09aStream nextPutAll: 'nil'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["nextPutAll:"]
 }),
 $globals.UndefinedObject);
@@ -6555,6 +6808,7 @@ args: [],
 source: "shallowCopy\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: []
 }),
 $globals.UndefinedObject);
@@ -6579,6 +6833,7 @@ args: [],
 source: "value\x0a\x09<inlineJS: 'return null'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return null"]]],
 messageSends: []
 }),
 $globals.UndefinedObject);
@@ -6604,6 +6859,7 @@ args: [],
 source: "new\x0a\x09\x09self error: 'You cannot create new instances of UndefinedObject. Use nil'",
 referencedClasses: [],
 //>>excludeEnd("ide");
+pragmas: [],
 messageSends: ["error:"]
 }),
 $globals.UndefinedObject.a$cls);
