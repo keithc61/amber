@@ -520,8 +520,9 @@ return $recv(selfarg)._at_(x);
 }, function($ctx2) {$ctx2.fillBlock({selfarg:selfarg,x:x},$ctx1,1)});
 //>>excludeEnd("ctx");
 }))._currySelf())._asCompiledMethod_("foo:");
+$recv(curriedMethod)._protocol_("**test helper");
 array=[(3), (1), (4)];
-$recv($recv($globals.ClassBuilder)._new())._installMethod_forClass_protocol_(curriedMethod,$globals.Array,"**test helper");
+$recv($globals.Array)._addCompiledMethod_(curriedMethod);
 $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -546,10 +547,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testCurrySelf\x0a\x09| curriedMethod array |\x0a\x09curriedMethod := [ :selfarg :x | selfarg at: x ] currySelf asCompiledMethod: 'foo:'.\x0a\x09array := #(3 1 4).\x0a\x09ClassBuilder new installMethod: curriedMethod forClass: Array protocol: '**test helper'.\x0a\x09[ self assert: (array foo: 2) equals: 1 ]\x0a\x09ensure: [ Array removeCompiledMethod: curriedMethod ]",
-referencedClasses: ["ClassBuilder", "Array"],
+source: "testCurrySelf\x0a\x09| curriedMethod array |\x0a\x09curriedMethod := [ :selfarg :x | selfarg at: x ] currySelf asCompiledMethod: 'foo:'.\x0a\x09curriedMethod protocol: '**test helper'.\x0a\x09array := #(3 1 4).\x0a\x09Array addCompiledMethod: curriedMethod.\x0a\x09[ self assert: (array foo: 2) equals: 1 ]\x0a\x09ensure: [ Array removeCompiledMethod: curriedMethod ]",
+referencedClasses: ["Array"],
 //>>excludeEnd("ide");
-messageSends: ["asCompiledMethod:", "currySelf", "at:", "installMethod:forClass:protocol:", "new", "ensure:", "assert:equals:", "foo:", "removeCompiledMethod:"]
+messageSends: ["asCompiledMethod:", "currySelf", "at:", "protocol:", "addCompiledMethod:", "ensure:", "assert:equals:", "foo:", "removeCompiledMethod:"]
 }),
 $globals.BlockClosureTest);
 

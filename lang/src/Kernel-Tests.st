@@ -119,8 +119,9 @@ testCompiledSource
 testCurrySelf
 	| curriedMethod array |
 	curriedMethod := [ :selfarg :x | selfarg at: x ] currySelf asCompiledMethod: 'foo:'.
+	curriedMethod protocol: '**test helper'.
 	array := #(3 1 4).
-	ClassBuilder new installMethod: curriedMethod forClass: Array protocol: '**test helper'.
+	Array addCompiledMethod: curriedMethod.
 	[ self assert: (array foo: 2) equals: 1 ]
 	ensure: [ Array removeCompiledMethod: curriedMethod ]
 !

@@ -559,23 +559,25 @@ selector: "compile:forClass:protocol:",
 protocol: "compiling",
 fn: function (aString,aClass,anotherString){
 var self=this,$self=this;
-var compilationResult;
+var compilationResult,result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 compilationResult=$self._compileSource_forClass_protocol_(aString,aClass,anotherString);
 $recv(compilationResult)._at_put_("fn",$self._eval_forPackage_($recv(compilationResult)._at_("fn"),$self._currentPackage()));
-return compilationResult;
+result=$recv($recv($globals.Smalltalk)._core())._method_(compilationResult);
+$recv(result)._protocol_(anotherString);
+return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"compile:forClass:protocol:",{aString:aString,aClass:aClass,anotherString:anotherString,compilationResult:compilationResult},$globals.Compiler)});
+}, function($ctx1) {$ctx1.fill(self,"compile:forClass:protocol:",{aString:aString,aClass:aClass,anotherString:anotherString,compilationResult:compilationResult,result:result},$globals.Compiler)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aClass", "anotherString"],
-source: "compile: aString forClass: aClass protocol: anotherString\x0a\x09| compilationResult |\x0a\x09compilationResult :=\x0a\x09\x09self compileSource: aString forClass: aClass protocol: anotherString.\x0a\x09compilationResult\x0a\x09\x09at: #fn\x0a\x09\x09put: (self eval: (compilationResult at: #fn) forPackage: self currentPackage).\x0a\x09^ compilationResult",
-referencedClasses: [],
+source: "compile: aString forClass: aClass protocol: anotherString\x0a\x09| compilationResult result |\x0a\x09compilationResult :=\x0a\x09\x09self compileSource: aString forClass: aClass protocol: anotherString.\x0a\x09compilationResult\x0a\x09\x09at: #fn\x0a\x09\x09put: (self eval: (compilationResult at: #fn) forPackage: self currentPackage).\x0a\x09result := Smalltalk core method: compilationResult.\x0a\x09result protocol: anotherString.\x0a\x09^ result",
+referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["compileSource:forClass:protocol:", "at:put:", "eval:forPackage:", "at:", "currentPackage"]
+messageSends: ["compileSource:forClass:protocol:", "at:put:", "eval:forPackage:", "at:", "currentPackage", "method:", "core", "protocol:"]
 }),
 $globals.Compiler);
 
@@ -655,29 +657,6 @@ source: "compileSource: aString forClass: aClass protocol: anotherString\x0a\x09
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["source:", "forClass:protocol:", "compileNode:", "parse:"]
-}),
-$globals.Compiler);
-
-$core.addMethod(
-$core.method({
-selector: "compiledMethodFrom:",
-protocol: "compiling",
-fn: function (aHashedCollection){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($recv($globals.Smalltalk)._core())._method_(aHashedCollection);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"compiledMethodFrom:",{aHashedCollection:aHashedCollection},$globals.Compiler)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aHashedCollection"],
-source: "compiledMethodFrom: aHashedCollection\x0a\x09^ Smalltalk core method: aHashedCollection",
-referencedClasses: ["Smalltalk"],
-//>>excludeEnd("ide");
-messageSends: ["method:", "core"]
 }),
 $globals.Compiler);
 
@@ -843,15 +822,13 @@ var result,method;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
-method=$self._compiledMethodFrom_($self._compileExpression_on_(aString,anObject));
-$1=$recv($globals.ClassBuilder)._new();
-$2=method;
-$3=$recv(anObject)._class();
+var $1;
+method=$self._compileExpression_on_(aString,anObject);
+$1=$recv(anObject)._class();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["class"]=1;
 //>>excludeEnd("ctx");
-$recv($1)._installMethod_forClass_protocol_($2,$3,"**xxxDoIt");
+$recv($1)._addCompiledMethod_(method);
 result=$recv(anObject)._xxxDoIt();
 $recv($recv(anObject)._class())._removeCompiledMethod_(method);
 return result;
@@ -861,10 +838,10 @@ return result;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject"],
-source: "evaluateExpression: aString on: anObject\x0a\x09\x22Unlike #eval: evaluate a Smalltalk expression with anObject as the receiver and answer the returned object\x22\x0a\x09| result method |\x0a\x09method := self compiledMethodFrom: (self compileExpression: aString on: anObject).\x0a\x09ClassBuilder new installMethod: method forClass: anObject class protocol: '**xxxDoIt'.\x0a\x09result := anObject xxxDoIt.\x0a\x09anObject class removeCompiledMethod: method.\x0a\x09^ result",
-referencedClasses: ["ClassBuilder"],
+source: "evaluateExpression: aString on: anObject\x0a\x09\x22Unlike #eval: evaluate a Smalltalk expression with anObject as the receiver and answer the returned object\x22\x0a\x09| result method |\x0a\x09method := self compileExpression: aString on: anObject.\x0a\x09anObject class addCompiledMethod: method.\x0a\x09result := anObject xxxDoIt.\x0a\x09anObject class removeCompiledMethod: method.\x0a\x09^ result",
+referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["compiledMethodFrom:", "compileExpression:on:", "installMethod:forClass:protocol:", "new", "class", "xxxDoIt", "removeCompiledMethod:"]
+messageSends: ["compileExpression:on:", "addCompiledMethod:", "class", "xxxDoIt", "removeCompiledMethod:"]
 }),
 $globals.Compiler);
 
@@ -903,18 +880,19 @@ var compiledMethod;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-compiledMethod=$self._compiledMethodFrom_($self._compile_forClass_protocol_(aString,aBehavior,anotherString));
-return $recv($recv($globals.ClassBuilder)._new())._installMethod_forClass_protocol_(compiledMethod,aBehavior,anotherString);
+compiledMethod=$self._compile_forClass_protocol_(aString,aBehavior,anotherString);
+$recv(aBehavior)._addCompiledMethod_(compiledMethod);
+return compiledMethod;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"install:forClass:protocol:",{aString:aString,aBehavior:aBehavior,anotherString:anotherString,compiledMethod:compiledMethod},$globals.Compiler)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aBehavior", "anotherString"],
-source: "install: aString forClass: aBehavior protocol: anotherString\x0a\x09| compiledMethod |\x0a\x09compiledMethod := self\x0a\x09\x09compiledMethodFrom: (self compile: aString forClass: aBehavior protocol: anotherString).\x0a\x09^ ClassBuilder new\x0a\x09\x09installMethod: compiledMethod\x0a\x09\x09forClass: aBehavior\x0a\x09\x09protocol: anotherString",
-referencedClasses: ["ClassBuilder"],
+source: "install: aString forClass: aBehavior protocol: anotherString\x0a\x09| compiledMethod |\x0a\x09compiledMethod := self compile: aString forClass: aBehavior protocol: anotherString.\x0a\x09aBehavior addCompiledMethod: compiledMethod.\x0a\x09^ compiledMethod",
+referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["compiledMethodFrom:", "compile:forClass:protocol:", "installMethod:forClass:protocol:", "new"]
+messageSends: ["compile:forClass:protocol:", "addCompiledMethod:"]
 }),
 $globals.Compiler);
 

@@ -266,10 +266,11 @@ protocol: aString
 	oldProtocol := self protocol.
 	protocol := aString.
 
-	SystemAnnouncer current announce: (MethodMoved new
-		method: self;
-		oldProtocol: oldProtocol;
-		yourself).
+	oldProtocol ifNotNil: [
+		SystemAnnouncer current announce: (MethodMoved new
+			method: self;
+			oldProtocol: oldProtocol;
+			yourself) ].
 
 	self methodClass ifNotNil: [ :methodClass |
 		methodClass organization addElement: aString.

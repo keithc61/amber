@@ -1660,31 +1660,6 @@ $globals.ClassBuilder);
 
 $core.addMethod(
 $core.method({
-selector: "installMethod:forClass:protocol:",
-protocol: "method definition",
-fn: function (aCompiledMethod,aBehavior,aString){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv(aCompiledMethod)._protocol_(aString);
-$recv(aBehavior)._addCompiledMethod_(aCompiledMethod);
-return aCompiledMethod;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"installMethod:forClass:protocol:",{aCompiledMethod:aCompiledMethod,aBehavior:aBehavior,aString:aString},$globals.ClassBuilder)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aCompiledMethod", "aBehavior", "aString"],
-source: "installMethod: aCompiledMethod forClass: aBehavior protocol: aString\x0a\x09aCompiledMethod protocol: aString.\x0a\x09aBehavior addCompiledMethod: aCompiledMethod.\x0a\x09^ aCompiledMethod",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["protocol:", "addCompiledMethod:"]
-}),
-$globals.ClassBuilder);
-
-$core.addMethod(
-$core.method({
 selector: "migrateClass:superclass:",
 protocol: "class migration",
 fn: function (aClass,anotherClass){

@@ -1064,18 +1064,23 @@ var oldProtocol;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2,$4,$receiver;
+var $1,$2,$4,$3,$5,$receiver;
 oldProtocol=$self._protocol();
 $self.protocol=aString;
-$1=$recv($globals.SystemAnnouncer)._current();
-$3=$recv($globals.MethodMoved)._new();
-$recv($3)._method_(self);
-$recv($3)._oldProtocol_(oldProtocol);
-$2=$recv($3)._yourself();
-$recv($1)._announce_($2);
-$4=$self._methodClass();
-if(($receiver = $4) == null || $receiver.a$nil){
-$4;
+$1=oldProtocol;
+if(($receiver = $1) == null || $receiver.a$nil){
+$1;
+} else {
+$2=$recv($globals.SystemAnnouncer)._current();
+$4=$recv($globals.MethodMoved)._new();
+$recv($4)._method_(self);
+$recv($4)._oldProtocol_(oldProtocol);
+$3=$recv($4)._yourself();
+$recv($2)._announce_($3);
+}
+$5=$self._methodClass();
+if(($receiver = $5) == null || $receiver.a$nil){
+$5;
 } else {
 var methodClass;
 methodClass=$receiver;
@@ -1089,10 +1094,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "protocol: aString\x0a\x09| oldProtocol |\x0a\x09oldProtocol := self protocol.\x0a\x09protocol := aString.\x0a\x0a\x09SystemAnnouncer current announce: (MethodMoved new\x0a\x09\x09method: self;\x0a\x09\x09oldProtocol: oldProtocol;\x0a\x09\x09yourself).\x0a\x0a\x09self methodClass ifNotNil: [ :methodClass |\x0a\x09\x09methodClass organization addElement: aString.\x0a\x09\x09methodClass removeProtocolIfEmpty: oldProtocol ]",
+source: "protocol: aString\x0a\x09| oldProtocol |\x0a\x09oldProtocol := self protocol.\x0a\x09protocol := aString.\x0a\x0a\x09oldProtocol ifNotNil: [\x0a\x09\x09SystemAnnouncer current announce: (MethodMoved new\x0a\x09\x09\x09method: self;\x0a\x09\x09\x09oldProtocol: oldProtocol;\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09self methodClass ifNotNil: [ :methodClass |\x0a\x09\x09methodClass organization addElement: aString.\x0a\x09\x09methodClass removeProtocolIfEmpty: oldProtocol ]",
 referencedClasses: ["SystemAnnouncer", "MethodMoved"],
 //>>excludeEnd("ide");
-messageSends: ["protocol", "announce:", "current", "method:", "new", "oldProtocol:", "yourself", "ifNotNil:", "methodClass", "addElement:", "organization", "removeProtocolIfEmpty:"]
+messageSends: ["protocol", "ifNotNil:", "announce:", "current", "method:", "new", "oldProtocol:", "yourself", "methodClass", "addElement:", "organization", "removeProtocolIfEmpty:"]
 }),
 $globals.CompiledMethod);
 

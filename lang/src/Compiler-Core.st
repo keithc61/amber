@@ -168,13 +168,15 @@ ast: aString forClass: aClass protocol: anotherString
 !
 
 compile: aString forClass: aClass protocol: anotherString
-	| compilationResult |
+	| compilationResult result |
 	compilationResult :=
 		self compileSource: aString forClass: aClass protocol: anotherString.
 	compilationResult
 		at: #fn
 		put: (self eval: (compilationResult at: #fn) forPackage: self currentPackage).
-	^ compilationResult
+	result := Smalltalk core method: compilationResult.
+	result protocol: anotherString.
+	^ result
 !
 
 compileExpression: aString on: anObject
@@ -198,10 +200,6 @@ compileSource: aString forClass: aClass protocol: anotherString
 		compileNode: (self parse: aString)
 !
 
-compiledMethodFrom: aHashedCollection
-	^ Smalltalk core method: aHashedCollection
-!
-
 eval: aString
 	<inlineJS: 'return eval(aString)'>
 !
@@ -220,8 +218,8 @@ evaluateExpression: aString
 evaluateExpression: aString on: anObject
 	"Unlike #eval: evaluate a Smalltalk expression with anObject as the receiver and answer the returned object"
 	| result method |
-	method := self compiledMethodFrom: (self compileExpression: aString on: anObject).
-	ClassBuilder new installMethod: method forClass: anObject class protocol: '**xxxDoIt'.
+	method := self compileExpression: aString on: anObject.
+	anObject class addCompiledMethod: method.
 	result := anObject xxxDoIt.
 	anObject class removeCompiledMethod: method.
 	^ result
@@ -235,12 +233,9 @@ forClass: aClass protocol: anotherString
 
 install: aString forClass: aBehavior protocol: anotherString
 	| compiledMethod |
-	compiledMethod := self
-		compiledMethodFrom: (self compile: aString forClass: aBehavior protocol: anotherString).
-	^ ClassBuilder new
-		installMethod: compiledMethod
-		forClass: aBehavior
-		protocol: anotherString
+	compiledMethod := self compile: aString forClass: aBehavior protocol: anotherString.
+	aBehavior addCompiledMethod: compiledMethod.
+	^ compiledMethod
 !
 
 parse: aString

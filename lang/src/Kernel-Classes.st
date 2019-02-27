@@ -465,14 +465,6 @@ copyClass: aClass to: anotherClass
 	anotherClass class setTraitComposition: aClass class traitComposition
 ! !
 
-!ClassBuilder methodsFor: 'method definition'!
-
-installMethod: aCompiledMethod forClass: aBehavior protocol: aString
-	aCompiledMethod protocol: aString.
-	aBehavior addCompiledMethod: aCompiledMethod.
-	^ aCompiledMethod
-! !
-
 !ClassBuilder methodsFor: 'private'!
 
 basicAddSubclassOf: aClass named: aString instanceVariableNames: aCollection package: packageName
