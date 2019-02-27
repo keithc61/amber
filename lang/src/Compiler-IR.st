@@ -183,6 +183,7 @@ visitMethodNode: aNode
 
 	self method: (IRMethod new
 		source: self source crlfSanitized;
+		pragmas: aNode pragmas;
 		theClass: self theClass;
 		arguments: aNode arguments;
 		selector: aNode selector;
@@ -476,7 +477,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRClosureInstruction subclass: #IRMethod
-	slots: {#theClass. #source. #selector. #classReferences. #sendIndexes. #requiresSmalltalkContext. #internalVariables}
+	slots: {#theClass. #source. #selector. #pragmas. #classReferences. #sendIndexes. #requiresSmalltalkContext. #internalVariables}
 	package: 'Compiler-IR'!
 !IRMethod commentStamp!
 I am a method instruction!
@@ -501,6 +502,14 @@ messageSends
 
 method
 	^ self
+!
+
+pragmas
+	^ pragmas
+!
+
+pragmas: aCollection
+	pragmas := aCollection
 !
 
 selector
@@ -900,6 +909,7 @@ buildMethodDeclaration: aMethod with: aBlock
 	^ #{
 		#selector -> aMethod selector.
 		#source -> aMethod source.
+		#pragmas -> aMethod pragmas.
 		#fn -> [ aBlock value. self contents ] value.
 		#messageSends -> aMethod messageSends asArray.
 		#args -> (aMethod arguments collect: [ :each | each value ]) asArray.

@@ -730,6 +730,7 @@ $recv($2)._source_($recv($self._source())._crlfSanitized());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["source:"]=1;
 //>>excludeEnd("ctx");
+$recv($2)._pragmas_($recv(aNode)._pragmas());
 $recv($2)._theClass_($self._theClass());
 $recv($2)._arguments_($recv(aNode)._arguments());
 $recv($2)._selector_($recv(aNode)._selector());
@@ -854,10 +855,10 @@ return $self._method();
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitMethodNode: aNode\x0a\x0a\x09self method: (IRMethod new\x0a\x09\x09source: self source crlfSanitized;\x0a\x09\x09theClass: self theClass;\x0a\x09\x09arguments: aNode arguments;\x0a\x09\x09selector: aNode selector;\x0a\x09\x09sendIndexes: aNode sendIndexes;\x0a\x09\x09requiresSmalltalkContext: aNode requiresSmalltalkContext;\x0a\x09\x09classReferences: aNode classReferences;\x0a\x09\x09scope: aNode scope;\x0a\x09\x09yourself).\x0a\x0a\x09aNode scope temps do: [ :each |\x0a\x09\x09self method add: (IRTempDeclaration new\x0a\x09\x09\x09name: each name;\x0a\x09\x09\x09scope: aNode scope;\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09aNode dagChildren do: [ :each | self method add: (self visit: each) ].\x0a\x0a\x09aNode scope hasLocalReturn ifFalse: [self method\x0a\x09\x09add: (IRReturn new\x0a\x09\x09\x09add: (IRVariable new\x0a\x09\x09\x09\x09variable: (aNode scope pseudoVars at: 'self');\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself);\x0a\x09\x09add: (IRVerbatim new source: ';', String lf; yourself) ].\x0a\x0a\x09^ self method",
+source: "visitMethodNode: aNode\x0a\x0a\x09self method: (IRMethod new\x0a\x09\x09source: self source crlfSanitized;\x0a\x09\x09pragmas: aNode pragmas;\x0a\x09\x09theClass: self theClass;\x0a\x09\x09arguments: aNode arguments;\x0a\x09\x09selector: aNode selector;\x0a\x09\x09sendIndexes: aNode sendIndexes;\x0a\x09\x09requiresSmalltalkContext: aNode requiresSmalltalkContext;\x0a\x09\x09classReferences: aNode classReferences;\x0a\x09\x09scope: aNode scope;\x0a\x09\x09yourself).\x0a\x0a\x09aNode scope temps do: [ :each |\x0a\x09\x09self method add: (IRTempDeclaration new\x0a\x09\x09\x09name: each name;\x0a\x09\x09\x09scope: aNode scope;\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09aNode dagChildren do: [ :each | self method add: (self visit: each) ].\x0a\x0a\x09aNode scope hasLocalReturn ifFalse: [self method\x0a\x09\x09add: (IRReturn new\x0a\x09\x09\x09add: (IRVariable new\x0a\x09\x09\x09\x09variable: (aNode scope pseudoVars at: 'self');\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself);\x0a\x09\x09add: (IRVerbatim new source: ';', String lf; yourself) ].\x0a\x0a\x09^ self method",
 referencedClasses: ["IRMethod", "IRTempDeclaration", "IRReturn", "IRVariable", "IRVerbatim", "String"],
 //>>excludeEnd("ide");
-messageSends: ["method:", "source:", "new", "crlfSanitized", "source", "theClass:", "theClass", "arguments:", "arguments", "selector:", "selector", "sendIndexes:", "sendIndexes", "requiresSmalltalkContext:", "requiresSmalltalkContext", "classReferences:", "classReferences", "scope:", "scope", "yourself", "do:", "temps", "add:", "method", "name:", "name", "dagChildren", "visit:", "ifFalse:", "hasLocalReturn", "variable:", "at:", "pseudoVars", ",", "lf"]
+messageSends: ["method:", "source:", "new", "crlfSanitized", "source", "pragmas:", "pragmas", "theClass:", "theClass", "arguments:", "arguments", "selector:", "selector", "sendIndexes:", "sendIndexes", "requiresSmalltalkContext:", "requiresSmalltalkContext", "classReferences:", "classReferences", "scope:", "scope", "yourself", "do:", "temps", "add:", "method", "name:", "name", "dagChildren", "visit:", "ifFalse:", "hasLocalReturn", "variable:", "at:", "pseudoVars", ",", "lf"]
 }),
 $globals.IRASTTranslator);
 
@@ -1946,7 +1947,7 @@ $globals.IRClosure);
 
 
 
-$core.addClass("IRMethod", $globals.IRClosureInstruction, ["theClass", "source", "selector", "classReferences", "sendIndexes", "requiresSmalltalkContext", "internalVariables"], "Compiler-IR");
+$core.addClass("IRMethod", $globals.IRClosureInstruction, ["theClass", "source", "selector", "pragmas", "classReferences", "sendIndexes", "requiresSmalltalkContext", "internalVariables"], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRMethod.comment="I am a method instruction";
 //>>excludeEnd("ide");
@@ -2093,6 +2094,43 @@ return self;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "method\x0a\x09^ self",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.IRMethod);
+
+$core.addMethod(
+$core.method({
+selector: "pragmas",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $self.pragmas;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "pragmas\x0a\x09^ pragmas",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.IRMethod);
+
+$core.addMethod(
+$core.method({
+selector: "pragmas:",
+protocol: "accessing",
+fn: function (aCollection){
+var self=this,$self=this;
+$self.pragmas=aCollection;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aCollection"],
+source: "pragmas: aCollection\x0a\x09pragmas := aCollection",
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: []
@@ -3474,10 +3512,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5;
+var $1,$2,$3,$4,$5,$6;
 $1=$recv(aMethod)._selector();
 $2=$recv(aMethod)._source();
-$3=$recv((function(){
+$3=$recv(aMethod)._pragmas();
+$4=$recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -3493,11 +3532,11 @@ return $self._contents();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["value"]=1;
 //>>excludeEnd("ctx");
-$4=$recv($recv(aMethod)._messageSends())._asArray();
+$5=$recv($recv(aMethod)._messageSends())._asArray();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["asArray"]=1;
 //>>excludeEnd("ctx");
-$5=$recv($recv($recv(aMethod)._arguments())._collect_((function(each){
+$6=$recv($recv($recv(aMethod)._arguments())._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -3509,17 +3548,17 @@ return $recv(each)._value();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["asArray"]=2;
 //>>excludeEnd("ctx");
-return $globals.HashedCollection._newFromPairs_(["selector",$1,"source",$2,"fn",$3,"messageSends",$4,"args",$5,"referencedClasses",$recv($recv(aMethod)._classReferences())._asArray()]);
+return $globals.HashedCollection._newFromPairs_(["selector",$1,"source",$2,"pragmas",$3,"fn",$4,"messageSends",$5,"args",$6,"referencedClasses",$recv($recv(aMethod)._classReferences())._asArray()]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"buildMethodDeclaration:with:",{aMethod:aMethod,aBlock:aBlock},$globals.IRJSTranslator)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aMethod", "aBlock"],
-source: "buildMethodDeclaration: aMethod with: aBlock\x0a\x09^ #{\x0a\x09\x09#selector -> aMethod selector.\x0a\x09\x09#source -> aMethod source.\x0a\x09\x09#fn -> [ aBlock value. self contents ] value.\x0a\x09\x09#messageSends -> aMethod messageSends asArray.\x0a\x09\x09#args -> (aMethod arguments collect: [ :each | each value ]) asArray.\x0a\x09\x09#referencedClasses -> aMethod classReferences asArray.\x0a\x09}",
+source: "buildMethodDeclaration: aMethod with: aBlock\x0a\x09^ #{\x0a\x09\x09#selector -> aMethod selector.\x0a\x09\x09#source -> aMethod source.\x0a\x09\x09#pragmas -> aMethod pragmas.\x0a\x09\x09#fn -> [ aBlock value. self contents ] value.\x0a\x09\x09#messageSends -> aMethod messageSends asArray.\x0a\x09\x09#args -> (aMethod arguments collect: [ :each | each value ]) asArray.\x0a\x09\x09#referencedClasses -> aMethod classReferences asArray.\x0a\x09}",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["selector", "source", "value", "contents", "asArray", "messageSends", "collect:", "arguments", "classReferences"]
+messageSends: ["selector", "source", "pragmas", "value", "contents", "asArray", "messageSends", "collect:", "arguments", "classReferences"]
 }),
 $globals.IRJSTranslator);
 
