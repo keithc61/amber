@@ -229,6 +229,10 @@ arguments
 	^ args ifNil: [ #() ]
 !
 
+basicPragmas
+	^ pragmas ifNil: [ #() ]
+!
+
 category
 	^ self protocol
 !
@@ -258,11 +262,11 @@ package
 !
 
 pragmas
-	^ pragmas ifNil: [ #() ]
+	^ self basicPragmas collect: [ :each | Message selector: each first arguments: each second ]
 !
 
-pragmas: anArray
-	pragmas := anArray
+pragmas: anArrayOfMessages
+	pragmas := anArrayOfMessages collect: [ :each | { each selector. each arguments } ]
 !
 
 protocol

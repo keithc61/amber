@@ -791,6 +791,36 @@ $globals.CompiledMethod);
 
 $core.addMethod(
 $core.method({
+selector: "basicPragmas",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$receiver;
+$1=$self.pragmas;
+if(($receiver = $1) == null || $receiver.a$nil){
+return [];
+} else {
+return $1;
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"basicPragmas",{},$globals.CompiledMethod)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "basicPragmas\x0a\x09^ pragmas ifNil: [ #() ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNil:"]
+}),
+$globals.CompiledMethod);
+
+$core.addMethod(
+$core.method({
 selector: "browse",
 protocol: "browsing",
 fn: function (){
@@ -1075,24 +1105,26 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
-$1=$self.pragmas;
-if(($receiver = $1) == null || $receiver.a$nil){
-return [];
-} else {
-return $1;
-}
+return $recv($self._basicPragmas())._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($globals.Message)._selector_arguments_($recv(each)._first(),$recv(each)._second());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"pragmas",{},$globals.CompiledMethod)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "pragmas\x0a\x09^ pragmas ifNil: [ #() ]",
-referencedClasses: [],
+source: "pragmas\x0a\x09^ self basicPragmas collect: [ :each | Message selector: each first arguments: each second ]",
+referencedClasses: ["Message"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNil:"]
+messageSends: ["collect:", "basicPragmas", "selector:arguments:", "first", "second"]
 }),
 $globals.CompiledMethod);
 
@@ -1100,19 +1132,32 @@ $core.addMethod(
 $core.method({
 selector: "pragmas:",
 protocol: "accessing",
-fn: function (anArray){
+fn: function (anArrayOfMessages){
 var self=this,$self=this;
-$self.pragmas=anArray;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.pragmas=$recv(anArrayOfMessages)._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return [$recv(each)._selector(),$recv(each)._arguments()];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
 return self;
-
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"pragmas:",{anArrayOfMessages:anArrayOfMessages},$globals.CompiledMethod)});
+//>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anArray"],
-source: "pragmas: anArray\x0a\x09pragmas := anArray",
+args: ["anArrayOfMessages"],
+source: "pragmas: anArrayOfMessages\x0a\x09pragmas := anArrayOfMessages collect: [ :each | { each selector. each arguments } ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: []
+messageSends: ["collect:", "selector", "arguments"]
 }),
 $globals.CompiledMethod);
 

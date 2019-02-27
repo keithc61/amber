@@ -580,45 +580,40 @@ selector: "compile:forClass:protocol:",
 protocol: "compiling",
 fn: function (aString,aClass,anotherString){
 var self=this,$self=this;
-var compilationResult,result;
+var compilationResult,result,pragmas,closure;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2;
+var $1,$2;
 compilationResult=$self._compileSource_forClass_protocol_(aString,aClass,anotherString);
-$1=compilationResult;
-$3=$recv(compilationResult)._at_("fn");
+pragmas=$recv(compilationResult)._at_("pragmas");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["at:"]=1;
 //>>excludeEnd("ctx");
-$2=$self._eval_forPackage_($3,$self._currentPackage());
-$recv($1)._at_put_("fn",$2);
+closure=$self._eval_forPackage_($recv(compilationResult)._at_("fn"),$self._currentPackage());
+$1=compilationResult;
+$recv($1)._removeKey_("fn");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:put:"]=1;
+$ctx1.sendIdx["removeKey:"]=1;
 //>>excludeEnd("ctx");
-$recv($1)._at_put_("pragmas",$recv($recv(compilationResult)._at_("pragmas"))._collect_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return [$recv(each)._selector(),$recv(each)._arguments()];
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-})));
+$recv($1)._removeKey_("pragmas");
 result=$recv($recv($globals.Smalltalk)._core())._method_(compilationResult);
-$recv(result)._protocol_(anotherString);
+$2=result;
+$recv($2)._protocol_(anotherString);
+$recv($2)._pragmas_(pragmas);
+$recv($2)._fn_(closure);
 return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"compile:forClass:protocol:",{aString:aString,aClass:aClass,anotherString:anotherString,compilationResult:compilationResult,result:result},$globals.Compiler)});
+}, function($ctx1) {$ctx1.fill(self,"compile:forClass:protocol:",{aString:aString,aClass:aClass,anotherString:anotherString,compilationResult:compilationResult,result:result,pragmas:pragmas,closure:closure},$globals.Compiler)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aClass", "anotherString"],
-source: "compile: aString forClass: aClass protocol: anotherString\x0a\x09| compilationResult result |\x0a\x09compilationResult :=\x0a\x09\x09self compileSource: aString forClass: aClass protocol: anotherString.\x0a\x09compilationResult\x0a\x09\x09at: #fn\x0a\x09\x09put: (self eval: (compilationResult at: #fn) forPackage: self currentPackage);\x0a\x09\x09at: #pragmas\x0a\x09\x09put: ((compilationResult at: #pragmas) collect: [ :each | { each selector. each arguments } ]).\x0a\x09result := Smalltalk core method: compilationResult.\x0a\x09result protocol: anotherString.\x0a\x09^ result",
+source: "compile: aString forClass: aClass protocol: anotherString\x0a\x09| compilationResult result pragmas closure |\x0a\x09compilationResult :=\x0a\x09\x09self compileSource: aString forClass: aClass protocol: anotherString.\x0a\x09pragmas := compilationResult at: #pragmas.\x0a\x09closure := self eval: (compilationResult at: #fn) forPackage: self currentPackage.\x0a\x09compilationResult removeKey: #fn; removeKey: #pragmas.\x0a\x09result := Smalltalk core method: compilationResult.\x0a\x09result protocol: anotherString; pragmas: pragmas; fn: closure.\x0a\x09^ result",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["compileSource:forClass:protocol:", "at:put:", "eval:forPackage:", "at:", "currentPackage", "collect:", "selector", "arguments", "method:", "core", "protocol:"]
+messageSends: ["compileSource:forClass:protocol:", "at:", "eval:forPackage:", "currentPackage", "removeKey:", "method:", "core", "protocol:", "pragmas:", "fn:"]
 }),
 $globals.Compiler);
 

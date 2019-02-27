@@ -168,16 +168,14 @@ ast: aString forClass: aClass protocol: anotherString
 !
 
 compile: aString forClass: aClass protocol: anotherString
-	| compilationResult result |
+	| compilationResult result pragmas closure |
 	compilationResult :=
 		self compileSource: aString forClass: aClass protocol: anotherString.
-	compilationResult
-		at: #fn
-		put: (self eval: (compilationResult at: #fn) forPackage: self currentPackage);
-		at: #pragmas
-		put: ((compilationResult at: #pragmas) collect: [ :each | { each selector. each arguments } ]).
+	pragmas := compilationResult at: #pragmas.
+	closure := self eval: (compilationResult at: #fn) forPackage: self currentPackage.
+	compilationResult removeKey: #fn; removeKey: #pragmas.
 	result := Smalltalk core method: compilationResult.
-	result protocol: anotherString.
+	result protocol: anotherString; pragmas: pragmas; fn: closure.
 	^ result
 !
 
