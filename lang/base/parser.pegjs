@@ -1,5 +1,9 @@
 {
-   var $globals = $boot.globals;
+	var $globals = $boot.globals;
+
+	function newNode(nodeClass) {
+		return nodeClass._new()._location_(location())._source_(text());
+	}
 }
 
 start = method
@@ -22,35 +26,23 @@ keyword = $(identifier ':')
 className = $([A-Z] [a-zA-Z0-9]*)
 
 string = val:rawString {
-	return $globals.ValueNode._new()
-		._location_(location())
-		._source_(text())
-		._value_(val);
+	return newNode($globals.ValueNode)._value_(val);
 }
 
 rawString = '\'' val:(('\'\'' {return '\'';} / [^'])*) '\'' {return val.join('');}
 
 character = '$' char:. {
-	return $globals.ValueNode._new()
-		._location_(location())
-		._source_(text())
-		._value_(char);
+	return newNode($globals.ValueNode)._value_(char);
 }
 
 symbol = '#' rest:bareSymbol {return rest;}
 
 bareSymbol = val:($(keyword+) / binarySelector / unarySelector / rawString) {
-	return $globals.ValueNode._new()
-		._location_(location())
-		._source_(text())
-		._value_(val);
+	return newNode($globals.ValueNode)._value_(val);
 }
 
 number = val:rawNumber {
-	return $globals.ValueNode._new()
-		._location_(location())
-		._source_(text())
-		._value_(val);
+	return newNode($globals.ValueNode)._value_(val);
 }
 
 rawNumber = numberExp / hex / float / integer
@@ -66,37 +58,23 @@ float = n:$('-'? [0-9]+ '.' [0-9]+) {return parseFloat(n, 10);}
 integer = n:$('-'? [0-9]+) {return parseInt(n, 10);}
 
 literalArray = '#(' rest:wsLiteralArrayContents ws ')' {
-	return rest
-		._location_(location())
-		._source_(text());
+	return newNode($globals.ValueNode)._value_(rest);
 }
 
 bareLiteralArray = '(' rest:wsLiteralArrayContents ws ')' {
-	return rest
-		._location_(location())
-		._source_(text());
+	return newNode($globals.ValueNode)._value_(rest);
 }
 
 literalArrayElement = parseTimeLiteral / bareLiteralArray / bareSymbol
 
-wsLiteralArrayContents =
-	lits:(ws lit:literalArrayElement {return lit._value();})* {
-		return $globals.ValueNode._new()
-			._value_(lits);
-	}
+wsLiteralArrayContents = (ws lit:literalArrayElement {return lit._value();})*
 
 dynamicArray = '{' expressions:wsExpressions? maybeDotsWs '}' {
-	return $globals.DynamicArrayNode._new()
-		._location_(location())
-		._source_(text())
-		._dagChildren_(expressions || []);
+	return newNode($globals.DynamicArrayNode)._dagChildren_(expressions || []);
 }
 
 dynamicDictionary = '#{' expressions:wsAssociations? maybeDotsWs  '}' {
-	return $globals.DynamicDictionaryNode._new()
-		._location_(location())
-		._source_(text())
-		._dagChildren_(expressions || []);
+	return newNode($globals.DynamicDictionaryNode)._dagChildren_(expressions || []);
 }
 
 pseudoVariable = val:(
@@ -104,10 +82,7 @@ pseudoVariable = val:(
 	'false' {return false;} /
 	'nil' {return null;}
 ) {
-	return $globals.ValueNode._new()
-		._location_(location())
-		._source_(text())
-		._value_(val);
+	return newNode($globals.ValueNode)._value_(val);
 }
 
 parseTimeLiteral =
@@ -118,10 +93,7 @@ runtimeLiteral = dynamicDictionary / dynamicArray / block
 literal = runtimeLiteral / parseTimeLiteral
 
 variable = identifier:identifier {
-	return $globals.VariableNode._new()
-		._location_(location())
-		._source_(text())
-		._value_(identifier);
+	return newNode($globals.VariableNode)._value_(identifier);
 }
 
 reference = variable
@@ -177,18 +149,11 @@ wsPragmaMessage = wsUnaryPragmaMessage / wsKeywordPragmaMessage
 wsPragmas = items:(ws '<' message:wsPragmaMessage ws '>' {return message;})*
 
 assignment = variable:variable ws ':=' ws expression:expression {
-	return $globals.AssignmentNode._new()
-		._location_(location())
-		._source_(text())
-		._left_(variable)
-		._right_(expression);
+	return newNode($globals.AssignmentNode)._left_(variable)._right_(expression);
 }
 
 ret = '^' ws expression:expression {
-	return $globals.ReturnNode._new()
-		._location_(location())
-		._source_(text())
-		._dagChildren_([expression]);
+	return newNode($globals.ReturnNode)._dagChildren_([expression]);
 }
   
 temps = '|' vars:(ws variable:identifier {return variable;})* ws '|' {
@@ -214,37 +179,26 @@ wsStatements =
 	expressions:wsExpressions? {return expressions || [];}
 
 wsSequenceWs = aPragmas:wsPragmas? ws temps:temps? zPragmas:wsPragmas? statements:wsStatements? maybeDotsWs {
-	return $globals.SequenceNode._new()
-		._location_(location())
-		._source_(text())
+	return newNode($globals.SequenceNode)
 		._temps_(temps || [])
 		._pragmas_((aPragmas || []).concat(zPragmas || []))
 		._dagChildren_(statements || []);
 }
 
 wsBlockSequenceWs = ws temps:temps? statements:wsStatements? maybeDotsWs {
-	return $globals.BlockSequenceNode._new()
-		._location_(location())
-		._source_(text())
+	return newNode($globals.BlockSequenceNode)
 		._temps_(temps || [])
 		._dagChildren_(statements || []);
 }
 
 block = '[' params:wsBlockParamList? sequence:wsBlockSequenceWs ']' {
-	return $globals.BlockNode._new()
-		._location_(location())
-		._source_(text())
-		._parameters_(params || [])
-		._dagChildren_([sequence]);
+	return newNode($globals.BlockNode)._parameters_(params || [])._dagChildren_([sequence]);
 }
 
 operand = literal / reference / subexpression
 
 wsUnaryMessage = ws selector:unarySelector !':' {
-	return $globals.SendNode._new()
-		._location_(location())
-		._source_(text())
-		._selector_(selector);
+	return newNode($globals.SendNode)._selector_(selector);
 }
 
 wsUnaryTail = wsUnaryMessage*
@@ -254,11 +208,7 @@ unarySend = receiver:operand tail:wsUnaryTail {
 }
 
 wsBinaryMessage = ws selector:binarySelector ws arg:unarySend {
-	return $globals.SendNode._new()
-		._location_(location())
-		._source_(text())
-		._selector_(selector)
-		._arguments_([arg]);
+	return newNode($globals.SendNode)._selector_(selector)._arguments_([arg]);
 }
 
 wsBinaryTail = unarys:wsUnaryTail binarys:wsBinaryMessage* { return unarys.concat(binarys); }
@@ -275,11 +225,7 @@ wsKeywordMessage =
 			selector += pairs[i].key;
 			args.push(pairs[i].arg);
 		}
-		return $globals.SendNode._new()
-			._location_(location())
-			._source_(text())
-			._selector_(selector)
-			._arguments_(args);
+		return newNode($globals.SendNode)._selector_(selector)._arguments_(args);
 	}
 
 wsKeywordTail = binarys:wsBinaryTail final:wsKeywordMessage? {
@@ -297,18 +243,13 @@ cascade =
 	receiver:operand tail:wsKeywordTail & {return tail.length > 0;}
 	messages:(ws ';' mess:wsMessage {return mess;})+ {
 		messages.unshift(receiver._withTail_(tail));
-		return $globals.CascadeNode._new()
-			._location_(location())
-			._source_(text())
-			._dagChildren_(messages);
+		return newNode($globals.CascadeNode)._dagChildren_(messages);
 	}
 
 method =
 	pattern:(wsKeywordPattern / wsBinaryPattern / wsUnaryPattern)
 	sequence:wsSequenceWs {
-		return $globals.MethodNode._new()
-			._location_(location())
-			._source_(text())
+		return newNode($globals.MethodNode)
 			._selector_(pattern[0])
 			._arguments_(pattern[1])
 			._dagChildren_([sequence]);
