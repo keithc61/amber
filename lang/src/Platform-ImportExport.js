@@ -1238,7 +1238,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1,$4,$3,$6,$5,$8,$7,$10,$9,$12,$11;
+var $2,$1,$4,$3,$6,$5,$8,$7,$10,$9,$12,$11,$14,$13;
 $recv(aStream)._write_("$core.addMethod(");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["write:"]=1;
@@ -1344,11 +1344,11 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=10;
 //>>excludeEnd("ctx");
-$12=$recv($recv(aMethod)._messageSends())._asJavaScriptSource();
+$12=$recv($recv(aMethod)._pragmas())._asJavaScriptSource();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["asJavaScriptSource"]=6;
 //>>excludeEnd("ctx");
-$11=["messageSends: ",$12];
+$11=["pragmas: ",$12,","];
 $recv(aStream)._write_($11);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["write:"]=11;
@@ -1357,7 +1357,12 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=11;
 //>>excludeEnd("ctx");
-$recv(aStream)._write_("}),");
+$14=$recv($recv(aMethod)._messageSends())._asJavaScriptSource();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["asJavaScriptSource"]=7;
+//>>excludeEnd("ctx");
+$13=["messageSends: ",$14];
+$recv(aStream)._write_($13);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["write:"]=12;
 //>>excludeEnd("ctx");
@@ -1365,10 +1370,18 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=12;
 //>>excludeEnd("ctx");
-$recv(aStream)._write_([$recv($recv(aMethod)._methodClass())._asJavaScriptSource(),");"]);
+$recv(aStream)._write_("}),");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["write:"]=13;
+//>>excludeEnd("ctx");
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=13;
+//>>excludeEnd("ctx");
+$recv(aStream)._write_([$recv($recv(aMethod)._methodClass())._asJavaScriptSource(),");"]);
+$recv(aStream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["lf"]=14;
 //>>excludeEnd("ctx");
 $recv(aStream)._lf();
 return self;
@@ -1378,10 +1391,11 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aMethod", "aStream"],
-source: "exportMethod: aMethod on: aStream\x0a\x09aStream\x0a\x09\x09write: '$core.addMethod('; lf;\x0a\x09\x09write: '$core.method({'; lf;\x0a\x09\x09write: { 'selector: '. aMethod selector asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'protocol: '. aMethod protocol asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'fn: '. aMethod fn compiledSource. ',' }; lf;\x0a\x09\x09write: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);'; lf;\x0a\x09\x09write: { 'args: '. aMethod arguments asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'source: '. aMethod source asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'referencedClasses: '. aMethod referencedClasses asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: '//>>excludeEnd(\x22ide\x22);'; lf;\x0a\x09\x09write: { 'messageSends: '. aMethod messageSends asJavaScriptSource }; lf;\x0a\x09\x09write: '}),'; lf;\x0a\x09\x09write: { aMethod methodClass asJavaScriptSource. ');' }; lf; lf",
+source: "exportMethod: aMethod on: aStream\x0a\x09aStream\x0a\x09\x09write: '$core.addMethod('; lf;\x0a\x09\x09write: '$core.method({'; lf;\x0a\x09\x09write: { 'selector: '. aMethod selector asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'protocol: '. aMethod protocol asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'fn: '. aMethod fn compiledSource. ',' }; lf;\x0a\x09\x09write: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);'; lf;\x0a\x09\x09write: { 'args: '. aMethod arguments asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'source: '. aMethod source asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'referencedClasses: '. aMethod referencedClasses asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: '//>>excludeEnd(\x22ide\x22);'; lf;\x0a\x09\x09write: { 'pragmas: '. aMethod pragmas asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'messageSends: '. aMethod messageSends asJavaScriptSource }; lf;\x0a\x09\x09write: '}),'; lf;\x0a\x09\x09write: { aMethod methodClass asJavaScriptSource. ');' }; lf; lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["write:", "lf", "asJavaScriptSource", "selector", "protocol", "compiledSource", "fn", "arguments", "source", "referencedClasses", "messageSends", "methodClass"]
+pragmas: [],
+messageSends: ["write:", "lf", "asJavaScriptSource", "selector", "protocol", "compiledSource", "fn", "arguments", "source", "referencedClasses", "pragmas", "messageSends", "methodClass"]
 }),
 $globals.Exporter);
 

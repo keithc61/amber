@@ -144,6 +144,7 @@ define(function () {
             that.args = spec.args || [];
             that.protocol = spec.protocol;
             that.source = spec.source;
+            that.pragmas = spec.pragmas;
             that.messageSends = spec.messageSends || [];
             // TODO remove .referencedClasses, have .referencedGlobals
             that.referencedClasses = spec.referencedClasses || [];

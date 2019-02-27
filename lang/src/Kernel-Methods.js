@@ -726,7 +726,7 @@ $globals.BlockClosure);
 
 
 
-$core.addClass("CompiledMethod", $globals.Object, ["args", "fn", "messageSends", "owner", "protocol", "referencedClasses", "selector", "source"], "Kernel-Methods");
+$core.addClass("CompiledMethod", $globals.Object, ["args", "fn", "messageSends", "pragmas", "owner", "protocol", "referencedClasses", "selector", "source"], "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.CompiledMethod.comment="I represent a class method of the system. I hold the source and compiled code of a class method.\x0a\x0a## API\x0aMy instances can be accessed using `Behavior >> #methodAt:`\x0a\x0a    Object methodAt: 'asString'\x0a\x0aSource code access:\x0a\x0a\x09(String methodAt: 'lines') source\x0a\x0aReferenced classes:\x0a\x0a\x09(String methodAt: 'lines') referencedClasses\x0a\x0aMessages sent from an instance:\x0a\x09\x0a\x09(String methodAt: 'lines') messageSends";
 //>>excludeEnd("ide");
@@ -1022,6 +1022,56 @@ source: "package\x0a\x09\x22Answer the package the receiver belongs to:\x0a\x09-
 referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["ifNotNil:", "methodClass", "packageOfProtocol:", "protocol"]
+}),
+$globals.CompiledMethod);
+
+$core.addMethod(
+$core.method({
+selector: "pragmas",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$receiver;
+$1=$self.pragmas;
+if(($receiver = $1) == null || $receiver.a$nil){
+return [];
+} else {
+return $1;
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"pragmas",{},$globals.CompiledMethod)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "pragmas\x0a\x09^ pragmas ifNil: [ #() ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNil:"]
+}),
+$globals.CompiledMethod);
+
+$core.addMethod(
+$core.method({
+selector: "pragmas:",
+protocol: "accessing",
+fn: function (anArray){
+var self=this,$self=this;
+$self.pragmas=anArray;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anArray"],
+source: "pragmas: anArray\x0a\x09pragmas := anArray",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
 }),
 $globals.CompiledMethod);
 

@@ -201,7 +201,7 @@ valueWithTimeout: aNumber
 ! !
 
 Object subclass: #CompiledMethod
-	slots: {#args. #fn. #messageSends. #owner. #protocol. #referencedClasses. #selector. #source}
+	slots: {#args. #fn. #messageSends. #pragmas. #owner. #protocol. #referencedClasses. #selector. #source}
 	package: 'Kernel-Methods'!
 !CompiledMethod commentStamp!
 I represent a class method of the system. I hold the source and compiled code of a class method.
@@ -255,6 +255,14 @@ package
 	- else answer the `methodClass` package"
 	
 	^ self methodClass ifNotNil: [ :class | class packageOfProtocol: self protocol ]
+!
+
+pragmas
+	^ pragmas ifNil: [ #() ]
+!
+
+pragmas: anArray
+	pragmas := anArray
 !
 
 protocol

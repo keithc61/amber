@@ -342,6 +342,7 @@ exportMethod: aMethod on: aStream
 		write: { 'source: '. aMethod source asJavaScriptSource. ',' }; lf;
 		write: { 'referencedClasses: '. aMethod referencedClasses asJavaScriptSource. ',' }; lf;
 		write: '//>>excludeEnd("ide");'; lf;
+		write: { 'pragmas: '. aMethod pragmas asJavaScriptSource. ',' }; lf;
 		write: { 'messageSends: '. aMethod messageSends asJavaScriptSource }; lf;
 		write: '}),'; lf;
 		write: { aMethod methodClass asJavaScriptSource. ');' }; lf; lf

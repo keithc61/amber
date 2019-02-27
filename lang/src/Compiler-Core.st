@@ -173,7 +173,9 @@ compile: aString forClass: aClass protocol: anotherString
 		self compileSource: aString forClass: aClass protocol: anotherString.
 	compilationResult
 		at: #fn
-		put: (self eval: (compilationResult at: #fn) forPackage: self currentPackage).
+		put: (self eval: (compilationResult at: #fn) forPackage: self currentPackage);
+		at: #pragmas
+		put: ((compilationResult at: #pragmas) collect: [ :each | { each selector. each arguments } ]).
 	result := Smalltalk core method: compilationResult.
 	result protocol: anotherString.
 	^ result
