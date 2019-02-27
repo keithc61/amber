@@ -1,4 +1,4 @@
-define(["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Compiler-Core", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
+define(["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Semantic");
 $pkg.innerEval = function (expr) { return eval(expr); };
@@ -2833,48 +2833,5 @@ messageSends: []
 }),
 $globals.UnknownVariableError);
 
-
-$core.addMethod(
-$core.method({
-selector: "inlineJS:",
-protocol: "*Compiler-Semantic",
-fn: function (aString){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $2,$1,$3,$5,$4;
-$2=$self._sequenceNode();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["sequenceNode"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._dagChildren();
-$recv($1)._ifNotEmpty_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($globals.CompilerError)._signal_("inlineJS: does not allow smalltalk statements");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-$3=$self._sequenceNode();
-$5=$recv($globals.JSStatementNode)._new();
-$recv($5)._source_(aString);
-$4=$recv($5)._yourself();
-$recv($3)._addDagChild_($4);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"inlineJS:",{aString:aString},$globals.EarlyPragmator)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "inlineJS: aString\x0a\x09self sequenceNode dagChildren ifNotEmpty: [\x0a\x09\x09CompilerError signal: 'inlineJS: does not allow smalltalk statements' ].\x0a\x09self sequenceNode addDagChild: (\x0a\x09\x09JSStatementNode new\x0a\x09\x09\x09source: aString;\x0a\x09\x09\x09yourself)",
-referencedClasses: ["CompilerError", "JSStatementNode"],
-//>>excludeEnd("ide");
-messageSends: ["ifNotEmpty:", "dagChildren", "sequenceNode", "signal:", "addDagChild:", "source:", "new", "yourself"]
-}),
-$globals.EarlyPragmator);
 
 });

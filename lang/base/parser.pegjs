@@ -179,10 +179,9 @@ wsStatements =
 	expressions:wsExpressions? {return expressions || [];}
 
 wsSequenceWs = aPragmas:wsPragmas? ws temps:temps? zPragmas:wsPragmas? statements:wsStatements? maybeDotsWs {
-	return newNode($globals.SequenceNode)
+	return [newNode($globals.SequenceNode)
 		._temps_(temps || [])
-		._pragmas_((aPragmas || []).concat(zPragmas || []))
-		._dagChildren_(statements || []);
+		._dagChildren_(statements || []), (aPragmas || []).concat(zPragmas || [])];
 }
 
 wsBlockSequenceWs = ws temps:temps? statements:wsStatements? maybeDotsWs {
@@ -252,7 +251,8 @@ method =
 		return newNode($globals.MethodNode)
 			._selector_(pattern[0])
 			._arguments_(pattern[1])
-			._dagChildren_([sequence]);
+			._pragmas_(sequence[1])
+			._dagChildren_([sequence[0]]);
 	}
 
 associationSend =

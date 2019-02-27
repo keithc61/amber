@@ -294,10 +294,9 @@ define(["./boot"], function($boot) {
         	},
         peg$c101 = function(expressions) {return expressions || [];},
         peg$c102 = function(aPragmas, temps, zPragmas, statements) {
-        	return newNode($globals.SequenceNode)
+        	return [newNode($globals.SequenceNode)
         		._temps_(temps || [])
-        		._pragmas_((aPragmas || []).concat(zPragmas || []))
-        		._dagChildren_(statements || []);
+        		._dagChildren_(statements || []), (aPragmas || []).concat(zPragmas || [])];
         },
         peg$c103 = function(temps, statements) {
         	return newNode($globals.BlockSequenceNode)
@@ -346,7 +345,8 @@ define(["./boot"], function($boot) {
         		return newNode($globals.MethodNode)
         			._selector_(pattern[0])
         			._arguments_(pattern[1])
-        			._dagChildren_([sequence]);
+        			._pragmas_(sequence[1])
+        			._dagChildren_([sequence[0]]);
         	},
         peg$c121 = function(receiver, tail) { return tail.length > 0 && tail[tail.length-1]._selector() === '->' },
         peg$c122 = function(receiver, tail) {

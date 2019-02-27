@@ -714,14 +714,3 @@ variableName: aString
 	variableName := aString
 ! !
 
-!EarlyPragmator methodsFor: '*Compiler-Semantic'!
-
-inlineJS: aString
-	self sequenceNode dagChildren ifNotEmpty: [
-		CompilerError signal: 'inlineJS: does not allow smalltalk statements' ].
-	self sequenceNode addDagChild: (
-		JSStatementNode new
-			source: aString;
-			yourself)
-! !
-

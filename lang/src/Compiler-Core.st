@@ -62,6 +62,10 @@ See `InliningCodeGenerator` for an optimized JavaScript code generation.!
 
 !CodeGenerator methodsFor: 'compiling'!
 
+earlyAstPragmator
+	^ AstEarlyPragmator new
+!
+
 irTranslator
 	^ self irTranslatorClass new
 		currentClass: self currentClass;
@@ -80,7 +84,7 @@ semanticAnalyzer
 
 transformersDictionary
 	^ transformersDictionary ifNil: [ transformersDictionary := Dictionary new
-		at: '1000-earlyPragmas' put: EarlyPragmator new;
+		at: '1000-earlyPragmas' put: self earlyAstPragmator;
 		at: '2000-semantic' put: self semanticAnalyzer;
 		at: '5000-astToIr' put: self translator;
 		at: '8000-irToJs' put: self irTranslator;
@@ -323,70 +327,6 @@ evaluate: aString receiver: anObject
 evaluate: aString for: anObject
 	^ self new evaluate: aString for: anObject
 ! !
-
-NodeVisitor subclass: #Pragmator
-	slots: {#methodNode. #sequenceNode}
-	package: 'Compiler-Core'!
-!Pragmator commentStamp!
-I am abstract superclass for pragma-processing transformer.
-
-My subclasses should implement messages for each pragma
-they process. Pragma processing checks if a message is known
-to a class but not to its superclass. IOW, each and only those
-pragmas are processed which are defined as methods in the subclass.
-
-These messages can access sequence node in which
-a pragma occurred and its containing method node
-as `self sequenceNode` and `self methodNode`.
-
-See `EarlyPragmator` for an example.!
-
-!Pragmator methodsFor: 'accessing'!
-
-methodNode
-	^ methodNode
-!
-
-methodNode: anObject
-	methodNode := anObject
-!
-
-sequenceNode
-	^ sequenceNode
-!
-
-sequenceNode: anObject
-	sequenceNode := anObject
-! !
-
-!Pragmator methodsFor: 'pragma processing'!
-
-canProcessPragma: aMessage
-	| selector |
-	selector := aMessage selector.
-	^ (self respondsTo: selector) and: [
-		(self class superclass canUnderstand: selector) not]
-!
-
-processPragma: aMessage
-	(self canProcessPragma: aMessage) ifTrue: [
-		^ aMessage sendTo: self ]
-!
-
-visitMethodNode: aNode
-	self methodNode: aNode.
-	^ super visitMethodNode: aNode
-!
-
-visitSequenceNode: aNode
-	self sequenceNode: aNode.
-	aNode pragmas do: [ :each | self processPragma: each ].
-	^ super visitSequenceNode: aNode
-! !
-
-Pragmator subclass: #EarlyPragmator
-	slots: {}
-	package: 'Compiler-Core'!
 
 !String methodsFor: '*Compiler-Core'!
 
