@@ -1,4 +1,4 @@
-define(["amber/boot", "require", "amber/core/Kernel-Dag", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Methods"], function($boot,requirejs){"use strict";
+define(["amber/boot", "require", "amber/core/Kernel-Dag", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Helpers", "amber/core/Kernel-Methods"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-AST");
 $pkg.innerEval = function (expr) { return eval(expr); };
@@ -3224,40 +3224,6 @@ $globals.AstPragmator.comment="I am abstract superclass for pragma-processing tr
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "canProcessPragma:",
-protocol: "pragma processing",
-fn: function (aMessage){
-var self=this,$self=this;
-var selector;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-selector=$recv(aMessage)._selector();
-return $recv($self._respondsTo_(selector))._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($recv($recv($self._class())._superclass())._canUnderstand_(selector))._not();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"canProcessPragma:",{aMessage:aMessage,selector:selector},$globals.AstPragmator)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aMessage"],
-source: "canProcessPragma: aMessage\x0a\x09| selector |\x0a\x09selector := aMessage selector.\x0a\x09^ (self respondsTo: selector) and: [\x0a\x09\x09(self class superclass canUnderstand: selector) not]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["selector", "and:", "respondsTo:", "not", "canUnderstand:", "superclass", "class"]
-}),
-$globals.AstPragmator);
-
-$core.addMethod(
-$core.method({
 selector: "methodNode",
 protocol: "accessing",
 fn: function (){
@@ -3297,37 +3263,8 @@ $globals.AstPragmator);
 
 $core.addMethod(
 $core.method({
-selector: "processPragma:",
-protocol: "pragma processing",
-fn: function (aMessage){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$self._canProcessPragma_(aMessage);
-if($core.assert($1)){
-return $recv(aMessage)._sendTo_(self);
-}
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"processPragma:",{aMessage:aMessage},$globals.AstPragmator)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aMessage"],
-source: "processPragma: aMessage\x0a\x09(self canProcessPragma: aMessage) ifTrue: [\x0a\x09\x09^ aMessage sendTo: self ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifTrue:", "canProcessPragma:", "sendTo:"]
-}),
-$globals.AstPragmator);
-
-$core.addMethod(
-$core.method({
 selector: "visitMethodNode:",
-protocol: "pragma processing",
+protocol: "visiting",
 fn: function (aNode){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3335,15 +3272,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $self._methodNode_(aNode);
-$recv($recv(aNode)._pragmas())._do_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $self._processPragma_(each);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+$self._processPragmas_($recv(aNode)._pragmas());
 $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -3359,11 +3288,11 @@ return $1;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitMethodNode: aNode\x0a\x09self methodNode: aNode.\x0a\x09aNode pragmas do: [ :each | self processPragma: each ].\x0a\x09^ super visitMethodNode: aNode",
+source: "visitMethodNode: aNode\x0a\x09self methodNode: aNode.\x0a\x09self processPragmas: aNode pragmas.\x0a\x09^ super visitMethodNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["methodNode:", "do:", "pragmas", "processPragma:", "visitMethodNode:"]
+messageSends: ["methodNode:", "processPragmas:", "pragmas", "visitMethodNode:"]
 }),
 $globals.AstPragmator);
 
@@ -3418,6 +3347,8 @@ messageSends: ["ifNotEmpty:", "dagChildren", "sequenceNode", "methodNode", "sign
 }),
 $globals.AstEarlyPragmator);
 
+
+$core.setTraitComposition([{trait: $globals.TPragmator}], $globals.AstPragmator);
 
 $core.addMethod(
 $core.method({

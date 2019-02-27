@@ -4,6 +4,104 @@ var $pkg = $core.addPackage("Kernel-Helpers");
 $pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
+$core.addTrait("TPragmator", "Kernel-Helpers");
+$core.addMethod(
+$core.method({
+selector: "canProcessPragma:",
+protocol: "pragma processing",
+fn: function (aMessage){
+var self=this,$self=this;
+var selector;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+selector=$recv(aMessage)._selector();
+return $recv($self._respondsTo_(selector))._and_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($recv($recv($self._class())._superclass())._canUnderstand_(selector))._not();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"canProcessPragma:",{aMessage:aMessage,selector:selector},$globals.TPragmator)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aMessage"],
+source: "canProcessPragma: aMessage\x0a\x09| selector |\x0a\x09selector := aMessage selector.\x0a\x09^ (self respondsTo: selector) and: [\x0a\x09\x09(self class superclass canUnderstand: selector) not]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["selector", "and:", "respondsTo:", "not", "canUnderstand:", "superclass", "class"]
+}),
+$globals.TPragmator);
+
+$core.addMethod(
+$core.method({
+selector: "processPragma:",
+protocol: "pragma processing",
+fn: function (aMessage){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$self._canProcessPragma_(aMessage);
+if($core.assert($1)){
+return $recv(aMessage)._sendTo_(self);
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"processPragma:",{aMessage:aMessage},$globals.TPragmator)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aMessage"],
+source: "processPragma: aMessage\x0a\x09(self canProcessPragma: aMessage) ifTrue: [\x0a\x09\x09^ aMessage sendTo: self ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifTrue:", "canProcessPragma:", "sendTo:"]
+}),
+$globals.TPragmator);
+
+$core.addMethod(
+$core.method({
+selector: "processPragmas:",
+protocol: "pragma processing",
+fn: function (aCollection){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv(aCollection)._do_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._processPragma_(each);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"processPragmas:",{aCollection:aCollection},$globals.TPragmator)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aCollection"],
+source: "processPragmas: aCollection\x0a\x09aCollection do: [ :each | self processPragma: each ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["do:", "processPragma:"]
+}),
+$globals.TPragmator);
+
+
 $core.addTrait("TSubclassable", "Kernel-Helpers");
 $core.addMethod(
 $core.method({

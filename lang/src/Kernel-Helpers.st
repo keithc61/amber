@@ -1,4 +1,25 @@
 Smalltalk createPackage: 'Kernel-Helpers'!
+Trait named: #TPragmator
+	package: 'Kernel-Helpers'!
+
+!TPragmator methodsFor: 'pragma processing'!
+
+canProcessPragma: aMessage
+	| selector |
+	selector := aMessage selector.
+	^ (self respondsTo: selector) and: [
+		(self class superclass canUnderstand: selector) not]
+!
+
+processPragma: aMessage
+	(self canProcessPragma: aMessage) ifTrue: [
+		^ aMessage sendTo: self ]
+!
+
+processPragmas: aCollection
+	aCollection do: [ :each | self processPragma: each ]
+! !
+
 Trait named: #TSubclassable
 	package: 'Kernel-Helpers'!
 

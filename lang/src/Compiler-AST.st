@@ -787,23 +787,11 @@ methodNode: anObject
 	methodNode := anObject
 ! !
 
-!AstPragmator methodsFor: 'pragma processing'!
-
-canProcessPragma: aMessage
-	| selector |
-	selector := aMessage selector.
-	^ (self respondsTo: selector) and: [
-		(self class superclass canUnderstand: selector) not]
-!
-
-processPragma: aMessage
-	(self canProcessPragma: aMessage) ifTrue: [
-		^ aMessage sendTo: self ]
-!
+!AstPragmator methodsFor: 'visiting'!
 
 visitMethodNode: aNode
 	self methodNode: aNode.
-	aNode pragmas do: [ :each | self processPragma: each ].
+	self processPragmas: aNode pragmas.
 	^ super visitMethodNode: aNode
 ! !
 
@@ -820,6 +808,9 @@ inlineJS: aString
 		JSStatementNode new
 			source: aString;
 			yourself)
+! !
+
+AstPragmator setTraitComposition: {TPragmator} asTraitComposition!
 ! !
 
 !CompiledMethod methodsFor: '*Compiler-AST'!
