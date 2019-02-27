@@ -2,6 +2,11 @@ define(["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Ke
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Infrastructure");
 $pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.imports = ["smalltalkParser=amber/parser"];
+//>>excludeStart("imports", pragmas.excludeImports);
+var smalltalkParser;
+$pkg.isReady = new Promise(function (resolve, reject) { requirejs(["amber/parser"], function ($1) {smalltalkParser=$1; resolve();}, reject); });
+//>>excludeEnd("imports");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AmberBootstrapInitialization", $globals.Object, [], "Kernel-Infrastructure");
@@ -93,17 +98,25 @@ return $core.withContext(function($ctx1) {
 $recv($globals.SmalltalkImage)._initialize();
 $self._organizeClasses();
 $self._organizeMethods();
-return $recv($globals.Smalltalk)._postLoad();
+return $recv($recv($globals.Smalltalk)._postLoad())._then_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($recv($globals.Smalltalk)._globals())._at_put_("SmalltalkParser",smalltalkParser);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"run",{},$globals.AmberBootstrapInitialization.a$cls)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "run\x0a\x09SmalltalkImage initialize.\x0a\x09self\x0a\x09\x09organizeClasses;\x0a\x09\x09organizeMethods.\x0a\x09^ Smalltalk postLoad",
+source: "run\x0a\x09SmalltalkImage initialize.\x0a\x09self\x0a\x09\x09organizeClasses;\x0a\x09\x09organizeMethods.\x0a\x09^ Smalltalk postLoad\x0a\x09\x09\x22TODO remove, backward compat\x22\x0a\x09\x09then: [ Smalltalk globals at: #SmalltalkParser put: smalltalkParser ]",
 referencedClasses: ["SmalltalkImage", "Smalltalk"],
 //>>excludeEnd("ide");
-messageSends: ["initialize", "organizeClasses", "organizeMethods", "postLoad"]
+messageSends: ["initialize", "organizeClasses", "organizeMethods", "then:", "postLoad", "at:put:", "globals"]
 }),
 $globals.AmberBootstrapInitialization.a$cls);
 
@@ -3105,15 +3118,15 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($globals.SmalltalkParser)._parse_(aString);
+return $recv(smalltalkParser)._parse_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"basicParse:",{aString:aString},$globals.SmalltalkImage)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "basicParse: aString\x0a\x09^ SmalltalkParser parse: aString",
-referencedClasses: ["SmalltalkParser"],
+source: "basicParse: aString\x0a\x09^ smalltalkParser parse: aString",
+referencedClasses: [],
 //>>excludeEnd("ide");
 messageSends: ["parse:"]
 }),

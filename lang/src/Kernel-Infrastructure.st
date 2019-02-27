@@ -1,4 +1,5 @@
 Smalltalk createPackage: 'Kernel-Infrastructure'!
+(Smalltalk packageAt: 'Kernel-Infrastructure' ifAbsent: [ self error: 'Package not created: Kernel-Infrastructure' ]) imports: {'smalltalkParser' -> 'amber/parser'}!
 Object subclass: #AmberBootstrapInitialization
 	slots: {}
 	package: 'Kernel-Infrastructure'!
@@ -23,6 +24,8 @@ run
 		organizeClasses;
 		organizeMethods.
 	^ Smalltalk postLoad
+		"TODO remove, backward compat"
+		then: [ Smalltalk globals at: #SmalltalkParser put: smalltalkParser ]
 ! !
 
 ProtoObject subclass: #JSObjectProxy
@@ -1065,7 +1068,7 @@ basicCreatePackage: packageName
 !
 
 basicParse: aString
-	^ SmalltalkParser parse: aString
+	^ smalltalkParser parse: aString
 !
 
 deleteClass: aClass

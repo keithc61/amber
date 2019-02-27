@@ -1,3 +1,11 @@
+? ??? 2019 - Release 0.24.0
+===================================
+
+* Deprecate global "SmalltalkParser".
+
+Commits: https://lolg.it/amber/amber/commits/0.23.0
+
+
 25 Feb 2019 - Release 0.23.0
 ===================================
 

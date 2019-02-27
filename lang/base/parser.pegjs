@@ -1,3 +1,7 @@
+{
+   var $globals = $boot.globals;
+}
+
 start = method
 
 separator =

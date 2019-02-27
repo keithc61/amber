@@ -138,7 +138,7 @@ module.exports = function (grunt) {
         },
 
         jshint: {
-            amber: ['lang/src/*.js', 'lang/base/*.js'],
+            amber: ['lang/src/*.js', 'lang/base/[^p]*.js'],
             cli: ['cli/src/*.js', 'cli/dist/*.js'],
             dev: ['sdk/lib/*.js'],
             grunt: ['Gruntfile.js', 'grunt-tasks/*.js', 'sdk/tasks/*.js']

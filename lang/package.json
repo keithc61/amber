@@ -28,10 +28,9 @@
     "buildParserEnd": "});"
   },
   "scripts": {
-    "echos": "node -e \"process.stdout.write(require('./package.json').strings[process.argv[1]])\"",
-    "build:parser": "(npm run -s echos buildParserBegin && pegjs --cache --export-var \"$\"globals.SmalltalkParser < base/parser.pegjs && npm run -s echos buildParserEnd) > base/parser.js"
+    "build:parser": "pegjs --cache -o base/parser.js --format amd --dependency $boot:./boot base/parser.pegjs"
   },
   "devDependencies": {
-    "pegjs": "^0.9.0"
+    "pegjs": "^0.10.0"
   }
 }
