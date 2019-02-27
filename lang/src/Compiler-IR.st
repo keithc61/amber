@@ -894,6 +894,19 @@ stream: aStream
 	stream := aStream
 ! !
 
+!IRJSTranslator methodsFor: 'building'!
+
+buildMethodDeclaration: aMethod with: aBlock
+	^ #{
+		#selector -> aMethod selector.
+		#source -> aMethod source.
+		#fn -> [ aBlock value. self contents ] value.
+		#messageSends -> aMethod messageSends asArray.
+		#args -> (aMethod arguments collect: [ :each | each value ]) asArray.
+		#referencedClasses -> aMethod classReferences asArray.
+	}
+! !
+
 !IRJSTranslator methodsFor: 'initialization'!
 
 initialize
@@ -934,8 +947,8 @@ visitIRDynamicDictionary: anIRDynamicDictionary
 
 visitIRMethod: anIRMethod
 
-	self stream
-		nextPutMethodDeclaration: anIRMethod
+	^ self
+		buildMethodDeclaration: anIRMethod
 		with: [ self stream
 			nextPutFunctionWith: [
 				self stream nextPutVars: (anIRMethod tempDeclarations collect: [ :each |
@@ -949,8 +962,7 @@ visitIRMethod: anIRMethod
 						self stream nextPutNonLocalReturnHandlingWith: [
 							super visitIRMethod: anIRMethod ] ]
 					ifFalse: [ super visitIRMethod: anIRMethod ] ]]
-			arguments: anIRMethod arguments ].
-	^ self contents
+			arguments: anIRMethod arguments ]
 !
 
 visitIRNonLocalReturn: anIRNonLocalReturn
@@ -1176,14 +1188,14 @@ nextPutContextFor: aMethod during: aBlock
 !
 
 nextPutFunctionWith: aBlock arguments: anArray
-	stream nextPutAll: 'fn: function ('.
+	stream nextPutAll: '(function ('.
 	anArray
 		do: [ :each | stream nextPutAll: each asVariableName ]
 		separatedBy: [ stream nextPut: ',' ].
 	stream nextPutAll: '){'; lf.
 	stream nextPutAll: 'var self=this,$self=this;'; lf.
 	aBlock value.
-	stream lf; nextPutAll: '}'
+	stream lf; nextPutAll: '})'
 !
 
 nextPutIf: aBlock then: anotherBlock

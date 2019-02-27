@@ -634,6 +634,30 @@ $globals.Compiler);
 
 $core.addMethod(
 $core.method({
+selector: "compiledMethodFrom:forPackage:",
+protocol: "compiling",
+fn: function (aHashedCollection,aPackage){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv(aHashedCollection)._at_put_("fn",$self._eval_forPackage_($recv(aHashedCollection)._at_("fn"),aPackage));
+return $recv($recv($globals.Smalltalk)._core())._method_(aHashedCollection);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"compiledMethodFrom:forPackage:",{aHashedCollection:aHashedCollection,aPackage:aPackage},$globals.Compiler)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aHashedCollection", "aPackage"],
+source: "compiledMethodFrom: aHashedCollection forPackage: aPackage\x0a\x09aHashedCollection\x0a\x09\x09at: #fn\x0a\x09\x09put: (self eval: (aHashedCollection at: #fn) forPackage: aPackage).\x0a\x09^ Smalltalk core method: aHashedCollection",
+referencedClasses: ["Smalltalk"],
+//>>excludeEnd("ide");
+messageSends: ["at:put:", "eval:forPackage:", "at:", "method:", "core"]
+}),
+$globals.Compiler);
+
+$core.addMethod(
+$core.method({
 selector: "currentClass",
 protocol: "accessing",
 fn: function (){
@@ -794,14 +818,15 @@ var result,method;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-method=$self._eval_($self._compileExpression_on_(aString,anObject));
-$recv(method)._protocol_("**xxxDoIt");
-$1=$recv(anObject)._class();
+var $1,$2,$3;
+method=$self._compiledMethodFrom_forPackage_($self._compileExpression_on_(aString,anObject),nil);
+$1=$recv($globals.ClassBuilder)._new();
+$2=method;
+$3=$recv(anObject)._class();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["class"]=1;
 //>>excludeEnd("ctx");
-$recv($1)._addCompiledMethod_(method);
+$recv($1)._installMethod_forClass_protocol_($2,$3,"**xxxDoIt");
 result=$recv(anObject)._xxxDoIt();
 $recv($recv(anObject)._class())._removeCompiledMethod_(method);
 return result;
@@ -811,10 +836,10 @@ return result;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject"],
-source: "evaluateExpression: aString on: anObject\x0a\x09\x22Unlike #eval: evaluate a Smalltalk expression with anObject as the receiver and answer the returned object\x22\x0a\x09| result method |\x0a\x09method := self eval: (self compileExpression: aString on: anObject).\x0a\x09method protocol: '**xxxDoIt'.\x0a\x09anObject class addCompiledMethod: method.\x0a\x09result := anObject xxxDoIt.\x0a\x09anObject class removeCompiledMethod: method.\x0a\x09^ result",
-referencedClasses: [],
+source: "evaluateExpression: aString on: anObject\x0a\x09\x22Unlike #eval: evaluate a Smalltalk expression with anObject as the receiver and answer the returned object\x22\x0a\x09| result method |\x0a\x09method := self compiledMethodFrom: (self compileExpression: aString on: anObject) forPackage: nil.\x0a\x09ClassBuilder new installMethod: method forClass: anObject class protocol: '**xxxDoIt'.\x0a\x09result := anObject xxxDoIt.\x0a\x09anObject class removeCompiledMethod: method.\x0a\x09^ result",
+referencedClasses: ["ClassBuilder"],
 //>>excludeEnd("ide");
-messageSends: ["eval:", "compileExpression:on:", "protocol:", "addCompiledMethod:", "class", "xxxDoIt", "removeCompiledMethod:"]
+messageSends: ["compiledMethodFrom:forPackage:", "compileExpression:on:", "installMethod:forClass:protocol:", "new", "class", "xxxDoIt", "removeCompiledMethod:"]
 }),
 $globals.Compiler);
 
@@ -853,7 +878,7 @@ var compiledMethod;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-compiledMethod=$self._eval_forPackage_($self._compile_forClass_protocol_(aString,aBehavior,anotherString),$recv(aBehavior)._packageOfProtocol_(anotherString));
+compiledMethod=$self._compiledMethodFrom_forPackage_($self._compile_forClass_protocol_(aString,aBehavior,anotherString),$recv(aBehavior)._packageOfProtocol_(anotherString));
 return $recv($recv($globals.ClassBuilder)._new())._installMethod_forClass_protocol_(compiledMethod,aBehavior,anotherString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"install:forClass:protocol:",{aString:aString,aBehavior:aBehavior,anotherString:anotherString,compiledMethod:compiledMethod},$globals.Compiler)});
@@ -861,10 +886,10 @@ return $recv($recv($globals.ClassBuilder)._new())._installMethod_forClass_protoc
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aBehavior", "anotherString"],
-source: "install: aString forClass: aBehavior protocol: anotherString\x0a\x09| compiledMethod |\x0a\x09compiledMethod := self\x0a\x09\x09eval: (self compile: aString forClass: aBehavior protocol: anotherString)\x0a\x09\x09forPackage: (aBehavior packageOfProtocol: anotherString).\x0a\x09^ ClassBuilder new\x0a\x09\x09installMethod: compiledMethod\x0a\x09\x09forClass: aBehavior\x0a\x09\x09protocol: anotherString",
+source: "install: aString forClass: aBehavior protocol: anotherString\x0a\x09| compiledMethod |\x0a\x09compiledMethod := self\x0a\x09\x09compiledMethodFrom: (self compile: aString forClass: aBehavior protocol: anotherString)\x0a\x09\x09forPackage: (aBehavior packageOfProtocol: anotherString).\x0a\x09^ ClassBuilder new\x0a\x09\x09installMethod: compiledMethod\x0a\x09\x09forClass: aBehavior\x0a\x09\x09protocol: anotherString",
 referencedClasses: ["ClassBuilder"],
 //>>excludeEnd("ide");
-messageSends: ["eval:forPackage:", "compile:forClass:protocol:", "packageOfProtocol:", "installMethod:forClass:protocol:", "new"]
+messageSends: ["compiledMethodFrom:forPackage:", "compile:forClass:protocol:", "packageOfProtocol:", "installMethod:forClass:protocol:", "new"]
 }),
 $globals.Compiler);
 

@@ -188,6 +188,13 @@ compileNode: aNode
 	^ result
 !
 
+compiledMethodFrom: aHashedCollection forPackage: aPackage
+	aHashedCollection
+		at: #fn
+		put: (self eval: (aHashedCollection at: #fn) forPackage: aPackage).
+	^ Smalltalk core method: aHashedCollection
+!
+
 eval: aString
 	<inlineJS: 'return eval(aString)'>
 !
@@ -206,9 +213,8 @@ evaluateExpression: aString
 evaluateExpression: aString on: anObject
 	"Unlike #eval: evaluate a Smalltalk expression with anObject as the receiver and answer the returned object"
 	| result method |
-	method := self eval: (self compileExpression: aString on: anObject).
-	method protocol: '**xxxDoIt'.
-	anObject class addCompiledMethod: method.
+	method := self compiledMethodFrom: (self compileExpression: aString on: anObject) forPackage: nil.
+	ClassBuilder new installMethod: method forClass: anObject class protocol: '**xxxDoIt'.
 	result := anObject xxxDoIt.
 	anObject class removeCompiledMethod: method.
 	^ result
@@ -223,7 +229,7 @@ forClass: aClass protocol: anotherString
 install: aString forClass: aBehavior protocol: anotherString
 	| compiledMethod |
 	compiledMethod := self
-		eval: (self compile: aString forClass: aBehavior protocol: anotherString)
+		compiledMethodFrom: (self compile: aString forClass: aBehavior protocol: anotherString)
 		forPackage: (aBehavior packageOfProtocol: anotherString).
 	^ ClassBuilder new
 		installMethod: compiledMethod
