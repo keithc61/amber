@@ -168,10 +168,13 @@ ast: aString forClass: aClass protocol: anotherString
 !
 
 compile: aString forClass: aClass protocol: anotherString
-	^ self
-		source: aString;
-		forClass: aClass protocol: anotherString;
-		compileNode: (self parse: aString)
+	| compilationResult |
+	compilationResult :=
+		self compileSource: aString forClass: aClass protocol: anotherString.
+	compilationResult
+		at: #fn
+		put: (self eval: (compilationResult at: #fn) forPackage: self currentPackage).
+	^ compilationResult
 !
 
 compileExpression: aString on: anObject
@@ -188,10 +191,14 @@ compileNode: aNode
 	^ result
 !
 
-compiledMethodFrom: aHashedCollection forPackage: aPackage
-	aHashedCollection
-		at: #fn
-		put: (self eval: (aHashedCollection at: #fn) forPackage: aPackage).
+compileSource: aString forClass: aClass protocol: anotherString
+	^ self
+		source: aString;
+		forClass: aClass protocol: anotherString;
+		compileNode: (self parse: aString)
+!
+
+compiledMethodFrom: aHashedCollection
 	^ Smalltalk core method: aHashedCollection
 !
 
@@ -213,7 +220,7 @@ evaluateExpression: aString
 evaluateExpression: aString on: anObject
 	"Unlike #eval: evaluate a Smalltalk expression with anObject as the receiver and answer the returned object"
 	| result method |
-	method := self compiledMethodFrom: (self compileExpression: aString on: anObject) forPackage: nil.
+	method := self compiledMethodFrom: (self compileExpression: aString on: anObject).
 	ClassBuilder new installMethod: method forClass: anObject class protocol: '**xxxDoIt'.
 	result := anObject xxxDoIt.
 	anObject class removeCompiledMethod: method.
@@ -229,8 +236,7 @@ forClass: aClass protocol: anotherString
 install: aString forClass: aBehavior protocol: anotherString
 	| compiledMethod |
 	compiledMethod := self
-		compiledMethodFrom: (self compile: aString forClass: aBehavior protocol: anotherString)
-		forPackage: (aBehavior packageOfProtocol: anotherString).
+		compiledMethodFrom: (self compile: aString forClass: aBehavior protocol: anotherString).
 	^ ClassBuilder new
 		installMethod: compiledMethod
 		forClass: aBehavior
