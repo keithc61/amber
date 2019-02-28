@@ -561,9 +561,9 @@ visitBlockNode: aNode
 !
 
 visitDagNode: aNode
-	aNode dagChildren
-		ifEmpty: [ ^ aNode ]
-		ifNotEmpty: [ :nodes | ^ self visit: nodes first ]
+	^ aNode dagChildren
+		ifEmpty: [ aNode ]
+		ifNotEmpty: [ :nodes | self visit: nodes first ]
 !
 
 visitSequenceNode: aNode
@@ -989,7 +989,7 @@ nextSiblingNode: aNode
 	
 	^ self dagChildren 
 		at: (self dagChildren indexOf: aNode) + 1
-		ifAbsent: [ ^ nil ]
+		ifAbsent: [ nil ]
 ! !
 
 !AssignmentNode methodsFor: '*Compiler-Interpreter'!
