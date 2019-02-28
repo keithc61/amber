@@ -1190,9 +1190,7 @@ nextPutContextFor: aMethod during: aBlock
 		separatedBy: [ self nextPutAll: ',' ].
 	
 	self
-		nextPutAll: '},';
-		nextPutAll: aMethod theClass asJavaScriptSource;
-		nextPutAll: ')});';
+		nextPutAll: '})});';
 		lf;
 		nextPutAll: '//>>excludeEnd("ctx");'
 !

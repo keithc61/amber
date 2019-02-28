@@ -258,15 +258,13 @@ define(function () {
         SmalltalkMethodContext.prototype.locals = Object.freeze({});
         SmalltalkMethodContext.prototype.receiver = null;
         SmalltalkMethodContext.prototype.selector = null;
-        SmalltalkMethodContext.prototype.lookupClass = null;
         SmalltalkMethodContext.prototype.outerContext = null;
         SmalltalkMethodContext.prototype.index = 0;
 
-        defineMethod(SmalltalkMethodContext, "fill", function (receiver, selector, locals, lookupClass) {
+        defineMethod(SmalltalkMethodContext, "fill", function (receiver, selector, locals) {
             this.receiver = receiver;
             this.selector = selector;
             if (locals != null) this.locals = locals;
-            this.lookupClass = lookupClass;
             if (this.homeContext) {
                 this.homeContext.evaluatedSelector = selector;
             }
@@ -275,15 +273,6 @@ define(function () {
             if (locals != null) this.locals = locals;
             this.outerContext = ctx;
             if (index) this.index = index;
-        });
-        defineMethod(SmalltalkMethodContext, "method", function () {
-            var method;
-            var lookup = this.lookupClass || this.receiver.a$cls;
-            while (!method && lookup) {
-                method = lookup.methods[st.js2st(this.selector)];
-                lookup = lookup.superclass;
-            }
-            return method;
         });
 
         setClassConstructor(globals.MethodContext, SmalltalkMethodContext);
