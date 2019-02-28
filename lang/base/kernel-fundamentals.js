@@ -72,7 +72,7 @@ define(function () {
     }
 
     function PackagesBrik (brikz, st) {
-        st.packages = st.packageDescriptors = {};
+        st.packageDescriptors = {};
 
         /* Add a package load descriptor to the system */
         st.addPackage = function (name, properties) {
@@ -246,16 +246,12 @@ define(function () {
         this.nilAsReceiver = new SmalltalkNil();
         this.nilAsValue = this.nilAsReceiver; // TODO null
 
-        // Adds an `a$nil` (and legacy `isNil`) property to the `nil` object.  When sending
+        // Adds an `a$nil` property to the `nil` object.  When sending
         // nil objects from one environment to another, doing
         // `anObject == nil` (in JavaScript) does not always answer
         // true as the referenced nil object might come from the other
         // environment.
         Object.defineProperty(this.nilAsReceiver, 'a$nil', {
-            value: true,
-            enumerable: false, configurable: false, writable: false
-        });
-        Object.defineProperty(this.nilAsReceiver, 'isNil', {
             value: true,
             enumerable: false, configurable: false, writable: false
         });
