@@ -20,7 +20,7 @@ return $core.withContext(function($ctx1) {
 throw self;;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicSignal",{},$globals.Error)});
+}, function($ctx1) {$ctx1.fill(self,"basicSignal",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -144,7 +144,7 @@ return $core.withContext(function($ctx1) {
 $self._messageText_("Errorclass: ".__comma($recv($self._class())._name()));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Error)});
+}, function($ctx1) {$ctx1.fill(self,"initialize",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -168,7 +168,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self.smalltalkError).__eq_eq(true);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isSmalltalkError",{},$globals.Error)});
+}, function($ctx1) {$ctx1.fill(self,"isSmalltalkError",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -250,7 +250,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._pass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"outer",{},$globals.Error)});
+}, function($ctx1) {$ctx1.fill(self,"outer",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -276,7 +276,7 @@ $self._beUnhandled();
 $self._basicSignal();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"pass",{},$globals.Error)});
+}, function($ctx1) {$ctx1.fill(self,"pass",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -301,7 +301,7 @@ return $core.withContext(function($ctx1) {
 $self._deprecatedAPI_("Use #pass.");
 return $self._pass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"resignal",{},$globals.Error)});
+}, function($ctx1) {$ctx1.fill(self,"resignal",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -329,7 +329,7 @@ $self._beSmalltalkError();
 $self._basicSignal();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"signal",{},$globals.Error)});
+}, function($ctx1) {$ctx1.fill(self,"signal",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -355,7 +355,7 @@ $self._messageText_(aString);
 $self._signal();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"signal:",{aString:aString},$globals.Error)});
+}, function($ctx1) {$ctx1.fill(self,"signal:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -379,7 +379,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._signalerContextFrom_($self._context());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"signalerContext",{},$globals.Error)});
+}, function($ctx1) {$ctx1.fill(self,"signalerContext",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -429,7 +429,7 @@ return $recv($1)._not();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"signalerContextFrom:",{aContext:aContext},$globals.Error)});
+}, function($ctx1) {$ctx1.fill(self,"signalerContextFrom:",{aContext:aContext})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -453,7 +453,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self.amberHandled).__eq_eq(true);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"wasHandled",{},$globals.Error)});
+}, function($ctx1) {$ctx1.fill(self,"wasHandled",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -497,7 +497,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._new())._signal();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"signal",{},$globals.Error.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"signal",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -521,7 +521,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._new())._signal_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"signal:",{aString:aString},$globals.Error.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"signal:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -606,7 +606,7 @@ return $recv($1)._not();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"signalerContextFrom:",{aContext:aContext},$globals.Halt)});
+}, function($ctx1) {$ctx1.fill(self,"signalerContextFrom:",{aContext:aContext})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -676,7 +676,7 @@ return $core.withContext(function($ctx1) {
 return "JavaScript exception: " + $self.exception.toString();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"messageText",{},$globals.JavaScriptException)});
+}, function($ctx1) {$ctx1.fill(self,"messageText",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -701,7 +701,7 @@ return $core.withContext(function($ctx1) {
 return $self.exception instanceof RangeError;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"shouldBeStubbed",{},$globals.JavaScriptException)});
+}, function($ctx1) {$ctx1.fill(self,"shouldBeStubbed",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -746,7 +746,7 @@ return $recv($self._context())._stubToAtMost_((100));
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"wrap",{},$globals.JavaScriptException)});
+}, function($ctx1) {$ctx1.fill(self,"wrap",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -774,7 +774,7 @@ $1=$self._new();
 $recv($1)._exception_(anException);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{anException:anException},$globals.JavaScriptException.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{anException:anException})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -802,7 +802,7 @@ $recv($1)._exception_(anException);
 $recv($1)._context_(aMethodContext);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:context:",{anException:anException,aMethodContext:aMethodContext},$globals.JavaScriptException.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"on:context:",{anException:anException,aMethodContext:aMethodContext})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -875,7 +875,7 @@ $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
 return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"messageText",{},$globals.MessageNotUnderstood)});
+}, function($ctx1) {$ctx1.fill(self,"messageText",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -987,7 +987,7 @@ $1=$self._new();
 $recv($1)._object_(anObject);
 return $recv($1)._signal();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"signalOn:",{anObject:anObject},$globals.NonBooleanReceiver.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"signalOn:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);

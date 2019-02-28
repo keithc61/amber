@@ -48,7 +48,7 @@ return $recv($globals.XMLHttpRequest)._new();
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"newXhr",{},$globals.NodePlatform)});
+}, function($ctx1) {$ctx1.fill(self,"newXhr",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -78,7 +78,7 @@ $recv($globals.Platform)._registerIfNone_($self._new());
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.NodePlatform.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"initialize",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -103,7 +103,7 @@ return $core.withContext(function($ctx1) {
 return typeof process !== "undefined" && process && process.versions && process.versions.node != null;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isFeasible",{},$globals.NodePlatform.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"isFeasible",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);

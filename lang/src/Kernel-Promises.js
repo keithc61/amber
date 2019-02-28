@@ -18,7 +18,7 @@ return $core.withContext(function($ctx1) {
 return Promise.all($recv(aCollection)._asArray());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"all:",{aCollection:aCollection},$globals.Promise.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"all:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -43,7 +43,7 @@ return $core.withContext(function($ctx1) {
 return Promise.race($recv(aCollection)._asArray());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"any:",{aCollection:aCollection},$globals.Promise.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"any:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -67,7 +67,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._new())._then_(aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"forBlock:",{aBlock:aBlock},$globals.Promise.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"forBlock:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -92,7 +92,7 @@ return $core.withContext(function($ctx1) {
 return Promise.resolve();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"new",{},$globals.Promise.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"new",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -120,7 +120,7 @@ return new Promise(function (resolve, reject) {
 });
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"new:",{aBlock:aBlock},$globals.Promise.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"new:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -145,7 +145,7 @@ return $core.withContext(function($ctx1) {
 return $recv(anObject)._in_(function (x) {return Promise.reject(x)});
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"signal:",{anObject:anObject},$globals.Promise.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"signal:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -170,7 +170,7 @@ return $core.withContext(function($ctx1) {
 return $recv(anObject)._in_(function (x) {return Promise.resolve(x)});
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject},$globals.Promise.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -199,7 +199,7 @@ return self.then(null, function (err) {return $core.seamless(function () {
 })});
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"catch:",{aBlock:aBlock},$globals.TThenable)});
+}, function($ctx1) {$ctx1.fill(self,"catch:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -227,7 +227,7 @@ return self.then(null, function (err) {return $core.seamless(function () {
 })});
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:do:",{aClass:aClass,aBlock:aBlock},$globals.TThenable)});
+}, function($ctx1) {$ctx1.fill(self,"on:do:",{aClass:aClass,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -251,7 +251,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._on_do_(aClass,aBlock))._catch_(anotherBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:do:catch:",{aClass:aClass,aBlock:aBlock,anotherBlock:anotherBlock},$globals.TThenable)});
+}, function($ctx1) {$ctx1.fill(self,"on:do:catch:",{aClass:aClass,aBlock:aBlock,anotherBlock:anotherBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -291,7 +291,7 @@ return array.reduce(function (soFar, aBlock) {
 }, self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"then:",{aBlockOrArray:aBlockOrArray},$globals.TThenable)});
+}, function($ctx1) {$ctx1.fill(self,"then:",{aBlockOrArray:aBlockOrArray})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -315,7 +315,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._then_(aBlockOrArray))._catch_(anotherBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"then:catch:",{aBlockOrArray:aBlockOrArray,anotherBlock:anotherBlock},$globals.TThenable)});
+}, function($ctx1) {$ctx1.fill(self,"then:catch:",{aBlockOrArray:aBlockOrArray,anotherBlock:anotherBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -339,7 +339,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._then_(aBlockOrArray))._on_do_(aClass,aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"then:on:do:",{aBlockOrArray:aBlockOrArray,aClass:aClass,aBlock:aBlock},$globals.TThenable)});
+}, function($ctx1) {$ctx1.fill(self,"then:on:do:",{aBlockOrArray:aBlockOrArray,aClass:aClass,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -363,7 +363,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($recv($self._then_(aBlockOrArray))._on_do_(aClass,aBlock))._catch_(anotherBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"then:on:do:catch:",{aBlockOrArray:aBlockOrArray,aClass:aClass,aBlock:aBlock,anotherBlock:anotherBlock},$globals.TThenable)});
+}, function($ctx1) {$ctx1.fill(self,"then:on:do:catch:",{aBlockOrArray:aBlockOrArray,aClass:aClass,aBlock:aBlock,anotherBlock:anotherBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);

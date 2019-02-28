@@ -21,7 +21,7 @@ $self.empty=$recv($globals.Set)._new();
 $self.full=$recv($globals.Set)._with_with_((5),"abc");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"setUp",{},$globals.ExampleSetTest)});
+}, function($ctx1) {$ctx1.fill(self,"setUp",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -47,7 +47,7 @@ $recv($self.empty)._add_((5));
 $self._assert_($recv($self.empty)._includes_((5)));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testAdd",{},$globals.ExampleSetTest)});
+}, function($ctx1) {$ctx1.fill(self,"testAdd",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -73,7 +73,7 @@ $recv($self.empty)._addAll_((1)._to_((100)));
 $self._assert_equals_($recv($self.empty)._size(),(100));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testGrow",{},$globals.ExampleSetTest)});
+}, function($ctx1) {$ctx1.fill(self,"testGrow",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -118,7 +118,7 @@ return $recv($self.empty)._at_put_((5),"abc");
 }),$globals.Error);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testIllegal",{},$globals.ExampleSetTest)});
+}, function($ctx1) {$ctx1.fill(self,"testIllegal",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -152,7 +152,7 @@ $ctx1.sendIdx["assert:"]=1;
 $self._assert_($recv($self.full)._includes_("abc"));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testIncludes",{},$globals.ExampleSetTest)});
+}, function($ctx1) {$ctx1.fill(self,"testIncludes",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -195,7 +195,7 @@ $recv($self.full)._add_((5));
 $self._assert_equals_($recv($self.full)._occurrencesOf_((5)),(1));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testOccurrences",{},$globals.ExampleSetTest)});
+}, function($ctx1) {$ctx1.fill(self,"testOccurrences",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -227,7 +227,7 @@ $self._assert_($1);
 $self._deny_($recv($self.full)._includes_((5)));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testRemove",{},$globals.ExampleSetTest)});
+}, function($ctx1) {$ctx1.fill(self,"testRemove",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -266,7 +266,7 @@ return $self._error_("Intentional");
 })))._valueWithTimeout_((20));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fakeError",{},$globals.SUnitAsyncTest)});
+}, function($ctx1) {$ctx1.fill(self,"fakeError",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -301,7 +301,7 @@ return $self._error_("Intentional");
 })))._valueWithTimeout_((20));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fakeErrorFailingInTearDown",{},$globals.SUnitAsyncTest)});
+}, function($ctx1) {$ctx1.fill(self,"fakeErrorFailingInTearDown",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -337,7 +337,7 @@ return $self._assert_(false);
 })))._valueWithTimeout_((20));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fakeFailure",{},$globals.SUnitAsyncTest)});
+}, function($ctx1) {$ctx1.fill(self,"fakeFailure",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -391,7 +391,7 @@ $ctx1.sendIdx["valueWithTimeout:"]=1;
 //>>excludeEnd("ctx");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fakeMultipleTimeoutFailing",{},$globals.SUnitAsyncTest)});
+}, function($ctx1) {$ctx1.fill(self,"fakeMultipleTimeoutFailing",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -445,7 +445,7 @@ $ctx1.sendIdx["valueWithTimeout:"]=1;
 //>>excludeEnd("ctx");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fakeMultipleTimeoutPassing",{},$globals.SUnitAsyncTest)});
+}, function($ctx1) {$ctx1.fill(self,"fakeMultipleTimeoutPassing",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -479,7 +479,7 @@ return $self._finished();
 })))._valueWithTimeout_((20));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fakeTimeout",{},$globals.SUnitAsyncTest)});
+}, function($ctx1) {$ctx1.fill(self,"fakeTimeout",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -511,7 +511,7 @@ return $recv(each)._selector();
 //>>excludeEnd("ctx");
 })))._asSet();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"selectorSetOf:",{aCollection:aCollection},$globals.SUnitAsyncTest)});
+}, function($ctx1) {$ctx1.fill(self,"selectorSetOf:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -556,7 +556,7 @@ return $core.withContext(function($ctx1) {
 $self._assert_equals_("ok",$self.flag);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"tearDown",{},$globals.SUnitAsyncTest)});
+}, function($ctx1) {$ctx1.fill(self,"tearDown",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -633,7 +633,7 @@ return $recv($4)._ifTrue_(assertBlock);
 $recv(runner)._run();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testAsyncErrorsAndFailures",{suite:suite,runner:runner,result:result,assertBlock:assertBlock},$globals.SUnitAsyncTest)});
+}, function($ctx1) {$ctx1.fill(self,"testAsyncErrorsAndFailures",{suite:suite,runner:runner,result:result,assertBlock:assertBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -684,7 +684,7 @@ return $self._async_((function(){
 $self._finished();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testAsyncNeedsTimeout",{},$globals.SUnitAsyncTest)});
+}, function($ctx1) {$ctx1.fill(self,"testAsyncNeedsTimeout",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -730,7 +730,7 @@ return $self._finished();
 }),$globals.Error);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testFinishedNeedsTimeout",{},$globals.SUnitAsyncTest)});
+}, function($ctx1) {$ctx1.fill(self,"testFinishedNeedsTimeout",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -771,7 +771,7 @@ $self._finished();
 $self._deny_($self._isAsync());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testIsAsyncReturnsCorrectValues",{},$globals.SUnitAsyncTest)});
+}, function($ctx1) {$ctx1.fill(self,"testIsAsyncReturnsCorrectValues",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -809,7 +809,7 @@ return $self.flag;
 })))._valueWithTimeout_((5));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testPass",{},$globals.SUnitAsyncTest)});
+}, function($ctx1) {$ctx1.fill(self,"testPass",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -882,7 +882,7 @@ return $recv($3)._ifTrue_(assertBlock);
 $recv(runner)._run();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testTimeouts",{suite:suite,runner:runner,result:result,assertBlock:assertBlock},$globals.SUnitAsyncTest)});
+}, function($ctx1) {$ctx1.fill(self,"testTimeouts",{suite:suite,runner:runner,result:result,assertBlock:assertBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -951,7 +951,7 @@ return $self._assert_equals_(x,(1));
 })))._valueWithTimeout_((0));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testTwoAsyncPassesWithFinishedOnlyOneIsRun",{x:x},$globals.SUnitAsyncTest)});
+}, function($ctx1) {$ctx1.fill(self,"testTwoAsyncPassesWithFinishedOnlyOneIsRun",{x:x})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);

@@ -39,7 +39,7 @@ return $core.withContext(function($ctx1) {
 $self.announcementClass=$recv($recv($globals.Smalltalk)._globals())._at_($recv(aClass)._name());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"announcementClass:",{aClass:aClass},$globals.AnnouncementSubscription)});
+}, function($ctx1) {$ctx1.fill(self,"announcementClass:",{aClass:aClass})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -68,7 +68,7 @@ $recv($self._valuable())._value_(anAnnouncement);
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"deliver:",{anAnnouncement:anAnnouncement},$globals.AnnouncementSubscription)});
+}, function($ctx1) {$ctx1.fill(self,"deliver:",{anAnnouncement:anAnnouncement})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -92,7 +92,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($recv($recv($globals.Smalltalk)._globals())._at_($recv($recv(anAnnouncement)._class())._name()))._includesBehavior_($self._announcementClass());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"handlesAnnouncement:",{anAnnouncement:anAnnouncement},$globals.AnnouncementSubscription)});
+}, function($ctx1) {$ctx1.fill(self,"handlesAnnouncement:",{anAnnouncement:anAnnouncement})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -116,7 +116,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._valuable())._receiver();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"receiver",{},$globals.AnnouncementSubscription)});
+}, function($ctx1) {$ctx1.fill(self,"receiver",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -263,7 +263,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._valuable())._value();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"value",{},$globals.AnnouncementValuable)});
+}, function($ctx1) {$ctx1.fill(self,"value",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -287,7 +287,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._valuable())._value_(anObject);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject},$globals.AnnouncementValuable)});
+}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -326,7 +326,7 @@ return $recv(each)._deliver_(anAnnouncement);
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"announce:",{anAnnouncement:anAnnouncement},$globals.Announcer)});
+}, function($ctx1) {$ctx1.fill(self,"announce:",{anAnnouncement:anAnnouncement})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -359,7 +359,7 @@ $ctx1.supercall = false;
 $self.subscriptions=$recv($globals.OrderedCollection)._new();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Announcer)});
+}, function($ctx1) {$ctx1.fill(self,"initialize",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -384,7 +384,7 @@ return $core.withContext(function($ctx1) {
 $self._on_do_for_(aClass,aBlock,nil);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:do:",{aClass:aClass,aBlock:aBlock},$globals.Announcer)});
+}, function($ctx1) {$ctx1.fill(self,"on:do:",{aClass:aClass,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -429,7 +429,7 @@ $2=$recv($3)._yourself();
 $recv($1)._add_($2);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:do:for:",{aClass:aClass,aBlock:aBlock,aReceiver:aReceiver},$globals.Announcer)});
+}, function($ctx1) {$ctx1.fill(self,"on:do:for:",{aClass:aClass,aBlock:aBlock,aReceiver:aReceiver})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -469,7 +469,7 @@ return $recv(aBlock)._value_(ann);
 $recv($self.subscriptions)._add_(subscription);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:doOnce:",{aClass:aClass,aBlock:aBlock,subscription:subscription},$globals.Announcer)});
+}, function($ctx1) {$ctx1.fill(self,"on:doOnce:",{aClass:aClass,aBlock:aBlock,subscription:subscription})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -511,7 +511,7 @@ $2=$recv($3)._yourself();
 $recv($1)._add_($2);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:send:to:",{aClass:aClass,aSelector:aSelector,anObject:anObject},$globals.Announcer)});
+}, function($ctx1) {$ctx1.fill(self,"on:send:to:",{aClass:aClass,aSelector:aSelector,anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -544,7 +544,7 @@ return $recv($recv(each)._receiver()).__eq(anObject);
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"unsubscribe:",{anObject:anObject},$globals.Announcer)});
+}, function($ctx1) {$ctx1.fill(self,"unsubscribe:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -590,7 +590,7 @@ return $self.current;
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"current",{},$globals.SystemAnnouncer.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"current",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -615,7 +615,7 @@ return $core.withContext(function($ctx1) {
 $self._shouldNotImplement();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"new",{},$globals.SystemAnnouncer.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"new",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1058,7 +1058,7 @@ class_=$receiver;
 return $recv(class_)._packageOfProtocol_($self._protocol());
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"package",{},$globals.ProtocolAnnouncement)});
+}, function($ctx1) {$ctx1.fill(self,"package",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);

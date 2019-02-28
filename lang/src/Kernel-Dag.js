@@ -19,7 +19,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._visit_(anObject);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject},$globals.AbstractDagVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -43,7 +43,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(aNode)._acceptDagVisitor_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visit:",{aNode:aNode},$globals.AbstractDagVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"visit:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -75,7 +75,7 @@ return $self._visit_(each);
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitAll:",{aCollection:aCollection},$globals.AbstractDagVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"visitAll:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -99,7 +99,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._visitAll_($recv(aDagNode)._dagChildren());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitAllChildren:",{aDagNode:aDagNode},$globals.AbstractDagVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"visitAllChildren:",{aDagNode:aDagNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -124,7 +124,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitDagNode:",{aNode:aNode},$globals.AbstractDagVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"visitDagNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -185,7 +185,7 @@ return $recv($5)._yourself();
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitDagNodeVariantRedux:",{aNode:aNode,newChildren:newChildren,oldChildren:oldChildren},$globals.AbstractDagVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"visitDagNodeVariantRedux:",{aNode:aNode,newChildren:newChildren,oldChildren:oldChildren})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -210,7 +210,7 @@ return $core.withContext(function($ctx1) {
 $self._visitAllChildren_(aNode);
 return aNode;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitDagNodeVariantSimple:",{aNode:aNode},$globals.AbstractDagVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"visitDagNodeVariantSimple:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -249,7 +249,7 @@ $ctx1.supercall = false;
 $self.path=[];
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.PathDagVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"initialize",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -317,7 +317,7 @@ return $self.path;
 }));
 return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visit:",{aNode:aNode,oldPath:oldPath,result:result},$globals.PathDagVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"visit:",{aNode:aNode,oldPath:oldPath,result:result})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -355,7 +355,7 @@ $recv($self.path)._at_put_($recv($self.path)._size(),newNode);
 }
 return newNode;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitDagNodeVariantRedux:",{aNode:aNode,newNode:newNode},$globals.PathDagVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"visitDagNodeVariantRedux:",{aNode:aNode,newNode:newNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -385,7 +385,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(aVisitor)._visitDagNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor},$globals.DagNode)});
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -425,7 +425,7 @@ return $recv(allNodes)._addAll_($recv(each)._allDagChildren());
 }));
 return allNodes;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"allDagChildren",{allNodes:allNodes},$globals.DagNode)});
+}, function($ctx1) {$ctx1.fill(self,"allDagChildren",{allNodes:allNodes})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -450,7 +450,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"dagChildren",{},$globals.DagNode)});
+}, function($ctx1) {$ctx1.fill(self,"dagChildren",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -475,7 +475,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"dagChildren:",{aCollection:aCollection},$globals.DagNode)});
+}, function($ctx1) {$ctx1.fill(self,"dagChildren:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -525,7 +525,7 @@ return $core.withContext(function($ctx1) {
 $recv($self._dagChildren())._add_(aDagNode);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"addDagChild:",{aDagNode:aDagNode},$globals.DagParentNode)});
+}, function($ctx1) {$ctx1.fill(self,"addDagChild:",{aDagNode:aDagNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -556,7 +556,7 @@ return $self.nodes;
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"dagChildren",{},$globals.DagParentNode)});
+}, function($ctx1) {$ctx1.fill(self,"dagChildren",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -634,7 +634,7 @@ return $self._error_("A DagSink cannot have children.");
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"dagChildren:",{aCollection:aCollection},$globals.DagSink)});
+}, function($ctx1) {$ctx1.fill(self,"dagChildren:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);

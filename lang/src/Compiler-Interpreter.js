@@ -20,7 +20,7 @@ return $core.withContext(function($ctx1) {
 $self._interpreterError();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"applyTo:arguments:",{anObject:anObject,aCollection:aCollection},$globals.AIBlockClosure)});
+}, function($ctx1) {$ctx1.fill(self,"applyTo:arguments:",{anObject:anObject,aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -64,7 +64,7 @@ return $core.withContext(function($ctx1) {
 $self._interpreterError();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"currySelf",{},$globals.AIBlockClosure)});
+}, function($ctx1) {$ctx1.fill(self,"currySelf",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -110,7 +110,7 @@ return $core.withContext(function($ctx1) {
 $recv($globals.ASTInterpreterError)._signal_("Method cannot be interpreted by the interpreter.");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"interpreterError",{},$globals.AIBlockClosure)});
+}, function($ctx1) {$ctx1.fill(self,"interpreterError",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -134,7 +134,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($recv($self.node)._temps())._size();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"numArgs",{},$globals.AIBlockClosure)});
+}, function($ctx1) {$ctx1.fill(self,"numArgs",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -158,7 +158,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._valueWithPossibleArguments_([]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"value",{},$globals.AIBlockClosure)});
+}, function($ctx1) {$ctx1.fill(self,"value",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -182,7 +182,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._valueWithPossibleArguments_([anArgument]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"value:",{anArgument:anArgument},$globals.AIBlockClosure)});
+}, function($ctx1) {$ctx1.fill(self,"value:",{anArgument:anArgument})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -206,7 +206,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._valueWithPossibleArguments_([firstArgument,secondArgument]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"value:value:",{firstArgument:firstArgument,secondArgument:secondArgument},$globals.AIBlockClosure)});
+}, function($ctx1) {$ctx1.fill(self,"value:value:",{firstArgument:firstArgument,secondArgument:secondArgument})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -230,7 +230,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._valueWithPossibleArguments_([firstArgument,secondArgument,thirdArgument]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"value:value:value:",{firstArgument:firstArgument,secondArgument:secondArgument,thirdArgument:thirdArgument},$globals.AIBlockClosure)});
+}, function($ctx1) {$ctx1.fill(self,"value:value:value:",{firstArgument:firstArgument,secondArgument:secondArgument,thirdArgument:thirdArgument})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -297,7 +297,7 @@ $ctx1.sendIdx["interpreter"]=2;
 $recv($3)._setNonLocalReturnFromContext_(context);
 return $recv($recv(context)._interpreter())._pop();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"valueWithPossibleArguments:",{aCollection:aCollection,context:context,sequenceNode:sequenceNode},$globals.AIBlockClosure)});
+}, function($ctx1) {$ctx1.fill(self,"valueWithPossibleArguments:",{aCollection:aCollection,context:context,sequenceNode:sequenceNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -325,7 +325,7 @@ $1=$self._new();
 $recv($1)._initializeWithContext_node_(aContext,aNode);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"forContext:node:",{aContext:aContext,aNode:aNode},$globals.AIBlockClosure.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"forContext:node:",{aContext:aContext,aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -370,7 +370,7 @@ return $self._error_("Argument not in context");
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"arguments",{},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"arguments",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -412,7 +412,7 @@ $3;
 }
 return $self.ast;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"ast",{},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"ast",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -436,7 +436,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._locals())._at_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicLocalAt:",{aString:aString},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"basicLocalAt:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -461,7 +461,7 @@ return $core.withContext(function($ctx1) {
 $recv($self._locals())._at_put_(aString,anObject);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicLocalAt:put:",{aString:aString,anObject:anObject},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"basicLocalAt:put:",{aString:aString,anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -485,7 +485,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._localAt_("self");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicReceiver",{},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"basicReceiver",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -510,7 +510,7 @@ return $core.withContext(function($ctx1) {
 $recv($self._locals())._at_put_(aString,nil);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"defineLocal:",{aString:aString},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"defineLocal:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -534,7 +534,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(anEvaluator)._evaluate_context_(aString,self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"evaluate:on:",{aString:aString,anEvaluator:anEvaluator},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"evaluate:on:",{aString:aString,anEvaluator:anEvaluator})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -564,7 +564,7 @@ $recv($1)._enterNode();
 $recv($1)._proceed();
 return $recv($1)._result();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"evaluateNode:",{aNode:aNode},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"evaluateNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -633,7 +633,7 @@ return (0);
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"index",{},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"index",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -684,7 +684,7 @@ $self.ast=$recv($1)._ast();
 $recv($recv($globals.SemanticAnalyzer)._on_($recv($self._method())._methodClass()))._visit_($self.ast);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initializeAST",{},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"initializeAST",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -744,7 +744,7 @@ return $recv($self._locals())._at_put_(key,value);
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initializeFromMethodContext:",{aMethodContext:aMethodContext},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"initializeFromMethodContext:",{aMethodContext:aMethodContext})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -778,7 +778,7 @@ $self._setupInterpreter_($self.interpreter);
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initializeInterpreter",{},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"initializeInterpreter",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -804,7 +804,7 @@ $self.locals=$recv($globals.Dictionary)._new();
 $recv($self.locals)._at_put_("thisContext",self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initializeLocals",{},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"initializeLocals",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -874,7 +874,7 @@ $1;
 }
 return $self.interpreter;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"interpreter",{},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"interpreter",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -918,7 +918,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._innerContext())._isNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isTopContext",{},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"isTopContext",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -944,7 +944,7 @@ return $core.withContext(function($ctx1) {
 context=$self._lookupContextForLocal_(aString);
 return $recv(context)._basicLocalAt_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"localAt:",{aString:aString,context:context},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"localAt:",{aString:aString,context:context})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -982,7 +982,7 @@ return $recv(context)._basicLocalAt_(aString);
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"localAt:ifAbsent:",{aString:aString,aBlock:aBlock,context:context},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"localAt:ifAbsent:",{aString:aString,aBlock:aBlock,context:context})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1009,7 +1009,7 @@ context=$self._lookupContextForLocal_(aString);
 $recv(context)._basicLocalAt_put_(aString,anObject);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"localAt:put:",{aString:aString,anObject:anObject,context:context},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"localAt:put:",{aString:aString,anObject:anObject,context:context})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1040,7 +1040,7 @@ $1;
 }
 return $self.locals;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"locals",{},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"locals",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1072,7 +1072,7 @@ return $self._variableNotFound();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"lookupContextForLocal:",{aString:aString},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"lookupContextForLocal:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1117,7 +1117,7 @@ return $recv(context)._lookupContextForLocal_(aString);
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"lookupContextForLocal:ifNone:",{aString:aString,aBlock:aBlock},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"lookupContextForLocal:ifNone:",{aString:aString,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1144,7 +1144,7 @@ $1=$recv($self._class())._new();
 $recv($1)._outerContext_(self);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"newInnerContext",{},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"newInnerContext",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1197,7 +1197,7 @@ $recv(context)._innerContext_(self);
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"outerContext:",{anAIContext:anAIContext},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"outerContext:",{anAIContext:anAIContext})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1222,7 +1222,7 @@ return $core.withContext(function($ctx1) {
 $recv($self._locals())._at_put_("self",anObject);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"receiver:",{anObject:anObject},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"receiver:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1288,7 +1288,7 @@ return (0);
 
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"sendIndexAt:",{aString:aString},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"sendIndexAt:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1318,7 +1318,7 @@ return $recv($globals.Dictionary)._new();
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"sendIndexes",{},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"sendIndexes",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1416,7 +1416,7 @@ $ctx2.sendIdx["push:"]=1;
 $recv(anInterpreter)._push_($recv($self._innerContext())._receiver());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"setupInterpreter:",{anInterpreter:anInterpreter,currentNode:currentNode},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"setupInterpreter:",{anInterpreter:anInterpreter,currentNode:currentNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1446,7 +1446,7 @@ return false;
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"supercall",{},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"supercall",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1491,7 +1491,7 @@ return $core.withContext(function($ctx1) {
 $self._error_("Variable missing");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"variableNotFound",{},$globals.AIContext)});
+}, function($ctx1) {$ctx1.fill(self,"variableNotFound",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1519,7 +1519,7 @@ $1=$self._new();
 $recv($1)._initializeFromMethodContext_(aMethodContext);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromMethodContext:",{aMethodContext:aMethodContext},$globals.AIContext.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"fromMethodContext:",{aMethodContext:aMethodContext})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1610,7 +1610,7 @@ return self;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitVariableNode:",{aNode:aNode},$globals.AISemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"visitVariableNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1703,7 +1703,7 @@ return $recv($self._context())._isTopContext();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"atEnd",{},$globals.ASTDebugger)});
+}, function($ctx1) {$ctx1.fill(self,"atEnd",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1775,7 +1775,7 @@ $recv(cxt)._innerContext_(nil);
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"flushInnerContexts",{},$globals.ASTDebugger)});
+}, function($ctx1) {$ctx1.fill(self,"flushInnerContexts",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1807,7 +1807,7 @@ ctx=$receiver;
 return $recv(ctx)._interpreter();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"interpreter",{},$globals.ASTDebugger)});
+}, function($ctx1) {$ctx1.fill(self,"interpreter",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1831,7 +1831,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._context())._method();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"method",{},$globals.ASTDebugger)});
+}, function($ctx1) {$ctx1.fill(self,"method",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1864,7 +1864,7 @@ return $1;
 return $recv($self._interpreter())._node();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"node",{},$globals.ASTDebugger)});
+}, function($ctx1) {$ctx1.fill(self,"node",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1921,7 +1921,7 @@ $recv($self._interpreter())._skip();
 $self._flushInnerContexts();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"onStep",{},$globals.ASTDebugger)});
+}, function($ctx1) {$ctx1.fill(self,"onStep",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1962,7 +1962,7 @@ return $self._stepOver();
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"proceed",{},$globals.ASTDebugger)});
+}, function($ctx1) {$ctx1.fill(self,"proceed",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1988,7 +1988,7 @@ $recv($self._interpreter())._restart();
 $self._flushInnerContexts();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"restart",{},$globals.ASTDebugger)});
+}, function($ctx1) {$ctx1.fill(self,"restart",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2032,7 +2032,7 @@ return $core.withContext(function($ctx1) {
 $self._shouldBeImplemented();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"stepInto",{},$globals.ASTDebugger)});
+}, function($ctx1) {$ctx1.fill(self,"stepInto",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2068,7 +2068,7 @@ $recv($2)._skip();
 $self._onStep();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"stepOver",{},$globals.ASTDebugger)});
+}, function($ctx1) {$ctx1.fill(self,"stepOver",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2096,7 +2096,7 @@ $1=$self._new();
 $recv($1)._context_(aContext);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"context:",{aContext:aContext},$globals.ASTDebugger.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"context:",{aContext:aContext})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2191,7 +2191,7 @@ return $self._visit_($recv(nodes)._first());
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitDagNode:",{aNode:aNode},$globals.ASTEnterNode)});
+}, function($ctx1) {$ctx1.fill(self,"visitDagNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2233,7 +2233,7 @@ $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitSequenceNode:",{aNode:aNode},$globals.ASTEnterNode)});
+}, function($ctx1) {$ctx1.fill(self,"visitSequenceNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2261,7 +2261,7 @@ $1=$self._new();
 $recv($1)._interpreter_(anInterpreter);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{anInterpreter:anInterpreter},$globals.ASTEnterNode.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{anInterpreter:anInterpreter})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2306,7 +2306,7 @@ $recv($self._context())._localAt_put_($recv(aNode)._value(),anObject);
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"assign:to:",{aNode:aNode,anObject:anObject},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"assign:to:",{aNode:aNode,anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2343,7 +2343,7 @@ return $recv($self._node())._isNil();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"atEnd",{},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"atEnd",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2407,7 +2407,7 @@ return $core.withContext(function($ctx1) {
 $self._node_($recv($recv($globals.ASTEnterNode)._on_(self))._visit_($self._node()));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"enterNode",{},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"enterNode",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2487,7 +2487,7 @@ return $recv(str)._nextPutAll_("})()})");
 function_=$recv($globals.Compiler)._eval_(source);
 return $recv(function_)._valueWithPossibleArguments_($recv($recv($self._context())._locals())._values());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"eval:",{aString:aString,source:source,function_:function_},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"eval:",{aString:aString,source:source,function_:function_})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2517,7 +2517,7 @@ return false;
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"hasReturned",{},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"hasReturned",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2550,7 +2550,7 @@ $ctx1.supercall = false;
 $self.forceAtEnd=false;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"initialize",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2575,7 +2575,7 @@ return $core.withContext(function($ctx1) {
 $self._visit_($self._node());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"interpret",{},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"interpret",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2603,7 +2603,7 @@ $recv($1)._selector_($recv(aSendNode)._selector());
 $recv($1)._arguments_(aCollection);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"messageFromSendNode:arguments:",{aSendNode:aSendNode,aCollection:aCollection},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"messageFromSendNode:arguments:",{aSendNode:aSendNode,aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2632,7 +2632,7 @@ $recv($1)._receiver_(anObject);
 $recv($1)._signal();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"messageNotUnderstood:receiver:",{aMessage:aMessage,anObject:anObject},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"messageNotUnderstood:receiver:",{aMessage:aMessage,anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2675,7 +2675,7 @@ nextNode=$recv($recv($globals.ASTEnterNode)._on_(self))._visit_(sibling);
 $self._node_(nextNode);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"next",{nd:nd,nextNode:nextNode},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"next",{nd:nd,nextNode:nextNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2751,7 +2751,7 @@ return $recv($self._stack())._last();
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"peek",{},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"peek",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2778,7 +2778,7 @@ peekedValue=$self._peek();
 $recv($self._stack())._removeLast();
 return peekedValue;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"pop",{peekedValue:peekedValue},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"pop",{peekedValue:peekedValue})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2819,7 +2819,7 @@ return $self._step();
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"proceed",{},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"proceed",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2843,7 +2843,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._stack())._add_(anObject);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"push:",{anObject:anObject},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"push:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2869,7 +2869,7 @@ $self._node_($recv($self._context())._ast());
 $self._enterNode();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"restart",{},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"restart",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2899,7 +2899,7 @@ return $self._returnValue();
 return $recv($self._context())._receiver();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"result",{},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"result",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2997,7 +2997,7 @@ return $recv(method)._sendTo_arguments_(anObject,$recv(aMessage)._arguments());
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"sendMessage:to:superSend:",{aMessage:aMessage,anObject:anObject,aBoolean:aBoolean,method:method},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"sendMessage:to:superSend:",{aMessage:aMessage,anObject:anObject,aBoolean:aBoolean,method:method})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3031,7 +3031,7 @@ $self._returnValue_($recv($recv(aContext)._interpreter())._returnValue());
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"setNonLocalReturnFromContext:",{aContext:aContext},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"setNonLocalReturnFromContext:",{aContext:aContext})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3056,7 +3056,7 @@ return $core.withContext(function($ctx1) {
 $self._next();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"skip",{},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"skip",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3087,7 +3087,7 @@ return $self.stack;
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"stack",{},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"stack",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3113,7 +3113,7 @@ $self._interpret();
 $self._next();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"step",{},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"step",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3172,7 +3172,7 @@ return $self._step();
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"stepOver",{},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"stepOver",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3208,7 +3208,7 @@ $ctx1.supercall = false;
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visit:",{aNode:aNode},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"visit:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3240,7 +3240,7 @@ $self._push_(poppedValue);
 $self._assign_to_($recv(aNode)._left(),poppedValue);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitAssignmentNode:",{aNode:aNode,poppedValue:poppedValue},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"visitAssignmentNode:",{aNode:aNode,poppedValue:poppedValue})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3267,7 +3267,7 @@ block=$recv($globals.AIBlockClosure)._forContext_node_($self._context(),aNode);
 $self._push_(block);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitBlockNode:",{aNode:aNode,block:block},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"visitBlockNode:",{aNode:aNode,block:block})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3300,7 +3300,7 @@ $ctx1.supercall = false;
 $self.forceAtEnd=true;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitBlockSequenceNode:",{aNode:aNode},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"visitBlockSequenceNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3355,7 +3355,7 @@ return $recv(array)._addFirst_($self._pop());
 $self._push_(array);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitDynamicArrayNode:",{aNode:aNode,array:array},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"visitDynamicArrayNode:",{aNode:aNode,array:array})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3391,7 +3391,7 @@ return $recv(keyValueList)._add_($self._pop());
 $self._push_($recv($globals.HashedCollection)._newFromPairs_($recv(keyValueList)._reversed()));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitDynamicDictionaryNode:",{aNode:aNode,keyValueList:keyValueList},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"visitDynamicDictionaryNode:",{aNode:aNode,keyValueList:keyValueList})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3417,7 +3417,7 @@ $self.returned=true;
 $self._returnValue_($self._eval_($recv(aNode)._source()));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitJSStatementNode:",{aNode:aNode},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"visitJSStatementNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3443,7 +3443,7 @@ $self.returned=true;
 $self._returnValue_($self._pop());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitReturnNode:",{aNode:aNode},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"visitReturnNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3497,7 +3497,7 @@ $self._push_(result);
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode,receiver:receiver,args:args,message:message,result:result},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode,receiver:receiver,args:args,message:message,result:result})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3522,7 +3522,7 @@ return $core.withContext(function($ctx1) {
 $self._push_($recv(aNode)._value());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitValueNode:",{aNode:aNode},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"visitValueNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3631,7 +3631,7 @@ return $recv($recv($globals.Platform)._globals())._at_($recv(aNode)._value());
 $self._push_($7);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitVariableNode:",{aNode:aNode},$globals.ASTInterpreter)});
+}, function($ctx1) {$ctx1.fill(self,"visitVariableNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3687,7 +3687,7 @@ return $core.withContext(function($ctx1) {
 $self.trackedIndex=$recv($self._trackedIndex()).__plus((1));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"increaseTrackedIndex",{},$globals.ASTPCNodeVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"increaseTrackedIndex",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3796,7 +3796,7 @@ return $self.trackedIndex;
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"trackedIndex",{},$globals.ASTPCNodeVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"trackedIndex",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3865,7 +3865,7 @@ $self._increaseTrackedIndex();
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode},$globals.ASTPCNodeVisitor)});
+}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3892,7 +3892,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($recv($recv($self._parent())._dagChildren())._last()).__eq(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isLastChild",{},$globals.ASTNode)});
+}, function($ctx1) {$ctx1.fill(self,"isLastChild",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3943,7 +3943,7 @@ return nil;
 
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nextSiblingNode:",{aNode:aNode},$globals.ASTNode)});
+}, function($ctx1) {$ctx1.fill(self,"nextSiblingNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4081,7 +4081,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._parent())._isCascadeNode();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isCascadeSendNode",{},$globals.SendNode)});
+}, function($ctx1) {$ctx1.fill(self,"isCascadeSendNode",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);

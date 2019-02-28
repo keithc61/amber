@@ -20,7 +20,7 @@ return $core.withContext(function($ctx1) {
 		Object.prototype.toString.call(anObject) !== "[object Object]";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isDomNode:",{anObject:anObject},$globals.PlatformDom.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"isDomNode:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -56,7 +56,7 @@ return $core.withContext(function($ctx1) {
   };
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isFeasible",{},$globals.PlatformDom.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"isFeasible",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -81,7 +81,7 @@ return $core.withContext(function($ctx1) {
 return new CustomEvent(aString, {detail: anObject});
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"newCustomEvent:detail:",{aString:aString,anObject:anObject},$globals.PlatformDom.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"newCustomEvent:detail:",{aString:aString,anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -106,7 +106,7 @@ return $core.withContext(function($ctx1) {
 return Array.prototype.slice.call(aDomList);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"toArray:",{aDomList:aDomList},$globals.PlatformDom.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"toArray:",{aDomList:aDomList})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -141,7 +141,7 @@ return $recv(fragment)._appendChild_($recv(each)._asDomNode());
 }));
 return fragment;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asDomNode",{fragment:fragment},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"asDomNode",{fragment:fragment})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -180,7 +180,7 @@ return $2;
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asDomNode",{},$globals.JSObjectProxy)});
+}, function($ctx1) {$ctx1.fill(self,"asDomNode",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -204,7 +204,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(document)._createTextNode_($self._asString());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asDomNode",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"asDomNode",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -229,7 +229,7 @@ return $core.withContext(function($ctx1) {
 var d=document.createElement("div");d.innerHTML=self;return d.textContent||d.innerText;;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"htmlTextContent",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"htmlTextContent",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);

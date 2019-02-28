@@ -26,7 +26,7 @@ $recv($1)._at_put_(aString,$recv($globals.ArgVar)._on_(aString));
 $recv($recv($self._args())._at_(aString))._scope_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"addArg:",{aString:aString},$globals.LexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"addArg:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -57,7 +57,7 @@ $recv($1)._at_put_(aString,$recv($globals.TempVar)._on_(aString));
 $recv($recv($self._temps())._at_(aString))._scope_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"addTemp:",{aString:aString},$globals.LexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"addTemp:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -81,7 +81,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return "$ctx".__comma($recv($self._scopeLevel())._asString());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"alias",{},$globals.LexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"alias",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -110,7 +110,7 @@ $ctx1.sendIdx["keys"]=1;
 //>>excludeEnd("ctx");
 return $recv($1).__comma($recv($self._temps())._keys());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"allVariableNames",{},$globals.LexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"allVariableNames",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -141,7 +141,7 @@ return $self.args;
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"args",{},$globals.LexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"args",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -202,7 +202,7 @@ $ctx1.sendIdx["at:ifAbsent:"]=1;
 //>>excludeEnd("ctx");
 return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"bindingFor:",{aStringOrNode:aStringOrNode},$globals.LexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"bindingFor:",{aStringOrNode:aStringOrNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -232,7 +232,7 @@ return (0);
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"blockIndex",{},$globals.LexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"blockIndex",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -284,7 +284,7 @@ return $recv($self._outerScope())._canInlineNonLocalReturns();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"canInlineNonLocalReturns",{},$globals.LexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"canInlineNonLocalReturns",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -347,7 +347,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._isMethodScope())._not();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isBlockScope",{},$globals.LexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"isBlockScope",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -385,7 +385,7 @@ return $recv($self._instruction())._isInlined();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isInlined",{},$globals.LexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"isInlined",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -446,7 +446,7 @@ $1;
 }
 return lookup;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"lookupVariable:",{aNode:aNode,lookup:lookup},$globals.LexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"lookupVariable:",{aNode:aNode,lookup:lookup})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -479,7 +479,7 @@ return $1;
 return $recv($self._outerScope())._methodScope();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"methodScope",{},$globals.LexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"methodScope",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -581,7 +581,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._methodScope())._pseudoVars();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"pseudoVars",{},$globals.LexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"pseudoVars",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -627,7 +627,7 @@ return $3;
 }
 return $recv($recv($self._outerScope())._scopeLevel()).__plus((1));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"scopeLevel",{},$globals.LexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"scopeLevel",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -658,7 +658,7 @@ return $self.temps;
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"temps",{},$globals.LexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"temps",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -695,7 +695,7 @@ $recv($1)._at_put_(aString,$recv($globals.InstanceVar)._on_(aString));
 $recv($recv($self._iVars())._at_(aString))._scope_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"addIVar:",{aString:aString},$globals.MethodLexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"addIVar:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -720,7 +720,7 @@ return $core.withContext(function($ctx1) {
 $recv($self._nonLocalReturns())._add_(aScope);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"addNonLocalReturn:",{aScope:aScope},$globals.MethodLexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"addNonLocalReturn:",{aScope:aScope})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -753,7 +753,7 @@ $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 return $recv($1).__comma($recv($self._iVars())._keys());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"allVariableNames",{},$globals.MethodLexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"allVariableNames",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -793,7 +793,7 @@ return nil;
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"bindingFor:",{aNode:aNode},$globals.MethodLexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"bindingFor:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -836,7 +836,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._localReturn();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"hasLocalReturn",{},$globals.MethodLexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"hasLocalReturn",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -860,7 +860,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._nonLocalReturns())._notEmpty();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"hasNonLocalReturn",{},$globals.MethodLexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"hasNonLocalReturn",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -891,7 +891,7 @@ return $self.iVars;
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"iVars",{},$globals.MethodLexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"iVars",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -940,7 +940,7 @@ return false;
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"localReturn",{},$globals.MethodLexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"localReturn",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1010,7 +1010,7 @@ return $self.nonLocalReturns;
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nonLocalReturns",{},$globals.MethodLexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"nonLocalReturns",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1054,7 +1054,7 @@ $1;
 }
 return $self.pseudoVars;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"pseudoVars",{},$globals.MethodLexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"pseudoVars",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1081,7 +1081,7 @@ $recv($self._nonLocalReturns())._remove_ifAbsent_(aScope,(function(){
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"removeNonLocalReturn:",{aScope:aScope},$globals.MethodLexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"removeNonLocalReturn:",{aScope:aScope})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1112,7 +1112,7 @@ return $self.unknownVariables;
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"unknownVariables",{},$globals.MethodLexicalScope)});
+}, function($ctx1) {$ctx1.fill(self,"unknownVariables",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1142,7 +1142,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._name())._asVariableName();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"alias",{},$globals.ScopeVar)});
+}, function($ctx1) {$ctx1.fill(self,"alias",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1430,7 +1430,7 @@ $recv($2)._signal();
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"validateAssignment",{},$globals.ScopeVar)});
+}, function($ctx1) {$ctx1.fill(self,"validateAssignment",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1458,7 +1458,7 @@ $1=$self._new();
 $recv($1)._name_(aString);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{aString:aString},$globals.ScopeVar.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1595,7 +1595,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return "$globals.".__comma($self._name());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"alias",{},$globals.ClassRefVar)});
+}, function($ctx1) {$ctx1.fill(self,"alias",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1663,7 +1663,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return "$self.".__comma($self._name());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"alias",{},$globals.InstanceVar)});
+}, function($ctx1) {$ctx1.fill(self,"alias",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1712,7 +1712,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._name();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"alias",{},$globals.PseudoVar)});
+}, function($ctx1) {$ctx1.fill(self,"alias",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1774,7 +1774,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self.name).__eq("self");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isSelf",{},$globals.PseudoVar)});
+}, function($ctx1) {$ctx1.fill(self,"isSelf",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1798,7 +1798,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self.name).__eq("super");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isSuper",{},$globals.PseudoVar)});
+}, function($ctx1) {$ctx1.fill(self,"isSuper",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1885,7 +1885,7 @@ return $self.classReferences;
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"classReferences",{},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"classReferences",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1913,7 +1913,7 @@ $recv($1)._variableName_(aString);
 $recv($1)._signal();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"errorShadowingVariable:",{aString:aString},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"errorShadowingVariable:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1963,7 +1963,7 @@ $recv($recv($recv($self.currentScope)._methodScope())._unknownVariables())._add_
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"errorUnknownVariable:",{aNode:aNode,identifier:identifier},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"errorUnknownVariable:",{aNode:aNode,identifier:identifier})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2002,7 +2002,7 @@ $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
 return $recv($globals.Compiler)._eval_($2);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isVariableUndefined:inPackage:",{aString:aString,aPackage:aPackage},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"isVariableUndefined:inPackage:",{aString:aString,aPackage:aPackage})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2033,7 +2033,7 @@ return $self.messageSends;
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"messageSends",{},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"messageSends",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2057,7 +2057,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._newScopeOfClass_($globals.LexicalScope);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"newBlockScope",{},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"newBlockScope",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2081,7 +2081,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._newScopeOfClass_($globals.MethodLexicalScope);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"newMethodScope",{},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"newMethodScope",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2108,7 +2108,7 @@ $1=$recv(aLexicalScopeClass)._new();
 $recv($1)._outerScope_($self.currentScope);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"newScopeOfClass:",{aLexicalScopeClass:aLexicalScopeClass},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"newScopeOfClass:",{aLexicalScopeClass:aLexicalScopeClass})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2141,7 +2141,7 @@ $1;
 $self.blockIndex=$recv($self.blockIndex).__plus((1));
 return $self.blockIndex;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nextBlockIndex",{},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"nextBlockIndex",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2173,7 +2173,7 @@ $self.currentScope;
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"popScope",{},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"popScope",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2199,7 +2199,7 @@ $recv(aScope)._outerScope_($self.currentScope);
 $self.currentScope=aScope;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"pushScope:",{aScope:aScope},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"pushScope:",{aScope:aScope})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2308,7 +2308,7 @@ $self._errorShadowingVariable_(aString);
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"validateVariableScope:",{aString:aString},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"validateVariableScope:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2341,7 +2341,7 @@ $ctx1.supercall = false;
 $recv($recv(aNode)._left())._beAssigned();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitAssignmentNode:",{aNode:aNode},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"visitAssignmentNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2388,7 +2388,7 @@ $ctx1.supercall = false;
 $self._popScope();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitBlockNode:",{aNode:aNode},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"visitBlockNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2421,7 +2421,7 @@ $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitCascadeNode:",{aNode:aNode},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"visitCascadeNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2481,7 +2481,7 @@ $recv(aNode)._sendIndexes_($self._messageSends());
 $self._popScope();
 return aNode;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitMethodNode:",{aNode:aNode},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"visitMethodNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2521,7 +2521,7 @@ $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitReturnNode:",{aNode:aNode},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"visitReturnNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2565,7 +2565,7 @@ $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode,sends:sends},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode,sends:sends})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2607,7 +2607,7 @@ $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitSequenceNode:",{aNode:aNode},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"visitSequenceNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2676,7 +2676,7 @@ $1;
 $recv(aNode)._binding_(binding);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitVariableNode:",{aNode:aNode,binding:binding},$globals.SemanticAnalyzer)});
+}, function($ctx1) {$ctx1.fill(self,"visitVariableNode:",{aNode:aNode,binding:binding})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2704,7 +2704,7 @@ $1=$self._new();
 $recv($1)._theClass_(aClass);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{aClass:aClass},$globals.SemanticAnalyzer.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{aClass:aClass})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2739,7 +2739,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return " Invalid assignment to variable: ".__comma($self._variableName());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"messageText",{},$globals.InvalidAssignmentError)});
+}, function($ctx1) {$ctx1.fill(self,"messageText",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2813,7 +2813,7 @@ $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
 return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"messageText",{},$globals.ShadowingVariableError)});
+}, function($ctx1) {$ctx1.fill(self,"messageText",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2887,7 +2887,7 @@ $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
 return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"messageText",{},$globals.UnknownVariableError)});
+}, function($ctx1) {$ctx1.fill(self,"messageText",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);

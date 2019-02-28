@@ -60,7 +60,7 @@ $ctx1.sendIdx["and:"]=1;
 //>>excludeEnd("ctx");
 return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"=",{anAssociation:anAssociation},$globals.Association)});
+}, function($ctx1) {$ctx1.fill(self,"=",{anAssociation:anAssociation})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -129,7 +129,7 @@ $recv(aStream)._nextPutAll_(" -> ");
 $recv($self._value())._printOn_(aStream);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.Association)});
+}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -197,7 +197,7 @@ $recv($1)._key_(aKey);
 $recv($1)._value_(aValue);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"key:value:",{aKey:aKey,aValue:aValue},$globals.Association.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"key:value:",{aKey:aKey,aValue:aValue})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -234,7 +234,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"bucketOfElement:",{anObject:anObject},$globals.BucketStore)});
+}, function($ctx1) {$ctx1.fill(self,"bucketOfElement:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -263,7 +263,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock},$globals.BucketStore)});
+}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -316,7 +316,7 @@ $ctx1.supercall = false;
 $self._removeAll();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.BucketStore)});
+}, function($ctx1) {$ctx1.fill(self,"initialize",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -341,7 +341,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"newBucket",{},$globals.BucketStore)});
+}, function($ctx1) {$ctx1.fill(self,"newBucket",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -366,7 +366,7 @@ return $core.withContext(function($ctx1) {
 $self.buckets = Object.create(null);;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"removeAll",{},$globals.BucketStore)});
+}, function($ctx1) {$ctx1.fill(self,"removeAll",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -394,7 +394,7 @@ $1=$self._new();
 $recv($1)._hashBlock_(aBlock);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"hashBlock:",{aBlock:aBlock},$globals.BucketStore.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"hashBlock:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -451,7 +451,7 @@ $1=$self._copy();
 $recv($1)._addAll_(aCollection);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,",",{aCollection:aCollection},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,",",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -476,7 +476,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -509,7 +509,7 @@ return $self._add_(each);
 }));
 return aCollection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"addAll:",{aCollection:aCollection},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"addAll:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -550,7 +550,7 @@ return true;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"allSatisfy:",{aBlock:aBlock},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"allSatisfy:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -591,7 +591,7 @@ return self;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"anyOne",{},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"anyOne",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -632,7 +632,7 @@ return false;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"anySatisfy:",{aBlock:aBlock},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"anySatisfy:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -656,7 +656,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($globals.Array)._withAll_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asArray",{},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"asArray",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -688,7 +688,7 @@ return $recv(each)._asJavaScriptObject();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJavaScriptObject",{},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptObject",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -712,7 +712,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._asArray();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asOrderedCollection",{},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"asOrderedCollection",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -736,7 +736,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($globals.Set)._withAll_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asSet",{},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"asSet",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -771,7 +771,7 @@ return $recv(stream)._nextPut_($recv(aBlock)._value_(each));
 }));
 return $recv(stream)._contents();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"collect:",{aBlock:aBlock,stream:stream},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"collect:",{aBlock:aBlock,stream:stream})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -798,7 +798,7 @@ $1=$self._copy();
 $recv($1)._add_(anObject);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"copyWith:",{anObject:anObject},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"copyWith:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -823,7 +823,7 @@ return $core.withContext(function($ctx1) {
 $self._deprecatedAPI_("Use #, instead.");
 return $self.__comma(aCollection);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"copyWithAll:",{aCollection:aCollection},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"copyWithAll:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -855,7 +855,7 @@ return $recv(each).__eq(anObject);
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"copyWithout:",{anObject:anObject},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"copyWithout:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -887,7 +887,7 @@ return $recv(aCollection)._includes_(each);
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"copyWithoutAll:",{aCollection:aCollection},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"copyWithoutAll:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -919,7 +919,7 @@ return $recv(each)._deepCopy();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"deepCopy",{},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"deepCopy",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -951,7 +951,7 @@ return $self._errorNotFound();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"detect:",{aBlock:aBlock},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"detect:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -992,7 +992,7 @@ return $recv(anotherBlock)._value();
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"detect:ifNone:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"detect:ifNone:",{aBlock:aBlock,anotherBlock:anotherBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1017,7 +1017,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1057,7 +1057,7 @@ return $recv(aBlock)._value_(each);
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"do:separatedBy:",{aBlock:aBlock,anotherBlock:anotherBlock,actionBeforeElement:actionBeforeElement},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"do:separatedBy:",{aBlock:aBlock,anotherBlock:anotherBlock,actionBeforeElement:actionBeforeElement})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1082,7 +1082,7 @@ return $core.withContext(function($ctx1) {
 $self._error_("Object is not in the collection");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"errorNotFound",{},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"errorNotFound",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1112,7 +1112,7 @@ return $recv(aBlock)._value();
 return self;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"ifEmpty:",{aBlock:aBlock},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"ifEmpty:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1142,7 +1142,7 @@ return $recv(aBlock)._value();
 return $recv(anotherBlock)._value_(self);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"ifEmpty:ifNotEmpty:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"ifEmpty:ifNotEmpty:",{aBlock:aBlock,anotherBlock:anotherBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1172,7 +1172,7 @@ return $recv(aBlock)._value_(self);
 return self;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"ifNotEmpty:",{aBlock:aBlock},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"ifNotEmpty:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1202,7 +1202,7 @@ return $recv(aBlock)._value_(self);
 return $recv(anotherBlock)._value();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"ifNotEmpty:ifEmpty:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"ifNotEmpty:ifEmpty:",{aBlock:aBlock,anotherBlock:anotherBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1234,7 +1234,7 @@ return $recv(each).__eq(anObject);
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"includes:",{anObject:anObject},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"includes:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1270,7 +1270,7 @@ return result;
 }));
 return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"inject:into:",{anObject:anObject,aBlock:aBlock,result:result},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"inject:into:",{anObject:anObject,aBlock:aBlock,result:result})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1322,7 +1322,7 @@ return $recv(outputSet)._add_(each);
 }));
 return $recv($self._class())._withAll_($recv(outputSet)._asArray());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"intersection:",{aCollection:aCollection,set:set,outputSet:outputSet},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"intersection:",{aCollection:aCollection,set:set,outputSet:outputSet})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1346,7 +1346,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._size()).__eq((0));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isEmpty",{},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"isEmpty",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1387,7 +1387,7 @@ return true;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"noneSatisfy:",{aBlock:aBlock},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"noneSatisfy:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1411,7 +1411,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._isEmpty())._not();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"notEmpty",{},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"notEmpty",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1451,7 +1451,7 @@ return tally;
 }));
 return tally;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"occurrencesOf:",{anObject:anObject,tally:tally},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"occurrencesOf:",{anObject:anObject,tally:tally})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1484,7 +1484,7 @@ return $recv(each)._putOn_(aStream);
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"putOn:",{aStream:aStream},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"putOn:",{aStream:aStream})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1516,7 +1516,7 @@ return $recv($recv(aBlock)._value_(each)).__eq(false);
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"reject:",{aBlock:aBlock},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"reject:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1548,7 +1548,7 @@ return $self._errorNotFound();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"remove:",{anObject:anObject},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"remove:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1573,7 +1573,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{anObject:anObject,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1598,7 +1598,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"removeAll",{},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"removeAll",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1637,7 +1637,7 @@ return $recv(stream)._nextPut_(each);
 }));
 return $recv(stream)._contents();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"select:",{aBlock:aBlock,stream:stream},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"select:",{aBlock:aBlock,stream:stream})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1679,7 +1679,7 @@ return $recv(stream)._nextPut_($recv(collectBlock)._value_(each));
 }));
 return $recv(stream)._contents();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"select:thenCollect:",{selectBlock:selectBlock,collectBlock:collectBlock,stream:stream},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"select:thenCollect:",{selectBlock:selectBlock,collectBlock:collectBlock,stream:stream})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1706,7 +1706,7 @@ return each;
 
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"shallowCopy",{},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"shallowCopy",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1747,7 +1747,7 @@ $self._error_("Collection holds more than one element");
 }
 return $self._anyOne();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"single",{},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"single",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1772,7 +1772,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"size",{},$globals.Collection)});
+}, function($ctx1) {$ctx1.fill(self,"size",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1816,7 +1816,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"new:",{anInteger:anInteger},$globals.Collection.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"new:",{anInteger:anInteger})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1843,7 +1843,7 @@ $1=$self._new();
 $recv($1)._add_(anObject);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"with:",{anObject:anObject},$globals.Collection.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"with:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1874,7 +1874,7 @@ $ctx1.sendIdx["add:"]=1;
 $recv($1)._add_(anotherObject);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"with:with:",{anObject:anObject,anotherObject:anotherObject},$globals.Collection.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"with:with:",{anObject:anObject,anotherObject:anotherObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1909,7 +1909,7 @@ $ctx1.sendIdx["add:"]=2;
 $recv($1)._add_(thirdObject);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"with:with:with:",{firstObject:firstObject,secondObject:secondObject,thirdObject:thirdObject},$globals.Collection.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"with:with:with:",{firstObject:firstObject,secondObject:secondObject,thirdObject:thirdObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1936,7 +1936,7 @@ $1=$self._new();
 $recv($1)._addAll_(aCollection);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"withAll:",{aCollection:aCollection},$globals.Collection.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"withAll:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1992,7 +1992,7 @@ $ctx1.sendIdx["associations"]=1;
 //>>excludeEnd("ctx");
 return $recv($5).__eq($recv(anAssocitativeCollection)._associations());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"=",{anAssocitativeCollection:anAssocitativeCollection},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"=",{anAssocitativeCollection:anAssocitativeCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2017,7 +2017,7 @@ return $core.withContext(function($ctx1) {
 $self._at_put_($recv(anAssociation)._key(),$recv(anAssociation)._value());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"add:",{anAssociation:anAssociation},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"add:",{anAssociation:anAssociation})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2049,7 +2049,7 @@ $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 return anAssociativeCollection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"addAll:",{anAssociativeCollection:anAssociativeCollection},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"addAll:",{anAssociativeCollection:anAssociativeCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2073,7 +2073,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($globals.Dictionary)._from_($self._associations());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asDictionary",{},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"asDictionary",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2097,7 +2097,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($globals.HashedCollection)._from_($self._associations());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asHashedCollection",{},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"asHashedCollection",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2132,7 +2132,7 @@ return $recv(hash)._at_put_(key,$recv(value)._asJavaScriptObject());
 }));
 return hash;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJavaScriptObject",{hash:hash},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptObject",{hash:hash})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2167,7 +2167,7 @@ return $recv(associations)._add_(each);
 }));
 return associations;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"associations",{associations:associations},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"associations",{associations:associations})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2200,7 +2200,7 @@ return $recv(aBlock)._value_($recv($globals.Association)._key_value_(key,value))
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"associationsDo:",{aBlock:aBlock},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"associationsDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2230,7 +2230,7 @@ return $recv(aBlock)._value_($self._at_(aKey));
 return $recv(anotherBlock)._value();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{aKey:aKey,aBlock:aBlock,anotherBlock:anotherBlock},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{aKey:aKey,aBlock:aBlock,anotherBlock:anotherBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2265,7 +2265,7 @@ return $recv(newDict)._at_put_(key,$recv(aBlock)._value_(value));
 }));
 return newDict;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"collect:",{aBlock:aBlock,newDict:newDict},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"collect:",{aBlock:aBlock,newDict:newDict})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2300,7 +2300,7 @@ return $recv(copy)._at_put_(key,$recv(value)._deepCopy());
 }));
 return copy;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"deepCopy",{copy:copy},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"deepCopy",{copy:copy})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2324,7 +2324,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._values())._detect_ifNone_(aBlock,anotherBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"detect:ifNone:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"detect:ifNone:",{aBlock:aBlock,anotherBlock:anotherBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2349,7 +2349,7 @@ return $core.withContext(function($ctx1) {
 $self._valuesDo_(aBlock);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2373,7 +2373,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._values())._includes_(anObject);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"includes:",{anObject:anObject},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"includes:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2398,7 +2398,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"includesKey:",{aKey:aKey},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"includesKey:",{aKey:aKey})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2430,7 +2430,7 @@ return $recv($self._at_(each)).__eq(anObject);
 //>>excludeEnd("ctx");
 }),aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"indexOf:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"indexOf:ifAbsent:",{anObject:anObject,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2462,7 +2462,7 @@ return $self._errorNotFound();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"keyAtValue:",{anObject:anObject},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"keyAtValue:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2486,7 +2486,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._indexOf_ifAbsent_(anObject,aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"keyAtValue:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"keyAtValue:ifAbsent:",{anObject:anObject,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2511,7 +2511,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"keys",{},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"keys",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2544,7 +2544,7 @@ return $recv(aBlock)._value_value_(each,$self._at_(each));
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"keysAndValuesDo:",{aBlock:aBlock},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"keysAndValuesDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2569,7 +2569,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"keysDo:",{aBlock:aBlock},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"keysDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2629,7 +2629,7 @@ $ctx2.sendIdx["nextPutAll:"]=2;
 $recv(aStream)._nextPutAll_(")");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2653,7 +2653,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._removeKey_ifAbsent_(aKey,aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{aKey:aKey,aBlock:aBlock},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{aKey:aKey,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2685,7 +2685,7 @@ return $self._removeKey_(each);
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"removeAll",{},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"removeAll",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2709,7 +2709,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._remove_(aKey);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"removeKey:",{aKey:aKey},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"removeKey:",{aKey:aKey})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2734,7 +2734,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"removeKey:ifAbsent:",{aKey:aKey,aBlock:aBlock},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"removeKey:ifAbsent:",{aKey:aKey,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2773,7 +2773,7 @@ return $recv(newDict)._at_put_(key,value);
 }));
 return newDict;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"select:",{aBlock:aBlock,newDict:newDict},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"select:",{aBlock:aBlock,newDict:newDict})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2815,7 +2815,7 @@ return $recv(newDict)._at_put_(key,$recv(collectBlock)._value_(value));
 }));
 return newDict;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"select:thenCollect:",{selectBlock:selectBlock,collectBlock:collectBlock,newDict:newDict},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"select:thenCollect:",{selectBlock:selectBlock,collectBlock:collectBlock,newDict:newDict})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2850,7 +2850,7 @@ return $recv(copy)._at_put_(key,value);
 }));
 return copy;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"shallowCopy",{copy:copy},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"shallowCopy",{copy:copy})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2874,7 +2874,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._keys())._size();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"size",{},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"size",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2899,7 +2899,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"values",{},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"values",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2924,7 +2924,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"valuesDo:",{aBlock:aBlock},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"valuesDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2957,7 +2957,7 @@ return $recv(aBlock)._value_value_(value,key);
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"withIndexDo:",{aBlock:aBlock},$globals.AssociativeCollection)});
+}, function($ctx1) {$ctx1.fill(self,"withIndexDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2993,7 +2993,7 @@ return $recv(newCollection)._add_(each);
 }));
 return newCollection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"from:",{aCollection:aCollection,newCollection:newCollection},$globals.AssociativeCollection.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"from:",{aCollection:aCollection,newCollection:newCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3017,7 +3017,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._from_(aCollection);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromPairs:",{aCollection:aCollection},$globals.AssociativeCollection.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"fromPairs:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3066,7 +3066,7 @@ return $recv($3)._at_put_($4,$recv(aCollection)._at_($recv(each).__plus((1))));
 }));
 return newCollection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"newFromPairs:",{aCollection:aCollection,newCollection:newCollection},$globals.AssociativeCollection.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"newFromPairs:",{aCollection:aCollection,newCollection:newCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3099,7 +3099,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{aKey:aKey,aBlock:aBlock},$globals.Dictionary)});
+}, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{aKey:aKey,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3133,7 +3133,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:put:",{aKey:aKey,aValue:aValue},$globals.Dictionary)});
+}, function($ctx1) {$ctx1.fill(self,"at:put:",{aKey:aKey,aValue:aValue})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3158,7 +3158,7 @@ return $core.withContext(function($ctx1) {
 return $self._positionOfKey_(aKey) >= 0;;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"includesKey:",{aKey:aKey},$globals.Dictionary)});
+}, function($ctx1) {$ctx1.fill(self,"includesKey:",{aKey:aKey})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3193,7 +3193,7 @@ return $recv(aBlock)._value();
 return $recv($self.keys)._at_(index);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"indexOf:ifAbsent:",{anObject:anObject,aBlock:aBlock,index:index},$globals.Dictionary)});
+}, function($ctx1) {$ctx1.fill(self,"indexOf:ifAbsent:",{anObject:anObject,aBlock:aBlock,index:index})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3227,7 +3227,7 @@ $self.keys=[];
 $self.values=[];
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Dictionary)});
+}, function($ctx1) {$ctx1.fill(self,"initialize",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3251,7 +3251,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self.keys)._copy();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"keys",{},$globals.Dictionary)});
+}, function($ctx1) {$ctx1.fill(self,"keys",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3275,7 +3275,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self.keys)._with_do_($self.values,aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"keysAndValuesDo:",{aBlock:aBlock},$globals.Dictionary)});
+}, function($ctx1) {$ctx1.fill(self,"keysAndValuesDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3299,7 +3299,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self.keys)._do_(aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"keysDo:",{aBlock:aBlock},$globals.Dictionary)});
+}, function($ctx1) {$ctx1.fill(self,"keysDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3330,7 +3330,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"positionOfKey:",{anObject:anObject},$globals.Dictionary)});
+}, function($ctx1) {$ctx1.fill(self,"positionOfKey:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3359,7 +3359,7 @@ $ctx1.sendIdx["removeAll"]=1;
 $recv($self.values)._removeAll();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"removeAll",{},$globals.Dictionary)});
+}, function($ctx1) {$ctx1.fill(self,"removeAll",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3397,7 +3397,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"removeKey:ifAbsent:",{aKey:aKey,aBlock:aBlock},$globals.Dictionary)});
+}, function($ctx1) {$ctx1.fill(self,"removeKey:ifAbsent:",{aKey:aKey,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3440,7 +3440,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self.values)._do_(aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"valuesDo:",{aBlock:aBlock},$globals.Dictionary)});
+}, function($ctx1) {$ctx1.fill(self,"valuesDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3476,7 +3476,7 @@ return $self._basicAt_(aKey);
 return $recv(aBlock)._value();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{aKey:aKey,aBlock:aBlock},$globals.HashedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{aKey:aKey,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3500,7 +3500,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._basicAt_put_(aKey,aValue);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:put:",{aKey:aKey,aValue:aValue},$globals.HashedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"at:put:",{aKey:aKey,aValue:aValue})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3525,7 +3525,7 @@ return $core.withContext(function($ctx1) {
 return self.hasOwnProperty(aKey);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"includesKey:",{aKey:aKey},$globals.HashedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"includesKey:",{aKey:aKey})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3550,7 +3550,7 @@ return $core.withContext(function($ctx1) {
 return Object.keys(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"keys",{},$globals.HashedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"keys",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3575,7 +3575,7 @@ return $core.withContext(function($ctx1) {
 $recv($self._keys())._do_(aBlock);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"keysDo:",{aBlock:aBlock},$globals.HashedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"keysDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3616,7 +3616,7 @@ return $recv(aBlock)._value();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"removeKey:ifAbsent:",{aKey:aKey,aBlock:aBlock},$globals.HashedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"removeKey:ifAbsent:",{aKey:aKey,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3645,7 +3645,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"values",{},$globals.HashedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"values",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3670,7 +3670,7 @@ return $core.withContext(function($ctx1) {
 $recv($self._values())._do_(aBlock);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"valuesDo:",{aBlock:aBlock},$globals.HashedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"valuesDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3744,7 +3744,7 @@ return true;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"=",{aCollection:aCollection},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"=",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3769,7 +3769,7 @@ return $core.withContext(function($ctx1) {
 $self._add_(anObject);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"addLast:",{anObject:anObject},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"addLast:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3793,7 +3793,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._copyFrom_to_((2),$self._size());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"allButFirst",{},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"allButFirst",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3817,7 +3817,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._copyFrom_to_((1),$recv($self._size()).__minus((1)));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"allButLast",{},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"allButLast",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3841,7 +3841,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._at_((1));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"anyOne",{},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"anyOne",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3865,7 +3865,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._at_($recv($self._size())._atRandom());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"atRandom",{},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"atRandom",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3902,7 +3902,7 @@ return false;
 }
 return $recv($self._first_($recv(prefix)._size())).__eq(prefix);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"beginsWith:",{prefix:prefix},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"beginsWith:",{prefix:prefix})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3927,7 +3927,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"copyFrom:to:",{anIndex:anIndex,anotherIndex:anotherIndex},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"copyFrom:to:",{anIndex:anIndex,anotherIndex:anotherIndex})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3964,7 +3964,7 @@ return false;
 }
 return $recv($self._last_($recv(suffix)._size())).__eq(suffix);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"endsWith:",{suffix:suffix},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"endsWith:",{suffix:suffix})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3988,7 +3988,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._at_((1));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"first",{},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"first",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4017,7 +4017,7 @@ $self._error_("Invalid number of elements");
 }
 return $self._copyFrom_to_((1),aNumber);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"first:",{aNumber:aNumber},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"first:",{aNumber:aNumber})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4041,7 +4041,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._at_((4));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fourth",{},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"fourth",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4068,7 +4068,7 @@ return nil;
 
 })))._notNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"includes:",{anObject:anObject},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"includes:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4095,7 +4095,7 @@ return (0);
 
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"indexOf:startingAt:",{anObject:anObject,start:start},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"indexOf:startingAt:",{anObject:anObject,start:start})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4120,7 +4120,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"indexOf:startingAt:ifAbsent:",{anObject:anObject,start:start,aBlock:aBlock},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"indexOf:startingAt:ifAbsent:",{anObject:anObject,start:start,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4144,7 +4144,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._at_($self._size());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"last",{},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"last",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4183,7 +4183,7 @@ $4=$recv($5).__minus(aNumber);
 $3=$recv($4).__plus((1));
 return $self._copyFrom_to_($3,$self._size());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"last:",{aNumber:aNumber},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"last:",{aNumber:aNumber})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4207,7 +4207,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._streamClass())._on_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"newStream",{},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"newStream",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4231,7 +4231,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"readStream",{},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"readStream",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4255,7 +4255,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._remove_($self._last());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"removeLast",{},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"removeLast",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4280,7 +4280,7 @@ return $core.withContext(function($ctx1) {
 $recv($self._reversed())._do_(aBlock);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"reverseDo:",{aBlock:aBlock},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"reverseDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4305,7 +4305,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"reversed",{},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"reversed",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4329,7 +4329,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._at_((2));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"second",{},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"second",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4353,7 +4353,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._newStream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"stream",{},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"stream",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4377,7 +4377,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._class())._streamClass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"streamClass",{},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"streamClass",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4401,7 +4401,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._at_((3));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"third",{},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"third",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4425,7 +4425,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"writeStream",{},$globals.SequenceableCollection)});
+}, function($ctx1) {$ctx1.fill(self,"writeStream",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4472,7 +4472,7 @@ stream=$recv($self._streamClass())._on_($self._new());
 $recv(aBlock)._value_(stream);
 return $recv(stream)._contents();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"streamContents:",{aBlock:aBlock,stream:stream},$globals.SequenceableCollection.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"streamContents:",{aBlock:aBlock,stream:stream})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4502,7 +4502,7 @@ return $core.withContext(function($ctx1) {
 self.push(anObject); return anObject;;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4530,7 +4530,7 @@ return $core.withContext(function($ctx1) {
 	return aCollection;;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"addAll:",{aCollection:aCollection},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"addAll:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4555,7 +4555,7 @@ return $core.withContext(function($ctx1) {
 self.unshift(anObject); return anObject;;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"addFirst:",{anObject:anObject},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"addFirst:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4592,7 +4592,7 @@ $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
 return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4617,7 +4617,7 @@ return $core.withContext(function($ctx1) {
 return self[anIndex - 1] = anObject;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:put:",{anIndex:anIndex,anObject:anObject},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"at:put:",{anIndex:anIndex,anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4642,7 +4642,7 @@ return $core.withContext(function($ctx1) {
 return self.map(function(each) {return aBlock._value_(each)});
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"collect:",{aBlock:aBlock},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"collect:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4674,7 +4674,7 @@ return $core.withContext(function($ctx1) {
 	};
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"copyFrom:to:",{anIndex:anIndex,anotherIndex:anotherIndex},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"copyFrom:to:",{anIndex:anIndex,anotherIndex:anotherIndex})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4699,7 +4699,7 @@ return $core.withContext(function($ctx1) {
 return self.join(aString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"join:",{aString:aString},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"join:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4759,7 +4759,7 @@ $ctx2.sendIdx["nextPutAll:"]=2;
 $recv(aStream)._nextPutAll_(")");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4795,7 +4795,7 @@ $self._removeIndex_(index);
 return anObject;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{anObject:anObject,aBlock:aBlock,index:index},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{anObject:anObject,aBlock:aBlock,index:index})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4820,7 +4820,7 @@ return $core.withContext(function($ctx1) {
 self.length = 0;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"removeAll",{},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"removeAll",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4845,7 +4845,7 @@ return $core.withContext(function($ctx1) {
 self.splice(aNumber -1, anotherNumber - aNumber + 1);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"removeFrom:to:",{aNumber:aNumber,anotherNumber:anotherNumber},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"removeFrom:to:",{aNumber:aNumber,anotherNumber:anotherNumber})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4870,7 +4870,7 @@ return $core.withContext(function($ctx1) {
 self.splice(anInteger - 1, 1);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"removeIndex:",{anInteger:anInteger},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"removeIndex:",{anInteger:anInteger})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4895,7 +4895,7 @@ return $core.withContext(function($ctx1) {
 return self.pop();;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"removeLast",{},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"removeLast",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4920,7 +4920,7 @@ return $core.withContext(function($ctx1) {
 return self.slice().reverse();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"reversed",{},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"reversed",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4945,7 +4945,7 @@ return $core.withContext(function($ctx1) {
 return self.filter(function(each) {return aBlock._value_(each)});
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"select:",{aBlock:aBlock},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"select:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4970,7 +4970,7 @@ return $core.withContext(function($ctx1) {
 return self.slice();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"shallowCopy",{},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"shallowCopy",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5002,7 +5002,7 @@ return $recv(a).__lt(b);
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"sort",{},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"sort",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5031,7 +5031,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"sort:",{aBlock:aBlock},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"sort:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5055,7 +5055,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._copy())._sort();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"sorted",{},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"sorted",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5079,7 +5079,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._copy())._sort_(aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"sorted:",{aBlock:aBlock},$globals.Array)});
+}, function($ctx1) {$ctx1.fill(self,"sorted:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5105,7 +5105,7 @@ return $core.withContext(function($ctx1) {
 return new Array(anInteger);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"new:",{anInteger:anInteger},$globals.Array.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"new:",{anInteger:anInteger})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5132,7 +5132,7 @@ $1=$self._new_((1));
 $recv($1)._at_put_((1),anObject);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"with:",{anObject:anObject},$globals.Array.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"with:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5163,7 +5163,7 @@ $ctx1.sendIdx["at:put:"]=1;
 $recv($1)._at_put_((2),anObject2);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"with:with:",{anObject:anObject,anObject2:anObject2},$globals.Array.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"with:with:",{anObject:anObject,anObject2:anObject2})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5198,7 +5198,7 @@ $ctx1.sendIdx["at:put:"]=2;
 $recv($1)._at_put_((3),anObject3);
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"with:with:with:",{anObject:anObject,anObject2:anObject2,anObject3:anObject3},$globals.Array.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"with:with:with:",{anObject:anObject,anObject2:anObject2,anObject3:anObject3})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5236,7 +5236,7 @@ return index;
 }));
 return instance;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"withAll:",{aCollection:aCollection,instance:instance,index:index},$globals.Array.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"withAll:",{aCollection:aCollection,instance:instance,index:index})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5266,7 +5266,7 @@ return $core.withContext(function($ctx1) {
 return String(self) + aString;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,",",{aString:aString},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,",",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5291,7 +5291,7 @@ return $core.withContext(function($ctx1) {
 return String(self) < aString._asString();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"<",{aString:aString},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"<",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5316,7 +5316,7 @@ return $core.withContext(function($ctx1) {
 return String(self) <= aString._asString();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"<=",{aString:aString},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"<=",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5341,7 +5341,7 @@ return $core.withContext(function($ctx1) {
 return aString != null && String(self) === (typeof aString === "string" ? aString : aString.valueOf());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"=",{aString:aString},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"=",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5369,7 +5369,7 @@ return $core.withContext(function($ctx1) {
 	else return false;;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"==",{aString:aString},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"==",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5394,7 +5394,7 @@ return $core.withContext(function($ctx1) {
 return String(self) > aString._asString();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,">",{aString:aString},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,">",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5419,7 +5419,7 @@ return $core.withContext(function($ctx1) {
 return String(self) >= aString._asString();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,">=",{aString:aString},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,">=",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5444,7 +5444,7 @@ return $core.withContext(function($ctx1) {
 $self._errorReadOnly();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5469,7 +5469,7 @@ return $core.withContext(function($ctx1) {
 return $core.st2js(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJavaScriptMethodName",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptMethodName",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5518,7 +5518,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5543,7 +5543,7 @@ return $core.withContext(function($ctx1) {
 return self.toLowerCase();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asLowercase",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"asLowercase",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5572,7 +5572,7 @@ return $self.__comma(":");
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asMutator",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"asMutator",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5597,7 +5597,7 @@ return $core.withContext(function($ctx1) {
 return Number(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asNumber",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"asNumber",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5621,7 +5621,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($globals.RegularExpression)._fromString_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asRegexp",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"asRegexp",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5691,7 +5691,7 @@ $self._printOn_(aStream);
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asSymbolPrintOn:",{aStream:aStream},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"asSymbolPrintOn:",{aStream:aStream})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5716,7 +5716,7 @@ return $core.withContext(function($ctx1) {
 return self.toUpperCase();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asUppercase",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"asUppercase",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5741,7 +5741,7 @@ return $core.withContext(function($ctx1) {
 return self.charCodeAt(0);;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asciiValue",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"asciiValue",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5766,7 +5766,7 @@ return $core.withContext(function($ctx1) {
 return String(self)[anIndex - 1] || aBlock._value();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{anIndex:anIndex,aBlock:aBlock},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{anIndex:anIndex,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5794,7 +5794,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{anIndex:anIndex,aBlock:aBlock,anotherBlock:anotherBlock},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{anIndex:anIndex,aBlock:aBlock,anotherBlock:anotherBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5819,7 +5819,7 @@ return $core.withContext(function($ctx1) {
 $self._errorReadOnly();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:put:",{anIndex:anIndex,anObject:anObject},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"at:put:",{anIndex:anIndex,anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5851,7 +5851,7 @@ return $recv($recv($self._first())._asUppercase()).__comma($self._allButFirst())
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"capitalized",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"capitalized",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5876,7 +5876,7 @@ return $core.withContext(function($ctx1) {
 return self.charCodeAt(anInteger - 1);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"charCodeAt:",{anInteger:anInteger},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"charCodeAt:",{anInteger:anInteger})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5901,7 +5901,7 @@ return $core.withContext(function($ctx1) {
 return self.substring(anIndex - 1, anotherIndex);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"copyFrom:to:",{anIndex:anIndex,anotherIndex:anotherIndex},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"copyFrom:to:",{anIndex:anIndex,anotherIndex:anotherIndex})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5925,7 +5925,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._lines())._join_($recv($globals.String)._lf());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"crlfSanitized",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"crlfSanitized",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5949,7 +5949,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._shallowCopy();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"deepCopy",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"deepCopy",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5974,7 +5974,7 @@ return $core.withContext(function($ctx1) {
 $self._error_("Object is read-only");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"errorReadOnly",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"errorReadOnly",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5999,7 +5999,7 @@ return $core.withContext(function($ctx1) {
 return escape(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"escaped",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"escaped",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6024,7 +6024,7 @@ return $core.withContext(function($ctx1) {
 return self.indexOf(subString) != -1;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"includesSubString:",{subString:subString},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"includesSubString:",{subString:subString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6054,7 +6054,7 @@ $ctx1.sendIdx["first"]=1;
 $1=$recv($2)._asUppercase();
 return $recv($1).__eq_eq($self._first());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isCapitalized",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"isCapitalized",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6098,7 +6098,7 @@ return $core.withContext(function($ctx1) {
 return !!self.match(/^([a-zA-Z][a-zA-Z0-9]*|[\\+*/=><,@%~|&-]+|([a-zA-Z][a-zA-Z0-9]*\:)+)$/);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isSelector",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"isSelector",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6149,7 +6149,7 @@ return "aeiou"._includes_($self._asLowercase());
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isVowel",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"isVowel",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6200,7 +6200,7 @@ return $recv(stream)._nextPutAll_(self);
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"join:",{aCollection:aCollection},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"join:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6364,7 +6364,7 @@ return self;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"lineIndicesDo:",{aBlock:aBlock,cr:cr,lf:lf,start:start,sz:sz,nextLF:nextLF,nextCR:nextCR},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"lineIndicesDo:",{aBlock:aBlock,cr:cr,lf:lf,start:start,sz:sz,nextLF:nextLF,nextCR:nextCR})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6409,7 +6409,7 @@ return nil;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"lineNumber:",{anIndex:anIndex,lineCount:lineCount},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"lineNumber:",{anIndex:anIndex,lineCount:lineCount})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6437,7 +6437,7 @@ return $core.withContext(function($ctx1) {
 	return result;;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"lines",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"lines",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6462,7 +6462,7 @@ return $core.withContext(function($ctx1) {
 $recv($self._lines())._do_(aBlock);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"linesDo:",{aBlock:aBlock},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"linesDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6487,7 +6487,7 @@ return $core.withContext(function($ctx1) {
 return self.search(aRegexp) != -1;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"match:",{aRegexp:aRegexp},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"match:",{aRegexp:aRegexp})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6512,7 +6512,7 @@ return $core.withContext(function($ctx1) {
 return self.match(aRegularExpression);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"matchesOf:",{aRegularExpression:aRegularExpression},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"matchesOf:",{aRegularExpression:aRegularExpression})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6537,7 +6537,7 @@ return $core.withContext(function($ctx1) {
 console.log(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"printNl",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"printNl",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6570,7 +6570,7 @@ $ctx1.sendIdx["nextPutAll:"]=2;
 $recv(aStream)._nextPutAll_("'");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6595,7 +6595,7 @@ return $core.withContext(function($ctx1) {
 $recv(aStream)._nextPutString_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"putOn:",{aStream:aStream},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"putOn:",{aStream:aStream})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6620,7 +6620,7 @@ return $core.withContext(function($ctx1) {
 $self._errorReadOnly();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"remove:",{anObject:anObject},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"remove:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6645,7 +6645,7 @@ return $core.withContext(function($ctx1) {
 $self._errorReadOnly();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{anObject:anObject,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6669,7 +6669,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._replaceRegexp_with_($recv($globals.RegularExpression)._fromString_flag_(aString,"g"),anotherString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"replace:with:",{aString:aString,anotherString:anotherString},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"replace:with:",{aString:aString,anotherString:anotherString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6694,7 +6694,7 @@ return $core.withContext(function($ctx1) {
 return self.replace(aRegexp, aString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"replaceRegexp:with:",{aRegexp:aRegexp,aString:aString},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"replaceRegexp:with:",{aRegexp:aRegexp,aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6719,7 +6719,7 @@ return $core.withContext(function($ctx1) {
 return self.split("").reverse().join("");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"reversed",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"reversed",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6762,7 +6762,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._tokenize_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subStrings:",{aString:aString},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"subStrings:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6794,7 +6794,7 @@ return $self._asSymbolPrintOn_(str);
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"symbolPrintString",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"symbolPrintString",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6819,7 +6819,7 @@ return $core.withContext(function($ctx1) {
 return self.split(aString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"tokenize:",{aString:aString},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"tokenize:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6843,7 +6843,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._trimBoth_("\x5cs");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"trimBoth",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"trimBoth",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6867,7 +6867,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._trimLeft_(separators))._trimRight_(separators);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"trimBoth:",{separators:separators},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"trimBoth:",{separators:separators})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6891,7 +6891,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._trimLeft_("\x5cs");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"trimLeft",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"trimLeft",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6921,7 +6921,7 @@ $ctx1.sendIdx[","]=1;
 $1=$recv($globals.RegularExpression)._fromString_flag_($2,"g");
 return $self._replaceRegexp_with_($1,"");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"trimLeft:",{separators:separators},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"trimLeft:",{separators:separators})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6945,7 +6945,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._trimRight_("\x5cs");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"trimRight",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"trimRight",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6975,7 +6975,7 @@ $ctx1.sendIdx[","]=1;
 $1=$recv($globals.RegularExpression)._fromString_flag_($2,"g");
 return $self._replaceRegexp_with_($1,"");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"trimRight:",{separators:separators},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"trimRight:",{separators:separators})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7000,7 +7000,7 @@ return $core.withContext(function($ctx1) {
 return unescape(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"unescaped",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"unescaped",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7025,7 +7025,7 @@ return $core.withContext(function($ctx1) {
 return decodeURIComponent(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"uriComponentDecoded",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"uriComponentDecoded",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7050,7 +7050,7 @@ return $core.withContext(function($ctx1) {
 return encodeURIComponent(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"uriComponentEncoded",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"uriComponentEncoded",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7075,7 +7075,7 @@ return $core.withContext(function($ctx1) {
 return decodeURI(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"uriDecoded",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"uriDecoded",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7100,7 +7100,7 @@ return $core.withContext(function($ctx1) {
 return encodeURI(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"uriEncoded",{},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"uriEncoded",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7124,7 +7124,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv(anObject)._perform_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject},$globals.String)});
+}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7150,7 +7150,7 @@ return $core.withContext(function($ctx1) {
 return "\r";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"cr",{},$globals.String.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"cr",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7175,7 +7175,7 @@ return $core.withContext(function($ctx1) {
 return "\r\n";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"crlf",{},$globals.String.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"crlf",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7199,7 +7199,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._fromCharCode_((27));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"esc",{},$globals.String.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"esc",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7224,7 +7224,7 @@ return $core.withContext(function($ctx1) {
 return String.fromCharCode(anInteger);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromCharCode:",{anInteger:anInteger},$globals.String.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"fromCharCode:",{anInteger:anInteger})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7249,7 +7249,7 @@ return $core.withContext(function($ctx1) {
 return String(aString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromString:",{aString:aString},$globals.String.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"fromString:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7274,7 +7274,7 @@ return $core.withContext(function($ctx1) {
 return "\n";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"lf",{},$globals.String.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"lf",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7299,7 +7299,7 @@ return $core.withContext(function($ctx1) {
 return ((10+22*Math.random())/32).toString(32).slice(2);;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"random",{},$globals.String.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"random",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7334,7 +7334,7 @@ return $recv(aString)._includesSubString_(result);
 }))._whileTrue();
 return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"randomNotIn:",{aString:aString,result:result},$globals.String.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"randomNotIn:",{aString:aString,result:result})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7359,7 +7359,7 @@ return $core.withContext(function($ctx1) {
 return " ";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"space",{},$globals.String.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"space",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7403,7 +7403,7 @@ return $core.withContext(function($ctx1) {
 return "\t";
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"tab",{},$globals.String.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"tab",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7428,7 +7428,7 @@ return $core.withContext(function($ctx1) {
 return String.fromCharCode(aUTFCharCode);;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"value:",{aUTFCharCode:aUTFCharCode},$globals.String.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"value:",{aUTFCharCode:aUTFCharCode})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7493,7 +7493,7 @@ return true;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"=",{aCollection:aCollection},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"=",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7544,7 +7544,7 @@ primitiveBucket=$receiver;
 return $self._add_in_($recv(bucket)._first(),primitiveBucket);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject,bucket:bucket},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject,bucket:bucket})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7574,7 +7574,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"add:in:",{anObject:anObject,anotherObject:anotherObject},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"add:in:",{anObject:anObject,anotherObject:anotherObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7612,7 +7612,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"bucketsOfElement:",{anObject:anObject},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"bucketsOfElement:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7637,7 +7637,7 @@ return $core.withContext(function($ctx1) {
 return anObject.a$cls != null && anObject.a$cls.name;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"classNameOf:",{anObject:anObject},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"classNameOf:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7672,7 +7672,7 @@ return $recv(collection)._add_($recv(aBlock)._value_(each));
 }));
 return collection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"collect:",{aBlock:aBlock,collection:collection},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"collect:",{aBlock:aBlock,collection:collection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7709,7 +7709,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7748,7 +7748,7 @@ primitiveBucket=$receiver;
 return $self._includes_in_($recv(bucket)._first(),primitiveBucket);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"includes:",{anObject:anObject,bucket:bucket},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"includes:",{anObject:anObject,bucket:bucket})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7773,7 +7773,7 @@ return $core.withContext(function($ctx1) {
 return anObject in anotherObject.store;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"includes:in:",{anObject:anObject,anotherObject:anotherObject},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"includes:in:",{anObject:anObject,anotherObject:anotherObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7808,7 +7808,7 @@ $self._initializeSlowBucketStores();
 $self._removeAll();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"initialize",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7854,7 +7854,7 @@ return $self._jsConstructorNameOf_(x);
 }))];
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initializeSlowBucketStores",{},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"initializeSlowBucketStores",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7879,7 +7879,7 @@ return $core.withContext(function($ctx1) {
 return anObject.constructor && anObject.constructor.name;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"jsConstructorNameOf:",{anObject:anObject},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"jsConstructorNameOf:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7939,7 +7939,7 @@ $ctx2.sendIdx["nextPutAll:"]=2;
 $recv(aStream)._nextPutAll_(")");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"printOn:",{aStream:aStream})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -7992,7 +7992,7 @@ return $self._remove_in_ifAbsent_($recv(bucket)._first(),primitiveBucket,aBlock)
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{anObject:anObject,aBlock:aBlock,bucket:bucket},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"remove:ifAbsent:",{anObject:anObject,aBlock:aBlock,bucket:bucket})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8024,7 +8024,7 @@ return $core.withContext(function($ctx1) {
 		};
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"remove:in:ifAbsent:",{anObject:anObject,anotherObject:anotherObject,aBlock:aBlock},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"remove:in:ifAbsent:",{anObject:anObject,anotherObject:anotherObject,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8058,7 +8058,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"removeAll",{},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"removeAll",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8097,7 +8097,7 @@ return $recv(collection)._add_(each);
 }));
 return collection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"select:",{aBlock:aBlock,collection:collection},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"select:",{aBlock:aBlock,collection:collection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8139,7 +8139,7 @@ return $recv(collection)._add_($recv(collectBlock)._value_(each));
 }));
 return collection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"select:thenCollect:",{selectBlock:selectBlock,collectBlock:collectBlock,collection:collection},$globals.Set)});
+}, function($ctx1) {$ctx1.fill(self,"select:thenCollect:",{selectBlock:selectBlock,collectBlock:collectBlock,collection:collection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8189,7 +8189,7 @@ return $core.withContext(function($ctx1) {
 $self._write_(anObject);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"<<",{anObject:anObject},$globals.ProtoStream)});
+}, function($ctx1) {$ctx1.fill(self,"<<",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8214,7 +8214,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"atEnd",{},$globals.ProtoStream)});
+}, function($ctx1) {$ctx1.fill(self,"atEnd",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8239,7 +8239,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"atStart",{},$globals.ProtoStream)});
+}, function($ctx1) {$ctx1.fill(self,"atStart",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8264,7 +8264,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"contents",{},$globals.ProtoStream)});
+}, function($ctx1) {$ctx1.fill(self,"contents",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8305,7 +8305,7 @@ return $recv(aBlock)._value_($self._next());
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock},$globals.ProtoStream)});
+}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8337,7 +8337,7 @@ return $self._atEnd();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isEmpty",{},$globals.ProtoStream)});
+}, function($ctx1) {$ctx1.fill(self,"isEmpty",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8367,7 +8367,7 @@ return nil;
 return $self._subclassResponsibility();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"next",{},$globals.ProtoStream)});
+}, function($ctx1) {$ctx1.fill(self,"next",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8392,7 +8392,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nextPut:",{anObject:anObject},$globals.ProtoStream)});
+}, function($ctx1) {$ctx1.fill(self,"nextPut:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8425,7 +8425,7 @@ return $self._nextPut_(each);
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nextPutAll:",{aCollection:aCollection},$globals.ProtoStream)});
+}, function($ctx1) {$ctx1.fill(self,"nextPutAll:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8450,7 +8450,7 @@ return $core.withContext(function($ctx1) {
 $self._nextPut_(aString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nextPutString:",{aString:aString},$globals.ProtoStream)});
+}, function($ctx1) {$ctx1.fill(self,"nextPutString:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8480,7 +8480,7 @@ return nil;
 return $self._subclassResponsibility();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"peek",{},$globals.ProtoStream)});
+}, function($ctx1) {$ctx1.fill(self,"peek",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8505,7 +8505,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"reset",{},$globals.ProtoStream)});
+}, function($ctx1) {$ctx1.fill(self,"reset",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8530,7 +8530,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"resetContents",{},$globals.ProtoStream)});
+}, function($ctx1) {$ctx1.fill(self,"resetContents",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8555,7 +8555,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"setToEnd",{},$globals.ProtoStream)});
+}, function($ctx1) {$ctx1.fill(self,"setToEnd",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8580,7 +8580,7 @@ return $core.withContext(function($ctx1) {
 $self._reset();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"setToStart",{},$globals.ProtoStream)});
+}, function($ctx1) {$ctx1.fill(self,"setToStart",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8605,7 +8605,7 @@ return $core.withContext(function($ctx1) {
 $recv(anObject)._putOn_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"write:",{anObject:anObject},$globals.ProtoStream)});
+}, function($ctx1) {$ctx1.fill(self,"write:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8634,7 +8634,7 @@ $recv($1)._setCollection_(aCollection);
 $recv($1)._setStreamSize_($recv(aCollection)._size());
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{aCollection:aCollection},$globals.ProtoStream.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8663,7 +8663,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._position()).__eq($self._size());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"atEnd",{},$globals.Stream)});
+}, function($ctx1) {$ctx1.fill(self,"atEnd",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8687,7 +8687,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._position()).__eq((0));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"atStart",{},$globals.Stream)});
+}, function($ctx1) {$ctx1.fill(self,"atStart",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8749,7 +8749,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._collection())._copyFrom_to_((1),$self._streamSize());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"contents",{},$globals.Stream)});
+}, function($ctx1) {$ctx1.fill(self,"contents",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8792,7 +8792,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($self._size()).__eq((0));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isEmpty",{},$globals.Stream)});
+}, function($ctx1) {$ctx1.fill(self,"isEmpty",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8828,7 +8828,7 @@ $self._position_($2);
 return $recv($self.collection)._at_($self._position());
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"next",{},$globals.Stream)});
+}, function($ctx1) {$ctx1.fill(self,"next",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8867,7 +8867,7 @@ return $recv(tempCollection)._add_($self._next());
 }));
 return tempCollection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"next:",{anInteger:anInteger,tempCollection:tempCollection},$globals.Stream)});
+}, function($ctx1) {$ctx1.fill(self,"next:",{anInteger:anInteger,tempCollection:tempCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8905,7 +8905,7 @@ $recv($3)._at_put_($4,anObject);
 $self._setStreamSize_($recv($self._streamSize())._max_($self._position()));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nextPut:",{anObject:anObject},$globals.Stream)});
+}, function($ctx1) {$ctx1.fill(self,"nextPut:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8933,7 +8933,7 @@ if(!$core.assert($1)){
 return $recv($self._collection())._at_($recv($self._position()).__plus((1)));
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"peek",{},$globals.Stream)});
+}, function($ctx1) {$ctx1.fill(self,"peek",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -8964,7 +8964,7 @@ return $self.position;
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"position",{},$globals.Stream)});
+}, function($ctx1) {$ctx1.fill(self,"position",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9009,7 +9009,7 @@ return $core.withContext(function($ctx1) {
 $self._position_((0));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"reset",{},$globals.Stream)});
+}, function($ctx1) {$ctx1.fill(self,"reset",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9035,7 +9035,7 @@ $self._reset();
 $self._setStreamSize_((0));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"resetContents",{},$globals.Stream)});
+}, function($ctx1) {$ctx1.fill(self,"resetContents",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9100,7 +9100,7 @@ return $core.withContext(function($ctx1) {
 $self._position_($self._size());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"setToEnd",{},$globals.Stream)});
+}, function($ctx1) {$ctx1.fill(self,"setToEnd",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9124,7 +9124,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._streamSize();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"size",{},$globals.Stream)});
+}, function($ctx1) {$ctx1.fill(self,"size",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9149,7 +9149,7 @@ return $core.withContext(function($ctx1) {
 $self._position_($recv($recv($self._position()).__plus(anInteger))._min_max_($self._size(),(0)));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"skip:",{anInteger:anInteger},$globals.Stream)});
+}, function($ctx1) {$ctx1.fill(self,"skip:",{anInteger:anInteger})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9197,7 +9197,7 @@ $recv($1)._setCollection_(aCollection);
 $recv($1)._setStreamSize_($recv(aCollection)._size());
 return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:",{aCollection:aCollection},$globals.Stream.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"on:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9226,7 +9226,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._nextPutAll_($recv($globals.String)._cr());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"cr",{},$globals.StringStream)});
+}, function($ctx1) {$ctx1.fill(self,"cr",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9250,7 +9250,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._nextPutAll_($recv($globals.String)._crlf());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"crlf",{},$globals.StringStream)});
+}, function($ctx1) {$ctx1.fill(self,"crlf",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9274,7 +9274,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._nextPutAll_($recv($globals.String)._lf());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"lf",{},$globals.StringStream)});
+}, function($ctx1) {$ctx1.fill(self,"lf",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9314,7 +9314,7 @@ return tempCollection;
 }));
 return tempCollection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"next:",{anInteger:anInteger,tempCollection:tempCollection},$globals.StringStream)});
+}, function($ctx1) {$ctx1.fill(self,"next:",{anInteger:anInteger,tempCollection:tempCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9339,7 +9339,7 @@ return $core.withContext(function($ctx1) {
 $self._nextPutAll_(aString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nextPut:",{aString:aString},$globals.StringStream)});
+}, function($ctx1) {$ctx1.fill(self,"nextPut:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9430,7 +9430,7 @@ $self._position_($13);
 $self._setStreamSize_($recv($self._streamSize())._max_($self._position()));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nextPutAll:",{aString:aString,pre:pre,post:post},$globals.StringStream)});
+}, function($ctx1) {$ctx1.fill(self,"nextPutAll:",{aString:aString,pre:pre,post:post})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9455,7 +9455,7 @@ return $core.withContext(function($ctx1) {
 $self._nextPutAll_(aString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nextPutString:",{aString:aString},$globals.StringStream)});
+}, function($ctx1) {$ctx1.fill(self,"nextPutString:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9480,7 +9480,7 @@ return $core.withContext(function($ctx1) {
 $recv(anObject)._printOn_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"print:",{anObject:anObject},$globals.StringStream)});
+}, function($ctx1) {$ctx1.fill(self,"print:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9505,7 +9505,7 @@ return $core.withContext(function($ctx1) {
 $recv(anObject)._asSymbolPrintOn_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"printSymbol:",{anObject:anObject},$globals.StringStream)});
+}, function($ctx1) {$ctx1.fill(self,"printSymbol:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9530,7 +9530,7 @@ return $core.withContext(function($ctx1) {
 $self._nextPut_(" ");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"space",{},$globals.StringStream)});
+}, function($ctx1) {$ctx1.fill(self,"space",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9554,7 +9554,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._nextPutAll_($recv($globals.String)._tab());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"tab",{},$globals.StringStream)});
+}, function($ctx1) {$ctx1.fill(self,"tab",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9598,7 +9598,7 @@ $self.write=$recv($globals.OrderedCollection)._new();
 $self.readIndex=(1);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Queue)});
+}, function($ctx1) {$ctx1.fill(self,"initialize",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9630,7 +9630,7 @@ return $self._error_("Cannot read from empty Queue.");
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"next",{},$globals.Queue)});
+}, function($ctx1) {$ctx1.fill(self,"next",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9689,7 +9689,7 @@ return result;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nextIfAbsent:",{aBlock:aBlock,result:result},$globals.Queue)});
+}, function($ctx1) {$ctx1.fill(self,"nextIfAbsent:",{aBlock:aBlock,result:result})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9714,7 +9714,7 @@ return $core.withContext(function($ctx1) {
 $recv($self.write)._add_(anObject);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nextPut:",{anObject:anObject},$globals.Queue)});
+}, function($ctx1) {$ctx1.fill(self,"nextPut:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9745,7 +9745,7 @@ return $core.withContext(function($ctx1) {
 return self.compile(aString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"compile:",{aString:aString},$globals.RegularExpression)});
+}, function($ctx1) {$ctx1.fill(self,"compile:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9770,7 +9770,7 @@ return $core.withContext(function($ctx1) {
 return self.exec(aString) || nil;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"exec:",{aString:aString},$globals.RegularExpression)});
+}, function($ctx1) {$ctx1.fill(self,"exec:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9795,7 +9795,7 @@ return $core.withContext(function($ctx1) {
 return self.test(aString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"test:",{aString:aString},$globals.RegularExpression)});
+}, function($ctx1) {$ctx1.fill(self,"test:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9820,7 +9820,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._fromString_flag_(aString,"");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromString:",{aString:aString},$globals.RegularExpression.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"fromString:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9845,7 +9845,7 @@ return $core.withContext(function($ctx1) {
 return new RegExp(aString, anotherString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"fromString:flag:",{aString:aString,anotherString:anotherString},$globals.RegularExpression.a$cls)});
+}, function($ctx1) {$ctx1.fill(self,"fromString:flag:",{aString:aString,anotherString:anotherString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9879,7 +9879,7 @@ return $self._errorNotFound();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:",{anIndex:anIndex},$globals.TKeyValueCollection)});
+}, function($ctx1) {$ctx1.fill(self,"at:",{anIndex:anIndex})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9904,7 +9904,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{anIndex:anIndex,aBlock:aBlock},$globals.TKeyValueCollection)});
+}, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{anIndex:anIndex,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9936,7 +9936,7 @@ return $self._at_put_(aKey,$recv(aBlock)._value());
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:ifAbsentPut:",{aKey:aKey,aBlock:aBlock},$globals.TKeyValueCollection)});
+}, function($ctx1) {$ctx1.fill(self,"at:ifAbsentPut:",{aKey:aKey,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9963,7 +9963,7 @@ return nil;
 
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:",{anIndex:anIndex,aBlock:aBlock},$globals.TKeyValueCollection)});
+}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:",{anIndex:anIndex,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -9988,7 +9988,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{anIndex:anIndex,aBlock:aBlock,anotherBlock:anotherBlock},$globals.TKeyValueCollection)});
+}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{anIndex:anIndex,aBlock:aBlock,anotherBlock:anotherBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10013,7 +10013,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:put:",{anIndex:anIndex,anObject:anObject},$globals.TKeyValueCollection)});
+}, function($ctx1) {$ctx1.fill(self,"at:put:",{anIndex:anIndex,anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10045,7 +10045,7 @@ return $self._errorNotFound();
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"indexOf:",{anObject:anObject},$globals.TKeyValueCollection)});
+}, function($ctx1) {$ctx1.fill(self,"indexOf:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10070,7 +10070,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"indexOf:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.TKeyValueCollection)});
+}, function($ctx1) {$ctx1.fill(self,"indexOf:ifAbsent:",{anObject:anObject,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10103,7 +10103,7 @@ return $recv(aBlock)._value_value_(each,$recv(anotherCollection)._at_(index));
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"with:do:",{anotherCollection:anotherCollection,aBlock:aBlock},$globals.TKeyValueCollection)});
+}, function($ctx1) {$ctx1.fill(self,"with:do:",{anotherCollection:anotherCollection,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10128,7 +10128,7 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"withIndexDo:",{aBlock:aBlock},$globals.TKeyValueCollection)});
+}, function($ctx1) {$ctx1.fill(self,"withIndexDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10159,7 +10159,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{anIndex:anIndex,aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"at:ifAbsent:",{anIndex:anIndex,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10188,7 +10188,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{anIndex:anIndex,aBlock:aBlock,anotherBlock:anotherBlock},$globals.TNativeZeroBasedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"at:ifPresent:ifAbsent:",{anIndex:anIndex,aBlock:aBlock,anotherBlock:anotherBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10218,7 +10218,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"detect:ifNone:",{aBlock:aBlock,anotherBlock:anotherBlock},$globals.TNativeZeroBasedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"detect:ifNone:",{aBlock:aBlock,anotherBlock:anotherBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10247,7 +10247,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10277,7 +10277,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"indexOf:ifAbsent:",{anObject:anObject,aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"indexOf:ifAbsent:",{anObject:anObject,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10307,7 +10307,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"indexOf:startingAt:ifAbsent:",{anObject:anObject,start:start,aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"indexOf:startingAt:ifAbsent:",{anObject:anObject,start:start,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10335,7 +10335,7 @@ return $core.withContext(function($ctx1) {
 	return self[0];;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"single",{},$globals.TNativeZeroBasedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"single",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10360,7 +10360,7 @@ return $core.withContext(function($ctx1) {
 return self.length;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"size",{},$globals.TNativeZeroBasedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"size",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10390,7 +10390,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"with:do:",{anotherCollection:anotherCollection,aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"with:do:",{anotherCollection:anotherCollection,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10419,7 +10419,7 @@ return $core.withContext(function($ctx1) {
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"withIndexDo:",{aBlock:aBlock},$globals.TNativeZeroBasedCollection)});
+}, function($ctx1) {$ctx1.fill(self,"withIndexDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);

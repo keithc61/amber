@@ -21,7 +21,7 @@ $self._assert_equals_("&copy;"._htmlTextContent(),"©");
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testEntityConversion",{},$globals.PlatformDomTest)});
+}, function($ctx1) {$ctx1.fill(self,"testEntityConversion",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -58,7 +58,7 @@ return "<script>throw new Error(\x22Intentional\x22)</script>"._htmlTextContent(
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testTextContentDoesNotRunScript",{},$globals.PlatformDomTest)});
+}, function($ctx1) {$ctx1.fill(self,"testTextContentDoesNotRunScript",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);

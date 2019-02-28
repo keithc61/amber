@@ -26,7 +26,7 @@ return $recv($recv($recv($self._class())._superclass())._canUnderstand_(selector
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"canProcessPragma:",{aMessage:aMessage,selector:selector},$globals.TPragmator)});
+}, function($ctx1) {$ctx1.fill(self,"canProcessPragma:",{aMessage:aMessage,selector:selector})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -55,7 +55,7 @@ return $recv(aMessage)._sendTo_(self);
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"processPragma:",{aMessage:aMessage},$globals.TPragmator)});
+}, function($ctx1) {$ctx1.fill(self,"processPragma:",{aMessage:aMessage})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -88,7 +88,7 @@ return $self._processPragma_(each);
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"processPragmas:",{aCollection:aCollection},$globals.TPragmator)});
+}, function($ctx1) {$ctx1.fill(self,"processPragmas:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -114,7 +114,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._subclass_slots_package_(aString,[],nil);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subclass:",{aString:aString},$globals.TSubclassable)});
+}, function($ctx1) {$ctx1.fill(self,"subclass:",{aString:aString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -138,7 +138,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._subclass_instanceVariableNames_package_(aString,anotherString,nil);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:",{aString:aString,anotherString:anotherString},$globals.TSubclassable)});
+}, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:",{aString:aString,anotherString:anotherString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -162,7 +162,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._subclass_instanceVariableNames_package_(aString,aString2,aString3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:category:",{aString:aString,aString2:aString2,aString3:aString3},$globals.TSubclassable)});
+}, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:category:",{aString:aString,aString2:aString2,aString3:aString3})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -186,7 +186,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._subclass_instanceVariableNames_package_(aString,aString2,aString3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:classVariableNames:poolDictionaries:category:",{aString:aString,aString2:aString2,classVars:classVars,pools:pools,aString3:aString3},$globals.TSubclassable)});
+}, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:classVariableNames:poolDictionaries:category:",{aString:aString,aString2:aString2,classVars:classVars,pools:pools,aString3:aString3})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -210,7 +210,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._subclass_slots_package_(aString,$recv(aString2)._instanceVariablesStringAsSlotList(),aString3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:package:",{aString:aString,aString2:aString2,aString3:aString3},$globals.TSubclassable)});
+}, function($ctx1) {$ctx1.fill(self,"subclass:instanceVariableNames:package:",{aString:aString,aString2:aString2,aString3:aString3})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -234,7 +234,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._subclass_slots_package_(aString,aCollection,nil);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subclass:slots:",{aString:aString,aCollection:aCollection},$globals.TSubclassable)});
+}, function($ctx1) {$ctx1.fill(self,"subclass:slots:",{aString:aString,aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -258,7 +258,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($recv($globals.ClassBuilder)._new())._superclass_subclass_slots_package_(self,aString,aCollection,anotherString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subclass:slots:classVariables:package:",{aString:aString,aCollection:aCollection,anObject:anObject,anotherString:anotherString},$globals.TSubclassable)});
+}, function($ctx1) {$ctx1.fill(self,"subclass:slots:classVariables:package:",{aString:aString,aCollection:aCollection,anObject:anObject,anotherString:anotherString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -282,7 +282,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($recv($globals.ClassBuilder)._new())._superclass_subclass_slots_package_(self,aString,aCollection,anotherString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subclass:slots:classVariables:poolDictionaries:package:",{aString:aString,aCollection:aCollection,anObject:anObject,anotherObject:anotherObject,anotherString:anotherString},$globals.TSubclassable)});
+}, function($ctx1) {$ctx1.fill(self,"subclass:slots:classVariables:poolDictionaries:package:",{aString:aString,aCollection:aCollection,anObject:anObject,anotherObject:anotherObject,anotherString:anotherString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -306,7 +306,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $recv($recv($globals.ClassBuilder)._new())._superclass_subclass_slots_package_(self,aString,aCollection,anotherString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subclass:slots:package:",{aString:aString,aCollection:aCollection,anotherString:anotherString},$globals.TSubclassable)});
+}, function($ctx1) {$ctx1.fill(self,"subclass:slots:package:",{aString:aString,aCollection:aCollection,anotherString:anotherString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -330,7 +330,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._subclass_uses_slots_package_(aString,aTraitCompositionDescription,[],nil);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subclass:uses:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription},$globals.TSubclassable)});
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -354,7 +354,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,anotherString,nil);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,anotherString:anotherString},$globals.TSubclassable)});
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,anotherString:anotherString})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -378,7 +378,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,aString2,aString3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:category:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aString2:aString2,aString3:aString3},$globals.TSubclassable)});
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:category:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aString2:aString2,aString3:aString3})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -402,7 +402,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._subclass_uses_instanceVariableNames_package_(aString,aTraitCompositionDescription,aString2,aString3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:classVariableNames:poolDictionaries:category:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aString2:aString2,classVars:classVars,pools:pools,aString3:aString3},$globals.TSubclassable)});
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:classVariableNames:poolDictionaries:category:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aString2:aString2,classVars:classVars,pools:pools,aString3:aString3})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -426,7 +426,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._subclass_uses_slots_package_(aString,aTraitCompositionDescription,$recv(aString2)._instanceVariablesStringAsSlotList(),aString3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:package:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aString2:aString2,aString3:aString3},$globals.TSubclassable)});
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:instanceVariableNames:package:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aString2:aString2,aString3:aString3})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -450,7 +450,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return $self._subclass_uses_slots_package_(aString,aTraitCompositionDescription,aCollection,nil);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subclass:uses:slots:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aCollection:aCollection},$globals.TSubclassable)});
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:slots:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aCollection:aCollection})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -477,7 +477,7 @@ cls=$self._subclass_slots_package_(aString,aCollection,aString3);
 $recv(cls)._setTraitComposition_($recv(aTraitCompositionDescription)._asTraitComposition());
 return cls;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subclass:uses:slots:package:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aCollection:aCollection,aString3:aString3,cls:cls},$globals.TSubclassable)});
+}, function($ctx1) {$ctx1.fill(self,"subclass:uses:slots:package:",{aString:aString,aTraitCompositionDescription:aTraitCompositionDescription,aCollection:aCollection,aString3:aString3,cls:cls})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
