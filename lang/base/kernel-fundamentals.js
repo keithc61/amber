@@ -137,7 +137,7 @@ define(function () {
         /* Smalltalk method object. To add a method to a class,
          use api.addMethod() */
 
-        st.method = function (spec) {
+        st.method = function (spec, factory) {
             var that = new SmalltalkMethod();
             that.selector = spec.selector;
             that.args = spec.args || [];
@@ -148,6 +148,7 @@ define(function () {
             // TODO remove .referencedClasses, have .referencedGlobals
             that.referencedClasses = spec.referencedClasses || [];
             that.fn = spec.fn;
+            if (factory) that.instantiateFn = factory;
             return that;
         };
 
@@ -206,6 +207,9 @@ define(function () {
                     console.warn("Resetting methodClass of " + newMethod.methodClass.name + " >> " + selector + " to " + traitOrBehavior.name);
                 }
                 newMethod.methodClass = traitOrBehavior;
+                if (newMethod.instantiateFn) {
+                    newMethod.fn = newMethod.instantiateFn(traitOrBehavior);
+                }
                 traitOrBehavior.methods[selector] = newMethod;
                 traitOrBehavior.methodAdded(newMethod);
             } else {

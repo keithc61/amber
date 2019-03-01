@@ -92,7 +92,7 @@ define(function () {
         var removeElement = brikz.arraySet.removeElement;
 
         function aliased (selector, method) {
-            var result = st.method(method);
+            var result = st.method(method, method.instantiateFn);
             if (method.selector !== selector) {
                 result.selector = selector;
                 result.source = '"Aliased as ' + selector + '"\n' + method.source;
