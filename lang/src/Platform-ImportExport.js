@@ -1253,7 +1253,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1,$4,$3,$6,$5,$8,$7,$10,$9,$12,$11,$14,$13;
+var $2,$1,$4,$3,$5,$7,$6,$9,$8,$11,$10,$13,$12,$15,$14,$17,$16,$18,$receiver;
 $recv(aStream)._write_("$core.addMethod(");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["write:"]=1;
@@ -1296,7 +1296,17 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=4;
 //>>excludeEnd("ctx");
-$recv(aStream)._write_(["fn: ",$recv($recv(aMethod)._fn())._compiledSource(),","]);
+$5=$recv(aMethod)._instantiateFn();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["instantiateFn"]=1;
+//>>excludeEnd("ctx");
+if(($receiver = $5) == null || $receiver.a$nil){
+$7=$recv($recv(aMethod)._fn())._compiledSource();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["compiledSource"]=1;
+//>>excludeEnd("ctx");
+$6=["fn: ",$7,","];
+$recv(aStream)._write_($6);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["write:"]=5;
 //>>excludeEnd("ctx");
@@ -1304,6 +1314,9 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=5;
 //>>excludeEnd("ctx");
+} else {
+$5;
+}
 $recv(aStream)._write_("//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["write:"]=6;
@@ -1312,12 +1325,12 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=6;
 //>>excludeEnd("ctx");
-$6=$recv($recv(aMethod)._arguments())._asJavaScriptSource();
+$9=$recv($recv(aMethod)._arguments())._asJavaScriptSource();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["asJavaScriptSource"]=3;
 //>>excludeEnd("ctx");
-$5=["args: ",$6,","];
-$recv(aStream)._write_($5);
+$8=["args: ",$9,","];
+$recv(aStream)._write_($8);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["write:"]=7;
 //>>excludeEnd("ctx");
@@ -1325,12 +1338,12 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=7;
 //>>excludeEnd("ctx");
-$8=$recv($recv(aMethod)._source())._asJavaScriptSource();
+$11=$recv($recv(aMethod)._source())._asJavaScriptSource();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["asJavaScriptSource"]=4;
 //>>excludeEnd("ctx");
-$7=["source: ",$8,","];
-$recv(aStream)._write_($7);
+$10=["source: ",$11,","];
+$recv(aStream)._write_($10);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["write:"]=8;
 //>>excludeEnd("ctx");
@@ -1338,12 +1351,12 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=8;
 //>>excludeEnd("ctx");
-$10=$recv($recv(aMethod)._referencedClasses())._asJavaScriptSource();
+$13=$recv($recv(aMethod)._referencedClasses())._asJavaScriptSource();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["asJavaScriptSource"]=5;
 //>>excludeEnd("ctx");
-$9=["referencedClasses: ",$10,","];
-$recv(aStream)._write_($9);
+$12=["referencedClasses: ",$13,","];
+$recv(aStream)._write_($12);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["write:"]=9;
 //>>excludeEnd("ctx");
@@ -1359,12 +1372,12 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=10;
 //>>excludeEnd("ctx");
-$12=$recv($recv(aMethod)._basicPragmas())._asJavaScriptSource();
+$15=$recv($recv(aMethod)._basicPragmas())._asJavaScriptSource();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["asJavaScriptSource"]=6;
 //>>excludeEnd("ctx");
-$11=["pragmas: ",$12,","];
-$recv(aStream)._write_($11);
+$14=["pragmas: ",$15,","];
+$recv(aStream)._write_($14);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["write:"]=11;
 //>>excludeEnd("ctx");
@@ -1372,12 +1385,12 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=11;
 //>>excludeEnd("ctx");
-$14=$recv($recv(aMethod)._messageSends())._asJavaScriptSource();
+$17=$recv($recv(aMethod)._messageSends())._asJavaScriptSource();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["asJavaScriptSource"]=7;
 //>>excludeEnd("ctx");
-$13=["messageSends: ",$14];
-$recv(aStream)._write_($13);
+$16=["messageSends: ",$17];
+$recv(aStream)._write_($16);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["write:"]=12;
 //>>excludeEnd("ctx");
@@ -1385,9 +1398,24 @@ $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["lf"]=12;
 //>>excludeEnd("ctx");
-$recv(aStream)._write_("}),");
+$recv(aStream)._write_("}");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["write:"]=13;
+//>>excludeEnd("ctx");
+$18=$recv(aMethod)._instantiateFn();
+if(($receiver = $18) == null || $receiver.a$nil){
+$18;
+} else {
+var ifn;
+ifn=$receiver;
+$recv(aStream)._write_([", ",$recv(ifn)._compiledSource()]);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["write:"]=14;
+//>>excludeEnd("ctx");
+}
+$recv(aStream)._write_("),");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["write:"]=15;
 //>>excludeEnd("ctx");
 $recv(aStream)._lf();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1406,11 +1434,11 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aMethod", "aStream"],
-source: "exportMethod: aMethod on: aStream\x0a\x09aStream\x0a\x09\x09write: '$core.addMethod('; lf;\x0a\x09\x09write: '$core.method({'; lf;\x0a\x09\x09write: { 'selector: '. aMethod selector asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'protocol: '. aMethod protocol asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'fn: '. aMethod fn compiledSource. ',' }; lf;\x0a\x09\x09write: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);'; lf;\x0a\x09\x09write: { 'args: '. aMethod arguments asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'source: '. aMethod source asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'referencedClasses: '. aMethod referencedClasses asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: '//>>excludeEnd(\x22ide\x22);'; lf;\x0a\x09\x09write: { 'pragmas: '. aMethod basicPragmas asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'messageSends: '. aMethod messageSends asJavaScriptSource }; lf;\x0a\x09\x09write: '}),'; lf;\x0a\x09\x09write: { aMethod origin asJavaScriptSource. ');' }; lf; lf",
+source: "exportMethod: aMethod on: aStream\x0a\x09aStream\x0a\x09\x09write: '$core.addMethod('; lf;\x0a\x09\x09write: '$core.method({'; lf;\x0a\x09\x09write: { 'selector: '. aMethod selector asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'protocol: '. aMethod protocol asJavaScriptSource. ',' }; lf.\x0a\x09aMethod instantiateFn ifNil: [ aStream write: { 'fn: '. aMethod fn compiledSource. ',' }; lf ].\x0a\x09aStream\x0a\x09\x09write: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);'; lf;\x0a\x09\x09write: { 'args: '. aMethod arguments asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'source: '. aMethod source asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'referencedClasses: '. aMethod referencedClasses asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: '//>>excludeEnd(\x22ide\x22);'; lf;\x0a\x09\x09write: { 'pragmas: '. aMethod basicPragmas asJavaScriptSource. ',' }; lf;\x0a\x09\x09write: { 'messageSends: '. aMethod messageSends asJavaScriptSource }; lf;\x0a\x09\x09write: '}'.\x0a\x09aMethod instantiateFn ifNotNil: [ :ifn | aStream write: { ', '. ifn compiledSource } ].\x0a\x09aStream\x0a\x09\x09write: '),'; lf;\x0a\x09\x09write: { aMethod origin asJavaScriptSource. ');' }; lf; lf",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["write:", "lf", "asJavaScriptSource", "selector", "protocol", "compiledSource", "fn", "arguments", "source", "referencedClasses", "basicPragmas", "messageSends", "origin"]
+messageSends: ["write:", "lf", "asJavaScriptSource", "selector", "protocol", "ifNil:", "instantiateFn", "compiledSource", "fn", "arguments", "source", "referencedClasses", "basicPragmas", "messageSends", "ifNotNil:", "origin"]
 }),
 $globals.Exporter);
 

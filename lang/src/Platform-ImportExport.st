@@ -334,8 +334,9 @@ exportMethod: aMethod on: aStream
 		write: '$core.addMethod('; lf;
 		write: '$core.method({'; lf;
 		write: { 'selector: '. aMethod selector asJavaScriptSource. ',' }; lf;
-		write: { 'protocol: '. aMethod protocol asJavaScriptSource. ',' }; lf;
-		write: { 'fn: '. aMethod fn compiledSource. ',' }; lf;
+		write: { 'protocol: '. aMethod protocol asJavaScriptSource. ',' }; lf.
+	aMethod instantiateFn ifNil: [ aStream write: { 'fn: '. aMethod fn compiledSource. ',' }; lf ].
+	aStream
 		write: '//>>excludeStart("ide", pragmas.excludeIdeData);'; lf;
 		write: { 'args: '. aMethod arguments asJavaScriptSource. ',' }; lf;
 		write: { 'source: '. aMethod source asJavaScriptSource. ',' }; lf;
@@ -343,7 +344,10 @@ exportMethod: aMethod on: aStream
 		write: '//>>excludeEnd("ide");'; lf;
 		write: { 'pragmas: '. aMethod basicPragmas asJavaScriptSource. ',' }; lf;
 		write: { 'messageSends: '. aMethod messageSends asJavaScriptSource }; lf;
-		write: '}),'; lf;
+		write: '}'.
+	aMethod instantiateFn ifNotNil: [ :ifn | aStream write: { ', '. ifn compiledSource } ].
+	aStream
+		write: '),'; lf;
 		write: { aMethod origin asJavaScriptSource. ');' }; lf; lf
 !
 

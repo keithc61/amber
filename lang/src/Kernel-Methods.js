@@ -755,7 +755,7 @@ $globals.BlockClosure);
 
 
 
-$core.addClass("CompiledMethod", $globals.Object, ["args", "fn", "messageSends", "pragmas", "owner", "methodClass", "protocol", "referencedClasses", "selector", "source"], "Kernel-Methods");
+$core.addClass("CompiledMethod", $globals.Object, ["args", "instantiateFn", "fn", "messageSends", "pragmas", "owner", "methodClass", "protocol", "referencedClasses", "selector", "source"], "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.CompiledMethod.comment="I represent a class method of the system. I hold the source and compiled code of a class method.\x0a\x0a## API\x0aMy instances can be accessed using `Behavior >> #methodAt:`\x0a\x0a    Object methodAt: 'asString'\x0a\x0aSource code access:\x0a\x0a\x09(String methodAt: 'lines') source\x0a\x0aReferenced classes:\x0a\x0a\x09(String methodAt: 'lines') referencedClasses\x0a\x0aMessages sent from an instance:\x0a\x09\x0a\x09(String methodAt: 'lines') messageSends";
 //>>excludeEnd("ide");
@@ -1054,6 +1054,45 @@ return self;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
 source: "fn: aBlock\x0a\x09fn := aBlock",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}),
+$globals.CompiledMethod);
+
+$core.addMethod(
+$core.method({
+selector: "instantiateFn",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return $self.instantiateFn;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "instantiateFn\x0a\x09^ instantiateFn",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}),
+$globals.CompiledMethod);
+
+$core.addMethod(
+$core.method({
+selector: "instantiateFn:",
+protocol: "accessing",
+fn: function (anObject){
+var self=this,$self=this;
+$self.instantiateFn=anObject;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "instantiateFn: anObject\x0a\x09instantiateFn := anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
