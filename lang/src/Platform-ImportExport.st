@@ -35,7 +35,7 @@ extensionProtocolsOfPackage: aPackage
 	Not to shuffle diffs, classes are sorted by their name."
 	
 	(Smalltalk classes asArray sorted: [ :a :b | a name < b name ]) do: [ :each |
-		({each. each theMetaClass} copyWithout: nil) do: [ :behavior |
+		each includingPossibleMetaDo: [ :behavior |
 			(behavior protocols includes: extensionName) ifTrue: [
 				result add: (ExportMethodProtocol name: extensionName theClass: behavior) ] ] ].
 
@@ -65,7 +65,7 @@ extensionCategoriesOfPackage: aPackage
 	name := aPackage name.
 	result := OrderedCollection new.
 	(Package sortedClasses: Smalltalk classes) do: [ :each |
-		{each. each theMetaClass} do: [ :aClass |
+		each includingPossibleMetaDo: [ :aClass |
 			map := Dictionary new.
 			aClass protocolsDo: [ :category :methods |
 				category = ('*', name) ifTrue: [ map at: category put: methods ] ].
@@ -183,9 +183,8 @@ exportPackage: aPackage on: aStream
 		exportPackageDefinitionOf: aPackage on: aStream;
 		exportPackageImportsOf: aPackage on: aStream.
 	
-	aPackage sortedClasses do: [ :each |
-		self exportBehavior: each on: aStream.
-		each theMetaClass ifNotNil: [ :meta | self exportBehavior: meta on: aStream ] ].
+	aPackage sortedClasses do: [ :eachClass | eachClass includingPossibleMetaDo: [ :each |
+		self exportBehavior: each on: aStream ] ].
 	
 	self exportPackageTraitCompositionsOf: aPackage on: aStream.
 
@@ -357,9 +356,8 @@ exportPackage: aPackage on: aStream
 		exportPackageImportsOf: aPackage on: aStream;
 		exportPackageTransportOf: aPackage on: aStream.
 	
-	aPackage sortedClasses do: [ :each |
-		self exportBehavior: each on: aStream.
-		each theMetaClass ifNotNil: [ :meta | self exportBehavior: meta on: aStream ] ].
+	aPackage sortedClasses do: [ :eachClass | eachClass includingPossibleMetaDo: [ :each |
+		self exportBehavior: each on: aStream ] ].
 			
 	self exportPackageTraitCompositionsOf: aPackage on: aStream.
 

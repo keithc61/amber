@@ -209,6 +209,14 @@ provided
 	^ self javascriptConstructor provided
 ! !
 
+!Class methodsFor: 'enumerating'!
+
+includingPossibleMetaDo: aBlock
+
+	aBlock value: self.
+	aBlock value: self theMetaClass
+! !
+
 !Class methodsFor: 'testing'!
 
 isClass
@@ -599,6 +607,11 @@ traitUsers
 
 allSubclassesDo: aBlock
 	"Default for non-classes; to be able to send #allSubclassesDo: to any class / trait."
+!
+
+includingPossibleMetaDo: aBlock
+	"Default for non-classes."
+	aBlock value: self
 ! !
 
 !TBehaviorDefaults methodsFor: 'printing'!

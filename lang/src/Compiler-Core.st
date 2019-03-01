@@ -247,15 +247,14 @@ parseExpression: aString
 !
 
 recompile: aClass
-	aClass methodDictionary values
-		do: [ :each | each methodClass = aClass ifTrue: [ 
-			self 
-				install: each source 
-				forClass: aClass 
-				protocol: each protocol ] ]
-		displayingProgress: 'Recompiling ', aClass name.
-	aClass theMetaClass ifNotNil: [ :meta |
-		meta = aClass ifFalse: [ self recompile: meta ] ]
+	aClass includingPossibleMetaDo: [ :eachSide |
+		eachSide methodDictionary values
+			do: [ :each | each methodClass = eachSide ifTrue: [ 
+				self 
+					install: each source 
+					forClass: eachSide 
+					protocol: each protocol ] ]
+			displayingProgress: 'Recompiling ', eachSide name ]
 !
 
 recompileAll

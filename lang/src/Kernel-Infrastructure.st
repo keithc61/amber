@@ -514,9 +514,8 @@ loadDependencyClasses
 traitCompositions
 	| traitCompositions |
 	traitCompositions := Dictionary new.
-	self classes do: [ :each |
-		traitCompositions at: each put: each traitComposition.
-		each theMetaClass ifNotNil: [ :meta | traitCompositions at: meta put: meta traitComposition ] ].
+	self classes do: [ :eachClass | eachClass includingPossibleMetaDo: [ :each |
+		traitCompositions at: each put: each traitComposition ] ].
 	^ traitCompositions reject: [ :each | each isEmpty ]
 ! !
 
@@ -930,8 +929,7 @@ removeClass: aClass
 	aClass traitUsers ifNotEmpty: [ self error: aClass name, ' has trait users.' ].
 	
 	self deleteClass: aClass.
-	aClass setTraitComposition: #().
-	aClass theMetaClass ifNotNil: [ :meta | meta setTraitComposition: #() ].
+	aClass includingPossibleMetaDo: [ :each | each setTraitComposition: #() ].
 	
 	SystemAnnouncer current
 		announce: (ClassRemoved new

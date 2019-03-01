@@ -807,6 +807,35 @@ $globals.Class);
 
 $core.addMethod(
 $core.method({
+selector: "includingPossibleMetaDo:",
+protocol: "enumerating",
+fn: function (aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv(aBlock)._value_(self);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["value:"]=1;
+//>>excludeEnd("ctx");
+$recv(aBlock)._value_($self._theMetaClass());
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"includingPossibleMetaDo:",{aBlock:aBlock})});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "includingPossibleMetaDo: aBlock\x0a\x0a\x09aBlock value: self.\x0a\x09aBlock value: self theMetaClass",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["value:", "theMetaClass"]
+}),
+$globals.Class);
+
+$core.addMethod(
+$core.method({
 selector: "isClass",
 protocol: "testing",
 fn: function (){
@@ -2218,6 +2247,31 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
+}),
+$globals.TBehaviorDefaults);
+
+$core.addMethod(
+$core.method({
+selector: "includingPossibleMetaDo:",
+protocol: "enumerating",
+fn: function (aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv(aBlock)._value_(self);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"includingPossibleMetaDo:",{aBlock:aBlock})});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "includingPossibleMetaDo: aBlock\x0a\x09\x22Default for non-classes.\x22\x0a\x09aBlock value: self",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["value:"]
 }),
 $globals.TBehaviorDefaults);
 

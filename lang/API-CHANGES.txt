@@ -1,5 +1,10 @@
 0.24.0:
 
++ TBehaviorDefaults >>
+  + includingPossibleMetaDo:
++ Class >>
+  + includingPossibleMetaDo:
+
 - SmalltalkImage >>
   - includesKey:
 
