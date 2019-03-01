@@ -3214,7 +3214,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$3,$5,$7,$6,$4,$11,$10,$9,$8,$12,$16,$15,$14,$13,$1;
+var $2,$3,$4,$6,$8,$7,$5,$12,$11,$10,$9,$13,$17,$16,$19,$18,$15,$14,$1,$receiver;
 $2=$self._isBlockContext();
 if($core.assert($2)){
 $3="a block (in ".__comma($recv($self._methodContext())._asString());
@@ -3227,57 +3227,70 @@ $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
 } else {
 var methodClass;
-methodClass=$recv($self._method())._methodClass();
-$5=methodClass;
-$7=$self._receiver();
+$4=$self._method();
+if(($receiver = $4) == null || $receiver.a$nil){
+methodClass=$4;
+} else {
+var method;
+method=$receiver;
+methodClass=$recv(method)._methodClass();
+}
+$6=methodClass;
+$8=$self._receiver();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["receiver"]=1;
 //>>excludeEnd("ctx");
-$6=$recv($7)._class();
+$7=$recv($8)._class();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["class"]=1;
 //>>excludeEnd("ctx");
-$4=$recv($5).__eq($6);
-if($core.assert($4)){
-$11=$self._receiver();
+$5=$recv($6).__eq($7);
+if($core.assert($5)){
+$12=$self._receiver();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["receiver"]=2;
 //>>excludeEnd("ctx");
-$10=$recv($11)._class();
+$11=$recv($12)._class();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["class"]=2;
 //>>excludeEnd("ctx");
-$9=$recv($10)._name();
+$10=$recv($11)._name();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["name"]=1;
 //>>excludeEnd("ctx");
-$8=$recv($9).__comma(" >> ");
+$9=$recv($10).__comma(" >> ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=4;
 //>>excludeEnd("ctx");
-$12=$self._selector();
+$13=$self._selector();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["selector"]=1;
 //>>excludeEnd("ctx");
-$1=$recv($8).__comma($12);
+$1=$recv($9).__comma($13);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=3;
 //>>excludeEnd("ctx");
 } else {
-$16=$recv($recv($self._receiver())._class())._name();
+$17=$recv($recv($self._receiver())._class())._name();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["name"]=2;
 //>>excludeEnd("ctx");
-$15=$recv($16).__comma("(");
-$14=$recv($15).__comma($recv(methodClass)._name());
+$16=$recv($17).__comma("(");
+$19=methodClass;
+if(($receiver = $19) == null || $receiver.a$nil){
+$18="nil";
+} else {
+$18=$recv(methodClass)._name();
+}
+$15=$recv($16).__comma($18);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=7;
 //>>excludeEnd("ctx");
-$13=$recv($14).__comma(") >> ");
+$14=$recv($15).__comma(") >> ");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=6;
 //>>excludeEnd("ctx");
-$1=$recv($13).__comma($self._selector());
+$1=$recv($14).__comma($self._selector());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=5;
 //>>excludeEnd("ctx");
@@ -3290,11 +3303,11 @@ return $1;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asString\x0a\x09^ self isBlockContext\x0a\x09\x09ifTrue: [ 'a block (in ', self methodContext asString, ')' ]\x0a\x09\x09ifFalse: [ \x0a\x09\x09\x09| methodClass |\x0a\x09\x09\x09methodClass := self method methodClass.\x0a\x09\x09\x09methodClass = self receiver class \x0a\x09\x09\x09\x09ifTrue: [ self receiver class name, ' >> ', self selector ]\x0a\x09\x09\x09\x09ifFalse: [ self receiver class name, '(', methodClass name, ') >> ', self selector ] ]",
+source: "asString\x0a\x09^ self isBlockContext\x0a\x09\x09ifTrue: [ 'a block (in ', self methodContext asString, ')' ]\x0a\x09\x09ifFalse: [ \x0a\x09\x09\x09| methodClass |\x0a\x09\x09\x09methodClass := self method ifNotNil: [ :method | method methodClass ].\x0a\x09\x09\x09methodClass = self receiver class \x0a\x09\x09\x09\x09ifTrue: [ self receiver class name, ' >> ', self selector ]\x0a\x09\x09\x09\x09ifFalse: [ self receiver class name, '(', (methodClass ifNil: [ 'nil' ] ifNotNil: [ methodClass name ]), ') >> ', self selector ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:ifFalse:", "isBlockContext", ",", "asString", "methodContext", "methodClass", "method", "=", "class", "receiver", "name", "selector"]
+messageSends: ["ifTrue:ifFalse:", "isBlockContext", ",", "asString", "methodContext", "ifNotNil:", "method", "methodClass", "=", "class", "receiver", "name", "selector", "ifNil:ifNotNil:"]
 }),
 $globals.TMethodContext);
 
