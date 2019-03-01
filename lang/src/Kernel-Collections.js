@@ -9362,71 +9362,83 @@ var pre,post;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2,$4,$5,$6,$9,$8,$10,$7,$11,$12,$14,$13;
-$1=$self._atEnd();
-if($core.assert($1)){
-$3=$self._collection();
+var $2,$4,$3,$1,$6,$5,$7,$8,$9,$12,$11,$13,$10,$14,$15,$17,$16;
+$2=$self._position();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["position"]=1;
+//>>excludeEnd("ctx");
+$4=$self._collection();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["collection"]=1;
 //>>excludeEnd("ctx");
-$2=$recv($3).__comma(aString);
+$3=$recv($4)._size();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["size"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2).__eq($3);
+if($core.assert($1)){
+$6=$self._collection();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["collection"]=2;
+//>>excludeEnd("ctx");
+$5=$recv($6).__comma(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
-$self._setCollection_($2);
+$self._setCollection_($5);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["setCollection:"]=1;
 //>>excludeEnd("ctx");
 } else {
-$4=$self._collection();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["collection"]=2;
-//>>excludeEnd("ctx");
-$5=$self._position();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["position"]=1;
-//>>excludeEnd("ctx");
-pre=$recv($4)._copyFrom_to_((1),$5);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["copyFrom:to:"]=1;
-//>>excludeEnd("ctx");
-$6=$self._collection();
+$7=$self._collection();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["collection"]=3;
 //>>excludeEnd("ctx");
-$9=$self._position();
+$8=$self._position();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["position"]=2;
 //>>excludeEnd("ctx");
-$8=$recv($9).__plus((1));
+pre=$recv($7)._copyFrom_to_((1),$8);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["+"]=2;
+$ctx1.sendIdx["copyFrom:to:"]=1;
 //>>excludeEnd("ctx");
-$10=$recv(aString)._size();
+$9=$self._collection();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["size"]=1;
+$ctx1.sendIdx["collection"]=4;
 //>>excludeEnd("ctx");
-$7=$recv($8).__plus($10);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["+"]=1;
-//>>excludeEnd("ctx");
-$11=$recv($self._collection())._size();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["size"]=2;
-//>>excludeEnd("ctx");
-post=$recv($6)._copyFrom_to_($7,$11);
-$12=$recv($recv(pre).__comma(aString)).__comma(post);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=2;
-//>>excludeEnd("ctx");
-$self._setCollection_($12);
-}
-$14=$self._position();
+$12=$self._position();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["position"]=3;
 //>>excludeEnd("ctx");
-$13=$recv($14).__plus($recv(aString)._size());
-$self._position_($13);
+$11=$recv($12).__plus((1));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["+"]=2;
+//>>excludeEnd("ctx");
+$13=$recv(aString)._size();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["size"]=2;
+//>>excludeEnd("ctx");
+$10=$recv($11).__plus($13);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["+"]=1;
+//>>excludeEnd("ctx");
+$14=$recv($self._collection())._size();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["size"]=3;
+//>>excludeEnd("ctx");
+post=$recv($9)._copyFrom_to_($10,$14);
+$15=$recv($recv(pre).__comma(aString)).__comma(post);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=2;
+//>>excludeEnd("ctx");
+$self._setCollection_($15);
+}
+$17=$self._position();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["position"]=4;
+//>>excludeEnd("ctx");
+$16=$recv($17).__plus($recv(aString)._size());
+$self._position_($16);
 $self._setStreamSize_($recv($self._streamSize())._max_($self._position()));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -9435,11 +9447,11 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "nextPutAll: aString\x0a\x09| pre post |\x0a\x09self atEnd ifTrue: [ self setCollection: self collection, aString ] ifFalse: [\x0a\x09\x09pre := self collection copyFrom: 1 to: self position.\x0a\x09\x09post := self collection copyFrom: (self position + 1 + aString size) to: self collection size.\x0a\x09\x09self setCollection: pre, aString, post\x0a\x09].\x0a\x09self position: self position + aString size.\x0a\x09self setStreamSize: (self streamSize max: self position)",
+source: "nextPutAll: aString\x0a\x09| pre post |\x0a\x09self position = self collection size ifTrue: [ self setCollection: self collection, aString ] ifFalse: [\x0a\x09\x09pre := self collection copyFrom: 1 to: self position.\x0a\x09\x09post := self collection copyFrom: (self position + 1 + aString size) to: self collection size.\x0a\x09\x09self setCollection: pre, aString, post\x0a\x09].\x0a\x09self position: self position + aString size.\x0a\x09self setStreamSize: (self streamSize max: self position)",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:ifFalse:", "atEnd", "setCollection:", ",", "collection", "copyFrom:to:", "position", "+", "size", "position:", "setStreamSize:", "max:", "streamSize"]
+messageSends: ["ifTrue:ifFalse:", "=", "position", "size", "collection", "setCollection:", ",", "copyFrom:to:", "+", "position:", "setStreamSize:", "max:", "streamSize"]
 }),
 $globals.StringStream);
 

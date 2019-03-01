@@ -2122,7 +2122,7 @@ nextPut: aString
 
 nextPutAll: aString
 	| pre post |
-	self atEnd ifTrue: [ self setCollection: self collection, aString ] ifFalse: [
+	self position = self collection size ifTrue: [ self setCollection: self collection, aString ] ifFalse: [
 		pre := self collection copyFrom: 1 to: self position.
 		post := self collection copyFrom: (self position + 1 + aString size) to: self collection size.
 		self setCollection: pre, aString, post
