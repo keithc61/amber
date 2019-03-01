@@ -3546,31 +3546,6 @@ $globals.SmalltalkImage);
 
 $core.addMethod(
 $core.method({
-selector: "includesKey:",
-protocol: "accessing",
-fn: function (aKey){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $core.hasOwnProperty(aKey);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"includesKey:",{aKey:aKey})});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aKey"],
-source: "includesKey: aKey\x0a\x09<inlineJS: 'return $core.hasOwnProperty(aKey)'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return $core.hasOwnProperty(aKey)"]]],
-messageSends: []
-}),
-$globals.SmalltalkImage);
-
-$core.addMethod(
-$core.method({
 selector: "isSmalltalkObject:",
 protocol: "testing",
 fn: function (anObject){

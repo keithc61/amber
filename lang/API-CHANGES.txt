@@ -1,3 +1,9 @@
+0.24.0:
+
+- SmalltalkImage >>
+  - includesKey:
+
+
 0.23.0:
 
 * Namespace change: amber_core => amber/core.

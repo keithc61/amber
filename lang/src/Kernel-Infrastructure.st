@@ -848,10 +848,6 @@ globals
 	<inlineJS: 'return $globals'>
 !
 
-includesKey: aKey
-	<inlineJS: 'return $core.hasOwnProperty(aKey)'>
-!
-
 optOut: anObject
 	"A Smalltalk object has a 'a$cls' property.
 	This shadows the property for anObject.
