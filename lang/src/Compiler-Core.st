@@ -168,14 +168,18 @@ ast: aString forClass: aClass protocol: anotherString
 !
 
 compile: aString forClass: aClass protocol: anotherString
-	| compilationResult result pragmas closure |
+	| compilationResult result pragmas closure closureFactory |
 	compilationResult :=
 		self compileSource: aString forClass: aClass protocol: anotherString.
-	pragmas := compilationResult at: #pragmas.
-	closure := self eval: (compilationResult at: #fn) forPackage: self currentPackage.
-	compilationResult removeKey: #fn; removeKey: #pragmas.
+	pragmas := compilationResult removeKey: #pragmas.
+	closure := (compilationResult removeKey: #fn ifAbsent: [])
+		ifNotNil: [ :js | self eval: js forPackage: self currentPackage ].
+	closureFactory := (compilationResult removeKey: #instantiateFn ifAbsent: [])
+		ifNotNil: [ :js | self eval: js forPackage: self currentPackage ].
 	result := Smalltalk core method: compilationResult.
-	result protocol: anotherString; pragmas: pragmas; fn: closure.
+	result protocol: anotherString; pragmas: pragmas.
+	closure ifNotNil: [ result fn: closure ].
+	closureFactory ifNotNil: [ result instantiateFn: closureFactory ].
 	^ result
 !
 

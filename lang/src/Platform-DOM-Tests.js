@@ -9,7 +9,14 @@ $core.addMethod(
 $core.method({
 selector: "testEntityConversion",
 protocol: "testing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testEntityConversion\x0a\x09PlatformDom isFeasible ifTrue: [ self assert: '&copy;' htmlTextContent equals: '©' ]",
+referencedClasses: ["PlatformDom"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifTrue:", "isFeasible", "assert:equals:", "htmlTextContent"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -23,22 +30,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testEntityConversion",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testEntityConversion\x0a\x09PlatformDom isFeasible ifTrue: [ self assert: '&copy;' htmlTextContent equals: '©' ]",
-referencedClasses: ["PlatformDom"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifTrue:", "isFeasible", "assert:equals:", "htmlTextContent"]
-}),
+}; }),
 $globals.PlatformDomTest);
 
 $core.addMethod(
 $core.method({
 selector: "testTextContentDoesNotRunScript",
 protocol: "testing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testTextContentDoesNotRunScript\x0a\x09PlatformDom isFeasible ifTrue: [\x0a\x09\x09self shouldnt: [ '<script>throw new Error(\x22Intentional\x22)</script>' htmlTextContent ] raise: Error ]",
+referencedClasses: ["PlatformDom", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifTrue:", "isFeasible", "shouldnt:raise:", "htmlTextContent"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -60,15 +66,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testTextContentDoesNotRunScript",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testTextContentDoesNotRunScript\x0a\x09PlatformDom isFeasible ifTrue: [\x0a\x09\x09self shouldnt: [ '<script>throw new Error(\x22Intentional\x22)</script>' htmlTextContent ] raise: Error ]",
-referencedClasses: ["PlatformDom", "Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifTrue:", "isFeasible", "shouldnt:raise:", "htmlTextContent"]
-}),
+}; }),
 $globals.PlatformDomTest);
 
 

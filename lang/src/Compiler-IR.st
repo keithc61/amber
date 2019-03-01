@@ -918,11 +918,12 @@ stream: aStream
 !IRJSTranslator methodsFor: 'building'!
 
 buildMethodDeclaration: aMethod with: aBlock
+	aBlock value.
 	^ #{
 		#selector -> aMethod selector.
 		#source -> aMethod source.
 		#pragmas -> aMethod pragmas.
-		#fn -> [ aBlock value. self contents ] value.
+		#instantiateFn -> self contents.
 		#messageSends -> aMethod messageSends asArray.
 		#args -> (aMethod arguments collect: [ :each | each value ]) asArray.
 		#referencedClasses -> aMethod classReferences asArray.
@@ -972,6 +973,7 @@ visitIRMethod: anIRMethod
 	^ self
 		buildMethodDeclaration: anIRMethod
 		with: [ self stream
+			nextPutAll: '(function ($methodClass){ return ';
 			nextPutFunctionWith: [
 				self stream nextPutVars: (anIRMethod tempDeclarations collect: [ :each |
 					each name asVariableName ]).
@@ -984,7 +986,8 @@ visitIRMethod: anIRMethod
 						self stream nextPutNonLocalReturnHandlingWith: [
 							super visitIRMethod: anIRMethod ] ]
 					ifFalse: [ super visitIRMethod: anIRMethod ] ]]
-			arguments: anIRMethod arguments ]
+			arguments: anIRMethod arguments;
+			nextPutAll: '; })' ]
 !
 
 visitIRNonLocalReturn: anIRNonLocalReturn
@@ -1215,14 +1218,14 @@ nextPutContextFor: aMethod during: aBlock
 !
 
 nextPutFunctionWith: aBlock arguments: anArray
-	stream nextPutAll: '(function ('.
+	stream nextPutAll: 'function ('.
 	anArray
 		do: [ :each | stream nextPutAll: each asVariableName ]
 		separatedBy: [ stream nextPut: ',' ].
 	stream nextPutAll: '){'; lf.
 	stream nextPutAll: 'var self=this,$self=this;'; lf.
 	aBlock value.
-	stream lf; nextPutAll: '})'
+	stream lf; nextPutAll: '}'
 !
 
 nextPutIf: aBlock then: anotherBlock

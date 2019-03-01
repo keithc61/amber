@@ -12,11 +12,6 @@ $core.addMethod(
 $core.method({
 selector: "announcementClass",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $self.announcementClass;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "announcementClass\x0a\x09^ announcementClass",
@@ -24,14 +19,25 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.announcementClass;
+
+}; }),
 $globals.AnnouncementSubscription);
 
 $core.addMethod(
 $core.method({
 selector: "announcementClass:",
 protocol: "accessing",
-fn: function (aClass){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aClass"],
+source: "announcementClass: aClass\x0a\x09announcementClass := Smalltalk globals at: aClass name",
+referencedClasses: ["Smalltalk"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:", "globals", "name"]
+}, function ($methodClass){ return function (aClass){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -41,22 +47,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"announcementClass:",{aClass:aClass})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aClass"],
-source: "announcementClass: aClass\x0a\x09announcementClass := Smalltalk globals at: aClass name",
-referencedClasses: ["Smalltalk"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["at:", "globals", "name"]
-}),
+}; }),
 $globals.AnnouncementSubscription);
 
 $core.addMethod(
 $core.method({
 selector: "deliver:",
 protocol: "announcing",
-fn: function (anAnnouncement){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anAnnouncement"],
+source: "deliver: anAnnouncement\x0a\x09(self handlesAnnouncement: anAnnouncement)\x0a\x09\x09ifTrue: [ self valuable value: anAnnouncement ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifTrue:", "handlesAnnouncement:", "value:", "valuable"]
+}, function ($methodClass){ return function (anAnnouncement){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -70,22 +75,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"deliver:",{anAnnouncement:anAnnouncement})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anAnnouncement"],
-source: "deliver: anAnnouncement\x0a\x09(self handlesAnnouncement: anAnnouncement)\x0a\x09\x09ifTrue: [ self valuable value: anAnnouncement ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifTrue:", "handlesAnnouncement:", "value:", "valuable"]
-}),
+}; }),
 $globals.AnnouncementSubscription);
 
 $core.addMethod(
 $core.method({
 selector: "handlesAnnouncement:",
 protocol: "announcing",
-fn: function (anAnnouncement){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anAnnouncement"],
+source: "handlesAnnouncement: anAnnouncement\x0a\x09\x22anAnnouncement might be announced from within another Amber environment\x22\x0a\x09\x0a\x09^ (Smalltalk globals at: anAnnouncement class name) includesBehavior: self announcementClass",
+referencedClasses: ["Smalltalk"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["includesBehavior:", "at:", "globals", "name", "class", "announcementClass"]
+}, function ($methodClass){ return function (anAnnouncement){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -94,22 +98,21 @@ return $recv($recv($recv($globals.Smalltalk)._globals())._at_($recv($recv(anAnno
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"handlesAnnouncement:",{anAnnouncement:anAnnouncement})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anAnnouncement"],
-source: "handlesAnnouncement: anAnnouncement\x0a\x09\x22anAnnouncement might be announced from within another Amber environment\x22\x0a\x09\x0a\x09^ (Smalltalk globals at: anAnnouncement class name) includesBehavior: self announcementClass",
-referencedClasses: ["Smalltalk"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["includesBehavior:", "at:", "globals", "name", "class", "announcementClass"]
-}),
+}; }),
 $globals.AnnouncementSubscription);
 
 $core.addMethod(
 $core.method({
 selector: "receiver",
 protocol: "accessing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "receiver\x0a\x09^ self valuable receiver",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["receiver", "valuable"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -118,26 +121,13 @@ return $recv($self._valuable())._receiver();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"receiver",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "receiver\x0a\x09^ self valuable receiver",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["receiver", "valuable"]
-}),
+}; }),
 $globals.AnnouncementSubscription);
 
 $core.addMethod(
 $core.method({
 selector: "valuable",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $self.valuable;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "valuable\x0a\x09^ valuable",
@@ -145,19 +135,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.valuable;
+
+}; }),
 $globals.AnnouncementSubscription);
 
 $core.addMethod(
 $core.method({
 selector: "valuable:",
 protocol: "accessing",
-fn: function (aValuable){
-var self=this,$self=this;
-$self.valuable=aValuable;
-return self;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aValuable"],
 source: "valuable: aValuable\x0a\x09valuable := aValuable",
@@ -165,7 +153,12 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (aValuable){
+var self=this,$self=this;
+$self.valuable=aValuable;
+return self;
+
+}; }),
 $globals.AnnouncementSubscription);
 
 
@@ -178,11 +171,6 @@ $core.addMethod(
 $core.method({
 selector: "receiver",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $self.receiver;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "receiver\x0a\x09^ receiver",
@@ -190,19 +178,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.receiver;
+
+}; }),
 $globals.AnnouncementValuable);
 
 $core.addMethod(
 $core.method({
 selector: "receiver:",
 protocol: "accessing",
-fn: function (anObject){
-var self=this,$self=this;
-$self.receiver=anObject;
-return self;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
 source: "receiver: anObject\x0a\x09receiver := anObject",
@@ -210,18 +196,18 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+$self.receiver=anObject;
+return self;
+
+}; }),
 $globals.AnnouncementValuable);
 
 $core.addMethod(
 $core.method({
 selector: "valuable",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $self.valuable;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "valuable\x0a\x09^ valuable",
@@ -229,19 +215,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.valuable;
+
+}; }),
 $globals.AnnouncementValuable);
 
 $core.addMethod(
 $core.method({
 selector: "valuable:",
 protocol: "accessing",
-fn: function (anObject){
-var self=this,$self=this;
-$self.valuable=anObject;
-return self;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
 source: "valuable: anObject\x0a\x09valuable := anObject",
@@ -249,14 +233,26 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+$self.valuable=anObject;
+return self;
+
+}; }),
 $globals.AnnouncementValuable);
 
 $core.addMethod(
 $core.method({
 selector: "value",
 protocol: "evaluating",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "value\x0a\x09^ self valuable value",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["value", "valuable"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -265,22 +261,21 @@ return $recv($self._valuable())._value();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"value",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "value\x0a\x09^ self valuable value",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["value", "valuable"]
-}),
+}; }),
 $globals.AnnouncementValuable);
 
 $core.addMethod(
 $core.method({
 selector: "value:",
 protocol: "evaluating",
-fn: function (anObject){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "value: anObject\x0a\x09^ self valuable value: anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["value:", "valuable"]
+}, function ($methodClass){ return function (anObject){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -289,15 +284,7 @@ return $recv($self._valuable())._value_(anObject);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anObject"],
-source: "value: anObject\x0a\x09^ self valuable value: anObject",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["value:", "valuable"]
-}),
+}; }),
 $globals.AnnouncementValuable);
 
 
@@ -310,7 +297,14 @@ $core.addMethod(
 $core.method({
 selector: "announce:",
 protocol: "announcing",
-fn: function (anAnnouncement){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anAnnouncement"],
+source: "announce: anAnnouncement\x0a\x09subscriptions do: [ :each |\x0a\x09\x09each deliver: anAnnouncement ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["do:", "deliver:"]
+}, function ($methodClass){ return function (anAnnouncement){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -328,22 +322,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"announce:",{anAnnouncement:anAnnouncement})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anAnnouncement"],
-source: "announce: anAnnouncement\x0a\x09subscriptions do: [ :each |\x0a\x09\x09each deliver: anAnnouncement ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["do:", "deliver:"]
-}),
+}; }),
 $globals.Announcer);
 
 $core.addMethod(
 $core.method({
 selector: "initialize",
 protocol: "initialization",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "initialize\x0a\x09super initialize.\x0a\x09subscriptions := OrderedCollection new",
+referencedClasses: ["OrderedCollection"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["initialize", "new"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -361,22 +354,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09subscriptions := OrderedCollection new",
-referencedClasses: ["OrderedCollection"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["initialize", "new"]
-}),
+}; }),
 $globals.Announcer);
 
 $core.addMethod(
 $core.method({
 selector: "on:do:",
 protocol: "subscribing",
-fn: function (aClass,aBlock){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aClass", "aBlock"],
+source: "on: aClass do: aBlock\x0a\x09self on: aClass do: aBlock for: nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["on:do:for:"]
+}, function ($methodClass){ return function (aClass,aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -386,22 +378,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"on:do:",{aClass:aClass,aBlock:aBlock})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aClass", "aBlock"],
-source: "on: aClass do: aBlock\x0a\x09self on: aClass do: aBlock for: nil",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["on:do:for:"]
-}),
+}; }),
 $globals.Announcer);
 
 $core.addMethod(
 $core.method({
 selector: "on:do:for:",
 protocol: "subscribing",
-fn: function (aClass,aBlock,aReceiver){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aClass", "aBlock", "aReceiver"],
+source: "on: aClass do: aBlock for: aReceiver\x0a\x09subscriptions add: (AnnouncementSubscription new\x0a\x09\x09valuable: (AnnouncementValuable new\x0a\x09\x09\x09valuable: aBlock;\x0a\x09\x09\x09receiver: aReceiver;\x0a\x09\x09\x09yourself);\x0a\x09\x09announcementClass: aClass;\x0a\x09\x09yourself)",
+referencedClasses: ["AnnouncementSubscription", "AnnouncementValuable"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["add:", "valuable:", "new", "receiver:", "yourself", "announcementClass:"]
+}, function ($methodClass){ return function (aClass,aBlock,aReceiver){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -431,22 +422,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"on:do:for:",{aClass:aClass,aBlock:aBlock,aReceiver:aReceiver})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aClass", "aBlock", "aReceiver"],
-source: "on: aClass do: aBlock for: aReceiver\x0a\x09subscriptions add: (AnnouncementSubscription new\x0a\x09\x09valuable: (AnnouncementValuable new\x0a\x09\x09\x09valuable: aBlock;\x0a\x09\x09\x09receiver: aReceiver;\x0a\x09\x09\x09yourself);\x0a\x09\x09announcementClass: aClass;\x0a\x09\x09yourself)",
-referencedClasses: ["AnnouncementSubscription", "AnnouncementValuable"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["add:", "valuable:", "new", "receiver:", "yourself", "announcementClass:"]
-}),
+}; }),
 $globals.Announcer);
 
 $core.addMethod(
 $core.method({
 selector: "on:doOnce:",
 protocol: "subscribing",
-fn: function (aClass,aBlock){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aClass", "aBlock"],
+source: "on: aClass doOnce: aBlock\x0a\x09| subscription |\x0a\x09\x0a\x09subscription := AnnouncementSubscription new\x0a\x09\x09announcementClass: aClass;\x0a\x09\x09yourself.\x0a\x09subscription valuable: [ :ann |\x0a\x09\x09subscriptions remove: subscription.\x0a\x09\x09aBlock value: ann ].\x0a\x0a\x09subscriptions add: subscription",
+referencedClasses: ["AnnouncementSubscription"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["announcementClass:", "new", "yourself", "valuable:", "remove:", "value:", "add:"]
+}, function ($methodClass){ return function (aClass,aBlock){
 var self=this,$self=this;
 var subscription;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -471,22 +461,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"on:doOnce:",{aClass:aClass,aBlock:aBlock,subscription:subscription})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aClass", "aBlock"],
-source: "on: aClass doOnce: aBlock\x0a\x09| subscription |\x0a\x09\x0a\x09subscription := AnnouncementSubscription new\x0a\x09\x09announcementClass: aClass;\x0a\x09\x09yourself.\x0a\x09subscription valuable: [ :ann |\x0a\x09\x09subscriptions remove: subscription.\x0a\x09\x09aBlock value: ann ].\x0a\x0a\x09subscriptions add: subscription",
-referencedClasses: ["AnnouncementSubscription"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["announcementClass:", "new", "yourself", "valuable:", "remove:", "value:", "add:"]
-}),
+}; }),
 $globals.Announcer);
 
 $core.addMethod(
 $core.method({
 selector: "on:send:to:",
 protocol: "subscribing",
-fn: function (aClass,aSelector,anObject){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aClass", "aSelector", "anObject"],
+source: "on: aClass send: aSelector to: anObject\x0a\x09subscriptions add: (AnnouncementSubscription new\x0a\x09\x09valuable: (MessageSend new\x0a\x09\x09\x09receiver: anObject;\x0a\x09\x09\x09selector: aSelector;\x0a\x09\x09\x09yourself);\x0a\x09\x09announcementClass: aClass;\x0a\x09\x09yourself)",
+referencedClasses: ["AnnouncementSubscription", "MessageSend"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["add:", "valuable:", "new", "receiver:", "selector:", "yourself", "announcementClass:"]
+}, function ($methodClass){ return function (aClass,aSelector,anObject){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -513,22 +502,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"on:send:to:",{aClass:aClass,aSelector:aSelector,anObject:anObject})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aClass", "aSelector", "anObject"],
-source: "on: aClass send: aSelector to: anObject\x0a\x09subscriptions add: (AnnouncementSubscription new\x0a\x09\x09valuable: (MessageSend new\x0a\x09\x09\x09receiver: anObject;\x0a\x09\x09\x09selector: aSelector;\x0a\x09\x09\x09yourself);\x0a\x09\x09announcementClass: aClass;\x0a\x09\x09yourself)",
-referencedClasses: ["AnnouncementSubscription", "MessageSend"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["add:", "valuable:", "new", "receiver:", "selector:", "yourself", "announcementClass:"]
-}),
+}; }),
 $globals.Announcer);
 
 $core.addMethod(
 $core.method({
 selector: "unsubscribe:",
 protocol: "subscribing",
-fn: function (anObject){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "unsubscribe: anObject\x0a\x09subscriptions := subscriptions reject: [ :each |\x0a\x09\x09each receiver = anObject ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["reject:", "=", "receiver"]
+}, function ($methodClass){ return function (anObject){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -546,15 +534,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"unsubscribe:",{anObject:anObject})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anObject"],
-source: "unsubscribe: anObject\x0a\x09subscriptions := subscriptions reject: [ :each |\x0a\x09\x09each receiver = anObject ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["reject:", "=", "receiver"]
-}),
+}; }),
 $globals.Announcer);
 
 
@@ -569,7 +549,14 @@ $core.addMethod(
 $core.method({
 selector: "current",
 protocol: "accessing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "current\x0a\x09^ current ifNil: [ current := super new ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNil:", "new"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -592,22 +579,21 @@ return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"current",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "current\x0a\x09^ current ifNil: [ current := super new ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifNil:", "new"]
-}),
+}; }),
 $globals.SystemAnnouncer.a$cls);
 
 $core.addMethod(
 $core.method({
 selector: "new",
 protocol: "instance creation",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "new\x0a\x09self shouldNotImplement",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["shouldNotImplement"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -617,15 +603,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"new",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "new\x0a\x09self shouldNotImplement",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["shouldNotImplement"]
-}),
+}; }),
 $globals.SystemAnnouncer.a$cls);
 
 
@@ -638,11 +616,6 @@ $core.addMethod(
 $core.method({
 selector: "classTag",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return "announcement";
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "classTag\x0a\x09\x22Returns a tag or general category for this class.\x0a\x09Typically used to help tools do some reflection.\x0a\x09Helios, for example, uses this to decide what icon the class should display.\x22\x0a\x09\x0a\x09^ 'announcement'",
@@ -650,7 +623,11 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return "announcement";
+
+}; }),
 $globals.SystemAnnouncement.a$cls);
 
 
@@ -662,11 +639,6 @@ $core.addMethod(
 $core.method({
 selector: "theClass",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $self.theClass;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "theClass\x0a\x09^ theClass",
@@ -674,19 +646,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.theClass;
+
+}; }),
 $globals.ClassAnnouncement);
 
 $core.addMethod(
 $core.method({
 selector: "theClass:",
 protocol: "accessing",
-fn: function (aClass){
-var self=this,$self=this;
-$self.theClass=aClass;
-return self;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
 source: "theClass: aClass\x0a\x09theClass := aClass",
@@ -694,7 +664,12 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (aClass){
+var self=this,$self=this;
+$self.theClass=aClass;
+return self;
+
+}; }),
 $globals.ClassAnnouncement);
 
 
@@ -725,11 +700,6 @@ $core.addMethod(
 $core.method({
 selector: "oldClass",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $self.oldClass;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "oldClass\x0a\x09^ oldClass",
@@ -737,19 +707,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.oldClass;
+
+}; }),
 $globals.ClassMigrated);
 
 $core.addMethod(
 $core.method({
 selector: "oldClass:",
 protocol: "accessing",
-fn: function (aClass){
-var self=this,$self=this;
-$self.oldClass=aClass;
-return self;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
 source: "oldClass: aClass\x0a\x09oldClass := aClass",
@@ -757,7 +725,12 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (aClass){
+var self=this,$self=this;
+$self.oldClass=aClass;
+return self;
+
+}; }),
 $globals.ClassMigrated);
 
 
@@ -770,11 +743,6 @@ $core.addMethod(
 $core.method({
 selector: "oldPackage",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $self.oldPackage;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "oldPackage\x0a\x09^ oldPackage",
@@ -782,19 +750,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.oldPackage;
+
+}; }),
 $globals.ClassMoved);
 
 $core.addMethod(
 $core.method({
 selector: "oldPackage:",
 protocol: "accessing",
-fn: function (aPackage){
-var self=this,$self=this;
-$self.oldPackage=aPackage;
-return self;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage"],
 source: "oldPackage: aPackage\x0a\x09oldPackage := aPackage",
@@ -802,7 +768,12 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (aPackage){
+var self=this,$self=this;
+$self.oldPackage=aPackage;
+return self;
+
+}; }),
 $globals.ClassMoved);
 
 
@@ -827,11 +798,6 @@ $core.addMethod(
 $core.method({
 selector: "method",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $self.method;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "method\x0a\x09^ method",
@@ -839,19 +805,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.method;
+
+}; }),
 $globals.MethodAnnouncement);
 
 $core.addMethod(
 $core.method({
 selector: "method:",
 protocol: "accessing",
-fn: function (aCompiledMethod){
-var self=this,$self=this;
-$self.method=aCompiledMethod;
-return self;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aCompiledMethod"],
 source: "method: aCompiledMethod\x0a\x09method := aCompiledMethod",
@@ -859,7 +823,12 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (aCompiledMethod){
+var self=this,$self=this;
+$self.method=aCompiledMethod;
+return self;
+
+}; }),
 $globals.MethodAnnouncement);
 
 
@@ -878,11 +847,6 @@ $core.addMethod(
 $core.method({
 selector: "oldMethod",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $self.oldMethod;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "oldMethod\x0a\x09^ oldMethod",
@@ -890,19 +854,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.oldMethod;
+
+}; }),
 $globals.MethodModified);
 
 $core.addMethod(
 $core.method({
 selector: "oldMethod:",
 protocol: "accessing",
-fn: function (aMethod){
-var self=this,$self=this;
-$self.oldMethod=aMethod;
-return self;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aMethod"],
 source: "oldMethod: aMethod\x0a\x09oldMethod := aMethod",
@@ -910,7 +872,12 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (aMethod){
+var self=this,$self=this;
+$self.oldMethod=aMethod;
+return self;
+
+}; }),
 $globals.MethodModified);
 
 
@@ -923,11 +890,6 @@ $core.addMethod(
 $core.method({
 selector: "oldProtocol",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $self.oldProtocol;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "oldProtocol\x0a\x09^ oldProtocol",
@@ -935,19 +897,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.oldProtocol;
+
+}; }),
 $globals.MethodMoved);
 
 $core.addMethod(
 $core.method({
 selector: "oldProtocol:",
 protocol: "accessing",
-fn: function (aString){
-var self=this,$self=this;
-$self.oldProtocol=aString;
-return self;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
 source: "oldProtocol: aString\x0a\x09oldProtocol := aString",
@@ -955,7 +915,12 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+$self.oldProtocol=aString;
+return self;
+
+}; }),
 $globals.MethodMoved);
 
 
@@ -974,11 +939,6 @@ $core.addMethod(
 $core.method({
 selector: "package",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $self.package;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "package\x0a\x09^ package",
@@ -986,19 +946,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.package;
+
+}; }),
 $globals.PackageAnnouncement);
 
 $core.addMethod(
 $core.method({
 selector: "package:",
 protocol: "accessing",
-fn: function (aPackage){
-var self=this,$self=this;
-$self.package=aPackage;
-return self;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage"],
 source: "package: aPackage\x0a\x09package := aPackage",
@@ -1006,7 +964,12 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (aPackage){
+var self=this,$self=this;
+$self.package=aPackage;
+return self;
+
+}; }),
 $globals.PackageAnnouncement);
 
 
@@ -1043,7 +1006,14 @@ $core.addMethod(
 $core.method({
 selector: "package",
 protocol: "accessing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "package\x0a\x09\x0a\x09^ self theClass ifNotNil: [ :class | class packageOfProtocol: self protocol ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNotNil:", "theClass", "packageOfProtocol:", "protocol"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1060,26 +1030,13 @@ return $recv(class_)._packageOfProtocol_($self._protocol());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"package",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "package\x0a\x09\x0a\x09^ self theClass ifNotNil: [ :class | class packageOfProtocol: self protocol ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifNotNil:", "theClass", "packageOfProtocol:", "protocol"]
-}),
+}; }),
 $globals.ProtocolAnnouncement);
 
 $core.addMethod(
 $core.method({
 selector: "protocol",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $self.protocol;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "protocol\x0a\x09^ protocol",
@@ -1087,19 +1044,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.protocol;
+
+}; }),
 $globals.ProtocolAnnouncement);
 
 $core.addMethod(
 $core.method({
 selector: "protocol:",
 protocol: "accessing",
-fn: function (aString){
-var self=this,$self=this;
-$self.protocol=aString;
-return self;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
 source: "protocol: aString\x0a\x09protocol := aString",
@@ -1107,18 +1062,18 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+$self.protocol=aString;
+return self;
+
+}; }),
 $globals.ProtocolAnnouncement);
 
 $core.addMethod(
 $core.method({
 selector: "theClass",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $self.theClass;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "theClass\x0a\x09^ theClass",
@@ -1126,19 +1081,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.theClass;
+
+}; }),
 $globals.ProtocolAnnouncement);
 
 $core.addMethod(
 $core.method({
 selector: "theClass:",
 protocol: "accessing",
-fn: function (aClass){
-var self=this,$self=this;
-$self.theClass=aClass;
-return self;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
 source: "theClass: aClass\x0a\x09theClass := aClass",
@@ -1146,7 +1099,12 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (aClass){
+var self=this,$self=this;
+$self.theClass=aClass;
+return self;
+
+}; }),
 $globals.ProtocolAnnouncement);
 
 

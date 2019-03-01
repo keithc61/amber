@@ -9,7 +9,14 @@ $core.addMethod(
 $core.method({
 selector: "testAddExtensionMethod",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAddExtensionMethod\x0a\x09| method dirty |\x0a\x09dirty := self class package isDirty.\x0a\x09self class package beClean.\x0a\x09method := self class compile: 'doNothing' protocol: '**not-a-package'.\x0a\x09self deny: self class package isDirty.\x0a\x09\x0a\x09self class removeCompiledMethod: method.\x0a\x09dirty ifTrue: [ self class package beDirty ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["isDirty", "package", "class", "beClean", "compile:protocol:", "deny:", "removeCompiledMethod:", "ifTrue:", "beDirty"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var method,dirty;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -65,22 +72,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAddExtensionMethod",{method:method,dirty:dirty})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAddExtensionMethod\x0a\x09| method dirty |\x0a\x09dirty := self class package isDirty.\x0a\x09self class package beClean.\x0a\x09method := self class compile: 'doNothing' protocol: '**not-a-package'.\x0a\x09self deny: self class package isDirty.\x0a\x09\x0a\x09self class removeCompiledMethod: method.\x0a\x09dirty ifTrue: [ self class package beDirty ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["isDirty", "package", "class", "beClean", "compile:protocol:", "deny:", "removeCompiledMethod:", "ifTrue:", "beDirty"]
-}),
+}; }),
 $globals.AnnouncementSubscriptionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testHandlesAnnouncement",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testHandlesAnnouncement\x0a\x09| subscription announcementClass1 announcementClass2 classBuilder |\x0a\x09\x0a\x09classBuilder := ClassBuilder new.\x0a\x09announcementClass1 := classBuilder basicAddSubclassOf: SystemAnnouncement named: 'TestAnnouncement1' instanceVariableNames: #() package: 'Kernel-Tests'.\x0a\x09\x0a\x09subscription := AnnouncementSubscription new announcementClass: SystemAnnouncement.\x0a\x09\x22Test whether the same class triggers the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: SystemAnnouncement new) equals: true.\x0a\x09\x22Test whether a subclass triggers the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: announcementClass1 new) equals: true.\x0a\x09\x22Test whether an unrelated class does not trigger the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: Object new) equals: false.\x0a\x09\x0a\x09classBuilder basicRemoveClass: announcementClass1.",
+referencedClasses: ["ClassBuilder", "SystemAnnouncement", "AnnouncementSubscription", "Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "basicAddSubclassOf:named:instanceVariableNames:package:", "announcementClass:", "assert:equals:", "handlesAnnouncement:", "basicRemoveClass:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var subscription,announcementClass1,announcementClass2,classBuilder;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -129,15 +135,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testHandlesAnnouncement",{subscription:subscription,announcementClass1:announcementClass1,announcementClass2:announcementClass2,classBuilder:classBuilder})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testHandlesAnnouncement\x0a\x09| subscription announcementClass1 announcementClass2 classBuilder |\x0a\x09\x0a\x09classBuilder := ClassBuilder new.\x0a\x09announcementClass1 := classBuilder basicAddSubclassOf: SystemAnnouncement named: 'TestAnnouncement1' instanceVariableNames: #() package: 'Kernel-Tests'.\x0a\x09\x0a\x09subscription := AnnouncementSubscription new announcementClass: SystemAnnouncement.\x0a\x09\x22Test whether the same class triggers the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: SystemAnnouncement new) equals: true.\x0a\x09\x22Test whether a subclass triggers the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: announcementClass1 new) equals: true.\x0a\x09\x22Test whether an unrelated class does not trigger the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: Object new) equals: false.\x0a\x09\x0a\x09classBuilder basicRemoveClass: announcementClass1.",
-referencedClasses: ["ClassBuilder", "SystemAnnouncement", "AnnouncementSubscription", "Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "basicAddSubclassOf:named:instanceVariableNames:package:", "announcementClass:", "assert:equals:", "handlesAnnouncement:", "basicRemoveClass:"]
-}),
+}; }),
 $globals.AnnouncementSubscriptionTest);
 
 
@@ -147,7 +145,14 @@ $core.addMethod(
 $core.method({
 selector: "testOnDo",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testOnDo\x0a\x09| counter announcer |\x0a\x09\x0a\x09counter := 0.\x0a\x09announcer := Announcer new.\x0a\x09announcer on: SystemAnnouncement do: [ counter := counter + 1 ].\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 1.\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 2.",
+referencedClasses: ["Announcer", "SystemAnnouncement"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "on:do:", "+", "announce:", "assert:equals:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var counter,announcer;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -188,22 +193,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testOnDo",{counter:counter,announcer:announcer})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testOnDo\x0a\x09| counter announcer |\x0a\x09\x0a\x09counter := 0.\x0a\x09announcer := Announcer new.\x0a\x09announcer on: SystemAnnouncement do: [ counter := counter + 1 ].\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 1.\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 2.",
-referencedClasses: ["Announcer", "SystemAnnouncement"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "on:do:", "+", "announce:", "assert:equals:"]
-}),
+}; }),
 $globals.AnnouncerTest);
 
 $core.addMethod(
 $core.method({
 selector: "testOnDoFor",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testOnDoFor\x0a\x09| counter announcer |\x0a\x09\x0a\x09counter := 0.\x0a\x09announcer := Announcer new.\x0a\x09announcer on: SystemAnnouncement do: [ counter := counter + 1 ] for: self.\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 1.\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 2.\x0a\x09\x0a\x09announcer unsubscribe: self.\x0a\x09\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 2.",
+referencedClasses: ["Announcer", "SystemAnnouncement"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "on:do:for:", "+", "announce:", "assert:equals:", "unsubscribe:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var counter,announcer;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -258,22 +262,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testOnDoFor",{counter:counter,announcer:announcer})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testOnDoFor\x0a\x09| counter announcer |\x0a\x09\x0a\x09counter := 0.\x0a\x09announcer := Announcer new.\x0a\x09announcer on: SystemAnnouncement do: [ counter := counter + 1 ] for: self.\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 1.\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 2.\x0a\x09\x0a\x09announcer unsubscribe: self.\x0a\x09\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 2.",
-referencedClasses: ["Announcer", "SystemAnnouncement"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "on:do:for:", "+", "announce:", "assert:equals:", "unsubscribe:"]
-}),
+}; }),
 $globals.AnnouncerTest);
 
 $core.addMethod(
 $core.method({
 selector: "testOnDoOnce",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testOnDoOnce\x0a\x09| counter announcer |\x0a\x09\x0a\x09counter := 0.\x0a\x09announcer := Announcer new.\x0a\x09announcer on: SystemAnnouncement doOnce: [ counter := counter + 1 ].\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 1.\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 1.",
+referencedClasses: ["Announcer", "SystemAnnouncement"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "on:doOnce:", "+", "announce:", "assert:equals:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var counter,announcer;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -314,15 +317,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testOnDoOnce",{counter:counter,announcer:announcer})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testOnDoOnce\x0a\x09| counter announcer |\x0a\x09\x0a\x09counter := 0.\x0a\x09announcer := Announcer new.\x0a\x09announcer on: SystemAnnouncement doOnce: [ counter := counter + 1 ].\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 1.\x0a\x0a\x09announcer announce: (SystemAnnouncement new).\x0a\x09self assert: counter equals: 1.",
-referencedClasses: ["Announcer", "SystemAnnouncement"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "on:doOnce:", "+", "announce:", "assert:equals:"]
-}),
+}; }),
 $globals.AnnouncerTest);
 
 
@@ -332,7 +327,14 @@ $core.addMethod(
 $core.method({
 selector: "localReturnOnDoCatch",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "localReturnOnDoCatch\x0a    [ ^ 2 ] on: Error do: [].\x0a    ^ 3",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["on:do:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -351,22 +353,21 @@ catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"localReturnOnDoCatch",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "localReturnOnDoCatch\x0a    [ ^ 2 ] on: Error do: [].\x0a    ^ 3",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["on:do:"]
-}),
+}; }),
 $globals.BlockClosureTest);
 
 $core.addMethod(
 $core.method({
 selector: "localReturnOnDoMiss",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "localReturnOnDoMiss\x0a    [ ^ 2 ] on: Class do: [].\x0a    ^ 3",
+referencedClasses: ["Class"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["on:do:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -385,22 +386,21 @@ catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"localReturnOnDoMiss",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "localReturnOnDoMiss\x0a    [ ^ 2 ] on: Class do: [].\x0a    ^ 3",
-referencedClasses: ["Class"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["on:do:"]
-}),
+}; }),
 $globals.BlockClosureTest);
 
 $core.addMethod(
 $core.method({
 selector: "testCanClearInterval",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCanClearInterval\x0a\x09self shouldnt: [ ([ Error new signal ] valueWithInterval: 0) clearInterval ] raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["shouldnt:raise:", "clearInterval", "valueWithInterval:", "signal", "new"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -426,22 +426,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCanClearInterval",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testCanClearInterval\x0a\x09self shouldnt: [ ([ Error new signal ] valueWithInterval: 0) clearInterval ] raise: Error",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["shouldnt:raise:", "clearInterval", "valueWithInterval:", "signal", "new"]
-}),
+}; }),
 $globals.BlockClosureTest);
 
 $core.addMethod(
 $core.method({
 selector: "testCanClearTimeout",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCanClearTimeout\x0a\x09self shouldnt: [ ([ Error new signal ] valueWithTimeout: 0) clearTimeout ] raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["shouldnt:raise:", "clearTimeout", "valueWithTimeout:", "signal", "new"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -467,22 +466,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCanClearTimeout",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testCanClearTimeout\x0a\x09self shouldnt: [ ([ Error new signal ] valueWithTimeout: 0) clearTimeout ] raise: Error",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["shouldnt:raise:", "clearTimeout", "valueWithTimeout:", "signal", "new"]
-}),
+}; }),
 $globals.BlockClosureTest);
 
 $core.addMethod(
 $core.method({
 selector: "testCompiledSource",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCompiledSource\x0a\x09self assert: ([ 1+1 ] compiledSource includesSubString: 'function')",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "includesSubString:", "compiledSource", "+"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -500,22 +498,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCompiledSource",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testCompiledSource\x0a\x09self assert: ([ 1+1 ] compiledSource includesSubString: 'function')",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "includesSubString:", "compiledSource", "+"]
-}),
+}; }),
 $globals.BlockClosureTest);
 
 $core.addMethod(
 $core.method({
 selector: "testCurrySelf",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCurrySelf\x0a\x09| curriedMethod array |\x0a\x09curriedMethod := [ :selfarg :x | selfarg at: x ] currySelf asCompiledMethod: 'foo:'.\x0a\x09curriedMethod protocol: '**test helper'.\x0a\x09array := #(3 1 4).\x0a\x09Array addCompiledMethod: curriedMethod.\x0a\x09[ self assert: (array foo: 2) equals: 1 ]\x0a\x09ensure: [ Array removeCompiledMethod: curriedMethod ]",
+referencedClasses: ["Array"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["asCompiledMethod:", "currySelf", "at:", "protocol:", "addCompiledMethod:", "ensure:", "assert:equals:", "foo:", "removeCompiledMethod:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var curriedMethod,array;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -554,22 +551,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCurrySelf",{curriedMethod:curriedMethod,array:array})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testCurrySelf\x0a\x09| curriedMethod array |\x0a\x09curriedMethod := [ :selfarg :x | selfarg at: x ] currySelf asCompiledMethod: 'foo:'.\x0a\x09curriedMethod protocol: '**test helper'.\x0a\x09array := #(3 1 4).\x0a\x09Array addCompiledMethod: curriedMethod.\x0a\x09[ self assert: (array foo: 2) equals: 1 ]\x0a\x09ensure: [ Array removeCompiledMethod: curriedMethod ]",
-referencedClasses: ["Array"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["asCompiledMethod:", "currySelf", "at:", "protocol:", "addCompiledMethod:", "ensure:", "assert:equals:", "foo:", "removeCompiledMethod:"]
-}),
+}; }),
 $globals.BlockClosureTest);
 
 $core.addMethod(
 $core.method({
 selector: "testEnsure",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testEnsure\x0a\x09self assert: ([ 3 ] ensure: [ 4 ]) equals: 3",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "ensure:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -585,22 +581,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testEnsure",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testEnsure\x0a\x09self assert: ([ 3 ] ensure: [ 4 ]) equals: 3",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "ensure:"]
-}),
+}; }),
 $globals.BlockClosureTest);
 
 $core.addMethod(
 $core.method({
 selector: "testEnsureRaises",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testEnsureRaises\x0a\x09self should: [ [Error new signal ] ensure: [ true ]] raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "ensure:", "signal", "new"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -629,22 +624,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testEnsureRaises",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testEnsureRaises\x0a\x09self should: [ [Error new signal ] ensure: [ true ]] raise: Error",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "ensure:", "signal", "new"]
-}),
+}; }),
 $globals.BlockClosureTest);
 
 $core.addMethod(
 $core.method({
 selector: "testExceptionSemantics",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testExceptionSemantics\x0a\x09\x22See https://lolg.it/amber/amber/issues/314\x22\x0a\x09self timeout: 100.\x0a\x09\x0a\x09(self async: [\x0a\x09\x09[\x0a\x09\x09\x09self assert: true.\x0a\x09\x09\x09Error signal.\x0a\x09\x09\x09\x22The following should *not* be run\x22\x0a\x09\x09\x09self deny: true.\x0a\x09\x09\x09self finished.\x0a\x09\x09] on: Error do: [ :ex | self finished ]\x0a\x09]) valueWithTimeout: 0",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "valueWithTimeout:", "async:", "on:do:", "assert:", "signal", "deny:", "finished"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -685,22 +679,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testExceptionSemantics",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testExceptionSemantics\x0a\x09\x22See https://lolg.it/amber/amber/issues/314\x22\x0a\x09self timeout: 100.\x0a\x09\x0a\x09(self async: [\x0a\x09\x09[\x0a\x09\x09\x09self assert: true.\x0a\x09\x09\x09Error signal.\x0a\x09\x09\x09\x22The following should *not* be run\x22\x0a\x09\x09\x09self deny: true.\x0a\x09\x09\x09self finished.\x0a\x09\x09] on: Error do: [ :ex | self finished ]\x0a\x09]) valueWithTimeout: 0",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["timeout:", "valueWithTimeout:", "async:", "on:do:", "assert:", "signal", "deny:", "finished"]
-}),
+}; }),
 $globals.BlockClosureTest);
 
 $core.addMethod(
 $core.method({
 selector: "testLocalReturnOnDoCatch",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testLocalReturnOnDoCatch\x0a\x09self assert: self localReturnOnDoCatch equals: 2",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "localReturnOnDoCatch"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -710,22 +703,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testLocalReturnOnDoCatch",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testLocalReturnOnDoCatch\x0a\x09self assert: self localReturnOnDoCatch equals: 2",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "localReturnOnDoCatch"]
-}),
+}; }),
 $globals.BlockClosureTest);
 
 $core.addMethod(
 $core.method({
 selector: "testLocalReturnOnDoMiss",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testLocalReturnOnDoMiss\x0a\x09self assert: self localReturnOnDoMiss equals: 2",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "localReturnOnDoMiss"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -735,22 +727,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testLocalReturnOnDoMiss",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testLocalReturnOnDoMiss\x0a\x09self assert: self localReturnOnDoMiss equals: 2",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "localReturnOnDoMiss"]
-}),
+}; }),
 $globals.BlockClosureTest);
 
 $core.addMethod(
 $core.method({
 selector: "testNewWithValues",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNewWithValues\x0a<inlineJS: '\x0a\x09function TestConstructor(arg1, arg2, arg3) {}\x0a\x09TestConstructor.prototype.name = \x22theTestPrototype\x22;\x0a\x0a\x09var wrappedConstructor = $recv(TestConstructor);\x0a\x09var result = wrappedConstructor._newWithValues_([1, 2, 3]);\x0a\x09$self._assert_(result instanceof TestConstructor);\x0a\x09$self._assert_equals_(result.name, \x22theTestPrototype\x22);\x0a\x0a\x09/* newWithValues: cannot help if the argument list is wrong, and should warn that a mistake was made. */\x0a\x09$self._should_raise_(function () {wrappedConstructor._newWithValues_(\x22single argument\x22);}, $globals.Error);\x0a'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09function TestConstructor(arg1, arg2, arg3) {}\x0a\x09TestConstructor.prototype.name = \x22theTestPrototype\x22;\x0a\x0a\x09var wrappedConstructor = $recv(TestConstructor);\x0a\x09var result = wrappedConstructor._newWithValues_([1, 2, 3]);\x0a\x09$self._assert_(result instanceof TestConstructor);\x0a\x09$self._assert_equals_(result.name, \x22theTestPrototype\x22);\x0a\x0a\x09/* newWithValues: cannot help if the argument list is wrong, and should warn that a mistake was made. */\x0a\x09$self._should_raise_(function () {wrappedConstructor._newWithValues_(\x22single argument\x22);}, $globals.Error);"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -770,22 +761,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testNewWithValues",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testNewWithValues\x0a<inlineJS: '\x0a\x09function TestConstructor(arg1, arg2, arg3) {}\x0a\x09TestConstructor.prototype.name = \x22theTestPrototype\x22;\x0a\x0a\x09var wrappedConstructor = $recv(TestConstructor);\x0a\x09var result = wrappedConstructor._newWithValues_([1, 2, 3]);\x0a\x09$self._assert_(result instanceof TestConstructor);\x0a\x09$self._assert_equals_(result.name, \x22theTestPrototype\x22);\x0a\x0a\x09/* newWithValues: cannot help if the argument list is wrong, and should warn that a mistake was made. */\x0a\x09$self._should_raise_(function () {wrappedConstructor._newWithValues_(\x22single argument\x22);}, $globals.Error);\x0a'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09function TestConstructor(arg1, arg2, arg3) {}\x0a\x09TestConstructor.prototype.name = \x22theTestPrototype\x22;\x0a\x0a\x09var wrappedConstructor = $recv(TestConstructor);\x0a\x09var result = wrappedConstructor._newWithValues_([1, 2, 3]);\x0a\x09$self._assert_(result instanceof TestConstructor);\x0a\x09$self._assert_equals_(result.name, \x22theTestPrototype\x22);\x0a\x0a\x09/* newWithValues: cannot help if the argument list is wrong, and should warn that a mistake was made. */\x0a\x09$self._should_raise_(function () {wrappedConstructor._newWithValues_(\x22single argument\x22);}, $globals.Error);"]]],
-messageSends: []
-}),
+}; }),
 $globals.BlockClosureTest);
 
 $core.addMethod(
 $core.method({
 selector: "testNumArgs",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNumArgs\x0a\x09self assert: [] numArgs equals: 0.\x0a\x09self assert: [ :a :b | ] numArgs equals: 2",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "numArgs"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -808,22 +798,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testNumArgs",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testNumArgs\x0a\x09self assert: [] numArgs equals: 0.\x0a\x09self assert: [ :a :b | ] numArgs equals: 2",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "numArgs"]
-}),
+}; }),
 $globals.BlockClosureTest);
 
 $core.addMethod(
 $core.method({
 selector: "testOnDo",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testOnDo\x0a\x09self assert: ([ Error new signal ] on: Error do: [ :ex | true ])",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "on:do:", "signal", "new"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -844,22 +833,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testOnDo",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testOnDo\x0a\x09self assert: ([ Error new signal ] on: Error do: [ :ex | true ])",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "on:do:", "signal", "new"]
-}),
+}; }),
 $globals.BlockClosureTest);
 
 $core.addMethod(
 $core.method({
 selector: "testValue",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testValue\x0a\x09self assert: ([ 1+1 ] value) equals: 2.\x0a\x09self assert: ([ :x | x +1 ] value: 2) equals: 3.\x0a\x09self assert: ([ :x :y | x*y ] value: 2 value: 4) equals: 8.\x0a\x0a\x09\x22Arguments are optional in Amber. This isn't ANSI compliant.\x22\x0a\x0a\x09self assert: ([ :a :b :c | 1 ] value) equals: 1",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "value", "+", "value:", "value:value:", "*"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -916,22 +904,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testValue",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testValue\x0a\x09self assert: ([ 1+1 ] value) equals: 2.\x0a\x09self assert: ([ :x | x +1 ] value: 2) equals: 3.\x0a\x09self assert: ([ :x :y | x*y ] value: 2 value: 4) equals: 8.\x0a\x0a\x09\x22Arguments are optional in Amber. This isn't ANSI compliant.\x22\x0a\x0a\x09self assert: ([ :a :b :c | 1 ] value) equals: 1",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "value", "+", "value:", "value:value:", "*"]
-}),
+}; }),
 $globals.BlockClosureTest);
 
 $core.addMethod(
 $core.method({
 selector: "testValueWithPossibleArguments",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testValueWithPossibleArguments\x0a\x09self assert: ([ 1 ] valueWithPossibleArguments: #(3 4)) equals: 1.\x0a\x09self assert: ([ :a | a + 4 ] valueWithPossibleArguments: #(3 4)) equals: 7.\x0a\x09self assert: ([ :a :b | a + b ] valueWithPossibleArguments: #(3 4 5)) equals: 7.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "valueWithPossibleArguments:", "+"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -980,22 +967,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testValueWithPossibleArguments",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testValueWithPossibleArguments\x0a\x09self assert: ([ 1 ] valueWithPossibleArguments: #(3 4)) equals: 1.\x0a\x09self assert: ([ :a | a + 4 ] valueWithPossibleArguments: #(3 4)) equals: 7.\x0a\x09self assert: ([ :a :b | a + b ] valueWithPossibleArguments: #(3 4 5)) equals: 7.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "valueWithPossibleArguments:", "+"]
-}),
+}; }),
 $globals.BlockClosureTest);
 
 $core.addMethod(
 $core.method({
 selector: "testWhileFalse",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testWhileFalse\x0a\x09| i |\x0a\x09i := 0.\x0a\x09[ i > 5 ] whileFalse: [ i := i + 1 ].\x0a\x09self assert: i equals: 6.\x0a\x0a\x09i := 0.\x0a\x09[ i := i + 1. i > 5 ] whileFalse.\x0a\x09self assert: i equals: 6",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["whileFalse:", ">", "+", "assert:equals:", "whileFalse"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var i;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1046,22 +1032,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testWhileFalse",{i:i})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testWhileFalse\x0a\x09| i |\x0a\x09i := 0.\x0a\x09[ i > 5 ] whileFalse: [ i := i + 1 ].\x0a\x09self assert: i equals: 6.\x0a\x0a\x09i := 0.\x0a\x09[ i := i + 1. i > 5 ] whileFalse.\x0a\x09self assert: i equals: 6",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["whileFalse:", ">", "+", "assert:equals:", "whileFalse"]
-}),
+}; }),
 $globals.BlockClosureTest);
 
 $core.addMethod(
 $core.method({
 selector: "testWhileTrue",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testWhileTrue\x0a\x09| i |\x0a\x09i := 0.\x0a\x09[ i < 5 ] whileTrue: [ i := i + 1 ].\x0a\x09self assert: i equals: 5.\x0a\x0a\x09i := 0.\x0a\x09[ i := i + 1. i < 5 ] whileTrue.\x0a\x09self assert: i equals: 5",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["whileTrue:", "<", "+", "assert:equals:", "whileTrue"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var i;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1112,15 +1097,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testWhileTrue",{i:i})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testWhileTrue\x0a\x09| i |\x0a\x09i := 0.\x0a\x09[ i < 5 ] whileTrue: [ i := i + 1 ].\x0a\x09self assert: i equals: 5.\x0a\x0a\x09i := 0.\x0a\x09[ i := i + 1. i < 5 ] whileTrue.\x0a\x09self assert: i equals: 5",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["whileTrue:", "<", "+", "assert:equals:", "whileTrue"]
-}),
+}; }),
 $globals.BlockClosureTest);
 
 
@@ -1130,7 +1107,14 @@ $core.addMethod(
 $core.method({
 selector: "testEquality",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testEquality\x0a\x09\x22We're on top of JS...just be sure to check the basics!\x22\x0a\x0a\x09self deny: 0 = false.\x0a\x09self deny: false = 0.\x0a\x09self deny: '' = false.\x0a\x09self deny: false = ''.\x0a\x0a\x09self assert: (true = true).\x0a\x09self deny: false = true.\x0a\x09self deny: true = false.\x0a\x09self assert: (false = false).\x0a\x0a\x09\x22JS may do some type coercing after sending a message\x22\x0a\x09self assert: (true yourself = true).\x0a\x09self assert: (true yourself = true yourself)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["deny:", "=", "assert:", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1219,22 +1203,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testEquality",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testEquality\x0a\x09\x22We're on top of JS...just be sure to check the basics!\x22\x0a\x0a\x09self deny: 0 = false.\x0a\x09self deny: false = 0.\x0a\x09self deny: '' = false.\x0a\x09self deny: false = ''.\x0a\x0a\x09self assert: (true = true).\x0a\x09self deny: false = true.\x0a\x09self deny: true = false.\x0a\x09self assert: (false = false).\x0a\x0a\x09\x22JS may do some type coercing after sending a message\x22\x0a\x09self assert: (true yourself = true).\x0a\x09self assert: (true yourself = true yourself)",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["deny:", "=", "assert:", "yourself"]
-}),
+}; }),
 $globals.BooleanTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIdentity",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIdentity\x0a\x09\x22We're on top of JS...just be sure to check the basics!\x22\x0a\x0a\x09self deny: 0 == false.\x0a\x09self deny: false == 0.\x0a\x09self deny: '' == false.\x0a\x09self deny: false == ''.\x0a\x0a\x09self assert: true == true.\x0a\x09self deny: false == true.\x0a\x09self deny: true == false.\x0a\x09self assert: false == false.\x0a\x0a\x09\x22JS may do some type coercing after sending a message\x22\x0a\x09self assert: true yourself == true.\x0a\x09self assert: true yourself == true yourself",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["deny:", "==", "assert:", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1323,22 +1306,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIdentity",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIdentity\x0a\x09\x22We're on top of JS...just be sure to check the basics!\x22\x0a\x0a\x09self deny: 0 == false.\x0a\x09self deny: false == 0.\x0a\x09self deny: '' == false.\x0a\x09self deny: false == ''.\x0a\x0a\x09self assert: true == true.\x0a\x09self deny: false == true.\x0a\x09self deny: true == false.\x0a\x09self assert: false == false.\x0a\x0a\x09\x22JS may do some type coercing after sending a message\x22\x0a\x09self assert: true yourself == true.\x0a\x09self assert: true yourself == true yourself",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["deny:", "==", "assert:", "yourself"]
-}),
+}; }),
 $globals.BooleanTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIfTrueIfFalse",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIfTrueIfFalse\x0a\x0a\x09self assert: (true ifTrue: [ 'alternative block' ]) equals: 'alternative block'.\x0a\x09self assert: (true ifFalse: [ 'alternative block' ]) equals: nil.\x0a\x0a\x09self assert: (false ifTrue: [ 'alternative block' ]) equals: nil.\x0a\x09self assert: (false ifFalse: [ 'alternative block' ]) equals: 'alternative block'.\x0a\x0a\x09self assert: (false ifTrue: [ 'alternative block' ] ifFalse: [ 'alternative block2' ]) equals: 'alternative block2'.\x0a\x09self assert: (false ifFalse: [ 'alternative block' ] ifTrue: [ 'alternative block2' ]) equals: 'alternative block'.\x0a\x0a\x09self assert: (true ifTrue: [ 'alternative block' ] ifFalse: [ 'alternative block2' ]) equals: 'alternative block'.\x0a\x09self assert: (true ifFalse: [ 'alternative block' ] ifTrue: [ 'alternative block2' ]) equals: 'alternative block2'.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "ifTrue:", "ifFalse:", "ifTrue:ifFalse:", "ifFalse:ifTrue:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1409,22 +1391,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIfTrueIfFalse",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIfTrueIfFalse\x0a\x0a\x09self assert: (true ifTrue: [ 'alternative block' ]) equals: 'alternative block'.\x0a\x09self assert: (true ifFalse: [ 'alternative block' ]) equals: nil.\x0a\x0a\x09self assert: (false ifTrue: [ 'alternative block' ]) equals: nil.\x0a\x09self assert: (false ifFalse: [ 'alternative block' ]) equals: 'alternative block'.\x0a\x0a\x09self assert: (false ifTrue: [ 'alternative block' ] ifFalse: [ 'alternative block2' ]) equals: 'alternative block2'.\x0a\x09self assert: (false ifFalse: [ 'alternative block' ] ifTrue: [ 'alternative block2' ]) equals: 'alternative block'.\x0a\x0a\x09self assert: (true ifTrue: [ 'alternative block' ] ifFalse: [ 'alternative block2' ]) equals: 'alternative block'.\x0a\x09self assert: (true ifFalse: [ 'alternative block' ] ifTrue: [ 'alternative block2' ]) equals: 'alternative block2'.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "ifTrue:", "ifFalse:", "ifTrue:ifFalse:", "ifFalse:ifTrue:"]
-}),
+}; }),
 $globals.BooleanTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIfTrueIfFalseWithBoxing",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIfTrueIfFalseWithBoxing\x0a\x0a\x09self assert: (true yourself ifTrue: [ 'alternative block' ]) equals: 'alternative block'.\x0a\x09self assert: (true yourself ifFalse: [ 'alternative block' ]) equals: nil.\x0a\x0a\x09self assert: (false yourself ifTrue: [ 'alternative block' ]) equals: nil.\x0a\x09self assert: (false yourself ifFalse: [ 'alternative block' ]) equals: 'alternative block'.\x0a\x0a\x09self assert: (false yourself ifTrue: [ 'alternative block' ] ifFalse: [ 'alternative block2' ]) equals: 'alternative block2'.\x0a\x09self assert: (false yourself ifFalse: [ 'alternative block' ] ifTrue: [ 'alternative block2' ]) equals: 'alternative block'.\x0a\x0a\x09self assert: (true yourself ifTrue: [ 'alternative block' ] ifFalse: [ 'alternative block2' ]) equals: 'alternative block'.\x0a\x09self assert: (true yourself ifFalse: [ 'alternative block' ] ifTrue: [ 'alternative block2' ]) equals: 'alternative block2'.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "ifTrue:", "yourself", "ifFalse:", "ifTrue:ifFalse:", "ifFalse:ifTrue:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1524,22 +1505,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIfTrueIfFalseWithBoxing",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIfTrueIfFalseWithBoxing\x0a\x0a\x09self assert: (true yourself ifTrue: [ 'alternative block' ]) equals: 'alternative block'.\x0a\x09self assert: (true yourself ifFalse: [ 'alternative block' ]) equals: nil.\x0a\x0a\x09self assert: (false yourself ifTrue: [ 'alternative block' ]) equals: nil.\x0a\x09self assert: (false yourself ifFalse: [ 'alternative block' ]) equals: 'alternative block'.\x0a\x0a\x09self assert: (false yourself ifTrue: [ 'alternative block' ] ifFalse: [ 'alternative block2' ]) equals: 'alternative block2'.\x0a\x09self assert: (false yourself ifFalse: [ 'alternative block' ] ifTrue: [ 'alternative block2' ]) equals: 'alternative block'.\x0a\x0a\x09self assert: (true yourself ifTrue: [ 'alternative block' ] ifFalse: [ 'alternative block2' ]) equals: 'alternative block'.\x0a\x09self assert: (true yourself ifFalse: [ 'alternative block' ] ifTrue: [ 'alternative block2' ]) equals: 'alternative block2'.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "ifTrue:", "yourself", "ifFalse:", "ifTrue:ifFalse:", "ifFalse:ifTrue:"]
-}),
+}; }),
 $globals.BooleanTest);
 
 $core.addMethod(
 $core.method({
 selector: "testLogic",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testLogic\x0a\x09\x22Trivial logic table\x22\x0a\x09self assert: (true & true);\x0a\x09\x09deny: (true & false);\x0a\x09\x09deny: (false & true);\x0a\x09\x09deny: (false & false).\x0a\x09self assert: (true | true);\x0a\x09\x09assert: (true | false);\x0a\x09\x09assert: (false | true);\x0a\x09\x09deny: (false | false).\x0a\x09\x22Checking that expressions work fine too\x22\x0a\x09self assert: (true & (1 > 0));\x0a\x09\x09deny: ((1 > 0) & false);\x0a\x09\x09deny: ((1 > 0) & (1 > 2)).\x0a\x09self assert: (false | (1 > 0));\x0a\x09\x09assert: ((1 > 0) | false);\x0a\x09\x09assert: ((1 > 0) | (1 > 2))",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "&", "deny:", "|", ">"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1677,22 +1657,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testLogic",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testLogic\x0a\x09\x22Trivial logic table\x22\x0a\x09self assert: (true & true);\x0a\x09\x09deny: (true & false);\x0a\x09\x09deny: (false & true);\x0a\x09\x09deny: (false & false).\x0a\x09self assert: (true | true);\x0a\x09\x09assert: (true | false);\x0a\x09\x09assert: (false | true);\x0a\x09\x09deny: (false | false).\x0a\x09\x22Checking that expressions work fine too\x22\x0a\x09self assert: (true & (1 > 0));\x0a\x09\x09deny: ((1 > 0) & false);\x0a\x09\x09deny: ((1 > 0) & (1 > 2)).\x0a\x09self assert: (false | (1 > 0));\x0a\x09\x09assert: ((1 > 0) | false);\x0a\x09\x09assert: ((1 > 0) | (1 > 2))",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "&", "deny:", "|", ">"]
-}),
+}; }),
 $globals.BooleanTest);
 
 $core.addMethod(
 $core.method({
 selector: "testLogicKeywords",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testLogicKeywords\x0a\x09\x22Trivial logic table\x22\x0a\x09self\x0a\x09\x09assert: (true and: [ true ]);\x0a\x09\x09deny: (true and: [ false ]);\x0a\x09\x09deny: (false and: [ true ]);\x0a\x09\x09deny: (false and: [ false ]).\x0a\x09self\x0a\x09\x09assert: (true or: [ true ]);\x0a\x09\x09assert: (true or: [ false ]);\x0a\x09\x09assert: (false or: [ true ]);\x0a\x09\x09deny: (false or: [ false ]).\x0a\x09\x09\x0a\x09\x22Checking that expressions work fine too\x22\x0a\x09self\x0a\x09\x09assert: (true and: [ 1 > 0 ]);\x0a\x09\x09deny: ((1 > 0) and: [ false ]);\x0a\x09\x09deny: ((1 > 0) and: [ 1 > 2 ]).\x0a\x09self\x0a\x09\x09assert: (false or: [ 1 > 0 ]);\x0a\x09\x09assert: ((1 > 0) or: [ false ]);\x0a\x09\x09assert: ((1 > 0) or: [ 1 > 2 ])",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "and:", "deny:", "or:", ">"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1889,22 +1868,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testLogicKeywords",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testLogicKeywords\x0a\x09\x22Trivial logic table\x22\x0a\x09self\x0a\x09\x09assert: (true and: [ true ]);\x0a\x09\x09deny: (true and: [ false ]);\x0a\x09\x09deny: (false and: [ true ]);\x0a\x09\x09deny: (false and: [ false ]).\x0a\x09self\x0a\x09\x09assert: (true or: [ true ]);\x0a\x09\x09assert: (true or: [ false ]);\x0a\x09\x09assert: (false or: [ true ]);\x0a\x09\x09deny: (false or: [ false ]).\x0a\x09\x09\x0a\x09\x22Checking that expressions work fine too\x22\x0a\x09self\x0a\x09\x09assert: (true and: [ 1 > 0 ]);\x0a\x09\x09deny: ((1 > 0) and: [ false ]);\x0a\x09\x09deny: ((1 > 0) and: [ 1 > 2 ]).\x0a\x09self\x0a\x09\x09assert: (false or: [ 1 > 0 ]);\x0a\x09\x09assert: ((1 > 0) or: [ false ]);\x0a\x09\x09assert: ((1 > 0) or: [ 1 > 2 ])",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "and:", "deny:", "or:", ">"]
-}),
+}; }),
 $globals.BooleanTest);
 
 $core.addMethod(
 $core.method({
 selector: "testNonBooleanError",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNonBooleanError\x0a\x09self should: [ '' ifTrue: [] ifFalse: [] ] raise: NonBooleanReceiver",
+referencedClasses: ["NonBooleanReceiver"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "ifTrue:ifFalse:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1924,15 +1902,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testNonBooleanError",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testNonBooleanError\x0a\x09self should: [ '' ifTrue: [] ifFalse: [] ] raise: NonBooleanReceiver",
-referencedClasses: ["NonBooleanReceiver"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "ifTrue:ifFalse:"]
-}),
+}; }),
 $globals.BooleanTest);
 
 
@@ -1942,7 +1912,14 @@ $core.addMethod(
 $core.method({
 selector: "setUp",
 protocol: "running",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "setUp\x0a\x09builder := ClassBuilder new",
+referencedClasses: ["ClassBuilder"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1952,22 +1929,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setUp",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "setUp\x0a\x09builder := ClassBuilder new",
-referencedClasses: ["ClassBuilder"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new"]
-}),
+}; }),
 $globals.ClassBuilderTest);
 
 $core.addMethod(
 $core.method({
 selector: "tearDown",
 protocol: "running",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "tearDown\x0a\x09theClass ifNotNil: [\x0a\x09\x09Smalltalk removeClass: theClass.\x0a\x09\x09self deny: (theClass package classes includes: theClass).\x0a\x09\x09self assert: (Smalltalk globals at: theClass name) equals: nil.\x0a\x09\x09theClass := nil ]",
+referencedClasses: ["Smalltalk"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNotNil:", "removeClass:", "deny:", "includes:", "classes", "package", "assert:equals:", "at:", "globals", "name"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1987,22 +1963,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"tearDown",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "tearDown\x0a\x09theClass ifNotNil: [\x0a\x09\x09Smalltalk removeClass: theClass.\x0a\x09\x09self deny: (theClass package classes includes: theClass).\x0a\x09\x09self assert: (Smalltalk globals at: theClass name) equals: nil.\x0a\x09\x09theClass := nil ]",
-referencedClasses: ["Smalltalk"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifNotNil:", "removeClass:", "deny:", "includes:", "classes", "package", "assert:equals:", "at:", "globals", "name"]
-}),
+}; }),
 $globals.ClassBuilderTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAddTrait",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAddTrait\x0a\x09theClass := builder addTraitNamed: 'ObjectMock2' package: 'Kernel-Tests'.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: (theClass package classes occurrencesOf: theClass) equals: 1.\x0a\x09self assert: theClass package equals: ObjectMock package",
+referencedClasses: ["ObjectMock"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["addTraitNamed:package:", "assert:equals:", "name", "occurrencesOf:", "classes", "package"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2032,22 +2007,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAddTrait",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAddTrait\x0a\x09theClass := builder addTraitNamed: 'ObjectMock2' package: 'Kernel-Tests'.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: (theClass package classes occurrencesOf: theClass) equals: 1.\x0a\x09self assert: theClass package equals: ObjectMock package",
-referencedClasses: ["ObjectMock"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["addTraitNamed:package:", "assert:equals:", "name", "occurrencesOf:", "classes", "package"]
-}),
+}; }),
 $globals.ClassBuilderTest);
 
 $core.addMethod(
 $core.method({
 selector: "testClassCopy",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testClassCopy\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: (theClass package classes includes: theClass).\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys",
+referencedClasses: ["ObjectMock"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["copyClass:named:", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "includes:", "classes", "keys", "methodDictionary"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2109,22 +2083,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testClassCopy",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testClassCopy\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: (theClass package classes includes: theClass).\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys",
-referencedClasses: ["ObjectMock"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["copyClass:named:", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "includes:", "classes", "keys", "methodDictionary"]
-}),
+}; }),
 $globals.ClassBuilderTest);
 
 $core.addMethod(
 $core.method({
 selector: "testClassMigration",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testClassMigration\x0a\x09| instance oldClass |\x0a\x09\x0a\x09oldClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09instance := (Smalltalk globals at: 'ObjectMock2') new.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: #ObjectMock2\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self deny: oldClass == ObjectMock2.\x0a\x09\x0a\x09self assert: ObjectMock2 superclass == ObjectMock.\x0a\x09self assert: ObjectMock2 instanceVariableNames isEmpty.\x0a\x09self assert: ObjectMock2 selectors equals: oldClass selectors.\x0a\x09self assert: ObjectMock2 comment equals: oldClass comment.\x0a\x09self assert: ObjectMock2 package name equals: 'Kernel-Tests'.\x0a\x09self assert: (ObjectMock2 package classes includes: ObjectMock2).\x0a\x09\x0a\x09self deny: instance class == ObjectMock2.\x0a\x09\x22Commeting this out. Tests implementation detail.\x22\x0a\x09\x22self assert: instance class name equals: 'OldObjectMock2'.\x22\x0a\x09\x0a\x09self assert: (Smalltalk globals at: instance class name) isNil.\x0a\x09\x0a\x09Smalltalk removeClass: ObjectMock2",
+referencedClasses: ["ObjectMock", "Smalltalk", "ObjectMock2"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["copyClass:named:", "new", "at:", "globals", "subclass:instanceVariableNames:package:", "deny:", "==", "assert:", "superclass", "isEmpty", "instanceVariableNames", "assert:equals:", "selectors", "comment", "name", "package", "includes:", "classes", "class", "isNil", "removeClass:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var instance,oldClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2203,22 +2176,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testClassMigration",{instance:instance,oldClass:oldClass})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testClassMigration\x0a\x09| instance oldClass |\x0a\x09\x0a\x09oldClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09instance := (Smalltalk globals at: 'ObjectMock2') new.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: #ObjectMock2\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self deny: oldClass == ObjectMock2.\x0a\x09\x0a\x09self assert: ObjectMock2 superclass == ObjectMock.\x0a\x09self assert: ObjectMock2 instanceVariableNames isEmpty.\x0a\x09self assert: ObjectMock2 selectors equals: oldClass selectors.\x0a\x09self assert: ObjectMock2 comment equals: oldClass comment.\x0a\x09self assert: ObjectMock2 package name equals: 'Kernel-Tests'.\x0a\x09self assert: (ObjectMock2 package classes includes: ObjectMock2).\x0a\x09\x0a\x09self deny: instance class == ObjectMock2.\x0a\x09\x22Commeting this out. Tests implementation detail.\x22\x0a\x09\x22self assert: instance class name equals: 'OldObjectMock2'.\x22\x0a\x09\x0a\x09self assert: (Smalltalk globals at: instance class name) isNil.\x0a\x09\x0a\x09Smalltalk removeClass: ObjectMock2",
-referencedClasses: ["ObjectMock", "Smalltalk", "ObjectMock2"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["copyClass:named:", "new", "at:", "globals", "subclass:instanceVariableNames:package:", "deny:", "==", "assert:", "superclass", "isEmpty", "instanceVariableNames", "assert:equals:", "selectors", "comment", "name", "package", "includes:", "classes", "class", "isNil", "removeClass:"]
-}),
+}; }),
 $globals.ClassBuilderTest);
 
 $core.addMethod(
 $core.method({
 selector: "testClassMigrationWithClassInstanceVariables",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testClassMigrationWithClassInstanceVariables\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 class instanceVariableNames: 'foo bar'.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2') name\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: ObjectMock2 class instanceVariableNames equals: #('foo' 'bar').\x0a\x09\x0a\x09Smalltalk removeClass: ObjectMock2",
+referencedClasses: ["ObjectMock", "ObjectMock2", "Smalltalk"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["copyClass:named:", "instanceVariableNames:", "class", "subclass:instanceVariableNames:package:", "name", "at:", "globals", "assert:equals:", "instanceVariableNames", "removeClass:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2237,22 +2209,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testClassMigrationWithClassInstanceVariables",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testClassMigrationWithClassInstanceVariables\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 class instanceVariableNames: 'foo bar'.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2') name\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: ObjectMock2 class instanceVariableNames equals: #('foo' 'bar').\x0a\x09\x0a\x09Smalltalk removeClass: ObjectMock2",
-referencedClasses: ["ObjectMock", "ObjectMock2", "Smalltalk"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["copyClass:named:", "instanceVariableNames:", "class", "subclass:instanceVariableNames:package:", "name", "at:", "globals", "assert:equals:", "instanceVariableNames", "removeClass:"]
-}),
+}; }),
 $globals.ClassBuilderTest);
 
 $core.addMethod(
 $core.method({
 selector: "testClassMigrationWithSubclasses",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testClassMigrationWithSubclasses\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 subclass: 'ObjectMock3' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09ObjectMock3 subclass: 'ObjectMock4' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: 'ObjectMock2'\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: (ObjectMock subclasses includes: ObjectMock2).\x0a\x09self assert: (ObjectMock2 subclasses includes: ObjectMock3).\x0a\x09self assert: (ObjectMock3 subclasses includes: ObjectMock4).\x0a\x09\x0a\x09ObjectMock allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ]",
+referencedClasses: ["ObjectMock", "ObjectMock2", "ObjectMock3", "ObjectMock4", "Smalltalk"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["copyClass:named:", "subclass:instanceVariableNames:package:", "assert:", "includes:", "subclasses", "reverseDo:", "allSubclasses", "removeClass:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2306,22 +2277,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testClassMigrationWithSubclasses",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testClassMigrationWithSubclasses\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 subclass: 'ObjectMock3' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09ObjectMock3 subclass: 'ObjectMock4' instanceVariableNames: '' package: 'Kernel-Tests'.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09ObjectMock subclass: 'ObjectMock2'\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: (ObjectMock subclasses includes: ObjectMock2).\x0a\x09self assert: (ObjectMock2 subclasses includes: ObjectMock3).\x0a\x09self assert: (ObjectMock3 subclasses includes: ObjectMock4).\x0a\x09\x0a\x09ObjectMock allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ]",
-referencedClasses: ["ObjectMock", "ObjectMock2", "ObjectMock3", "ObjectMock4", "Smalltalk"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["copyClass:named:", "subclass:instanceVariableNames:package:", "assert:", "includes:", "subclasses", "reverseDo:", "allSubclasses", "removeClass:"]
-}),
+}; }),
 $globals.ClassBuilderTest);
 
 $core.addMethod(
 $core.method({
 selector: "testSubclass",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSubclass\x0a\x09theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' instanceVariableNames: #(foo bar) package: 'Kernel-Tests'.\x0a\x09self assert: theClass superclass equals: ObjectMock.\x0a\x09self assert: theClass instanceVariableNames equals: #(foo bar).\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: (theClass package classes occurrencesOf: theClass) equals: 1.\x0a\x09self assert: theClass package equals: ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys size equals: 0",
+referencedClasses: ["ObjectMock"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "assert:equals:", "superclass", "instanceVariableNames", "name", "occurrencesOf:", "classes", "package", "size", "keys", "methodDictionary"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2363,15 +2333,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testSubclass",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testSubclass\x0a\x09theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' instanceVariableNames: #(foo bar) package: 'Kernel-Tests'.\x0a\x09self assert: theClass superclass equals: ObjectMock.\x0a\x09self assert: theClass instanceVariableNames equals: #(foo bar).\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: (theClass package classes occurrencesOf: theClass) equals: 1.\x0a\x09self assert: theClass package equals: ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys size equals: 0",
-referencedClasses: ["ObjectMock"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "assert:equals:", "superclass", "instanceVariableNames", "name", "occurrencesOf:", "classes", "package", "size", "keys", "methodDictionary"]
-}),
+}; }),
 $globals.ClassBuilderTest);
 
 
@@ -2381,7 +2343,14 @@ $core.addMethod(
 $core.method({
 selector: "jsConstructor",
 protocol: "running",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "jsConstructor\x0a\x09<inlineJS: '\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09return Foo;\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09return Foo;\x0a\x09"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2395,22 +2364,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"jsConstructor",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "jsConstructor\x0a\x09<inlineJS: '\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09return Foo;\x0a\x09'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09return Foo;\x0a\x09"]]],
-messageSends: []
-}),
+}; }),
 $globals.ClassTest);
 
 $core.addMethod(
 $core.method({
 selector: "setUp",
 protocol: "running",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "setUp\x0a\x09builder := ClassBuilder new",
+referencedClasses: ["ClassBuilder"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2420,22 +2388,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setUp",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "setUp\x0a\x09builder := ClassBuilder new",
-referencedClasses: ["ClassBuilder"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new"]
-}),
+}; }),
 $globals.ClassTest);
 
 $core.addMethod(
 $core.method({
 selector: "tearDown",
 protocol: "running",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "tearDown\x0a\x09theClass ifNotNil: [\x0a\x09\x09theClass allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ].\x0a\x09\x09Smalltalk removeClass: theClass.\x0a\x09\x09theClass := nil ]",
+referencedClasses: ["Smalltalk"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNotNil:", "reverseDo:", "allSubclasses", "removeClass:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2465,22 +2432,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"tearDown",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "tearDown\x0a\x09theClass ifNotNil: [\x0a\x09\x09theClass allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ].\x0a\x09\x09Smalltalk removeClass: theClass.\x0a\x09\x09theClass := nil ]",
-referencedClasses: ["Smalltalk"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifNotNil:", "reverseDo:", "allSubclasses", "removeClass:"]
-}),
+}; }),
 $globals.ClassTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAllSubclasses",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAllSubclasses\x0a\x09| subclasses index |\x0a\x0a\x09subclasses := Object subclasses.\x0a\x09index := 1.\x0a\x09[ index > subclasses size ]\x0a\x09\x09whileFalse: [ subclasses addAll: (subclasses at: index) subclasses.\x0a\x09\x09\x09index := index + 1 ].\x0a\x0a\x09self assert: Object allSubclasses equals: subclasses",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclasses", "whileFalse:", ">", "size", "addAll:", "at:", "+", "assert:equals:", "allSubclasses"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var subclasses,index;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2515,22 +2481,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAllSubclasses",{subclasses:subclasses,index:index})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAllSubclasses\x0a\x09| subclasses index |\x0a\x0a\x09subclasses := Object subclasses.\x0a\x09index := 1.\x0a\x09[ index > subclasses size ]\x0a\x09\x09whileFalse: [ subclasses addAll: (subclasses at: index) subclasses.\x0a\x09\x09\x09index := index + 1 ].\x0a\x0a\x09self assert: Object allSubclasses equals: subclasses",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclasses", "whileFalse:", ">", "size", "addAll:", "at:", "+", "assert:equals:", "allSubclasses"]
-}),
+}; }),
 $globals.ClassTest);
 
 $core.addMethod(
 $core.method({
 selector: "testMetaclassSubclasses",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testMetaclassSubclasses\x0a\x09| subclasses |\x0a\x0a\x09subclasses := (Object class instanceClass subclasses \x0a\x09\x09select: [ :each | each isMetaclass not ])\x0a\x09\x09collect: [ :each | each theMetaClass ].\x0a\x0a\x09self assert: Object class subclasses equals: subclasses",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["collect:", "select:", "subclasses", "instanceClass", "class", "not", "isMetaclass", "theMetaClass", "assert:equals:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var subclasses;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2569,22 +2534,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testMetaclassSubclasses",{subclasses:subclasses})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testMetaclassSubclasses\x0a\x09| subclasses |\x0a\x0a\x09subclasses := (Object class instanceClass subclasses \x0a\x09\x09select: [ :each | each isMetaclass not ])\x0a\x09\x09collect: [ :each | each theMetaClass ].\x0a\x0a\x09self assert: Object class subclasses equals: subclasses",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["collect:", "select:", "subclasses", "instanceClass", "class", "not", "isMetaclass", "theMetaClass", "assert:equals:"]
-}),
+}; }),
 $globals.ClassTest);
 
 $core.addMethod(
 $core.method({
 selector: "testSetJavaScriptConstructor",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSetJavaScriptConstructor\x0a\x09| instance |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09theClass javascriptConstructor: self jsConstructor.\x0a\x09\x22part took from copy class test\x22\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.\x0a\x09\x22testing specific to late-coupled detached root class\x22\x0a\x09instance := theClass new.\x0a\x09self assert: instance class == theClass.\x0a\x09self assert: instance value equals: 4.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
+referencedClasses: ["ObjectMock", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["copyClass:named:", "javascriptConstructor:", "jsConstructor", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "keys", "methodDictionary", "new", "class", "value", "shouldnt:raise:", "foo:", "foo"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var instance;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2665,22 +2629,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testSetJavaScriptConstructor",{instance:instance})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testSetJavaScriptConstructor\x0a\x09| instance |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09theClass javascriptConstructor: self jsConstructor.\x0a\x09\x22part took from copy class test\x22\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.\x0a\x09\x22testing specific to late-coupled detached root class\x22\x0a\x09instance := theClass new.\x0a\x09self assert: instance class == theClass.\x0a\x09self assert: instance value equals: 4.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
-referencedClasses: ["ObjectMock", "Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["copyClass:named:", "javascriptConstructor:", "jsConstructor", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "keys", "methodDictionary", "new", "class", "value", "shouldnt:raise:", "foo:", "foo"]
-}),
+}; }),
 $globals.ClassTest);
 
 $core.addMethod(
 $core.method({
 selector: "testSlotsFromInstanceVariablesString",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSlotsFromInstanceVariablesString\x0a\x09self assert: '  hello   world   ' instanceVariablesStringAsSlotList equals: #('hello' 'world')",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "instanceVariablesStringAsSlotList"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2690,22 +2653,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testSlotsFromInstanceVariablesString",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testSlotsFromInstanceVariablesString\x0a\x09self assert: '  hello   world   ' instanceVariablesStringAsSlotList equals: #('hello' 'world')",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "instanceVariablesStringAsSlotList"]
-}),
+}; }),
 $globals.ClassTest);
 
 $core.addMethod(
 $core.method({
 selector: "testTrickySetJavaScriptConstructor",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testTrickySetJavaScriptConstructor\x0a\x09| instance |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09theClass javascriptConstructor: self trickyJsConstructor.\x0a\x09\x22part took from copy class test\x22\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.\x0a\x09\x22testing specific to late-coupled detached root class\x22\x0a\x09instance := theClass new.\x0a\x09self assert: instance class == theClass.\x0a\x09self assert: instance value equals: 4.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
+referencedClasses: ["ObjectMock", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["copyClass:named:", "javascriptConstructor:", "trickyJsConstructor", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "keys", "methodDictionary", "new", "class", "value", "shouldnt:raise:", "foo:", "foo"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var instance;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2786,22 +2748,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testTrickySetJavaScriptConstructor",{instance:instance})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testTrickySetJavaScriptConstructor\x0a\x09| instance |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09theClass javascriptConstructor: self trickyJsConstructor.\x0a\x09\x22part took from copy class test\x22\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.\x0a\x09\x22testing specific to late-coupled detached root class\x22\x0a\x09instance := theClass new.\x0a\x09self assert: instance class == theClass.\x0a\x09self assert: instance value equals: 4.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
-referencedClasses: ["ObjectMock", "Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["copyClass:named:", "javascriptConstructor:", "trickyJsConstructor", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "keys", "methodDictionary", "new", "class", "value", "shouldnt:raise:", "foo:", "foo"]
-}),
+}; }),
 $globals.ClassTest);
 
 $core.addMethod(
 $core.method({
 selector: "trickyJsConstructor",
 protocol: "running",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "trickyJsConstructor\x0a\x09<inlineJS: '\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09Foo.prototype._foo = function () {return \x22bar\x22;};\x0a\x09\x09return Foo;\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09Foo.prototype._foo = function () {return \x22bar\x22;};\x0a\x09\x09return Foo;\x0a\x09"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2816,15 +2777,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"trickyJsConstructor",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "trickyJsConstructor\x0a\x09<inlineJS: '\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09Foo.prototype._foo = function () {return \x22bar\x22;};\x0a\x09\x09return Foo;\x0a\x09'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09\x09function Foo(){}\x0a\x09\x09Foo.prototype.valueOf = function () {return 4;};\x0a\x09\x09Foo.prototype._foo = function () {return \x22bar\x22;};\x0a\x09\x09return Foo;\x0a\x09"]]],
-messageSends: []
-}),
+}; }),
 $globals.ClassTest);
 
 
@@ -2834,7 +2787,14 @@ $core.addMethod(
 $core.method({
 selector: "assertSameContents:as:",
 protocol: "convenience",
-fn: function (aCollection,anotherCollection){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aCollection", "anotherCollection"],
+source: "assertSameContents: aCollection as: anotherCollection\x0a\x09self assert: (aCollection size = anotherCollection size).\x0a\x09aCollection do: [ :each |\x0a\x09\x09self assert: ((aCollection occurrencesOf: each) = (anotherCollection occurrencesOf: each)) ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "=", "size", "do:", "occurrencesOf:"]
+}, function ($methodClass){ return function (aCollection,anotherCollection){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2870,22 +2830,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"assertSameContents:as:",{aCollection:aCollection,anotherCollection:anotherCollection})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aCollection", "anotherCollection"],
-source: "assertSameContents: aCollection as: anotherCollection\x0a\x09self assert: (aCollection size = anotherCollection size).\x0a\x09aCollection do: [ :each |\x0a\x09\x09self assert: ((aCollection occurrencesOf: each) = (anotherCollection occurrencesOf: each)) ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "=", "size", "do:", "occurrencesOf:"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "collection",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collection\x0a\x09\x22Answers pre-filled collection of type tested.\x22\x0a\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2895,22 +2854,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collection",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collection\x0a\x09\x22Answers pre-filled collection of type tested.\x22\x0a\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionClass",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionClass\x0a\x09\x22Answers class of collection type tested\x22\x0a\x0a\x09^ self class collectionClass",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["collectionClass", "class"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2919,22 +2877,21 @@ return $recv($self._class())._collectionClass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionClass",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionClass\x0a\x09\x22Answers class of collection type tested\x22\x0a\x0a\x09^ self class collectionClass",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["collectionClass", "class"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionOfPrintStrings",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionOfPrintStrings\x0a\x09\x22Answers self collection but with values\x0a\x09changed to their printStrings\x22\x0a\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2944,22 +2901,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionOfPrintStrings",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionOfPrintStrings\x0a\x09\x22Answers self collection but with values\x0a\x09changed to their printStrings\x22\x0a\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionSize",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionSize\x0a\x09\x22Answers size of self collection.\x22\x0a\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2969,22 +2925,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionSize",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionSize\x0a\x09\x22Answers size of self collection.\x22\x0a\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionWithDuplicates",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionWithDuplicates\x0a\x09\x22Answers pre-filled collection of type tested,\x0a\x09with exactly six distinct elements,\x0a\x09some of them appearing multiple times, if possible.\x22\x0a\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -2994,22 +2949,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionWithDuplicates",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionWithDuplicates\x0a\x09\x22Answers pre-filled collection of type tested,\x0a\x09with exactly six distinct elements,\x0a\x09some of them appearing multiple times, if possible.\x22\x0a\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionWithNewValue",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionWithNewValue\x0a\x09\x22Answers a collection which shows how\x0a\x09self collection would look after adding\x0a\x09self sampleNewValue\x22\x0a\x09\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -3019,22 +2973,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionWithNewValue",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionWithNewValue\x0a\x09\x22Answers a collection which shows how\x0a\x09self collection would look after adding\x0a\x09self sampleNewValue\x22\x0a\x09\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "initialize",
 protocol: "initialization",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "initialize\x0a\x09super initialize.\x0a\x0a\x09sampleBlock := []",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["initialize"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -3054,26 +3007,13 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x0a\x09sampleBlock := []",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["initialize"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "sampleNewValue",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return "N";
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "sampleNewValue\x0a\x09\x22Answers a value that is not yet there\x0a\x09and can be put into a tested collection\x22\x0a\x09\x0a\x09^ 'N'",
@@ -3081,14 +3021,25 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return "N";
+
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "sampleNewValueAsCollection",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "sampleNewValueAsCollection\x0a\x09\x22Answers self sampleNewValue\x0a\x09wrapped in single element collection\x0a\x09of tested type\x22\x0a\x09\x0a\x09^ self collectionClass with: self sampleNewValue",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["with:", "collectionClass", "sampleNewValue"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -3097,22 +3048,21 @@ return $recv($self._collectionClass())._with_($self._sampleNewValue());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"sampleNewValueAsCollection",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "sampleNewValueAsCollection\x0a\x09\x22Answers self sampleNewValue\x0a\x09wrapped in single element collection\x0a\x09of tested type\x22\x0a\x09\x0a\x09^ self collectionClass with: self sampleNewValue",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["with:", "collectionClass", "sampleNewValue"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAddAll",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAddAll\x0a\x09self assert: (self collection addAll: self collectionClass new; yourself) equals: self collection.\x0a\x09self assert: (self collectionClass new addAll: self collection; yourself) equals: self collection.\x0a\x09self assert: (self collectionClass new addAll: self collectionClass new; yourself) equals: self collectionClass new.\x0a\x09self assert: (self collection addAll: self sampleNewValueAsCollection; yourself) equals: self collectionWithNewValue.\x0a\x09self assertSameContents: (self sampleNewValueAsCollection addAll: self collection; yourself) as: self collectionWithNewValue",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "addAll:", "collection", "new", "collectionClass", "yourself", "sampleNewValueAsCollection", "collectionWithNewValue", "assertSameContents:as:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -3235,22 +3185,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAddAll",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAddAll\x0a\x09self assert: (self collection addAll: self collectionClass new; yourself) equals: self collection.\x0a\x09self assert: (self collectionClass new addAll: self collection; yourself) equals: self collection.\x0a\x09self assert: (self collectionClass new addAll: self collectionClass new; yourself) equals: self collectionClass new.\x0a\x09self assert: (self collection addAll: self sampleNewValueAsCollection; yourself) equals: self collectionWithNewValue.\x0a\x09self assertSameContents: (self sampleNewValueAsCollection addAll: self collection; yourself) as: self collectionWithNewValue",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "addAll:", "collection", "new", "collectionClass", "yourself", "sampleNewValueAsCollection", "collectionWithNewValue", "assertSameContents:as:"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAllSatisfy",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAllSatisfy\x0a\x09| collection anyOne |\x0a\x09collection := self collection.\x0a\x09anyOne := collection anyOne.\x0a\x09self assert: (collection allSatisfy: [ :each | collection includes: each ]).\x0a\x09self deny: (collection allSatisfy: [ :each | each ~= anyOne ])",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["collection", "anyOne", "assert:", "allSatisfy:", "includes:", "deny:", "~="]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var collection,anyOne;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3285,22 +3234,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAllSatisfy",{collection:collection,anyOne:anyOne})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAllSatisfy\x0a\x09| collection anyOne |\x0a\x09collection := self collection.\x0a\x09anyOne := collection anyOne.\x0a\x09self assert: (collection allSatisfy: [ :each | collection includes: each ]).\x0a\x09self deny: (collection allSatisfy: [ :each | each ~= anyOne ])",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["collection", "anyOne", "assert:", "allSatisfy:", "includes:", "deny:", "~="]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAnyOne",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAnyOne\x0a\x09self should: [ self collectionClass new anyOne ] raise: Error.\x0a\x09self assert: (self collection includes: self collection anyOne)",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "anyOne", "new", "collectionClass", "assert:", "includes:", "collection"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -3328,22 +3276,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAnyOne",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAnyOne\x0a\x09self should: [ self collectionClass new anyOne ] raise: Error.\x0a\x09self assert: (self collection includes: self collection anyOne)",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "anyOne", "new", "collectionClass", "assert:", "includes:", "collection"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAnySatisfy",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAnySatisfy\x0a\x09| anyOne |\x0a\x09anyOne := self collection anyOne.\x0a\x09self assert: (self collection anySatisfy: [ :each | each = anyOne ]).\x0a\x09self deny: (self collection anySatisfy: [ :each | each = Object new ])",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["anyOne", "collection", "assert:", "anySatisfy:", "=", "deny:", "new"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var anyOne;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3388,22 +3335,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAnySatisfy",{anyOne:anyOne})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAnySatisfy\x0a\x09| anyOne |\x0a\x09anyOne := self collection anyOne.\x0a\x09self assert: (self collection anySatisfy: [ :each | each = anyOne ]).\x0a\x09self deny: (self collection anySatisfy: [ :each | each = Object new ])",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["anyOne", "collection", "assert:", "anySatisfy:", "=", "deny:", "new"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAsArray",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAsArray\x0a\x09self\x0a\x09\x09assertSameContents: self collection\x0a\x09\x09as: self collection asArray",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assertSameContents:as:", "collection", "asArray"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -3418,22 +3364,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAsArray",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAsArray\x0a\x09self\x0a\x09\x09assertSameContents: self collection\x0a\x09\x09as: self collection asArray",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assertSameContents:as:", "collection", "asArray"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAsOrderedCollection",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAsOrderedCollection\x0a\x09self\x0a\x09\x09assertSameContents: self collection\x0a\x09\x09as: self collection asOrderedCollection",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assertSameContents:as:", "collection", "asOrderedCollection"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -3448,22 +3393,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAsOrderedCollection",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAsOrderedCollection\x0a\x09self\x0a\x09\x09assertSameContents: self collection\x0a\x09\x09as: self collection asOrderedCollection",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assertSameContents:as:", "collection", "asOrderedCollection"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAsSet",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAsSet\x0a\x09| c set |\x0a\x09c := self collectionWithDuplicates.\x0a\x09set := c asSet.\x0a\x09self assert: set size equals: 6.\x0a\x09c do: [ :each |\x0a\x09\x09self assert: (set includes: each) ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["collectionWithDuplicates", "asSet", "assert:equals:", "size", "do:", "assert:", "includes:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var c,set;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3485,22 +3429,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAsSet",{c:c,set:set})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAsSet\x0a\x09| c set |\x0a\x09c := self collectionWithDuplicates.\x0a\x09set := c asSet.\x0a\x09self assert: set size equals: 6.\x0a\x09c do: [ :each |\x0a\x09\x09self assert: (set includes: each) ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["collectionWithDuplicates", "asSet", "assert:equals:", "size", "do:", "assert:", "includes:"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testCollect",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCollect\x0a\x09self assert: (self collection collect: [ :each | each ]) equals: self collection.\x0a\x09self assert: (self collectionWithNewValue collect: [ :each | each ]) equals: self collectionWithNewValue.\x0a\x09self assert: (self collectionClass new collect: [ :each | each printString ]) equals: self collectionClass new.\x0a\x09self assert: ((self collection collect: [ self sampleNewValue ]) detect: [ true ]) equals: self sampleNewValue.\x0a\x09self assert: (self collection collect: [ :each | each printString ]) equals: self collectionOfPrintStrings",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "collect:", "collection", "collectionWithNewValue", "new", "collectionClass", "printString", "detect:", "sampleNewValue", "collectionOfPrintStrings"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -3607,22 +3550,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCollect",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testCollect\x0a\x09self assert: (self collection collect: [ :each | each ]) equals: self collection.\x0a\x09self assert: (self collectionWithNewValue collect: [ :each | each ]) equals: self collectionWithNewValue.\x0a\x09self assert: (self collectionClass new collect: [ :each | each printString ]) equals: self collectionClass new.\x0a\x09self assert: ((self collection collect: [ self sampleNewValue ]) detect: [ true ]) equals: self sampleNewValue.\x0a\x09self assert: (self collection collect: [ :each | each printString ]) equals: self collectionOfPrintStrings",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "collect:", "collection", "collectionWithNewValue", "new", "collectionClass", "printString", "detect:", "sampleNewValue", "collectionOfPrintStrings"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testComma",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testComma\x0a\x09self assert: self collection, self collectionClass new equals: self collection.\x0a\x09self assert: self collectionClass new, self collection equals: self collection.\x0a\x09self assert: self collectionClass new, self collectionClass new equals: self collectionClass new.\x0a\x09self assert: self collection, self sampleNewValueAsCollection equals: self collectionWithNewValue.\x0a\x09self assertSameContents: self sampleNewValueAsCollection, self collection as: self collectionWithNewValue",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", ",", "collection", "new", "collectionClass", "sampleNewValueAsCollection", "collectionWithNewValue", "assertSameContents:as:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -3722,22 +3664,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testComma",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testComma\x0a\x09self assert: self collection, self collectionClass new equals: self collection.\x0a\x09self assert: self collectionClass new, self collection equals: self collection.\x0a\x09self assert: self collectionClass new, self collectionClass new equals: self collectionClass new.\x0a\x09self assert: self collection, self sampleNewValueAsCollection equals: self collectionWithNewValue.\x0a\x09self assertSameContents: self sampleNewValueAsCollection, self collection as: self collectionWithNewValue",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", ",", "collection", "new", "collectionClass", "sampleNewValueAsCollection", "collectionWithNewValue", "assertSameContents:as:"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testCopy",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCopy\x0a\x09self assert: self collectionClass new copy equals: self collectionClass new.\x0a\x09self assert: self collection copy equals: self collection.\x0a\x09self assert: self collectionWithNewValue copy equals: self collectionWithNewValue.\x0a\x09\x0a\x09self deny: self collectionClass new copy = self collection.\x0a\x09self deny: self collection copy = self collectionClass new.\x0a\x09self deny: self collection copy = self collectionWithNewValue",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "copy", "new", "collectionClass", "collection", "collectionWithNewValue", "deny:", "="]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -3841,22 +3782,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCopy",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testCopy\x0a\x09self assert: self collectionClass new copy equals: self collectionClass new.\x0a\x09self assert: self collection copy equals: self collection.\x0a\x09self assert: self collectionWithNewValue copy equals: self collectionWithNewValue.\x0a\x09\x0a\x09self deny: self collectionClass new copy = self collection.\x0a\x09self deny: self collection copy = self collectionClass new.\x0a\x09self deny: self collection copy = self collectionWithNewValue",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "copy", "new", "collectionClass", "collection", "collectionWithNewValue", "deny:", "="]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testCopySeparates",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCopySeparates\x0a\x09| original copy |\x0a\x09original := self collection.\x0a\x09copy := original copy.\x0a\x09copy addAll: self sampleNewValueAsCollection.\x0a\x09self assert: original = self collection",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["collection", "copy", "addAll:", "sampleNewValueAsCollection", "assert:", "="]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var original,copy;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3873,22 +3813,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCopySeparates",{original:original,copy:copy})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testCopySeparates\x0a\x09| original copy |\x0a\x09original := self collection.\x0a\x09copy := original copy.\x0a\x09copy addAll: self sampleNewValueAsCollection.\x0a\x09self assert: original = self collection",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["collection", "copy", "addAll:", "sampleNewValueAsCollection", "assert:", "="]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testDetect",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDetect\x0a\x09self\x0a\x09\x09shouldnt: [ self collection detect: [ true ] ]\x0a\x09\x09raise: Error.\x0a\x09self\x0a\x09\x09should: [ self collection detect: [ false ] ]\x0a\x09\x09raise: Error.\x0a\x09self assert: (self sampleNewValueAsCollection detect: [ true ]) equals: self sampleNewValue.\x0a\x09self assert: (self collectionWithNewValue detect: [ :each | each = self sampleNewValue ]) equals: self sampleNewValue.\x0a\x09self\x0a\x09\x09should: [ self collection detect: [ :each | each = self sampleNewValue ] ]\x0a\x09\x09raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["shouldnt:raise:", "detect:", "collection", "should:raise:", "assert:equals:", "sampleNewValueAsCollection", "sampleNewValue", "collectionWithNewValue", "="]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -3995,22 +3934,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testDetect",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testDetect\x0a\x09self\x0a\x09\x09shouldnt: [ self collection detect: [ true ] ]\x0a\x09\x09raise: Error.\x0a\x09self\x0a\x09\x09should: [ self collection detect: [ false ] ]\x0a\x09\x09raise: Error.\x0a\x09self assert: (self sampleNewValueAsCollection detect: [ true ]) equals: self sampleNewValue.\x0a\x09self assert: (self collectionWithNewValue detect: [ :each | each = self sampleNewValue ]) equals: self sampleNewValue.\x0a\x09self\x0a\x09\x09should: [ self collection detect: [ :each | each = self sampleNewValue ] ]\x0a\x09\x09raise: Error",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["shouldnt:raise:", "detect:", "collection", "should:raise:", "assert:equals:", "sampleNewValueAsCollection", "sampleNewValue", "collectionWithNewValue", "="]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testDetectIfNone",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDetectIfNone\x0a\x09| sentinel |\x0a\x09sentinel := Object new.\x0a\x09self assert: (self collection detect: [ true ] ifNone: [ sentinel ]) ~= sentinel.\x0a\x09self assert: (self collection detect: [ false ] ifNone: [ sentinel ]) equals: sentinel.\x0a\x09self assert: (self sampleNewValueAsCollection detect: [ true ] ifNone: [ sentinel ]) equals: self sampleNewValue.\x0a\x09self assert: (self collectionWithNewValue detect: [ :each | each = self sampleNewValue ] ifNone: [ sentinel ]) equals: self sampleNewValue.\x0a\x09self assert: (self collection detect: [ :each | each = self sampleNewValue ] ifNone: [ sentinel ]) equals: sentinel",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "assert:", "~=", "detect:ifNone:", "collection", "assert:equals:", "sampleNewValueAsCollection", "sampleNewValue", "collectionWithNewValue", "="]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var sentinel;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4116,22 +4054,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testDetectIfNone",{sentinel:sentinel})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testDetectIfNone\x0a\x09| sentinel |\x0a\x09sentinel := Object new.\x0a\x09self assert: (self collection detect: [ true ] ifNone: [ sentinel ]) ~= sentinel.\x0a\x09self assert: (self collection detect: [ false ] ifNone: [ sentinel ]) equals: sentinel.\x0a\x09self assert: (self sampleNewValueAsCollection detect: [ true ] ifNone: [ sentinel ]) equals: self sampleNewValue.\x0a\x09self assert: (self collectionWithNewValue detect: [ :each | each = self sampleNewValue ] ifNone: [ sentinel ]) equals: self sampleNewValue.\x0a\x09self assert: (self collection detect: [ :each | each = self sampleNewValue ] ifNone: [ sentinel ]) equals: sentinel",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "assert:", "~=", "detect:ifNone:", "collection", "assert:equals:", "sampleNewValueAsCollection", "sampleNewValue", "collectionWithNewValue", "="]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testDo",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDo\x0a\x09| newCollection |\x0a\x09newCollection := OrderedCollection new.\x0a\x09self collection do: [ :each |\x0a\x09\x09newCollection add: each ].\x0a\x09self\x0a\x09\x09assertSameContents: self collection\x0a\x09\x09as: newCollection.\x0a\x09newCollection := OrderedCollection new.\x0a\x09self collectionWithDuplicates do: [ :each |\x0a\x09\x09newCollection add: each ].\x0a\x09self\x0a\x09\x09assertSameContents: self collectionWithDuplicates\x0a\x09\x09as: newCollection",
+referencedClasses: ["OrderedCollection"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "do:", "collection", "add:", "assertSameContents:as:", "collectionWithDuplicates"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var newCollection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4184,22 +4121,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testDo",{newCollection:newCollection})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testDo\x0a\x09| newCollection |\x0a\x09newCollection := OrderedCollection new.\x0a\x09self collection do: [ :each |\x0a\x09\x09newCollection add: each ].\x0a\x09self\x0a\x09\x09assertSameContents: self collection\x0a\x09\x09as: newCollection.\x0a\x09newCollection := OrderedCollection new.\x0a\x09self collectionWithDuplicates do: [ :each |\x0a\x09\x09newCollection add: each ].\x0a\x09self\x0a\x09\x09assertSameContents: self collectionWithDuplicates\x0a\x09\x09as: newCollection",
-referencedClasses: ["OrderedCollection"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "do:", "collection", "add:", "assertSameContents:as:", "collectionWithDuplicates"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testEquality",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testEquality\x0a\x09self assert: self collectionClass new equals: self collectionClass new.\x0a\x09self assert: self collection equals: self collection.\x0a\x09self assert: self collectionWithNewValue equals: self collectionWithNewValue.\x0a\x09\x0a\x09self deny: self collectionClass new = self collection.\x0a\x09self deny: self collection = self collectionClass new.\x0a\x09self deny: self collection = self collectionWithNewValue",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "new", "collectionClass", "collection", "collectionWithNewValue", "deny:", "="]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -4283,22 +4219,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testEquality",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testEquality\x0a\x09self assert: self collectionClass new equals: self collectionClass new.\x0a\x09self assert: self collection equals: self collection.\x0a\x09self assert: self collectionWithNewValue equals: self collectionWithNewValue.\x0a\x09\x0a\x09self deny: self collectionClass new = self collection.\x0a\x09self deny: self collection = self collectionClass new.\x0a\x09self deny: self collection = self collectionWithNewValue",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "new", "collectionClass", "collection", "collectionWithNewValue", "deny:", "="]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIfEmptyFamily",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIfEmptyFamily\x0a\x09self assert: (self collectionClass new ifEmpty: [ 42 ]) equals: 42.\x0a\x09self assert: (self collection ifEmpty: [ 42 ]) equals: self collection.\x0a\x0a\x09self assert: (self collectionClass new ifNotEmpty: [ 42 ]) equals: self collectionClass new.\x0a\x09self assert: (self collection ifNotEmpty: [ 42 ]) equals: 42.\x0a\x09self assert: (self collection ifNotEmpty: [ :col | col ]) equals: self collection.\x0a\x09\x0a\x09self assert: (self collectionClass new ifEmpty: [ 42 ] ifNotEmpty: [ 999 ]) equals: 42.\x0a\x09self assert: (self collection ifEmpty: [ 42 ] ifNotEmpty: [ 999 ]) equals: 999.\x0a\x09self assert: (self collection ifEmpty: [ 42 ] ifNotEmpty: [ :col | col ]) equals: self collection.\x0a\x0a\x09self assert: (self collectionClass new ifNotEmpty: [ 42 ] ifEmpty: [ 999 ]) equals: 999.\x0a\x09self assert: (self collection ifNotEmpty: [ 42 ] ifEmpty: [ 999 ]) equals: 42.\x0a\x09self assert: (self collection ifNotEmpty: [ :col | col ] ifEmpty: [ 999 ]) equals: self collection.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "ifEmpty:", "new", "collectionClass", "collection", "ifNotEmpty:", "ifEmpty:ifNotEmpty:", "ifNotEmpty:ifEmpty:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -4504,22 +4439,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIfEmptyFamily",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIfEmptyFamily\x0a\x09self assert: (self collectionClass new ifEmpty: [ 42 ]) equals: 42.\x0a\x09self assert: (self collection ifEmpty: [ 42 ]) equals: self collection.\x0a\x0a\x09self assert: (self collectionClass new ifNotEmpty: [ 42 ]) equals: self collectionClass new.\x0a\x09self assert: (self collection ifNotEmpty: [ 42 ]) equals: 42.\x0a\x09self assert: (self collection ifNotEmpty: [ :col | col ]) equals: self collection.\x0a\x09\x0a\x09self assert: (self collectionClass new ifEmpty: [ 42 ] ifNotEmpty: [ 999 ]) equals: 42.\x0a\x09self assert: (self collection ifEmpty: [ 42 ] ifNotEmpty: [ 999 ]) equals: 999.\x0a\x09self assert: (self collection ifEmpty: [ 42 ] ifNotEmpty: [ :col | col ]) equals: self collection.\x0a\x0a\x09self assert: (self collectionClass new ifNotEmpty: [ 42 ] ifEmpty: [ 999 ]) equals: 999.\x0a\x09self assert: (self collection ifNotEmpty: [ 42 ] ifEmpty: [ 999 ]) equals: 42.\x0a\x09self assert: (self collection ifNotEmpty: [ :col | col ] ifEmpty: [ 999 ]) equals: self collection.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "ifEmpty:", "new", "collectionClass", "collection", "ifNotEmpty:", "ifEmpty:ifNotEmpty:", "ifNotEmpty:ifEmpty:"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIsEmpty",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIsEmpty\x0a\x09self assert: self collectionClass new isEmpty.\x0a\x09self deny: self collection isEmpty",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "isEmpty", "new", "collectionClass", "deny:", "collection"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -4535,22 +4469,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIsEmpty",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIsEmpty\x0a\x09self assert: self collectionClass new isEmpty.\x0a\x09self deny: self collection isEmpty",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "isEmpty", "new", "collectionClass", "deny:", "collection"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testNoneSatisfy",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNoneSatisfy\x0a\x09| anyOne |\x0a\x09anyOne := self collection anyOne.\x0a\x09self deny: (self collection noneSatisfy: [ :each | each = anyOne ]).\x0a\x09self assert: (self collection noneSatisfy: [ :each | each = Object new ])",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["anyOne", "collection", "deny:", "noneSatisfy:", "=", "assert:", "new"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var anyOne;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4595,22 +4528,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testNoneSatisfy",{anyOne:anyOne})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testNoneSatisfy\x0a\x09| anyOne |\x0a\x09anyOne := self collection anyOne.\x0a\x09self deny: (self collection noneSatisfy: [ :each | each = anyOne ]).\x0a\x09self assert: (self collection noneSatisfy: [ :each | each = Object new ])",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["anyOne", "collection", "deny:", "noneSatisfy:", "=", "assert:", "new"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRegression1224",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRegression1224\x0a\x09self assert: (self collectionClass new\x0a\x09\x09remove: self sampleNewValue ifAbsent: [];\x0a\x09\x09yourself) size equals: 0",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "size", "remove:ifAbsent:", "new", "collectionClass", "sampleNewValue", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -4627,22 +4559,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRegression1224",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRegression1224\x0a\x09self assert: (self collectionClass new\x0a\x09\x09remove: self sampleNewValue ifAbsent: [];\x0a\x09\x09yourself) size equals: 0",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "size", "remove:ifAbsent:", "new", "collectionClass", "sampleNewValue", "yourself"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRemoveAll",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRemoveAll\x0a\x09self assert: (self collection removeAll; yourself) equals: self collectionClass new",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "removeAll", "collection", "yourself", "new", "collectionClass"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -4656,22 +4587,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRemoveAll",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRemoveAll\x0a\x09self assert: (self collection removeAll; yourself) equals: self collectionClass new",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "removeAll", "collection", "yourself", "new", "collectionClass"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testSelect",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSelect\x0a\x09self assert: (self collection select: [ false ]) equals: self collectionClass new.\x0a\x09self assert: (self collection select: [ true ]) equals: self collection.\x0a\x09self assert: (self collectionWithNewValue select: [ :each | each = self sampleNewValue ]) equals: self sampleNewValueAsCollection.\x0a\x09self assert: (self collectionWithNewValue select: [ :each | each ~= self sampleNewValue ]) equals: self collection.\x0a\x09self assert: (self collection select: [ :each | each = self sampleNewValue ]) equals: self collectionClass new.\x0a\x09self assert: (self collectionWithNewValue select: [ :each | each ~= self sampleNewValue ]) equals: self collection",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "select:", "collection", "new", "collectionClass", "collectionWithNewValue", "=", "sampleNewValue", "sampleNewValueAsCollection", "~="]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -4814,22 +4744,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testSelect",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testSelect\x0a\x09self assert: (self collection select: [ false ]) equals: self collectionClass new.\x0a\x09self assert: (self collection select: [ true ]) equals: self collection.\x0a\x09self assert: (self collectionWithNewValue select: [ :each | each = self sampleNewValue ]) equals: self sampleNewValueAsCollection.\x0a\x09self assert: (self collectionWithNewValue select: [ :each | each ~= self sampleNewValue ]) equals: self collection.\x0a\x09self assert: (self collection select: [ :each | each = self sampleNewValue ]) equals: self collectionClass new.\x0a\x09self assert: (self collectionWithNewValue select: [ :each | each ~= self sampleNewValue ]) equals: self collection",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "select:", "collection", "new", "collectionClass", "collectionWithNewValue", "=", "sampleNewValue", "sampleNewValueAsCollection", "~="]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testSelectThenCollect",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSelectThenCollect\x0a\x09self assert: (self collection select: [ false ] thenCollect: #isString) equals: self collectionClass new.\x0a\x09self assert: (self collection select: [ true ] thenCollect: [:x|x]) equals: self collection.\x0a\x09self assert: (self collection select: [ :each | each = self sampleNewValue ] thenCollect: [:x|x]) equals: self collectionClass new.\x0a\x09self assert: (self collectionWithNewValue select: [ :each | each ~= self sampleNewValue ] thenCollect: #printString) equals: self collectionOfPrintStrings",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "select:thenCollect:", "collection", "new", "collectionClass", "=", "sampleNewValue", "collectionWithNewValue", "~=", "collectionOfPrintStrings"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -4916,22 +4845,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testSelectThenCollect",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testSelectThenCollect\x0a\x09self assert: (self collection select: [ false ] thenCollect: #isString) equals: self collectionClass new.\x0a\x09self assert: (self collection select: [ true ] thenCollect: [:x|x]) equals: self collection.\x0a\x09self assert: (self collection select: [ :each | each = self sampleNewValue ] thenCollect: [:x|x]) equals: self collectionClass new.\x0a\x09self assert: (self collectionWithNewValue select: [ :each | each ~= self sampleNewValue ] thenCollect: #printString) equals: self collectionOfPrintStrings",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "select:thenCollect:", "collection", "new", "collectionClass", "=", "sampleNewValue", "collectionWithNewValue", "~=", "collectionOfPrintStrings"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testSingle",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSingle\x0a\x09self should: [ self collectionClass new single ] raise: Error.\x0a\x09self should: [ self collection single ] raise: Error.\x0a\x09self assert: self sampleNewValueAsCollection single equals: self sampleNewValue",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "single", "new", "collectionClass", "collection", "assert:equals:", "sampleNewValueAsCollection", "sampleNewValue"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -4968,22 +4896,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testSingle",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testSingle\x0a\x09self should: [ self collectionClass new single ] raise: Error.\x0a\x09self should: [ self collection single ] raise: Error.\x0a\x09self assert: self sampleNewValueAsCollection single equals: self sampleNewValue",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "single", "new", "collectionClass", "collection", "assert:equals:", "sampleNewValueAsCollection", "sampleNewValue"]
-}),
+}; }),
 $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testSize",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSize\x0a\x09self assert: self collectionClass new size equals: 0.\x0a\x09self assert: self sampleNewValueAsCollection size equals: 1.\x0a\x09self assert: self collection size equals: self collectionSize",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "size", "new", "collectionClass", "sampleNewValueAsCollection", "collection", "collectionSize"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5010,15 +4937,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testSize",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testSize\x0a\x09self assert: self collectionClass new size equals: 0.\x0a\x09self assert: self sampleNewValueAsCollection size equals: 1.\x0a\x09self assert: self collection size equals: self collectionSize",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "size", "new", "collectionClass", "sampleNewValueAsCollection", "collection", "collectionSize"]
-}),
+}; }),
 $globals.CollectionTest);
 
 
@@ -5026,11 +4945,6 @@ $core.addMethod(
 $core.method({
 selector: "collectionClass",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return nil;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionClass\x0a\x09\x22Answers class of collection type tested,\x0a\x09or nil if test is abstract\x22\x0a\x0a\x09^ nil",
@@ -5038,14 +4952,25 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return nil;
+
+}; }),
 $globals.CollectionTest.a$cls);
 
 $core.addMethod(
 $core.method({
 selector: "isAbstract",
 protocol: "testing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isAbstract\x0a\x09^ self collectionClass isNil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["isNil", "collectionClass"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5054,15 +4979,7 @@ return $recv($self._collectionClass())._isNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isAbstract",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isAbstract\x0a\x09^ self collectionClass isNil",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["isNil", "collectionClass"]
-}),
+}; }),
 $globals.CollectionTest.a$cls);
 
 
@@ -5071,7 +4988,14 @@ $core.addMethod(
 $core.method({
 selector: "collectionWithNewValue",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionWithNewValue\x0a\x09\x22Answers a collection which shows how\x0a\x09self collection would look after adding\x0a\x09self sampleNewValue at self sampleNewIndex\x22\x0a\x09\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5081,22 +5005,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionWithNewValue",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionWithNewValue\x0a\x09\x22Answers a collection which shows how\x0a\x09self collection would look after adding\x0a\x09self sampleNewValue at self sampleNewIndex\x22\x0a\x09\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}),
+}; }),
 $globals.IndexableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "nonIndexesDo:",
 protocol: "fixture",
-fn: function (aBlock){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "nonIndexesDo: aBlock\x0a\x09\x22Executes block a few times,\x0a\x09each time passing value that is known\x0a\x09not to be an index, as the first parameter\x22\x0a\x09\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5106,22 +5029,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"nonIndexesDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "nonIndexesDo: aBlock\x0a\x09\x22Executes block a few times,\x0a\x09each time passing value that is known\x0a\x09not to be an index, as the first parameter\x22\x0a\x09\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}),
+}; }),
 $globals.IndexableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "sampleNewIndex",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "sampleNewIndex\x0a\x09\x22Answers a value that can be used as index in at:put: or at:ifAbsentPut:\x22\x0a\x09\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5131,22 +5053,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"sampleNewIndex",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "sampleNewIndex\x0a\x09\x22Answers a value that can be used as index in at:put: or at:ifAbsentPut:\x22\x0a\x09\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}),
+}; }),
 $globals.IndexableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "samplesDo:",
 protocol: "fixture",
-fn: function (aBlock){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "samplesDo: aBlock\x0a\x09\x22Executes block a few times,\x0a\x09each time passing known index and value stored\x0a\x09under that index as the parameters\x22\x0a\x09\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5156,22 +5077,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"samplesDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "samplesDo: aBlock\x0a\x09\x22Executes block a few times,\x0a\x09each time passing known index and value stored\x0a\x09under that index as the parameters\x22\x0a\x09\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}),
+}; }),
 $globals.IndexableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAt",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAt\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09self should: [ self collection at: each ] raise: Error ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection at: index) equals: value ]",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["nonIndexesDo:", "should:raise:", "at:", "collection", "samplesDo:", "assert:equals:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5214,22 +5134,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAt",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAt\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09self should: [ self collection at: each ] raise: Error ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection at: index) equals: value ]",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["nonIndexesDo:", "should:raise:", "at:", "collection", "samplesDo:", "assert:equals:"]
-}),
+}; }),
 $globals.IndexableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAtIfAbsent",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtIfAbsent\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09self assert: (self collection at: each ifAbsent: [ self sampleNewValue ]) equals: self sampleNewValue ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection at: index ifAbsent: [ self sampleNewValue ]) equals: value ].",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["nonIndexesDo:", "assert:equals:", "at:ifAbsent:", "collection", "sampleNewValue", "samplesDo:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5291,22 +5210,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAtIfAbsent",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtIfAbsent\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09self assert: (self collection at: each ifAbsent: [ self sampleNewValue ]) equals: self sampleNewValue ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection at: index ifAbsent: [ self sampleNewValue ]) equals: value ].",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["nonIndexesDo:", "assert:equals:", "at:ifAbsent:", "collection", "sampleNewValue", "samplesDo:"]
-}),
+}; }),
 $globals.IndexableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAtIfAbsentPut",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtIfAbsentPut\x0a\x09| newCollection |\x0a\x09newCollection := self collection.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (newCollection at: index ifAbsentPut: [ self sampleNewValue ]) equals: value ].\x0a\x09self assert: newCollection equals: self collection.\x0a\x09self assert: (newCollection at: self sampleNewIndex ifAbsentPut: [ self sampleNewValue ]) equals: self sampleNewValue.\x0a\x09self assert: newCollection equals: self collectionWithNewValue",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["collection", "samplesDo:", "assert:equals:", "at:ifAbsentPut:", "sampleNewValue", "sampleNewIndex", "collectionWithNewValue"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var newCollection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5368,22 +5286,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAtIfAbsentPut",{newCollection:newCollection})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtIfAbsentPut\x0a\x09| newCollection |\x0a\x09newCollection := self collection.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (newCollection at: index ifAbsentPut: [ self sampleNewValue ]) equals: value ].\x0a\x09self assert: newCollection equals: self collection.\x0a\x09self assert: (newCollection at: self sampleNewIndex ifAbsentPut: [ self sampleNewValue ]) equals: self sampleNewValue.\x0a\x09self assert: newCollection equals: self collectionWithNewValue",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["collection", "samplesDo:", "assert:equals:", "at:ifAbsentPut:", "sampleNewValue", "sampleNewIndex", "collectionWithNewValue"]
-}),
+}; }),
 $globals.IndexableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAtIfPresent",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtIfPresent\x0a\x09| visited sentinel |\x0a\x09sentinel := Object new.\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: each ifPresent: [ :value1 | visited := value1. sentinel ]) equals: nil.\x0a\x09\x09self assert: visited isNil ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: index ifPresent: [ :value2 | visited := value2. sentinel ]) equals: sentinel.\x0a\x09\x09self assert: visited equals: (self collection at: index) ]",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "nonIndexesDo:", "assert:equals:", "at:ifPresent:", "collection", "assert:", "isNil", "samplesDo:", "at:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var visited,sentinel;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5444,22 +5361,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAtIfPresent",{visited:visited,sentinel:sentinel})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtIfPresent\x0a\x09| visited sentinel |\x0a\x09sentinel := Object new.\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: each ifPresent: [ :value1 | visited := value1. sentinel ]) equals: nil.\x0a\x09\x09self assert: visited isNil ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: index ifPresent: [ :value2 | visited := value2. sentinel ]) equals: sentinel.\x0a\x09\x09self assert: visited equals: (self collection at: index) ]",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "nonIndexesDo:", "assert:equals:", "at:ifPresent:", "collection", "assert:", "isNil", "samplesDo:", "at:"]
-}),
+}; }),
 $globals.IndexableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAtIfPresentIfAbsent",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtIfPresentIfAbsent\x0a\x09| visited sentinel |\x0a\x09sentinel := Object new.\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: each ifPresent: [ :value1 | visited := value1. sentinel ] ifAbsent: [ self sampleNewValue ] ) equals: self sampleNewValue.\x0a\x09\x09self assert: visited isNil ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: index ifPresent: [ :value2 | visited := value2. sentinel ] ifAbsent: [ self sampleNewValue ]) equals: sentinel.\x0a\x09\x09self assert: visited equals: (self collection at: index) ]",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "nonIndexesDo:", "assert:equals:", "at:ifPresent:ifAbsent:", "collection", "sampleNewValue", "assert:", "isNil", "samplesDo:", "at:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var visited,sentinel;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5543,22 +5459,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAtIfPresentIfAbsent",{visited:visited,sentinel:sentinel})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtIfPresentIfAbsent\x0a\x09| visited sentinel |\x0a\x09sentinel := Object new.\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: each ifPresent: [ :value1 | visited := value1. sentinel ] ifAbsent: [ self sampleNewValue ] ) equals: self sampleNewValue.\x0a\x09\x09self assert: visited isNil ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: index ifPresent: [ :value2 | visited := value2. sentinel ] ifAbsent: [ self sampleNewValue ]) equals: sentinel.\x0a\x09\x09self assert: visited equals: (self collection at: index) ]",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "nonIndexesDo:", "assert:equals:", "at:ifPresent:ifAbsent:", "collection", "sampleNewValue", "assert:", "isNil", "samplesDo:", "at:"]
-}),
+}; }),
 $globals.IndexableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAtPut",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtPut\x0a\x09| newCollection |\x0a\x09newCollection := self collection.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09newCollection at: index put: value ].\x0a\x09self assert: newCollection equals: self collection.\x0a\x09newCollection at: self sampleNewIndex put: self sampleNewValue.\x0a\x09self assert: newCollection equals: self collectionWithNewValue",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["collection", "samplesDo:", "at:put:", "assert:equals:", "sampleNewIndex", "sampleNewValue", "collectionWithNewValue"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var newCollection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5590,22 +5505,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAtPut",{newCollection:newCollection})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtPut\x0a\x09| newCollection |\x0a\x09newCollection := self collection.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09newCollection at: index put: value ].\x0a\x09self assert: newCollection equals: self collection.\x0a\x09newCollection at: self sampleNewIndex put: self sampleNewValue.\x0a\x09self assert: newCollection equals: self collectionWithNewValue",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["collection", "samplesDo:", "at:put:", "assert:equals:", "sampleNewIndex", "sampleNewValue", "collectionWithNewValue"]
-}),
+}; }),
 $globals.IndexableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIndexOf",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIndexOf\x0a\x09self should: [ self collection indexOf: self sampleNewValue ] raise: Error.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection indexOf: value) equals: index ]",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "indexOf:", "collection", "sampleNewValue", "samplesDo:", "assert:equals:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5640,22 +5554,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIndexOf",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIndexOf\x0a\x09self should: [ self collection indexOf: self sampleNewValue ] raise: Error.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection indexOf: value) equals: index ]",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "indexOf:", "collection", "sampleNewValue", "samplesDo:", "assert:equals:"]
-}),
+}; }),
 $globals.IndexableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIndexOfWithNull",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIndexOfWithNull\x0a\x09| jsNull |\x0a\x09jsNull := JSON parse: 'null'.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection at: index put: jsNull; indexOf: jsNull) equals: index ]",
+referencedClasses: ["JSON"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["parse:", "samplesDo:", "assert:equals:", "at:put:", "collection", "indexOf:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var jsNull;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5679,22 +5592,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIndexOfWithNull",{jsNull:jsNull})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIndexOfWithNull\x0a\x09| jsNull |\x0a\x09jsNull := JSON parse: 'null'.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection at: index put: jsNull; indexOf: jsNull) equals: index ]",
-referencedClasses: ["JSON"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["parse:", "samplesDo:", "assert:equals:", "at:put:", "collection", "indexOf:"]
-}),
+}; }),
 $globals.IndexableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testWithIndexDo",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testWithIndexDo\x0a\x09| collection |\x0a\x09collection := self collection.\x0a\x09\x0a\x09self collection withIndexDo: [ :each :index |\x0a\x09\x09self assert: (collection at: index) equals: each ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["collection", "withIndexDo:", "assert:equals:", "at:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var collection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -5717,15 +5629,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testWithIndexDo",{collection:collection})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testWithIndexDo\x0a\x09| collection |\x0a\x09collection := self collection.\x0a\x09\x0a\x09self collection withIndexDo: [ :each :index |\x0a\x09\x09self assert: (collection at: index) equals: each ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["collection", "withIndexDo:", "assert:equals:", "at:"]
-}),
+}; }),
 $globals.IndexableCollectionTest);
 
 
@@ -5735,7 +5639,14 @@ $core.addMethod(
 $core.method({
 selector: "collectionKeys",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionKeys\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5745,22 +5656,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionKeys",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionKeys\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}),
+}; }),
 $globals.AssociativeCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionValues",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionValues\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5770,22 +5680,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionValues",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionValues\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}),
+}; }),
 $globals.AssociativeCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "nonIndexesDo:",
 protocol: "fixture",
-fn: function (aBlock){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "nonIndexesDo: aBlock\x0a\x09aBlock value: 5.\x0a\x09aBlock value: [].\x0a\x09aBlock value: Object new.\x0a\x09aBlock value: 'z'",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["value:", "new"]
+}, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5809,26 +5718,13 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"nonIndexesDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "nonIndexesDo: aBlock\x0a\x09aBlock value: 5.\x0a\x09aBlock value: [].\x0a\x09aBlock value: Object new.\x0a\x09aBlock value: 'z'",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["value:", "new"]
-}),
+}; }),
 $globals.AssociativeCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "sampleNewIndex",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return "new";
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "sampleNewIndex\x0a\x09^ 'new'",
@@ -5836,14 +5732,25 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return "new";
+
+}; }),
 $globals.AssociativeCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "samplesDo:",
 protocol: "fixture",
-fn: function (aBlock){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "samplesDo: aBlock\x0a\x09aBlock value: 'a' value: 2",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["value:value:"]
+}, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5853,22 +5760,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"samplesDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "samplesDo: aBlock\x0a\x09aBlock value: 'a' value: 2",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["value:value:"]
-}),
+}; }),
 $globals.AssociativeCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAddAll",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAddAll\x0a\x09super testAddAll.\x0a\x09self assert: (self collection addAll: self collection; yourself) equals: self collection.\x0a\x09self assert: (self collection addAll: self collectionWithNewValue; yourself) equals: self collectionWithNewValue.\x0a\x09self assert: (self collectionWithNewValue addAll: self collection; yourself) equals: self collectionWithNewValue",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["testAddAll", "assert:equals:", "addAll:", "collection", "yourself", "collectionWithNewValue"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5943,22 +5849,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAddAll",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAddAll\x0a\x09super testAddAll.\x0a\x09self assert: (self collection addAll: self collection; yourself) equals: self collection.\x0a\x09self assert: (self collection addAll: self collectionWithNewValue; yourself) equals: self collectionWithNewValue.\x0a\x09self assert: (self collectionWithNewValue addAll: self collection; yourself) equals: self collectionWithNewValue",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["testAddAll", "assert:equals:", "addAll:", "collection", "yourself", "collectionWithNewValue"]
-}),
+}; }),
 $globals.AssociativeCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAsDictionary",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAsDictionary\x0aself assert: ( self collectionClass new asDictionary isMemberOf: Dictionary ).",
+referencedClasses: ["Dictionary"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "isMemberOf:", "asDictionary", "new", "collectionClass"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5968,22 +5873,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAsDictionary",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAsDictionary\x0aself assert: ( self collectionClass new asDictionary isMemberOf: Dictionary ).",
-referencedClasses: ["Dictionary"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "isMemberOf:", "asDictionary", "new", "collectionClass"]
-}),
+}; }),
 $globals.AssociativeCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAsHashedCollection",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAsHashedCollection\x0aself assert: ( self collectionClass new asHashedCollection isMemberOf: HashedCollection ).",
+referencedClasses: ["HashedCollection"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "isMemberOf:", "asHashedCollection", "new", "collectionClass"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -5993,22 +5897,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAsHashedCollection",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAsHashedCollection\x0aself assert: ( self collectionClass new asHashedCollection isMemberOf: HashedCollection ).",
-referencedClasses: ["HashedCollection"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "isMemberOf:", "asHashedCollection", "new", "collectionClass"]
-}),
+}; }),
 $globals.AssociativeCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testComma",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testComma\x0a\x09super testComma.\x0a\x09self assert: self collection, self collection equals: self collection.\x0a\x09self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.\x0a\x09self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["testComma", "assert:equals:", ",", "collection", "collectionWithNewValue"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6072,22 +5975,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testComma",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testComma\x0a\x09super testComma.\x0a\x09self assert: self collection, self collection equals: self collection.\x0a\x09self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.\x0a\x09self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["testComma", "assert:equals:", ",", "collection", "collectionWithNewValue"]
-}),
+}; }),
 $globals.AssociativeCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testFrom",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testFrom\x0a\x22Accept a collection of associations.\x22\x0a| associations |\x0aassociations := { 'a' -> 1. 'b' -> 2 }.\x0aself assertSameContents: ( self class collectionClass from: associations ) as: #{ 'a' -> 1. 'b' -> 2 }.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["->", "assertSameContents:as:", "from:", "collectionClass", "class"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var associations;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -6104,22 +6006,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testFrom",{associations:associations})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testFrom\x0a\x22Accept a collection of associations.\x22\x0a| associations |\x0aassociations := { 'a' -> 1. 'b' -> 2 }.\x0aself assertSameContents: ( self class collectionClass from: associations ) as: #{ 'a' -> 1. 'b' -> 2 }.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["->", "assertSameContents:as:", "from:", "collectionClass", "class"]
-}),
+}; }),
 $globals.AssociativeCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testKeys",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testKeys\x0a\x09self assert:self collectionClass new keys isEmpty.\x0a\x09self assertSameContents:self collection keys as: self collectionKeys.\x0a\x09self assertSameContents:self collectionWithNewValue keys as: self collectionKeys, { self sampleNewIndex }",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "isEmpty", "keys", "new", "collectionClass", "assertSameContents:as:", "collection", "collectionKeys", "collectionWithNewValue", ",", "sampleNewIndex"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6148,22 +6049,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testKeys",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testKeys\x0a\x09self assert:self collectionClass new keys isEmpty.\x0a\x09self assertSameContents:self collection keys as: self collectionKeys.\x0a\x09self assertSameContents:self collectionWithNewValue keys as: self collectionKeys, { self sampleNewIndex }",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "isEmpty", "keys", "new", "collectionClass", "assertSameContents:as:", "collection", "collectionKeys", "collectionWithNewValue", ",", "sampleNewIndex"]
-}),
+}; }),
 $globals.AssociativeCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testNewFromPairs",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNewFromPairs\x0a\x22Accept an array in which all odd indexes are keys and evens are values.\x22\x0a| flattenedAssociations |\x0aflattenedAssociations := { 'a'. 1. 'b'. 2 }.\x0aself assertSameContents: ( self class collectionClass newFromPairs: flattenedAssociations ) as: #{ 'a' -> 1. 'b' -> 2 }.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assertSameContents:as:", "newFromPairs:", "collectionClass", "class"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var flattenedAssociations;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -6175,22 +6075,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testNewFromPairs",{flattenedAssociations:flattenedAssociations})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testNewFromPairs\x0a\x22Accept an array in which all odd indexes are keys and evens are values.\x22\x0a| flattenedAssociations |\x0aflattenedAssociations := { 'a'. 1. 'b'. 2 }.\x0aself assertSameContents: ( self class collectionClass newFromPairs: flattenedAssociations ) as: #{ 'a' -> 1. 'b' -> 2 }.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assertSameContents:as:", "newFromPairs:", "collectionClass", "class"]
-}),
+}; }),
 $globals.AssociativeCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testPrintString",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPrintString\x0a\x09self\x0a\x09\x09assert: (self collectionClass new\x0a\x09\x09\x09\x09\x09\x09\x09at:'firstname' put: 'James';\x0a\x09\x09\x09\x09\x09\x09\x09at:'lastname' put: 'Bond';\x0a\x09\x09\x09\x09\x09\x09\x09printString)\x0a\x09\x09equals: 'a ', self collectionClass name, ' (''firstname'' -> ''James'' , ''lastname'' -> ''Bond'')'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "at:put:", "new", "collectionClass", "printString", ",", "name"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6216,22 +6115,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testPrintString",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testPrintString\x0a\x09self\x0a\x09\x09assert: (self collectionClass new\x0a\x09\x09\x09\x09\x09\x09\x09at:'firstname' put: 'James';\x0a\x09\x09\x09\x09\x09\x09\x09at:'lastname' put: 'Bond';\x0a\x09\x09\x09\x09\x09\x09\x09printString)\x0a\x09\x09equals: 'a ', self collectionClass name, ' (''firstname'' -> ''James'' , ''lastname'' -> ''Bond'')'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "at:put:", "new", "collectionClass", "printString", ",", "name"]
-}),
+}; }),
 $globals.AssociativeCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRemoveKey",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRemoveKey\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09| collection |\x0a\x09\x09collection := self collection.\x0a\x09\x09self should: [ collection removeKey: each ] raise: Error.\x0a\x09\x09self assert: collection equals: self collection ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09| collection |\x0a\x09\x09collection := self collection.\x0a\x09\x09self assert: (collection removeKey: index) equals: value.\x0a\x09\x09self deny: collection = self collection ].\x0a\x09self\x0a\x09\x09assert: (self collectionWithNewValue removeKey: self sampleNewIndex; yourself)\x0a\x09\x09equals: self collection",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["nonIndexesDo:", "collection", "should:raise:", "removeKey:", "assert:equals:", "samplesDo:", "deny:", "=", "collectionWithNewValue", "sampleNewIndex", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6307,22 +6205,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRemoveKey",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRemoveKey\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09| collection |\x0a\x09\x09collection := self collection.\x0a\x09\x09self should: [ collection removeKey: each ] raise: Error.\x0a\x09\x09self assert: collection equals: self collection ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09| collection |\x0a\x09\x09collection := self collection.\x0a\x09\x09self assert: (collection removeKey: index) equals: value.\x0a\x09\x09self deny: collection = self collection ].\x0a\x09self\x0a\x09\x09assert: (self collectionWithNewValue removeKey: self sampleNewIndex; yourself)\x0a\x09\x09equals: self collection",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["nonIndexesDo:", "collection", "should:raise:", "removeKey:", "assert:equals:", "samplesDo:", "deny:", "=", "collectionWithNewValue", "sampleNewIndex", "yourself"]
-}),
+}; }),
 $globals.AssociativeCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRemoveKeyIfAbsent",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRemoveKeyIfAbsent\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09| collection |\x0a\x09\x09collection := self collection.\x0a\x09\x09self assert: (collection removeKey: each ifAbsent: [ self sampleNewValue ]) equals: self sampleNewValue.\x0a\x09\x09self assert: collection equals: self collection ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09| collection |\x0a\x09\x09collection := self collection.\x0a\x09\x09self assert: (collection removeKey: index ifAbsent: [ self sampleNewValue ]) equals: value.\x0a\x09\x09self deny: collection = self collection ].\x0a\x09self\x0a\x09\x09assert: (self collectionWithNewValue removeKey: self sampleNewIndex ifAbsent: [ self assert: false ]; yourself)\x0a\x09\x09equals: self collection",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["nonIndexesDo:", "collection", "assert:equals:", "removeKey:ifAbsent:", "sampleNewValue", "samplesDo:", "deny:", "=", "collectionWithNewValue", "sampleNewIndex", "assert:", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6425,22 +6322,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRemoveKeyIfAbsent",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRemoveKeyIfAbsent\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09| collection |\x0a\x09\x09collection := self collection.\x0a\x09\x09self assert: (collection removeKey: each ifAbsent: [ self sampleNewValue ]) equals: self sampleNewValue.\x0a\x09\x09self assert: collection equals: self collection ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09| collection |\x0a\x09\x09collection := self collection.\x0a\x09\x09self assert: (collection removeKey: index ifAbsent: [ self sampleNewValue ]) equals: value.\x0a\x09\x09self deny: collection = self collection ].\x0a\x09self\x0a\x09\x09assert: (self collectionWithNewValue removeKey: self sampleNewIndex ifAbsent: [ self assert: false ]; yourself)\x0a\x09\x09equals: self collection",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["nonIndexesDo:", "collection", "assert:equals:", "removeKey:ifAbsent:", "sampleNewValue", "samplesDo:", "deny:", "=", "collectionWithNewValue", "sampleNewIndex", "assert:", "yourself"]
-}),
+}; }),
 $globals.AssociativeCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testValues",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testValues\x0a\x09self assert:self collectionClass new values isEmpty.\x0a\x09self assertSameContents:self collection values as: self collectionValues.\x0a\x09self assertSameContents:self collectionWithNewValue values as: self collectionValues, { self sampleNewValue }",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "isEmpty", "values", "new", "collectionClass", "assertSameContents:as:", "collection", "collectionValues", "collectionWithNewValue", ",", "sampleNewValue"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6469,15 +6365,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testValues",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testValues\x0a\x09self assert:self collectionClass new values isEmpty.\x0a\x09self assertSameContents:self collection values as: self collectionValues.\x0a\x09self assertSameContents:self collectionWithNewValue values as: self collectionValues, { self sampleNewValue }",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "isEmpty", "values", "new", "collectionClass", "assertSameContents:as:", "collection", "collectionValues", "collectionWithNewValue", ",", "sampleNewValue"]
-}),
+}; }),
 $globals.AssociativeCollectionTest);
 
 
@@ -6487,7 +6375,14 @@ $core.addMethod(
 $core.method({
 selector: "collection",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collection\x0a\x09^ Dictionary new\x0a\x09\x09at: 1 put: 1;\x0a\x09\x09at: 'a' put: 2;\x0a\x09\x09at: true put: 3;\x0a\x09\x09at: 1@3 put: -4;\x0a\x09\x09at: sampleBlock put: 9;\x0a\x09\x09yourself",
+referencedClasses: ["Dictionary"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:put:", "new", "@", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6515,22 +6410,21 @@ return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collection",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collection\x0a\x09^ Dictionary new\x0a\x09\x09at: 1 put: 1;\x0a\x09\x09at: 'a' put: 2;\x0a\x09\x09at: true put: 3;\x0a\x09\x09at: 1@3 put: -4;\x0a\x09\x09at: sampleBlock put: 9;\x0a\x09\x09yourself",
-referencedClasses: ["Dictionary"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["at:put:", "new", "@", "yourself"]
-}),
+}; }),
 $globals.DictionaryTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionKeys",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionKeys\x0a\x09^ {1. 'a'. true. 1@3. sampleBlock}",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["@"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6539,22 +6433,21 @@ return [(1),"a",true,(1).__at((3)),$self.sampleBlock];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionKeys",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionKeys\x0a\x09^ {1. 'a'. true. 1@3. sampleBlock}",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["@"]
-}),
+}; }),
 $globals.DictionaryTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionOfPrintStrings",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionOfPrintStrings\x0a\x09^ Dictionary new\x0a\x09\x09at: 1 put: '1';\x0a\x09\x09at: 'a' put: '2';\x0a\x09\x09at: true put: '3';\x0a\x09\x09at: 1@3 put: '-4';\x0a\x09\x09at: sampleBlock put: '9';\x0a\x09\x09yourself",
+referencedClasses: ["Dictionary"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:put:", "new", "@", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6582,26 +6475,13 @@ return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionOfPrintStrings",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionOfPrintStrings\x0a\x09^ Dictionary new\x0a\x09\x09at: 1 put: '1';\x0a\x09\x09at: 'a' put: '2';\x0a\x09\x09at: true put: '3';\x0a\x09\x09at: 1@3 put: '-4';\x0a\x09\x09at: sampleBlock put: '9';\x0a\x09\x09yourself",
-referencedClasses: ["Dictionary"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["at:put:", "new", "@", "yourself"]
-}),
+}; }),
 $globals.DictionaryTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionSize",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return (5);
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionSize\x0a\x09^ 5",
@@ -6609,18 +6489,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return (5);
+
+}; }),
 $globals.DictionaryTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionValues",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return [(1),(2),(3),(-4),(9)];
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionValues\x0a\x09^ {1. 2. 3. -4. 9}",
@@ -6628,14 +6507,25 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return [(1),(2),(3),(-4),(9)];
+
+}; }),
 $globals.DictionaryTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionWithDuplicates",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionWithDuplicates\x0a\x09^ Dictionary new\x0a\x09\x09at: 1 put: 1;\x0a\x09\x09at: 'a' put: 2;\x0a\x09\x09at: true put: 3;\x0a\x09\x09at: 4 put: -4;\x0a\x09\x09at: sampleBlock put: 9;\x0a\x09\x09at: 'b' put: 1;\x0a\x09\x09at: 3 put: 3;\x0a\x09\x09at: false put: 12;\x0a\x09\x09yourself",
+referencedClasses: ["Dictionary"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:put:", "new", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6675,22 +6565,21 @@ return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionWithDuplicates",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionWithDuplicates\x0a\x09^ Dictionary new\x0a\x09\x09at: 1 put: 1;\x0a\x09\x09at: 'a' put: 2;\x0a\x09\x09at: true put: 3;\x0a\x09\x09at: 4 put: -4;\x0a\x09\x09at: sampleBlock put: 9;\x0a\x09\x09at: 'b' put: 1;\x0a\x09\x09at: 3 put: 3;\x0a\x09\x09at: false put: 12;\x0a\x09\x09yourself",
-referencedClasses: ["Dictionary"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["at:put:", "new", "yourself"]
-}),
+}; }),
 $globals.DictionaryTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionWithNewValue",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionWithNewValue\x0a\x09^ Dictionary new\x0a\x09\x09at: 1 put: 1;\x0a\x09\x09at: 'a' put: 2;\x0a\x09\x09at: true put: 3;\x0a\x09\x09at: 1@3 put: -4;\x0a\x09\x09at: sampleBlock put: 9;\x0a\x09\x09at: 'new' put: 'N';\x0a\x09\x09yourself",
+referencedClasses: ["Dictionary"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:put:", "new", "@", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6722,22 +6611,21 @@ return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionWithNewValue",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionWithNewValue\x0a\x09^ Dictionary new\x0a\x09\x09at: 1 put: 1;\x0a\x09\x09at: 'a' put: 2;\x0a\x09\x09at: true put: 3;\x0a\x09\x09at: 1@3 put: -4;\x0a\x09\x09at: sampleBlock put: 9;\x0a\x09\x09at: 'new' put: 'N';\x0a\x09\x09yourself",
-referencedClasses: ["Dictionary"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["at:put:", "new", "@", "yourself"]
-}),
+}; }),
 $globals.DictionaryTest);
 
 $core.addMethod(
 $core.method({
 selector: "sampleNewValueAsCollection",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "sampleNewValueAsCollection\x0a\x09^ Dictionary new\x0a\x09\x09at: 'new' put: 'N';\x0a\x09\x09yourself",
+referencedClasses: ["Dictionary"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:put:", "new", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6749,22 +6637,21 @@ return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"sampleNewValueAsCollection",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "sampleNewValueAsCollection\x0a\x09^ Dictionary new\x0a\x09\x09at: 'new' put: 'N';\x0a\x09\x09yourself",
-referencedClasses: ["Dictionary"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["at:put:", "new", "yourself"]
-}),
+}; }),
 $globals.DictionaryTest);
 
 $core.addMethod(
 $core.method({
 selector: "samplesDo:",
 protocol: "fixture",
-fn: function (aBlock){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "samplesDo: aBlock\x0a\x09super samplesDo: aBlock.\x0a\x09aBlock value: true value: 3.\x0a\x09aBlock value: 1@3 value: -4.\x0a\x09aBlock value: sampleBlock value: 9",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["samplesDo:", "value:value:", "@"]
+}, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6790,22 +6677,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"samplesDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "samplesDo: aBlock\x0a\x09super samplesDo: aBlock.\x0a\x09aBlock value: true value: 3.\x0a\x09aBlock value: 1@3 value: -4.\x0a\x09aBlock value: sampleBlock value: 9",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["samplesDo:", "value:value:", "@"]
-}),
+}; }),
 $globals.DictionaryTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAccessing",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAccessing\x0a\x09| d |\x0a\x0a\x09d := Dictionary new.\x0a\x0a\x09d at: 'hello' put: 'world'.\x0a\x09self assert: (d at: 'hello') equals: 'world'.\x0a\x09self assert: (d at: 'hello' ifAbsent: [ nil ]) equals: 'world'.\x0a\x09self deny: (d at: 'foo' ifAbsent: [ nil ]) = 'world'.\x0a\x0a\x09self assert: (d includesKey: 'hello').\x0a\x09self deny: (d includesKey: 'foo').\x0a\x0a\x09d at: 1 put: 2.\x0a\x09self assert: (d at: 1) equals: 2.\x0a\x0a\x09d at: 1@3 put: 3.\x0a\x09self assert: (d at: 1@3) equals: 3.\x0a\x0a\x09self assert: (d includesKey: 1@3).\x0a\x09self deny: (d includesKey: 3@1)",
+referencedClasses: ["Dictionary"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "at:put:", "assert:equals:", "at:", "at:ifAbsent:", "deny:", "=", "assert:", "includesKey:", "@"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var d;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -6899,22 +6785,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAccessing",{d:d})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAccessing\x0a\x09| d |\x0a\x0a\x09d := Dictionary new.\x0a\x0a\x09d at: 'hello' put: 'world'.\x0a\x09self assert: (d at: 'hello') equals: 'world'.\x0a\x09self assert: (d at: 'hello' ifAbsent: [ nil ]) equals: 'world'.\x0a\x09self deny: (d at: 'foo' ifAbsent: [ nil ]) = 'world'.\x0a\x0a\x09self assert: (d includesKey: 'hello').\x0a\x09self deny: (d includesKey: 'foo').\x0a\x0a\x09d at: 1 put: 2.\x0a\x09self assert: (d at: 1) equals: 2.\x0a\x0a\x09d at: 1@3 put: 3.\x0a\x09self assert: (d at: 1@3) equals: 3.\x0a\x0a\x09self assert: (d includesKey: 1@3).\x0a\x09self deny: (d includesKey: 3@1)",
-referencedClasses: ["Dictionary"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "at:put:", "assert:equals:", "at:", "at:ifAbsent:", "deny:", "=", "assert:", "includesKey:", "@"]
-}),
+}; }),
 $globals.DictionaryTest);
 
 $core.addMethod(
 $core.method({
 selector: "testDynamicDictionaries",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDynamicDictionaries\x0a\x09self assert: #{'hello' -> 1} asDictionary equals: (Dictionary with: 'hello' -> 1)",
+referencedClasses: ["Dictionary"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "asDictionary", "with:", "->"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -6924,15 +6809,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testDynamicDictionaries",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testDynamicDictionaries\x0a\x09self assert: #{'hello' -> 1} asDictionary equals: (Dictionary with: 'hello' -> 1)",
-referencedClasses: ["Dictionary"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "asDictionary", "with:", "->"]
-}),
+}; }),
 $globals.DictionaryTest);
 
 
@@ -6940,11 +6817,6 @@ $core.addMethod(
 $core.method({
 selector: "collectionClass",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return $globals.Dictionary;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionClass\x0a\x09^ Dictionary",
@@ -6952,7 +6824,11 @@ referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.Dictionary;
+
+}; }),
 $globals.DictionaryTest.a$cls);
 
 
@@ -6961,11 +6837,6 @@ $core.addMethod(
 $core.method({
 selector: "collection",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return $globals.HashedCollection._newFromPairs_(["b",(1),"a",(2),"c",(3),"d",(-4)]);
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collection\x0a\x09^ #{ 'b' -> 1. 'a' -> 2. 'c' -> 3. 'd' -> -4 }",
@@ -6973,18 +6844,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.HashedCollection._newFromPairs_(["b",(1),"a",(2),"c",(3),"d",(-4)]);
+
+}; }),
 $globals.HashedCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionKeys",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return ["b","a","c","d"];
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionKeys\x0a\x09^ { 'b'. 'a'. 'c'. 'd' }",
@@ -6992,18 +6862,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return ["b","a","c","d"];
+
+}; }),
 $globals.HashedCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionOfPrintStrings",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return $globals.HashedCollection._newFromPairs_(["b","1","a","2","c","3","d","-4"]);
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionOfPrintStrings\x0a\x09^ #{ 'b' -> '1'. 'a' -> '2'. 'c' -> '3'. 'd' -> '-4' }",
@@ -7011,18 +6880,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.HashedCollection._newFromPairs_(["b","1","a","2","c","3","d","-4"]);
+
+}; }),
 $globals.HashedCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionSize",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return (4);
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionSize\x0a\x09^ 4",
@@ -7030,18 +6898,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return (4);
+
+}; }),
 $globals.HashedCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionValues",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return [(1),(2),(3),(-4)];
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionValues\x0a\x09^ { 1. 2. 3. -4 }",
@@ -7049,18 +6916,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return [(1),(2),(3),(-4)];
+
+}; }),
 $globals.HashedCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionWithDuplicates",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return $globals.HashedCollection._newFromPairs_(["b",(1),"a",(2),"c",(3),"d",(-4),"e",(1),"f",(2),"g",(10),"h",(0)]);
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionWithDuplicates\x0a\x09^ #{ 'b' -> 1. 'a' -> 2. 'c' -> 3. 'd' -> -4. 'e' -> 1. 'f' -> 2. 'g' -> 10. 'h' -> 0 }",
@@ -7068,18 +6934,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.HashedCollection._newFromPairs_(["b",(1),"a",(2),"c",(3),"d",(-4),"e",(1),"f",(2),"g",(10),"h",(0)]);
+
+}; }),
 $globals.HashedCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionWithNewValue",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return $globals.HashedCollection._newFromPairs_(["b",(1),"a",(2),"c",(3),"d",(-4),"new","N"]);
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionWithNewValue\x0a\x09^ #{ 'b' -> 1. 'a' -> 2. 'c' -> 3. 'd' -> -4. 'new' -> 'N' }",
@@ -7087,18 +6952,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.HashedCollection._newFromPairs_(["b",(1),"a",(2),"c",(3),"d",(-4),"new","N"]);
+
+}; }),
 $globals.HashedCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "sampleNewValueAsCollection",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return $globals.HashedCollection._newFromPairs_(["new","N"]);
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "sampleNewValueAsCollection\x0a\x09^ #{ 'new' -> 'N' }",
@@ -7106,14 +6970,25 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.HashedCollection._newFromPairs_(["new","N"]);
+
+}; }),
 $globals.HashedCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testDynamicDictionaries",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDynamicDictionaries\x0a\x09self assert: #{'hello' -> 1} asHashedCollection equals: (HashedCollection with: 'hello' -> 1)",
+referencedClasses: ["HashedCollection"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "asHashedCollection", "with:", "->"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -7123,15 +6998,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testDynamicDictionaries",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testDynamicDictionaries\x0a\x09self assert: #{'hello' -> 1} asHashedCollection equals: (HashedCollection with: 'hello' -> 1)",
-referencedClasses: ["HashedCollection"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "asHashedCollection", "with:", "->"]
-}),
+}; }),
 $globals.HashedCollectionTest);
 
 
@@ -7139,11 +7006,6 @@ $core.addMethod(
 $core.method({
 selector: "collectionClass",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return $globals.HashedCollection;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionClass\x0a\x09^ HashedCollection",
@@ -7151,7 +7013,11 @@ referencedClasses: ["HashedCollection"],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.HashedCollection;
+
+}; }),
 $globals.HashedCollectionTest.a$cls);
 
 
@@ -7160,7 +7026,14 @@ $core.addMethod(
 $core.method({
 selector: "collectionFirst",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionFirst\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -7170,22 +7043,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionFirst",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionFirst\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}),
+}; }),
 $globals.SequenceableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionFirstTwo",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionFirstTwo\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -7195,22 +7067,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionFirstTwo",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionFirstTwo\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}),
+}; }),
 $globals.SequenceableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionLast",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionLast\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -7220,22 +7091,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionLast",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionLast\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}),
+}; }),
 $globals.SequenceableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionLastTwo",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionLastTwo\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -7245,22 +7115,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionLastTwo",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionLastTwo\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}),
+}; }),
 $globals.SequenceableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "nonIndexesDo:",
 protocol: "fixture",
-fn: function (aBlock){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "nonIndexesDo: aBlock\x0a\x09aBlock value: 0.\x0a\x09aBlock value: self collectionSize + 1.\x0a\x09aBlock value: 'z'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["value:", "+", "collectionSize"]
+}, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -7278,22 +7147,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"nonIndexesDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "nonIndexesDo: aBlock\x0a\x09aBlock value: 0.\x0a\x09aBlock value: self collectionSize + 1.\x0a\x09aBlock value: 'z'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["value:", "+", "collectionSize"]
-}),
+}; }),
 $globals.SequenceableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "samplesDo:",
 protocol: "fixture",
-fn: function (aBlock){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "samplesDo: aBlock\x0a\x09aBlock value: 1 value: self collectionFirst.\x0a\x09aBlock value: self collectionSize value: self collectionLast",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["value:value:", "collectionFirst", "collectionSize", "collectionLast"]
+}, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -7307,22 +7175,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"samplesDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "samplesDo: aBlock\x0a\x09aBlock value: 1 value: self collectionFirst.\x0a\x09aBlock value: self collectionSize value: self collectionLast",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["value:value:", "collectionFirst", "collectionSize", "collectionLast"]
-}),
+}; }),
 $globals.SequenceableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testBeginsWith",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testBeginsWith\x0a\x09self assert: (self collection beginsWith: self collectionClass new).\x0a\x09self assert: (self collection beginsWith: self collection).\x0a\x09self assert: (self collection beginsWith: self collectionFirstTwo).\x0a\x09self deny: (self collection beginsWith: self collectionLastTwo)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "beginsWith:", "collection", "new", "collectionClass", "collectionFirstTwo", "deny:", "collectionLastTwo"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -7370,22 +7237,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testBeginsWith",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testBeginsWith\x0a\x09self assert: (self collection beginsWith: self collectionClass new).\x0a\x09self assert: (self collection beginsWith: self collection).\x0a\x09self assert: (self collection beginsWith: self collectionFirstTwo).\x0a\x09self deny: (self collection beginsWith: self collectionLastTwo)",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "beginsWith:", "collection", "new", "collectionClass", "collectionFirstTwo", "deny:", "collectionLastTwo"]
-}),
+}; }),
 $globals.SequenceableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testEndsWith",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testEndsWith\x0a\x09self assert: (self collection endsWith: self collectionClass new).\x0a\x09self assert: (self collection endsWith: self collection).\x0a\x09self assert: (self collection endsWith: self collectionLastTwo).\x0a\x09self deny: (self collection endsWith: self collectionFirstTwo)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "endsWith:", "collection", "new", "collectionClass", "collectionLastTwo", "deny:", "collectionFirstTwo"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -7433,22 +7299,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testEndsWith",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testEndsWith\x0a\x09self assert: (self collection endsWith: self collectionClass new).\x0a\x09self assert: (self collection endsWith: self collection).\x0a\x09self assert: (self collection endsWith: self collectionLastTwo).\x0a\x09self deny: (self collection endsWith: self collectionFirstTwo)",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "endsWith:", "collection", "new", "collectionClass", "collectionLastTwo", "deny:", "collectionFirstTwo"]
-}),
+}; }),
 $globals.SequenceableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testFirst",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testFirst\x0a\x09self assert: self collection first equals: self collectionFirst",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "first", "collection", "collectionFirst"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -7458,22 +7323,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testFirst",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testFirst\x0a\x09self assert: self collection first equals: self collectionFirst",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "first", "collection", "collectionFirst"]
-}),
+}; }),
 $globals.SequenceableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testFirstN",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testFirstN\x0a\x09self \x0a\x09\x09assert: (self collection first: 2)\x0a\x09\x09equals: self collectionFirstTwo.\x0a\x09\x09\x0a\x09self\x0a\x09\x09assert: (self collection first: 0)\x0a\x09\x09equals: self collectionClass new.\x0a\x09\x09\x0a\x09self\x0a\x09\x09assert: (self collection first: self collectionSize)\x0a\x09\x09equals: self collection.\x0a\x09\x09\x0a\x09self should: [ self collection first: 33 ] raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "first:", "collection", "collectionFirstTwo", "new", "collectionClass", "collectionSize", "should:raise:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -7529,22 +7393,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testFirstN",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testFirstN\x0a\x09self \x0a\x09\x09assert: (self collection first: 2)\x0a\x09\x09equals: self collectionFirstTwo.\x0a\x09\x09\x0a\x09self\x0a\x09\x09assert: (self collection first: 0)\x0a\x09\x09equals: self collectionClass new.\x0a\x09\x09\x0a\x09self\x0a\x09\x09assert: (self collection first: self collectionSize)\x0a\x09\x09equals: self collection.\x0a\x09\x09\x0a\x09self should: [ self collection first: 33 ] raise: Error",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "first:", "collection", "collectionFirstTwo", "new", "collectionClass", "collectionSize", "should:raise:"]
-}),
+}; }),
 $globals.SequenceableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testFourth",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testFourth\x0a\x09self assert: (self collection fourth) equals: (self collection at: 4)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "fourth", "collection", "at:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -7560,22 +7423,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testFourth",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testFourth\x0a\x09self assert: (self collection fourth) equals: (self collection at: 4)",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "fourth", "collection", "at:"]
-}),
+}; }),
 $globals.SequenceableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIndexOfStartingAt",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIndexOfStartingAt\x0a\x09| jsNull |\x0a\x09jsNull := JSON parse: 'null'.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection indexOf: value startingAt: 1) equals: index.\x0a\x09\x09self assert: (self collection indexOf: value startingAt: index) equals: index.\x0a\x09\x09self assert: (self collection indexOf: value startingAt: index+1) equals: 0 ]",
+referencedClasses: ["JSON"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["parse:", "samplesDo:", "assert:equals:", "indexOf:startingAt:", "collection", "+"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var jsNull;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -7620,22 +7482,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIndexOfStartingAt",{jsNull:jsNull})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIndexOfStartingAt\x0a\x09| jsNull |\x0a\x09jsNull := JSON parse: 'null'.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection indexOf: value startingAt: 1) equals: index.\x0a\x09\x09self assert: (self collection indexOf: value startingAt: index) equals: index.\x0a\x09\x09self assert: (self collection indexOf: value startingAt: index+1) equals: 0 ]",
-referencedClasses: ["JSON"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["parse:", "samplesDo:", "assert:equals:", "indexOf:startingAt:", "collection", "+"]
-}),
+}; }),
 $globals.SequenceableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIndexOfStartingAtWithNull",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIndexOfStartingAtWithNull\x0a\x09| jsNull |\x0a\x09jsNull := JSON parse: 'null'.\x0a\x09self samplesDo: [ :index :value | | collection |\x0a\x09\x09collection := self collection.\x0a\x09\x09collection at: index put: jsNull.\x0a\x09\x09self assert: (collection indexOf: jsNull startingAt: 1) equals: index.\x0a\x09\x09self assert: (collection indexOf: jsNull startingAt: index) equals: index.\x0a\x09\x09self assert: (collection indexOf: jsNull startingAt: index+1) equals: 0 ]",
+referencedClasses: ["JSON"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["parse:", "samplesDo:", "collection", "at:put:", "assert:equals:", "indexOf:startingAt:", "+"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var jsNull;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -7675,22 +7536,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIndexOfStartingAtWithNull",{jsNull:jsNull})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIndexOfStartingAtWithNull\x0a\x09| jsNull |\x0a\x09jsNull := JSON parse: 'null'.\x0a\x09self samplesDo: [ :index :value | | collection |\x0a\x09\x09collection := self collection.\x0a\x09\x09collection at: index put: jsNull.\x0a\x09\x09self assert: (collection indexOf: jsNull startingAt: 1) equals: index.\x0a\x09\x09self assert: (collection indexOf: jsNull startingAt: index) equals: index.\x0a\x09\x09self assert: (collection indexOf: jsNull startingAt: index+1) equals: 0 ]",
-referencedClasses: ["JSON"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["parse:", "samplesDo:", "collection", "at:put:", "assert:equals:", "indexOf:startingAt:", "+"]
-}),
+}; }),
 $globals.SequenceableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testLast",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testLast\x0a\x09self assert: self collection last equals: self collectionLast",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "last", "collection", "collectionLast"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -7700,22 +7560,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testLast",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testLast\x0a\x09self assert: self collection last equals: self collectionLast",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "last", "collection", "collectionLast"]
-}),
+}; }),
 $globals.SequenceableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testLastN",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testLastN\x0a\x09self \x0a\x09\x09assert: (self collection last: 2) \x0a\x09\x09equals: self collectionLastTwo.\x0a\x09\x09\x0a\x09self\x0a\x09\x09assert: (self collection last: 0)\x0a\x09\x09equals: self collectionClass new.\x0a\x0a\x09self\x0a\x09\x09assert: (self collection last: self collectionSize)\x0a\x09\x09equals: self collection.\x0a\x0a\x09self should: [ self collection last: 33 ] raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "last:", "collection", "collectionLastTwo", "new", "collectionClass", "collectionSize", "should:raise:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -7771,22 +7630,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testLastN",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testLastN\x0a\x09self \x0a\x09\x09assert: (self collection last: 2) \x0a\x09\x09equals: self collectionLastTwo.\x0a\x09\x09\x0a\x09self\x0a\x09\x09assert: (self collection last: 0)\x0a\x09\x09equals: self collectionClass new.\x0a\x0a\x09self\x0a\x09\x09assert: (self collection last: self collectionSize)\x0a\x09\x09equals: self collection.\x0a\x0a\x09self should: [ self collection last: 33 ] raise: Error",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "last:", "collection", "collectionLastTwo", "new", "collectionClass", "collectionSize", "should:raise:"]
-}),
+}; }),
 $globals.SequenceableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testSecond",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSecond\x0a\x09self assert: (self collection second) equals: (self collection at: 2)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "second", "collection", "at:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -7802,22 +7660,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testSecond",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testSecond\x0a\x09self assert: (self collection second) equals: (self collection at: 2)",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "second", "collection", "at:"]
-}),
+}; }),
 $globals.SequenceableCollectionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testThird",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testThird\x0a\x09self assert: (self collection third) equals: (self collection at: 3)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "third", "collection", "at:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -7833,15 +7690,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testThird",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testThird\x0a\x09self assert: (self collection third) equals: (self collection at: 3)",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "third", "collection", "at:"]
-}),
+}; }),
 $globals.SequenceableCollectionTest);
 
 
@@ -7851,11 +7700,6 @@ $core.addMethod(
 $core.method({
 selector: "collection",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return [(1), (2), (3), (-4)];
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collection\x0a\x09^ #(1 2 3 -4)",
@@ -7863,18 +7707,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return [(1), (2), (3), (-4)];
+
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionFirst",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return (1);
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionFirst\x0a\x09^ 1",
@@ -7882,18 +7725,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return (1);
+
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionFirstTwo",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return [(1), (2)];
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionFirstTwo\x0a\x09^ #(1 2)",
@@ -7901,18 +7743,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return [(1), (2)];
+
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionLast",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return (-4);
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionLast\x0a\x09^ -4",
@@ -7920,18 +7761,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return (-4);
+
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionLastTwo",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return [(3), (-4)];
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionLastTwo\x0a\x09^ #(3 -4)",
@@ -7939,18 +7779,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return [(3), (-4)];
+
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionOfPrintStrings",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return ["1", "2", "3", "-4"];
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionOfPrintStrings\x0a\x09^ #('1' '2' '3' '-4')",
@@ -7958,18 +7797,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return ["1", "2", "3", "-4"];
+
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionSize",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return (4);
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionSize\x0a\x09^ 4",
@@ -7977,18 +7815,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return (4);
+
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionWithDuplicates",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return ["a", "b", "c", (1), (2), (1), "a", []];
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionWithDuplicates\x0a\x09^ #('a' 'b' 'c' 1 2 1 'a' ())",
@@ -7996,18 +7833,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return ["a", "b", "c", (1), (2), (1), "a", []];
+
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionWithNewValue",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return [(1), (2), (3), (-4), "N"];
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionWithNewValue\x0a\x09^ #(1 2 3 -4 'N')",
@@ -8015,18 +7851,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return [(1), (2), (3), (-4), "N"];
+
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "sampleNewIndex",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return (5);
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "sampleNewIndex\x0a\x09^ 5",
@@ -8034,14 +7869,25 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return (5);
+
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "samplesDo:",
 protocol: "fixture",
-fn: function (aBlock){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "samplesDo: aBlock\x0a\x09super samplesDo: aBlock.\x0a\x09aBlock value: 3 value: 3.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["samplesDo:", "value:value:"]
+}, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -8059,22 +7905,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"samplesDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "samplesDo: aBlock\x0a\x09super samplesDo: aBlock.\x0a\x09aBlock value: 3 value: 3.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["samplesDo:", "value:value:"]
-}),
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAdd",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAdd \x0a\x09| array | \x0a\x09array := self collection. \x0a\x09array add: 6.\x0a\x09\x0a\x09self assert: array last equals: 6",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["collection", "add:", "assert:equals:", "last"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var array;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -8087,22 +7932,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAdd",{array:array})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAdd \x0a\x09| array | \x0a\x09array := self collection. \x0a\x09array add: 6.\x0a\x09\x0a\x09self assert: array last equals: 6",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["collection", "add:", "assert:equals:", "last"]
-}),
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAddFirst",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAddFirst\x0a\x09self assert: (self collection addFirst: 0; yourself) first equals: 0",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "first", "addFirst:", "collection", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -8117,22 +7961,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAddFirst",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAddFirst\x0a\x09self assert: (self collection addFirst: 0; yourself) first equals: 0",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "first", "addFirst:", "collection", "yourself"]
-}),
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "testPrintString",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPrintString\x0a\x09| array |\x0a\x09array := Array new.\x0a\x09self assert: array printString equals: 'an Array ()'.\x0a\x09array add: 1; add: 3.\x0a\x09self assert: array printString equals: 'an Array (1 3)'.\x0a\x09array add: 'foo'.\x0a\x09self assert: array printString equals: 'an Array (1 3 ''foo'')'.\x0a\x09array remove: 1; remove: 3.\x0a\x09self assert: array printString equals: 'an Array (''foo'')'.\x0a\x09array addLast: 3.\x0a\x09self assert: array printString equals: 'an Array (''foo'' 3)'.\x0a\x09array addLast: 3.\x0a\x09self assert: array printString equals: 'an Array (''foo'' 3 3)'.",
+referencedClasses: ["Array"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "assert:equals:", "printString", "add:", "remove:", "addLast:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var array;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -8206,22 +8049,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testPrintString",{array:array})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testPrintString\x0a\x09| array |\x0a\x09array := Array new.\x0a\x09self assert: array printString equals: 'an Array ()'.\x0a\x09array add: 1; add: 3.\x0a\x09self assert: array printString equals: 'an Array (1 3)'.\x0a\x09array add: 'foo'.\x0a\x09self assert: array printString equals: 'an Array (1 3 ''foo'')'.\x0a\x09array remove: 1; remove: 3.\x0a\x09self assert: array printString equals: 'an Array (''foo'')'.\x0a\x09array addLast: 3.\x0a\x09self assert: array printString equals: 'an Array (''foo'' 3)'.\x0a\x09array addLast: 3.\x0a\x09self assert: array printString equals: 'an Array (''foo'' 3 3)'.",
-referencedClasses: ["Array"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "assert:equals:", "printString", "add:", "remove:", "addLast:"]
-}),
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRemove",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRemove \x0a\x09| array |\x0a\x09array := #(1 2 3 4 5). \x0a\x09array remove: 3.\x0a\x0a\x09self assert: array equals: #(1 2 4 5).\x0a\x09self should: [ array remove: 3 ] raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["remove:", "assert:equals:", "should:raise:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var array;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -8246,22 +8088,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRemove",{array:array})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRemove \x0a\x09| array |\x0a\x09array := #(1 2 3 4 5). \x0a\x09array remove: 3.\x0a\x0a\x09self assert: array equals: #(1 2 4 5).\x0a\x09self should: [ array remove: 3 ] raise: Error",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["remove:", "assert:equals:", "should:raise:"]
-}),
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRemoveFromTo",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRemoveFromTo\x0a\x09\x0a\x09self assert: (#(1 2 3 4) removeFrom: 1 to: 3) equals: #(4).\x0a\x09self assert: (#(1 2 3 4) removeFrom: 2 to: 3) equals: #(1 4).\x0a\x09self assert: (#(1 2 3 4) removeFrom: 2 to: 4) equals: #(1)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "removeFrom:to:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -8288,22 +8129,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRemoveFromTo",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRemoveFromTo\x0a\x09\x0a\x09self assert: (#(1 2 3 4) removeFrom: 1 to: 3) equals: #(4).\x0a\x09self assert: (#(1 2 3 4) removeFrom: 2 to: 3) equals: #(1 4).\x0a\x09self assert: (#(1 2 3 4) removeFrom: 2 to: 4) equals: #(1)",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "removeFrom:to:"]
-}),
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRemoveIndex",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRemoveIndex\x0a\x09\x0a\x09self assert: (#(1 2 3 4) removeIndex: 2) equals: #(1 3 4).\x0a\x09self assert: (#(1 2 3 4) removeIndex: 1) equals: #(2 3 4).\x0a\x09self assert: (#('hello') removeIndex: 1) equals: #()",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "removeIndex:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -8330,22 +8170,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRemoveIndex",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRemoveIndex\x0a\x09\x0a\x09self assert: (#(1 2 3 4) removeIndex: 2) equals: #(1 3 4).\x0a\x09self assert: (#(1 2 3 4) removeIndex: 1) equals: #(2 3 4).\x0a\x09self assert: (#('hello') removeIndex: 1) equals: #()",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "removeIndex:"]
-}),
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRemoveLast",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRemoveLast \x0a\x09| array |\x0a\x09array := #(1 2). \x0a\x09array removeLast.\x0a\x09\x0a\x09self assert: array last equals: 1",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["removeLast", "assert:equals:", "last"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var array;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -8358,22 +8197,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRemoveLast",{array:array})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRemoveLast \x0a\x09| array |\x0a\x09array := #(1 2). \x0a\x09array removeLast.\x0a\x09\x0a\x09self assert: array last equals: 1",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["removeLast", "assert:equals:", "last"]
-}),
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "testReversed",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testReversed\x0a\x09|array|\x0a\x09array := #(5 4 3 2 1). \x0a\x09self assert: (array reversed) equals: #(1 2 3 4 5)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "reversed"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var array;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -8385,22 +8223,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testReversed",{array:array})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testReversed\x0a\x09|array|\x0a\x09array := #(5 4 3 2 1). \x0a\x09self assert: (array reversed) equals: #(1 2 3 4 5)",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "reversed"]
-}),
+}; }),
 $globals.ArrayTest);
 
 $core.addMethod(
 $core.method({
 selector: "testSort",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSort\x0a\x09| array |\x0a\x09array := #(10 1 5). \x0a\x09array sort.\x0a\x09self assert: array equals: #(1 5 10)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["sort", "assert:equals:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var array;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -8413,15 +8250,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testSort",{array:array})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testSort\x0a\x09| array |\x0a\x09array := #(10 1 5). \x0a\x09array sort.\x0a\x09self assert: array equals: #(1 5 10)",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["sort", "assert:equals:"]
-}),
+}; }),
 $globals.ArrayTest);
 
 
@@ -8429,11 +8258,6 @@ $core.addMethod(
 $core.method({
 selector: "collectionClass",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return $globals.Array;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionClass\x0a\x09^ Array",
@@ -8441,7 +8265,11 @@ referencedClasses: ["Array"],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.Array;
+
+}; }),
 $globals.ArrayTest.a$cls);
 
 
@@ -8450,11 +8278,6 @@ $core.addMethod(
 $core.method({
 selector: "collection",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return "helLo";
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collection\x0a\x09^ 'helLo'",
@@ -8462,18 +8285,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return "helLo";
+
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionFirst",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return "h";
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionFirst\x0a\x09^ 'h'",
@@ -8481,18 +8303,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return "h";
+
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionFirstTwo",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return "he";
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionFirstTwo\x0a\x09^ 'he'",
@@ -8500,18 +8321,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return "he";
+
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionLast",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return "o";
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionLast\x0a\x09^ 'o'",
@@ -8519,18 +8339,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return "o";
+
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionLastTwo",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return "Lo";
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionLastTwo\x0a\x09^ 'Lo'",
@@ -8538,18 +8357,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return "Lo";
+
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionOfPrintStrings",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return "'h''e''l''L''o'";
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionOfPrintStrings\x0a\x09^ '''h''''e''''l''''L''''o'''",
@@ -8557,18 +8375,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return "'h''e''l''L''o'";
+
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionSize",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return (5);
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionSize\x0a\x09^ 5",
@@ -8576,18 +8393,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return (5);
+
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionWithDuplicates",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return "abbaerten";
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionWithDuplicates\x0a\x09^ 'abbaerten'",
@@ -8595,18 +8411,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return "abbaerten";
+
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionWithNewValue",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return "helLoN";
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionWithNewValue\x0a\x09^ 'helLoN'",
@@ -8614,18 +8429,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return "helLoN";
+
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "sampleNewValueAsCollection",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return "N";
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "sampleNewValueAsCollection\x0a\x09^ 'N'",
@@ -8633,14 +8447,25 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return "N";
+
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "samplesDo:",
 protocol: "fixture",
-fn: function (aBlock){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "samplesDo: aBlock\x0a\x09super samplesDo: aBlock.\x0a\x09aBlock value: 3 value: 'l'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["samplesDo:", "value:value:"]
+}, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -8658,22 +8483,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"samplesDo:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "samplesDo: aBlock\x0a\x09super samplesDo: aBlock.\x0a\x09aBlock value: 3 value: 'l'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["samplesDo:", "value:value:"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAddAll",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAddAll\x0a\x09\x22String instances are read-only\x22\x0a\x09self should: [ self collection addAll: self collection ] raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "addAll:", "collection"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -8696,22 +8520,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAddAll",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAddAll\x0a\x09\x22String instances are read-only\x22\x0a\x09self should: [ self collection addAll: self collection ] raise: Error",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "addAll:", "collection"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAddRemove",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAddRemove\x0a\x09self should: [ 'hello' add: 'a' ] raise: Error.\x0a\x09self should: [ 'hello' remove: 'h' ] raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "add:", "remove:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -8741,22 +8564,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAddRemove",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAddRemove\x0a\x09self should: [ 'hello' add: 'a' ] raise: Error.\x0a\x09self should: [ 'hello' remove: 'h' ] raise: Error",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "add:", "remove:"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAsArray",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAsArray\x0a\x09self assert: 'hello' asArray equals: #('h' 'e' 'l' 'l' 'o').",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "asArray"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -8766,22 +8588,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAsArray",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAsArray\x0a\x09self assert: 'hello' asArray equals: #('h' 'e' 'l' 'l' 'o').",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "asArray"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAsLowerCase",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAsLowerCase\x0a\x09self assert: 'JACKIE' asLowercase equals: 'jackie'.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "asLowercase"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -8791,22 +8612,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAsLowerCase",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAsLowerCase\x0a\x09self assert: 'JACKIE' asLowercase equals: 'jackie'.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "asLowercase"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAsNumber",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAsNumber\x0a\x09self assert: '3' asNumber equals: 3.\x0a\x09self assert: '-3' asNumber equals: -3.\x0a\x09self assert: '-1.5' asNumber equals: -1.5.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "asNumber"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -8833,22 +8653,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAsNumber",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAsNumber\x0a\x09self assert: '3' asNumber equals: 3.\x0a\x09self assert: '-3' asNumber equals: -3.\x0a\x09self assert: '-1.5' asNumber equals: -1.5.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "asNumber"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAsUpperCase",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAsUpperCase\x0a\x09self assert: 'jackie' asUppercase equals: 'JACKIE'.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "asUppercase"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -8858,22 +8677,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAsUpperCase",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAsUpperCase\x0a\x09self assert: 'jackie' asUppercase equals: 'JACKIE'.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "asUppercase"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAsciiValue",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAsciiValue\x0a    | characterA characterU |\x0a    characterA := 'A'.\x0a    characterU := 'U'.\x0a    self assert: (characterA asciiValue) equals:65.\x0a    self assert: (characterU asciiValue) equals:85",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "asciiValue"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var characterA,characterU;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -8895,22 +8713,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAsciiValue",{characterA:characterA,characterU:characterU})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAsciiValue\x0a    | characterA characterU |\x0a    characterA := 'A'.\x0a    characterU := 'U'.\x0a    self assert: (characterA asciiValue) equals:65.\x0a    self assert: (characterU asciiValue) equals:85",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "asciiValue"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAtIfAbsentPut",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtIfAbsentPut\x0a\x09\x22String instances are read-only\x22\x0a\x09self should: [ 'hello' at: 6 ifAbsentPut: [ 'a' ] ] raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "at:ifAbsentPut:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -8931,22 +8748,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAtIfAbsentPut",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtIfAbsentPut\x0a\x09\x22String instances are read-only\x22\x0a\x09self should: [ 'hello' at: 6 ifAbsentPut: [ 'a' ] ] raise: Error",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "at:ifAbsentPut:"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAtPut",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtPut\x0a\x09\x22String instances are read-only\x22\x0a\x09self should: [ 'hello' at: 1 put: 'a' ] raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "at:put:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -8964,22 +8780,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAtPut",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtPut\x0a\x09\x22String instances are read-only\x22\x0a\x09self should: [ 'hello' at: 1 put: 'a' ] raise: Error",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "at:put:"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testCapitalized",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCapitalized\x0a\x09self assert: 'test' capitalized equals: 'Test'.\x0a\x09self assert: 'Test' capitalized equals: 'Test'.\x0a\x09self assert: '' capitalized equals: ''.\x0a\x09self assert: 'Test' isCapitalized equals: true.\x0a\x09self assert: 'test' isCapitalized equals: false.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "capitalized", "isCapitalized"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9018,22 +8833,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCapitalized",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testCapitalized\x0a\x09self assert: 'test' capitalized equals: 'Test'.\x0a\x09self assert: 'Test' capitalized equals: 'Test'.\x0a\x09self assert: '' capitalized equals: ''.\x0a\x09self assert: 'Test' isCapitalized equals: true.\x0a\x09self assert: 'test' isCapitalized equals: false.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "capitalized", "isCapitalized"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testCharCodeAt",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCharCodeAt\x0a\x09self assert: ('jackie' charCodeAt:1) equals: 106.\x0a\x09self assert: ('jackie' charCodeAt:2) equals: 97.\x0a\x09self assert: ('jackie' charCodeAt:3) equals: 99.\x0a\x09self assert: ('jackie' charCodeAt:4) equals: 107.\x0a\x09self assert: ('jackie' charCodeAt:5) equals: 105.\x0a\x09self assert: ('jackie' charCodeAt:6) equals: 101",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "charCodeAt:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9084,22 +8898,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCharCodeAt",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testCharCodeAt\x0a\x09self assert: ('jackie' charCodeAt:1) equals: 106.\x0a\x09self assert: ('jackie' charCodeAt:2) equals: 97.\x0a\x09self assert: ('jackie' charCodeAt:3) equals: 99.\x0a\x09self assert: ('jackie' charCodeAt:4) equals: 107.\x0a\x09self assert: ('jackie' charCodeAt:5) equals: 105.\x0a\x09self assert: ('jackie' charCodeAt:6) equals: 101",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "charCodeAt:"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testCopyFromTo",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCopyFromTo\x0a\x09self assert: ('jackie' copyFrom: 1 to: 3) equals: 'jac'.\x0a\x09self assert: ('jackie' copyFrom: 4 to: 6) equals: 'kie'.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "copyFrom:to:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9118,22 +8931,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCopyFromTo",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testCopyFromTo\x0a\x09self assert: ('jackie' copyFrom: 1 to: 3) equals: 'jac'.\x0a\x09self assert: ('jackie' copyFrom: 4 to: 6) equals: 'kie'.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "copyFrom:to:"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testCopySeparates",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCopySeparates\x0a\x09\x22String instances are immutable\x22\x0a\x09self assert: self collection copy == self collection",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "==", "copy", "collection"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9150,22 +8962,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCopySeparates",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testCopySeparates\x0a\x09\x22String instances are immutable\x22\x0a\x09self assert: self collection copy == self collection",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "==", "copy", "collection"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testCopyWithoutAll",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCopyWithoutAll\x0a\x09self\x0a\x09\x09assert: ('*hello* *world*' copyWithoutAll: '*')\x0a\x09\x09equals: 'hello world'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "copyWithoutAll:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9175,22 +8986,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCopyWithoutAll",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testCopyWithoutAll\x0a\x09self\x0a\x09\x09assert: ('*hello* *world*' copyWithoutAll: '*')\x0a\x09\x09equals: 'hello world'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "copyWithoutAll:"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testEquality",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testEquality\x0a\x09self assert: 'hello' equals: 'hello'.\x0a\x09self deny: 'hello' = 'world'.\x0a\x09\x0a\x09\x22Test for issue 459\x22\x0a\x09self deny: 'hello' = (#() at: 1 ifAbsent: [ ]).\x0a\x0a\x09self assert: 'hello' equals: 'hello' yourself.\x0a\x09self assert: 'hello' yourself equals: 'hello'.\x0a\x0a\x09\x22test JS falsy value\x22\x0a\x09self deny: '' = 0",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "deny:", "=", "at:ifAbsent:", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9232,22 +9042,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testEquality",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testEquality\x0a\x09self assert: 'hello' equals: 'hello'.\x0a\x09self deny: 'hello' = 'world'.\x0a\x09\x0a\x09\x22Test for issue 459\x22\x0a\x09self deny: 'hello' = (#() at: 1 ifAbsent: [ ]).\x0a\x0a\x09self assert: 'hello' equals: 'hello' yourself.\x0a\x09self assert: 'hello' yourself equals: 'hello'.\x0a\x0a\x09\x22test JS falsy value\x22\x0a\x09self deny: '' = 0",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "deny:", "=", "at:ifAbsent:", "yourself"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIdentity",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIdentity\x0a\x09self assert: 'hello' == 'hello'.\x0a\x09self deny: 'hello' == 'world'.\x0a\x0a\x09self assert: 'hello' == 'hello' yourself.\x0a\x09self assert: 'hello' yourself == 'hello'.\x0a\x0a\x09\x22test JS falsy value\x22\x0a\x09self deny: '' == 0",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "==", "deny:", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9291,22 +9100,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIdentity",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIdentity\x0a\x09self assert: 'hello' == 'hello'.\x0a\x09self deny: 'hello' == 'world'.\x0a\x0a\x09self assert: 'hello' == 'hello' yourself.\x0a\x09self assert: 'hello' yourself == 'hello'.\x0a\x0a\x09\x22test JS falsy value\x22\x0a\x09self deny: '' == 0",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "==", "deny:", "yourself"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIncludesSubString",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIncludesSubString\x0a\x09self assert: ('amber' includesSubString: 'ber').\x0a\x09self deny: ('amber' includesSubString: 'zork').",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "includesSubString:", "deny:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9322,26 +9130,13 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIncludesSubString",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIncludesSubString\x0a\x09self assert: ('amber' includesSubString: 'ber').\x0a\x09self deny: ('amber' includesSubString: 'zork').",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "includesSubString:", "deny:"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIndexOfStartingAtWithNull",
 protocol: "tests",
-fn: function (){
-var self=this,$self=this;
-return self;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "testIndexOfStartingAtWithNull\x0a\x09\x22String cannot hold JS null\x22",
@@ -9349,18 +9144,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return self;
+
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIndexOfWithNull",
 protocol: "tests",
-fn: function (){
-var self=this,$self=this;
-return self;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "testIndexOfWithNull\x0a\x09\x22String cannot hold JS null\x22",
@@ -9368,14 +9162,25 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return self;
+
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIsVowel",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIsVowel\x0a    |vowel consonant|\x0a    vowel := 'u'.\x0a    consonant := 'z'.\x0a    self assert: vowel isVowel equals: true.\x0a    self assert: consonant isVowel equals: false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "isVowel"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var vowel,consonant;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -9397,22 +9202,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIsVowel",{vowel:vowel,consonant:consonant})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIsVowel\x0a    |vowel consonant|\x0a    vowel := 'u'.\x0a    consonant := 'z'.\x0a    self assert: vowel isVowel equals: true.\x0a    self assert: consonant isVowel equals: false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "isVowel"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testJoin",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testJoin\x0a\x09self assert: (',' join: #('hello' 'world')) equals: 'hello,world'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "join:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9422,22 +9226,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testJoin",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testJoin\x0a\x09self assert: (',' join: #('hello' 'world')) equals: 'hello,world'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "join:"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRegression1224",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRegression1224\x0a\x09\x22String instances are read-only\x22\x0a\x09self should: [ (self collectionClass new\x0a\x09\x09remove: self sampleNewValue ifAbsent: [];\x0a\x09\x09yourself) size ] raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "size", "remove:ifAbsent:", "new", "collectionClass", "sampleNewValue", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9461,22 +9264,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRegression1224",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRegression1224\x0a\x09\x22String instances are read-only\x22\x0a\x09self should: [ (self collectionClass new\x0a\x09\x09remove: self sampleNewValue ifAbsent: [];\x0a\x09\x09yourself) size ] raise: Error",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "size", "remove:ifAbsent:", "new", "collectionClass", "sampleNewValue", "yourself"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRemoveAll",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRemoveAll\x0a\x09self should: [ self collection removeAll ] raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "removeAll", "collection"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9494,22 +9296,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRemoveAll",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRemoveAll\x0a\x09self should: [ self collection removeAll ] raise: Error",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "removeAll", "collection"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testReversed",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testReversed\x0a\x09self assert: 'jackiechan' reversed equals: 'nahceikcaj'.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "reversed"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9519,22 +9320,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testReversed",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testReversed\x0a\x09self assert: 'jackiechan' reversed equals: 'nahceikcaj'.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "reversed"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testStreamContents",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testStreamContents\x0a\x09self\x0a\x09\x09assert: (String streamContents: [ :aStream |\x0a\x09\x09\x09aStream\x0a\x09\x09\x09\x09nextPutAll: 'hello'; space;\x0a\x09\x09\x09\x09nextPutAll: 'world' ])\x0a\x09\x09equals: 'hello world'",
+referencedClasses: ["String"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "streamContents:", "nextPutAll:", "space"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9557,22 +9357,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testStreamContents",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testStreamContents\x0a\x09self\x0a\x09\x09assert: (String streamContents: [ :aStream |\x0a\x09\x09\x09aStream\x0a\x09\x09\x09\x09nextPutAll: 'hello'; space;\x0a\x09\x09\x09\x09nextPutAll: 'world' ])\x0a\x09\x09equals: 'hello world'",
-referencedClasses: ["String"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "streamContents:", "nextPutAll:", "space"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testSubStrings",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSubStrings\x0a\x09self assert: ('jackiechan' subStrings: 'ie') equals: #( 'jack' 'chan' ).",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "subStrings:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9582,22 +9381,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testSubStrings",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testSubStrings\x0a\x09self assert: ('jackiechan' subStrings: 'ie') equals: #( 'jack' 'chan' ).",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "subStrings:"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testTrim",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testTrim\x0a\x09self assert: '       jackie' trimLeft equals: 'jackie'.\x0a\x09self assert: 'jackie               ' trimRight equals: 'jackie'.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "trimLeft", "trimRight"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9611,22 +9409,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testTrim",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testTrim\x0a\x09self assert: '       jackie' trimLeft equals: 'jackie'.\x0a\x09self assert: 'jackie               ' trimRight equals: 'jackie'.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "trimLeft", "trimRight"]
-}),
+}; }),
 $globals.StringTest);
 
 $core.addMethod(
 $core.method({
 selector: "testValue",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testValue\x0a\x0a\x09self assert: (#asString value: 1) equals: '1'.\x0a\x0a\x09\x22Which (since String and BlockClosure are now polymorphic) enables the nice idiom...\x22\x0a\x09self assert: (#(1 2 3) collect: #asString) equals: #('1' '2' '3')",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "value:", "collect:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9640,15 +9437,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testValue",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testValue\x0a\x0a\x09self assert: (#asString value: 1) equals: '1'.\x0a\x0a\x09\x22Which (since String and BlockClosure are now polymorphic) enables the nice idiom...\x22\x0a\x09self assert: (#(1 2 3) collect: #asString) equals: #('1' '2' '3')",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "value:", "collect:"]
-}),
+}; }),
 $globals.StringTest);
 
 
@@ -9656,11 +9445,6 @@ $core.addMethod(
 $core.method({
 selector: "collectionClass",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return $globals.String;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionClass\x0a\x09^ String",
@@ -9668,7 +9452,11 @@ referencedClasses: ["String"],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.String;
+
+}; }),
 $globals.StringTest.a$cls);
 
 
@@ -9677,7 +9465,14 @@ $core.addMethod(
 $core.method({
 selector: "collection",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collection\x0a\x09^ Set new\x0a\x09\x09add: Smalltalk;\x0a\x09\x09add: nil;\x0a\x09\x09add: 3@3;\x0a\x09\x09add: false;\x0a\x09\x09add: sampleBlock;\x0a\x09\x09yourself",
+referencedClasses: ["Set", "Smalltalk"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["add:", "new", "@", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9705,22 +9500,21 @@ return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collection",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collection\x0a\x09^ Set new\x0a\x09\x09add: Smalltalk;\x0a\x09\x09add: nil;\x0a\x09\x09add: 3@3;\x0a\x09\x09add: false;\x0a\x09\x09add: sampleBlock;\x0a\x09\x09yourself",
-referencedClasses: ["Set", "Smalltalk"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["add:", "new", "@", "yourself"]
-}),
+}; }),
 $globals.SetTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionOfPrintStrings",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionOfPrintStrings\x0a\x09^ Set new\x0a\x09\x09add: 'a SmalltalkImage';\x0a\x09\x09add: 'nil';\x0a\x09\x09add: '3@3';\x0a\x09\x09add: 'false';\x0a\x09\x09add: 'a BlockClosure';\x0a\x09\x09yourself",
+referencedClasses: ["Set"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["add:", "new", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9748,26 +9542,13 @@ return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionOfPrintStrings",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionOfPrintStrings\x0a\x09^ Set new\x0a\x09\x09add: 'a SmalltalkImage';\x0a\x09\x09add: 'nil';\x0a\x09\x09add: '3@3';\x0a\x09\x09add: 'false';\x0a\x09\x09add: 'a BlockClosure';\x0a\x09\x09yourself",
-referencedClasses: ["Set"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["add:", "new", "yourself"]
-}),
+}; }),
 $globals.SetTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionSize",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return (5);
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionSize\x0a\x09^ 5",
@@ -9775,14 +9556,25 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return (5);
+
+}; }),
 $globals.SetTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionWithDuplicates",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionWithDuplicates\x0a\x09\x22Set has no duplicates\x22\x0a\x09^ self collection add: 0; yourself",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["add:", "collection", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9794,22 +9586,21 @@ return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionWithDuplicates",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionWithDuplicates\x0a\x09\x22Set has no duplicates\x22\x0a\x09^ self collection add: 0; yourself",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["add:", "collection", "yourself"]
-}),
+}; }),
 $globals.SetTest);
 
 $core.addMethod(
 $core.method({
 selector: "collectionWithNewValue",
 protocol: "fixture",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionWithNewValue\x0a\x09^ Set new\x0a\x09\x09add: Smalltalk;\x0a\x09\x09add: nil;\x0a\x09\x09add: 3@3;\x0a\x09\x09add: 'N';\x0a\x09\x09add: false;\x0a\x09\x09add: sampleBlock;\x0a\x09\x09yourself",
+referencedClasses: ["Set", "Smalltalk"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["add:", "new", "@", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9841,22 +9632,21 @@ return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionWithNewValue",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionWithNewValue\x0a\x09^ Set new\x0a\x09\x09add: Smalltalk;\x0a\x09\x09add: nil;\x0a\x09\x09add: 3@3;\x0a\x09\x09add: 'N';\x0a\x09\x09add: false;\x0a\x09\x09add: sampleBlock;\x0a\x09\x09yourself",
-referencedClasses: ["Set", "Smalltalk"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["add:", "new", "@", "yourself"]
-}),
+}; }),
 $globals.SetTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAddAll",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAddAll\x0a\x09super testAddAll.\x0a\x09self assert: (self collection addAll: self collection; yourself) equals: self collection.\x0a\x09self assert: (self collection addAll: self collectionWithNewValue; yourself) equals: self collectionWithNewValue.\x0a\x09self assert: (self collectionWithNewValue addAll: self collection; yourself) equals: self collectionWithNewValue",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["testAddAll", "assert:equals:", "addAll:", "collection", "yourself", "collectionWithNewValue"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -9931,22 +9721,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAddAll",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAddAll\x0a\x09super testAddAll.\x0a\x09self assert: (self collection addAll: self collection; yourself) equals: self collection.\x0a\x09self assert: (self collection addAll: self collectionWithNewValue; yourself) equals: self collectionWithNewValue.\x0a\x09self assert: (self collectionWithNewValue addAll: self collection; yourself) equals: self collectionWithNewValue",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["testAddAll", "assert:equals:", "addAll:", "collection", "yourself", "collectionWithNewValue"]
-}),
+}; }),
 $globals.SetTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAddRemove",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAddRemove\x0a\x09| set |\x0a\x09set := Set new.\x0a\x09\x0a\x09self assert: set isEmpty.\x0a\x0a\x09set add: 3.\x0a\x09self assert: (set includes: 3).\x0a\x0a\x09set add: 5.\x0a\x09self assert: (set includes: 5).\x0a\x0a\x09set remove: 3.\x0a\x09self deny: (set includes: 3)",
+referencedClasses: ["Set"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "assert:", "isEmpty", "add:", "includes:", "remove:", "deny:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var set;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -9982,22 +9771,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAddRemove",{set:set})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAddRemove\x0a\x09| set |\x0a\x09set := Set new.\x0a\x09\x0a\x09self assert: set isEmpty.\x0a\x0a\x09set add: 3.\x0a\x09self assert: (set includes: 3).\x0a\x0a\x09set add: 5.\x0a\x09self assert: (set includes: 5).\x0a\x0a\x09set remove: 3.\x0a\x09self deny: (set includes: 3)",
-referencedClasses: ["Set"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "assert:", "isEmpty", "add:", "includes:", "remove:", "deny:"]
-}),
+}; }),
 $globals.SetTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAt",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAt\x0a\x09self should: [ Set new at: 1 put: 2 ] raise: Error",
+referencedClasses: ["Set", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "at:put:", "new"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -10015,22 +9803,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAt",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAt\x0a\x09self should: [ Set new at: 1 put: 2 ] raise: Error",
-referencedClasses: ["Set", "Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "at:put:", "new"]
-}),
+}; }),
 $globals.SetTest);
 
 $core.addMethod(
 $core.method({
 selector: "testCollect",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCollect\x0a\x09super testCollect.\x0a\x09self assert: (#(5 6 8) asSet collect: [ :x | x \x5c\x5c 3 ]) equals: #(0 2) asSet",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["testCollect", "assert:equals:", "collect:", "asSet", "\x5c\x5c"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -10062,22 +9849,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCollect",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testCollect\x0a\x09super testCollect.\x0a\x09self assert: (#(5 6 8) asSet collect: [ :x | x \x5c\x5c 3 ]) equals: #(0 2) asSet",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["testCollect", "assert:equals:", "collect:", "asSet", "\x5c\x5c"]
-}),
+}; }),
 $globals.SetTest);
 
 $core.addMethod(
 $core.method({
 selector: "testComma",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testComma\x0a\x09super testComma.\x0a\x09self assert: self collection, self collection equals: self collection.\x0a\x09self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.\x0a\x09self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["testComma", "assert:equals:", ",", "collection", "collectionWithNewValue"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -10141,22 +9927,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testComma",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testComma\x0a\x09super testComma.\x0a\x09self assert: self collection, self collection equals: self collection.\x0a\x09self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.\x0a\x09self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["testComma", "assert:equals:", ",", "collection", "collectionWithNewValue"]
-}),
+}; }),
 $globals.SetTest);
 
 $core.addMethod(
 $core.method({
 selector: "testComparing",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testComparing\x0a\x09self assert: #(0 2) asSet equals: #(0 2) asSet.\x0a\x09self assert: #(2 0) asSet equals: #(0 2) asSet.\x0a\x09self deny: #(0 2 3) asSet = #(0 2) asSet.\x0a\x09self deny: #(1 2) asSet = #(0 2) asSet",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "asSet", "deny:", "="]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -10209,22 +9994,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testComparing",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testComparing\x0a\x09self assert: #(0 2) asSet equals: #(0 2) asSet.\x0a\x09self assert: #(2 0) asSet equals: #(0 2) asSet.\x0a\x09self deny: #(0 2 3) asSet = #(0 2) asSet.\x0a\x09self deny: #(1 2) asSet = #(0 2) asSet",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "asSet", "deny:", "="]
-}),
+}; }),
 $globals.SetTest);
 
 $core.addMethod(
 $core.method({
 selector: "testPrintString",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPrintString\x0a\x09| set |\x0a\x09set := Set new.\x0a\x09self assert: set printString equals: 'a Set ()'.\x0a\x09set add: 1; add: 3.\x0a\x09self assert: set printString equals: 'a Set (1 3)'.\x0a\x09set add: 'foo'.\x0a\x09self assert: set printString equals: 'a Set (1 3 ''foo'')'.\x0a\x09set remove: 1; remove: 3.\x0a\x09self assert: set printString equals: 'a Set (''foo'')'.\x0a\x09set add: 3.\x0a\x09self assert: set printString equals: 'a Set (3 ''foo'')'.\x0a\x09set add: 3.\x0a\x09self assert: set printString equals: 'a Set (3 ''foo'')'",
+referencedClasses: ["Set"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "assert:equals:", "printString", "add:", "remove:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var set;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -10301,22 +10085,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testPrintString",{set:set})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testPrintString\x0a\x09| set |\x0a\x09set := Set new.\x0a\x09self assert: set printString equals: 'a Set ()'.\x0a\x09set add: 1; add: 3.\x0a\x09self assert: set printString equals: 'a Set (1 3)'.\x0a\x09set add: 'foo'.\x0a\x09self assert: set printString equals: 'a Set (1 3 ''foo'')'.\x0a\x09set remove: 1; remove: 3.\x0a\x09self assert: set printString equals: 'a Set (''foo'')'.\x0a\x09set add: 3.\x0a\x09self assert: set printString equals: 'a Set (3 ''foo'')'.\x0a\x09set add: 3.\x0a\x09self assert: set printString equals: 'a Set (3 ''foo'')'",
-referencedClasses: ["Set"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "assert:equals:", "printString", "add:", "remove:"]
-}),
+}; }),
 $globals.SetTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRegression1225",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRegression1225\x0a\x09self assert: (#(1 2 3) asSet add: 3) equals: 3",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "add:", "asSet"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -10326,22 +10109,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRegression1225",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRegression1225\x0a\x09self assert: (#(1 2 3) asSet add: 3) equals: 3",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "add:", "asSet"]
-}),
+}; }),
 $globals.SetTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRegression1226",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRegression1226\x0a\x09self assert: (#(1 2 3) asSet remove: 3) equals: 3",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "remove:", "asSet"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -10351,22 +10133,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRegression1226",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRegression1226\x0a\x09self assert: (#(1 2 3) asSet remove: 3) equals: 3",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "remove:", "asSet"]
-}),
+}; }),
 $globals.SetTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRegression1227",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRegression1227\x0a\x09self assert: (#(1 2 3) asSet remove: 4 ifAbsent: [5]) equals: 5",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "remove:ifAbsent:", "asSet"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -10379,22 +10160,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRegression1227",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRegression1227\x0a\x09self assert: (#(1 2 3) asSet remove: 4 ifAbsent: [5]) equals: 5",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "remove:ifAbsent:", "asSet"]
-}),
+}; }),
 $globals.SetTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRegression1228",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRegression1228\x0a\x09self should: [#(1 2 3) asSet remove: 4] raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "remove:", "asSet"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -10412,22 +10192,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRegression1228",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRegression1228\x0a\x09self should: [#(1 2 3) asSet remove: 4] raise: Error",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "remove:", "asSet"]
-}),
+}; }),
 $globals.SetTest);
 
 $core.addMethod(
 $core.method({
 selector: "testUnboxedObjects",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testUnboxedObjects\x0a\x09self assert: {'foo' yourself. 'foo' yourself} asSet asArray equals: #('foo')",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "asArray", "asSet", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -10445,22 +10224,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testUnboxedObjects",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testUnboxedObjects\x0a\x09self assert: {'foo' yourself. 'foo' yourself} asSet asArray equals: #('foo')",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "asArray", "asSet", "yourself"]
-}),
+}; }),
 $globals.SetTest);
 
 $core.addMethod(
 $core.method({
 selector: "testUnicity",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testUnicity\x0a\x09| set |\x0a\x09set := Set new.\x0a\x09set add: 21.\x0a\x09set add: 'hello'.\x0a\x0a\x09set add: 21.\x0a\x09self assert: set size equals: 2.\x0a\x09\x0a\x09set add: 'hello'.\x0a\x09self assert: set size equals: 2.\x0a\x0a\x09self assert: set asArray equals: #(21 'hello')",
+referencedClasses: ["Set"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "add:", "assert:equals:", "size", "asArray"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var set;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -10498,15 +10276,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testUnicity",{set:set})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testUnicity\x0a\x09| set |\x0a\x09set := Set new.\x0a\x09set add: 21.\x0a\x09set add: 'hello'.\x0a\x0a\x09set add: 21.\x0a\x09self assert: set size equals: 2.\x0a\x09\x0a\x09set add: 'hello'.\x0a\x09self assert: set size equals: 2.\x0a\x0a\x09self assert: set asArray equals: #(21 'hello')",
-referencedClasses: ["Set"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "add:", "assert:equals:", "size", "asArray"]
-}),
+}; }),
 $globals.SetTest);
 
 
@@ -10514,11 +10284,6 @@ $core.addMethod(
 $core.method({
 selector: "collectionClass",
 protocol: "fixture",
-fn: function (){
-var self=this,$self=this;
-return $globals.Set;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionClass\x0a\x09^ Set",
@@ -10526,7 +10291,11 @@ referencedClasses: ["Set"],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.Set;
+
+}; }),
 $globals.SetTest.a$cls);
 
 
@@ -10535,7 +10304,14 @@ $core.addMethod(
 $core.method({
 selector: "testShow",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testShow\x0a| originalTranscript |\x0aoriginalTranscript := Transcript current.\x0aTranscript register: ConsoleTranscript new.\x0a\x0aself shouldnt: [ Transcript show: 'Hello console!' ] raise: Error.\x0aself shouldnt: [ Transcript show: console ] raise: Error.\x0a\x0aTranscript register: originalTranscript.",
+referencedClasses: ["Transcript", "ConsoleTranscript", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["current", "register:", "new", "shouldnt:raise:", "show:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var originalTranscript;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -10575,15 +10351,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testShow",{originalTranscript:originalTranscript})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testShow\x0a| originalTranscript |\x0aoriginalTranscript := Transcript current.\x0aTranscript register: ConsoleTranscript new.\x0a\x0aself shouldnt: [ Transcript show: 'Hello console!' ] raise: Error.\x0aself shouldnt: [ Transcript show: console ] raise: Error.\x0a\x0aTranscript register: originalTranscript.",
-referencedClasses: ["Transcript", "ConsoleTranscript", "Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["current", "register:", "new", "shouldnt:raise:", "show:"]
-}),
+}; }),
 $globals.ConsoleTranscriptTest);
 
 
@@ -10593,7 +10361,14 @@ $core.addMethod(
 $core.method({
 selector: "testEquality",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testEquality\x0a\x09| now |\x0a\x09now := Date new.\x0a\x0a\x09self assert: now = now.\x0a\x0a\x09self deny: now = (Date fromMilliseconds: 0).\x0a\x0a\x09self assert: (Date fromMilliseconds: 12345678) = (Date fromMilliseconds: 12345678).\x0a\x09self assert: now = (Date fromMilliseconds: now asMilliseconds).\x0a\x09self assert: (Date fromMilliseconds: now asMilliseconds) = now",
+referencedClasses: ["Date"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "assert:", "=", "deny:", "fromMilliseconds:", "asMilliseconds"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var now;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -10657,22 +10432,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testEquality",{now:now})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testEquality\x0a\x09| now |\x0a\x09now := Date new.\x0a\x0a\x09self assert: now = now.\x0a\x0a\x09self deny: now = (Date fromMilliseconds: 0).\x0a\x0a\x09self assert: (Date fromMilliseconds: 12345678) = (Date fromMilliseconds: 12345678).\x0a\x09self assert: now = (Date fromMilliseconds: now asMilliseconds).\x0a\x09self assert: (Date fromMilliseconds: now asMilliseconds) = now",
-referencedClasses: ["Date"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "assert:", "=", "deny:", "fromMilliseconds:", "asMilliseconds"]
-}),
+}; }),
 $globals.DateTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIdentity",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIdentity\x0a\x09| now |\x0a\x09now := Date new.\x0a\x0a\x09self assert: now == now.\x0a\x0a\x09self deny: now == (Date fromMilliseconds: 0).\x0a\x0a\x09self deny: (Date fromMilliseconds: 12345678) == (Date fromMilliseconds: 12345678).\x0a\x09self deny: now == (Date fromMilliseconds: now asMilliseconds).\x0a\x09self deny: (Date fromMilliseconds: now asMilliseconds) == now",
+referencedClasses: ["Date"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "assert:", "==", "deny:", "fromMilliseconds:", "asMilliseconds"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var now;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -10736,22 +10510,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIdentity",{now:now})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIdentity\x0a\x09| now |\x0a\x09now := Date new.\x0a\x0a\x09self assert: now == now.\x0a\x0a\x09self deny: now == (Date fromMilliseconds: 0).\x0a\x0a\x09self deny: (Date fromMilliseconds: 12345678) == (Date fromMilliseconds: 12345678).\x0a\x09self deny: now == (Date fromMilliseconds: now asMilliseconds).\x0a\x09self deny: (Date fromMilliseconds: now asMilliseconds) == now",
-referencedClasses: ["Date"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "assert:", "==", "deny:", "fromMilliseconds:", "asMilliseconds"]
-}),
+}; }),
 $globals.DateTest);
 
 $core.addMethod(
 $core.method({
 selector: "testPlusAndMinus",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPlusAndMinus\x0a\x09| a b now zeroDuration |\x0a\x09a := Date fromString: '1974-07-12 14:30'.\x0a\x09now := Date now.\x0a\x09b := Date fromString: '2616-03-06'.\x0a\x09zeroDuration := 0.\x0a\x0a\x09self assert: {a-a. now-now. b-b} asSet equals: (Set with: zeroDuration).\x0a\x09self assert: now + (b - now) equals: b.\x0a\x09self assert: a + (b - a) equals: b.\x0a\x09self assert: now + (a - now) equals: a.\x0a\x09self assert: a + ((now - a) + (b - now)) equals: b",
+referencedClasses: ["Date", "Set"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["fromString:", "now", "assert:equals:", "asSet", "-", "with:", "+"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var a,b,now,zeroDuration;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -10837,15 +10610,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testPlusAndMinus",{a:a,b:b,now:now,zeroDuration:zeroDuration})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testPlusAndMinus\x0a\x09| a b now zeroDuration |\x0a\x09a := Date fromString: '1974-07-12 14:30'.\x0a\x09now := Date now.\x0a\x09b := Date fromString: '2616-03-06'.\x0a\x09zeroDuration := 0.\x0a\x0a\x09self assert: {a-a. now-now. b-b} asSet equals: (Set with: zeroDuration).\x0a\x09self assert: now + (b - now) equals: b.\x0a\x09self assert: a + (b - a) equals: b.\x0a\x09self assert: now + (a - now) equals: a.\x0a\x09self assert: a + ((now - a) + (b - now)) equals: b",
-referencedClasses: ["Date", "Set"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["fromString:", "now", "assert:equals:", "asSet", "-", "with:", "+"]
-}),
+}; }),
 $globals.DateTest);
 
 
@@ -10855,7 +10620,14 @@ $core.addMethod(
 $core.method({
 selector: "jsObject",
 protocol: "accessing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "jsObject\x0a\x09<inlineJS: \x0a\x09\x09'return {a: 1, b: function() {return 2;}, c: function(object) {return object;}, d: \x22\x22, \x22e\x22: null, \x22f\x22: void 0}'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return {a: 1, b: function() {return 2;}, c: function(object) {return object;}, d: \x22\x22, \x22e\x22: null, \x22f\x22: void 0}"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -10865,22 +10637,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"jsObject",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "jsObject\x0a\x09<inlineJS: \x0a\x09\x09'return {a: 1, b: function() {return 2;}, c: function(object) {return object;}, d: \x22\x22, \x22e\x22: null, \x22f\x22: void 0}'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return {a: 1, b: function() {return 2;}, c: function(object) {return object;}, d: \x22\x22, \x22e\x22: null, \x22f\x22: void 0}"]]],
-messageSends: []
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "jsUndefined",
 protocol: "accessing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "jsUndefined\x0a\x09<inlineJS: 'return'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -10890,22 +10661,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"jsUndefined",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "jsUndefined\x0a\x09<inlineJS: 'return'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return"]]],
-messageSends: []
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAtIfAbsent",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtIfAbsent\x0a\x09| testObject |\x0a\x09testObject := self jsObject.\x0a\x09self assert: (testObject at: 'abc' ifAbsent: [ 'Property does not exist' ]) equals: 'Property does not exist'.\x0a\x09self assert: (testObject at: 'e' ifAbsent: [ 'Property does not exist' ]) equals: nil.\x0a\x09self assert: (testObject at: 'a' ifAbsent: [ 'Property does not exist' ]) equals: 1.\x0a\x09self assert: (testObject at: 'f' ifAbsent: [ 'Property does not exist' ]) equals: nil.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["jsObject", "assert:equals:", "at:ifAbsent:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var testObject;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -10954,22 +10724,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAtIfAbsent",{testObject:testObject})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtIfAbsent\x0a\x09| testObject |\x0a\x09testObject := self jsObject.\x0a\x09self assert: (testObject at: 'abc' ifAbsent: [ 'Property does not exist' ]) equals: 'Property does not exist'.\x0a\x09self assert: (testObject at: 'e' ifAbsent: [ 'Property does not exist' ]) equals: nil.\x0a\x09self assert: (testObject at: 'a' ifAbsent: [ 'Property does not exist' ]) equals: 1.\x0a\x09self assert: (testObject at: 'f' ifAbsent: [ 'Property does not exist' ]) equals: nil.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["jsObject", "assert:equals:", "at:ifAbsent:"]
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAtIfPresent",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtIfPresent\x0a\x09| testObject |\x0a\x09\x0a\x09testObject := self jsObject.\x0a\x09\x0a\x09self assert: (testObject at: 'abc' ifPresent: [ :x | 'hello ',x asString ]) equals: nil.\x0a\x09self assert: (testObject at: 'e' ifPresent: [ :x | 'hello ',x asString ]) equals: 'hello nil'.\x0a\x09self assert: (testObject at: 'a' ifPresent: [ :x | 'hello ',x asString ]) equals: 'hello 1'.\x0a\x09self assert: (testObject at: 'f' ifPresent: [ :x | 'hello ',x asString ]) equals: 'hello nil'.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["jsObject", "assert:equals:", "at:ifPresent:", ",", "asString"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var testObject;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -11059,22 +10828,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAtIfPresent",{testObject:testObject})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtIfPresent\x0a\x09| testObject |\x0a\x09\x0a\x09testObject := self jsObject.\x0a\x09\x0a\x09self assert: (testObject at: 'abc' ifPresent: [ :x | 'hello ',x asString ]) equals: nil.\x0a\x09self assert: (testObject at: 'e' ifPresent: [ :x | 'hello ',x asString ]) equals: 'hello nil'.\x0a\x09self assert: (testObject at: 'a' ifPresent: [ :x | 'hello ',x asString ]) equals: 'hello 1'.\x0a\x09self assert: (testObject at: 'f' ifPresent: [ :x | 'hello ',x asString ]) equals: 'hello nil'.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["jsObject", "assert:equals:", "at:ifPresent:", ",", "asString"]
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAtIfPresentIfAbsent",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtIfPresentIfAbsent\x0a\x09| testObject |\x0a\x09testObject := self jsObject.\x0a\x09self assert: (testObject at: 'abc' ifPresent: [ :x|'hello ',x asString ] ifAbsent: [ 'not present' ]) equals: 'not present'.\x0a\x09self assert: (testObject at: 'e' ifPresent: [ :x|'hello ',x asString ] ifAbsent: [ 'not present' ]) equals: 'hello nil'.\x0a\x09self assert: (testObject at: 'a' ifPresent: [ :x|'hello ',x asString ] ifAbsent: [ 'not present' ]) equals: 'hello 1'.\x0a\x09self assert: (testObject at: 'f' ifPresent: [ :x|'hello ',x asString ] ifAbsent: [ 'not present' ]) equals: 'hello nil'.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["jsObject", "assert:equals:", "at:ifPresent:ifAbsent:", ",", "asString"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var testObject;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -11176,22 +10944,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAtIfPresentIfAbsent",{testObject:testObject})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtIfPresentIfAbsent\x0a\x09| testObject |\x0a\x09testObject := self jsObject.\x0a\x09self assert: (testObject at: 'abc' ifPresent: [ :x|'hello ',x asString ] ifAbsent: [ 'not present' ]) equals: 'not present'.\x0a\x09self assert: (testObject at: 'e' ifPresent: [ :x|'hello ',x asString ] ifAbsent: [ 'not present' ]) equals: 'hello nil'.\x0a\x09self assert: (testObject at: 'a' ifPresent: [ :x|'hello ',x asString ] ifAbsent: [ 'not present' ]) equals: 'hello 1'.\x0a\x09self assert: (testObject at: 'f' ifPresent: [ :x|'hello ',x asString ] ifAbsent: [ 'not present' ]) equals: 'hello nil'.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["jsObject", "assert:equals:", "at:ifPresent:ifAbsent:", ",", "asString"]
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAtPut",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtPut\x0a\x09| testObject |\x0a\x09testObject := self jsObject.\x0a\x09\x0a\x09self assert: (testObject at: 'abc') ~= 'xyz'.\x0a\x09self assert: (testObject at: 'abc' put: 'xyz') equals: 'xyz'.\x0a\x09self assert: (testObject at: 'abc') equals: 'xyz'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["jsObject", "assert:", "~=", "at:", "assert:equals:", "at:put:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var testObject;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -11214,22 +10981,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAtPut",{testObject:testObject})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtPut\x0a\x09| testObject |\x0a\x09testObject := self jsObject.\x0a\x09\x0a\x09self assert: (testObject at: 'abc') ~= 'xyz'.\x0a\x09self assert: (testObject at: 'abc' put: 'xyz') equals: 'xyz'.\x0a\x09self assert: (testObject at: 'abc') equals: 'xyz'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["jsObject", "assert:", "~=", "at:", "assert:equals:", "at:put:"]
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "testComparison",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testComparison\x0a\x09self assert: ({ console. 2 } indexOf: console) equals: 1.\x0a\x09self assert: console = console.\x0a\x09self deny: console = Object new.\x0a\x09self deny: console = self jsObject",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "indexOf:", "assert:", "=", "deny:", "new", "jsObject"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -11254,22 +11020,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testComparison",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testComparison\x0a\x09self assert: ({ console. 2 } indexOf: console) equals: 1.\x0a\x09self assert: console = console.\x0a\x09self deny: console = Object new.\x0a\x09self deny: console = self jsObject",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "indexOf:", "assert:", "=", "deny:", "new", "jsObject"]
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "testDNU",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDNU\x0a\x09self should: [ self jsObject foo ] raise: MessageNotUnderstood",
+referencedClasses: ["MessageNotUnderstood"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "foo", "jsObject"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -11287,22 +11052,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testDNU",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testDNU\x0a\x09self should: [ self jsObject foo ] raise: MessageNotUnderstood",
-referencedClasses: ["MessageNotUnderstood"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "foo", "jsObject"]
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "testDNUWithAllowJavaScriptCalls",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDNUWithAllowJavaScriptCalls\x0a\x09| jsObject |\x0a\x09jsObject := #().\x0a\x09jsObject basicAt: 'allowJavaScriptCalls' put: true.\x0a\x09self should: [ jsObject foo ] raise: MessageNotUnderstood",
+referencedClasses: ["MessageNotUnderstood"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["basicAt:put:", "should:raise:", "foo"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var jsObject;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -11323,22 +11087,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testDNUWithAllowJavaScriptCalls",{jsObject:jsObject})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testDNUWithAllowJavaScriptCalls\x0a\x09| jsObject |\x0a\x09jsObject := #().\x0a\x09jsObject basicAt: 'allowJavaScriptCalls' put: true.\x0a\x09self should: [ jsObject foo ] raise: MessageNotUnderstood",
-referencedClasses: ["MessageNotUnderstood"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["basicAt:put:", "should:raise:", "foo"]
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "testMessageSend",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testMessageSend\x0a\x0a\x09self assert: self jsObject a equals: 1.\x0a\x09self assert: self jsObject b equals: 2.\x0a\x09self assert: (self jsObject c: 3) equals: 3",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "a", "jsObject", "b", "c:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -11367,22 +11130,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testMessageSend",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testMessageSend\x0a\x0a\x09self assert: self jsObject a equals: 1.\x0a\x09self assert: self jsObject b equals: 2.\x0a\x09self assert: (self jsObject c: 3) equals: 3",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "a", "jsObject", "b", "c:"]
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "testMethodWithArguments",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testMethodWithArguments\x0a\x09self assert: (self jsObject c: 1) equals: 1",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "c:", "jsObject"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -11392,22 +11154,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testMethodWithArguments",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testMethodWithArguments\x0a\x09self assert: (self jsObject c: 1) equals: 1",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "c:", "jsObject"]
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "testNull",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNull\x0a\x09self assert: JSObjectProxy null isNil.\x0a\x09self\x0a\x09\x09assert: (JSON stringify: #{#foo -> JSObjectProxy null})\x0a\x09\x09equals: '{\x22foo\x22:null}'",
+referencedClasses: ["JSObjectProxy", "JSON"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "isNil", "null", "assert:equals:", "stringify:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -11424,22 +11185,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testNull",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testNull\x0a\x09self assert: JSObjectProxy null isNil.\x0a\x09self\x0a\x09\x09assert: (JSON stringify: #{#foo -> JSObjectProxy null})\x0a\x09\x09equals: '{\x22foo\x22:null}'",
-referencedClasses: ["JSObjectProxy", "JSON"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "isNil", "null", "assert:equals:", "stringify:"]
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "testPrinting",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPrinting\x0a\x09self assert: self jsObject printString equals: '[object Object]'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "printString", "jsObject"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -11449,22 +11209,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testPrinting",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testPrinting\x0a\x09self assert: self jsObject printString equals: '[object Object]'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "printString", "jsObject"]
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "testPropertyThatReturnsEmptyString",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPropertyThatReturnsEmptyString\x0a\x09| object |\x0a\x0a\x09object := self jsObject.\x0a\x09self assert: object d equals: ''.\x0a\x0a\x09object d: 'hello'.\x0a\x09self assert: object d equals: 'hello'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["jsObject", "assert:equals:", "d", "d:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var object;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -11486,22 +11245,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testPropertyThatReturnsEmptyString",{object:object})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testPropertyThatReturnsEmptyString\x0a\x09| object |\x0a\x0a\x09object := self jsObject.\x0a\x09self assert: object d equals: ''.\x0a\x0a\x09object d: 'hello'.\x0a\x09self assert: object d equals: 'hello'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["jsObject", "assert:equals:", "d", "d:"]
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "testPropertyThatReturnsUndefined",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPropertyThatReturnsUndefined\x0a\x09| object |\x0a\x0a\x09object := self jsObject.\x0a\x09self shouldnt: [ object e ] raise: MessageNotUnderstood.\x0a\x09self assert: object e isNil",
+referencedClasses: ["MessageNotUnderstood"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["jsObject", "shouldnt:raise:", "e", "assert:", "isNil"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var object;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -11525,22 +11283,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testPropertyThatReturnsUndefined",{object:object})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testPropertyThatReturnsUndefined\x0a\x09| object |\x0a\x0a\x09object := self jsObject.\x0a\x09self shouldnt: [ object e ] raise: MessageNotUnderstood.\x0a\x09self assert: object e isNil",
-referencedClasses: ["MessageNotUnderstood"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["jsObject", "shouldnt:raise:", "e", "assert:", "isNil"]
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "testSetPropertyWithFalsyValue",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSetPropertyWithFalsyValue\x0a\x09| jsObject |\x0a\x09jsObject := self jsObject.\x0a\x09self assert: (jsObject a) equals: 1.\x0a\x0a\x09jsObject a: JSObjectProxy null.\x0a\x09self assert: (jsObject a) equals: nil.\x0a\x09jsObject a: 0.\x0a\x09self assert: (jsObject a) equals: 0.\x0a\x09jsObject a: self jsUndefined.\x0a\x09self assert: (jsObject a) equals: nil.\x0a\x09jsObject a: ''.\x0a\x09self assert: (jsObject a) equals: ''.\x0a\x09jsObject a: false.\x0a\x09self assert: (jsObject a) equals: false",
+referencedClasses: ["JSObjectProxy"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["jsObject", "assert:equals:", "a", "a:", "null", "jsUndefined"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var jsObject;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -11610,22 +11367,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testSetPropertyWithFalsyValue",{jsObject:jsObject})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testSetPropertyWithFalsyValue\x0a\x09| jsObject |\x0a\x09jsObject := self jsObject.\x0a\x09self assert: (jsObject a) equals: 1.\x0a\x0a\x09jsObject a: JSObjectProxy null.\x0a\x09self assert: (jsObject a) equals: nil.\x0a\x09jsObject a: 0.\x0a\x09self assert: (jsObject a) equals: 0.\x0a\x09jsObject a: self jsUndefined.\x0a\x09self assert: (jsObject a) equals: nil.\x0a\x09jsObject a: ''.\x0a\x09self assert: (jsObject a) equals: ''.\x0a\x09jsObject a: false.\x0a\x09self assert: (jsObject a) equals: false",
-referencedClasses: ["JSObjectProxy"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["jsObject", "assert:equals:", "a", "a:", "null", "jsUndefined"]
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "testUndefined",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testUndefined\x0a\x09self assert: JSObjectProxy undefined isNil.\x0a\x09self\x0a\x09\x09assert: (JSON stringify: #{#foo -> JSObjectProxy undefined})\x0a\x09\x09equals: '{}'",
+referencedClasses: ["JSObjectProxy", "JSON"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "isNil", "undefined", "assert:equals:", "stringify:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -11642,22 +11398,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testUndefined",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testUndefined\x0a\x09self assert: JSObjectProxy undefined isNil.\x0a\x09self\x0a\x09\x09assert: (JSON stringify: #{#foo -> JSObjectProxy undefined})\x0a\x09\x09equals: '{}'",
-referencedClasses: ["JSObjectProxy", "JSON"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "isNil", "undefined", "assert:equals:", "stringify:"]
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "testValue",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testValue\x0a\x09| testObject |\x0a\x09testObject := self jsObject.\x0a\x09testObject at: 'value' put: 'aValue'.\x0a\x09self assert: testObject value equals: 'aValue'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["jsObject", "at:put:", "assert:equals:", "value"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var testObject;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -11670,22 +11425,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testValue",{testObject:testObject})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testValue\x0a\x09| testObject |\x0a\x09testObject := self jsObject.\x0a\x09testObject at: 'value' put: 'aValue'.\x0a\x09self assert: testObject value equals: 'aValue'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["jsObject", "at:put:", "assert:equals:", "value"]
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 $core.addMethod(
 $core.method({
 selector: "testYourself",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testYourself\x0a\x09| object |\x0a\x09object := self jsObject\x0a\x09\x09d: 'test';\x0a\x09\x09yourself.\x0a\x0a\x09self assert: object d equals: 'test'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["d:", "jsObject", "yourself", "assert:equals:", "d"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var object;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -11700,15 +11454,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testYourself",{object:object})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testYourself\x0a\x09| object |\x0a\x09object := self jsObject\x0a\x09\x09d: 'test';\x0a\x09\x09yourself.\x0a\x0a\x09self assert: object d equals: 'test'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["d:", "jsObject", "yourself", "assert:equals:", "d"]
-}),
+}; }),
 $globals.JSObjectProxyTest);
 
 
@@ -11718,7 +11464,14 @@ $core.addMethod(
 $core.method({
 selector: "testCatchingException",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCatchingException\x0a\x09[ self throwException ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :error |\x0a\x09\x09\x09self assert: error exception = 'test' ]",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["on:do:", "throwException", "assert:", "=", "exception"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -11744,22 +11497,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCatchingException",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testCatchingException\x0a\x09[ self throwException ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :error |\x0a\x09\x09\x09self assert: error exception = 'test' ]",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["on:do:", "throwException", "assert:", "=", "exception"]
-}),
+}; }),
 $globals.JavaScriptExceptionTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRaisingException",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRaisingException\x0a\x09self should: [ self throwException ] raise: JavaScriptException",
+referencedClasses: ["JavaScriptException"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "throwException"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -11777,22 +11529,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRaisingException",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRaisingException\x0a\x09self should: [ self throwException ] raise: JavaScriptException",
-referencedClasses: ["JavaScriptException"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "throwException"]
-}),
+}; }),
 $globals.JavaScriptExceptionTest);
 
 $core.addMethod(
 $core.method({
 selector: "throwException",
 protocol: "helpers",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "throwException\x0a\x09<inlineJS: 'throw \x22test\x22'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["throw \x22test\x22"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -11802,15 +11553,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"throwException",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "throwException\x0a\x09<inlineJS: 'throw \x22test\x22'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["throw \x22test\x22"]]],
-messageSends: []
-}),
+}; }),
 $globals.JavaScriptExceptionTest);
 
 
@@ -11820,7 +11563,14 @@ $core.addMethod(
 $core.method({
 selector: "testValue",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testValue\x0a\x09| messageSend |\x0a\x09\x0a\x09messageSend := MessageSend new\x0a\x09\x09receiver: Object new;\x0a\x09\x09selector: #asString;\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09self assert: messageSend value equals: 'an Object'",
+referencedClasses: ["MessageSend", "Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["receiver:", "new", "selector:", "yourself", "assert:equals:", "value"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var messageSend;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -11839,22 +11589,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testValue",{messageSend:messageSend})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testValue\x0a\x09| messageSend |\x0a\x09\x0a\x09messageSend := MessageSend new\x0a\x09\x09receiver: Object new;\x0a\x09\x09selector: #asString;\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09self assert: messageSend value equals: 'an Object'",
-referencedClasses: ["MessageSend", "Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["receiver:", "new", "selector:", "yourself", "assert:equals:", "value"]
-}),
+}; }),
 $globals.MessageSendTest);
 
 $core.addMethod(
 $core.method({
 selector: "testValueWithArguments",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testValueWithArguments\x0a\x09| messageSend |\x0a\x09\x0a\x09messageSend := MessageSend new\x0a\x09\x09receiver: 2;\x0a\x09\x09selector: '+';\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09self assert: (messageSend value: 3) equals: 5.\x0a\x09\x0a\x09self assert: (messageSend valueWithPossibleArguments: #(4)) equals: 6",
+referencedClasses: ["MessageSend"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["receiver:", "new", "selector:", "yourself", "assert:equals:", "value:", "valueWithPossibleArguments:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var messageSend;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -11874,15 +11623,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testValueWithArguments",{messageSend:messageSend})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testValueWithArguments\x0a\x09| messageSend |\x0a\x09\x0a\x09messageSend := MessageSend new\x0a\x09\x09receiver: 2;\x0a\x09\x09selector: '+';\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09self assert: (messageSend value: 3) equals: 5.\x0a\x09\x0a\x09self assert: (messageSend valueWithPossibleArguments: #(4)) equals: 6",
-referencedClasses: ["MessageSend"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["receiver:", "new", "selector:", "yourself", "assert:equals:", "value:", "valueWithPossibleArguments:"]
-}),
+}; }),
 $globals.MessageSendTest);
 
 
@@ -11892,11 +11633,6 @@ $core.addMethod(
 $core.method({
 selector: "codeGeneratorClass",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $globals.CodeGenerator;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "codeGeneratorClass\x0a\x09^ CodeGenerator",
@@ -11904,14 +11640,25 @@ referencedClasses: ["CodeGenerator"],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.CodeGenerator;
+
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "compiler",
 protocol: "factory",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "compiler\x0a\x09^ Compiler new\x0a\x09\x09codeGeneratorClass: self codeGeneratorClass;\x0a\x09\x09yourself",
+referencedClasses: ["Compiler"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["codeGeneratorClass:", "new", "codeGeneratorClass", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -11923,22 +11670,21 @@ return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"compiler",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "compiler\x0a\x09^ Compiler new\x0a\x09\x09codeGeneratorClass: self codeGeneratorClass;\x0a\x09\x09yourself",
-referencedClasses: ["Compiler"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["codeGeneratorClass:", "new", "codeGeneratorClass", "yourself"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "deinstallBottom",
 protocol: "testing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "deinstallBottom\x0a\x09self targetClassBottom removeCompiledMethod: method",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["removeCompiledMethod:", "targetClassBottom"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -11948,22 +11694,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"deinstallBottom",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "deinstallBottom\x0a\x09self targetClassBottom removeCompiledMethod: method",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["removeCompiledMethod:", "targetClassBottom"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "deinstallMiddle",
 protocol: "testing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "deinstallMiddle\x0a\x09self targetClassMiddle removeCompiledMethod: method",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["removeCompiledMethod:", "targetClassMiddle"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -11973,22 +11718,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"deinstallMiddle",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "deinstallMiddle\x0a\x09self targetClassMiddle removeCompiledMethod: method",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["removeCompiledMethod:", "targetClassMiddle"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "deinstallTop",
 protocol: "testing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "deinstallTop\x0a\x09self targetClassTop removeCompiledMethod: method",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["removeCompiledMethod:", "targetClassTop"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -11998,22 +11742,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"deinstallTop",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "deinstallTop\x0a\x09self targetClassTop removeCompiledMethod: method",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["removeCompiledMethod:", "targetClassTop"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "installBottom:",
 protocol: "testing",
-fn: function (aString){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "installBottom: aString\x0a\x09method := self compiler install: aString forClass: self targetClassBottom protocol: 'tests'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["install:forClass:protocol:", "compiler", "targetClassBottom"]
+}, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12023,22 +11766,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"installBottom:",{aString:aString})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "installBottom: aString\x0a\x09method := self compiler install: aString forClass: self targetClassBottom protocol: 'tests'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["install:forClass:protocol:", "compiler", "targetClassBottom"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "installMiddle:",
 protocol: "testing",
-fn: function (aString){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "installMiddle: aString\x0a\x09method := self compiler install: aString forClass: self targetClassMiddle protocol: 'tests'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["install:forClass:protocol:", "compiler", "targetClassMiddle"]
+}, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12048,22 +11790,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"installMiddle:",{aString:aString})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "installMiddle: aString\x0a\x09method := self compiler install: aString forClass: self targetClassMiddle protocol: 'tests'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["install:forClass:protocol:", "compiler", "targetClassMiddle"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "installTop:",
 protocol: "testing",
-fn: function (aString){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "installTop: aString\x0a\x09method := self compiler install: aString forClass: self targetClassTop protocol: 'tests'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["install:forClass:protocol:", "compiler", "targetClassTop"]
+}, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12073,22 +11814,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"installTop:",{aString:aString})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "installTop: aString\x0a\x09method := self compiler install: aString forClass: self targetClassTop protocol: 'tests'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["install:forClass:protocol:", "compiler", "targetClassTop"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "setUp",
 protocol: "initialization",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "setUp\x0a\x09receiverTop := self targetClassTop new.\x0a\x09receiverMiddle := self targetClassMiddle new.\x0a\x09receiverBottom := self targetClassBottom new.\x0a\x09method := nil.\x0a\x09performBlock := [ self error: 'performBlock not initialized' ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "targetClassTop", "targetClassMiddle", "targetClassBottom", "error:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12116,22 +11856,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setUp",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "setUp\x0a\x09receiverTop := self targetClassTop new.\x0a\x09receiverMiddle := self targetClassMiddle new.\x0a\x09receiverBottom := self targetClassBottom new.\x0a\x09method := nil.\x0a\x09performBlock := [ self error: 'performBlock not initialized' ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "targetClassTop", "targetClassMiddle", "targetClassBottom", "error:"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "shouldMNU",
 protocol: "testing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "shouldMNU\x0a\x09self shouldMNUTop.\x0a\x09self shouldMNUMiddle.\x0a\x09self shouldMNUBottom",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["shouldMNUTop", "shouldMNUMiddle", "shouldMNUBottom"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12143,22 +11882,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"shouldMNU",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "shouldMNU\x0a\x09self shouldMNUTop.\x0a\x09self shouldMNUMiddle.\x0a\x09self shouldMNUBottom",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["shouldMNUTop", "shouldMNUMiddle", "shouldMNUBottom"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "shouldMNUBottom",
 protocol: "testing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "shouldMNUBottom\x0a\x09self should: [ performBlock value: receiverBottom ] raise: MessageNotUnderstood",
+referencedClasses: ["MessageNotUnderstood"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "value:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12176,22 +11914,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"shouldMNUBottom",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "shouldMNUBottom\x0a\x09self should: [ performBlock value: receiverBottom ] raise: MessageNotUnderstood",
-referencedClasses: ["MessageNotUnderstood"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "value:"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "shouldMNUMiddle",
 protocol: "testing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "shouldMNUMiddle\x0a\x09self should: [ performBlock value: receiverMiddle ] raise: MessageNotUnderstood",
+referencedClasses: ["MessageNotUnderstood"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "value:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12209,22 +11946,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"shouldMNUMiddle",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "shouldMNUMiddle\x0a\x09self should: [ performBlock value: receiverMiddle ] raise: MessageNotUnderstood",
-referencedClasses: ["MessageNotUnderstood"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "value:"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "shouldMNUTop",
 protocol: "testing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "shouldMNUTop\x0a\x09self should: [ performBlock value: receiverTop ] raise: MessageNotUnderstood",
+referencedClasses: ["MessageNotUnderstood"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "value:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12242,22 +11978,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"shouldMNUTop",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "shouldMNUTop\x0a\x09self should: [ performBlock value: receiverTop ] raise: MessageNotUnderstood",
-referencedClasses: ["MessageNotUnderstood"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "value:"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "shouldReturn:",
 protocol: "testing",
-fn: function (anObject){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "shouldReturn: anObject\x0a\x09| result |\x0a\x0a\x09result := performBlock value: receiverTop.\x0a\x09self assert: { 'top'. anObject } equals: { 'top'. result }.\x0a\x09result := performBlock value: receiverMiddle.\x0a\x09self assert: { 'middle'. anObject } equals: { 'middle'. result }.\x0a\x09result := performBlock value: receiverBottom.\x0a\x09self assert: { 'bottom'. anObject } equals: { 'bottom'. result }",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["value:", "assert:equals:"]
+}, function ($methodClass){ return function (anObject){
 var self=this,$self=this;
 var result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -12285,22 +12020,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"shouldReturn:",{anObject:anObject,result:result})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anObject"],
-source: "shouldReturn: anObject\x0a\x09| result |\x0a\x0a\x09result := performBlock value: receiverTop.\x0a\x09self assert: { 'top'. anObject } equals: { 'top'. result }.\x0a\x09result := performBlock value: receiverMiddle.\x0a\x09self assert: { 'middle'. anObject } equals: { 'middle'. result }.\x0a\x09result := performBlock value: receiverBottom.\x0a\x09self assert: { 'bottom'. anObject } equals: { 'bottom'. result }",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["value:", "assert:equals:"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "shouldReturn:and:and:",
 protocol: "testing",
-fn: function (anObject,anObject2,anObject3){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject", "anObject2", "anObject3"],
+source: "shouldReturn: anObject and: anObject2 and: anObject3\x0a\x09| result |\x0a\x0a\x09result := performBlock value: receiverTop.\x0a\x09self assert: { 'top'. anObject } equals: { 'top'. result }.\x0a\x09result := performBlock value: receiverMiddle.\x0a\x09self assert: { 'middle'. anObject2 } equals: { 'middle'. result }.\x0a\x09result := performBlock value: receiverBottom.\x0a\x09self assert: { 'bottom'. anObject3 } equals: { 'bottom'. result }",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["value:", "assert:equals:"]
+}, function ($methodClass){ return function (anObject,anObject2,anObject3){
 var self=this,$self=this;
 var result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -12328,26 +12062,13 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"shouldReturn:and:and:",{anObject:anObject,anObject2:anObject2,anObject3:anObject3,result:result})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anObject", "anObject2", "anObject3"],
-source: "shouldReturn: anObject and: anObject2 and: anObject3\x0a\x09| result |\x0a\x0a\x09result := performBlock value: receiverTop.\x0a\x09self assert: { 'top'. anObject } equals: { 'top'. result }.\x0a\x09result := performBlock value: receiverMiddle.\x0a\x09self assert: { 'middle'. anObject2 } equals: { 'middle'. result }.\x0a\x09result := performBlock value: receiverBottom.\x0a\x09self assert: { 'bottom'. anObject3 } equals: { 'bottom'. result }",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["value:", "assert:equals:"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "targetClassBottom",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $globals.JavaScriptException;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "targetClassBottom\x0a\x09^ JavaScriptException",
@@ -12355,18 +12076,17 @@ referencedClasses: ["JavaScriptException"],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.JavaScriptException;
+
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "targetClassMiddle",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $globals.Error;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "targetClassMiddle\x0a\x09^ Error",
@@ -12374,18 +12094,17 @@ referencedClasses: ["Error"],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.Error;
+
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "targetClassTop",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $globals.Object;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "targetClassTop\x0a\x09^ Object",
@@ -12393,14 +12112,25 @@ referencedClasses: ["Object"],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.Object;
+
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "tearDown",
 protocol: "initialization",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "tearDown\x0a\x09[ self deinstallTop ] on: Error do: [ ].\x0a\x09[ self deinstallMiddle ] on: Error do: [ ].\x0a\x09[ self deinstallBottom ] on: Error do: [ ]",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["on:do:", "deinstallTop", "deinstallMiddle", "deinstallBottom"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12448,22 +12178,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"tearDown",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "tearDown\x0a\x09[ self deinstallTop ] on: Error do: [ ].\x0a\x09[ self deinstallMiddle ] on: Error do: [ ].\x0a\x09[ self deinstallBottom ] on: Error do: [ ]",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["on:do:", "deinstallTop", "deinstallMiddle", "deinstallBottom"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "testMNU11",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testMNU11\x0a\x09performBlock := [ :x | x foo ].\x0a\x09self shouldMNU.\x0a\x09self installTop: 'foo ^ false'.\x0a\x09self installTop: 'foo ^ true'.\x0a\x09self deinstallTop.\x0a\x09self shouldMNU",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["foo", "shouldMNU", "installTop:", "deinstallTop"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12492,22 +12221,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testMNU11",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testMNU11\x0a\x09performBlock := [ :x | x foo ].\x0a\x09self shouldMNU.\x0a\x09self installTop: 'foo ^ false'.\x0a\x09self installTop: 'foo ^ true'.\x0a\x09self deinstallTop.\x0a\x09self shouldMNU",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["foo", "shouldMNU", "installTop:", "deinstallTop"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "testMNU22",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testMNU22\x0a\x09performBlock := [ :x | x foo ].\x0a\x09self shouldMNU.\x0a\x09self installMiddle: 'foo ^ false'.\x0a\x09self installMiddle: 'foo ^ true'.\x0a\x09self deinstallMiddle.\x0a\x09self shouldMNU",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["foo", "shouldMNU", "installMiddle:", "deinstallMiddle"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12536,22 +12264,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testMNU22",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testMNU22\x0a\x09performBlock := [ :x | x foo ].\x0a\x09self shouldMNU.\x0a\x09self installMiddle: 'foo ^ false'.\x0a\x09self installMiddle: 'foo ^ true'.\x0a\x09self deinstallMiddle.\x0a\x09self shouldMNU",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["foo", "shouldMNU", "installMiddle:", "deinstallMiddle"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 $core.addMethod(
 $core.method({
 selector: "testReturns1",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testReturns1\x0a\x09performBlock := [ :x | x foo ].\x0a\x09self installTop: 'foo ^ false'.\x0a\x09self shouldReturn: false.\x0a\x09self installTop: 'foo ^ true'.\x0a\x09self shouldReturn: true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["foo", "installTop:", "shouldReturn:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12579,15 +12306,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testReturns1",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testReturns1\x0a\x09performBlock := [ :x | x foo ].\x0a\x09self installTop: 'foo ^ false'.\x0a\x09self shouldReturn: false.\x0a\x09self installTop: 'foo ^ true'.\x0a\x09self shouldReturn: true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["foo", "installTop:", "shouldReturn:"]
-}),
+}; }),
 $globals.MethodInheritanceTest);
 
 
@@ -12597,7 +12316,14 @@ $core.addMethod(
 $core.method({
 selector: "testAbs",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAbs\x0a\x09self assert: 4 abs equals: 4.\x0a\x09self assert: -4 abs equals: 4",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "abs"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12616,22 +12342,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAbs",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAbs\x0a\x09self assert: 4 abs equals: 4.\x0a\x09self assert: -4 abs equals: 4",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "abs"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testArithmetic",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testArithmetic\x0a\x09\x0a\x09\x22We rely on JS here, so we won't test complex behavior, just check if\x0a\x09message sends are corrects\x22\x0a\x0a\x09self assert: 1.5 + 1 equals: 2.5.\x0a\x09self assert: 2 - 1 equals: 1.\x0a\x09self assert: -2 - 1 equals: -3.\x0a\x09self assert: 12 / 2 equals: 6.\x0a\x09self assert: 3 * 4 equals: 12.\x0a\x09self assert: 7 // 2 equals: 3.\x0a\x09self assert: 7 \x5c\x5c 2 equals: 1.\x0a\x0a\x09\x22Simple parenthesis and execution order\x22\x0a\x09self assert: 1 + 2 * 3 equals: 9.\x0a\x09self assert: 1 + (2 * 3) equals: 7",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "+", "-", "/", "*", "//", "\x5c\x5c"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12694,22 +12419,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testArithmetic",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testArithmetic\x0a\x09\x0a\x09\x22We rely on JS here, so we won't test complex behavior, just check if\x0a\x09message sends are corrects\x22\x0a\x0a\x09self assert: 1.5 + 1 equals: 2.5.\x0a\x09self assert: 2 - 1 equals: 1.\x0a\x09self assert: -2 - 1 equals: -3.\x0a\x09self assert: 12 / 2 equals: 6.\x0a\x09self assert: 3 * 4 equals: 12.\x0a\x09self assert: 7 // 2 equals: 3.\x0a\x09self assert: 7 \x5c\x5c 2 equals: 1.\x0a\x0a\x09\x22Simple parenthesis and execution order\x22\x0a\x09self assert: 1 + 2 * 3 equals: 9.\x0a\x09self assert: 1 + (2 * 3) equals: 7",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "+", "-", "/", "*", "//", "\x5c\x5c"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAsNumber",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAsNumber\x0a\x09self assert: 3 asNumber equals: 3.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "asNumber"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12719,22 +12443,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAsNumber",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAsNumber\x0a\x09self assert: 3 asNumber equals: 3.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "asNumber"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testBetweenAnd",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testBetweenAnd\x0a\x09self assert: (4 between: 3 and: 5).\x0a\x09self assert: (1 between: 5 and: 6) not.\x0a\x09self assert: (90 between: 67 and: 87) not.\x0a\x09self assert: (1 between: 1 and: 1).",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "between:and:", "not"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12774,22 +12497,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testBetweenAnd",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testBetweenAnd\x0a\x09self assert: (4 between: 3 and: 5).\x0a\x09self assert: (1 between: 5 and: 6) not.\x0a\x09self assert: (90 between: 67 and: 87) not.\x0a\x09self assert: (1 between: 1 and: 1).",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "between:and:", "not"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testBitAnd",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testBitAnd\x0a\x09self assert: (15 bitAnd: 2) equals: 2.\x0a\x09self assert: (15 bitAnd: 15) equals: 15.\x0a\x09self assert: (-1 bitAnd: 1021) equals: 1021",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "bitAnd:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12816,22 +12538,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testBitAnd",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testBitAnd\x0a\x09self assert: (15 bitAnd: 2) equals: 2.\x0a\x09self assert: (15 bitAnd: 15) equals: 15.\x0a\x09self assert: (-1 bitAnd: 1021) equals: 1021",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "bitAnd:"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testBitNot",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testBitNot\x0a\x09self assert: 2 bitNot equals: -3.\x0a\x09self assert: -1 bitNot equals: 0.\x0a\x09self assert: -1022 bitNot equals: 1021",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "bitNot"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12858,22 +12579,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testBitNot",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testBitNot\x0a\x09self assert: 2 bitNot equals: -3.\x0a\x09self assert: -1 bitNot equals: 0.\x0a\x09self assert: -1022 bitNot equals: 1021",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "bitNot"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testBitOr",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testBitOr\x0a\x09self assert: (2 bitOr: 4) equals: 6.\x0a\x09self assert: (7 bitOr: 2) equals: 7.\x0a\x09self assert: (-1 bitOr: 1021) equals: -1",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "bitOr:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12900,22 +12620,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testBitOr",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testBitOr\x0a\x09self assert: (2 bitOr: 4) equals: 6.\x0a\x09self assert: (7 bitOr: 2) equals: 7.\x0a\x09self assert: (-1 bitOr: 1021) equals: -1",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "bitOr:"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testBitXor",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testBitXor\x0a\x09self assert: (2 bitXor: 4) equals: 6.\x0a\x09self assert: (7 bitXor: 2) equals: 5.\x0a\x09self assert: (-1 bitXor: 1021) equals: -1022.\x0a\x09self assert: (91 bitXor: 91) equals: 0",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "bitXor:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12950,22 +12669,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testBitXor",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testBitXor\x0a\x09self assert: (2 bitXor: 4) equals: 6.\x0a\x09self assert: (7 bitXor: 2) equals: 5.\x0a\x09self assert: (-1 bitXor: 1021) equals: -1022.\x0a\x09self assert: (91 bitXor: 91) equals: 0",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "bitXor:"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testCeiling",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCeiling\x0a\x09self assert: 1.2 ceiling equals: 2.\x0a\x09self assert: -1.2 ceiling equals: -1.\x0a\x09self assert: 1.0 ceiling equals: 1.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "ceiling"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -12992,22 +12710,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCeiling",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testCeiling\x0a\x09self assert: 1.2 ceiling equals: 2.\x0a\x09self assert: -1.2 ceiling equals: -1.\x0a\x09self assert: 1.0 ceiling equals: 1.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "ceiling"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testComparison",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testComparison\x0a\x0a\x09self assert: 3 > 2.\x0a\x09self assert: 2 < 3.\x0a\x09\x0a\x09self deny: 3 < 2.\x0a\x09self deny: 2 > 3.\x0a\x0a\x09self assert: 3 >= 3.\x0a\x09self assert: 3.1 >= 3.\x0a\x09self assert: 3 <= 3.\x0a\x09self assert: 3 <= 3.1",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", ">", "<", "deny:", ">=", "<="]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -13059,22 +12776,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testComparison",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testComparison\x0a\x0a\x09self assert: 3 > 2.\x0a\x09self assert: 2 < 3.\x0a\x09\x0a\x09self deny: 3 < 2.\x0a\x09self deny: 2 > 3.\x0a\x0a\x09self assert: 3 >= 3.\x0a\x09self assert: 3.1 >= 3.\x0a\x09self assert: 3 <= 3.\x0a\x09self assert: 3 <= 3.1",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", ">", "<", "deny:", ">=", "<="]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testCopying",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCopying\x0a\x09self assert: 1 copy == 1.\x0a\x09self assert: 1 deepCopy == 1",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "==", "copy", "deepCopy"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -13093,22 +12809,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCopying",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testCopying\x0a\x09self assert: 1 copy == 1.\x0a\x09self assert: 1 deepCopy == 1",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "==", "copy", "deepCopy"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testDegreesToRadians",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDegreesToRadians\x0a\x09self assert: (180 degreesToRadians - Number pi) abs <= 0.01.",
+referencedClasses: ["Number"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "<=", "abs", "-", "degreesToRadians", "pi"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -13118,22 +12833,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testDegreesToRadians",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testDegreesToRadians\x0a\x09self assert: (180 degreesToRadians - Number pi) abs <= 0.01.",
-referencedClasses: ["Number"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "<=", "abs", "-", "degreesToRadians", "pi"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testEquality",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testEquality\x0a\x09self assert: (1 = 1).\x0a\x09self assert: (0 = 0).\x0a\x09self deny: (1 = 0).\x0a\x0a\x09self assert: (1 yourself = 1).\x0a\x09self assert: (1 = 1 yourself).\x0a\x09self assert: (1 yourself = 1 yourself).\x0a\x09\x0a\x09self deny: 0 = false.\x0a\x09self deny: false = 0.\x0a\x09self deny: '' = 0.\x0a\x09self deny: 0 = ''",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "=", "deny:", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -13225,22 +12939,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testEquality",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testEquality\x0a\x09self assert: (1 = 1).\x0a\x09self assert: (0 = 0).\x0a\x09self deny: (1 = 0).\x0a\x0a\x09self assert: (1 yourself = 1).\x0a\x09self assert: (1 = 1 yourself).\x0a\x09self assert: (1 yourself = 1 yourself).\x0a\x09\x0a\x09self deny: 0 = false.\x0a\x09self deny: false = 0.\x0a\x09self deny: '' = 0.\x0a\x09self deny: 0 = ''",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "=", "deny:", "yourself"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testFloor",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testFloor\x0a\x09self assert: 1.2 floor equals: 1.\x0a\x09self assert: -1.2 floor equals: -2.\x0a\x09self assert: 1.0 floor equals: 1.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "floor"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -13267,22 +12980,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testFloor",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testFloor\x0a\x09self assert: 1.2 floor equals: 1.\x0a\x09self assert: -1.2 floor equals: -2.\x0a\x09self assert: 1.0 floor equals: 1.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "floor"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testHexNumbers",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testHexNumbers\x0a\x0a\x09self assert: 16r9 equals: 9.\x0a\x09self assert: 16rA truncated equals: 10.\x0a\x09self assert: 16rB truncated equals: 11.\x0a\x09self assert: 16rC truncated equals: 12.\x0a\x09self assert: 16rD truncated equals: 13.\x0a\x09self assert: 16rE truncated equals: 14.\x0a\x09self assert: 16rF truncated equals: 15",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "truncated"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -13337,22 +13049,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testHexNumbers",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testHexNumbers\x0a\x0a\x09self assert: 16r9 equals: 9.\x0a\x09self assert: 16rA truncated equals: 10.\x0a\x09self assert: 16rB truncated equals: 11.\x0a\x09self assert: 16rC truncated equals: 12.\x0a\x09self assert: 16rD truncated equals: 13.\x0a\x09self assert: 16rE truncated equals: 14.\x0a\x09self assert: 16rF truncated equals: 15",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "truncated"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIdentity",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIdentity\x0a\x09self assert: 1 == 1.\x0a\x09self assert: 0 == 0.\x0a\x09self deny: 1 == 0.\x0a\x0a\x09self assert: 1 yourself == 1.\x0a\x09self assert: 1 == 1 yourself.\x0a\x09self assert: 1 yourself == 1 yourself.\x0a\x09\x0a\x09self deny: 1 == 2",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "==", "deny:", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -13420,22 +13131,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIdentity",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIdentity\x0a\x09self assert: 1 == 1.\x0a\x09self assert: 0 == 0.\x0a\x09self deny: 1 == 0.\x0a\x0a\x09self assert: 1 yourself == 1.\x0a\x09self assert: 1 == 1 yourself.\x0a\x09self assert: 1 yourself == 1 yourself.\x0a\x09\x0a\x09self deny: 1 == 2",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "==", "deny:", "yourself"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testInvalidHexNumbers",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testInvalidHexNumbers\x0a\x0a\x09self should: [ 16rG ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rg ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rH ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rh ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rI ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16ri ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rJ ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rj ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rK ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rk ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rL ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rl ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rM ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rm ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rN ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rn ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rO ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16ro ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rP ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rp ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rQ ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rq ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rR ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rr ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rS ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rs ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rT ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rt ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rU ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16ru ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rV ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rv ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rW ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rw ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rX ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rx ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rY ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16ry ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rZ ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rz ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rABcdEfZ ] raise: MessageNotUnderstood.",
+referencedClasses: ["MessageNotUnderstood"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "rG", "rg", "rH", "rh", "rI", "ri", "rJ", "rj", "rK", "rk", "rL", "rl", "rM", "rm", "rN", "rn", "rO", "ro", "rP", "rp", "rQ", "rq", "rR", "rr", "rS", "rs", "rT", "rt", "rU", "ru", "rV", "rv", "rW", "rw", "rX", "rx", "rY", "ry", "rZ", "rz", "Z"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -13933,22 +13643,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testInvalidHexNumbers",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testInvalidHexNumbers\x0a\x0a\x09self should: [ 16rG ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rg ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rH ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rh ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rI ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16ri ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rJ ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rj ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rK ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rk ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rL ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rl ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rM ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rm ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rN ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rn ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rO ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16ro ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rP ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rp ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rQ ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rq ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rR ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rr ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rS ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rs ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rT ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rt ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rU ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16ru ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rV ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rv ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rW ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rw ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rX ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rx ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rY ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16ry ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rZ ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rz ] raise: MessageNotUnderstood.\x0a\x09self should: [ 16rABcdEfZ ] raise: MessageNotUnderstood.",
-referencedClasses: ["MessageNotUnderstood"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "rG", "rg", "rH", "rh", "rI", "ri", "rJ", "rj", "rK", "rk", "rL", "rl", "rM", "rm", "rN", "rn", "rO", "ro", "rP", "rp", "rQ", "rq", "rR", "rr", "rS", "rs", "rT", "rt", "rU", "ru", "rV", "rv", "rW", "rw", "rX", "rx", "rY", "ry", "rZ", "rz", "Z"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testLog",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testLog\x0a\x09self assert: 10000 log equals: 4.\x0a\x09self assert: (512 log: 2) equals: 9.\x0a\x09self assert: Number e ln equals: 1.",
+referencedClasses: ["Number"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "log", "log:", "ln", "e"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -13966,22 +13675,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testLog",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testLog\x0a\x09self assert: 10000 log equals: 4.\x0a\x09self assert: (512 log: 2) equals: 9.\x0a\x09self assert: Number e ln equals: 1.",
-referencedClasses: ["Number"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "log", "log:", "ln", "e"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testMinMax",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testMinMax\x0a\x09\x0a\x09self assert: (2 max: 5) equals: 5.\x0a\x09self assert: (2 min: 5) equals: 2.\x0a\x09self assert: (2 min: 5 max: 3) equals: 3.\x0a\x09self assert: (7 min: 5 max: 3) equals: 5.\x0a\x09self assert: (4 min: 5 max: 3) equals: 4.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "max:", "min:", "min:max:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14016,22 +13724,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testMinMax",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testMinMax\x0a\x09\x0a\x09self assert: (2 max: 5) equals: 5.\x0a\x09self assert: (2 min: 5) equals: 2.\x0a\x09self assert: (2 min: 5 max: 3) equals: 3.\x0a\x09self assert: (7 min: 5 max: 3) equals: 5.\x0a\x09self assert: (4 min: 5 max: 3) equals: 4.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "max:", "min:", "min:max:"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testNegated",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNegated\x0a\x09self assert: 3 negated equals: -3.\x0a\x09self assert: -3 negated equals: 3",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "negated"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14050,22 +13757,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testNegated",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testNegated\x0a\x09self assert: 3 negated equals: -3.\x0a\x09self assert: -3 negated equals: 3",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "negated"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testPrintShowingDecimalPlaces",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPrintShowingDecimalPlaces\x0a\x09self assert: (23 printShowingDecimalPlaces: 2) equals: '23.00'.\x0a\x09self assert: (23.5698 printShowingDecimalPlaces: 2) equals: '23.57'.\x0a\x09self assert: (234.567 negated printShowingDecimalPlaces: 5) equals: '-234.56700'.\x0a\x09self assert: (23.4567 printShowingDecimalPlaces: 0) equals: '23'.\x0a\x09self assert: (23.5567 printShowingDecimalPlaces: 0) equals: '24'.\x0a\x09self assert: (23.4567 negated printShowingDecimalPlaces: 0) equals: '-23'.\x0a\x09self assert: (23.5567 negated printShowingDecimalPlaces: 0) equals: '-24'.\x0a\x09self assert: (100000000 printShowingDecimalPlaces: 1) equals: '100000000.0'.\x0a\x09self assert: (0.98 printShowingDecimalPlaces: 5) equals: '0.98000'.\x0a\x09self assert: (0.98 negated printShowingDecimalPlaces: 2) equals: '-0.98'.\x0a\x09self assert: (2.567 printShowingDecimalPlaces: 2) equals: '2.57'.\x0a\x09self assert: (-2.567 printShowingDecimalPlaces: 2) equals: '-2.57'.\x0a\x09self assert: (0 printShowingDecimalPlaces: 2) equals: '0.00'.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "printShowingDecimalPlaces:", "negated"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14184,22 +13890,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testPrintShowingDecimalPlaces",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testPrintShowingDecimalPlaces\x0a\x09self assert: (23 printShowingDecimalPlaces: 2) equals: '23.00'.\x0a\x09self assert: (23.5698 printShowingDecimalPlaces: 2) equals: '23.57'.\x0a\x09self assert: (234.567 negated printShowingDecimalPlaces: 5) equals: '-234.56700'.\x0a\x09self assert: (23.4567 printShowingDecimalPlaces: 0) equals: '23'.\x0a\x09self assert: (23.5567 printShowingDecimalPlaces: 0) equals: '24'.\x0a\x09self assert: (23.4567 negated printShowingDecimalPlaces: 0) equals: '-23'.\x0a\x09self assert: (23.5567 negated printShowingDecimalPlaces: 0) equals: '-24'.\x0a\x09self assert: (100000000 printShowingDecimalPlaces: 1) equals: '100000000.0'.\x0a\x09self assert: (0.98 printShowingDecimalPlaces: 5) equals: '0.98000'.\x0a\x09self assert: (0.98 negated printShowingDecimalPlaces: 2) equals: '-0.98'.\x0a\x09self assert: (2.567 printShowingDecimalPlaces: 2) equals: '2.57'.\x0a\x09self assert: (-2.567 printShowingDecimalPlaces: 2) equals: '-2.57'.\x0a\x09self assert: (0 printShowingDecimalPlaces: 2) equals: '0.00'.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "printShowingDecimalPlaces:", "negated"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testPrintStringBase",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPrintStringBase\x0a\x09self assert: (15 printStringBase: 2) equals: '1111'.\x0a\x09self assert: (15 printStringBase: 16) equals: 'f'.\x0a\x09self assert: (256 printStringBase: 16) equals: '100'.\x0a\x09self assert: (256 printStringBase: 2) equals: '100000000'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "printStringBase:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14234,22 +13939,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testPrintStringBase",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testPrintStringBase\x0a\x09self assert: (15 printStringBase: 2) equals: '1111'.\x0a\x09self assert: (15 printStringBase: 16) equals: 'f'.\x0a\x09self assert: (256 printStringBase: 16) equals: '100'.\x0a\x09self assert: (256 printStringBase: 2) equals: '100000000'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "printStringBase:"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRadiansToDegrees",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRadiansToDegrees\x0a\x09self assert: (Number pi radiansToDegrees - 180) abs <= 0.01.",
+referencedClasses: ["Number"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "<=", "abs", "-", "radiansToDegrees", "pi"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14259,22 +13963,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRadiansToDegrees",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRadiansToDegrees\x0a\x09self assert: (Number pi radiansToDegrees - 180) abs <= 0.01.",
-referencedClasses: ["Number"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "<=", "abs", "-", "radiansToDegrees", "pi"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRaisedTo",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRaisedTo\x0a\x09self assert: (2 raisedTo: 4) equals: 16.\x0a\x09self assert: (2 raisedTo: 0) equals: 1.\x0a\x09self assert: (2 raisedTo: -3) equals: 0.125.\x0a\x09self assert: (4 raisedTo: 0.5) equals: 2.\x0a\x09\x0a\x09self assert: 2 ** 4 equals: 16.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "raisedTo:", "**"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14313,22 +14016,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRaisedTo",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRaisedTo\x0a\x09self assert: (2 raisedTo: 4) equals: 16.\x0a\x09self assert: (2 raisedTo: 0) equals: 1.\x0a\x09self assert: (2 raisedTo: -3) equals: 0.125.\x0a\x09self assert: (4 raisedTo: 0.5) equals: 2.\x0a\x09\x0a\x09self assert: 2 ** 4 equals: 16.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "raisedTo:", "**"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRounded",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRounded\x0a\x09\x0a\x09self assert: 3 rounded equals: 3.\x0a\x09self assert: 3.212 rounded equals: 3.\x0a\x09self assert: 3.51 rounded equals: 4",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "rounded"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14355,22 +14057,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRounded",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRounded\x0a\x09\x0a\x09self assert: 3 rounded equals: 3.\x0a\x09self assert: 3.212 rounded equals: 3.\x0a\x09self assert: 3.51 rounded equals: 4",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "rounded"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testSign",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSign\x0a\x09self assert: 5 sign equals: 1.\x0a\x09self assert: 0 sign equals: 0.\x0a\x09self assert: -1.4 sign equals: -1.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "sign"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14397,22 +14098,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testSign",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testSign\x0a\x09self assert: 5 sign equals: 1.\x0a\x09self assert: 0 sign equals: 0.\x0a\x09self assert: -1.4 sign equals: -1.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "sign"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testSqrt",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSqrt\x0a\x09\x0a\x09self assert: 4 sqrt equals: 2.\x0a\x09self assert: 16 sqrt equals: 4",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "sqrt"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14431,22 +14131,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testSqrt",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testSqrt\x0a\x09\x0a\x09self assert: 4 sqrt equals: 2.\x0a\x09self assert: 16 sqrt equals: 4",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "sqrt"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testSquared",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSquared\x0a\x09\x0a\x09self assert: 4 squared equals: 16",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "squared"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14456,22 +14155,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testSquared",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testSquared\x0a\x09\x0a\x09self assert: 4 squared equals: 16",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "squared"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testTimesRepeat",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testTimesRepeat\x0a\x09| i |\x0a\x0a\x09i := 0.\x0a\x090 timesRepeat: [ i := i + 1 ].\x0a\x09self assert: i equals: 0.\x0a\x0a\x095 timesRepeat: [ i := i + 1 ].\x0a\x09self assert: i equals: 5",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timesRepeat:", "+", "assert:equals:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var i;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -14513,22 +14211,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testTimesRepeat",{i:i})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testTimesRepeat\x0a\x09| i |\x0a\x0a\x09i := 0.\x0a\x090 timesRepeat: [ i := i + 1 ].\x0a\x09self assert: i equals: 0.\x0a\x0a\x095 timesRepeat: [ i := i + 1 ].\x0a\x09self assert: i equals: 5",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["timesRepeat:", "+", "assert:equals:"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testTo",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testTo\x0a\x09self assert: (1 to: 5) equals: #(1 2 3 4 5)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "to:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14538,22 +14235,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testTo",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testTo\x0a\x09self assert: (1 to: 5) equals: #(1 2 3 4 5)",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "to:"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testToBy",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testToBy\x0a\x09self assert: (0 to: 6 by: 2) equals: #(0 2 4 6).\x0a\x0a\x09self should: [ 1 to: 4 by: 0 ] raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "to:by:", "should:raise:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14577,22 +14273,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testToBy",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testToBy\x0a\x09self assert: (0 to: 6 by: 2) equals: #(0 2 4 6).\x0a\x0a\x09self should: [ 1 to: 4 by: 0 ] raise: Error",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "to:by:", "should:raise:"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testTrigonometry",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testTrigonometry\x0a\x09self assert: 0 cos equals: 1.\x0a\x09self assert: 0 sin equals: 0.\x0a\x09self assert: 0 tan equals: 0.\x0a\x09self assert: 1 arcCos equals: 0.\x0a\x09self assert: 0 arcSin equals: 0.\x0a\x09self assert: 0 arcTan equals: 0.\x0a\x09\x0a\x09self assert: (0 arcTan: 1) equals: 0.\x0a\x09self assert: (1 arcTan: 0) equals: (Number pi / 2)",
+referencedClasses: ["Number"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "cos", "sin", "tan", "arcCos", "arcSin", "arcTan", "arcTan:", "/", "pi"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14635,22 +14330,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testTrigonometry",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testTrigonometry\x0a\x09self assert: 0 cos equals: 1.\x0a\x09self assert: 0 sin equals: 0.\x0a\x09self assert: 0 tan equals: 0.\x0a\x09self assert: 1 arcCos equals: 0.\x0a\x09self assert: 0 arcSin equals: 0.\x0a\x09self assert: 0 arcTan equals: 0.\x0a\x09\x0a\x09self assert: (0 arcTan: 1) equals: 0.\x0a\x09self assert: (1 arcTan: 0) equals: (Number pi / 2)",
-referencedClasses: ["Number"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "cos", "sin", "tan", "arcCos", "arcSin", "arcTan", "arcTan:", "/", "pi"]
-}),
+}; }),
 $globals.NumberTest);
 
 $core.addMethod(
 $core.method({
 selector: "testTruncated",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testTruncated\x0a\x09\x0a\x09self assert: 3 truncated equals: 3.\x0a\x09self assert: 3.212 truncated equals: 3.\x0a\x09self assert: 3.51 truncated equals: 3",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "truncated"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14677,15 +14371,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testTruncated",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testTruncated\x0a\x09\x0a\x09self assert: 3 truncated equals: 3.\x0a\x09self assert: 3.212 truncated equals: 3.\x0a\x09self assert: 3.51 truncated equals: 3",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "truncated"]
-}),
+}; }),
 $globals.NumberTest);
 
 
@@ -14698,11 +14384,6 @@ $core.addMethod(
 $core.method({
 selector: "foo",
 protocol: "not yet classified",
-fn: function (){
-var self=this,$self=this;
-return $self.foo;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "foo\x0a\x09^ foo",
@@ -14710,19 +14391,17 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.foo;
+
+}; }),
 $globals.ObjectMock);
 
 $core.addMethod(
 $core.method({
 selector: "foo:",
 protocol: "not yet classified",
-fn: function (anObject){
-var self=this,$self=this;
-$self.foo=anObject;
-return self;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
 source: "foo: anObject\x0a\x09foo := anObject",
@@ -14730,7 +14409,12 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+$self.foo=anObject;
+return self;
+
+}; }),
 $globals.ObjectMock);
 
 
@@ -14740,7 +14424,14 @@ $core.addMethod(
 $core.method({
 selector: "notDefined",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "notDefined\x0a\x09<inlineJS: 'return void 0;'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return void 0;"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14750,22 +14441,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"notDefined",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "notDefined\x0a\x09<inlineJS: 'return void 0;'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return void 0;"]]],
-messageSends: []
-}),
+}; }),
 $globals.ObjectTest);
 
 $core.addMethod(
 $core.method({
 selector: "testBasicAccess",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testBasicAccess\x0a\x09| o |\x0a\x09o := Object new.\x0a\x09o basicAt: 'a' put: 1.\x0a\x09self assert: (o basicAt: 'a') equals: 1.\x0a\x09self assert: (o basicAt: 'b') equals: nil",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "basicAt:put:", "assert:equals:", "basicAt:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var o;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -14787,22 +14477,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testBasicAccess",{o:o})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testBasicAccess\x0a\x09| o |\x0a\x09o := Object new.\x0a\x09o basicAt: 'a' put: 1.\x0a\x09self assert: (o basicAt: 'a') equals: 1.\x0a\x09self assert: (o basicAt: 'b') equals: nil",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "basicAt:put:", "assert:equals:", "basicAt:"]
-}),
+}; }),
 $globals.ObjectTest);
 
 $core.addMethod(
 $core.method({
 selector: "testBasicPerform",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testBasicPerform\x0a\x09| o |\x0a\x09o := Object new.\x0a\x09o basicAt: 'func' put: [ 'hello' ].\x0a\x09o basicAt: 'func2' put: [ :a | a + 1 ].\x0a\x0a\x09self assert: (o basicPerform: 'func') equals: 'hello'.\x0a\x09self assert: (o basicPerform: 'func2' withArguments: #(3)) equals: 4",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "basicAt:put:", "+", "assert:equals:", "basicPerform:", "basicPerform:withArguments:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var o;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -14834,22 +14523,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testBasicPerform",{o:o})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testBasicPerform\x0a\x09| o |\x0a\x09o := Object new.\x0a\x09o basicAt: 'func' put: [ 'hello' ].\x0a\x09o basicAt: 'func2' put: [ :a | a + 1 ].\x0a\x0a\x09self assert: (o basicPerform: 'func') equals: 'hello'.\x0a\x09self assert: (o basicPerform: 'func2' withArguments: #(3)) equals: 4",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "basicAt:put:", "+", "assert:equals:", "basicPerform:", "basicPerform:withArguments:"]
-}),
+}; }),
 $globals.ObjectTest);
 
 $core.addMethod(
 $core.method({
 selector: "testDNU",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDNU\x0a\x09self should: [ Object new foo ] raise: MessageNotUnderstood",
+referencedClasses: ["Object", "MessageNotUnderstood"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "foo", "new"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14867,22 +14555,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testDNU",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testDNU\x0a\x09self should: [ Object new foo ] raise: MessageNotUnderstood",
-referencedClasses: ["Object", "MessageNotUnderstood"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "foo", "new"]
-}),
+}; }),
 $globals.ObjectTest);
 
 $core.addMethod(
 $core.method({
 selector: "testEquality",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testEquality\x0a\x09| o |\x0a\x09o := Object new.\x0a\x09self deny: o = Object new.\x0a\x09self assert: (o = o).\x0a\x09self assert: (o yourself = o).\x0a\x09self assert: (o = o yourself)",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "deny:", "=", "assert:", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var o;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -14923,22 +14610,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testEquality",{o:o})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testEquality\x0a\x09| o |\x0a\x09o := Object new.\x0a\x09self deny: o = Object new.\x0a\x09self assert: (o = o).\x0a\x09self assert: (o yourself = o).\x0a\x09self assert: (o = o yourself)",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "deny:", "=", "assert:", "yourself"]
-}),
+}; }),
 $globals.ObjectTest);
 
 $core.addMethod(
 $core.method({
 selector: "testHalt",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testHalt\x0a\x09self should: [ Object new halt ] raise: Error",
+referencedClasses: ["Object", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "halt", "new"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -14956,22 +14642,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testHalt",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testHalt\x0a\x09self should: [ Object new halt ] raise: Error",
-referencedClasses: ["Object", "Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "halt", "new"]
-}),
+}; }),
 $globals.ObjectTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIdentity",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIdentity\x0a\x09| o |\x0a\x09o := Object new.\x0a\x09self deny: o == Object new.\x0a\x09self assert: o == o.\x0a\x09self assert: o yourself == o.\x0a\x09self assert: o == o yourself",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "deny:", "==", "assert:", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var o;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -15012,22 +14697,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIdentity",{o:o})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIdentity\x0a\x09| o |\x0a\x09o := Object new.\x0a\x09self deny: o == Object new.\x0a\x09self assert: o == o.\x0a\x09self assert: o yourself == o.\x0a\x09self assert: o == o yourself",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "deny:", "==", "assert:", "yourself"]
-}),
+}; }),
 $globals.ObjectTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIfNil",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIfNil\x0a\x09self deny: Object new isNil.\x0a\x09self deny: (Object new ifNil: [ true ]) = true.\x0a\x09self assert: (Object new ifNotNil: [ true ]) equals: true.\x0a\x0a\x09self assert: (Object new ifNil: [ false ] ifNotNil: [ true ]) equals: true.\x0a\x09self assert: (Object new ifNotNil: [ true ] ifNil: [ false ]) equals: true",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["deny:", "isNil", "new", "=", "ifNil:", "assert:equals:", "ifNotNil:", "ifNil:ifNotNil:", "ifNotNil:ifNil:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -15090,22 +14774,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIfNil",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIfNil\x0a\x09self deny: Object new isNil.\x0a\x09self deny: (Object new ifNil: [ true ]) = true.\x0a\x09self assert: (Object new ifNotNil: [ true ]) equals: true.\x0a\x0a\x09self assert: (Object new ifNil: [ false ] ifNotNil: [ true ]) equals: true.\x0a\x09self assert: (Object new ifNotNil: [ true ] ifNil: [ false ]) equals: true",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["deny:", "isNil", "new", "=", "ifNil:", "assert:equals:", "ifNotNil:", "ifNil:ifNotNil:", "ifNotNil:ifNil:"]
-}),
+}; }),
 $globals.ObjectTest);
 
 $core.addMethod(
 $core.method({
 selector: "testInstVars",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testInstVars\x0a\x09| o |\x0a\x09o := ObjectMock new.\x0a\x09self assert: (o instVarAt: #foo) equals: nil.\x0a\x0a\x09o instVarAt: #foo put: 1.\x0a\x09self assert: (o instVarAt: #foo) equals: 1.\x0a\x09self assert: (o instVarAt: 'foo') equals: 1",
+referencedClasses: ["ObjectMock"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "assert:equals:", "instVarAt:", "instVarAt:put:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var o;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -15135,22 +14818,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testInstVars",{o:o})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testInstVars\x0a\x09| o |\x0a\x09o := ObjectMock new.\x0a\x09self assert: (o instVarAt: #foo) equals: nil.\x0a\x0a\x09o instVarAt: #foo put: 1.\x0a\x09self assert: (o instVarAt: #foo) equals: 1.\x0a\x09self assert: (o instVarAt: 'foo') equals: 1",
-referencedClasses: ["ObjectMock"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "assert:equals:", "instVarAt:", "instVarAt:put:"]
-}),
+}; }),
 $globals.ObjectTest);
 
 $core.addMethod(
 $core.method({
 selector: "testNilUndefined",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNilUndefined\x0a\x09\x22nil in Smalltalk is the undefined object in JS\x22\x0a\x0a\x09self assert: self notDefined equals: nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "notDefined"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -15160,22 +14842,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testNilUndefined",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testNilUndefined\x0a\x09\x22nil in Smalltalk is the undefined object in JS\x22\x0a\x0a\x09self assert: self notDefined equals: nil",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "notDefined"]
-}),
+}; }),
 $globals.ObjectTest);
 
 $core.addMethod(
 $core.method({
 selector: "testYourself",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testYourself\x0a\x09| o |\x0a\x09o := ObjectMock new.\x0a\x09self assert: o yourself == o",
+referencedClasses: ["ObjectMock"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "assert:", "==", "yourself"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var o;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -15187,15 +14868,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testYourself",{o:o})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testYourself\x0a\x09| o |\x0a\x09o := ObjectMock new.\x0a\x09self assert: o yourself == o",
-referencedClasses: ["ObjectMock"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "assert:", "==", "yourself"]
-}),
+}; }),
 $globals.ObjectTest);
 
 
@@ -15205,7 +14878,14 @@ $core.addMethod(
 $core.method({
 selector: "testAccessing",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAccessing\x0a\x09self assert: (Point x: 3 y: 4) x equals: 3.\x0a\x09self assert: (Point x: 3 y: 4) y equals: 4.\x0a\x09self assert: (Point new x: 3) x equals: 3.\x0a\x09self assert: (Point new y: 4) y equals: 4",
+referencedClasses: ["Point"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "x", "x:y:", "y", "x:", "new", "y:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -15246,22 +14926,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAccessing",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAccessing\x0a\x09self assert: (Point x: 3 y: 4) x equals: 3.\x0a\x09self assert: (Point x: 3 y: 4) y equals: 4.\x0a\x09self assert: (Point new x: 3) x equals: 3.\x0a\x09self assert: (Point new y: 4) y equals: 4",
-referencedClasses: ["Point"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "x", "x:y:", "y", "x:", "new", "y:"]
-}),
+}; }),
 $globals.PointTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAngle",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAngle\x0a\x09self assert: (-1@0) angle equals: Number pi",
+referencedClasses: ["Number"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "angle", "@", "pi"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -15271,22 +14950,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAngle",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAngle\x0a\x09self assert: (-1@0) angle equals: Number pi",
-referencedClasses: ["Number"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "angle", "@", "pi"]
-}),
+}; }),
 $globals.PointTest);
 
 $core.addMethod(
 $core.method({
 selector: "testArithmetic",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testArithmetic\x0a\x09self assert: 3@4 * (3@4 ) equals: (Point x: 9 y: 16).\x0a\x09self assert: 3@4 + (3@4 ) equals: (Point x: 6 y: 8).\x0a\x09self assert: 3@4 - (3@4 ) equals: (Point x: 0 y: 0).\x0a\x09self assert: 6@8 / (3@4 ) equals: (Point x: 2 y: 2)",
+referencedClasses: ["Point"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "*", "@", "x:y:", "+", "-", "/"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -15353,22 +15031,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testArithmetic",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testArithmetic\x0a\x09self assert: 3@4 * (3@4 ) equals: (Point x: 9 y: 16).\x0a\x09self assert: 3@4 + (3@4 ) equals: (Point x: 6 y: 8).\x0a\x09self assert: 3@4 - (3@4 ) equals: (Point x: 0 y: 0).\x0a\x09self assert: 6@8 / (3@4 ) equals: (Point x: 2 y: 2)",
-referencedClasses: ["Point"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "*", "@", "x:y:", "+", "-", "/"]
-}),
+}; }),
 $globals.PointTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAt",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAt\x0a\x09self assert: 3@4 equals: (Point x: 3 y: 4)",
+referencedClasses: ["Point"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "@", "x:y:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -15378,22 +15055,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAt",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAt\x0a\x09self assert: 3@4 equals: (Point x: 3 y: 4)",
-referencedClasses: ["Point"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "@", "x:y:"]
-}),
+}; }),
 $globals.PointTest);
 
 $core.addMethod(
 $core.method({
 selector: "testComparison",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testComparison\x0a\x09self assert: 3@4 < (4@5).\x0a\x09self deny: 3@4 < (4@4).\x0a\x09\x0a\x09self assert: 4@5 <= (4@5).\x0a\x09self deny: 4@5 <= (3@5).\x0a\x09\x0a\x09self assert: 5@6 > (4@5).\x0a\x09self deny: 5@6 > (6@6).\x0a\x09\x0a\x09self assert: 4@5 >= (4@5).\x0a\x09self deny: 4@5 >= (5@5)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "<", "@", "deny:", "<=", ">", ">="]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -15509,22 +15185,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testComparison",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testComparison\x0a\x09self assert: 3@4 < (4@5).\x0a\x09self deny: 3@4 < (4@4).\x0a\x09\x0a\x09self assert: 4@5 <= (4@5).\x0a\x09self deny: 4@5 <= (3@5).\x0a\x09\x0a\x09self assert: 5@6 > (4@5).\x0a\x09self deny: 5@6 > (6@6).\x0a\x09\x0a\x09self assert: 4@5 >= (4@5).\x0a\x09self deny: 4@5 >= (5@5)",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "<", "@", "deny:", "<=", ">", ">="]
-}),
+}; }),
 $globals.PointTest);
 
 $core.addMethod(
 $core.method({
 selector: "testDotProduct",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDotProduct\x0a\x09self assert: (2@3 dotProduct: 3@7) equals: 27",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "dotProduct:", "@"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -15540,22 +15215,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testDotProduct",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testDotProduct\x0a\x09self assert: (2@3 dotProduct: 3@7) equals: 27",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "dotProduct:", "@"]
-}),
+}; }),
 $globals.PointTest);
 
 $core.addMethod(
 $core.method({
 selector: "testEgality",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testEgality\x0a\x09self assert: (3@4 = (3@4)).\x0a\x09self deny: 3@5 = (3@6)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "=", "@", "deny:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -15584,22 +15258,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testEgality",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testEgality\x0a\x09self assert: (3@4 = (3@4)).\x0a\x09self deny: 3@5 = (3@6)",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "=", "@", "deny:"]
-}),
+}; }),
 $globals.PointTest);
 
 $core.addMethod(
 $core.method({
 selector: "testNew",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNew\x0a\x0a\x09self assert: (Point new x: 3) y equals: nil.\x0a\x09self deny: (Point new x: 3) x = 0.\x0a\x09self assert: (Point new y: 4) x equals: nil.\x0a\x09self deny: (Point new y: 4) y = 0",
+referencedClasses: ["Point"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "y", "x:", "new", "deny:", "=", "x", "y:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -15653,22 +15326,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testNew",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testNew\x0a\x0a\x09self assert: (Point new x: 3) y equals: nil.\x0a\x09self deny: (Point new x: 3) x = 0.\x0a\x09self assert: (Point new y: 4) x equals: nil.\x0a\x09self deny: (Point new y: 4) y = 0",
-referencedClasses: ["Point"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "y", "x:", "new", "deny:", "=", "x", "y:"]
-}),
+}; }),
 $globals.PointTest);
 
 $core.addMethod(
 $core.method({
 selector: "testNormal",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNormal\x0a\x09self assert: (1@0) normal equals: 0@1",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "normal", "@"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -15684,22 +15356,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testNormal",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testNormal\x0a\x09self assert: (1@0) normal equals: 0@1",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "normal", "@"]
-}),
+}; }),
 $globals.PointTest);
 
 $core.addMethod(
 $core.method({
 selector: "testNormalized",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNormalized\x0a\x09self assert: (0@2) normalized equals: 0@1.\x0a\x09self assert: (0@0) normalized equals: 0@0.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "normalized", "@"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -15731,22 +15402,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testNormalized",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testNormalized\x0a\x09self assert: (0@2) normalized equals: 0@1.\x0a\x09self assert: (0@0) normalized equals: 0@0.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "normalized", "@"]
-}),
+}; }),
 $globals.PointTest);
 
 $core.addMethod(
 $core.method({
 selector: "testPolarCoordinates",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPolarCoordinates\x0a\x09self assert: (1@0) r equals: 1.\x0a\x09self assert: (0@0) r equals: 0.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "r", "@"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -15769,22 +15439,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testPolarCoordinates",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testPolarCoordinates\x0a\x09self assert: (1@0) r equals: 1.\x0a\x09self assert: (0@0) r equals: 0.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "r", "@"]
-}),
+}; }),
 $globals.PointTest);
 
 $core.addMethod(
 $core.method({
 selector: "testRectangleCreation",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRectangleCreation\x0a\x09self assert: (1@1 corner: 2@2) equals: (Rectangle origin: 1@1 corner: 2@2).\x0a\x09self assert: (1@1 rectangle: 2@2) equals: (Rectangle point: 1@1 point: 2@2).\x0a\x09self assert: (1@1 extent: 2@2) equals: (Rectangle origin: 1@1 extent: 2@2)",
+referencedClasses: ["Rectangle"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "corner:", "@", "origin:corner:", "rectangle:", "point:point:", "extent:", "origin:extent:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -15853,22 +15522,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRectangleCreation",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testRectangleCreation\x0a\x09self assert: (1@1 corner: 2@2) equals: (Rectangle origin: 1@1 corner: 2@2).\x0a\x09self assert: (1@1 rectangle: 2@2) equals: (Rectangle point: 1@1 point: 2@2).\x0a\x09self assert: (1@1 extent: 2@2) equals: (Rectangle origin: 1@1 extent: 2@2)",
-referencedClasses: ["Rectangle"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "corner:", "@", "origin:corner:", "rectangle:", "point:point:", "extent:", "origin:extent:"]
-}),
+}; }),
 $globals.PointTest);
 
 $core.addMethod(
 $core.method({
 selector: "testTranslateBy",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testTranslateBy\x0a\x09self assert: (3@3 translateBy: 0@1) equals: 3@4.\x0a\x09self assert: (3@3 translateBy: 0@1 negated) equals: 3@2.\x0a\x09self assert: (3@3 translateBy: 2@3) equals: 5@6.\x0a\x09self assert: (3@3 translateBy: 3 negated @0) equals: 0@3.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "translateBy:", "@", "negated"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -15952,15 +15620,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testTranslateBy",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testTranslateBy\x0a\x09self assert: (3@3 translateBy: 0@1) equals: 3@4.\x0a\x09self assert: (3@3 translateBy: 0@1 negated) equals: 3@2.\x0a\x09self assert: (3@3 translateBy: 2@3) equals: 5@6.\x0a\x09self assert: (3@3 translateBy: 3 negated @0) equals: 0@3.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "translateBy:", "@", "negated"]
-}),
+}; }),
 $globals.PointTest);
 
 
@@ -15970,7 +15630,14 @@ $core.addMethod(
 $core.method({
 selector: "testNextIfAbsent",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNextIfAbsent\x0a\x09| queue |\x0a\x09queue := Queue new.\x0a\x09queue nextPut: 'index1'. \x0a\x0a\x09self assert: (queue  nextIfAbsent: 'empty') = 'index1'.\x0a\x09self deny: (queue  nextIfAbsent: 'empty') = 'index1'",
+referencedClasses: ["Queue"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "nextPut:", "assert:", "=", "nextIfAbsent:", "deny:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var queue;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -15993,22 +15660,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testNextIfAbsent",{queue:queue})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testNextIfAbsent\x0a\x09| queue |\x0a\x09queue := Queue new.\x0a\x09queue nextPut: 'index1'. \x0a\x0a\x09self assert: (queue  nextIfAbsent: 'empty') = 'index1'.\x0a\x09self deny: (queue  nextIfAbsent: 'empty') = 'index1'",
-referencedClasses: ["Queue"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "nextPut:", "assert:", "=", "nextIfAbsent:", "deny:"]
-}),
+}; }),
 $globals.QueueTest);
 
 $core.addMethod(
 $core.method({
 selector: "testQueueNext",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testQueueNext\x0a\x09| queue |               \x0a\x09queue := Queue new.\x0a\x09queue \x0a\x09\x09nextPut: 'index1';\x0a\x09\x09nextPut: 'index2'.\x0a\x0a\x09self assert: queue next = 'index1'.\x0a\x09self deny: queue next = 'index'.\x0a\x09self should: [ queue next ] raise: Error",
+referencedClasses: ["Queue", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "nextPut:", "assert:", "=", "next", "deny:", "should:raise:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var queue;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16050,15 +15716,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testQueueNext",{queue:queue})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testQueueNext\x0a\x09| queue |               \x0a\x09queue := Queue new.\x0a\x09queue \x0a\x09\x09nextPut: 'index1';\x0a\x09\x09nextPut: 'index2'.\x0a\x0a\x09self assert: queue next = 'index1'.\x0a\x09self deny: queue next = 'index'.\x0a\x09self should: [ queue next ] raise: Error",
-referencedClasses: ["Queue", "Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "nextPut:", "assert:", "=", "next", "deny:", "should:raise:"]
-}),
+}; }),
 $globals.QueueTest);
 
 
@@ -16068,7 +15726,14 @@ $core.addMethod(
 $core.method({
 selector: "testAtRandomNumber",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtRandomNumber\x0a\x09|val|\x09\x0a\x0a\x09100 timesRepeat: [\x0a\x09\x09val := 10 atRandom.\x09\x0a\x09\x09self assert: (val > 0).\x0a\x09\x09self assert: (val <11)\x0a\x09]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timesRepeat:", "atRandom", "assert:", ">", "<"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var val;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16092,22 +15757,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAtRandomNumber",{val:val})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtRandomNumber\x0a\x09|val|\x09\x0a\x0a\x09100 timesRepeat: [\x0a\x09\x09val := 10 atRandom.\x09\x0a\x09\x09self assert: (val > 0).\x0a\x09\x09self assert: (val <11)\x0a\x09]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["timesRepeat:", "atRandom", "assert:", ">", "<"]
-}),
+}; }),
 $globals.RandomTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAtRandomSequenceableCollection",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtRandomSequenceableCollection\x0a\x09|val|\x0a\x09\x0a\x09100 timesRepeat: [\x0a\x09\x09val := 'abc' atRandom.\x0a\x09\x09self assert: ((val = 'a') | (val = 'b') | (val = 'c' )).\x0a\x09].",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timesRepeat:", "atRandom", "assert:", "|", "="]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var val;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16141,22 +15805,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAtRandomSequenceableCollection",{val:val})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtRandomSequenceableCollection\x0a\x09|val|\x0a\x09\x0a\x09100 timesRepeat: [\x0a\x09\x09val := 'abc' atRandom.\x0a\x09\x09self assert: ((val = 'a') | (val = 'b') | (val = 'c' )).\x0a\x09].",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["timesRepeat:", "atRandom", "assert:", "|", "="]
-}),
+}; }),
 $globals.RandomTest);
 
 $core.addMethod(
 $core.method({
 selector: "textNext",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "textNext\x0a\x0a\x0910000 timesRepeat: [\x0a\x09\x09\x09| current next |\x0a\x09\x09\x09next := Random new next.\x0a\x09\x09\x09self assert: (next >= 0).\x0a\x09\x09\x09self assert: (next < 1).\x0a\x09\x09\x09self deny: current = next.\x0a\x09\x09\x09next = current ]",
+referencedClasses: ["Random"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timesRepeat:", "next", "new", "assert:", ">=", "<", "deny:", "="]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -16187,15 +15850,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"textNext",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "textNext\x0a\x0a\x0910000 timesRepeat: [\x0a\x09\x09\x09| current next |\x0a\x09\x09\x09next := Random new next.\x0a\x09\x09\x09self assert: (next >= 0).\x0a\x09\x09\x09self assert: (next < 1).\x0a\x09\x09\x09self deny: current = next.\x0a\x09\x09\x09next = current ]",
-referencedClasses: ["Random"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["timesRepeat:", "next", "new", "assert:", ">=", "<", "deny:", "="]
-}),
+}; }),
 $globals.RandomTest);
 
 
@@ -16205,7 +15860,14 @@ $core.addMethod(
 $core.method({
 selector: "testContainsPoint",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testContainsPoint\x0a\x09| rect |\x0a\x09rect := Rectangle origin: 0@0 corner: 4@4.\x0a\x09\x0a\x09self assert: (rect containsPoint: 1@2).\x0a\x09self assert: (rect containsPoint: 5@4) not.",
+referencedClasses: ["Rectangle"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["origin:corner:", "@", "assert:", "containsPoint:", "not"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var rect;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16239,22 +15901,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testContainsPoint",{rect:rect})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testContainsPoint\x0a\x09| rect |\x0a\x09rect := Rectangle origin: 0@0 corner: 4@4.\x0a\x09\x0a\x09self assert: (rect containsPoint: 1@2).\x0a\x09self assert: (rect containsPoint: 5@4) not.",
-referencedClasses: ["Rectangle"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["origin:corner:", "@", "assert:", "containsPoint:", "not"]
-}),
+}; }),
 $globals.RectangleTest);
 
 $core.addMethod(
 $core.method({
 selector: "testContainsRect",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testContainsRect\x0a\x09self assert: ((Rectangle origin: 0@0 corner: 6@6) containsRect: (Rectangle origin: 1@1 corner: 5@5)).\x0a\x09self assert: ((Rectangle origin: 0@0 corner: 6@6) containsRect: (Rectangle origin: 1@(-1) corner: 5@5)) not.",
+referencedClasses: ["Rectangle"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "containsRect:", "origin:corner:", "@", "not"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -16316,22 +15977,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testContainsRect",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testContainsRect\x0a\x09self assert: ((Rectangle origin: 0@0 corner: 6@6) containsRect: (Rectangle origin: 1@1 corner: 5@5)).\x0a\x09self assert: ((Rectangle origin: 0@0 corner: 6@6) containsRect: (Rectangle origin: 1@(-1) corner: 5@5)) not.",
-referencedClasses: ["Rectangle"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "containsRect:", "origin:corner:", "@", "not"]
-}),
+}; }),
 $globals.RectangleTest);
 
 $core.addMethod(
 $core.method({
 selector: "testOriginExtent",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testOriginExtent\x0a\x09| rectangle |\x0a\x09rectangle := Rectangle origin: 3@4 extent: 7@8.\x0a\x09\x0a\x09self assert: rectangle origin equals: 3@4.\x0a\x09self assert: rectangle corner equals: 10@12.",
+referencedClasses: ["Rectangle"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["origin:extent:", "@", "assert:equals:", "origin", "corner"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var rectangle;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16361,15 +16021,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testOriginExtent",{rectangle:rectangle})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testOriginExtent\x0a\x09| rectangle |\x0a\x09rectangle := Rectangle origin: 3@4 extent: 7@8.\x0a\x09\x0a\x09self assert: rectangle origin equals: 3@4.\x0a\x09self assert: rectangle corner equals: 10@12.",
-referencedClasses: ["Rectangle"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["origin:extent:", "@", "assert:equals:", "origin", "corner"]
-}),
+}; }),
 $globals.RectangleTest);
 
 
@@ -16379,7 +16031,14 @@ $core.addMethod(
 $core.method({
 selector: "collectionClass",
 protocol: "accessing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "collectionClass\x0a\x09^ self class collectionClass",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["collectionClass", "class"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -16388,22 +16047,21 @@ return $recv($self._class())._collectionClass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"collectionClass",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionClass\x0a\x09^ self class collectionClass",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["collectionClass", "class"]
-}),
+}; }),
 $globals.StreamTest);
 
 $core.addMethod(
 $core.method({
 selector: "newCollection",
 protocol: "accessing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "newCollection\x0a\x09^ self collectionClass new",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "collectionClass"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -16412,22 +16070,21 @@ return $recv($self._collectionClass())._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"newCollection",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "newCollection\x0a\x09^ self collectionClass new",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "collectionClass"]
-}),
+}; }),
 $globals.StreamTest);
 
 $core.addMethod(
 $core.method({
 selector: "newStream",
 protocol: "accessing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "newStream\x0a\x09^ self collectionClass new stream",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["stream", "new", "collectionClass"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -16436,22 +16093,21 @@ return $recv($recv($self._collectionClass())._new())._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"newStream",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "newStream\x0a\x09^ self collectionClass new stream",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["stream", "new", "collectionClass"]
-}),
+}; }),
 $globals.StreamTest);
 
 $core.addMethod(
 $core.method({
 selector: "testAtStartAtEnd",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtStartAtEnd\x0a\x09| stream |\x0a\x09\x0a\x09stream := self newStream.\x0a\x09self assert: stream atStart.\x0a\x09self assert: stream atEnd.\x0a\x09\x0a\x09stream nextPutAll: self newCollection.\x0a\x09self assert: stream atEnd.\x0a\x09self deny: stream atStart.\x0a\x09\x0a\x09stream position: 1.\x0a\x09self deny: stream atEnd.\x0a\x09self deny: stream atStart",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["newStream", "assert:", "atStart", "atEnd", "nextPutAll:", "newCollection", "deny:", "position:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var stream;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16499,22 +16155,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAtStartAtEnd",{stream:stream})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtStartAtEnd\x0a\x09| stream |\x0a\x09\x0a\x09stream := self newStream.\x0a\x09self assert: stream atStart.\x0a\x09self assert: stream atEnd.\x0a\x09\x0a\x09stream nextPutAll: self newCollection.\x0a\x09self assert: stream atEnd.\x0a\x09self deny: stream atStart.\x0a\x09\x0a\x09stream position: 1.\x0a\x09self deny: stream atEnd.\x0a\x09self deny: stream atStart",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["newStream", "assert:", "atStart", "atEnd", "nextPutAll:", "newCollection", "deny:", "position:"]
-}),
+}; }),
 $globals.StreamTest);
 
 $core.addMethod(
 $core.method({
 selector: "testContents",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testContents\x0a\x09| stream |\x0a\x09\x0a\x09stream := self newStream.\x0a\x09stream nextPutAll: self newCollection.\x0a\x09\x0a\x09self assert: stream contents equals: self newCollection",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["newStream", "nextPutAll:", "newCollection", "assert:equals:", "contents"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var stream;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16533,22 +16188,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testContents",{stream:stream})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testContents\x0a\x09| stream |\x0a\x09\x0a\x09stream := self newStream.\x0a\x09stream nextPutAll: self newCollection.\x0a\x09\x0a\x09self assert: stream contents equals: self newCollection",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["newStream", "nextPutAll:", "newCollection", "assert:equals:", "contents"]
-}),
+}; }),
 $globals.StreamTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIsEmpty",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIsEmpty\x0a\x09| stream |\x0a\x09\x0a\x09stream := self newStream.\x0a\x09self assert: stream isEmpty.\x0a\x09\x0a\x09stream nextPutAll: self newCollection.\x0a\x09self deny: stream isEmpty",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["newStream", "assert:", "isEmpty", "nextPutAll:", "newCollection", "deny:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var stream;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16567,22 +16221,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIsEmpty",{stream:stream})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIsEmpty\x0a\x09| stream |\x0a\x09\x0a\x09stream := self newStream.\x0a\x09self assert: stream isEmpty.\x0a\x09\x0a\x09stream nextPutAll: self newCollection.\x0a\x09self deny: stream isEmpty",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["newStream", "assert:", "isEmpty", "nextPutAll:", "newCollection", "deny:"]
-}),
+}; }),
 $globals.StreamTest);
 
 $core.addMethod(
 $core.method({
 selector: "testPosition",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPosition\x0a\x09| collection stream |\x0a\x09\x0a\x09collection := self newCollection.\x0a\x09stream := self newStream.\x0a\x09\x0a\x09stream nextPutAll: collection.\x0a\x09self assert: stream position equals: collection size.\x0a\x09\x0a\x09stream position: 0.\x0a\x09self assert: stream position equals: 0.\x0a\x09\x0a\x09stream next.\x0a\x09self assert: stream position equals: 1.\x0a\x09\x0a\x09stream next.\x0a\x09self assert: stream position equals: 2",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["newCollection", "newStream", "nextPutAll:", "assert:equals:", "position", "size", "position:", "next"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var collection,stream;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16627,22 +16280,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testPosition",{collection:collection,stream:stream})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testPosition\x0a\x09| collection stream |\x0a\x09\x0a\x09collection := self newCollection.\x0a\x09stream := self newStream.\x0a\x09\x0a\x09stream nextPutAll: collection.\x0a\x09self assert: stream position equals: collection size.\x0a\x09\x0a\x09stream position: 0.\x0a\x09self assert: stream position equals: 0.\x0a\x09\x0a\x09stream next.\x0a\x09self assert: stream position equals: 1.\x0a\x09\x0a\x09stream next.\x0a\x09self assert: stream position equals: 2",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["newCollection", "newStream", "nextPutAll:", "assert:equals:", "position", "size", "position:", "next"]
-}),
+}; }),
 $globals.StreamTest);
 
 $core.addMethod(
 $core.method({
 selector: "testReading",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testReading\x0a\x09| stream collection |\x0a\x09\x0a\x09collection := self newCollection.\x0a\x09stream := self newStream.\x0a\x09\x0a\x09stream \x0a\x09\x09nextPutAll: collection;\x0a\x09\x09position: 0.\x0a\x09\x0a\x09collection do: [ :each |\x0a\x09\x09self assert: stream next equals: each ].\x0a\x09\x09\x0a\x09self assert: stream next isNil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["newCollection", "newStream", "nextPutAll:", "position:", "do:", "assert:equals:", "next", "assert:", "isNil"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var stream,collection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16672,26 +16324,13 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testReading",{stream:stream,collection:collection})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testReading\x0a\x09| stream collection |\x0a\x09\x0a\x09collection := self newCollection.\x0a\x09stream := self newStream.\x0a\x09\x0a\x09stream \x0a\x09\x09nextPutAll: collection;\x0a\x09\x09position: 0.\x0a\x09\x0a\x09collection do: [ :each |\x0a\x09\x09self assert: stream next equals: each ].\x0a\x09\x09\x0a\x09self assert: stream next isNil",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["newCollection", "newStream", "nextPutAll:", "position:", "do:", "assert:equals:", "next", "assert:", "isNil"]
-}),
+}; }),
 $globals.StreamTest);
 
 $core.addMethod(
 $core.method({
 selector: "testStreamContents",
 protocol: "tests",
-fn: function (){
-var self=this,$self=this;
-return self;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "testStreamContents",
@@ -16699,14 +16338,25 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return self;
+
+}; }),
 $globals.StreamTest);
 
 $core.addMethod(
 $core.method({
 selector: "testWrite",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testWrite\x0a\x09| stream collection |\x0a\x09\x0a\x09collection := self newCollection.\x0a\x09stream := self newStream.\x0a\x09\x0a\x09collection do: [ :each | stream << each ].\x0a\x09self assert: stream contents equals: collection",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["newCollection", "newStream", "do:", "<<", "assert:equals:", "contents"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var stream,collection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16728,22 +16378,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testWrite",{stream:stream,collection:collection})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testWrite\x0a\x09| stream collection |\x0a\x09\x0a\x09collection := self newCollection.\x0a\x09stream := self newStream.\x0a\x09\x0a\x09collection do: [ :each | stream << each ].\x0a\x09self assert: stream contents equals: collection",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["newCollection", "newStream", "do:", "<<", "assert:equals:", "contents"]
-}),
+}; }),
 $globals.StreamTest);
 
 $core.addMethod(
 $core.method({
 selector: "testWriting",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testWriting\x0a\x09| stream collection |\x0a\x09\x0a\x09collection := self newCollection.\x0a\x09stream := self newStream.\x0a\x09\x0a\x09collection do: [ :each | stream nextPut: each ].\x0a\x09self assert: stream contents equals: collection.\x0a\x09\x0a\x09stream := self newStream.\x0a\x09stream nextPutAll: collection.\x0a\x09self assert: stream contents equals: collection",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["newCollection", "newStream", "do:", "nextPut:", "assert:equals:", "contents", "nextPutAll:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 var stream,collection;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16779,15 +16428,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testWriting",{stream:stream,collection:collection})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testWriting\x0a\x09| stream collection |\x0a\x09\x0a\x09collection := self newCollection.\x0a\x09stream := self newStream.\x0a\x09\x0a\x09collection do: [ :each | stream nextPut: each ].\x0a\x09self assert: stream contents equals: collection.\x0a\x09\x0a\x09stream := self newStream.\x0a\x09stream nextPutAll: collection.\x0a\x09self assert: stream contents equals: collection",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["newCollection", "newStream", "do:", "nextPut:", "assert:equals:", "contents", "nextPutAll:"]
-}),
+}; }),
 $globals.StreamTest);
 
 
@@ -16795,11 +16436,6 @@ $core.addMethod(
 $core.method({
 selector: "collectionClass",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return nil;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionClass\x0a\x09^ nil",
@@ -16807,14 +16443,25 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return nil;
+
+}; }),
 $globals.StreamTest.a$cls);
 
 $core.addMethod(
 $core.method({
 selector: "isAbstract",
 protocol: "testing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isAbstract\x0a\x09^ self collectionClass isNil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["isNil", "collectionClass"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -16823,15 +16470,7 @@ return $recv($self._collectionClass())._isNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isAbstract",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isAbstract\x0a\x09^ self collectionClass isNil",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["isNil", "collectionClass"]
-}),
+}; }),
 $globals.StreamTest.a$cls);
 
 
@@ -16840,7 +16479,14 @@ $core.addMethod(
 $core.method({
 selector: "newCollection",
 protocol: "accessing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "newCollection\x0a\x09^ { true. 1. 3@4. 'foo' }",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["@"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -16849,15 +16495,7 @@ return [true,(1),(3).__at((4)),"foo"];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"newCollection",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "newCollection\x0a\x09^ { true. 1. 3@4. 'foo' }",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["@"]
-}),
+}; }),
 $globals.ArrayStreamTest);
 
 
@@ -16865,11 +16503,6 @@ $core.addMethod(
 $core.method({
 selector: "collectionClass",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $globals.Array;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionClass\x0a\x09^ Array",
@@ -16877,7 +16510,11 @@ referencedClasses: ["Array"],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.Array;
+
+}; }),
 $globals.ArrayStreamTest.a$cls);
 
 
@@ -16886,11 +16523,6 @@ $core.addMethod(
 $core.method({
 selector: "newCollection",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return "hello world";
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "newCollection\x0a\x09^ 'hello world'",
@@ -16898,7 +16530,11 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return "hello world";
+
+}; }),
 $globals.StringStreamTest);
 
 
@@ -16906,11 +16542,6 @@ $core.addMethod(
 $core.method({
 selector: "collectionClass",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $globals.String;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "collectionClass\x0a\x09^ String",
@@ -16918,7 +16549,11 @@ referencedClasses: ["String"],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.String;
+
+}; }),
 $globals.StringStreamTest.a$cls);
 
 
@@ -16927,7 +16562,14 @@ $core.addMethod(
 $core.method({
 selector: "testCopying",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCopying\x0a\x09self assert: nil copy equals: nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "copy"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -16937,22 +16579,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCopying",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testCopying\x0a\x09self assert: nil copy equals: nil",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "copy"]
-}),
+}; }),
 $globals.UndefinedTest);
 
 $core.addMethod(
 $core.method({
 selector: "testDeepCopy",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDeepCopy\x0a\x09self assert: nil deepCopy = nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "=", "deepCopy"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -16962,22 +16603,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testDeepCopy",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testDeepCopy\x0a\x09self assert: nil deepCopy = nil",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "=", "deepCopy"]
-}),
+}; }),
 $globals.UndefinedTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIfNil",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIfNil\x0a\x09self assert: (nil ifNil: [ true ]) equals: true.\x0a\x09self deny: (nil ifNotNil: [ true ]) = true.\x0a\x09self assert: (nil ifNil: [ true ] ifNotNil: [ false ]) equals: true.\x0a\x09self deny: (nil ifNotNil: [ true ] ifNil: [ false ]) = true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "ifNil:", "deny:", "=", "ifNotNil:", "ifNil:ifNotNil:", "ifNotNil:ifNil:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -17022,22 +16662,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIfNil",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIfNil\x0a\x09self assert: (nil ifNil: [ true ]) equals: true.\x0a\x09self deny: (nil ifNotNil: [ true ]) = true.\x0a\x09self assert: (nil ifNil: [ true ] ifNotNil: [ false ]) equals: true.\x0a\x09self deny: (nil ifNotNil: [ true ] ifNil: [ false ]) = true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:equals:", "ifNil:", "deny:", "=", "ifNotNil:", "ifNil:ifNotNil:", "ifNotNil:ifNil:"]
-}),
+}; }),
 $globals.UndefinedTest);
 
 $core.addMethod(
 $core.method({
 selector: "testIsNil",
 protocol: "tests",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIsNil\x0a\x09self assert: nil isNil.\x0a\x09self deny: nil notNil.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "isNil", "deny:", "notNil"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -17048,15 +16687,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIsNil",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIsNil\x0a\x09self assert: nil isNil.\x0a\x09self deny: nil notNil.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["assert:", "isNil", "deny:", "notNil"]
-}),
+}; }),
 $globals.UndefinedTest);
 
 

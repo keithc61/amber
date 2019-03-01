@@ -16,7 +16,14 @@ $core.addMethod(
 $core.method({
 selector: "fetch:",
 protocol: "public API",
-fn: function (aStringOrObject){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aStringOrObject"],
+source: "fetch: aStringOrObject\x0a\x09^ self globals at: #fetch\x0a\x09\x09ifPresent: [ :fetch | fetch value: aStringOrObject ]\x0a\x09\x09ifAbsent: [ Promise signal: 'fetch not available.' ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:ifPresent:ifAbsent:", "globals", "value:", "signal:"]
+}, function ($methodClass){ return function (aStringOrObject){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -41,22 +48,21 @@ return $recv($globals.Promise)._signal_("fetch not available.");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"fetch:",{aStringOrObject:aStringOrObject})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aStringOrObject"],
-source: "fetch: aStringOrObject\x0a\x09^ self globals at: #fetch\x0a\x09\x09ifPresent: [ :fetch | fetch value: aStringOrObject ]\x0a\x09\x09ifAbsent: [ Promise signal: 'fetch not available.' ]",
-referencedClasses: ["Promise"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["at:ifPresent:ifAbsent:", "globals", "value:", "signal:"]
-}),
+}; }),
 $globals.NodePlatform);
 
 $core.addMethod(
 $core.method({
 selector: "fetchUrl:options:",
 protocol: "public API",
-fn: function (aString,anObject){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "anObject"],
+source: "fetchUrl: aString options: anObject\x0a\x09^ self globals at: #fetch\x0a\x09\x09ifPresent: [ :fetch | fetch value: aString value: anObject ]\x0a\x09\x09ifAbsent: [ Promise signal: 'fetch not available.' ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:ifPresent:ifAbsent:", "globals", "value:value:", "signal:"]
+}, function ($methodClass){ return function (aString,anObject){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -81,26 +87,13 @@ return $recv($globals.Promise)._signal_("fetch not available.");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"fetchUrl:options:",{aString:aString,anObject:anObject})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString", "anObject"],
-source: "fetchUrl: aString options: anObject\x0a\x09^ self globals at: #fetch\x0a\x09\x09ifPresent: [ :fetch | fetch value: aString value: anObject ]\x0a\x09\x09ifAbsent: [ Promise signal: 'fetch not available.' ]",
-referencedClasses: ["Promise"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["at:ifPresent:ifAbsent:", "globals", "value:value:", "signal:"]
-}),
+}; }),
 $globals.NodePlatform);
 
 $core.addMethod(
 $core.method({
 selector: "globals",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return global;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "globals\x0a\x09^ global",
@@ -108,14 +101,25 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return global;
+
+}; }),
 $globals.NodePlatform);
 
 $core.addMethod(
 $core.method({
 selector: "newXhr",
 protocol: "public API",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "newXhr\x0a\x09XMLHttpRequest\x0a\x09\x09ifNotNil: [ ^ XMLHttpRequest new ]\x0a\x09\x09ifNil: [ self error: 'XMLHttpRequest not available.' ]",
+referencedClasses: ["XMLHttpRequest"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNotNil:ifNil:", "new", "error:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -130,15 +134,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"newXhr",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "newXhr\x0a\x09XMLHttpRequest\x0a\x09\x09ifNotNil: [ ^ XMLHttpRequest new ]\x0a\x09\x09ifNil: [ self error: 'XMLHttpRequest not available.' ]",
-referencedClasses: ["XMLHttpRequest"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifNotNil:ifNil:", "new", "error:"]
-}),
+}; }),
 $globals.NodePlatform);
 
 
@@ -146,7 +142,14 @@ $core.addMethod(
 $core.method({
 selector: "initialize",
 protocol: "testing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "initialize\x0a\x09self isFeasible ifTrue: [ Platform registerIfNone: self new ]",
+referencedClasses: ["Platform"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifTrue:", "isFeasible", "registerIfNone:", "new"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -160,22 +163,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "initialize\x0a\x09self isFeasible ifTrue: [ Platform registerIfNone: self new ]",
-referencedClasses: ["Platform"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifTrue:", "isFeasible", "registerIfNone:", "new"]
-}),
+}; }),
 $globals.NodePlatform.a$cls);
 
 $core.addMethod(
 $core.method({
 selector: "isFeasible",
 protocol: "testing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isFeasible\x0a<inlineJS: 'return typeof process !== \x22undefined\x22 && process && process.versions && process.versions.node != null'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return typeof process !== \x22undefined\x22 && process && process.versions && process.versions.node != null"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -185,15 +187,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isFeasible",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isFeasible\x0a<inlineJS: 'return typeof process !== \x22undefined\x22 && process && process.versions && process.versions.node != null'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return typeof process !== \x22undefined\x22 && process && process.versions && process.versions.node != null"]]],
-messageSends: []
-}),
+}; }),
 $globals.NodePlatform.a$cls);
 
 });

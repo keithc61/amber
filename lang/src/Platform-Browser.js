@@ -16,7 +16,14 @@ $core.addMethod(
 $core.method({
 selector: "fetch:",
 protocol: "public API",
-fn: function (aStringOrObject){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aStringOrObject"],
+source: "fetch: aStringOrObject\x0a\x09^ self globals at: #fetch\x0a\x09\x09ifPresent: [ :fetch | fetch value: aStringOrObject ]\x0a\x09\x09ifAbsent: [ Promise signal: 'fetch not available.' ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:ifPresent:ifAbsent:", "globals", "value:", "signal:"]
+}, function ($methodClass){ return function (aStringOrObject){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -41,22 +48,21 @@ return $recv($globals.Promise)._signal_("fetch not available.");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"fetch:",{aStringOrObject:aStringOrObject})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aStringOrObject"],
-source: "fetch: aStringOrObject\x0a\x09^ self globals at: #fetch\x0a\x09\x09ifPresent: [ :fetch | fetch value: aStringOrObject ]\x0a\x09\x09ifAbsent: [ Promise signal: 'fetch not available.' ]",
-referencedClasses: ["Promise"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["at:ifPresent:ifAbsent:", "globals", "value:", "signal:"]
-}),
+}; }),
 $globals.BrowserPlatform);
 
 $core.addMethod(
 $core.method({
 selector: "fetchUrl:options:",
 protocol: "public API",
-fn: function (aString,anObject){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "anObject"],
+source: "fetchUrl: aString options: anObject\x0a\x09^ self globals at: #fetch\x0a\x09\x09ifPresent: [ :fetch | fetch value: aString value: anObject ]\x0a\x09\x09ifAbsent: [ Promise signal: 'fetch not available.' ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:ifPresent:ifAbsent:", "globals", "value:value:", "signal:"]
+}, function ($methodClass){ return function (aString,anObject){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -81,26 +87,13 @@ return $recv($globals.Promise)._signal_("fetch not available.");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"fetchUrl:options:",{aString:aString,anObject:anObject})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString", "anObject"],
-source: "fetchUrl: aString options: anObject\x0a\x09^ self globals at: #fetch\x0a\x09\x09ifPresent: [ :fetch | fetch value: aString value: anObject ]\x0a\x09\x09ifAbsent: [ Promise signal: 'fetch not available.' ]",
-referencedClasses: ["Promise"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["at:ifPresent:ifAbsent:", "globals", "value:value:", "signal:"]
-}),
+}; }),
 $globals.BrowserPlatform);
 
 $core.addMethod(
 $core.method({
 selector: "globals",
 protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return window;
-
-},
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "globals\x0a\x09^ window",
@@ -108,14 +101,25 @@ referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
-}),
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return window;
+
+}; }),
 $globals.BrowserPlatform);
 
 $core.addMethod(
 $core.method({
 selector: "newXhr",
 protocol: "public API",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "newXhr\x0a\x09XMLHttpRequest\x0a\x09\x09ifNotNil: [ ^ NativeFunction constructorOf: XMLHttpRequest ]\x0a\x09\x09ifNil: [ self error: 'XMLHttpRequest not available.' ]",
+referencedClasses: ["XMLHttpRequest", "NativeFunction"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNotNil:ifNil:", "constructorOf:", "error:"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -130,15 +134,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"newXhr",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "newXhr\x0a\x09XMLHttpRequest\x0a\x09\x09ifNotNil: [ ^ NativeFunction constructorOf: XMLHttpRequest ]\x0a\x09\x09ifNil: [ self error: 'XMLHttpRequest not available.' ]",
-referencedClasses: ["XMLHttpRequest", "NativeFunction"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifNotNil:ifNil:", "constructorOf:", "error:"]
-}),
+}; }),
 $globals.BrowserPlatform);
 
 
@@ -146,7 +142,14 @@ $core.addMethod(
 $core.method({
 selector: "initialize",
 protocol: "testing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "initialize\x0a\x09self isFeasible ifTrue: [ Platform registerIfNone: self new ]",
+referencedClasses: ["Platform"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifTrue:", "isFeasible", "registerIfNone:", "new"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -160,22 +163,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "initialize\x0a\x09self isFeasible ifTrue: [ Platform registerIfNone: self new ]",
-referencedClasses: ["Platform"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifTrue:", "isFeasible", "registerIfNone:", "new"]
-}),
+}; }),
 $globals.BrowserPlatform.a$cls);
 
 $core.addMethod(
 $core.method({
 selector: "isFeasible",
 protocol: "testing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isFeasible\x0a<inlineJS: 'return typeof window !== \x22undefined\x22'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return typeof window !== \x22undefined\x22"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -185,15 +187,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isFeasible",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isFeasible\x0a<inlineJS: 'return typeof window !== \x22undefined\x22'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return typeof window !== \x22undefined\x22"]]],
-messageSends: []
-}),
+}; }),
 $globals.BrowserPlatform.a$cls);
 
 
@@ -205,7 +199,14 @@ $core.addMethod(
 $core.method({
 selector: "alert:",
 protocol: "actions",
-fn: function (aString){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "alert: aString\x0a\x09^ window alert: aString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["alert:"]
+}, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -214,22 +215,21 @@ return $recv(window)._alert_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"alert:",{aString:aString})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "alert: aString\x0a\x09^ window alert: aString",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["alert:"]
-}),
+}; }),
 $globals.BrowserTerminal);
 
 $core.addMethod(
 $core.method({
 selector: "confirm:",
 protocol: "actions",
-fn: function (aString){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "confirm: aString\x0a\x09^ window confirm: aString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["confirm:"]
+}, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -238,22 +238,21 @@ return $recv(window)._confirm_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"confirm:",{aString:aString})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "confirm: aString\x0a\x09^ window confirm: aString",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["confirm:"]
-}),
+}; }),
 $globals.BrowserTerminal);
 
 $core.addMethod(
 $core.method({
 selector: "prompt:",
 protocol: "actions",
-fn: function (aString){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "prompt: aString\x0a\x09^ window prompt: aString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["prompt:"]
+}, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -262,22 +261,21 @@ return $recv(window)._prompt_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"prompt:",{aString:aString})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "prompt: aString\x0a\x09^ window prompt: aString",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["prompt:"]
-}),
+}; }),
 $globals.BrowserTerminal);
 
 $core.addMethod(
 $core.method({
 selector: "prompt:default:",
 protocol: "actions",
-fn: function (aString,defaultString){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "defaultString"],
+source: "prompt: aString default: defaultString\x0a\x09^ window prompt: aString default: defaultString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["prompt:default:"]
+}, function ($methodClass){ return function (aString,defaultString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -286,15 +284,7 @@ return $recv(window)._prompt_default_(aString,defaultString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"prompt:default:",{aString:aString,defaultString:defaultString})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString", "defaultString"],
-source: "prompt: aString default: defaultString\x0a\x09^ window prompt: aString default: defaultString",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["prompt:default:"]
-}),
+}; }),
 $globals.BrowserTerminal);
 
 
@@ -302,7 +292,14 @@ $core.addMethod(
 $core.method({
 selector: "initialize",
 protocol: "testing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "initialize\x0a\x09self isFeasible ifTrue: [ Terminal registerIfNone: self new ]",
+referencedClasses: ["Terminal"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifTrue:", "isFeasible", "registerIfNone:", "new"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -316,22 +313,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "initialize\x0a\x09self isFeasible ifTrue: [ Terminal registerIfNone: self new ]",
-referencedClasses: ["Terminal"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifTrue:", "isFeasible", "registerIfNone:", "new"]
-}),
+}; }),
 $globals.BrowserTerminal.a$cls);
 
 $core.addMethod(
 $core.method({
 selector: "isFeasible",
 protocol: "testing",
-fn: function (){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isFeasible\x0a<inlineJS: 'return typeof window !== \x22undefined\x22'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return typeof window !== \x22undefined\x22"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -341,22 +337,21 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isFeasible",{})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isFeasible\x0a<inlineJS: 'return typeof window !== \x22undefined\x22'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return typeof window !== \x22undefined\x22"]]],
-messageSends: []
-}),
+}; }),
 $globals.BrowserTerminal.a$cls);
 
 $core.addMethod(
 $core.method({
 selector: "postMessageTo:",
 protocol: "*Platform-Browser",
-fn: function (aFrame){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aFrame"],
+source: "postMessageTo: aFrame\x0a^ self postMessageTo: aFrame origin: '*'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["postMessageTo:origin:"]
+}, function ($methodClass){ return function (aFrame){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -365,22 +360,21 @@ return $self._postMessageTo_origin_(aFrame,"*");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"postMessageTo:",{aFrame:aFrame})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aFrame"],
-source: "postMessageTo: aFrame\x0a^ self postMessageTo: aFrame origin: '*'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["postMessageTo:origin:"]
-}),
+}; }),
 $globals.Object);
 
 $core.addMethod(
 $core.method({
 selector: "postMessageTo:origin:",
 protocol: "*Platform-Browser",
-fn: function (aFrame,aString){
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aFrame", "aString"],
+source: "postMessageTo: aFrame origin: aString\x0a<inlineJS: 'return aFrame.postMessage(self, aString)'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aFrame.postMessage(self, aString)"]]],
+messageSends: []
+}, function ($methodClass){ return function (aFrame,aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -390,15 +384,7 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"postMessageTo:origin:",{aFrame:aFrame,aString:aString})});
 //>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aFrame", "aString"],
-source: "postMessageTo: aFrame origin: aString\x0a<inlineJS: 'return aFrame.postMessage(self, aString)'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return aFrame.postMessage(self, aString)"]]],
-messageSends: []
-}),
+}; }),
 $globals.Object);
 
 });
