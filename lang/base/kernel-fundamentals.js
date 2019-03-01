@@ -139,8 +139,7 @@ define(function () {
 
         st.method = function (spec) {
             var that = new SmalltalkMethod();
-            var selector = spec.selector;
-            that.selector = selector;
+            that.selector = spec.selector;
             that.args = spec.args || [];
             that.protocol = spec.protocol;
             that.source = spec.source;

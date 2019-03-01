@@ -146,7 +146,7 @@ isNil
 !
 
 notNil
-	^ self isNil not
+	^ true
 ! !
 
 !ProtoObject class methodsFor: 'initialization'!

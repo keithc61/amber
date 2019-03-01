@@ -450,21 +450,16 @@ selector: "notNil",
 protocol: "testing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self._isNil())._not();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"notNil",{})});
-//>>excludeEnd("ctx");
+return true;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "notNil\x0a\x09^ self isNil not",
+source: "notNil\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["not", "isNil"]
+messageSends: []
 }),
 $globals.ProtoObject);
 
