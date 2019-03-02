@@ -755,7 +755,7 @@ $globals.BlockClosure);
 
 
 
-$core.addClass("CompiledMethod", $globals.Object, ["args", "fn", "messageSends", "pragmas", "owner", "protocol", "referencedClasses", "selector", "source"], "Kernel-Methods");
+$core.addClass("CompiledMethod", $globals.Object, ["args", "fn", "messageSends", "pragmas", "owner", "methodClass", "protocol", "referencedClasses", "selector", "source"], "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.CompiledMethod.comment="I represent a class method of the system. I hold the source and compiled code of a class method.\x0a\x0a## API\x0aMy instances can be accessed using `Behavior >> #methodAt:`\x0a\x0a    Object methodAt: 'asString'\x0a\x0aSource code access:\x0a\x0a\x09(String methodAt: 'lines') source\x0a\x0aReferenced classes:\x0a\x0a\x09(String methodAt: 'lines') referencedClasses\x0a\x0aMessages sent from an instance:\x0a\x09\x0a\x09(String methodAt: 'lines') messageSends";
 //>>excludeEnd("ide");
@@ -1186,12 +1186,12 @@ selector: "methodClass",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return $self.owner;
+return $self.methodClass;
 
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "methodClass\x0a\x09^ owner",
+source: "methodClass\x0a\x09^ methodClass",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],

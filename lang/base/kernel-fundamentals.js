@@ -202,6 +202,10 @@ define(function () {
             }
             if (newMethod === oldMethod) return;
             if (newMethod != null) {
+                if (newMethod.methodClass && newMethod.methodClass !== traitOrBehavior) {
+                    console.warn("Resetting methodClass of " + newMethod.methodClass.name + " >> " + selector + " to " + traitOrBehavior.name);
+                }
+                newMethod.methodClass = traitOrBehavior;
                 traitOrBehavior.methods[selector] = newMethod;
                 traitOrBehavior.methodAdded(newMethod);
             } else {

@@ -201,7 +201,7 @@ valueWithTimeout: aNumber
 ! !
 
 Object subclass: #CompiledMethod
-	slots: {#args. #fn. #messageSends. #pragmas. #owner. #protocol. #referencedClasses. #selector. #source}
+	slots: {#args. #fn. #messageSends. #pragmas. #owner. #methodClass. #protocol. #referencedClasses. #selector. #source}
 	package: 'Kernel-Methods'!
 !CompiledMethod commentStamp!
 I represent a class method of the system. I hold the source and compiled code of a class method.
@@ -250,7 +250,7 @@ messageSends
 !
 
 methodClass
-	^ owner
+	^ methodClass
 !
 
 origin
