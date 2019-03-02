@@ -1006,25 +1006,6 @@ $globals.CompiledMethod);
 
 $core.addMethod(
 $core.method({
-selector: "fn:",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "fn: aBlock\x0a\x09fn := aBlock",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (aBlock){
-var self=this,$self=this;
-$self.fn=aBlock;
-return self;
-
-}; }),
-$globals.CompiledMethod);
-
-$core.addMethod(
-$core.method({
 selector: "instantiateFn",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);

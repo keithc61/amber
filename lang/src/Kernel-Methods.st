@@ -241,10 +241,6 @@ fn
 	^ fn
 !
 
-fn: aBlock
-	fn := aBlock
-!
-
 instantiateFn
 	^ instantiateFn
 !
