@@ -92,16 +92,11 @@ define(function () {
         var removeElement = brikz.arraySet.removeElement;
 
         function aliased (selector, method) {
-            if (method.selector === selector) return method;
-            var result = st.method({
-                selector: selector,
-                args: method.args,
-                protocol: method.protocol,
-                source: '"Aliased as ' + selector + '"\n' + method.source,
-                messageSends: method.messageSends,
-                referencesClasses: method.referencedClasses,
-                fn: method.fn
-            });
+            var result = st.method(method);
+            if (method.selector !== selector) {
+                result.selector = selector;
+                result.source = '"Aliased as ' + selector + '"\n' + method.source;
+            }
             result.owner = method.owner;
             return result;
         }
@@ -116,7 +111,7 @@ define(function () {
             // assert(Object.getOwnProperties(obj).length === 0)
             var traitMethods = traitTransformation.trait.methods;
             Object.keys(traitMethods).forEach(function (selector) {
-                obj[selector] = traitMethods[selector];
+                obj[selector] = aliased(selector, traitMethods[selector]);
             });
             var traitAliases = traitTransformation.aliases;
             if (traitAliases) {
