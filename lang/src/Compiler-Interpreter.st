@@ -752,9 +752,8 @@ sendMessage: aMessage to: anObject superSend: aBoolean
 	aBoolean ifFalse: [ ^ aMessage sendTo: anObject ].
 	anObject class superclass ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].
 	
-	method := anObject class superclass methodDictionary
-		at: aMessage selector
-		ifAbsent: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].
+	method := (self context method methodClass superclass lookupSelector: aMessage selector)
+		ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].
 		
 	^ method sendTo: anObject arguments: aMessage arguments
 ! !
@@ -901,7 +900,7 @@ visitVariableNode: aNode
 	self push: (aNode binding isInstanceVar
 		ifTrue: [ self context receiver instVarAt: aNode value ]
 		ifFalse: [ self context 
-			localAt: aNode value
+			localAt: (aNode binding isSuper ifTrue: [ 'self' ] ifFalse: [ aNode value ])
 			ifAbsent: [
 				aNode value isCapitalized
 					ifTrue: [

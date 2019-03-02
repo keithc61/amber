@@ -138,6 +138,16 @@ tearDown
 
 !CodeGeneratorTest methodsFor: 'testing'!
 
+should: aString class: aClass receiver: anObject return: aResult
+	| method result |
+
+	receiver := anObject.
+	method := self compiler install: aString forClass: aClass protocol: 'tests'.
+	result := receiver perform: method selector.
+	aClass removeCompiledMethod: method.
+	self assert: aResult equals: result
+!
+
 should: aString receiver: anObject raise: anErrorClass
 	| method result |
 
@@ -149,13 +159,7 @@ should: aString receiver: anObject raise: anErrorClass
 !
 
 should: aString receiver: anObject return: aResult
-	| method result |
-
-	receiver := anObject.
-	method := self compiler install: aString forClass: anObject class protocol: 'tests'.
-	result := receiver perform: method selector.
-	anObject class removeCompiledMethod: method.
-	self assert: aResult equals: result
+	^ self should: aString class: anObject class receiver: anObject return: aResult
 !
 
 should: aString return: anObject
@@ -386,6 +390,36 @@ testSuperSend
 		return: false
 !
 
+testSuperSend2
+	self 
+		should: 'foo ^ super isNil'
+		receiver: nil
+		return: false
+!
+
+testSuperSend3
+	self 
+		should: 'doo ^ super isNil'
+		class: Object
+		receiver: nil
+		return: false
+!
+
+testSuperSend4
+	self 
+		should: 'foo ^ super asJavaScriptObject'
+		receiver: 'me'
+		return: #('m' 'e')
+!
+
+testSuperSend5
+	self 
+		should: 'foo [super addLast: 4] on: Error do: [ self add: 5 ]. ^ self'
+		class: SequenceableCollection
+		receiver: #(1 2 3)
+		return: #(1 2 3 5)
+!
+
 testTempVariables
 	self should: 'foo | a | ^ a' return: nil.
 	self should: 'foo | AVariable | ^ AVariable' return: nil.
@@ -478,17 +512,27 @@ CodeGeneratorTest subclass: #ASTInterpreterTest
 
 !ASTInterpreterTest methodsFor: 'private'!
 
-interpret: aString receiver: anObject withArguments: aDictionary
+interpret: aString forClass: aClass receiver: anObject withArguments: aDictionary
 	"The food is a methodNode. Interpret the sequenceNode only"
 	
-	| ctx ast interpreter |
+	| ctx |
 	
-	interpreter := ASTInterpreter new.
-	ast := self parse: aString forClass: anObject class.
+	ctx := self prepareContextFor: aString class: aClass receiver: anObject withArguments: aDictionary.
+	
+	^ ctx interpreter proceed; result
+!
+
+prepareContextFor: aString class: aClass receiver: anObject withArguments: aDictionary
+	"The food is a methodNode. Interpret the sequenceNode only"
+	
+	| ctx ast |
+	
+	ast := self parse: aString forClass: aClass.
 	
 	ctx := AIContext new
 		receiver: anObject;
-		interpreter: interpreter;
+		selector: ast selector;
+		interpreter: ASTInterpreter new;
 		yourself.
 		
 	"Define locals for the context"
@@ -499,22 +543,24 @@ interpret: aString receiver: anObject withArguments: aDictionary
 	aDictionary keysAndValuesDo: [ :key :value |
 		ctx localAt: key put: value ].
 	
-	^ interpreter
+	ctx interpreter
 		context: ctx;
 		node: ast;
-		enterNode;
-		proceed;
-		result
+		enterNode.
+	
+	^ctx
 ! !
 
 !ASTInterpreterTest methodsFor: 'testing'!
 
-should: aString receiver: anObject return: aResult
+should: aString class: aClass receiver: anObject return: aResult
+	| method result |
+
 	receiver := anObject.
-	
-	^ self 
-		assert: (self interpret: aString receiver: receiver withArguments: #{})
-		equals: aResult
+	method := self compiler install: aString forClass: aClass protocol: 'tests'.
+	result := self interpret: aString forClass: aClass receiver: receiver withArguments: #{}.
+	aClass removeCompiledMethod: method.
+	self assert: aResult equals: result
 ! !
 
 ASTInterpreterTest subclass: #ASTDebuggerTest
@@ -523,31 +569,14 @@ ASTInterpreterTest subclass: #ASTDebuggerTest
 
 !ASTDebuggerTest methodsFor: 'private'!
 
-interpret: aString receiver: anObject withArguments: aDictionary
-	| ctx ast debugger |
+interpret: aString forClass: aClass receiver: anObject withArguments: aDictionary
+	"The food is a methodNode. Interpret the sequenceNode only"
 	
-	ctx := AIContext new
-		receiver: anObject;
-		interpreter: ASTInterpreter new;
-		yourself.
-	ast := self parse: aString forClass: anObject class.
-		
-	"Define locals for the context"
-	ast sequenceNode ifNotNil: [ :sequence |
-		sequence temps do: [ :each |
-			ctx defineLocal: each ] ].
+	| ctx |
 	
-	aDictionary keysAndValuesDo: [ :key :value |
-		ctx localAt: key put: value ].
-	ctx interpreter context: ctx.
+	ctx := self prepareContextFor: aString class: aClass receiver: anObject withArguments: aDictionary.
 	
-	ctx interpreter node: ast; enterNode.
-	
-	debugger := ASTDebugger context: ctx.
-	
-	^ debugger 
-		proceed; 
-		result
+	^ (ASTDebugger context: ctx) proceed; result
 ! !
 
 CodeGeneratorTest subclass: #InliningCodeGeneratorTest
