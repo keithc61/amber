@@ -461,14 +461,14 @@ copyClass: aClass to: anotherClass
 	anotherClass comment: aClass comment.
 
 	aClass methodDictionary valuesDo: [ :each |
-		each methodClass = aClass ifTrue: [
+		each origin = aClass ifTrue: [
 			Compiler new install: each source forClass: anotherClass protocol: each protocol ] ].
 	anotherClass setTraitComposition: aClass traitComposition.
 
 	self basicClass: anotherClass class instanceVariables: aClass class instanceVariableNames.
 
 	aClass class methodDictionary valuesDo: [ :each |
-		each methodClass = aClass class ifTrue: [
+		each origin = aClass class ifTrue: [
 			Compiler new install: each source forClass: anotherClass class protocol: each protocol ] ].
 	anotherClass class setTraitComposition: aClass class traitComposition
 ! !
@@ -690,7 +690,7 @@ ownMethods
 !
 
 ownMethodsInProtocol: aString
-	^ (self methodsInProtocol: aString) select: [ :each | each methodClass = self ]
+	^ (self methodsInProtocol: aString) select: [ :each | each origin = self ]
 !
 
 ownProtocols

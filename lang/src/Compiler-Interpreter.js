@@ -681,7 +681,7 @@ $1=$self._method();
 $ctx1.sendIdx["method"]=1;
 //>>excludeEnd("ctx");
 $self.ast=$recv($1)._ast();
-$recv($recv($globals.SemanticAnalyzer)._on_($recv($self._method())._methodClass()))._visit_($self.ast);
+$recv($recv($globals.SemanticAnalyzer)._on_($recv($self._method())._origin()))._visit_($self.ast);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initializeAST",{})});
@@ -689,11 +689,11 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "initializeAST\x0a\x09ast := self method ast.\x0a\x09(SemanticAnalyzer on: self method methodClass)\x0a\x09\x09visit: ast",
+source: "initializeAST\x0a\x09ast := self method ast.\x0a\x09(SemanticAnalyzer on: self method origin)\x0a\x09\x09visit: ast",
 referencedClasses: ["SemanticAnalyzer"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ast", "method", "visit:", "on:", "methodClass"]
+messageSends: ["ast", "method", "visit:", "on:", "origin"]
 }),
 $globals.AIContext);
 

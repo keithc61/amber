@@ -820,7 +820,7 @@ ast
 	
 	^ Compiler new
 		ast: self source
-		forClass: self methodClass
+		forClass: self origin
 		protocol: self protocol
 ! !
 

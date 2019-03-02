@@ -238,7 +238,7 @@ newInnerContext
 
 initializeAST
 	ast := self method ast.
-	(SemanticAnalyzer on: self method methodClass)
+	(SemanticAnalyzer on: self method origin)
 		visit: ast
 !
 

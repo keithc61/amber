@@ -167,22 +167,22 @@ moveMethod: aMethod toClass: aClassName
 	| destinationClass |
 	
 	destinationClass := self classNamed: aClassName.
-	destinationClass == aMethod methodClass ifTrue: [ ^ self ].
+	destinationClass == aMethod origin ifTrue: [ ^ self ].
 	
-	aMethod methodClass isMetaclass ifTrue: [ 
+	aMethod origin isMetaclass ifTrue: [ 
 		destinationClass := destinationClass theMetaClass ].
 	
 	destinationClass 
 		compile: aMethod source
 		protocol: aMethod protocol.
-	aMethod methodClass 
+	aMethod origin 
 		removeCompiledMethod: aMethod
 !
 
 moveMethod: aMethod toProtocol: aProtocol
 	aMethod protocol: aProtocol.
 
-	aMethod methodClass
+	aMethod origin
 		compile: aMethod source
 		protocol: aMethod protocol
 !
@@ -192,7 +192,7 @@ removeClass: aClass
 !
 
 removeMethod: aMethod
-	aMethod methodClass removeCompiledMethod: aMethod
+	aMethod origin removeCompiledMethod: aMethod
 !
 
 removeProtocol: aString from: aClass

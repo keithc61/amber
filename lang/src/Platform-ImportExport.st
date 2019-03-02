@@ -344,7 +344,7 @@ exportMethod: aMethod on: aStream
 		write: { 'pragmas: '. aMethod basicPragmas asJavaScriptSource. ',' }; lf;
 		write: { 'messageSends: '. aMethod messageSends asJavaScriptSource }; lf;
 		write: '}),'; lf;
-		write: { aMethod methodClass asJavaScriptSource. ');' }; lf; lf
+		write: { aMethod origin asJavaScriptSource. ');' }; lf; lf
 !
 
 exportPackage: aPackage on: aStream

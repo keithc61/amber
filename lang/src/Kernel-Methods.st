@@ -253,12 +253,16 @@ methodClass
 	^ owner
 !
 
+origin
+	^ owner
+!
+
 package
 	"Answer the package the receiver belongs to:
 	- if it is an extension method, answer the corresponding package
 	- else answer the `methodClass` package"
 	
-	^ self methodClass ifNotNil: [ :class | class packageOfProtocol: self protocol ]
+	^ self origin ifNotNil: [ :class | class packageOfProtocol: self protocol ]
 !
 
 pragmas
@@ -284,9 +288,9 @@ protocol: aString
 			oldProtocol: oldProtocol;
 			yourself) ].
 
-	self methodClass ifNotNil: [ :methodClass |
-		methodClass organization addElement: aString.
-		methodClass removeProtocolIfEmpty: oldProtocol ]
+	self origin ifNotNil: [ :origin |
+		origin organization addElement: aString.
+		origin removeProtocolIfEmpty: oldProtocol ]
 !
 
 referencedClasses
@@ -313,6 +317,22 @@ source: aString
 
 browse
 	Finder findMethod: self
+! !
+
+!CompiledMethod methodsFor: 'converting'!
+
+asString
+	^ self asStringForClass: self methodClass
+!
+
+asStringForClass: aClass
+	| result |
+	result := aClass name.
+	self methodClass = aClass 
+		ifFalse: [ result := result, ' (', (self methodClass ifNil: [ 'nil' ] ifNotNil: [ self methodClass name ]), ')'].
+	(self origin = aClass | (self origin = self methodClass)) 
+		ifFalse: [ result := result, ' /', (self origin ifNil: [ 'nil' ] ifNotNil: [ self origin name ]), '/'].
+	^ result, ' >> ', self selector symbolPrintString
 ! !
 
 !CompiledMethod methodsFor: 'defaults'!
@@ -906,12 +926,7 @@ supercall
 asString
 	^ self isBlockContext
 		ifTrue: [ 'a block (in ', self methodContext asString, ')' ]
-		ifFalse: [ 
-			| methodClass |
-			methodClass := self method ifNotNil: [ :method | method methodClass ].
-			methodClass = self receiver class 
-				ifTrue: [ self receiver class name, ' >> ', self selector ]
-				ifFalse: [ self receiver class name, '(', (methodClass ifNil: [ 'nil' ] ifNotNil: [ methodClass name ]), ') >> ', self selector ] ]
+		ifFalse: [ self method ifNotNil: [ :method | method asStringForClass: self receiver class ] ]
 ! !
 
 !TMethodContext methodsFor: 'printing'!

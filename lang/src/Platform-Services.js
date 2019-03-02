@@ -871,17 +871,17 @@ return $core.withContext(function($ctx1) {
 var $2,$3,$1,$5,$4;
 destinationClass=$self._classNamed_(aClassName);
 $2=destinationClass;
-$3=$recv(aMethod)._methodClass();
+$3=$recv(aMethod)._origin();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["methodClass"]=1;
+$ctx1.sendIdx["origin"]=1;
 //>>excludeEnd("ctx");
 $1=$recv($2).__eq_eq($3);
 if($core.assert($1)){
 return self;
 }
-$5=$recv(aMethod)._methodClass();
+$5=$recv(aMethod)._origin();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["methodClass"]=2;
+$ctx1.sendIdx["origin"]=2;
 //>>excludeEnd("ctx");
 $4=$recv($5)._isMetaclass();
 if($core.assert($4)){
@@ -889,7 +889,7 @@ destinationClass=$recv(destinationClass)._theMetaClass();
 destinationClass;
 }
 $recv(destinationClass)._compile_protocol_($recv(aMethod)._source(),$recv(aMethod)._protocol());
-$recv($recv(aMethod)._methodClass())._removeCompiledMethod_(aMethod);
+$recv($recv(aMethod)._origin())._removeCompiledMethod_(aMethod);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"moveMethod:toClass:",{aMethod:aMethod,aClassName:aClassName,destinationClass:destinationClass})});
@@ -897,11 +897,11 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aMethod", "aClassName"],
-source: "moveMethod: aMethod toClass: aClassName\x0a\x09| destinationClass |\x0a\x09\x0a\x09destinationClass := self classNamed: aClassName.\x0a\x09destinationClass == aMethod methodClass ifTrue: [ ^ self ].\x0a\x09\x0a\x09aMethod methodClass isMetaclass ifTrue: [ \x0a\x09\x09destinationClass := destinationClass theMetaClass ].\x0a\x09\x0a\x09destinationClass \x0a\x09\x09compile: aMethod source\x0a\x09\x09protocol: aMethod protocol.\x0a\x09aMethod methodClass \x0a\x09\x09removeCompiledMethod: aMethod",
+source: "moveMethod: aMethod toClass: aClassName\x0a\x09| destinationClass |\x0a\x09\x0a\x09destinationClass := self classNamed: aClassName.\x0a\x09destinationClass == aMethod origin ifTrue: [ ^ self ].\x0a\x09\x0a\x09aMethod origin isMetaclass ifTrue: [ \x0a\x09\x09destinationClass := destinationClass theMetaClass ].\x0a\x09\x0a\x09destinationClass \x0a\x09\x09compile: aMethod source\x0a\x09\x09protocol: aMethod protocol.\x0a\x09aMethod origin \x0a\x09\x09removeCompiledMethod: aMethod",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["classNamed:", "ifTrue:", "==", "methodClass", "isMetaclass", "theMetaClass", "compile:protocol:", "source", "protocol", "removeCompiledMethod:"]
+messageSends: ["classNamed:", "ifTrue:", "==", "origin", "isMetaclass", "theMetaClass", "compile:protocol:", "source", "protocol", "removeCompiledMethod:"]
 }),
 $globals.Environment);
 
@@ -915,7 +915,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $recv(aMethod)._protocol_(aProtocol);
-$recv($recv(aMethod)._methodClass())._compile_protocol_($recv(aMethod)._source(),$recv(aMethod)._protocol());
+$recv($recv(aMethod)._origin())._compile_protocol_($recv(aMethod)._source(),$recv(aMethod)._protocol());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"moveMethod:toProtocol:",{aMethod:aMethod,aProtocol:aProtocol})});
@@ -923,11 +923,11 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aMethod", "aProtocol"],
-source: "moveMethod: aMethod toProtocol: aProtocol\x0a\x09aMethod protocol: aProtocol.\x0a\x0a\x09aMethod methodClass\x0a\x09\x09compile: aMethod source\x0a\x09\x09protocol: aMethod protocol",
+source: "moveMethod: aMethod toProtocol: aProtocol\x0a\x09aMethod protocol: aProtocol.\x0a\x0a\x09aMethod origin\x0a\x09\x09compile: aMethod source\x0a\x09\x09protocol: aMethod protocol",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["protocol:", "compile:protocol:", "methodClass", "source", "protocol"]
+messageSends: ["protocol:", "compile:protocol:", "origin", "source", "protocol"]
 }),
 $globals.Environment);
 
@@ -1114,7 +1114,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($recv(aMethod)._methodClass())._removeCompiledMethod_(aMethod);
+$recv($recv(aMethod)._origin())._removeCompiledMethod_(aMethod);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"removeMethod:",{aMethod:aMethod})});
@@ -1122,11 +1122,11 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aMethod"],
-source: "removeMethod: aMethod\x0a\x09aMethod methodClass removeCompiledMethod: aMethod",
+source: "removeMethod: aMethod\x0a\x09aMethod origin removeCompiledMethod: aMethod",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["removeCompiledMethod:", "methodClass"]
+messageSends: ["removeCompiledMethod:", "origin"]
 }),
 $globals.Environment);
 

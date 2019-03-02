@@ -1016,7 +1016,7 @@ return $recv($recv($recv(eachSide)._methodDictionary())._values())._do_displayin
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-$1=$recv($recv(each)._methodClass()).__eq(eachSide);
+$1=$recv($recv(each)._origin()).__eq(eachSide);
 if($core.assert($1)){
 return $self._install_forClass_protocol_($recv(each)._source(),eachSide,$recv(each)._protocol());
 }
@@ -1035,11 +1035,11 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
-source: "recompile: aClass\x0a\x09aClass includingPossibleMetaDo: [ :eachSide |\x0a\x09\x09eachSide methodDictionary values\x0a\x09\x09\x09do: [ :each | each methodClass = eachSide ifTrue: [ \x0a\x09\x09\x09\x09self \x0a\x09\x09\x09\x09\x09install: each source \x0a\x09\x09\x09\x09\x09forClass: eachSide \x0a\x09\x09\x09\x09\x09protocol: each protocol ] ]\x0a\x09\x09\x09displayingProgress: 'Recompiling ', eachSide name ]",
+source: "recompile: aClass\x0a\x09aClass includingPossibleMetaDo: [ :eachSide |\x0a\x09\x09eachSide methodDictionary values\x0a\x09\x09\x09do: [ :each | each origin = eachSide ifTrue: [ \x0a\x09\x09\x09\x09self \x0a\x09\x09\x09\x09\x09install: each source \x0a\x09\x09\x09\x09\x09forClass: eachSide \x0a\x09\x09\x09\x09\x09protocol: each protocol ] ]\x0a\x09\x09\x09displayingProgress: 'Recompiling ', eachSide name ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["includingPossibleMetaDo:", "do:displayingProgress:", "values", "methodDictionary", "ifTrue:", "=", "methodClass", "install:forClass:protocol:", "source", "protocol", ",", "name"]
+messageSends: ["includingPossibleMetaDo:", "do:displayingProgress:", "values", "methodDictionary", "ifTrue:", "=", "origin", "install:forClass:protocol:", "source", "protocol", ",", "name"]
 }),
 $globals.Compiler);
 

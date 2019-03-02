@@ -4,6 +4,8 @@
   + includingPossibleMetaDo:
 + Class >>
   + includingPossibleMetaDo:
++ CompiledMethod >>
+  + origin
 
 - SmalltalkImage >>
   - includesKey:

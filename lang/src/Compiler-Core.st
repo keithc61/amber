@@ -249,7 +249,7 @@ parseExpression: aString
 recompile: aClass
 	aClass includingPossibleMetaDo: [ :eachSide |
 		eachSide methodDictionary values
-			do: [ :each | each methodClass = eachSide ifTrue: [ 
+			do: [ :each | each origin = eachSide ifTrue: [ 
 				self 
 					install: each source 
 					forClass: eachSide 
