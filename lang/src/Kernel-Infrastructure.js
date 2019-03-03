@@ -2517,81 +2517,29 @@ selector: "sortedClasses:",
 protocol: "sorting",
 fn: function (classes){
 var self=this,$self=this;
-var children,others,nodes,expandedClasses;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2;
-children=[];
-others=[];
-$recv(classes)._do_((function(each){
+return $recv($globals.Array)._streamContents_((function(stream){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$recv(classes)._includes_($recv(each)._superclass());
-if($core.assert($1)){
-return $recv(others)._add_(each);
-} else {
-return $recv(children)._add_(each);
+return $recv(stream).__lt_lt($recv($globals.ClassBuilder)._sortClasses_(classes));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["add:"]=1;
-//>>excludeEnd("ctx");
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["do:"]=1;
-//>>excludeEnd("ctx");
-nodes=$recv(children)._collect_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($globals.ClassSorterNode)._on_classes_level_(each,others,(0));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,4)});
-//>>excludeEnd("ctx");
-}));
-nodes=$recv(nodes)._sorted_((function(a,b){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$3=$recv(a)._theClass();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["theClass"]=1;
-//>>excludeEnd("ctx");
-$2=$recv($3)._name();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["name"]=1;
-//>>excludeEnd("ctx");
-return $recv($2).__lt_eq($recv($recv(b)._theClass())._name());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({a:a,b:b},$ctx1,5)});
-//>>excludeEnd("ctx");
-}));
-expandedClasses=$recv($globals.Array)._new();
-$recv(nodes)._do_((function(aNode){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(aNode)._traverseClassesWith_(expandedClasses);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({aNode:aNode},$ctx1,6)});
-//>>excludeEnd("ctx");
-}));
-return expandedClasses;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"sortedClasses:",{classes:classes,children:children,others:others,nodes:nodes,expandedClasses:expandedClasses})});
+}, function($ctx1) {$ctx1.fill(self,"sortedClasses:",{classes:classes})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["classes"],
-source: "sortedClasses: classes\x0a\x09\x22Answer classes, sorted by superclass/subclasses and by class name for common subclasses (Issue #143)\x22\x0a\x0a\x09| children others nodes expandedClasses |\x0a\x09children := #().\x0a\x09others := #().\x0a\x09classes do: [ :each |\x0a\x09\x09(classes includes: each superclass)\x0a\x09\x09\x09ifFalse: [ children add: each ]\x0a\x09\x09\x09ifTrue: [ others add: each ]].\x0a\x09nodes := children collect: [ :each |\x0a\x09\x09ClassSorterNode on: each classes: others level: 0 ].\x0a\x09nodes := nodes sorted: [ :a :b | a theClass name <= b theClass name ].\x0a\x09expandedClasses := Array new.\x0a\x09nodes do: [ :aNode |\x0a\x09\x09aNode traverseClassesWith: expandedClasses ].\x0a\x09^ expandedClasses",
-referencedClasses: ["ClassSorterNode", "Array"],
+source: "sortedClasses: classes\x0a\x09^ Array streamContents: [ :stream | stream << (ClassBuilder sortClasses: classes) ]",
+referencedClasses: ["Array", "ClassBuilder"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["do:", "ifFalse:ifTrue:", "includes:", "superclass", "add:", "collect:", "on:classes:level:", "sorted:", "<=", "name", "theClass", "new", "traverseClassesWith:"]
+messageSends: ["streamContents:", "<<", "sortClasses:"]
 }),
 $globals.Package.a$cls);
 

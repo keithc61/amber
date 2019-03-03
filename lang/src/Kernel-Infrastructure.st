@@ -646,22 +646,7 @@ new: aString
 !Package class methodsFor: 'sorting'!
 
 sortedClasses: classes
-	"Answer classes, sorted by superclass/subclasses and by class name for common subclasses (Issue #143)"
-
-	| children others nodes expandedClasses |
-	children := #().
-	others := #().
-	classes do: [ :each |
-		(classes includes: each superclass)
-			ifFalse: [ children add: each ]
-			ifTrue: [ others add: each ]].
-	nodes := children collect: [ :each |
-		ClassSorterNode on: each classes: others level: 0 ].
-	nodes := nodes sorted: [ :a :b | a theClass name <= b theClass name ].
-	expandedClasses := Array new.
-	nodes do: [ :aNode |
-		aNode traverseClassesWith: expandedClasses ].
-	^ expandedClasses
+	^ Array streamContents: [ :stream | stream << (ClassBuilder sortClasses: classes) ]
 ! !
 
 Object subclass: #PackageStateObserver

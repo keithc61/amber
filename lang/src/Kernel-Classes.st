@@ -517,66 +517,20 @@ rawRenameClass: aClass to: aString
 	'>
 ! !
 
-Object subclass: #ClassSorterNode
-	slots: {#theClass. #level. #nodes}
-	package: 'Kernel-Classes'!
-!ClassSorterNode commentStamp!
-I provide an algorithm for sorting classes alphabetically.
+!ClassBuilder class methodsFor: 'as yet unclassified'!
 
-See [Issue #143](https://lolg.it/amber/amber/issues/143).!
-
-!ClassSorterNode methodsFor: 'accessing'!
-
-getNodesFrom: aCollection
-	| children others |
-	children := #().
-	others := #().
-	aCollection do: [ :each |
-		(each superclass = self theClass)
-			ifTrue: [ children add: each ]
-			ifFalse: [ others add: each ]].
-	nodes:= children collect: [ :each |
-		ClassSorterNode on: each classes: others level: self level + 1 ]
-!
-
-level
-	^ level
-!
-
-level: anInteger
-	level := anInteger
-!
-
-nodes
-	^ nodes
-!
-
-theClass
-	^ theClass
-!
-
-theClass: aClass
-	theClass := aClass
-! !
-
-!ClassSorterNode methodsFor: 'visiting'!
-
-traverseClassesWith: aCollection
-	"sort classes alphabetically Issue #143"
-
-	aCollection add: self theClass.
-	(self nodes sorted: [ :a :b | a theClass name <= b theClass name ]) do: [ :aNode |
-		aNode traverseClassesWith: aCollection ].
-! !
-
-!ClassSorterNode class methodsFor: 'instance creation'!
-
-on: aClass classes: aCollection level: anInteger
-	^ self new
-		theClass: aClass;
-		level: anInteger;
-		getNodesFrom: aCollection;
-		yourself
+sortClasses: aCollection
+	| root members |
+	root := {nil. {}}.
+	members := HashedCollection new.
+	aCollection do: [ :each | members at: each name put: {each. {}} ].
+	(aCollection asArray sorted: [ :a :b | a name <= b name ]) do: [ :each |
+		| target |
+		target := members
+			at: (each superclass ifNotNil: [ :superklass | superklass name ])
+			ifAbsent: [ root ].
+		target second add: (members at: each name) ].
+	^ root second
 ! !
 
 Trait named: #TBehaviorDefaults

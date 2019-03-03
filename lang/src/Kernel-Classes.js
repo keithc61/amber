@@ -1969,246 +1969,96 @@ messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "ifNil:", "
 $globals.ClassBuilder);
 
 
-
-$core.addClass("ClassSorterNode", $globals.Object, ["theClass", "level", "nodes"], "Kernel-Classes");
-//>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.ClassSorterNode.comment="I provide an algorithm for sorting classes alphabetically.\x0a\x0aSee [Issue #143](https://lolg.it/amber/amber/issues/143).";
-//>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "getNodesFrom:",
-protocol: "accessing",
+selector: "sortClasses:",
+protocol: "as yet unclassified",
 fn: function (aCollection){
 var self=this,$self=this;
-var children,others;
+var root,members;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-children=[];
-others=[];
+var $1,$2,$3,$4,$5,$7,$6,$8,$receiver;
+root=[nil,[]];
+members=$recv($globals.HashedCollection)._new();
 $recv(aCollection)._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$recv($recv(each)._superclass()).__eq($self._theClass());
-if($core.assert($1)){
-return $recv(children)._add_(each);
+$1=members;
+$2=$recv(each)._name();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["add:"]=1;
+$ctx2.sendIdx["name"]=1;
 //>>excludeEnd("ctx");
-} else {
-return $recv(others)._add_(each);
-}
+return $recv($1)._at_put_($2,[each,[]]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-$self.nodes=$recv(children)._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["do:"]=1;
+//>>excludeEnd("ctx");
+$recv($recv($recv(aCollection)._asArray())._sorted_((function(a,b){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($globals.ClassSorterNode)._on_classes_level_(each,others,$recv($self._level()).__plus((1)));
+$3=$recv(a)._name();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,4)});
+$ctx2.sendIdx["name"]=2;
+//>>excludeEnd("ctx");
+$4=$recv(b)._name();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["name"]=3;
+//>>excludeEnd("ctx");
+return $recv($3).__lt_eq($4);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({a:a,b:b},$ctx1,2)});
+//>>excludeEnd("ctx");
+})))._do_((function(each){
+var target;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$5=members;
+$7=$recv(each)._superclass();
+if(($receiver = $7) == null || $receiver.a$nil){
+$6=$7;
+} else {
+var superklass;
+superklass=$receiver;
+$6=$recv(superklass)._name();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["name"]=4;
+//>>excludeEnd("ctx");
+}
+target=$recv($5)._at_ifAbsent_($6,(function(){
+return root;
+
+}));
+$8=$recv(target)._second();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["second"]=1;
+//>>excludeEnd("ctx");
+return $recv($8)._add_($recv(members)._at_($recv(each)._name()));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each,target:target},$ctx1,3)});
 //>>excludeEnd("ctx");
 }));
-return self;
+return $recv(root)._second();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"getNodesFrom:",{aCollection:aCollection,children:children,others:others})});
+}, function($ctx1) {$ctx1.fill(self,"sortClasses:",{aCollection:aCollection,root:root,members:members})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aCollection"],
-source: "getNodesFrom: aCollection\x0a\x09| children others |\x0a\x09children := #().\x0a\x09others := #().\x0a\x09aCollection do: [ :each |\x0a\x09\x09(each superclass = self theClass)\x0a\x09\x09\x09ifTrue: [ children add: each ]\x0a\x09\x09\x09ifFalse: [ others add: each ]].\x0a\x09nodes:= children collect: [ :each |\x0a\x09\x09ClassSorterNode on: each classes: others level: self level + 1 ]",
-referencedClasses: ["ClassSorterNode"],
+source: "sortClasses: aCollection\x0a\x09| root members |\x0a\x09root := {nil. {}}.\x0a\x09members := HashedCollection new.\x0a\x09aCollection do: [ :each | members at: each name put: {each. {}} ].\x0a\x09(aCollection asArray sorted: [ :a :b | a name <= b name ]) do: [ :each |\x0a\x09\x09| target |\x0a\x09\x09target := members\x0a\x09\x09\x09at: (each superclass ifNotNil: [ :superklass | superklass name ])\x0a\x09\x09\x09ifAbsent: [ root ].\x0a\x09\x09target second add: (members at: each name) ].\x0a\x09^ root second",
+referencedClasses: ["HashedCollection"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["do:", "ifTrue:ifFalse:", "=", "superclass", "theClass", "add:", "collect:", "on:classes:level:", "+", "level"]
+messageSends: ["new", "do:", "at:put:", "name", "sorted:", "asArray", "<=", "at:ifAbsent:", "ifNotNil:", "superclass", "add:", "second", "at:"]
 }),
-$globals.ClassSorterNode);
-
-$core.addMethod(
-$core.method({
-selector: "level",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $self.level;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "level\x0a\x09^ level",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}),
-$globals.ClassSorterNode);
-
-$core.addMethod(
-$core.method({
-selector: "level:",
-protocol: "accessing",
-fn: function (anInteger){
-var self=this,$self=this;
-$self.level=anInteger;
-return self;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anInteger"],
-source: "level: anInteger\x0a\x09level := anInteger",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}),
-$globals.ClassSorterNode);
-
-$core.addMethod(
-$core.method({
-selector: "nodes",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $self.nodes;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "nodes\x0a\x09^ nodes",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}),
-$globals.ClassSorterNode);
-
-$core.addMethod(
-$core.method({
-selector: "theClass",
-protocol: "accessing",
-fn: function (){
-var self=this,$self=this;
-return $self.theClass;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "theClass\x0a\x09^ theClass",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}),
-$globals.ClassSorterNode);
-
-$core.addMethod(
-$core.method({
-selector: "theClass:",
-protocol: "accessing",
-fn: function (aClass){
-var self=this,$self=this;
-$self.theClass=aClass;
-return self;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aClass"],
-source: "theClass: aClass\x0a\x09theClass := aClass",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}),
-$globals.ClassSorterNode);
-
-$core.addMethod(
-$core.method({
-selector: "traverseClassesWith:",
-protocol: "visiting",
-fn: function (aCollection){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$3,$2;
-$1=$self._theClass();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["theClass"]=1;
-//>>excludeEnd("ctx");
-$recv(aCollection)._add_($1);
-$recv($recv($self._nodes())._sorted_((function(a,b){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$3=$recv(a)._theClass();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["theClass"]=2;
-//>>excludeEnd("ctx");
-$2=$recv($3)._name();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["name"]=1;
-//>>excludeEnd("ctx");
-return $recv($2).__lt_eq($recv($recv(b)._theClass())._name());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({a:a,b:b},$ctx1,1)});
-//>>excludeEnd("ctx");
-})))._do_((function(aNode){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(aNode)._traverseClassesWith_(aCollection);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({aNode:aNode},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"traverseClassesWith:",{aCollection:aCollection})});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aCollection"],
-source: "traverseClassesWith: aCollection\x0a\x09\x22sort classes alphabetically Issue #143\x22\x0a\x0a\x09aCollection add: self theClass.\x0a\x09(self nodes sorted: [ :a :b | a theClass name <= b theClass name ]) do: [ :aNode |\x0a\x09\x09aNode traverseClassesWith: aCollection ].",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["add:", "theClass", "do:", "sorted:", "nodes", "<=", "name", "traverseClassesWith:"]
-}),
-$globals.ClassSorterNode);
-
-
-$core.addMethod(
-$core.method({
-selector: "on:classes:level:",
-protocol: "instance creation",
-fn: function (aClass,aCollection,anInteger){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$self._new();
-$recv($1)._theClass_(aClass);
-$recv($1)._level_(anInteger);
-$recv($1)._getNodesFrom_(aCollection);
-return $recv($1)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"on:classes:level:",{aClass:aClass,aCollection:aCollection,anInteger:anInteger})});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aClass", "aCollection", "anInteger"],
-source: "on: aClass classes: aCollection level: anInteger\x0a\x09^ self new\x0a\x09\x09theClass: aClass;\x0a\x09\x09level: anInteger;\x0a\x09\x09getNodesFrom: aCollection;\x0a\x09\x09yourself",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["theClass:", "new", "level:", "getNodesFrom:", "yourself"]
-}),
-$globals.ClassSorterNode.a$cls);
+$globals.ClassBuilder.a$cls);
 
 
 $core.addTrait("TBehaviorDefaults", "Kernel-Classes");
