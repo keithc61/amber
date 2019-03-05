@@ -1591,7 +1591,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.ForkPool.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._initialize.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -1843,7 +1843,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.Message.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($self, [aStream]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._printOn_.call($self,aStream));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -2046,7 +2046,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.MessageSend.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._initialize.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -2078,7 +2078,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.MessageSend.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($self, [aStream]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._printOn_.call($self,aStream));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -3610,7 +3610,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.TMethodContext.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($self, [aStream]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._printOn_.call($self,aStream));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;

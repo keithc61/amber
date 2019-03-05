@@ -991,7 +991,7 @@ return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.supercall = true,
 //>>excludeEnd("ctx");
-($globals.ReportingTestContext.superclass||$boot.nilAsClass).fn.prototype._execute_.apply($self, [aBlock]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._execute_.call($self,aBlock));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.supercall = false;
 //>>excludeEnd("ctx");;
@@ -1133,7 +1133,7 @@ $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.ReportingTestContext.a$cls.superclass||$boot.nilAsClass).fn.prototype._testCase_.apply($self, [aTestCase]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._testCase_.call($self,aTestCase));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -1285,7 +1285,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.TestResult.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._initialize.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -1589,7 +1589,7 @@ var $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.TestSuiteRunner.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._initialize.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -1752,7 +1752,7 @@ $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.TestSuiteRunner.a$cls.superclass||$boot.nilAsClass).fn.prototype._new.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._new.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;

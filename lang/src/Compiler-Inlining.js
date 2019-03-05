@@ -41,7 +41,7 @@ $4=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.ASTPreInliner.superclass||$boot.nilAsClass).fn.prototype._visitSendNode_.apply($self, [aNode]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitSendNode_.call($self,aNode));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -642,7 +642,7 @@ return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRAssignment_.apply($self, [anIRAssignment]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitIRAssignment_.call($self,anIRAssignment));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -706,7 +706,7 @@ $7=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRNonLocalReturn_.apply($self, [anIRNonLocalReturn]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitIRNonLocalReturn_.call($self,anIRNonLocalReturn));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -742,7 +742,7 @@ return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRReturn_.apply($self, [anIRReturn]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitIRReturn_.call($self,anIRReturn));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -778,7 +778,7 @@ return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRInliner.superclass||$boot.nilAsClass).fn.prototype._visitIRSend_.apply($self, [anIRSend]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitIRSend_.call($self,anIRSend));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -1953,7 +1953,7 @@ closure=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRAssignmentInliner.superclass||$boot.nilAsClass).fn.prototype._inlineClosure_.apply($self, [anIRClosure]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._inlineClosure_.call($self,anIRClosure));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -2054,7 +2054,7 @@ closure=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRReturnInliner.superclass||$boot.nilAsClass).fn.prototype._inlineClosure_.apply($self, [anIRClosure]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._inlineClosure_.call($self,anIRClosure));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -2202,7 +2202,7 @@ $2=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.InliningCodeGenerator.superclass||$boot.nilAsClass).fn.prototype._transformersDictionary.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._transformersDictionary.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;

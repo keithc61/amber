@@ -2023,7 +2023,7 @@ $ctx1.sendIdx[","]=2;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.AmdExporter.superclass||$boot.nilAsClass).fn.prototype._exportPackageImportsOf_on_.apply($self, [aPackage,aStream]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._exportPackageImportsOf_on_.call($self,aPackage,aStream));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -2396,7 +2396,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.ClassCommentReader.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._initialize.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -2535,7 +2535,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.ClassProtocolReader.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._initialize.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -4054,7 +4054,7 @@ var $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.PackageTransport.a$cls.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._initialize.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -4173,7 +4173,7 @@ $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.AmdPackageTransport.superclass||$boot.nilAsClass).fn.prototype._asJavaScriptObject.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._asJavaScriptObject.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -4326,7 +4326,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.AmdPackageTransport.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($self, [aStream]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._printOn_.call($self,aStream));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;

@@ -2996,7 +2996,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.CollectionTest.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._initialize.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -5784,7 +5784,7 @@ var $2,$3,$4,$1,$5,$7,$8,$9,$6,$10,$12,$11;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.AssociativeCollectionTest.superclass||$boot.nilAsClass).fn.prototype._testAddAll.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._testAddAll.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -5921,7 +5921,7 @@ var $2,$3,$1,$4,$6,$7,$5,$8,$10,$9;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.AssociativeCollectionTest.superclass||$boot.nilAsClass).fn.prototype._testComma.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._testComma.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -6660,7 +6660,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.DictionaryTest.superclass||$boot.nilAsClass).fn.prototype._samplesDo_.apply($self, [aBlock]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._samplesDo_.call($self,aBlock));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -7896,7 +7896,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.ArrayTest.superclass||$boot.nilAsClass).fn.prototype._samplesDo_.apply($self, [aBlock]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._samplesDo_.call($self,aBlock));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -8474,7 +8474,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.StringTest.superclass||$boot.nilAsClass).fn.prototype._samplesDo_.apply($self, [aBlock]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._samplesDo_.call($self,aBlock));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -9656,7 +9656,7 @@ var $2,$3,$4,$1,$5,$7,$8,$9,$6,$10,$12,$11;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.SetTest.superclass||$boot.nilAsClass).fn.prototype._testAddAll.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._testAddAll.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -9827,7 +9827,7 @@ var $2,$1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.SetTest.superclass||$boot.nilAsClass).fn.prototype._testCollect.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._testCollect.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -9873,7 +9873,7 @@ var $2,$3,$1,$4,$6,$7,$5,$8,$10,$9;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.SetTest.superclass||$boot.nilAsClass).fn.prototype._testComma.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._testComma.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;

@@ -2099,7 +2099,7 @@ if(($receiver = $1) == null || $receiver.a$nil){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.TBehaviorDefaults.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($self, [aStream]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._printOn_.call($self,aStream));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -4138,7 +4138,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.TraitTransformation.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._initialize.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -4239,7 +4239,7 @@ $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.TraitTransformation.a$cls.superclass||$boot.nilAsClass).fn.prototype._new.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._new.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -4286,7 +4286,7 @@ $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.TraitTransformation.a$cls.superclass||$boot.nilAsClass).fn.prototype._new.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._new.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;

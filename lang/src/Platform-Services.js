@@ -2280,7 +2280,7 @@ var $3,$2,$1,$5,$4;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.String.superclass||$boot.nilAsClass).fn.prototype._inspectOn_.apply($self, [anInspector]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._inspectOn_.call($self,anInspector));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;

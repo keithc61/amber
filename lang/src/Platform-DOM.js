@@ -174,7 +174,7 @@ $2=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.JSObjectProxy.superclass||$boot.nilAsClass).fn.prototype._asDomNode.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._asDomNode.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;

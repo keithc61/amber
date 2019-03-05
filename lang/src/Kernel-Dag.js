@@ -242,7 +242,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.PathDagVisitor.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._initialize.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -300,7 +300,7 @@ result=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.supercall = true,
 //>>excludeEnd("ctx");
-($globals.PathDagVisitor.superclass||$boot.nilAsClass).fn.prototype._visit_.apply($self, [aNode]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visit_.call($self,aNode));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.supercall = false;
 //>>excludeEnd("ctx");;
@@ -342,7 +342,7 @@ newNode=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.PathDagVisitor.superclass||$boot.nilAsClass).fn.prototype._visitDagNodeVariantRedux_.apply($self, [aNode]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitDagNodeVariantRedux_.call($self,aNode));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;

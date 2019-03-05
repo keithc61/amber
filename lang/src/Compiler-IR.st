@@ -1085,15 +1085,11 @@ visitSuperSend: anIRSend
 
 writeActualSuperSend: anIRSend
 	self stream
-		nextPutAll: '(', self currentClass asJavaScriptSource;
-		nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';
-		nextPutAll: anIRSend javaScriptSelector, '.apply(';
-		nextPutAll: '$self, '.
+		nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';
+		nextPutAll: anIRSend javaScriptSelector, '.call'.
 	self
-		visitInstructionList: anIRSend arguments
-		enclosedBetween: '[' and: ']'.
-	self stream
-		nextPutAll: ')'
+		visitInstructionList: {IRVerbatim new source: '$self'; yourself}, anIRSend arguments
+		enclosedBetween: '(' and: ')'
 ! !
 
 Object subclass: #JSStream

@@ -408,6 +408,10 @@ I am a 'super' pseudo variable.!
 
 alias
 	^ 'self'
+!
+
+lookupAsJavaScriptSource
+	^ '($methodClass.superclass||$boot.nilAsClass).fn.prototype'
 ! !
 
 !SuperVar methodsFor: 'testing'!

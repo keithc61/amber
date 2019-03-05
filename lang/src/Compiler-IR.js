@@ -1871,7 +1871,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRClosureInstruction.superclass||$boot.nilAsClass).fn.prototype._scope_.apply($self, [aScope]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._scope_.call($self,aScope));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -3716,7 +3716,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRJSTranslator.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._initialize.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -3854,7 +3854,7 @@ return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRJSTranslator.superclass||$boot.nilAsClass).fn.prototype._visitIRClosure_.apply($self, [anIRClosure]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitIRClosure_.call($self,anIRClosure));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.supercall = false;
 //>>excludeEnd("ctx");;
@@ -4013,7 +4013,7 @@ return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx5.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRJSTranslator.superclass||$boot.nilAsClass).fn.prototype._visitIRMethod_.apply($self, [anIRMethod]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitIRMethod_.call($self,anIRMethod));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx5.supercall = false;
 //>>excludeEnd("ctx");;
@@ -4029,7 +4029,7 @@ return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx4.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRJSTranslator.superclass||$boot.nilAsClass).fn.prototype._visitIRMethod_.apply($self, [anIRMethod]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitIRMethod_.call($self,anIRMethod));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx4.supercall = false;
 //>>excludeEnd("ctx");;
@@ -4077,7 +4077,7 @@ return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRJSTranslator.superclass||$boot.nilAsClass).fn.prototype._visitIRNonLocalReturn_.apply($self, [anIRNonLocalReturn]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitIRNonLocalReturn_.call($self,anIRNonLocalReturn));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.supercall = false;
 //>>excludeEnd("ctx");;
@@ -4116,7 +4116,7 @@ return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.supercall = true,
 //>>excludeEnd("ctx");
-($globals.IRJSTranslator.superclass||$boot.nilAsClass).fn.prototype._visitIRReturn_.apply($self, [anIRReturn]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitIRReturn_.call($self,anIRReturn));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.supercall = false;
 //>>excludeEnd("ctx");;
@@ -4559,22 +4559,19 @@ selector: "writeActualSuperSend:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSend"],
-source: "writeActualSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: '(', self currentClass asJavaScriptSource;\x0a\x09\x09nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';\x0a\x09\x09nextPutAll: anIRSend javaScriptSelector, '.apply(';\x0a\x09\x09nextPutAll: '$self, '.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09enclosedBetween: '[' and: ']'.\x0a\x09self stream\x0a\x09\x09nextPutAll: ')'",
-referencedClasses: [],
+source: "writeActualSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';\x0a\x09\x09nextPutAll: anIRSend javaScriptSelector, '.call'.\x0a\x09self\x0a\x09\x09visitInstructionList: {IRVerbatim new source: '$self'; yourself}, anIRSend arguments\x0a\x09\x09enclosedBetween: '(' and: ')'",
+referencedClasses: ["IRVerbatim"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["nextPutAll:", "stream", ",", "asJavaScriptSource", "currentClass", "javaScriptSelector", "visitInstructionList:enclosedBetween:and:", "arguments"]
+messageSends: ["nextPutAll:", "stream", ",", "lookupAsJavaScriptSource", "variable", "receiver", "javaScriptSelector", "visitInstructionList:enclosedBetween:and:", "source:", "new", "yourself", "arguments"]
 }, function ($methodClass){ return function (anIRSend){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1,$2,$3,$7,$6,$5,$4;
 $1=$self._stream();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["stream"]=1;
-//>>excludeEnd("ctx");
-$2="(".__comma($recv($self._currentClass())._asJavaScriptSource());
+$2=$recv($recv($recv($recv(anIRSend)._receiver())._variable())._lookupAsJavaScriptSource()).__comma(".");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
@@ -4582,20 +4579,17 @@ $recv($1)._nextPutAll_($2);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$recv($1)._nextPutAll_(".superclass||$boot.nilAsClass).fn.prototype.");
+$3=$recv($recv(anIRSend)._javaScriptSelector()).__comma(".call");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=2;
+$ctx1.sendIdx[","]=2;
 //>>excludeEnd("ctx");
-$recv($1)._nextPutAll_($recv($recv(anIRSend)._javaScriptSelector()).__comma(".apply("));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=3;
-//>>excludeEnd("ctx");
-$recv($1)._nextPutAll_("$self, ");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=4;
-//>>excludeEnd("ctx");
-$self._visitInstructionList_enclosedBetween_and_($recv(anIRSend)._arguments(),"[","]");
-$recv($self._stream())._nextPutAll_(")");
+$recv($1)._nextPutAll_($3);
+$7=$recv($globals.IRVerbatim)._new();
+$recv($7)._source_("$self");
+$6=$recv($7)._yourself();
+$5=[$6];
+$4=$recv($5).__comma($recv(anIRSend)._arguments());
+$self._visitInstructionList_enclosedBetween_and_($4,"(",")");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"writeActualSuperSend:",{anIRSend:anIRSend})});
@@ -4649,7 +4643,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.JSStream.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._initialize.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -5903,7 +5897,7 @@ $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.AssignmentNode.superclass||$boot.nilAsClass).fn.prototype._shouldBeAliased.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._shouldBeAliased.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -6015,7 +6009,7 @@ $2=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.SendNode.superclass||$boot.nilAsClass).fn.prototype._shouldBeAliased.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._shouldBeAliased.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -6078,7 +6072,7 @@ return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.supercall = true,
 //>>excludeEnd("ctx");
-($globals.SendNode.superclass||$boot.nilAsClass).fn.prototype._subtreeNeedsAliasing.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._subtreeNeedsAliasing.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.supercall = false;
 //>>excludeEnd("ctx");;

@@ -2744,7 +2744,7 @@ $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.ParentFakingPathDagVisitor.superclass||$boot.nilAsClass).fn.prototype._visit_.apply($self, [aNode]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visit_.call($self,aNode));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -3149,7 +3149,7 @@ $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.AstPragmator.superclass||$boot.nilAsClass).fn.prototype._visitMethodNode_.apply($self, [aNode]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitMethodNode_.call($self,aNode));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;

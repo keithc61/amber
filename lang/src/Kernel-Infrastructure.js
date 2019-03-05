@@ -329,7 +329,7 @@ $2=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.JSObjectProxy.superclass||$boot.nilAsClass).fn.prototype._catch_.apply($self, [aBlock]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._catch_.call($self,aBlock));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -365,7 +365,7 @@ return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.JSObjectProxy.superclass||$boot.nilAsClass).fn.prototype._doesNotUnderstand_.apply($self, [aMessage]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._doesNotUnderstand_.call($self,aMessage));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -475,7 +475,7 @@ $2=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.JSObjectProxy.superclass||$boot.nilAsClass).fn.prototype._on_do_.apply($self, [aClass,aBlock]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._on_do_.call($self,aClass,aBlock));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -614,7 +614,7 @@ $2=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.JSObjectProxy.superclass||$boot.nilAsClass).fn.prototype._then_.apply($self, [aBlockOrArray]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._then_.call($self,aBlockOrArray));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -898,7 +898,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.Organizer.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._initialize.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -963,7 +963,7 @@ var $1,$3,$2;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.ClassOrganizer.superclass||$boot.nilAsClass).fn.prototype._addElement_.apply($self, [aString]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._addElement_.call($self,aString));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -1001,7 +1001,7 @@ var $1,$3,$2;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.ClassOrganizer.superclass||$boot.nilAsClass).fn.prototype._removeElement_.apply($self, [aString]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._removeElement_.call($self,aString));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -1589,7 +1589,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.Package.superclass||$boot.nilAsClass).fn.prototype._initialize.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._initialize.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -1962,7 +1962,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.Package.superclass||$boot.nilAsClass).fn.prototype._printOn_.apply($self, [aStream]));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._printOn_.call($self,aStream));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -2868,7 +2868,7 @@ $1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.Setting.a$cls.superclass||$boot.nilAsClass).fn.prototype._new.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._new.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
@@ -4077,7 +4077,7 @@ $self.current=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($globals.SmalltalkImage.a$cls.superclass||$boot.nilAsClass).fn.prototype._new.apply($self, []));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._new.call($self));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
