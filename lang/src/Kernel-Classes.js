@@ -1782,7 +1782,7 @@ var oldClass,newClass,tmp;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$3;
+var $1,$3,$2;
 tmp="new*".__comma(className);
 oldClass=$recv($recv($globals.Smalltalk)._globals())._at_(className);
 newClass=$self._addSubclassOf_named_instanceVariableNames_package_(aClass,tmp,aCollection,packageName);
@@ -1803,7 +1803,7 @@ return $self._copyClass_to_(oldClass,newClass);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $self._basicSwapClassNames_with_(oldClass,newClass);
-$1=$self._basicRemoveClass_(newClass);
+$self._basicRemoveClass_(newClass);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["basicRemoveClass:"]=1;
 //>>excludeEnd("ctx");
@@ -1827,12 +1827,12 @@ return $self._migrateClass_superclass_(each,newClass);
 //>>excludeEnd("ctx");
 }));
 $self._basicRemoveClass_(oldClass);
-$2=$recv($globals.SystemAnnouncer)._current();
-$4=$recv($globals.ClassMigrated)._new();
-$recv($4)._theClass_(newClass);
-$recv($4)._oldClass_(oldClass);
-$3=$recv($4)._yourself();
-$recv($2)._announce_($3);
+$1=$recv($globals.SystemAnnouncer)._current();
+$3=$recv($globals.ClassMigrated)._new();
+$recv($3)._theClass_(newClass);
+$recv($3)._oldClass_(oldClass);
+$2=$recv($3)._yourself();
+$recv($1)._announce_($2);
 return newClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"migrateClassNamed:superclass:instanceVariableNames:package:",{className:className,aClass:aClass,aCollection:aCollection,packageName:packageName,oldClass:oldClass,newClass:newClass,tmp:tmp})});
@@ -2261,7 +2261,7 @@ var oldMethod,announcement;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$receiver;
+var $1,$2,$3,$receiver;
 oldMethod=$recv($self._methodDictionary())._at_ifAbsent_($recv(aMethod)._selector(),(function(){
 return nil;
 
@@ -2277,16 +2277,15 @@ $recv($2)._method_(aMethod);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["method:"]=1;
 //>>excludeEnd("ctx");
-$3=$recv($2)._yourself();
+announcement=$recv($2)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["yourself"]=1;
 //>>excludeEnd("ctx");
-announcement=$3;
 } else {
-$4=$recv($globals.MethodModified)._new();
-$recv($4)._oldMethod_(oldMethod);
-$recv($4)._method_(aMethod);
-announcement=$recv($4)._yourself();
+$3=$recv($globals.MethodModified)._new();
+$recv($3)._oldMethod_(oldMethod);
+$recv($3)._method_(aMethod);
+announcement=$recv($3)._yourself();
 }
 $recv($recv($globals.SystemAnnouncer)._current())._announce_(announcement);
 return self;

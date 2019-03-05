@@ -2630,7 +2630,7 @@ var binding;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2,$4,$5,$6,$7,$8,$9,$receiver;
+var $1,$3,$2,$4,$5,$6,$7,$8,$receiver;
 binding=$recv($self.currentScope)._lookupVariable_(aNode);
 $1=binding;
 if(($receiver = $1) == null || $receiver.a$nil){
@@ -2652,22 +2652,21 @@ $recv($4)._name_($5);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["name:"]=1;
 //>>excludeEnd("ctx");
-$6=$recv($4)._yourself();
+binding=$recv($4)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["yourself"]=1;
 //>>excludeEnd("ctx");
-binding=$6;
-$7=$self._classReferences();
-$8=$recv(aNode)._value();
+$6=$self._classReferences();
+$7=$recv(aNode)._value();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["value"]=3;
 //>>excludeEnd("ctx");
-$recv($7)._add_($8);
+$recv($6)._add_($7);
 } else {
 $self._errorUnknownVariable_(aNode);
-$9=$recv($globals.UnknownVar)._new();
-$recv($9)._name_($recv(aNode)._value());
-binding=$recv($9)._yourself();
+$8=$recv($globals.UnknownVar)._new();
+$recv($8)._name_($recv(aNode)._value());
+binding=$recv($8)._yourself();
 binding;
 }
 } else {

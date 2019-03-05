@@ -2423,7 +2423,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$receiver;
+var $1,$2,$receiver;
 $self._gruntInitThenDo_((function(error){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -2437,12 +2437,12 @@ if(($receiver = error2) == null || $receiver.a$nil){
 $self._finishMessage();
 return $recv(process)._exit();
 } else {
-$3=console;
-$recv($3)._log_("npm run init exec error:");
+$2=console;
+$recv($2)._log_("npm run init exec error:");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["log:"]=3;
 //>>excludeEnd("ctx");
-$recv($3)._log_(error2);
+$recv($2)._log_(error2);
 return $recv(process)._exit_((105));
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2455,7 +2455,7 @@ $recv($1)._log_("grunt-init exec error:");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["log:"]=1;
 //>>excludeEnd("ctx");
-$2=$recv($1)._log_(error);
+$recv($1)._log_(error);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["log:"]=2;
 //>>excludeEnd("ctx");

@@ -1306,8 +1306,11 @@ isReferenced
 	"Answer true if the receiver is referenced by other nodes.
 	Do not take sequences or assignments into account"
 	
-	^ (self parent isSequenceNode or: [
-		self parent isAssignmentNode ]) not
+	self parent isSequenceNode ifTrue: [ ^ false ].
+	self parent isAssignmentNode ifTrue: [ ^ false ].
+	self parent isCascadeNode ifTrue: [ ^ self parent isReferenced ].
+	
+	^ true
 !
 
 subtreeNeedsAliasing
