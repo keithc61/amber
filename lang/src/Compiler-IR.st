@@ -642,7 +642,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRInstruction subclass: #IRSend
-	slots: {#selector. #index}
+	slots: {#selector. #javaScriptSelector. #index}
 	package: 'Compiler-IR'!
 !IRSend commentStamp!
 I am a message send instruction.!
@@ -659,6 +659,14 @@ index
 
 index: anInteger
 	index := anInteger
+!
+
+javaScriptSelector
+	^ javaScriptSelector ifNil: [ javaScriptSelector := self selector asJavaScriptMethodName ]
+!
+
+javaScriptSelector: aString
+	javaScriptSelector := aString
 !
 
 receiver
@@ -1052,7 +1060,7 @@ visitReceiver: anIRInstruction
 
 visitSend: anIRSend
 	self visitReceiver: anIRSend receiver.
-	self stream nextPutAll: '.', anIRSend selector asJavaScriptMethodName.
+	self stream nextPutAll: '.', anIRSend javaScriptSelector.
 	self
 		visitInstructionList: anIRSend arguments
 		enclosedBetween: '(' and: ')'
@@ -1066,7 +1074,7 @@ visitSuperSend: anIRSend
 		nextPutAll: '//>>excludeEnd("ctx");'; lf;
 		nextPutAll: '(', self currentClass asJavaScriptSource;
 		nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';
-		nextPutAll: anIRSend selector asJavaScriptMethodName, '.apply(';
+		nextPutAll: anIRSend javaScriptSelector, '.apply(';
 		nextPutAll: '$self, '.
 	self
 		visitInstructionList: anIRSend arguments

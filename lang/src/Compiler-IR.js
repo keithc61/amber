@@ -2652,7 +2652,7 @@ $globals.IRTempDeclaration);
 
 
 
-$core.addClass("IRSend", $globals.IRInstruction, ["selector", "index"], "Compiler-IR");
+$core.addClass("IRSend", $globals.IRInstruction, ["selector", "javaScriptSelector", "index"], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRSend.comment="I am a message send instruction.";
 //>>excludeEnd("ide");
@@ -2755,6 +2755,57 @@ return true;
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "isSend\x0a\x09^ true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}),
+$globals.IRSend);
+
+$core.addMethod(
+$core.method({
+selector: "javaScriptSelector",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$receiver;
+$1=$self.javaScriptSelector;
+if(($receiver = $1) == null || $receiver.a$nil){
+$self.javaScriptSelector=$recv($self._selector())._asJavaScriptMethodName();
+return $self.javaScriptSelector;
+} else {
+return $1;
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"javaScriptSelector",{})});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "javaScriptSelector\x0a\x09^ javaScriptSelector ifNil: [ javaScriptSelector := self selector asJavaScriptMethodName ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNil:", "asJavaScriptMethodName", "selector"]
+}),
+$globals.IRSend);
+
+$core.addMethod(
+$core.method({
+selector: "javaScriptSelector:",
+protocol: "accessing",
+fn: function (aString){
+var self=this,$self=this;
+$self.javaScriptSelector=aString;
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "javaScriptSelector: aString\x0a\x09javaScriptSelector := aString",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -4555,7 +4606,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $self._visitReceiver_($recv(anIRSend)._receiver());
-$recv($self._stream())._nextPutAll_(".".__comma($recv($recv(anIRSend)._selector())._asJavaScriptMethodName()));
+$recv($self._stream())._nextPutAll_(".".__comma($recv(anIRSend)._javaScriptSelector()));
 $self._visitInstructionList_enclosedBetween_and_($recv(anIRSend)._arguments(),"(",")");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4564,11 +4615,11 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSend"],
-source: "visitSend: anIRSend\x0a\x09self visitReceiver: anIRSend receiver.\x0a\x09self stream nextPutAll: '.', anIRSend selector asJavaScriptMethodName.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09enclosedBetween: '(' and: ')'",
+source: "visitSend: anIRSend\x0a\x09self visitReceiver: anIRSend receiver.\x0a\x09self stream nextPutAll: '.', anIRSend javaScriptSelector.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09enclosedBetween: '(' and: ')'",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["visitReceiver:", "receiver", "nextPutAll:", "stream", ",", "asJavaScriptMethodName", "selector", "visitInstructionList:enclosedBetween:and:", "arguments"]
+messageSends: ["visitReceiver:", "receiver", "nextPutAll:", "stream", ",", "javaScriptSelector", "visitInstructionList:enclosedBetween:and:", "arguments"]
 }),
 $globals.IRJSTranslator);
 
@@ -4642,7 +4693,7 @@ $recv($1)._nextPutAll_(".superclass||$boot.nilAsClass).fn.prototype.");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=6;
 //>>excludeEnd("ctx");
-$6=$recv($recv($recv(anIRSend)._selector())._asJavaScriptMethodName()).__comma(".apply(");
+$6=$recv($recv(anIRSend)._javaScriptSelector()).__comma(".apply(");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=3;
 //>>excludeEnd("ctx");
@@ -4685,11 +4736,11 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSend"],
-source: "visitSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: '('; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'; lf;\x0a\x09\x09nextPutAll: '(', self currentClass asJavaScriptSource;\x0a\x09\x09nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';\x0a\x09\x09nextPutAll: anIRSend selector asJavaScriptMethodName, '.apply(';\x0a\x09\x09nextPutAll: '$self, '.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09enclosedBetween: '[' and: ']'.\x0a\x09self stream \x0a\x09\x09nextPutAll: '));'; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'",
+source: "visitSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: '('; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'; lf;\x0a\x09\x09nextPutAll: '(', self currentClass asJavaScriptSource;\x0a\x09\x09nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';\x0a\x09\x09nextPutAll: anIRSend javaScriptSelector, '.apply(';\x0a\x09\x09nextPutAll: '$self, '.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09enclosedBetween: '[' and: ']'.\x0a\x09self stream \x0a\x09\x09nextPutAll: '));'; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["nextPutAll:", "stream", "lf", ",", "alias", "scope", "asJavaScriptSource", "currentClass", "asJavaScriptMethodName", "selector", "visitInstructionList:enclosedBetween:and:", "arguments"]
+messageSends: ["nextPutAll:", "stream", "lf", ",", "alias", "scope", "asJavaScriptSource", "currentClass", "javaScriptSelector", "visitInstructionList:enclosedBetween:and:", "arguments"]
 }),
 $globals.IRJSTranslator);
 
