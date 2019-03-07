@@ -273,7 +273,7 @@ define(function () {
         brikz.behaviors = BehaviorsBrik;
         brikz.methods = MethodsBrik;
 
-        brikz.rebuild();
+        brikz();
     }
 
     return configureWithFundamentals;

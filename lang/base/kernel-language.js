@@ -442,7 +442,7 @@ define(function () {
         brikz.composition = MethodCompositionBrik;
         brikz.classes = ClassesBrik;
 
-        brikz.rebuild();
+        brikz();
     }
 
     return configureWithHierarchy;

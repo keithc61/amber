@@ -1,13 +1,13 @@
 define([], function () {
-    return function Brikz(api, apiKey, initKey) {
+    return function Brikz(api, apiKey, initKey, backupKey) {
         "use strict";
 
         //jshint eqnull:true
 
-        var brikz = this,
-            backup = {};
+        var backup = {};
         apiKey = apiKey || 'exports';
         initKey = initKey || '__init__';
+        backupKey = backupKey || 'backup';
 
         function mixin(src, target, what) {
             for (var keys = Object.keys(what || src), l = keys.length, i = 0; i < l; ++i) {
@@ -23,12 +23,7 @@ define([], function () {
             return target;
         }
 
-        Object.defineProperties(this, {
-            rebuild: { value: null, enumerable: false, configurable: true, writable: true }
-        });
-        var exclude = mixin(this, {});
-
-        this.rebuild = function () {
+        return function brikz() {
             Object.keys(backup).forEach(function (key) {
                 mixin(null, api, (backup[key] || 0)[apiKey] || {});
             });
@@ -37,15 +32,13 @@ define([], function () {
                 chk = {};
 
             function ensure(key) {
-                if (key in exclude) {
-                    return null;
-                }
                 var b = brikz[key],
                     bak = backup[key];
-                mixin(null, api, api);
                 while (typeof b === "function") {
                     (b.deps || []).forEach(ensure);
-                    b = new b(brikz, api, bak);
+                    b[backupKey] = bak;
+                    mixin(null, api, api);
+                    b = new b(brikz, api);
                 }
                 brikz[key] = b;
                 if (b && !chk[key]) {

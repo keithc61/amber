@@ -95,7 +95,7 @@ define([
     }
 
     var api = {};
-    var brikz = new Brikz(api);
+    var brikz = Brikz(api);
 
     configureWithFundamentals(brikz);
 
@@ -105,7 +105,7 @@ define([
     brikz.stInit = SmalltalkInitBrik;
     brikz.amd = AMDBrik;
 
-    brikz.rebuild();
+    brikz();
 
     // TODO deprecated, remove
     Object.defineProperty(brikz.smalltalkGlobals.globals, "CharacterArray", {

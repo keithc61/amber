@@ -474,7 +474,7 @@ define(function () {
         brikz.selectorConversion = SelectorConversionBrik;
         brikz.startImage = StartImageBrik;
 
-        brikz.rebuild();
+        brikz();
     }
 
     return configureWithRuntime;
