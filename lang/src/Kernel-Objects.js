@@ -2190,23 +2190,23 @@ $core.addMethod(
 $core.method({
 selector: "+",
 protocol: "arithmetic",
-fn: function (aDate){
+fn: function (aNumber){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self + aDate;
+return new Date($self.getTime() + aNumber);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"+",{aDate:aDate})});
+}, function($ctx1) {$ctx1.fill(self,"+",{aNumber:aNumber})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aDate"],
-source: "+ aDate\x0a\x09<inlineJS: 'return self + aDate'>",
+args: ["aNumber"],
+source: "+ aNumber\x0a\x09<inlineJS: 'return new Date($self.getTime() + aNumber)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self + aDate"]]],
+pragmas: [["inlineJS:", ["return new Date($self.getTime() + aNumber)"]]],
 messageSends: []
 }),
 $globals.Date);

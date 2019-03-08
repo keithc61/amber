@@ -1918,6 +1918,20 @@ testIdentity
 	self deny: (Date fromMilliseconds: 12345678) == (Date fromMilliseconds: 12345678).
 	self deny: now == (Date fromMilliseconds: now asMilliseconds).
 	self deny: (Date fromMilliseconds: now asMilliseconds) == now
+!
+
+testPlusAndMinus
+	| a b now zeroDuration |
+	a := Date fromString: '1974-07-12 14:30'.
+	now := Date now.
+	b := Date fromString: '2616-03-06'.
+	zeroDuration := 0.
+
+	self assert: {a-a. now-now. b-b} asSet equals: (Set with: zeroDuration).
+	self assert: now + (b - now) equals: b.
+	self assert: a + (b - a) equals: b.
+	self assert: now + (a - now) equals: a.
+	self assert: a + ((now - a) + (b - now)) equals: b
 ! !
 
 TestCase subclass: #JSObjectProxyTest

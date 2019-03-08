@@ -635,8 +635,8 @@ year: aNumber
 
 !Date methodsFor: 'arithmetic'!
 
-+ aDate
-	<inlineJS: 'return self + aDate'>
++ aNumber
+	<inlineJS: 'return new Date($self.getTime() + aNumber)'>
 !
 
 - aDate

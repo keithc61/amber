@@ -10747,6 +10747,107 @@ messageSends: ["new", "assert:", "==", "deny:", "fromMilliseconds:", "asMillisec
 }),
 $globals.DateTest);
 
+$core.addMethod(
+$core.method({
+selector: "testPlusAndMinus",
+protocol: "tests",
+fn: function (){
+var self=this,$self=this;
+var a,b,now,zeroDuration;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $3,$4,$5,$2,$1,$7,$8,$6,$10,$11,$9,$13,$14,$12,$16,$18,$17,$15;
+a=$recv($globals.Date)._fromString_("1974-07-12 14:30");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["fromString:"]=1;
+//>>excludeEnd("ctx");
+now=$recv($globals.Date)._now();
+b=$recv($globals.Date)._fromString_("2616-03-06");
+zeroDuration=(0);
+$3=$recv(a).__minus(a);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["-"]=1;
+//>>excludeEnd("ctx");
+$4=$recv(now).__minus(now);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["-"]=2;
+//>>excludeEnd("ctx");
+$5=$recv(b).__minus(b);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["-"]=3;
+//>>excludeEnd("ctx");
+$2=[$3,$4,$5];
+$1=$recv($2)._asSet();
+$self._assert_equals_($1,$recv($globals.Set)._with_(zeroDuration));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+$7=now;
+$8=$recv(b).__minus(now);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["-"]=4;
+//>>excludeEnd("ctx");
+$6=$recv($7).__plus($8);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["+"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($6,b);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+$10=a;
+$11=$recv(b).__minus(a);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["-"]=5;
+//>>excludeEnd("ctx");
+$9=$recv($10).__plus($11);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["+"]=2;
+//>>excludeEnd("ctx");
+$self._assert_equals_($9,b);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=3;
+//>>excludeEnd("ctx");
+$13=now;
+$14=$recv(a).__minus(now);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["-"]=6;
+//>>excludeEnd("ctx");
+$12=$recv($13).__plus($14);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["+"]=3;
+//>>excludeEnd("ctx");
+$self._assert_equals_($12,a);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=4;
+//>>excludeEnd("ctx");
+$16=a;
+$18=$recv(now).__minus(a);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["-"]=7;
+//>>excludeEnd("ctx");
+$17=$recv($18).__plus($recv(b).__minus(now));
+$15=$recv($16).__plus($17);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["+"]=4;
+//>>excludeEnd("ctx");
+$self._assert_equals_($15,b);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPlusAndMinus",{a:a,b:b,now:now,zeroDuration:zeroDuration})});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPlusAndMinus\x0a\x09| a b now zeroDuration |\x0a\x09a := Date fromString: '1974-07-12 14:30'.\x0a\x09now := Date now.\x0a\x09b := Date fromString: '2616-03-06'.\x0a\x09zeroDuration := 0.\x0a\x0a\x09self assert: {a-a. now-now. b-b} asSet equals: (Set with: zeroDuration).\x0a\x09self assert: now + (b - now) equals: b.\x0a\x09self assert: a + (b - a) equals: b.\x0a\x09self assert: now + (a - now) equals: a.\x0a\x09self assert: a + ((now - a) + (b - now)) equals: b",
+referencedClasses: ["Date", "Set"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["fromString:", "now", "assert:equals:", "asSet", "-", "with:", "+"]
+}),
+$globals.DateTest);
+
 
 
 $core.addClass("JSObjectProxyTest", $globals.TestCase, [], "Kernel-Tests");
