@@ -763,22 +763,18 @@ My instances can also be used to evaluate a block a fixed number of times:
 !Number methodsFor: 'arithmetic'!
 
 * aNumber
-	"Inlined in the Compiler"
 	<inlineJS: 'return self * aNumber'>
 !
 
 + aNumber
-	"Inlined in the Compiler"
 	<inlineJS: 'return self + aNumber'>
 !
 
 - aNumber
-	"Inlined in the Compiler"
 	<inlineJS: 'return self - aNumber'>
 !
 
 / aNumber
-	"Inlined in the Compiler"
 	<inlineJS: 'return self / aNumber'>
 !
 
@@ -813,12 +809,10 @@ negated
 !Number methodsFor: 'comparing'!
 
 < aNumber
-	"Inlined in the Compiler"
 	<inlineJS: 'return self < aNumber'>
 !
 
 <= aNumber
-	"Inlined in the Compiler"
 	<inlineJS: 'return self <= aNumber'>
 !
 
@@ -831,12 +825,10 @@ negated
 !
 
 > aNumber
-	"Inlined in the Compiler"
 	<inlineJS: 'return self > aNumber'>
 !
 
 >= aNumber
-	"Inlined in the Compiler"
 	<inlineJS: 'return self >= aNumber'>
 ! !
 

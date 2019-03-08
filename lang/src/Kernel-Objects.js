@@ -3295,7 +3295,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "* aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self * aNumber'>",
+source: "* aNumber\x0a\x09<inlineJS: 'return self * aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [["inlineJS:", ["return self * aNumber"]]],
@@ -3344,7 +3344,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "+ aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self + aNumber'>",
+source: "+ aNumber\x0a\x09<inlineJS: 'return self + aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [["inlineJS:", ["return self + aNumber"]]],
@@ -3369,7 +3369,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "- aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self - aNumber'>",
+source: "- aNumber\x0a\x09<inlineJS: 'return self - aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [["inlineJS:", ["return self - aNumber"]]],
@@ -3394,7 +3394,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "/ aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self / aNumber'>",
+source: "/ aNumber\x0a\x09<inlineJS: 'return self / aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [["inlineJS:", ["return self / aNumber"]]],
@@ -3443,7 +3443,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "< aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self < aNumber'>",
+source: "< aNumber\x0a\x09<inlineJS: 'return self < aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [["inlineJS:", ["return self < aNumber"]]],
@@ -3468,7 +3468,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "<= aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self <= aNumber'>",
+source: "<= aNumber\x0a\x09<inlineJS: 'return self <= aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [["inlineJS:", ["return self <= aNumber"]]],
@@ -3521,7 +3521,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "> aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self > aNumber'>",
+source: "> aNumber\x0a\x09<inlineJS: 'return self > aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [["inlineJS:", ["return self > aNumber"]]],
@@ -3546,7 +3546,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: ">= aNumber\x0a\x09\x22Inlined in the Compiler\x22\x0a\x09<inlineJS: 'return self >= aNumber'>",
+source: ">= aNumber\x0a\x09<inlineJS: 'return self >= aNumber'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [["inlineJS:", ["return self >= aNumber"]]],
