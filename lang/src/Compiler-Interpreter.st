@@ -123,6 +123,10 @@ evaluatedSelector: aString
 	evaluatedSelector := aString
 !
 
+home
+	^ nil
+!
+
 index
 	^ index ifNil: [ 0 ]
 !

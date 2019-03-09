@@ -618,6 +618,25 @@ $globals.AIContext);
 
 $core.addMethod(
 $core.method({
+selector: "home",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return nil;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "home\x0a\x09^ nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}),
+$globals.AIContext);
+
+$core.addMethod(
+$core.method({
 selector: "index",
 protocol: "accessing",
 fn: function (){
