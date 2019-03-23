@@ -740,70 +740,108 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$3,$4,$1,$6,$5,$7,$9,$10,$11,$8,$12,$14,$13,$15,$17,$19,$20,$18,$21,$16,$23,$22;
+var $2,$3,$5,$7,$8,$6,$4,$9,$10,$1,$12,$11,$13,$15,$16,$17,$14,$18,$20,$19,$21,$23,$25,$26,$24,$27,$22,$29,$28;
 $2=$recv($globals.IRMethod)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=1;
 //>>excludeEnd("ctx");
-$recv($2)._source_($recv($self._source())._crlfSanitized());
+$3=$recv($self._source())._crlfSanitized();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["crlfSanitized"]=1;
+//>>excludeEnd("ctx");
+$recv($2)._source_($3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["source:"]=1;
 //>>excludeEnd("ctx");
-$recv($2)._pragmas_($recv(aNode)._pragmas());
+$4=$recv($recv(aNode)._pragmas())._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$5=$recv(each)._selector();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["selector"]=1;
+//>>excludeEnd("ctx");
+$7=$recv(each)._arguments();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["arguments"]=1;
+//>>excludeEnd("ctx");
+$6=$recv($7)._collect_((function(eachArg){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$8=$recv(eachArg)._isString();
+if($core.assert($8)){
+return $recv(eachArg)._crlfSanitized();
+} else {
+return eachArg;
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({eachArg:eachArg},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+return $recv($globals.Message)._selector_arguments_($5,$6);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["collect:"]=1;
+//>>excludeEnd("ctx");
+$recv($2)._pragmas_($4);
 $recv($2)._theClass_($self._theClass());
 $recv($2)._arguments_($recv(aNode)._arguments());
 $recv($2)._selector_($recv(aNode)._selector());
 $recv($2)._sendIndexes_($recv(aNode)._sendIndexes());
 $recv($2)._requiresSmalltalkContext_($recv(aNode)._requiresSmalltalkContext());
 $recv($2)._classReferences_($recv(aNode)._classReferences());
-$3=$recv(aNode)._scope();
+$9=$recv(aNode)._scope();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["scope"]=1;
 //>>excludeEnd("ctx");
-$recv($2)._scope_($3);
+$recv($2)._scope_($9);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["scope:"]=1;
 //>>excludeEnd("ctx");
-$4=$recv($2)._yourself();
+$10=$recv($2)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["yourself"]=1;
 //>>excludeEnd("ctx");
-$1=$4;
+$1=$10;
 $self._method_($1);
-$6=$recv(aNode)._scope();
+$12=$recv(aNode)._scope();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["scope"]=2;
 //>>excludeEnd("ctx");
-$5=$recv($6)._temps();
-$recv($5)._do_((function(each){
+$11=$recv($12)._temps();
+$recv($11)._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$7=$self._method();
+$13=$self._method();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["method"]=1;
 //>>excludeEnd("ctx");
-$9=$recv($globals.IRTempDeclaration)._new();
+$15=$recv($globals.IRTempDeclaration)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["new"]=2;
 //>>excludeEnd("ctx");
-$recv($9)._name_($recv(each)._name());
-$10=$recv(aNode)._scope();
+$recv($15)._name_($recv(each)._name());
+$16=$recv(aNode)._scope();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["scope"]=3;
 //>>excludeEnd("ctx");
-$recv($9)._scope_($10);
-$11=$recv($9)._yourself();
+$recv($15)._scope_($16);
+$17=$recv($15)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["yourself"]=2;
 //>>excludeEnd("ctx");
-$8=$11;
-return $recv($7)._add_($8);
+$14=$17;
+return $recv($13)._add_($14);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["add:"]=1;
 //>>excludeEnd("ctx");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,5)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -813,59 +851,59 @@ $recv($recv(aNode)._dagChildren())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$12=$self._method();
+$18=$self._method();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["method"]=2;
 //>>excludeEnd("ctx");
-return $recv($12)._add_($self._visit_(each));
+return $recv($18)._add_($self._visit_(each));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["add:"]=2;
 //>>excludeEnd("ctx");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,6)});
 //>>excludeEnd("ctx");
 }));
-$14=$recv(aNode)._scope();
+$20=$recv(aNode)._scope();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["scope"]=4;
 //>>excludeEnd("ctx");
-$13=$recv($14)._hasLocalReturn();
-if(!$core.assert($13)){
-$15=$self._method();
+$19=$recv($20)._hasLocalReturn();
+if(!$core.assert($19)){
+$21=$self._method();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["method"]=3;
 //>>excludeEnd("ctx");
-$17=$recv($globals.IRReturn)._new();
+$23=$recv($globals.IRReturn)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=3;
 //>>excludeEnd("ctx");
-$19=$recv($globals.IRVariable)._new();
+$25=$recv($globals.IRVariable)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=4;
 //>>excludeEnd("ctx");
-$recv($19)._variable_($recv($recv($recv(aNode)._scope())._pseudoVars())._at_("self"));
-$20=$recv($19)._yourself();
+$recv($25)._variable_($recv($recv($recv(aNode)._scope())._pseudoVars())._at_("self"));
+$26=$recv($25)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["yourself"]=3;
 //>>excludeEnd("ctx");
-$18=$20;
-$recv($17)._add_($18);
+$24=$26;
+$recv($23)._add_($24);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["add:"]=4;
 //>>excludeEnd("ctx");
-$21=$recv($17)._yourself();
+$27=$recv($23)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["yourself"]=4;
 //>>excludeEnd("ctx");
-$16=$21;
-$recv($15)._add_($16);
+$22=$27;
+$recv($21)._add_($22);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["add:"]=3;
 //>>excludeEnd("ctx");
-$23=$recv($globals.IRVerbatim)._new();
-$recv($23)._source_(";".__comma($recv($globals.String)._lf()));
-$22=$recv($23)._yourself();
-$recv($15)._add_($22);
+$29=$recv($globals.IRVerbatim)._new();
+$recv($29)._source_(";".__comma($recv($globals.String)._lf()));
+$28=$recv($29)._yourself();
+$recv($21)._add_($28);
 }
 return $self._method();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -874,11 +912,11 @@ return $self._method();
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitMethodNode: aNode\x0a\x0a\x09self method: (IRMethod new\x0a\x09\x09source: self source crlfSanitized;\x0a\x09\x09pragmas: aNode pragmas;\x0a\x09\x09theClass: self theClass;\x0a\x09\x09arguments: aNode arguments;\x0a\x09\x09selector: aNode selector;\x0a\x09\x09sendIndexes: aNode sendIndexes;\x0a\x09\x09requiresSmalltalkContext: aNode requiresSmalltalkContext;\x0a\x09\x09classReferences: aNode classReferences;\x0a\x09\x09scope: aNode scope;\x0a\x09\x09yourself).\x0a\x0a\x09aNode scope temps do: [ :each |\x0a\x09\x09self method add: (IRTempDeclaration new\x0a\x09\x09\x09name: each name;\x0a\x09\x09\x09scope: aNode scope;\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09aNode dagChildren do: [ :each | self method add: (self visit: each) ].\x0a\x0a\x09aNode scope hasLocalReturn ifFalse: [self method\x0a\x09\x09add: (IRReturn new\x0a\x09\x09\x09add: (IRVariable new\x0a\x09\x09\x09\x09variable: (aNode scope pseudoVars at: 'self');\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself);\x0a\x09\x09add: (IRVerbatim new source: ';', String lf; yourself) ].\x0a\x0a\x09^ self method",
-referencedClasses: ["IRMethod", "IRTempDeclaration", "IRReturn", "IRVariable", "IRVerbatim", "String"],
+source: "visitMethodNode: aNode\x0a\x0a\x09self method: (IRMethod new\x0a\x09\x09source: self source crlfSanitized;\x0a\x09\x09pragmas: (aNode pragmas collect: [ :each |\x0a\x09\x09\x09Message\x0a\x09\x09\x09\x09selector: each\x0a\x09\x09\x09\x09selector arguments: (each arguments collect: [ :eachArg |\x0a\x09\x09\x09\x09\x09eachArg isString ifTrue: [ eachArg crlfSanitized ] ifFalse: [ eachArg ]])]);\x0a\x09\x09theClass: self theClass;\x0a\x09\x09arguments: aNode arguments;\x0a\x09\x09selector: aNode selector;\x0a\x09\x09sendIndexes: aNode sendIndexes;\x0a\x09\x09requiresSmalltalkContext: aNode requiresSmalltalkContext;\x0a\x09\x09classReferences: aNode classReferences;\x0a\x09\x09scope: aNode scope;\x0a\x09\x09yourself).\x0a\x0a\x09aNode scope temps do: [ :each |\x0a\x09\x09self method add: (IRTempDeclaration new\x0a\x09\x09\x09name: each name;\x0a\x09\x09\x09scope: aNode scope;\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09aNode dagChildren do: [ :each | self method add: (self visit: each) ].\x0a\x0a\x09aNode scope hasLocalReturn ifFalse: [self method\x0a\x09\x09add: (IRReturn new\x0a\x09\x09\x09add: (IRVariable new\x0a\x09\x09\x09\x09variable: (aNode scope pseudoVars at: 'self');\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself);\x0a\x09\x09add: (IRVerbatim new source: ';', String lf; yourself) ].\x0a\x0a\x09^ self method",
+referencedClasses: ["IRMethod", "Message", "IRTempDeclaration", "IRReturn", "IRVariable", "IRVerbatim", "String"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["method:", "source:", "new", "crlfSanitized", "source", "pragmas:", "pragmas", "theClass:", "theClass", "arguments:", "arguments", "selector:", "selector", "sendIndexes:", "sendIndexes", "requiresSmalltalkContext:", "requiresSmalltalkContext", "classReferences:", "classReferences", "scope:", "scope", "yourself", "do:", "temps", "add:", "method", "name:", "name", "dagChildren", "visit:", "ifFalse:", "hasLocalReturn", "variable:", "at:", "pseudoVars", ",", "lf"]
+messageSends: ["method:", "source:", "new", "crlfSanitized", "source", "pragmas:", "collect:", "pragmas", "selector:arguments:", "selector", "arguments", "ifTrue:ifFalse:", "isString", "theClass:", "theClass", "arguments:", "selector:", "sendIndexes:", "sendIndexes", "requiresSmalltalkContext:", "requiresSmalltalkContext", "classReferences:", "classReferences", "scope:", "scope", "yourself", "do:", "temps", "add:", "method", "name:", "name", "dagChildren", "visit:", "ifFalse:", "hasLocalReturn", "variable:", "at:", "pseudoVars", ",", "lf"]
 }),
 $globals.IRASTTranslator);
 

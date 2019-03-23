@@ -183,7 +183,11 @@ visitMethodNode: aNode
 
 	self method: (IRMethod new
 		source: self source crlfSanitized;
-		pragmas: aNode pragmas;
+		pragmas: (aNode pragmas collect: [ :each |
+			Message
+				selector: each
+				selector arguments: (each arguments collect: [ :eachArg |
+					eachArg isString ifTrue: [ eachArg crlfSanitized ] ifFalse: [ eachArg ]])]);
 		theClass: self theClass;
 		arguments: aNode arguments;
 		selector: aNode selector;

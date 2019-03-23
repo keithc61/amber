@@ -1784,7 +1784,7 @@ args: ["aBoolean"],
 source: "== aBoolean\x0a<inlineJS: '\x0a\x09if (typeof aBoolean === \x22boolean\x22) return (self == true) === aBoolean;\x0a\x09else if (aBoolean != null && typeof aBoolean === \x22object\x22) return (self == true) === aBoolean.valueOf();\x0a\x09else return false;\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09if (typeof aBoolean === \x22boolean\x22) return (self == true) === aBoolean;\x0a\x09else if (aBoolean != null && typeof aBoolean === \x22object\x22) return (self == true) === aBoolean.valueOf();\x0a\x09else return false;\x0a"]]],
+pragmas: [["inlineJS:", ["\x0a\x09if (typeof aBoolean === \x22boolean\x22) return (self == true) === aBoolean;\x0a\x09else if (aBoolean != null && typeof aBoolean === \x22object\x22) return (self == true) === aBoolean.valueOf();\x0a\x09else return false;"]]],
 messageSends: []
 }),
 $globals.Boolean);
@@ -3499,7 +3499,7 @@ args: ["aNumber"],
 source: "== aNumber\x0a<inlineJS: '\x0a\x09if (typeof aNumber === \x22number\x22) return Number(self) === aNumber;\x0a\x09else if (aNumber != null && typeof aNumber === \x22object\x22) return Number(self) === aNumber.valueOf();\x0a\x09else return false;\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09if (typeof aNumber === \x22number\x22) return Number(self) === aNumber;\x0a\x09else if (aNumber != null && typeof aNumber === \x22object\x22) return Number(self) === aNumber.valueOf();\x0a\x09else return false;\x0a"]]],
+pragmas: [["inlineJS:", ["\x0a\x09if (typeof aNumber === \x22number\x22) return Number(self) === aNumber;\x0a\x09else if (aNumber != null && typeof aNumber === \x22object\x22) return Number(self) === aNumber.valueOf();\x0a\x09else return false;"]]],
 messageSends: []
 }),
 $globals.Number);

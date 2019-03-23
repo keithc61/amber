@@ -4538,7 +4538,7 @@ args: ["aCollection"],
 source: "addAll: aCollection\x0a<inlineJS: '\x0a\x09if (Array.isArray(aCollection) && aCollection.length < 65000) self.push.apply(self, aCollection);\x0a\x09else $globals.Array.superclass.fn.prototype._addAll_.call($self, aCollection);\x0a\x09return aCollection;\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09if (Array.isArray(aCollection) && aCollection.length < 65000) self.push.apply(self, aCollection);\x0a\x09else $globals.Array.superclass.fn.prototype._addAll_.call($self, aCollection);\x0a\x09return aCollection;\x0a"]]],
+pragmas: [["inlineJS:", ["\x0a\x09if (Array.isArray(aCollection) && aCollection.length < 65000) self.push.apply(self, aCollection);\x0a\x09else $globals.Array.superclass.fn.prototype._addAll_.call($self, aCollection);\x0a\x09return aCollection;"]]],
 messageSends: []
 }),
 $globals.Array);
@@ -4682,7 +4682,7 @@ args: ["anIndex", "anotherIndex"],
 source: "copyFrom: anIndex to: anotherIndex\x0a<inlineJS: '\x0a\x09if (anIndex >= 1 && anotherIndex <= self.length) {\x0a\x09\x09return self.slice(anIndex - 1, anotherIndex);\x0a\x09} else {\x0a\x09\x09self._at_(anIndex);\x0a\x09\x09self._at_(self.length + 1);\x0a\x09\x09throw new Error(\x22Incorrect indexes in #copyFrom:to: not caught by #at:\x22);\x0a\x09}\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09if (anIndex >= 1 && anotherIndex <= self.length) {\x0a\x09\x09return self.slice(anIndex - 1, anotherIndex);\x0a\x09} else {\x0a\x09\x09self._at_(anIndex);\x0a\x09\x09self._at_(self.length + 1);\x0a\x09\x09throw new Error(\x22Incorrect indexes in #copyFrom:to: not caught by #at:\x22);\x0a\x09}\x0a"]]],
+pragmas: [["inlineJS:", ["\x0a\x09if (anIndex >= 1 && anotherIndex <= self.length) {\x0a\x09\x09return self.slice(anIndex - 1, anotherIndex);\x0a\x09} else {\x0a\x09\x09self._at_(anIndex);\x0a\x09\x09self._at_(self.length + 1);\x0a\x09\x09throw new Error(\x22Incorrect indexes in #copyFrom:to: not caught by #at:\x22);\x0a\x09}"]]],
 messageSends: []
 }),
 $globals.Array);
@@ -5377,7 +5377,7 @@ args: ["aString"],
 source: "== aString\x0a<inlineJS: '\x0a\x09if (typeof aString === \x22string\x22) return String(self) === aString;\x0a\x09else if (aString != null && typeof aString === \x22object\x22) return String(self) === aString.valueOf();\x0a\x09else return false;\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09if (typeof aString === \x22string\x22) return String(self) === aString;\x0a\x09else if (aString != null && typeof aString === \x22object\x22) return String(self) === aString.valueOf();\x0a\x09else return false;\x0a"]]],
+pragmas: [["inlineJS:", ["\x0a\x09if (typeof aString === \x22string\x22) return String(self) === aString;\x0a\x09else if (aString != null && typeof aString === \x22object\x22) return String(self) === aString.valueOf();\x0a\x09else return false;"]]],
 messageSends: []
 }),
 $globals.String);
@@ -6445,7 +6445,7 @@ args: [],
 source: "lines\x0a\x09\x22Answer an array of lines composing this receiver without the line ending delimiters.\x22\x0a<inlineJS: '\x0a\x09var result = self.split(/\x5cr\x5cn|\x5cr|\x5cn/);\x0a\x09if (!result[result.length-1]) result.pop();\x0a\x09return result;\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09var result = self.split(/\x5cr\x5cn|\x5cr|\x5cn/);\x0a\x09if (!result[result.length-1]) result.pop();\x0a\x09return result;\x0a"]]],
+pragmas: [["inlineJS:", ["\x0a\x09var result = self.split(/\x5cr\x5cn|\x5cr|\x5cn/);\x0a\x09if (!result[result.length-1]) result.pop();\x0a\x09return result;"]]],
 messageSends: []
 }),
 $globals.String);
@@ -10355,7 +10355,7 @@ args: [],
 source: "single\x0a<inlineJS: '\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length > 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return self[0];\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length > 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return self[0];\x0a"]]],
+pragmas: [["inlineJS:", ["\x0a\x09if (self.length == 0) throw new Error(\x22Collection is empty\x22);\x0a\x09if (self.length > 1) throw new Error(\x22Collection holds more than one element.\x22);\x0a\x09return self[0];"]]],
 messageSends: []
 }),
 $globals.TNativeZeroBasedCollection);

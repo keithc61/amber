@@ -701,7 +701,7 @@ args: ["aProxy", "anotherProxy"],
 source: "compareJSObjectOfProxy: aProxy withProxy: anotherProxy\x0a<inlineJS: '\x0a\x09var anotherJSObject = anotherProxy.a$cls ? anotherProxy.jsObject : anotherProxy;\x0a\x09return aProxy.jsObject === anotherJSObject\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09var anotherJSObject = anotherProxy.a$cls ? anotherProxy.jsObject : anotherProxy;\x0a\x09return aProxy.jsObject === anotherJSObject\x0a"]]],
+pragmas: [["inlineJS:", ["\x0a\x09var anotherJSObject = anotherProxy.a$cls ? anotherProxy.jsObject : anotherProxy;\x0a\x09return aProxy.jsObject === anotherJSObject"]]],
 messageSends: []
 }),
 $globals.JSObjectProxy.a$cls);
