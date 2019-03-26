@@ -23,10 +23,6 @@
   "engines": {
     "node": ">=4.0.0"
   },
-  "strings": {
-    "buildParserBegin": "// jshint ignore:start\ndefine(['./boot'], function($boot) {\nvar $globals = $boot.globals;\n",
-    "buildParserEnd": "});"
-  },
   "scripts": {
     "build:parser": "pegjs --cache -o base/parser.js --format amd --dependency __boot:./boot base/parser.pegjs"
   },
