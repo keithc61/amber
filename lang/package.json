@@ -28,7 +28,7 @@
     "buildParserEnd": "});"
   },
   "scripts": {
-    "build:parser": "pegjs --cache -o base/parser.js --format amd --dependency $boot:./boot base/parser.pegjs"
+    "build:parser": "pegjs --cache -o base/parser.js --format amd --dependency __boot:./boot base/parser.pegjs"
   },
   "devDependencies": {
     "pegjs": "^0.10.0"

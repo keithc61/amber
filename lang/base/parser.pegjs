@@ -1,5 +1,5 @@
 {
-	var $globals = $boot.globals;
+	var $globals = __boot.globals;
 
 	function newNode(nodeClass) {
 		return nodeClass._new()._location_(location())._source_(text());

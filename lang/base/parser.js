@@ -3,7 +3,7 @@
  *
  * http://pegjs.org/
  */
-define(["./boot"], function($boot) {
+define(["./boot"], function(__boot) {
   "use strict";
 
   function peg$subclass(child, parent) {
@@ -4059,7 +4059,7 @@ define(["./boot"], function($boot) {
     }
 
 
-    	var $globals = $boot.globals;
+    	var $globals = __boot.globals;
 
     	function newNode(nodeClass) {
     		return nodeClass._new()._location_(location())._source_(text());
