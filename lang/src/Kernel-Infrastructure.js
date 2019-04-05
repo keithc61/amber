@@ -540,7 +540,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
 		var js = $self.jsObject;
-		return js.toString
+		return !js ? "<<malformed JS object proxy>>" : js.toString
 			? js.toString()
 			: Object.prototype.toString.call(js)
 	;
@@ -551,10 +551,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "printString\x0a\x09<inlineJS: '\x0a\x09\x09var js = $self.jsObject;\x0a\x09\x09return js.toString\x0a\x09\x09\x09? js.toString()\x0a\x09\x09\x09: Object.prototype.toString.call(js)\x0a\x09'>",
+source: "printString\x0a\x09<inlineJS: '\x0a\x09\x09var js = $self.jsObject;\x0a\x09\x09return !js ? \x22<<malformed JS object proxy>>\x22 : js.toString\x0a\x09\x09\x09? js.toString()\x0a\x09\x09\x09: Object.prototype.toString.call(js)\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09\x09var js = $self.jsObject;\x0a\x09\x09return js.toString\x0a\x09\x09\x09? js.toString()\x0a\x09\x09\x09: Object.prototype.toString.call(js)\x0a\x09"]]],
+pragmas: [["inlineJS:", ["\x0a\x09\x09var js = $self.jsObject;\x0a\x09\x09return !js ? \x22<<malformed JS object proxy>>\x22 : js.toString\x0a\x09\x09\x09? js.toString()\x0a\x09\x09\x09: Object.prototype.toString.call(js)\x0a\x09"]]],
 messageSends: []
 }),
 $globals.JSObjectProxy);

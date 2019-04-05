@@ -138,7 +138,7 @@ printOn: aStream
 printString
 	<inlineJS: '
 		var js = $self.jsObject;
-		return js.toString
+		return !!js ? "<<malformed JS object proxy>>" : js.toString
 			? js.toString()
 			: Object.prototype.toString.call(js)
 	'>
