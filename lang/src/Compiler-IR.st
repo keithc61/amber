@@ -1071,7 +1071,17 @@ visitSuperSend: anIRSend
 		nextPutAll: '('; lf;
 		nextPutAll: '//>>excludeStart("ctx", pragmas.excludeDebugContexts);'; lf;
 		nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;
-		nextPutAll: '//>>excludeEnd("ctx");'; lf;
+		nextPutAll: '//>>excludeEnd("ctx");'; lf.
+	self writeActualSuperSend: anIRSend.
+	self stream 
+		nextPutAll: ');'; lf;
+		nextPutAll: '//>>excludeStart("ctx", pragmas.excludeDebugContexts);'; lf;
+		nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;
+		nextPutAll: '//>>excludeEnd("ctx");'
+!
+
+writeActualSuperSend: anIRSend
+	self stream
 		nextPutAll: '(', self currentClass asJavaScriptSource;
 		nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';
 		nextPutAll: anIRSend javaScriptSelector, '.apply(';
@@ -1079,11 +1089,8 @@ visitSuperSend: anIRSend
 	self
 		visitInstructionList: anIRSend arguments
 		enclosedBetween: '[' and: ']'.
-	self stream 
-		nextPutAll: '));'; lf;
-		nextPutAll: '//>>excludeStart("ctx", pragmas.excludeDebugContexts);'; lf;
-		nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;
-		nextPutAll: '//>>excludeEnd("ctx");'
+	self stream
+		nextPutAll: ')'
 ! !
 
 Object subclass: #JSStream
