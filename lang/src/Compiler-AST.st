@@ -146,7 +146,7 @@ isSequenceNode
 	^ false
 !
 
-isSuperKeyword
+isSuper
 	^ false
 !
 
@@ -500,7 +500,7 @@ shouldBeInlined: aBoolean
 !
 
 superSend
-	^ self receiver notNil and: [ self receiver isSuperKeyword ]
+	^ self receiver notNil and: [ self receiver isSuper ]
 ! !
 
 !SendNode methodsFor: 'testing'!
@@ -660,8 +660,8 @@ isNavigationNode
 	^ true
 !
 
-isSuperKeyword
-	^ self value = 'super'
+isSuper
+	^ self binding isSuper
 !
 
 isVariableNode

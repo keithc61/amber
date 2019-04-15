@@ -1032,7 +1032,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$3,$receiver;
+var $1,$2,$4,$5,$6,$3,$7,$9,$8,$receiver;
 $1=$self.pseudoVars;
 if(($receiver = $1) == null || $receiver.a$nil){
 $self.pseudoVars=$recv($globals.Dictionary)._new();
@@ -1042,13 +1042,35 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $2=$self.pseudoVars;
 $4=$recv($globals.PseudoVar)._on_(each);
-$recv($4)._scope_($self._methodScope());
-$3=$recv($4)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["on:"]=1;
+//>>excludeEnd("ctx");
+$5=$self._methodScope();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["methodScope"]=1;
+//>>excludeEnd("ctx");
+$recv($4)._scope_($5);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["scope:"]=1;
+//>>excludeEnd("ctx");
+$6=$recv($4)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["yourself"]=1;
+//>>excludeEnd("ctx");
+$3=$6;
 return $recv($2)._at_put_(each,$3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["at:put:"]=1;
+//>>excludeEnd("ctx");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
+$7=$self.pseudoVars;
+$9=$recv($globals.SuperVar)._on_("super");
+$recv($9)._scope_($self._methodScope());
+$8=$recv($9)._yourself();
+$recv($7)._at_put_("super",$8);
 } else {
 $1;
 }
@@ -1059,8 +1081,8 @@ return $self.pseudoVars;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "pseudoVars\x0a\x09pseudoVars ifNil: [\x0a\x09\x09pseudoVars := Dictionary new.\x0a\x09\x09Smalltalk pseudoVariableNames do: [ :each |\x0a\x09\x09\x09pseudoVars at: each put: ((PseudoVar on: each)\x0a\x09\x09\x09\x09scope: self methodScope;\x0a\x09\x09\x09\x09yourself) ]].\x0a\x09^ pseudoVars",
-referencedClasses: ["Dictionary", "Smalltalk", "PseudoVar"],
+source: "pseudoVars\x0a\x09pseudoVars ifNil: [\x0a\x09\x09pseudoVars := Dictionary new.\x0a\x09\x09Smalltalk pseudoVariableNames do: [ :each |\x0a\x09\x09\x09pseudoVars at: each put: ((PseudoVar on: each)\x0a\x09\x09\x09\x09scope: self methodScope;\x0a\x09\x09\x09\x09yourself) ].\x0a\x09\x09pseudoVars at: #super put: ((SuperVar on: #super) scope: self methodScope; yourself) ].\x0a\x09^ pseudoVars",
+referencedClasses: ["Dictionary", "Smalltalk", "PseudoVar", "SuperVar"],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: ["ifNil:", "new", "do:", "pseudoVariableNames", "at:put:", "scope:", "on:", "methodScope", "yourself"]
@@ -1787,29 +1809,49 @@ messageSends: ["="]
 }),
 $globals.PseudoVar);
 
+
+
+$core.addClass("SuperVar", $globals.PseudoVar, [], "Compiler-Semantic");
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.SuperVar.comment="I am a 'super' pseudo variable.";
+//>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "alias",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return "self";
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "alias\x0a\x09^ 'self'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}),
+$globals.SuperVar);
+
 $core.addMethod(
 $core.method({
 selector: "isSuper",
 protocol: "testing",
 fn: function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self.name).__eq("super");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isSuper",{})});
-//>>excludeEnd("ctx");
+return true;
+
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isSuper\x0a\x09^ name = 'super'",
+source: "isSuper\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["="]
+messageSends: []
 }),
-$globals.PseudoVar);
+$globals.SuperVar);
 
 
 

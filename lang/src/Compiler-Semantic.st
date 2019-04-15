@@ -166,7 +166,8 @@ pseudoVars
 		Smalltalk pseudoVariableNames do: [ :each |
 			pseudoVars at: each put: ((PseudoVar on: each)
 				scope: self methodScope;
-				yourself) ]].
+				yourself) ].
+		pseudoVars at: #super put: ((SuperVar on: #super) scope: self methodScope; yourself) ].
 	^ pseudoVars
 !
 
@@ -395,10 +396,24 @@ isPseudoVar
 
 isSelf
 	^ name = 'self'
-!
+! !
+
+PseudoVar subclass: #SuperVar
+	slots: {}
+	package: 'Compiler-Semantic'!
+!SuperVar commentStamp!
+I am a 'super' pseudo variable.!
+
+!SuperVar methodsFor: 'accessing'!
+
+alias
+	^ 'self'
+! !
+
+!SuperVar methodsFor: 'testing'!
 
 isSuper
-	^ name = 'super'
+	^ true
 ! !
 
 ScopeVar subclass: #TempVar

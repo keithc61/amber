@@ -232,7 +232,7 @@ $globals.ASTNode);
 
 $core.addMethod(
 $core.method({
-selector: "isSuperKeyword",
+selector: "isSuper",
 protocol: "testing",
 fn: function (){
 var self=this,$self=this;
@@ -241,7 +241,7 @@ return false;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isSuperKeyword\x0a\x09^ false",
+source: "isSuper\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -2199,7 +2199,7 @@ return $recv($1)._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($self._receiver())._isSuperKeyword();
+return $recv($self._receiver())._isSuper();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2210,11 +2210,11 @@ return $recv($self._receiver())._isSuperKeyword();
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "superSend\x0a\x09^ self receiver notNil and: [ self receiver isSuperKeyword ]",
+source: "superSend\x0a\x09^ self receiver notNil and: [ self receiver isSuper ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["and:", "notNil", "receiver", "isSuperKeyword"]
+messageSends: ["and:", "notNil", "receiver", "isSuper"]
 }),
 $globals.SendNode);
 
@@ -2755,25 +2755,25 @@ $globals.VariableNode);
 
 $core.addMethod(
 $core.method({
-selector: "isSuperKeyword",
+selector: "isSuper",
 protocol: "testing",
 fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self._value()).__eq("super");
+return $recv($self._binding())._isSuper();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isSuperKeyword",{})});
+}, function($ctx1) {$ctx1.fill(self,"isSuper",{})});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isSuperKeyword\x0a\x09^ self value = 'super'",
+source: "isSuper\x0a\x09^ self binding isSuper",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["=", "value"]
+messageSends: ["isSuper", "binding"]
 }),
 $globals.VariableNode);
 
