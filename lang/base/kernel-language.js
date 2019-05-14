@@ -236,6 +236,7 @@ define(function () {
         // Effective superclass of all classes created with `nil subclass: ...`.
         var nilAsClass = this.nilAsClass = {
             fn: SmalltalkRoot,
+            subclasses: [],
             a$cls: {fn: SmalltalkClass}
         };
 
@@ -310,9 +311,8 @@ define(function () {
         });
 
         this.bootstrapHierarchy = function () {
-            var nilSubclasses = [globals.ProtoObject];
             nilAsClass.a$cls = globals.Class;
-            nilSubclasses.forEach(function (each) {
+            nilAsClass.subclasses.forEach(function (each) {
                 each.a$cls.superclass = globals.Class;
                 addSubclass(each.a$cls);
             });
@@ -401,15 +401,11 @@ define(function () {
         st.removeClass = removeTraitOrClass;
 
         function addSubclass (klass) {
-            if (klass.superclass) {
-                addElement(klass.superclass.subclasses, klass);
-            }
+            addElement((klass.superclass || nilAsClass).subclasses, klass);
         }
 
         function removeSubclass (klass) {
-            if (klass.superclass) {
-                removeElement(klass.superclass.subclasses, klass);
-            }
+            removeElement((klass.superclass || nilAsClass).subclasses, klass);
         }
 
         function metaSubclasses (metaclass) {
