@@ -93,21 +93,29 @@ define(function () {
             if (!traitOrClass.trait) initClassAndMetaclass(traitOrClass);
         });
 
+        function installStHooks () {
+            emit.classAdded = function (klass) {
+                initClassAndMetaclass(klass);
+                klass._enterOrganization();
+            };
+
+            emit.traitAdded = function (trait) {
+                trait._enterOrganization();
+            };
+
+            emit.classRemoved = function (klass) {
+                klass._leaveOrganization();
+            };
+
+            emit.traitRemoved = function (trait) {
+                trait._leaveOrganization();
+            };
+        }
+
+        this.installStHooks = installStHooks;
+
         emit.classAdded = function (klass) {
             initClassAndMetaclass(klass);
-            klass._enterOrganization();
-        };
-
-        emit.traitAdded = function (trait) {
-            trait._enterOrganization();
-        };
-
-        emit.classRemoved = function (klass) {
-            klass._leaveOrganization();
-        };
-
-        emit.traitRemoved = function (trait) {
-            trait._leaveOrganization();
         };
 
         function initClass (klass) {
@@ -195,9 +203,13 @@ define(function () {
             propagateMethodChange(klass, method, null);
         };
 
-        emit.methodReplaced = function (newMethod, oldMethod, traitOrBehavior) {
-            traitOrBehavior._methodOrganizationEnter_andLeave_(newMethod, oldMethod);
-        };
+        function installStHooks () {
+            emit.methodReplaced = function (newMethod, oldMethod, traitOrBehavior) {
+                traitOrBehavior._methodOrganizationEnter_andLeave_(newMethod, oldMethod);
+            };
+        }
+
+        this.installStHooks = installStHooks;
 
         function propagateMethodChange (klass, method, exclude) {
             var selector = method.selector;
@@ -452,11 +464,13 @@ define(function () {
         };
     }
 
-    StartImageBrik.deps = ["smalltalkGlobals"];
+    StartImageBrik.deps = ["smalltalkGlobals", "runtimeClasses", "runtimeMethods"];
     function StartImageBrik (brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
 
         this.run = function () {
+            brikz.runtimeClasses.installStHooks();
+            brikz.runtimeMethods.installStHooks();
             return globals.AmberBootstrapInitialization._run();
         };
     }
