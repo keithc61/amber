@@ -1,12 +1,11 @@
 function nodeWrapper() {
     return {
         start: "(function(define, require){\n" +
-        "define('__wrap__', function (requirejs) {\n" +
+        "define(function (requirejs) {\n" +
         "var module = void 0; // Bad UMDs workaround\n" +
         "requirejs.resolve = require.resolve;\n" +
         "require = requirejs;\n",
         end: "});\n" +
-        "define.require('__wrap__');\n" +
         "}((" +
         require("amdefine") +
         "(module)), require));"
