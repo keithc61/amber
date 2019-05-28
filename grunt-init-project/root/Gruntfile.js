@@ -15,6 +15,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['amdconfig:app', 'requirejs:test_runner', 'exec:test_runner', 'clean:test_runner']);
     grunt.registerTask('devel', ['amdconfig:app', 'requirejs:devel']);
     grunt.registerTask('deploy', ['amdconfig:app', 'requirejs:deploy']);
+    grunt.registerTask('deploy:lambda', ['amdconfig:app', 'requirejs:deploy_lambda']);
 
     var polyfillThenPromiseApp = function () {
         define(["require", "amber/es6-promise"], function (require, promiseLib) {
@@ -22,6 +23,33 @@ module.exports = function (grunt) {
             return new Promise(function (resolve, reject) {
                 require(["__app__"], resolve, reject);
             });
+        });
+    };
+
+    var polyfillThenLambdaApp = function () {
+        define(["require" /*, possible polyfill libs*/], function (require) {
+            /* possible polyfill calls*/
+
+            var amberPromised = new Promise(function (resolve, reject) {
+                require(["__app__"], resolve, reject);
+            });
+
+            return function (className) {
+                var worker, workerPromise = amberPromised.then(function (amber) {
+                    worker = amber.globals[className]._new();
+                });
+                return function (selector) {
+                    var jsSelector, jsSelectorPromise = amberPromised.then(function (amber) {
+                        jsSelector = amber.api.st2js(selector);
+                    });
+                    var readyPromise = Promise.all([workerPromise, jsSelectorPromise]);
+                    return function (event, context) {
+                        return readyPromise.then(function () {
+                            return worker[jsSelector](event, context);
+                        });
+                    };
+                };
+            };
         });
     };
 
@@ -42,7 +70,7 @@ module.exports = function (grunt) {
             },
             all: {
                 src: [
-                    'src/{%= name %}.st', // list all sources in dependency order
+                    'src/{%= name %}.st', 'src/{%= name %}-Backend.st', // list all sources in dependency order
                     'src/{%= name %}-Tests.st' // list all tests in dependency order
                 ],
                 amd_namespace: '{%= namespace %}',
@@ -85,6 +113,32 @@ module.exports = function (grunt) {
                     include: ['config', 'node_modules/requirejs/require', 'app', '__app__'],
                     exclude: ['devel', 'amber/core/Platform-Browser'],
                     out: "the.js"
+                }
+            },
+            deploy_lambda: {
+                options: {
+                    mainConfigFile: "config.js",
+                    rawText: {
+                        "helios/index": "",
+                        "app": '(' + polyfillThenLambdaApp + '());',
+                        "__app__": "(" + function () {
+                            define(["lambda", "amber/core/Platform-Node"], function (amber) {
+                                return amber.initialize().then(function () {
+                                    return amber;
+                                });
+                            });
+                        } + "());"
+                    },
+                    pragmas: {
+                        excludeIdeData: true,
+                        excludeDebugContexts: true
+                    },
+                    include: ['app'],
+                    findNestedDependencies: true,
+                    exclude: ['helios/index'],
+                    wrap: {start: helpers.nodeWrapper.start, end: "return require('app');" + helpers.nodeWrapper.end},
+                    optimize: "uglify2",
+                    out: "lambda/the.js"
                 }
             },
             test_runner: {
