@@ -8,27 +8,31 @@
   </head>
 
   <body>
-  <p>The sample app contains three additional parts beyond Amber itself:</p>
+  <p>The sample app contains a few additional parts beyond Amber itself:</p>
   <ul style="width: 40ex">
-      <li>The elements in <code>index.html</code>
-          <code>&lt;body&gt;</code> tag.</li>
-      <li><code>amber-contrib-jquery</code> module,
-          providing jQuery and a wrapper over it.</li>
-      <li><code>amber-contrib-web</code> module,
-          providing <code>Web</code> package
-          that allows for DOM manipulation
-          and is inspired by Seaside.</li>
-      <li><code>domite</code> module,
-          providing Amber-native DOM wrapper.</li>
-      <li><code>silk</code> module,
-          providing <code>Silk</code> package
-          that allows for DOM manipulation,
-          is meant as alternative to <code>Web</code>
-          and is inspired by stream metaphor and mochikit.</li>
+      <li>The common infrastructure: testing.js, devel.js, *.json,
+          .gitignore, big part of Gruntfile.js,
+          <code>devDependencies</code> in package.json
+      </li>
+      <li>Common code ({%= name %}-Tests package).</li>
+      <li>These introductory files: parts.html and uninstall.html</li>
+      <li>Polyfilling: some dependencies in package.json
+          and their use in Gruntfile.js and index.html.
+      </li>
+      <li>The webapp-specific code ({%= name %} package).</li>
+      <li>The webapp-specific dependencies in package.json
+          (modules silk, domite, contrib-web and contrib-jquery).
+      </li>
+      <li>The webapp entry point index.html.</li>
+      <li>The webapp-specific infrastructure: deploy.js
+          and parts of Gruntfile.js that use webapp-specific pieces.
+      </li>
+      <li>The lambda-specific code ({%= name %}-Backend package).</li>
+      <li>The lambda handler file lambda/index.js.</li>
+      <li>The lambda-specific infrastructure: lambda.js
+          and parts of Gruntfile.js that use lambda-specific pieces.
+      </li>
   </ul>
-  <p>Additionally, npm module <code>es6-promise</code>
-  is included and used by default in building / development
-  with help of es6-promise.amd.json manifest file.</p>
   </body>
 
 </html>
