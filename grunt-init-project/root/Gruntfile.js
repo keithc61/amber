@@ -74,6 +74,7 @@ module.exports = function (grunt) {
                     'src/{%= name %}-Tests.st' // list all tests in dependency order
                 ],
                 amd_namespace: '{%= namespace %}',
+                jsGlobals: ['fetch'], // code calling the backend needs this atm
                 libraries: ['amber/core/SUnit', 'amber/web/Web', 'silk/Silk']
             }
         },
