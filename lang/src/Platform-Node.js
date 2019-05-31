@@ -14,6 +14,96 @@ $globals.NodePlatform.comment="I am `Platform` service implementation for node-l
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
+selector: "fetch:",
+protocol: "public API",
+fn: function (aStringOrObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $early={};
+try {
+$recv($self._globals())._at_ifPresent_ifAbsent_("fetch",(function(fetch){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+throw $early=[$recv(fetch)._value_(aStringOrObject)];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({fetch:fetch},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._error_("fetch not available.");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+return self;
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"fetch:",{aStringOrObject:aStringOrObject})});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aStringOrObject"],
+source: "fetch: aStringOrObject\x0a\x09self globals at: #fetch\x0a\x09\x09ifPresent: [ :fetch | ^ fetch value: aStringOrObject ]\x0a\x09\x09ifAbsent: [ self error: 'fetch not available.' ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:ifPresent:ifAbsent:", "globals", "value:", "error:"]
+}),
+$globals.NodePlatform);
+
+$core.addMethod(
+$core.method({
+selector: "fetchUrl:options:",
+protocol: "public API",
+fn: function (aString,anObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $early={};
+try {
+$recv($self._globals())._at_ifPresent_ifAbsent_("fetch",(function(fetch){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+throw $early=[$recv(fetch)._value_value_(aString,anObject)];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({fetch:fetch},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._error_("fetch not available.");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+return self;
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"fetchUrl:options:",{aString:aString,anObject:anObject})});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "anObject"],
+source: "fetchUrl: aString options: anObject\x0a\x09self globals at: #fetch\x0a\x09\x09ifPresent: [ :fetch | ^ fetch value: aString value: anObject ]\x0a\x09\x09ifAbsent: [ self error: 'fetch not available.' ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:ifPresent:ifAbsent:", "globals", "value:value:", "error:"]
+}),
+$globals.NodePlatform);
+
+$core.addMethod(
+$core.method({
 selector: "globals",
 protocol: "accessing",
 fn: function (){

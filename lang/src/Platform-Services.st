@@ -426,6 +426,14 @@ I am bridge to JS environment.
 
 !Platform class methodsFor: 'accessing'!
 
+fetch: aStringOrObject
+	^ self current fetch: aStringOrObject
+!
+
+fetchUrl: aString options: anObject
+	^ self current fetchUrl: aString options: anObject
+!
+
 globals
 	^ self current globals
 !

@@ -1,3 +1,16 @@
+0.23.2:
+
++ Platform class >>
+  + fetch:
+  + fetchUrl:options:
++ BrowserPlatform >>
+  + fetch:
+  + fetchUrl:options:
++ NodePlatform >>
+  + fetch:
+  + fetchUrl:options:
+
+
 0.23.1:
 
 + TBehaviorDefaults >>

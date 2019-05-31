@@ -1666,6 +1666,54 @@ $globals.Platform.comment="I am bridge to JS environment.\x0a\x0a## API\x0a\x0a 
 
 $core.addMethod(
 $core.method({
+selector: "fetch:",
+protocol: "accessing",
+fn: function (aStringOrObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._current())._fetch_(aStringOrObject);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"fetch:",{aStringOrObject:aStringOrObject})});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aStringOrObject"],
+source: "fetch: aStringOrObject\x0a\x09^ self current fetch: aStringOrObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["fetch:", "current"]
+}),
+$globals.Platform.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "fetchUrl:options:",
+protocol: "accessing",
+fn: function (aString,anObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._current())._fetchUrl_options_(aString,anObject);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"fetchUrl:options:",{aString:aString,anObject:anObject})});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "anObject"],
+source: "fetchUrl: aString options: anObject\x0a\x09^ self current fetchUrl: aString options: anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["fetchUrl:options:", "current"]
+}),
+$globals.Platform.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "globals",
 protocol: "accessing",
 fn: function (){
