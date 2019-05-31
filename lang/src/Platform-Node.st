@@ -10,7 +10,9 @@ I am `Platform` service implementation for node-like environment.!
 
 globals
 	^ global
-!
+! !
+
+!NodePlatform methodsFor: 'public API'!
 
 newXhr
 	XMLHttpRequest

@@ -34,7 +34,7 @@ $globals.BrowserPlatform);
 $core.addMethod(
 $core.method({
 selector: "newXhr",
-protocol: "accessing",
+protocol: "public API",
 fn: function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

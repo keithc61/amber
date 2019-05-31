@@ -10,7 +10,9 @@ I am `Platform` service implementation for browser.!
 
 globals
 	^ window
-!
+! !
+
+!BrowserPlatform methodsFor: 'public API'!
 
 newXhr
 	XMLHttpRequest
