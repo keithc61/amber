@@ -15,15 +15,15 @@ globals
 !NodePlatform methodsFor: 'public API'!
 
 fetch: aStringOrObject
-	self globals at: #fetch
-		ifPresent: [ :fetch | ^ fetch value: aStringOrObject ]
-		ifAbsent: [ self error: 'fetch not available.' ]
+	^ self globals at: #fetch
+		ifPresent: [ :fetch | fetch value: aStringOrObject ]
+		ifAbsent: [ Promise signal: 'fetch not available.' ]
 !
 
 fetchUrl: aString options: anObject
-	self globals at: #fetch
-		ifPresent: [ :fetch | ^ fetch value: aString value: anObject ]
-		ifAbsent: [ self error: 'fetch not available.' ]
+	^ self globals at: #fetch
+		ifPresent: [ :fetch | fetch value: aString value: anObject ]
+		ifAbsent: [ Promise signal: 'fetch not available.' ]
 !
 
 newXhr
