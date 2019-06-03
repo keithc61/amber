@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 (function(define, require){
-define('__wrap__', function (requirejs) {
+define(function (requirejs) {
 var module = void 0; // Bad UMDs workaround
 requirejs.resolve = require.resolve;
 require = requirejs;
@@ -1863,6 +1863,7 @@ define('amber/kernel-language',[],function () {
         // Effective superclass of all classes created with `nil subclass: ...`.
         var nilAsClass = this.nilAsClass = {
             fn: SmalltalkRoot,
+            subclasses: [],
             a$cls: {fn: SmalltalkClass}
         };
 
@@ -1937,9 +1938,8 @@ define('amber/kernel-language',[],function () {
         });
 
         this.bootstrapHierarchy = function () {
-            var nilSubclasses = [globals.ProtoObject];
             nilAsClass.a$cls = globals.Class;
-            nilSubclasses.forEach(function (each) {
+            nilAsClass.subclasses.forEach(function (each) {
                 each.a$cls.superclass = globals.Class;
                 addSubclass(each.a$cls);
             });
@@ -2028,15 +2028,11 @@ define('amber/kernel-language',[],function () {
         st.removeClass = removeTraitOrClass;
 
         function addSubclass (klass) {
-            if (klass.superclass) {
-                addElement(klass.superclass.subclasses, klass);
-            }
+            addElement((klass.superclass || nilAsClass).subclasses, klass);
         }
 
         function removeSubclass (klass) {
-            if (klass.superclass) {
-                removeElement(klass.superclass.subclasses, klass);
-            }
+            removeElement((klass.superclass || nilAsClass).subclasses, klass);
         }
 
         function metaSubclasses (metaclass) {
@@ -2170,21 +2166,29 @@ define('amber/kernel-runtime',[],function () {
             if (!traitOrClass.trait) initClassAndMetaclass(traitOrClass);
         });
 
+        function installStHooks () {
+            emit.classAdded = function (klass) {
+                initClassAndMetaclass(klass);
+                klass._enterOrganization();
+            };
+
+            emit.traitAdded = function (trait) {
+                trait._enterOrganization();
+            };
+
+            emit.classRemoved = function (klass) {
+                klass._leaveOrganization();
+            };
+
+            emit.traitRemoved = function (trait) {
+                trait._leaveOrganization();
+            };
+        }
+
+        this.installStHooks = installStHooks;
+
         emit.classAdded = function (klass) {
             initClassAndMetaclass(klass);
-            klass._enterOrganization();
-        };
-
-        emit.traitAdded = function (trait) {
-            trait._enterOrganization();
-        };
-
-        emit.classRemoved = function (klass) {
-            klass._leaveOrganization();
-        };
-
-        emit.traitRemoved = function (trait) {
-            trait._leaveOrganization();
         };
 
         function initClass (klass) {
@@ -2272,9 +2276,13 @@ define('amber/kernel-runtime',[],function () {
             propagateMethodChange(klass, method, null);
         };
 
-        emit.methodReplaced = function (newMethod, oldMethod, traitOrBehavior) {
-            traitOrBehavior._methodOrganizationEnter_andLeave_(newMethod, oldMethod);
-        };
+        function installStHooks () {
+            emit.methodReplaced = function (newMethod, oldMethod, traitOrBehavior) {
+                traitOrBehavior._methodOrganizationEnter_andLeave_(newMethod, oldMethod);
+            };
+        }
+
+        this.installStHooks = installStHooks;
 
         function propagateMethodChange (klass, method, exclude) {
             var selector = method.selector;
@@ -2529,11 +2537,13 @@ define('amber/kernel-runtime',[],function () {
         };
     }
 
-    StartImageBrik.deps = ["smalltalkGlobals"];
+    StartImageBrik.deps = ["smalltalkGlobals", "runtimeClasses", "runtimeMethods"];
     function StartImageBrik (brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
 
         this.run = function () {
+            brikz.runtimeClasses.installStHooks();
+            brikz.runtimeMethods.installStHooks();
             return globals.AmberBootstrapInitialization._run();
         };
     }
@@ -28751,7 +28761,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
 		var js = $self.jsObject;
-		return js.toString
+		return !js ? "<<malformed JS object proxy>>" : js.toString
 			? js.toString()
 			: Object.prototype.toString.call(js)
 	;
@@ -28759,9 +28769,9 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"printString",{})});
 },
 args: [],
-source: "printString\x0a\x09<inlineJS: '\x0a\x09\x09var js = $self.jsObject;\x0a\x09\x09return js.toString\x0a\x09\x09\x09? js.toString()\x0a\x09\x09\x09: Object.prototype.toString.call(js)\x0a\x09'>",
+source: "printString\x0a\x09<inlineJS: '\x0a\x09\x09var js = $self.jsObject;\x0a\x09\x09return !js ? \x22<<malformed JS object proxy>>\x22 : js.toString\x0a\x09\x09\x09? js.toString()\x0a\x09\x09\x09: Object.prototype.toString.call(js)\x0a\x09'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["\x0a\x09\x09var js = $self.jsObject;\x0a\x09\x09return js.toString\x0a\x09\x09\x09? js.toString()\x0a\x09\x09\x09: Object.prototype.toString.call(js)\x0a\x09"]]],
+pragmas: [["inlineJS:", ["\x0a\x09\x09var js = $self.jsObject;\x0a\x09\x09return !js ? \x22<<malformed JS object proxy>>\x22 : js.toString\x0a\x09\x09\x09? js.toString()\x0a\x09\x09\x09: Object.prototype.toString.call(js)\x0a\x09"]]],
 messageSends: []
 }),
 $globals.JSObjectProxy);
@@ -31449,11 +31459,11 @@ selector: "version",
 protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
-return "0.23.1";
+return "0.23.2";
 
 },
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.23.1'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.23.2'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
@@ -33870,6 +33880,42 @@ $globals.Inspector.a$cls);
 
 $core.addClass("Platform", $globals.Service, [], "Platform-Services");
 $globals.Platform.comment="I am bridge to JS environment.\x0a\x0a## API\x0a\x0a    Platform globals. \x22JS global object\x22\x0a    Platform newXHR \x22new XMLHttpRequest() or its shim\x22";
+
+$core.addMethod(
+$core.method({
+selector: "fetch:",
+protocol: "accessing",
+fn: function (aStringOrObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._current())._fetch_(aStringOrObject);
+}, function($ctx1) {$ctx1.fill(self,"fetch:",{aStringOrObject:aStringOrObject})});
+},
+args: ["aStringOrObject"],
+source: "fetch: aStringOrObject\x0a\x09^ self current fetch: aStringOrObject",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["fetch:", "current"]
+}),
+$globals.Platform.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "fetchUrl:options:",
+protocol: "accessing",
+fn: function (aString,anObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._current())._fetchUrl_options_(aString,anObject);
+}, function($ctx1) {$ctx1.fill(self,"fetchUrl:options:",{aString:aString,anObject:anObject})});
+},
+args: ["aString", "anObject"],
+source: "fetchUrl: aString options: anObject\x0a\x09^ self current fetchUrl: aString options: anObject",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["fetchUrl:options:", "current"]
+}),
+$globals.Platform.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -39171,7 +39217,7 @@ $globals.ASTNode);
 
 $core.addMethod(
 $core.method({
-selector: "isSuperKeyword",
+selector: "isSuper",
 protocol: "testing",
 fn: function (){
 var self=this,$self=this;
@@ -39179,7 +39225,7 @@ return false;
 
 },
 args: [],
-source: "isSuperKeyword\x0a\x09^ false",
+source: "isSuper\x0a\x09^ false",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
@@ -40784,16 +40830,16 @@ $ctx1.sendIdx["receiver"]=1;
 $1=$recv($2)._notNil();
 return $recv($1)._and_((function(){
 return $core.withContext(function($ctx2) {
-return $recv($self._receiver())._isSuperKeyword();
+return $recv($self._receiver())._isSuper();
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"superSend",{})});
 },
 args: [],
-source: "superSend\x0a\x09^ self receiver notNil and: [ self receiver isSuperKeyword ]",
+source: "superSend\x0a\x09^ self receiver notNil and: [ self receiver isSuper ]",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["and:", "notNil", "receiver", "isSuperKeyword"]
+messageSends: ["and:", "notNil", "receiver", "isSuper"]
 }),
 $globals.SendNode);
 
@@ -41236,19 +41282,19 @@ $globals.VariableNode);
 
 $core.addMethod(
 $core.method({
-selector: "isSuperKeyword",
+selector: "isSuper",
 protocol: "testing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self._value()).__eq("super");
-}, function($ctx1) {$ctx1.fill(self,"isSuperKeyword",{})});
+return $recv($self._binding())._isSuper();
+}, function($ctx1) {$ctx1.fill(self,"isSuper",{})});
 },
 args: [],
-source: "isSuperKeyword\x0a\x09^ self value = 'super'",
+source: "isSuper\x0a\x09^ self binding isSuper",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["=", "value"]
+messageSends: ["isSuper", "binding"]
 }),
 $globals.VariableNode);
 
@@ -42519,7 +42565,7 @@ protocol: "accessing",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $1,$2,$4,$3,$receiver;
+var $1,$2,$4,$5,$6,$3,$7,$9,$8,$receiver;
 $1=$self.pseudoVars;
 if(($receiver = $1) == null || $receiver.a$nil){
 $self.pseudoVars=$recv($globals.Dictionary)._new();
@@ -42527,11 +42573,23 @@ $recv($recv($globals.Smalltalk)._pseudoVariableNames())._do_((function(each){
 return $core.withContext(function($ctx2) {
 $2=$self.pseudoVars;
 $4=$recv($globals.PseudoVar)._on_(each);
-$recv($4)._scope_($self._methodScope());
-$3=$recv($4)._yourself();
+$ctx2.sendIdx["on:"]=1;
+$5=$self._methodScope();
+$ctx2.sendIdx["methodScope"]=1;
+$recv($4)._scope_($5);
+$ctx2.sendIdx["scope:"]=1;
+$6=$recv($4)._yourself();
+$ctx2.sendIdx["yourself"]=1;
+$3=$6;
 return $recv($2)._at_put_(each,$3);
+$ctx2.sendIdx["at:put:"]=1;
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 }));
+$7=$self.pseudoVars;
+$9=$recv($globals.SuperVar)._on_("super");
+$recv($9)._scope_($self._methodScope());
+$8=$recv($9)._yourself();
+$recv($7)._at_put_("super",$8);
 } else {
 $1;
 }
@@ -42539,8 +42597,8 @@ return $self.pseudoVars;
 }, function($ctx1) {$ctx1.fill(self,"pseudoVars",{})});
 },
 args: [],
-source: "pseudoVars\x0a\x09pseudoVars ifNil: [\x0a\x09\x09pseudoVars := Dictionary new.\x0a\x09\x09Smalltalk pseudoVariableNames do: [ :each |\x0a\x09\x09\x09pseudoVars at: each put: ((PseudoVar on: each)\x0a\x09\x09\x09\x09scope: self methodScope;\x0a\x09\x09\x09\x09yourself) ]].\x0a\x09^ pseudoVars",
-referencedClasses: ["Dictionary", "Smalltalk", "PseudoVar"],
+source: "pseudoVars\x0a\x09pseudoVars ifNil: [\x0a\x09\x09pseudoVars := Dictionary new.\x0a\x09\x09Smalltalk pseudoVariableNames do: [ :each |\x0a\x09\x09\x09pseudoVars at: each put: ((PseudoVar on: each)\x0a\x09\x09\x09\x09scope: self methodScope;\x0a\x09\x09\x09\x09yourself) ].\x0a\x09\x09pseudoVars at: #super put: ((SuperVar on: #super) scope: self methodScope; yourself) ].\x0a\x09^ pseudoVars",
+referencedClasses: ["Dictionary", "Smalltalk", "PseudoVar", "SuperVar"],
 pragmas: [],
 messageSends: ["ifNil:", "new", "do:", "pseudoVariableNames", "at:put:", "scope:", "on:", "methodScope", "yourself"]
 }),
@@ -43150,23 +43208,43 @@ messageSends: ["="]
 }),
 $globals.PseudoVar);
 
+
+
+$core.addClass("SuperVar", $globals.PseudoVar, [], "Compiler-Semantic");
+$globals.SuperVar.comment="I am a 'super' pseudo variable.";
+$core.addMethod(
+$core.method({
+selector: "alias",
+protocol: "accessing",
+fn: function (){
+var self=this,$self=this;
+return "self";
+
+},
+args: [],
+source: "alias\x0a\x09^ 'self'",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}),
+$globals.SuperVar);
+
 $core.addMethod(
 $core.method({
 selector: "isSuper",
 protocol: "testing",
 fn: function (){
 var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $recv($self.name).__eq("super");
-}, function($ctx1) {$ctx1.fill(self,"isSuper",{})});
+return true;
+
 },
 args: [],
-source: "isSuper\x0a\x09^ name = 'super'",
+source: "isSuper\x0a\x09^ true",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["="]
+messageSends: []
 }),
-$globals.PseudoVar);
+$globals.SuperVar);
 
 
 
@@ -47590,7 +47668,7 @@ protocol: "visiting",
 fn: function (anIRSend){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $1,$4,$3,$2,$5,$6,$7;
+var $1,$4,$3,$2,$5;
 $1=$self._stream();
 $ctx1.sendIdx["stream"]=1;
 $recv($1)._nextPutAll_("(");
@@ -47615,40 +47693,61 @@ $recv($1)._nextPutAll_("//>>excludeEnd(\x22ctx\x22);");
 $ctx1.sendIdx["nextPutAll:"]=4;
 $recv($1)._lf();
 $ctx1.sendIdx["lf"]=4;
-$5="(".__comma($recv($self._currentClass())._asJavaScriptSource());
-$ctx1.sendIdx[","]=2;
-$recv($1)._nextPutAll_($5);
+$self._writeActualSuperSend_(anIRSend);
+$5=$self._stream();
+$recv($5)._nextPutAll_(");");
 $ctx1.sendIdx["nextPutAll:"]=5;
-$recv($1)._nextPutAll_(".superclass||$boot.nilAsClass).fn.prototype.");
-$ctx1.sendIdx["nextPutAll:"]=6;
-$6=$recv($recv(anIRSend)._javaScriptSelector()).__comma(".apply(");
-$ctx1.sendIdx[","]=3;
-$recv($1)._nextPutAll_($6);
-$ctx1.sendIdx["nextPutAll:"]=7;
-$recv($1)._nextPutAll_("$self, ");
-$ctx1.sendIdx["nextPutAll:"]=8;
-$self._visitInstructionList_enclosedBetween_and_($recv(anIRSend)._arguments(),"[","]");
-$7=$self._stream();
-$recv($7)._nextPutAll_("));");
-$ctx1.sendIdx["nextPutAll:"]=9;
-$recv($7)._lf();
+$recv($5)._lf();
 $ctx1.sendIdx["lf"]=5;
-$recv($7)._nextPutAll_("//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);");
-$ctx1.sendIdx["nextPutAll:"]=10;
-$recv($7)._lf();
+$recv($5)._nextPutAll_("//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);");
+$ctx1.sendIdx["nextPutAll:"]=6;
+$recv($5)._lf();
 $ctx1.sendIdx["lf"]=6;
-$recv($7)._nextPutAll_($recv($recv($recv(anIRSend)._scope())._alias()).__comma(".supercall = false;"));
-$ctx1.sendIdx["nextPutAll:"]=11;
-$recv($7)._lf();
-$recv($7)._nextPutAll_("//>>excludeEnd(\x22ctx\x22);");
+$recv($5)._nextPutAll_($recv($recv($recv(anIRSend)._scope())._alias()).__comma(".supercall = false;"));
+$ctx1.sendIdx["nextPutAll:"]=7;
+$recv($5)._lf();
+$recv($5)._nextPutAll_("//>>excludeEnd(\x22ctx\x22);");
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitSuperSend:",{anIRSend:anIRSend})});
 },
 args: ["anIRSend"],
-source: "visitSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: '('; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'; lf;\x0a\x09\x09nextPutAll: '(', self currentClass asJavaScriptSource;\x0a\x09\x09nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';\x0a\x09\x09nextPutAll: anIRSend javaScriptSelector, '.apply(';\x0a\x09\x09nextPutAll: '$self, '.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09enclosedBetween: '[' and: ']'.\x0a\x09self stream \x0a\x09\x09nextPutAll: '));'; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'",
+source: "visitSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: '('; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'; lf.\x0a\x09self writeActualSuperSend: anIRSend.\x0a\x09self stream \x0a\x09\x09nextPutAll: ');'; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["nextPutAll:", "stream", "lf", ",", "alias", "scope", "asJavaScriptSource", "currentClass", "javaScriptSelector", "visitInstructionList:enclosedBetween:and:", "arguments"]
+messageSends: ["nextPutAll:", "stream", "lf", ",", "alias", "scope", "writeActualSuperSend:"]
+}),
+$globals.IRJSTranslator);
+
+$core.addMethod(
+$core.method({
+selector: "writeActualSuperSend:",
+protocol: "visiting",
+fn: function (anIRSend){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1,$2;
+$1=$self._stream();
+$ctx1.sendIdx["stream"]=1;
+$2="(".__comma($recv($self._currentClass())._asJavaScriptSource());
+$ctx1.sendIdx[","]=1;
+$recv($1)._nextPutAll_($2);
+$ctx1.sendIdx["nextPutAll:"]=1;
+$recv($1)._nextPutAll_(".superclass||$boot.nilAsClass).fn.prototype.");
+$ctx1.sendIdx["nextPutAll:"]=2;
+$recv($1)._nextPutAll_($recv($recv(anIRSend)._javaScriptSelector()).__comma(".apply("));
+$ctx1.sendIdx["nextPutAll:"]=3;
+$recv($1)._nextPutAll_("$self, ");
+$ctx1.sendIdx["nextPutAll:"]=4;
+$self._visitInstructionList_enclosedBetween_and_($recv(anIRSend)._arguments(),"[","]");
+$recv($self._stream())._nextPutAll_(")");
+return self;
+}, function($ctx1) {$ctx1.fill(self,"writeActualSuperSend:",{anIRSend:anIRSend})});
+},
+args: ["anIRSend"],
+source: "writeActualSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: '(', self currentClass asJavaScriptSource;\x0a\x09\x09nextPutAll: '.superclass||$boot.nilAsClass).fn.prototype.';\x0a\x09\x09nextPutAll: anIRSend javaScriptSelector, '.apply(';\x0a\x09\x09nextPutAll: '$self, '.\x0a\x09self\x0a\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09enclosedBetween: '[' and: ']'.\x0a\x09self stream\x0a\x09\x09nextPutAll: ')'",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["nextPutAll:", "stream", ",", "asJavaScriptSource", "currentClass", "javaScriptSelector", "visitInstructionList:enclosedBetween:and:", "arguments"]
 }),
 $globals.IRJSTranslator);
 
@@ -69782,6 +69881,58 @@ $core.addClass("NodePlatform", $globals.Object, [], "Platform-Node");
 $globals.NodePlatform.comment="I am `Platform` service implementation for node-like environment.";
 $core.addMethod(
 $core.method({
+selector: "fetch:",
+protocol: "public API",
+fn: function (aStringOrObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._globals())._at_ifPresent_ifAbsent_("fetch",(function(fetch){
+return $core.withContext(function($ctx2) {
+return $recv(fetch)._value_(aStringOrObject);
+}, function($ctx2) {$ctx2.fillBlock({fetch:fetch},$ctx1,1)});
+}),(function(){
+return $core.withContext(function($ctx2) {
+return $recv($globals.Promise)._signal_("fetch not available.");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"fetch:",{aStringOrObject:aStringOrObject})});
+},
+args: ["aStringOrObject"],
+source: "fetch: aStringOrObject\x0a\x09^ self globals at: #fetch\x0a\x09\x09ifPresent: [ :fetch | fetch value: aStringOrObject ]\x0a\x09\x09ifAbsent: [ Promise signal: 'fetch not available.' ]",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["at:ifPresent:ifAbsent:", "globals", "value:", "signal:"]
+}),
+$globals.NodePlatform);
+
+$core.addMethod(
+$core.method({
+selector: "fetchUrl:options:",
+protocol: "public API",
+fn: function (aString,anObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._globals())._at_ifPresent_ifAbsent_("fetch",(function(fetch){
+return $core.withContext(function($ctx2) {
+return $recv(fetch)._value_value_(aString,anObject);
+}, function($ctx2) {$ctx2.fillBlock({fetch:fetch},$ctx1,1)});
+}),(function(){
+return $core.withContext(function($ctx2) {
+return $recv($globals.Promise)._signal_("fetch not available.");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"fetchUrl:options:",{aString:aString,anObject:anObject})});
+},
+args: ["aString", "anObject"],
+source: "fetchUrl: aString options: anObject\x0a\x09^ self globals at: #fetch\x0a\x09\x09ifPresent: [ :fetch | fetch value: aString value: anObject ]\x0a\x09\x09ifAbsent: [ Promise signal: 'fetch not available.' ]",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["at:ifPresent:ifAbsent:", "globals", "value:value:", "signal:"]
+}),
+$globals.NodePlatform);
+
+$core.addMethod(
+$core.method({
 selector: "globals",
 protocol: "accessing",
 fn: function (){
@@ -69800,7 +69951,7 @@ $globals.NodePlatform);
 $core.addMethod(
 $core.method({
 selector: "newXhr",
-protocol: "accessing",
+protocol: "public API",
 fn: function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
@@ -72465,7 +72616,6 @@ $globals.Repl.a$cls);
 
 require(["app"]);
 });
-define.require('__wrap__');
 }((function amdefine(module, requireFn) {
     'use strict';
     var defineCache = {},
