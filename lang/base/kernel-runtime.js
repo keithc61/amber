@@ -154,7 +154,15 @@ define(function () {
             klass.fn = constructor;
             installIvarCompat(klass);
             initClass(klass);
+            klass.subclasses.forEach(reprotoFn(constructor));
         };
+
+        function reprotoFn (constructor) {
+            var prototype = constructor.prototype;
+            return function (subclass) {
+                Object.setPrototypeOf(subclass.fn.prototype, prototype);
+            };
+        }
     }
 
     FrameBindingBrik.deps = ["smalltalkGlobals", "runtimeClasses"];

@@ -22,6 +22,13 @@ define(function () {
         var p = {};
         return Object.getPrototypeOf(Object.create(p)) === p;
     });
+    assert(function () {
+        var p = {x: 4, y: 5}, q = {x: 6};
+        var r = Object.setPrototypeOf(q, p);
+        return r === q &&
+            q.x === 6 &&
+            q.y === 5;
+    });
     // assert(function () {
     //     return new Function("return this")().Object === Object;
     // });
