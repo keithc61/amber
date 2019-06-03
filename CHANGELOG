@@ -1,3 +1,14 @@
+3 Jun 2019 - Release 0.23.2
+===================================
+
+* Some fixes.
+* API for `fetch` in Platform.
+* Last release compatible with IE9 and IE10.
+  * Fixing issue #1240 needs operations not possible there.
+
+Commits: https://lolg.it/amber/amber/commits/0.23.2
+
+
 26 Mar 2019 - Release 0.23.1
 ===================================
 
