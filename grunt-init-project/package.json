@@ -8,10 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://lolg.it/amber/grunt-init-amber.git"
+    "url": "https://lolg.it/amber/amber.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://lolg.it/amber/grunt-init-amber/issues"
+    "url": "https://lolg.it/amber/amber/issues?labels=in+template"
   }
 }
