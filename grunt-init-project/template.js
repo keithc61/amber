@@ -118,7 +118,7 @@ exports.template = function (grunt, init, done) {
         props.dependencies = {
             "@ambers/contrib-jquery": "^0.6.0",
             "@ambers/contrib-web": "^0.7.0",
-            "@ambers/lang": "^0.23.0",
+            "@ambers/lang": "^0.23.2",
             "@ambers/domite": "^0.9.0",
             "es6-promise": "^4.2.6",
             "@ambers/silk": "^0.5.1"
