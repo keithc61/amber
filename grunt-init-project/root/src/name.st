@@ -45,7 +45,7 @@ endpoint
 !
 
 getApi: path
-	^ fetch value: self endpoint, path
+	^ Platform fetch: self endpoint, path
 ! !
 
 !{%= name %} methodsFor: 'starting'!
