@@ -1,3 +1,16 @@
+4 Jun 2019 - Release 0.24.0
+===================================
+
+* Subclasses of captured system classes now inherit new methods.
+  * Object.setPrototypeOf was needed to fix, no IE9 / IE10 any more.
+* Working supersends in trait methods.
+  * New form of method with more late binding.
+  * Loading old form supported, but compiler always compiles in new format.
+  * As TMethodContext >> printOn: works now, less annoyances in Helios debugger.
+
+Commits: https://lolg.it/amber/amber/commits/0.24.0
+
+
 3 Jun 2019 - Release 0.23.2
 ===================================
 
