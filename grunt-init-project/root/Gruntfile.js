@@ -17,40 +17,37 @@ module.exports = function (grunt) {
     grunt.registerTask('deploy', ['amdconfig:app', 'requirejs:deploy']);
     grunt.registerTask('deploy:lambda', ['amdconfig:app', 'requirejs:deploy_lambda']);
 
-    var polyfillThenPromiseApp = function () {
-        define(["require", "amber/es6-promise"], function (require, promiseLib) {
-            promiseLib.polyfill();
-            return new Promise(function (resolve, reject) {
-                require(["__app__"], resolve, reject);
-            });
+    var id = function (x) {
+        return x
+    };
+
+    function mkDefine (deps, cb) {
+        return "define(" + JSON.stringify(deps) + "," + cb + ");"
+    }
+
+    var cbRequireAndPromiseMain = function (require) {
+        return new Promise(function (resolve, reject) {
+            require(["app/main"], resolve, reject);
         });
     };
 
-    var polyfillThenLambdaApp = function () {
-        define(["require" /*, possible polyfill libs*/], function (require) {
-            /* possible polyfill calls*/
-
-            var amberPromised = new Promise(function (resolve, reject) {
-                require(["__app__"], resolve, reject);
+    var lambdaExports = function (amberPromised) {
+        return function (className) {
+            var worker, workerPromise = amberPromised.then(function (amber) {
+                worker = amber.globals[className]._new();
             });
-
-            return function (className) {
-                var worker, workerPromise = amberPromised.then(function (amber) {
-                    worker = amber.globals[className]._new();
+            return function (selector) {
+                var jsSelector, jsSelectorPromise = amberPromised.then(function (amber) {
+                    jsSelector = amber.api.st2js(selector);
                 });
-                return function (selector) {
-                    var jsSelector, jsSelectorPromise = amberPromised.then(function (amber) {
-                        jsSelector = amber.api.st2js(selector);
+                var readyPromise = Promise.all([workerPromise, jsSelectorPromise]);
+                return function (event, context) {
+                    return readyPromise.then(function () {
+                        return worker[jsSelector](event, context);
                     });
-                    var readyPromise = Promise.all([workerPromise, jsSelectorPromise]);
-                    return function (event, context) {
-                        return readyPromise.then(function () {
-                            return worker[jsSelector](event, context);
-                        });
-                    };
                 };
             };
-        });
+        };
     };
 
     // Project configuration.
@@ -82,15 +79,18 @@ module.exports = function (grunt) {
 
         requirejs: {
             options: {
+                mainConfigFile: "config.js",
+                paths: {
+                    "es6-promise/auto": "node_modules/es6-promise/dist/es6-promise.auto"
+                },
                 useStrict: true
             },
             deploy: {
                 options: {
-                    mainConfigFile: "config.js",
                     rawText: {
                         "helios/index": "",
-                        "app": '(' + polyfillThenPromiseApp + '());',
-                        "__app__": 'define(["deploy", "amber/core/Platform-Browser"],function(x){return x});'
+                        "app": mkDefine(["require", "es6-promise/auto"], cbRequireAndPromiseMain),
+                        "app/main": mkDefine(["deploy", "amber/core/Platform-Browser"], id)
                     },
                     pragmas: {
                         excludeIdeData: true,
@@ -105,29 +105,26 @@ module.exports = function (grunt) {
             },
             devel: {
                 options: {
-                    mainConfigFile: "config.js",
                     rawText: {
-                        "app": '(' + polyfillThenPromiseApp + '());',
-                        "__app__": 'define(["devel", "amber/core/Platform-Browser"],function(x){return x});'
+                        "app": mkDefine(["require", "es6-promise/auto"], cbRequireAndPromiseMain),
+                        "app/main": mkDefine(["devel", "amber/core/Platform-Browser"], id)
                     },
-                    include: ['config', 'node_modules/requirejs/require', 'app', '__app__'],
+                    include: ['config', 'node_modules/requirejs/require', 'app', 'app/main'],
                     exclude: ['devel', 'amber/core/Platform-Browser'],
                     out: "the.js"
                 }
             },
             deploy_lambda: {
                 options: {
-                    mainConfigFile: "config.js",
                     rawText: {
                         "helios/index": "",
-                        "app": '(' + polyfillThenLambdaApp + '());',
-                        "__app__": "(" + function () {
-                            define(["lambda", "amber/core/Platform-Node"], function (amber) {
-                                return amber.initialize().then(function () {
-                                    return amber;
-                                });
+                        "app": mkDefine(["app/promise"], lambdaExports),
+                        "app/promise": mkDefine(["require"], cbRequireAndPromiseMain),
+                        "app/main": mkDefine(["lambda", "amber/core/Platform-Node"], function (amber) {
+                            return amber.initialize().then(function () {
+                                return amber;
                             });
-                        } + "());"
+                        })
                     },
                     pragmas: {
                         excludeIdeData: true,
@@ -143,17 +140,14 @@ module.exports = function (grunt) {
             },
             test_runner: {
                 options: {
-                    mainConfigFile: "config.js",
                     rawText: {
                         "jquery": "/* do not load in node test runner */",
-                        "__app__": "(" + function () {
-                            define(["testing", "amber/core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {
-                                amber.initialize().then(function () {
-                                    amber.globals.NodeTestRunner._main();
-                                });
+                        "app/main": mkDefine(["testing", "amber/core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {
+                            amber.initialize().then(function () {
+                                amber.globals.NodeTestRunner._main();
                             });
-                        } + "());",
-                        "app": "(" + polyfillThenPromiseApp + "());"
+                        }),
+                        "app": mkDefine(["require"], cbRequireAndPromiseMain)
                     },
                     paths: {"amber_devkit": helpers.libPath},
                     pragmas: {
