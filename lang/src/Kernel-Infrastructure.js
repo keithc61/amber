@@ -1,12 +1,7 @@
-define(["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Objects", "amber/core/Kernel-Promises"], function($boot,requirejs){"use strict";
+define(["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Objects", "amber/core/Kernel-Promises"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Infrastructure");
 $pkg.innerEval = function (expr) { return eval(expr); };
-$pkg.imports = ["smalltalkParser=amber/parser"];
-//>>excludeStart("imports", pragmas.excludeImports);
-var smalltalkParser;
-$pkg.isReady = new Promise(function (resolve, reject) { requirejs(["amber/parser"], function ($1) {smalltalkParser=$1; resolve();}, reject); });
-//>>excludeEnd("imports");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AmberBootstrapInitialization", $globals.Object, [], "Kernel-Infrastructure");
@@ -92,11 +87,11 @@ selector: "run",
 protocol: "public api",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "run\x0a\x09SmalltalkImage initialize.\x0a\x09self\x0a\x09\x09organizeClasses;\x0a\x09\x09organizeMethods.\x0a\x09^ Smalltalk postLoad\x0a\x09\x09\x22TODO remove, backward compat\x22\x0a\x09\x09then: [ Smalltalk globals at: #SmalltalkParser put: smalltalkParser ]",
+source: "run\x0a\x09SmalltalkImage initialize.\x0a\x09self\x0a\x09\x09organizeClasses;\x0a\x09\x09organizeMethods.\x0a\x09^ Smalltalk postLoad",
 referencedClasses: ["SmalltalkImage", "Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["initialize", "organizeClasses", "organizeMethods", "then:", "postLoad", "at:put:", "globals"]
+messageSends: ["initialize", "organizeClasses", "organizeMethods", "postLoad"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -105,15 +100,7 @@ return $core.withContext(function($ctx1) {
 $recv($globals.SmalltalkImage)._initialize();
 $self._organizeClasses();
 $self._organizeMethods();
-return $recv($recv($globals.Smalltalk)._postLoad())._then_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($recv($globals.Smalltalk)._globals())._at_put_("SmalltalkParser",smalltalkParser);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+return $recv($globals.Smalltalk)._postLoad();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"run",{})});
 //>>excludeEnd("ctx");
@@ -2708,12 +2695,6 @@ return self;
 $globals.PackageStateObserver.a$cls);
 
 
-$core.addClass("ParseError", $globals.Error, [], "Kernel-Infrastructure");
-//>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.ParseError.comment="Instance of ParseError are signaled on any parsing error.\x0aSee `Smalltalk >> #parse:`";
-//>>excludeEnd("ide");
-
-
 $core.addClass("Setting", $globals.Object, ["key", "value", "defaultValue"], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Setting.comment="I represent a setting **stored** at `Smalltalk settings`. \x0aIn the current implementation, `Smalltalk settings` is an object persisted in the localStorage.\x0a\x0a## API\x0a\x0aA `Setting` value can be read using `value` and set using `value:`.\x0a\x0aSettings are accessed with `'key' asSetting` or `'key' asSettingIfAbsent: aDefaultValue`.\x0a\x0aTo read the value of a setting you can also use the convenience:\x0a\x0a`theValueSet :=  'any.characteristic' settingValue` \x0a\x0aor with a default using:\x0a\x0a `theEnsuredValueSet := 'any.characteristic' settingValueIfAbsent: true`";
@@ -3044,29 +3025,6 @@ return $recv($globals.Package)._new_(packageName);
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"basicCreatePackage:",{packageName:packageName})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.SmalltalkImage);
-
-$core.addMethod(
-$core.method({
-selector: "basicParse:",
-protocol: "private",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "basicParse: aString\x0a\x09^ smalltalkParser parse: aString",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["parse:"]
-}, function ($methodClass){ return function (aString){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(smalltalkParser)._parse_(aString);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicParse:",{aString:aString})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.SmalltalkImage);
@@ -3524,100 +3482,19 @@ selector: "parse:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "parse: aString\x0a\x09| result |\x0a\x09\x0a\x09[ result := self basicParse: aString ] \x0a\x09\x09tryCatch: [ :ex | (self parseError: ex parsing: aString) signal ].\x0a\x09\x09\x0a\x09^ result\x0a\x09\x09source: aString;\x0a\x09\x09yourself",
-referencedClasses: [],
+source: "parse: aString\x0a\x09^ Compiler new parse: aString",
+referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["tryCatch:", "basicParse:", "signal", "parseError:parsing:", "source:", "yourself"]
+messageSends: ["parse:", "new"]
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
-var result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$recv((function(){
+return $recv($recv($globals.Compiler)._new())._parse_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-result=$self._basicParse_(aString);
-return result;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}))._tryCatch_((function(ex){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($self._parseError_parsing_(ex,aString))._signal();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({ex:ex},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
-$1=result;
-$recv($1)._source_(aString);
-return $recv($1)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"parse:",{aString:aString,result:result})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.SmalltalkImage);
-
-$core.addMethod(
-$core.method({
-selector: "parseError:parsing:",
-protocol: "error handling",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anException", "aString"],
-source: "parseError: anException parsing: aString\x0a\x09(anException basicAt: 'location')\x0a\x09\x09ifNil: [ ^ anException pass ]\x0a\x09\x09ifNotNil: [ :loc |\x0a\x09\x09\x09^ ParseError new \x0a\x09\x09\x09\x09messageText: \x0a\x09\x09\x09\x09\x09'Parse error on line ', loc start line ,\x0a\x09\x09\x09\x09\x09' column ' , loc start column ,\x0a\x09\x09\x09\x09\x09' : Unexpected character ', (anException basicAt: 'found');\x0a\x09\x09\x09\x09yourself ]",
-referencedClasses: ["ParseError"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifNil:ifNotNil:", "basicAt:", "pass", "messageText:", "new", ",", "line", "start", "column", "yourself"]
-}, function ($methodClass){ return function (anException,aString){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$2,$9,$8,$7,$6,$5,$4,$3,$receiver;
-$1=$recv(anException)._basicAt_("location");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["basicAt:"]=1;
-//>>excludeEnd("ctx");
-if(($receiver = $1) == null || $receiver.a$nil){
-return $recv(anException)._pass();
-} else {
-var loc;
-loc=$receiver;
-$2=$recv($globals.ParseError)._new();
-$9=$recv(loc)._start();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["start"]=1;
-//>>excludeEnd("ctx");
-$8=$recv($9)._line();
-$7="Parse error on line ".__comma($8);
-$6=$recv($7).__comma(" column ");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=4;
-//>>excludeEnd("ctx");
-$5=$recv($6).__comma($recv($recv(loc)._start())._column());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=3;
-//>>excludeEnd("ctx");
-$4=$recv($5).__comma(" : Unexpected character ");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=2;
-//>>excludeEnd("ctx");
-$3=$recv($4).__comma($recv(anException)._basicAt_("found"));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
-//>>excludeEnd("ctx");
-$recv($2)._messageText_($3);
-return $recv($2)._yourself();
-}
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"parseError:parsing:",{anException:anException,aString:aString})});
+}, function($ctx1) {$ctx1.fill(self,"parse:",{aString:aString})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.SmalltalkImage);

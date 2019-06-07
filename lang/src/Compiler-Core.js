@@ -1,7 +1,12 @@
-define(["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
+define(["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Core");
 $pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.imports = ["smalltalkParser=amber/parser"];
+//>>excludeStart("imports", pragmas.excludeImports);
+var smalltalkParser;
+$pkg.isReady = new Promise(function (resolve, reject) { requirejs(["amber/parser"], function ($1) {smalltalkParser=$1; resolve();}, reject); });
+//>>excludeEnd("imports");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AbstractCodeGenerator", $globals.Object, ["currentClass", "currentPackage", "source"], "Compiler-Core");
@@ -448,6 +453,29 @@ return self;
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ast:forClass:protocol:",{aString:aString,aClass:aClass,anotherString:anotherString})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Compiler);
+
+$core.addMethod(
+$core.method({
+selector: "basicParse:",
+protocol: "private",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "basicParse: aString\x0a\x09^ smalltalkParser parse: aString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["parse:"]
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(smalltalkParser)._parse_(aString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"basicParse:",{aString:aString})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.Compiler);
@@ -921,19 +949,100 @@ selector: "parse:",
 protocol: "compiling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "parse: aString\x0a\x09^ Smalltalk parse: aString",
-referencedClasses: ["Smalltalk"],
+source: "parse: aString\x0a\x09| result |\x0a\x09\x0a\x09[ result := self basicParse: aString ] \x0a\x09\x09tryCatch: [ :ex | (self parseError: ex parsing: aString) signal ].\x0a\x09\x09\x0a\x09^ result\x0a\x09\x09source: aString;\x0a\x09\x09yourself",
+referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["parse:"]
+messageSends: ["tryCatch:", "basicParse:", "signal", "parseError:parsing:", "source:", "yourself"]
 }, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+var result;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+result=$self._basicParse_(aString);
+return result;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}))._tryCatch_((function(ex){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($self._parseError_parsing_(ex,aString))._signal();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({ex:ex},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+$1=result;
+$recv($1)._source_(aString);
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"parse:",{aString:aString,result:result})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Compiler);
+
+$core.addMethod(
+$core.method({
+selector: "parseError:parsing:",
+protocol: "error handling",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anException", "aString"],
+source: "parseError: anException parsing: aString\x0a\x09(anException basicAt: 'location')\x0a\x09\x09ifNil: [ ^ anException pass ]\x0a\x09\x09ifNotNil: [ :loc |\x0a\x09\x09\x09^ ParseError new \x0a\x09\x09\x09\x09messageText: \x0a\x09\x09\x09\x09\x09'Parse error on line ', loc start line ,\x0a\x09\x09\x09\x09\x09' column ' , loc start column ,\x0a\x09\x09\x09\x09\x09' : Unexpected character ', (anException basicAt: 'found');\x0a\x09\x09\x09\x09yourself ]",
+referencedClasses: ["ParseError"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNil:ifNotNil:", "basicAt:", "pass", "messageText:", "new", ",", "line", "start", "column", "yourself"]
+}, function ($methodClass){ return function (anException,aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($globals.Smalltalk)._parse_(aString);
+var $1,$2,$9,$8,$7,$6,$5,$4,$3,$receiver;
+$1=$recv(anException)._basicAt_("location");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"parse:",{aString:aString})});
+$ctx1.sendIdx["basicAt:"]=1;
+//>>excludeEnd("ctx");
+if(($receiver = $1) == null || $receiver.a$nil){
+return $recv(anException)._pass();
+} else {
+var loc;
+loc=$receiver;
+$2=$recv($globals.ParseError)._new();
+$9=$recv(loc)._start();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["start"]=1;
+//>>excludeEnd("ctx");
+$8=$recv($9)._line();
+$7="Parse error on line ".__comma($8);
+$6=$recv($7).__comma(" column ");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=4;
+//>>excludeEnd("ctx");
+$5=$recv($6).__comma($recv($recv(loc)._start())._column());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=3;
+//>>excludeEnd("ctx");
+$4=$recv($5).__comma(" : Unexpected character ");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=2;
+//>>excludeEnd("ctx");
+$3=$recv($4).__comma($recv(anException)._basicAt_("found"));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=1;
+//>>excludeEnd("ctx");
+$recv($2)._messageText_($3);
+return $recv($2)._yourself();
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"parseError:parsing:",{anException:anException,aString:aString})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.Compiler);
@@ -1110,6 +1219,53 @@ return $core.withContext(function($ctx1) {
 return $recv($self._new())._eval_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"eval:",{aString:aString})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Compiler.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "initialize",
+protocol: "initialization",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "initialize\x0a\x09\x22TODO remove, backward compat\x22\x0a\x09Smalltalk globals at: #SmalltalkParser put: smalltalkParser",
+referencedClasses: ["Smalltalk"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:put:", "globals"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv($recv($globals.Smalltalk)._globals())._at_put_("SmalltalkParser",smalltalkParser);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"initialize",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Compiler.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "parse:",
+protocol: "parsing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "parse: aString\x0a\x09^ self new parse: aString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["parse:", "new"]
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._new())._parse_(aString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"parse:",{aString:aString})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.Compiler.a$cls);
@@ -1324,6 +1480,12 @@ return $recv($self._new())._evaluate_for_(aString,anObject);
 //>>excludeEnd("ctx");
 }; }),
 $globals.Evaluator.a$cls);
+
+
+$core.addClass("ParseError", $globals.Error, [], "Compiler-Core");
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.ParseError.comment="Instance of ParseError are signaled on any parsing error.\x0aSee `Compiler >> #parse:`";
+//>>excludeEnd("ide");
 
 $core.addMethod(
 $core.method({

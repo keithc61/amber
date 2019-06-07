@@ -1,4 +1,5 @@
 Smalltalk createPackage: 'Compiler-Core'!
+(Smalltalk packageAt: 'Compiler-Core' ifAbsent: [ self error: 'Package not created: Compiler-Core' ]) imports: {'smalltalkParser' -> 'amber/parser'}!
 Object subclass: #AbstractCodeGenerator
 	slots: {#currentClass. #currentPackage. #source}
 	package: 'Compiler-Core'!
@@ -240,7 +241,14 @@ install: aString forClass: aBehavior protocol: anotherString
 !
 
 parse: aString
-	^ Smalltalk parse: aString
+	| result |
+	
+	[ result := self basicParse: aString ] 
+		tryCatch: [ :ex | (self parseError: ex parsing: aString) signal ].
+		
+	^ result
+		source: aString;
+		yourself
 !
 
 parseExpression: aString
@@ -264,6 +272,26 @@ recompileAll
 		displayingProgress: 'Compiling all classes...'
 ! !
 
+!Compiler methodsFor: 'error handling'!
+
+parseError: anException parsing: aString
+	(anException basicAt: 'location')
+		ifNil: [ ^ anException pass ]
+		ifNotNil: [ :loc |
+			^ ParseError new 
+				messageText: 
+					'Parse error on line ', loc start line ,
+					' column ' , loc start column ,
+					' : Unexpected character ', (anException basicAt: 'found');
+				yourself ]
+! !
+
+!Compiler methodsFor: 'private'!
+
+basicParse: aString
+	^ smalltalkParser parse: aString
+! !
+
 !Compiler class methodsFor: 'compiling'!
 
 recompile: aClass
@@ -279,6 +307,19 @@ recompileAll
 
 eval: aString
 	^ self new eval: aString
+! !
+
+!Compiler class methodsFor: 'initialization'!
+
+initialize
+	"TODO remove, backward compat"
+	Smalltalk globals at: #SmalltalkParser put: smalltalkParser
+! !
+
+!Compiler class methodsFor: 'parsing'!
+
+parse: aString
+	^ self new parse: aString
 ! !
 
 Object subclass: #DoIt
@@ -334,6 +375,13 @@ evaluate: aString receiver: anObject
 evaluate: aString for: anObject
 	^ self new evaluate: aString for: anObject
 ! !
+
+Error subclass: #ParseError
+	slots: {}
+	package: 'Compiler-Core'!
+!ParseError commentStamp!
+Instance of ParseError are signaled on any parsing error.
+See `Compiler >> #parse:`!
 
 !String methodsFor: '*Compiler-Core'!
 

@@ -1,5 +1,4 @@
 Smalltalk createPackage: 'Kernel-Infrastructure'!
-(Smalltalk packageAt: 'Kernel-Infrastructure' ifAbsent: [ self error: 'Package not created: Kernel-Infrastructure' ]) imports: {'smalltalkParser' -> 'amber/parser'}!
 Object subclass: #AmberBootstrapInitialization
 	slots: {}
 	package: 'Kernel-Infrastructure'!
@@ -24,8 +23,6 @@ run
 		organizeClasses;
 		organizeMethods.
 	^ Smalltalk postLoad
-		"TODO remove, backward compat"
-		then: [ Smalltalk globals at: #SmalltalkParser put: smalltalkParser ]
 ! !
 
 ProtoObject subclass: #JSObjectProxy
@@ -714,13 +711,6 @@ initialize
 	self current observeSystem
 ! !
 
-Error subclass: #ParseError
-	slots: {}
-	package: 'Kernel-Infrastructure'!
-!ParseError commentStamp!
-Instance of ParseError are signaled on any parsing error.
-See `Smalltalk >> #parse:`!
-
 Object subclass: #Setting
 	slots: {#key. #value. #defaultValue}
 	package: 'Kernel-Infrastructure'!
@@ -841,14 +831,7 @@ optOut: anObject
 !
 
 parse: aString
-	| result |
-	
-	[ result := self basicParse: aString ] 
-		tryCatch: [ :ex | (self parseError: ex parsing: aString) signal ].
-		
-	^ result
-		source: aString;
-		yourself
+	^ Compiler new parse: aString
 !
 
 pseudoVariableNames
@@ -931,18 +914,6 @@ asSmalltalkException: anObject
 	^ ((self isSmalltalkObject: anObject) and: [ anObject isKindOf: Error ])
 		ifTrue: [ anObject ]
 		ifFalse: [ JavaScriptException on: anObject ]
-!
-
-parseError: anException parsing: aString
-	(anException basicAt: 'location')
-		ifNil: [ ^ anException pass ]
-		ifNotNil: [ :loc |
-			^ ParseError new 
-				messageText: 
-					'Parse error on line ', loc start line ,
-					' column ' , loc start column ,
-					' : Unexpected character ', (anException basicAt: 'found');
-				yourself ]
 ! !
 
 !SmalltalkImage methodsFor: 'globals'!
@@ -1044,10 +1015,6 @@ adoptPackageDescriptors
 basicCreatePackage: packageName
 	"Create and bind a new bare package with given name and return it."
 	^ self packageDictionary at: packageName ifAbsentPut: [ Package new: packageName ]
-!
-
-basicParse: aString
-	^ smalltalkParser parse: aString
 !
 
 deleteClass: aClass
