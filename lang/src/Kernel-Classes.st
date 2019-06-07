@@ -56,17 +56,27 @@ instanceVariableNames
 	^ slots
 !
 
-javascriptConstructor
+javaScriptConstructor
 	"Answer the JS constructor used to instantiate. See kernel-language.js"
 	
 	^ fn
 !
 
-javascriptConstructor: aJavaScriptFunction
+javaScriptConstructor: aJavaScriptFunction
 	"Set the JS constructor used to instantiate.
 	See the JS counter-part in boot.js `$core.setClassConstructor'"
 	
 	Smalltalk core setClassConstructor: self to: aJavaScriptFunction
+!
+
+javascriptConstructor
+	self deprecatedAPI: 'Use #javaScriptConstructor instead.'.
+	^ self javaScriptConstructor
+!
+
+javascriptConstructor: aJavaScriptFunction
+	self deprecatedAPI: 'Use #javaScriptConstructor: instead.'.
+	^ self javaScriptConstructor: aJavaScriptFunction
 !
 
 lookupSelector: selector
@@ -86,7 +96,7 @@ lookupSelector: selector
 !
 
 prototype
-	^ self javascriptConstructor prototype
+	^ self javaScriptConstructor prototype
 !
 
 subclasses
@@ -206,7 +216,7 @@ provided
 	  Number provided EPSILON
 	that forwards to (wrapped JS) constructor function."
 	
-	^ self javascriptConstructor provided
+	^ self javaScriptConstructor provided
 ! !
 
 !Class methodsFor: 'enumerating'!

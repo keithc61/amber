@@ -2543,11 +2543,11 @@ selector: "testSetJavaScriptConstructor",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testSetJavaScriptConstructor\x0a\x09| instance |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09theClass javascriptConstructor: self jsConstructor.\x0a\x09\x22part took from copy class test\x22\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.\x0a\x09\x22testing specific to late-coupled detached root class\x22\x0a\x09instance := theClass new.\x0a\x09self assert: instance class == theClass.\x0a\x09self assert: instance value equals: 4.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
+source: "testSetJavaScriptConstructor\x0a\x09| instance |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09theClass javaScriptConstructor: self jsConstructor.\x0a\x09\x22part took from copy class test\x22\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.\x0a\x09\x22testing specific to late-coupled detached root class\x22\x0a\x09instance := theClass new.\x0a\x09self assert: instance class == theClass.\x0a\x09self assert: instance value equals: 4.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
 referencedClasses: ["ObjectMock", "Error"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["copyClass:named:", "javascriptConstructor:", "jsConstructor", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "keys", "methodDictionary", "new", "class", "value", "shouldnt:raise:", "foo:", "foo"]
+messageSends: ["copyClass:named:", "javaScriptConstructor:", "jsConstructor", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "keys", "methodDictionary", "new", "class", "value", "shouldnt:raise:", "foo:", "foo"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var instance;
@@ -2556,7 +2556,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $2,$1,$4,$3,$6,$5,$8,$7;
 $self.theClass=$recv($self.builder)._copyClass_named_($globals.ObjectMock,"ObjectMock2");
-$recv($self.theClass)._javascriptConstructor_($self._jsConstructor());
+$recv($self.theClass)._javaScriptConstructor_($self._jsConstructor());
 $2=$recv($self.theClass)._superclass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["superclass"]=1;
@@ -2662,11 +2662,11 @@ selector: "testTrickySetJavaScriptConstructor",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testTrickySetJavaScriptConstructor\x0a\x09| instance |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09theClass javascriptConstructor: self trickyJsConstructor.\x0a\x09\x22part took from copy class test\x22\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.\x0a\x09\x22testing specific to late-coupled detached root class\x22\x0a\x09instance := theClass new.\x0a\x09self assert: instance class == theClass.\x0a\x09self assert: instance value equals: 4.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
+source: "testTrickySetJavaScriptConstructor\x0a\x09| instance |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09theClass javaScriptConstructor: self trickyJsConstructor.\x0a\x09\x22part took from copy class test\x22\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.\x0a\x09\x22testing specific to late-coupled detached root class\x22\x0a\x09instance := theClass new.\x0a\x09self assert: instance class == theClass.\x0a\x09self assert: instance value equals: 4.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
 referencedClasses: ["ObjectMock", "Error"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["copyClass:named:", "javascriptConstructor:", "trickyJsConstructor", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "keys", "methodDictionary", "new", "class", "value", "shouldnt:raise:", "foo:", "foo"]
+messageSends: ["copyClass:named:", "javaScriptConstructor:", "trickyJsConstructor", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "keys", "methodDictionary", "new", "class", "value", "shouldnt:raise:", "foo:", "foo"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var instance;
@@ -2675,7 +2675,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $2,$1,$4,$3,$6,$5,$8,$7;
 $self.theClass=$recv($self.builder)._copyClass_named_($globals.ObjectMock,"ObjectMock2");
-$recv($self.theClass)._javascriptConstructor_($self._trickyJsConstructor());
+$recv($self.theClass)._javaScriptConstructor_($self._trickyJsConstructor());
 $2=$recv($self.theClass)._superclass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["superclass"]=1;

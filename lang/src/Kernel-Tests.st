@@ -508,7 +508,7 @@ testMetaclassSubclasses
 testSetJavaScriptConstructor
 	| instance |
 	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.
-	theClass javascriptConstructor: self jsConstructor.
+	theClass javaScriptConstructor: self jsConstructor.
 	"part took from copy class test"
 	self assert: theClass superclass == ObjectMock superclass.
 	self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.
@@ -530,7 +530,7 @@ testSlotsFromInstanceVariablesString
 testTrickySetJavaScriptConstructor
 	| instance |
 	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.
-	theClass javascriptConstructor: self trickyJsConstructor.
+	theClass javaScriptConstructor: self trickyJsConstructor.
 	"part took from copy class test"
 	self assert: theClass superclass == ObjectMock superclass.
 	self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.

@@ -406,11 +406,11 @@ $globals.Behavior);
 
 $core.addMethod(
 $core.method({
-selector: "javascriptConstructor",
+selector: "javaScriptConstructor",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "javascriptConstructor\x0a\x09\x22Answer the JS constructor used to instantiate. See kernel-language.js\x22\x0a\x09\x0a\x09^ fn",
+source: "javaScriptConstructor\x0a\x09\x22Answer the JS constructor used to instantiate. See kernel-language.js\x22\x0a\x09\x0a\x09^ fn",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -424,11 +424,11 @@ $globals.Behavior);
 
 $core.addMethod(
 $core.method({
-selector: "javascriptConstructor:",
+selector: "javaScriptConstructor:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aJavaScriptFunction"],
-source: "javascriptConstructor: aJavaScriptFunction\x0a\x09\x22Set the JS constructor used to instantiate.\x0a\x09See the JS counter-part in boot.js `$core.setClassConstructor'\x22\x0a\x09\x0a\x09Smalltalk core setClassConstructor: self to: aJavaScriptFunction",
+source: "javaScriptConstructor: aJavaScriptFunction\x0a\x09\x22Set the JS constructor used to instantiate.\x0a\x09See the JS counter-part in boot.js `$core.setClassConstructor'\x22\x0a\x09\x0a\x09Smalltalk core setClassConstructor: self to: aJavaScriptFunction",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -440,6 +440,54 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $recv($recv($globals.Smalltalk)._core())._setClassConstructor_to_(self,aJavaScriptFunction);
 return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"javaScriptConstructor:",{aJavaScriptFunction:aJavaScriptFunction})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Behavior);
+
+$core.addMethod(
+$core.method({
+selector: "javascriptConstructor",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "javascriptConstructor\x0a\x09self deprecatedAPI: 'Use #javaScriptConstructor instead.'.\x0a\x09^ self javaScriptConstructor",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["deprecatedAPI:", "javaScriptConstructor"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._deprecatedAPI_("Use #javaScriptConstructor instead.");
+return $self._javaScriptConstructor();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"javascriptConstructor",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Behavior);
+
+$core.addMethod(
+$core.method({
+selector: "javascriptConstructor:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aJavaScriptFunction"],
+source: "javascriptConstructor: aJavaScriptFunction\x0a\x09self deprecatedAPI: 'Use #javaScriptConstructor: instead.'.\x0a\x09^ self javaScriptConstructor: aJavaScriptFunction",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["deprecatedAPI:", "javaScriptConstructor:"]
+}, function ($methodClass){ return function (aJavaScriptFunction){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._deprecatedAPI_("Use #javaScriptConstructor: instead.");
+return $self._javaScriptConstructor_(aJavaScriptFunction);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"javascriptConstructor:",{aJavaScriptFunction:aJavaScriptFunction})});
 //>>excludeEnd("ctx");
@@ -527,17 +575,17 @@ selector: "prototype",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "prototype\x0a\x09^ self javascriptConstructor prototype",
+source: "prototype\x0a\x09^ self javaScriptConstructor prototype",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["prototype", "javascriptConstructor"]
+messageSends: ["prototype", "javaScriptConstructor"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self._javascriptConstructor())._prototype();
+return $recv($self._javaScriptConstructor())._prototype();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"prototype",{})});
 //>>excludeEnd("ctx");
@@ -849,17 +897,17 @@ selector: "provided",
 protocol: "converting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "provided\x0a\x09\x22Returns JS proxy that allows to access 'static API', as in\x0a\x09  Number provided EPSILON\x0a\x09that forwards to (wrapped JS) constructor function.\x22\x0a\x09\x0a\x09^ self javascriptConstructor provided",
+source: "provided\x0a\x09\x22Returns JS proxy that allows to access 'static API', as in\x0a\x09  Number provided EPSILON\x0a\x09that forwards to (wrapped JS) constructor function.\x22\x0a\x09\x0a\x09^ self javaScriptConstructor provided",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["provided", "javascriptConstructor"]
+messageSends: ["provided", "javaScriptConstructor"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self._javascriptConstructor())._provided();
+return $recv($self._javaScriptConstructor())._provided();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"provided",{})});
 //>>excludeEnd("ctx");
