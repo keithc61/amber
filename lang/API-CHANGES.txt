@@ -3,8 +3,11 @@
 * Deprecate Behavior >> javascriptConstructor(:)
 
 + Behavior >>
+  + beJavaScriptSubclassOf:
   + javaScriptConstructor
   + javaScriptConstructor:
++ ClassBuilder >>
+  + javaScriptSubclassOf:
 
 
 0.23.2:

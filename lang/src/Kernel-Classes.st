@@ -52,6 +52,15 @@ basicOrganization: aClassOrganizer
 	organization := aClassOrganizer
 !
 
+beJavaScriptSubclassOf: aJavaScriptFunction
+	"Set the JS constructor to subclass of aJavaScriptFunction.
+	That way I stay part of (simulated) Smalltalk hierarchy,
+	but my instances will physically be instanceof aJavaScriptFunction."
+	
+	self javaScriptConstructor:
+		(ClassBuilder new javaScriptSubclassOf: aJavaScriptFunction)
+!
+
 instanceVariableNames
 	^ slots
 !
@@ -363,6 +372,13 @@ class: aClass slots: aCollection
 		announce: (ClassDefinitionChanged new
 			theClass: aClass;
 			yourself)
+!
+
+javaScriptSubclassOf: javaScriptClass
+	<inlineJS: '
+		var subclass = function () {};
+		subclass.prototype = Object.create(javaScriptClass.prototype);
+		return subclass;'>
 !
 
 superclass: aClass subclass: className
