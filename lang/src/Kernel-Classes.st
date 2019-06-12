@@ -53,12 +53,12 @@ basicOrganization: aClassOrganizer
 !
 
 beJavaScriptSubclassOf: aJavaScriptFunction
-	"Set the JS constructor to subclass of aJavaScriptFunction.
-	That way I stay part of (simulated) Smalltalk hierarchy,
+	"Reparent the JS constructor's prototype to aJavaScriptFunction's one,
+	plus bookkeeping. That way I stay part of (simulated) Smalltalk hierarchy,
 	but my instances will physically be instanceof aJavaScriptFunction."
-	
-	self javaScriptConstructor:
-		(ClassBuilder new javaScriptSubclassOf: aJavaScriptFunction)
+
+	self makeJavaScriptConstructorSubclassOf: aJavaScriptFunction.
+	Smalltalk core detachClass: self
 !
 
 instanceVariableNames
@@ -146,6 +146,14 @@ basicNew
 
 new
 	^ self basicNew initialize
+! !
+
+!Behavior methodsFor: 'private'!
+
+makeJavaScriptConstructorSubclassOf: javaScriptClass
+	<inlineJS: '
+		Object.setPrototypeOf($self.fn.prototype, javaScriptClass.prototype);
+	'>
 ! !
 
 !Behavior methodsFor: 'testing'!
@@ -372,13 +380,6 @@ class: aClass slots: aCollection
 		announce: (ClassDefinitionChanged new
 			theClass: aClass;
 			yourself)
-!
-
-javaScriptSubclassOf: javaScriptClass
-	<inlineJS: '
-		var subclass = function () {};
-		subclass.prototype = Object.create(javaScriptClass.prototype);
-		return subclass;'>
 !
 
 superclass: aClass subclass: className

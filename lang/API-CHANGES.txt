@@ -6,8 +6,8 @@
   + beJavaScriptSubclassOf:
   + javaScriptConstructor
   + javaScriptConstructor:
-+ ClassBuilder >>
-  + javaScriptSubclassOf:
++ amber/boot api >>
+  + detachClass(klass)
 
 
 0.23.2:

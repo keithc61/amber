@@ -252,17 +252,18 @@ selector: "beJavaScriptSubclassOf:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aJavaScriptFunction"],
-source: "beJavaScriptSubclassOf: aJavaScriptFunction\x0a\x09\x22Set the JS constructor to subclass of aJavaScriptFunction.\x0a\x09That way I stay part of (simulated) Smalltalk hierarchy,\x0a\x09but my instances will physically be instanceof aJavaScriptFunction.\x22\x0a\x09\x0a\x09self javaScriptConstructor:\x0a\x09\x09(ClassBuilder new javaScriptSubclassOf: aJavaScriptFunction)",
-referencedClasses: ["ClassBuilder"],
+source: "beJavaScriptSubclassOf: aJavaScriptFunction\x0a\x09\x22Reparent the JS constructor's prototype to aJavaScriptFunction's one,\x0a\x09plus bookkeeping. That way I stay part of (simulated) Smalltalk hierarchy,\x0a\x09but my instances will physically be instanceof aJavaScriptFunction.\x22\x0a\x0a\x09self makeJavaScriptConstructorSubclassOf: aJavaScriptFunction.\x0a\x09Smalltalk core detachClass: self",
+referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["javaScriptConstructor:", "javaScriptSubclassOf:", "new"]
+messageSends: ["makeJavaScriptConstructorSubclassOf:", "detachClass:", "core"]
 }, function ($methodClass){ return function (aJavaScriptFunction){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self._javaScriptConstructor_($recv($recv($globals.ClassBuilder)._new())._javaScriptSubclassOf_(aJavaScriptFunction));
+$self._makeJavaScriptConstructorSubclassOf_(aJavaScriptFunction);
+$recv($recv($globals.Smalltalk)._core())._detachClass_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"beJavaScriptSubclassOf:",{aJavaScriptFunction:aJavaScriptFunction})});
@@ -566,6 +567,32 @@ return nil;
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"lookupSelector:",{selector:selector,lookupClass:lookupClass})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Behavior);
+
+$core.addMethod(
+$core.method({
+selector: "makeJavaScriptConstructorSubclassOf:",
+protocol: "private",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["javaScriptClass"],
+source: "makeJavaScriptConstructorSubclassOf: javaScriptClass\x0a\x09<inlineJS: '\x0a\x09\x09Object.setPrototypeOf($self.fn.prototype, javaScriptClass.prototype);\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09Object.setPrototypeOf($self.fn.prototype, javaScriptClass.prototype);\x0a\x09"]]],
+messageSends: []
+}, function ($methodClass){ return function (javaScriptClass){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+		Object.setPrototypeOf($self.fn.prototype, javaScriptClass.prototype);
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"makeJavaScriptConstructorSubclassOf:",{javaScriptClass:javaScriptClass})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.Behavior);
@@ -1754,33 +1781,6 @@ $recv($19)._setTraitComposition_($recv($recv(aClass)._class())._traitComposition
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"copyClass:to:",{aClass:aClass,anotherClass:anotherClass})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ClassBuilder);
-
-$core.addMethod(
-$core.method({
-selector: "javaScriptSubclassOf:",
-protocol: "class definition",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["javaScriptClass"],
-source: "javaScriptSubclassOf: javaScriptClass\x0a\x09<inlineJS: '\x0a\x09\x09var subclass = function () {};\x0a\x09\x09subclass.prototype = Object.create(javaScriptClass.prototype);\x0a\x09\x09return subclass;'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09\x09var subclass = function () {};\x0a\x09\x09subclass.prototype = Object.create(javaScriptClass.prototype);\x0a\x09\x09return subclass;"]]],
-messageSends: []
-}, function ($methodClass){ return function (javaScriptClass){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-
-		var subclass = function () {};
-		subclass.prototype = Object.create(javaScriptClass.prototype);
-		return subclass;;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"javaScriptSubclassOf:",{javaScriptClass:javaScriptClass})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ClassBuilder);

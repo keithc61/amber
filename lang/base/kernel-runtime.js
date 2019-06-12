@@ -68,12 +68,15 @@ define(function () {
 
         var detachedRootClasses = [];
 
-        function markClassDetachedRoot (klass) {
+        function detachClass (klass) {
             klass.detachedRoot = true;
             detachedRootClasses = traitsOrClasses.filter(function (klass) {
                 return klass.detachedRoot;
             });
+            initClass(klass);
         }
+
+        st.detachClass = detachClass;
 
         emit.selectorsAdded = function (newSelectors) {
             installNewSelectors(newSelectors, detachedRootClasses);
@@ -150,10 +153,9 @@ define(function () {
         /* Manually set the constructor of an existing Smalltalk klass, making it a detached root class. */
 
         st.setClassConstructor = this.setClassConstructor = function (klass, constructor) {
-            markClassDetachedRoot(klass);
             klass.fn = constructor;
+            detachClass(klass);
             installIvarCompat(klass);
-            initClass(klass);
             klass.subclasses.forEach(reprotoFn(constructor));
         };
 
