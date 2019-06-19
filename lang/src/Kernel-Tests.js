@@ -4983,658 +4983,7 @@ return $recv($self._collectionClass())._isNil();
 $globals.CollectionTest.a$cls);
 
 
-$core.addClass("IndexableCollectionTest", $globals.CollectionTest, [], "Kernel-Tests");
-$core.addMethod(
-$core.method({
-selector: "collectionWithNewValue",
-protocol: "fixture",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "collectionWithNewValue\x0a\x09\x22Answers a collection which shows how\x0a\x09self collection would look after adding\x0a\x09self sampleNewValue at self sampleNewIndex\x22\x0a\x09\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._subclassResponsibility();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"collectionWithNewValue",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IndexableCollectionTest);
-
-$core.addMethod(
-$core.method({
-selector: "nonIndexesDo:",
-protocol: "fixture",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "nonIndexesDo: aBlock\x0a\x09\x22Executes block a few times,\x0a\x09each time passing value that is known\x0a\x09not to be an index, as the first parameter\x22\x0a\x09\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}, function ($methodClass){ return function (aBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._subclassResponsibility();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nonIndexesDo:",{aBlock:aBlock})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IndexableCollectionTest);
-
-$core.addMethod(
-$core.method({
-selector: "sampleNewIndex",
-protocol: "fixture",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "sampleNewIndex\x0a\x09\x22Answers a value that can be used as index in at:put: or at:ifAbsentPut:\x22\x0a\x09\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._subclassResponsibility();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"sampleNewIndex",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IndexableCollectionTest);
-
-$core.addMethod(
-$core.method({
-selector: "samplesDo:",
-protocol: "fixture",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "samplesDo: aBlock\x0a\x09\x22Executes block a few times,\x0a\x09each time passing known index and value stored\x0a\x09under that index as the parameters\x22\x0a\x09\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}, function ($methodClass){ return function (aBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._subclassResponsibility();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"samplesDo:",{aBlock:aBlock})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IndexableCollectionTest);
-
-$core.addMethod(
-$core.method({
-selector: "testAt",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAt\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09self should: [ self collection at: each ] raise: Error ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection at: index) equals: value ]",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["nonIndexesDo:", "should:raise:", "at:", "collection", "samplesDo:", "assert:equals:"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$self._nonIndexesDo_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $self._should_raise_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-$1=$self._collection();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["collection"]=1;
-//>>excludeEnd("ctx");
-return $recv($1)._at_(each);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["at:"]=1;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}),$globals.Error);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-$self._samplesDo_((function(index,value){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $self._assert_equals_($recv($self._collection())._at_(index),value);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({index:index,value:value},$ctx1,3)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testAt",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IndexableCollectionTest);
-
-$core.addMethod(
-$core.method({
-selector: "testAtIfAbsent",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtIfAbsent\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09self assert: (self collection at: each ifAbsent: [ self sampleNewValue ]) equals: self sampleNewValue ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection at: index ifAbsent: [ self sampleNewValue ]) equals: value ].",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["nonIndexesDo:", "assert:equals:", "at:ifAbsent:", "collection", "sampleNewValue", "samplesDo:"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $2,$1,$3;
-$self._nonIndexesDo_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$2=$self._collection();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["collection"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._at_ifAbsent_(each,(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $self._sampleNewValue();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["sampleNewValue"]=1;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["at:ifAbsent:"]=1;
-//>>excludeEnd("ctx");
-$3=$self._sampleNewValue();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["sampleNewValue"]=2;
-//>>excludeEnd("ctx");
-return $self._assert_equals_($1,$3);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["assert:equals:"]=1;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-$self._samplesDo_((function(index,value){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $self._assert_equals_($recv($self._collection())._at_ifAbsent_(index,(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $self._sampleNewValue();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,4)});
-//>>excludeEnd("ctx");
-})),value);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({index:index,value:value},$ctx1,3)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testAtIfAbsent",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IndexableCollectionTest);
-
-$core.addMethod(
-$core.method({
-selector: "testAtIfAbsentPut",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtIfAbsentPut\x0a\x09| newCollection |\x0a\x09newCollection := self collection.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (newCollection at: index ifAbsentPut: [ self sampleNewValue ]) equals: value ].\x0a\x09self assert: newCollection equals: self collection.\x0a\x09self assert: (newCollection at: self sampleNewIndex ifAbsentPut: [ self sampleNewValue ]) equals: self sampleNewValue.\x0a\x09self assert: newCollection equals: self collectionWithNewValue",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["collection", "samplesDo:", "assert:equals:", "at:ifAbsentPut:", "sampleNewValue", "sampleNewIndex", "collectionWithNewValue"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-var newCollection;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-newCollection=$self._collection();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["collection"]=1;
-//>>excludeEnd("ctx");
-$self._samplesDo_((function(index,value){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$1=$recv(newCollection)._at_ifAbsentPut_(index,(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $self._sampleNewValue();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["sampleNewValue"]=1;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["at:ifAbsentPut:"]=1;
-//>>excludeEnd("ctx");
-return $self._assert_equals_($1,value);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["assert:equals:"]=1;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({index:index,value:value},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-$self._assert_equals_(newCollection,$self._collection());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["assert:equals:"]=2;
-//>>excludeEnd("ctx");
-$self._assert_equals_($recv(newCollection)._at_ifAbsentPut_($self._sampleNewIndex(),(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $self._sampleNewValue();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["sampleNewValue"]=2;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
-//>>excludeEnd("ctx");
-})),$self._sampleNewValue());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["assert:equals:"]=3;
-//>>excludeEnd("ctx");
-$self._assert_equals_(newCollection,$self._collectionWithNewValue());
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testAtIfAbsentPut",{newCollection:newCollection})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IndexableCollectionTest);
-
-$core.addMethod(
-$core.method({
-selector: "testAtIfPresent",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtIfPresent\x0a\x09| visited sentinel |\x0a\x09sentinel := Object new.\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: each ifPresent: [ :value1 | visited := value1. sentinel ]) equals: nil.\x0a\x09\x09self assert: visited isNil ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: index ifPresent: [ :value2 | visited := value2. sentinel ]) equals: sentinel.\x0a\x09\x09self assert: visited equals: (self collection at: index) ]",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "nonIndexesDo:", "assert:equals:", "at:ifPresent:", "collection", "assert:", "isNil", "samplesDo:", "at:"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-var visited,sentinel;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $2,$1,$4,$3;
-sentinel=$recv($globals.Object)._new();
-$self._nonIndexesDo_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-visited=nil;
-$2=$self._collection();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["collection"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._at_ifPresent_(each,(function(value1){
-visited=value1;
-return sentinel;
-
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["at:ifPresent:"]=1;
-//>>excludeEnd("ctx");
-$self._assert_equals_($1,nil);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["assert:equals:"]=1;
-//>>excludeEnd("ctx");
-return $self._assert_($recv(visited)._isNil());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-$self._samplesDo_((function(index,value){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-visited=nil;
-$4=$self._collection();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["collection"]=2;
-//>>excludeEnd("ctx");
-$3=$recv($4)._at_ifPresent_(index,(function(value2){
-visited=value2;
-return sentinel;
-
-}));
-$self._assert_equals_($3,sentinel);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["assert:equals:"]=2;
-//>>excludeEnd("ctx");
-return $self._assert_equals_(visited,$recv($self._collection())._at_(index));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({index:index,value:value},$ctx1,3)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testAtIfPresent",{visited:visited,sentinel:sentinel})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IndexableCollectionTest);
-
-$core.addMethod(
-$core.method({
-selector: "testAtIfPresentIfAbsent",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtIfPresentIfAbsent\x0a\x09| visited sentinel |\x0a\x09sentinel := Object new.\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: each ifPresent: [ :value1 | visited := value1. sentinel ] ifAbsent: [ self sampleNewValue ] ) equals: self sampleNewValue.\x0a\x09\x09self assert: visited isNil ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: index ifPresent: [ :value2 | visited := value2. sentinel ] ifAbsent: [ self sampleNewValue ]) equals: sentinel.\x0a\x09\x09self assert: visited equals: (self collection at: index) ]",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new", "nonIndexesDo:", "assert:equals:", "at:ifPresent:ifAbsent:", "collection", "sampleNewValue", "assert:", "isNil", "samplesDo:", "at:"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-var visited,sentinel;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $2,$1,$3,$5,$4;
-sentinel=$recv($globals.Object)._new();
-$self._nonIndexesDo_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-visited=nil;
-$2=$self._collection();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["collection"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._at_ifPresent_ifAbsent_(each,(function(value1){
-visited=value1;
-return sentinel;
-
-}),(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $self._sampleNewValue();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["sampleNewValue"]=1;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["at:ifPresent:ifAbsent:"]=1;
-//>>excludeEnd("ctx");
-$3=$self._sampleNewValue();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["sampleNewValue"]=2;
-//>>excludeEnd("ctx");
-$self._assert_equals_($1,$3);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["assert:equals:"]=1;
-//>>excludeEnd("ctx");
-return $self._assert_($recv(visited)._isNil());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-$self._samplesDo_((function(index,value){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-visited=nil;
-$5=$self._collection();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["collection"]=2;
-//>>excludeEnd("ctx");
-$4=$recv($5)._at_ifPresent_ifAbsent_(index,(function(value2){
-visited=value2;
-return sentinel;
-
-}),(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $self._sampleNewValue();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,6)});
-//>>excludeEnd("ctx");
-}));
-$self._assert_equals_($4,sentinel);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["assert:equals:"]=2;
-//>>excludeEnd("ctx");
-return $self._assert_equals_(visited,$recv($self._collection())._at_(index));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({index:index,value:value},$ctx1,4)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testAtIfPresentIfAbsent",{visited:visited,sentinel:sentinel})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IndexableCollectionTest);
-
-$core.addMethod(
-$core.method({
-selector: "testAtPut",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testAtPut\x0a\x09| newCollection |\x0a\x09newCollection := self collection.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09newCollection at: index put: value ].\x0a\x09self assert: newCollection equals: self collection.\x0a\x09newCollection at: self sampleNewIndex put: self sampleNewValue.\x0a\x09self assert: newCollection equals: self collectionWithNewValue",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["collection", "samplesDo:", "at:put:", "assert:equals:", "sampleNewIndex", "sampleNewValue", "collectionWithNewValue"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-var newCollection;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-newCollection=$self._collection();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["collection"]=1;
-//>>excludeEnd("ctx");
-$self._samplesDo_((function(index,value){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(newCollection)._at_put_(index,value);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["at:put:"]=1;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({index:index,value:value},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-$self._assert_equals_(newCollection,$self._collection());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["assert:equals:"]=1;
-//>>excludeEnd("ctx");
-$recv(newCollection)._at_put_($self._sampleNewIndex(),$self._sampleNewValue());
-$self._assert_equals_(newCollection,$self._collectionWithNewValue());
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testAtPut",{newCollection:newCollection})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IndexableCollectionTest);
-
-$core.addMethod(
-$core.method({
-selector: "testIndexOf",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIndexOf\x0a\x09self should: [ self collection indexOf: self sampleNewValue ] raise: Error.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection indexOf: value) equals: index ]",
-referencedClasses: ["Error"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["should:raise:", "indexOf:", "collection", "sampleNewValue", "samplesDo:", "assert:equals:"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$self._should_raise_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$1=$self._collection();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["collection"]=1;
-//>>excludeEnd("ctx");
-return $recv($1)._indexOf_($self._sampleNewValue());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["indexOf:"]=1;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}),$globals.Error);
-$self._samplesDo_((function(index,value){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $self._assert_equals_($recv($self._collection())._indexOf_(value),index);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({index:index,value:value},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testIndexOf",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IndexableCollectionTest);
-
-$core.addMethod(
-$core.method({
-selector: "testIndexOfWithNull",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testIndexOfWithNull\x0a\x09| jsNull |\x0a\x09jsNull := JSON parse: 'null'.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection at: index put: jsNull; indexOf: jsNull) equals: index ]",
-referencedClasses: ["JSON"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["parse:", "samplesDo:", "assert:equals:", "at:put:", "collection", "indexOf:"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-var jsNull;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $2,$1;
-jsNull=$recv($globals.JSON)._parse_("null");
-$self._samplesDo_((function(index,value){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$2=$self._collection();
-$recv($2)._at_put_(index,jsNull);
-$1=$recv($2)._indexOf_(jsNull);
-return $self._assert_equals_($1,index);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({index:index,value:value},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testIndexOfWithNull",{jsNull:jsNull})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IndexableCollectionTest);
-
-$core.addMethod(
-$core.method({
-selector: "testWithIndexDo",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testWithIndexDo\x0a\x09| collection |\x0a\x09collection := self collection.\x0a\x09\x0a\x09self collection withIndexDo: [ :each :index |\x0a\x09\x09self assert: (collection at: index) equals: each ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["collection", "withIndexDo:", "assert:equals:", "at:"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-var collection;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-collection=$self._collection();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["collection"]=1;
-//>>excludeEnd("ctx");
-$recv($self._collection())._withIndexDo_((function(each,index){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $self._assert_equals_($recv(collection)._at_(index),each);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each,index:index},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testWithIndexDo",{collection:collection})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IndexableCollectionTest);
-
-
-
-$core.addClass("AssociativeCollectionTest", $globals.IndexableCollectionTest, [], "Kernel-Tests");
+$core.addClass("AssociativeCollectionTest", $globals.CollectionTest, [], "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collectionKeys",
@@ -7021,7 +6370,7 @@ return $globals.HashedCollection;
 $globals.HashedCollectionTest.a$cls);
 
 
-$core.addClass("SequenceableCollectionTest", $globals.IndexableCollectionTest, [], "Kernel-Tests");
+$core.addClass("SequenceableCollectionTest", $globals.CollectionTest, [], "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collectionFirst",
@@ -16557,6 +15906,632 @@ return $globals.String;
 $globals.StringStreamTest.a$cls);
 
 
+$core.addTrait("TKeyValueCollectionTest", "Kernel-Tests");
+$core.addMethod(
+$core.method({
+selector: "nonIndexesDo:",
+protocol: "fixture",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "nonIndexesDo: aBlock\x0a\x09\x22Executes block a few times,\x0a\x09each time passing value that is known\x0a\x09not to be an index, as the first parameter\x22\x0a\x09\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"nonIndexesDo:",{aBlock:aBlock})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TKeyValueCollectionTest);
+
+$core.addMethod(
+$core.method({
+selector: "sampleNewIndex",
+protocol: "fixture",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "sampleNewIndex\x0a\x09\x22Answers a value that can be used as index in at:put: or at:ifAbsentPut:\x22\x0a\x09\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"sampleNewIndex",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TKeyValueCollectionTest);
+
+$core.addMethod(
+$core.method({
+selector: "samplesDo:",
+protocol: "fixture",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "samplesDo: aBlock\x0a\x09\x22Executes block a few times,\x0a\x09each time passing known index and value stored\x0a\x09under that index as the parameters\x22\x0a\x09\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"samplesDo:",{aBlock:aBlock})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TKeyValueCollectionTest);
+
+$core.addMethod(
+$core.method({
+selector: "testAt",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAt\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09self should: [ self collection at: each ] raise: Error ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection at: index) equals: value ]",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["nonIndexesDo:", "should:raise:", "at:", "collection", "samplesDo:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$self._nonIndexesDo_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$1=$self._collection();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["collection"]=1;
+//>>excludeEnd("ctx");
+return $recv($1)._at_(each);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["at:"]=1;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$self._samplesDo_((function(index,value){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_($recv($self._collection())._at_(index),value);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({index:index,value:value},$ctx1,3)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testAt",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TKeyValueCollectionTest);
+
+$core.addMethod(
+$core.method({
+selector: "testAtIfAbsent",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtIfAbsent\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09self assert: (self collection at: each ifAbsent: [ self sampleNewValue ]) equals: self sampleNewValue ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection at: index ifAbsent: [ self sampleNewValue ]) equals: value ].",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["nonIndexesDo:", "assert:equals:", "at:ifAbsent:", "collection", "sampleNewValue", "samplesDo:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1,$3;
+$self._nonIndexesDo_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$2=$self._collection();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["collection"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2)._at_ifAbsent_(each,(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $self._sampleNewValue();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["sampleNewValue"]=1;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["at:ifAbsent:"]=1;
+//>>excludeEnd("ctx");
+$3=$self._sampleNewValue();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["sampleNewValue"]=2;
+//>>excludeEnd("ctx");
+return $self._assert_equals_($1,$3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$self._samplesDo_((function(index,value){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_($recv($self._collection())._at_ifAbsent_(index,(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $self._sampleNewValue();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,4)});
+//>>excludeEnd("ctx");
+})),value);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({index:index,value:value},$ctx1,3)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testAtIfAbsent",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TKeyValueCollectionTest);
+
+$core.addMethod(
+$core.method({
+selector: "testAtIfAbsentPut",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtIfAbsentPut\x0a\x09| newCollection |\x0a\x09newCollection := self collection.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (newCollection at: index ifAbsentPut: [ self sampleNewValue ]) equals: value ].\x0a\x09self assert: newCollection equals: self collection.\x0a\x09self assert: (newCollection at: self sampleNewIndex ifAbsentPut: [ self sampleNewValue ]) equals: self sampleNewValue.\x0a\x09self assert: newCollection equals: self collectionWithNewValue",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["collection", "samplesDo:", "assert:equals:", "at:ifAbsentPut:", "sampleNewValue", "sampleNewIndex", "collectionWithNewValue"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var newCollection;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+newCollection=$self._collection();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["collection"]=1;
+//>>excludeEnd("ctx");
+$self._samplesDo_((function(index,value){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=$recv(newCollection)._at_ifAbsentPut_(index,(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $self._sampleNewValue();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["sampleNewValue"]=1;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["at:ifAbsentPut:"]=1;
+//>>excludeEnd("ctx");
+return $self._assert_equals_($1,value);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({index:index,value:value},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$self._assert_equals_(newCollection,$self._collection());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+$self._assert_equals_($recv(newCollection)._at_ifAbsentPut_($self._sampleNewIndex(),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._sampleNewValue();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["sampleNewValue"]=2;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+//>>excludeEnd("ctx");
+})),$self._sampleNewValue());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=3;
+//>>excludeEnd("ctx");
+$self._assert_equals_(newCollection,$self._collectionWithNewValue());
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testAtIfAbsentPut",{newCollection:newCollection})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TKeyValueCollectionTest);
+
+$core.addMethod(
+$core.method({
+selector: "testAtIfPresent",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtIfPresent\x0a\x09| visited sentinel |\x0a\x09sentinel := Object new.\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: each ifPresent: [ :value1 | visited := value1. sentinel ]) equals: nil.\x0a\x09\x09self assert: visited isNil ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: index ifPresent: [ :value2 | visited := value2. sentinel ]) equals: sentinel.\x0a\x09\x09self assert: visited equals: (self collection at: index) ]",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "nonIndexesDo:", "assert:equals:", "at:ifPresent:", "collection", "assert:", "isNil", "samplesDo:", "at:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var visited,sentinel;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1,$4,$3;
+sentinel=$recv($globals.Object)._new();
+$self._nonIndexesDo_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+visited=nil;
+$2=$self._collection();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["collection"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2)._at_ifPresent_(each,(function(value1){
+visited=value1;
+return sentinel;
+
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["at:ifPresent:"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($1,nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+return $self._assert_($recv(visited)._isNil());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$self._samplesDo_((function(index,value){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+visited=nil;
+$4=$self._collection();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["collection"]=2;
+//>>excludeEnd("ctx");
+$3=$recv($4)._at_ifPresent_(index,(function(value2){
+visited=value2;
+return sentinel;
+
+}));
+$self._assert_equals_($3,sentinel);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+return $self._assert_equals_(visited,$recv($self._collection())._at_(index));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({index:index,value:value},$ctx1,3)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testAtIfPresent",{visited:visited,sentinel:sentinel})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TKeyValueCollectionTest);
+
+$core.addMethod(
+$core.method({
+selector: "testAtIfPresentIfAbsent",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtIfPresentIfAbsent\x0a\x09| visited sentinel |\x0a\x09sentinel := Object new.\x0a\x09self nonIndexesDo: [ :each |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: each ifPresent: [ :value1 | visited := value1. sentinel ] ifAbsent: [ self sampleNewValue ] ) equals: self sampleNewValue.\x0a\x09\x09self assert: visited isNil ].\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09visited := nil.\x0a\x09\x09self assert: (self collection at: index ifPresent: [ :value2 | visited := value2. sentinel ] ifAbsent: [ self sampleNewValue ]) equals: sentinel.\x0a\x09\x09self assert: visited equals: (self collection at: index) ]",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "nonIndexesDo:", "assert:equals:", "at:ifPresent:ifAbsent:", "collection", "sampleNewValue", "assert:", "isNil", "samplesDo:", "at:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var visited,sentinel;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1,$3,$5,$4;
+sentinel=$recv($globals.Object)._new();
+$self._nonIndexesDo_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+visited=nil;
+$2=$self._collection();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["collection"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2)._at_ifPresent_ifAbsent_(each,(function(value1){
+visited=value1;
+return sentinel;
+
+}),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $self._sampleNewValue();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["sampleNewValue"]=1;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["at:ifPresent:ifAbsent:"]=1;
+//>>excludeEnd("ctx");
+$3=$self._sampleNewValue();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["sampleNewValue"]=2;
+//>>excludeEnd("ctx");
+$self._assert_equals_($1,$3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+return $self._assert_($recv(visited)._isNil());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$self._samplesDo_((function(index,value){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+visited=nil;
+$5=$self._collection();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["collection"]=2;
+//>>excludeEnd("ctx");
+$4=$recv($5)._at_ifPresent_ifAbsent_(index,(function(value2){
+visited=value2;
+return sentinel;
+
+}),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $self._sampleNewValue();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,6)});
+//>>excludeEnd("ctx");
+}));
+$self._assert_equals_($4,sentinel);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+return $self._assert_equals_(visited,$recv($self._collection())._at_(index));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({index:index,value:value},$ctx1,4)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testAtIfPresentIfAbsent",{visited:visited,sentinel:sentinel})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TKeyValueCollectionTest);
+
+$core.addMethod(
+$core.method({
+selector: "testAtPut",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAtPut\x0a\x09| newCollection |\x0a\x09newCollection := self collection.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09newCollection at: index put: value ].\x0a\x09self assert: newCollection equals: self collection.\x0a\x09newCollection at: self sampleNewIndex put: self sampleNewValue.\x0a\x09self assert: newCollection equals: self collectionWithNewValue",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["collection", "samplesDo:", "at:put:", "assert:equals:", "sampleNewIndex", "sampleNewValue", "collectionWithNewValue"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var newCollection;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+newCollection=$self._collection();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["collection"]=1;
+//>>excludeEnd("ctx");
+$self._samplesDo_((function(index,value){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(newCollection)._at_put_(index,value);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["at:put:"]=1;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({index:index,value:value},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$self._assert_equals_(newCollection,$self._collection());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+$recv(newCollection)._at_put_($self._sampleNewIndex(),$self._sampleNewValue());
+$self._assert_equals_(newCollection,$self._collectionWithNewValue());
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testAtPut",{newCollection:newCollection})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TKeyValueCollectionTest);
+
+$core.addMethod(
+$core.method({
+selector: "testIndexOf",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIndexOf\x0a\x09self should: [ self collection indexOf: self sampleNewValue ] raise: Error.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection indexOf: value) equals: index ]",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "indexOf:", "collection", "sampleNewValue", "samplesDo:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=$self._collection();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["collection"]=1;
+//>>excludeEnd("ctx");
+return $recv($1)._indexOf_($self._sampleNewValue());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["indexOf:"]=1;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+$self._samplesDo_((function(index,value){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_($recv($self._collection())._indexOf_(value),index);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({index:index,value:value},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testIndexOf",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TKeyValueCollectionTest);
+
+$core.addMethod(
+$core.method({
+selector: "testIndexOfWithNull",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIndexOfWithNull\x0a\x09| jsNull |\x0a\x09jsNull := JSON parse: 'null'.\x0a\x09self samplesDo: [ :index :value |\x0a\x09\x09self assert: (self collection at: index put: jsNull; indexOf: jsNull) equals: index ]",
+referencedClasses: ["JSON"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["parse:", "samplesDo:", "assert:equals:", "at:put:", "collection", "indexOf:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var jsNull;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1;
+jsNull=$recv($globals.JSON)._parse_("null");
+$self._samplesDo_((function(index,value){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$2=$self._collection();
+$recv($2)._at_put_(index,jsNull);
+$1=$recv($2)._indexOf_(jsNull);
+return $self._assert_equals_($1,index);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({index:index,value:value},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testIndexOfWithNull",{jsNull:jsNull})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TKeyValueCollectionTest);
+
+$core.addMethod(
+$core.method({
+selector: "testWithIndexDo",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testWithIndexDo\x0a\x09| collection |\x0a\x09collection := self collection.\x0a\x09\x0a\x09self collection withIndexDo: [ :each :index |\x0a\x09\x09self assert: (collection at: index) equals: each ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["collection", "withIndexDo:", "assert:equals:", "at:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var collection;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+collection=$self._collection();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["collection"]=1;
+//>>excludeEnd("ctx");
+$recv($self._collection())._withIndexDo_((function(each,index){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_($recv(collection)._at_(index),each);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each,index:index},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testWithIndexDo",{collection:collection})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TKeyValueCollectionTest);
+
+
 $core.addClass("UndefinedTest", $globals.TestCase, [], "Kernel-Tests");
 $core.addMethod(
 $core.method({
@@ -16690,5 +16665,8 @@ return self;
 }; }),
 $globals.UndefinedTest);
 
+
+$core.setTraitComposition([{trait: $globals.TKeyValueCollectionTest}], $globals.AssociativeCollectionTest);
+$core.setTraitComposition([{trait: $globals.TKeyValueCollectionTest}], $globals.SequenceableCollectionTest);
 
 });

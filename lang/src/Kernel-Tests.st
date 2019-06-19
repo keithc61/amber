@@ -840,126 +840,7 @@ isAbstract
 	^ self collectionClass isNil
 ! !
 
-CollectionTest subclass: #IndexableCollectionTest
-	slots: {}
-	package: 'Kernel-Tests'!
-
-!IndexableCollectionTest methodsFor: 'fixture'!
-
-collectionWithNewValue
-	"Answers a collection which shows how
-	self collection would look after adding
-	self sampleNewValue at self sampleNewIndex"
-	
-	self subclassResponsibility
-!
-
-nonIndexesDo: aBlock
-	"Executes block a few times,
-	each time passing value that is known
-	not to be an index, as the first parameter"
-	
-	self subclassResponsibility
-!
-
-sampleNewIndex
-	"Answers a value that can be used as index in at:put: or at:ifAbsentPut:"
-	
-	self subclassResponsibility
-!
-
-samplesDo: aBlock
-	"Executes block a few times,
-	each time passing known index and value stored
-	under that index as the parameters"
-	
-	self subclassResponsibility
-! !
-
-!IndexableCollectionTest methodsFor: 'tests'!
-
-testAt
-	self nonIndexesDo: [ :each |
-		self should: [ self collection at: each ] raise: Error ].
-	self samplesDo: [ :index :value |
-		self assert: (self collection at: index) equals: value ]
-!
-
-testAtIfAbsent
-	self nonIndexesDo: [ :each |
-		self assert: (self collection at: each ifAbsent: [ self sampleNewValue ]) equals: self sampleNewValue ].
-	self samplesDo: [ :index :value |
-		self assert: (self collection at: index ifAbsent: [ self sampleNewValue ]) equals: value ].
-!
-
-testAtIfAbsentPut
-	| newCollection |
-	newCollection := self collection.
-	self samplesDo: [ :index :value |
-		self assert: (newCollection at: index ifAbsentPut: [ self sampleNewValue ]) equals: value ].
-	self assert: newCollection equals: self collection.
-	self assert: (newCollection at: self sampleNewIndex ifAbsentPut: [ self sampleNewValue ]) equals: self sampleNewValue.
-	self assert: newCollection equals: self collectionWithNewValue
-!
-
-testAtIfPresent
-	| visited sentinel |
-	sentinel := Object new.
-	self nonIndexesDo: [ :each |
-		visited := nil.
-		self assert: (self collection at: each ifPresent: [ :value1 | visited := value1. sentinel ]) equals: nil.
-		self assert: visited isNil ].
-	self samplesDo: [ :index :value |
-		visited := nil.
-		self assert: (self collection at: index ifPresent: [ :value2 | visited := value2. sentinel ]) equals: sentinel.
-		self assert: visited equals: (self collection at: index) ]
-!
-
-testAtIfPresentIfAbsent
-	| visited sentinel |
-	sentinel := Object new.
-	self nonIndexesDo: [ :each |
-		visited := nil.
-		self assert: (self collection at: each ifPresent: [ :value1 | visited := value1. sentinel ] ifAbsent: [ self sampleNewValue ] ) equals: self sampleNewValue.
-		self assert: visited isNil ].
-	self samplesDo: [ :index :value |
-		visited := nil.
-		self assert: (self collection at: index ifPresent: [ :value2 | visited := value2. sentinel ] ifAbsent: [ self sampleNewValue ]) equals: sentinel.
-		self assert: visited equals: (self collection at: index) ]
-!
-
-testAtPut
-	| newCollection |
-	newCollection := self collection.
-	self samplesDo: [ :index :value |
-		newCollection at: index put: value ].
-	self assert: newCollection equals: self collection.
-	newCollection at: self sampleNewIndex put: self sampleNewValue.
-	self assert: newCollection equals: self collectionWithNewValue
-!
-
-testIndexOf
-	self should: [ self collection indexOf: self sampleNewValue ] raise: Error.
-	self samplesDo: [ :index :value |
-		self assert: (self collection indexOf: value) equals: index ]
-!
-
-testIndexOfWithNull
-	| jsNull |
-	jsNull := JSON parse: 'null'.
-	self samplesDo: [ :index :value |
-		self assert: (self collection at: index put: jsNull; indexOf: jsNull) equals: index ]
-!
-
-testWithIndexDo
-	| collection |
-	collection := self collection.
-	
-	self collection withIndexDo: [ :each :index |
-		self assert: (collection at: index) equals: each ]
-! !
-
-IndexableCollectionTest subclass: #AssociativeCollectionTest
+CollectionTest subclass: #AssociativeCollectionTest
 	slots: {}
 	package: 'Kernel-Tests'!
 
@@ -1239,7 +1120,7 @@ collectionClass
 	^ HashedCollection
 ! !
 
-IndexableCollectionTest subclass: #SequenceableCollectionTest
+CollectionTest subclass: #SequenceableCollectionTest
 	slots: {}
 	package: 'Kernel-Tests'!
 
@@ -3021,6 +2902,116 @@ collectionClass
 	^ String
 ! !
 
+Trait named: #TKeyValueCollectionTest
+	package: 'Kernel-Tests'!
+
+!TKeyValueCollectionTest methodsFor: 'fixture'!
+
+nonIndexesDo: aBlock
+	"Executes block a few times,
+	each time passing value that is known
+	not to be an index, as the first parameter"
+	
+	self subclassResponsibility
+!
+
+sampleNewIndex
+	"Answers a value that can be used as index in at:put: or at:ifAbsentPut:"
+	
+	self subclassResponsibility
+!
+
+samplesDo: aBlock
+	"Executes block a few times,
+	each time passing known index and value stored
+	under that index as the parameters"
+	
+	self subclassResponsibility
+! !
+
+!TKeyValueCollectionTest methodsFor: 'tests'!
+
+testAt
+	self nonIndexesDo: [ :each |
+		self should: [ self collection at: each ] raise: Error ].
+	self samplesDo: [ :index :value |
+		self assert: (self collection at: index) equals: value ]
+!
+
+testAtIfAbsent
+	self nonIndexesDo: [ :each |
+		self assert: (self collection at: each ifAbsent: [ self sampleNewValue ]) equals: self sampleNewValue ].
+	self samplesDo: [ :index :value |
+		self assert: (self collection at: index ifAbsent: [ self sampleNewValue ]) equals: value ].
+!
+
+testAtIfAbsentPut
+	| newCollection |
+	newCollection := self collection.
+	self samplesDo: [ :index :value |
+		self assert: (newCollection at: index ifAbsentPut: [ self sampleNewValue ]) equals: value ].
+	self assert: newCollection equals: self collection.
+	self assert: (newCollection at: self sampleNewIndex ifAbsentPut: [ self sampleNewValue ]) equals: self sampleNewValue.
+	self assert: newCollection equals: self collectionWithNewValue
+!
+
+testAtIfPresent
+	| visited sentinel |
+	sentinel := Object new.
+	self nonIndexesDo: [ :each |
+		visited := nil.
+		self assert: (self collection at: each ifPresent: [ :value1 | visited := value1. sentinel ]) equals: nil.
+		self assert: visited isNil ].
+	self samplesDo: [ :index :value |
+		visited := nil.
+		self assert: (self collection at: index ifPresent: [ :value2 | visited := value2. sentinel ]) equals: sentinel.
+		self assert: visited equals: (self collection at: index) ]
+!
+
+testAtIfPresentIfAbsent
+	| visited sentinel |
+	sentinel := Object new.
+	self nonIndexesDo: [ :each |
+		visited := nil.
+		self assert: (self collection at: each ifPresent: [ :value1 | visited := value1. sentinel ] ifAbsent: [ self sampleNewValue ] ) equals: self sampleNewValue.
+		self assert: visited isNil ].
+	self samplesDo: [ :index :value |
+		visited := nil.
+		self assert: (self collection at: index ifPresent: [ :value2 | visited := value2. sentinel ] ifAbsent: [ self sampleNewValue ]) equals: sentinel.
+		self assert: visited equals: (self collection at: index) ]
+!
+
+testAtPut
+	| newCollection |
+	newCollection := self collection.
+	self samplesDo: [ :index :value |
+		newCollection at: index put: value ].
+	self assert: newCollection equals: self collection.
+	newCollection at: self sampleNewIndex put: self sampleNewValue.
+	self assert: newCollection equals: self collectionWithNewValue
+!
+
+testIndexOf
+	self should: [ self collection indexOf: self sampleNewValue ] raise: Error.
+	self samplesDo: [ :index :value |
+		self assert: (self collection indexOf: value) equals: index ]
+!
+
+testIndexOfWithNull
+	| jsNull |
+	jsNull := JSON parse: 'null'.
+	self samplesDo: [ :index :value |
+		self assert: (self collection at: index put: jsNull; indexOf: jsNull) equals: index ]
+!
+
+testWithIndexDo
+	| collection |
+	collection := self collection.
+	
+	self collection withIndexDo: [ :each :index |
+		self assert: (collection at: index) equals: each ]
+! !
+
 TestCase subclass: #UndefinedTest
 	slots: {}
 	package: 'Kernel-Tests'!
@@ -3045,5 +3036,9 @@ testIfNil
 testIsNil
 	self assert: nil isNil.
 	self deny: nil notNil.
+! !
+
+AssociativeCollectionTest setTraitComposition: {TKeyValueCollectionTest} asTraitComposition!
+SequenceableCollectionTest setTraitComposition: {TKeyValueCollectionTest} asTraitComposition!
 ! !
 
