@@ -453,6 +453,10 @@ TestCase subclass: #ClassTest
 
 !ClassTest methodsFor: 'running'!
 
+is: anObject javaScriptInstanceOf: aJavaScriptClass
+	<inlineJS: 'return anObject instanceof aJavaScriptClass'>
+!
+
 jsConstructor
 	<inlineJS: '
 		function Foo(){}
@@ -493,6 +497,26 @@ testAllSubclasses
 			index := index + 1 ].
 
 	self assert: Object allSubclasses equals: subclasses
+!
+
+testBeJavaScriptSubclassOf
+	| instance constructor |
+	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.
+	constructor := self jsConstructor.
+	theClass beJavaScriptSubclassOf: constructor.
+	"part took from copy class test"
+	self assert: theClass superclass == ObjectMock superclass.
+	self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.
+	self assert: theClass name equals: 'ObjectMock2'.
+	self assert: theClass package == ObjectMock package.
+	self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.
+	"testing specific to late-coupled detached root class"
+	instance := theClass new.
+	self assert: instance class == theClass.
+	self assert: (self is: instance javaScriptInstanceOf: constructor).
+	self assert: instance value equals: 4.
+	self shouldnt: [ instance foo: 9 ] raise: Error.
+	self assert: instance foo equals: 9
 !
 
 testMetaclassSubclasses

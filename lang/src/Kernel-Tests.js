@@ -2341,6 +2341,30 @@ $globals.ClassBuilderTest);
 $core.addClass("ClassTest", $globals.TestCase, ["builder", "theClass"], "Kernel-Tests");
 $core.addMethod(
 $core.method({
+selector: "is:javaScriptInstanceOf:",
+protocol: "running",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject", "aJavaScriptClass"],
+source: "is: anObject javaScriptInstanceOf: aJavaScriptClass\x0a\x09<inlineJS: 'return anObject instanceof aJavaScriptClass'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return anObject instanceof aJavaScriptClass"]]],
+messageSends: []
+}, function ($methodClass){ return function (anObject,aJavaScriptClass){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return anObject instanceof aJavaScriptClass;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"is:javaScriptInstanceOf:",{anObject:anObject,aJavaScriptClass:aJavaScriptClass})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ClassTest);
+
+$core.addMethod(
+$core.method({
 selector: "jsConstructor",
 protocol: "running",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2480,6 +2504,106 @@ $self._assert_equals_($recv($globals.Object)._allSubclasses(),subclasses);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAllSubclasses",{subclasses:subclasses,index:index})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ClassTest);
+
+$core.addMethod(
+$core.method({
+selector: "testBeJavaScriptSubclassOf",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testBeJavaScriptSubclassOf\x0a\x09| instance constructor |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09constructor := self jsConstructor.\x0a\x09theClass beJavaScriptSubclassOf: constructor.\x0a\x09\x22part took from copy class test\x22\x0a\x09self assert: theClass superclass == ObjectMock superclass.\x0a\x09self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: theClass package == ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.\x0a\x09\x22testing specific to late-coupled detached root class\x22\x0a\x09instance := theClass new.\x0a\x09self assert: instance class == theClass.\x0a\x09self assert: (self is: instance javaScriptInstanceOf: constructor).\x0a\x09self assert: instance value equals: 4.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
+referencedClasses: ["ObjectMock", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["copyClass:named:", "jsConstructor", "beJavaScriptSubclassOf:", "assert:", "==", "superclass", "instanceVariableNames", "assert:equals:", "name", "package", "keys", "methodDictionary", "new", "class", "is:javaScriptInstanceOf:", "value", "shouldnt:raise:", "foo:", "foo"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var instance,constructor;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1,$4,$3,$6,$5,$8,$7;
+$self.theClass=$recv($self.builder)._copyClass_named_($globals.ObjectMock,"ObjectMock2");
+constructor=$self._jsConstructor();
+$recv($self.theClass)._beJavaScriptSubclassOf_(constructor);
+$2=$recv($self.theClass)._superclass();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["superclass"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2).__eq_eq($recv($globals.ObjectMock)._superclass());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["=="]=1;
+//>>excludeEnd("ctx");
+$self._assert_($1);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:"]=1;
+//>>excludeEnd("ctx");
+$4=$recv($self.theClass)._instanceVariableNames();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["instanceVariableNames"]=1;
+//>>excludeEnd("ctx");
+$3=$recv($4).__eq_eq($recv($globals.ObjectMock)._instanceVariableNames());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["=="]=2;
+//>>excludeEnd("ctx");
+$self._assert_($3);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:"]=2;
+//>>excludeEnd("ctx");
+$self._assert_equals_($recv($self.theClass)._name(),"ObjectMock2");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+$6=$recv($self.theClass)._package();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["package"]=1;
+//>>excludeEnd("ctx");
+$5=$recv($6).__eq_eq($recv($globals.ObjectMock)._package());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["=="]=3;
+//>>excludeEnd("ctx");
+$self._assert_($5);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:"]=3;
+//>>excludeEnd("ctx");
+$8=$recv($self.theClass)._methodDictionary();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["methodDictionary"]=1;
+//>>excludeEnd("ctx");
+$7=$recv($8)._keys();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["keys"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($7,$recv($recv($globals.ObjectMock)._methodDictionary())._keys());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+instance=$recv($self.theClass)._new();
+$self._assert_($recv($recv(instance)._class()).__eq_eq($self.theClass));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:"]=4;
+//>>excludeEnd("ctx");
+$self._assert_($self._is_javaScriptInstanceOf_(instance,constructor));
+$self._assert_equals_($recv(instance)._value(),(4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=3;
+//>>excludeEnd("ctx");
+$self._shouldnt_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(instance)._foo_((9));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+$self._assert_equals_($recv(instance)._foo(),(9));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testBeJavaScriptSubclassOf",{instance:instance,constructor:constructor})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ClassTest);
