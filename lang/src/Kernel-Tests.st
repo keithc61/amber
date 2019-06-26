@@ -532,6 +532,17 @@ testAllSubclasses
 	self assert: Object allSubclasses equals: subclasses
 !
 
+testAlternateConstructorFromSelector
+	| instance block |
+	block := ObjectMock alternateConstructorFromSelector: #foo:.
+
+	instance := block newValue: 4.
+	self assert: instance class == ObjectMock.
+	self assert: instance foo equals: 4.
+	self shouldnt: [ instance foo: 9 ] raise: Error.
+	self assert: instance foo equals: 9
+!
+
 testBeJavaScriptSubclassOf
 	| instance constructor |
 	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.

@@ -187,6 +187,32 @@ $globals.Behavior);
 
 $core.addMethod(
 $core.method({
+selector: "alternateConstructorFromSelector:",
+protocol: "instance creation",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aSelector"],
+source: "alternateConstructorFromSelector: aSelector\x0a\x09^ (self >> aSelector) fn\x0a\x09\x09asJavaScriptConstructorInstantiate: self;\x0a\x09\x09yourself",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["asJavaScriptConstructorInstantiate:", "fn", ">>", "yourself"]
+}, function ($methodClass){ return function (aSelector){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($self.__gt_gt(aSelector))._fn();
+$recv($1)._asJavaScriptConstructorInstantiate_(self);
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"alternateConstructorFromSelector:",{aSelector:aSelector})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Behavior);
+
+$core.addMethod(
+$core.method({
 selector: "basicNew",
 protocol: "instance creation",
 //>>excludeStart("ide", pragmas.excludeIdeData);

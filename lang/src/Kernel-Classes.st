@@ -140,6 +140,12 @@ allSubclassesDo: aBlock
 
 !Behavior methodsFor: 'instance creation'!
 
+alternateConstructorFromSelector: aSelector
+	^ (self >> aSelector) fn
+		asJavaScriptConstructorInstantiate: self;
+		yourself
+!
+
 basicNew
 	<inlineJS: 'return new self.fn()'>
 !

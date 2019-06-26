@@ -2639,6 +2639,52 @@ $globals.ClassTest);
 
 $core.addMethod(
 $core.method({
+selector: "testAlternateConstructorFromSelector",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAlternateConstructorFromSelector\x0a\x09| instance block |\x0a\x09block := ObjectMock alternateConstructorFromSelector: #foo:.\x0a\x0a\x09instance := block newValue: 4.\x0a\x09self assert: instance class == ObjectMock.\x0a\x09self assert: instance foo equals: 4.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
+referencedClasses: ["ObjectMock", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["alternateConstructorFromSelector:", "newValue:", "assert:", "==", "class", "assert:equals:", "foo", "shouldnt:raise:", "foo:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var instance,block;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+block=$recv($globals.ObjectMock)._alternateConstructorFromSelector_("foo:");
+instance=$recv(block)._newValue_((4));
+$self._assert_($recv($recv(instance)._class()).__eq_eq($globals.ObjectMock));
+$1=$recv(instance)._foo();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["foo"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($1,(4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+$self._shouldnt_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(instance)._foo_((9));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+$self._assert_equals_($recv(instance)._foo(),(9));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testAlternateConstructorFromSelector",{instance:instance,block:block})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ClassTest);
+
+$core.addMethod(
+$core.method({
 selector: "testBeJavaScriptSubclassOf",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
