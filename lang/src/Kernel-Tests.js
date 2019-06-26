@@ -325,6 +325,33 @@ $globals.AnnouncerTest);
 $core.addClass("BlockClosureTest", $globals.TestCase, [], "Kernel-Tests");
 $core.addMethod(
 $core.method({
+selector: "jsConstructorWithArgs",
+protocol: "fixture",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "jsConstructorWithArgs\x0a\x09<inlineJS: '\x0a\x09\x09function Foo(foo,bar){this.foo=foo||3;this.bar=bar||5;}\x0a\x09\x09return Foo;\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09function Foo(foo,bar){this.foo=foo||3;this.bar=bar||5;}\x0a\x09\x09return Foo;\x0a\x09"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+		function Foo(foo,bar){this.foo=foo||3;this.bar=bar||5;}
+		return Foo;
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"jsConstructorWithArgs",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.BlockClosureTest);
+
+$core.addMethod(
+$core.method({
 selector: "localReturnOnDoCatch",
 protocol: "fixture",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -385,6 +412,108 @@ return (3);
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"localReturnOnDoMiss",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.BlockClosureTest);
+
+$core.addMethod(
+$core.method({
+selector: "testAsJavaScriptConstructorInstantiateAmberClass",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAsJavaScriptConstructorInstantiateAmberClass\x0a\x09| instance block |\x0a\x09block := self jsConstructorWithArgs.\x0a\x09block asJavaScriptConstructorInstantiate: ObjectMock.\x0a\x0a\x09instance := block newValue: 4.\x0a\x09self assert: instance class == ObjectMock.\x0a\x09self assert: instance foo equals: 4.\x0a\x09self assert: (instance basicAt: #bar) equals: 5.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
+referencedClasses: ["ObjectMock", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["jsConstructorWithArgs", "asJavaScriptConstructorInstantiate:", "newValue:", "assert:", "==", "class", "assert:equals:", "foo", "basicAt:", "shouldnt:raise:", "foo:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var instance,block;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+block=$self._jsConstructorWithArgs();
+$recv(block)._asJavaScriptConstructorInstantiate_($globals.ObjectMock);
+instance=$recv(block)._newValue_((4));
+$self._assert_($recv($recv(instance)._class()).__eq_eq($globals.ObjectMock));
+$1=$recv(instance)._foo();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["foo"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($1,(4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($recv(instance)._basicAt_("bar"),(5));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+$self._shouldnt_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(instance)._foo_((9));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+$self._assert_equals_($recv(instance)._foo(),(9));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testAsJavaScriptConstructorInstantiateAmberClass",{instance:instance,block:block})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.BlockClosureTest);
+
+$core.addMethod(
+$core.method({
+selector: "testAsJavaScriptConstructorInstantiateJsClass",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testAsJavaScriptConstructorInstantiateJsClass\x0a\x09| instance block |\x0a\x09block := self jsConstructorWithArgs.\x0a\x09block asJavaScriptConstructorInstantiate: ObjectMock javaScriptConstructor.\x0a\x0a\x09instance := block newValue: 4.\x0a\x09self assert: instance class == ObjectMock.\x0a\x09self assert: instance foo equals: 4.\x0a\x09self assert: (instance basicAt: #bar) equals: 5.\x0a\x09self shouldnt: [ instance foo: 9 ] raise: Error.\x0a\x09self assert: instance foo equals: 9",
+referencedClasses: ["ObjectMock", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["jsConstructorWithArgs", "asJavaScriptConstructorInstantiate:", "javaScriptConstructor", "newValue:", "assert:", "==", "class", "assert:equals:", "foo", "basicAt:", "shouldnt:raise:", "foo:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var instance,block;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+block=$self._jsConstructorWithArgs();
+$recv(block)._asJavaScriptConstructorInstantiate_($recv($globals.ObjectMock)._javaScriptConstructor());
+instance=$recv(block)._newValue_((4));
+$self._assert_($recv($recv(instance)._class()).__eq_eq($globals.ObjectMock));
+$1=$recv(instance)._foo();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["foo"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($1,(4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($recv(instance)._basicAt_("bar"),(5));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+$self._shouldnt_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(instance)._foo_((9));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+$self._assert_equals_($recv(instance)._foo(),(9));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testAsJavaScriptConstructorInstantiateJsClass",{instance:instance,block:block})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.BlockClosureTest);

@@ -92,6 +92,13 @@ TestCase subclass: #BlockClosureTest
 
 !BlockClosureTest methodsFor: 'fixture'!
 
+jsConstructorWithArgs
+	<inlineJS: '
+		function Foo(foo,bar){this.foo=foo||3;this.bar=bar||5;}
+		return Foo;
+	'>
+!
+
 localReturnOnDoCatch
     [ ^ 2 ] on: Error do: [].
     ^ 3
@@ -103,6 +110,32 @@ localReturnOnDoMiss
 ! !
 
 !BlockClosureTest methodsFor: 'tests'!
+
+testAsJavaScriptConstructorInstantiateAmberClass
+	| instance block |
+	block := self jsConstructorWithArgs.
+	block asJavaScriptConstructorInstantiate: ObjectMock.
+
+	instance := block newValue: 4.
+	self assert: instance class == ObjectMock.
+	self assert: instance foo equals: 4.
+	self assert: (instance basicAt: #bar) equals: 5.
+	self shouldnt: [ instance foo: 9 ] raise: Error.
+	self assert: instance foo equals: 9
+!
+
+testAsJavaScriptConstructorInstantiateJsClass
+	| instance block |
+	block := self jsConstructorWithArgs.
+	block asJavaScriptConstructorInstantiate: ObjectMock javaScriptConstructor.
+
+	instance := block newValue: 4.
+	self assert: instance class == ObjectMock.
+	self assert: instance foo equals: 4.
+	self assert: (instance basicAt: #bar) equals: 5.
+	self shouldnt: [ instance foo: 9 ] raise: Error.
+	self assert: instance foo equals: 9
+!
 
 testCanClearInterval
 	self shouldnt: [ ([ Error new signal ] valueWithInterval: 0) clearInterval ] raise: Error
