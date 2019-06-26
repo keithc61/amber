@@ -141,9 +141,9 @@ allSubclassesDo: aBlock
 !Behavior methodsFor: 'instance creation'!
 
 alternateConstructorFromSelector: aSelector
-	^ (self >> aSelector) fn
-		asJavaScriptConstructorInstantiate: self;
-		yourself
+	^ self
+		javaScriptConstructorFor: self prototype
+		initializingVia: (self >> aSelector) fn
 !
 
 basicNew
@@ -155,6 +155,16 @@ new
 ! !
 
 !Behavior methodsFor: 'private'!
+
+javaScriptConstructorFor: aPrototype initializingVia: aMethodBlock
+	<inlineJS: '
+		function Ctr () {
+			aMethodBlock.apply(this, arguments);
+		}
+		Ctr.prototype = aPrototype;
+		return Ctr;
+	'>
+!
 
 makeJavaScriptConstructorSubclassOf: javaScriptClass
 	<inlineJS: '

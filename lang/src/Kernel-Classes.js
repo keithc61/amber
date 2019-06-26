@@ -191,20 +191,17 @@ selector: "alternateConstructorFromSelector:",
 protocol: "instance creation",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aSelector"],
-source: "alternateConstructorFromSelector: aSelector\x0a\x09^ (self >> aSelector) fn\x0a\x09\x09asJavaScriptConstructorInstantiate: self;\x0a\x09\x09yourself",
+source: "alternateConstructorFromSelector: aSelector\x0a\x09^ self\x0a\x09\x09javaScriptConstructorFor: self prototype\x0a\x09\x09initializingVia: (self >> aSelector) fn",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["asJavaScriptConstructorInstantiate:", "fn", ">>", "yourself"]
+messageSends: ["javaScriptConstructorFor:initializingVia:", "prototype", "fn", ">>"]
 }, function ($methodClass){ return function (aSelector){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv($self.__gt_gt(aSelector))._fn();
-$recv($1)._asJavaScriptConstructorInstantiate_(self);
-return $recv($1)._yourself();
+return $self._javaScriptConstructorFor_initializingVia_($self._prototype(),$recv($self.__gt_gt(aSelector))._fn());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"alternateConstructorFromSelector:",{aSelector:aSelector})});
 //>>excludeEnd("ctx");
@@ -493,6 +490,36 @@ $recv($recv($globals.Smalltalk)._core())._setClassConstructor_to_(self,aJavaScri
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"javaScriptConstructor:",{aJavaScriptFunction:aJavaScriptFunction})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Behavior);
+
+$core.addMethod(
+$core.method({
+selector: "javaScriptConstructorFor:initializingVia:",
+protocol: "private",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aPrototype", "aMethodBlock"],
+source: "javaScriptConstructorFor: aPrototype initializingVia: aMethodBlock\x0a\x09<inlineJS: '\x0a\x09\x09function Ctr () {\x0a\x09\x09\x09aMethodBlock.apply(this, arguments);\x0a\x09\x09}\x0a\x09\x09Ctr.prototype = aPrototype;\x0a\x09\x09return Ctr;\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09function Ctr () {\x0a\x09\x09\x09aMethodBlock.apply(this, arguments);\x0a\x09\x09}\x0a\x09\x09Ctr.prototype = aPrototype;\x0a\x09\x09return Ctr;\x0a\x09"]]],
+messageSends: []
+}, function ($methodClass){ return function (aPrototype,aMethodBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+		function Ctr () {
+			aMethodBlock.apply(this, arguments);
+		}
+		Ctr.prototype = aPrototype;
+		return Ctr;
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"javaScriptConstructorFor:initializingVia:",{aPrototype:aPrototype,aMethodBlock:aMethodBlock})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.Behavior);
