@@ -7,8 +7,6 @@
   + beJavaScriptSubclassOf:
   + javaScriptConstructor
   + javaScriptConstructor:
-+ BlockClosure >>
-  + asJavaScriptConstructorInstantiate:
 + amber/boot api >>
   + detachClass(klass)
 

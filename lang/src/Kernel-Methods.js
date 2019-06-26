@@ -58,30 +58,6 @@ $globals.BlockClosure);
 
 $core.addMethod(
 $core.method({
-selector: "asJavaScriptConstructorInstantiate:",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aPrototypee"],
-source: "asJavaScriptConstructorInstantiate: aPrototypee\x0a\x09prototype := aPrototypee prototype",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["prototype"]
-}, function ($methodClass){ return function (aPrototypee){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self.prototype=$recv(aPrototypee)._prototype();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"asJavaScriptConstructorInstantiate:",{aPrototypee:aPrototypee})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.BlockClosure);
-
-$core.addMethod(
-$core.method({
 selector: "compiledSource",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);

@@ -28,10 +28,6 @@ I am is directly mapped to JavaScript Function.
 
 !BlockClosure methodsFor: 'accessing'!
 
-asJavaScriptConstructorInstantiate: aPrototypee
-	prototype := aPrototypee prototype
-!
-
 compiledSource
 	<inlineJS: 'return self.toString()'>
 !
