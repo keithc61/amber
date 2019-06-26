@@ -3,7 +3,7 @@
 * Deprecate Behavior >> javascriptConstructor(:)
 
 + Behavior >>
-  + alternateConstructorFromSelector:
+  + alternateConstructorViaSelector:
   + beJavaScriptSubclassOf:
   + javaScriptConstructor
   + javaScriptConstructor:

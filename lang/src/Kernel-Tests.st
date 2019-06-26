@@ -499,9 +499,9 @@ testAllSubclasses
 	self assert: Object allSubclasses equals: subclasses
 !
 
-testAlternateConstructorFromSelector
+testAlternateConstructorViaSelector
 	| instance block |
-	block := ObjectMock alternateConstructorFromSelector: #foo:.
+	block := ObjectMock alternateConstructorViaSelector: #foo:.
 
 	instance := block newValue: 4.
 	self assert: instance class == ObjectMock.

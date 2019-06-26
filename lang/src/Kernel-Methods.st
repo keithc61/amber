@@ -200,6 +200,18 @@ valueWithTimeout: aNumber
 	'>
 ! !
 
+!BlockClosure class methodsFor: 'instance creation'!
+
+javaScriptConstructorFor: aPrototype initializingVia: aMethodBlock
+	<inlineJS: '
+		function Ctr () {
+			aMethodBlock.apply(this, arguments);
+		}
+		Ctr.prototype = aPrototype;
+		return Ctr;
+	'>
+! !
+
 Object subclass: #CompiledMethod
 	slots: {#args. #instantiateFn. #fn. #messageSends. #pragmas. #owner. #methodClass. #protocol. #referencedClasses. #selector. #source}
 	package: 'Kernel-Methods'!
