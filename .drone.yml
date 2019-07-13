@@ -2,39 +2,50 @@ kind: pipeline
 name: lang
 
 steps:
-  - name: test
+  - name: prepare
     image: node
     commands:
       - npm install
       - cd sdk
       - npm install
-      - cd ..
+  - name: test
+    image: node
+    commands:
       - npm run test:sunit
 ---
 kind: pipeline
 name: built-cli
 steps:
-  - name: build-and-test
+  - name: prepare
     image: node
     commands:
       - npm install
       - cd sdk
       - npm install
       - cd ..
-      - npm run build:cli
       - cd cli
       - npm install
-      - npm test
+  - name: build
+    image: node
+    commands:
+      - npm run build:cli
+  - name: test
+    image: node
+    commands:
+      - npm run test:e2e
 ---
 kind: pipeline
 name: installable-cli
 steps:
+  - name: prepare
+    image: node
+    commands:
+      - cd cli
+      - npm install
   - name: install-and-test
     image: node
     environment:
       AMBER_CLI: amber
     commands:
-      - cd cli
-      - npm install
       - npm install -g @ambers/cli
-      - npm test
+      - npm run test:e2e
