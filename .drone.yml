@@ -18,7 +18,7 @@ steps:
     image: node
     commands:
       - npm install
-      - grunt build:cli
+      - npm run build:cli
       - cd cli
       - npm install
       - npm test

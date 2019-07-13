@@ -25,6 +25,7 @@
     "node": ">=4.0.0"
   },
   "scripts": {
+    "build:cli": "grunt build:cli",
     "test": "npm run test:sunit && npm run test:e2e",
     "test:sunit": "grunt test",
     "test:e2e": "(cd cli && npm test)"
