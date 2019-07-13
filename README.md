@@ -1,6 +1,8 @@
 Amber
 ====
 
+[![Build Status](https://ci.lolg.it/api/badges/amber/amber/status.svg)](https://ci.lolg.it/amber/amber)
+
 Copyright 2011-2015 Nicolas Petton
 
 Copyright 2014-2019 Herbert Vojčík and [Amber contributors](CONTRIBUTORS)
