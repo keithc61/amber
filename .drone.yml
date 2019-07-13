@@ -1,8 +1,8 @@
 kind: pipeline
-name: default
+name: lang
 
 steps:
-  - name: lang
+  - name: test
     image: node
     commands:
       - npm install
@@ -10,8 +10,11 @@ steps:
       - npm install
       - cd ..
       - npm run test:sunit
-
-  - name: cli
+---
+kind: pipeline
+name: built-cli
+steps:
+  - name: build-and-test
     image: node
     commands:
       - npm install
@@ -19,8 +22,11 @@ steps:
       - cd cli
       - npm install
       - npm test
-
-  - name: installable-cli
+---
+kind: pipeline
+name: installable-cli
+steps:
+  - name: install-and-test
     image: node
     environment:
       AMBER_CLI: amber
