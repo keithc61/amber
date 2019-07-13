@@ -1,0 +1,26 @@
+kind: pipeline
+name: default
+
+steps:
+  - name: lang
+    image: node
+    commands:
+      - npm install
+      - npm test:sunit
+
+  - name: cli
+    image: node
+    commands:
+      - cd cli
+      - npm install
+      - npm test
+
+  - name: installable-cli
+    image: node
+    environment:
+      AMBER_CLI: amber
+    commands:
+      - cd cli
+      - npm install
+      - npm install -g @ambers/cli
+      - npm test
