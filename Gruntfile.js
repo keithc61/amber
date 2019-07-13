@@ -105,6 +105,7 @@ module.exports = function (grunt) {
                 options: {
                     mainConfigFile: "config.js",
                     rawText: {
+                        "helios/index": "",
                         "__app__": "(" + function () {
                             define(["amber/devel", "amber/core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {
                                 amber.initialize().then(function () {
@@ -120,6 +121,7 @@ module.exports = function (grunt) {
                     },
                     include: ['app'],
                     findNestedDependencies: true,
+                    exclude: ['helios/index'],
                     insertRequire: ['app'],
                     optimize: "none",
                     wrap: helpers.nodeWrapperWithShebang,
