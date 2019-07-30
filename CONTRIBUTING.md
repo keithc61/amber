@@ -43,7 +43,7 @@ Start Contributing by talking about Amber
 Filing Issues
 =============
 
-If you think Amber is not working as expected, You can start by asking on gitter room, IRC or the Mailinglist.
+If you think Amber is not working as expected, You can start by asking on rocket chat or the Mailinglist.
 Please make sure that you have first checked the following guides:
 
 * Getting Started (TBD, if you want to help, contribute to https://lolg.it/amber/amber-documentation.git)
