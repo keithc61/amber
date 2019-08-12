@@ -41,7 +41,7 @@
 
 define([
     'require', './kernel-checks', './brikz', './kernel-fundamentals', './kernel-language'
-], function (require, _, Brikz, Fundamentals, LanguageFactory) {
+], function (require, _, Brikz, FundamentalsFactory, LanguageFactory) {
     "use strict";
 
     var globals = Object.create(global);
@@ -84,9 +84,10 @@ define([
     Object.defineProperty(brikz, "commonGlobals", {value: globals});
     Object.defineProperty(brikz, "commonEmit", {value: emit});
 
-    Fundamentals.configure(brikz);
+    var fundamentals = FundamentalsFactory(globals, emit);
+    fundamentals.configure(brikz);
 
-    LanguageFactory(Fundamentals.specialConstructors, emit).configure(brikz);
+    LanguageFactory(fundamentals.specialConstructors, emit).configure(brikz);
 
     brikz.stInit = SmalltalkInitBrik;
     brikz.amd = AMDBrik;
