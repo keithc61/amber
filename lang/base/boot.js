@@ -76,28 +76,6 @@ define([
         st.defaultAmdNamespace = st.defaultAmdNamespace || "amber/core";
     }
 
-    /* Defines asReceiver to be present at load time */
-    /* (logically it belongs more to PrimitiveBrik) */
-    AsReceiverBrik.deps = ["nil"];
-    function AsReceiverBrik (brikz, st) {
-        var nilAsReceiver = brikz.nil.nilAsReceiver;
-
-        /**
-         * This function is used all over the compiled amber code.
-         * It takes any value (JavaScript or Smalltalk)
-         * and returns a proper Amber Smalltalk receiver.
-         *
-         * null or undefined -> nilAsReceiver,
-         * object having Smalltalk signature -> unchanged,
-         * otherwise wrapped foreign (JS) object
-         */
-        this.asReceiver = function (o) {
-            if (o == null) return nilAsReceiver;
-            else if (o.a$cls != null) return o;
-            else return st.wrapJavaScript(o);
-        };
-    }
-
     var api = {};
     var globals = Object.create(global);
     var brikz = Brikz(api);
@@ -108,7 +86,6 @@ define([
 
     configureWithHierarchy(brikz);
 
-    brikz.asReceiver = AsReceiverBrik;
     brikz.stInit = SmalltalkInitBrik;
     brikz.amd = AMDBrik;
 
@@ -129,6 +106,6 @@ define([
         nilAsValue: brikz.nil.nilAsValue,
         nilAsClass: brikz.classes.nilAsClass,
         globals: globals,
-        asReceiver: brikz.asReceiver.asReceiver
+        asReceiver: brikz.classes.asReceiver
     };
 });

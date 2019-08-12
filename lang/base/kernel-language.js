@@ -205,7 +205,7 @@ define(function () {
         this.traitMethodChanged = traitMethodChanged;
     }
 
-    ClassesBrik.deps = ["root", "event", "behaviors", "methods", "arraySet"];
+    ClassesBrik.deps = ["root", "event", "behaviors", "methods", "arraySet", "nil"];
     function ClassesBrik (brikz, st) {
         var SmalltalkRoot = brikz.root.Root;
         var specialConstructors = brikz.commonSpecialConstructors;
@@ -218,6 +218,7 @@ define(function () {
         var removeElement = brikz.arraySet.removeElement;
         var emit = brikz.commonEmit;
         var declareEvent = brikz.event.declareEvent;
+        var nilAsReceiver = brikz.nil.nilAsReceiver;
 
         function SmalltalkBehavior () {
         }
@@ -378,6 +379,21 @@ define(function () {
         }
 
         this.wireKlass = wireKlass;
+
+        /**
+         * This function is used all over the compiled amber code.
+         * It takes any value (JavaScript or Smalltalk)
+         * and returns a proper Amber Smalltalk receiver.
+         *
+         * null or undefined -> nilAsReceiver,
+         * object having Smalltalk signature -> unchanged,
+         * otherwise wrapped foreign (JS) object
+         */
+        this.asReceiver = function (o) {
+            if (o == null) return nilAsReceiver;
+            else if (o.a$cls != null) return o;
+            else return st.wrapJavaScript(o);
+        };
 
         /* Add a class to the system, creating a new one if needed.
          A Package is lazily created if one with given name does not exist. */
