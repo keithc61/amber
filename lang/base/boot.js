@@ -50,6 +50,7 @@ define([
 
     function SmalltalkInitBrik (brikz, st) {
         var globals = brikz.commonGlobals;
+        var emit = brikz.commonEmit;
         var initialized = false;
 
         globals.SmalltalkSettings = {};
@@ -57,10 +58,10 @@ define([
         /* Smalltalk initialization. Called on page load */
 
         st.initialize = function () {
-            return runtimeLoadedPromise.then(function (configureWithRuntime) {
+            return runtimeLoadedPromise.then(function (RuntimeFactory) {
                 if (initialized) return;
                 brikz.classes.bootstrapHierarchy(globals.Class);
-                configureWithRuntime(brikz);
+                RuntimeFactory(globals, emit).configure(brikz);
                 return Promise.resolve(brikz.startImage.run())
                     .then(function () {
                         initialized = true;
