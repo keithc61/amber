@@ -448,7 +448,7 @@ define(function () {
 
     /* Making smalltalk that can load */
 
-    function configureWithHierarchy (brikz) {
+    function configure (brikz) {
         brikz.traits = TraitsBrik;
         brikz.composition = MethodCompositionBrik;
         brikz.classes = ClassesBrik;
@@ -456,5 +456,5 @@ define(function () {
         brikz();
     }
 
-    return configureWithHierarchy;
+    return {configure: configure};
 });

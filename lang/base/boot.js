@@ -41,7 +41,7 @@
 
 define([
     'require', './kernel-checks', './brikz', './kernel-fundamentals', './kernel-language'
-], function (require, _, Brikz, configureWithFundamentals, configureWithHierarchy) {
+], function (require, _, Brikz, Fundamentals, Language) {
     "use strict";
 
     var globals = Object.create(global);
@@ -84,9 +84,9 @@ define([
     Object.defineProperty(brikz, "commonGlobals", {value: globals});
     Object.defineProperty(brikz, "commonEmit", {value: emit});
 
-    configureWithFundamentals(brikz);
+    Fundamentals.configure(brikz);
 
-    configureWithHierarchy(brikz);
+    Language.configure(brikz);
 
     brikz.stInit = SmalltalkInitBrik;
     brikz.amd = AMDBrik;

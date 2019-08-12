@@ -255,10 +255,11 @@ define(function () {
         });
     }
 
-    /* Making smalltalk that has basic building blocks */
+    var specialConstructors = Object.create(null);
 
-    function configureWithFundamentals (brikz) {
-        Object.defineProperty(brikz, "commonSpecialConstructors", {value: Object.create(null)});
+    /* Making smalltalk that has basic building blocks */
+    function configure (brikz) {
+        Object.defineProperty(brikz, "commonSpecialConstructors", {value: specialConstructors});
         brikz.root = RootBrik;
         brikz.nil = NilBrik;
         brikz.event = EventBrik;
@@ -271,5 +272,5 @@ define(function () {
         brikz();
     }
 
-    return configureWithFundamentals;
+    return {configure: configure, specialConstructors: specialConstructors};
 });
