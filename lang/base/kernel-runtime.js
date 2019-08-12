@@ -358,17 +358,13 @@ define(function () {
         };
     }
 
-    MessageSendBrik.deps = ["smalltalkGlobals", "selectorConversion", "root"];
+    MessageSendBrik.deps = ["smalltalkGlobals", "selectorConversion"];
     function MessageSendBrik (brikz, st) {
         var globals = brikz.smalltalkGlobals.globals;
-        var nilAsReceiver = brikz.root.nilAsReceiver;
 
         /* Send message programmatically. Used to implement #perform: & Co. */
 
         st.send2 = function (self, selector, args, klass) {
-            if (self == null) {
-                self = nilAsReceiver;
-            }
             var method = klass ? klass.fn.prototype[st.st2js(selector)] : self.a$cls && self[st.st2js(selector)];
             return method != null ?
                 method.apply(self, args || []) :

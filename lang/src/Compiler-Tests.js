@@ -1273,6 +1273,30 @@ $globals.CodeGeneratorTest);
 
 $core.addMethod(
 $core.method({
+selector: "testNilPerform",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNilPerform\x0a\x09self should: 'foo ^ nil perform: #yourself' return: nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:return:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._should_return_("foo ^ nil perform: #yourself",nil);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testNilPerform",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.CodeGeneratorTest);
+
+$core.addMethod(
+$core.method({
 selector: "testNonLocalReturn",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);

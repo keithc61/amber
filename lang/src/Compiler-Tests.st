@@ -342,6 +342,10 @@ testNestedSends
 	self should: 'foo ^ (Point x: (Point x: 2 y: 3) y: 4) asString' return: (Point x: (2@3) y: 4) asString
 !
 
+testNilPerform
+	self should: 'foo ^ nil perform: #yourself' return: nil
+!
+
 testNonLocalReturn
 	self should: 'foo [ ^ 1 ] value' return: 1.
 	self should: 'foo [ ^ 1 + 1 ] value' return: 2.
