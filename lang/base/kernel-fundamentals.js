@@ -39,7 +39,7 @@ define(function () {
     }
 
     function ArraySetBrik (brikz, st) {
-        st.addElement = this.addElement = function (array, el) {
+        this.addElement = function (array, el) {
             if (typeof el === 'undefined') {
                 return;
             }
@@ -48,7 +48,7 @@ define(function () {
             }
         };
 
-        st.removeElement = this.removeElement = function (array, el) {
+        this.removeElement = function (array, el) {
             var i = array.indexOf(el);
             if (i !== -1) {
                 array.splice(i, 1);
