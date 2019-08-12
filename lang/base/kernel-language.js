@@ -1,24 +1,10 @@
 //jshint eqnull:true
 
-define(function () {
+define(['./kernel-goodies'], function ($goodies) {
     "use strict";
 
-    function inherits (child, parent) {
-        child.prototype = Object.create(parent.prototype, {
-            constructor: {
-                value: child,
-                enumerable: false, configurable: true, writable: true
-            }
-        });
-        return child;
-    }
-
-    function defineMethod (klass, name, method) {
-        Object.defineProperty(klass.prototype, name, {
-            value: method,
-            enumerable: false, configurable: true, writable: true
-        });
-    }
+    var inherits = $goodies.inherits;
+    var defineMethod = $goodies.defineMethod;
 
     MethodCompositionBrik.deps = ["methods", "arraySet"];
 

@@ -1,17 +1,9 @@
 //jshint eqnull:true
 
-define(function () {
+define(['./kernel-goodies'], function ($goodies) {
     "use strict";
 
-    function inherits (child, parent) {
-        child.prototype = Object.create(parent.prototype, {
-            constructor: {
-                value: child,
-                enumerable: false, configurable: true, writable: true
-            }
-        });
-        return child;
-    }
+    var inherits = $goodies.inherits;
 
     function SelectorsBrik (brikz, st) {
         var selectorSet = Object.create(null);
