@@ -59,7 +59,7 @@ define([
         st.initialize = function () {
             return runtimeLoadedPromise.then(function (configureWithRuntime) {
                 if (initialized) return;
-                brikz.classes.bootstrapHierarchy();
+                brikz.classes.bootstrapHierarchy(globals.Class);
                 configureWithRuntime(brikz);
                 return Promise.resolve(brikz.startImage.run())
                     .then(function () {

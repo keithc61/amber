@@ -209,7 +209,6 @@ define(function () {
     function ClassesBrik (brikz, st) {
         var SmalltalkRoot = brikz.root.Root;
         var specialConstructors = brikz.commonSpecialConstructors;
-        var globals = brikz.commonGlobals;
         var SmalltalkObject = brikz.root.Object;
         var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
         var setupMethods = brikz.methods.setupMethods;
@@ -311,10 +310,10 @@ define(function () {
             }
         });
 
-        this.bootstrapHierarchy = function () {
-            nilAsClass.a$cls = globals.Class;
+        this.bootstrapHierarchy = function (realClass) {
+            nilAsClass.a$cls = realClass;
             nilAsClass.subclasses.forEach(function (each) {
-                each.a$cls.superclass = globals.Class;
+                each.a$cls.superclass = realClass;
                 addSubclass(each.a$cls);
             });
         };
