@@ -258,7 +258,6 @@ define(function () {
     /* Making smalltalk that has basic building blocks */
 
     function configureWithFundamentals (brikz) {
-        Object.defineProperty(brikz, "commonGlobals", {value: Object.create(global)});
         Object.defineProperty(brikz, "commonSpecialConstructors", {value: Object.create(null)});
         Object.defineProperty(brikz, "commonEmit", {value: Object.create(null)});
         brikz.root = RootBrik;

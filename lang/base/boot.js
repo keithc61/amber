@@ -99,7 +99,10 @@ define([
     }
 
     var api = {};
+    var globals = Object.create(global);
     var brikz = Brikz(api);
+
+    Object.defineProperty(brikz, "commonGlobals", {value: globals});
 
     configureWithFundamentals(brikz);
 
@@ -112,7 +115,7 @@ define([
     brikz();
 
     // TODO deprecated, remove
-    Object.defineProperty(brikz.commonGlobals, "CharacterArray", {
+    Object.defineProperty(globals, "CharacterArray", {
         enumerable: true,
         configurable: true,
         get: function () {
@@ -125,7 +128,7 @@ define([
         nilAsReceiver: brikz.nil.nilAsReceiver,
         nilAsValue: brikz.nil.nilAsValue,
         nilAsClass: brikz.classes.nilAsClass,
-        globals: brikz.commonGlobals,
+        globals: globals,
         asReceiver: brikz.asReceiver.asReceiver
     };
 });
