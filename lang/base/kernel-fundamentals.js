@@ -17,6 +17,10 @@ define(function () {
         this.globals = Object.create(global);
     }
 
+    function SpecialConstructorsBrik (brikz, st) {
+        this.specialConstructors = {};
+    }
+
     function EventBrik (brikz, st) {
         var emit = {};
 
@@ -28,10 +32,11 @@ define(function () {
         }
     }
 
+    RootBrik.deps=["specialConstructors"];
     function RootBrik (brikz, st) {
-        /* Smalltalk foundational objects */
+        var specialConstructors = brikz.specialConstructors.specialConstructors;
 
-        var coreFns = this.coreFns = {};
+        /* Smalltalk foundational objects */
 
         /* SmalltalkRoot is the hidden root of the normal Amber hierarchy.
          All objects including `ProtoObject` inherit from SmalltalkRoot.
@@ -46,8 +51,8 @@ define(function () {
         function SmalltalkObject () {
         }
 
-        coreFns.ProtoObject = inherits(SmalltalkProtoObject, SmalltalkRoot);
-        coreFns.Object = inherits(SmalltalkObject, SmalltalkProtoObject);
+        specialConstructors.ProtoObject = inherits(SmalltalkProtoObject, SmalltalkRoot);
+        specialConstructors.Object = inherits(SmalltalkObject, SmalltalkProtoObject);
 
         this.Root = SmalltalkRoot;
         this.Object = SmalltalkObject;
@@ -118,18 +123,18 @@ define(function () {
         st.traitsOrClasses = this.traitsOrClasses = traitsOrClasses;
     }
 
-    MethodsBrik.deps = ["event", "selectors", "root"];
+    MethodsBrik.deps = ["event", "selectors", "root", "specialConstructors"];
     function MethodsBrik (brikz, st) {
         var registerSelector = brikz.selectors.registerSelector;
         var SmalltalkObject = brikz.root.Object;
-        var coreFns = brikz.root.coreFns;
+        var specialConstructors = brikz.specialConstructors.specialConstructors;
         var emit = brikz.event.emit;
         var declareEvent = brikz.event.declareEvent;
 
         function SmalltalkMethod () {
         }
 
-        coreFns.CompiledMethod = inherits(SmalltalkMethod, SmalltalkObject);
+        specialConstructors.CompiledMethod = inherits(SmalltalkMethod, SmalltalkObject);
 
         /* Smalltalk method object. To add a method to a class,
          use api.addMethod() */
@@ -237,15 +242,15 @@ define(function () {
         };
     }
 
-    NilBrik.deps = ["root"];
+    NilBrik.deps = ["root", "specialConstructors"];
     function NilBrik (brikz, st) {
         var SmalltalkObject = brikz.root.Object;
-        var coreFns = brikz.root.coreFns;
+        var specialConstructors = brikz.specialConstructors.specialConstructors;
 
         function SmalltalkNil () {
         }
 
-        coreFns.UndefinedObject = inherits(SmalltalkNil, SmalltalkObject);
+        specialConstructors.UndefinedObject = inherits(SmalltalkNil, SmalltalkObject);
 
         this.nilAsReceiver = new SmalltalkNil();
         this.nilAsValue = this.nilAsReceiver; // TODO null
@@ -265,6 +270,7 @@ define(function () {
 
     function configureWithFundamentals (brikz) {
         brikz.smalltalkGlobals = SmalltalkGlobalsBrik;
+        brikz.specialConstructors = SpecialConstructorsBrik;
         brikz.root = RootBrik;
         brikz.nil = NilBrik;
         brikz.event = EventBrik;

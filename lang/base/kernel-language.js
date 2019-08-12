@@ -20,9 +20,9 @@ define(function () {
         });
     }
 
-    TraitsBrik.deps = ["event", "behaviors", "methods", "composition", "root"];
+    TraitsBrik.deps = ["event", "behaviors", "methods", "composition", "root", "specialConstructors"];
     function TraitsBrik (brikz, st) {
-        var coreFns = brikz.root.coreFns;
+        var specialConstructors = brikz.specialConstructors.specialConstructors;
         var SmalltalkObject = brikz.root.Object;
         var setupMethods = brikz.methods.setupMethods;
         var traitMethodChanged = brikz.composition.traitMethodChanged;
@@ -33,7 +33,7 @@ define(function () {
         function SmalltalkTrait () {
         }
 
-        coreFns.Trait = inherits(SmalltalkTrait, SmalltalkObject);
+        specialConstructors.Trait = inherits(SmalltalkTrait, SmalltalkObject);
 
         SmalltalkTrait.prototype.trait = true;
 
@@ -205,10 +205,10 @@ define(function () {
         this.traitMethodChanged = traitMethodChanged;
     }
 
-    ClassesBrik.deps = ["root", "event", "behaviors", "methods", "arraySet", "smalltalkGlobals"];
+    ClassesBrik.deps = ["root", "specialConstructors", "event", "behaviors", "methods", "arraySet", "smalltalkGlobals"];
     function ClassesBrik (brikz, st) {
         var SmalltalkRoot = brikz.root.Root;
-        var coreFns = brikz.root.coreFns;
+        var specialConstructors = brikz.specialConstructors.specialConstructors;
         var globals = brikz.smalltalkGlobals.globals;
         var SmalltalkObject = brikz.root.Object;
         var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
@@ -228,9 +228,9 @@ define(function () {
         function SmalltalkMetaclass () {
         }
 
-        coreFns.Behavior = inherits(SmalltalkBehavior, SmalltalkObject);
-        coreFns.Class = inherits(SmalltalkClass, SmalltalkBehavior);
-        coreFns.Metaclass = inherits(SmalltalkMetaclass, SmalltalkBehavior);
+        specialConstructors.Behavior = inherits(SmalltalkBehavior, SmalltalkObject);
+        specialConstructors.Class = inherits(SmalltalkClass, SmalltalkBehavior);
+        specialConstructors.Metaclass = inherits(SmalltalkMetaclass, SmalltalkBehavior);
 
         // Fake root class of the system.
         // Effective superclass of all classes created with `nil subclass: ...`.
@@ -395,7 +395,7 @@ define(function () {
             if (typeof superclass === 'undefined' || superclass && superclass.a$nil) {
                 console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
             }
-            return buildTraitOrClass(category, classBuilder(className, superclass, coreFns[className]));
+            return buildTraitOrClass(category, classBuilder(className, superclass, specialConstructors[className]));
         };
 
         st.removeClass = removeTraitOrClass;
