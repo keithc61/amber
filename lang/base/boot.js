@@ -44,13 +44,14 @@ define([
 ], function (require, _, Brikz, configureWithFundamentals, configureWithHierarchy) {
     "use strict";
 
+    var globals = Object.create(global);
+    var emit = Object.create(null);
+
     var runtimeLoadedPromise = new Promise(function (resolve, reject) {
         require(['./kernel-runtime'], resolve, reject);
     });
 
     function SmalltalkInitBrik (brikz, st) {
-        var globals = brikz.commonGlobals;
-        var emit = brikz.commonEmit;
         var initialized = false;
 
         globals.SmalltalkSettings = {};
@@ -78,8 +79,6 @@ define([
     }
 
     var api = {};
-    var globals = Object.create(global);
-    var emit = Object.create(null);
     var brikz = Brikz(api);
 
     Object.defineProperty(brikz, "commonGlobals", {value: globals});
