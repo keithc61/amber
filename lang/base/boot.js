@@ -81,9 +81,6 @@ define([
     var api = {};
     var brikz = Brikz(api);
 
-    Object.defineProperty(brikz, "commonGlobals", {value: globals});
-    Object.defineProperty(brikz, "commonEmit", {value: emit});
-
     var fundamentals = FundamentalsFactory(globals, emit);
     fundamentals.configure(brikz);
 
