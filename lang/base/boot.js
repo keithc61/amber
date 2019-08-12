@@ -48,8 +48,13 @@ define([
         require(['./kernel-runtime'], resolve, reject);
     });
 
+    SmalltalkInitBrik.deps = ["smalltalkGlobals"];
     function SmalltalkInitBrik (brikz, st) {
+        var globals = brikz.smalltalkGlobals.globals;
         var initialized = false;
+
+        globals.SmalltalkSettings = {};
+
         /* Smalltalk initialization. Called on page load */
 
         st.initialize = function () {

@@ -14,10 +14,7 @@ define(function () {
     }
 
     function SmalltalkGlobalsBrik (brikz, st) {
-        var globals = Object.create(global);
-        globals.SmalltalkSettings = {};
-
-        this.globals = globals;
+        this.globals = Object.create(global);
     }
 
     function EventBrik (brikz, st) {
