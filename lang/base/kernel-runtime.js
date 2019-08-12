@@ -17,6 +17,77 @@ define(function () {
         });
     }
 
+    function SelectorConversionBrik (brikz, st) {
+        var st2jsMemo = Object.create(null);
+
+        /* Convert a Smalltalk selector into a JS selector */
+        function st2js (string) {
+            return '_' + string
+                .replace(/:/g, '_')
+                .replace(/[\&]/g, '_and')
+                .replace(/[\|]/g, '_or')
+                .replace(/[+]/g, '_plus')
+                .replace(/-/g, '_minus')
+                .replace(/[*]/g, '_star')
+                .replace(/[\/]/g, '_slash')
+                .replace(/[\\]/g, '_backslash')
+                .replace(/[\~]/g, '_tild')
+                .replace(/%/g, '_percent')
+                .replace(/>/g, '_gt')
+                .replace(/</g, '_lt')
+                .replace(/=/g, '_eq')
+                .replace(/,/g, '_comma')
+                .replace(/[@]/g, '_at');
+        };
+
+        st.st2js = function (stSelector) {
+            return st2jsMemo[stSelector] || st2js(stSelector);
+        };
+
+        this.st2js = function (stSelector) {
+            return st2jsMemo[stSelector] || (st2jsMemo[stSelector] = st2js(stSelector));
+        };
+
+        /* Convert a string to a valid smalltalk selector.
+         if you modify the following functions, also change st2js
+         accordingly */
+        st.js2st = function (selector) {
+            if (selector.match(/^__/)) {
+                return binaryJsToSt(selector);
+            } else {
+                return keywordJsToSt(selector);
+            }
+        };
+
+        function keywordJsToSt (selector) {
+            return selector.replace(/^_/, '').replace(/_/g, ':');
+        }
+
+        function binaryJsToSt (selector) {
+            return selector
+                .replace(/^_/, '')
+                .replace(/_and/g, '&')
+                .replace(/_or/g, '|')
+                .replace(/_plus/g, '+')
+                .replace(/_minus/g, '-')
+                .replace(/_star/g, '*')
+                .replace(/_slash/g, '/')
+                .replace(/_backslash/g, '\\')
+                .replace(/_tild/g, '~')
+                .replace(/_percent/g, '%')
+                .replace(/_gt/g, '>')
+                .replace(/_lt/g, '<')
+                .replace(/_eq/g, '=')
+                .replace(/_comma/g, ',')
+                .replace(/_at/g, '@');
+        }
+
+        st.st2prop = function (stSelector) {
+            var colonPosition = stSelector.indexOf(':');
+            return colonPosition === -1 ? stSelector : stSelector.slice(0, colonPosition);
+        };
+    }
+
     function RuntimeFactory (globals, emit) {
         RuntimeSelectorsBrik.deps = ["selectors", "selectorConversion", "classes"];
 
@@ -392,77 +463,6 @@ define(function () {
                     default:
                         throw new Error("Cannot interpret " + propertyName + " with " + args.length + " arguments; field is a " + typeof propertyValue + ", not a function")
                 }
-            };
-        }
-
-        function SelectorConversionBrik (brikz, st) {
-            var st2jsMemo = Object.create(null);
-
-            /* Convert a Smalltalk selector into a JS selector */
-            function st2js (string) {
-                return '_' + string
-                    .replace(/:/g, '_')
-                    .replace(/[\&]/g, '_and')
-                    .replace(/[\|]/g, '_or')
-                    .replace(/[+]/g, '_plus')
-                    .replace(/-/g, '_minus')
-                    .replace(/[*]/g, '_star')
-                    .replace(/[\/]/g, '_slash')
-                    .replace(/[\\]/g, '_backslash')
-                    .replace(/[\~]/g, '_tild')
-                    .replace(/%/g, '_percent')
-                    .replace(/>/g, '_gt')
-                    .replace(/</g, '_lt')
-                    .replace(/=/g, '_eq')
-                    .replace(/,/g, '_comma')
-                    .replace(/[@]/g, '_at');
-            };
-
-            st.st2js = function (stSelector) {
-                return st2jsMemo[stSelector] || st2js(stSelector);
-            };
-
-            this.st2js = function (stSelector) {
-                return st2jsMemo[stSelector] || (st2jsMemo[stSelector] = st2js(stSelector));
-            };
-
-            /* Convert a string to a valid smalltalk selector.
-             if you modify the following functions, also change st2js
-             accordingly */
-            st.js2st = function (selector) {
-                if (selector.match(/^__/)) {
-                    return binaryJsToSt(selector);
-                } else {
-                    return keywordJsToSt(selector);
-                }
-            };
-
-            function keywordJsToSt (selector) {
-                return selector.replace(/^_/, '').replace(/_/g, ':');
-            }
-
-            function binaryJsToSt (selector) {
-                return selector
-                    .replace(/^_/, '')
-                    .replace(/_and/g, '&')
-                    .replace(/_or/g, '|')
-                    .replace(/_plus/g, '+')
-                    .replace(/_minus/g, '-')
-                    .replace(/_star/g, '*')
-                    .replace(/_slash/g, '/')
-                    .replace(/_backslash/g, '\\')
-                    .replace(/_tild/g, '~')
-                    .replace(/_percent/g, '%')
-                    .replace(/_gt/g, '>')
-                    .replace(/_lt/g, '<')
-                    .replace(/_eq/g, '=')
-                    .replace(/_comma/g, ',')
-                    .replace(/_at/g, '@');
-            }
-
-            st.st2prop = function (stSelector) {
-                var colonPosition = stSelector.indexOf(':');
-                return colonPosition === -1 ? stSelector : stSelector.slice(0, colonPosition);
             };
         }
 

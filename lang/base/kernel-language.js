@@ -20,6 +20,127 @@ define(function () {
         });
     }
 
+    MethodCompositionBrik.deps = ["methods", "arraySet"];
+
+    function MethodCompositionBrik (brikz, st) {
+        var updateMethod = brikz.methods.updateMethod;
+        var addElement = brikz.arraySet.addElement;
+        var removeElement = brikz.arraySet.removeElement;
+
+        function aliased (selector, method) {
+            var result = st.method(method, method.instantiateFn);
+            if (method.selector !== selector) {
+                result.selector = selector;
+                result.source = '"Aliased as ' + selector + '"\n' + method.source;
+            }
+            result.owner = method.owner;
+            return result;
+        }
+
+        function deleteKeysFrom (keys, obj) {
+            keys.forEach(function (each) {
+                delete obj[each];
+            });
+        }
+
+        function fillTraitTransformation (traitTransformation, obj) {
+            // assert(Object.getOwnProperties(obj).length === 0)
+            var traitMethods = traitTransformation.trait.methods;
+            Object.keys(traitMethods).forEach(function (selector) {
+                obj[selector] = aliased(selector, traitMethods[selector]);
+            });
+            var traitAliases = traitTransformation.aliases;
+            if (traitAliases) {
+                Object.keys(traitAliases).forEach(function (aliasSelector) {
+                    var aliasedMethod = traitMethods[traitAliases[aliasSelector]];
+                    if (aliasedMethod) obj[aliasSelector] = aliased(aliasSelector, aliasedMethod);
+                    // else delete obj[aliasSelector]; // semantically correct; optimized away
+                });
+            }
+            var traitExclusions = traitTransformation.exclusions;
+            if (traitExclusions) {
+                deleteKeysFrom(traitExclusions, obj);
+            }
+            return obj;
+        }
+
+        function buildCompositionChain (traitComposition) {
+            return traitComposition.reduce(function (soFar, each) {
+                return fillTraitTransformation(each, Object.create(soFar));
+            }, null);
+        }
+
+        st.setTraitComposition = function (traitComposition, traitOrBehavior) {
+            var oldLocalMethods = traitOrBehavior.localMethods,
+                newLocalMethods = Object.create(buildCompositionChain(traitComposition));
+            Object.keys(oldLocalMethods).forEach(function (selector) {
+                newLocalMethods[selector] = oldLocalMethods[selector];
+            });
+            var selector;
+            traitOrBehavior.localMethods = newLocalMethods;
+            for (selector in newLocalMethods) {
+                updateMethod(selector, traitOrBehavior);
+            }
+            for (selector in oldLocalMethods) {
+                updateMethod(selector, traitOrBehavior);
+            }
+            (traitOrBehavior.traitComposition || []).forEach(function (each) {
+                removeElement(each.trait.traitUsers, traitOrBehavior);
+            });
+            traitOrBehavior.traitComposition = traitComposition && traitComposition.length ? traitComposition : null;
+            (traitOrBehavior.traitComposition || []).forEach(function (each) {
+                addElement(each.trait.traitUsers, traitOrBehavior);
+            });
+        };
+
+        function aliasesOfSelector (selector, traitAliases) {
+            if (!traitAliases) return [selector];
+            var result = Object.keys(traitAliases).filter(function (aliasSelector) {
+                return traitAliases[aliasSelector] === selector
+            });
+            if (!traitAliases[selector]) result.push(selector);
+            return result;
+        }
+
+        function applyTraitMethodAddition (selector, method, traitTransformation, obj) {
+            var changes = aliasesOfSelector(selector, traitTransformation.aliases);
+            changes.forEach(function (aliasSelector) {
+                obj[aliasSelector] = aliased(aliasSelector, method);
+            });
+            var traitExclusions = traitTransformation.exclusions;
+            if (traitExclusions) {
+                deleteKeysFrom(traitExclusions, obj);
+            }
+            return changes;
+        }
+
+        function applyTraitMethodDeletion (selector, traitTransformation, obj) {
+            var changes = aliasesOfSelector(selector, traitTransformation.aliases);
+            deleteKeysFrom(changes, obj);
+            return changes;
+        }
+
+        function traitMethodChanged (selector, method, trait, traitOrBehavior) {
+            var traitComposition = traitOrBehavior.traitComposition,
+                chain = traitOrBehavior.localMethods,
+                changes = [];
+            for (var i = traitComposition.length - 1; i >= 0; --i) {
+                chain = Object.getPrototypeOf(chain);
+                var traitTransformation = traitComposition[i];
+                if (traitTransformation.trait !== trait) continue;
+                changes.push.apply(changes, method ?
+                    applyTraitMethodAddition(selector, method, traitTransformation, chain) :
+                    applyTraitMethodDeletion(selector, traitTransformation, chain));
+            }
+            // assert(chain === null);
+            changes.forEach(function (each) {
+                updateMethod(each, traitOrBehavior);
+            });
+        }
+
+        this.traitMethodChanged = traitMethodChanged;
+    }
+
     function LanguageFactory (specialConstructors, emit) {
         TraitsBrik.deps = ["event", "behaviors", "methods", "composition", "root"];
 
@@ -83,127 +204,6 @@ define(function () {
             st.addTrait = function (className, category) {
                 return buildTraitOrClass(category, traitBuilder(className));
             };
-        }
-
-        MethodCompositionBrik.deps = ["methods", "arraySet"];
-
-        function MethodCompositionBrik (brikz, st) {
-            var updateMethod = brikz.methods.updateMethod;
-            var addElement = brikz.arraySet.addElement;
-            var removeElement = brikz.arraySet.removeElement;
-
-            function aliased (selector, method) {
-                var result = st.method(method, method.instantiateFn);
-                if (method.selector !== selector) {
-                    result.selector = selector;
-                    result.source = '"Aliased as ' + selector + '"\n' + method.source;
-                }
-                result.owner = method.owner;
-                return result;
-            }
-
-            function deleteKeysFrom (keys, obj) {
-                keys.forEach(function (each) {
-                    delete obj[each];
-                });
-            }
-
-            function fillTraitTransformation (traitTransformation, obj) {
-                // assert(Object.getOwnProperties(obj).length === 0)
-                var traitMethods = traitTransformation.trait.methods;
-                Object.keys(traitMethods).forEach(function (selector) {
-                    obj[selector] = aliased(selector, traitMethods[selector]);
-                });
-                var traitAliases = traitTransformation.aliases;
-                if (traitAliases) {
-                    Object.keys(traitAliases).forEach(function (aliasSelector) {
-                        var aliasedMethod = traitMethods[traitAliases[aliasSelector]];
-                        if (aliasedMethod) obj[aliasSelector] = aliased(aliasSelector, aliasedMethod);
-                        // else delete obj[aliasSelector]; // semantically correct; optimized away
-                    });
-                }
-                var traitExclusions = traitTransformation.exclusions;
-                if (traitExclusions) {
-                    deleteKeysFrom(traitExclusions, obj);
-                }
-                return obj;
-            }
-
-            function buildCompositionChain (traitComposition) {
-                return traitComposition.reduce(function (soFar, each) {
-                    return fillTraitTransformation(each, Object.create(soFar));
-                }, null);
-            }
-
-            st.setTraitComposition = function (traitComposition, traitOrBehavior) {
-                var oldLocalMethods = traitOrBehavior.localMethods,
-                    newLocalMethods = Object.create(buildCompositionChain(traitComposition));
-                Object.keys(oldLocalMethods).forEach(function (selector) {
-                    newLocalMethods[selector] = oldLocalMethods[selector];
-                });
-                var selector;
-                traitOrBehavior.localMethods = newLocalMethods;
-                for (selector in newLocalMethods) {
-                    updateMethod(selector, traitOrBehavior);
-                }
-                for (selector in oldLocalMethods) {
-                    updateMethod(selector, traitOrBehavior);
-                }
-                (traitOrBehavior.traitComposition || []).forEach(function (each) {
-                    removeElement(each.trait.traitUsers, traitOrBehavior);
-                });
-                traitOrBehavior.traitComposition = traitComposition && traitComposition.length ? traitComposition : null;
-                (traitOrBehavior.traitComposition || []).forEach(function (each) {
-                    addElement(each.trait.traitUsers, traitOrBehavior);
-                });
-            };
-
-            function aliasesOfSelector (selector, traitAliases) {
-                if (!traitAliases) return [selector];
-                var result = Object.keys(traitAliases).filter(function (aliasSelector) {
-                    return traitAliases[aliasSelector] === selector
-                });
-                if (!traitAliases[selector]) result.push(selector);
-                return result;
-            }
-
-            function applyTraitMethodAddition (selector, method, traitTransformation, obj) {
-                var changes = aliasesOfSelector(selector, traitTransformation.aliases);
-                changes.forEach(function (aliasSelector) {
-                    obj[aliasSelector] = aliased(aliasSelector, method);
-                });
-                var traitExclusions = traitTransformation.exclusions;
-                if (traitExclusions) {
-                    deleteKeysFrom(traitExclusions, obj);
-                }
-                return changes;
-            }
-
-            function applyTraitMethodDeletion (selector, traitTransformation, obj) {
-                var changes = aliasesOfSelector(selector, traitTransformation.aliases);
-                deleteKeysFrom(changes, obj);
-                return changes;
-            }
-
-            function traitMethodChanged (selector, method, trait, traitOrBehavior) {
-                var traitComposition = traitOrBehavior.traitComposition,
-                    chain = traitOrBehavior.localMethods,
-                    changes = [];
-                for (var i = traitComposition.length - 1; i >= 0; --i) {
-                    chain = Object.getPrototypeOf(chain);
-                    var traitTransformation = traitComposition[i];
-                    if (traitTransformation.trait !== trait) continue;
-                    changes.push.apply(changes, method ?
-                        applyTraitMethodAddition(selector, method, traitTransformation, chain) :
-                        applyTraitMethodDeletion(selector, traitTransformation, chain));
-                }
-                // assert(chain === null);
-                changes.forEach(function (each) {
-                    updateMethod(each, traitOrBehavior);
-                });
-            }
-
-            this.traitMethodChanged = traitMethodChanged;
         }
 
         ClassesBrik.deps = ["root", "event", "behaviors", "methods", "arraySet", "nil"];

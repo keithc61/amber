@@ -13,6 +13,49 @@ define(function () {
         return child;
     }
 
+    function SelectorsBrik (brikz, st) {
+        var selectorSet = Object.create(null);
+        var selectors = this.selectors = [];
+
+        this.registerSelector = function (stSelector) {
+            if (selectorSet[stSelector]) return false;
+            selectors.push(stSelector);
+            return selectorSet[stSelector] = true;
+        };
+
+        st.allSelectors = function () {
+            return selectors;
+        };
+    }
+
+    function PackagesBrik (brikz, st) {
+        st.packageDescriptors = {};
+
+        /* Add a package load descriptor to the system */
+        st.addPackage = function (name, properties) {
+            if (!name) return null;
+            return st.packageDescriptors[name] = {properties: properties};
+        };
+    }
+
+    function ArraySetBrik (brikz, st) {
+        st.addElement = this.addElement = function (array, el) {
+            if (typeof el === 'undefined') {
+                return;
+            }
+            if (array.indexOf(el) === -1) {
+                array.push(el);
+            }
+        };
+
+        st.removeElement = this.removeElement = function (array, el) {
+            var i = array.indexOf(el);
+            if (i !== -1) {
+                array.splice(i, 1);
+            }
+        };
+    }
+
     function FundamentalsFactory (globals, emit) {
         var specialConstructors = Object.create(null);
 
@@ -44,31 +87,6 @@ define(function () {
 
             this.Root = SmalltalkRoot;
             this.Object = SmalltalkObject;
-        }
-
-        function SelectorsBrik (brikz, st) {
-            var selectorSet = Object.create(null);
-            var selectors = this.selectors = [];
-
-            this.registerSelector = function (stSelector) {
-                if (selectorSet[stSelector]) return false;
-                selectors.push(stSelector);
-                return selectorSet[stSelector] = true;
-            };
-
-            st.allSelectors = function () {
-                return selectors;
-            };
-        }
-
-        function PackagesBrik (brikz, st) {
-            st.packageDescriptors = {};
-
-            /* Add a package load descriptor to the system */
-            st.addPackage = function (name, properties) {
-                if (!name) return null;
-                return st.packageDescriptors[name] = {properties: properties};
-            };
         }
 
         BehaviorsBrik.deps = ["root", "arraySet"];
@@ -209,24 +227,6 @@ define(function () {
             }
 
             this.updateMethod = updateMethod;
-        }
-
-        function ArraySetBrik (brikz, st) {
-            st.addElement = this.addElement = function (array, el) {
-                if (typeof el === 'undefined') {
-                    return;
-                }
-                if (array.indexOf(el) === -1) {
-                    array.push(el);
-                }
-            };
-
-            st.removeElement = this.removeElement = function (array, el) {
-                var i = array.indexOf(el);
-                if (i !== -1) {
-                    array.splice(i, 1);
-                }
-            };
         }
 
         NilBrik.deps = ["root"];
