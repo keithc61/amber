@@ -55,7 +55,8 @@ define(["amber/boot", "require"], function (boot, require) {
 
     exports.initialize = function (options) {
         return new Promise(function (resolve) {
-            globals.SmalltalkSettings['transport.defaultAmdNamespace'] = api.defaultAmdNamespace;
+            globals.SmalltalkSettings['transport.defaultAmdNamespace'] = "amber/core";
+            api.amdRequire = require; // TODO better
             settingsInLocalStorage();
             mixinToSettings(options || {});
             resolve(api.initialize());

@@ -71,13 +71,6 @@ define([
         };
     }
 
-    /* Adds AMD and requirejs related methods to the api */
-    function AMDBrik (brikz, st) {
-        st.amdRequire = require;
-        st.defaultTransportType = st.defaultTransportType || "amd";
-        st.defaultAmdNamespace = st.defaultAmdNamespace || "amber/core";
-    }
-
     var api = {};
     var brikz = Brikz(api);
 
@@ -87,7 +80,6 @@ define([
     LanguageFactory(fundamentals.specialConstructors, emit).configure(brikz);
 
     brikz.stInit = SmalltalkInitBrik;
-    brikz.amd = AMDBrik;
 
     brikz();
 
