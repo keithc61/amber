@@ -10,7 +10,7 @@ define(["amber/boot", "require"], function (boot, require) {
         require(['helios/index'], function (helios) {
             helios.popup();
         }, function (err) {
-            window.alert("Error loading helios.\nIf not present, you can install it with 'bower install helios --save-dev'.\nThe error follows:\n" + err);
+            window.alert("Error loading helios.\nIf not present, you can install it with 'npm install @ambers/helios --save-dev'.\nThe error follows:\n" + err);
         });
     };
     Object.defineProperty(exports, "api", {
