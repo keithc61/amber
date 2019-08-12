@@ -20,14 +20,14 @@ define(function () {
         });
     }
 
-    TraitsBrik.deps = ["event", "behaviors", "methods", "composition", "root", "specialConstructors"];
+    TraitsBrik.deps = ["event", "behaviors", "methods", "composition", "root"];
     function TraitsBrik (brikz, st) {
-        var specialConstructors = brikz.specialConstructors.specialConstructors;
+        var specialConstructors = brikz.commonSpecialConstructors;
         var SmalltalkObject = brikz.root.Object;
         var setupMethods = brikz.methods.setupMethods;
         var traitMethodChanged = brikz.composition.traitMethodChanged;
         var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
-        var emit = brikz.event.emit;
+        var emit = brikz.commonEmit;
         var declareEvent = brikz.event.declareEvent;
 
         function SmalltalkTrait () {
@@ -205,18 +205,18 @@ define(function () {
         this.traitMethodChanged = traitMethodChanged;
     }
 
-    ClassesBrik.deps = ["root", "specialConstructors", "event", "behaviors", "methods", "arraySet", "smalltalkGlobals"];
+    ClassesBrik.deps = ["root", "event", "behaviors", "methods", "arraySet"];
     function ClassesBrik (brikz, st) {
         var SmalltalkRoot = brikz.root.Root;
-        var specialConstructors = brikz.specialConstructors.specialConstructors;
-        var globals = brikz.smalltalkGlobals.globals;
+        var specialConstructors = brikz.commonSpecialConstructors;
+        var globals = brikz.commonGlobals;
         var SmalltalkObject = brikz.root.Object;
         var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
         var setupMethods = brikz.methods.setupMethods;
         var removeTraitOrClass = brikz.behaviors.removeTraitOrClass;
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
-        var emit = brikz.event.emit;
+        var emit = brikz.commonEmit;
         var declareEvent = brikz.event.declareEvent;
 
         function SmalltalkBehavior () {

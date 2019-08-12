@@ -13,18 +13,8 @@ define(function () {
         return child;
     }
 
-    function SmalltalkGlobalsBrik (brikz, st) {
-        this.globals = Object.create(global);
-    }
-
-    function SpecialConstructorsBrik (brikz, st) {
-        this.specialConstructors = {};
-    }
-
     function EventBrik (brikz, st) {
-        var emit = {};
-
-        this.emit = emit;
+        var emit = brikz.commonEmit;
 
         this.declareEvent = function (event) {
             if (!emit[event]) emit[event] = function () {
@@ -32,9 +22,8 @@ define(function () {
         }
     }
 
-    RootBrik.deps=["specialConstructors"];
     function RootBrik (brikz, st) {
-        var specialConstructors = brikz.specialConstructors.specialConstructors;
+        var specialConstructors = brikz.commonSpecialConstructors;
 
         /* Smalltalk foundational objects */
 
@@ -83,9 +72,9 @@ define(function () {
         };
     }
 
-    BehaviorsBrik.deps = ["root", "smalltalkGlobals", "arraySet"];
+    BehaviorsBrik.deps = ["root", "arraySet"];
     function BehaviorsBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
+        var globals = brikz.commonGlobals;
         var addElement = brikz.arraySet.addElement;
         var removeElement = brikz.arraySet.removeElement;
 
@@ -123,12 +112,12 @@ define(function () {
         st.traitsOrClasses = this.traitsOrClasses = traitsOrClasses;
     }
 
-    MethodsBrik.deps = ["event", "selectors", "root", "specialConstructors"];
+    MethodsBrik.deps = ["event", "selectors", "root"];
     function MethodsBrik (brikz, st) {
         var registerSelector = brikz.selectors.registerSelector;
         var SmalltalkObject = brikz.root.Object;
-        var specialConstructors = brikz.specialConstructors.specialConstructors;
-        var emit = brikz.event.emit;
+        var specialConstructors = brikz.commonSpecialConstructors;
+        var emit = brikz.commonEmit;
         var declareEvent = brikz.event.declareEvent;
 
         function SmalltalkMethod () {
@@ -242,10 +231,10 @@ define(function () {
         };
     }
 
-    NilBrik.deps = ["root", "specialConstructors"];
+    NilBrik.deps = ["root"];
     function NilBrik (brikz, st) {
         var SmalltalkObject = brikz.root.Object;
-        var specialConstructors = brikz.specialConstructors.specialConstructors;
+        var specialConstructors = brikz.commonSpecialConstructors;
 
         function SmalltalkNil () {
         }
@@ -269,8 +258,9 @@ define(function () {
     /* Making smalltalk that has basic building blocks */
 
     function configureWithFundamentals (brikz) {
-        brikz.smalltalkGlobals = SmalltalkGlobalsBrik;
-        brikz.specialConstructors = SpecialConstructorsBrik;
+        Object.defineProperty(brikz, "commonGlobals", {value: Object.create(global)});
+        Object.defineProperty(brikz, "commonSpecialConstructors", {value: Object.create(null)});
+        Object.defineProperty(brikz, "commonEmit", {value: Object.create(null)});
         brikz.root = RootBrik;
         brikz.nil = NilBrik;
         brikz.event = EventBrik;

@@ -48,9 +48,8 @@ define([
         require(['./kernel-runtime'], resolve, reject);
     });
 
-    SmalltalkInitBrik.deps = ["smalltalkGlobals"];
     function SmalltalkInitBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
+        var globals = brikz.commonGlobals;
         var initialized = false;
 
         globals.SmalltalkSettings = {};
@@ -113,7 +112,7 @@ define([
     brikz();
 
     // TODO deprecated, remove
-    Object.defineProperty(brikz.smalltalkGlobals.globals, "CharacterArray", {
+    Object.defineProperty(brikz.commonGlobals, "CharacterArray", {
         enumerable: true,
         configurable: true,
         get: function () {
@@ -126,7 +125,7 @@ define([
         nilAsReceiver: brikz.nil.nilAsReceiver,
         nilAsValue: brikz.nil.nilAsValue,
         nilAsClass: brikz.classes.nilAsClass,
-        globals: brikz.smalltalkGlobals.globals,
+        globals: brikz.commonGlobals,
         asReceiver: brikz.asReceiver.asReceiver
     };
 });

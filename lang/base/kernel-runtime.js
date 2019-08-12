@@ -17,10 +17,10 @@ define(function () {
         });
     }
 
-    RuntimeSelectorsBrik.deps = ["selectors", "selectorConversion", "smalltalkGlobals", "classes"];
+    RuntimeSelectorsBrik.deps = ["selectors", "selectorConversion", "classes"];
     function RuntimeSelectorsBrik (brikz, st) {
         var selectors = brikz.selectors.selectors;
-        var globals = brikz.smalltalkGlobals.globals;
+        var globals = brikz.commonGlobals;
         var nilAsClass = brikz.classes.nilAsClass;
         var st2js = brikz.selectorConversion.st2js;
 
@@ -55,16 +55,16 @@ define(function () {
         installNewSelectors(selectors, []);
     }
 
-    RuntimeClassesBrik.deps = ["event", "smalltalkGlobals", "runtimeSelectors", "behaviors", "classes", "runtimeMethods"];
+    RuntimeClassesBrik.deps = ["runtimeSelectors", "behaviors", "classes", "runtimeMethods"];
     function RuntimeClassesBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
+        var globals = brikz.commonGlobals;
         var jsSelectors = brikz.runtimeSelectors.jsSelectors;
         var installNewSelectors = brikz.runtimeSelectors.installNewSelectors;
         var installMethod = brikz.runtimeMethods.installMethod;
         var traitsOrClasses = brikz.behaviors.traitsOrClasses;
         var wireKlass = brikz.classes.wireKlass;
         var installIvarCompat = brikz.classes.installIvarCompat;
-        var emit = brikz.event.emit;
+        var emit = brikz.commonEmit;
 
         var detachedRootClasses = [];
 
@@ -167,9 +167,9 @@ define(function () {
         }
     }
 
-    FrameBindingBrik.deps = ["smalltalkGlobals", "runtimeClasses"];
+    FrameBindingBrik.deps = ["runtimeClasses"];
     function FrameBindingBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
+        var globals = brikz.commonGlobals;
         var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
 
         setClassConstructor(globals.Number, Number);
@@ -188,10 +188,10 @@ define(function () {
         }
     }
 
-    RuntimeMethodsBrik.deps = ["event", "selectorConversion"];
+    RuntimeMethodsBrik.deps = ["selectorConversion"];
     function RuntimeMethodsBrik (brikz, st) {
         var st2js = brikz.selectorConversion.st2js;
-        var emit = brikz.event.emit;
+        var emit = brikz.commonEmit;
 
         function installMethod (method, klass) {
             var jsSelector = method.jsSelector;
@@ -234,9 +234,8 @@ define(function () {
         }
     }
 
-    PrimitivesBrik.deps = ["smalltalkGlobals"];
     function PrimitivesBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
+        var globals = brikz.commonGlobals;
 
         /* Converts a JavaScript object to valid Smalltalk Object */
         st.readJSObject = function (js) {
@@ -262,9 +261,9 @@ define(function () {
         };
     }
 
-    RuntimeBrik.deps = ["selectorConversion", "smalltalkGlobals", "runtimeClasses"];
+    RuntimeBrik.deps = ["selectorConversion", "runtimeClasses"];
     function RuntimeBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
+        var globals = brikz.commonGlobals;
         var setClassConstructor = brikz.runtimeClasses.setClassConstructor;
 
         function SmalltalkMethodContext (home, setup) {
@@ -358,9 +357,9 @@ define(function () {
         };
     }
 
-    MessageSendBrik.deps = ["smalltalkGlobals", "selectorConversion"];
+    MessageSendBrik.deps = ["selectorConversion"];
     function MessageSendBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
+        var globals = brikz.commonGlobals;
 
         /* Send message programmatically. Used to implement #perform: & Co. */
 
@@ -470,9 +469,9 @@ define(function () {
         };
     }
 
-    StartImageBrik.deps = ["smalltalkGlobals", "runtimeClasses", "runtimeMethods"];
+    StartImageBrik.deps = ["runtimeClasses", "runtimeMethods"];
     function StartImageBrik (brikz, st) {
-        var globals = brikz.smalltalkGlobals.globals;
+        var globals = brikz.commonGlobals;
 
         this.run = function () {
             brikz.runtimeClasses.installStHooks();
