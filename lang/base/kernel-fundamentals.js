@@ -259,7 +259,6 @@ define(function () {
 
     function configureWithFundamentals (brikz) {
         Object.defineProperty(brikz, "commonSpecialConstructors", {value: Object.create(null)});
-        Object.defineProperty(brikz, "commonEmit", {value: Object.create(null)});
         brikz.root = RootBrik;
         brikz.nil = NilBrik;
         brikz.event = EventBrik;
