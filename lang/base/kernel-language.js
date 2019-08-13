@@ -370,7 +370,7 @@ define(['./kernel-goodies'], function ($goodies) {
                     name: className,
                     make: klass,
                     updateExisting: function (klass) {
-                        if (klass.superclass != logicalSuperclass || fn && fn !== klass.fn)
+                        if (logicalSuperclass == null && klass.superclass != null || logicalSuperclass != null && klass.superclass !== logicalSuperclass || fn != null && fn !== klass.fn)
                             throw new Error("Incompatible change of class: " + klass.name);
                     }
                 };
