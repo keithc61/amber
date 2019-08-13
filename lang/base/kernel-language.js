@@ -62,8 +62,8 @@ define(['./kernel-goodies'], function ($goodies) {
             Object.keys(oldLocalMethods).forEach(function (selector) {
                 newLocalMethods[selector] = oldLocalMethods[selector];
             });
-            var selector;
             traitOrBehavior.localMethods = newLocalMethods;
+            var selector;
             for (selector in newLocalMethods) {
                 updateMethod(selector, traitOrBehavior);
             }
