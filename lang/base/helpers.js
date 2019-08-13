@@ -1,8 +1,7 @@
 define(["amber/boot", "require"], function (boot, require) {
     var globals = boot.globals,
         exports = {},
-        api = boot.api,
-        nil = boot.nilAsReceiver;
+        api = boot.api;
 
     // API
 
@@ -21,8 +20,12 @@ define(["amber/boot", "require"], function (boot, require) {
         value: globals,
         enumerable: true, configurable: true, writable: false
     });
+    Object.defineProperty(exports, "$nil", {
+        value: boot.nilAsReceiver,
+        enumerable: true, configurable: true, writable: false
+    });
     Object.defineProperty(exports, "nil", {
-        value: nil,
+        value: boot.nilAsValue,
         enumerable: true, configurable: true, writable: false
     });
 

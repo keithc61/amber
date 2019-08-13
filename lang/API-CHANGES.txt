@@ -9,6 +9,8 @@
   + javaScriptConstructor:
 + amber/boot api >>
   + detachClass(klass)
++ amber/helpers exports >>
+  + $nil
 
 - amber/boot api >>
   - addElement(arraySet, el)
