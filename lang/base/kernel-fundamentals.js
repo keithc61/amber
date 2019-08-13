@@ -4,6 +4,8 @@ define(['./kernel-goodies'], function ($goodies) {
     "use strict";
 
     var inherits = $goodies.inherits;
+    var addElement = $goodies.addElement;
+    var removeElement = $goodies.removeElement;
 
     function SelectorsBrik (brikz, st) {
         var selectorSet = Object.create(null);
@@ -27,24 +29,6 @@ define(['./kernel-goodies'], function ($goodies) {
         st.addPackage = function (name, properties) {
             if (!name) return null;
             return st.packageDescriptors[name] = {properties: properties};
-        };
-    }
-
-    function ArraySetBrik (brikz, st) {
-        this.addElement = function (array, el) {
-            if (typeof el === 'undefined') {
-                return;
-            }
-            if (array.indexOf(el) === -1) {
-                array.push(el);
-            }
-        };
-
-        this.removeElement = function (array, el) {
-            var i = array.indexOf(el);
-            if (i !== -1) {
-                array.splice(i, 1);
-            }
         };
     }
 
@@ -81,12 +65,9 @@ define(['./kernel-goodies'], function ($goodies) {
             this.Object = SmalltalkObject;
         }
 
-        BehaviorsBrik.deps = ["root", "arraySet"];
+        BehaviorsBrik.deps = ["root"];
 
         function BehaviorsBrik (brikz, st) {
-            var addElement = brikz.arraySet.addElement;
-            var removeElement = brikz.arraySet.removeElement;
-
             /* Smalltalk classes and traits */
 
             var traitsOrClasses = [];
@@ -250,7 +231,6 @@ define(['./kernel-goodies'], function ($goodies) {
             brikz.root = RootBrik;
             brikz.nil = NilBrik;
             brikz.event = EventBrik;
-            brikz.arraySet = ArraySetBrik;
             brikz.selectors = SelectorsBrik;
             brikz.packages = PackagesBrik;
             brikz.behaviors = BehaviorsBrik;

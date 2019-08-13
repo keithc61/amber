@@ -78,7 +78,25 @@ define(function () {
             .replace(/_at/g, '@');
     }
 
+    function addElement (array, el) {
+        if (typeof el === 'undefined') {
+            return;
+        }
+        if (array.indexOf(el) === -1) {
+            array.push(el);
+        }
+    }
+
+    function removeElement (array, el) {
+        var i = array.indexOf(el);
+        if (i !== -1) {
+            array.splice(i, 1);
+        }
+    }
+
     return {
+        removeElement: removeElement,
+        addElement: addElement,
         js2st: js2st,
         st2js: st2js,
         installJSMethod: installJSMethod,

@@ -5,13 +5,13 @@ define(['./kernel-goodies'], function ($goodies) {
 
     var inherits = $goodies.inherits;
     var defineMethod = $goodies.defineMethod;
+    var addElement = $goodies.addElement;
+    var removeElement = $goodies.removeElement;
 
-    MethodCompositionBrik.deps = ["methods", "arraySet"];
+    MethodCompositionBrik.deps = ["methods"];
 
     function MethodCompositionBrik (brikz, st) {
         var updateMethod = brikz.methods.updateMethod;
-        var addElement = brikz.arraySet.addElement;
-        var removeElement = brikz.arraySet.removeElement;
 
         function aliased (selector, method) {
             var result = st.method(method, method.instantiateFn);
@@ -192,7 +192,7 @@ define(['./kernel-goodies'], function ($goodies) {
             };
         }
 
-        ClassesBrik.deps = ["root", "event", "behaviors", "methods", "arraySet", "nil"];
+        ClassesBrik.deps = ["root", "event", "behaviors", "methods", "nil"];
 
         function ClassesBrik (brikz, st) {
             var SmalltalkRoot = brikz.root.Root;
@@ -200,8 +200,6 @@ define(['./kernel-goodies'], function ($goodies) {
             var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
             var setupMethods = brikz.methods.setupMethods;
             var removeTraitOrClass = brikz.behaviors.removeTraitOrClass;
-            var addElement = brikz.arraySet.addElement;
-            var removeElement = brikz.arraySet.removeElement;
             var declareEvent = brikz.event.declareEvent;
             var nilAsReceiver = brikz.nil.nilAsReceiver;
 
