@@ -3,8 +3,8 @@
 define(['./kernel-goodies'], function ($goodies) {
     "use strict";
 
-    var defineMethod = $goodies.defineMethod;
-    var installJSMethod = $goodies.installJSMethod;
+    var installMethodOfJsClass = $goodies.installMethodOfJsClass;
+    var installMethodOfJsObject = $goodies.installMethodOfJsObject;
     var st2js = $goodies.st2js;
     var js2st = $goodies.js2st;
 
@@ -47,9 +47,9 @@ define(['./kernel-goodies'], function ($goodies) {
                     var jsSelector = st2js(selector);
                     jsSelectors.push(jsSelector);
                     var fn = createDnuHandler(selector);
-                    installJSMethod(nilAsClass.fn.prototype, jsSelector, fn);
+                    installMethodOfJsObject(nilAsClass.fn.prototype, jsSelector, fn);
                     targetClasses.forEach(function (target) {
-                        installJSMethod(target.fn.prototype, jsSelector, fn);
+                        installMethodOfJsObject(target.fn.prototype, jsSelector, fn);
                     });
                 });
             }
@@ -74,7 +74,7 @@ define(['./kernel-goodies'], function ($goodies) {
         function RuntimeClassesBrik (brikz, st) {
             var jsSelectors = brikz.runtimeSelectors.jsSelectors;
             var installNewSelectors = brikz.runtimeSelectors.installNewSelectors;
-            var installMethod = brikz.runtimeMethods.installMethod;
+            var installAmberMethodIntoAmberClass = brikz.runtimeMethods.installAmberMethodIntoAmberClass;
             var traitsOrClasses = brikz.behaviors.traitsOrClasses;
             var wireKlass = brikz.classes.wireKlass;
             var installIvarCompat = brikz.classes.installIvarCompat;
@@ -146,14 +146,14 @@ define(['./kernel-goodies'], function ($goodies) {
                 var myproto = klass.fn.prototype,
                     superproto = klass.superclass.fn.prototype;
                 jsSelectors.forEach(function (jsSelector) {
-                    installJSMethod(myproto, jsSelector, superproto[jsSelector]);
+                    installMethodOfJsObject(myproto, jsSelector, superproto[jsSelector]);
                 });
             }
 
             function installMethods (klass) {
                 var methods = klass.methods;
                 Object.keys(methods).forEach(function (selector) {
-                    installMethod(methods[selector], klass);
+                    installAmberMethodIntoAmberClass(methods[selector], klass);
                 });
             }
 
@@ -206,18 +206,18 @@ define(['./kernel-goodies'], function ($goodies) {
         function RuntimeMethodsBrik (brikz, st) {
             var st2js = brikz.selectorConversion.st2js;
 
-            function installMethod (method, klass) {
+            function installAmberMethodIntoAmberClass (method, klass) {
                 var jsSelector = method.jsSelector;
                 if (!jsSelector) {
                     jsSelector = method.jsSelector = st2js(method.selector);
                 }
-                installJSMethod(klass.fn.prototype, jsSelector, method.fn);
+                installMethodOfJsObject(klass.fn.prototype, jsSelector, method.fn);
             }
 
-            this.installMethod = installMethod;
+            this.installAmberMethodIntoAmberClass = installAmberMethodIntoAmberClass;
 
             emit.behaviorMethodAdded = function (method, klass) {
-                installMethod(method, klass);
+                installAmberMethodIntoAmberClass(method, klass);
                 propagateMethodChange(klass, method, klass);
             };
 
@@ -241,7 +241,7 @@ define(['./kernel-goodies'], function ($goodies) {
                     if (subclass === exclude) return;
                     if (subclass.methods[selector]) return sentinel;
                     if (subclass.detachedRoot) {
-                        installJSMethod(subclass.fn.prototype, jsSelector, subclass.superclass.fn.prototype[jsSelector]);
+                        installMethodOfJsObject(subclass.fn.prototype, jsSelector, subclass.superclass.fn.prototype[jsSelector]);
                     }
                 });
             }
@@ -293,7 +293,7 @@ define(['./kernel-goodies'], function ($goodies) {
             SmalltalkMethodContext.prototype.outerContext = null;
             SmalltalkMethodContext.prototype.index = 0;
 
-            defineMethod(SmalltalkMethodContext, "fill", function (receiver, selector, locals) {
+            installMethodOfJsClass(SmalltalkMethodContext, "fill", function (receiver, selector, locals) {
                 this.receiver = receiver;
                 this.selector = selector;
                 if (locals != null) this.locals = locals;
@@ -301,7 +301,7 @@ define(['./kernel-goodies'], function ($goodies) {
                     this.homeContext.evaluatedSelector = selector;
                 }
             });
-            defineMethod(SmalltalkMethodContext, "fillBlock", function (locals, ctx, index) {
+            installMethodOfJsClass(SmalltalkMethodContext, "fillBlock", function (locals, ctx, index) {
                 if (locals != null) this.locals = locals;
                 this.outerContext = ctx;
                 if (index) this.index = index;

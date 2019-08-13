@@ -4,7 +4,7 @@ define(['./kernel-goodies'], function ($goodies) {
     "use strict";
 
     var inherits = $goodies.inherits;
-    var defineMethod = $goodies.defineMethod;
+    var installMethodOfJsClass = $goodies.installMethodOfJsClass;
     var addElement = $goodies.addElement;
     var removeElement = $goodies.removeElement;
 
@@ -144,19 +144,19 @@ define(['./kernel-goodies'], function ($goodies) {
 
             SmalltalkTrait.prototype.trait = true;
 
-            defineMethod(SmalltalkTrait, "toString", function () {
+            installMethodOfJsClass(SmalltalkTrait, "toString", function () {
                 return 'Smalltalk Trait ' + this.name;
             });
             declareEvent("traitAdded");
-            defineMethod(SmalltalkTrait, "added", function () {
+            installMethodOfJsClass(SmalltalkTrait, "added", function () {
                 emit.traitAdded(this);
             });
             declareEvent("traitRemoved");
-            defineMethod(SmalltalkTrait, "removed", function () {
+            installMethodOfJsClass(SmalltalkTrait, "removed", function () {
                 emit.traitRemoved(this);
             });
             declareEvent("traitMethodAdded");
-            defineMethod(SmalltalkTrait, "methodAdded", function (method) {
+            installMethodOfJsClass(SmalltalkTrait, "methodAdded", function (method) {
                 var self = this;
                 this.traitUsers.forEach(function (each) {
                     traitMethodChanged(method.selector, method, self, each);
@@ -164,7 +164,7 @@ define(['./kernel-goodies'], function ($goodies) {
                 emit.traitMethodAdded(method, this);
             });
             declareEvent("traitMethodRemoved");
-            defineMethod(SmalltalkTrait, "methodRemoved", function (method) {
+            installMethodOfJsClass(SmalltalkTrait, "methodRemoved", function (method) {
                 var self = this;
                 this.traitUsers.forEach(function (each) {
                     traitMethodChanged(method.selector, null, self, each);
@@ -226,28 +226,28 @@ define(['./kernel-goodies'], function ($goodies) {
 
             SmalltalkMetaclass.prototype.meta = true;
 
-            defineMethod(SmalltalkClass, "toString", function () {
+            installMethodOfJsClass(SmalltalkClass, "toString", function () {
                 return 'Smalltalk ' + this.name;
             });
-            defineMethod(SmalltalkMetaclass, "toString", function () {
+            installMethodOfJsClass(SmalltalkMetaclass, "toString", function () {
                 return 'Smalltalk Metaclass ' + this.instanceClass.name;
             });
             declareEvent("classAdded");
-            defineMethod(SmalltalkClass, "added", function () {
+            installMethodOfJsClass(SmalltalkClass, "added", function () {
                 addSubclass(this);
                 emit.classAdded(this);
             });
             declareEvent("classRemoved");
-            defineMethod(SmalltalkClass, "removed", function () {
+            installMethodOfJsClass(SmalltalkClass, "removed", function () {
                 emit.classRemoved(this);
                 removeSubclass(this);
             });
             declareEvent("behaviorMethodAdded");
-            defineMethod(SmalltalkBehavior, "methodAdded", function (method) {
+            installMethodOfJsClass(SmalltalkBehavior, "methodAdded", function (method) {
                 emit.behaviorMethodAdded(method, this);
             });
             declareEvent("behaviorMethodRemove");
-            defineMethod(SmalltalkBehavior, "methodRemoved", function (method) {
+            installMethodOfJsClass(SmalltalkBehavior, "methodRemoved", function (method) {
                 emit.behaviorMethodRemoved(method, this);
             });
 
