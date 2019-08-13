@@ -1,4 +1,4 @@
-define(["./boot", "./kernel-goodies", "require"], function (boot, $goodies, require) {
+define(["./boot", "./junk-drawer", "require"], function (boot, $goodies, require) {
     var globals = boot.globals,
         exports = {},
         extend = $goodies.extend,

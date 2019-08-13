@@ -1,6 +1,6 @@
 //jshint eqnull:true
 
-define(['./kernel-goodies'], function ($goodies) {
+define(['./junk-drawer'], function ($goodies) {
     "use strict";
 
     var inherits = $goodies.inherits;
