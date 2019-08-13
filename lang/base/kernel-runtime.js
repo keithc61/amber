@@ -100,9 +100,7 @@ define(['./kernel-goodies'], function ($goodies) {
 
             function initClassAndMetaclass (klass) {
                 initClass(klass);
-                if (klass.a$cls && !klass.meta) {
-                    initClass(klass.a$cls);
-                }
+                initClass(klass.a$cls);
             }
 
             traitsOrClasses.forEach(function (traitOrClass) {
@@ -130,9 +128,7 @@ define(['./kernel-goodies'], function ($goodies) {
 
             this.installStHooks = installStHooks;
 
-            emit.classAdded = function (klass) {
-                initClassAndMetaclass(klass);
-            };
+            emit.classAdded = initClassAndMetaclass;
 
             function initClass (klass) {
                 wireKlass(klass);
