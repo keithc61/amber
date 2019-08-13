@@ -253,14 +253,14 @@ define(['./kernel-goodies'], function ($goodies) {
 
             declareEvent("classAdded");
             SmalltalkClass.prototype.added = function () {
-                addSubclass(this);
+                registerToSuperclass(this);
                 emit.classAdded(this);
             };
 
             declareEvent("classRemoved");
             SmalltalkClass.prototype.removed = function () {
                 emit.classRemoved(this);
-                removeSubclass(this);
+                unregisterFromSuperclass(this);
             };
 
             declareEvent("behaviorMethodAdded");
@@ -320,7 +320,7 @@ define(['./kernel-goodies'], function ($goodies) {
                 nilAsClass.a$cls = realClass;
                 nilAsClass.subclasses.forEach(function (each) {
                     each.a$cls.superclass = realClass;
-                    addSubclass(each.a$cls);
+                    registerToSuperclass(each.a$cls);
                 });
             };
 
@@ -421,11 +421,11 @@ define(['./kernel-goodies'], function ($goodies) {
 
             st.removeClass = removeTraitOrClass;
 
-            function addSubclass (klass) {
+            function registerToSuperclass (klass) {
                 addElement((klass.superclass || nilAsClass).subclasses, klass);
             }
 
-            function removeSubclass (klass) {
+            function unregisterFromSuperclass (klass) {
                 removeElement((klass.superclass || nilAsClass).subclasses, klass);
             }
 
