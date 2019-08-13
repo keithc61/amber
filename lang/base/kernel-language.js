@@ -268,7 +268,7 @@ define(['./kernel-goodies'], function ($goodies) {
                 emit.behaviorMethodAdded(method, this);
             };
 
-            declareEvent("behaviorMethodRemove");
+            declareEvent("behaviorMethodRemoved");
             SmalltalkBehavior.prototype.methodRemoved = function (method) {
                 emit.behaviorMethodRemoved(method, this);
             };
