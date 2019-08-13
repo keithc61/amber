@@ -4,6 +4,7 @@ define(['./kernel-goodies'], function ($goodies) {
     "use strict";
 
     var inherits = $goodies.inherits;
+    var declareJsMethod = $goodies.declareJsMethod;
     var addElement = $goodies.addElement;
     var removeElement = $goodies.removeElement;
 
@@ -35,11 +36,8 @@ define(['./kernel-goodies'], function ($goodies) {
     function FundamentalsFactory (globals, emit) {
         var specialConstructors = Object.create(null);
 
-        function EventBrik (brikz, st) {
-            this.declareEvent = function (event) {
-                if (!emit[event]) emit[event] = function () {
-                };
-            }
+        function declareEvent (name) {
+            declareJsMethod(emit, name);
         }
 
         function RootBrik (brikz, st) {
@@ -102,12 +100,11 @@ define(['./kernel-goodies'], function ($goodies) {
             st.traitsOrClasses = this.traitsOrClasses = traitsOrClasses;
         }
 
-        MethodsBrik.deps = ["event", "selectors", "root"];
+        MethodsBrik.deps = ["selectors", "root"];
 
         function MethodsBrik (brikz, st) {
             var registerSelector = brikz.selectors.registerSelector;
             var SmalltalkObject = brikz.root.Object;
-            var declareEvent = brikz.event.declareEvent;
 
             function SmalltalkMethod () {
             }
@@ -230,7 +227,6 @@ define(['./kernel-goodies'], function ($goodies) {
         function configure (brikz) {
             brikz.root = RootBrik;
             brikz.nil = NilBrik;
-            brikz.event = EventBrik;
             brikz.selectors = SelectorsBrik;
             brikz.packages = PackagesBrik;
             brikz.behaviors = BehaviorsBrik;

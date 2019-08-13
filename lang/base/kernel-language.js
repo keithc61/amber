@@ -4,7 +4,7 @@ define(['./kernel-goodies'], function ($goodies) {
     "use strict";
 
     var inherits = $goodies.inherits;
-    var installMethodOfJsClass = $goodies.installMethodOfJsClass;
+    var declareJsMethod = $goodies.declareJsMethod;
     var addElement = $goodies.addElement;
     var removeElement = $goodies.removeElement;
 
@@ -128,14 +128,17 @@ define(['./kernel-goodies'], function ($goodies) {
     }
 
     function LanguageFactory (specialConstructors, emit) {
-        TraitsBrik.deps = ["event", "behaviors", "methods", "composition", "root"];
+        function declareEvent (name) {
+            declareJsMethod(emit, name);
+        }
+
+        TraitsBrik.deps = ["behaviors", "methods", "composition", "root"];
 
         function TraitsBrik (brikz, st) {
             var SmalltalkObject = brikz.root.Object;
             var setupMethods = brikz.methods.setupMethods;
             var traitMethodChanged = brikz.composition.traitMethodChanged;
             var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
-            var declareEvent = brikz.event.declareEvent;
 
             function SmalltalkTrait () {
             }
@@ -143,34 +146,43 @@ define(['./kernel-goodies'], function ($goodies) {
             specialConstructors.Trait = inherits(SmalltalkTrait, SmalltalkObject);
 
             SmalltalkTrait.prototype.trait = true;
+            declareJsMethod(SmalltalkTrait.prototype, "toString");
+            declareJsMethod(SmalltalkTrait.prototype, "added");
+            declareJsMethod(SmalltalkTrait.prototype, "removed");
+            declareJsMethod(SmalltalkTrait.prototype, "methodAdded");
+            declareJsMethod(SmalltalkTrait.prototype, "methodRemoved");
 
-            installMethodOfJsClass(SmalltalkTrait, "toString", function () {
+            SmalltalkTrait.prototype.toString = function () {
                 return 'Smalltalk Trait ' + this.name;
-            });
+            };
+
             declareEvent("traitAdded");
-            installMethodOfJsClass(SmalltalkTrait, "added", function () {
+            SmalltalkTrait.prototype.added = function () {
                 emit.traitAdded(this);
-            });
+            };
+
             declareEvent("traitRemoved");
-            installMethodOfJsClass(SmalltalkTrait, "removed", function () {
+            SmalltalkTrait.prototype.removed = function () {
                 emit.traitRemoved(this);
-            });
+            };
+
             declareEvent("traitMethodAdded");
-            installMethodOfJsClass(SmalltalkTrait, "methodAdded", function (method) {
+            SmalltalkTrait.prototype.methodAdded = function (method) {
                 var self = this;
                 this.traitUsers.forEach(function (each) {
                     traitMethodChanged(method.selector, method, self, each);
                 });
                 emit.traitMethodAdded(method, this);
-            });
+            };
+
             declareEvent("traitMethodRemoved");
-            installMethodOfJsClass(SmalltalkTrait, "methodRemoved", function (method) {
+            SmalltalkTrait.prototype.methodRemoved = function (method) {
                 var self = this;
                 this.traitUsers.forEach(function (each) {
                     traitMethodChanged(method.selector, null, self, each);
                 });
                 emit.traitMethodRemoved(method, this);
-            });
+            };
 
             function traitBuilder (traitName) {
                 return {
@@ -192,7 +204,7 @@ define(['./kernel-goodies'], function ($goodies) {
             };
         }
 
-        ClassesBrik.deps = ["root", "event", "behaviors", "methods", "nil"];
+        ClassesBrik.deps = ["root", "behaviors", "methods", "nil"];
 
         function ClassesBrik (brikz, st) {
             var SmalltalkRoot = brikz.root.Root;
@@ -200,7 +212,6 @@ define(['./kernel-goodies'], function ($goodies) {
             var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
             var setupMethods = brikz.methods.setupMethods;
             var removeTraitOrClass = brikz.behaviors.removeTraitOrClass;
-            var declareEvent = brikz.event.declareEvent;
             var nilAsReceiver = brikz.nil.nilAsReceiver;
 
             function SmalltalkBehavior () {
@@ -225,31 +236,42 @@ define(['./kernel-goodies'], function ($goodies) {
             };
 
             SmalltalkMetaclass.prototype.meta = true;
+            declareJsMethod(SmalltalkClass.prototype, "toString");
+            declareJsMethod(SmalltalkMetaclass.prototype, "toString");
+            declareJsMethod(SmalltalkClass.prototype, "added");
+            declareJsMethod(SmalltalkClass.prototype, "removed");
+            declareJsMethod(SmalltalkBehavior.prototype, "methodAdded");
+            declareJsMethod(SmalltalkBehavior.prototype, "methodRemoved");
 
-            installMethodOfJsClass(SmalltalkClass, "toString", function () {
+            SmalltalkClass.prototype.toString = function () {
                 return 'Smalltalk ' + this.name;
-            });
-            installMethodOfJsClass(SmalltalkMetaclass, "toString", function () {
+            };
+
+            SmalltalkMetaclass.prototype.toString = function () {
                 return 'Smalltalk Metaclass ' + this.instanceClass.name;
-            });
+            };
+
             declareEvent("classAdded");
-            installMethodOfJsClass(SmalltalkClass, "added", function () {
+            SmalltalkClass.prototype.added = function () {
                 addSubclass(this);
                 emit.classAdded(this);
-            });
+            };
+
             declareEvent("classRemoved");
-            installMethodOfJsClass(SmalltalkClass, "removed", function () {
+            SmalltalkClass.prototype.removed = function () {
                 emit.classRemoved(this);
                 removeSubclass(this);
-            });
+            };
+
             declareEvent("behaviorMethodAdded");
-            installMethodOfJsClass(SmalltalkBehavior, "methodAdded", function (method) {
+            SmalltalkBehavior.prototype.methodAdded = function (method) {
                 emit.behaviorMethodAdded(method, this);
-            });
+            };
+
             declareEvent("behaviorMethodRemove");
-            installMethodOfJsClass(SmalltalkBehavior, "methodRemoved", function (method) {
+            SmalltalkBehavior.prototype.methodRemoved = function (method) {
                 emit.behaviorMethodRemoved(method, this);
-            });
+            };
 
             // TODO remove, ["@foo"] backward compatibility
             function installIvarCompat (klass) {

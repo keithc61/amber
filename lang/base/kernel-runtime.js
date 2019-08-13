@@ -3,8 +3,8 @@
 define(['./kernel-goodies'], function ($goodies) {
     "use strict";
 
-    var installMethodOfJsClass = $goodies.installMethodOfJsClass;
     var installMethodOfJsObject = $goodies.installMethodOfJsObject;
+    var declareJsMethod = $goodies.declareJsMethod;
     var st2js = $goodies.st2js;
     var js2st = $goodies.js2st;
 
@@ -292,20 +292,23 @@ define(['./kernel-goodies'], function ($goodies) {
             SmalltalkMethodContext.prototype.selector = null;
             SmalltalkMethodContext.prototype.outerContext = null;
             SmalltalkMethodContext.prototype.index = 0;
+            declareJsMethod(SmalltalkMethodContext.prototype, "fill");
+            declareJsMethod(SmalltalkMethodContext.prototype, "fillBlock");
 
-            installMethodOfJsClass(SmalltalkMethodContext, "fill", function (receiver, selector, locals) {
+            SmalltalkMethodContext.prototype.fill = function (receiver, selector, locals) {
                 this.receiver = receiver;
                 this.selector = selector;
                 if (locals != null) this.locals = locals;
                 if (this.homeContext) {
                     this.homeContext.evaluatedSelector = selector;
                 }
-            });
-            installMethodOfJsClass(SmalltalkMethodContext, "fillBlock", function (locals, ctx, index) {
+            };
+
+            SmalltalkMethodContext.prototype.fillBlock = function (locals, ctx, index) {
                 if (locals != null) this.locals = locals;
                 this.outerContext = ctx;
                 if (index) this.index = index;
-            });
+            };
 
             setClassConstructor(globals.MethodContext, SmalltalkMethodContext);
 

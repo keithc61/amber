@@ -13,16 +13,18 @@ define(function () {
         return child;
     }
 
-    function installMethodOfJsClass (klass, name, fn) {
-        Object.defineProperty(klass.prototype, name, {
+    function installMethodOfJsObject (obj, name, fn) {
+        Object.defineProperty(obj, name, {
             value: fn,
             enumerable: false, configurable: true, writable: true
         });
     }
 
-    function installMethodOfJsObject (obj, name, fn) {
+    function declareJsMethod (obj, name) {
+        if (obj[name] != null) return;
         Object.defineProperty(obj, name, {
-            value: fn,
+            value: function () {
+            },
             enumerable: false, configurable: true, writable: true
         });
     }
@@ -99,8 +101,8 @@ define(function () {
         addElement: addElement,
         js2st: js2st,
         st2js: st2js,
+        declareJsMethod: declareJsMethod,
         installMethodOfJsObject: installMethodOfJsObject,
-        installMethodOfJsClass: installMethodOfJsClass,
         inherits: inherits
     }
 });
