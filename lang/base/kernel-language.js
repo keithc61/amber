@@ -7,6 +7,7 @@ define(['./kernel-goodies'], function ($goodies) {
     var declareJsMethod = $goodies.declareJsMethod;
     var addElement = $goodies.addElement;
     var removeElement = $goodies.removeElement;
+    var extend = $goodies.extend;
 
     MethodCompositionBrik.deps = ["methods"];
 
@@ -59,10 +60,7 @@ define(['./kernel-goodies'], function ($goodies) {
         st.setTraitComposition = function (traitComposition, traitOrBehavior) {
             var oldLocalMethods = traitOrBehavior.localMethods,
                 newLocalMethods = Object.create(buildCompositionChain(traitComposition));
-            Object.keys(oldLocalMethods).forEach(function (selector) {
-                newLocalMethods[selector] = oldLocalMethods[selector];
-            });
-            traitOrBehavior.localMethods = newLocalMethods;
+            traitOrBehavior.localMethods = extend(newLocalMethods, oldLocalMethods);
             var selector;
             for (selector in newLocalMethods) {
                 updateMethod(selector, traitOrBehavior);

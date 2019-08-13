@@ -96,7 +96,15 @@ define(function () {
         }
     }
 
+    function extend (target, source) {
+        Object.keys(source).forEach(function (key) {
+            target[key] = source[key];
+        });
+        return target;
+    }
+
     return {
+        extend: extend,
         removeElement: removeElement,
         addElement: addElement,
         js2st: js2st,

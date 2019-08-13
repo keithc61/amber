@@ -1,6 +1,7 @@
-define(["amber/boot", "require"], function (boot, require) {
+define(["./boot", "./kernel-goodies", "require"], function (boot, $goodies, require) {
     var globals = boot.globals,
         exports = {},
+        extend = $goodies.extend,
         api = boot.api;
 
     // API
@@ -29,13 +30,6 @@ define(["amber/boot", "require"], function (boot, require) {
         enumerable: true, configurable: true, writable: false
     });
 
-    function mixinToSettings (source) {
-        var settings = globals.SmalltalkSettings;
-        Object.keys(source).forEach(function (key) {
-            settings[key] = source[key];
-        });
-    }
-
     function settingsInLocalStorage () {
         //jshint evil:true
         var storage = 'localStorage' in global && global.localStorage;
@@ -47,7 +41,7 @@ define(["amber/boot", "require"], function (boot, require) {
             } catch (ex) {
                 // pass
             }
-            mixinToSettings(fromStorage || {});
+            extend(globals.SmalltalkSettings, fromStorage || {});
             if (typeof window !== "undefined") {
                 window.addEventListener('beforeunload', function () {
                     storage.setItem('amber.SmalltalkSettings', JSON.stringify(globals.SmalltalkSettings));
@@ -61,7 +55,7 @@ define(["amber/boot", "require"], function (boot, require) {
             globals.SmalltalkSettings['transport.defaultAmdNamespace'] = "amber/core";
             api.amdRequire = require; // TODO better
             settingsInLocalStorage();
-            mixinToSettings(options || {});
+            extend(globals.SmalltalkSettings, options || {});
             resolve(api.initialize());
         });
     };
