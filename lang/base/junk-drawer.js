@@ -20,13 +20,11 @@ define(function () {
         });
     }
 
+    function noop () {
+    }
+
     function declareJsMethod (obj, name) {
-        if (obj[name] != null) return;
-        Object.defineProperty(obj, name, {
-            value: function () {
-            },
-            enumerable: false, configurable: true, writable: true
-        });
+        if (obj[name] == null) installMethodOfJsObject(obj, name, noop);
     }
 
     /* Convert a Smalltalk selector into a JS selector */
