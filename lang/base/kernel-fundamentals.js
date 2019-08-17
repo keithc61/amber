@@ -70,29 +70,28 @@ define(['./junk-drawer'], function ($goodies) {
 
             var traitsOrClasses = [];
 
-            this.buildTraitOrClass = function (category, builder) {
+            this.buildTraitOrClass = function (builder) {
                 var traitOrClass = globals.hasOwnProperty(builder.name) && globals[builder.name];
                 if (traitOrClass) {
                     builder.updateExisting(traitOrClass);
+                    return traitOrClass;
                 } else {
-                    traitOrClass = builder.make();
-                    traitOrClass.category = category;
-                    addTraitOrClass(traitOrClass);
+                    return addTraitOrClass(builder.make());
                 }
-
-                return traitOrClass;
             };
 
             function addTraitOrClass (traitOrClass) {
                 globals[traitOrClass.name] = traitOrClass;
                 addElement(traitsOrClasses, traitOrClass);
                 traitOrClass.added();
+                return traitOrClass;
             }
 
             function removeTraitOrClass (traitOrClass) {
                 traitOrClass.removed();
                 removeElement(traitsOrClasses, traitOrClass);
                 delete globals[traitOrClass.name];
+                return traitOrClass;
             }
 
             this.removeTraitOrClass = removeTraitOrClass;

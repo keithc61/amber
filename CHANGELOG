@@ -1,3 +1,11 @@
+? ??? 2019 - Release 0.24.1
+===================================
+
+* $core.removeClass returns removed class.
+
+Commits: https://lolg.it/amber/amber/commits/0.24.1
+
+
 4 Jun 2019 - Release 0.24.0
 ===================================
 

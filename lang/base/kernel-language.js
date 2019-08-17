@@ -182,12 +182,13 @@ define(['./junk-drawer'], function ($goodies) {
                 emit.traitMethodRemoved(method, this);
             };
 
-            function traitBuilder (traitName) {
+            function traitBuilder (traitName, category) {
                 return {
                     name: traitName,
                     make: function () {
                         var that = new SmalltalkTrait();
                         that.name = traitName;
+                        that.category = category;
                         that.traitUsers = [];
                         setupMethods(that);
                         return that;
@@ -198,7 +199,7 @@ define(['./junk-drawer'], function ($goodies) {
             }
 
             st.addTrait = function (className, category) {
-                return buildTraitOrClass(category, traitBuilder(className));
+                return buildTraitOrClass(traitBuilder(className, category));
             };
         }
 
@@ -327,7 +328,7 @@ define(['./junk-drawer'], function ($goodies) {
              should be added to the system, see smalltalk.addClass().
              Superclass linking is *not* handled here, see api.initialize()  */
 
-            function classBuilder (className, superclass, fn) {
+            function classBuilder (className, superclass, category, fn) {
                 var logicalSuperclass = superclass;
                 if (superclass == null || superclass.a$nil) {
                     superclass = nilAsClass;
@@ -343,6 +344,7 @@ define(['./junk-drawer'], function ($goodies) {
                     that.slots = [];
 
                     that.name = className;
+                    that.category = category;
                     that.subclasses = [];
 
                     setupMethods(that);
@@ -414,7 +416,7 @@ define(['./junk-drawer'], function ($goodies) {
                 if (typeof superclass === 'undefined' || superclass && superclass.a$nil) {
                     console.warn('Compiling ' + className + ' as a subclass of `nil`. A dependency might be missing.');
                 }
-                return buildTraitOrClass(category, classBuilder(className, superclass, specialConstructors[className]));
+                return buildTraitOrClass(classBuilder(className, superclass, category, specialConstructors[className]));
             };
 
             st.removeClass = removeTraitOrClass;
