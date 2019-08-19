@@ -12,6 +12,7 @@ define(['./junk-drawer'], function ($goodies) {
     MethodCompositionBrik.deps = ["methods"];
 
     function MethodCompositionBrik (brikz, st) {
+        var setLocalMethods = brikz.methods.setLocalMethods;
         var updateMethod = brikz.methods.updateMethod;
 
         function aliased (selector, method) {
@@ -59,15 +60,8 @@ define(['./junk-drawer'], function ($goodies) {
 
         st.setTraitComposition = function (traitComposition, traitOrBehavior) {
             var oldLocalMethods = traitOrBehavior.localMethods,
-                newLocalMethods = Object.create(buildCompositionChain(traitComposition));
-            traitOrBehavior.localMethods = extend(newLocalMethods, oldLocalMethods);
-            var selector;
-            for (selector in newLocalMethods) {
-                updateMethod(selector, traitOrBehavior);
-            }
-            for (selector in oldLocalMethods) {
-                updateMethod(selector, traitOrBehavior);
-            }
+                newLocalMethodsTemplate = Object.create(buildCompositionChain(traitComposition));
+            setLocalMethods(traitOrBehavior, extend(newLocalMethodsTemplate, oldLocalMethods));
             (traitOrBehavior.traitComposition || []).forEach(function (each) {
                 removeElement(each.trait.traitUsers, traitOrBehavior);
             });

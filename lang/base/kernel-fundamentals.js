@@ -174,6 +174,20 @@ define(['./junk-drawer'], function ($goodies) {
                 traitOrBehavior.methods = Object.create(null);
             };
 
+            function setLocalMethods (traitOrBehavior, newLocalMethods) {
+                var oldLocalMethods = traitOrBehavior.localMethods;
+                traitOrBehavior.localMethods = newLocalMethods;
+                var selector;
+                for (selector in newLocalMethods) {
+                    updateMethod(selector, traitOrBehavior);
+                }
+                for (selector in oldLocalMethods) {
+                    updateMethod(selector, traitOrBehavior);
+                }
+            }
+
+            this.setLocalMethods = setLocalMethods;
+
             declareEvent("methodReplaced");
 
             function updateMethod (selector, traitOrBehavior) {
