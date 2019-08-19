@@ -69,13 +69,13 @@ define(['./junk-drawer'], function ($goodies) {
             installNewSelectors(selectors, []);
         }
 
-        RuntimeClassesBrik.deps = ["runtimeSelectors", "behaviors", "classes", "runtimeMethods"];
+        RuntimeClassesBrik.deps = ["runtimeSelectors", "behaviorals", "classes", "runtimeMethods"];
 
         function RuntimeClassesBrik (brikz, st) {
             var jsSelectors = brikz.runtimeSelectors.jsSelectors;
             var installNewSelectors = brikz.runtimeSelectors.installNewSelectors;
             var installAmberMethodIntoAmberClass = brikz.runtimeMethods.installAmberMethodIntoAmberClass;
-            var traitsOrClasses = brikz.behaviors.traitsOrClasses;
+            var traitsOrClasses = brikz.behaviorals.traitsOrClasses;
             var wireKlass = brikz.classes.wireKlass;
 
             var detachedRootClasses = [];

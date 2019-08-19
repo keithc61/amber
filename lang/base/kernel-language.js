@@ -130,13 +130,13 @@ define(['./junk-drawer'], function ($goodies) {
             declareJsMethod(emit, name);
         }
 
-        TraitsBrik.deps = ["behaviors", "methods", "composition", "root"];
+        TraitsBrik.deps = ["behaviorals", "methods", "composition", "root"];
 
         function TraitsBrik (brikz, st) {
             var SmalltalkObject = brikz.root.Object;
             var setupMethods = brikz.methods.setupMethods;
             var traitMethodChanged = brikz.composition.traitMethodChanged;
-            var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
+            var buildTraitOrClass = brikz.behaviorals.buildTraitOrClass;
 
             function SmalltalkTrait () {
             }
@@ -203,14 +203,14 @@ define(['./junk-drawer'], function ($goodies) {
             };
         }
 
-        ClassesBrik.deps = ["root", "behaviors", "methods", "nil"];
+        ClassesBrik.deps = ["root", "behaviorals", "methods", "nil"];
 
         function ClassesBrik (brikz, st) {
             var SmalltalkRoot = brikz.root.Root;
             var SmalltalkObject = brikz.root.Object;
-            var buildTraitOrClass = brikz.behaviors.buildTraitOrClass;
+            var buildTraitOrClass = brikz.behaviorals.buildTraitOrClass;
             var setupMethods = brikz.methods.setupMethods;
-            var removeTraitOrClass = brikz.behaviors.removeTraitOrClass;
+            var removeTraitOrClass = brikz.behaviorals.removeTraitOrClass;
             var nilAsReceiver = brikz.nil.nilAsReceiver;
 
             function SmalltalkBehavior () {

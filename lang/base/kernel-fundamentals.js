@@ -63,9 +63,9 @@ define(['./junk-drawer'], function ($goodies) {
             this.Object = SmalltalkObject;
         }
 
-        BehaviorsBrik.deps = ["root"];
+        BehavioralsBrik.deps = ["root"];
 
-        function BehaviorsBrik (brikz, st) {
+        function BehavioralsBrik (brikz, st) {
             /* Smalltalk classes and traits */
 
             var traitsOrClasses = [];
@@ -228,7 +228,7 @@ define(['./junk-drawer'], function ($goodies) {
             brikz.nil = NilBrik;
             brikz.selectors = SelectorsBrik;
             brikz.packages = PackagesBrik;
-            brikz.behaviors = BehaviorsBrik;
+            brikz.behaviorals = BehavioralsBrik;
             brikz.methods = MethodsBrik;
 
             brikz();
