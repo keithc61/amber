@@ -77,7 +77,6 @@ define(['./junk-drawer'], function ($goodies) {
             var installAmberMethodIntoAmberClass = brikz.runtimeMethods.installAmberMethodIntoAmberClass;
             var traitsOrClasses = brikz.behaviors.traitsOrClasses;
             var wireKlass = brikz.classes.wireKlass;
-            var installIvarCompat = brikz.classes.installIvarCompat;
 
             var detachedRootClasses = [];
 
@@ -130,12 +129,23 @@ define(['./junk-drawer'], function ($goodies) {
 
             emit.classAdded = initClassAndMetaclass;
 
+            emit.slotsChanged = initClassSlots;
+
             function initClass (klass) {
                 wireKlass(klass);
+                initClassMethods(klass);
+                initClassSlots(klass);
+            }
+
+            function initClassMethods (klass) {
                 if (klass.detachedRoot) {
                     copySuperclass(klass);
                 }
                 installMethods(klass);
+            }
+
+            function initClassSlots (klass) {
+                installIvarCompat(klass);
             }
 
             function copySuperclass (klass) {
@@ -153,6 +163,23 @@ define(['./junk-drawer'], function ($goodies) {
                 });
             }
 
+            // TODO remove, ["@foo"] backward compatibility
+            function installIvarCompat (klass) {
+                var ivars = klass.slots;
+                ivars.forEach(function (ivar) {
+                    Object.defineProperty(klass.fn.prototype, "@" + ivar, {
+                        get: function () {
+                            return this[ivar];
+                        },
+                        set: function (value) {
+                            return this[ivar] = value;
+                        },
+                        enumerable: false,
+                        configurable: true
+                    });
+                });
+            }
+
             /* Create an alias for an existing class */
 
             st.alias = function (traitOrClass, alias) {
@@ -164,7 +191,6 @@ define(['./junk-drawer'], function ($goodies) {
             st.setClassConstructor = this.setClassConstructor = function (klass, constructor) {
                 klass.fn = constructor;
                 detachClass(klass);
-                installIvarCompat(klass);
                 klass.subclasses.forEach(reprotoFn(constructor));
             };
 

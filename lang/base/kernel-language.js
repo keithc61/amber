@@ -272,24 +272,7 @@ define(['./junk-drawer'], function ($goodies) {
                 emit.behaviorMethodRemoved(method, this);
             };
 
-            // TODO remove, ["@foo"] backward compatibility
-            function installIvarCompat (klass) {
-                var ivars = klass.slots;
-                ivars.forEach(function (ivar) {
-                    Object.defineProperty(klass.fn.prototype, "@" + ivar, {
-                        get: function () {
-                            return this[ivar];
-                        },
-                        set: function (value) {
-                            return this[ivar] = value;
-                        },
-                        enumerable: false,
-                        configurable: true
-                    });
-                });
-            }
-
-            this.installIvarCompat = installIvarCompat;
+            declareEvent("slotsChanged");
 
             function setSlots (klass, slots) {
                 slots.forEach(function (name) {
@@ -298,7 +281,7 @@ define(['./junk-drawer'], function ($goodies) {
                 });
 
                 klass.slots = slots;
-                installIvarCompat(klass);
+                emit.slotsChanged(klass);
             }
 
             st.setSlots = setSlots;
