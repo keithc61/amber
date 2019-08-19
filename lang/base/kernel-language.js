@@ -155,18 +155,18 @@ define(['./junk-drawer'], function ($goodies) {
             };
 
             SmalltalkTrait.prototype.methodAdded = function (method) {
-                var self = this;
-                this.traitUsers.forEach(function (each) {
-                    traitMethodChanged(method.selector, method, self, each);
-                });
+                propagateMethodChange(this, method.selector, method);
             };
 
             SmalltalkTrait.prototype.methodRemoved = function (method) {
-                var self = this;
-                this.traitUsers.forEach(function (each) {
-                    traitMethodChanged(method.selector, null, self, each);
-                });
+                propagateMethodChange(this, method.selector, null);
             };
+
+            function propagateMethodChange (trait, selector, method) {
+                trait.traitUsers.forEach(function (each) {
+                    traitMethodChanged(selector, method, trait, each);
+                });
+            }
 
             function traitBuilder (traitName, category) {
                 return {
