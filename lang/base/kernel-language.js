@@ -203,14 +203,11 @@ define(['./junk-drawer'], function ($goodies) {
             };
         }
 
-        ClassesBrik.deps = ["root", "behaviorals", "methods", "nil"];
+        ClassModelBrik.deps = ["root", "nil"];
 
-        function ClassesBrik (brikz, st) {
+        function ClassModelBrik (brikz, st) {
             var SmalltalkRoot = brikz.root.Root;
             var SmalltalkObject = brikz.root.Object;
-            var buildTraitOrClass = brikz.behaviorals.buildTraitOrClass;
-            var setupMethods = brikz.methods.setupMethods;
-            var removeTraitOrClass = brikz.behaviorals.removeTraitOrClass;
             var nilAsReceiver = brikz.nil.nilAsReceiver;
 
             function SmalltalkBehavior () {
@@ -222,17 +219,13 @@ define(['./junk-drawer'], function ($goodies) {
             function SmalltalkMetaclass () {
             }
 
+            this.newMetaclass = function () {
+                return new SmalltalkMetaclass();
+            };
+
             specialConstructors.Behavior = inherits(SmalltalkBehavior, SmalltalkObject);
             specialConstructors.Class = inherits(SmalltalkClass, SmalltalkBehavior);
             specialConstructors.Metaclass = inherits(SmalltalkMetaclass, SmalltalkBehavior);
-
-            // Fake root class of the system.
-            // Effective superclass of all classes created with `nil subclass: ...`.
-            var nilAsClass = this.nilAsClass = {
-                fn: SmalltalkRoot,
-                subclasses: [],
-                a$cls: {fn: SmalltalkClass}
-            };
 
             SmalltalkMetaclass.prototype.meta = true;
             declareJsMethod(SmalltalkClass.prototype, "toString");
@@ -272,6 +265,82 @@ define(['./junk-drawer'], function ($goodies) {
                 emit.behaviorMethodRemoved(method, this);
             };
 
+            // Fake root class of the system.
+            // Effective superclass of all classes created with `nil subclass: ...`.
+            var nilAsClass = this.nilAsClass = {
+                fn: SmalltalkRoot,
+                subclasses: [],
+                a$cls: {fn: SmalltalkClass}
+            };
+
+            this.bootstrapHierarchy = function (realClass) {
+                nilAsClass.a$cls = realClass;
+                nilAsClass.subclasses.forEach(function (each) {
+                    each.a$cls.superclass = realClass;
+                    registerToSuperclass(each.a$cls);
+                });
+            };
+
+            function registerToSuperclass (klass) {
+                addElement((klass.superclass || nilAsClass).subclasses, klass);
+            }
+
+            function unregisterFromSuperclass (klass) {
+                removeElement((klass.superclass || nilAsClass).subclasses, klass);
+            }
+
+            function metaSubclasses (metaclass) {
+                return metaclass.instanceClass.subclasses
+                    .filter(function (each) {
+                        return !each.meta;
+                    })
+                    .map(function (each) {
+                        return each.a$cls;
+                    });
+            }
+
+            st.metaSubclasses = metaSubclasses;
+
+            st.traverseClassTree = function (klass, fn) {
+                var queue = [klass], sentinel = {};
+                for (var i = 0; i < queue.length; ++i) {
+                    var item = queue[i];
+                    if (fn(item, sentinel) === sentinel) continue;
+                    var subclasses = item.meta ? metaSubclasses(item) : item.subclasses;
+                    queue.push.apply(queue, subclasses);
+                }
+            };
+
+            /**
+             * This function is used all over the compiled amber code.
+             * It takes any value (JavaScript or Smalltalk)
+             * and returns a proper Amber Smalltalk receiver.
+             *
+             * null or undefined -> nilAsReceiver,
+             * object having Smalltalk signature -> unchanged,
+             * otherwise wrapped foreign (JS) object
+             */
+            this.asReceiver = function (o) {
+                if (o == null) return nilAsReceiver;
+                else if (o.a$cls != null) return o;
+                else return st.wrapJavaScript(o);
+            };
+
+            // TODO remove, .iVarNames backward compatibility
+            this.__init__ = function () {
+                brikz.classConstruction.iVarNamesCompat(SmalltalkBehavior);
+            };
+        }
+
+        ClassConstructionBrik.deps = ["classModel", "behaviorals", "methods"];
+
+        function ClassConstructionBrik (brikz, st) {
+            var nilAsClass = brikz.classModel.nilAsClass;
+            var newMetaclass = brikz.classModel.newMetaclass;
+            var buildTraitOrClass = brikz.behaviorals.buildTraitOrClass;
+            var setupMethods = brikz.methods.setupMethods;
+            var removeTraitOrClass = brikz.behaviorals.removeTraitOrClass;
+
             declareEvent("slotsChanged");
 
             function setSlots (klass, slots) {
@@ -287,22 +356,16 @@ define(['./junk-drawer'], function ($goodies) {
             st.setSlots = setSlots;
 
             // TODO remove, .iVarNames backward compatibility
-            Object.defineProperty(SmalltalkBehavior.prototype, "iVarNames", {
-                enumerable: true,
-                configurable: true,
-                get: function () {
-                    return this.slots;
-                },
-                set: function (instanceVariableNames) {
-                    setSlots(this, instanceVariableNames);
-                }
-            });
-
-            this.bootstrapHierarchy = function (realClass) {
-                nilAsClass.a$cls = realClass;
-                nilAsClass.subclasses.forEach(function (each) {
-                    each.a$cls.superclass = realClass;
-                    registerToSuperclass(each.a$cls);
+            this.iVarNamesCompat = function (SmalltalkBehavior) {
+                Object.defineProperty(SmalltalkBehavior.prototype, "iVarNames", {
+                    enumerable: true,
+                    configurable: true,
+                    get: function () {
+                        return this.slots;
+                    },
+                    set: function (instanceVariableNames) {
+                        setSlots(this, instanceVariableNames);
+                    }
                 });
             };
 
@@ -335,7 +398,7 @@ define(['./junk-drawer'], function ($goodies) {
                 }
 
                 function metaclass () {
-                    var that = new SmalltalkMetaclass();
+                    var that = newMetaclass();
 
                     that.superclass = superclass.a$cls;
                     that.fn = inherits(function () {
@@ -368,21 +431,6 @@ define(['./junk-drawer'], function ($goodies) {
 
             this.wireKlass = wireKlass;
 
-            /**
-             * This function is used all over the compiled amber code.
-             * It takes any value (JavaScript or Smalltalk)
-             * and returns a proper Amber Smalltalk receiver.
-             *
-             * null or undefined -> nilAsReceiver,
-             * object having Smalltalk signature -> unchanged,
-             * otherwise wrapped foreign (JS) object
-             */
-            this.asReceiver = function (o) {
-                if (o == null) return nilAsReceiver;
-                else if (o.a$cls != null) return o;
-                else return st.wrapJavaScript(o);
-            };
-
             /* Add a class to the system, creating a new one if needed.
              A Package is lazily created if one with given name does not exist. */
 
@@ -403,36 +451,6 @@ define(['./junk-drawer'], function ($goodies) {
             };
 
             st.removeClass = removeTraitOrClass;
-
-            function registerToSuperclass (klass) {
-                addElement((klass.superclass || nilAsClass).subclasses, klass);
-            }
-
-            function unregisterFromSuperclass (klass) {
-                removeElement((klass.superclass || nilAsClass).subclasses, klass);
-            }
-
-            function metaSubclasses (metaclass) {
-                return metaclass.instanceClass.subclasses
-                    .filter(function (each) {
-                        return !each.meta;
-                    })
-                    .map(function (each) {
-                        return each.a$cls;
-                    });
-            }
-
-            st.metaSubclasses = metaSubclasses;
-
-            st.traverseClassTree = function (klass, fn) {
-                var queue = [klass], sentinel = {};
-                for (var i = 0; i < queue.length; ++i) {
-                    var item = queue[i];
-                    if (fn(item, sentinel) === sentinel) continue;
-                    var subclasses = item.meta ? metaSubclasses(item) : item.subclasses;
-                    queue.push.apply(queue, subclasses);
-                }
-            };
         }
 
         /* Making smalltalk that can load */
@@ -440,7 +458,8 @@ define(['./junk-drawer'], function ($goodies) {
         function configure (brikz) {
             brikz.traits = TraitsBrik;
             brikz.composition = MethodCompositionBrik;
-            brikz.classes = ClassesBrik;
+            brikz.classModel = ClassModelBrik;
+            brikz.classConstruction = ClassConstructionBrik;
 
             brikz();
         }

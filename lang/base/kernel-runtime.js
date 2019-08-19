@@ -31,11 +31,11 @@ define(['./junk-drawer'], function ($goodies) {
     }
 
     function RuntimeFactory (globals, emit) {
-        RuntimeSelectorsBrik.deps = ["selectors", "selectorConversion", "classes"];
+        RuntimeSelectorsBrik.deps = ["selectors", "selectorConversion", "classModel"];
 
         function RuntimeSelectorsBrik (brikz, st) {
             var selectors = brikz.selectors.selectors;
-            var nilAsClass = brikz.classes.nilAsClass;
+            var nilAsClass = brikz.classModel.nilAsClass;
             var st2js = brikz.selectorConversion.st2js;
 
             var jsSelectors = this.jsSelectors = [];
@@ -69,14 +69,14 @@ define(['./junk-drawer'], function ($goodies) {
             installNewSelectors(selectors, []);
         }
 
-        RuntimeClassesBrik.deps = ["runtimeSelectors", "behaviorals", "classes", "runtimeMethods"];
+        RuntimeClassesBrik.deps = ["runtimeSelectors", "behaviorals", "classConstruction", "runtimeMethods"];
 
         function RuntimeClassesBrik (brikz, st) {
             var jsSelectors = brikz.runtimeSelectors.jsSelectors;
             var installNewSelectors = brikz.runtimeSelectors.installNewSelectors;
             var installAmberMethodIntoAmberClass = brikz.runtimeMethods.installAmberMethodIntoAmberClass;
             var traitsOrClasses = brikz.behaviorals.traitsOrClasses;
-            var wireKlass = brikz.classes.wireKlass;
+            var wireKlass = brikz.classConstruction.wireKlass;
 
             var detachedRootClasses = [];
 

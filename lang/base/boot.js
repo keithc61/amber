@@ -61,7 +61,7 @@ define([
         st.initialize = function () {
             return runtimeLoadedPromise.then(function (RuntimeFactory) {
                 if (initialized) return;
-                brikz.classes.bootstrapHierarchy(globals.Class);
+                brikz.classModel.bootstrapHierarchy(globals.Class);
                 RuntimeFactory(globals, emit).configure(brikz);
                 return Promise.resolve(brikz.startImage.run())
                     .then(function () {
@@ -96,8 +96,8 @@ define([
         api: api,
         nilAsReceiver: brikz.nil.nilAsReceiver,
         nilAsValue: brikz.nil.nilAsValue,
-        nilAsClass: brikz.classes.nilAsClass,
+        nilAsClass: brikz.classModel.nilAsClass,
         globals: globals,
-        asReceiver: brikz.classes.asReceiver
+        asReceiver: brikz.classModel.asReceiver
     };
 });
