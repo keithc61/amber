@@ -80,14 +80,20 @@ define(['./junk-drawer'], function ($goodies) {
                 }
             };
 
+            declareEvent("behavioralAdded");
+
             function addTraitOrClass (traitOrClass) {
                 globals[traitOrClass.name] = traitOrClass;
                 addElement(traitsOrClasses, traitOrClass);
                 traitOrClass.added();
+                emit.behavioralAdded(traitOrClass);
                 return traitOrClass;
             }
 
+            declareEvent("behavioralRemoved");
+
             function removeTraitOrClass (traitOrClass) {
+                emit.behavioralRemoved(traitOrClass);
                 traitOrClass.removed();
                 removeElement(traitsOrClasses, traitOrClass);
                 delete globals[traitOrClass.name];

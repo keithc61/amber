@@ -107,27 +107,18 @@ define(['./junk-drawer'], function ($goodies) {
             });
 
             function installStHooks () {
-                emit.classAdded = function (klass) {
-                    initClassAndMetaclass(klass);
-                    klass._enterOrganization();
+                emit.behavioralAdded = function (traitOrClass) {
+                    traitOrClass._enterOrganization();
                 };
 
-                emit.traitAdded = function (trait) {
-                    trait._enterOrganization();
-                };
-
-                emit.classRemoved = function (klass) {
-                    klass._leaveOrganization();
-                };
-
-                emit.traitRemoved = function (trait) {
-                    trait._leaveOrganization();
+                emit.behavioralRemoved = function (traitOrClass) {
+                    traitOrClass._leaveOrganization();
                 };
             }
 
             this.installStHooks = installStHooks;
 
-            emit.classAdded = initClassAndMetaclass;
+            emit.classCreated = initClassAndMetaclass;
 
             emit.slotsChanged = initClassSlots;
 

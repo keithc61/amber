@@ -154,16 +154,6 @@ define(['./junk-drawer'], function ($goodies) {
                 return 'Smalltalk Trait ' + this.name;
             };
 
-            declareEvent("traitAdded");
-            SmalltalkTrait.prototype.added = function () {
-                emit.traitAdded(this);
-            };
-
-            declareEvent("traitRemoved");
-            SmalltalkTrait.prototype.removed = function () {
-                emit.traitRemoved(this);
-            };
-
             declareEvent("traitMethodAdded");
             SmalltalkTrait.prototype.methodAdded = function (method) {
                 var self = this;
@@ -243,15 +233,13 @@ define(['./junk-drawer'], function ($goodies) {
                 return 'Smalltalk Metaclass ' + this.instanceClass.name;
             };
 
-            declareEvent("classAdded");
+            declareEvent("classCreated");
             SmalltalkClass.prototype.added = function () {
                 registerToSuperclass(this);
-                emit.classAdded(this);
+                emit.classCreated(this);
             };
 
-            declareEvent("classRemoved");
             SmalltalkClass.prototype.removed = function () {
-                emit.classRemoved(this);
                 unregisterFromSuperclass(this);
             };
 
