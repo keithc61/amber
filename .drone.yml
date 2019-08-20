@@ -3,13 +3,13 @@ name: lang
 
 steps:
   - name: prepare
-    image: node
+    image: node:lts
     commands:
       - npm install
       - cd sdk
       - npm install
   - name: test
-    image: node
+    image: node:lts
     commands:
       - npm run test:sunit
 ---
@@ -17,7 +17,7 @@ kind: pipeline
 name: built-cli
 steps:
   - name: prepare
-    image: node
+    image: node:lts
     commands:
       - npm install
       - cd sdk
@@ -26,11 +26,11 @@ steps:
       - cd cli
       - npm install
   - name: build
-    image: node
+    image: node:lts
     commands:
       - npm run build:cli
   - name: test
-    image: node
+    image: node:lts
     commands:
       - npm run test:e2e
 ---
@@ -38,12 +38,12 @@ kind: pipeline
 name: installable-cli
 steps:
   - name: prepare
-    image: node
+    image: node:lts
     commands:
       - cd cli
       - npm install
   - name: install-and-test
-    image: node
+    image: node:lts
     environment:
       AMBER_CLI: amber
     commands:
