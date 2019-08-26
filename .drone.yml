@@ -2,23 +2,36 @@ kind: pipeline
 name: lang
 
 steps:
+  - name: check
+    image: herbysk/drone-plugin-check-changes
+    settings:
+      ignore: [ "/**", "!/.drone.yml", "!/*.json", "!/*.js", "!/sdk/", "!/lang/" ]
+      negative: .skip
   - name: prepare
     image: node:lts
     commands:
+      - if [ -f .skip ]; then exit; fi
       - npm install
       - cd sdk
       - npm install
   - name: test
     image: node:lts
     commands:
+      - if [ -f .skip ]; then exit; fi
       - npm run test:sunit
 ---
 kind: pipeline
 name: built-cli
 steps:
+  - name: check
+    image: herbysk/drone-plugin-check-changes
+    settings:
+      ignore: [ "/**", "!/.drone.yml", "!/*.json", "!/*.js", "!/sdk/", "!/lang/", "!/cli/" ]
+      negative: .skip
   - name: prepare
     image: node:lts
     commands:
+      - if [ -f .skip ]; then exit; fi
       - npm install
       - cd sdk
       - npm install
@@ -28,18 +41,26 @@ steps:
   - name: build
     image: node:lts
     commands:
+      - if [ -f .skip ]; then exit; fi
       - npm run build:cli
   - name: test
     image: node:lts
     commands:
+      - if [ -f .skip ]; then exit; fi
       - npm run test:e2e
 ---
 kind: pipeline
 name: installable-cli
 steps:
+  - name: check
+    image: herbysk/drone-plugin-check-changes
+    settings:
+      ignore: [ "/**", "!/.drone.yml", "!/*.json", "!/*.js", "!/sdk/", "!/lang/", "!/cli/" ]
+      negative: .skip
   - name: prepare
     image: node:lts
     commands:
+      - if [ -f .skip ]; then exit; fi
       - cd cli
       - npm install
   - name: install-and-test
@@ -47,5 +68,6 @@ steps:
     environment:
       AMBER_CLI: amber
     commands:
+      - if [ -f .skip ]; then exit; fi
       - npm install -g @ambers/cli
       - npm run test:e2e
