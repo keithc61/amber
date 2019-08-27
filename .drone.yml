@@ -26,7 +26,7 @@ steps:
   - name: check
     image: herbysk/drone-plugin-check-changes
     settings:
-      ignore: [ "/**", "!/.drone.yml", "!/*.json", "!/*.js", "!/sdk/", "!/lang/", "!/cli/" ]
+      ignore: [ "/**", "!/.drone.yml", "!/*.json", "!/*.js", "!/sdk/", "!/lang/", "!/cli/", "/cli/dist/" ]
       negative: .skip
   - name: prepare
     image: node:lts
@@ -55,7 +55,7 @@ steps:
   - name: check
     image: herbysk/drone-plugin-check-changes
     settings:
-      ignore: [ "/**", "!/.drone.yml", "!/*.json", "!/*.js", "!/sdk/", "!/lang/", "!/cli/" ]
+      ignore: [ "/**", "!/.drone.yml", "!/package.json", "!/Gruntfile.js", "!/sdk/", "!/cli/package.json", "!/cli/test/" ]
       negative: .skip
   - name: prepare
     image: node:lts
