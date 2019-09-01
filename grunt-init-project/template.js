@@ -117,7 +117,7 @@ exports.template = function (grunt, init, done) {
         props.keywords = ['Amber', 'Smalltalk'];
         props.dependencies = {
             "@ambers/contrib-jquery": "^0.6.0",
-            "@ambers/contrib-web": "^0.7.0",
+            "@ambers/contrib-web": "^0.7.1",
             "@ambers/lang": "^0.24.0",
             "@ambers/domite": "^0.9.0",
             "es6-promise": "^4.2.6",

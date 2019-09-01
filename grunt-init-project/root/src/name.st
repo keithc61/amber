@@ -11,9 +11,7 @@ alert: aString after: aNumberOfMilliseconds
 !
 
 doAmberWith
-	| tag |
-	tag := (HTMLCanvas onJQuery: '#output-list' asJQuery) root.
-	tag with: [ :html | html li with: 'Amber Web #with: added me!!' ]
+	'#output-list' asBrush with: [ :html | html li: 'Amber Web #with: added me!!' ]
 !
 
 doConsoleLog
@@ -54,7 +52,7 @@ augmentPage
     '#lambda-status' asSilk on: #click bind: [ self doInspectStatus ].
 	'#console-log' asSilk on: #click bind: [ self doConsoleLog ].
 	'#timeout-alert' asSilk on: #click bind: [ self alert: 'REMINDER!!' after: 5000 ].
-	'#amber-with' asJQuery click: [ self doAmberWith ].
+	'#amber-with' asBrush onClick: [ self doAmberWith ].
 	'#silk-tag' asSilk on: #click bind: [ self doSilkTAG ].
 	'#jquery-append' asJQuery click: [ self doJQueryAppend ]
 ! !
