@@ -1240,7 +1240,7 @@ $globals.JSStatementNode);
 
 
 
-$core.addClass("MethodNode", $globals.ASTNode, ["selector", "arguments", "source", "pragmas", "scope", "classReferences", "sendIndexes"], "Compiler-AST");
+$core.addClass("MethodNode", $globals.ASTNode, ["selector", "arguments", "pragmas", "scope", "classReferences", "sendIndexes"], "Compiler-AST");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodNode.comment="I represent an method node.\x0a\x0aA method node must be the root and only method node of a valid AST.";
 //>>excludeEnd("ide");
@@ -1589,43 +1589,6 @@ catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"sequenceNode",{})});
 //>>excludeEnd("ctx");
-}; }),
-$globals.MethodNode);
-
-$core.addMethod(
-$core.method({
-selector: "source",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "source\x0a\x09^ source",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return $self.source;
-
-}; }),
-$globals.MethodNode);
-
-$core.addMethod(
-$core.method({
-selector: "source:",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "source: aString\x0a\x09source := aString",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (aString){
-var self=this,$self=this;
-$self.source=aString;
-return self;
-
 }; }),
 $globals.MethodNode);
 

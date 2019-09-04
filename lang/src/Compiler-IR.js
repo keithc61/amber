@@ -1983,7 +1983,7 @@ $globals.IRClosure);
 
 
 
-$core.addClass("IRMethod", $globals.IRClosureInstruction, ["theClass", "source", "selector", "pragmas", "classReferences", "sendIndexes", "requiresSmalltalkContext", "internalVariables"], "Compiler-IR");
+$core.addClass("IRMethod", $globals.IRClosureInstruction, ["theClass", "source", "selector", "pragmas", "classReferences", "sendIndexes", "internalVariables"], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRMethod.comment="I am a method instruction";
 //>>excludeEnd("ide");

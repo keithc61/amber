@@ -321,7 +321,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 ASTNode subclass: #MethodNode
-	slots: {#selector. #arguments. #source. #pragmas. #scope. #classReferences. #sendIndexes}
+	slots: {#selector. #arguments. #pragmas. #scope. #classReferences. #sendIndexes}
 	package: 'Compiler-AST'!
 !MethodNode commentStamp!
 I represent an method node.
@@ -391,14 +391,6 @@ sequenceNode
 		each isSequenceNode ifTrue: [ ^ each ] ].
 		
 	^ nil
-!
-
-source
-	^ source
-!
-
-source: aString
-	source := aString
 ! !
 
 !MethodNode methodsFor: 'visiting'!

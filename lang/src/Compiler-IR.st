@@ -481,7 +481,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRClosureInstruction subclass: #IRMethod
-	slots: {#theClass. #source. #selector. #pragmas. #classReferences. #sendIndexes. #requiresSmalltalkContext. #internalVariables}
+	slots: {#theClass. #source. #selector. #pragmas. #classReferences. #sendIndexes. #internalVariables}
 	package: 'Compiler-IR'!
 !IRMethod commentStamp!
 I am a method instruction!
