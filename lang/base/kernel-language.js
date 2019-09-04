@@ -8,6 +8,7 @@ define(['./junk-drawer'], function ($goodies) {
     var addElement = $goodies.addElement;
     var removeElement = $goodies.removeElement;
     var extend = $goodies.extend;
+    var deleteKeysFrom = $goodies.deleteKeysFrom;
 
     MethodCompositionBrik.deps = ["methods"];
 
@@ -23,12 +24,6 @@ define(['./junk-drawer'], function ($goodies) {
             }
             result.owner = method.owner;
             return result;
-        }
-
-        function deleteKeysFrom (keys, obj) {
-            keys.forEach(function (each) {
-                delete obj[each];
-            });
         }
 
         function fillTraitTransformation (traitTransformation, obj) {

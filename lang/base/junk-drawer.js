@@ -101,7 +101,14 @@ define(function () {
         return target;
     }
 
+    function deleteKeysFrom (keys, obj) {
+        keys.forEach(function (each) {
+            delete obj[each];
+        });
+    }
+
     return {
+        deleteKeysFrom: deleteKeysFrom,
         extend: extend,
         removeElement: removeElement,
         addElement: addElement,
