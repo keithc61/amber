@@ -7,6 +7,24 @@ define(['./junk-drawer'], function ($goodies) {
     var declareJsMethod = $goodies.declareJsMethod;
     var st2js = $goodies.st2js;
     var js2st = $goodies.js2st;
+    var deleteKeysFrom = $goodies.deleteKeysFrom;
+    var extendWithMethods = $goodies.extendWithMethods;
+
+    function installMethodOfJsObjectEx (obj, name, fn) {
+        var attachments;
+        var old = Object.getOwnPropertyDescriptor(obj, name);
+        if (old != null && (old = old.value) != null) {
+            attachments = old.a$atx;
+            if (attachments != null) {
+                deleteKeysFrom(Object.keys(attachments), obj);
+            }
+        }
+        attachments = fn.a$atx;
+        if (attachments != null) {
+            extendWithMethods(obj, attachments);
+        }
+        return installMethodOfJsObject(obj, name, fn);
+    }
 
     function SelectorConversionBrik (brikz, st) {
         var st2jsMemo = Object.create(null);
@@ -143,7 +161,7 @@ define(['./junk-drawer'], function ($goodies) {
                 var myproto = klass.fn.prototype,
                     superproto = klass.superclass.fn.prototype;
                 jsSelectors.forEach(function (jsSelector) {
-                    installMethodOfJsObject(myproto, jsSelector, superproto[jsSelector]);
+                    installMethodOfJsObjectEx(myproto, jsSelector, superproto[jsSelector]);
                 });
             }
 
@@ -224,7 +242,7 @@ define(['./junk-drawer'], function ($goodies) {
                 if (!jsSelector) {
                     jsSelector = method.jsSelector = st2js(method.selector);
                 }
-                installMethodOfJsObject(klass.fn.prototype, jsSelector, method.fn);
+                return installMethodOfJsObjectEx(klass.fn.prototype, jsSelector, method.fn);
             }
 
             this.installAmberMethodIntoAmberClass = installAmberMethodIntoAmberClass;
@@ -254,7 +272,7 @@ define(['./junk-drawer'], function ($goodies) {
                     if (subclass === exclude) return;
                     if (subclass.methods[selector]) return sentinel;
                     if (subclass.detachedRoot) {
-                        installMethodOfJsObject(subclass.fn.prototype, jsSelector, subclass.superclass.fn.prototype[jsSelector]);
+                        installMethodOfJsObjectEx(subclass.fn.prototype, jsSelector, subclass.superclass.fn.prototype[jsSelector]);
                     }
                 });
             }

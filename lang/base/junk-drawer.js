@@ -101,6 +101,13 @@ define(function () {
         return target;
     }
 
+    function extendWithMethods (target, source) {
+        Object.keys(source).forEach(function (key) {
+            installMethodOfJsObject(target, key, source[key]);
+        });
+        return target;
+    }
+
     function deleteKeysFrom (keys, obj) {
         keys.forEach(function (each) {
             delete obj[each];
@@ -109,6 +116,7 @@ define(function () {
 
     return {
         deleteKeysFrom: deleteKeysFrom,
+        extendWithMethods: extendWithMethods,
         extend: extend,
         removeElement: removeElement,
         addElement: addElement,

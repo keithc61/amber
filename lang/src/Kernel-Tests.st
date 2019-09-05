@@ -453,6 +453,15 @@ TestCase subclass: #ClassTest
 
 !ClassTest methodsFor: 'running'!
 
+augmentMethodInstantiationOf: aMethod withAttachments: aHashedCollection
+	| plain |
+	plain := aMethod instantiateFn.
+	aMethod instantiateFn: [ :arg |
+		(plain value: arg)
+			basicAt: 'a$atx' put: aHashedCollection;
+			yourself ]
+!
+
 is: anObject javaScriptInstanceOf: aJavaScriptClass
 	<inlineJS: 'return anObject instanceof aJavaScriptClass'>
 !
@@ -538,6 +547,59 @@ testMetaclassSubclasses
 		collect: [ :each | each theMetaClass ].
 
 	self assert: Object class subclasses equals: subclasses
+!
+
+testMethodAttachemntsAreAdded
+	| instance theMethod anObject |
+	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.
+	anObject := #{#foo -> 'oof'}.
+	theMethod := Compiler new
+		compile: 'bar' forClass: ObjectMock2 protocol: '**test'.
+	self
+		augmentMethodInstantiationOf: theMethod
+		withAttachments: #{#a -> 42. #b -> anObject}.
+	ObjectMock2 addCompiledMethod: theMethod.
+	console dir: ObjectMock2 prototype.
+	self assert: (ObjectMock2 new basicAt: #a) equals: 42.
+	self assert: (ObjectMock2 new basicAt: #b) equals: anObject
+!
+
+testMethodAttachmentsAreRemoved
+	| instance theMethod anObject |
+	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.
+	anObject := #{#foo -> 'oof'}.
+	theMethod := Compiler new
+		compile: 'bar' forClass: ObjectMock2 protocol: '**test'.
+	self
+		augmentMethodInstantiationOf: theMethod
+		withAttachments: #{#a -> 42. #b -> anObject}.
+	ObjectMock2 addCompiledMethod: theMethod.
+	theMethod := Compiler new
+		compile: 'bar' forClass: ObjectMock2 protocol: '**test'.
+	ObjectMock2 addCompiledMethod: theMethod.
+	self assert: (ObjectMock2 new basicAt: #a) equals: nil.
+	self assert: (ObjectMock2 new basicAt: #b) equals: nil
+!
+
+testMethodAttachmentsAreReplaced
+	| instance theMethod anObject |
+	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.
+	anObject := #{#foo -> 'oof'}.
+	theMethod := Compiler new
+		compile: 'bar' forClass: ObjectMock2 protocol: '**test'.
+	self
+		augmentMethodInstantiationOf: theMethod
+		withAttachments: #{#a -> 42. #b -> anObject}.
+	ObjectMock2 addCompiledMethod: theMethod.
+	theMethod := Compiler new
+		compile: 'bar' forClass: ObjectMock2 protocol: '**test'.
+	self
+		augmentMethodInstantiationOf: theMethod
+		withAttachments: #{#a -> 6. #c -> [^9]}.
+	ObjectMock2 addCompiledMethod: theMethod.
+	self assert: (ObjectMock2 new basicAt: #a) equals: 6.
+	self assert: (ObjectMock2 new basicAt: #b) equals: nil.
+	self assert: (ObjectMock2 new basicPerform: #c) equals: 9
 !
 
 testSetJavaScriptConstructor
