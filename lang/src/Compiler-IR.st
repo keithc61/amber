@@ -971,8 +971,7 @@ visitIRMethod: anIRMethod
 
 	^ self
 		buildMethodDeclaration: anIRMethod
-		with: [ self stream
-			nextPutAll: '(function ($methodClass){ return ';
+		with: [ self stream nextPutInstantiationFnWith: [ self stream
 			nextPutFunctionWith: [
 				self stream nextPutVars: (anIRMethod tempDeclarations collect: [ :each |
 					each name asVariableName ]).
@@ -985,8 +984,7 @@ visitIRMethod: anIRMethod
 						self stream nextPutNonLocalReturnHandlingWith: [
 							super visitIRMethod: anIRMethod ] ]
 					ifFalse: [ super visitIRMethod: anIRMethod ] ]]
-			arguments: anIRMethod arguments;
-			nextPutAll: '; })' ]
+			arguments: anIRMethod arguments ] ]
 !
 
 visitIRNonLocalReturn: anIRNonLocalReturn
@@ -1241,6 +1239,12 @@ nextPutIf: aBlock then: ifBlock else: elseBlock
 	elseBlock value.
 	stream nextPutAll: '}'.
 	self omitSemicolon: true
+!
+
+nextPutInstantiationFnWith: aBlock
+	self nextPutAll: '(function ($methodClass){ return '.
+	aBlock value.
+	self nextPutAll: '; })'
 !
 
 nextPutMethodDeclaration: aMethod with: aBlock
