@@ -716,17 +716,17 @@ selector: "visitMethodNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitMethodNode: aNode\x0a\x0a\x09self method: (IRMethod new\x0a\x09\x09source: self source crlfSanitized;\x0a\x09\x09pragmas: (aNode pragmas collect: [ :each |\x0a\x09\x09\x09Message\x0a\x09\x09\x09\x09selector: each selector\x0a\x09\x09\x09\x09arguments: (each arguments collect: [ :eachArg |\x0a\x09\x09\x09\x09\x09eachArg isString ifTrue: [ eachArg crlfSanitized ] ifFalse: [ eachArg ]])]);\x0a\x09\x09theClass: self theClass;\x0a\x09\x09arguments: aNode arguments;\x0a\x09\x09selector: aNode selector;\x0a\x09\x09sendIndexes: aNode sendIndexes;\x0a\x09\x09requiresSmalltalkContext: aNode requiresSmalltalkContext;\x0a\x09\x09classReferences: aNode classReferences;\x0a\x09\x09scope: aNode scope;\x0a\x09\x09yourself).\x0a\x0a\x09aNode scope temps do: [ :each |\x0a\x09\x09self method add: (IRTempDeclaration new\x0a\x09\x09\x09name: each name;\x0a\x09\x09\x09scope: aNode scope;\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09aNode dagChildren do: [ :each | self method add: (self visit: each) ].\x0a\x0a\x09aNode scope hasLocalReturn ifFalse: [self method\x0a\x09\x09add: (IRReturn new\x0a\x09\x09\x09add: (IRVariable new\x0a\x09\x09\x09\x09variable: (aNode scope pseudoVars at: 'self');\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself);\x0a\x09\x09add: (IRVerbatim new source: ';', String lf; yourself) ].\x0a\x0a\x09^ self method",
+source: "visitMethodNode: aNode\x0a\x0a\x09self method: (IRMethod new\x0a\x09\x09source: self source crlfSanitized;\x0a\x09\x09pragmas: (aNode pragmas collect: [ :each |\x0a\x09\x09\x09Message\x0a\x09\x09\x09\x09selector: each selector\x0a\x09\x09\x09\x09arguments: (each arguments collect: [ :eachArg |\x0a\x09\x09\x09\x09\x09eachArg isString ifTrue: [ eachArg crlfSanitized ] ifFalse: [ eachArg ]])]);\x0a\x09\x09theClass: self theClass;\x0a\x09\x09arguments: aNode arguments;\x0a\x09\x09selector: aNode selector;\x0a\x09\x09sendIndexes: aNode sendIndexes;\x0a\x09\x09requiresSmalltalkContext: aNode requiresSmalltalkContext;\x0a\x09\x09classReferences: aNode classReferences;\x0a\x09\x09scope: aNode scope;\x0a\x09\x09yourself).\x0a\x0a\x09aNode scope temps do: [ :each |\x0a\x09\x09self method add: (IRTempDeclaration new\x0a\x09\x09\x09name: each name;\x0a\x09\x09\x09scope: aNode scope;\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09self method dagChildren addAll: (self visitAllChildren: aNode).\x0a\x0a\x09aNode scope hasLocalReturn ifFalse: [self method\x0a\x09\x09add: (IRReturn new\x0a\x09\x09\x09add: (IRVariable new\x0a\x09\x09\x09\x09variable: (aNode scope pseudoVars at: 'self');\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself);\x0a\x09\x09add: (IRVerbatim new source: ';', String lf; yourself) ].\x0a\x0a\x09^ self method",
 referencedClasses: ["IRMethod", "Message", "IRTempDeclaration", "IRReturn", "IRVariable", "IRVerbatim", "String"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["method:", "source:", "new", "crlfSanitized", "source", "pragmas:", "collect:", "pragmas", "selector:arguments:", "selector", "arguments", "ifTrue:ifFalse:", "isString", "theClass:", "theClass", "arguments:", "selector:", "sendIndexes:", "sendIndexes", "requiresSmalltalkContext:", "requiresSmalltalkContext", "classReferences:", "classReferences", "scope:", "scope", "yourself", "do:", "temps", "add:", "method", "name:", "name", "dagChildren", "visit:", "ifFalse:", "hasLocalReturn", "variable:", "at:", "pseudoVars", ",", "lf"]
+messageSends: ["method:", "source:", "new", "crlfSanitized", "source", "pragmas:", "collect:", "pragmas", "selector:arguments:", "selector", "arguments", "ifTrue:ifFalse:", "isString", "theClass:", "theClass", "arguments:", "selector:", "sendIndexes:", "sendIndexes", "requiresSmalltalkContext:", "requiresSmalltalkContext", "classReferences:", "classReferences", "scope:", "scope", "yourself", "do:", "temps", "add:", "method", "name:", "name", "addAll:", "dagChildren", "visitAllChildren:", "ifFalse:", "hasLocalReturn", "variable:", "at:", "pseudoVars", ",", "lf"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$3,$5,$7,$8,$6,$4,$9,$10,$1,$12,$11,$13,$15,$16,$17,$14,$18,$20,$19,$21,$23,$25,$26,$24,$27,$22,$29,$28;
+var $2,$3,$5,$7,$8,$6,$4,$9,$10,$1,$12,$11,$13,$15,$16,$17,$14,$19,$18,$21,$20,$22,$24,$26,$27,$25,$28,$23,$30,$29;
 $2=$recv($globals.IRMethod)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=1;
@@ -830,66 +830,53 @@ $ctx2.sendIdx["add:"]=1;
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,5)});
 //>>excludeEnd("ctx");
 }));
+$19=$self._method();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["do:"]=1;
+$ctx1.sendIdx["method"]=2;
 //>>excludeEnd("ctx");
-$recv($recv(aNode)._dagChildren())._do_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$18=$self._method();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["method"]=2;
-//>>excludeEnd("ctx");
-return $recv($18)._add_($self._visit_(each));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["add:"]=2;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,6)});
-//>>excludeEnd("ctx");
-}));
-$20=$recv(aNode)._scope();
+$18=$recv($19)._dagChildren();
+$recv($18)._addAll_($self._visitAllChildren_(aNode));
+$21=$recv(aNode)._scope();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["scope"]=4;
 //>>excludeEnd("ctx");
-$19=$recv($20)._hasLocalReturn();
-if(!$core.assert($19)){
-$21=$self._method();
+$20=$recv($21)._hasLocalReturn();
+if(!$core.assert($20)){
+$22=$self._method();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["method"]=3;
 //>>excludeEnd("ctx");
-$23=$recv($globals.IRReturn)._new();
+$24=$recv($globals.IRReturn)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=3;
 //>>excludeEnd("ctx");
-$25=$recv($globals.IRVariable)._new();
+$26=$recv($globals.IRVariable)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=4;
 //>>excludeEnd("ctx");
-$recv($25)._variable_($recv($recv($recv(aNode)._scope())._pseudoVars())._at_("self"));
-$26=$recv($25)._yourself();
+$recv($26)._variable_($recv($recv($recv(aNode)._scope())._pseudoVars())._at_("self"));
+$27=$recv($26)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["yourself"]=3;
 //>>excludeEnd("ctx");
-$24=$26;
-$recv($23)._add_($24);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["add:"]=4;
-//>>excludeEnd("ctx");
-$27=$recv($23)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["yourself"]=4;
-//>>excludeEnd("ctx");
-$22=$27;
-$recv($21)._add_($22);
+$25=$27;
+$recv($24)._add_($25);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["add:"]=3;
 //>>excludeEnd("ctx");
-$29=$recv($globals.IRVerbatim)._new();
-$recv($29)._source_(";".__comma($recv($globals.String)._lf()));
-$28=$recv($29)._yourself();
-$recv($21)._add_($28);
+$28=$recv($24)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["yourself"]=4;
+//>>excludeEnd("ctx");
+$23=$28;
+$recv($22)._add_($23);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["add:"]=2;
+//>>excludeEnd("ctx");
+$30=$recv($globals.IRVerbatim)._new();
+$recv($30)._source_(";".__comma($recv($globals.String)._lf()));
+$29=$recv($30)._yourself();
+$recv($22)._add_($29);
 }
 return $self._method();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1143,18 +1130,17 @@ selector: "add:",
 protocol: "building",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "add: anObject\x0a\x09anObject parent: self.\x0a\x09^ self dagChildren add: anObject",
+source: "add: anObject\x0a\x09^ self addDagChild: anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["parent:", "add:", "dagChildren"]
+messageSends: ["addDagChild:"]
 }, function ($methodClass){ return function (anObject){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(anObject)._parent_(self);
-return $recv($self._dagChildren())._add_(anObject);
+return $self._addDagChild_(anObject);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject})});
 //>>excludeEnd("ctx");

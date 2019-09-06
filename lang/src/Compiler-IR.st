@@ -203,7 +203,7 @@ visitMethodNode: aNode
 			scope: aNode scope;
 			yourself) ].
 
-	aNode dagChildren do: [ :each | self method add: (self visit: each) ].
+	self method dagChildren addAll: (self visitAllChildren: aNode).
 
 	aNode scope hasLocalReturn ifFalse: [self method
 		add: (IRReturn new
@@ -293,8 +293,7 @@ scope
 !IRInstruction methodsFor: 'building'!
 
 add: anObject
-	anObject parent: self.
-	^ self dagChildren add: anObject
+	^ self addDagChild: anObject
 !
 
 remove: anIRInstruction
