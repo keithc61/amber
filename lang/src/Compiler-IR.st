@@ -185,8 +185,8 @@ visitMethodNode: aNode
 		source: self source crlfSanitized;
 		pragmas: (aNode pragmas collect: [ :each |
 			Message
-				selector: each
-				selector arguments: (each arguments collect: [ :eachArg |
+				selector: each selector
+				arguments: (each arguments collect: [ :eachArg |
 					eachArg isString ifTrue: [ eachArg crlfSanitized ] ifFalse: [ eachArg ]])]);
 		theClass: self theClass;
 		arguments: aNode arguments;
