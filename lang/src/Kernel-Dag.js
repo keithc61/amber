@@ -138,54 +138,29 @@ selector: "visitDagNodeVariantRedux:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitDagNodeVariantRedux: aNode\x0a\x09\x22Immutable-guarded implementation of visitDagNode:.\x0a\x09Visits all children and checks if there were changes.\x0a\x09If not, returns aNode.\x0a\x09If yes, returns copy of aNode with new children.\x22\x0a\x0a\x09| newChildren oldChildren |\x0a\x09oldChildren := aNode dagChildren.\x0a\x09newChildren := self visitAllChildren: aNode.\x0a\x09oldChildren size = newChildren size ifTrue: [\x0a\x09\x09(1 to: oldChildren size) detect: [ :i |\x0a\x09\x09\x09(oldChildren at: i) ~= (newChildren at: i)\x0a\x09\x09] ifNone: [ \x22no change\x22 ^ aNode ] ].\x0a\x09^ aNode copy dagChildren: newChildren; yourself",
+source: "visitDagNodeVariantRedux: aNode\x0a\x09\x22Immutable-guarded implementation of visitDagNode:.\x0a\x09Visits all children and checks if there were changes.\x0a\x09If not, returns aNode.\x0a\x09If yes, returns copy of aNode with new children.\x22\x0a\x0a\x09| newChildren oldChildren |\x0a\x09oldChildren := aNode dagChildren.\x0a\x09newChildren := self visitAllChildren: aNode.\x0a\x09oldChildren = newChildren\x0a\x09\x09ifTrue: [ ^ aNode ]\x0a\x09\x09ifFalse: [ ^ aNode copy dagChildren: newChildren; yourself ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["dagChildren", "visitAllChildren:", "ifTrue:", "=", "size", "detect:ifNone:", "to:", "~=", "at:", "dagChildren:", "copy", "yourself"]
+messageSends: ["dagChildren", "visitAllChildren:", "ifTrue:ifFalse:", "=", "dagChildren:", "copy", "yourself"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 var newChildren,oldChildren;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$3,$1,$4,$5;
-var $early={};
-try {
+var $1,$2;
 oldChildren=$recv(aNode)._dagChildren();
 newChildren=$self._visitAllChildren_(aNode);
-$2=$recv(oldChildren)._size();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["size"]=1;
-//>>excludeEnd("ctx");
-$3=$recv(newChildren)._size();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["size"]=2;
-//>>excludeEnd("ctx");
-$1=$recv($2).__eq($3);
+$1=$recv(oldChildren).__eq(newChildren);
 if($core.assert($1)){
-$recv((1)._to_($recv(oldChildren)._size()))._detect_ifNone_((function(i){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$4=$recv(oldChildren)._at_(i);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["at:"]=1;
-//>>excludeEnd("ctx");
-return $recv($4).__tild_eq($recv(newChildren)._at_(i));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({i:i},$ctx1,2)});
-//>>excludeEnd("ctx");
-}),(function(){
-throw $early=[aNode];
-
-}));
+return aNode;
+} else {
+$2=$recv(aNode)._copy();
+$recv($2)._dagChildren_(newChildren);
+return $recv($2)._yourself();
 }
-$5=$recv(aNode)._copy();
-$recv($5)._dagChildren_(newChildren);
-return $recv($5)._yourself();
-}
-catch(e) {if(e===$early)return e[0]; throw e}
+return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitDagNodeVariantRedux:",{aNode:aNode,newChildren:newChildren,oldChildren:oldChildren})});
 //>>excludeEnd("ctx");

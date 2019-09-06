@@ -43,11 +43,9 @@ visitDagNodeVariantRedux: aNode
 	| newChildren oldChildren |
 	oldChildren := aNode dagChildren.
 	newChildren := self visitAllChildren: aNode.
-	oldChildren size = newChildren size ifTrue: [
-		(1 to: oldChildren size) detect: [ :i |
-			(oldChildren at: i) ~= (newChildren at: i)
-		] ifNone: [ "no change" ^ aNode ] ].
-	^ aNode copy dagChildren: newChildren; yourself
+	oldChildren = newChildren
+		ifTrue: [ ^ aNode ]
+		ifFalse: [ ^ aNode copy dagChildren: newChildren; yourself ]
 !
 
 visitDagNodeVariantSimple: aNode
