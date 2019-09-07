@@ -4456,136 +4456,52 @@ selector: "visitSuperSend:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSend"],
-source: "visitSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: '('; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'; lf.\x0a\x09self writeActualSuperSend: anIRSend.\x0a\x09self stream \x0a\x09\x09nextPutAll: ');'; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'",
-referencedClasses: [],
+source: "visitSuperSend: anIRSend\x0a\x09self stream nextPutSupercallFor: anIRSend with: [\x0a\x09\x09self stream\x0a\x09\x09\x09nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';\x0a\x09\x09\x09nextPutAll: anIRSend javaScriptSelector, '.call'.\x0a\x09\x09self\x0a\x09\x09\x09visitInstructionList: {IRVerbatim new source: '$self'; yourself}, anIRSend arguments\x0a\x09\x09\x09enclosedBetween: '(' and: ')' ]",
+referencedClasses: ["IRVerbatim"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["nextPutAll:", "stream", "lf", ",", "alias", "scope", "writeActualSuperSend:"]
+messageSends: ["nextPutSupercallFor:with:", "stream", "nextPutAll:", ",", "lookupAsJavaScriptSource", "variable", "receiver", "javaScriptSelector", "visitInstructionList:enclosedBetween:and:", "source:", "new", "yourself", "arguments"]
 }, function ($methodClass){ return function (anIRSend){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$4,$3,$2,$5;
+var $1,$2,$3,$4,$8,$7,$6,$5;
 $1=$self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["stream"]=1;
 //>>excludeEnd("ctx");
-$recv($1)._nextPutAll_("(");
+$recv($1)._nextPutSupercallFor_with_(anIRSend,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=1;
+return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv($1)._lf();
+$2=$self._stream();
+$3=$recv($recv($recv($recv(anIRSend)._receiver())._variable())._lookupAsJavaScriptSource()).__comma(".");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lf"]=1;
+$ctx2.sendIdx[","]=1;
 //>>excludeEnd("ctx");
-$recv($1)._nextPutAll_("//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);");
+$recv($2)._nextPutAll_($3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=2;
+$ctx2.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$recv($1)._lf();
+$4=$recv($recv(anIRSend)._javaScriptSelector()).__comma(".call");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lf"]=2;
+$ctx2.sendIdx[","]=2;
 //>>excludeEnd("ctx");
-$4=$recv(anIRSend)._scope();
+$recv($2)._nextPutAll_($4);
+$8=$recv($globals.IRVerbatim)._new();
+$recv($8)._source_("$self");
+$7=$recv($8)._yourself();
+$6=[$7];
+$5=$recv($6).__comma($recv(anIRSend)._arguments());
+return $self._visitInstructionList_enclosedBetween_and_($5,"(",")");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["scope"]=1;
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
-$3=$recv($4)._alias();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["alias"]=1;
-//>>excludeEnd("ctx");
-$2=$recv($3).__comma(".supercall = true,");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
-//>>excludeEnd("ctx");
-$recv($1)._nextPutAll_($2);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=3;
-//>>excludeEnd("ctx");
-$recv($1)._lf();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lf"]=3;
-//>>excludeEnd("ctx");
-$recv($1)._nextPutAll_("//>>excludeEnd(\x22ctx\x22);");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=4;
-//>>excludeEnd("ctx");
-$recv($1)._lf();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lf"]=4;
-//>>excludeEnd("ctx");
-$self._writeActualSuperSend_(anIRSend);
-$5=$self._stream();
-$recv($5)._nextPutAll_(");");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=5;
-//>>excludeEnd("ctx");
-$recv($5)._lf();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lf"]=5;
-//>>excludeEnd("ctx");
-$recv($5)._nextPutAll_("//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=6;
-//>>excludeEnd("ctx");
-$recv($5)._lf();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["lf"]=6;
-//>>excludeEnd("ctx");
-$recv($5)._nextPutAll_($recv($recv($recv(anIRSend)._scope())._alias()).__comma(".supercall = false;"));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=7;
-//>>excludeEnd("ctx");
-$recv($5)._lf();
-$recv($5)._nextPutAll_("//>>excludeEnd(\x22ctx\x22);");
+}));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitSuperSend:",{anIRSend:anIRSend})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IRJSTranslator);
-
-$core.addMethod(
-$core.method({
-selector: "writeActualSuperSend:",
-protocol: "visiting",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anIRSend"],
-source: "writeActualSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';\x0a\x09\x09nextPutAll: anIRSend javaScriptSelector, '.call'.\x0a\x09self\x0a\x09\x09visitInstructionList: {IRVerbatim new source: '$self'; yourself}, anIRSend arguments\x0a\x09\x09enclosedBetween: '(' and: ')'",
-referencedClasses: ["IRVerbatim"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["nextPutAll:", "stream", ",", "lookupAsJavaScriptSource", "variable", "receiver", "javaScriptSelector", "visitInstructionList:enclosedBetween:and:", "source:", "new", "yourself", "arguments"]
-}, function ($methodClass){ return function (anIRSend){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$2,$3,$7,$6,$5,$4;
-$1=$self._stream();
-$2=$recv($recv($recv($recv(anIRSend)._receiver())._variable())._lookupAsJavaScriptSource()).__comma(".");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
-//>>excludeEnd("ctx");
-$recv($1)._nextPutAll_($2);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=1;
-//>>excludeEnd("ctx");
-$3=$recv($recv(anIRSend)._javaScriptSelector()).__comma(".call");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=2;
-//>>excludeEnd("ctx");
-$recv($1)._nextPutAll_($3);
-$7=$recv($globals.IRVerbatim)._new();
-$recv($7)._source_("$self");
-$6=$recv($7)._yourself();
-$5=[$6];
-$4=$recv($5).__comma($recv(anIRSend)._arguments());
-$self._visitInstructionList_enclosedBetween_and_($4,"(",")");
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"writeActualSuperSend:",{anIRSend:anIRSend})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.IRJSTranslator);
@@ -5707,6 +5623,97 @@ $recv($self.stream)._lf();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"nextPutStatementWith:",{aBlock:aBlock})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.JSStream);
+
+$core.addMethod(
+$core.method({
+selector: "nextPutSupercallFor:with:",
+protocol: "streaming",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anIRSend", "aBlock"],
+source: "nextPutSupercallFor: anIRSend with: aBlock\x0a\x09self\x0a\x09\x09nextPutAll: '('; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'; lf.\x0a\x09aBlock value.\x0a\x09self\x0a\x09\x09nextPutAll: ');'; lf;\x0a\x09\x09nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf;\x0a\x09\x09nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;\x0a\x09\x09nextPutAll: '//>>excludeEnd(\x22ctx\x22);'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["nextPutAll:", "lf", ",", "alias", "scope", "value"]
+}, function ($methodClass){ return function (anIRSend,aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $3,$2,$1;
+$self._nextPutAll_("(");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["nextPutAll:"]=1;
+//>>excludeEnd("ctx");
+$self._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["lf"]=1;
+//>>excludeEnd("ctx");
+$self._nextPutAll_("//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["nextPutAll:"]=2;
+//>>excludeEnd("ctx");
+$self._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["lf"]=2;
+//>>excludeEnd("ctx");
+$3=$recv(anIRSend)._scope();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["scope"]=1;
+//>>excludeEnd("ctx");
+$2=$recv($3)._alias();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["alias"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2).__comma(".supercall = true,");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=1;
+//>>excludeEnd("ctx");
+$self._nextPutAll_($1);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["nextPutAll:"]=3;
+//>>excludeEnd("ctx");
+$self._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["lf"]=3;
+//>>excludeEnd("ctx");
+$self._nextPutAll_("//>>excludeEnd(\x22ctx\x22);");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["nextPutAll:"]=4;
+//>>excludeEnd("ctx");
+$self._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["lf"]=4;
+//>>excludeEnd("ctx");
+$recv(aBlock)._value();
+$self._nextPutAll_(");");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["nextPutAll:"]=5;
+//>>excludeEnd("ctx");
+$self._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["lf"]=5;
+//>>excludeEnd("ctx");
+$self._nextPutAll_("//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["nextPutAll:"]=6;
+//>>excludeEnd("ctx");
+$self._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["lf"]=6;
+//>>excludeEnd("ctx");
+$self._nextPutAll_($recv($recv($recv(anIRSend)._scope())._alias()).__comma(".supercall = false;"));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["nextPutAll:"]=7;
+//>>excludeEnd("ctx");
+$self._lf();
+$self._nextPutAll_("//>>excludeEnd(\x22ctx\x22);");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"nextPutSupercallFor:with:",{anIRSend:anIRSend,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.JSStream);

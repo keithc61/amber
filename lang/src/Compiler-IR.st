@@ -1067,26 +1067,13 @@ visitSend: anIRSend
 !
 
 visitSuperSend: anIRSend
-	self stream
-		nextPutAll: '('; lf;
-		nextPutAll: '//>>excludeStart("ctx", pragmas.excludeDebugContexts);'; lf;
-		nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;
-		nextPutAll: '//>>excludeEnd("ctx");'; lf.
-	self writeActualSuperSend: anIRSend.
-	self stream 
-		nextPutAll: ');'; lf;
-		nextPutAll: '//>>excludeStart("ctx", pragmas.excludeDebugContexts);'; lf;
-		nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;
-		nextPutAll: '//>>excludeEnd("ctx");'
-!
-
-writeActualSuperSend: anIRSend
-	self stream
-		nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';
-		nextPutAll: anIRSend javaScriptSelector, '.call'.
-	self
-		visitInstructionList: {IRVerbatim new source: '$self'; yourself}, anIRSend arguments
-		enclosedBetween: '(' and: ')'
+	self stream nextPutSupercallFor: anIRSend with: [
+		self stream
+			nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';
+			nextPutAll: anIRSend javaScriptSelector, '.call'.
+		self
+			visitInstructionList: {IRVerbatim new source: '$self'; yourself}, anIRSend arguments
+			enclosedBetween: '(' and: ')' ]
 ! !
 
 Object subclass: #JSStream
@@ -1306,6 +1293,20 @@ nextPutStatementWith: aBlock
 	self omitSemicolon ifFalse: [ stream nextPutAll: ';' ].
 	self omitSemicolon: false.
 	stream lf
+!
+
+nextPutSupercallFor: anIRSend with: aBlock
+	self
+		nextPutAll: '('; lf;
+		nextPutAll: '//>>excludeStart("ctx", pragmas.excludeDebugContexts);'; lf;
+		nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;
+		nextPutAll: '//>>excludeEnd("ctx");'; lf.
+	aBlock value.
+	self
+		nextPutAll: ');'; lf;
+		nextPutAll: '//>>excludeStart("ctx", pragmas.excludeDebugContexts);'; lf;
+		nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;
+		nextPutAll: '//>>excludeEnd("ctx");'
 !
 
 nextPutVars: aCollection
