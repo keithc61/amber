@@ -2746,11 +2746,11 @@ $globals.ClassTest);
 
 $core.addMethod(
 $core.method({
-selector: "testMethodAttachemntsAreAdded",
+selector: "testMethodAttachmentsAreAdded",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testMethodAttachemntsAreAdded\x0a\x09| instance theMethod anObject |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09anObject := #{#foo -> 'oof'}.\x0a\x09theMethod := Compiler new\x0a\x09\x09compile: 'bar' forClass: ObjectMock2 protocol: '**test'.\x0a\x09self\x0a\x09\x09augmentMethodInstantiationOf: theMethod\x0a\x09\x09withAttachments: #{#a -> 42. #b -> anObject}.\x0a\x09ObjectMock2 addCompiledMethod: theMethod.\x0a\x09console dir: ObjectMock2 prototype.\x0a\x09self assert: (ObjectMock2 new basicAt: #a) equals: 42.\x0a\x09self assert: (ObjectMock2 new basicAt: #b) equals: anObject",
+source: "testMethodAttachmentsAreAdded\x0a\x09| instance theMethod anObject |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09anObject := #{#foo -> 'oof'}.\x0a\x09theMethod := Compiler new\x0a\x09\x09compile: 'bar' forClass: ObjectMock2 protocol: '**test'.\x0a\x09self\x0a\x09\x09augmentMethodInstantiationOf: theMethod\x0a\x09\x09withAttachments: #{#a -> 42. #b -> anObject}.\x0a\x09ObjectMock2 addCompiledMethod: theMethod.\x0a\x09console dir: ObjectMock2 prototype.\x0a\x09self assert: (ObjectMock2 new basicAt: #a) equals: 42.\x0a\x09self assert: (ObjectMock2 new basicAt: #b) equals: anObject",
 referencedClasses: ["ObjectMock", "Compiler", "ObjectMock2"],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -2787,7 +2787,7 @@ $ctx1.sendIdx["assert:equals:"]=1;
 $self._assert_equals_($recv($recv($globals.ObjectMock2)._new())._basicAt_("b"),anObject);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testMethodAttachemntsAreAdded",{instance:instance,theMethod:theMethod,anObject:anObject})});
+}, function($ctx1) {$ctx1.fill(self,"testMethodAttachmentsAreAdded",{instance:instance,theMethod:theMethod,anObject:anObject})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ClassTest);

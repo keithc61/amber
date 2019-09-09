@@ -549,7 +549,7 @@ testMetaclassSubclasses
 	self assert: Object class subclasses equals: subclasses
 !
 
-testMethodAttachemntsAreAdded
+testMethodAttachmentsAreAdded
 	| instance theMethod anObject |
 	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.
 	anObject := #{#foo -> 'oof'}.
