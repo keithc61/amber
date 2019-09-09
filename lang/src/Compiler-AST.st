@@ -784,7 +784,7 @@ methodNode: anObject
 visitMethodNode: aNode
 	self methodNode: aNode.
 	self processPragmas: aNode pragmas.
-	^ super visitMethodNode: aNode
+	^ aNode
 ! !
 
 AstPragmator subclass: #AstEarlyPragmator

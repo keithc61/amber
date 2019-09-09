@@ -3095,28 +3095,19 @@ selector: "visitMethodNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitMethodNode: aNode\x0a\x09self methodNode: aNode.\x0a\x09self processPragmas: aNode pragmas.\x0a\x09^ super visitMethodNode: aNode",
+source: "visitMethodNode: aNode\x0a\x09self methodNode: aNode.\x0a\x09self processPragmas: aNode pragmas.\x0a\x09^ aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["methodNode:", "processPragmas:", "pragmas", "visitMethodNode:"]
+messageSends: ["methodNode:", "processPragmas:", "pragmas"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 $self._methodNode_(aNode);
 $self._processPragmas_($recv(aNode)._pragmas());
-$1=(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = true,
-//>>excludeEnd("ctx");
-($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitMethodNode_.call($self,aNode));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = false;
-//>>excludeEnd("ctx");;
-return $1;
+return aNode;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitMethodNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
