@@ -480,12 +480,16 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRClosureInstruction subclass: #IRMethod
-	slots: {#theClass. #source. #compiledSource. #selector. #pragmas. #classReferences. #sendIndexes. #internalVariables}
+	slots: {#theClass. #source. #compiledSource. #attachments. #selector. #pragmas. #classReferences. #sendIndexes. #internalVariables}
 	package: 'Compiler-IR'!
 !IRMethod commentStamp!
 I am a method instruction!
 
 !IRMethod methodsFor: 'accessing'!
+
+attachments
+	^ attachments ifNil: [ attachments := #{} ]
+!
 
 classReferences
 	^ classReferences
@@ -1067,6 +1071,42 @@ visitSuperSend: anIRSend
 			enclosedBetween: '(' and: ')' ]
 ! !
 
+IRVisitor subclass: #IRPragmator
+	slots: {#irMethod}
+	package: 'Compiler-IR'!
+
+!IRPragmator methodsFor: 'accessing'!
+
+irMethod
+	^ irMethod
+!
+
+irMethod: anObject
+	irMethod := anObject
+! !
+
+!IRPragmator methodsFor: 'visiting'!
+
+visitIRMethod: anIRMethod
+	self irMethod: anIRMethod.
+	self processPragmas: anIRMethod pragmas.
+	^ anIRMethod
+! !
+
+IRPragmator subclass: #IRLatePragmator
+	slots: {}
+	package: 'Compiler-IR'!
+
+!IRLatePragmator methodsFor: 'as yet unclassified'!
+
+jsOverride: aString
+	self irMethod attachments
+		at: aString
+		put: (NativeFunction
+			constructorNamed: #Function
+			value: 'return this.', irMethod selector asJavaScriptMethodName, '()')
+! !
+
 Object subclass: #JSStream
 	slots: {#stream. #omitSemicolon}
 	package: 'Compiler-IR'!
@@ -1282,6 +1322,9 @@ nextPutVars: aCollection
 			do: [ :each | stream nextPutAll: each ]
 			separatedBy: [ stream nextPutAll: ',' ].
 		stream nextPutAll: ';'; lf ]
+! !
+
+IRPragmator setTraitComposition: {TPragmator} asTraitComposition!
 ! !
 
 !ASTNode methodsFor: '*Compiler-IR'!

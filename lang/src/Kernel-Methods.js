@@ -58,6 +58,30 @@ $globals.BlockClosure);
 
 $core.addMethod(
 $core.method({
+selector: "asJavaScriptSource",
+protocol: "converting",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asJavaScriptSource\x0a\x09<inlineJS: 'return $self.toString();'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return $self.toString();"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self.toString();;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.BlockClosure);
+
+$core.addMethod(
+$core.method({
 selector: "compiledSource",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);

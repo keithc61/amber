@@ -68,6 +68,10 @@ asCompiledMethod: aString
 	<inlineJS: 'return $core.method({selector:aString, fn:self});'>
 !
 
+asJavaScriptSource
+	<inlineJS: 'return $self.toString();'>
+!
+
 currySelf
 	"Transforms [ :selfarg :x :y | stcode ] block
 	which represents JS function (selfarg, x, y, ...) {jscode}

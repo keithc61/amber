@@ -3349,6 +3349,68 @@ $globals.HashedCollection.comment="I am a traditional JavaScript object, or a Sm
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
+selector: "asJavaScriptSource",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asJavaScriptSource\x0a\x09^ String streamContents: [ :str |\x0a\x09\x09str nextPut: '{'.\x0a\x09\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09\x09str nextPutAll: key asJavaScriptSource; nextPut: ':'; nextPutAll: value asJavaScriptSource; nextPut: ',' ].\x0a\x09\x09str skip: -1; nextPut: '}' ]",
+referencedClasses: ["String"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["streamContents:", "nextPut:", "keysAndValuesDo:", "nextPutAll:", "asJavaScriptSource", "skip:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+return $recv($globals.String)._streamContents_((function(str){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv(str)._nextPut_("{");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["nextPut:"]=1;
+//>>excludeEnd("ctx");
+$self._keysAndValuesDo_((function(key,value){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$1=$recv(key)._asJavaScriptSource();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["asJavaScriptSource"]=1;
+//>>excludeEnd("ctx");
+$recv(str)._nextPutAll_($1);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["nextPutAll:"]=1;
+//>>excludeEnd("ctx");
+$recv(str)._nextPut_(":");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["nextPut:"]=2;
+//>>excludeEnd("ctx");
+$recv(str)._nextPutAll_($recv(value)._asJavaScriptSource());
+return $recv(str)._nextPut_(",");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["nextPut:"]=3;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({key:key,value:value},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+$recv(str)._skip_((-1));
+return $recv(str)._nextPut_("}");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({str:str},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.HashedCollection);
+
+$core.addMethod(
+$core.method({
 selector: "at:ifAbsent:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);

@@ -321,6 +321,29 @@ $globals.CodeGenerator);
 
 $core.addMethod(
 $core.method({
+selector: "lateIRPragmator",
+protocol: "compiling",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "lateIRPragmator\x0a\x09^ IRLatePragmator new",
+referencedClasses: ["IRLatePragmator"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.IRLatePragmator)._new();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"lateIRPragmator",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.CodeGenerator);
+
+$core.addMethod(
+$core.method({
 selector: "semanticAnalyzer",
 protocol: "compiling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -351,11 +374,11 @@ selector: "transformersDictionary",
 protocol: "compiling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "transformersDictionary\x0a\x09^ transformersDictionary ifNil: [ transformersDictionary := Dictionary new\x0a\x09\x09at: '1000-earlyPragmas' put: self earlyAstPragmator;\x0a\x09\x09at: '2000-semantic' put: self semanticAnalyzer;\x0a\x09\x09at: '5000-astToIr' put: self translator;\x0a\x09\x09at: '8000-irToJs' put: self irTranslator;\x0a\x09\x09yourself ]",
+source: "transformersDictionary\x0a\x09^ transformersDictionary ifNil: [ transformersDictionary := Dictionary new\x0a\x09\x09at: '1000-earlyPragmas' put: self earlyAstPragmator;\x0a\x09\x09at: '2000-semantic' put: self semanticAnalyzer;\x0a\x09\x09at: '5000-astToIr' put: self translator;\x0a\x09\x09at: '8000-irToJs' put: self irTranslator;\x0a\x09\x09at: '9000-latePragmas' put: self lateIRPragmator;\x0a\x09\x09yourself ]",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNil:", "at:put:", "new", "earlyAstPragmator", "semanticAnalyzer", "translator", "irTranslator", "yourself"]
+messageSends: ["ifNil:", "at:put:", "new", "earlyAstPragmator", "semanticAnalyzer", "translator", "irTranslator", "lateIRPragmator", "yourself"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -378,6 +401,10 @@ $recv($2)._at_put_("5000-astToIr",$self._translator());
 $ctx1.sendIdx["at:put:"]=3;
 //>>excludeEnd("ctx");
 $recv($2)._at_put_("8000-irToJs",$self._irTranslator());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=4;
+//>>excludeEnd("ctx");
+$recv($2)._at_put_("9000-latePragmas",$self._lateIRPragmator());
 $self.transformersDictionary=$recv($2)._yourself();
 return $self.transformersDictionary;
 } else {
@@ -589,42 +616,77 @@ selector: "compile:forClass:protocol:",
 protocol: "compiling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aClass", "anotherString"],
-source: "compile: aString forClass: aClass protocol: anotherString\x0a\x09| compilationResult result pragmas closureFactory |\x0a\x09compilationResult := self\x0a\x09\x09start: aString forClass: aClass protocol: anotherString;\x0a\x09\x09compileNode: (self parse: aString).\x0a\x09closureFactory := self\x0a\x09\x09eval: '(function ($methodClass){ return ', compilationResult compiledSource, '; })'\x0a\x09\x09forPackage: self currentPackage.\x0a\x09result := Smalltalk core method: #{\x0a\x09\x09#selector -> compilationResult selector.\x0a\x09\x09#protocol -> anotherString.\x0a\x09\x09#source -> compilationResult source.\x0a\x09\x09#messageSends -> compilationResult messageSends asArray.\x0a\x09\x09#args -> compilationResult arguments asArray.\x0a\x09\x09#referencedClasses -> compilationResult classReferences asArray.\x0a\x09} withFactory: closureFactory.\x0a\x09result pragmas: compilationResult pragmas.\x0a\x09^ result",
+source: "compile: aString forClass: aClass protocol: anotherString\x0a\x09| compilationResult wrappedJs result pragmas closureFactory |\x0a\x09compilationResult := self\x0a\x09\x09start: aString forClass: aClass protocol: anotherString;\x0a\x09\x09compileNode: (self parse: aString).\x0a\x09wrappedJs := compilationResult attachments\x0a\x09\x09ifEmpty: [ '(function ($methodClass){ return ', compilationResult compiledSource, '; })' ]\x0a\x09\x09ifNotEmpty: [ :attachments | '(function ($methodClass){ return (function(method){Object.defineProperty(method,\x22a$atx\x22,{enumerable:false,configurable:true,writable:true,value:', attachments asJavaScriptSource, '});return method})(', compilationResult compiledSource, '); })' ].\x0a\x09closureFactory := self\x0a\x09\x09eval: wrappedJs\x0a\x09\x09forPackage: self currentPackage.\x0a\x09result := Smalltalk core method: #{\x0a\x09\x09#selector -> compilationResult selector.\x0a\x09\x09#protocol -> anotherString.\x0a\x09\x09#source -> compilationResult source.\x0a\x09\x09#messageSends -> compilationResult messageSends asArray.\x0a\x09\x09#args -> compilationResult arguments asArray.\x0a\x09\x09#referencedClasses -> compilationResult classReferences asArray.\x0a\x09} withFactory: closureFactory.\x0a\x09result pragmas: compilationResult pragmas.\x0a\x09^ result",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["start:forClass:protocol:", "compileNode:", "parse:", "eval:forPackage:", ",", "compiledSource", "currentPackage", "method:withFactory:", "core", "selector", "source", "asArray", "messageSends", "arguments", "classReferences", "pragmas:", "pragmas"]
+messageSends: ["start:forClass:protocol:", "compileNode:", "parse:", "ifEmpty:ifNotEmpty:", "attachments", ",", "compiledSource", "asJavaScriptSource", "eval:forPackage:", "currentPackage", "method:withFactory:", "core", "selector", "source", "asArray", "messageSends", "arguments", "classReferences", "pragmas:", "pragmas"]
 }, function ($methodClass){ return function (aString,aClass,anotherString){
 var self=this,$self=this;
-var compilationResult,result,pragmas,closureFactory;
+var compilationResult,wrappedJs,result,pragmas,closureFactory;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$5,$6,$7,$3;
+var $2,$1,$4,$3,$5,$7,$8,$9,$10,$6;
 $self._start_forClass_protocol_(aString,aClass,anotherString);
 compilationResult=$self._compileNode_($self._parse_(aString));
-$1=$recv("(function ($methodClass){ return ".__comma($recv(compilationResult)._compiledSource())).__comma("; })");
+wrappedJs=$recv($recv(compilationResult)._attachments())._ifEmpty_ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
+return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-closureFactory=$self._eval_forPackage_($1,$self._currentPackage());
-$2=$recv($globals.Smalltalk)._core();
-$4=$recv(compilationResult)._selector();
-$5=$recv(compilationResult)._source();
-$6=$recv($recv(compilationResult)._messageSends())._asArray();
+$2=$recv(compilationResult)._compiledSource();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["compiledSource"]=1;
+//>>excludeEnd("ctx");
+$1="(function ($methodClass){ return ".__comma($2);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx[","]=2;
+//>>excludeEnd("ctx");
+return $recv($1).__comma("; })");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx[","]=1;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),(function(attachments){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$4=$recv("(function ($methodClass){ return (function(method){Object.defineProperty(method,\x22a$atx\x22,{enumerable:false,configurable:true,writable:true,value:".__comma($recv(attachments)._asJavaScriptSource())).__comma("});return method})(");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx[","]=5;
+//>>excludeEnd("ctx");
+$3=$recv($4).__comma($recv(compilationResult)._compiledSource());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx[","]=4;
+//>>excludeEnd("ctx");
+return $recv($3).__comma("); })");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx[","]=3;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({attachments:attachments},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+closureFactory=$self._eval_forPackage_(wrappedJs,$self._currentPackage());
+$5=$recv($globals.Smalltalk)._core();
+$7=$recv(compilationResult)._selector();
+$8=$recv(compilationResult)._source();
+$9=$recv($recv(compilationResult)._messageSends())._asArray();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["asArray"]=1;
 //>>excludeEnd("ctx");
-$7=$recv($recv(compilationResult)._arguments())._asArray();
+$10=$recv($recv(compilationResult)._arguments())._asArray();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["asArray"]=2;
 //>>excludeEnd("ctx");
-$3=$globals.HashedCollection._newFromPairs_(["selector",$4,"protocol",anotherString,"source",$5,"messageSends",$6,"args",$7,"referencedClasses",$recv($recv(compilationResult)._classReferences())._asArray()]);
-result=$recv($2)._method_withFactory_($3,closureFactory);
+$6=$globals.HashedCollection._newFromPairs_(["selector",$7,"protocol",anotherString,"source",$8,"messageSends",$9,"args",$10,"referencedClasses",$recv($recv(compilationResult)._classReferences())._asArray()]);
+result=$recv($5)._method_withFactory_($6,closureFactory);
 $recv(result)._pragmas_($recv(compilationResult)._pragmas());
 return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"compile:forClass:protocol:",{aString:aString,aClass:aClass,anotherString:anotherString,compilationResult:compilationResult,result:result,pragmas:pragmas,closureFactory:closureFactory})});
+}, function($ctx1) {$ctx1.fill(self,"compile:forClass:protocol:",{aString:aString,aClass:aClass,anotherString:anotherString,compilationResult:compilationResult,wrappedJs:wrappedJs,result:result,pragmas:pragmas,closureFactory:closureFactory})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.Compiler);

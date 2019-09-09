@@ -815,6 +815,14 @@ Unlike a `Dictionary`, I can only have strings as keys.!
 
 !HashedCollection methodsFor: 'accessing'!
 
+asJavaScriptSource
+	^ String streamContents: [ :str |
+		str nextPut: '{'.
+		self keysAndValuesDo: [ :key :value |
+			str nextPutAll: key asJavaScriptSource; nextPut: ':'; nextPutAll: value asJavaScriptSource; nextPut: ',' ].
+		str skip: -1; nextPut: '}' ]
+!
+
 at: aKey ifAbsent: aBlock
 	^ (self includesKey: aKey)
 		ifTrue: [ self basicAt: aKey ]

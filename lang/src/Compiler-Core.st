@@ -77,6 +77,10 @@ irTranslatorClass
 	^ IRJSTranslator
 !
 
+lateIRPragmator
+	^ IRLatePragmator new
+!
+
 semanticAnalyzer
 	^ (SemanticAnalyzer on: self currentClass)
 		thePackage: self currentPackage;
@@ -89,6 +93,7 @@ transformersDictionary
 		at: '2000-semantic' put: self semanticAnalyzer;
 		at: '5000-astToIr' put: self translator;
 		at: '8000-irToJs' put: self irTranslator;
+		at: '9000-latePragmas' put: self lateIRPragmator;
 		yourself ]
 !
 
@@ -149,12 +154,15 @@ ast: aString forClass: aClass protocol: anotherString
 !
 
 compile: aString forClass: aClass protocol: anotherString
-	| compilationResult result pragmas closureFactory |
+	| compilationResult wrappedJs result pragmas closureFactory |
 	compilationResult := self
 		start: aString forClass: aClass protocol: anotherString;
 		compileNode: (self parse: aString).
+	wrappedJs := compilationResult attachments
+		ifEmpty: [ '(function ($methodClass){ return ', compilationResult compiledSource, '; })' ]
+		ifNotEmpty: [ :attachments | '(function ($methodClass){ return (function(method){Object.defineProperty(method,"a$atx",{enumerable:false,configurable:true,writable:true,value:', attachments asJavaScriptSource, '});return method})(', compilationResult compiledSource, '); })' ].
 	closureFactory := self
-		eval: '(function ($methodClass){ return ', compilationResult compiledSource, '; })'
+		eval: wrappedJs
 		forPackage: self currentPackage.
 	result := Smalltalk core method: #{
 		#selector -> compilationResult selector.

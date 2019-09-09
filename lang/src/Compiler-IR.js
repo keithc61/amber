@@ -1,4 +1,4 @@
-define(["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Kernel-Dag", "amber/core/Kernel-Methods", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
+define(["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Kernel-Dag", "amber/core/Kernel-Helpers", "amber/core/Kernel-Methods", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-IR");
 $pkg.innerEval = function (expr) { return eval(expr); };
@@ -1969,7 +1969,7 @@ $globals.IRClosure);
 
 
 
-$core.addClass("IRMethod", $globals.IRClosureInstruction, ["theClass", "source", "compiledSource", "selector", "pragmas", "classReferences", "sendIndexes", "internalVariables"], "Compiler-IR");
+$core.addClass("IRMethod", $globals.IRClosureInstruction, ["theClass", "source", "compiledSource", "attachments", "selector", "pragmas", "classReferences", "sendIndexes", "internalVariables"], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRMethod.comment="I am a method instruction";
 //>>excludeEnd("ide");
@@ -1992,6 +1992,36 @@ return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitIRMethod_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.IRMethod);
+
+$core.addMethod(
+$core.method({
+selector: "attachments",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "attachments\x0a\x09^ attachments ifNil: [ attachments := #{} ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNil:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$receiver;
+$1=$self.attachments;
+if(($receiver = $1) == null || $receiver.a$nil){
+$self.attachments=$globals.HashedCollection._newFromPairs_([]);
+return $self.attachments;
+} else {
+return $1;
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"attachments",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.IRMethod);
@@ -4462,6 +4492,105 @@ $globals.IRJSTranslator);
 
 
 
+$core.addClass("IRPragmator", $globals.IRVisitor, ["irMethod"], "Compiler-IR");
+$core.addMethod(
+$core.method({
+selector: "irMethod",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "irMethod\x0a\x09^ irMethod",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.irMethod;
+
+}; }),
+$globals.IRPragmator);
+
+$core.addMethod(
+$core.method({
+selector: "irMethod:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "irMethod: anObject\x0a\x09irMethod := anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+$self.irMethod=anObject;
+return self;
+
+}; }),
+$globals.IRPragmator);
+
+$core.addMethod(
+$core.method({
+selector: "visitIRMethod:",
+protocol: "visiting",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anIRMethod"],
+source: "visitIRMethod: anIRMethod\x0a\x09self irMethod: anIRMethod.\x0a\x09self processPragmas: anIRMethod pragmas.\x0a\x09^ anIRMethod",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["irMethod:", "processPragmas:", "pragmas"]
+}, function ($methodClass){ return function (anIRMethod){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._irMethod_(anIRMethod);
+$self._processPragmas_($recv(anIRMethod)._pragmas());
+return anIRMethod;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"visitIRMethod:",{anIRMethod:anIRMethod})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.IRPragmator);
+
+
+
+$core.addClass("IRLatePragmator", $globals.IRPragmator, [], "Compiler-IR");
+$core.addMethod(
+$core.method({
+selector: "jsOverride:",
+protocol: "as yet unclassified",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "jsOverride: aString\x0a\x09self irMethod attachments\x0a\x09\x09at: aString\x0a\x09\x09put: (NativeFunction\x0a\x09\x09\x09constructorNamed: #Function\x0a\x09\x09\x09value: 'return this.', irMethod selector asJavaScriptMethodName, '()')",
+referencedClasses: ["NativeFunction"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:put:", "attachments", "irMethod", "constructorNamed:value:", ",", "asJavaScriptMethodName", "selector"]
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$3,$2;
+$1=$recv($self._irMethod())._attachments();
+$3=$recv("return this.".__comma($recv($recv($self.irMethod)._selector())._asJavaScriptMethodName())).__comma("()");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=1;
+//>>excludeEnd("ctx");
+$2=$recv($globals.NativeFunction)._constructorNamed_value_("Function",$3);
+$recv($1)._at_put_(aString,$2);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"jsOverride:",{aString:aString})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.IRLatePragmator);
+
+
+
 $core.addClass("JSStream", $globals.Object, ["stream", "omitSemicolon"], "Compiler-IR");
 $core.addMethod(
 $core.method({
@@ -5573,6 +5702,8 @@ return self;
 }; }),
 $globals.JSStream);
 
+
+$core.setTraitComposition([{trait: $globals.TPragmator}], $globals.IRPragmator);
 
 $core.addMethod(
 $core.method({

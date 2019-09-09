@@ -2090,6 +2090,57 @@ $globals.CodeGeneratorInstallTest);
 
 $core.addMethod(
 $core.method({
+selector: "testNiladicJSOverride",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNiladicJSOverride\x0a\x09receiver := ObjectMock new.\x0a\x09receiver foo: 4.\x0a\x09self while: 'baz <jsOverride: #baz> ^ (foo := foo + 3)' should: [\x0a\x09\x09self assert: receiver baz equals: 7.\x0a\x09\x09self assert: (receiver basicPerform: #baz) equals: 10.\x0a\x09\x09self assert: receiver baz equals: 13.\x0a\x09\x09self assert: receiver foo equals: 13 ]",
+referencedClasses: ["ObjectMock"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "foo:", "while:should:", "assert:equals:", "baz", "basicPerform:", "foo"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$self.receiver=$recv($globals.ObjectMock)._new();
+$recv($self.receiver)._foo_((4));
+$self._while_should_("baz <jsOverride: #baz> ^ (foo := foo + 3)",(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=$recv($self.receiver)._baz();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["baz"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($1,(7));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($recv($self.receiver)._basicPerform_("baz"),(10));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+$self._assert_equals_($recv($self.receiver)._baz(),(13));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["assert:equals:"]=3;
+//>>excludeEnd("ctx");
+return $self._assert_equals_($recv($self.receiver)._foo(),(13));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testNiladicJSOverride",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.CodeGeneratorInstallTest);
+
+$core.addMethod(
+$core.method({
 selector: "testPragmaInBlock",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);

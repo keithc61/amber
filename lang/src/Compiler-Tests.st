@@ -562,6 +562,16 @@ testMistypedPragmaJSStatement
 	self shouldntInstall: 'foo < inlineJS: ''return ''foo'''' >'
 !
 
+testNiladicJSOverride
+	receiver := ObjectMock new.
+	receiver foo: 4.
+	self while: 'baz <jsOverride: #baz> ^ (foo := foo + 3)' should: [
+		self assert: receiver baz equals: 7.
+		self assert: (receiver basicPerform: #baz) equals: 10.
+		self assert: receiver baz equals: 13.
+		self assert: receiver foo equals: 13 ]
+!
+
 testPragmaInBlock
 	self shouldntInstall: 'foo ^ [ < fooBar > 4 ] value'
 ! !
