@@ -587,40 +587,28 @@ selector: "compile:forClass:protocol:",
 protocol: "compiling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aClass", "anotherString"],
-source: "compile: aString forClass: aClass protocol: anotherString\x0a\x09| compilationResult result pragmas closureFactory |\x0a\x09compilationResult :=\x0a\x09\x09self compileSource: aString forClass: aClass protocol: anotherString.\x0a\x09pragmas := compilationResult removeKey: #pragmas.\x0a\x09closureFactory := (compilationResult removeKey: #instantiateFn ifAbsent: [])\x0a\x09\x09ifNotNil: [ :js | self eval: js forPackage: self currentPackage ].\x0a\x09result := Smalltalk core method: compilationResult.\x0a\x09result protocol: anotherString; pragmas: pragmas.\x0a\x09closureFactory ifNotNil: [ result instantiateFn: closureFactory ].\x0a\x09^ result",
+source: "compile: aString forClass: aClass protocol: anotherString\x0a\x09| compilationResult result pragmas closureFactory |\x0a\x09compilationResult :=\x0a\x09\x09self compileSource: aString forClass: aClass protocol: anotherString.\x0a\x09pragmas := compilationResult removeKey: #pragmas.\x0a\x09closureFactory := self\x0a\x09\x09eval: (compilationResult removeKey: #instantiateFn)\x0a\x09\x09forPackage: self currentPackage.\x0a\x09result := Smalltalk core method: compilationResult withFactory: closureFactory.\x0a\x09result protocol: anotherString; pragmas: pragmas.\x0a\x09^ result",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["compileSource:forClass:protocol:", "removeKey:", "ifNotNil:", "removeKey:ifAbsent:", "eval:forPackage:", "currentPackage", "method:", "core", "protocol:", "pragmas:", "instantiateFn:"]
+messageSends: ["compileSource:forClass:protocol:", "removeKey:", "eval:forPackage:", "currentPackage", "method:withFactory:", "core", "protocol:", "pragmas:"]
 }, function ($methodClass){ return function (aString,aClass,anotherString){
 var self=this,$self=this;
 var compilationResult,result,pragmas,closureFactory;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$receiver;
+var $1;
 compilationResult=$self._compileSource_forClass_protocol_(aString,aClass,anotherString);
 pragmas=$recv(compilationResult)._removeKey_("pragmas");
-$1=$recv(compilationResult)._removeKey_ifAbsent_("instantiateFn",(function(){
-
-}));
-if(($receiver = $1) == null || $receiver.a$nil){
-closureFactory=$1;
-} else {
-var js;
-js=$receiver;
-closureFactory=$self._eval_forPackage_(js,$self._currentPackage());
-}
-result=$recv($recv($globals.Smalltalk)._core())._method_(compilationResult);
-$2=result;
-$recv($2)._protocol_(anotherString);
-$recv($2)._pragmas_(pragmas);
-$3=closureFactory;
-if(($receiver = $3) == null || $receiver.a$nil){
-$3;
-} else {
-$recv(result)._instantiateFn_(closureFactory);
-}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["removeKey:"]=1;
+//>>excludeEnd("ctx");
+closureFactory=$self._eval_forPackage_($recv(compilationResult)._removeKey_("instantiateFn"),$self._currentPackage());
+result=$recv($recv($globals.Smalltalk)._core())._method_withFactory_(compilationResult,closureFactory);
+$1=result;
+$recv($1)._protocol_(anotherString);
+$recv($1)._pragmas_(pragmas);
 return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"compile:forClass:protocol:",{aString:aString,aClass:aClass,anotherString:anotherString,compilationResult:compilationResult,result:result,pragmas:pragmas,closureFactory:closureFactory})});

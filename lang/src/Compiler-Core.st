@@ -173,11 +173,11 @@ compile: aString forClass: aClass protocol: anotherString
 	compilationResult :=
 		self compileSource: aString forClass: aClass protocol: anotherString.
 	pragmas := compilationResult removeKey: #pragmas.
-	closureFactory := (compilationResult removeKey: #instantiateFn ifAbsent: [])
-		ifNotNil: [ :js | self eval: js forPackage: self currentPackage ].
-	result := Smalltalk core method: compilationResult.
+	closureFactory := self
+		eval: (compilationResult removeKey: #instantiateFn)
+		forPackage: self currentPackage.
+	result := Smalltalk core method: compilationResult withFactory: closureFactory.
 	result protocol: anotherString; pragmas: pragmas.
-	closureFactory ifNotNil: [ result instantiateFn: closureFactory ].
 	^ result
 !
 
