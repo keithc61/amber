@@ -407,7 +407,7 @@ I am a 'super' pseudo variable.!
 !SuperVar methodsFor: 'accessing'!
 
 alias
-	^ 'self'
+	^ '$self'
 !
 
 lookupAsJavaScriptSource

@@ -4427,17 +4427,17 @@ selector: "visitSuperSend:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSend"],
-source: "visitSuperSend: anIRSend\x0a\x09self stream nextPutSupercallFor: anIRSend with: [\x0a\x09\x09self stream\x0a\x09\x09\x09nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';\x0a\x09\x09\x09nextPutAll: anIRSend javaScriptSelector, '.call'.\x0a\x09\x09self\x0a\x09\x09\x09visitInstructionList: {IRVerbatim new source: '$self'; yourself}, anIRSend arguments\x0a\x09\x09\x09enclosedBetween: '(' and: ')' ]",
-referencedClasses: ["IRVerbatim"],
+source: "visitSuperSend: anIRSend\x0a\x09self stream nextPutSupercallFor: anIRSend with: [\x0a\x09\x09self stream\x0a\x09\x09\x09nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';\x0a\x09\x09\x09nextPutAll: anIRSend javaScriptSelector, '.call'.\x0a\x09\x09self\x0a\x09\x09\x09visitInstructionList: {anIRSend receiver}, anIRSend arguments\x0a\x09\x09\x09enclosedBetween: '(' and: ')' ]",
+referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["nextPutSupercallFor:with:", "stream", "nextPutAll:", ",", "lookupAsJavaScriptSource", "variable", "receiver", "javaScriptSelector", "visitInstructionList:enclosedBetween:and:", "source:", "new", "yourself", "arguments"]
+messageSends: ["nextPutSupercallFor:with:", "stream", "nextPutAll:", ",", "lookupAsJavaScriptSource", "variable", "receiver", "javaScriptSelector", "visitInstructionList:enclosedBetween:and:", "arguments"]
 }, function ($methodClass){ return function (anIRSend){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$8,$7,$6,$5;
+var $1,$2,$6,$5,$4,$3,$7;
 $1=$self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["stream"]=1;
@@ -4447,7 +4447,13 @@ $recv($1)._nextPutSupercallFor_with_(anIRSend,(function(){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $2=$self._stream();
-$3=$recv($recv($recv($recv(anIRSend)._receiver())._variable())._lookupAsJavaScriptSource()).__comma(".");
+$6=$recv(anIRSend)._receiver();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["receiver"]=1;
+//>>excludeEnd("ctx");
+$5=$recv($6)._variable();
+$4=$recv($5)._lookupAsJavaScriptSource();
+$3=$recv($4).__comma(".");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx[","]=1;
 //>>excludeEnd("ctx");
@@ -4455,17 +4461,12 @@ $recv($2)._nextPutAll_($3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$4=$recv($recv(anIRSend)._javaScriptSelector()).__comma(".call");
+$7=$recv($recv(anIRSend)._javaScriptSelector()).__comma(".call");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx[","]=2;
 //>>excludeEnd("ctx");
-$recv($2)._nextPutAll_($4);
-$8=$recv($globals.IRVerbatim)._new();
-$recv($8)._source_("$self");
-$7=$recv($8)._yourself();
-$6=[$7];
-$5=$recv($6).__comma($recv(anIRSend)._arguments());
-return $self._visitInstructionList_enclosedBetween_and_($5,"(",")");
+$recv($2)._nextPutAll_($7);
+return $self._visitInstructionList_enclosedBetween_and_($recv([$recv(anIRSend)._receiver()]).__comma($recv(anIRSend)._arguments()),"(",")");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");

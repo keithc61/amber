@@ -1065,7 +1065,7 @@ visitSuperSend: anIRSend
 			nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';
 			nextPutAll: anIRSend javaScriptSelector, '.call'.
 		self
-			visitInstructionList: {IRVerbatim new source: '$self'; yourself}, anIRSend arguments
+			visitInstructionList: {anIRSend receiver}, anIRSend arguments
 			enclosedBetween: '(' and: ')' ]
 ! !
 
