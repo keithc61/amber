@@ -154,15 +154,12 @@ ast: aString forClass: aClass protocol: anotherString
 !
 
 compile: aString forClass: aClass protocol: anotherString
-	| compilationResult wrappedJs result pragmas closureFactory |
+	| compilationResult result pragmas closureFactory |
 	compilationResult := self
 		start: aString forClass: aClass protocol: anotherString;
 		compileNode: (self parse: aString).
-	wrappedJs := compilationResult attachments
-		ifEmpty: [ '(function ($methodClass){ return ', compilationResult compiledSource, '; })' ]
-		ifNotEmpty: [ :attachments | '(function ($methodClass){ return (function(method){Object.defineProperty(method,"a$atx",{enumerable:false,configurable:true,writable:true,value:', attachments asJavaScriptSource, '});return method})(', compilationResult compiledSource, '); })' ].
 	closureFactory := self
-		eval: wrappedJs
+		eval: (self wrappedSourceOf: compilationResult)
 		forPackage: self currentPackage.
 	result := Smalltalk core method: #{
 		#selector -> compilationResult selector.
@@ -289,6 +286,20 @@ parseError: anException parsing: aString
 
 basicParse: aString
 	^ smalltalkParser parse: aString
+!
+
+wrappedSourceOf: anIRMethod
+	anIRMethod attachments
+		ifEmpty: [ ^
+			'(function ($methodClass){ return ',
+			anIRMethod compiledSource,
+			'; })' ]
+		ifNotEmpty: [ :attachments | ^ 
+			'(function ($methodClass){ return (function(method){Object.defineProperty(method,"a$atx",{enumerable:false,configurable:true,writable:true,value:',
+			attachments asJavaScriptSource,
+			'});return method})(',
+			anIRMethod compiledSource,
+			'); })' ]
 ! !
 
 !Compiler class methodsFor: 'compiling'!
