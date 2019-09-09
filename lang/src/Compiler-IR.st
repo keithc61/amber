@@ -1234,25 +1234,6 @@ nextPutInstantiationFnWith: aBlock
 	self nextPutAll: '; })'
 !
 
-nextPutMethodDeclaration: aMethod with: aBlock
-	stream
-		nextPutAll: '$core.method({'; lf;
-		nextPutAll: 'selector: ', aMethod selector asJavaScriptSource, ','; lf;
-		nextPutAll: 'source: ', aMethod source asJavaScriptSource, ',';lf.
-	aBlock value.
-	stream
-		nextPutAll: ',', String lf, 'messageSends: ';
-		nextPutAll: aMethod messageSends asArray asJavaScriptSource, ','; lf;
-		nextPutAll: 'args: ', (aMethod arguments collect: [ :each | each value ]) asArray asJavaScriptSource, ','; lf;
-		nextPutAll: 'referencedClasses: ['.
-	aMethod classReferences
-		do: [ :each | stream nextPutAll: each asJavaScriptSource ]
-		separatedBy: [ stream nextPutAll: ',' ].
-	stream
-		nextPutAll: ']';
-		nextPutAll: '})'
-!
-
 nextPutNonLocalReturnHandlingWith: aBlock
 	stream
 		nextPutAll: 'var $early={};'; lf;
