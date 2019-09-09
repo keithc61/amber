@@ -480,7 +480,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRClosureInstruction subclass: #IRMethod
-	slots: {#theClass. #source. #selector. #pragmas. #classReferences. #sendIndexes. #internalVariables}
+	slots: {#theClass. #source. #compiledSource. #selector. #pragmas. #classReferences. #sendIndexes. #internalVariables}
 	package: 'Compiler-IR'!
 !IRMethod commentStamp!
 I am a method instruction!
@@ -493,6 +493,14 @@ classReferences
 
 classReferences: aCollection
 	classReferences := aCollection
+!
+
+compiledSource
+	^ compiledSource
+!
+
+compiledSource: anObject
+	compiledSource := anObject
 !
 
 internalVariables
@@ -914,21 +922,6 @@ stream: aStream
 	stream := aStream
 ! !
 
-!IRJSTranslator methodsFor: 'building'!
-
-buildMethodDeclaration: aMethod with: aBlock
-	aBlock value.
-	^ #{
-		#selector -> aMethod selector.
-		#source -> aMethod source.
-		#pragmas -> aMethod pragmas.
-		#instantiateFn -> self contents.
-		#messageSends -> aMethod messageSends asArray.
-		#args -> (aMethod arguments collect: [ :each | each value ]) asArray.
-		#referencedClasses -> aMethod classReferences asArray.
-	}
-! !
-
 !IRJSTranslator methodsFor: 'initialization'!
 
 initialize
@@ -969,9 +962,7 @@ visitIRDynamicDictionary: anIRDynamicDictionary
 
 visitIRMethod: anIRMethod
 
-	^ self
-		buildMethodDeclaration: anIRMethod
-		with: [ self stream nextPutInstantiationFnWith: [ self stream
+	self stream
 			nextPutFunctionWith: [
 				self stream nextPutVars: (anIRMethod tempDeclarations collect: [ :each |
 					each name asVariableName ]).
@@ -984,7 +975,9 @@ visitIRMethod: anIRMethod
 						self stream nextPutNonLocalReturnHandlingWith: [
 							super visitIRMethod: anIRMethod ] ]
 					ifFalse: [ super visitIRMethod: anIRMethod ] ]]
-			arguments: anIRMethod arguments ] ]
+			arguments: anIRMethod arguments.
+			
+	^ anIRMethod compiledSource: self contents; yourself
 !
 
 visitIRNonLocalReturn: anIRNonLocalReturn
@@ -1226,12 +1219,6 @@ nextPutIf: aBlock then: ifBlock else: elseBlock
 	elseBlock value.
 	stream nextPutAll: '}'.
 	self omitSemicolon: true
-!
-
-nextPutInstantiationFnWith: aBlock
-	self nextPutAll: '(function ($methodClass){ return '.
-	aBlock value.
-	self nextPutAll: '; })'
 !
 
 nextPutNonLocalReturnHandlingWith: aBlock

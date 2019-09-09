@@ -1969,7 +1969,7 @@ $globals.IRClosure);
 
 
 
-$core.addClass("IRMethod", $globals.IRClosureInstruction, ["theClass", "source", "selector", "pragmas", "classReferences", "sendIndexes", "internalVariables"], "Compiler-IR");
+$core.addClass("IRMethod", $globals.IRClosureInstruction, ["theClass", "source", "compiledSource", "selector", "pragmas", "classReferences", "sendIndexes", "internalVariables"], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRMethod.comment="I am a method instruction";
 //>>excludeEnd("ide");
@@ -2028,6 +2028,43 @@ messageSends: []
 }, function ($methodClass){ return function (aCollection){
 var self=this,$self=this;
 $self.classReferences=aCollection;
+return self;
+
+}; }),
+$globals.IRMethod);
+
+$core.addMethod(
+$core.method({
+selector: "compiledSource",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "compiledSource\x0a\x09^ compiledSource",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.compiledSource;
+
+}; }),
+$globals.IRMethod);
+
+$core.addMethod(
+$core.method({
+selector: "compiledSource:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "compiledSource: anObject\x0a\x09compiledSource := anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+$self.compiledSource=anObject;
 return self;
 
 }; }),
@@ -3576,54 +3613,6 @@ $globals.IRVisitor);
 $core.addClass("IRJSTranslator", $globals.IRVisitor, ["stream", "currentClass"], "Compiler-IR");
 $core.addMethod(
 $core.method({
-selector: "buildMethodDeclaration:with:",
-protocol: "building",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aMethod", "aBlock"],
-source: "buildMethodDeclaration: aMethod with: aBlock\x0a\x09aBlock value.\x0a\x09^ #{\x0a\x09\x09#selector -> aMethod selector.\x0a\x09\x09#source -> aMethod source.\x0a\x09\x09#pragmas -> aMethod pragmas.\x0a\x09\x09#instantiateFn -> self contents.\x0a\x09\x09#messageSends -> aMethod messageSends asArray.\x0a\x09\x09#args -> (aMethod arguments collect: [ :each | each value ]) asArray.\x0a\x09\x09#referencedClasses -> aMethod classReferences asArray.\x0a\x09}",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["value", "selector", "source", "pragmas", "contents", "asArray", "messageSends", "collect:", "arguments", "classReferences"]
-}, function ($methodClass){ return function (aMethod,aBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5,$6;
-$recv(aBlock)._value();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["value"]=1;
-//>>excludeEnd("ctx");
-$1=$recv(aMethod)._selector();
-$2=$recv(aMethod)._source();
-$3=$recv(aMethod)._pragmas();
-$4=$self._contents();
-$5=$recv($recv(aMethod)._messageSends())._asArray();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["asArray"]=1;
-//>>excludeEnd("ctx");
-$6=$recv($recv($recv(aMethod)._arguments())._collect_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(each)._value();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-})))._asArray();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["asArray"]=2;
-//>>excludeEnd("ctx");
-return $globals.HashedCollection._newFromPairs_(["selector",$1,"source",$2,"pragmas",$3,"instantiateFn",$4,"messageSends",$5,"args",$6,"referencedClasses",$recv($recv(aMethod)._classReferences())._asArray()]);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"buildMethodDeclaration:with:",{aMethod:aMethod,aBlock:aBlock})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IRJSTranslator);
-
-$core.addMethod(
-$core.method({
 selector: "contents",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3913,133 +3902,115 @@ selector: "visitIRMethod:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRMethod"],
-source: "visitIRMethod: anIRMethod\x0a\x0a\x09^ self\x0a\x09\x09buildMethodDeclaration: anIRMethod\x0a\x09\x09with: [ self stream nextPutInstantiationFnWith: [ self stream\x0a\x09\x09\x09nextPutFunctionWith: [\x0a\x09\x09\x09\x09self stream nextPutVars: (anIRMethod tempDeclarations collect: [ :each |\x0a\x09\x09\x09\x09\x09each name asVariableName ]).\x0a\x09\x09\x09\x09self stream nextPutContextFor: anIRMethod during: [\x0a\x09\x09\x09\x09\x09anIRMethod internalVariables ifNotEmpty: [ :internalVars |\x0a\x09\x09\x09\x09\x09\x09self stream nextPutVars: \x0a\x09\x09\x09\x09\x09\x09\x09(internalVars asSet collect: [ :each | each variable alias ]) ].\x0a\x09\x09\x09\x09anIRMethod scope hasNonLocalReturn\x0a\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09self stream nextPutNonLocalReturnHandlingWith: [\x0a\x09\x09\x09\x09\x09\x09\x09super visitIRMethod: anIRMethod ] ]\x0a\x09\x09\x09\x09\x09ifFalse: [ super visitIRMethod: anIRMethod ] ]]\x0a\x09\x09\x09arguments: anIRMethod arguments ] ]",
+source: "visitIRMethod: anIRMethod\x0a\x0a\x09self stream\x0a\x09\x09\x09nextPutFunctionWith: [\x0a\x09\x09\x09\x09self stream nextPutVars: (anIRMethod tempDeclarations collect: [ :each |\x0a\x09\x09\x09\x09\x09each name asVariableName ]).\x0a\x09\x09\x09\x09self stream nextPutContextFor: anIRMethod during: [\x0a\x09\x09\x09\x09\x09anIRMethod internalVariables ifNotEmpty: [ :internalVars |\x0a\x09\x09\x09\x09\x09\x09self stream nextPutVars: \x0a\x09\x09\x09\x09\x09\x09\x09(internalVars asSet collect: [ :each | each variable alias ]) ].\x0a\x09\x09\x09\x09anIRMethod scope hasNonLocalReturn\x0a\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09self stream nextPutNonLocalReturnHandlingWith: [\x0a\x09\x09\x09\x09\x09\x09\x09super visitIRMethod: anIRMethod ] ]\x0a\x09\x09\x09\x09\x09ifFalse: [ super visitIRMethod: anIRMethod ] ]]\x0a\x09\x09\x09arguments: anIRMethod arguments.\x0a\x09\x09\x09\x0a\x09^ anIRMethod compiledSource: self contents; yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["buildMethodDeclaration:with:", "nextPutInstantiationFnWith:", "stream", "nextPutFunctionWith:arguments:", "nextPutVars:", "collect:", "tempDeclarations", "asVariableName", "name", "nextPutContextFor:during:", "ifNotEmpty:", "internalVariables", "asSet", "alias", "variable", "ifTrue:ifFalse:", "hasNonLocalReturn", "scope", "nextPutNonLocalReturnHandlingWith:", "visitIRMethod:", "arguments"]
+messageSends: ["nextPutFunctionWith:arguments:", "stream", "nextPutVars:", "collect:", "tempDeclarations", "asVariableName", "name", "nextPutContextFor:during:", "ifNotEmpty:", "internalVariables", "asSet", "alias", "variable", "ifTrue:ifFalse:", "hasNonLocalReturn", "scope", "nextPutNonLocalReturnHandlingWith:", "visitIRMethod:", "arguments", "compiledSource:", "contents", "yourself"]
 }, function ($methodClass){ return function (anIRMethod){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5,$6,$7;
-return $self._buildMethodDeclaration_with_(anIRMethod,(function(){
+var $1,$2,$3,$4,$5,$6;
+$1=$self._stream();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["stream"]=1;
+//>>excludeEnd("ctx");
+$recv($1)._nextPutFunctionWith_arguments_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$self._stream();
+$2=$self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["stream"]=1;
+$ctx2.sendIdx["stream"]=2;
 //>>excludeEnd("ctx");
-return $recv($1)._nextPutInstantiationFnWith_((function(){
+$3=$recv($recv(anIRMethod)._tempDeclarations())._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-$2=$self._stream();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["stream"]=2;
-//>>excludeEnd("ctx");
-return $recv($2)._nextPutFunctionWith_arguments_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx4) {
-//>>excludeEnd("ctx");
-$3=$self._stream();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["stream"]=3;
-//>>excludeEnd("ctx");
-$4=$recv($recv(anIRMethod)._tempDeclarations())._collect_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx5) {
-//>>excludeEnd("ctx");
 return $recv($recv(each)._name())._asVariableName();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx5) {$ctx5.fillBlock({each:each},$ctx4,4)});
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["collect:"]=1;
+$ctx2.sendIdx["collect:"]=1;
 //>>excludeEnd("ctx");
-$recv($3)._nextPutVars_($4);
+$recv($2)._nextPutVars_($3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["nextPutVars:"]=1;
+$ctx2.sendIdx["nextPutVars:"]=1;
+//>>excludeEnd("ctx");
+$4=$self._stream();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["stream"]=3;
+//>>excludeEnd("ctx");
+return $recv($4)._nextPutContextFor_during_(anIRMethod,(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$recv($recv(anIRMethod)._internalVariables())._ifNotEmpty_((function(internalVars){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
 $5=$self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx4.sendIdx["stream"]=4;
 //>>excludeEnd("ctx");
-return $recv($5)._nextPutContextFor_during_(anIRMethod,(function(){
+return $recv($5)._nextPutVars_($recv($recv(internalVars)._asSet())._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx5) {
 //>>excludeEnd("ctx");
-$recv($recv(anIRMethod)._internalVariables())._ifNotEmpty_((function(internalVars){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx6) {
-//>>excludeEnd("ctx");
-$6=$self._stream();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx6.sendIdx["stream"]=5;
-//>>excludeEnd("ctx");
-return $recv($6)._nextPutVars_($recv($recv(internalVars)._asSet())._collect_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx7) {
-//>>excludeEnd("ctx");
 return $recv($recv(each)._variable())._alias();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx7) {$ctx7.fillBlock({each:each},$ctx6,7)});
+}, function($ctx5) {$ctx5.fillBlock({each:each},$ctx4,5)});
 //>>excludeEnd("ctx");
 })));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx6) {$ctx6.fillBlock({internalVars:internalVars},$ctx5,6)});
+}, function($ctx4) {$ctx4.fillBlock({internalVars:internalVars},$ctx3,4)});
 //>>excludeEnd("ctx");
 }));
-$7=$recv($recv(anIRMethod)._scope())._hasNonLocalReturn();
-if($core.assert($7)){
+$6=$recv($recv(anIRMethod)._scope())._hasNonLocalReturn();
+if($core.assert($6)){
 return $recv($self._stream())._nextPutNonLocalReturnHandlingWith_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx6) {
+return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
 return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx6.supercall = true,
+$ctx4.supercall = true,
 //>>excludeEnd("ctx");
 ($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitIRMethod_.call($self,anIRMethod));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx6.supercall = false;
+$ctx4.supercall = false;
 //>>excludeEnd("ctx");;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx6.sendIdx["visitIRMethod:"]=1;
+$ctx4.sendIdx["visitIRMethod:"]=1;
 //>>excludeEnd("ctx");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx6) {$ctx6.fillBlock({},$ctx5,9)});
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,7)});
 //>>excludeEnd("ctx");
 }));
 } else {
 return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx5.supercall = true,
+$ctx3.supercall = true,
 //>>excludeEnd("ctx");
 ($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitIRMethod_.call($self,anIRMethod));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx5.supercall = false;
+$ctx3.supercall = false;
 //>>excludeEnd("ctx");;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx5) {$ctx5.fillBlock({},$ctx4,5)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
-//>>excludeEnd("ctx");
-}),$recv(anIRMethod)._arguments());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
-}));
+}),$recv(anIRMethod)._arguments());
+$recv(anIRMethod)._compiledSource_($self._contents());
+return $recv(anIRMethod)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitIRMethod:",{anIRMethod:anIRMethod})});
 //>>excludeEnd("ctx");
@@ -5218,35 +5189,6 @@ $self._omitSemicolon_(true);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"nextPutIf:then:else:",{aBlock:aBlock,ifBlock:ifBlock,elseBlock:elseBlock})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.JSStream);
-
-$core.addMethod(
-$core.method({
-selector: "nextPutInstantiationFnWith:",
-protocol: "streaming",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "nextPutInstantiationFnWith: aBlock\x0a\x09self nextPutAll: '(function ($methodClass){ return '.\x0a\x09aBlock value.\x0a\x09self nextPutAll: '; })'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["nextPutAll:", "value"]
-}, function ($methodClass){ return function (aBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._nextPutAll_("(function ($methodClass){ return ");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=1;
-//>>excludeEnd("ctx");
-$recv(aBlock)._value();
-$self._nextPutAll_("; })");
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nextPutInstantiationFnWith:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.JSStream);

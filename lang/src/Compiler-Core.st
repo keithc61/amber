@@ -153,12 +153,18 @@ compile: aString forClass: aClass protocol: anotherString
 	compilationResult := self
 		start: aString forClass: aClass protocol: anotherString;
 		compileNode: (self parse: aString).
-	pragmas := compilationResult removeKey: #pragmas.
 	closureFactory := self
-		eval: (compilationResult removeKey: #instantiateFn)
+		eval: '(function ($methodClass){ return ', compilationResult compiledSource, '; })'
 		forPackage: self currentPackage.
-	result := Smalltalk core method: compilationResult withFactory: closureFactory.
-	result protocol: anotherString; pragmas: pragmas.
+	result := Smalltalk core method: #{
+		#selector -> compilationResult selector.
+		#protocol -> anotherString.
+		#source -> compilationResult source.
+		#messageSends -> compilationResult messageSends asArray.
+		#args -> compilationResult arguments asArray.
+		#referencedClasses -> compilationResult classReferences asArray.
+	} withFactory: closureFactory.
+	result pragmas: compilationResult pragmas.
 	^ result
 !
 
