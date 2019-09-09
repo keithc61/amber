@@ -12,113 +12,26 @@ parse: aString forClass: aClass
 		protocol: 'test'
 ! !
 
-ASTParsingTest subclass: #ASTPCNodeVisitorTest
-	slots: {}
-	package: 'Compiler-Tests'!
-
-!ASTPCNodeVisitorTest methodsFor: 'factory'!
-
-astPCNodeVisitor
-	^ ASTPCNodeVisitor new
-		index: 0;
-		yourself
-!
-
-astPCNodeVisitorForSelector: aString
-	^ ASTPCNodeVisitor new
-		selector: aString;
-		index: 0;
-		yourself
-! !
-
-!ASTPCNodeVisitorTest methodsFor: 'tests'!
-
-testJSStatementNode
-	| ast visitor |
-	
-	ast := self parse: 'foo <inlineJS: ''consolee.log(1)''>' forClass: Object.
-	self assert: (self astPCNodeVisitor
-		visit: ast;
-		currentNode) isJSStatementNode
-!
-
-testMessageSend
-	| ast |
-	
-	ast := self parse: 'foo self asString yourself. ^ self asBoolean' forClass: Object.
-	self assert: ((self astPCNodeVisitorForSelector: 'yourself')
-		visit: ast;
-		currentNode) selector equals: 'yourself'
-!
-
-testMessageSendWithBlocks
-	| ast |
-	
-	ast := self parse: 'foo true ifTrue: [ [ self asString yourself ] value.  ]. ^ self asBoolean' forClass: Object.
-	self assert: ((self astPCNodeVisitorForSelector: 'yourself')
-		visit: ast;
-		currentNode) selector equals: 'yourself'
-!
-
-testMessageSendWithInlining
-	| ast |
-	
-	ast := self parse: 'foo true ifTrue: [ self asString yourself ]. ^ self asBoolean' forClass: Object.
-	self assert: ((self astPCNodeVisitorForSelector: 'yourself')
-		visit: ast;
-		currentNode) selector equals: 'yourself'.
-		
-	ast := self parse: 'foo true ifTrue: [ self asString yourself ]. ^ self asBoolean' forClass: Object.
-	self assert: ((self astPCNodeVisitorForSelector: 'asBoolean')
-		visit: ast;
-		currentNode) selector equals: 'asBoolean'
-!
-
-testNoMessageSend
-	| ast |
-	
-	ast := self parse: 'foo ^ self' forClass: Object.
-	self assert: (self astPCNodeVisitor
-		visit: ast;
-		currentNode) isNil
-! !
-
-ASTParsingTest subclass: #ASTPositionTest
-	slots: {}
-	package: 'Compiler-Tests'!
-
-!ASTPositionTest methodsFor: 'tests'!
-
-testNodeAtPosition
-	| node |
-	
-	node := self parse: 'yourself
-	^ self' forClass: Object.
-	
-	self assert: (node navigationNodeAt: 2@4 ifAbsent: [ nil ]) source equals: 'self'.
-	
-	node := self parse: 'foo
-	true ifTrue: [ 1 ]' forClass: Object.
-	
-	self assert: (node navigationNodeAt: 2@7 ifAbsent: [ nil ]) selector equals: 'ifTrue:'.
-	
-	node := self parse: 'foo
-	self foo; bar; baz' forClass: Object.
-	
-	self assert: (node navigationNodeAt: 2@8 ifAbsent: [ nil ]) selector equals: 'foo'
-! !
-
-ASTParsingTest subclass: #CodeGeneratorTest
+ASTParsingTest subclass: #ASTCompilingTest
 	slots: {#receiver}
 	package: 'Compiler-Tests'!
 
-!CodeGeneratorTest methodsFor: 'accessing'!
+!ASTCompilingTest methodsFor: 'accessing'!
 
 codeGeneratorClass
-	^ CodeGenerator
+	self subclassResponsibility
 ! !
 
-!CodeGeneratorTest methodsFor: 'factory'!
+!ASTCompilingTest methodsFor: 'compiling'!
+
+install: aString forClass: aClass
+	^ self compiler
+		install: aString
+		forClass: aClass
+		protocol: 'tests'
+! !
+
+!ASTCompilingTest methodsFor: 'factory'!
 
 compiler
 	^ Compiler new
@@ -126,7 +39,7 @@ compiler
 		yourself
 ! !
 
-!CodeGeneratorTest methodsFor: 'initialization'!
+!ASTCompilingTest methodsFor: 'initialization'!
 
 setUp
 	receiver := DoIt new
@@ -136,37 +49,76 @@ tearDown
 	"receiver := nil"
 ! !
 
-!CodeGeneratorTest methodsFor: 'testing'!
+!ASTCompilingTest methodsFor: 'testing'!
+
+while: aString inClass: aClass should: aBlock
+	| method |
+
+	[
+		method := self install: aString forClass: aClass.
+		aBlock value: method ]
+	ensure: [ method ifNotNil: [ aClass removeCompiledMethod: method ] ]
+!
+
+while: aString should: aBlock
+	self while: aString inClass: receiver class should: aBlock
+! !
+
+ASTCompilingTest subclass: #ASTMethodRunningTest
+	slots: {}
+	package: 'Compiler-Tests'!
+
+!ASTMethodRunningTest methodsFor: 'running'!
+
+actOn: aMethod in: aClass
+	self subclassResponsibility
+! !
+
+!ASTMethodRunningTest methodsFor: 'testing'!
 
 should: aString class: aClass receiver: anObject return: aResult
-	| method result |
-
 	receiver := anObject.
-	method := self compiler install: aString forClass: aClass protocol: 'tests'.
-	result := receiver perform: method selector.
-	aClass removeCompiledMethod: method.
-	self assert: aResult equals: result
+	self while: aString inClass: aClass should: [ :runBlock |
+		self assert: runBlock value equals: aResult ]
 !
 
 should: aString receiver: anObject raise: anErrorClass
-	| method result |
-
 	receiver := anObject.
-	[ self should: [
-		method := self compiler install: aString forClass: anObject class protocol: 'tests'.
-		receiver perform: method selector ] raise: anErrorClass ]
-	ensure: [ method ifNotNil: [ anObject class removeCompiledMethod: method ] ]
+	self while: aString should: [ :runBlock |
+		self should: runBlock raise: anErrorClass ]
 !
 
 should: aString receiver: anObject return: aResult
-	^ self should: aString class: anObject class receiver: anObject return: aResult
+	receiver := anObject.
+	self should: aString return: aResult
 !
 
 should: aString return: anObject
-	^ self 
-		should: aString 
-		receiver: receiver 
-		return: anObject
+	self while: aString should: [ :runBlock |
+		self assert: runBlock value equals: anObject ]
+!
+
+while: aString inClass: aClass should: aBlock
+	super
+		while: aString
+		inClass: aClass
+		should: [ :method | aBlock value: [ self actOn: method in: aClass ] ]
+! !
+
+ASTMethodRunningTest subclass: #CodeGeneratorTest
+	slots: {}
+	package: 'Compiler-Tests'!
+
+!CodeGeneratorTest methodsFor: 'accessing'!
+
+codeGeneratorClass
+	^ CodeGenerator
+! !
+
+!CodeGeneratorTest methodsFor: 'running'!
+
+actOn: aMethod in: aClass
+	^ receiver perform: aMethod selector
 ! !
 
 !CodeGeneratorTest methodsFor: 'tests'!
@@ -313,10 +265,6 @@ testMessageSends
 	self should: 'foo ^ 1 to: 5 by: 2' return: #(1 3 5)
 !
 
-testMistypedPragmaJSStatement
-	self should: 'foo < inlineJS: ''return ''foo'''' >' receiver: receiver raise: ParseError
-!
-
 testMultipleSequences
 	self should: 'foo | a b c | a := 2. b := 3. c := a + b. ^ c * 6' return: 30
 !
@@ -356,10 +304,6 @@ testNonLocalReturn
 testPascalCaseGlobal
 	self should: 'foo ^Object' return: (Smalltalk globals at: 'Object').
 	self should: 'foo ^NonExistent' return: nil
-!
-
-testPragmaInBlock
-	self should: 'foo ^ [ < fooBar > 4 ] value' receiver: receiver raise: ParseError
 !
 
 testPragmaJSStatement
@@ -555,16 +499,14 @@ prepareContextFor: aString class: aClass receiver: anObject withArguments: aDict
 	^ctx
 ! !
 
-!ASTInterpreterTest methodsFor: 'testing'!
+!ASTInterpreterTest methodsFor: 'running'!
 
-should: aString class: aClass receiver: anObject return: aResult
-	| method result |
-
-	receiver := anObject.
-	method := self compiler install: aString forClass: aClass protocol: 'tests'.
-	result := self interpret: aString forClass: aClass receiver: receiver withArguments: #{}.
-	aClass removeCompiledMethod: method.
-	self assert: aResult equals: result
+actOn: aMethod in: aClass
+	^ self
+		interpret: aMethod source
+		forClass: aClass
+		receiver: receiver
+		withArguments: #{}
 ! !
 
 ASTInterpreterTest subclass: #ASTDebuggerTest
@@ -591,6 +533,143 @@ CodeGeneratorTest subclass: #InliningCodeGeneratorTest
 
 codeGeneratorClass
 	^ InliningCodeGenerator
+! !
+
+ASTCompilingTest subclass: #CodeGeneratorInstallTest
+	slots: {}
+	package: 'Compiler-Tests'!
+
+!CodeGeneratorInstallTest methodsFor: 'accessing'!
+
+codeGeneratorClass
+	^ CodeGenerator
+! !
+
+!CodeGeneratorInstallTest methodsFor: 'testing'!
+
+shouldntInstall: aString
+	| method |
+
+	[ self
+		should: [ method := self install: aString forClass: receiver class ]
+		raise: ParseError ]
+	ensure: [ method ifNotNil: [ receiver class removeCompiledMethod: method ] ]
+! !
+
+!CodeGeneratorInstallTest methodsFor: 'tests'!
+
+testMistypedPragmaJSStatement
+	self shouldntInstall: 'foo < inlineJS: ''return ''foo'''' >'
+!
+
+testPragmaInBlock
+	self shouldntInstall: 'foo ^ [ < fooBar > 4 ] value'
+! !
+
+CodeGeneratorInstallTest subclass: #InliningCodeGeneratorInstallTest
+	slots: {}
+	package: 'Compiler-Tests'!
+
+!InliningCodeGeneratorInstallTest methodsFor: 'accessing'!
+
+codeGeneratorClass
+	^ InliningCodeGenerator
+! !
+
+ASTParsingTest subclass: #ASTPCNodeVisitorTest
+	slots: {}
+	package: 'Compiler-Tests'!
+
+!ASTPCNodeVisitorTest methodsFor: 'factory'!
+
+astPCNodeVisitor
+	^ ASTPCNodeVisitor new
+		index: 0;
+		yourself
+!
+
+astPCNodeVisitorForSelector: aString
+	^ ASTPCNodeVisitor new
+		selector: aString;
+		index: 0;
+		yourself
+! !
+
+!ASTPCNodeVisitorTest methodsFor: 'tests'!
+
+testJSStatementNode
+	| ast visitor |
+	
+	ast := self parse: 'foo <inlineJS: ''consolee.log(1)''>' forClass: Object.
+	self assert: (self astPCNodeVisitor
+		visit: ast;
+		currentNode) isJSStatementNode
+!
+
+testMessageSend
+	| ast |
+	
+	ast := self parse: 'foo self asString yourself. ^ self asBoolean' forClass: Object.
+	self assert: ((self astPCNodeVisitorForSelector: 'yourself')
+		visit: ast;
+		currentNode) selector equals: 'yourself'
+!
+
+testMessageSendWithBlocks
+	| ast |
+	
+	ast := self parse: 'foo true ifTrue: [ [ self asString yourself ] value.  ]. ^ self asBoolean' forClass: Object.
+	self assert: ((self astPCNodeVisitorForSelector: 'yourself')
+		visit: ast;
+		currentNode) selector equals: 'yourself'
+!
+
+testMessageSendWithInlining
+	| ast |
+	
+	ast := self parse: 'foo true ifTrue: [ self asString yourself ]. ^ self asBoolean' forClass: Object.
+	self assert: ((self astPCNodeVisitorForSelector: 'yourself')
+		visit: ast;
+		currentNode) selector equals: 'yourself'.
+		
+	ast := self parse: 'foo true ifTrue: [ self asString yourself ]. ^ self asBoolean' forClass: Object.
+	self assert: ((self astPCNodeVisitorForSelector: 'asBoolean')
+		visit: ast;
+		currentNode) selector equals: 'asBoolean'
+!
+
+testNoMessageSend
+	| ast |
+	
+	ast := self parse: 'foo ^ self' forClass: Object.
+	self assert: (self astPCNodeVisitor
+		visit: ast;
+		currentNode) isNil
+! !
+
+ASTParsingTest subclass: #ASTPositionTest
+	slots: {}
+	package: 'Compiler-Tests'!
+
+!ASTPositionTest methodsFor: 'tests'!
+
+testNodeAtPosition
+	| node |
+	
+	node := self parse: 'yourself
+	^ self' forClass: Object.
+	
+	self assert: (node navigationNodeAt: 2@4 ifAbsent: [ nil ]) source equals: 'self'.
+	
+	node := self parse: 'foo
+	true ifTrue: [ 1 ]' forClass: Object.
+	
+	self assert: (node navigationNodeAt: 2@7 ifAbsent: [ nil ]) selector equals: 'ifTrue:'.
+	
+	node := self parse: 'foo
+	self foo; bar; baz' forClass: Object.
+	
+	self assert: (node navigationNodeAt: 2@8 ifAbsent: [ nil ]) selector equals: 'foo'
 ! !
 
 TestCase subclass: #ScopeVarTest
