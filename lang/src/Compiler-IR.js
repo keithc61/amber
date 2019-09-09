@@ -4219,35 +4219,17 @@ selector: "visitIRVariable:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRVariable"],
-source: "visitIRVariable: anIRVariable\x0a\x09anIRVariable variable name = 'thisContext'\x0a\x09\x09ifTrue: [ self stream nextPutAll: '$core.getThisContext()' ]\x0a\x09\x09ifFalse: [ self stream nextPutAll: anIRVariable variable alias ]",
+source: "visitIRVariable: anIRVariable\x0a\x09self stream nextPutAll: anIRVariable variable alias",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:ifFalse:", "=", "name", "variable", "nextPutAll:", "stream", "alias"]
+messageSends: ["nextPutAll:", "stream", "alias", "variable"]
 }, function ($methodClass){ return function (anIRVariable){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $3,$2,$1,$4;
-$3=$recv(anIRVariable)._variable();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["variable"]=1;
-//>>excludeEnd("ctx");
-$2=$recv($3)._name();
-$1=$recv($2).__eq("thisContext");
-if($core.assert($1)){
-$4=$self._stream();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["stream"]=1;
-//>>excludeEnd("ctx");
-$recv($4)._nextPutAll_("$core.getThisContext()");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["nextPutAll:"]=1;
-//>>excludeEnd("ctx");
-} else {
 $recv($self._stream())._nextPutAll_($recv($recv(anIRVariable)._variable())._alias());
-}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitIRVariable:",{anIRVariable:anIRVariable})});

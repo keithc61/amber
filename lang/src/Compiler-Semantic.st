@@ -167,7 +167,9 @@ pseudoVars
 			pseudoVars at: each put: ((PseudoVar on: each)
 				scope: self methodScope;
 				yourself) ].
-		pseudoVars at: #super put: ((SuperVar on: #super) scope: self methodScope; yourself) ].
+		pseudoVars
+			at: #super put: ((SuperVar on: #super) scope: self methodScope; yourself);
+			at: #thisContext put: ((ThisContextVar on: #thisContext) scope: self methodScope; yourself) ].
 	^ pseudoVars
 !
 
@@ -418,6 +420,18 @@ lookupAsJavaScriptSource
 
 isSuper
 	^ true
+! !
+
+PseudoVar subclass: #ThisContextVar
+	slots: {}
+	package: 'Compiler-Semantic'!
+!ThisContextVar commentStamp!
+I am a 'thisContext' pseudo variable.!
+
+!ThisContextVar methodsFor: 'accessing'!
+
+alias
+	^ '$core.getThisContext()'
 ! !
 
 ScopeVar subclass: #TempVar

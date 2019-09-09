@@ -1018,9 +1018,7 @@ visitIRValue: anIRValue
 !
 
 visitIRVariable: anIRVariable
-	anIRVariable variable name = 'thisContext'
-		ifTrue: [ self stream nextPutAll: '$core.getThisContext()' ]
-		ifFalse: [ self stream nextPutAll: anIRVariable variable alias ]
+	self stream nextPutAll: anIRVariable variable alias
 !
 
 visitIRVerbatim: anIRVerbatim
