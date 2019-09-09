@@ -572,6 +572,17 @@ testNiladicJSOverride
 		self assert: receiver foo equals: 13 ]
 !
 
+testNiladicJSOverrideDifferentNames
+	receiver := ObjectMock new.
+	receiver foo: 4.
+	self while: 'quux <jsOverride: #mux> ^ (foo := foo + 3)' should: [
+		self should: [ receiver mux ] raise: MessageNotUnderstood.
+		self assert: (receiver basicPerform: #mux) equals: 7.
+		self assert: receiver quux equals: 10.
+		self should: [ receiver basicPerform: #quux ] raise: Error.
+		self assert: receiver foo equals: 10 ]
+!
+
 testPragmaInBlock
 	self shouldntInstall: 'foo ^ [ < fooBar > 4 ] value'
 ! !

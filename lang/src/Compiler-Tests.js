@@ -2141,6 +2141,74 @@ $globals.CodeGeneratorInstallTest);
 
 $core.addMethod(
 $core.method({
+selector: "testNiladicJSOverrideDifferentNames",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNiladicJSOverrideDifferentNames\x0a\x09receiver := ObjectMock new.\x0a\x09receiver foo: 4.\x0a\x09self while: 'quux <jsOverride: #mux> ^ (foo := foo + 3)' should: [\x0a\x09\x09self should: [ receiver mux ] raise: MessageNotUnderstood.\x0a\x09\x09self assert: (receiver basicPerform: #mux) equals: 7.\x0a\x09\x09self assert: receiver quux equals: 10.\x0a\x09\x09self should: [ receiver basicPerform: #quux ] raise: Error.\x0a\x09\x09self assert: receiver foo equals: 10 ]",
+referencedClasses: ["ObjectMock", "MessageNotUnderstood", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "foo:", "while:should:", "should:raise:", "mux", "assert:equals:", "basicPerform:", "quux", "foo"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$self.receiver=$recv($globals.ObjectMock)._new();
+$recv($self.receiver)._foo_((4));
+$self._while_should_("quux <jsOverride: #mux> ^ (foo := foo + 3)",(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($self.receiver)._mux();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}),$globals.MessageNotUnderstood);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["should:raise:"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($self.receiver)._basicPerform_("mux");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["basicPerform:"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($1,(7));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($recv($self.receiver)._quux(),(10));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($self.receiver)._basicPerform_("quux");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+return $self._assert_equals_($recv($self.receiver)._foo(),(10));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testNiladicJSOverrideDifferentNames",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.CodeGeneratorInstallTest);
+
+$core.addMethod(
+$core.method({
 selector: "testPragmaInBlock",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
