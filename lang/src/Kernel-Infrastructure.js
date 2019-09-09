@@ -3563,15 +3563,20 @@ selector: "pseudoVariableNames",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "pseudoVariableNames\x0a\x09^ #('self' 'super' 'nil' 'true' 'false' 'thisContext')",
-referencedClasses: [],
+source: "pseudoVariableNames\x0a\x09^ Compiler pseudoVariableNames",
+referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: []
+messageSends: ["pseudoVariableNames"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return ["self", "super", "nil", "true", "false", "thisContext"];
-
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.Compiler)._pseudoVariableNames();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"pseudoVariableNames",{})});
+//>>excludeEnd("ctx");
 }; }),
 $globals.SmalltalkImage);
 

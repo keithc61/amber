@@ -1214,6 +1214,29 @@ $globals.Compiler.a$cls);
 
 $core.addMethod(
 $core.method({
+selector: "pseudoVariableNames",
+protocol: "parsing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "pseudoVariableNames\x0a\x09^ PseudoVar dictionary keys asArray",
+referencedClasses: ["PseudoVar"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["asArray", "keys", "dictionary"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($recv($recv($globals.PseudoVar)._dictionary())._keys())._asArray();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"pseudoVariableNames",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Compiler.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "recompile:",
 protocol: "compiling",
 //>>excludeStart("ide", pragmas.excludeIdeData);

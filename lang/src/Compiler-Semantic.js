@@ -993,76 +993,33 @@ selector: "pseudoVars",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "pseudoVars\x0a\x09pseudoVars ifNil: [\x0a\x09\x09pseudoVars := Dictionary new.\x0a\x09\x09Smalltalk pseudoVariableNames do: [ :each |\x0a\x09\x09\x09pseudoVars at: each put: ((PseudoVar on: each)\x0a\x09\x09\x09\x09scope: self methodScope;\x0a\x09\x09\x09\x09yourself) ].\x0a\x09\x09pseudoVars\x0a\x09\x09\x09at: #super put: ((SuperVar on: #super) scope: self methodScope; yourself);\x0a\x09\x09\x09at: #thisContext put: ((ThisContextVar on: #thisContext) scope: self methodScope; yourself) ].\x0a\x09^ pseudoVars",
-referencedClasses: ["Dictionary", "Smalltalk", "PseudoVar", "SuperVar", "ThisContextVar"],
+source: "pseudoVars\x0a\x09pseudoVars ifNil: [\x0a\x09\x09pseudoVars := Dictionary new.\x0a\x09\x09PseudoVar dictionary keysAndValuesDo: [ :each :impl |\x0a\x09\x09\x09pseudoVars at: each put: ((impl on: each)\x0a\x09\x09\x09\x09scope: self methodScope;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x09^ pseudoVars",
+referencedClasses: ["Dictionary", "PseudoVar"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNil:", "new", "do:", "pseudoVariableNames", "at:put:", "scope:", "on:", "methodScope", "yourself"]
+messageSends: ["ifNil:", "new", "keysAndValuesDo:", "dictionary", "at:put:", "scope:", "on:", "methodScope", "yourself"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$5,$6,$3,$7,$9,$10,$11,$8,$13,$12,$receiver;
+var $1,$2,$4,$3,$receiver;
 $1=$self.pseudoVars;
 if(($receiver = $1) == null || $receiver.a$nil){
 $self.pseudoVars=$recv($globals.Dictionary)._new();
-$recv($recv($globals.Smalltalk)._pseudoVariableNames())._do_((function(each){
+$recv($recv($globals.PseudoVar)._dictionary())._keysAndValuesDo_((function(each,impl){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $2=$self.pseudoVars;
-$4=$recv($globals.PseudoVar)._on_(each);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["on:"]=1;
-//>>excludeEnd("ctx");
-$5=$self._methodScope();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["methodScope"]=1;
-//>>excludeEnd("ctx");
-$recv($4)._scope_($5);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["scope:"]=1;
-//>>excludeEnd("ctx");
-$6=$recv($4)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["yourself"]=1;
-//>>excludeEnd("ctx");
-$3=$6;
+$4=$recv(impl)._on_(each);
+$recv($4)._scope_($self._methodScope());
+$3=$recv($4)._yourself();
 return $recv($2)._at_put_(each,$3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["at:put:"]=1;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+}, function($ctx2) {$ctx2.fillBlock({each:each,impl:impl},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
-$7=$self.pseudoVars;
-$9=$recv($globals.SuperVar)._on_("super");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["on:"]=2;
-//>>excludeEnd("ctx");
-$10=$self._methodScope();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["methodScope"]=2;
-//>>excludeEnd("ctx");
-$recv($9)._scope_($10);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["scope:"]=2;
-//>>excludeEnd("ctx");
-$11=$recv($9)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["yourself"]=2;
-//>>excludeEnd("ctx");
-$8=$11;
-$recv($7)._at_put_("super",$8);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:put:"]=2;
-//>>excludeEnd("ctx");
-$13=$recv($globals.ThisContextVar)._on_("thisContext");
-$recv($13)._scope_($self._methodScope());
-$12=$recv($13)._yourself();
-$recv($7)._at_put_("thisContext",$12);
 } else {
 $1;
 }
@@ -1761,6 +1718,59 @@ return $recv($self.name).__eq("self");
 }; }),
 $globals.PseudoVar);
 
+
+$core.setSlots($globals.PseudoVar.a$cls, ["dictionary"]);
+$core.addMethod(
+$core.method({
+selector: "dictionary",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "dictionary\x0a\x09^ dictionary ifNil: [ dictionary := Dictionary new\x0a\x09\x09at: #self put: PseudoVar;\x0a\x09\x09at: #super put: SuperVar;\x0a\x09\x09at: #nil put: PseudoVar;\x0a\x09\x09at: #false put: PseudoVar;\x0a\x09\x09at: #true put: PseudoVar;\x0a\x09\x09at: #thisContext put: ThisContextVar;\x0a\x09\x09yourself ]",
+referencedClasses: ["Dictionary", "PseudoVar", "SuperVar", "ThisContextVar"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNil:", "at:put:", "new", "yourself"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$receiver;
+$1=$self.dictionary;
+if(($receiver = $1) == null || $receiver.a$nil){
+$2=$recv($globals.Dictionary)._new();
+$recv($2)._at_put_("self",$globals.PseudoVar);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=1;
+//>>excludeEnd("ctx");
+$recv($2)._at_put_("super",$globals.SuperVar);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=2;
+//>>excludeEnd("ctx");
+$recv($2)._at_put_("nil",$globals.PseudoVar);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=3;
+//>>excludeEnd("ctx");
+$recv($2)._at_put_("false",$globals.PseudoVar);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=4;
+//>>excludeEnd("ctx");
+$recv($2)._at_put_("true",$globals.PseudoVar);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=5;
+//>>excludeEnd("ctx");
+$recv($2)._at_put_("thisContext",$globals.ThisContextVar);
+$self.dictionary=$recv($2)._yourself();
+return $self.dictionary;
+} else {
+return $1;
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"dictionary",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PseudoVar.a$cls);
 
 
 $core.addClass("SuperVar", $globals.PseudoVar, [], "Compiler-Semantic");

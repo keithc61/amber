@@ -311,6 +311,10 @@ initialize
 
 parse: aString
 	^ self new parse: aString
+!
+
+pseudoVariableNames
+	^ PseudoVar dictionary keys asArray
 ! !
 
 Object subclass: #DoIt

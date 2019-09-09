@@ -163,13 +163,10 @@ nonLocalReturns
 pseudoVars
 	pseudoVars ifNil: [
 		pseudoVars := Dictionary new.
-		Smalltalk pseudoVariableNames do: [ :each |
-			pseudoVars at: each put: ((PseudoVar on: each)
+		PseudoVar dictionary keysAndValuesDo: [ :each :impl |
+			pseudoVars at: each put: ((impl on: each)
 				scope: self methodScope;
-				yourself) ].
-		pseudoVars
-			at: #super put: ((SuperVar on: #super) scope: self methodScope; yourself);
-			at: #thisContext put: ((ThisContextVar on: #thisContext) scope: self methodScope; yourself) ].
+				yourself) ] ].
 	^ pseudoVars
 !
 
@@ -398,6 +395,21 @@ isPseudoVar
 
 isSelf
 	^ name = 'self'
+! !
+
+PseudoVar class slots: {#dictionary}!
+
+!PseudoVar class methodsFor: 'accessing'!
+
+dictionary
+	^ dictionary ifNil: [ dictionary := Dictionary new
+		at: #self put: PseudoVar;
+		at: #super put: SuperVar;
+		at: #nil put: PseudoVar;
+		at: #false put: PseudoVar;
+		at: #true put: PseudoVar;
+		at: #thisContext put: ThisContextVar;
+		yourself ]
 ! !
 
 PseudoVar subclass: #SuperVar

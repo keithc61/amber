@@ -835,7 +835,7 @@ parse: aString
 !
 
 pseudoVariableNames
-	^ #('self' 'super' 'nil' 'true' 'false' 'thisContext')
+	^ Compiler pseudoVariableNames
 !
 
 readJSObject: anObject
