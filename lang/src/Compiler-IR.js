@@ -3902,7 +3902,7 @@ selector: "visitIRMethod:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRMethod"],
-source: "visitIRMethod: anIRMethod\x0a\x0a\x09self stream\x0a\x09\x09\x09nextPutFunctionWith: [\x0a\x09\x09\x09\x09self stream nextPutVars: (anIRMethod tempDeclarations collect: [ :each |\x0a\x09\x09\x09\x09\x09each name asVariableName ]).\x0a\x09\x09\x09\x09self stream nextPutContextFor: anIRMethod during: [\x0a\x09\x09\x09\x09\x09anIRMethod internalVariables ifNotEmpty: [ :internalVars |\x0a\x09\x09\x09\x09\x09\x09self stream nextPutVars: \x0a\x09\x09\x09\x09\x09\x09\x09(internalVars asSet collect: [ :each | each variable alias ]) ].\x0a\x09\x09\x09\x09anIRMethod scope hasNonLocalReturn\x0a\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09self stream nextPutNonLocalReturnHandlingWith: [\x0a\x09\x09\x09\x09\x09\x09\x09super visitIRMethod: anIRMethod ] ]\x0a\x09\x09\x09\x09\x09ifFalse: [ super visitIRMethod: anIRMethod ] ]]\x0a\x09\x09\x09arguments: anIRMethod arguments.\x0a\x09\x09\x09\x0a\x09^ anIRMethod compiledSource: self contents; yourself",
+source: "visitIRMethod: anIRMethod\x0a\x0a\x09self stream\x0a\x09\x09\x09nextPutFunctionWith: [\x0a\x09\x09\x09\x09self stream nextPutVars: (anIRMethod tempDeclarations collect: [ :each |\x0a\x09\x09\x09\x09\x09each name asVariableName ]).\x0a\x09\x09\x09\x09self stream nextPutContextFor: anIRMethod during: [\x0a\x09\x09\x09\x09\x09anIRMethod internalVariables ifNotEmpty: [ :internalVars |\x0a\x09\x09\x09\x09\x09\x09self stream nextPutVars: \x0a\x09\x09\x09\x09\x09\x09\x09(internalVars collect: [ :each | each variable alias ]) asSet ].\x0a\x09\x09\x09\x09anIRMethod scope hasNonLocalReturn\x0a\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09self stream nextPutNonLocalReturnHandlingWith: [\x0a\x09\x09\x09\x09\x09\x09\x09super visitIRMethod: anIRMethod ] ]\x0a\x09\x09\x09\x09\x09ifFalse: [ super visitIRMethod: anIRMethod ] ]]\x0a\x09\x09\x09arguments: anIRMethod arguments.\x0a\x09\x09\x09\x0a\x09^ anIRMethod compiledSource: self contents; yourself",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -3957,7 +3957,7 @@ $5=$self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx4.sendIdx["stream"]=4;
 //>>excludeEnd("ctx");
-return $recv($5)._nextPutVars_($recv($recv(internalVars)._asSet())._collect_((function(each){
+return $recv($5)._nextPutVars_($recv($recv(internalVars)._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx5) {
 //>>excludeEnd("ctx");
@@ -3965,7 +3965,7 @@ return $recv($recv(each)._variable())._alias();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx5) {$ctx5.fillBlock({each:each},$ctx4,5)});
 //>>excludeEnd("ctx");
-})));
+})))._asSet());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx4) {$ctx4.fillBlock({internalVars:internalVars},$ctx3,4)});
 //>>excludeEnd("ctx");
