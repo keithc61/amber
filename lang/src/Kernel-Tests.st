@@ -559,7 +559,6 @@ testMethodAttachmentsAreAdded
 		augmentMethodInstantiationOf: theMethod
 		withAttachments: #{#a -> 42. #b -> anObject}.
 	ObjectMock2 addCompiledMethod: theMethod.
-	console dir: ObjectMock2 prototype.
 	self assert: (ObjectMock2 new basicAt: #a) equals: 42.
 	self assert: (ObjectMock2 new basicAt: #b) equals: anObject
 !

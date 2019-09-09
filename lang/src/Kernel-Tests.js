@@ -2750,11 +2750,11 @@ selector: "testMethodAttachmentsAreAdded",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testMethodAttachmentsAreAdded\x0a\x09| instance theMethod anObject |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09anObject := #{#foo -> 'oof'}.\x0a\x09theMethod := Compiler new\x0a\x09\x09compile: 'bar' forClass: ObjectMock2 protocol: '**test'.\x0a\x09self\x0a\x09\x09augmentMethodInstantiationOf: theMethod\x0a\x09\x09withAttachments: #{#a -> 42. #b -> anObject}.\x0a\x09ObjectMock2 addCompiledMethod: theMethod.\x0a\x09console dir: ObjectMock2 prototype.\x0a\x09self assert: (ObjectMock2 new basicAt: #a) equals: 42.\x0a\x09self assert: (ObjectMock2 new basicAt: #b) equals: anObject",
+source: "testMethodAttachmentsAreAdded\x0a\x09| instance theMethod anObject |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09anObject := #{#foo -> 'oof'}.\x0a\x09theMethod := Compiler new\x0a\x09\x09compile: 'bar' forClass: ObjectMock2 protocol: '**test'.\x0a\x09self\x0a\x09\x09augmentMethodInstantiationOf: theMethod\x0a\x09\x09withAttachments: #{#a -> 42. #b -> anObject}.\x0a\x09ObjectMock2 addCompiledMethod: theMethod.\x0a\x09self assert: (ObjectMock2 new basicAt: #a) equals: 42.\x0a\x09self assert: (ObjectMock2 new basicAt: #b) equals: anObject",
 referencedClasses: ["ObjectMock", "Compiler", "ObjectMock2"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["copyClass:named:", "compile:forClass:protocol:", "new", "augmentMethodInstantiationOf:withAttachments:", "addCompiledMethod:", "dir:", "prototype", "assert:equals:", "basicAt:"]
+messageSends: ["copyClass:named:", "compile:forClass:protocol:", "new", "augmentMethodInstantiationOf:withAttachments:", "addCompiledMethod:", "assert:equals:", "basicAt:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var instance,theMethod,anObject;
@@ -2771,7 +2771,6 @@ $ctx1.sendIdx["new"]=1;
 theMethod=$recv($1)._compile_forClass_protocol_("bar",$globals.ObjectMock2,"**test");
 $self._augmentMethodInstantiationOf_withAttachments_(theMethod,$globals.HashedCollection._newFromPairs_(["a",(42),"b",anObject]));
 $recv($globals.ObjectMock2)._addCompiledMethod_(theMethod);
-$recv(console)._dir_($recv($globals.ObjectMock2)._prototype());
 $3=$recv($globals.ObjectMock2)._new();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["new"]=2;
