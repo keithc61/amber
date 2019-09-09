@@ -100,7 +100,7 @@ translator
 ! !
 
 Object subclass: #Compiler
-	slots: {#currentClass. #currentPackage. #source. #codeGeneratorClass. #codeGenerator}
+	slots: {#currentPackage. #codeGeneratorClass. #codeGenerator}
 	package: 'Compiler-Core'!
 !Compiler commentStamp!
 I provide the public interface for compiling Amber source code into JavaScript.
@@ -115,11 +115,11 @@ cleanCodeGenerator
 !
 
 codeGenerator
-	^ codeGenerator ifNil: [ codeGenerator := self codeGeneratorClass new
-			source: self source;
-			currentClass: self currentClass;
-			currentPackage: self currentPackage;
-			yourself ]
+	^ codeGenerator
+!
+
+codeGenerator: anObject
+	codeGenerator := anObject
 !
 
 codeGeneratorClass
@@ -130,48 +130,29 @@ codeGeneratorClass: aClass
 	codeGeneratorClass := aClass
 !
 
-currentClass
-	^ currentClass
-!
-
-currentClass: aClass
-	currentClass := aClass
-!
-
 currentPackage
 	^ currentPackage
 !
 
 currentPackage: anObject
 	currentPackage := anObject
-!
-
-source
-	^ source ifNil: [ '' ]
-!
-
-source: aString
-	source := aString
 ! !
 
 !Compiler methodsFor: 'compiling'!
 
 ast: aString forClass: aClass protocol: anotherString
 	self
-		source: aString;
-		forClass: aClass protocol: anotherString.
-
-	self codeGenerator transformersDictionary at: '2500-astCheckpoint' put: [ :x | ^x ].
-	
-	self compileNode: (self parse: aString).
-
-	CompilerError signal: 'AST transformation failed.'
+		start: aString forClass: aClass protocol: anotherString;
+		transformerAt: '2500-astCheckpoint' put: [ :x | ^x ];
+		compileNode: (self parse: aString);
+		error: 'AST transformation failed.'
 !
 
 compile: aString forClass: aClass protocol: anotherString
 	| compilationResult result pragmas closureFactory |
-	compilationResult :=
-		self compileSource: aString forClass: aClass protocol: anotherString.
+	compilationResult := self
+		start: aString forClass: aClass protocol: anotherString;
+		compileNode: (self parse: aString).
 	pragmas := compilationResult removeKey: #pragmas.
 	closureFactory := self
 		eval: (compilationResult removeKey: #instantiateFn)
@@ -181,25 +162,11 @@ compile: aString forClass: aClass protocol: anotherString
 	^ result
 !
 
-compileExpression: aString on: anObject
-	^ self
-		compile: 'xxxDoIt ^ [ ', aString, ' ] value'
-		forClass: anObject class
-		protocol: '**xxxDoIt'
-!
-
 compileNode: aNode
     | result |
 	result := self codeGenerator compileNode: aNode.
 	self cleanCodeGenerator.
 	^ result
-!
-
-compileSource: aString forClass: aClass protocol: anotherString
-	^ self
-		source: aString;
-		forClass: aClass protocol: anotherString;
-		compileNode: (self parse: aString)
 !
 
 eval: aString
@@ -220,17 +187,13 @@ evaluateExpression: aString
 evaluateExpression: aString on: anObject
 	"Unlike #eval: evaluate a Smalltalk expression with anObject as the receiver and answer the returned object"
 	| result method |
-	method := self compileExpression: aString on: anObject.
-	anObject class addCompiledMethod: method.
+	method := self
+		install: (self sourceForExpression: aString)
+		forClass: anObject class
+		protocol: '**xxxDoIt'.
 	result := anObject xxxDoIt.
 	anObject class removeCompiledMethod: method.
 	^ result
-!
-
-forClass: aClass protocol: anotherString
-	self
-		currentPackage: (aClass packageOfProtocol: anotherString);
-		currentClass: aClass
 !
 
 install: aString forClass: aBehavior protocol: anotherString
@@ -247,12 +210,10 @@ parse: aString
 		tryCatch: [ :ex | (self parseError: ex parsing: aString) signal ].
 		
 	^ result
-		source: aString;
-		yourself
 !
 
 parseExpression: aString
-	^ self parse: 'doIt ^ [ ', aString, ' ] value'
+	^ self parse: (self sourceForExpression: aString)
 !
 
 recompile: aClass
@@ -270,9 +231,33 @@ recompileAll
 	Smalltalk classes 
 		do: [ :each | self recompile: each ]
 		displayingProgress: 'Compiling all classes...'
+!
+
+sourceForExpression: aString
+	^ 'xxxDoIt ^ [ ', aString, ' ] value'
+!
+
+start: aString forClass: aClass protocol: anotherString
+	| package |
+	package := aClass packageOfProtocol: anotherString.
+	self
+		currentPackage: package;
+		codeGenerator: (self codeGeneratorClass new
+			source: aString;
+			currentClass: aClass;
+			currentPackage: package;
+			yourself)
+!
+
+transformerAt: aString put: anObject
+	self codeGenerator transformersDictionary at: aString put: anObject
 ! !
 
 !Compiler methodsFor: 'error handling'!
+
+error: aString
+	CompilerError signal: aString
+!
 
 parseError: anException parsing: aString
 	(anException basicAt: 'location')
