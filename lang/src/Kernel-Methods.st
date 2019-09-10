@@ -68,6 +68,10 @@ asCompiledMethod: aString
 	<inlineJS: 'return $core.method({selector:aString, fn:self});'>
 !
 
+asJavaScriptObject
+	^ self
+!
+
 asJavaScriptSource
 	<inlineJS: 'return $self.toString();'>
 !

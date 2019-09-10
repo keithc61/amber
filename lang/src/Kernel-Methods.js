@@ -58,6 +58,24 @@ $globals.BlockClosure);
 
 $core.addMethod(
 $core.method({
+selector: "asJavaScriptObject",
+protocol: "converting",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asJavaScriptObject\x0a\x09^ self",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return self;
+
+}; }),
+$globals.BlockClosure);
+
+$core.addMethod(
+$core.method({
 selector: "asJavaScriptSource",
 protocol: "converting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
