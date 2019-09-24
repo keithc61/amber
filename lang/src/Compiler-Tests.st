@@ -1,72 +1,19 @@
 Smalltalk createPackage: 'Compiler-Tests'!
-TestCase subclass: #ASTParsingTest
-	slots: {}
-	package: 'Compiler-Tests'!
-
-!ASTParsingTest methodsFor: 'parsing'!
-
-parse: aString forClass: aClass
-	^ Compiler new
-		ast: aString
-		forClass: aClass
-		protocol: 'test'
-! !
-
-ASTParsingTest subclass: #ASTCompilingTest
+TestCase subclass: #ASTMethodRunningTest
 	slots: {#receiver}
 	package: 'Compiler-Tests'!
 
-!ASTCompilingTest methodsFor: 'accessing'!
+!ASTMethodRunningTest methodsFor: 'accessing'!
 
-codeGeneratorClass
-	self subclassResponsibility
+receiver
+	^ receiver
 ! !
 
-!ASTCompilingTest methodsFor: 'compiling'!
-
-install: aString forClass: aClass
-	^ self compiler
-		install: aString
-		forClass: aClass
-		protocol: 'tests'
-! !
-
-!ASTCompilingTest methodsFor: 'factory'!
-
-compiler
-	^ Compiler new
-		codeGeneratorClass: self codeGeneratorClass;
-		yourself
-! !
-
-!ASTCompilingTest methodsFor: 'initialization'!
+!ASTMethodRunningTest methodsFor: 'initialization'!
 
 setUp
 	receiver := DoIt new
-!
-
-tearDown
-	"receiver := nil"
 ! !
-
-!ASTCompilingTest methodsFor: 'testing'!
-
-while: aString inClass: aClass should: aBlock
-	| method |
-
-	[
-		method := self install: aString forClass: aClass.
-		aBlock value: method ]
-	ensure: [ method ifNotNil: [ aClass removeCompiledMethod: method ] ]
-!
-
-while: aString should: aBlock
-	self while: aString inClass: receiver class should: aBlock
-! !
-
-ASTCompilingTest subclass: #ASTMethodRunningTest
-	slots: {}
-	package: 'Compiler-Tests'!
 
 !ASTMethodRunningTest methodsFor: 'running'!
 
@@ -99,8 +46,8 @@ should: aString return: anObject
 !
 
 while: aString inClass: aClass should: aBlock
-	super
-		while: aString
+	self
+		whileExamining: aString
 		inClass: aClass
 		should: [ :method | aBlock value: [ self actOn: method in: aClass ] ]
 ! !
@@ -535,69 +482,7 @@ codeGeneratorClass
 	^ InliningCodeGenerator
 ! !
 
-ASTCompilingTest subclass: #CodeGeneratorInstallTest
-	slots: {}
-	package: 'Compiler-Tests'!
-
-!CodeGeneratorInstallTest methodsFor: 'accessing'!
-
-codeGeneratorClass
-	^ CodeGenerator
-! !
-
-!CodeGeneratorInstallTest methodsFor: 'testing'!
-
-shouldntInstall: aString
-	| method |
-
-	[ self
-		should: [ method := self install: aString forClass: receiver class ]
-		raise: ParseError ]
-	ensure: [ method ifNotNil: [ receiver class removeCompiledMethod: method ] ]
-! !
-
-!CodeGeneratorInstallTest methodsFor: 'tests'!
-
-testMistypedPragmaJSStatement
-	self shouldntInstall: 'foo < inlineJS: ''return ''foo'''' >'
-!
-
-testNiladicJSOverride
-	receiver := ObjectMock new.
-	receiver foo: 4.
-	self while: 'baz <jsOverride: #baz> ^ (foo := foo + 3)' should: [
-		self assert: receiver baz equals: 7.
-		self assert: (receiver basicPerform: #baz) equals: 10.
-		self assert: receiver baz equals: 13.
-		self assert: receiver foo equals: 13 ]
-!
-
-testNiladicJSOverrideDifferentNames
-	receiver := ObjectMock new.
-	receiver foo: 4.
-	self while: 'quux <jsOverride: #mux> ^ (foo := foo + 3)' should: [
-		self should: [ receiver mux ] raise: MessageNotUnderstood.
-		self assert: (receiver basicPerform: #mux) equals: 7.
-		self assert: receiver quux equals: 10.
-		self should: [ receiver basicPerform: #quux ] raise: Error.
-		self assert: receiver foo equals: 10 ]
-!
-
-testPragmaInBlock
-	self shouldntInstall: 'foo ^ [ < fooBar > 4 ] value'
-! !
-
-CodeGeneratorInstallTest subclass: #InliningCodeGeneratorInstallTest
-	slots: {}
-	package: 'Compiler-Tests'!
-
-!InliningCodeGeneratorInstallTest methodsFor: 'accessing'!
-
-codeGeneratorClass
-	^ InliningCodeGenerator
-! !
-
-ASTParsingTest subclass: #ASTPCNodeVisitorTest
+TestCase subclass: #ASTPCNodeVisitorTest
 	slots: {}
 	package: 'Compiler-Tests'!
 
@@ -668,7 +553,7 @@ testNoMessageSend
 		currentNode) isNil
 ! !
 
-ASTParsingTest subclass: #ASTPositionTest
+TestCase subclass: #ASTPositionTest
 	slots: {}
 	package: 'Compiler-Tests'!
 
@@ -691,6 +576,72 @@ testNodeAtPosition
 	self foo; bar; baz' forClass: Object.
 	
 	self assert: (node navigationNodeAt: 2@8 ifAbsent: [ nil ]) selector equals: 'foo'
+! !
+
+TestCase subclass: #CodeGeneratorInstallTest
+	slots: {#receiver}
+	package: 'Compiler-Tests'!
+
+!CodeGeneratorInstallTest methodsFor: 'accessing'!
+
+codeGeneratorClass
+	^ CodeGenerator
+!
+
+receiver
+	^ receiver
+! !
+
+!CodeGeneratorInstallTest methodsFor: 'testing'!
+
+shouldntInstall: aString
+	| method |
+
+	[ self
+		should: [ method := self install: aString forClass: receiver class ]
+		raise: ParseError ]
+	ensure: [ method ifNotNil: [ receiver class removeCompiledMethod: method ] ]
+! !
+
+!CodeGeneratorInstallTest methodsFor: 'tests'!
+
+testMistypedPragmaJSStatement
+	self shouldntInstall: 'foo < inlineJS: ''return ''foo'''' >'
+!
+
+testNiladicJSOverride
+	receiver := ObjectMock new.
+	receiver foo: 4.
+	self while: 'baz <jsOverride: #baz> ^ (foo := foo + 3)' should: [
+		self assert: receiver baz equals: 7.
+		self assert: (receiver basicPerform: #baz) equals: 10.
+		self assert: receiver baz equals: 13.
+		self assert: receiver foo equals: 13 ]
+!
+
+testNiladicJSOverrideDifferentNames
+	receiver := ObjectMock new.
+	receiver foo: 4.
+	self while: 'quux <jsOverride: #mux> ^ (foo := foo + 3)' should: [
+		self should: [ receiver mux ] raise: MessageNotUnderstood.
+		self assert: (receiver basicPerform: #mux) equals: 7.
+		self assert: receiver quux equals: 10.
+		self should: [ receiver basicPerform: #quux ] raise: Error.
+		self assert: receiver foo equals: 10 ]
+!
+
+testPragmaInBlock
+	self shouldntInstall: 'foo ^ [ < fooBar > 4 ] value'
+! !
+
+CodeGeneratorInstallTest subclass: #InliningCodeGeneratorInstallTest
+	slots: {}
+	package: 'Compiler-Tests'!
+
+!InliningCodeGeneratorInstallTest methodsFor: 'accessing'!
+
+codeGeneratorClass
+	^ InliningCodeGenerator
 ! !
 
 TestCase subclass: #ScopeVarTest
@@ -912,5 +863,65 @@ testContextVariables
 	ast := Smalltalk parse: src.
 
 	self shouldnt: [ analyzer visit: ast ] raise: UnknownVariableError
+! !
+
+Trait named: #TASTCompilingTest
+	package: 'Compiler-Tests'!
+
+!TASTCompilingTest methodsFor: 'accessing'!
+
+codeGeneratorClass
+	self subclassResponsibility
+! !
+
+!TASTCompilingTest methodsFor: 'compiling'!
+
+install: aString forClass: aClass
+	^ self compiler
+		install: aString
+		forClass: aClass
+		protocol: 'tests'
+! !
+
+!TASTCompilingTest methodsFor: 'factory'!
+
+compiler
+	^ Compiler new
+		codeGeneratorClass: self codeGeneratorClass;
+		yourself
+! !
+
+!TASTCompilingTest methodsFor: 'testing'!
+
+while: aString inClass: aClass should: aBlock
+	| method |
+
+	[
+		method := self install: aString forClass: aClass.
+		aBlock value: method ]
+	ensure: [ method ifNotNil: [ aClass removeCompiledMethod: method ] ]
+!
+
+while: aString should: aBlock
+	self while: aString inClass: self receiver class should: aBlock
+! !
+
+Trait named: #TASTParsingTest
+	package: 'Compiler-Tests'!
+
+!TASTParsingTest methodsFor: 'parsing'!
+
+parse: aString forClass: aClass
+	^ Compiler new
+		ast: aString
+		forClass: aClass
+		protocol: 'test'
+! !
+
+TASTCompilingTest setTraitComposition: {TASTParsingTest} asTraitComposition!
+ASTMethodRunningTest setTraitComposition: {TASTCompilingTest @ {#whileExamining:inClass:should: -> #while:inClass:should:}} asTraitComposition!
+ASTPCNodeVisitorTest setTraitComposition: {TASTParsingTest} asTraitComposition!
+ASTPositionTest setTraitComposition: {TASTParsingTest} asTraitComposition!
+CodeGeneratorInstallTest setTraitComposition: {TASTCompilingTest} asTraitComposition!
 ! !
 

@@ -4,45 +4,19 @@ var $pkg = $core.addPackage("Compiler-Tests");
 $pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("ASTParsingTest", $globals.TestCase, [], "Compiler-Tests");
+$core.addClass("ASTMethodRunningTest", $globals.TestCase, ["receiver"], "Compiler-Tests");
 $core.addMethod(
 $core.method({
-selector: "parse:forClass:",
-protocol: "parsing",
+selector: "actOn:in:",
+protocol: "running",
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString", "aClass"],
-source: "parse: aString forClass: aClass\x0a\x09^ Compiler new\x0a\x09\x09ast: aString\x0a\x09\x09forClass: aClass\x0a\x09\x09protocol: 'test'",
-referencedClasses: ["Compiler"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ast:forClass:protocol:", "new"]
-}, function ($methodClass){ return function (aString,aClass){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($recv($globals.Compiler)._new())._ast_forClass_protocol_(aString,aClass,"test");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"parse:forClass:",{aString:aString,aClass:aClass})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTParsingTest);
-
-
-
-$core.addClass("ASTCompilingTest", $globals.ASTParsingTest, ["receiver"], "Compiler-Tests");
-$core.addMethod(
-$core.method({
-selector: "codeGeneratorClass",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "codeGeneratorClass\x0a\x09self subclassResponsibility",
+args: ["aMethod", "aClass"],
+source: "actOn: aMethod in: aClass\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: ["subclassResponsibility"]
-}, function ($methodClass){ return function (){
+}, function ($methodClass){ return function (aMethod,aClass){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -50,59 +24,28 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"codeGeneratorClass",{})});
+}, function($ctx1) {$ctx1.fill(self,"actOn:in:",{aMethod:aMethod,aClass:aClass})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.ASTCompilingTest);
+$globals.ASTMethodRunningTest);
 
 $core.addMethod(
 $core.method({
-selector: "compiler",
-protocol: "factory",
+selector: "receiver",
+protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "compiler\x0a\x09^ Compiler new\x0a\x09\x09codeGeneratorClass: self codeGeneratorClass;\x0a\x09\x09yourself",
-referencedClasses: ["Compiler"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["codeGeneratorClass:", "new", "codeGeneratorClass", "yourself"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$recv($globals.Compiler)._new();
-$recv($1)._codeGeneratorClass_($self._codeGeneratorClass());
-return $recv($1)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"compiler",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTCompilingTest);
-
-$core.addMethod(
-$core.method({
-selector: "install:forClass:",
-protocol: "compiling",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString", "aClass"],
-source: "install: aString forClass: aClass\x0a\x09^ self compiler\x0a\x09\x09install: aString\x0a\x09\x09forClass: aClass\x0a\x09\x09protocol: 'tests'",
+source: "receiver\x0a\x09^ receiver",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["install:forClass:protocol:", "compiler"]
-}, function ($methodClass){ return function (aString,aClass){
+messageSends: []
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self._compiler())._install_forClass_protocol_(aString,aClass,"tests");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"install:forClass:",{aString:aString,aClass:aClass})});
-//>>excludeEnd("ctx");
+return $self.receiver;
+
 }; }),
-$globals.ASTCompilingTest);
+$globals.ASTMethodRunningTest);
 
 $core.addMethod(
 $core.method({
@@ -124,123 +67,6 @@ $self.receiver=$recv($globals.DoIt)._new();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setUp",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTCompilingTest);
-
-$core.addMethod(
-$core.method({
-selector: "tearDown",
-protocol: "initialization",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "tearDown\x0a\x09\x22receiver := nil\x22",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return self;
-
-}; }),
-$globals.ASTCompilingTest);
-
-$core.addMethod(
-$core.method({
-selector: "while:inClass:should:",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString", "aClass", "aBlock"],
-source: "while: aString inClass: aClass should: aBlock\x0a\x09| method |\x0a\x0a\x09[\x0a\x09\x09method := self install: aString forClass: aClass.\x0a\x09\x09aBlock value: method ]\x0a\x09ensure: [ method ifNotNil: [ aClass removeCompiledMethod: method ] ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ensure:", "install:forClass:", "value:", "ifNotNil:", "removeCompiledMethod:"]
-}, function ($methodClass){ return function (aString,aClass,aBlock){
-var self=this,$self=this;
-var method;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$receiver;
-$recv((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-method=$self._install_forClass_(aString,aClass);
-return $recv(aBlock)._value_(method);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}))._ensure_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$1=method;
-if(($receiver = $1) == null || $receiver.a$nil){
-return $1;
-} else {
-return $recv(aClass)._removeCompiledMethod_(method);
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"while:inClass:should:",{aString:aString,aClass:aClass,aBlock:aBlock,method:method})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTCompilingTest);
-
-$core.addMethod(
-$core.method({
-selector: "while:should:",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString", "aBlock"],
-source: "while: aString should: aBlock\x0a\x09self while: aString inClass: receiver class should: aBlock",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["while:inClass:should:", "class"]
-}, function ($methodClass){ return function (aString,aBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._while_inClass_should_(aString,$recv($self.receiver)._class(),aBlock);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"while:should:",{aString:aString,aBlock:aBlock})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTCompilingTest);
-
-
-
-$core.addClass("ASTMethodRunningTest", $globals.ASTCompilingTest, [], "Compiler-Tests");
-$core.addMethod(
-$core.method({
-selector: "actOn:in:",
-protocol: "running",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aMethod", "aClass"],
-source: "actOn: aMethod in: aClass\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}, function ($methodClass){ return function (aMethod,aClass){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._subclassResponsibility();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"actOn:in:",{aMethod:aMethod,aClass:aClass})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ASTMethodRunningTest);
@@ -374,21 +200,17 @@ selector: "while:inClass:should:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aClass", "aBlock"],
-source: "while: aString inClass: aClass should: aBlock\x0a\x09super\x0a\x09\x09while: aString\x0a\x09\x09inClass: aClass\x0a\x09\x09should: [ :method | aBlock value: [ self actOn: method in: aClass ] ]",
+source: "while: aString inClass: aClass should: aBlock\x0a\x09self\x0a\x09\x09whileExamining: aString\x0a\x09\x09inClass: aClass\x0a\x09\x09should: [ :method | aBlock value: [ self actOn: method in: aClass ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["while:inClass:should:", "value:", "actOn:in:"]
+messageSends: ["whileExamining:inClass:should:", "value:", "actOn:in:"]
 }, function ($methodClass){ return function (aString,aClass,aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = true,
-//>>excludeEnd("ctx");
-($methodClass.superclass||$boot.nilAsClass).fn.prototype._while_inClass_should_.call($self,aString,aClass,(function(method){
+$self._whileExamining_inClass_should_(aString,aClass,(function(method){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -404,10 +226,7 @@ return $self._actOn_in_(method,aClass);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({method:method},$ctx1,1)});
 //>>excludeEnd("ctx");
-})));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = false;
-//>>excludeEnd("ctx");;
+}));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"while:inClass:should:",{aString:aString,aClass:aClass,aBlock:aBlock})});
@@ -1985,7 +1804,321 @@ $globals.InliningCodeGeneratorTest);
 
 
 
-$core.addClass("CodeGeneratorInstallTest", $globals.ASTCompilingTest, [], "Compiler-Tests");
+$core.addClass("ASTPCNodeVisitorTest", $globals.TestCase, [], "Compiler-Tests");
+$core.addMethod(
+$core.method({
+selector: "astPCNodeVisitor",
+protocol: "factory",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "astPCNodeVisitor\x0a\x09^ ASTPCNodeVisitor new\x0a\x09\x09index: 0;\x0a\x09\x09yourself",
+referencedClasses: ["ASTPCNodeVisitor"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["index:", "new", "yourself"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($globals.ASTPCNodeVisitor)._new();
+$recv($1)._index_((0));
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"astPCNodeVisitor",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ASTPCNodeVisitorTest);
+
+$core.addMethod(
+$core.method({
+selector: "astPCNodeVisitorForSelector:",
+protocol: "factory",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "astPCNodeVisitorForSelector: aString\x0a\x09^ ASTPCNodeVisitor new\x0a\x09\x09selector: aString;\x0a\x09\x09index: 0;\x0a\x09\x09yourself",
+referencedClasses: ["ASTPCNodeVisitor"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["selector:", "new", "index:", "yourself"]
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($globals.ASTPCNodeVisitor)._new();
+$recv($1)._selector_(aString);
+$recv($1)._index_((0));
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"astPCNodeVisitorForSelector:",{aString:aString})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ASTPCNodeVisitorTest);
+
+$core.addMethod(
+$core.method({
+selector: "testJSStatementNode",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testJSStatementNode\x0a\x09| ast visitor |\x0a\x09\x0a\x09ast := self parse: 'foo <inlineJS: ''consolee.log(1)''>' forClass: Object.\x0a\x09self assert: (self astPCNodeVisitor\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) isJSStatementNode",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["parse:forClass:", "assert:", "isJSStatementNode", "visit:", "astPCNodeVisitor", "currentNode"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var ast,visitor;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $3,$2,$1;
+ast=$self._parse_forClass_("foo <inlineJS: 'consolee.log(1)'>",$globals.Object);
+$3=$self._astPCNodeVisitor();
+$recv($3)._visit_(ast);
+$2=$recv($3)._currentNode();
+$1=$recv($2)._isJSStatementNode();
+$self._assert_($1);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testJSStatementNode",{ast:ast,visitor:visitor})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ASTPCNodeVisitorTest);
+
+$core.addMethod(
+$core.method({
+selector: "testMessageSend",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testMessageSend\x0a\x09| ast |\x0a\x09\x0a\x09ast := self parse: 'foo self asString yourself. ^ self asBoolean' forClass: Object.\x0a\x09self assert: ((self astPCNodeVisitorForSelector: 'yourself')\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) selector equals: 'yourself'",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["parse:forClass:", "assert:equals:", "selector", "visit:", "astPCNodeVisitorForSelector:", "currentNode"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var ast;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $3,$2,$1;
+ast=$self._parse_forClass_("foo self asString yourself. ^ self asBoolean",$globals.Object);
+$3=$self._astPCNodeVisitorForSelector_("yourself");
+$recv($3)._visit_(ast);
+$2=$recv($3)._currentNode();
+$1=$recv($2)._selector();
+$self._assert_equals_($1,"yourself");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testMessageSend",{ast:ast})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ASTPCNodeVisitorTest);
+
+$core.addMethod(
+$core.method({
+selector: "testMessageSendWithBlocks",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testMessageSendWithBlocks\x0a\x09| ast |\x0a\x09\x0a\x09ast := self parse: 'foo true ifTrue: [ [ self asString yourself ] value.  ]. ^ self asBoolean' forClass: Object.\x0a\x09self assert: ((self astPCNodeVisitorForSelector: 'yourself')\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) selector equals: 'yourself'",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["parse:forClass:", "assert:equals:", "selector", "visit:", "astPCNodeVisitorForSelector:", "currentNode"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var ast;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $3,$2,$1;
+ast=$self._parse_forClass_("foo true ifTrue: [ [ self asString yourself ] value.  ]. ^ self asBoolean",$globals.Object);
+$3=$self._astPCNodeVisitorForSelector_("yourself");
+$recv($3)._visit_(ast);
+$2=$recv($3)._currentNode();
+$1=$recv($2)._selector();
+$self._assert_equals_($1,"yourself");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testMessageSendWithBlocks",{ast:ast})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ASTPCNodeVisitorTest);
+
+$core.addMethod(
+$core.method({
+selector: "testMessageSendWithInlining",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testMessageSendWithInlining\x0a\x09| ast |\x0a\x09\x0a\x09ast := self parse: 'foo true ifTrue: [ self asString yourself ]. ^ self asBoolean' forClass: Object.\x0a\x09self assert: ((self astPCNodeVisitorForSelector: 'yourself')\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) selector equals: 'yourself'.\x0a\x09\x09\x0a\x09ast := self parse: 'foo true ifTrue: [ self asString yourself ]. ^ self asBoolean' forClass: Object.\x0a\x09self assert: ((self astPCNodeVisitorForSelector: 'asBoolean')\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) selector equals: 'asBoolean'",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["parse:forClass:", "assert:equals:", "selector", "visit:", "astPCNodeVisitorForSelector:", "currentNode"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var ast;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $3,$4,$2,$1,$7,$6,$5;
+ast=$self._parse_forClass_("foo true ifTrue: [ self asString yourself ]. ^ self asBoolean",$globals.Object);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["parse:forClass:"]=1;
+//>>excludeEnd("ctx");
+$3=$self._astPCNodeVisitorForSelector_("yourself");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["astPCNodeVisitorForSelector:"]=1;
+//>>excludeEnd("ctx");
+$recv($3)._visit_(ast);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["visit:"]=1;
+//>>excludeEnd("ctx");
+$4=$recv($3)._currentNode();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["currentNode"]=1;
+//>>excludeEnd("ctx");
+$2=$4;
+$1=$recv($2)._selector();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["selector"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($1,"yourself");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+ast=$self._parse_forClass_("foo true ifTrue: [ self asString yourself ]. ^ self asBoolean",$globals.Object);
+$7=$self._astPCNodeVisitorForSelector_("asBoolean");
+$recv($7)._visit_(ast);
+$6=$recv($7)._currentNode();
+$5=$recv($6)._selector();
+$self._assert_equals_($5,"asBoolean");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testMessageSendWithInlining",{ast:ast})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ASTPCNodeVisitorTest);
+
+$core.addMethod(
+$core.method({
+selector: "testNoMessageSend",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNoMessageSend\x0a\x09| ast |\x0a\x09\x0a\x09ast := self parse: 'foo ^ self' forClass: Object.\x0a\x09self assert: (self astPCNodeVisitor\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) isNil",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["parse:forClass:", "assert:", "isNil", "visit:", "astPCNodeVisitor", "currentNode"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var ast;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $3,$2,$1;
+ast=$self._parse_forClass_("foo ^ self",$globals.Object);
+$3=$self._astPCNodeVisitor();
+$recv($3)._visit_(ast);
+$2=$recv($3)._currentNode();
+$1=$recv($2)._isNil();
+$self._assert_($1);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testNoMessageSend",{ast:ast})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ASTPCNodeVisitorTest);
+
+
+
+$core.addClass("ASTPositionTest", $globals.TestCase, [], "Compiler-Tests");
+$core.addMethod(
+$core.method({
+selector: "testNodeAtPosition",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNodeAtPosition\x0a\x09| node |\x0a\x09\x0a\x09node := self parse: 'yourself\x0a\x09^ self' forClass: Object.\x0a\x09\x0a\x09self assert: (node navigationNodeAt: 2@4 ifAbsent: [ nil ]) source equals: 'self'.\x0a\x09\x0a\x09node := self parse: 'foo\x0a\x09true ifTrue: [ 1 ]' forClass: Object.\x0a\x09\x0a\x09self assert: (node navigationNodeAt: 2@7 ifAbsent: [ nil ]) selector equals: 'ifTrue:'.\x0a\x09\x0a\x09node := self parse: 'foo\x0a\x09self foo; bar; baz' forClass: Object.\x0a\x09\x0a\x09self assert: (node navigationNodeAt: 2@8 ifAbsent: [ nil ]) selector equals: 'foo'",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["parse:forClass:", "assert:equals:", "source", "navigationNodeAt:ifAbsent:", "@", "selector"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var node;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $3,$4,$2,$1,$7,$8,$6,$5;
+node=$self._parse_forClass_("yourself\x0a\x09^ self",$globals.Object);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["parse:forClass:"]=1;
+//>>excludeEnd("ctx");
+$3=node;
+$4=(2).__at((4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=1;
+//>>excludeEnd("ctx");
+$2=$recv($3)._navigationNodeAt_ifAbsent_($4,(function(){
+return nil;
+
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["navigationNodeAt:ifAbsent:"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2)._source();
+$self._assert_equals_($1,"self");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=1;
+//>>excludeEnd("ctx");
+node=$self._parse_forClass_("foo\x0a\x09true ifTrue: [ 1 ]",$globals.Object);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["parse:forClass:"]=2;
+//>>excludeEnd("ctx");
+$7=node;
+$8=(2).__at((7));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["@"]=2;
+//>>excludeEnd("ctx");
+$6=$recv($7)._navigationNodeAt_ifAbsent_($8,(function(){
+return nil;
+
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["navigationNodeAt:ifAbsent:"]=2;
+//>>excludeEnd("ctx");
+$5=$recv($6)._selector();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["selector"]=1;
+//>>excludeEnd("ctx");
+$self._assert_equals_($5,"ifTrue:");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["assert:equals:"]=2;
+//>>excludeEnd("ctx");
+node=$self._parse_forClass_("foo\x0a\x09self foo; bar; baz",$globals.Object);
+$self._assert_equals_($recv($recv(node)._navigationNodeAt_ifAbsent_((2).__at((8)),(function(){
+return nil;
+
+})))._selector(),"foo");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testNodeAtPosition",{node:node})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ASTPositionTest);
+
+
+
+$core.addClass("CodeGeneratorInstallTest", $globals.TestCase, ["receiver"], "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "codeGeneratorClass",
@@ -2000,6 +2133,24 @@ messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $globals.CodeGenerator;
+
+}; }),
+$globals.CodeGeneratorInstallTest);
+
+$core.addMethod(
+$core.method({
+selector: "receiver",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "receiver\x0a\x09^ receiver",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.receiver;
 
 }; }),
 $globals.CodeGeneratorInstallTest);
@@ -2251,320 +2402,6 @@ return $globals.InliningCodeGenerator;
 
 }; }),
 $globals.InliningCodeGeneratorInstallTest);
-
-
-
-$core.addClass("ASTPCNodeVisitorTest", $globals.ASTParsingTest, [], "Compiler-Tests");
-$core.addMethod(
-$core.method({
-selector: "astPCNodeVisitor",
-protocol: "factory",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "astPCNodeVisitor\x0a\x09^ ASTPCNodeVisitor new\x0a\x09\x09index: 0;\x0a\x09\x09yourself",
-referencedClasses: ["ASTPCNodeVisitor"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["index:", "new", "yourself"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$recv($globals.ASTPCNodeVisitor)._new();
-$recv($1)._index_((0));
-return $recv($1)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"astPCNodeVisitor",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTPCNodeVisitorTest);
-
-$core.addMethod(
-$core.method({
-selector: "astPCNodeVisitorForSelector:",
-protocol: "factory",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "astPCNodeVisitorForSelector: aString\x0a\x09^ ASTPCNodeVisitor new\x0a\x09\x09selector: aString;\x0a\x09\x09index: 0;\x0a\x09\x09yourself",
-referencedClasses: ["ASTPCNodeVisitor"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["selector:", "new", "index:", "yourself"]
-}, function ($methodClass){ return function (aString){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$recv($globals.ASTPCNodeVisitor)._new();
-$recv($1)._selector_(aString);
-$recv($1)._index_((0));
-return $recv($1)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"astPCNodeVisitorForSelector:",{aString:aString})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTPCNodeVisitorTest);
-
-$core.addMethod(
-$core.method({
-selector: "testJSStatementNode",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testJSStatementNode\x0a\x09| ast visitor |\x0a\x09\x0a\x09ast := self parse: 'foo <inlineJS: ''consolee.log(1)''>' forClass: Object.\x0a\x09self assert: (self astPCNodeVisitor\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) isJSStatementNode",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["parse:forClass:", "assert:", "isJSStatementNode", "visit:", "astPCNodeVisitor", "currentNode"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-var ast,visitor;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $3,$2,$1;
-ast=$self._parse_forClass_("foo <inlineJS: 'consolee.log(1)'>",$globals.Object);
-$3=$self._astPCNodeVisitor();
-$recv($3)._visit_(ast);
-$2=$recv($3)._currentNode();
-$1=$recv($2)._isJSStatementNode();
-$self._assert_($1);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testJSStatementNode",{ast:ast,visitor:visitor})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTPCNodeVisitorTest);
-
-$core.addMethod(
-$core.method({
-selector: "testMessageSend",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testMessageSend\x0a\x09| ast |\x0a\x09\x0a\x09ast := self parse: 'foo self asString yourself. ^ self asBoolean' forClass: Object.\x0a\x09self assert: ((self astPCNodeVisitorForSelector: 'yourself')\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) selector equals: 'yourself'",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["parse:forClass:", "assert:equals:", "selector", "visit:", "astPCNodeVisitorForSelector:", "currentNode"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-var ast;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $3,$2,$1;
-ast=$self._parse_forClass_("foo self asString yourself. ^ self asBoolean",$globals.Object);
-$3=$self._astPCNodeVisitorForSelector_("yourself");
-$recv($3)._visit_(ast);
-$2=$recv($3)._currentNode();
-$1=$recv($2)._selector();
-$self._assert_equals_($1,"yourself");
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testMessageSend",{ast:ast})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTPCNodeVisitorTest);
-
-$core.addMethod(
-$core.method({
-selector: "testMessageSendWithBlocks",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testMessageSendWithBlocks\x0a\x09| ast |\x0a\x09\x0a\x09ast := self parse: 'foo true ifTrue: [ [ self asString yourself ] value.  ]. ^ self asBoolean' forClass: Object.\x0a\x09self assert: ((self astPCNodeVisitorForSelector: 'yourself')\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) selector equals: 'yourself'",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["parse:forClass:", "assert:equals:", "selector", "visit:", "astPCNodeVisitorForSelector:", "currentNode"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-var ast;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $3,$2,$1;
-ast=$self._parse_forClass_("foo true ifTrue: [ [ self asString yourself ] value.  ]. ^ self asBoolean",$globals.Object);
-$3=$self._astPCNodeVisitorForSelector_("yourself");
-$recv($3)._visit_(ast);
-$2=$recv($3)._currentNode();
-$1=$recv($2)._selector();
-$self._assert_equals_($1,"yourself");
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testMessageSendWithBlocks",{ast:ast})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTPCNodeVisitorTest);
-
-$core.addMethod(
-$core.method({
-selector: "testMessageSendWithInlining",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testMessageSendWithInlining\x0a\x09| ast |\x0a\x09\x0a\x09ast := self parse: 'foo true ifTrue: [ self asString yourself ]. ^ self asBoolean' forClass: Object.\x0a\x09self assert: ((self astPCNodeVisitorForSelector: 'yourself')\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) selector equals: 'yourself'.\x0a\x09\x09\x0a\x09ast := self parse: 'foo true ifTrue: [ self asString yourself ]. ^ self asBoolean' forClass: Object.\x0a\x09self assert: ((self astPCNodeVisitorForSelector: 'asBoolean')\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) selector equals: 'asBoolean'",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["parse:forClass:", "assert:equals:", "selector", "visit:", "astPCNodeVisitorForSelector:", "currentNode"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-var ast;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $3,$4,$2,$1,$7,$6,$5;
-ast=$self._parse_forClass_("foo true ifTrue: [ self asString yourself ]. ^ self asBoolean",$globals.Object);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["parse:forClass:"]=1;
-//>>excludeEnd("ctx");
-$3=$self._astPCNodeVisitorForSelector_("yourself");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["astPCNodeVisitorForSelector:"]=1;
-//>>excludeEnd("ctx");
-$recv($3)._visit_(ast);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["visit:"]=1;
-//>>excludeEnd("ctx");
-$4=$recv($3)._currentNode();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["currentNode"]=1;
-//>>excludeEnd("ctx");
-$2=$4;
-$1=$recv($2)._selector();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["selector"]=1;
-//>>excludeEnd("ctx");
-$self._assert_equals_($1,"yourself");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["assert:equals:"]=1;
-//>>excludeEnd("ctx");
-ast=$self._parse_forClass_("foo true ifTrue: [ self asString yourself ]. ^ self asBoolean",$globals.Object);
-$7=$self._astPCNodeVisitorForSelector_("asBoolean");
-$recv($7)._visit_(ast);
-$6=$recv($7)._currentNode();
-$5=$recv($6)._selector();
-$self._assert_equals_($5,"asBoolean");
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testMessageSendWithInlining",{ast:ast})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTPCNodeVisitorTest);
-
-$core.addMethod(
-$core.method({
-selector: "testNoMessageSend",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testNoMessageSend\x0a\x09| ast |\x0a\x09\x0a\x09ast := self parse: 'foo ^ self' forClass: Object.\x0a\x09self assert: (self astPCNodeVisitor\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) isNil",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["parse:forClass:", "assert:", "isNil", "visit:", "astPCNodeVisitor", "currentNode"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-var ast;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $3,$2,$1;
-ast=$self._parse_forClass_("foo ^ self",$globals.Object);
-$3=$self._astPCNodeVisitor();
-$recv($3)._visit_(ast);
-$2=$recv($3)._currentNode();
-$1=$recv($2)._isNil();
-$self._assert_($1);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testNoMessageSend",{ast:ast})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTPCNodeVisitorTest);
-
-
-
-$core.addClass("ASTPositionTest", $globals.ASTParsingTest, [], "Compiler-Tests");
-$core.addMethod(
-$core.method({
-selector: "testNodeAtPosition",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testNodeAtPosition\x0a\x09| node |\x0a\x09\x0a\x09node := self parse: 'yourself\x0a\x09^ self' forClass: Object.\x0a\x09\x0a\x09self assert: (node navigationNodeAt: 2@4 ifAbsent: [ nil ]) source equals: 'self'.\x0a\x09\x0a\x09node := self parse: 'foo\x0a\x09true ifTrue: [ 1 ]' forClass: Object.\x0a\x09\x0a\x09self assert: (node navigationNodeAt: 2@7 ifAbsent: [ nil ]) selector equals: 'ifTrue:'.\x0a\x09\x0a\x09node := self parse: 'foo\x0a\x09self foo; bar; baz' forClass: Object.\x0a\x09\x0a\x09self assert: (node navigationNodeAt: 2@8 ifAbsent: [ nil ]) selector equals: 'foo'",
-referencedClasses: ["Object"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["parse:forClass:", "assert:equals:", "source", "navigationNodeAt:ifAbsent:", "@", "selector"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-var node;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $3,$4,$2,$1,$7,$8,$6,$5;
-node=$self._parse_forClass_("yourself\x0a\x09^ self",$globals.Object);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["parse:forClass:"]=1;
-//>>excludeEnd("ctx");
-$3=node;
-$4=(2).__at((4));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["@"]=1;
-//>>excludeEnd("ctx");
-$2=$recv($3)._navigationNodeAt_ifAbsent_($4,(function(){
-return nil;
-
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["navigationNodeAt:ifAbsent:"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._source();
-$self._assert_equals_($1,"self");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["assert:equals:"]=1;
-//>>excludeEnd("ctx");
-node=$self._parse_forClass_("foo\x0a\x09true ifTrue: [ 1 ]",$globals.Object);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["parse:forClass:"]=2;
-//>>excludeEnd("ctx");
-$7=node;
-$8=(2).__at((7));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["@"]=2;
-//>>excludeEnd("ctx");
-$6=$recv($7)._navigationNodeAt_ifAbsent_($8,(function(){
-return nil;
-
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["navigationNodeAt:ifAbsent:"]=2;
-//>>excludeEnd("ctx");
-$5=$recv($6)._selector();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["selector"]=1;
-//>>excludeEnd("ctx");
-$self._assert_equals_($5,"ifTrue:");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["assert:equals:"]=2;
-//>>excludeEnd("ctx");
-node=$self._parse_forClass_("foo\x0a\x09self foo; bar; baz",$globals.Object);
-$self._assert_equals_($recv($recv(node)._navigationNodeAt_ifAbsent_((2).__at((8)),(function(){
-return nil;
-
-})))._selector(),"foo");
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testNodeAtPosition",{node:node})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTPositionTest);
 
 
 
@@ -3506,5 +3343,183 @@ return self;
 }; }),
 $globals.AISemanticAnalyzerTest);
 
+
+
+$core.addTrait("TASTCompilingTest", "Compiler-Tests");
+$core.addMethod(
+$core.method({
+selector: "codeGeneratorClass",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "codeGeneratorClass\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"codeGeneratorClass",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TASTCompilingTest);
+
+$core.addMethod(
+$core.method({
+selector: "compiler",
+protocol: "factory",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "compiler\x0a\x09^ Compiler new\x0a\x09\x09codeGeneratorClass: self codeGeneratorClass;\x0a\x09\x09yourself",
+referencedClasses: ["Compiler"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["codeGeneratorClass:", "new", "codeGeneratorClass", "yourself"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($globals.Compiler)._new();
+$recv($1)._codeGeneratorClass_($self._codeGeneratorClass());
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"compiler",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TASTCompilingTest);
+
+$core.addMethod(
+$core.method({
+selector: "install:forClass:",
+protocol: "compiling",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aClass"],
+source: "install: aString forClass: aClass\x0a\x09^ self compiler\x0a\x09\x09install: aString\x0a\x09\x09forClass: aClass\x0a\x09\x09protocol: 'tests'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["install:forClass:protocol:", "compiler"]
+}, function ($methodClass){ return function (aString,aClass){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._compiler())._install_forClass_protocol_(aString,aClass,"tests");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"install:forClass:",{aString:aString,aClass:aClass})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TASTCompilingTest);
+
+$core.addMethod(
+$core.method({
+selector: "while:inClass:should:",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aClass", "aBlock"],
+source: "while: aString inClass: aClass should: aBlock\x0a\x09| method |\x0a\x0a\x09[\x0a\x09\x09method := self install: aString forClass: aClass.\x0a\x09\x09aBlock value: method ]\x0a\x09ensure: [ method ifNotNil: [ aClass removeCompiledMethod: method ] ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ensure:", "install:forClass:", "value:", "ifNotNil:", "removeCompiledMethod:"]
+}, function ($methodClass){ return function (aString,aClass,aBlock){
+var self=this,$self=this;
+var method;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$receiver;
+$recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+method=$self._install_forClass_(aString,aClass);
+return $recv(aBlock)._value_(method);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}))._ensure_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=method;
+if(($receiver = $1) == null || $receiver.a$nil){
+return $1;
+} else {
+return $recv(aClass)._removeCompiledMethod_(method);
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"while:inClass:should:",{aString:aString,aClass:aClass,aBlock:aBlock,method:method})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TASTCompilingTest);
+
+$core.addMethod(
+$core.method({
+selector: "while:should:",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aBlock"],
+source: "while: aString should: aBlock\x0a\x09self while: aString inClass: self receiver class should: aBlock",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["while:inClass:should:", "class", "receiver"]
+}, function ($methodClass){ return function (aString,aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._while_inClass_should_(aString,$recv($self._receiver())._class(),aBlock);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"while:should:",{aString:aString,aBlock:aBlock})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TASTCompilingTest);
+
+
+$core.addTrait("TASTParsingTest", "Compiler-Tests");
+$core.addMethod(
+$core.method({
+selector: "parse:forClass:",
+protocol: "parsing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aClass"],
+source: "parse: aString forClass: aClass\x0a\x09^ Compiler new\x0a\x09\x09ast: aString\x0a\x09\x09forClass: aClass\x0a\x09\x09protocol: 'test'",
+referencedClasses: ["Compiler"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ast:forClass:protocol:", "new"]
+}, function ($methodClass){ return function (aString,aClass){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($recv($globals.Compiler)._new())._ast_forClass_protocol_(aString,aClass,"test");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"parse:forClass:",{aString:aString,aClass:aClass})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TASTParsingTest);
+
+$core.setTraitComposition([{trait: $globals.TASTParsingTest}], $globals.TASTCompilingTest);
+$core.setTraitComposition([{trait: $globals.TASTCompilingTest, aliases: {"whileExamining:inClass:should:":"while:inClass:should:"}}], $globals.ASTMethodRunningTest);
+$core.setTraitComposition([{trait: $globals.TASTParsingTest}], $globals.ASTPCNodeVisitorTest);
+$core.setTraitComposition([{trait: $globals.TASTParsingTest}], $globals.ASTPositionTest);
+$core.setTraitComposition([{trait: $globals.TASTCompilingTest}], $globals.CodeGeneratorInstallTest);
 
 });
