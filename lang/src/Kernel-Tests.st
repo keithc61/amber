@@ -342,6 +342,12 @@ TestCase subclass: #ClassBuilderTest
 	slots: {#builder. #theClass}
 	package: 'Kernel-Tests'!
 
+!ClassBuilderTest methodsFor: 'accessing'!
+
+theClass
+	^ theClass
+! !
+
 !ClassBuilderTest methodsFor: 'running'!
 
 setUp
@@ -349,11 +355,10 @@ setUp
 !
 
 tearDown
+	self tearDownTheClass.
 	theClass ifNotNil: [
-		Smalltalk removeClass: theClass.
 		self deny: (theClass package classes includes: theClass).
-		self assert: (Smalltalk globals at: theClass name) equals: nil.
-		theClass := nil ]
+		self assert: (Smalltalk globals at: theClass name) equals: nil ]
 ! !
 
 !ClassBuilderTest methodsFor: 'tests'!
@@ -367,12 +372,8 @@ testAddTrait
 
 testClassCopy
 	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.
-	self assert: theClass superclass == ObjectMock superclass.
-	self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.
 	self assert: theClass name equals: 'ObjectMock2'.
-	self assert: theClass package == ObjectMock package.
-	self assert: (theClass package classes includes: theClass).
-	self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys
+	self assert: theClass isClassCopyOf: ObjectMock
 !
 
 testClassMigration
@@ -382,7 +383,7 @@ testClassMigration
 	instance := (Smalltalk globals at: 'ObjectMock2') new.
 	
 	"Change the superclass of ObjectMock2"
-	ObjectMock subclass: #ObjectMock2
+	theClass := ObjectMock subclass: #ObjectMock2
 		instanceVariableNames: ''
 		package: 'Kernel-Tests'.
 	
@@ -396,27 +397,21 @@ testClassMigration
 	self assert: (ObjectMock2 package classes includes: ObjectMock2).
 	
 	self deny: instance class == ObjectMock2.
-	"Commeting this out. Tests implementation detail."
-	"self assert: instance class name equals: 'OldObjectMock2'."
 	
-	self assert: (Smalltalk globals at: instance class name) isNil.
-	
-	Smalltalk removeClass: ObjectMock2
+	self assert: (Smalltalk globals at: instance class name) isNil
 !
 
 testClassMigrationWithClassInstanceVariables
 	
 	builder copyClass: ObjectMock named: 'ObjectMock2'.
-	ObjectMock2 class instanceVariableNames: 'foo bar'.
+	ObjectMock2 class instanceVariableNames: '    foo  bar       '.
 	
 	"Change the superclass of ObjectMock2"
-	ObjectMock subclass: (Smalltalk globals at: 'ObjectMock2') name
+	theClass := ObjectMock subclass: #ObjectMock2
 		instanceVariableNames: ''
 		package: 'Kernel-Tests'.
 	
-	self assert: ObjectMock2 class instanceVariableNames equals: #('foo' 'bar').
-	
-	Smalltalk removeClass: ObjectMock2
+	self assert: ObjectMock2 class instanceVariableNames equals: #('foo' 'bar')
 !
 
 testClassMigrationWithSubclasses
@@ -426,15 +421,13 @@ testClassMigrationWithSubclasses
 	ObjectMock3 subclass: 'ObjectMock4' instanceVariableNames: '' package: 'Kernel-Tests'.
 	
 	"Change the superclass of ObjectMock2"
-	ObjectMock subclass: 'ObjectMock2'
+	theClass := ObjectMock subclass: #ObjectMock2
 		instanceVariableNames: ''
 		package: 'Kernel-Tests'.
 	
-	self assert: (ObjectMock subclasses includes: ObjectMock2).
-	self assert: (ObjectMock2 subclasses includes: ObjectMock3).
-	self assert: (ObjectMock3 subclasses includes: ObjectMock4).
-	
-	ObjectMock allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ]
+	self assert: ObjectMock subclasses equals: {ObjectMock2}.
+	self assert: ObjectMock2 subclasses equals: {ObjectMock3}.
+	self assert: ObjectMock3 subclasses equals: {ObjectMock4}
 !
 
 testSubclass
@@ -451,6 +444,12 @@ TestCase subclass: #ClassTest
 	slots: {#builder. #theClass}
 	package: 'Kernel-Tests'!
 
+!ClassTest methodsFor: 'accessing'!
+
+theClass
+	^ theClass
+! !
+
 !ClassTest methodsFor: 'running'!
 
 augmentMethodInstantiationOf: aMethod withAttachments: aHashedCollection
@@ -460,10 +459,6 @@ augmentMethodInstantiationOf: aMethod withAttachments: aHashedCollection
 		(plain value: arg)
 			basicAt: 'a$atx' put: aHashedCollection;
 			yourself ]
-!
-
-is: anObject javaScriptInstanceOf: aJavaScriptClass
-	<inlineJS: 'return anObject instanceof aJavaScriptClass'>
 !
 
 jsConstructor
@@ -476,13 +471,6 @@ jsConstructor
 
 setUp
 	builder := ClassBuilder new
-!
-
-tearDown
-	theClass ifNotNil: [
-		theClass allSubclasses reverseDo: [ :each | Smalltalk removeClass: each ].
-		Smalltalk removeClass: theClass.
-		theClass := nil ]
 !
 
 trickyJsConstructor
@@ -524,16 +512,12 @@ testBeJavaScriptSubclassOf
 	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.
 	constructor := self jsConstructor.
 	theClass beJavaScriptSubclassOf: constructor.
-	"part took from copy class test"
-	self assert: theClass superclass == ObjectMock superclass.
-	self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.
 	self assert: theClass name equals: 'ObjectMock2'.
-	self assert: theClass package == ObjectMock package.
-	self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.
+	self assert: theClass isClassCopyOf: ObjectMock.
 	"testing specific to late-coupled detached root class"
 	instance := theClass new.
 	self assert: instance class == theClass.
-	self assert: (self is: instance javaScriptInstanceOf: constructor).
+	self assert: instance isJavaScriptInstanceOf: constructor.
 	self assert: instance value equals: 4.
 	self shouldnt: [ instance foo: 9 ] raise: Error.
 	self assert: instance foo equals: 9
@@ -605,12 +589,8 @@ testSetJavaScriptConstructor
 	| instance |
 	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.
 	theClass javaScriptConstructor: self jsConstructor.
-	"part took from copy class test"
-	self assert: theClass superclass == ObjectMock superclass.
-	self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.
 	self assert: theClass name equals: 'ObjectMock2'.
-	self assert: theClass package == ObjectMock package.
-	self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.
+	self assert: theClass isClassCopyOf: ObjectMock.
 	"testing specific to late-coupled detached root class"
 	instance := theClass new.
 	self assert: instance class == theClass.
@@ -619,20 +599,12 @@ testSetJavaScriptConstructor
 	self assert: instance foo equals: 9
 !
 
-testSlotsFromInstanceVariablesString
-	self assert: '  hello   world   ' instanceVariablesStringAsSlotList equals: #('hello' 'world')
-!
-
 testTrickySetJavaScriptConstructor
 	| instance |
 	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.
 	theClass javaScriptConstructor: self trickyJsConstructor.
-	"part took from copy class test"
-	self assert: theClass superclass == ObjectMock superclass.
-	self assert: theClass instanceVariableNames == ObjectMock instanceVariableNames.
 	self assert: theClass name equals: 'ObjectMock2'.
-	self assert: theClass package == ObjectMock package.
-	self assert: theClass methodDictionary keys equals: ObjectMock methodDictionary keys.
+	self assert: theClass isClassCopyOf: ObjectMock.
 	"testing specific to late-coupled detached root class"
 	instance := theClass new.
 	self assert: instance class == theClass.
@@ -2998,6 +2970,42 @@ collectionClass
 	^ String
 ! !
 
+Trait named: #TClassBuildingTest
+	package: 'Kernel-Tests'!
+
+!TClassBuildingTest methodsFor: 'accessing'!
+
+theClass
+	self subclassResponsibility
+! !
+
+!TClassBuildingTest methodsFor: 'private'!
+
+is: anObject javaScriptInstanceOf: aJavaScriptClass
+	<inlineJS: 'return anObject instanceof aJavaScriptClass'>
+! !
+
+!TClassBuildingTest methodsFor: 'running'!
+
+assert: aClass isClassCopyOf: anotherClass
+	self assert: aClass superclass == anotherClass superclass.
+	self assert: aClass instanceVariableNames == anotherClass instanceVariableNames.
+	self assert: aClass package == anotherClass package.
+	self assert: (aClass package classes includes: aClass).
+	self assert: aClass methodDictionary keys equals: anotherClass methodDictionary keys
+!
+
+assert: anObject isJavaScriptInstanceOf: aJavaScriptClass
+	self assert: (self is: anObject javaScriptInstanceOf: aJavaScriptClass)
+!
+
+tearDown
+	self theClass ifNotNil: [ :theClass |
+		(Array streamContents: [ :s | theClass allSubclassesDo: [ :each | s nextPut: each ] ])
+			reverseDo: [ :each | Smalltalk removeClass: each ].
+		Smalltalk removeClass: theClass ]
+! !
+
 Trait named: #TKeyValueCollectionTest
 	package: 'Kernel-Tests'!
 
@@ -3134,6 +3142,8 @@ testIsNil
 	self deny: nil notNil.
 ! !
 
+ClassBuilderTest setTraitComposition: {TClassBuildingTest @ {#tearDownTheClass -> #tearDown}} asTraitComposition!
+ClassTest setTraitComposition: {TClassBuildingTest} asTraitComposition!
 AssociativeCollectionTest setTraitComposition: {TKeyValueCollectionTest} asTraitComposition!
 SequenceableCollectionTest setTraitComposition: {TKeyValueCollectionTest} asTraitComposition!
 ! !
