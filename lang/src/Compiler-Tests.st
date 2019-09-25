@@ -15,12 +15,6 @@ setUp
 	receiver := DoIt new
 ! !
 
-!ASTMethodRunningTest methodsFor: 'running'!
-
-actOn: aMethod in: aClass
-	self subclassResponsibility
-! !
-
 !ASTMethodRunningTest methodsFor: 'testing'!
 
 should: aString class: aClass receiver: anObject return: aResult
@@ -46,10 +40,7 @@ should: aString return: anObject
 !
 
 while: aString inClass: aClass should: aBlock
-	self
-		whileExamining: aString
-		inClass: aClass
-		should: [ :method | aBlock value: [ self actOn: method in: aClass ] ]
+	self subclassResponsibility
 ! !
 
 ASTMethodRunningTest subclass: #CodeGeneratorTest
@@ -62,10 +53,14 @@ codeGeneratorClass
 	^ CodeGenerator
 ! !
 
-!CodeGeneratorTest methodsFor: 'running'!
+!CodeGeneratorTest methodsFor: 'testing'!
 
-actOn: aMethod in: aClass
-	^ receiver perform: aMethod selector
+while: aString inClass: aClass should: aBlock
+	self
+		whileInstalled: aString
+		inClass: aClass
+		should: [ :method | aBlock value: [
+			receiver perform: method selector ] ]
 ! !
 
 !CodeGeneratorTest methodsFor: 'tests'!
@@ -446,14 +441,18 @@ prepareContextFor: aString class: aClass receiver: anObject withArguments: aDict
 	^ctx
 ! !
 
-!ASTInterpreterTest methodsFor: 'running'!
+!ASTInterpreterTest methodsFor: 'testing'!
 
-actOn: aMethod in: aClass
-	^ self
-		interpret: aMethod source
-		forClass: aClass
-		receiver: receiver
-		withArguments: #{}
+while: aString inClass: aClass should: aBlock
+	self
+		whileInstalled: aString
+		inClass: aClass
+		should: [ aBlock value: [
+			self
+				interpret: aString
+				forClass: aClass
+				receiver: receiver
+				withArguments: #{} ] ]
 ! !
 
 ASTInterpreterTest subclass: #ASTDebuggerTest
@@ -919,7 +918,7 @@ parse: aString forClass: aClass
 ! !
 
 TASTCompilingTest setTraitComposition: {TASTParsingTest} asTraitComposition!
-ASTMethodRunningTest setTraitComposition: {TASTCompilingTest @ {#whileExamining:inClass:should: -> #while:inClass:should:}} asTraitComposition!
+ASTMethodRunningTest setTraitComposition: {TASTCompilingTest @ {#whileInstalled:inClass:should: -> #while:inClass:should:} - #(while:inClass:should:)} asTraitComposition!
 ASTPCNodeVisitorTest setTraitComposition: {TASTParsingTest} asTraitComposition!
 ASTPositionTest setTraitComposition: {TASTParsingTest} asTraitComposition!
 CodeGeneratorInstallTest setTraitComposition: {TASTCompilingTest} asTraitComposition!

@@ -7,30 +7,6 @@ $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 $core.addClass("ASTMethodRunningTest", $globals.TestCase, ["receiver"], "Compiler-Tests");
 $core.addMethod(
 $core.method({
-selector: "actOn:in:",
-protocol: "running",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aMethod", "aClass"],
-source: "actOn: aMethod in: aClass\x0a\x09self subclassResponsibility",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["subclassResponsibility"]
-}, function ($methodClass){ return function (aMethod,aClass){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._subclassResponsibility();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"actOn:in:",{aMethod:aMethod,aClass:aClass})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTMethodRunningTest);
-
-$core.addMethod(
-$core.method({
 selector: "receiver",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -200,33 +176,17 @@ selector: "while:inClass:should:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aClass", "aBlock"],
-source: "while: aString inClass: aClass should: aBlock\x0a\x09self\x0a\x09\x09whileExamining: aString\x0a\x09\x09inClass: aClass\x0a\x09\x09should: [ :method | aBlock value: [ self actOn: method in: aClass ] ]",
+source: "while: aString inClass: aClass should: aBlock\x0a\x09self subclassResponsibility",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["whileExamining:inClass:should:", "value:", "actOn:in:"]
+messageSends: ["subclassResponsibility"]
 }, function ($methodClass){ return function (aString,aClass,aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self._whileExamining_inClass_should_(aString,aClass,(function(method){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(aBlock)._value_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $self._actOn_in_(method,aClass);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({method:method},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+$self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"while:inClass:should:",{aString:aString,aClass:aClass,aBlock:aBlock})});
@@ -237,29 +197,6 @@ $globals.ASTMethodRunningTest);
 
 
 $core.addClass("CodeGeneratorTest", $globals.ASTMethodRunningTest, [], "Compiler-Tests");
-$core.addMethod(
-$core.method({
-selector: "actOn:in:",
-protocol: "running",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aMethod", "aClass"],
-source: "actOn: aMethod in: aClass\x0a\x09^ receiver perform: aMethod selector",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["perform:", "selector"]
-}, function ($methodClass){ return function (aMethod,aClass){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self.receiver)._perform_($recv(aMethod)._selector());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"actOn:in:",{aMethod:aMethod,aClass:aClass})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.CodeGeneratorTest);
-
 $core.addMethod(
 $core.method({
 selector: "codeGeneratorClass",
@@ -1633,32 +1570,49 @@ return self;
 }; }),
 $globals.CodeGeneratorTest);
 
-
-
-$core.addClass("ASTInterpreterTest", $globals.CodeGeneratorTest, [], "Compiler-Tests");
 $core.addMethod(
 $core.method({
-selector: "actOn:in:",
-protocol: "running",
+selector: "while:inClass:should:",
+protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aMethod", "aClass"],
-source: "actOn: aMethod in: aClass\x0a\x09^ self\x0a\x09\x09interpret: aMethod source\x0a\x09\x09forClass: aClass\x0a\x09\x09receiver: receiver\x0a\x09\x09withArguments: #{}",
+args: ["aString", "aClass", "aBlock"],
+source: "while: aString inClass: aClass should: aBlock\x0a\x09self\x0a\x09\x09whileInstalled: aString\x0a\x09\x09inClass: aClass\x0a\x09\x09should: [ :method | aBlock value: [\x0a\x09\x09\x09receiver perform: method selector ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["interpret:forClass:receiver:withArguments:", "source"]
-}, function ($methodClass){ return function (aMethod,aClass){
+messageSends: ["whileInstalled:inClass:should:", "value:", "perform:", "selector"]
+}, function ($methodClass){ return function (aString,aClass,aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self._interpret_forClass_receiver_withArguments_($recv(aMethod)._source(),aClass,$self.receiver,$globals.HashedCollection._newFromPairs_([]));
+$self._whileInstalled_inClass_should_(aString,aClass,(function(method){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"actOn:in:",{aMethod:aMethod,aClass:aClass})});
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(aBlock)._value_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($self.receiver)._perform_($recv(method)._selector());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({method:method},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"while:inClass:should:",{aString:aString,aClass:aClass,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.ASTInterpreterTest);
+$globals.CodeGeneratorTest);
 
+
+
+$core.addClass("ASTInterpreterTest", $globals.CodeGeneratorTest, [], "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "interpret:forClass:receiver:withArguments:",
@@ -1746,6 +1700,46 @@ $recv($3)._enterNode();
 return ctx;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"prepareContextFor:class:receiver:withArguments:",{aString:aString,aClass:aClass,anObject:anObject,aDictionary:aDictionary,ctx:ctx,ast:ast})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ASTInterpreterTest);
+
+$core.addMethod(
+$core.method({
+selector: "while:inClass:should:",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aClass", "aBlock"],
+source: "while: aString inClass: aClass should: aBlock\x0a\x09self\x0a\x09\x09whileInstalled: aString\x0a\x09\x09inClass: aClass\x0a\x09\x09should: [ aBlock value: [\x0a\x09\x09\x09self\x0a\x09\x09\x09\x09interpret: aString\x0a\x09\x09\x09\x09forClass: aClass\x0a\x09\x09\x09\x09receiver: receiver\x0a\x09\x09\x09\x09withArguments: #{} ] ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["whileInstalled:inClass:should:", "value:", "interpret:forClass:receiver:withArguments:"]
+}, function ($methodClass){ return function (aString,aClass,aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._whileInstalled_inClass_should_(aString,aClass,(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(aBlock)._value_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $self._interpret_forClass_receiver_withArguments_(aString,aClass,$self.receiver,$globals.HashedCollection._newFromPairs_([]));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"while:inClass:should:",{aString:aString,aClass:aClass,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ASTInterpreterTest);
@@ -3517,7 +3511,7 @@ return $recv($recv($globals.Compiler)._new())._ast_forClass_protocol_(aString,aC
 $globals.TASTParsingTest);
 
 $core.setTraitComposition([{trait: $globals.TASTParsingTest}], $globals.TASTCompilingTest);
-$core.setTraitComposition([{trait: $globals.TASTCompilingTest, aliases: {"whileExamining:inClass:should:":"while:inClass:should:"}}], $globals.ASTMethodRunningTest);
+$core.setTraitComposition([{trait: $globals.TASTCompilingTest, aliases: {"whileInstalled:inClass:should:":"while:inClass:should:"}, exclusions: ["while:inClass:should:"]}], $globals.ASTMethodRunningTest);
 $core.setTraitComposition([{trait: $globals.TASTParsingTest}], $globals.ASTPCNodeVisitorTest);
 $core.setTraitComposition([{trait: $globals.TASTParsingTest}], $globals.ASTPositionTest);
 $core.setTraitComposition([{trait: $globals.TASTCompilingTest}], $globals.CodeGeneratorInstallTest);
