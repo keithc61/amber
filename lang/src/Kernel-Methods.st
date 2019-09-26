@@ -950,7 +950,9 @@ supercall
 asString
 	^ self isBlockContext
 		ifTrue: [ 'a block (in ', self methodContext asString, ')' ]
-		ifFalse: [ self method ifNotNil: [ :method | method asStringForClass: self receiver class ] ]
+		ifFalse: [ self method
+			ifNotNil: [ :method | method asStringForClass: self receiver class ]
+			ifNil: [ 'missing method ', self selector symbolPrintString ] ]
 ! !
 
 !TMethodContext methodsFor: 'printing'!

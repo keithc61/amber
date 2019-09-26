@@ -3333,27 +3333,31 @@ selector: "asString",
 protocol: "converting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asString\x0a\x09^ self isBlockContext\x0a\x09\x09ifTrue: [ 'a block (in ', self methodContext asString, ')' ]\x0a\x09\x09ifFalse: [ self method ifNotNil: [ :method | method asStringForClass: self receiver class ] ]",
+source: "asString\x0a\x09^ self isBlockContext\x0a\x09\x09ifTrue: [ 'a block (in ', self methodContext asString, ')' ]\x0a\x09\x09ifFalse: [ self method\x0a\x09\x09\x09ifNotNil: [ :method | method asStringForClass: self receiver class ]\x0a\x09\x09\x09ifNil: [ 'missing method ', self selector symbolPrintString ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:ifFalse:", "isBlockContext", ",", "asString", "methodContext", "ifNotNil:", "method", "asStringForClass:", "class", "receiver"]
+messageSends: ["ifTrue:ifFalse:", "isBlockContext", ",", "asString", "methodContext", "ifNotNil:ifNil:", "method", "asStringForClass:", "class", "receiver", "symbolPrintString", "selector"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $1,$2,$3,$receiver;
 $1=$self._isBlockContext();
 if($core.assert($1)){
-return $recv("a block (in ".__comma($recv($self._methodContext())._asString())).__comma(")");
+$2="a block (in ".__comma($recv($self._methodContext())._asString());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=2;
+//>>excludeEnd("ctx");
+return $recv($2).__comma(")");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
 } else {
-$2=$self._method();
-if(($receiver = $2) == null || $receiver.a$nil){
-return $2;
+$3=$self._method();
+if(($receiver = $3) == null || $receiver.a$nil){
+return "missing method ".__comma($recv($self._selector())._symbolPrintString());
 } else {
 var method;
 method=$receiver;
