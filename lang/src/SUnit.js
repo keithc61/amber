@@ -667,8 +667,8 @@ selector: "isAbstract",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isAbstract\x0a\x09^ self name = 'TestCase'",
-referencedClasses: [],
+source: "isAbstract\x0a\x09^ self name = TestCase name",
+referencedClasses: ["TestCase"],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: ["=", "name"]
@@ -677,7 +677,12 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self._name()).__eq("TestCase");
+var $1;
+$1=$self._name();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["name"]=1;
+//>>excludeEnd("ctx");
+return $recv($1).__eq($recv($globals.TestCase)._name());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isAbstract",{})});
 //>>excludeEnd("ctx");

@@ -185,7 +185,7 @@ testSelectors
 !TestCase class methodsFor: 'testing'!
 
 isAbstract
-	^ self name = 'TestCase'
+	^ self name = TestCase name
 !
 
 isTestClass

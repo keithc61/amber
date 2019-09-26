@@ -379,7 +379,7 @@ testifTrueIfFalse
 !AbstractCompilerTest class methodsFor: 'testing'!
 
 isAbstract
-	^ self name = 'AbstractCompilerTest'
+	^ self name = AbstractCompilerTest name
 ! !
 
 AbstractCompilerTest subclass: #ASTDebuggerTest
