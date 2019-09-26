@@ -196,25 +196,7 @@ $globals.ASTMethodRunningTest);
 
 
 
-$core.addClass("CodeGeneratorTest", $globals.ASTMethodRunningTest, [], "Compiler-Tests");
-$core.addMethod(
-$core.method({
-selector: "codeGeneratorClass",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "codeGeneratorClass\x0a\x09^ CodeGenerator",
-referencedClasses: ["CodeGenerator"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return $globals.CodeGenerator;
-
-}; }),
-$globals.CodeGeneratorTest);
-
+$core.addClass("AbstractCompilerTest", $globals.ASTMethodRunningTest, [], "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "testAssignment",
@@ -245,7 +227,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testAssignment",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -273,7 +255,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testBackslashSelectors",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -305,7 +287,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testBlockReturn",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -329,7 +311,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testCascades",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -353,7 +335,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testCascadesInDynamicArray",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -377,7 +359,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testCascadesInDynamicDictioary",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -401,7 +383,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testCascadesInSend",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -429,7 +411,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testCascadesWithInlining",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -457,7 +439,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testDynamicArrayElementsOrdered",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -481,7 +463,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testDynamicDictionaryElementsOrdered",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -511,7 +493,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testDynamicDictionaryWithMoreArrows",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -543,7 +525,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testGlobalVar",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -616,7 +598,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testInnerTemporalDependentElementsOrdered",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -640,7 +622,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testLexicalScope",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -704,7 +686,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testLiterals",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -744,7 +726,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testLocalReturn",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -784,7 +766,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testMessageSends",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -808,7 +790,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testMultipleSequences",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -832,7 +814,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testMutableLiterals",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -868,7 +850,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testNestedIfTrue",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -892,7 +874,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testNestedSends",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -916,7 +898,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testNilPerform",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -952,7 +934,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testNonLocalReturn",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -980,7 +962,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testPascalCaseGlobal",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1004,7 +986,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testPragmaJSStatement",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1028,7 +1010,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testRootSuperSend",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1056,7 +1038,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testSendReceiverAndArgumentsOrdered",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1080,7 +1062,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testSuperSend",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1104,7 +1086,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testSuperSend2",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1128,7 +1110,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testSuperSend3",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1152,7 +1134,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testSuperSend4",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1176,7 +1158,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testSuperSend5",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1220,7 +1202,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testTempVariables",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1244,7 +1226,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testThisContext",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1272,7 +1254,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testUnknownPragma",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1308,7 +1290,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testifFalse",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1344,7 +1326,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testifFalseIfTrue",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1380,7 +1362,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testifNil",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1416,7 +1398,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testifNilIfNotNil",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1452,7 +1434,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testifNotNil",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1496,7 +1478,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testifNotNilWithArgument",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1532,7 +1514,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testifTrue",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
@@ -1568,51 +1550,52 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testifTrueIfFalse",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest);
+
 
 $core.addMethod(
 $core.method({
-selector: "while:inClass:should:",
+selector: "isAbstract",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString", "aClass", "aBlock"],
-source: "while: aString inClass: aClass should: aBlock\x0a\x09self\x0a\x09\x09whileInstalled: aString\x0a\x09\x09inClass: aClass\x0a\x09\x09should: [ :method | aBlock value: [\x0a\x09\x09\x09receiver perform: method selector ] ]",
+args: [],
+source: "isAbstract\x0a\x09^ self name = 'AbstractCompilerTest'",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["whileInstalled:inClass:should:", "value:", "perform:", "selector"]
-}, function ($methodClass){ return function (aString,aClass,aBlock){
+messageSends: ["=", "name"]
+}, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self._whileInstalled_inClass_should_(aString,aClass,(function(method){
+return $recv($self._name()).__eq("AbstractCompilerTest");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(aBlock)._value_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $recv($self.receiver)._perform_($recv(method)._selector());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({method:method},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"while:inClass:should:",{aString:aString,aClass:aClass,aBlock:aBlock})});
+}, function($ctx1) {$ctx1.fill(self,"isAbstract",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGeneratorTest);
+$globals.AbstractCompilerTest.a$cls);
 
 
+$core.addClass("ASTInterpreterTest", $globals.AbstractCompilerTest, [], "Compiler-Tests");
+$core.addMethod(
+$core.method({
+selector: "codeGeneratorClass",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "codeGeneratorClass\x0a\x09^ CodeGenerator",
+referencedClasses: ["CodeGenerator"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.CodeGenerator;
 
-$core.addClass("ASTInterpreterTest", $globals.CodeGeneratorTest, [], "Compiler-Tests");
+}; }),
+$globals.ASTInterpreterTest);
+
 $core.addMethod(
 $core.method({
 selector: "interpret:forClass:receiver:withArguments:",
@@ -1774,6 +1757,67 @@ return $recv($1)._result();
 //>>excludeEnd("ctx");
 }; }),
 $globals.ASTDebuggerTest);
+
+
+
+$core.addClass("CodeGeneratorTest", $globals.AbstractCompilerTest, [], "Compiler-Tests");
+$core.addMethod(
+$core.method({
+selector: "codeGeneratorClass",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "codeGeneratorClass\x0a\x09^ CodeGenerator",
+referencedClasses: ["CodeGenerator"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $globals.CodeGenerator;
+
+}; }),
+$globals.CodeGeneratorTest);
+
+$core.addMethod(
+$core.method({
+selector: "while:inClass:should:",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aClass", "aBlock"],
+source: "while: aString inClass: aClass should: aBlock\x0a\x09self\x0a\x09\x09whileInstalled: aString\x0a\x09\x09inClass: aClass\x0a\x09\x09should: [ :method | aBlock value: [\x0a\x09\x09\x09receiver perform: method selector ] ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["whileInstalled:inClass:should:", "value:", "perform:", "selector"]
+}, function ($methodClass){ return function (aString,aClass,aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._whileInstalled_inClass_should_(aString,aClass,(function(method){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(aBlock)._value_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($self.receiver)._perform_($recv(method)._selector());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({method:method},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"while:inClass:should:",{aString:aString,aClass:aClass,aBlock:aBlock})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.CodeGeneratorTest);
 
 
 

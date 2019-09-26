@@ -43,27 +43,11 @@ while: aString inClass: aClass should: aBlock
 	self subclassResponsibility
 ! !
 
-ASTMethodRunningTest subclass: #CodeGeneratorTest
+ASTMethodRunningTest subclass: #AbstractCompilerTest
 	slots: {}
 	package: 'Compiler-Tests'!
 
-!CodeGeneratorTest methodsFor: 'accessing'!
-
-codeGeneratorClass
-	^ CodeGenerator
-! !
-
-!CodeGeneratorTest methodsFor: 'testing'!
-
-while: aString inClass: aClass should: aBlock
-	self
-		whileInstalled: aString
-		inClass: aClass
-		should: [ :method | aBlock value: [
-			receiver perform: method selector ] ]
-! !
-
-!CodeGeneratorTest methodsFor: 'tests'!
+!AbstractCompilerTest methodsFor: 'tests'!
 
 testAssignment
 	self should: 'foo | a | a := true ifTrue: [ 1 ]. ^ a' return: 1.
@@ -396,9 +380,21 @@ testifTrueIfFalse
 	self should: 'foo ^ true ifTrue: [ 2 ] ifFalse: [ 1 ]' return: 2.
 ! !
 
-CodeGeneratorTest subclass: #ASTInterpreterTest
+!AbstractCompilerTest class methodsFor: 'testing'!
+
+isAbstract
+	^ self name = 'AbstractCompilerTest'
+! !
+
+AbstractCompilerTest subclass: #ASTInterpreterTest
 	slots: {}
 	package: 'Compiler-Tests'!
+
+!ASTInterpreterTest methodsFor: 'accessing'!
+
+codeGeneratorClass
+	^ CodeGenerator
+! !
 
 !ASTInterpreterTest methodsFor: 'private'!
 
@@ -469,6 +465,26 @@ interpret: aString forClass: aClass receiver: anObject withArguments: aDictionar
 	ctx := self prepareContextFor: aString class: aClass receiver: anObject withArguments: aDictionary.
 	
 	^ (ASTDebugger context: ctx) proceed; result
+! !
+
+AbstractCompilerTest subclass: #CodeGeneratorTest
+	slots: {}
+	package: 'Compiler-Tests'!
+
+!CodeGeneratorTest methodsFor: 'accessing'!
+
+codeGeneratorClass
+	^ CodeGenerator
+! !
+
+!CodeGeneratorTest methodsFor: 'testing'!
+
+while: aString inClass: aClass should: aBlock
+	self
+		whileInstalled: aString
+		inClass: aClass
+		should: [ :method | aBlock value: [
+			receiver perform: method selector ] ]
 ! !
 
 CodeGeneratorTest subclass: #InliningCodeGeneratorTest
