@@ -37,10 +37,6 @@ should: aString receiver: anObject return: aResult
 should: aString return: anObject
 	self while: aString should: [ :runBlock |
 		self assert: runBlock value equals: anObject ]
-!
-
-while: aString inClass: aClass should: aBlock
-	self subclassResponsibility
 ! !
 
 ASTMethodRunningTest subclass: #AbstractCompilerTest
@@ -386,116 +382,21 @@ isAbstract
 	^ self name = 'AbstractCompilerTest'
 ! !
 
+AbstractCompilerTest subclass: #ASTDebuggerTest
+	slots: {}
+	package: 'Compiler-Tests'!
+
 AbstractCompilerTest subclass: #ASTInterpreterTest
 	slots: {}
 	package: 'Compiler-Tests'!
-
-!ASTInterpreterTest methodsFor: 'accessing'!
-
-codeGeneratorClass
-	^ CodeGenerator
-! !
-
-!ASTInterpreterTest methodsFor: 'private'!
-
-interpret: aString forClass: aClass receiver: anObject withArguments: aDictionary
-	"The food is a methodNode. Interpret the sequenceNode only"
-	
-	| ctx |
-	
-	ctx := self prepareContextFor: aString class: aClass receiver: anObject withArguments: aDictionary.
-	
-	^ ctx interpreter proceed; result
-!
-
-prepareContextFor: aString class: aClass receiver: anObject withArguments: aDictionary
-	"The food is a methodNode. Interpret the sequenceNode only"
-	
-	| ctx ast |
-	
-	ast := self parse: aString forClass: aClass.
-	
-	ctx := AIContext new
-		receiver: anObject;
-		selector: ast selector;
-		interpreter: ASTInterpreter new;
-		yourself.
-		
-	"Define locals for the context"
-	ast sequenceNode ifNotNil: [ :sequence |
-		sequence temps do: [ :each |
-			ctx defineLocal: each ] ].
-		
-	aDictionary keysAndValuesDo: [ :key :value |
-		ctx localAt: key put: value ].
-	
-	ctx interpreter
-		context: ctx;
-		node: ast;
-		enterNode.
-	
-	^ctx
-! !
-
-!ASTInterpreterTest methodsFor: 'testing'!
-
-while: aString inClass: aClass should: aBlock
-	self
-		whileInstalled: aString
-		inClass: aClass
-		should: [ aBlock value: [
-			self
-				interpret: aString
-				forClass: aClass
-				receiver: receiver
-				withArguments: #{} ] ]
-! !
-
-ASTInterpreterTest subclass: #ASTDebuggerTest
-	slots: {}
-	package: 'Compiler-Tests'!
-
-!ASTDebuggerTest methodsFor: 'private'!
-
-interpret: aString forClass: aClass receiver: anObject withArguments: aDictionary
-	"The food is a methodNode. Interpret the sequenceNode only"
-	
-	| ctx |
-	
-	ctx := self prepareContextFor: aString class: aClass receiver: anObject withArguments: aDictionary.
-	
-	^ (ASTDebugger context: ctx) proceed; result
-! !
 
 AbstractCompilerTest subclass: #CodeGeneratorTest
 	slots: {}
 	package: 'Compiler-Tests'!
 
-!CodeGeneratorTest methodsFor: 'accessing'!
-
-codeGeneratorClass
-	^ CodeGenerator
-! !
-
-!CodeGeneratorTest methodsFor: 'testing'!
-
-while: aString inClass: aClass should: aBlock
-	self
-		whileInstalled: aString
-		inClass: aClass
-		should: [ :method | aBlock value: [
-			receiver perform: method selector ] ]
-! !
-
-CodeGeneratorTest subclass: #InliningCodeGeneratorTest
+AbstractCompilerTest subclass: #InliningCodeGeneratorTest
 	slots: {}
 	package: 'Compiler-Tests'!
-
-!InliningCodeGeneratorTest methodsFor: 'accessing'!
-
-codeGeneratorClass
-	^ InliningCodeGenerator
-! !
 
 TestCase subclass: #ASTPCNodeVisitorTest
 	slots: {}
@@ -593,21 +494,17 @@ testNodeAtPosition
 	self assert: (node navigationNodeAt: 2@8 ifAbsent: [ nil ]) selector equals: 'foo'
 ! !
 
-TestCase subclass: #CodeGeneratorInstallTest
+TestCase subclass: #AbstractCodeGeneratorInstallTest
 	slots: {#receiver}
 	package: 'Compiler-Tests'!
 
-!CodeGeneratorInstallTest methodsFor: 'accessing'!
-
-codeGeneratorClass
-	^ CodeGenerator
-!
+!AbstractCodeGeneratorInstallTest methodsFor: 'accessing'!
 
 receiver
 	^ receiver
 ! !
 
-!CodeGeneratorInstallTest methodsFor: 'testing'!
+!AbstractCodeGeneratorInstallTest methodsFor: 'testing'!
 
 shouldntInstall: aString
 	| method |
@@ -618,7 +515,7 @@ shouldntInstall: aString
 	ensure: [ method ifNotNil: [ receiver class removeCompiledMethod: method ] ]
 ! !
 
-!CodeGeneratorInstallTest methodsFor: 'tests'!
+!AbstractCodeGeneratorInstallTest methodsFor: 'tests'!
 
 testMistypedPragmaJSStatement
 	self shouldntInstall: 'foo < inlineJS: ''return ''foo'''' >'
@@ -649,15 +546,19 @@ testPragmaInBlock
 	self shouldntInstall: 'foo ^ [ < fooBar > 4 ] value'
 ! !
 
-CodeGeneratorInstallTest subclass: #InliningCodeGeneratorInstallTest
+!AbstractCodeGeneratorInstallTest class methodsFor: 'testing'!
+
+isAbstract
+	^ self name = AbstractCodeGeneratorInstallTest name
+! !
+
+AbstractCodeGeneratorInstallTest subclass: #CodeGeneratorInstallTest
 	slots: {}
 	package: 'Compiler-Tests'!
 
-!InliningCodeGeneratorInstallTest methodsFor: 'accessing'!
-
-codeGeneratorClass
-	^ InliningCodeGenerator
-! !
+AbstractCodeGeneratorInstallTest subclass: #InliningCodeGeneratorInstallTest
+	slots: {}
+	package: 'Compiler-Tests'!
 
 TestCase subclass: #ScopeVarTest
 	slots: {}
@@ -933,10 +834,121 @@ parse: aString forClass: aClass
 		protocol: 'test'
 ! !
 
+Trait named: #TCTDebugged
+	package: 'Compiler-Tests'!
+
+!TCTDebugged methodsFor: 'private'!
+
+interpret: aString forClass: aClass receiver: anObject withArguments: aDictionary
+	"The food is a methodNode. Interpret the sequenceNode only"
+	
+	| ctx |
+	
+	ctx := self prepareContextFor: aString class: aClass receiver: anObject withArguments: aDictionary.
+	
+	^ (ASTDebugger context: ctx) proceed; result
+! !
+
+Trait named: #TCTExecuted
+	package: 'Compiler-Tests'!
+
+!TCTExecuted methodsFor: 'testing'!
+
+while: aString inClass: aClass should: aBlock
+	super
+		while: aString
+		inClass: aClass
+		should: [ :method | aBlock value: [
+			self receiver perform: method selector ] ]
+! !
+
+Trait named: #TCTInlined
+	package: 'Compiler-Tests'!
+
+!TCTInlined methodsFor: 'accessing'!
+
+codeGeneratorClass
+	^ InliningCodeGenerator
+! !
+
+Trait named: #TCTInterpreted
+	package: 'Compiler-Tests'!
+
+!TCTInterpreted methodsFor: 'private'!
+
+interpret: aString forClass: aClass receiver: anObject withArguments: aDictionary
+	"The food is a methodNode. Interpret the sequenceNode only"
+	
+	| ctx |
+	
+	ctx := self prepareContextFor: aString class: aClass receiver: anObject withArguments: aDictionary.
+	
+	^ ctx interpreter proceed; result
+!
+
+prepareContextFor: aString class: aClass receiver: anObject withArguments: aDictionary
+	"The food is a methodNode. Interpret the sequenceNode only"
+	
+	| ctx ast |
+	
+	ast := self parse: aString forClass: aClass.
+	
+	ctx := AIContext new
+		receiver: anObject;
+		selector: ast selector;
+		interpreter: ASTInterpreter new;
+		yourself.
+		
+	"Define locals for the context"
+	ast sequenceNode ifNotNil: [ :sequence |
+		sequence temps do: [ :each |
+			ctx defineLocal: each ] ].
+		
+	aDictionary keysAndValuesDo: [ :key :value |
+		ctx localAt: key put: value ].
+	
+	ctx interpreter
+		context: ctx;
+		node: ast;
+		enterNode.
+	
+	^ctx
+! !
+
+!TCTInterpreted methodsFor: 'testing'!
+
+while: aString inClass: aClass should: aBlock
+	super
+		while: aString
+		inClass: aClass
+		should: [ aBlock value: [
+			self
+				interpret: aString
+				forClass: aClass
+				receiver: self receiver
+				withArguments: #{} ] ]
+! !
+
+Trait named: #TCTNonInlined
+	package: 'Compiler-Tests'!
+
+!TCTNonInlined methodsFor: 'accessing'!
+
+codeGeneratorClass
+	^ CodeGenerator
+! !
+
 TASTCompilingTest setTraitComposition: {TASTParsingTest} asTraitComposition!
-ASTMethodRunningTest setTraitComposition: {TASTCompilingTest @ {#whileInstalled:inClass:should: -> #while:inClass:should:} - #(while:inClass:should:)} asTraitComposition!
+TCTDebugged setTraitComposition: {TCTInterpreted} asTraitComposition!
+ASTMethodRunningTest setTraitComposition: {TASTCompilingTest} asTraitComposition!
+ASTDebuggerTest setTraitComposition: {TCTNonInlined. TCTDebugged} asTraitComposition!
+ASTInterpreterTest setTraitComposition: {TCTNonInlined. TCTInterpreted} asTraitComposition!
+CodeGeneratorTest setTraitComposition: {TCTNonInlined. TCTExecuted} asTraitComposition!
+InliningCodeGeneratorTest setTraitComposition: {TCTInlined. TCTExecuted} asTraitComposition!
 ASTPCNodeVisitorTest setTraitComposition: {TASTParsingTest} asTraitComposition!
 ASTPositionTest setTraitComposition: {TASTParsingTest} asTraitComposition!
-CodeGeneratorInstallTest setTraitComposition: {TASTCompilingTest} asTraitComposition!
+AbstractCodeGeneratorInstallTest setTraitComposition: {TASTCompilingTest} asTraitComposition!
+CodeGeneratorInstallTest setTraitComposition: {TCTNonInlined} asTraitComposition!
+InliningCodeGeneratorInstallTest setTraitComposition: {TCTInlined} asTraitComposition!
 ! !
 
