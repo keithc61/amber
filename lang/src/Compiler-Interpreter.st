@@ -460,10 +460,6 @@ interpreter
 		ctx interpreter ]
 !
 
-method
-	^ self context method
-!
-
 node
 	^ self interpreter ifNotNil: [
 		self interpreter node ]

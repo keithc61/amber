@@ -1777,29 +1777,6 @@ $globals.ASTDebugger);
 
 $core.addMethod(
 $core.method({
-selector: "method",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "method\x0a\x09^ self context method",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["method", "context"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self._context())._method();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"method",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTDebugger);
-
-$core.addMethod(
-$core.method({
 selector: "node",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
