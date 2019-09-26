@@ -2353,6 +2353,33 @@ $globals.ClassTest);
 
 $core.addMethod(
 $core.method({
+selector: "jsConstructorWithAction",
+protocol: "running",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "jsConstructorWithAction\x0a\x09<inlineJS: '\x0a\x09\x09function Foo(aFoo){this.foo = aFoo;}\x0a\x09\x09return Foo;\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09function Foo(aFoo){this.foo = aFoo;}\x0a\x09\x09return Foo;\x0a\x09"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+		function Foo(aFoo){this.foo = aFoo;}
+		return Foo;
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"jsConstructorWithAction",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ClassTest);
+
+$core.addMethod(
+$core.method({
 selector: "setUp",
 protocol: "running",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2466,6 +2493,38 @@ $self._assert_equals_($recv(instance)._foo(),(9));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testAlternateConstructorViaSelector",{instance:instance,block:block})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ClassTest);
+
+$core.addMethod(
+$core.method({
+selector: "testApplySuperConstructor",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testApplySuperConstructor\x0a\x09| instance constructor |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09constructor := self jsConstructorWithAction.\x0a\x09theClass beJavaScriptSubclassOf: constructor.\x0a\x09Compiler new\x0a\x09\x09install: 'bar: anObject\x0a\x09\x09\x09ObjectMock2\x0a\x09\x09\x09\x09applySuperConstructorOn: self\x0a\x09\x09\x09\x09withArguments: {anObject}'\x0a\x09\x09forClass: theClass\x0a\x09\x09protocol: 'tests'.\x0a\x09\x22testing specific to late-coupled detached root class\x22\x0a\x09instance := (theClass alternateConstructorViaSelector: #bar:) newValue: 7.\x0a\x09self assert: instance class == theClass.\x0a\x09self assert: instance isJavaScriptInstanceOf: constructor.\x0a\x09self assert: instance foo equals: 7",
+referencedClasses: ["ObjectMock", "Compiler"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["copyClass:named:", "jsConstructorWithAction", "beJavaScriptSubclassOf:", "install:forClass:protocol:", "new", "newValue:", "alternateConstructorViaSelector:", "assert:", "==", "class", "assert:isJavaScriptInstanceOf:", "assert:equals:", "foo"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var instance,constructor;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.theClass=$recv($self.builder)._copyClass_named_($globals.ObjectMock,"ObjectMock2");
+constructor=$self._jsConstructorWithAction();
+$recv($self.theClass)._beJavaScriptSubclassOf_(constructor);
+$recv($recv($globals.Compiler)._new())._install_forClass_protocol_("bar: anObject\x0a\x09\x09\x09ObjectMock2\x0a\x09\x09\x09\x09applySuperConstructorOn: self\x0a\x09\x09\x09\x09withArguments: {anObject}",$self.theClass,"tests");
+instance=$recv($recv($self.theClass)._alternateConstructorViaSelector_("bar:"))._newValue_((7));
+$self._assert_($recv($recv(instance)._class()).__eq_eq($self.theClass));
+$self._assert_isJavaScriptInstanceOf_(instance,constructor);
+$self._assert_equals_($recv(instance)._foo(),(7));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testApplySuperConstructor",{instance:instance,constructor:constructor})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ClassTest);

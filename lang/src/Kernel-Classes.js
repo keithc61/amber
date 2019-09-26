@@ -210,6 +210,33 @@ $globals.Behavior);
 
 $core.addMethod(
 $core.method({
+selector: "applySuperConstructorOn:withArguments:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject", "anArray"],
+source: "applySuperConstructorOn: anObject withArguments: anArray\x0a\x09<inlineJS: '\x0a\x09\x09Object.getPrototypeOf($self.fn.prototype).constructor\x0a\x09\x09.apply(anObject, anArray)\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09Object.getPrototypeOf($self.fn.prototype).constructor\x0a\x09\x09.apply(anObject, anArray)\x0a\x09"]]],
+messageSends: []
+}, function ($methodClass){ return function (anObject,anArray){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+		Object.getPrototypeOf($self.fn.prototype).constructor
+		.apply(anObject, anArray)
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"applySuperConstructorOn:withArguments:",{anObject:anObject,anArray:anArray})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Behavior);
+
+$core.addMethod(
+$core.method({
 selector: "basicNew",
 protocol: "instance creation",
 //>>excludeStart("ide", pragmas.excludeIdeData);

@@ -44,6 +44,13 @@ allSuperclasses
 		yourself
 !
 
+applySuperConstructorOn: anObject withArguments: anArray
+	<inlineJS: '
+		Object.getPrototypeOf($self.fn.prototype).constructor
+		.apply(anObject, anArray)
+	'>
+!
+
 basicOrganization
 	^ organization
 !

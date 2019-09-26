@@ -4,6 +4,7 @@
 
 + Behavior >>
   + alternateConstructorViaSelector:
+  + applySuperConstructorOn:withArguments:
   + beJavaScriptSubclassOf:
   + javaScriptConstructor
   + javaScriptConstructor:

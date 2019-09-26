@@ -469,6 +469,13 @@ jsConstructor
 	'>
 !
 
+jsConstructorWithAction
+	<inlineJS: '
+		function Foo(aFoo){this.foo = aFoo;}
+		return Foo;
+	'>
+!
+
 setUp
 	builder := ClassBuilder new
 !
@@ -505,6 +512,25 @@ testAlternateConstructorViaSelector
 	self assert: instance foo equals: 4.
 	self shouldnt: [ instance foo: 9 ] raise: Error.
 	self assert: instance foo equals: 9
+!
+
+testApplySuperConstructor
+	| instance constructor |
+	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.
+	constructor := self jsConstructorWithAction.
+	theClass beJavaScriptSubclassOf: constructor.
+	Compiler new
+		install: 'bar: anObject
+			ObjectMock2
+				applySuperConstructorOn: self
+				withArguments: {anObject}'
+		forClass: theClass
+		protocol: 'tests'.
+	"testing specific to late-coupled detached root class"
+	instance := (theClass alternateConstructorViaSelector: #bar:) newValue: 7.
+	self assert: instance class == theClass.
+	self assert: instance isJavaScriptInstanceOf: constructor.
+	self assert: instance foo equals: 7
 !
 
 testBeJavaScriptSubclassOf
