@@ -666,6 +666,56 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitVariableNode: self
 ! !
 
+Object subclass: #AstPragmator
+	slots: {#methodNode}
+	package: 'Compiler-AST'!
+!AstPragmator commentStamp!
+I am abstract superclass for pragma-processing transformer.
+
+My subclasses should implement messages for each pragma
+they process. Pragma processing checks if a message is known
+to a class but not to its superclass. IOW, each and only those
+pragmas are processed which are defined as methods in the subclass.
+
+These messages can access sequence node in which
+a pragma occurred and its containing method node
+as `self sequenceNode` and `self methodNode`.
+
+See `EarlyPragmator` for an example.!
+
+!AstPragmator methodsFor: 'accessing'!
+
+methodNode
+	^ methodNode
+!
+
+methodNode: anObject
+	methodNode := anObject
+! !
+
+!AstPragmator methodsFor: 'visiting'!
+
+value: aMethodNode
+	self methodNode: aMethodNode.
+	self processPragmas: aMethodNode pragmas.
+	^ aMethodNode
+! !
+
+AstPragmator subclass: #AstEarlyPragmator
+	slots: {}
+	package: 'Compiler-AST'!
+
+!AstEarlyPragmator methodsFor: 'pragmas'!
+
+inlineJS: aString
+	self methodNode sequenceNode dagChildren ifNotEmpty: [
+		CompilerError signal: 'There must be no other code or code generator pragma than a lone inlineJS:' ].
+	self methodNode sequenceNode addDagChild: (
+		JSStatementNode new
+			source: aString;
+			yourself)
+! !
+
 Error subclass: #CompilerError
 	slots: {}
 	package: 'Compiler-AST'!
@@ -750,56 +800,6 @@ visitValueNode: aNode
 
 visitVariableNode: aNode
 	^ self visitDagNode: aNode
-! !
-
-NodeVisitor subclass: #AstPragmator
-	slots: {#methodNode}
-	package: 'Compiler-AST'!
-!AstPragmator commentStamp!
-I am abstract superclass for pragma-processing transformer.
-
-My subclasses should implement messages for each pragma
-they process. Pragma processing checks if a message is known
-to a class but not to its superclass. IOW, each and only those
-pragmas are processed which are defined as methods in the subclass.
-
-These messages can access sequence node in which
-a pragma occurred and its containing method node
-as `self sequenceNode` and `self methodNode`.
-
-See `EarlyPragmator` for an example.!
-
-!AstPragmator methodsFor: 'accessing'!
-
-methodNode
-	^ methodNode
-!
-
-methodNode: anObject
-	methodNode := anObject
-! !
-
-!AstPragmator methodsFor: 'visiting'!
-
-visitMethodNode: aNode
-	self methodNode: aNode.
-	self processPragmas: aNode pragmas.
-	^ aNode
-! !
-
-AstPragmator subclass: #AstEarlyPragmator
-	slots: {}
-	package: 'Compiler-AST'!
-
-!AstEarlyPragmator methodsFor: 'pragmas'!
-
-inlineJS: aString
-	self methodNode sequenceNode dagChildren ifNotEmpty: [
-		CompilerError signal: 'There must be no other code or code generator pragma than a lone inlineJS:' ].
-	self methodNode sequenceNode addDagChild: (
-		JSStatementNode new
-			source: aString;
-			yourself)
 ! !
 
 AstPragmator setTraitComposition: {TPragmator} asTraitComposition!

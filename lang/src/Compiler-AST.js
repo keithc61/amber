@@ -1,4 +1,4 @@
-define(["amber/boot", "require", "amber/core/Kernel-Dag", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Helpers", "amber/core/Kernel-Methods"], function($boot,requirejs){"use strict";
+define(["amber/boot", "require", "amber/core/Kernel-Dag", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Helpers", "amber/core/Kernel-Methods", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-AST");
 $pkg.innerEval = function (expr) { return eval(expr); };
@@ -2667,6 +2667,124 @@ $globals.VariableNode);
 
 
 
+$core.addClass("AstPragmator", $globals.Object, ["methodNode"], "Compiler-AST");
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.AstPragmator.comment="I am abstract superclass for pragma-processing transformer.\x0a\x0aMy subclasses should implement messages for each pragma\x0athey process. Pragma processing checks if a message is known\x0ato a class but not to its superclass. IOW, each and only those\x0apragmas are processed which are defined as methods in the subclass.\x0a\x0aThese messages can access sequence node in which\x0aa pragma occurred and its containing method node\x0aas `self sequenceNode` and `self methodNode`.\x0a\x0aSee `EarlyPragmator` for an example.";
+//>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "methodNode",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "methodNode\x0a\x09^ methodNode",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.methodNode;
+
+}; }),
+$globals.AstPragmator);
+
+$core.addMethod(
+$core.method({
+selector: "methodNode:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "methodNode: anObject\x0a\x09methodNode := anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+$self.methodNode=anObject;
+return self;
+
+}; }),
+$globals.AstPragmator);
+
+$core.addMethod(
+$core.method({
+selector: "value:",
+protocol: "visiting",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aMethodNode"],
+source: "value: aMethodNode\x0a\x09self methodNode: aMethodNode.\x0a\x09self processPragmas: aMethodNode pragmas.\x0a\x09^ aMethodNode",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["methodNode:", "processPragmas:", "pragmas"]
+}, function ($methodClass){ return function (aMethodNode){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._methodNode_(aMethodNode);
+$self._processPragmas_($recv(aMethodNode)._pragmas());
+return aMethodNode;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"value:",{aMethodNode:aMethodNode})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AstPragmator);
+
+
+
+$core.addClass("AstEarlyPragmator", $globals.AstPragmator, [], "Compiler-AST");
+$core.addMethod(
+$core.method({
+selector: "inlineJS:",
+protocol: "pragmas",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "inlineJS: aString\x0a\x09self methodNode sequenceNode dagChildren ifNotEmpty: [\x0a\x09\x09CompilerError signal: 'There must be no other code or code generator pragma than a lone inlineJS:' ].\x0a\x09self methodNode sequenceNode addDagChild: (\x0a\x09\x09JSStatementNode new\x0a\x09\x09\x09source: aString;\x0a\x09\x09\x09yourself)",
+referencedClasses: ["CompilerError", "JSStatementNode"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNotEmpty:", "dagChildren", "sequenceNode", "methodNode", "signal:", "addDagChild:", "source:", "new", "yourself"]
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $3,$2,$1,$4,$6,$5;
+$3=$self._methodNode();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["methodNode"]=1;
+//>>excludeEnd("ctx");
+$2=$recv($3)._sequenceNode();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["sequenceNode"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2)._dagChildren();
+$recv($1)._ifNotEmpty_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($globals.CompilerError)._signal_("There must be no other code or code generator pragma than a lone inlineJS:");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$4=$recv($self._methodNode())._sequenceNode();
+$6=$recv($globals.JSStatementNode)._new();
+$recv($6)._source_(aString);
+$5=$recv($6)._yourself();
+$recv($4)._addDagChild_($5);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"inlineJS:",{aString:aString})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AstEarlyPragmator);
+
+
+
 $core.addClass("CompilerError", $globals.Error, [], "Compiler-AST");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.CompilerError.comment="I am the common superclass of all compiling errors.";
@@ -3045,124 +3163,6 @@ return $self._visitDagNode_(aNode);
 //>>excludeEnd("ctx");
 }; }),
 $globals.NodeVisitor);
-
-
-
-$core.addClass("AstPragmator", $globals.NodeVisitor, ["methodNode"], "Compiler-AST");
-//>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.AstPragmator.comment="I am abstract superclass for pragma-processing transformer.\x0a\x0aMy subclasses should implement messages for each pragma\x0athey process. Pragma processing checks if a message is known\x0ato a class but not to its superclass. IOW, each and only those\x0apragmas are processed which are defined as methods in the subclass.\x0a\x0aThese messages can access sequence node in which\x0aa pragma occurred and its containing method node\x0aas `self sequenceNode` and `self methodNode`.\x0a\x0aSee `EarlyPragmator` for an example.";
-//>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "methodNode",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "methodNode\x0a\x09^ methodNode",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return $self.methodNode;
-
-}; }),
-$globals.AstPragmator);
-
-$core.addMethod(
-$core.method({
-selector: "methodNode:",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anObject"],
-source: "methodNode: anObject\x0a\x09methodNode := anObject",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (anObject){
-var self=this,$self=this;
-$self.methodNode=anObject;
-return self;
-
-}; }),
-$globals.AstPragmator);
-
-$core.addMethod(
-$core.method({
-selector: "visitMethodNode:",
-protocol: "visiting",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode"],
-source: "visitMethodNode: aNode\x0a\x09self methodNode: aNode.\x0a\x09self processPragmas: aNode pragmas.\x0a\x09^ aNode",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["methodNode:", "processPragmas:", "pragmas"]
-}, function ($methodClass){ return function (aNode){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._methodNode_(aNode);
-$self._processPragmas_($recv(aNode)._pragmas());
-return aNode;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitMethodNode:",{aNode:aNode})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.AstPragmator);
-
-
-
-$core.addClass("AstEarlyPragmator", $globals.AstPragmator, [], "Compiler-AST");
-$core.addMethod(
-$core.method({
-selector: "inlineJS:",
-protocol: "pragmas",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "inlineJS: aString\x0a\x09self methodNode sequenceNode dagChildren ifNotEmpty: [\x0a\x09\x09CompilerError signal: 'There must be no other code or code generator pragma than a lone inlineJS:' ].\x0a\x09self methodNode sequenceNode addDagChild: (\x0a\x09\x09JSStatementNode new\x0a\x09\x09\x09source: aString;\x0a\x09\x09\x09yourself)",
-referencedClasses: ["CompilerError", "JSStatementNode"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifNotEmpty:", "dagChildren", "sequenceNode", "methodNode", "signal:", "addDagChild:", "source:", "new", "yourself"]
-}, function ($methodClass){ return function (aString){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $3,$2,$1,$4,$6,$5;
-$3=$self._methodNode();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["methodNode"]=1;
-//>>excludeEnd("ctx");
-$2=$recv($3)._sequenceNode();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["sequenceNode"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._dagChildren();
-$recv($1)._ifNotEmpty_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($globals.CompilerError)._signal_("There must be no other code or code generator pragma than a lone inlineJS:");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-$4=$recv($self._methodNode())._sequenceNode();
-$6=$recv($globals.JSStatementNode)._new();
-$recv($6)._source_(aString);
-$5=$recv($6)._yourself();
-$recv($4)._addDagChild_($5);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"inlineJS:",{aString:aString})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.AstEarlyPragmator);
 
 
 $core.setTraitComposition([{trait: $globals.TPragmator}], $globals.AstPragmator);

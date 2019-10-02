@@ -818,6 +818,42 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitIRVerbatim: self
 ! !
 
+Object subclass: #IRPragmator
+	slots: {#irMethod}
+	package: 'Compiler-IR'!
+
+!IRPragmator methodsFor: 'accessing'!
+
+irMethod
+	^ irMethod
+!
+
+irMethod: anObject
+	irMethod := anObject
+! !
+
+!IRPragmator methodsFor: 'visiting'!
+
+value: anIRMethod
+	self irMethod: anIRMethod.
+	self processPragmas: anIRMethod pragmas.
+	^ anIRMethod
+! !
+
+IRPragmator subclass: #IRLatePragmator
+	slots: {}
+	package: 'Compiler-IR'!
+
+!IRLatePragmator methodsFor: 'pragmas'!
+
+jsOverride: aString
+	self irMethod attachments
+		at: aString
+		put: (NativeFunction
+			constructorNamed: #Function
+			value: 'return this.', irMethod selector asJavaScriptMethodName, '()')
+! !
+
 ParentFakingPathDagVisitor subclass: #IRVisitor
 	slots: {}
 	package: 'Compiler-IR'!
@@ -1069,42 +1105,6 @@ visitSuperSend: anIRSend
 		self
 			visitInstructionList: {anIRSend receiver}, anIRSend arguments
 			enclosedBetween: '(' and: ')' ]
-! !
-
-IRVisitor subclass: #IRPragmator
-	slots: {#irMethod}
-	package: 'Compiler-IR'!
-
-!IRPragmator methodsFor: 'accessing'!
-
-irMethod
-	^ irMethod
-!
-
-irMethod: anObject
-	irMethod := anObject
-! !
-
-!IRPragmator methodsFor: 'visiting'!
-
-visitIRMethod: anIRMethod
-	self irMethod: anIRMethod.
-	self processPragmas: anIRMethod pragmas.
-	^ anIRMethod
-! !
-
-IRPragmator subclass: #IRLatePragmator
-	slots: {}
-	package: 'Compiler-IR'!
-
-!IRLatePragmator methodsFor: 'pragmas'!
-
-jsOverride: aString
-	self irMethod attachments
-		at: aString
-		put: (NativeFunction
-			constructorNamed: #Function
-			value: 'return this.', irMethod selector asJavaScriptMethodName, '()')
 ! !
 
 Object subclass: #JSStream
