@@ -2501,24 +2501,20 @@ $core.method({
 selector: "messageFromSendNode:arguments:",
 protocol: "private",
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aSendNode", "aCollection"],
-source: "messageFromSendNode: aSendNode arguments: aCollection\x0a\x09^ Message new\x0a\x09\x09selector: aSendNode selector;\x0a\x09\x09arguments: aCollection;\x0a\x09\x09yourself",
+args: ["aSendNode", "anArray"],
+source: "messageFromSendNode: aSendNode arguments: anArray\x0a\x09^ Message selector: aSendNode selector arguments: anArray",
 referencedClasses: ["Message"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["selector:", "new", "selector", "arguments:", "yourself"]
-}, function ($methodClass){ return function (aSendNode,aCollection){
+messageSends: ["selector:arguments:", "selector"]
+}, function ($methodClass){ return function (aSendNode,anArray){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv($globals.Message)._new();
-$recv($1)._selector_($recv(aSendNode)._selector());
-$recv($1)._arguments_(aCollection);
-return $recv($1)._yourself();
+return $recv($globals.Message)._selector_arguments_($recv(aSendNode)._selector(),anArray);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"messageFromSendNode:arguments:",{aSendNode:aSendNode,aCollection:aCollection})});
+}, function($ctx1) {$ctx1.fill(self,"messageFromSendNode:arguments:",{aSendNode:aSendNode,anArray:anArray})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ASTInterpreter);

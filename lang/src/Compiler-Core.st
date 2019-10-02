@@ -166,7 +166,7 @@ compile: aString forClass: aClass protocol: anotherString
 		#protocol -> anotherString.
 		#source -> aString.
 		#messageSends -> compilationResult messageSends asArray.
-		#args -> compilationResult arguments asArray.
+		#args -> compilationResult arguments.
 		#referencedClasses -> compilationResult classReferences asArray.
 	} withFactory: closureFactory.
 	result pragmas: compilationResult pragmas.

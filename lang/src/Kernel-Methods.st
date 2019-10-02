@@ -555,8 +555,8 @@ arguments
 	^ message arguments
 !
 
-arguments: aCollection
-	message arguments: aCollection
+arguments: anArray
+	message arguments: anArray
 !
 
 receiver
@@ -599,8 +599,8 @@ value: firstArgument value: secondArgument value: thirdArgument
 		sendTo: self receiver
 !
 
-valueWithPossibleArguments: aCollection
-	self arguments: aCollection.
+valueWithPossibleArguments: anArray
+	self arguments: anArray.
 	^ self value
 ! !
 

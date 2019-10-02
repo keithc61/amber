@@ -728,11 +728,8 @@ eval: aString
 	^ function valueWithPossibleArguments: self context locals values
 !
 
-messageFromSendNode: aSendNode arguments: aCollection
-	^ Message new
-		selector: aSendNode selector;
-		arguments: aCollection;
-		yourself
+messageFromSendNode: aSendNode arguments: anArray
+	^ Message selector: aSendNode selector arguments: anArray
 !
 
 messageNotUnderstood: aMessage receiver: anObject

@@ -2079,21 +2079,21 @@ $core.method({
 selector: "arguments:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aCollection"],
-source: "arguments: aCollection\x0a\x09message arguments: aCollection",
+args: ["anArray"],
+source: "arguments: anArray\x0a\x09message arguments: anArray",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: ["arguments:"]
-}, function ($methodClass){ return function (aCollection){
+}, function ($methodClass){ return function (anArray){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($self.message)._arguments_(aCollection);
+$recv($self.message)._arguments_(anArray);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"arguments:",{aCollection:aCollection})});
+}, function($ctx1) {$ctx1.fill(self,"arguments:",{anArray:anArray})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.MessageSend);
@@ -2368,21 +2368,21 @@ $core.method({
 selector: "valueWithPossibleArguments:",
 protocol: "evaluating",
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aCollection"],
-source: "valueWithPossibleArguments: aCollection\x0a\x09self arguments: aCollection.\x0a\x09^ self value",
+args: ["anArray"],
+source: "valueWithPossibleArguments: anArray\x0a\x09self arguments: anArray.\x0a\x09^ self value",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: ["arguments:", "value"]
-}, function ($methodClass){ return function (aCollection){
+}, function ($methodClass){ return function (anArray){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self._arguments_(aCollection);
+$self._arguments_(anArray);
 return $self._value();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"valueWithPossibleArguments:",{aCollection:aCollection})});
+}, function($ctx1) {$ctx1.fill(self,"valueWithPossibleArguments:",{anArray:anArray})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.MessageSend);

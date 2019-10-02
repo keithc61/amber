@@ -616,7 +616,7 @@ selector: "compile:forClass:protocol:",
 protocol: "compiling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aClass", "anotherString"],
-source: "compile: aString forClass: aClass protocol: anotherString\x0a\x09| compilationResult result pragmas closureFactory |\x0a\x09compilationResult := self\x0a\x09\x09start: aString forClass: aClass protocol: anotherString;\x0a\x09\x09compileNode: (self parse: aString).\x0a\x09closureFactory := self\x0a\x09\x09eval: (self wrappedSourceOf: compilationResult)\x0a\x09\x09forPackage: self currentPackage.\x0a\x09result := Smalltalk core method: #{\x0a\x09\x09#selector -> compilationResult selector.\x0a\x09\x09#protocol -> anotherString.\x0a\x09\x09#source -> aString.\x0a\x09\x09#messageSends -> compilationResult messageSends asArray.\x0a\x09\x09#args -> compilationResult arguments asArray.\x0a\x09\x09#referencedClasses -> compilationResult classReferences asArray.\x0a\x09} withFactory: closureFactory.\x0a\x09result pragmas: compilationResult pragmas.\x0a\x09^ result",
+source: "compile: aString forClass: aClass protocol: anotherString\x0a\x09| compilationResult result pragmas closureFactory |\x0a\x09compilationResult := self\x0a\x09\x09start: aString forClass: aClass protocol: anotherString;\x0a\x09\x09compileNode: (self parse: aString).\x0a\x09closureFactory := self\x0a\x09\x09eval: (self wrappedSourceOf: compilationResult)\x0a\x09\x09forPackage: self currentPackage.\x0a\x09result := Smalltalk core method: #{\x0a\x09\x09#selector -> compilationResult selector.\x0a\x09\x09#protocol -> anotherString.\x0a\x09\x09#source -> aString.\x0a\x09\x09#messageSends -> compilationResult messageSends asArray.\x0a\x09\x09#args -> compilationResult arguments.\x0a\x09\x09#referencedClasses -> compilationResult classReferences asArray.\x0a\x09} withFactory: closureFactory.\x0a\x09result pragmas: compilationResult pragmas.\x0a\x09^ result",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -627,7 +627,7 @@ var compilationResult,result,pragmas,closureFactory;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$4,$5,$2;
+var $1,$3,$4,$2;
 $self._start_forClass_protocol_(aString,aClass,anotherString);
 compilationResult=$self._compileNode_($self._parse_(aString));
 closureFactory=$self._eval_forPackage_($self._wrappedSourceOf_(compilationResult),$self._currentPackage());
@@ -637,11 +637,7 @@ $4=$recv($recv(compilationResult)._messageSends())._asArray();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["asArray"]=1;
 //>>excludeEnd("ctx");
-$5=$recv($recv(compilationResult)._arguments())._asArray();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["asArray"]=2;
-//>>excludeEnd("ctx");
-$2=$globals.HashedCollection._newFromPairs_(["selector",$3,"protocol",anotherString,"source",aString,"messageSends",$4,"args",$5,"referencedClasses",$recv($recv(compilationResult)._classReferences())._asArray()]);
+$2=$globals.HashedCollection._newFromPairs_(["selector",$3,"protocol",anotherString,"source",aString,"messageSends",$4,"args",$recv(compilationResult)._arguments(),"referencedClasses",$recv($recv(compilationResult)._classReferences())._asArray()]);
 result=$recv($1)._method_withFactory_($2,closureFactory);
 $recv(result)._pragmas_($recv(compilationResult)._pragmas());
 return result;
