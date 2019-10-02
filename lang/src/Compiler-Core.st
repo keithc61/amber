@@ -164,7 +164,7 @@ compile: aString forClass: aClass protocol: anotherString
 	result := Smalltalk core method: #{
 		#selector -> compilationResult selector.
 		#protocol -> anotherString.
-		#source -> compilationResult source.
+		#source -> aString.
 		#messageSends -> compilationResult messageSends asArray.
 		#args -> compilationResult arguments asArray.
 		#referencedClasses -> compilationResult classReferences asArray.
