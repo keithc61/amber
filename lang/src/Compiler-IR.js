@@ -4561,7 +4561,7 @@ $core.addClass("IRLatePragmator", $globals.IRPragmator, [], "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "jsOverride:",
-protocol: "as yet unclassified",
+protocol: "pragmas",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
 source: "jsOverride: aString\x0a\x09self irMethod attachments\x0a\x09\x09at: aString\x0a\x09\x09put: (NativeFunction\x0a\x09\x09\x09constructorNamed: #Function\x0a\x09\x09\x09value: 'return this.', irMethod selector asJavaScriptMethodName, '()')",

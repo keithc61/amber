@@ -1097,7 +1097,7 @@ IRPragmator subclass: #IRLatePragmator
 	slots: {}
 	package: 'Compiler-IR'!
 
-!IRLatePragmator methodsFor: 'as yet unclassified'!
+!IRLatePragmator methodsFor: 'pragmas'!
 
 jsOverride: aString
 	self irMethod attachments
