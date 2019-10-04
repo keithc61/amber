@@ -330,22 +330,6 @@ putOn: aStream
 
 !Object methodsFor: 'testing'!
 
-isBehavior
-	^ false
-!
-
-isBoolean
-	^ false
-!
-
-isClass
-	^ false
-!
-
-isCompiledMethod
-	^ false
-!
-
 isImmutable
 	^ false
 !
@@ -354,27 +338,7 @@ isMemberOf: aClass
 	^ self class = aClass
 !
 
-isMetaclass
-	^ false
-!
-
-isNumber
-	^ false
-!
-
-isPackage
-	^ false
-!
-
 isParseFailure
-	^ false
-!
-
-isString
-	^ false
-!
-
-isSymbol
 	^ false
 !
 
@@ -1529,6 +1493,7 @@ new
 		self error: 'You cannot create new instances of UndefinedObject. Use nil'
 ! !
 
+Object setTraitComposition: {TIsInGroup} asTraitComposition!
 UndefinedObject setTraitComposition: {TSubclassable} asTraitComposition!
 ! !
 

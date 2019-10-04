@@ -1,4 +1,51 @@
 Smalltalk createPackage: 'Kernel-Helpers'!
+Trait named: #TIsInGroup
+	package: 'Kernel-Helpers'!
+!TIsInGroup commentStamp!
+I contain all `isXxx` checking methods that check
+if receiver is part of some group of objects (`isBehavior` etc.)
+
+I should NOT contain tests for
+having a certain property (`isImmutable` etc.).!
+
+!TIsInGroup methodsFor: 'testing'!
+
+isBehavior
+	^ false
+!
+
+isBoolean
+	^ false
+!
+
+isClass
+	^ false
+!
+
+isCompiledMethod
+	^ false
+!
+
+isMetaclass
+	^ false
+!
+
+isNumber
+	^ false
+!
+
+isPackage
+	^ false
+!
+
+isString
+	^ false
+!
+
+isSymbol
+	^ false
+! !
+
 Trait named: #TPragmator
 	package: 'Kernel-Helpers'!
 

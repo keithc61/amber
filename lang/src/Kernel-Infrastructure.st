@@ -1073,7 +1073,7 @@ new
 	self shouldNotImplement
 ! !
 
-JSObjectProxy setTraitComposition: {TThenable} asTraitComposition!
+JSObjectProxy setTraitComposition: {TIsInGroup. TThenable} asTraitComposition!
 ! !
 
 !ProtoStream methodsFor: '*Kernel-Infrastructure'!

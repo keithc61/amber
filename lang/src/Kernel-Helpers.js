@@ -4,6 +4,173 @@ var $pkg = $core.addPackage("Kernel-Helpers");
 $pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
+$core.addTrait("TIsInGroup", "Kernel-Helpers");
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.TIsInGroup.comment="I contain all `isXxx` checking methods that check\x0aif receiver is part of some group of objects (`isBehavior` etc.)\x0a\x0aI should NOT contain tests for\x0ahaving a certain property (`isImmutable` etc.).";
+//>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "isBehavior",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isBehavior\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.TIsInGroup);
+
+$core.addMethod(
+$core.method({
+selector: "isBoolean",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isBoolean\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.TIsInGroup);
+
+$core.addMethod(
+$core.method({
+selector: "isClass",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isClass\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.TIsInGroup);
+
+$core.addMethod(
+$core.method({
+selector: "isCompiledMethod",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isCompiledMethod\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.TIsInGroup);
+
+$core.addMethod(
+$core.method({
+selector: "isMetaclass",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isMetaclass\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.TIsInGroup);
+
+$core.addMethod(
+$core.method({
+selector: "isNumber",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isNumber\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.TIsInGroup);
+
+$core.addMethod(
+$core.method({
+selector: "isPackage",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isPackage\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.TIsInGroup);
+
+$core.addMethod(
+$core.method({
+selector: "isString",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isString\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.TIsInGroup);
+
+$core.addMethod(
+$core.method({
+selector: "isSymbol",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isSymbol\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.TIsInGroup);
+
+
 $core.addTrait("TPragmator", "Kernel-Helpers");
 $core.addMethod(
 $core.method({

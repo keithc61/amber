@@ -1,4 +1,4 @@
-define(["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Objects", "amber/core/Kernel-Promises"], function($boot,requirejs){"use strict";
+define(["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Helpers", "amber/core/Kernel-Objects", "amber/core/Kernel-Promises"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Infrastructure");
 $pkg.innerEval = function (expr) { return eval(expr); };
@@ -4024,7 +4024,7 @@ return self;
 }; }),
 $globals.SmalltalkImage.a$cls);
 
-$core.setTraitComposition([{trait: $globals.TThenable}], $globals.JSObjectProxy);
+$core.setTraitComposition([{trait: $globals.TIsInGroup}, {trait: $globals.TThenable}], $globals.JSObjectProxy);
 
 $core.addMethod(
 $core.method({
