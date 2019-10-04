@@ -235,7 +235,7 @@ I am a specialized JavaScript translator able to write inlined IR instructions t
 visitIRInlinedClosure: anIRInlinedClosure
 	self stream nextPutVars: (anIRInlinedClosure tempDeclarations collect: [ :each |
 		each name asVariableName ]).
-	self visitAll: anIRInlinedClosure dagChildren
+	self visitAllChildren: anIRInlinedClosure
 !
 
 visitIRInlinedIfFalse: anIRInlinedIfFalse
