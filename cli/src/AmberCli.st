@@ -1103,10 +1103,8 @@ eval: buffer on: anObject
 	| result |
 	buffer ifNotEmpty: [
 		[result := Compiler new evaluateExpression: buffer on: anObject]
-			tryCatch: [:e |
-				e isSmalltalkError
-					ifTrue: [ e pass ]
-					ifFalse: [ process stdout write: e jsStack ]]].
+			tryIfTrue: [ :e | (Smalltalk isError: e) not or: [ e context isNil ] ]
+			catch: [ :e | process stdout write: e jsStack ]].
 	^ result
 !
 

@@ -103,14 +103,7 @@ provided
 !BlockClosure methodsFor: 'error handling'!
 
 on: anErrorClass do: aBlock
-	"All exceptions thrown in the Smalltalk stack are cought.
-	Convert all JS exceptions to JavaScriptException instances."
-	
-	^ self tryCatch: [ :error | | smalltalkError |
-		smalltalkError := Smalltalk asSmalltalkException: error.
-		(smalltalkError isKindOf: anErrorClass)
-		ifTrue: [ aBlock value: smalltalkError ]
-		ifFalse: [ smalltalkError pass ] ]
+	^ Smalltalk do: self on: anErrorClass do: aBlock
 !
 
 tryCatch: aBlock
@@ -120,6 +113,19 @@ tryCatch: aBlock
 		} catch(error) {
 			// pass non-local returns undetected
 			if (Array.isArray(error) && error.length === 1) throw error;
+			return aBlock._value_(error);
+		}
+	'>
+!
+
+tryIfTrue: anotherBlock catch: aBlock
+	<inlineJS: '
+		try {
+			return $self._value();
+		} catch(error) {
+			// pass non-local returns undetected
+			if (Array.isArray(error) && error.length === 1) throw error;
+			if (!!anotherBlock._value_(error)) throw error;
 			return aBlock._value_(error);
 		}
 	'>
@@ -665,21 +671,8 @@ sendIndexes
 	^ sendIdx
 !
 
-stubHere
-	homeContext := JSObjectProxy undefined
-!
-
 supercall
 	^ supercall = true
-! !
-
-!MethodContext methodsFor: 'error handling'!
-
-stubToAtMost: anInteger
-	| context |
-	context := self.
-	anInteger timesRepeat: [ context := context ifNotNil: [ context home ] ].
-	context ifNotNil: [ context stubHere ]
 ! !
 
 Object subclass: #NativeFunction

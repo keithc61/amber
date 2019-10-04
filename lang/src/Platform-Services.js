@@ -735,32 +735,17 @@ selector: "evaluate:on:do:",
 protocol: "error handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock", "anErrorClass", "exceptionBlock"],
-source: "evaluate: aBlock on: anErrorClass do: exceptionBlock\x0a\x09\x22Evaluate a block and catch exceptions happening on the environment stack\x22\x0a\x09\x0a\x09aBlock tryCatch: [ :exception | \x0a\x09\x09(exception isKindOf: (self classNamed: anErrorClass name))\x0a\x09\x09\x09ifTrue: [ exceptionBlock value: exception ]\x0a \x09\x09\x09ifFalse: [ exception pass ] ]",
-referencedClasses: [],
+source: "evaluate: aBlock on: anErrorClass do: exceptionBlock\x0a\x09\x22Evaluate a block and catch exceptions happening on the environment stack\x22\x0a\x09\x0a\x09^ Smalltalk do: aBlock on: (self classNamed: anErrorClass name) do: exceptionBlock",
+referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["tryCatch:", "ifTrue:ifFalse:", "isKindOf:", "classNamed:", "name", "value:", "pass"]
+messageSends: ["do:on:do:", "classNamed:", "name"]
 }, function ($methodClass){ return function (aBlock,anErrorClass,exceptionBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$recv(aBlock)._tryCatch_((function(exception){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$1=$recv(exception)._isKindOf_($self._classNamed_($recv(anErrorClass)._name()));
-if($core.assert($1)){
-return $recv(exceptionBlock)._value_(exception);
-} else {
-return $recv(exception)._pass();
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({exception:exception},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-return self;
+return $recv($globals.Smalltalk)._do_on_do_(aBlock,$self._classNamed_($recv(anErrorClass)._name()),exceptionBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"evaluate:on:do:",{aBlock:aBlock,anErrorClass:anErrorClass,exceptionBlock:exceptionBlock})});
 //>>excludeEnd("ctx");
@@ -1427,43 +1412,29 @@ selector: "handleError:",
 protocol: "error handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anError"],
-source: "handleError: anError\x0a\x09([ anError isSmalltalkError ] tryCatch: [ false ])\x0a\x09\x09ifTrue: [ self handleUnhandledError: anError ]\x0a\x09\x09ifFalse: [\x0a\x09\x09\x09| smalltalkError |\x0a\x09\x09\x09smalltalkError := JavaScriptException on: anError.\x0a\x09\x09\x09smalltalkError wrap.\x0a\x09\x09\x09self handleUnhandledError: smalltalkError ]",
-referencedClasses: ["JavaScriptException"],
+source: "handleError: anError\x0a\x09| smalltalkError |\x0a\x09smalltalkError := Smalltalk asSmalltalkException: anError.\x0a\x09smalltalkError context ifNil: [ smalltalkError context: thisContext ].\x0a\x09self handleUnhandledError: smalltalkError",
+referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:ifFalse:", "tryCatch:", "isSmalltalkError", "handleUnhandledError:", "on:", "wrap"]
+messageSends: ["asSmalltalkException:", "ifNil:", "context", "context:", "handleUnhandledError:"]
 }, function ($methodClass){ return function (anError){
 var self=this,$self=this;
+var smalltalkError;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(anError)._isSmalltalkError();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}))._tryCatch_((function(){
-return false;
-
-}));
-if($core.assert($1)){
-$self._handleUnhandledError_(anError);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["handleUnhandledError:"]=1;
-//>>excludeEnd("ctx");
+var $1,$receiver;
+smalltalkError=$recv($globals.Smalltalk)._asSmalltalkException_(anError);
+$1=$recv(smalltalkError)._context();
+if(($receiver = $1) == null || $receiver.a$nil){
+$recv(smalltalkError)._context_($core.getThisContext());
 } else {
-var smalltalkError;
-smalltalkError=$recv($globals.JavaScriptException)._on_(anError);
-$recv(smalltalkError)._wrap();
-$self._handleUnhandledError_(smalltalkError);
+$1;
 }
+$self._handleUnhandledError_(smalltalkError);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"handleError:",{anError:anError})});
+}, function($ctx1) {$ctx1.fill(self,"handleError:",{anError:anError,smalltalkError:smalltalkError})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ErrorHandler.a$cls);

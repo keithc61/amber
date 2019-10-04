@@ -345,33 +345,17 @@ selector: "on:do:",
 protocol: "error handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anErrorClass", "aBlock"],
-source: "on: anErrorClass do: aBlock\x0a\x09\x22All exceptions thrown in the Smalltalk stack are cought.\x0a\x09Convert all JS exceptions to JavaScriptException instances.\x22\x0a\x09\x0a\x09^ self tryCatch: [ :error | | smalltalkError |\x0a\x09\x09smalltalkError := Smalltalk asSmalltalkException: error.\x0a\x09\x09(smalltalkError isKindOf: anErrorClass)\x0a\x09\x09ifTrue: [ aBlock value: smalltalkError ]\x0a\x09\x09ifFalse: [ smalltalkError pass ] ]",
+source: "on: anErrorClass do: aBlock\x0a\x09^ Smalltalk do: self on: anErrorClass do: aBlock",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["tryCatch:", "asSmalltalkException:", "ifTrue:ifFalse:", "isKindOf:", "value:", "pass"]
+messageSends: ["do:on:do:"]
 }, function ($methodClass){ return function (anErrorClass,aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-return $self._tryCatch_((function(error){
-var smalltalkError;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-smalltalkError=$recv($globals.Smalltalk)._asSmalltalkException_(error);
-$1=$recv(smalltalkError)._isKindOf_(anErrorClass);
-if($core.assert($1)){
-return $recv(aBlock)._value_(smalltalkError);
-} else {
-return $recv(smalltalkError)._pass();
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({error:error,smalltalkError:smalltalkError},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+return $recv($globals.Smalltalk)._do_on_do_(self,anErrorClass,aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"on:do:",{anErrorClass:anErrorClass,aBlock:aBlock})});
 //>>excludeEnd("ctx");
@@ -488,6 +472,39 @@ return $core.withContext(function($ctx1) {
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"tryCatch:",{aBlock:aBlock})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.BlockClosure);
+
+$core.addMethod(
+$core.method({
+selector: "tryIfTrue:catch:",
+protocol: "error handling",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anotherBlock", "aBlock"],
+source: "tryIfTrue: anotherBlock catch: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09try {\x0a\x09\x09\x09return $self._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09if (!anotherBlock._value_(error)) throw error;\x0a\x09\x09\x09return aBlock._value_(error);\x0a\x09\x09}\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09try {\x0a\x09\x09\x09return $self._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09if (!anotherBlock._value_(error)) throw error;\x0a\x09\x09\x09return aBlock._value_(error);\x0a\x09\x09}\x0a\x09"]]],
+messageSends: []
+}, function ($methodClass){ return function (anotherBlock,aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+		try {
+			return $self._value();
+		} catch(error) {
+			// pass non-local returns undetected
+			if (Array.isArray(error) && error.length === 1) throw error;
+			if (!anotherBlock._value_(error)) throw error;
+			return aBlock._value_(error);
+		}
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"tryIfTrue:catch:",{anotherBlock:anotherBlock,aBlock:aBlock})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.BlockClosure);
@@ -2567,77 +2584,6 @@ messageSends: []
 var self=this,$self=this;
 return $self.sendIdx;
 
-}; }),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
-selector: "stubHere",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "stubHere\x0a\x09homeContext := JSObjectProxy undefined",
-referencedClasses: ["JSObjectProxy"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["undefined"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self.homeContext=$recv($globals.JSObjectProxy)._undefined();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"stubHere",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.MethodContext);
-
-$core.addMethod(
-$core.method({
-selector: "stubToAtMost:",
-protocol: "error handling",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anInteger"],
-source: "stubToAtMost: anInteger\x0a\x09| context |\x0a\x09context := self.\x0a\x09anInteger timesRepeat: [ context := context ifNotNil: [ context home ] ].\x0a\x09context ifNotNil: [ context stubHere ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["timesRepeat:", "ifNotNil:", "home", "stubHere"]
-}, function ($methodClass){ return function (anInteger){
-var self=this,$self=this;
-var context;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$2,$receiver;
-context=self;
-$recv(anInteger)._timesRepeat_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$1=context;
-if(($receiver = $1) == null || $receiver.a$nil){
-context=$1;
-} else {
-context=$recv(context)._home();
-}
-return context;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-$2=context;
-if(($receiver = $2) == null || $receiver.a$nil){
-$2;
-} else {
-$recv(context)._stubHere();
-}
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"stubToAtMost:",{anInteger:anInteger,context:context})});
-//>>excludeEnd("ctx");
 }; }),
 $globals.MethodContext);
 

@@ -16,10 +16,6 @@ beHandled
 	amberHandled := true
 !
 
-beSmalltalkError
-	smalltalkError := true
-!
-
 beUnhandled
 	amberHandled := false
 !
@@ -91,7 +87,7 @@ resignal
 !
 
 signal
-	self beUnhandled; context: thisContext; beSmalltalkError; basicSignal
+	self beUnhandled; context: thisContext; basicSignal
 !
 
 signal: aString
@@ -102,10 +98,6 @@ signal: aString
 
 isError
 	^ true
-!
-
-isSmalltalkError
-	^ smalltalkError == true
 !
 
 wasHandled
@@ -175,19 +167,6 @@ exception: anException
 
 messageText
 	<inlineJS: 'return "JavaScript exception: " + $self.exception.toString()'>
-! !
-
-!JavaScriptException methodsFor: 'error handling'!
-
-wrap
-	[ self signal ] tryCatch:
-		[ self shouldBeStubbed ifTrue: [ self context stubToAtMost: 100 ] ]
-! !
-
-!JavaScriptException methodsFor: 'testing'!
-
-shouldBeStubbed
-	<inlineJS: 'return $self.exception instanceof RangeError'>
 ! !
 
 !JavaScriptException class methodsFor: 'instance creation'!

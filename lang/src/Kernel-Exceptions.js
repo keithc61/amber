@@ -53,25 +53,6 @@ $globals.Error);
 
 $core.addMethod(
 $core.method({
-selector: "beSmalltalkError",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "beSmalltalkError\x0a\x09smalltalkError := true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-$self.smalltalkError=true;
-return self;
-
-}; }),
-$globals.Error);
-
-$core.addMethod(
-$core.method({
 selector: "beUnhandled",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -165,29 +146,6 @@ messageSends: []
 var self=this,$self=this;
 return true;
 
-}; }),
-$globals.Error);
-
-$core.addMethod(
-$core.method({
-selector: "isSmalltalkError",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isSmalltalkError\x0a\x09^ smalltalkError == true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["=="]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self.smalltalkError).__eq_eq(true);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isSmalltalkError",{})});
-//>>excludeEnd("ctx");
 }; }),
 $globals.Error);
 
@@ -324,11 +282,11 @@ selector: "signal",
 protocol: "signaling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "signal\x0a\x09self beUnhandled; context: thisContext; beSmalltalkError; basicSignal",
+source: "signal\x0a\x09self beUnhandled; context: thisContext; basicSignal",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["beUnhandled", "context:", "beSmalltalkError", "basicSignal"]
+messageSends: ["beUnhandled", "context:", "basicSignal"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -336,7 +294,6 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $self._beUnhandled();
 $self._context_($core.getThisContext());
-$self._beSmalltalkError();
 $self._basicSignal();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -676,74 +633,6 @@ return "JavaScript exception: " + $self.exception.toString();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"messageText",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.JavaScriptException);
-
-$core.addMethod(
-$core.method({
-selector: "shouldBeStubbed",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "shouldBeStubbed\x0a\x09<inlineJS: 'return $self.exception instanceof RangeError'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return $self.exception instanceof RangeError"]]],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self.exception instanceof RangeError;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"shouldBeStubbed",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.JavaScriptException);
-
-$core.addMethod(
-$core.method({
-selector: "wrap",
-protocol: "error handling",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "wrap\x0a\x09[ self signal ] tryCatch:\x0a\x09\x09[ self shouldBeStubbed ifTrue: [ self context stubToAtMost: 100 ] ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["tryCatch:", "signal", "ifTrue:", "shouldBeStubbed", "stubToAtMost:", "context"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$recv((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $self._signal();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}))._tryCatch_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$1=$self._shouldBeStubbed();
-if($core.assert($1)){
-return $recv($self._context())._stubToAtMost_((100));
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"wrap",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.JavaScriptException);

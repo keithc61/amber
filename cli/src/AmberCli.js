@@ -2725,18 +2725,17 @@ selector: "eval:on:",
 protocol: "actions",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["buffer", "anObject"],
-source: "eval: buffer on: anObject\x0a\x09| result |\x0a\x09buffer ifNotEmpty: [\x0a\x09\x09[result := Compiler new evaluateExpression: buffer on: anObject]\x0a\x09\x09\x09tryCatch: [:e |\x0a\x09\x09\x09\x09e isSmalltalkError\x0a\x09\x09\x09\x09\x09ifTrue: [ e pass ]\x0a\x09\x09\x09\x09\x09ifFalse: [ process stdout write: e jsStack ]]].\x0a\x09^ result",
-referencedClasses: ["Compiler"],
+source: "eval: buffer on: anObject\x0a\x09| result |\x0a\x09buffer ifNotEmpty: [\x0a\x09\x09[result := Compiler new evaluateExpression: buffer on: anObject]\x0a\x09\x09\x09tryIfTrue: [ :e | (Smalltalk isError: e) not or: [ e context isNil ] ]\x0a\x09\x09\x09catch: [ :e | process stdout write: e jsStack ]].\x0a\x09^ result",
+referencedClasses: ["Compiler", "Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNotEmpty:", "tryCatch:", "evaluateExpression:on:", "new", "ifTrue:ifFalse:", "isSmalltalkError", "pass", "write:", "stdout", "jsStack"]
+messageSends: ["ifNotEmpty:", "tryIfTrue:catch:", "evaluateExpression:on:", "new", "or:", "not", "isError:", "isNil", "context", "write:", "stdout", "jsStack"]
 }, function ($methodClass){ return function (buffer,anObject){
 var self=this,$self=this;
 var result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 $recv(buffer)._ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -2750,18 +2749,29 @@ return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 //>>excludeEnd("ctx");
-}))._tryCatch_((function(e){
+}))._tryIfTrue_catch_((function(e){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-$1=$recv(e)._isSmalltalkError();
-if($core.assert($1)){
-return $recv(e)._pass();
-} else {
-return $recv($recv(process)._stdout())._write_($recv(e)._jsStack());
-}
+return $recv($recv($recv($globals.Smalltalk)._isError_(e))._not())._or_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $recv($recv(e)._context())._isNil();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
+//>>excludeEnd("ctx");
+}));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({e:e},$ctx2,3)});
+//>>excludeEnd("ctx");
+}),(function(e){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($recv(process)._stdout())._write_($recv(e)._jsStack());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({e:e},$ctx2,5)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

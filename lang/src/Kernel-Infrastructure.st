@@ -911,9 +911,21 @@ asSmalltalkException: anObject
 	"A JavaScript exception may be thrown.
 	We then need to convert it back to a Smalltalk object"
 	
-	^ ((self isSmalltalkObject: anObject) and: [ anObject isError ])
+	^ (self isError: anObject)
 		ifTrue: [ anObject ]
 		ifFalse: [ JavaScriptException on: anObject ]
+!
+
+do: actionBlock on: anErrorClass do: aBlock
+	"All exceptions thrown in the Smalltalk stack are cought.
+	Convert all JS exceptions to JavaScriptException instances."
+	
+	| smalltalkError |
+	^ actionBlock
+		tryIfTrue: [ :error |
+			smalltalkError := self asSmalltalkException: error.
+			smalltalkError isKindOf: anErrorClass ]
+		catch: [ aBlock value: smalltalkError ]
 ! !
 
 !SmalltalkImage methodsFor: 'globals'!
@@ -1044,6 +1056,10 @@ tryAdoptPackageDescriptorsBeyond: aSet
 existsJsGlobal: aString
 	self deprecatedAPI: 'Use Platform >> includesGlobal: instead'.
 	^ Platform includesGlobal: aString
+!
+
+isError: anObject
+	(self isSmalltalkObject: anObject) and: [ anObject isError ]
 !
 
 isSmalltalkObject: anObject

@@ -8,11 +8,25 @@
   + beJavaScriptSubclassOf:
   + javaScriptConstructor
   + javaScriptConstructor:
++ BlockClosure >>
+  + tryIfTrue:catch:
++ SmalltalkImage >>
+  + do:on:do:
+  + isError:
 + amber/boot api >>
   + detachClass(klass)
 + amber/helpers exports >>
   + $nil
 
+- Error >>
+  - beSmalltalkError
+  - isSmalltalkError
+- JavaScriptError >>
+  - shouldBeStubbed
+  - wrap
+- MethodContext
+  - stubHere
+  - stubToAtMost:
 - amber/boot api >>
   - addElement(arraySet, el)
   - removeElement(arraySet, el)

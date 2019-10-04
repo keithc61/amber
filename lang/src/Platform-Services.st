@@ -257,10 +257,7 @@ compileMethod: sourceCode for: class protocol: protocol
 evaluate: aBlock on: anErrorClass do: exceptionBlock
 	"Evaluate a block and catch exceptions happening on the environment stack"
 	
-	aBlock tryCatch: [ :exception | 
-		(exception isKindOf: (self classNamed: anErrorClass name))
-			ifTrue: [ exceptionBlock value: exception ]
- 			ifFalse: [ exception pass ] ]
+	^ Smalltalk do: aBlock on: (self classNamed: anErrorClass name) do: exceptionBlock
 ! !
 
 !Environment methodsFor: 'evaluating'!
@@ -359,13 +356,10 @@ Registered service instances must implement `#handleError:` to perform an action
 !ErrorHandler class methodsFor: 'error handling'!
 
 handleError: anError
-	([ anError isSmalltalkError ] tryCatch: [ false ])
-		ifTrue: [ self handleUnhandledError: anError ]
-		ifFalse: [
-			| smalltalkError |
-			smalltalkError := JavaScriptException on: anError.
-			smalltalkError wrap.
-			self handleUnhandledError: smalltalkError ]
+	| smalltalkError |
+	smalltalkError := Smalltalk asSmalltalkException: anError.
+	smalltalkError context ifNil: [ smalltalkError context: thisContext ].
+	self handleUnhandledError: smalltalkError
 !
 
 handleUnhandledError: anError

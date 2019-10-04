@@ -2,6 +2,7 @@
 ===================================
 
 * $core.removeClass returns removed class.
+* Cleaned error-handling code.
 
 Commits: https://lolg.it/amber/amber/commits/0.24.1
 
