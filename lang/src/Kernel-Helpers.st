@@ -26,6 +26,10 @@ isCompiledMethod
 	^ false
 !
 
+isError
+	^ false
+!
+
 isMetaclass
 	^ false
 !

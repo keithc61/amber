@@ -82,6 +82,24 @@ $globals.TIsInGroup);
 
 $core.addMethod(
 $core.method({
+selector: "isError",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isError\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.TIsInGroup);
+
+$core.addMethod(
+$core.method({
 selector: "isMetaclass",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);

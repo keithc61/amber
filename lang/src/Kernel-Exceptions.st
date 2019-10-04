@@ -100,6 +100,10 @@ signal: aString
 
 !Error methodsFor: 'testing'!
 
+isError
+	^ true
+!
+
 isSmalltalkError
 	^ smalltalkError == true
 !
