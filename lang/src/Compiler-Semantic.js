@@ -1530,7 +1530,7 @@ selector: "alias",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "alias\x0a\x09\x22Fixes issue #190.\x0a\x09A function is created in the method definition, answering the class or nil.\x0a\x09See JSStream >> #nextPutClassRefFunction:\x22\x0a\x09\x0a\x09^ '$globals.', self name",
+source: "alias\x0a\x09^ '$globals.', self name",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
