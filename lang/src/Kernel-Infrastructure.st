@@ -1059,7 +1059,7 @@ existsJsGlobal: aString
 !
 
 isError: anObject
-	(self isSmalltalkObject: anObject) and: [ anObject isError ]
+	^ (self isSmalltalkObject: anObject) and: [ anObject isError ]
 !
 
 isSmalltalkObject: anObject

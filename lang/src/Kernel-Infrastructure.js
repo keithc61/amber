@@ -3368,7 +3368,7 @@ selector: "isError:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "isError: anObject\x0a\x09(self isSmalltalkObject: anObject) and: [ anObject isError ]",
+source: "isError: anObject\x0a\x09^ (self isSmalltalkObject: anObject) and: [ anObject isError ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -3378,7 +3378,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($self._isSmalltalkObject_(anObject))._and_((function(){
+return $recv($self._isSmalltalkObject_(anObject))._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -3387,7 +3387,6 @@ return $recv(anObject)._isError();
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isError:",{anObject:anObject})});
 //>>excludeEnd("ctx");
