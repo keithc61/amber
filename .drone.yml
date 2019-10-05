@@ -63,6 +63,7 @@ steps:
     commands:
       - if [ -f .skip ]; then exit; fi
       - cd cli
+      - npm install ../lang
       - npm install
   - name: install-and-test
     image: node:lts
