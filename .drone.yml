@@ -37,6 +37,7 @@ steps:
       - npm install
       - cd ..
       - cd cli
+      - npm install ../lang
       - npm install
   - name: build
     image: node:lts
