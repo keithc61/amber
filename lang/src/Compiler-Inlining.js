@@ -438,6 +438,43 @@ $globals.IRInliner);
 
 $core.addMethod(
 $core.method({
+selector: "flattenedReturn:",
+protocol: "visiting",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anIRNonLocalReturn"],
+source: "flattenedReturn: anIRNonLocalReturn\x0a\x09| localReturn |\x0a\x09localReturn := IRReturn new\x0a\x09\x09scope: anIRNonLocalReturn scope;\x0a\x09\x09yourself.\x0a\x09anIRNonLocalReturn dagChildren do: [ :each | localReturn add: each ].\x0a\x09^ localReturn",
+referencedClasses: ["IRReturn"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["scope:", "new", "scope", "yourself", "do:", "dagChildren", "add:"]
+}, function ($methodClass){ return function (anIRNonLocalReturn){
+var self=this,$self=this;
+var localReturn;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($globals.IRReturn)._new();
+$recv($1)._scope_($recv(anIRNonLocalReturn)._scope());
+localReturn=$recv($1)._yourself();
+$recv($recv(anIRNonLocalReturn)._dagChildren())._do_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(localReturn)._add_(each);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return localReturn;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"flattenedReturn:",{anIRNonLocalReturn:anIRNonLocalReturn,localReturn:localReturn})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.IRInliner);
+
+$core.addMethod(
+$core.method({
 selector: "nonLocalReturnInliner",
 protocol: "factory",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -685,51 +722,36 @@ selector: "visitIRNonLocalReturn:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRNonLocalReturn"],
-source: "visitIRNonLocalReturn: anIRNonLocalReturn\x0a\x09| localReturn |\x0a\x09anIRNonLocalReturn scope canFlattenNonLocalReturns ifTrue: [\x0a\x09\x09anIRNonLocalReturn scope methodScope removeNonLocalReturn: anIRNonLocalReturn scope.\x0a\x09\x09localReturn := IRReturn new\x0a\x09\x09\x09scope: anIRNonLocalReturn scope;\x0a\x09\x09\x09yourself.\x0a\x09\x09anIRNonLocalReturn dagChildren do: [ :each |\x0a\x09\x09\x09localReturn add: each ].\x0a\x09\x09anIRNonLocalReturn replaceWith: localReturn.\x0a\x09\x09^ self visitIRReturn: localReturn ].\x0a\x09^ (self shouldInlineReturn: anIRNonLocalReturn)\x0a\x09\x09ifTrue: [ self nonLocalReturnInliner inlineReturn: anIRNonLocalReturn ]\x0a\x09\x09ifFalse: [ super visitIRNonLocalReturn: anIRNonLocalReturn ]",
-referencedClasses: ["IRReturn"],
+source: "visitIRNonLocalReturn: anIRNonLocalReturn\x0a\x09anIRNonLocalReturn scope canFlattenNonLocalReturns ifTrue: [\x0a\x09\x09| localReturn |\x0a\x09\x09anIRNonLocalReturn scope methodScope removeNonLocalReturn: anIRNonLocalReturn scope.\x0a\x09\x09localReturn := self flattenedReturn: anIRNonLocalReturn.\x0a\x09\x09anIRNonLocalReturn replaceWith: localReturn.\x0a\x09\x09^ self visitIRReturn: localReturn ].\x0a\x09^ (self shouldInlineReturn: anIRNonLocalReturn)\x0a\x09\x09ifTrue: [ self nonLocalReturnInliner inlineReturn: anIRNonLocalReturn ]\x0a\x09\x09ifFalse: [ super visitIRNonLocalReturn: anIRNonLocalReturn ]",
+referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:", "canFlattenNonLocalReturns", "scope", "removeNonLocalReturn:", "methodScope", "scope:", "new", "yourself", "do:", "dagChildren", "add:", "replaceWith:", "visitIRReturn:", "ifTrue:ifFalse:", "shouldInlineReturn:", "inlineReturn:", "nonLocalReturnInliner", "visitIRNonLocalReturn:"]
+messageSends: ["ifTrue:", "canFlattenNonLocalReturns", "scope", "removeNonLocalReturn:", "methodScope", "flattenedReturn:", "replaceWith:", "visitIRReturn:", "ifTrue:ifFalse:", "shouldInlineReturn:", "inlineReturn:", "nonLocalReturnInliner", "visitIRNonLocalReturn:"]
 }, function ($methodClass){ return function (anIRNonLocalReturn){
 var self=this,$self=this;
-var localReturn;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1,$4,$3,$5,$6,$7;
+var $2,$1,$4,$3,$5;
 $2=$recv(anIRNonLocalReturn)._scope();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["scope"]=1;
 //>>excludeEnd("ctx");
 $1=$recv($2)._canFlattenNonLocalReturns();
 if($core.assert($1)){
+var localReturn;
 $4=$recv(anIRNonLocalReturn)._scope();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["scope"]=2;
 //>>excludeEnd("ctx");
 $3=$recv($4)._methodScope();
-$5=$recv(anIRNonLocalReturn)._scope();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["scope"]=3;
-//>>excludeEnd("ctx");
-$recv($3)._removeNonLocalReturn_($5);
-$6=$recv($globals.IRReturn)._new();
-$recv($6)._scope_($recv(anIRNonLocalReturn)._scope());
-localReturn=$recv($6)._yourself();
-$recv($recv(anIRNonLocalReturn)._dagChildren())._do_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(localReturn)._add_(each);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
+$recv($3)._removeNonLocalReturn_($recv(anIRNonLocalReturn)._scope());
+localReturn=$self._flattenedReturn_(anIRNonLocalReturn);
 $recv(anIRNonLocalReturn)._replaceWith_(localReturn);
 return $self._visitIRReturn_(localReturn);
 }
-$7=$self._shouldInlineReturn_(anIRNonLocalReturn);
-if($core.assert($7)){
+$5=$self._shouldInlineReturn_(anIRNonLocalReturn);
+if($core.assert($5)){
 return $recv($self._nonLocalReturnInliner())._inlineReturn_(anIRNonLocalReturn);
 } else {
 return (
@@ -742,7 +764,7 @@ $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitIRNonLocalReturn:",{anIRNonLocalReturn:anIRNonLocalReturn,localReturn:localReturn})});
+}, function($ctx1) {$ctx1.fill(self,"visitIRNonLocalReturn:",{anIRNonLocalReturn:anIRNonLocalReturn})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.IRInliner);

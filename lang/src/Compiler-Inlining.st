@@ -198,6 +198,15 @@ shouldInlineSend: anIRSend
 
 !IRInliner methodsFor: 'visiting'!
 
+flattenedReturn: anIRNonLocalReturn
+	| localReturn |
+	localReturn := IRReturn new
+		scope: anIRNonLocalReturn scope;
+		yourself.
+	anIRNonLocalReturn dagChildren do: [ :each | localReturn add: each ].
+	^ localReturn
+!
+
 visitIRAssignment: anIRAssignment
 	^ (self shouldInlineAssignment: anIRAssignment)
 		ifTrue: [ self assignmentInliner inlineAssignment: anIRAssignment ]
@@ -205,14 +214,10 @@ visitIRAssignment: anIRAssignment
 !
 
 visitIRNonLocalReturn: anIRNonLocalReturn
-	| localReturn |
 	anIRNonLocalReturn scope canFlattenNonLocalReturns ifTrue: [
+		| localReturn |
 		anIRNonLocalReturn scope methodScope removeNonLocalReturn: anIRNonLocalReturn scope.
-		localReturn := IRReturn new
-			scope: anIRNonLocalReturn scope;
-			yourself.
-		anIRNonLocalReturn dagChildren do: [ :each |
-			localReturn add: each ].
+		localReturn := self flattenedReturn: anIRNonLocalReturn.
 		anIRNonLocalReturn replaceWith: localReturn.
 		^ self visitIRReturn: localReturn ].
 	^ (self shouldInlineReturn: anIRNonLocalReturn)
