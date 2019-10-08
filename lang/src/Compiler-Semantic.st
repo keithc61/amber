@@ -106,8 +106,8 @@ addTemp: aString
 
 !LexicalScope methodsFor: 'testing'!
 
-canInlineNonLocalReturns
-	^ self isInlined and: [ self outerScope canInlineNonLocalReturns ]
+canFlattenNonLocalReturns
+	^ self isInlined and: [ self outerScope canFlattenNonLocalReturns ]
 !
 
 isBlockScope
@@ -191,7 +191,7 @@ removeNonLocalReturn: aScope
 
 !MethodLexicalScope methodsFor: 'testing'!
 
-canInlineNonLocalReturns
+canFlattenNonLocalReturns
 	^ true
 !
 

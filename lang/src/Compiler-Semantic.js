@@ -259,15 +259,15 @@ $globals.LexicalScope);
 
 $core.addMethod(
 $core.method({
-selector: "canInlineNonLocalReturns",
+selector: "canFlattenNonLocalReturns",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "canInlineNonLocalReturns\x0a\x09^ self isInlined and: [ self outerScope canInlineNonLocalReturns ]",
+source: "canFlattenNonLocalReturns\x0a\x09^ self isInlined and: [ self outerScope canFlattenNonLocalReturns ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["and:", "isInlined", "canInlineNonLocalReturns", "outerScope"]
+messageSends: ["and:", "isInlined", "canFlattenNonLocalReturns", "outerScope"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -277,13 +277,13 @@ return $recv($self._isInlined())._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($self._outerScope())._canInlineNonLocalReturns();
+return $recv($self._outerScope())._canFlattenNonLocalReturns();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"canInlineNonLocalReturns",{})});
+}, function($ctx1) {$ctx1.fill(self,"canFlattenNonLocalReturns",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.LexicalScope);
@@ -781,11 +781,11 @@ $globals.MethodLexicalScope);
 
 $core.addMethod(
 $core.method({
-selector: "canInlineNonLocalReturns",
+selector: "canFlattenNonLocalReturns",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "canInlineNonLocalReturns\x0a\x09^ true",
+source: "canFlattenNonLocalReturns\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],

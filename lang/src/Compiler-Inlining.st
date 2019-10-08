@@ -206,7 +206,7 @@ visitIRAssignment: anIRAssignment
 
 visitIRNonLocalReturn: anIRNonLocalReturn
 	| localReturn |
-	anIRNonLocalReturn scope canInlineNonLocalReturns ifTrue: [
+	anIRNonLocalReturn scope canFlattenNonLocalReturns ifTrue: [
 		anIRNonLocalReturn scope methodScope removeNonLocalReturn: anIRNonLocalReturn scope.
 		localReturn := IRReturn new
 			scope: anIRNonLocalReturn scope;
