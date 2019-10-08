@@ -232,6 +232,40 @@ testPragmaJSStatement
 	self should: 'foo < inlineJS: ''return 2+3'' >' return: 5
 !
 
+testRegression1242
+	self should: '
+		foo
+			|x|
+			x := 2.
+			x := nil ifNil: [].
+			^ x
+	' return: nil.
+	
+	self should: '
+		foo
+			|x|
+			x := 2.
+			x := 1 ifNotNil: [].
+			^ x
+	' return: nil.
+	
+	self should: '
+		foo
+			|x|
+			x := 2.
+			x := false ifFalse: [].
+			^ x
+	' return: nil.
+	
+	self should: '
+		foo
+			|x|
+			x := 2.
+			x := true ifTrue: [].
+			^ x
+	' return: nil.
+!
+
 testRegression1244
 	self should: 'foo [ ^ true ifTrue: [1] ifFalse: [2] ] value' return: 1
 !

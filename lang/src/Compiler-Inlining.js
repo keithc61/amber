@@ -1659,37 +1659,44 @@ selector: "inlinedClosure:wrapFinalValueIn:",
 protocol: "inlining",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["closure", "aBlock"],
-source: "inlinedClosure: closure wrapFinalValueIn: aBlock\x0a\x09| sequence statements |\x0a\x0a\x09sequence := closure sequence.\x0a\x09statements := sequence dagChildren.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09| final |\x0a\x09\x09final := statements last.\x0a\x09\x09final yieldsValue ifTrue: [ sequence replace: final with: (aBlock value: final) ] ].\x0a\x0a\x09^ closure",
-referencedClasses: [],
+source: "inlinedClosure: closure wrapFinalValueIn: aBlock\x0a\x09| sequence statements final |\x0a\x0a\x09sequence := closure sequence.\x0a\x09statements := sequence dagChildren.\x0a\x09\x0a\x09sequence dagChildren ifEmpty: [ sequence add: (IRVariable new\x0a\x09\x09variable: (closure scope pseudoVars at: 'nil');\x0a\x09\x09yourself) ].\x0a\x09final := statements last.\x0a\x09final yieldsValue ifTrue: [ sequence replace: final with: (aBlock value: final) ].\x0a\x0a\x09^ closure",
+referencedClasses: ["IRVariable"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["sequence", "dagChildren", "ifNotEmpty:", "last", "ifTrue:", "yieldsValue", "replace:with:", "value:"]
+messageSends: ["sequence", "dagChildren", "ifEmpty:", "add:", "variable:", "new", "at:", "pseudoVars", "scope", "yourself", "last", "ifTrue:", "yieldsValue", "replace:with:", "value:"]
 }, function ($methodClass){ return function (closure,aBlock){
 var self=this,$self=this;
-var sequence,statements;
+var sequence,statements,final;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
+var $1,$3,$2,$4;
 sequence=$recv(closure)._sequence();
 statements=$recv(sequence)._dagChildren();
-$recv(statements)._ifNotEmpty_((function(){
-var final;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["dagChildren"]=1;
+//>>excludeEnd("ctx");
+$recv($recv(sequence)._dagChildren())._ifEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-final=$recv(statements)._last();
-$1=$recv(final)._yieldsValue();
-if($core.assert($1)){
-return $recv(sequence)._replace_with_(final,$recv(aBlock)._value_(final));
-}
+$1=sequence;
+$3=$recv($globals.IRVariable)._new();
+$recv($3)._variable_($recv($recv($recv(closure)._scope())._pseudoVars())._at_("nil"));
+$2=$recv($3)._yourself();
+return $recv($1)._add_($2);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({final:final},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
+final=$recv(statements)._last();
+$4=$recv(final)._yieldsValue();
+if($core.assert($4)){
+$recv(sequence)._replace_with_(final,$recv(aBlock)._value_(final));
+}
 return closure;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"inlinedClosure:wrapFinalValueIn:",{closure:closure,aBlock:aBlock,sequence:sequence,statements:statements})});
+}, function($ctx1) {$ctx1.fill(self,"inlinedClosure:wrapFinalValueIn:",{closure:closure,aBlock:aBlock,sequence:sequence,statements:statements,final:final})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.IRSendInliner);

@@ -966,6 +966,42 @@ $globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
+selector: "testRegression1242",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRegression1242\x0a\x09self should: '\x0a\x09\x09foo\x0a\x09\x09\x09|x|\x0a\x09\x09\x09x := 2.\x0a\x09\x09\x09x := nil ifNil: [].\x0a\x09\x09\x09^ x\x0a\x09' return: nil.\x0a\x09\x0a\x09self should: '\x0a\x09\x09foo\x0a\x09\x09\x09|x|\x0a\x09\x09\x09x := 2.\x0a\x09\x09\x09x := 1 ifNotNil: [].\x0a\x09\x09\x09^ x\x0a\x09' return: nil.\x0a\x09\x0a\x09self should: '\x0a\x09\x09foo\x0a\x09\x09\x09|x|\x0a\x09\x09\x09x := 2.\x0a\x09\x09\x09x := false ifFalse: [].\x0a\x09\x09\x09^ x\x0a\x09' return: nil.\x0a\x09\x0a\x09self should: '\x0a\x09\x09foo\x0a\x09\x09\x09|x|\x0a\x09\x09\x09x := 2.\x0a\x09\x09\x09x := true ifTrue: [].\x0a\x09\x09\x09^ x\x0a\x09' return: nil.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:return:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._should_return_("\x0a\x09\x09foo\x0a\x09\x09\x09|x|\x0a\x09\x09\x09x := 2.\x0a\x09\x09\x09x := nil ifNil: [].\x0a\x09\x09\x09^ x\x0a\x09",nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["should:return:"]=1;
+//>>excludeEnd("ctx");
+$self._should_return_("\x0a\x09\x09foo\x0a\x09\x09\x09|x|\x0a\x09\x09\x09x := 2.\x0a\x09\x09\x09x := 1 ifNotNil: [].\x0a\x09\x09\x09^ x\x0a\x09",nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["should:return:"]=2;
+//>>excludeEnd("ctx");
+$self._should_return_("\x0a\x09\x09foo\x0a\x09\x09\x09|x|\x0a\x09\x09\x09x := 2.\x0a\x09\x09\x09x := false ifFalse: [].\x0a\x09\x09\x09^ x\x0a\x09",nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["should:return:"]=3;
+//>>excludeEnd("ctx");
+$self._should_return_("\x0a\x09\x09foo\x0a\x09\x09\x09|x|\x0a\x09\x09\x09x := 2.\x0a\x09\x09\x09x := true ifTrue: [].\x0a\x09\x09\x09^ x\x0a\x09",nil);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testRegression1242",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCompilerTest);
+
+$core.addMethod(
+$core.method({
 selector: "testRegression1244",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);

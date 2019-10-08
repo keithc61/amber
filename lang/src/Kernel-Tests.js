@@ -1892,7 +1892,9 @@ $self._should_raise_((function(){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if($core.assert("")){
+return nil;
 } else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
