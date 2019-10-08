@@ -1655,6 +1655,47 @@ $globals.IRSendInliner);
 
 $core.addMethod(
 $core.method({
+selector: "inlinedClosure:wrapFinalValueIn:",
+protocol: "inlining",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["closure", "aBlock"],
+source: "inlinedClosure: closure wrapFinalValueIn: aBlock\x0a\x09| sequence statements |\x0a\x0a\x09sequence := closure sequence.\x0a\x09statements := sequence dagChildren.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09| final |\x0a\x09\x09final := statements last.\x0a\x09\x09final yieldsValue ifTrue: [ sequence replace: final with: (aBlock value: final) ] ].\x0a\x0a\x09^ closure",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["sequence", "dagChildren", "ifNotEmpty:", "last", "ifTrue:", "yieldsValue", "replace:with:", "value:"]
+}, function ($methodClass){ return function (closure,aBlock){
+var self=this,$self=this;
+var sequence,statements;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+sequence=$recv(closure)._sequence();
+statements=$recv(sequence)._dagChildren();
+$recv(statements)._ifNotEmpty_((function(){
+var final;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+final=$recv(statements)._last();
+$1=$recv(final)._yieldsValue();
+if($core.assert($1)){
+return $recv(sequence)._replace_with_(final,$recv(aBlock)._value_(final));
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({final:final},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return closure;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"inlinedClosure:wrapFinalValueIn:",{closure:closure,aBlock:aBlock,sequence:sequence,statements:statements})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.IRSendInliner);
+
+$core.addMethod(
+$core.method({
 selector: "inlinedSend:withBlock:",
 protocol: "private",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1989,19 +2030,18 @@ selector: "inlineClosure:",
 protocol: "inlining",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRClosure"],
-source: "inlineClosure: anIRClosure\x0a\x09| closure sequence statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09sequence := closure sequence.\x0a\x09statements := sequence dagChildren.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09| final |\x0a\x09\x09final := statements last.\x0a\x09\x09final yieldsValue ifTrue: [\x0a\x09\x09\x09sequence replace: final with: (IRAssignment new\x0a\x09\x09\x09\x09add: self target;\x0a\x09\x09\x09\x09add: final copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ closure",
+source: "inlineClosure: anIRClosure\x0a\x09^ self\x0a\x09\x09inlinedClosure: (super inlineClosure: anIRClosure)\x0a\x09\x09wrapFinalValueIn: [ :final |\x0a\x09\x09\x09IRAssignment new\x0a\x09\x09\x09\x09add: self target;\x0a\x09\x09\x09\x09add: final copy;\x0a\x09\x09\x09\x09yourself ]",
 referencedClasses: ["IRAssignment"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["inlineClosure:", "sequence", "dagChildren", "ifNotEmpty:", "last", "ifTrue:", "yieldsValue", "replace:with:", "add:", "new", "target", "copy", "yourself"]
+messageSends: ["inlinedClosure:wrapFinalValueIn:", "inlineClosure:", "add:", "new", "target", "copy", "yourself"]
 }, function ($methodClass){ return function (anIRClosure){
 var self=this,$self=this;
-var closure,sequence,statements;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$5,$4;
-closure=(
+var $1,$2;
+$1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
@@ -2009,34 +2049,23 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-sequence=$recv(closure)._sequence();
-statements=$recv(sequence)._dagChildren();
-$recv(statements)._ifNotEmpty_((function(){
-var final;
+return $self._inlinedClosure_wrapFinalValueIn_($1,(function(final){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-final=$recv(statements)._last();
-$1=$recv(final)._yieldsValue();
-if($core.assert($1)){
-$2=sequence;
-$3=final;
-$5=$recv($globals.IRAssignment)._new();
-$recv($5)._add_($self._target());
+$2=$recv($globals.IRAssignment)._new();
+$recv($2)._add_($self._target());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["add:"]=1;
 //>>excludeEnd("ctx");
-$recv($5)._add_($recv(final)._copy());
-$4=$recv($5)._yourself();
-return $recv($2)._replace_with_($3,$4);
-}
+$recv($2)._add_($recv(final)._copy());
+return $recv($2)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({final:final},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-return closure;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"inlineClosure:",{anIRClosure:anIRClosure,closure:closure,sequence:sequence,statements:statements})});
+}, function($ctx1) {$ctx1.fill(self,"inlineClosure:",{anIRClosure:anIRClosure})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.IRAssignmentInliner);
@@ -2090,19 +2119,18 @@ selector: "inlineClosure:",
 protocol: "inlining",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRClosure"],
-source: "inlineClosure: anIRClosure\x0a\x09| closure sequence statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09sequence := closure sequence.\x0a\x09statements := sequence dagChildren.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09| final |\x0a\x09\x09final := statements last.\x0a\x09\x09final yieldsValue ifTrue: [\x0a\x09\x09\x09sequence replace: final with: (IRNonLocalReturn new\x0a\x09\x09\x09\x09add: final copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ closure",
+source: "inlineClosure: anIRClosure\x0a\x09^ self\x0a\x09\x09inlinedClosure: (super inlineClosure: anIRClosure)\x0a\x09\x09wrapFinalValueIn: [ :final |\x0a\x09\x09\x09IRNonLocalReturn new\x0a\x09\x09\x09\x09add: final copy;\x0a\x09\x09\x09\x09yourself ]",
 referencedClasses: ["IRNonLocalReturn"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["inlineClosure:", "sequence", "dagChildren", "ifNotEmpty:", "last", "ifTrue:", "yieldsValue", "replace:with:", "add:", "new", "copy", "yourself"]
+messageSends: ["inlinedClosure:wrapFinalValueIn:", "inlineClosure:", "add:", "new", "copy", "yourself"]
 }, function ($methodClass){ return function (anIRClosure){
 var self=this,$self=this;
-var closure,sequence,statements;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$5,$4;
-closure=(
+var $1,$2;
+$1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
@@ -2110,30 +2138,19 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-sequence=$recv(closure)._sequence();
-statements=$recv(sequence)._dagChildren();
-$recv(statements)._ifNotEmpty_((function(){
-var final;
+return $self._inlinedClosure_wrapFinalValueIn_($1,(function(final){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-final=$recv(statements)._last();
-$1=$recv(final)._yieldsValue();
-if($core.assert($1)){
-$2=sequence;
-$3=final;
-$5=$recv($globals.IRNonLocalReturn)._new();
-$recv($5)._add_($recv(final)._copy());
-$4=$recv($5)._yourself();
-return $recv($2)._replace_with_($3,$4);
-}
+$2=$recv($globals.IRNonLocalReturn)._new();
+$recv($2)._add_($recv(final)._copy());
+return $recv($2)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({final:final},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-return closure;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"inlineClosure:",{anIRClosure:anIRClosure,closure:closure,sequence:sequence,statements:statements})});
+}, function($ctx1) {$ctx1.fill(self,"inlineClosure:",{anIRClosure:anIRClosure})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.IRNonLocalReturnInliner);
@@ -2173,19 +2190,18 @@ selector: "inlineClosure:",
 protocol: "inlining",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRClosure"],
-source: "inlineClosure: anIRClosure\x0a\x09| closure sequence statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09sequence := closure sequence.\x0a\x09statements := sequence dagChildren.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09| final |\x0a\x09\x09final := statements last.\x0a\x09\x09final yieldsValue ifTrue: [\x0a\x09\x09\x09sequence replace: final with: (IRReturn new\x0a\x09\x09\x09\x09add: final copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ closure",
+source: "inlineClosure: anIRClosure\x0a\x09^ self\x0a\x09\x09inlinedClosure: (super inlineClosure: anIRClosure)\x0a\x09\x09wrapFinalValueIn: [ :final |\x0a\x09\x09\x09IRReturn new\x0a\x09\x09\x09\x09add: final copy;\x0a\x09\x09\x09\x09yourself ]",
 referencedClasses: ["IRReturn"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["inlineClosure:", "sequence", "dagChildren", "ifNotEmpty:", "last", "ifTrue:", "yieldsValue", "replace:with:", "add:", "new", "copy", "yourself"]
+messageSends: ["inlinedClosure:wrapFinalValueIn:", "inlineClosure:", "add:", "new", "copy", "yourself"]
 }, function ($methodClass){ return function (anIRClosure){
 var self=this,$self=this;
-var closure,sequence,statements;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$5,$4;
-closure=(
+var $1,$2;
+$1=(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
@@ -2193,30 +2209,19 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-sequence=$recv(closure)._sequence();
-statements=$recv(sequence)._dagChildren();
-$recv(statements)._ifNotEmpty_((function(){
-var final;
+return $self._inlinedClosure_wrapFinalValueIn_($1,(function(final){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-final=$recv(statements)._last();
-$1=$recv(final)._yieldsValue();
-if($core.assert($1)){
-$2=sequence;
-$3=final;
-$5=$recv($globals.IRReturn)._new();
-$recv($5)._add_($recv(final)._copy());
-$4=$recv($5)._yourself();
-return $recv($2)._replace_with_($3,$4);
-}
+$2=$recv($globals.IRReturn)._new();
+$recv($2)._add_($recv(final)._copy());
+return $recv($2)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({final:final},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-return closure;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"inlineClosure:",{anIRClosure:anIRClosure,closure:closure,sequence:sequence,statements:statements})});
+}, function($ctx1) {$ctx1.fill(self,"inlineClosure:",{anIRClosure:anIRClosure})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.IRReturnInliner);

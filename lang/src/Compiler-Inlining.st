@@ -422,6 +422,20 @@ inlineSend: anIRSend
 	^ self
 		perform: self send selector
 		withArguments: self send arguments
+!
+
+inlinedClosure: closure wrapFinalValueIn: aBlock
+	| sequence statements |
+
+	sequence := closure sequence.
+	statements := sequence dagChildren.
+	
+	statements ifNotEmpty: [
+		| final |
+		final := statements last.
+		final yieldsValue ifTrue: [ sequence replace: final with: (aBlock value: final) ] ].
+
+	^ closure
 ! !
 
 !IRSendInliner methodsFor: 'private'!
@@ -518,22 +532,13 @@ inlineAssignment: anIRAssignment
 !
 
 inlineClosure: anIRClosure
-	| closure sequence statements |
-
-	closure := super inlineClosure: anIRClosure.
-	sequence := closure sequence.
-	statements := sequence dagChildren.
-	
-	statements ifNotEmpty: [
-		| final |
-		final := statements last.
-		final yieldsValue ifTrue: [
-			sequence replace: final with: (IRAssignment new
+	^ self
+		inlinedClosure: (super inlineClosure: anIRClosure)
+		wrapFinalValueIn: [ :final |
+			IRAssignment new
 				add: self target;
 				add: final copy;
-				yourself) ] ].
-
-	^ closure
+				yourself ]
 ! !
 
 IRSendInliner subclass: #IRNonLocalReturnInliner
@@ -545,21 +550,12 @@ I inline message sends with inlined closure together with a return instruction.!
 !IRNonLocalReturnInliner methodsFor: 'inlining'!
 
 inlineClosure: anIRClosure
-	| closure sequence statements |
-
-	closure := super inlineClosure: anIRClosure.
-	sequence := closure sequence.
-	statements := sequence dagChildren.
-	
-	statements ifNotEmpty: [
-		| final |
-		final := statements last.
-		final yieldsValue ifTrue: [
-			sequence replace: final with: (IRNonLocalReturn new
+	^ self
+		inlinedClosure: (super inlineClosure: anIRClosure)
+		wrapFinalValueIn: [ :final |
+			IRNonLocalReturn new
 				add: final copy;
-				yourself) ] ].
-
-	^ closure
+				yourself ]
 !
 
 inlineReturn: anIRReturn
@@ -575,21 +571,12 @@ I inline message sends with inlined closure together with a return instruction.!
 !IRReturnInliner methodsFor: 'inlining'!
 
 inlineClosure: anIRClosure
-	| closure sequence statements |
-
-	closure := super inlineClosure: anIRClosure.
-	sequence := closure sequence.
-	statements := sequence dagChildren.
-	
-	statements ifNotEmpty: [
-		| final |
-		final := statements last.
-		final yieldsValue ifTrue: [
-			sequence replace: final with: (IRReturn new
+	^ self
+		inlinedClosure: (super inlineClosure: anIRClosure)
+		wrapFinalValueIn: [ :final |
+			IRReturn new
 				add: final copy;
-				yourself) ] ].
-
-	^ closure
+				yourself ]
 !
 
 inlineReturn: anIRReturn
