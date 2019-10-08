@@ -266,6 +266,13 @@ testRegression1242
 	' return: nil.
 !
 
+testRegression1242ForReturn
+	self should: 'foo [ ^ nil ifNil: [] ] value' return: nil.
+	self should: 'foo [ ^ 1 ifNotNil: [] ] value' return: nil.
+	self should: 'foo [ ^ false ifFalse: [] ] value' return: nil.
+	self should: 'foo [ ^ true ifTrue: [] ] value' return: nil.
+!
+
 testRegression1244
 	self should: 'foo [ ^ true ifTrue: [1] ifFalse: [2] ] value' return: 1
 !

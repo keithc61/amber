@@ -1002,6 +1002,42 @@ $globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
+selector: "testRegression1242ForReturn",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRegression1242ForReturn\x0a\x09self should: 'foo [ ^ nil ifNil: [] ] value' return: nil.\x0a\x09self should: 'foo [ ^ 1 ifNotNil: [] ] value' return: nil.\x0a\x09self should: 'foo [ ^ false ifFalse: [] ] value' return: nil.\x0a\x09self should: 'foo [ ^ true ifTrue: [] ] value' return: nil.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:return:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._should_return_("foo [ ^ nil ifNil: [] ] value",nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["should:return:"]=1;
+//>>excludeEnd("ctx");
+$self._should_return_("foo [ ^ 1 ifNotNil: [] ] value",nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["should:return:"]=2;
+//>>excludeEnd("ctx");
+$self._should_return_("foo [ ^ false ifFalse: [] ] value",nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["should:return:"]=3;
+//>>excludeEnd("ctx");
+$self._should_return_("foo [ ^ true ifTrue: [] ] value",nil);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testRegression1242ForReturn",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCompilerTest);
+
+$core.addMethod(
+$core.method({
 selector: "testRegression1244",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
