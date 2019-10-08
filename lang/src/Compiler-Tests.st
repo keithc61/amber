@@ -232,6 +232,10 @@ testPragmaJSStatement
 	self should: 'foo < inlineJS: ''return 2+3'' >' return: 5
 !
 
+testRegression1244
+	self should: 'foo [ ^ true ifTrue: [1] ifFalse: [2] ] value' return: 1
+!
+
 testRootSuperSend
 	self 
 		should: 'foo ^ super class' 

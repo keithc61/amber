@@ -159,6 +159,12 @@ assignmentInliner
 		yourself
 !
 
+nonLocalReturnInliner
+	^ IRNonLocalReturnInliner new
+		translator: self;
+		yourself
+!
+
 returnInliner
 	^ IRReturnInliner new
 		translator: self;
@@ -209,7 +215,9 @@ visitIRNonLocalReturn: anIRNonLocalReturn
 			localReturn add: each ].
 		anIRNonLocalReturn replaceWith: localReturn.
 		^ self visitIRReturn: localReturn ].
-	^ super visitIRNonLocalReturn: anIRNonLocalReturn
+	^ (self shouldInlineReturn: anIRNonLocalReturn)
+		ifTrue: [ self nonLocalReturnInliner inlineReturn: anIRNonLocalReturn ]
+		ifFalse: [ super visitIRNonLocalReturn: anIRNonLocalReturn ]
 !
 
 visitIRReturn: anIRReturn
@@ -521,6 +529,36 @@ inlineClosure: anIRClosure
 				yourself) ] ].
 
 	^ closure
+! !
+
+IRSendInliner subclass: #IRNonLocalReturnInliner
+	slots: {}
+	package: 'Compiler-Inlining'!
+!IRNonLocalReturnInliner commentStamp!
+I inline message sends with inlined closure together with a return instruction.!
+
+!IRNonLocalReturnInliner methodsFor: 'inlining'!
+
+inlineClosure: anIRClosure
+	| closure sequence statements |
+
+	closure := super inlineClosure: anIRClosure.
+	sequence := closure sequence.
+	statements := sequence dagChildren.
+	
+	statements ifNotEmpty: [
+		| final |
+		final := statements last.
+		final yieldsValue ifTrue: [
+			sequence replace: final with: (IRNonLocalReturn new
+				add: final copy;
+				yourself) ] ].
+
+	^ closure
+!
+
+inlineReturn: anIRReturn
+	^ self inlineSend: anIRReturn expression andReplace: anIRReturn
 ! !
 
 IRSendInliner subclass: #IRReturnInliner

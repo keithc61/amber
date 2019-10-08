@@ -966,6 +966,30 @@ $globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
+selector: "testRegression1244",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRegression1244\x0a\x09self should: 'foo [ ^ true ifTrue: [1] ifFalse: [2] ] value' return: 1",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:return:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._should_return_("foo [ ^ true ifTrue: [1] ifFalse: [2] ] value",(1));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testRegression1244",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCompilerTest);
+
+$core.addMethod(
+$core.method({
 selector: "testRootSuperSend",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);

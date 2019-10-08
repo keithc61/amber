@@ -438,6 +438,32 @@ $globals.IRInliner);
 
 $core.addMethod(
 $core.method({
+selector: "nonLocalReturnInliner",
+protocol: "factory",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "nonLocalReturnInliner\x0a\x09^ IRNonLocalReturnInliner new\x0a\x09\x09translator: self;\x0a\x09\x09yourself",
+referencedClasses: ["IRNonLocalReturnInliner"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["translator:", "new", "yourself"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($globals.IRNonLocalReturnInliner)._new();
+$recv($1)._translator_(self);
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"nonLocalReturnInliner",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.IRInliner);
+
+$core.addMethod(
+$core.method({
 selector: "returnInliner",
 protocol: "factory",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -659,11 +685,11 @@ selector: "visitIRNonLocalReturn:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRNonLocalReturn"],
-source: "visitIRNonLocalReturn: anIRNonLocalReturn\x0a\x09| localReturn |\x0a\x09anIRNonLocalReturn scope canInlineNonLocalReturns ifTrue: [\x0a\x09\x09anIRNonLocalReturn scope methodScope removeNonLocalReturn: anIRNonLocalReturn scope.\x0a\x09\x09localReturn := IRReturn new\x0a\x09\x09\x09scope: anIRNonLocalReturn scope;\x0a\x09\x09\x09yourself.\x0a\x09\x09anIRNonLocalReturn dagChildren do: [ :each |\x0a\x09\x09\x09localReturn add: each ].\x0a\x09\x09anIRNonLocalReturn replaceWith: localReturn.\x0a\x09\x09^ self visitIRReturn: localReturn ].\x0a\x09^ super visitIRNonLocalReturn: anIRNonLocalReturn",
+source: "visitIRNonLocalReturn: anIRNonLocalReturn\x0a\x09| localReturn |\x0a\x09anIRNonLocalReturn scope canInlineNonLocalReturns ifTrue: [\x0a\x09\x09anIRNonLocalReturn scope methodScope removeNonLocalReturn: anIRNonLocalReturn scope.\x0a\x09\x09localReturn := IRReturn new\x0a\x09\x09\x09scope: anIRNonLocalReturn scope;\x0a\x09\x09\x09yourself.\x0a\x09\x09anIRNonLocalReturn dagChildren do: [ :each |\x0a\x09\x09\x09localReturn add: each ].\x0a\x09\x09anIRNonLocalReturn replaceWith: localReturn.\x0a\x09\x09^ self visitIRReturn: localReturn ].\x0a\x09^ (self shouldInlineReturn: anIRNonLocalReturn)\x0a\x09\x09ifTrue: [ self nonLocalReturnInliner inlineReturn: anIRNonLocalReturn ]\x0a\x09\x09ifFalse: [ super visitIRNonLocalReturn: anIRNonLocalReturn ]",
 referencedClasses: ["IRReturn"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:", "canInlineNonLocalReturns", "scope", "removeNonLocalReturn:", "methodScope", "scope:", "new", "yourself", "do:", "dagChildren", "add:", "replaceWith:", "visitIRReturn:", "visitIRNonLocalReturn:"]
+messageSends: ["ifTrue:", "canInlineNonLocalReturns", "scope", "removeNonLocalReturn:", "methodScope", "scope:", "new", "yourself", "do:", "dagChildren", "add:", "replaceWith:", "visitIRReturn:", "ifTrue:ifFalse:", "shouldInlineReturn:", "inlineReturn:", "nonLocalReturnInliner", "visitIRNonLocalReturn:"]
 }, function ($methodClass){ return function (anIRNonLocalReturn){
 var self=this,$self=this;
 var localReturn;
@@ -702,7 +728,11 @@ return $recv(localReturn)._add_(each);
 $recv(anIRNonLocalReturn)._replaceWith_(localReturn);
 return $self._visitIRReturn_(localReturn);
 }
-$7=(
+$7=$self._shouldInlineReturn_(anIRNonLocalReturn);
+if($core.assert($7)){
+return $recv($self._nonLocalReturnInliner())._inlineReturn_(anIRNonLocalReturn);
+} else {
+return (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
@@ -710,7 +740,7 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-return $7;
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitIRNonLocalReturn:",{anIRNonLocalReturn:anIRNonLocalReturn,localReturn:localReturn})});
 //>>excludeEnd("ctx");
@@ -2025,6 +2055,89 @@ return self;
 
 }; }),
 $globals.IRAssignmentInliner);
+
+
+
+$core.addClass("IRNonLocalReturnInliner", $globals.IRSendInliner, [], "Compiler-Inlining");
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.IRNonLocalReturnInliner.comment="I inline message sends with inlined closure together with a return instruction.";
+//>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "inlineClosure:",
+protocol: "inlining",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anIRClosure"],
+source: "inlineClosure: anIRClosure\x0a\x09| closure sequence statements |\x0a\x0a\x09closure := super inlineClosure: anIRClosure.\x0a\x09sequence := closure sequence.\x0a\x09statements := sequence dagChildren.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09| final |\x0a\x09\x09final := statements last.\x0a\x09\x09final yieldsValue ifTrue: [\x0a\x09\x09\x09sequence replace: final with: (IRNonLocalReturn new\x0a\x09\x09\x09\x09add: final copy;\x0a\x09\x09\x09\x09yourself) ] ].\x0a\x0a\x09^ closure",
+referencedClasses: ["IRNonLocalReturn"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["inlineClosure:", "sequence", "dagChildren", "ifNotEmpty:", "last", "ifTrue:", "yieldsValue", "replace:with:", "add:", "new", "copy", "yourself"]
+}, function ($methodClass){ return function (anIRClosure){
+var self=this,$self=this;
+var closure,sequence,statements;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$3,$5,$4;
+closure=(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._inlineClosure_.call($self,anIRClosure));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+sequence=$recv(closure)._sequence();
+statements=$recv(sequence)._dagChildren();
+$recv(statements)._ifNotEmpty_((function(){
+var final;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+final=$recv(statements)._last();
+$1=$recv(final)._yieldsValue();
+if($core.assert($1)){
+$2=sequence;
+$3=final;
+$5=$recv($globals.IRNonLocalReturn)._new();
+$recv($5)._add_($recv(final)._copy());
+$4=$recv($5)._yourself();
+return $recv($2)._replace_with_($3,$4);
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({final:final},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return closure;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"inlineClosure:",{anIRClosure:anIRClosure,closure:closure,sequence:sequence,statements:statements})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.IRNonLocalReturnInliner);
+
+$core.addMethod(
+$core.method({
+selector: "inlineReturn:",
+protocol: "inlining",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anIRReturn"],
+source: "inlineReturn: anIRReturn\x0a\x09^ self inlineSend: anIRReturn expression andReplace: anIRReturn",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["inlineSend:andReplace:", "expression"]
+}, function ($methodClass){ return function (anIRReturn){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self._inlineSend_andReplace_($recv(anIRReturn)._expression(),anIRReturn);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"inlineReturn:",{anIRReturn:anIRReturn})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.IRNonLocalReturnInliner);
 
 
 
