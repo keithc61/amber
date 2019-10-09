@@ -966,6 +966,34 @@ $globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
+selector: "testReceiverEvaluatedOnceInSpecials",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testReceiverEvaluatedOnceInSpecials\x0a\x09self should: 'foo |x| x := 1. ^ {[ x := x+1 ] value ifNil: []. x}' return: {2. 2}.\x0a\x09self should: 'foo |xs| xs := {nil. nil}. ^ {[ xs removeLast ] value ifNotNil: []. xs}' return: {nil. {nil}}.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:return:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._should_return_("foo |x| x := 1. ^ {[ x := x+1 ] value ifNil: []. x}",[(2),(2)]);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["should:return:"]=1;
+//>>excludeEnd("ctx");
+$self._should_return_("foo |xs| xs := {nil. nil}. ^ {[ xs removeLast ] value ifNotNil: []. xs}",[nil,[nil]]);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testReceiverEvaluatedOnceInSpecials",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCompilerTest);
+
+$core.addMethod(
+$core.method({
 selector: "testRegression1242",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
