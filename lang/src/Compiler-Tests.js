@@ -1234,6 +1234,30 @@ $globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
+selector: "testSuperSend6",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSuperSend6\x0a\x09self \x0a\x09\x09should: 'foo ^ super ifTrue: [ true ] ifFalse: [ false ]' \x0a\x09\x09receiver: true\x0a\x09\x09raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:receiver:raise:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._should_receiver_raise_("foo ^ super ifTrue: [ true ] ifFalse: [ false ]",true,$globals.Error);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testSuperSend6",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCompilerTest);
+
+$core.addMethod(
+$core.method({
 selector: "testTempVariables",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);

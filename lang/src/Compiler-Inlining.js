@@ -1972,19 +1972,23 @@ selector: "shouldInline:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSend"],
-source: "shouldInline: anIRSend\x0a\x09(self inlinedSelectors includes: anIRSend selector) ifFalse: [ ^ false ].\x0a\x09^ anIRSend arguments allSatisfy: [ :each | each isClosure ]",
+source: "shouldInline: anIRSend\x0a\x09(self inlinedSelectors includes: anIRSend selector) ifFalse: [ ^ false ].\x0a\x09anIRSend receiver isSuper ifTrue: [ ^ false ].\x0a\x09^ anIRSend arguments allSatisfy: [ :each | each isClosure ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifFalse:", "includes:", "inlinedSelectors", "selector", "allSatisfy:", "arguments", "isClosure"]
+messageSends: ["ifFalse:", "includes:", "inlinedSelectors", "selector", "ifTrue:", "isSuper", "receiver", "allSatisfy:", "arguments", "isClosure"]
 }, function ($methodClass){ return function (anIRSend){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
+var $1,$2;
 $1=$recv($self._inlinedSelectors())._includes_($recv(anIRSend)._selector());
 if(!$core.assert($1)){
+return false;
+}
+$2=$recv($recv(anIRSend)._receiver())._isSuper();
+if($core.assert($2)){
 return false;
 }
 return $recv($recv(anIRSend)._arguments())._allSatisfy_((function(each){
@@ -1993,7 +1997,7 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 return $recv(each)._isClosure();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

@@ -335,6 +335,13 @@ testSuperSend5
 		return: #(1 2 3 5)
 !
 
+testSuperSend6
+	self 
+		should: 'foo ^ super ifTrue: [ true ] ifFalse: [ false ]' 
+		receiver: true
+		raise: Error
+!
+
 testTempVariables
 	self should: 'foo | a | ^ a' return: nil.
 	self should: 'foo | AVariable | ^ AVariable' return: nil.

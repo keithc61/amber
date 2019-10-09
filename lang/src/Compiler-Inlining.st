@@ -494,6 +494,7 @@ inlinedSelectors
 
 shouldInline: anIRSend
 	(self inlinedSelectors includes: anIRSend selector) ifFalse: [ ^ false ].
+	anIRSend receiver isSuper ifTrue: [ ^ false ].
 	^ anIRSend arguments allSatisfy: [ :each | each isClosure ]
 ! !
 
