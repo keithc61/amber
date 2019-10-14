@@ -1821,6 +1821,10 @@ testRegression1228
 	self should: [#(1 2 3) asSet remove: 4] raise: Error
 !
 
+testRegression1245
+	self assert: ({Object. String} asSet remove: String) equals: String
+!
+
 testUnboxedObjects
 	self assert: {'foo' yourself. 'foo' yourself} asSet asArray equals: #('foo')
 !

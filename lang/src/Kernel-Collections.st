@@ -1700,7 +1700,7 @@ remove: anObject ifAbsent: aBlock
 	| bucket |
 	bucket := self bucketsOfElement: anObject.
 	^ bucket second
-		ifNil: [ bucket third remove: bucket first ifAbsent: [ ^aBlock value ]. size := size - 1 ]
+		ifNil: [ | obj | obj := bucket first. bucket third remove: obj ifAbsent: [ ^aBlock value ]. size := size - 1. obj ]
 		ifNotNil: [ :primitiveBucket | self remove: bucket first in: primitiveBucket ifAbsent: aBlock ]
 !
 

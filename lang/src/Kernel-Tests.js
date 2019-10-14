@@ -9725,6 +9725,30 @@ $globals.SetTest);
 
 $core.addMethod(
 $core.method({
+selector: "testRegression1245",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRegression1245\x0a\x09self assert: ({Object. String} asSet remove: String) equals: String",
+referencedClasses: ["Object", "String"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "remove:", "asSet"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._assert_equals_($recv($recv([$globals.Object,$globals.String])._asSet())._remove_($globals.String),$globals.String);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testRegression1245",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SetTest);
+
+$core.addMethod(
+$core.method({
 selector: "testUnboxedObjects",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);

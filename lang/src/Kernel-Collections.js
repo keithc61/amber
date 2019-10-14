@@ -7753,29 +7753,29 @@ selector: "remove:ifAbsent:",
 protocol: "adding/removing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject", "aBlock"],
-source: "remove: anObject ifAbsent: aBlock\x0a\x09| bucket |\x0a\x09bucket := self bucketsOfElement: anObject.\x0a\x09^ bucket second\x0a\x09\x09ifNil: [ bucket third remove: bucket first ifAbsent: [ ^aBlock value ]. size := size - 1 ]\x0a\x09\x09ifNotNil: [ :primitiveBucket | self remove: bucket first in: primitiveBucket ifAbsent: aBlock ]",
+source: "remove: anObject ifAbsent: aBlock\x0a\x09| bucket |\x0a\x09bucket := self bucketsOfElement: anObject.\x0a\x09^ bucket second\x0a\x09\x09ifNil: [ | obj | obj := bucket first. bucket third remove: obj ifAbsent: [ ^aBlock value ]. size := size - 1. obj ]\x0a\x09\x09ifNotNil: [ :primitiveBucket | self remove: bucket first in: primitiveBucket ifAbsent: aBlock ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["bucketsOfElement:", "ifNil:ifNotNil:", "second", "remove:ifAbsent:", "third", "first", "value", "-", "remove:in:ifAbsent:"]
+messageSends: ["bucketsOfElement:", "ifNil:ifNotNil:", "second", "first", "remove:ifAbsent:", "third", "value", "-", "remove:in:ifAbsent:"]
 }, function ($methodClass){ return function (anObject,aBlock){
 var self=this,$self=this;
 var bucket;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$receiver;
+var $1,$receiver;
 var $early={};
 try {
 bucket=$self._bucketsOfElement_(anObject);
 $1=$recv(bucket)._second();
 if(($receiver = $1) == null || $receiver.a$nil){
-$2=$recv(bucket)._third();
-$3=$recv(bucket)._first();
+var obj;
+obj=$recv(bucket)._first();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["first"]=1;
 //>>excludeEnd("ctx");
-$recv($2)._remove_ifAbsent_($3,(function(){
+$recv($recv(bucket)._third())._remove_ifAbsent_(obj,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -7785,7 +7785,7 @@ throw $early=[$recv(aBlock)._value()];
 //>>excludeEnd("ctx");
 }));
 $self.size=$recv($self.size).__minus((1));
-return $self.size;
+return obj;
 } else {
 var primitiveBucket;
 primitiveBucket=$receiver;
