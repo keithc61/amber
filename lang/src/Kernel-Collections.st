@@ -974,6 +974,10 @@ reversed
 
 copyFrom: anIndex to: anotherIndex
 	self subclassResponsibility
+!
+
+copyWithFirst: anObject
+	^ (self class with: anObject) addAll: self; yourself
 ! !
 
 !SequenceableCollection methodsFor: 'enumerating'!
@@ -1386,6 +1390,12 @@ uriEncoded
 
 copyFrom: anIndex to: anotherIndex
 	<inlineJS: 'return self.substring(anIndex - 1, anotherIndex)'>
+!
+
+copyWithFirst: anObject
+	(anObject isString and: [ anObject size = 1 ]) "character is one-char string in JS"
+		ifFalse: [ self error: 'Cannot put ', anObject class name, ' in a String' ].
+	^ anObject, self
 !
 
 deepCopy

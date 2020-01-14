@@ -450,9 +450,7 @@ arguments: aCollection
 dagChildren
 	self receiver ifNil: [ ^ self arguments copy ].
 	
-	^ (Array with: self receiver)
-		addAll: self arguments;
-		yourself
+	^ self arguments copyWithFirst: self receiver
 !
 
 index

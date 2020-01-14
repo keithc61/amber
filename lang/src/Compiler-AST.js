@@ -1783,17 +1783,17 @@ selector: "dagChildren",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "dagChildren\x0a\x09self receiver ifNil: [ ^ self arguments copy ].\x0a\x09\x0a\x09^ (Array with: self receiver)\x0a\x09\x09addAll: self arguments;\x0a\x09\x09yourself",
-referencedClasses: ["Array"],
+source: "dagChildren\x0a\x09self receiver ifNil: [ ^ self arguments copy ].\x0a\x09\x0a\x09^ self arguments copyWithFirst: self receiver",
+referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNil:", "receiver", "copy", "arguments", "addAll:", "with:", "yourself"]
+messageSends: ["ifNil:", "receiver", "copy", "arguments", "copyWithFirst:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$receiver;
+var $1,$2,$receiver;
 $1=$self._receiver();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["receiver"]=1;
@@ -1807,9 +1807,7 @@ return $recv($2)._copy();
 } else {
 $1;
 }
-$3=$recv($globals.Array)._with_($self._receiver());
-$recv($3)._addAll_($self._arguments());
-return $recv($3)._yourself();
+return $recv($self._arguments())._copyWithFirst_($self._receiver());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"dagChildren",{})});
 //>>excludeEnd("ctx");

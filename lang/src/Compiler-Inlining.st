@@ -82,7 +82,7 @@ I represent an inlined `#ifNil:ifNotNil:` message send instruction.!
 !IRInlinedIfNilIfNotNil methodsFor: 'accessing'!
 
 internalVariables
-	^ Array with: self receiverInternalVariable
+	^ { self receiverInternalVariable }
 !
 
 receiverInternalVariable

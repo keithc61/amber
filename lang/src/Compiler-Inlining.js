@@ -232,17 +232,17 @@ selector: "internalVariables",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "internalVariables\x0a\x09^ Array with: self receiverInternalVariable",
-referencedClasses: ["Array"],
+source: "internalVariables\x0a\x09^ { self receiverInternalVariable }",
+referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["with:", "receiverInternalVariable"]
+messageSends: ["receiverInternalVariable"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($globals.Array)._with_($self._receiverInternalVariable());
+return [$self._receiverInternalVariable()];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"internalVariables",{})});
 //>>excludeEnd("ctx");

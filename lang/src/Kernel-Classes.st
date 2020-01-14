@@ -39,9 +39,7 @@ allSuperclasses
 	
 	self superclass ifNil: [ ^ #() ].
 	
-	^ (OrderedCollection with: self superclass)
-		addAll: self superclass allSuperclasses;
-		yourself
+	^ self superclass allSuperclasses copyWithFirst: self superclass
 !
 
 applySuperConstructorOn: anObject withArguments: anArray
@@ -132,7 +130,7 @@ theNonMetaClass
 !
 
 withAllSubclasses
-	^ (Array with: self) addAll: self allSubclasses; yourself
+	^ self allSubclasses copyWithFirst: self
 ! !
 
 !Behavior methodsFor: 'enumerating'!

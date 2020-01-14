@@ -3876,6 +3876,32 @@ $globals.SequenceableCollection);
 
 $core.addMethod(
 $core.method({
+selector: "copyWithFirst:",
+protocol: "copying",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "copyWithFirst: anObject\x0a\x09^ (self class with: anObject) addAll: self; yourself",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["addAll:", "with:", "class", "yourself"]
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($self._class())._with_(anObject);
+$recv($1)._addAll_(self);
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"copyWithFirst:",{anObject:anObject})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SequenceableCollection);
+
+$core.addMethod(
+$core.method({
 selector: "endsWith:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5771,6 +5797,50 @@ return self.substring(anIndex - 1, anotherIndex);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"copyFrom:to:",{anIndex:anIndex,anotherIndex:anotherIndex})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "copyWithFirst:",
+protocol: "copying",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "copyWithFirst: anObject\x0a\x09(anObject isString and: [ anObject size = 1 ]) \x22character is one-char string in JS\x22\x0a\x09\x09ifFalse: [ self error: 'Cannot put ', anObject class name, ' in a String' ].\x0a\x09^ anObject, self",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifFalse:", "and:", "isString", "=", "size", "error:", ",", "name", "class"]
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$3,$2;
+$1=$recv($recv(anObject)._isString())._and_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($recv(anObject)._size()).__eq((1));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+if(!$core.assert($1)){
+$3="Cannot put ".__comma($recv($recv(anObject)._class())._name());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=2;
+//>>excludeEnd("ctx");
+$2=$recv($3).__comma(" in a String");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=1;
+//>>excludeEnd("ctx");
+$self._error_($2);
+}
+return $recv(anObject).__comma(self);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"copyWithFirst:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.String);

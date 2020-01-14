@@ -434,9 +434,7 @@ arguments: aCollection
 !
 
 locals
-	^ self arguments copy
-		addAll: (self tempDeclarations collect: [ :each | each name ]);
-		yourself
+	^ self arguments, (self tempDeclarations collect: [ :each | each name ])
 !
 
 requiresSmalltalkContext

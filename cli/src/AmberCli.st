@@ -38,7 +38,7 @@ handleArguments: args
 
 	selector := self selectorForCommandLineSwitch: (args first).
 	args remove: args first.
-	self perform: selector  withArguments: (Array with: args)
+	self perform: selector  withArguments: { args }
 !
 
 selectorForCommandLineSwitch: aSwitch
@@ -954,7 +954,7 @@ createServerWithArguments: options
 
 		(switches includes: optionName) ifTrue: [
 			optionName := self selectorForCommandLineSwitch: optionName.
-			server perform: optionName withArguments: (Array with: optionValue)]
+			server perform: optionName withArguments: { optionValue } ]
 			ifFalse: [
 				console log: optionName, ' is not a valid commandline option'.
 				console log: 'Use any of the following ones: ', switches ]].

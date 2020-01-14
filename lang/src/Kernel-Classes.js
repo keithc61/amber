@@ -152,11 +152,11 @@ selector: "allSuperclasses",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "allSuperclasses\x0a\x09\x0a\x09self superclass ifNil: [ ^ #() ].\x0a\x09\x0a\x09^ (OrderedCollection with: self superclass)\x0a\x09\x09addAll: self superclass allSuperclasses;\x0a\x09\x09yourself",
-referencedClasses: ["OrderedCollection"],
+source: "allSuperclasses\x0a\x09\x0a\x09self superclass ifNil: [ ^ #() ].\x0a\x09\x0a\x09^ self superclass allSuperclasses copyWithFirst: self superclass",
+referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNil:", "superclass", "addAll:", "with:", "allSuperclasses", "yourself"]
+messageSends: ["ifNil:", "superclass", "copyWithFirst:", "allSuperclasses"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -176,9 +176,8 @@ $3=$self._superclass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["superclass"]=2;
 //>>excludeEnd("ctx");
-$2=$recv($globals.OrderedCollection)._with_($3);
-$recv($2)._addAll_($recv($self._superclass())._allSuperclasses());
-return $recv($2)._yourself();
+$2=$recv($3)._allSuperclasses();
+return $recv($2)._copyWithFirst_($self._superclass());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"allSuperclasses",{})});
 //>>excludeEnd("ctx");
@@ -789,20 +788,17 @@ selector: "withAllSubclasses",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "withAllSubclasses\x0a\x09^ (Array with: self) addAll: self allSubclasses; yourself",
-referencedClasses: ["Array"],
+source: "withAllSubclasses\x0a\x09^ self allSubclasses copyWithFirst: self",
+referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["addAll:", "with:", "allSubclasses", "yourself"]
+messageSends: ["copyWithFirst:", "allSubclasses"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv($globals.Array)._with_(self);
-$recv($1)._addAll_($self._allSubclasses());
-return $recv($1)._yourself();
+return $recv($self._allSubclasses())._copyWithFirst_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"withAllSubclasses",{})});
 //>>excludeEnd("ctx");
