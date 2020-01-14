@@ -432,7 +432,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 ASTNode subclass: #SendNode
-	slots: {#selector. #arguments. #receiver. #index. #shouldBeInlined}
+	slots: {#selector. #arguments. #receiver. #index}
 	package: 'Compiler-AST'!
 !SendNode commentStamp!
 I represent an message send node.!
@@ -479,14 +479,6 @@ selector
 
 selector: aString
 	selector := aString
-!
-
-shouldBeInlined
-	^ shouldBeInlined ifNil: [ false ]
-!
-
-shouldBeInlined: aBoolean
-	shouldBeInlined := aBoolean
 !
 
 superSend

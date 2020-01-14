@@ -1701,7 +1701,7 @@ $globals.ReturnNode);
 
 
 
-$core.addClass("SendNode", $globals.ASTNode, ["selector", "arguments", "receiver", "index", "shouldBeInlined"], "Compiler-AST");
+$core.addClass("SendNode", $globals.ASTNode, ["selector", "arguments", "receiver", "index"], "Compiler-AST");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SendNode.comment="I represent an message send node.";
 //>>excludeEnd("ide");
@@ -1997,54 +1997,6 @@ messageSends: []
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 $self.selector=aString;
-return self;
-
-}; }),
-$globals.SendNode);
-
-$core.addMethod(
-$core.method({
-selector: "shouldBeInlined",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "shouldBeInlined\x0a\x09^ shouldBeInlined ifNil: [ false ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifNil:"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$receiver;
-$1=$self.shouldBeInlined;
-if(($receiver = $1) == null || $receiver.a$nil){
-return false;
-} else {
-return $1;
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"shouldBeInlined",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.SendNode);
-
-$core.addMethod(
-$core.method({
-selector: "shouldBeInlined:",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBoolean"],
-source: "shouldBeInlined: aBoolean\x0a\x09shouldBeInlined := aBoolean",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (aBoolean){
-var self=this,$self=this;
-$self.shouldBeInlined=aBoolean;
 return self;
 
 }; }),

@@ -89,20 +89,16 @@ aliasTemporally: aCollection
 	The tree is iterated twice. First we get the aliasing dependency,
 	then the aliasing itself is done"
 
-	| threshold result |
-	threshold := 0.
-	
-	aCollection withIndexDo: [ :each :i |
-		each subtreeNeedsAliasing
-			ifTrue: [ threshold := i ] ].
+	| threshold shouldAlias |
+	threshold := aCollection reversed
+		detect: [ :each | each subtreeNeedsAliasing ]
+		ifNone: [ ^ self visitAll: aCollection ].
 
-	result := OrderedCollection new.
-	aCollection withIndexDo: [ :each :i |
-		result add: (i <= threshold
-			ifTrue: [ self alias: each ]
-			ifFalse: [ self visit: each ]) ].
-
-	^ result
+	shouldAlias := true.
+	^ aCollection collect: [ :each |
+		shouldAlias
+			ifTrue: [ each == threshold ifTrue: [ shouldAlias := false ]. self alias: each ]
+			ifFalse: [ self visit: each ] ]
 !
 
 visitAssignmentNode: aNode
@@ -1375,15 +1371,10 @@ shouldBeAliased
 	
 	| sends |
 	
+	super shouldBeAliased ifTrue: [ ^ true ].
+	self isReferenced ifFalse: [ ^ false ].
+	self superSend ifTrue: [ ^ true ].
 	sends := (self method sendIndexes at: self selector) size.
-	
-	^ (super shouldBeAliased or: [
-		self isReferenced and: [
-			self index < sends or: [
-				self superSend ] ] ])
-!
-
-subtreeNeedsAliasing
-	^ self shouldBeInlined or: [ super subtreeNeedsAliasing ]
+	^ self index < sends
 ! !
 
