@@ -29,6 +29,9 @@
 - MethodContext
   - stubHere
   - stubToAtMost:
+- SendNode
+  - shouldBeInlined
+  - shouldBeInlined:
 - amber/boot api >>
   - addElement(arraySet, el)
   - removeElement(arraySet, el)
