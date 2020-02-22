@@ -1873,6 +1873,62 @@ $globals.SemanticAnalyzer.comment="I semantically analyze the abstract syntax tr
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
+selector: "bindUnscopedVariable:",
+protocol: "private",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "bindUnscopedVariable: aString\x0a\x09aString isCapitalized ifTrue: [ \x22Capital letter variables might be globals.\x22\x0a\x09\x09self classReferences add: aString.\x0a\x09\x09^ ClassRefVar new name: aString; yourself ].\x0a\x0a\x09\x22Throw an error if the variable is undeclared in the global JS scope (i.e. window).\x0a\x09We allow all variables listed by Smalltalk>>#globalJsVariables.\x0a\x09This list includes: `window`, `document`,  `process` and `global`\x0a\x09for nodejs and browser environments.\x0a\x09\x0a\x09This is only to make sure compilation works on both browser-based and nodejs environments.\x0a\x09The ideal solution would be to use a pragma instead\x22\x0a\x0a\x09((Smalltalk globalJsVariables includes: aString)\x0a\x09\x09or: [ self isVariableKnown: aString inPackage: self thePackage ]) ifTrue: [\x0a\x09\x09\x09^ UnknownVar new name: aString; yourself ].\x0a\x0a\x09self errorUnknownVariable: aString",
+referencedClasses: ["ClassRefVar", "Smalltalk", "UnknownVar"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifTrue:", "isCapitalized", "add:", "classReferences", "name:", "new", "yourself", "or:", "includes:", "globalJsVariables", "isVariableKnown:inPackage:", "thePackage", "errorUnknownVariable:"]
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$3,$4,$5;
+$1=$recv(aString)._isCapitalized();
+if($core.assert($1)){
+$recv($self._classReferences())._add_(aString);
+$2=$recv($globals.ClassRefVar)._new();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["new"]=1;
+//>>excludeEnd("ctx");
+$recv($2)._name_(aString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["name:"]=1;
+//>>excludeEnd("ctx");
+$3=$recv($2)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["yourself"]=1;
+//>>excludeEnd("ctx");
+return $3;
+}
+$4=$recv($recv($recv($globals.Smalltalk)._globalJsVariables())._includes_(aString))._or_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._isVariableKnown_inPackage_(aString,$self._thePackage());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+if($core.assert($4)){
+$5=$recv($globals.UnknownVar)._new();
+$recv($5)._name_(aString);
+return $recv($5)._yourself();
+}
+$self._errorUnknownVariable_(aString);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"bindUnscopedVariable:",{aString:aString})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SemanticAnalyzer);
+
+$core.addMethod(
+$core.method({
 selector: "classReferences",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1933,40 +1989,24 @@ $core.method({
 selector: "errorUnknownVariable:",
 protocol: "error handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode"],
-source: "errorUnknownVariable: aNode\x0a\x09\x22Throw an error if the variable is undeclared in the global JS scope (i.e. window).\x0a\x09We allow all variables listed by Smalltalk>>#globalJsVariables.\x0a\x09This list includes: `window`, `document`,  `process` and `global`\x0a\x09for nodejs and browser environments.\x0a\x09\x0a\x09This is only to make sure compilation works on both browser-based and nodejs environments.\x0a\x09The ideal solution would be to use a pragma instead\x22\x0a\x0a\x09| identifier |\x0a\x09identifier := aNode value.\x0a\x09\x0a\x09((Smalltalk globalJsVariables includes: identifier)\x0a\x09\x09or: [ self isVariableKnown: identifier inPackage: self thePackage ])\x0a\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09UnknownVariableError new\x0a\x09\x09\x09\x09\x09variableName: aNode value;\x0a\x09\x09\x09\x09\x09signal ]",
-referencedClasses: ["Smalltalk", "UnknownVariableError"],
+args: ["aString"],
+source: "errorUnknownVariable: aString\x0a\x09UnknownVariableError new\x0a\x09\x09variableName: aString;\x0a\x09\x09signal",
+referencedClasses: ["UnknownVariableError"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["value", "ifFalse:", "or:", "includes:", "globalJsVariables", "isVariableKnown:inPackage:", "thePackage", "variableName:", "new", "signal"]
-}, function ($methodClass){ return function (aNode){
+messageSends: ["variableName:", "new", "signal"]
+}, function ($methodClass){ return function (aString){
 var self=this,$self=this;
-var identifier;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
-identifier=$recv(aNode)._value();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["value"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($recv($recv($globals.Smalltalk)._globalJsVariables())._includes_(identifier))._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $self._isVariableKnown_inPackage_(identifier,$self._thePackage());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-if(!$core.assert($1)){
-$2=$recv($globals.UnknownVariableError)._new();
-$recv($2)._variableName_($recv(aNode)._value());
-$recv($2)._signal();
-}
+var $1;
+$1=$recv($globals.UnknownVariableError)._new();
+$recv($1)._variableName_(aString);
+$recv($1)._signal();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"errorUnknownVariable:",{aNode:aNode,identifier:identifier})});
+}, function($ctx1) {$ctx1.fill(self,"errorUnknownVariable:",{aString:aString})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.SemanticAnalyzer);
@@ -2600,63 +2640,27 @@ selector: "visitVariableNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitVariableNode: aNode\x0a\x09\x22Bind a ScopeVar to aNode by doing a lookup in the current scope.\x0a\x09If no ScopeVar is found, bind a UnknowVar and throw an error.\x22\x0a\x0a\x09| binding |\x0a\x09binding := currentScope lookupVariable: aNode.\x0a\x09\x0a\x09binding ifNil: [\x0a\x09\x09aNode value isCapitalized\x0a\x09\x09\x09ifTrue: [ \x22Capital letter variables might be globals.\x22\x0a\x09\x09\x09\x09binding := ClassRefVar new name: aNode value; yourself.\x0a\x09\x09\x09\x09self classReferences add: aNode value]\x0a\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09self errorUnknownVariable: aNode.\x0a\x09\x09\x09\x09binding := UnknownVar new name: aNode value; yourself ] ].\x0a\x09\x09\x0a\x09aNode binding: binding.",
-referencedClasses: ["ClassRefVar", "UnknownVar"],
+source: "visitVariableNode: aNode\x0a\x09\x22Bind a ScopeVar to aNode by doing a lookup in the current scope.\x0a\x09If no var is found in scope, represent an externally known variable or throw an error.\x22\x0a\x0a\x09aNode binding:\x0a\x09\x09((currentScope lookupVariable: aNode) ifNil: [ self bindUnscopedVariable: aNode value ])",
+referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["lookupVariable:", "ifNil:", "ifTrue:ifFalse:", "isCapitalized", "value", "name:", "new", "yourself", "add:", "classReferences", "errorUnknownVariable:", "binding:"]
+messageSends: ["binding:", "ifNil:", "lookupVariable:", "bindUnscopedVariable:", "value"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
-var binding;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2,$4,$5,$6,$7,$8,$receiver;
-binding=$recv($self.currentScope)._lookupVariable_(aNode);
-$1=binding;
-if(($receiver = $1) == null || $receiver.a$nil){
-$3=$recv(aNode)._value();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["value"]=1;
-//>>excludeEnd("ctx");
-$2=$recv($3)._isCapitalized();
-if($core.assert($2)){
-$4=$recv($globals.ClassRefVar)._new();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["new"]=1;
-//>>excludeEnd("ctx");
-$5=$recv(aNode)._value();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["value"]=2;
-//>>excludeEnd("ctx");
-$recv($4)._name_($5);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["name:"]=1;
-//>>excludeEnd("ctx");
-binding=$recv($4)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["yourself"]=1;
-//>>excludeEnd("ctx");
-$6=$self._classReferences();
-$7=$recv(aNode)._value();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["value"]=3;
-//>>excludeEnd("ctx");
-$recv($6)._add_($7);
+var $2,$1,$receiver;
+$2=$recv($self.currentScope)._lookupVariable_(aNode);
+if(($receiver = $2) == null || $receiver.a$nil){
+$1=$self._bindUnscopedVariable_($recv(aNode)._value());
 } else {
-$self._errorUnknownVariable_(aNode);
-$8=$recv($globals.UnknownVar)._new();
-$recv($8)._name_($recv(aNode)._value());
-binding=$recv($8)._yourself();
-binding;
+$1=$2;
 }
-} else {
-$1;
-}
-$recv(aNode)._binding_(binding);
+$recv(aNode)._binding_($1);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitVariableNode:",{aNode:aNode,binding:binding})});
+}, function($ctx1) {$ctx1.fill(self,"visitVariableNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.SemanticAnalyzer);

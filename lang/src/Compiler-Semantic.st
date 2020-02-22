@@ -504,24 +504,10 @@ errorShadowingVariable: aString
 		signal
 !
 
-errorUnknownVariable: aNode
-	"Throw an error if the variable is undeclared in the global JS scope (i.e. window).
-	We allow all variables listed by Smalltalk>>#globalJsVariables.
-	This list includes: `window`, `document`,  `process` and `global`
-	for nodejs and browser environments.
-	
-	This is only to make sure compilation works on both browser-based and nodejs environments.
-	The ideal solution would be to use a pragma instead"
-
-	| identifier |
-	identifier := aNode value.
-	
-	((Smalltalk globalJsVariables includes: identifier)
-		or: [ self isVariableKnown: identifier inPackage: self thePackage ])
-			ifFalse: [
-				UnknownVariableError new
-					variableName: aNode value;
-					signal ]
+errorUnknownVariable: aString
+	UnknownVariableError new
+		variableName: aString;
+		signal
 ! !
 
 !SemanticAnalyzer methodsFor: 'factory'!
@@ -541,6 +527,26 @@ newScopeOfClass: aLexicalScopeClass
 ! !
 
 !SemanticAnalyzer methodsFor: 'private'!
+
+bindUnscopedVariable: aString
+	aString isCapitalized ifTrue: [ "Capital letter variables might be globals."
+		self classReferences add: aString.
+		^ ClassRefVar new name: aString; yourself ].
+
+	"Throw an error if the variable is undeclared in the global JS scope (i.e. window).
+	We allow all variables listed by Smalltalk>>#globalJsVariables.
+	This list includes: `window`, `document`,  `process` and `global`
+	for nodejs and browser environments.
+	
+	This is only to make sure compilation works on both browser-based and nodejs environments.
+	The ideal solution would be to use a pragma instead"
+
+	((Smalltalk globalJsVariables includes: aString)
+		or: [ self isVariableKnown: aString inPackage: self thePackage ]) ifTrue: [
+			^ UnknownVar new name: aString; yourself ].
+
+	self errorUnknownVariable: aString
+!
 
 nextBlockIndex
 	blockIndex ifNil: [ blockIndex := 0 ].
@@ -651,21 +657,10 @@ visitSequenceNode: aNode
 
 visitVariableNode: aNode
 	"Bind a ScopeVar to aNode by doing a lookup in the current scope.
-	If no ScopeVar is found, bind a UnknowVar and throw an error."
+	If no var is found in scope, represent an externally known variable or throw an error."
 
-	| binding |
-	binding := currentScope lookupVariable: aNode.
-	
-	binding ifNil: [
-		aNode value isCapitalized
-			ifTrue: [ "Capital letter variables might be globals."
-				binding := ClassRefVar new name: aNode value; yourself.
-				self classReferences add: aNode value]
-			ifFalse: [
-				self errorUnknownVariable: aNode.
-				binding := UnknownVar new name: aNode value; yourself ] ].
-		
-	aNode binding: binding.
+	aNode binding:
+		((currentScope lookupVariable: aNode) ifNil: [ self bindUnscopedVariable: aNode value ])
 ! !
 
 !SemanticAnalyzer class methodsFor: 'instance creation'!
