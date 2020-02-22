@@ -29,6 +29,8 @@
 - MethodContext
   - stubHere
   - stubToAtMost:
+- MethodLexicalScope >>
+  - unknownVariables
 - SendNode
   - shouldBeInlined
   - shouldBeInlined:

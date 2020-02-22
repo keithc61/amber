@@ -642,7 +642,7 @@ $globals.LexicalScope);
 
 
 
-$core.addClass("MethodLexicalScope", $globals.LexicalScope, ["iVars", "pseudoVars", "unknownVariables", "localReturn", "nonLocalReturns"], "Compiler-Semantic");
+$core.addClass("MethodLexicalScope", $globals.LexicalScope, ["iVars", "pseudoVars", "localReturn", "nonLocalReturns"], "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodLexicalScope.comment="I represent a method scope.";
 //>>excludeEnd("ide");
@@ -1044,36 +1044,6 @@ $recv($self._nonLocalReturns())._remove_ifAbsent_(aScope,(function(){
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"removeNonLocalReturn:",{aScope:aScope})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.MethodLexicalScope);
-
-$core.addMethod(
-$core.method({
-selector: "unknownVariables",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "unknownVariables\x0a\x09^ unknownVariables ifNil: [ unknownVariables := OrderedCollection new ]",
-referencedClasses: ["OrderedCollection"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifNil:", "new"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$receiver;
-$1=$self.unknownVariables;
-if(($receiver = $1) == null || $receiver.a$nil){
-$self.unknownVariables=$recv($globals.OrderedCollection)._new();
-return $self.unknownVariables;
-} else {
-return $1;
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"unknownVariables",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.MethodLexicalScope);
@@ -1964,18 +1934,18 @@ selector: "errorUnknownVariable:",
 protocol: "error handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "errorUnknownVariable: aNode\x0a\x09\x22Throw an error if the variable is undeclared in the global JS scope (i.e. window).\x0a\x09We allow all variables listed by Smalltalk>>#globalJsVariables.\x0a\x09This list includes: `window`, `document`,  `process` and `global`\x0a\x09for nodejs and browser environments.\x0a\x09\x0a\x09This is only to make sure compilation works on both browser-based and nodejs environments.\x0a\x09The ideal solution would be to use a pragma instead\x22\x0a\x0a\x09| identifier |\x0a\x09identifier := aNode value.\x0a\x09\x0a\x09((Smalltalk globalJsVariables includes: identifier) not\x0a\x09\x09and: [ self isVariableUndefined: identifier inPackage: self thePackage ])\x0a\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09UnknownVariableError new\x0a\x09\x09\x09\x09\x09variableName: aNode value;\x0a\x09\x09\x09\x09\x09signal ]\x0a\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09currentScope methodScope unknownVariables add: aNode value ]",
+source: "errorUnknownVariable: aNode\x0a\x09\x22Throw an error if the variable is undeclared in the global JS scope (i.e. window).\x0a\x09We allow all variables listed by Smalltalk>>#globalJsVariables.\x0a\x09This list includes: `window`, `document`,  `process` and `global`\x0a\x09for nodejs and browser environments.\x0a\x09\x0a\x09This is only to make sure compilation works on both browser-based and nodejs environments.\x0a\x09The ideal solution would be to use a pragma instead\x22\x0a\x0a\x09| identifier |\x0a\x09identifier := aNode value.\x0a\x09\x0a\x09((Smalltalk globalJsVariables includes: identifier) not\x0a\x09\x09and: [ self isVariableUndefined: identifier inPackage: self thePackage ])\x0a\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09UnknownVariableError new\x0a\x09\x09\x09\x09\x09variableName: aNode value;\x0a\x09\x09\x09\x09\x09signal ]",
 referencedClasses: ["Smalltalk", "UnknownVariableError"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["value", "ifTrue:ifFalse:", "and:", "not", "includes:", "globalJsVariables", "isVariableUndefined:inPackage:", "thePackage", "variableName:", "new", "signal", "add:", "unknownVariables", "methodScope"]
+messageSends: ["value", "ifTrue:", "and:", "not", "includes:", "globalJsVariables", "isVariableUndefined:inPackage:", "thePackage", "variableName:", "new", "signal"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 var identifier;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1,$2;
 identifier=$recv(aNode)._value();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["value"]=1;
@@ -1991,14 +1961,8 @@ return $self._isVariableUndefined_inPackage_(identifier,$self._thePackage());
 }));
 if($core.assert($1)){
 $2=$recv($globals.UnknownVariableError)._new();
-$3=$recv(aNode)._value();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["value"]=2;
-//>>excludeEnd("ctx");
-$recv($2)._variableName_($3);
+$recv($2)._variableName_($recv(aNode)._value());
 $recv($2)._signal();
-} else {
-$recv($recv($recv($self.currentScope)._methodScope())._unknownVariables())._add_($recv(aNode)._value());
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

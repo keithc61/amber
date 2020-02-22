@@ -126,7 +126,7 @@ isMethodScope
 ! !
 
 LexicalScope subclass: #MethodLexicalScope
-	slots: {#iVars. #pseudoVars. #unknownVariables. #localReturn. #nonLocalReturns}
+	slots: {#iVars. #pseudoVars. #localReturn. #nonLocalReturns}
 	package: 'Compiler-Semantic'!
 !MethodLexicalScope commentStamp!
 I represent a method scope.!
@@ -170,10 +170,6 @@ pseudoVars
 				scope: self methodScope;
 				yourself) ] ].
 	^ pseudoVars
-!
-
-unknownVariables
-	^ unknownVariables ifNil: [ unknownVariables := OrderedCollection new ]
 ! !
 
 !MethodLexicalScope methodsFor: 'adding'!
@@ -526,8 +522,6 @@ errorUnknownVariable: aNode
 				UnknownVariableError new
 					variableName: aNode value;
 					signal ]
-			ifFalse: [
-				currentScope methodScope unknownVariables add: aNode value ]
 ! !
 
 !SemanticAnalyzer methodsFor: 'factory'!
