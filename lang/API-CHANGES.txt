@@ -26,12 +26,12 @@
 - JavaScriptError >>
   - shouldBeStubbed
   - wrap
-- MethodContext
+- MethodContext >>
   - stubHere
   - stubToAtMost:
 - MethodLexicalScope >>
   - unknownVariables
-- SendNode
+- SendNode >>
   - shouldBeInlined
   - shouldBeInlined:
 - amber/boot api >>
