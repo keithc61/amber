@@ -1934,11 +1934,11 @@ selector: "errorUnknownVariable:",
 protocol: "error handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "errorUnknownVariable: aNode\x0a\x09\x22Throw an error if the variable is undeclared in the global JS scope (i.e. window).\x0a\x09We allow all variables listed by Smalltalk>>#globalJsVariables.\x0a\x09This list includes: `window`, `document`,  `process` and `global`\x0a\x09for nodejs and browser environments.\x0a\x09\x0a\x09This is only to make sure compilation works on both browser-based and nodejs environments.\x0a\x09The ideal solution would be to use a pragma instead\x22\x0a\x0a\x09| identifier |\x0a\x09identifier := aNode value.\x0a\x09\x0a\x09((Smalltalk globalJsVariables includes: identifier) not\x0a\x09\x09and: [ self isVariableUndefined: identifier inPackage: self thePackage ])\x0a\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09UnknownVariableError new\x0a\x09\x09\x09\x09\x09variableName: aNode value;\x0a\x09\x09\x09\x09\x09signal ]",
+source: "errorUnknownVariable: aNode\x0a\x09\x22Throw an error if the variable is undeclared in the global JS scope (i.e. window).\x0a\x09We allow all variables listed by Smalltalk>>#globalJsVariables.\x0a\x09This list includes: `window`, `document`,  `process` and `global`\x0a\x09for nodejs and browser environments.\x0a\x09\x0a\x09This is only to make sure compilation works on both browser-based and nodejs environments.\x0a\x09The ideal solution would be to use a pragma instead\x22\x0a\x0a\x09| identifier |\x0a\x09identifier := aNode value.\x0a\x09\x0a\x09((Smalltalk globalJsVariables includes: identifier)\x0a\x09\x09or: [ self isVariableKnown: identifier inPackage: self thePackage ])\x0a\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09UnknownVariableError new\x0a\x09\x09\x09\x09\x09variableName: aNode value;\x0a\x09\x09\x09\x09\x09signal ]",
 referencedClasses: ["Smalltalk", "UnknownVariableError"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["value", "ifTrue:", "and:", "not", "includes:", "globalJsVariables", "isVariableUndefined:inPackage:", "thePackage", "variableName:", "new", "signal"]
+messageSends: ["value", "ifFalse:", "or:", "includes:", "globalJsVariables", "isVariableKnown:inPackage:", "thePackage", "variableName:", "new", "signal"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 var identifier;
@@ -1950,16 +1950,16 @@ identifier=$recv(aNode)._value();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["value"]=1;
 //>>excludeEnd("ctx");
-$1=$recv($recv($recv($recv($globals.Smalltalk)._globalJsVariables())._includes_(identifier))._not())._and_((function(){
+$1=$recv($recv($recv($globals.Smalltalk)._globalJsVariables())._includes_(identifier))._or_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $self._isVariableUndefined_inPackage_(identifier,$self._thePackage());
+return $self._isVariableKnown_inPackage_(identifier,$self._thePackage());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-if($core.assert($1)){
+if(!$core.assert($1)){
 $2=$recv($globals.UnknownVariableError)._new();
 $recv($2)._variableName_($recv(aNode)._value());
 $recv($2)._signal();
@@ -1973,21 +1973,21 @@ $globals.SemanticAnalyzer);
 
 $core.addMethod(
 $core.method({
-selector: "isVariableUndefined:inPackage:",
+selector: "isVariableKnown:inPackage:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aPackage"],
-source: "isVariableUndefined: aString inPackage: aPackage\x0a\x09aPackage ifNotNil: [\x0a\x09\x09| packageKnownVars |\x0a\x09\x09packageKnownVars := (aPackage imports\x0a\x09\x09\x09reject: #isString)\x0a\x09\x09\x09collect: #key.\x0a\x09\x09(packageKnownVars includes: aString) ifTrue: [ ^ false ]].\x0a\x09^ Compiler eval: 'typeof ', aString, ' === \x22undefined\x22'",
+source: "isVariableKnown: aString inPackage: aPackage\x0a\x09aPackage ifNotNil: [\x0a\x09\x09| packageKnownVars |\x0a\x09\x09packageKnownVars := (aPackage imports\x0a\x09\x09\x09reject: #isString)\x0a\x09\x09\x09collect: #key.\x0a\x09\x09(packageKnownVars includes: aString) ifTrue: [ ^ true ]].\x0a\x09^ Compiler new\x0a\x09\x09eval: 'typeof ', aString, ' !== \x22undefined\x22'\x0a\x09\x09forPackage: aPackage",
 referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNotNil:", "collect:", "reject:", "imports", "ifTrue:", "includes:", "eval:", ","]
+messageSends: ["ifNotNil:", "collect:", "reject:", "imports", "ifTrue:", "includes:", "eval:forPackage:", "new", ","]
 }, function ($methodClass){ return function (aString,aPackage){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $1,$2,$3,$receiver;
 if(($receiver = aPackage) == null || $receiver.a$nil){
 aPackage;
 } else {
@@ -1995,16 +1995,17 @@ var packageKnownVars;
 packageKnownVars=$recv($recv($recv(aPackage)._imports())._reject_("isString"))._collect_("key");
 $1=$recv(packageKnownVars)._includes_(aString);
 if($core.assert($1)){
-return false;
+return true;
 }
 }
-$2=$recv("typeof ".__comma(aString)).__comma(" === \x22undefined\x22");
+$2=$recv($globals.Compiler)._new();
+$3=$recv("typeof ".__comma(aString)).__comma(" !== \x22undefined\x22");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
-return $recv($globals.Compiler)._eval_($2);
+return $recv($2)._eval_forPackage_($3,aPackage);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isVariableUndefined:inPackage:",{aString:aString,aPackage:aPackage})});
+}, function($ctx1) {$ctx1.fill(self,"isVariableKnown:inPackage:",{aString:aString,aPackage:aPackage})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.SemanticAnalyzer);

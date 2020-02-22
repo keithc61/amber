@@ -516,9 +516,9 @@ errorUnknownVariable: aNode
 	| identifier |
 	identifier := aNode value.
 	
-	((Smalltalk globalJsVariables includes: identifier) not
-		and: [ self isVariableUndefined: identifier inPackage: self thePackage ])
-			ifTrue: [
+	((Smalltalk globalJsVariables includes: identifier)
+		or: [ self isVariableKnown: identifier inPackage: self thePackage ])
+			ifFalse: [
 				UnknownVariableError new
 					variableName: aNode value;
 					signal ]
@@ -570,14 +570,16 @@ validateVariableScope: aString
 
 !SemanticAnalyzer methodsFor: 'testing'!
 
-isVariableUndefined: aString inPackage: aPackage
+isVariableKnown: aString inPackage: aPackage
 	aPackage ifNotNil: [
 		| packageKnownVars |
 		packageKnownVars := (aPackage imports
 			reject: #isString)
 			collect: #key.
-		(packageKnownVars includes: aString) ifTrue: [ ^ false ]].
-	^ Compiler eval: 'typeof ', aString, ' === "undefined"'
+		(packageKnownVars includes: aString) ifTrue: [ ^ true ]].
+	^ Compiler new
+		eval: 'typeof ', aString, ' !!== "undefined"'
+		forPackage: aPackage
 ! !
 
 !SemanticAnalyzer methodsFor: 'visiting'!

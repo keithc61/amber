@@ -10,6 +10,8 @@
   + javaScriptConstructor:
 + BlockClosure >>
   + tryIfTrue:catch:
++ SemanticAnalyzer >>
+  + isVariableKnown:inPackage:
 + SequenceableCollection >>
   + copyWithFirst:
 + SmalltalkImage >>
@@ -31,6 +33,8 @@
   - stubToAtMost:
 - MethodLexicalScope >>
   - unknownVariables
+- SemanticAnalyzer >>
+  - isVariableUndefined:inPackage:
 - SendNode >>
   - shouldBeInlined
   - shouldBeInlined:
