@@ -887,7 +887,7 @@ visitValueNode: aNode
 !
 
 visitVariableNode: aNode
-	aNode binding isUnknownVar ifTrue: [
+	aNode binding isExternallyKnownVar ifTrue: [
 		^ self push: (Platform globals at: aNode value ifAbsent: [ self error: 'Unknown variable' ]) ].
 		
 	self push: (aNode binding isInstanceVar

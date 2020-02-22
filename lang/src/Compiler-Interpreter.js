@@ -3404,11 +3404,11 @@ selector: "visitVariableNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitVariableNode: aNode\x0a\x09aNode binding isUnknownVar ifTrue: [\x0a\x09\x09^ self push: (Platform globals at: aNode value ifAbsent: [ self error: 'Unknown variable' ]) ].\x0a\x09\x09\x0a\x09self push: (aNode binding isInstanceVar\x0a\x09\x09ifTrue: [ self context receiver instVarAt: aNode value ]\x0a\x09\x09ifFalse: [ self context \x0a\x09\x09\x09localAt: (aNode binding isSuper ifTrue: [ 'self' ] ifFalse: [ aNode value ])\x0a\x09\x09\x09ifAbsent: [\x0a\x09\x09\x09\x09aNode value isCapitalized\x0a\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09Smalltalk globals \x0a\x09\x09\x09\x09\x09\x09\x09at: aNode value \x0a\x09\x09\x09\x09\x09\x09\x09ifAbsent: [ Platform globals at: aNode value ] ] ] ])",
+source: "visitVariableNode: aNode\x0a\x09aNode binding isExternallyKnownVar ifTrue: [\x0a\x09\x09^ self push: (Platform globals at: aNode value ifAbsent: [ self error: 'Unknown variable' ]) ].\x0a\x09\x09\x0a\x09self push: (aNode binding isInstanceVar\x0a\x09\x09ifTrue: [ self context receiver instVarAt: aNode value ]\x0a\x09\x09ifFalse: [ self context \x0a\x09\x09\x09localAt: (aNode binding isSuper ifTrue: [ 'self' ] ifFalse: [ aNode value ])\x0a\x09\x09\x09ifAbsent: [\x0a\x09\x09\x09\x09aNode value isCapitalized\x0a\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09Smalltalk globals \x0a\x09\x09\x09\x09\x09\x09\x09at: aNode value \x0a\x09\x09\x09\x09\x09\x09\x09ifAbsent: [ Platform globals at: aNode value ] ] ] ])",
 referencedClasses: ["Platform", "Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:", "isUnknownVar", "binding", "push:", "at:ifAbsent:", "globals", "value", "error:", "ifTrue:ifFalse:", "isInstanceVar", "instVarAt:", "receiver", "context", "localAt:ifAbsent:", "isSuper", "isCapitalized", "at:"]
+messageSends: ["ifTrue:", "isExternallyKnownVar", "binding", "push:", "at:ifAbsent:", "globals", "value", "error:", "ifTrue:ifFalse:", "isInstanceVar", "instVarAt:", "receiver", "context", "localAt:ifAbsent:", "isSuper", "isCapitalized", "at:"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3419,7 +3419,7 @@ $2=$recv(aNode)._binding();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["binding"]=1;
 //>>excludeEnd("ctx");
-$1=$recv($2)._isUnknownVar();
+$1=$recv($2)._isExternallyKnownVar();
 if($core.assert($1)){
 $5=$recv($globals.Platform)._globals();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

@@ -244,6 +244,10 @@ isClassRefVar
 	^ false
 !
 
+isExternallyKnownVar
+	^ false
+!
+
 isImmutable
 	^ false
 !
@@ -265,10 +269,6 @@ isSuper
 !
 
 isTempVar
-	^ false
-!
-
-isUnknownVar
 	^ false
 !
 
@@ -344,6 +344,18 @@ isClassRefVar
 !
 
 isImmutable
+	^ true
+! !
+
+ScopeVar subclass: #ExternallyKnownVar
+	slots: {}
+	package: 'Compiler-Semantic'!
+!ExternallyKnownVar commentStamp!
+I am a variable known externally (not in method scope).!
+
+!ExternallyKnownVar methodsFor: 'testing'!
+
+isExternallyKnownVar
 	^ true
 ! !
 
@@ -452,18 +464,6 @@ isTempVar
 	^ true
 ! !
 
-ScopeVar subclass: #UnknownVar
-	slots: {}
-	package: 'Compiler-Semantic'!
-!UnknownVar commentStamp!
-I am an unknown variable. Amber uses unknown variables as JavaScript globals!
-
-!UnknownVar methodsFor: 'testing'!
-
-isUnknownVar
-	^ true
-! !
-
 NodeVisitor subclass: #SemanticAnalyzer
 	slots: {#currentScope. #blockIndex. #thePackage. #theClass. #classReferences. #messageSends}
 	package: 'Compiler-Semantic'!
@@ -543,7 +543,7 @@ bindUnscopedVariable: aString
 
 	((Smalltalk globalJsVariables includes: aString)
 		or: [ self isVariableKnown: aString inPackage: self thePackage ]) ifTrue: [
-			^ UnknownVar new name: aString; yourself ].
+			^ ExternallyKnownVar new name: aString; yourself ].
 
 	self errorUnknownVariable: aString
 !

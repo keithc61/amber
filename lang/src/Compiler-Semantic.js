@@ -1115,6 +1115,24 @@ $globals.ScopeVar);
 
 $core.addMethod(
 $core.method({
+selector: "isExternallyKnownVar",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isExternallyKnownVar\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.ScopeVar);
+
+$core.addMethod(
+$core.method({
 selector: "isImmutable",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1210,24 +1228,6 @@ protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "isTempVar\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ScopeVar);
-
-$core.addMethod(
-$core.method({
-selector: "isUnknownVar",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isUnknownVar\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -1547,6 +1547,30 @@ $globals.ClassRefVar);
 
 
 
+$core.addClass("ExternallyKnownVar", $globals.ScopeVar, [], "Compiler-Semantic");
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.ExternallyKnownVar.comment="I am a variable known externally (not in method scope).";
+//>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "isExternallyKnownVar",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isExternallyKnownVar\x0a\x09^ true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return true;
+
+}; }),
+$globals.ExternallyKnownVar);
+
+
+
 $core.addClass("InstanceVar", $globals.ScopeVar, [], "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.InstanceVar.comment="I am an instance variable of a method or block.";
@@ -1843,30 +1867,6 @@ $globals.TempVar);
 
 
 
-$core.addClass("UnknownVar", $globals.ScopeVar, [], "Compiler-Semantic");
-//>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.UnknownVar.comment="I am an unknown variable. Amber uses unknown variables as JavaScript globals";
-//>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "isUnknownVar",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isUnknownVar\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.UnknownVar);
-
-
-
 $core.addClass("SemanticAnalyzer", $globals.NodeVisitor, ["currentScope", "blockIndex", "thePackage", "theClass", "classReferences", "messageSends"], "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SemanticAnalyzer.comment="I semantically analyze the abstract syntax tree and annotate it with informations such as non local returns and variable scopes.";
@@ -1877,8 +1877,8 @@ selector: "bindUnscopedVariable:",
 protocol: "private",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "bindUnscopedVariable: aString\x0a\x09aString isCapitalized ifTrue: [ \x22Capital letter variables might be globals.\x22\x0a\x09\x09self classReferences add: aString.\x0a\x09\x09^ ClassRefVar new name: aString; yourself ].\x0a\x0a\x09\x22Throw an error if the variable is undeclared in the global JS scope (i.e. window).\x0a\x09We allow all variables listed by Smalltalk>>#globalJsVariables.\x0a\x09This list includes: `window`, `document`,  `process` and `global`\x0a\x09for nodejs and browser environments.\x0a\x09\x0a\x09This is only to make sure compilation works on both browser-based and nodejs environments.\x0a\x09The ideal solution would be to use a pragma instead\x22\x0a\x0a\x09((Smalltalk globalJsVariables includes: aString)\x0a\x09\x09or: [ self isVariableKnown: aString inPackage: self thePackage ]) ifTrue: [\x0a\x09\x09\x09^ UnknownVar new name: aString; yourself ].\x0a\x0a\x09self errorUnknownVariable: aString",
-referencedClasses: ["ClassRefVar", "Smalltalk", "UnknownVar"],
+source: "bindUnscopedVariable: aString\x0a\x09aString isCapitalized ifTrue: [ \x22Capital letter variables might be globals.\x22\x0a\x09\x09self classReferences add: aString.\x0a\x09\x09^ ClassRefVar new name: aString; yourself ].\x0a\x0a\x09\x22Throw an error if the variable is undeclared in the global JS scope (i.e. window).\x0a\x09We allow all variables listed by Smalltalk>>#globalJsVariables.\x0a\x09This list includes: `window`, `document`,  `process` and `global`\x0a\x09for nodejs and browser environments.\x0a\x09\x0a\x09This is only to make sure compilation works on both browser-based and nodejs environments.\x0a\x09The ideal solution would be to use a pragma instead\x22\x0a\x0a\x09((Smalltalk globalJsVariables includes: aString)\x0a\x09\x09or: [ self isVariableKnown: aString inPackage: self thePackage ]) ifTrue: [\x0a\x09\x09\x09^ ExternallyKnownVar new name: aString; yourself ].\x0a\x0a\x09self errorUnknownVariable: aString",
+referencedClasses: ["ClassRefVar", "Smalltalk", "ExternallyKnownVar"],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: ["ifTrue:", "isCapitalized", "add:", "classReferences", "name:", "new", "yourself", "or:", "includes:", "globalJsVariables", "isVariableKnown:inPackage:", "thePackage", "errorUnknownVariable:"]
@@ -1915,7 +1915,7 @@ return $self._isVariableKnown_inPackage_(aString,$self._thePackage());
 //>>excludeEnd("ctx");
 }));
 if($core.assert($4)){
-$5=$recv($globals.UnknownVar)._new();
+$5=$recv($globals.ExternallyKnownVar)._new();
 $recv($5)._name_(aString);
 return $recv($5)._yourself();
 }

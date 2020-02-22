@@ -1,6 +1,7 @@
 0.24.1:
 
 * Deprecate Behavior >> javascriptConstructor(:)
+* UnknownVar => ExternallyKnownVar
 
 + Behavior >>
   + alternateConstructorViaSelector:
@@ -10,8 +11,12 @@
   + javaScriptConstructor:
 + BlockClosure >>
   + tryIfTrue:catch:
++ ExternallyKnownVar >>
+  + isExternallyKnownVar
 + SemanticAnalyzer >>
   + isVariableKnown:inPackage:
++ ScopeVar >>
+  + isExternallyKnownVar
 + SequenceableCollection >>
   + copyWithFirst:
 + SmalltalkImage >>
@@ -33,11 +38,15 @@
   - stubToAtMost:
 - MethodLexicalScope >>
   - unknownVariables
+- ScopeVar >>
+  - isUnknownVar
 - SemanticAnalyzer >>
   - isVariableUndefined:inPackage:
 - SendNode >>
   - shouldBeInlined
   - shouldBeInlined:
+- UnknownVar >>
+  - isUnknownVar
 - amber/boot api >>
   - addElement(arraySet, el)
   - removeElement(arraySet, el)
