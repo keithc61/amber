@@ -23,10 +23,12 @@ args
 	^ args ifNil: [ args := Dictionary new ]
 !
 
-bindingFor: aStringOrNode
-	^ self pseudoVars at: aStringOrNode value ifAbsent: [
-		self args at: aStringOrNode value ifAbsent: [
-			self temps at: aStringOrNode value ifAbsent: [ nil ]]]
+bindingFor: aNode
+	| identifier |
+	identifier := aNode value.
+	^ self pseudoVars at: identifier ifAbsent: [
+		self args at: identifier ifAbsent: [
+			self temps at: identifier ifAbsent: [ nil ]]]
 !
 
 blockIndex

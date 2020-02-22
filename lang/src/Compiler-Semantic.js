@@ -154,37 +154,29 @@ $core.method({
 selector: "bindingFor:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aStringOrNode"],
-source: "bindingFor: aStringOrNode\x0a\x09^ self pseudoVars at: aStringOrNode value ifAbsent: [\x0a\x09\x09self args at: aStringOrNode value ifAbsent: [\x0a\x09\x09\x09self temps at: aStringOrNode value ifAbsent: [ nil ]]]",
+args: ["aNode"],
+source: "bindingFor: aNode\x0a\x09| identifier |\x0a\x09identifier := aNode value.\x0a\x09^ self pseudoVars at: identifier ifAbsent: [\x0a\x09\x09self args at: identifier ifAbsent: [\x0a\x09\x09\x09self temps at: identifier ifAbsent: [ nil ]]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["at:ifAbsent:", "pseudoVars", "value", "args", "temps"]
-}, function ($methodClass){ return function (aStringOrNode){
+messageSends: ["value", "at:ifAbsent:", "pseudoVars", "args", "temps"]
+}, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
+var identifier;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$3,$4,$5,$1;
-$2=$self._pseudoVars();
-$3=$recv(aStringOrNode)._value();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["value"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._at_ifAbsent_($3,(function(){
+var $1;
+identifier=$recv(aNode)._value();
+$1=$recv($self._pseudoVars())._at_ifAbsent_(identifier,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$4=$self._args();
-$5=$recv(aStringOrNode)._value();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["value"]=2;
-//>>excludeEnd("ctx");
-return $recv($4)._at_ifAbsent_($5,(function(){
+return $recv($self._args())._at_ifAbsent_(identifier,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv($self._temps())._at_ifAbsent_($recv(aStringOrNode)._value(),(function(){
+return $recv($self._temps())._at_ifAbsent_(identifier,(function(){
 return nil;
 
 }));
@@ -204,7 +196,7 @@ $ctx1.sendIdx["at:ifAbsent:"]=1;
 //>>excludeEnd("ctx");
 return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"bindingFor:",{aStringOrNode:aStringOrNode})});
+}, function($ctx1) {$ctx1.fill(self,"bindingFor:",{aNode:aNode,identifier:identifier})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.LexicalScope);
