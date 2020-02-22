@@ -1977,33 +1977,31 @@ selector: "isVariableKnown:inPackage:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aPackage"],
-source: "isVariableKnown: aString inPackage: aPackage\x0a\x09aPackage ifNotNil: [\x0a\x09\x09| packageKnownVars |\x0a\x09\x09packageKnownVars := (aPackage imports\x0a\x09\x09\x09reject: #isString)\x0a\x09\x09\x09collect: #key.\x0a\x09\x09(packageKnownVars includes: aString) ifTrue: [ ^ true ]].\x0a\x09^ Compiler new\x0a\x09\x09eval: 'typeof ', aString, ' !== \x22undefined\x22'\x0a\x09\x09forPackage: aPackage",
+source: "isVariableKnown: aString inPackage: aPackage\x0a\x09^ Compiler new\x0a\x09\x09eval: 'typeof(', aString, ')!== \x22undefined\x22||(function(){try{return(', aString, ',true)}catch(_){return false}})()'\x0a\x09\x09forPackage: aPackage",
 referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNotNil:", "collect:", "reject:", "imports", "ifTrue:", "includes:", "eval:forPackage:", "new", ","]
+messageSends: ["eval:forPackage:", "new", ","]
 }, function ($methodClass){ return function (aString,aPackage){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$receiver;
-if(($receiver = aPackage) == null || $receiver.a$nil){
-aPackage;
-} else {
-var packageKnownVars;
-packageKnownVars=$recv($recv($recv(aPackage)._imports())._reject_("isString"))._collect_("key");
-$1=$recv(packageKnownVars)._includes_(aString);
-if($core.assert($1)){
-return true;
-}
-}
-$2=$recv($globals.Compiler)._new();
-$3=$recv("typeof ".__comma(aString)).__comma(" !== \x22undefined\x22");
+var $1,$4,$3,$2;
+$1=$recv($globals.Compiler)._new();
+$4=$recv("typeof(".__comma(aString)).__comma(")!== \x22undefined\x22||(function(){try{return(");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=3;
+//>>excludeEnd("ctx");
+$3=$recv($4).__comma(aString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=2;
+//>>excludeEnd("ctx");
+$2=$recv($3).__comma(",true)}catch(_){return false}})()");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
-return $recv($2)._eval_forPackage_($3,aPackage);
+return $recv($1)._eval_forPackage_($2,aPackage);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isVariableKnown:inPackage:",{aString:aString,aPackage:aPackage})});
 //>>excludeEnd("ctx");

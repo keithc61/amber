@@ -571,14 +571,8 @@ validateVariableScope: aString
 !SemanticAnalyzer methodsFor: 'testing'!
 
 isVariableKnown: aString inPackage: aPackage
-	aPackage ifNotNil: [
-		| packageKnownVars |
-		packageKnownVars := (aPackage imports
-			reject: #isString)
-			collect: #key.
-		(packageKnownVars includes: aString) ifTrue: [ ^ true ]].
 	^ Compiler new
-		eval: 'typeof ', aString, ' !!== "undefined"'
+		eval: 'typeof(', aString, ')!!== "undefined"||(function(){try{return(', aString, ',true)}catch(_){return false}})()'
 		forPackage: aPackage
 ! !
 
