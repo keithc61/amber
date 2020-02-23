@@ -288,20 +288,10 @@ on: aString
 ! !
 
 ScopeVar subclass: #AliasVar
-	slots: {#node}
+	slots: {}
 	package: 'Compiler-Semantic'!
 !AliasVar commentStamp!
 I am an internally defined variable by the compiler!
-
-!AliasVar methodsFor: 'accessing'!
-
-node
-	^ node
-!
-
-node: aNode
-	node := aNode
-! !
 
 !AliasVar methodsFor: 'testing'!
 

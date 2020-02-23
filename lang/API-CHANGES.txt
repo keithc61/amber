@@ -27,6 +27,9 @@
 + amber/helpers exports >>
   + $nil
 
+- AliasVar >>
+  - node
+  - node:
 - Error >>
   - beSmalltalkError
   - isSmalltalkError

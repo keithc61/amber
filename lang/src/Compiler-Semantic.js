@@ -1371,7 +1371,7 @@ return $recv($1)._yourself();
 $globals.ScopeVar.a$cls);
 
 
-$core.addClass("AliasVar", $globals.ScopeVar, ["node"], "Compiler-Semantic");
+$core.addClass("AliasVar", $globals.ScopeVar, [], "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AliasVar.comment="I am an internally defined variable by the compiler";
 //>>excludeEnd("ide");
@@ -1389,43 +1389,6 @@ messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return true;
-
-}; }),
-$globals.AliasVar);
-
-$core.addMethod(
-$core.method({
-selector: "node",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "node\x0a\x09^ node",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return $self.node;
-
-}; }),
-$globals.AliasVar);
-
-$core.addMethod(
-$core.method({
-selector: "node:",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode"],
-source: "node: aNode\x0a\x09node := aNode",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (aNode){
-var self=this,$self=this;
-$self.node=aNode;
-return self;
 
 }; }),
 $globals.AliasVar);
