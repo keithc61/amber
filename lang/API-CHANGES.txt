@@ -30,6 +30,8 @@
 - AliasVar >>
   - node
   - node:
+- ArgVar >>
+  - isArgVar
 - Error >>
   - beSmalltalkError
   - isSmalltalkError
@@ -42,6 +44,7 @@
 - MethodLexicalScope >>
   - unknownVariables
 - ScopeVar >>
+  - isArgVar
   - isUnknownVar
 - SemanticAnalyzer >>
   - isVariableUndefined:inPackage:
@@ -50,6 +53,8 @@
   - shouldBeInlined:
 - UnknownVar >>
   - isUnknownVar
+- VariableNode >>
+  - isArgument
 - amber/boot api >>
   - addElement(arraySet, el)
   - removeElement(arraySet, el)

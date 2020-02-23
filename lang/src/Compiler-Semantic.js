@@ -1079,24 +1079,6 @@ $globals.ScopeVar);
 
 $core.addMethod(
 $core.method({
-selector: "isArgVar",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isArgVar\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ScopeVar);
-
-$core.addMethod(
-$core.method({
 selector: "isClassRefVar",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1399,24 +1381,6 @@ $core.addClass("ArgVar", $globals.ScopeVar, [], "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ArgVar.comment="I am an argument of a method or block.";
 //>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "isArgVar",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isArgVar\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.ArgVar);
-
 $core.addMethod(
 $core.method({
 selector: "isImmutable",

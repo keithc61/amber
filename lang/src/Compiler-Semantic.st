@@ -236,10 +236,6 @@ scope: aScope
 
 !ScopeVar methodsFor: 'testing'!
 
-isArgVar
-	^ false
-!
-
 isClassRefVar
 	^ false
 !
@@ -306,10 +302,6 @@ ScopeVar subclass: #ArgVar
 I am an argument of a method or block.!
 
 !ArgVar methodsFor: 'testing'!
-
-isArgVar
-	^ true
-!
 
 isImmutable
 	^ true

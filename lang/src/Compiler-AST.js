@@ -2489,29 +2489,6 @@ $globals.VariableNode);
 
 $core.addMethod(
 $core.method({
-selector: "isArgument",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isArgument\x0a\x09^ self binding isArgVar",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["isArgVar", "binding"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self._binding())._isArgVar();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isArgument",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.VariableNode);
-
-$core.addMethod(
-$core.method({
 selector: "isImmutable",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);

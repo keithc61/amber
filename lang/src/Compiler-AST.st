@@ -630,10 +630,6 @@ navigationLink
 
 !VariableNode methodsFor: 'testing'!
 
-isArgument
-	^ self binding isArgVar
-!
-
 isImmutable
 	^ self binding isImmutable
 !
