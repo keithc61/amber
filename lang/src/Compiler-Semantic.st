@@ -273,7 +273,7 @@ isTempVar
 !
 
 validateAssignment
-	(self isArgVar or: [ self isPseudoVar ]) ifTrue: [
+	self isImmutable ifTrue: [
 		InvalidAssignmentError new
 			variableName: self name;
 			signal]

@@ -1319,26 +1319,18 @@ selector: "validateAssignment",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "validateAssignment\x0a\x09(self isArgVar or: [ self isPseudoVar ]) ifTrue: [\x0a\x09\x09InvalidAssignmentError new\x0a\x09\x09\x09variableName: self name;\x0a\x09\x09\x09signal]",
+source: "validateAssignment\x0a\x09self isImmutable ifTrue: [\x0a\x09\x09InvalidAssignmentError new\x0a\x09\x09\x09variableName: self name;\x0a\x09\x09\x09signal]",
 referencedClasses: ["InvalidAssignmentError"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:", "or:", "isArgVar", "isPseudoVar", "variableName:", "new", "name", "signal"]
+messageSends: ["ifTrue:", "isImmutable", "variableName:", "new", "name", "signal"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2;
-$1=$recv($self._isArgVar())._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $self._isPseudoVar();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+$1=$self._isImmutable();
 if($core.assert($1)){
 $2=$recv($globals.InvalidAssignmentError)._new();
 $recv($2)._variableName_($self._name());
