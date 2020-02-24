@@ -171,7 +171,7 @@ makeJavaScriptConstructorSubclassOf: javaScriptClass
 
 canUnderstand: aSelector
 	^ (self includesSelector: aSelector asString) or: [
-		self superclass notNil and: [ self superclass canUnderstand: aSelector ]]
+		self superclass ifNil: [ false ] ifNotNil: [ :superClass | superClass canUnderstand: aSelector ]]
 !
 
 includesBehavior: aClass

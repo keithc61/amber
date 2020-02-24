@@ -482,7 +482,7 @@ selector: aString
 !
 
 superSend
-	^ self receiver notNil and: [ self receiver isSuper ]
+	^ self receiver ifNil: [ false ] ifNotNil: [ :recv | recv isSuper ]
 ! !
 
 !SendNode methodsFor: 'testing'!

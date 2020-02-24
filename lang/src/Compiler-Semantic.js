@@ -346,31 +346,25 @@ selector: "isInlined",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isInlined\x0a\x09^ self instruction notNil and: [\x0a\x09\x09self instruction isInlined ]",
+source: "isInlined\x0a\x09^ self instruction ifNil: [ false ] ifNotNil: [ :instr | instr isInlined ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["and:", "notNil", "instruction", "isInlined"]
+messageSends: ["ifNil:ifNotNil:", "instruction", "isInlined"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1;
-$2=$self._instruction();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["instruction"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._notNil();
-return $recv($1)._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($self._instruction())._isInlined();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+var $1,$receiver;
+$1=$self._instruction();
+if(($receiver = $1) == null || $receiver.a$nil){
+return false;
+} else {
+var instr;
+instr=$receiver;
+return $recv(instr)._isInlined();
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isInlined",{})});
 //>>excludeEnd("ctx");

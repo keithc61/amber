@@ -2008,31 +2008,25 @@ selector: "superSend",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "superSend\x0a\x09^ self receiver notNil and: [ self receiver isSuper ]",
+source: "superSend\x0a\x09^ self receiver ifNil: [ false ] ifNotNil: [ :recv | recv isSuper ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["and:", "notNil", "receiver", "isSuper"]
+messageSends: ["ifNil:ifNotNil:", "receiver", "isSuper"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1;
-$2=$self._receiver();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["receiver"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._notNil();
-return $recv($1)._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($self._receiver())._isSuper();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+var $1,$receiver;
+$1=$self._receiver();
+if(($receiver = $1) == null || $receiver.a$nil){
+return false;
+} else {
+var recv;
+recv=$receiver;
+return $recv(recv)._isSuper();
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"superSend",{})});
 //>>excludeEnd("ctx");

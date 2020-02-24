@@ -326,35 +326,29 @@ selector: "canUnderstand:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aSelector"],
-source: "canUnderstand: aSelector\x0a\x09^ (self includesSelector: aSelector asString) or: [\x0a\x09\x09self superclass notNil and: [ self superclass canUnderstand: aSelector ]]",
+source: "canUnderstand: aSelector\x0a\x09^ (self includesSelector: aSelector asString) or: [\x0a\x09\x09self superclass ifNil: [ false ] ifNotNil: [ :superClass | superClass canUnderstand: aSelector ]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["or:", "includesSelector:", "asString", "and:", "notNil", "superclass", "canUnderstand:"]
+messageSends: ["or:", "includesSelector:", "asString", "ifNil:ifNotNil:", "superclass", "canUnderstand:"]
 }, function ($methodClass){ return function (aSelector){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1;
+var $1,$receiver;
 return $recv($self._includesSelector_($recv(aSelector)._asString()))._or_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2=$self._superclass();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["superclass"]=1;
-//>>excludeEnd("ctx");
-$1=$recv($2)._notNil();
-return $recv($1)._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $recv($self._superclass())._canUnderstand_(aSelector);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}));
+$1=$self._superclass();
+if(($receiver = $1) == null || $receiver.a$nil){
+return false;
+} else {
+var superClass;
+superClass=$receiver;
+return $recv(superClass)._canUnderstand_(aSelector);
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");

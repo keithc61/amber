@@ -56,10 +56,7 @@ Trait named: #TPragmator
 !TPragmator methodsFor: 'pragma processing'!
 
 canProcessPragma: aMessage
-	| selector |
-	selector := aMessage selector.
-	^ (self respondsTo: selector) and: [
-		(self class superclass canUnderstand: selector) not]
+	^ self class includesSelector: aMessage selector
 !
 
 processPragma: aMessage

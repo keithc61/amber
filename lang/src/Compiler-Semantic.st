@@ -117,8 +117,7 @@ isBlockScope
 !
 
 isInlined
-	^ self instruction notNil and: [
-		self instruction isInlined ]
+	^ self instruction ifNil: [ false ] ifNotNil: [ :instr | instr isInlined ]
 !
 
 isMethodScope
