@@ -4535,11 +4535,11 @@ selector: "visitSuperSend:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSend"],
-source: "visitSuperSend: anIRSend\x0a\x09self stream nextPutSupercallFor: anIRSend with: [\x0a\x09\x09self stream\x0a\x09\x09\x09nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';\x0a\x09\x09\x09nextPutAll: anIRSend javaScriptSelector, '.call'.\x0a\x09\x09self\x0a\x09\x09\x09visitInstructionList: {anIRSend receiver}, anIRSend arguments\x0a\x09\x09\x09enclosedBetween: '(' and: ')' ]",
+source: "visitSuperSend: anIRSend\x0a\x09self stream nextPutSupercallFor: anIRSend with: [\x0a\x09\x09self stream\x0a\x09\x09\x09nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';\x0a\x09\x09\x09nextPutAll: anIRSend javaScriptSelector, '.call'.\x0a\x09\x09self\x0a\x09\x09\x09visitInstructionList: {anIRSend receiver asReceiver}, anIRSend arguments\x0a\x09\x09\x09enclosedBetween: '(' and: ')' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["nextPutSupercallFor:with:", "stream", "nextPutAll:", ",", "lookupAsJavaScriptSource", "variable", "receiver", "javaScriptSelector", "visitInstructionList:enclosedBetween:and:", "arguments"]
+messageSends: ["nextPutSupercallFor:with:", "stream", "nextPutAll:", ",", "lookupAsJavaScriptSource", "variable", "receiver", "javaScriptSelector", "visitInstructionList:enclosedBetween:and:", "asReceiver", "arguments"]
 }, function ($methodClass){ return function (anIRSend){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4574,7 +4574,7 @@ $7=$recv($recv(anIRSend)._javaScriptSelector()).__comma(".call");
 $ctx2.sendIdx[","]=2;
 //>>excludeEnd("ctx");
 $recv($2)._nextPutAll_($7);
-return $self._visitInstructionList_enclosedBetween_and_($recv([$recv(anIRSend)._receiver()]).__comma($recv(anIRSend)._arguments()),"(",")");
+return $self._visitInstructionList_enclosedBetween_and_($recv([$recv($recv(anIRSend)._receiver())._asReceiver()]).__comma($recv(anIRSend)._arguments()),"(",")");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");

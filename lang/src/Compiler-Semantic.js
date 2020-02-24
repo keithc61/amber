@@ -1667,24 +1667,6 @@ $globals.SuperVar.comment="I am a 'super' pseudo variable.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "alias",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "alias\x0a\x09^ '$self'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return "$self";
-
-}; }),
-$globals.SuperVar);
-
-$core.addMethod(
-$core.method({
 selector: "isSuper",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);

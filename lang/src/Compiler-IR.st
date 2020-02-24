@@ -1097,7 +1097,7 @@ visitSuperSend: anIRSend
 			nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';
 			nextPutAll: anIRSend javaScriptSelector, '.call'.
 		self
-			visitInstructionList: {anIRSend receiver}, anIRSend arguments
+			visitInstructionList: {anIRSend receiver asReceiver}, anIRSend arguments
 			enclosedBetween: '(' and: ')' ]
 ! !
 

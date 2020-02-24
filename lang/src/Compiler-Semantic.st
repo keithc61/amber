@@ -407,10 +407,6 @@ I am a 'super' pseudo variable.!
 
 !SuperVar methodsFor: 'accessing'!
 
-alias
-	^ '$self'
-!
-
 lookupAsJavaScriptSource
 	^ '($methodClass.superclass||$boot.nilAsClass).fn.prototype'
 ! !
