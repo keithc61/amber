@@ -372,7 +372,7 @@ lookupContextForLocal: aString ifNone: aBlock
 			self outerContext 
 				ifNil: aBlock
 				ifNotNil: [ :context | 
-					context lookupContextForLocal: aString ] ]
+					context lookupContextForLocal: aString ifNone: aBlock ] ]
 ! !
 
 !AIContext methodsFor: 'testing'!
