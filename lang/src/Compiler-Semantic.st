@@ -370,7 +370,7 @@ alias
 !PseudoVar methodsFor: 'testing'!
 
 asReceiver
-	#{#self -> '$self'. #super -> '$self'}
+	#{#self -> '$self'. #super -> '$self'. #nil -> '$nil'}
 		at: self name
 		ifPresent: [ :newName | ^ self copy name: newName; yourself ]
 		ifAbsent: [ ^ self ]

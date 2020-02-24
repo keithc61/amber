@@ -1701,7 +1701,7 @@ basicEval=$recv(anObject)._at_ifAbsent_("innerEval",(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return nil._asJavaScriptObject();
+return $nil._asJavaScriptObject();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");

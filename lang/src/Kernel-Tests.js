@@ -16957,7 +16957,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self._assert_equals_(nil._copy(),nil);
+$self._assert_equals_($nil._copy(),nil);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testCopying",{})});
@@ -16981,7 +16981,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self._assert_($recv(nil._deepCopy()).__eq(nil));
+$self._assert_($recv($nil._deepCopy()).__eq(nil));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testDeepCopy",{})});
@@ -17064,8 +17064,8 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self._assert_(nil._isNil());
-$self._deny_(nil._notNil());
+$self._assert_($nil._isNil());
+$self._deny_($nil._notNil());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIsNil",{})});

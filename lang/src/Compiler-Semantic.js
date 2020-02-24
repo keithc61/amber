@@ -1534,7 +1534,7 @@ selector: "asReceiver",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asReceiver\x0a\x09#{#self -> '$self'. #super -> '$self'}\x0a\x09\x09at: self name\x0a\x09\x09ifPresent: [ :newName | ^ self copy name: newName; yourself ]\x0a\x09\x09ifAbsent: [ ^ self ]",
+source: "asReceiver\x0a\x09#{#self -> '$self'. #super -> '$self'. #nil -> '$nil'}\x0a\x09\x09at: self name\x0a\x09\x09ifPresent: [ :newName | ^ self copy name: newName; yourself ]\x0a\x09\x09ifAbsent: [ ^ self ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -1547,7 +1547,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 var $early={};
 try {
-$recv($globals.HashedCollection._newFromPairs_(["self","$self","super","$self"]))._at_ifPresent_ifAbsent_($self._name(),(function(newName){
+$recv($globals.HashedCollection._newFromPairs_(["self","$self","super","$self","nil","$nil"]))._at_ifPresent_ifAbsent_($self._name(),(function(newName){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
