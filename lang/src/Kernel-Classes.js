@@ -396,40 +396,25 @@ selector: "inheritsFrom:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
-source: "inheritsFrom: aClass\x0a\x09self superclass ifNil: [ ^ false ].\x0a\x0a\x09^ aClass == self superclass or: [ \x0a\x09\x09self superclass inheritsFrom: aClass ]",
+source: "inheritsFrom: aClass\x0a\x09^ self superclass\x0a\x09\x09ifNil: [ false ]\x0a\x09\x09ifNotNil: [ :superClass | superClass includesBehavior: aClass ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNil:", "superclass", "or:", "==", "inheritsFrom:"]
+messageSends: ["ifNil:ifNotNil:", "superclass", "includesBehavior:"]
 }, function ($methodClass){ return function (aClass){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2,$receiver;
+var $1,$receiver;
 $1=$self._superclass();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["superclass"]=1;
-//>>excludeEnd("ctx");
 if(($receiver = $1) == null || $receiver.a$nil){
 return false;
 } else {
-$1;
+var superClass;
+superClass=$receiver;
+return $recv(superClass)._includesBehavior_(aClass);
 }
-$3=$self._superclass();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["superclass"]=2;
-//>>excludeEnd("ctx");
-$2=$recv(aClass).__eq_eq($3);
-return $recv($2)._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($self._superclass())._inheritsFrom_(aClass);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"inheritsFrom:",{aClass:aClass})});
 //>>excludeEnd("ctx");

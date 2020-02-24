@@ -180,10 +180,9 @@ includesBehavior: aClass
 !
 
 inheritsFrom: aClass
-	self superclass ifNil: [ ^ false ].
-
-	^ aClass == self superclass or: [ 
-		self superclass inheritsFrom: aClass ]
+	^ self superclass
+		ifNil: [ false ]
+		ifNotNil: [ :superClass | superClass includesBehavior: aClass ]
 !
 
 isBehavior
