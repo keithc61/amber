@@ -1,6 +1,7 @@
 0.24.1:
 
 * Deprecate Behavior >> javascriptConstructor(:)
+* Deprecate IRInstruction >> needsBoxingAsReceiver
 * UnknownVar => ExternallyKnownVar
 
 + Behavior >>
@@ -13,10 +14,19 @@
   + tryIfTrue:catch:
 + ExternallyKnownVar >>
   + isExternallyKnownVar
++ IRInstruction >>
+  + asReceiver
++ IRValue >>
+  + asReceiver
++ IRVariable >>
+  + asReceiver
++ PseudoVar
+  + asReceiver
 + SemanticAnalyzer >>
   + errorInvalidAssignment:
   + isVariableKnown:inPackage:
 + ScopeVar >>
+  + asReceiver
   + isExternallyKnownVar
 + SequenceableCollection >>
   + copyWithFirst:
@@ -36,6 +46,13 @@
 - Error >>
   - beSmalltalkError
   - isSmalltalkError
+- IRInstruction >>
+  - isSelf
+- IRValue >>
+  - needsBoxingAsReceiver
+- IRVariable >>
+  - isSelf
+  - needsBoxingAsReceiver
 - JavaScriptError >>
   - shouldBeStubbed
   - wrap
@@ -44,8 +61,11 @@
   - stubToAtMost:
 - MethodLexicalScope >>
   - unknownVariables
+- PseudoVar >>
+  - isSelf
 - ScopeVar >>
   - isArgVar
+  - isSelf
   - isUnknownVar
   - validateAssignment
 - SemanticAnalyzer >>

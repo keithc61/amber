@@ -233,6 +233,14 @@ scope: aScope
 	scope := aScope
 ! !
 
+!ScopeVar methodsFor: 'converting'!
+
+asReceiver
+	"Return customized copy to use as receiver,
+	or self if suffices."
+	^ nil
+! !
+
 !ScopeVar methodsFor: 'testing'!
 
 isClassRefVar
@@ -252,10 +260,6 @@ isInstanceVar
 !
 
 isPseudoVar
-	^ false
-!
-
-isSelf
 	^ false
 !
 
@@ -365,16 +369,19 @@ alias
 
 !PseudoVar methodsFor: 'testing'!
 
+asReceiver
+	#{#self -> '$self'. #super -> '$self'}
+		at: self name
+		ifPresent: [ :newName | ^ self copy name: newName; yourself ]
+		ifAbsent: [ ^ self ]
+!
+
 isImmutable
 	^ true
 !
 
 isPseudoVar
 	^ true
-!
-
-isSelf
-	^ name = 'self'
 ! !
 
 PseudoVar class slots: {#dictionary}!

@@ -307,6 +307,14 @@ replaceWith: anIRInstruction
 	self parent replace: self with: anIRInstruction
 ! !
 
+!IRInstruction methodsFor: 'converting'!
+
+asReceiver
+	"Return customized form to act as receiver.
+	Return self to use standard $recv(...) boxing."
+	^ nil
+! !
+
 !IRInstruction methodsFor: 'testing'!
 
 isClosure
@@ -318,10 +326,6 @@ isInlined
 !
 
 isMethod
-	^ false
-!
-
-isSelf
 	^ false
 !
 
@@ -346,7 +350,8 @@ isVariable
 !
 
 needsBoxingAsReceiver
-	^ true
+	self deprecatedAPI: 'Use asReceiver isNil instead.'.
+	^ self asReceiver isNil
 !
 
 yieldsValue
@@ -740,10 +745,10 @@ value: aString
 	value := aString
 ! !
 
-!IRValue methodsFor: 'testing'!
+!IRValue methodsFor: 'converting'!
 
-needsBoxingAsReceiver
-	^ false
+asReceiver
+	^ self
 ! !
 
 !IRValue methodsFor: 'visiting'!
@@ -768,11 +773,17 @@ variable: aScopeVariable
 	variable := aScopeVariable
 ! !
 
-!IRVariable methodsFor: 'testing'!
+!IRVariable methodsFor: 'converting'!
 
-isSelf
-	^ self variable isSelf
-!
+asReceiver
+	self variable asReceiver
+		ifNil: [ ^ super asReceiver ]
+		ifNotNil: [ :receiverVar |
+			self variable == receiverVar ifTrue: [ ^ self ].
+			^ self copy variable: receiverVar; yourself ]
+! !
+
+!IRVariable methodsFor: 'testing'!
 
 isSuper
 	^ self variable isSuper
@@ -780,10 +791,6 @@ isSuper
 
 isVariable
 	^ true
-!
-
-needsBoxingAsReceiver
-	^ self variable isPseudoVar not
 ! !
 
 !IRVariable methodsFor: 'visiting'!
@@ -1068,19 +1075,12 @@ visitInstructionList: anArray enclosedBetween: aString and: anotherString
 !
 
 visitReceiver: anIRInstruction
-	| instr |
-
-	anIRInstruction isSelf
-		ifTrue: [ instr := anIRInstruction copy
-			variable: (anIRInstruction variable copy name: '$self'; yourself);
-			yourself ]
-		ifFalse: [ instr := anIRInstruction ].
-	
-	instr needsBoxingAsReceiver ifFalse: [ ^ self visit: instr ].
-	
-	self stream nextPutAll: '$recv('.
-	self visit: instr.
-	self stream nextPutAll: ')'
+	anIRInstruction asReceiver
+		ifNotNil: [ :instr | self visit: instr ]
+		ifNil: [
+			self stream nextPutAll: '$recv('.
+			self visit: anIRInstruction.
+			self stream nextPutAll: ')' ]
 !
 
 visitSend: anIRSend

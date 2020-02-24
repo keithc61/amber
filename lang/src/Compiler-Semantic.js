@@ -1073,6 +1073,24 @@ $globals.ScopeVar);
 
 $core.addMethod(
 $core.method({
+selector: "asReceiver",
+protocol: "converting",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asReceiver\x0a\x09\x22Return customized copy to use as receiver,\x0a\x09or self if suffices.\x22\x0a\x09^ nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return nil;
+
+}; }),
+$globals.ScopeVar);
+
+$core.addMethod(
+$core.method({
 selector: "isClassRefVar",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1150,24 +1168,6 @@ protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "isPseudoVar\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ScopeVar);
-
-$core.addMethod(
-$core.method({
-selector: "isSelf",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isSelf\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -1530,6 +1530,48 @@ $globals.PseudoVar);
 
 $core.addMethod(
 $core.method({
+selector: "asReceiver",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asReceiver\x0a\x09#{#self -> '$self'. #super -> '$self'}\x0a\x09\x09at: self name\x0a\x09\x09ifPresent: [ :newName | ^ self copy name: newName; yourself ]\x0a\x09\x09ifAbsent: [ ^ self ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:ifPresent:ifAbsent:", "name", "name:", "copy", "yourself"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+var $early={};
+try {
+$recv($globals.HashedCollection._newFromPairs_(["self","$self","super","$self"]))._at_ifPresent_ifAbsent_($self._name(),(function(newName){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=$self._copy();
+$recv($1)._name_(newName);
+throw $early=[$recv($1)._yourself()];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({newName:newName},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),(function(){
+throw $early=[self];
+
+}));
+return self;
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asReceiver",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PseudoVar);
+
+$core.addMethod(
+$core.method({
 selector: "isImmutable",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1561,29 +1603,6 @@ messageSends: []
 var self=this,$self=this;
 return true;
 
-}; }),
-$globals.PseudoVar);
-
-$core.addMethod(
-$core.method({
-selector: "isSelf",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isSelf\x0a\x09^ name = 'self'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["="]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self.name).__eq("self");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isSelf",{})});
-//>>excludeEnd("ctx");
 }; }),
 $globals.PseudoVar);
 

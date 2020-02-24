@@ -1155,6 +1155,24 @@ $globals.IRInstruction);
 
 $core.addMethod(
 $core.method({
+selector: "asReceiver",
+protocol: "converting",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asReceiver\x0a\x09\x22Return customized form to act as receiver.\x0a\x09Return self to use standard $recv(...) boxing.\x22\x0a\x09^ nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return nil;
+
+}; }),
+$globals.IRInstruction);
+
+$core.addMethod(
+$core.method({
 selector: "isClosure",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1196,24 +1214,6 @@ protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "isMethod\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.IRInstruction);
-
-$core.addMethod(
-$core.method({
-selector: "isSelf",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isSelf\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -1344,15 +1344,21 @@ selector: "needsBoxingAsReceiver",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "needsBoxingAsReceiver\x0a\x09^ true",
+source: "needsBoxingAsReceiver\x0a\x09self deprecatedAPI: 'Use asReceiver isNil instead.'.\x0a\x09^ self asReceiver isNil",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: []
+messageSends: ["deprecatedAPI:", "isNil", "asReceiver"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return true;
-
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._deprecatedAPI_("Use asReceiver isNil instead.");
+return $recv($self._asReceiver())._isNil();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"needsBoxingAsReceiver",{})});
+//>>excludeEnd("ctx");
 }; }),
 $globals.IRInstruction);
 
@@ -2932,18 +2938,18 @@ $globals.IRValue);
 
 $core.addMethod(
 $core.method({
-selector: "needsBoxingAsReceiver",
-protocol: "testing",
+selector: "asReceiver",
+protocol: "converting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "needsBoxingAsReceiver\x0a\x09^ false",
+source: "asReceiver\x0a\x09^ self",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return false;
+return self;
 
 }; }),
 $globals.IRValue);
@@ -3016,23 +3022,53 @@ $globals.IRVariable);
 
 $core.addMethod(
 $core.method({
-selector: "isSelf",
-protocol: "testing",
+selector: "asReceiver",
+protocol: "converting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isSelf\x0a\x09^ self variable isSelf",
+source: "asReceiver\x0a\x09self variable asReceiver\x0a\x09\x09ifNil: [ ^ super asReceiver ]\x0a\x09\x09ifNotNil: [ :receiverVar |\x0a\x09\x09\x09self variable == receiverVar ifTrue: [ ^ self ].\x0a\x09\x09\x09^ self copy variable: receiverVar; yourself ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["isSelf", "variable"]
+messageSends: ["ifNil:ifNotNil:", "asReceiver", "variable", "ifTrue:", "==", "variable:", "copy", "yourself"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self._variable())._isSelf();
+var $2,$1,$3,$4,$5,$receiver;
+$2=$self._variable();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isSelf",{})});
+$ctx1.sendIdx["variable"]=1;
+//>>excludeEnd("ctx");
+$1=$recv($2)._asReceiver();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["asReceiver"]=1;
+//>>excludeEnd("ctx");
+if(($receiver = $1) == null || $receiver.a$nil){
+$3=(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._asReceiver.call($self));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+return $3;
+} else {
+var receiverVar;
+receiverVar=$receiver;
+$4=$recv($self._variable()).__eq_eq(receiverVar);
+if($core.assert($4)){
+return self;
+}
+$5=$self._copy();
+$recv($5)._variable_(receiverVar);
+return $recv($5)._yourself();
+}
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asReceiver",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.IRVariable);
@@ -3075,29 +3111,6 @@ messageSends: []
 var self=this,$self=this;
 return true;
 
-}; }),
-$globals.IRVariable);
-
-$core.addMethod(
-$core.method({
-selector: "needsBoxingAsReceiver",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "needsBoxingAsReceiver\x0a\x09^ self variable isPseudoVar not",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["not", "isPseudoVar", "variable"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($recv($self._variable())._isPseudoVar())._not();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"needsBoxingAsReceiver",{})});
-//>>excludeEnd("ctx");
 }; }),
 $globals.IRVariable);
 
@@ -4452,59 +4465,40 @@ selector: "visitReceiver:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRInstruction"],
-source: "visitReceiver: anIRInstruction\x0a\x09| instr |\x0a\x0a\x09anIRInstruction isSelf\x0a\x09\x09ifTrue: [ instr := anIRInstruction copy\x0a\x09\x09\x09variable: (anIRInstruction variable copy name: '$self'; yourself);\x0a\x09\x09\x09yourself ]\x0a\x09\x09ifFalse: [ instr := anIRInstruction ].\x0a\x09\x0a\x09instr needsBoxingAsReceiver ifFalse: [ ^ self visit: instr ].\x0a\x09\x0a\x09self stream nextPutAll: '$recv('.\x0a\x09self visit: instr.\x0a\x09self stream nextPutAll: ')'",
+source: "visitReceiver: anIRInstruction\x0a\x09anIRInstruction asReceiver\x0a\x09\x09ifNotNil: [ :instr | self visit: instr ]\x0a\x09\x09ifNil: [\x0a\x09\x09\x09self stream nextPutAll: '$recv('.\x0a\x09\x09\x09self visit: anIRInstruction.\x0a\x09\x09\x09self stream nextPutAll: ')' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:ifFalse:", "isSelf", "variable:", "copy", "name:", "variable", "yourself", "ifFalse:", "needsBoxingAsReceiver", "visit:", "nextPutAll:", "stream"]
+messageSends: ["ifNotNil:ifNil:", "asReceiver", "visit:", "nextPutAll:", "stream"]
 }, function ($methodClass){ return function (anIRInstruction){
 var self=this,$self=this;
-var instr;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$5,$3,$6,$7,$8;
-$1=$recv(anIRInstruction)._isSelf();
-if($core.assert($1)){
-$2=$recv(anIRInstruction)._copy();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["copy"]=1;
-//>>excludeEnd("ctx");
-$4=$recv($recv(anIRInstruction)._variable())._copy();
-$recv($4)._name_("$self");
-$5=$recv($4)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["yourself"]=1;
-//>>excludeEnd("ctx");
-$3=$5;
-$recv($2)._variable_($3);
-instr=$recv($2)._yourself();
-instr;
-} else {
-instr=anIRInstruction;
-instr;
-}
-$6=$recv(instr)._needsBoxingAsReceiver();
-if(!$core.assert($6)){
-$7=$self._visit_(instr);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["visit:"]=1;
-//>>excludeEnd("ctx");
-return $7;
-}
-$8=$self._stream();
+var $1,$2,$receiver;
+$1=$recv(anIRInstruction)._asReceiver();
+if(($receiver = $1) == null || $receiver.a$nil){
+$2=$self._stream();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["stream"]=1;
 //>>excludeEnd("ctx");
-$recv($8)._nextPutAll_("$recv(");
+$recv($2)._nextPutAll_("$recv(");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["nextPutAll:"]=1;
 //>>excludeEnd("ctx");
-$self._visit_(instr);
+$self._visit_(anIRInstruction);
 $recv($self._stream())._nextPutAll_(")");
+} else {
+var instr;
+instr=$receiver;
+$self._visit_(instr);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["visit:"]=1;
+//>>excludeEnd("ctx");
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitReceiver:",{anIRInstruction:anIRInstruction,instr:instr})});
+}, function($ctx1) {$ctx1.fill(self,"visitReceiver:",{anIRInstruction:anIRInstruction})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.IRJSTranslator);
