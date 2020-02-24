@@ -3245,47 +3245,6 @@ $globals.SmalltalkImage);
 
 $core.addMethod(
 $core.method({
-selector: "do:on:do:",
-protocol: "error handling",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["actionBlock", "anErrorClass", "aBlock"],
-source: "do: actionBlock on: anErrorClass do: aBlock\x0a\x09\x22All exceptions thrown in the Smalltalk stack are cought.\x0a\x09Convert all JS exceptions to JavaScriptException instances.\x22\x0a\x09\x0a\x09| smalltalkError |\x0a\x09^ actionBlock\x0a\x09\x09tryIfTrue: [ :error |\x0a\x09\x09\x09smalltalkError := self asSmalltalkException: error.\x0a\x09\x09\x09smalltalkError isKindOf: anErrorClass ]\x0a\x09\x09catch: [ aBlock value: smalltalkError ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["tryIfTrue:catch:", "asSmalltalkException:", "isKindOf:", "value:"]
-}, function ($methodClass){ return function (actionBlock,anErrorClass,aBlock){
-var self=this,$self=this;
-var smalltalkError;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(actionBlock)._tryIfTrue_catch_((function(error){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-smalltalkError=$self._asSmalltalkException_(error);
-return $recv(smalltalkError)._isKindOf_(anErrorClass);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,1)});
-//>>excludeEnd("ctx");
-}),(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(aBlock)._value_(smalltalkError);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"do:on:do:",{actionBlock:actionBlock,anErrorClass:anErrorClass,aBlock:aBlock,smalltalkError:smalltalkError})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.SmalltalkImage);
-
-$core.addMethod(
-$core.method({
 selector: "existsJsGlobal:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3920,6 +3879,50 @@ return $recv(pd)._removeKey_($recv(each)._name());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"sweepPackageDescriptors:",{pkgs:pkgs,pd:pd})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
+selector: "try:ifTrue:catch:",
+protocol: "error handling",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["actionBlock", "aBlock", "anotherBlock"],
+source: "try: actionBlock ifTrue: aBlock catch: anotherBlock\x0a\x09\x22Similar to BlockClosure >> tryifTrue:catch:, but\x0a\x09converts all JS exceptions to JavaScriptException instances.\x22\x0a\x09\x0a\x09| smalltalkError |\x0a\x09^ actionBlock\x0a\x09\x09tryIfTrue: [ :error |\x0a\x09\x09\x09smalltalkError := self asSmalltalkException: error.\x0a\x09\x09\x09aBlock value: smalltalkError ]\x0a\x09\x09catch: [ anotherBlock value: smalltalkError ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["tryIfTrue:catch:", "asSmalltalkException:", "value:"]
+}, function ($methodClass){ return function (actionBlock,aBlock,anotherBlock){
+var self=this,$self=this;
+var smalltalkError;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(actionBlock)._tryIfTrue_catch_((function(error){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+smalltalkError=$self._asSmalltalkException_(error);
+return $recv(aBlock)._value_(smalltalkError);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["value:"]=1;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(anotherBlock)._value_(smalltalkError);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"try:ifTrue:catch:",{actionBlock:actionBlock,aBlock:aBlock,anotherBlock:anotherBlock,smalltalkError:smalltalkError})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.SmalltalkImage);

@@ -257,7 +257,7 @@ compileMethod: sourceCode for: class protocol: protocol
 evaluate: aBlock on: anErrorClass do: exceptionBlock
 	"Evaluate a block and catch exceptions happening on the environment stack"
 	
-	^ Smalltalk do: aBlock on: (self classNamed: anErrorClass name) do: exceptionBlock
+	^ aBlock on: (self classNamed: anErrorClass name) do: exceptionBlock
 ! !
 
 !Environment methodsFor: 'evaluating'!

@@ -103,7 +103,7 @@ provided
 !BlockClosure methodsFor: 'error handling'!
 
 on: anErrorClass do: aBlock
-	^ Smalltalk do: self on: anErrorClass do: aBlock
+	^ Smalltalk try: self ifTrue: [ :err | err isKindOf: anErrorClass ] catch: aBlock
 !
 
 tryCatch: aBlock

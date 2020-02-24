@@ -345,17 +345,25 @@ selector: "on:do:",
 protocol: "error handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anErrorClass", "aBlock"],
-source: "on: anErrorClass do: aBlock\x0a\x09^ Smalltalk do: self on: anErrorClass do: aBlock",
+source: "on: anErrorClass do: aBlock\x0a\x09^ Smalltalk try: self ifTrue: [ :err | err isKindOf: anErrorClass ] catch: aBlock",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["do:on:do:"]
+messageSends: ["try:ifTrue:catch:", "isKindOf:"]
 }, function ($methodClass){ return function (anErrorClass,aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($globals.Smalltalk)._do_on_do_(self,anErrorClass,aBlock);
+return $recv($globals.Smalltalk)._try_ifTrue_catch_(self,(function(err){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(err)._isKindOf_(anErrorClass);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),aBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"on:do:",{anErrorClass:anErrorClass,aBlock:aBlock})});
 //>>excludeEnd("ctx");

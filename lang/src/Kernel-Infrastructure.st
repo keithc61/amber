@@ -916,16 +916,16 @@ asSmalltalkException: anObject
 		ifFalse: [ JavaScriptException on: anObject ]
 !
 
-do: actionBlock on: anErrorClass do: aBlock
-	"All exceptions thrown in the Smalltalk stack are cought.
-	Convert all JS exceptions to JavaScriptException instances."
+try: actionBlock ifTrue: aBlock catch: anotherBlock
+	"Similar to BlockClosure >> tryifTrue:catch:, but
+	converts all JS exceptions to JavaScriptException instances."
 	
 	| smalltalkError |
 	^ actionBlock
 		tryIfTrue: [ :error |
 			smalltalkError := self asSmalltalkException: error.
-			smalltalkError isKindOf: anErrorClass ]
-		catch: [ aBlock value: smalltalkError ]
+			aBlock value: smalltalkError ]
+		catch: [ anotherBlock value: smalltalkError ]
 ! !
 
 !SmalltalkImage methodsFor: 'globals'!

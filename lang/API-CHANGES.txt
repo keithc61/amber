@@ -21,8 +21,8 @@
 + SequenceableCollection >>
   + copyWithFirst:
 + SmalltalkImage >>
-  + do:on:do:
   + isError:
+  + try:ifTrue:catch:
 + amber/boot api >>
   + detachClass(klass)
 + amber/helpers exports >>

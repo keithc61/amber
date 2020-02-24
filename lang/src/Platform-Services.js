@@ -735,17 +735,17 @@ selector: "evaluate:on:do:",
 protocol: "error handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock", "anErrorClass", "exceptionBlock"],
-source: "evaluate: aBlock on: anErrorClass do: exceptionBlock\x0a\x09\x22Evaluate a block and catch exceptions happening on the environment stack\x22\x0a\x09\x0a\x09^ Smalltalk do: aBlock on: (self classNamed: anErrorClass name) do: exceptionBlock",
-referencedClasses: ["Smalltalk"],
+source: "evaluate: aBlock on: anErrorClass do: exceptionBlock\x0a\x09\x22Evaluate a block and catch exceptions happening on the environment stack\x22\x0a\x09\x0a\x09^ aBlock on: (self classNamed: anErrorClass name) do: exceptionBlock",
+referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["do:on:do:", "classNamed:", "name"]
+messageSends: ["on:do:", "classNamed:", "name"]
 }, function ($methodClass){ return function (aBlock,anErrorClass,exceptionBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($globals.Smalltalk)._do_on_do_(aBlock,$self._classNamed_($recv(anErrorClass)._name()),exceptionBlock);
+return $recv(aBlock)._on_do_($self._classNamed_($recv(anErrorClass)._name()),exceptionBlock);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"evaluate:on:do:",{aBlock:aBlock,anErrorClass:anErrorClass,exceptionBlock:exceptionBlock})});
 //>>excludeEnd("ctx");
