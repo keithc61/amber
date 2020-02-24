@@ -266,13 +266,6 @@ isSuper
 
 isTempVar
 	^ false
-!
-
-validateAssignment
-	self isImmutable ifTrue: [
-		InvalidAssignmentError new
-			variableName: self name;
-			signal]
 ! !
 
 !ScopeVar class methodsFor: 'instance creation'!
@@ -480,6 +473,12 @@ thePackage: aPackage
 
 !SemanticAnalyzer methodsFor: 'error handling'!
 
+errorInvalidAssignment: aString
+	InvalidAssignmentError new
+		variableName: aString;
+		signal
+!
+
 errorShadowingVariable: aString
 	ShadowingVariableError new
 		variableName: aString;
@@ -567,8 +566,11 @@ isVariableKnown: aString inPackage: aPackage
 !SemanticAnalyzer methodsFor: 'visiting'!
 
 visitAssignmentNode: aNode
+	| lhs |
 	super visitAssignmentNode: aNode.
-	aNode left beAssigned
+	lhs := aNode left.
+	lhs isImmutable ifTrue: [ self errorInvalidAssignment: lhs value ].
+	lhs assigned: true
 !
 
 visitBlockNode: aNode

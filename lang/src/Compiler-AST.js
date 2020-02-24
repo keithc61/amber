@@ -2427,31 +2427,6 @@ $globals.VariableNode);
 
 $core.addMethod(
 $core.method({
-selector: "beAssigned",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "beAssigned\x0a\x09self binding validateAssignment.\x0a\x09assigned := true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["validateAssignment", "binding"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv($self._binding())._validateAssignment();
-$self.assigned=true;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"beAssigned",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.VariableNode);
-
-$core.addMethod(
-$core.method({
 selector: "binding",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);

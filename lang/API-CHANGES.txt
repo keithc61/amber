@@ -14,6 +14,7 @@
 + ExternallyKnownVar >>
   + isExternallyKnownVar
 + SemanticAnalyzer >>
+  + errorInvalidAssignment:
   + isVariableKnown:inPackage:
 + ScopeVar >>
   + isExternallyKnownVar
@@ -46,6 +47,7 @@
 - ScopeVar >>
   - isArgVar
   - isUnknownVar
+  - validateAssignment
 - SemanticAnalyzer >>
   - isVariableUndefined:inPackage:
 - SendNode >>
@@ -54,6 +56,7 @@
 - UnknownVar >>
   - isUnknownVar
 - VariableNode >>
+  - beAssigned
   - isArgument
 - amber/boot api >>
   - addElement(arraySet, el)

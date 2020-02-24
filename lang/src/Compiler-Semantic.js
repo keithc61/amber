@@ -1295,36 +1295,6 @@ return self;
 }; }),
 $globals.ScopeVar);
 
-$core.addMethod(
-$core.method({
-selector: "validateAssignment",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "validateAssignment\x0a\x09self isImmutable ifTrue: [\x0a\x09\x09InvalidAssignmentError new\x0a\x09\x09\x09variableName: self name;\x0a\x09\x09\x09signal]",
-referencedClasses: ["InvalidAssignmentError"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifTrue:", "isImmutable", "variableName:", "new", "name", "signal"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$2;
-$1=$self._isImmutable();
-if($core.assert($1)){
-$2=$recv($globals.InvalidAssignmentError)._new();
-$recv($2)._variableName_($self._name());
-$recv($2)._signal();
-}
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"validateAssignment",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ScopeVar);
-
 
 $core.addMethod(
 $core.method({
@@ -1878,6 +1848,33 @@ $globals.SemanticAnalyzer);
 
 $core.addMethod(
 $core.method({
+selector: "errorInvalidAssignment:",
+protocol: "error handling",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "errorInvalidAssignment: aString\x0a\x09InvalidAssignmentError new\x0a\x09\x09variableName: aString;\x0a\x09\x09signal",
+referencedClasses: ["InvalidAssignmentError"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["variableName:", "new", "signal"]
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($globals.InvalidAssignmentError)._new();
+$recv($1)._variableName_(aString);
+$recv($1)._signal();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"errorInvalidAssignment:",{aString:aString})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SemanticAnalyzer);
+
+$core.addMethod(
+$core.method({
 selector: "errorShadowingVariable:",
 protocol: "error handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2267,16 +2264,18 @@ selector: "visitAssignmentNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitAssignmentNode: aNode\x0a\x09super visitAssignmentNode: aNode.\x0a\x09aNode left beAssigned",
+source: "visitAssignmentNode: aNode\x0a\x09| lhs |\x0a\x09super visitAssignmentNode: aNode.\x0a\x09lhs := aNode left.\x0a\x09lhs isImmutable ifTrue: [ self errorInvalidAssignment: lhs value ].\x0a\x09lhs assigned: true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["visitAssignmentNode:", "beAssigned", "left"]
+messageSends: ["visitAssignmentNode:", "left", "ifTrue:", "isImmutable", "errorInvalidAssignment:", "value", "assigned:"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
+var lhs;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1;
 (
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -2285,10 +2284,15 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-$recv($recv(aNode)._left())._beAssigned();
+lhs=$recv(aNode)._left();
+$1=$recv(lhs)._isImmutable();
+if($core.assert($1)){
+$self._errorInvalidAssignment_($recv(lhs)._value());
+}
+$recv(lhs)._assigned_(true);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitAssignmentNode:",{aNode:aNode})});
+}, function($ctx1) {$ctx1.fill(self,"visitAssignmentNode:",{aNode:aNode,lhs:lhs})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.SemanticAnalyzer);

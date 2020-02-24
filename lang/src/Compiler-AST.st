@@ -611,11 +611,6 @@ assigned: aBoolean
 	assigned := aBoolean
 !
 
-beAssigned
-	self binding validateAssignment.
-	assigned := true
-!
-
 binding
 	^ binding
 !
