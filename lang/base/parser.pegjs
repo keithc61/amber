@@ -194,7 +194,7 @@ block = '[' params:wsBlockParamList? sequence:wsBlockSequenceWs ']' {
 	return newNode($globals.BlockNode)._parameters_(params || [])._dagChildren_([sequence]);
 }
 
-operand = literal / reference / subexpression
+operand = reference / literal / subexpression
 
 wsUnaryMessage = ws selector:unarySelector !':' {
 	return newNode($globals.SendNode)._selector_(selector);

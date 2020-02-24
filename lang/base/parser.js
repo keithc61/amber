@@ -3349,9 +3349,9 @@ define(["./boot"], function(__boot) {
         return cached.result;
       }
 
-      s0 = peg$parseliteral();
+      s0 = peg$parsevariable();
       if (s0 === peg$FAILED) {
-        s0 = peg$parsevariable();
+        s0 = peg$parseliteral();
         if (s0 === peg$FAILED) {
           s0 = peg$parsesubexpression();
         }

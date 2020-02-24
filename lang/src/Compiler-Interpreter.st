@@ -895,11 +895,14 @@ visitVariableNode: aNode
 		ifFalse: [ self context 
 			localAt: (aNode binding isSuper ifTrue: [ 'self' ] ifFalse: [ aNode value ])
 			ifAbsent: [
+				aNode value = 'nil' ifTrue: [ nil ] ifFalse: [
+				aNode value = 'true' ifTrue: [ true ] ifFalse: [
+				aNode value = 'false' ifTrue: [ false ] ifFalse: [
 				aNode value isCapitalized
 					ifTrue: [
 						Smalltalk globals 
 							at: aNode value 
-							ifAbsent: [ Platform globals at: aNode value ] ] ] ])
+							ifAbsent: [ Platform globals at: aNode value ] ] ] ] ] ] ])
 ! !
 
 Error subclass: #ASTInterpreterError

@@ -3404,17 +3404,17 @@ selector: "visitVariableNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitVariableNode: aNode\x0a\x09aNode binding isExternallyKnownVar ifTrue: [\x0a\x09\x09^ self push: (Platform globals at: aNode value ifAbsent: [ self error: 'Unknown variable' ]) ].\x0a\x09\x09\x0a\x09self push: (aNode binding isInstanceVar\x0a\x09\x09ifTrue: [ self context receiver instVarAt: aNode value ]\x0a\x09\x09ifFalse: [ self context \x0a\x09\x09\x09localAt: (aNode binding isSuper ifTrue: [ 'self' ] ifFalse: [ aNode value ])\x0a\x09\x09\x09ifAbsent: [\x0a\x09\x09\x09\x09aNode value isCapitalized\x0a\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09Smalltalk globals \x0a\x09\x09\x09\x09\x09\x09\x09at: aNode value \x0a\x09\x09\x09\x09\x09\x09\x09ifAbsent: [ Platform globals at: aNode value ] ] ] ])",
+source: "visitVariableNode: aNode\x0a\x09aNode binding isExternallyKnownVar ifTrue: [\x0a\x09\x09^ self push: (Platform globals at: aNode value ifAbsent: [ self error: 'Unknown variable' ]) ].\x0a\x09\x09\x0a\x09self push: (aNode binding isInstanceVar\x0a\x09\x09ifTrue: [ self context receiver instVarAt: aNode value ]\x0a\x09\x09ifFalse: [ self context \x0a\x09\x09\x09localAt: (aNode binding isSuper ifTrue: [ 'self' ] ifFalse: [ aNode value ])\x0a\x09\x09\x09ifAbsent: [\x0a\x09\x09\x09\x09aNode value = 'nil' ifTrue: [ nil ] ifFalse: [\x0a\x09\x09\x09\x09aNode value = 'true' ifTrue: [ true ] ifFalse: [\x0a\x09\x09\x09\x09aNode value = 'false' ifTrue: [ false ] ifFalse: [\x0a\x09\x09\x09\x09aNode value isCapitalized\x0a\x09\x09\x09\x09\x09ifTrue: [\x0a\x09\x09\x09\x09\x09\x09Smalltalk globals \x0a\x09\x09\x09\x09\x09\x09\x09at: aNode value \x0a\x09\x09\x09\x09\x09\x09\x09ifAbsent: [ Platform globals at: aNode value ] ] ] ] ] ] ])",
 referencedClasses: ["Platform", "Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:", "isExternallyKnownVar", "binding", "push:", "at:ifAbsent:", "globals", "value", "error:", "ifTrue:ifFalse:", "isInstanceVar", "instVarAt:", "receiver", "context", "localAt:ifAbsent:", "isSuper", "isCapitalized", "at:"]
+messageSends: ["ifTrue:", "isExternallyKnownVar", "binding", "push:", "at:ifAbsent:", "globals", "value", "error:", "ifTrue:ifFalse:", "isInstanceVar", "instVarAt:", "receiver", "context", "localAt:ifAbsent:", "isSuper", "=", "isCapitalized", "at:"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1,$5,$6,$4,$3,$9,$8,$11,$10,$12,$13,$15,$14,$17,$16,$18,$19,$7;
+var $2,$1,$5,$6,$4,$3,$9,$8,$11,$10,$12,$13,$15,$14,$17,$16,$19,$18,$21,$20,$23,$22,$24,$25,$7;
 $2=$recv(aNode)._binding();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["binding"]=1;
@@ -3482,25 +3482,58 @@ $17=$recv(aNode)._value();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["value"]=4;
 //>>excludeEnd("ctx");
-$16=$recv($17)._isCapitalized();
-if($core.assert($16)){
-$18=$recv($globals.Smalltalk)._globals();
+$16=$recv($17).__eq("nil");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["globals"]=2;
+$ctx2.sendIdx["="]=1;
 //>>excludeEnd("ctx");
+if($core.assert($16)){
+return nil;
+} else {
 $19=$recv(aNode)._value();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["value"]=5;
 //>>excludeEnd("ctx");
-return $recv($18)._at_ifAbsent_($19,(function(){
+$18=$recv($19).__eq("true");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["="]=2;
+//>>excludeEnd("ctx");
+if($core.assert($18)){
+return true;
+} else {
+$21=$recv(aNode)._value();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["value"]=6;
+//>>excludeEnd("ctx");
+$20=$recv($21).__eq("false");
+if($core.assert($20)){
+return false;
+} else {
+$23=$recv(aNode)._value();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["value"]=7;
+//>>excludeEnd("ctx");
+$22=$recv($23)._isCapitalized();
+if($core.assert($22)){
+$24=$recv($globals.Smalltalk)._globals();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["globals"]=2;
+//>>excludeEnd("ctx");
+$25=$recv(aNode)._value();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["value"]=8;
+//>>excludeEnd("ctx");
+return $recv($24)._at_ifAbsent_($25,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 return $recv($recv($globals.Platform)._globals())._at_($recv(aNode)._value());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,9)});
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,15)});
 //>>excludeEnd("ctx");
 }));
+}
+}
+}
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,7)});
