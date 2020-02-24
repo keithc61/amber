@@ -159,7 +159,7 @@ assignment = variable:variable ws ':=' ws expression:expression {
 ret = '^' ws expression:expression {
 	return newNode($globals.ReturnNode)._dagChildren_([expression]);
 }
-  
+
 temps = '|' vars:(ws variable:identifier {return variable;})* ws '|' {
 	return vars;
 }
