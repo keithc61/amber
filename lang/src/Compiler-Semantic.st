@@ -370,7 +370,7 @@ alias
 !PseudoVar methodsFor: 'testing'!
 
 asReceiver
-	#{#self -> '$self'. #super -> '$self'. #nil -> '$nil'}
+	self class receiverNames
 		at: self name
 		ifPresent: [ :newName | ^ self copy name: newName; yourself ]
 		ifAbsent: [ ^ self ]
@@ -384,7 +384,7 @@ isPseudoVar
 	^ true
 ! !
 
-PseudoVar class slots: {#dictionary}!
+PseudoVar class slots: {#dictionary. #receiverNames}!
 
 !PseudoVar class methodsFor: 'accessing'!
 
@@ -396,6 +396,14 @@ dictionary
 		at: #false put: PseudoVar;
 		at: #true put: PseudoVar;
 		at: #thisContext put: ThisContextVar;
+		yourself ]
+!
+
+receiverNames
+	^ receiverNames ifNil: [ receiverNames := Dictionary new
+		at: #self put: '$self';
+		at: #super put: '$self';
+		at: #nil put: '$nil';
 		yourself ]
 ! !
 

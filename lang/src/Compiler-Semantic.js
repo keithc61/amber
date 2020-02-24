@@ -1534,11 +1534,11 @@ selector: "asReceiver",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asReceiver\x0a\x09#{#self -> '$self'. #super -> '$self'. #nil -> '$nil'}\x0a\x09\x09at: self name\x0a\x09\x09ifPresent: [ :newName | ^ self copy name: newName; yourself ]\x0a\x09\x09ifAbsent: [ ^ self ]",
+source: "asReceiver\x0a\x09self class receiverNames\x0a\x09\x09at: self name\x0a\x09\x09ifPresent: [ :newName | ^ self copy name: newName; yourself ]\x0a\x09\x09ifAbsent: [ ^ self ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["at:ifPresent:ifAbsent:", "name", "name:", "copy", "yourself"]
+messageSends: ["at:ifPresent:ifAbsent:", "receiverNames", "class", "name", "name:", "copy", "yourself"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1547,7 +1547,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 var $early={};
 try {
-$recv($globals.HashedCollection._newFromPairs_(["self","$self","super","$self","nil","$nil"]))._at_ifPresent_ifAbsent_($self._name(),(function(newName){
+$recv($recv($self._class())._receiverNames())._at_ifPresent_ifAbsent_($self._name(),(function(newName){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -1607,7 +1607,7 @@ return true;
 $globals.PseudoVar);
 
 
-$core.setSlots($globals.PseudoVar.a$cls, ["dictionary"]);
+$core.setSlots($globals.PseudoVar.a$cls, ["dictionary", "receiverNames"]);
 $core.addMethod(
 $core.method({
 selector: "dictionary",
@@ -1656,6 +1656,46 @@ return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"dictionary",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PseudoVar.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "receiverNames",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "receiverNames\x0a\x09^ receiverNames ifNil: [ receiverNames := Dictionary new\x0a\x09\x09at: #self put: '$self';\x0a\x09\x09at: #super put: '$self';\x0a\x09\x09at: #nil put: '$nil';\x0a\x09\x09yourself ]",
+referencedClasses: ["Dictionary"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNil:", "at:put:", "new", "yourself"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$receiver;
+$1=$self.receiverNames;
+if(($receiver = $1) == null || $receiver.a$nil){
+$2=$recv($globals.Dictionary)._new();
+$recv($2)._at_put_("self","$self");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=1;
+//>>excludeEnd("ctx");
+$recv($2)._at_put_("super","$self");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=2;
+//>>excludeEnd("ctx");
+$recv($2)._at_put_("nil","$nil");
+$self.receiverNames=$recv($2)._yourself();
+return $self.receiverNames;
+} else {
+return $1;
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"receiverNames",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.PseudoVar.a$cls);
