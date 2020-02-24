@@ -4,6 +4,10 @@
 	function newNode(nodeClass) {
 		return nodeClass._new()._location_(location())._source_(text());
 	}
+
+	function newSequenceNode(nodeClass, temps, statements) {
+		return newNode(nodeClass)._temps_(temps || [])._dagChildren_(statements || []);
+	}
 }
 
 start = method
@@ -178,20 +182,10 @@ wsStatements =
 	} /
 	expressions:wsExpressions? {return expressions || [];}
 
-wsSequenceWs = aPragmas:wsPragmas? ws temps:temps? zPragmas:wsPragmas? statements:wsStatements? maybeDotsWs {
-	return [newNode($globals.SequenceNode)
-		._temps_(temps || [])
-		._dagChildren_(statements || []), (aPragmas || []).concat(zPragmas || [])];
-}
-
-wsBlockSequenceWs = ws temps:temps? statements:wsStatements? maybeDotsWs {
-	return newNode($globals.BlockSequenceNode)
-		._temps_(temps || [])
-		._dagChildren_(statements || []);
-}
-
-block = '[' params:wsBlockParamList? sequence:wsBlockSequenceWs ']' {
-	return newNode($globals.BlockNode)._parameters_(params || [])._dagChildren_([sequence]);
+block = '[' params:wsBlockParamList? ws temps:temps? statements:wsStatements? maybeDotsWs ']' {
+	return newNode($globals.BlockNode)
+		._parameters_(params || [])
+		._dagChildren_([newSequenceNode($globals.BlockSequenceNode, temps, statements)]);
 }
 
 operand = reference / literal / subexpression
@@ -247,12 +241,12 @@ cascade =
 
 method =
 	pattern:(wsKeywordPattern / wsBinaryPattern / wsUnaryPattern)
-	sequence:wsSequenceWs {
+	aPragmas:wsPragmas? ws temps:temps? zPragmas:wsPragmas? statements:wsStatements? maybeDotsWs {
 		return newNode($globals.MethodNode)
 			._selector_(pattern[0])
 			._arguments_(pattern[1])
-			._pragmas_(sequence[1])
-			._dagChildren_([sequence[0]]);
+			._pragmas_((aPragmas || []).concat(zPragmas || []))
+			._dagChildren_([newSequenceNode($globals.SequenceNode, temps, statements)]);
 	}
 
 associationSend =
