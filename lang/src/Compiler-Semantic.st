@@ -233,14 +233,6 @@ scope: aScope
 	scope := aScope
 ! !
 
-!ScopeVar methodsFor: 'converting'!
-
-asReceiver
-	"Return customized copy to use as receiver,
-	or self if suffices."
-	^ nil
-! !
-
 !ScopeVar methodsFor: 'testing'!
 
 isClassRefVar
@@ -368,13 +360,6 @@ alias
 ! !
 
 !PseudoVar methodsFor: 'testing'!
-
-asReceiver
-	self class receiverNames
-		at: self name
-		ifPresent: [ :newName | ^ self copy name: newName; yourself ]
-		ifAbsent: [ ^ self ]
-!
 
 isImmutable
 	^ true

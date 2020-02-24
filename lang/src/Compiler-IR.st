@@ -1363,6 +1363,23 @@ subtreeNeedsAliasing
 	^ self parent isSequenceNode not
 ! !
 
+!PseudoVar methodsFor: '*Compiler-IR'!
+
+asReceiver
+	self class receiverNames
+		at: self name
+		ifPresent: [ :newName | ^ self copy name: newName; yourself ]
+		ifAbsent: [ ^ self ]
+! !
+
+!ScopeVar methodsFor: '*Compiler-IR'!
+
+asReceiver
+	"Return customized copy to use as receiver,
+	or self if suffices."
+	^ nil
+! !
+
 !SendNode methodsFor: '*Compiler-IR'!
 
 shouldBeAliased
