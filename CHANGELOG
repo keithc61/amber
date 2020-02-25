@@ -1,7 +1,9 @@
-? ??? 2019 - Release 0.24.1
+? ??? 2020 - Release 0.24.1
 ===================================
 
 * $core.removeClass returns removed class.
+* Both 'nil' and '$nil' compiled in method code.
+  * '$nil' used as receiver, 'nil' used to pass a value.
 * Cleaned error-handling code.
 * More Set fixes.
 
