@@ -1558,34 +1558,28 @@ selector: "sequenceNode",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "sequenceNode\x0a\x09self dagChildren do: [ :each |\x0a\x09\x09each isSequenceNode ifTrue: [ ^ each ] ].\x0a\x09\x09\x0a\x09^ nil",
+source: "sequenceNode\x0a\x09^ self dagChildren detect: [ :one | one isSequenceNode ] ifNone: [ nil ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["do:", "dagChildren", "ifTrue:", "isSequenceNode"]
+messageSends: ["detect:ifNone:", "dagChildren", "isSequenceNode"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-var $early={};
-try {
-$recv($self._dagChildren())._do_((function(each){
+return $recv($self._dagChildren())._detect_ifNone_((function(one){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$recv(each)._isSequenceNode();
-if($core.assert($1)){
-throw $early=[each];
-}
+return $recv(one)._isSequenceNode();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({one:one},$ctx1,1)});
 //>>excludeEnd("ctx");
-}));
+}),(function(){
 return nil;
-}
-catch(e) {if(e===$early)return e[0]; throw e}
+
+}));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"sequenceNode",{})});
 //>>excludeEnd("ctx");

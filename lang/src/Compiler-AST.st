@@ -387,10 +387,7 @@ sendIndexes: aDictionary
 !
 
 sequenceNode
-	self dagChildren do: [ :each |
-		each isSequenceNode ifTrue: [ ^ each ] ].
-		
-	^ nil
+	^ self dagChildren detect: [ :one | one isSequenceNode ] ifNone: [ nil ]
 ! !
 
 !MethodNode methodsFor: 'visiting'!

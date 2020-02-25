@@ -289,12 +289,12 @@ basicParse: aString
 !
 
 wrappedSourceOf: anIRMethod
-	anIRMethod attachments
-		ifEmpty: [ ^
+	^ anIRMethod attachments
+		ifEmpty: [
 			'(function ($methodClass){ return ',
 			anIRMethod compiledSource,
 			'; })' ]
-		ifNotEmpty: [ :attachments | ^ 
+		ifNotEmpty: [ :attachments |
 			'(function ($methodClass){ return (function(method){Object.defineProperty(method,"a$atx",{enumerable:false,configurable:true,writable:true,value:',
 			attachments asJavaScriptSource,
 			'});return method})(',

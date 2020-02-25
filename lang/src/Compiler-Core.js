@@ -1165,7 +1165,7 @@ selector: "wrappedSourceOf:",
 protocol: "private",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRMethod"],
-source: "wrappedSourceOf: anIRMethod\x0a\x09anIRMethod attachments\x0a\x09\x09ifEmpty: [ ^\x0a\x09\x09\x09'(function ($methodClass){ return ',\x0a\x09\x09\x09anIRMethod compiledSource,\x0a\x09\x09\x09'; })' ]\x0a\x09\x09ifNotEmpty: [ :attachments | ^ \x0a\x09\x09\x09'(function ($methodClass){ return (function(method){Object.defineProperty(method,\x22a$atx\x22,{enumerable:false,configurable:true,writable:true,value:',\x0a\x09\x09\x09attachments asJavaScriptSource,\x0a\x09\x09\x09'});return method})(',\x0a\x09\x09\x09anIRMethod compiledSource,\x0a\x09\x09\x09'); })' ]",
+source: "wrappedSourceOf: anIRMethod\x0a\x09^ anIRMethod attachments\x0a\x09\x09ifEmpty: [\x0a\x09\x09\x09'(function ($methodClass){ return ',\x0a\x09\x09\x09anIRMethod compiledSource,\x0a\x09\x09\x09'; })' ]\x0a\x09\x09ifNotEmpty: [ :attachments |\x0a\x09\x09\x09'(function ($methodClass){ return (function(method){Object.defineProperty(method,\x22a$atx\x22,{enumerable:false,configurable:true,writable:true,value:',\x0a\x09\x09\x09attachments asJavaScriptSource,\x0a\x09\x09\x09'});return method})(',\x0a\x09\x09\x09anIRMethod compiledSource,\x0a\x09\x09\x09'); })' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -1175,26 +1175,23 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $3,$2,$1,$6,$5,$4;
-var $early={};
-try {
-$recv($recv(anIRMethod)._attachments())._ifEmpty_ifNotEmpty_((function(){
+var $2,$1,$4,$3;
+return $recv($recv(anIRMethod)._attachments())._ifEmpty_ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$3=$recv(anIRMethod)._compiledSource();
+$2=$recv(anIRMethod)._compiledSource();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["compiledSource"]=1;
 //>>excludeEnd("ctx");
-$2="(function ($methodClass){ return ".__comma($3);
+$1="(function ($methodClass){ return ".__comma($2);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx[","]=2;
 //>>excludeEnd("ctx");
-$1=$recv($2).__comma("; })");
+return $recv($1).__comma("; })");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx[","]=1;
 //>>excludeEnd("ctx");
-throw $early=[$1];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1202,26 +1199,22 @@ throw $early=[$1];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$6=$recv("(function ($methodClass){ return (function(method){Object.defineProperty(method,\x22a$atx\x22,{enumerable:false,configurable:true,writable:true,value:".__comma($recv(attachments)._asJavaScriptSource())).__comma("});return method})(");
+$4=$recv("(function ($methodClass){ return (function(method){Object.defineProperty(method,\x22a$atx\x22,{enumerable:false,configurable:true,writable:true,value:".__comma($recv(attachments)._asJavaScriptSource())).__comma("});return method})(");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx[","]=5;
 //>>excludeEnd("ctx");
-$5=$recv($6).__comma($recv(anIRMethod)._compiledSource());
+$3=$recv($4).__comma($recv(anIRMethod)._compiledSource());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx[","]=4;
 //>>excludeEnd("ctx");
-$4=$recv($5).__comma("); })");
+return $recv($3).__comma("); })");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx[","]=3;
 //>>excludeEnd("ctx");
-throw $early=[$4];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({attachments:attachments},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
-return self;
-}
-catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"wrappedSourceOf:",{anIRMethod:anIRMethod})});
 //>>excludeEnd("ctx");

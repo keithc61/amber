@@ -91,8 +91,8 @@ aliasTemporally: aCollection
 
 	| threshold shouldAlias |
 	threshold := aCollection reversed
-		detect: [ :each | each subtreeNeedsAliasing ]
-		ifNone: [ ^ self visitAll: aCollection ].
+		detect: [ :each | each subtreeNeedsAliasing ] ifNone: [ nil ].
+	threshold ifNil: [ ^ self visitAll: aCollection ].
 
 	shouldAlias := true.
 	^ aCollection collect: [ :each |
@@ -1366,10 +1366,10 @@ subtreeNeedsAliasing
 !PseudoVar methodsFor: '*Compiler-IR'!
 
 asReceiver
-	self class receiverNames
+	^ self class receiverNames
 		at: self name
-		ifPresent: [ :newName | ^ self copy name: newName; yourself ]
-		ifAbsent: [ ^ self ]
+		ifPresent: [ :newName | self copy name: newName; yourself ]
+		ifAbsent: [ self ]
 ! !
 
 !ScopeVar methodsFor: '*Compiler-IR'!
