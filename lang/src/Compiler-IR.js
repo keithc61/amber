@@ -1,4 +1,4 @@
-define(["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Compiler-Semantic", "amber/core/Kernel-Dag", "amber/core/Kernel-Helpers", "amber/core/Kernel-Methods", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
+define(["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Compiler-Semantic", "amber/core/Kernel-Dag", "amber/core/Kernel-Helpers", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-IR");
 $pkg.innerEval = function (expr) { return eval(expr); };
@@ -5825,30 +5825,6 @@ return $self._isReferenced();
 //>>excludeEnd("ctx");
 }; }),
 $globals.AssignmentNode);
-
-$core.addMethod(
-$core.method({
-selector: "appendToInstruction:",
-protocol: "*Compiler-IR",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anIRInstruction"],
-source: "appendToInstruction: anIRInstruction\x0a\x09anIRInstruction appendBlock: self",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["appendBlock:"]
-}, function ($methodClass){ return function (anIRInstruction){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv(anIRInstruction)._appendBlock_(self);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"appendToInstruction:",{anIRInstruction:anIRInstruction})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.BlockClosure);
 
 $core.addMethod(
 $core.method({

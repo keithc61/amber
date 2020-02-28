@@ -1345,12 +1345,6 @@ shouldBeAliased
 	^ super shouldBeAliased or: [ self isReferenced ]
 ! !
 
-!BlockClosure methodsFor: '*Compiler-IR'!
-
-appendToInstruction: anIRInstruction
-	anIRInstruction appendBlock: self
-! !
-
 !BlockNode methodsFor: '*Compiler-IR'!
 
 subtreeNeedsAliasing
