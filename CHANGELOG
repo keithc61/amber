@@ -1,6 +1,7 @@
 ? ??? 2020 - Release 0.24.1
 ===================================
 
+* Teachable class (in SUnit package).
 * $core.removeClass returns removed class.
 * Both 'nil' and '$nil' compiled in method code.
   * '$nil' used as receiver, 'nil' used to pass a value.

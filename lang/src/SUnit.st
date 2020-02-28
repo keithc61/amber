@@ -17,6 +17,67 @@ result: aTestResult
 	result := aTestResult
 ! !
 
+Object subclass: #Teachable
+	slots: {#learnings}
+	package: 'SUnit'!
+!Teachable commentStamp!
+An object you can teach how to behave. Have a look at the 
+class side for an example.
+
+For more infos have a look at: http://lists.squeakfoundation.org/pipermail/squeak-dev/2002-April/038170.html!
+
+!Teachable methodsFor: 'private'!
+
+doesNotUnderstand: aMessage
+
+	| learning |
+	learning := self learnings 
+		at: aMessage selector 
+		ifAbsent:[ ^super doesNotUnderstand: aMessage ].
+	^ learning class == Association
+		ifTrue: [learning value]
+		ifFalse: [learning valueWithPossibleArguments: aMessage arguments]
+!
+
+learnings
+
+	learnings isNil ifTrue: [learnings := Dictionary new].
+	^learnings
+! !
+
+!Teachable methodsFor: 'teaching'!
+
+acceptSend: aSymbol
+
+	self whenSend: aSymbol return: self
+!
+
+whenSend: aSymbol evaluate: aBlock
+
+	self learnings at: aSymbol put: aBlock
+!
+
+whenSend: aSymbol return: anObject
+
+	self learnings at: aSymbol put: (#return -> anObject)
+! !
+
+!Teachable class methodsFor: 'examples'!
+
+example
+	| teachable |
+	teachable := self new.
+	teachable 
+		whenSend: #help return: 'ok';
+		whenSend: #doit evaluate: [1 inspect];
+		acceptSend: #noDebugger;
+		whenSend: #negate: evaluate: [:num | num negated].
+	teachable help.
+	teachable doit.
+	teachable noDebugger.
+	teachable negate: 120
+! !
+
 Object subclass: #TestCase
 	slots: {#testSelector. #asyncTimeout. #context}
 	package: 'SUnit'!

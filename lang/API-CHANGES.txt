@@ -3,6 +3,7 @@
 * Deprecate Behavior >> javascriptConstructor(:)
 * Deprecate IRInstruction >> needsBoxingAsReceiver
 * UnknownVar => ExternallyKnownVar
+* Added Teachable class.
 
 + Behavior >>
   + alternateConstructorViaSelector:

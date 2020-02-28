@@ -47,6 +47,218 @@ $globals.ResultAnnouncement);
 
 
 
+$core.addClass("Teachable", $globals.Object, ["learnings"], "SUnit");
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.Teachable.comment="An object you can teach how to behave. Have a look at the \x0aclass side for an example.\x0a\x0aFor more infos have a look at: http://lists.squeakfoundation.org/pipermail/squeak-dev/2002-April/038170.html";
+//>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "acceptSend:",
+protocol: "teaching",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aSymbol"],
+source: "acceptSend: aSymbol\x0a\x0a\x09self whenSend: aSymbol return: self",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["whenSend:return:"]
+}, function ($methodClass){ return function (aSymbol){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._whenSend_return_(aSymbol,self);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"acceptSend:",{aSymbol:aSymbol})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Teachable);
+
+$core.addMethod(
+$core.method({
+selector: "doesNotUnderstand:",
+protocol: "private",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aMessage"],
+source: "doesNotUnderstand: aMessage\x0a\x0a\x09| learning |\x0a\x09learning := self learnings \x0a\x09\x09at: aMessage selector \x0a\x09\x09ifAbsent:[ ^super doesNotUnderstand: aMessage ].\x0a\x09^ learning class == Association\x0a\x09\x09ifTrue: [learning value]\x0a\x09\x09ifFalse: [learning valueWithPossibleArguments: aMessage arguments]",
+referencedClasses: ["Association"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:ifAbsent:", "learnings", "selector", "doesNotUnderstand:", "ifTrue:ifFalse:", "==", "class", "value", "valueWithPossibleArguments:", "arguments"]
+}, function ($methodClass){ return function (aMessage){
+var self=this,$self=this;
+var learning;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+var $early={};
+try {
+learning=$recv($self._learnings())._at_ifAbsent_($recv(aMessage)._selector(),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.supercall = true,
+//>>excludeEnd("ctx");
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._doesNotUnderstand_.call($self,aMessage));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.supercall = false;
+//>>excludeEnd("ctx");;
+throw $early=[$1];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$2=$recv($recv(learning)._class()).__eq_eq($globals.Association);
+if($core.assert($2)){
+return $recv(learning)._value();
+} else {
+return $recv(learning)._valueWithPossibleArguments_($recv(aMessage)._arguments());
+}
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"doesNotUnderstand:",{aMessage:aMessage,learning:learning})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Teachable);
+
+$core.addMethod(
+$core.method({
+selector: "learnings",
+protocol: "private",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "learnings\x0a\x0a\x09learnings isNil ifTrue: [learnings := Dictionary new].\x0a\x09^learnings",
+referencedClasses: ["Dictionary"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifTrue:", "isNil", "new"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($self.learnings)._isNil();
+if($core.assert($1)){
+$self.learnings=$recv($globals.Dictionary)._new();
+$self.learnings;
+}
+return $self.learnings;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"learnings",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Teachable);
+
+$core.addMethod(
+$core.method({
+selector: "whenSend:evaluate:",
+protocol: "teaching",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aSymbol", "aBlock"],
+source: "whenSend: aSymbol evaluate: aBlock\x0a\x0a\x09self learnings at: aSymbol put: aBlock",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:put:", "learnings"]
+}, function ($methodClass){ return function (aSymbol,aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv($self._learnings())._at_put_(aSymbol,aBlock);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"whenSend:evaluate:",{aSymbol:aSymbol,aBlock:aBlock})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Teachable);
+
+$core.addMethod(
+$core.method({
+selector: "whenSend:return:",
+protocol: "teaching",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aSymbol", "anObject"],
+source: "whenSend: aSymbol return: anObject\x0a\x0a\x09self learnings at: aSymbol put: (#return -> anObject)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:put:", "learnings", "->"]
+}, function ($methodClass){ return function (aSymbol,anObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv($self._learnings())._at_put_(aSymbol,"return".__minus_gt(anObject));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"whenSend:return:",{aSymbol:aSymbol,anObject:anObject})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Teachable);
+
+
+$core.addMethod(
+$core.method({
+selector: "example",
+protocol: "examples",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "example\x0a\x09| teachable |\x0a\x09teachable := self new.\x0a\x09teachable \x0a\x09\x09whenSend: #help return: 'ok';\x0a\x09\x09whenSend: #doit evaluate: [1 inspect];\x0a\x09\x09acceptSend: #noDebugger;\x0a\x09\x09whenSend: #negate: evaluate: [:num | num negated].\x0a\x09teachable help.\x0a\x09teachable doit.\x0a\x09teachable noDebugger.\x0a\x09teachable negate: 120",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "whenSend:return:", "whenSend:evaluate:", "inspect", "acceptSend:", "negated", "help", "doit", "noDebugger", "negate:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var teachable;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+teachable=$self._new();
+$1=teachable;
+$recv($1)._whenSend_return_("help","ok");
+$recv($1)._whenSend_evaluate_("doit",(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return (1)._inspect();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["whenSend:evaluate:"]=1;
+//>>excludeEnd("ctx");
+$recv($1)._acceptSend_("noDebugger");
+$recv($1)._whenSend_evaluate_("negate:",(function(num){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(num)._negated();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({num:num},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+$recv(teachable)._help();
+$recv(teachable)._doit();
+$recv(teachable)._noDebugger();
+$recv(teachable)._negate_((120));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"example",{teachable:teachable})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Teachable.a$cls);
+
+
 $core.addClass("TestCase", $globals.Object, ["testSelector", "asyncTimeout", "context"], "SUnit");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.TestCase.comment="I am an implementation of the command pattern to run a test.\x0a\x0a## API\x0a\x0aMy instances are created with the class method `#selector:`,\x0apassing the symbol that names the method to be executed when the test case runs.\x0a\x0aWhen you discover a new fixture, subclass `TestCase` and create a `#test...` method for the first test.\x0aAs that method develops and more `#test...` methods are added, you will find yourself refactoring temps\x0ainto instance variables for the objects in the fixture and overriding `#setUp` to initialize these variables.\x0aAs required, override `#tearDown` to nil references, release objects and deallocate.";
