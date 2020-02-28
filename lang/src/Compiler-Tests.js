@@ -1774,31 +1774,73 @@ $globals.ASTPCNodeVisitorTest);
 
 $core.addMethod(
 $core.method({
+selector: "newTeachableVisitor",
+protocol: "factory",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "newTeachableVisitor\x0a\x09| result |\x0a\x09result := Teachable new\x0a\x09\x09whenSend: #visit: evaluate: [ :one | one acceptDagVisitor: result ];\x0a\x09\x09acceptSend: #visitDagNode:.\x0a\x09^ result",
+referencedClasses: ["Teachable"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["whenSend:evaluate:", "new", "acceptDagVisitor:", "acceptSend:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var result;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($globals.Teachable)._new();
+$recv($1)._whenSend_evaluate_("visit:",(function(one){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(one)._acceptDagVisitor_(result);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({one:one},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+result=$recv($1)._acceptSend_("visitDagNode:");
+return result;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"newTeachableVisitor",{result:result})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ASTPCNodeVisitorTest);
+
+$core.addMethod(
+$core.method({
 selector: "testJSStatementNode",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testJSStatementNode\x0a\x09| ast visitor |\x0a\x09\x0a\x09ast := self parse: 'foo <inlineJS: ''consolee.log(1)''>' forClass: Object.\x0a\x09self assert: (self astPCNodeVisitor\x0a\x09\x09visit: ast;\x0a\x09\x09currentNode) isJSStatementNode",
+source: "testJSStatementNode\x0a\x09| ast result |\x0a\x09\x0a\x09ast := self parse: 'foo <inlineJS: ''consolee.log(1)''>' forClass: Object.\x0a\x09result := self astPCNodeVisitor visit: ast; currentNode.\x0a\x09self\x0a\x09\x09assert: ((self newTeachableVisitor whenSend: #visitJSStatementNode: return: 'JS'; yourself) visit: result)\x0a\x09\x09equals: 'JS'",
 referencedClasses: ["Object"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["parse:forClass:", "assert:", "isJSStatementNode", "visit:", "astPCNodeVisitor", "currentNode"]
+messageSends: ["parse:forClass:", "visit:", "astPCNodeVisitor", "currentNode", "assert:equals:", "whenSend:return:", "newTeachableVisitor", "yourself"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-var ast,visitor;
+var ast,result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $3,$2,$1;
+var $1,$4,$3,$2;
 ast=$self._parse_forClass_("foo <inlineJS: 'consolee.log(1)'>",$globals.Object);
-$3=$self._astPCNodeVisitor();
-$recv($3)._visit_(ast);
-$2=$recv($3)._currentNode();
-$1=$recv($2)._isJSStatementNode();
-$self._assert_($1);
+$1=$self._astPCNodeVisitor();
+$recv($1)._visit_(ast);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["visit:"]=1;
+//>>excludeEnd("ctx");
+result=$recv($1)._currentNode();
+$4=$self._newTeachableVisitor();
+$recv($4)._whenSend_return_("visitJSStatementNode:","JS");
+$3=$recv($4)._yourself();
+$2=$recv($3)._visit_(result);
+$self._assert_equals_($2,"JS");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testJSStatementNode",{ast:ast,visitor:visitor})});
+}, function($ctx1) {$ctx1.fill(self,"testJSStatementNode",{ast:ast,result:result})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ASTPCNodeVisitorTest);

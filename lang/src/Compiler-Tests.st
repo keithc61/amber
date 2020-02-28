@@ -472,17 +472,26 @@ astPCNodeVisitorForSelector: aString
 		selector: aString;
 		index: 0;
 		yourself
+!
+
+newTeachableVisitor
+	| result |
+	result := Teachable new
+		whenSend: #visit: evaluate: [ :one | one acceptDagVisitor: result ];
+		acceptSend: #visitDagNode:.
+	^ result
 ! !
 
 !ASTPCNodeVisitorTest methodsFor: 'tests'!
 
 testJSStatementNode
-	| ast visitor |
+	| ast result |
 	
 	ast := self parse: 'foo <inlineJS: ''consolee.log(1)''>' forClass: Object.
-	self assert: (self astPCNodeVisitor
-		visit: ast;
-		currentNode) isJSStatementNode
+	result := self astPCNodeVisitor visit: ast; currentNode.
+	self
+		assert: ((self newTeachableVisitor whenSend: #visitJSStatementNode: return: 'JS'; yourself) visit: result)
+		equals: 'JS'
 !
 
 testMessageSend

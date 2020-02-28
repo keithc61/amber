@@ -131,24 +131,6 @@ $globals.ASTNode);
 
 $core.addMethod(
 $core.method({
-selector: "isJSStatementNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isJSStatementNode\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ASTNode);
-
-$core.addMethod(
-$core.method({
 selector: "isNavigationNode",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1199,24 +1181,6 @@ return $recv(aVisitor)._visitJSStatementNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor})});
 //>>excludeEnd("ctx");
-}; }),
-$globals.JSStatementNode);
-
-$core.addMethod(
-$core.method({
-selector: "isJSStatementNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isJSStatementNode\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
 }; }),
 $globals.JSStatementNode);
 

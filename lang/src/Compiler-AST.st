@@ -124,10 +124,6 @@ isImmutable
 	^ false
 !
 
-isJSStatementNode
-	^ false
-!
-
 isNavigationNode
 	"Answer true if the node can be navigated to"
 	
@@ -305,10 +301,6 @@ ASTNode subclass: #JSStatementNode
 I represent an JavaScript statement node.!
 
 !JSStatementNode methodsFor: 'testing'!
-
-isJSStatementNode
-	^ true
-!
 
 requiresSmalltalkContext
 	^ true
