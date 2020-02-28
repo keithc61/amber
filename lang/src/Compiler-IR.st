@@ -134,10 +134,10 @@ visitBlockSequenceNode: aNode
 		do: [
 			aNode dagChildren ifNotEmpty: [
 				aNode dagChildren allButLast do: [ :each |
-					self addToSequence: (self visitOrAlias: each) ].
+					self addToSequence: (self visit: each) ].
 				aNode dagChildren last isReturnNode
 					ifFalse: [ self addToSequence: (IRBlockReturn new add: (self visitOrAlias: aNode dagChildren last); yourself) ]
-					ifTrue: [ self addToSequence: (self visitOrAlias: aNode dagChildren last) ] ]]
+					ifTrue: [ self addToSequence: (self visit: aNode dagChildren last) ] ]]
 !
 
 visitCascadeNode: aNode
@@ -245,7 +245,7 @@ visitSequenceNode: aNode
 	^ self
 		withSequence: IRSequence new
 		do: [ aNode dagChildren do: [ :each |
-			self addToSequence: (self visitOrAlias: each) ] ]
+			self addToSequence: (self visit: each) ] ]
 !
 
 visitValueNode: aNode

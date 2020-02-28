@@ -462,11 +462,11 @@ selector: "visitBlockSequenceNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitBlockSequenceNode: aNode\x0a\x09^ self\x0a\x09\x09withSequence: IRBlockSequence new\x0a\x09\x09do: [\x0a\x09\x09\x09aNode dagChildren ifNotEmpty: [\x0a\x09\x09\x09\x09aNode dagChildren allButLast do: [ :each |\x0a\x09\x09\x09\x09\x09self addToSequence: (self visitOrAlias: each) ].\x0a\x09\x09\x09\x09aNode dagChildren last isReturnNode\x0a\x09\x09\x09\x09\x09ifFalse: [ self addToSequence: (IRBlockReturn new add: (self visitOrAlias: aNode dagChildren last); yourself) ]\x0a\x09\x09\x09\x09\x09ifTrue: [ self addToSequence: (self visitOrAlias: aNode dagChildren last) ] ]]",
+source: "visitBlockSequenceNode: aNode\x0a\x09^ self\x0a\x09\x09withSequence: IRBlockSequence new\x0a\x09\x09do: [\x0a\x09\x09\x09aNode dagChildren ifNotEmpty: [\x0a\x09\x09\x09\x09aNode dagChildren allButLast do: [ :each |\x0a\x09\x09\x09\x09\x09self addToSequence: (self visit: each) ].\x0a\x09\x09\x09\x09aNode dagChildren last isReturnNode\x0a\x09\x09\x09\x09\x09ifFalse: [ self addToSequence: (IRBlockReturn new add: (self visitOrAlias: aNode dagChildren last); yourself) ]\x0a\x09\x09\x09\x09\x09ifTrue: [ self addToSequence: (self visit: aNode dagChildren last) ] ]]",
 referencedClasses: ["IRBlockSequence", "IRBlockReturn"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["withSequence:do:", "new", "ifNotEmpty:", "dagChildren", "do:", "allButLast", "addToSequence:", "visitOrAlias:", "ifFalse:ifTrue:", "isReturnNode", "last", "add:", "yourself"]
+messageSends: ["withSequence:do:", "new", "ifNotEmpty:", "dagChildren", "do:", "allButLast", "addToSequence:", "visit:", "ifFalse:ifTrue:", "isReturnNode", "last", "add:", "visitOrAlias:", "yourself"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -498,9 +498,9 @@ $recv($3)._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
-$5=$self._visitOrAlias_(each);
+$5=$self._visit_(each);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["visitOrAlias:"]=1;
+$ctx4.sendIdx["visit:"]=1;
 //>>excludeEnd("ctx");
 return $self._addToSequence_($5);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -520,7 +520,7 @@ $ctx3.sendIdx["last"]=1;
 //>>excludeEnd("ctx");
 $6=$recv($7)._isReturnNode();
 if($core.assert($6)){
-return $self._addToSequence_($self._visitOrAlias_($recv($recv(aNode)._dagChildren())._last()));
+return $self._addToSequence_($self._visit_($recv($recv(aNode)._dagChildren())._last()));
 } else {
 $10=$recv($globals.IRBlockReturn)._new();
 $13=$recv(aNode)._dagChildren();
@@ -532,9 +532,6 @@ $12=$recv($13)._last();
 $ctx3.sendIdx["last"]=2;
 //>>excludeEnd("ctx");
 $11=$self._visitOrAlias_($12);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["visitOrAlias:"]=2;
-//>>excludeEnd("ctx");
 $recv($10)._add_($11);
 $9=$recv($10)._yourself();
 return $self._addToSequence_($9);
@@ -1005,11 +1002,11 @@ selector: "visitSequenceNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitSequenceNode: aNode\x0a\x09^ self\x0a\x09\x09withSequence: IRSequence new\x0a\x09\x09do: [ aNode dagChildren do: [ :each |\x0a\x09\x09\x09self addToSequence: (self visitOrAlias: each) ] ]",
+source: "visitSequenceNode: aNode\x0a\x09^ self\x0a\x09\x09withSequence: IRSequence new\x0a\x09\x09do: [ aNode dagChildren do: [ :each |\x0a\x09\x09\x09self addToSequence: (self visit: each) ] ]",
 referencedClasses: ["IRSequence"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["withSequence:do:", "new", "do:", "dagChildren", "addToSequence:", "visitOrAlias:"]
+messageSends: ["withSequence:do:", "new", "do:", "dagChildren", "addToSequence:", "visit:"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1023,7 +1020,7 @@ return $recv($recv(aNode)._dagChildren())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $self._addToSequence_($self._visitOrAlias_(each));
+return $self._addToSequence_($self._visit_(each));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
 //>>excludeEnd("ctx");
