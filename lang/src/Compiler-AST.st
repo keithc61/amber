@@ -161,9 +161,7 @@ requiresSmalltalkContext
 	If no node requires a context, the method will be compiled without one.
 	See `IRJSTranslator` and `JSStream` for context creation"
 	
-	^ (self dagChildren 
-		detect: [ :each | each requiresSmalltalkContext ]
-		ifNone: [ nil ]) notNil
+	^ self dagChildren anySatisfy: [ :each | each requiresSmalltalkContext ]
 ! !
 
 ASTNode subclass: #AssignmentNode

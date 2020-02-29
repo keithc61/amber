@@ -551,17 +551,17 @@ selector: "requiresSmalltalkContext",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "requiresSmalltalkContext\x0a\x09\x22Answer true if the receiver requires a smalltalk context.\x0a\x09Only send nodes require a context.\x0a\x09\x0a\x09If no node requires a context, the method will be compiled without one.\x0a\x09See `IRJSTranslator` and `JSStream` for context creation\x22\x0a\x09\x0a\x09^ (self dagChildren \x0a\x09\x09detect: [ :each | each requiresSmalltalkContext ]\x0a\x09\x09ifNone: [ nil ]) notNil",
+source: "requiresSmalltalkContext\x0a\x09\x22Answer true if the receiver requires a smalltalk context.\x0a\x09Only send nodes require a context.\x0a\x09\x0a\x09If no node requires a context, the method will be compiled without one.\x0a\x09See `IRJSTranslator` and `JSStream` for context creation\x22\x0a\x09\x0a\x09^ self dagChildren anySatisfy: [ :each | each requiresSmalltalkContext ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["notNil", "detect:ifNone:", "dagChildren", "requiresSmalltalkContext"]
+messageSends: ["anySatisfy:", "dagChildren", "requiresSmalltalkContext"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv($self._dagChildren())._detect_ifNone_((function(each){
+return $recv($self._dagChildren())._anySatisfy_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -569,10 +569,7 @@ return $recv(each)._requiresSmalltalkContext();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
-}),(function(){
-return nil;
-
-})))._notNil();
+}));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"requiresSmalltalkContext",{})});
 //>>excludeEnd("ctx");
