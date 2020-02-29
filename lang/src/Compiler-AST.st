@@ -152,16 +152,6 @@ isValueNode
 
 isVariableNode
 	^ false
-!
-
-requiresSmalltalkContext
-	"Answer true if the receiver requires a smalltalk context.
-	Only send nodes require a context.
-	
-	If no node requires a context, the method will be compiled without one.
-	See `IRJSTranslator` and `JSStream` for context creation"
-	
-	^ self dagChildren anySatisfy: [ :each | each requiresSmalltalkContext ]
 ! !
 
 ASTNode subclass: #AssignmentNode
@@ -297,12 +287,6 @@ ASTNode subclass: #JSStatementNode
 	package: 'Compiler-AST'!
 !JSStatementNode commentStamp!
 I represent an JavaScript statement node.!
-
-!JSStatementNode methodsFor: 'testing'!
-
-requiresSmalltalkContext
-	^ true
-! !
 
 !JSStatementNode methodsFor: 'visiting'!
 
@@ -479,10 +463,6 @@ isNavigationNode
 !
 
 isSendNode
-	^ true
-!
-
-requiresSmalltalkContext
 	^ true
 ! !
 

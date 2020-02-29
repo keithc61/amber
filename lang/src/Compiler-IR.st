@@ -1334,6 +1334,16 @@ isReferenced
 	^ true
 !
 
+requiresSmalltalkContext
+	"Answer true if the receiver requires a smalltalk context.
+	Only send nodes require a context.
+	
+	If no node requires a context, the method will be compiled without one.
+	See `IRJSTranslator` and `JSStream` for context creation"
+	
+	^ self dagChildren anySatisfy: [ :each | each requiresSmalltalkContext ]
+!
+
 subtreeNeedsAliasing
 	^ self shouldBeAliased or: [
 		self dagChildren anySatisfy: [ :each | each subtreeNeedsAliasing ] ]
@@ -1357,6 +1367,12 @@ subtreeNeedsAliasing
 	^ self parent isSequenceNode not
 ! !
 
+!JSStatementNode methodsFor: '*Compiler-IR'!
+
+requiresSmalltalkContext
+	^ true
+! !
+
 !PseudoVar methodsFor: '*Compiler-IR'!
 
 asReceiver
@@ -1375,6 +1391,10 @@ asReceiver
 ! !
 
 !SendNode methodsFor: '*Compiler-IR'!
+
+requiresSmalltalkContext
+	^ true
+!
 
 shouldBeAliased
 	"Because we keep track of send indexes, some send nodes need additional care for aliasing. 
