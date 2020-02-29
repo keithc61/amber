@@ -1993,7 +1993,7 @@ $globals.SendNode);
 
 
 
-$core.addClass("SequenceNode", $globals.ASTNode, ["temps", "scope"], "Compiler-AST");
+$core.addClass("SequenceNode", $globals.ASTNode, ["temps"], "Compiler-AST");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SequenceNode.comment="I represent an sequence node. A sequence represent a set of instructions inside the same scope (the method scope or a block scope).";
 //>>excludeEnd("ide");
@@ -2034,43 +2034,6 @@ messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return true;
-
-}; }),
-$globals.SequenceNode);
-
-$core.addMethod(
-$core.method({
-selector: "scope",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "scope\x0a\x09^ scope",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return $self.scope;
-
-}; }),
-$globals.SequenceNode);
-
-$core.addMethod(
-$core.method({
-selector: "scope:",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aLexicalScope"],
-source: "scope: aLexicalScope\x0a\x09scope := aLexicalScope",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (aLexicalScope){
-var self=this,$self=this;
-$self.scope=aLexicalScope;
-return self;
 
 }; }),
 $globals.SequenceNode);

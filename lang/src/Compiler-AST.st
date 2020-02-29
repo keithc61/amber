@@ -495,20 +495,12 @@ acceptDagVisitor: aVisitor
 ! !
 
 ASTNode subclass: #SequenceNode
-	slots: {#temps. #scope}
+	slots: {#temps}
 	package: 'Compiler-AST'!
 !SequenceNode commentStamp!
 I represent an sequence node. A sequence represent a set of instructions inside the same scope (the method scope or a block scope).!
 
 !SequenceNode methodsFor: 'accessing'!
-
-scope
-	^ scope
-!
-
-scope: aLexicalScope
-	scope := aLexicalScope
-!
 
 temps
 	^ temps ifNil: [ #() ]
