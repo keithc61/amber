@@ -1351,8 +1351,8 @@ subtreeNeedsAliasing
 
 !AssignmentNode methodsFor: '*Compiler-IR'!
 
-shouldBeAliased
-	^ super shouldBeAliased or: [ self isReferenced ]
+subtreeNeedsAliasing
+	^ true
 ! !
 
 !BlockNode methodsFor: '*Compiler-IR'!
@@ -1364,7 +1364,7 @@ subtreeNeedsAliasing
 !CascadeNode methodsFor: '*Compiler-IR'!
 
 subtreeNeedsAliasing
-	^ self parent isSequenceNode not
+	^ true
 ! !
 
 !JSStatementNode methodsFor: '*Compiler-IR'!

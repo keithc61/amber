@@ -2259,7 +2259,7 @@ var char,result,chunk;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4;
+var $1,$2;
 var $early={};
 try {
 result=""._writeStream();
@@ -2289,8 +2289,7 @@ if($core.assert($2)){
 $recv($self.stream)._next();
 } else {
 $self.last=$recv($recv(result)._contents())._trimBoth();
-$3=$self.last;
-throw $early=[$3];
+throw $early=[$self.last];
 }
 }
 return $recv(result)._nextPut_(char);
@@ -2299,8 +2298,7 @@ return $recv(result)._nextPut_(char);
 //>>excludeEnd("ctx");
 }));
 $self.last=nil;
-$4=$self.last;
-return $4;
+return $self.last;
 }
 catch(e) {if(e===$early)return e[0]; throw e}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
