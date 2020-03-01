@@ -41,60 +41,6 @@ $globals.ASTNode);
 
 $core.addMethod(
 $core.method({
-selector: "isAssignmentNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isAssignmentNode\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ASTNode);
-
-$core.addMethod(
-$core.method({
-selector: "isBlockNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isBlockNode\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ASTNode);
-
-$core.addMethod(
-$core.method({
-selector: "isBlockSequenceNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isBlockSequenceNode\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ASTNode);
-
-$core.addMethod(
-$core.method({
 selector: "isCascadeNode",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -167,24 +113,6 @@ $globals.ASTNode);
 
 $core.addMethod(
 $core.method({
-selector: "isSendNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isSendNode\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ASTNode);
-
-$core.addMethod(
-$core.method({
 selector: "isSequenceNode",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -208,42 +136,6 @@ protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "isSuper\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ASTNode);
-
-$core.addMethod(
-$core.method({
-selector: "isValueNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isValueNode\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ASTNode);
-
-$core.addMethod(
-$core.method({
-selector: "isVariableNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isVariableNode\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -749,24 +641,6 @@ $globals.AssignmentNode);
 
 $core.addMethod(
 $core.method({
-selector: "isAssignmentNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isAssignmentNode\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.AssignmentNode);
-
-$core.addMethod(
-$core.method({
 selector: "left",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -865,24 +739,6 @@ return $recv(aVisitor)._visitBlockNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor})});
 //>>excludeEnd("ctx");
-}; }),
-$globals.BlockNode);
-
-$core.addMethod(
-$core.method({
-selector: "isBlockNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isBlockNode\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
 }; }),
 $globals.BlockNode);
 
@@ -1771,24 +1627,6 @@ $globals.SendNode);
 
 $core.addMethod(
 $core.method({
-selector: "isSendNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isSendNode\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.SendNode);
-
-$core.addMethod(
-$core.method({
 selector: "navigationLink",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2039,24 +1877,6 @@ return $recv(aVisitor)._visitBlockSequenceNode_(self);
 }; }),
 $globals.BlockSequenceNode);
 
-$core.addMethod(
-$core.method({
-selector: "isBlockSequenceNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isBlockSequenceNode\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.BlockSequenceNode);
-
 
 
 $core.addClass("ValueNode", $globals.ASTNode, ["value"], "Compiler-AST");
@@ -2106,24 +1926,6 @@ return $recv($self._value())._isImmutable();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isImmutable",{})});
 //>>excludeEnd("ctx");
-}; }),
-$globals.ValueNode);
-
-$core.addMethod(
-$core.method({
-selector: "isValueNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isValueNode\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
 }; }),
 $globals.ValueNode);
 
@@ -2362,24 +2164,6 @@ return $recv($self._binding())._isSuper();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isSuper",{})});
 //>>excludeEnd("ctx");
-}; }),
-$globals.VariableNode);
-
-$core.addMethod(
-$core.method({
-selector: "isVariableNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isVariableNode\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
 }; }),
 $globals.VariableNode);
 

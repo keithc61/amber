@@ -104,18 +104,6 @@ inPosition: aPoint
 		self positionEnd >= aPoint ])
 !
 
-isAssignmentNode
-	^ false
-!
-
-isBlockNode
-	^ false
-!
-
-isBlockSequenceNode
-	^ false
-!
-
 isCascadeNode
 	^ false
 !
@@ -134,23 +122,11 @@ isReturnNode
 	^ false
 !
 
-isSendNode
-	^ false
-!
-
 isSequenceNode
 	^ false
 !
 
 isSuper
-	^ false
-!
-
-isValueNode
-	^ false
-!
-
-isVariableNode
 	^ false
 ! !
 
@@ -182,12 +158,6 @@ right: aNode
 	right := aNode
 ! !
 
-!AssignmentNode methodsFor: 'testing'!
-
-isAssignmentNode
-	^ true
-! !
-
 !AssignmentNode methodsFor: 'visiting'!
 
 acceptDagVisitor: aVisitor
@@ -216,12 +186,6 @@ scope
 
 scope: aLexicalScope
 	scope := aLexicalScope
-! !
-
-!BlockNode methodsFor: 'testing'!
-
-isBlockNode
-	^ true
 ! !
 
 !BlockNode methodsFor: 'visiting'!
@@ -460,10 +424,6 @@ superSend
 
 isNavigationNode
 	^ true
-!
-
-isSendNode
-	^ true
 ! !
 
 !SendNode methodsFor: 'visiting'!
@@ -506,12 +466,6 @@ SequenceNode subclass: #BlockSequenceNode
 !BlockSequenceNode commentStamp!
 I represent an special sequence node for block scopes.!
 
-!BlockSequenceNode methodsFor: 'testing'!
-
-isBlockSequenceNode
-	^ true
-! !
-
 !BlockSequenceNode methodsFor: 'visiting'!
 
 acceptDagVisitor: aVisitor
@@ -538,10 +492,6 @@ value: anObject
 
 isImmutable
 	^ self value isImmutable
-!
-
-isValueNode
-	^ true
 ! !
 
 !ValueNode methodsFor: 'visiting'!
@@ -594,10 +544,6 @@ isNavigationNode
 
 isSuper
 	^ self binding isSuper
-!
-
-isVariableNode
-	^ true
 ! !
 
 !VariableNode methodsFor: 'visiting'!
