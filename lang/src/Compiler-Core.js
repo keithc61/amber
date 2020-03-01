@@ -388,22 +388,26 @@ var $1,$2,$receiver;
 $1=$self.transformersDictionary;
 if(($receiver = $1) == null || $receiver.a$nil){
 $2=$recv($globals.Dictionary)._new();
-$recv($2)._at_put_("1000-earlyPragmas",$self._earlyAstPragmator());
+[$recv($2)._at_put_("1000-earlyPragmas",$self._earlyAstPragmator())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:put:"]=1;
+,$ctx1.sendIdx["at:put:"]=1
 //>>excludeEnd("ctx");
-$recv($2)._at_put_("2000-semantic",$self._semanticAnalyzer());
+][0];
+[$recv($2)._at_put_("2000-semantic",$self._semanticAnalyzer())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:put:"]=2;
+,$ctx1.sendIdx["at:put:"]=2
 //>>excludeEnd("ctx");
-$recv($2)._at_put_("5000-astToIr",$self._translator());
+][0];
+[$recv($2)._at_put_("5000-astToIr",$self._translator())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:put:"]=3;
+,$ctx1.sendIdx["at:put:"]=3
 //>>excludeEnd("ctx");
-$recv($2)._at_put_("8000-irToJs",$self._irTranslator());
+][0];
+[$recv($2)._at_put_("8000-irToJs",$self._irTranslator())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["at:put:"]=4;
+,$ctx1.sendIdx["at:put:"]=4
 //>>excludeEnd("ctx");
+][0];
 $recv($2)._at_put_("9000-latePragmas",$self._lateIRPragmator());
 $self.transformersDictionary=$recv($2)._yourself();
 return $self.transformersDictionary;
@@ -633,10 +637,11 @@ compilationResult=$self._compileNode_($self._parse_(aString));
 closureFactory=$self._eval_forPackage_($self._wrappedSourceOf_(compilationResult),$self._currentPackage());
 $1=$recv($globals.Smalltalk)._core();
 $3=$recv(compilationResult)._selector();
-$4=$recv($recv(compilationResult)._messageSends())._asArray();
+$4=[$recv($recv(compilationResult)._messageSends())._asArray()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["asArray"]=1;
+,$ctx1.sendIdx["asArray"]=1
 //>>excludeEnd("ctx");
+][0];
 $2=$globals.HashedCollection._newFromPairs_(["selector",$3,"protocol",anotherString,"source",aString,"messageSends",$4,"args",$recv(compilationResult)._arguments(),"referencedClasses",$recv($recv(compilationResult)._classReferences())._asArray()]);
 result=$recv($1)._method_withFactory_($2,closureFactory);
 $recv(result)._pragmas_($recv(compilationResult)._pragmas());
@@ -776,10 +781,11 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $receiver;
 if(($receiver = aPackage) == null || $receiver.a$nil){
-return $self._eval_(aString);
+return [$self._eval_(aString)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["eval:"]=1;
+,$ctx1.sendIdx["eval:"]=1
 //>>excludeEnd("ctx");
+][0];
 } else {
 return $recv(aPackage)._eval_(aString);
 }
@@ -831,10 +837,11 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2;
 $1=$self._sourceForExpression_(aString);
-$2=$recv(anObject)._class();
+$2=[$recv(anObject)._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["class"]=1;
+,$ctx1.sendIdx["class"]=1
 //>>excludeEnd("ctx");
+][0];
 method=$self._install_forClass_protocol_($1,$2,"**xxxDoIt");
 result=$recv(anObject)._xxxDoIt();
 $recv($recv(anObject)._class())._removeCompiledMethod_(method);
@@ -930,38 +937,44 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$9,$8,$7,$6,$5,$4,$3,$receiver;
-$1=$recv(anException)._basicAt_("location");
+$1=[$recv(anException)._basicAt_("location")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["basicAt:"]=1;
+,$ctx1.sendIdx["basicAt:"]=1
 //>>excludeEnd("ctx");
+][0];
 if(($receiver = $1) == null || $receiver.a$nil){
 return $recv(anException)._pass();
 } else {
 var loc;
 loc=$receiver;
 $2=$recv($globals.ParseError)._new();
-$9=$recv(loc)._start();
+$9=[$recv(loc)._start()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["start"]=1;
+,$ctx1.sendIdx["start"]=1
 //>>excludeEnd("ctx");
+][0];
 $8=$recv($9)._line();
 $7="Parse error on line ".__comma($8);
-$6=$recv($7).__comma(" column ");
+$6=[$recv($7).__comma(" column ")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=4;
+,$ctx1.sendIdx[","]=4
 //>>excludeEnd("ctx");
-$5=$recv($6).__comma($recv($recv(loc)._start())._column());
+][0];
+$5=[$recv($6).__comma($recv($recv(loc)._start())._column())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=3;
+,$ctx1.sendIdx[","]=3
 //>>excludeEnd("ctx");
-$4=$recv($5).__comma(" : Unexpected character ");
+][0];
+$4=[$recv($5).__comma(" : Unexpected character ")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=2;
+,$ctx1.sendIdx[","]=2
 //>>excludeEnd("ctx");
-$3=$recv($4).__comma($recv(anException)._basicAt_("found"));
+][0];
+$3=[$recv($4).__comma($recv(anException)._basicAt_("found"))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
+,$ctx1.sendIdx[","]=1
 //>>excludeEnd("ctx");
+][0];
 $recv($2)._messageText_($3);
 return $recv($2)._yourself();
 }
@@ -1088,10 +1101,11 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=$recv("xxxDoIt ^ [ ".__comma(aString)).__comma(" ] value");
+$1=[$recv("xxxDoIt ^ [ ".__comma(aString)).__comma(" ] value")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
+,$ctx1.sendIdx[","]=1
 //>>excludeEnd("ctx");
+][0];
 return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"sourceForExpression:",{aString:aString})});
@@ -1118,10 +1132,11 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $2,$1;
 package_=$recv(aClass)._packageOfProtocol_(anotherString);
-$self._currentPackage_(package_);
+[$self._currentPackage_(package_)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["currentPackage:"]=1;
+,$ctx1.sendIdx["currentPackage:"]=1
 //>>excludeEnd("ctx");
+][0];
 $2=$recv($self._codeGeneratorClass())._new();
 $recv($2)._source_(aString);
 $recv($2)._currentClass_(aClass);
@@ -1180,18 +1195,21 @@ return $recv($recv(anIRMethod)._attachments())._ifEmpty_ifNotEmpty_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2=$recv(anIRMethod)._compiledSource();
+$2=[$recv(anIRMethod)._compiledSource()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["compiledSource"]=1;
+,$ctx2.sendIdx["compiledSource"]=1
 //>>excludeEnd("ctx");
-$1="(function ($methodClass){ return ".__comma($2);
+][0];
+$1=["(function ($methodClass){ return ".__comma($2)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=2;
+,$ctx2.sendIdx[","]=2
 //>>excludeEnd("ctx");
-return $recv($1).__comma("; })");
+][0];
+return [$recv($1).__comma("; })")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=1;
+,$ctx2.sendIdx[","]=1
 //>>excludeEnd("ctx");
+][0];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1199,18 +1217,21 @@ $ctx2.sendIdx[","]=1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$4=$recv("(function ($methodClass){ return (function(method){Object.defineProperty(method,\x22a$atx\x22,{enumerable:false,configurable:true,writable:true,value:".__comma($recv(attachments)._asJavaScriptSource())).__comma("});return method})(");
+$4=[$recv("(function ($methodClass){ return (function(method){Object.defineProperty(method,\x22a$atx\x22,{enumerable:false,configurable:true,writable:true,value:".__comma($recv(attachments)._asJavaScriptSource())).__comma("});return method})(")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=5;
+,$ctx2.sendIdx[","]=5
 //>>excludeEnd("ctx");
-$3=$recv($4).__comma($recv(anIRMethod)._compiledSource());
+][0];
+$3=[$recv($4).__comma($recv(anIRMethod)._compiledSource())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=4;
+,$ctx2.sendIdx[","]=4
 //>>excludeEnd("ctx");
-return $recv($3).__comma("); })");
+][0];
+return [$recv($3).__comma("); })")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=3;
+,$ctx2.sendIdx[","]=3
 //>>excludeEnd("ctx");
+][0];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({attachments:attachments},$ctx1,2)});
 //>>excludeEnd("ctx");

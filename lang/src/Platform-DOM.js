@@ -170,14 +170,15 @@ $1=$recv($globals.PlatformDom)._isDomNode_($self.jsObject);
 if($core.assert($1)){
 return $self.jsObject;
 } else {
-$2=(
+$2=[(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($methodClass.superclass||$boot.nilAsClass).fn.prototype._asDomNode.call($self));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._asDomNode.call($self))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = false;
-//>>excludeEnd("ctx");;
+,$ctx1.supercall = false
+//>>excludeEnd("ctx");
+][0];
 return $2;
 }
 return self;

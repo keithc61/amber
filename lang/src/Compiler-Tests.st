@@ -45,6 +45,14 @@ ASTMethodRunningTest subclass: #AbstractCompilerTest
 
 !AbstractCompilerTest methodsFor: 'tests'!
 
+testAfterInliningNonLocalBlockReturnIndexSend
+	self should: 'foo [ ^ true ifTrue: [ self class ] ] value. self class' return: DoIt.
+!
+
+testAfterInliningNonLocalBlockReturnSuperSend
+	self should: 'foo [ ^ true ifTrue: [ super class ] ] value' return: DoIt.
+!
+
 testAssignment
 	self should: 'foo | a | a := true ifTrue: [ 1 ]. ^ a' return: 1.
 	self should: 'foo | a | a := false ifTrue: [ 1 ]. ^ a' return: nil.

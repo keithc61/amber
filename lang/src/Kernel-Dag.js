@@ -213,14 +213,15 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-(
+[(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($methodClass.superclass||$boot.nilAsClass).fn.prototype._initialize.call($self));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._initialize.call($self))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = false;
-//>>excludeEnd("ctx");;
+,$ctx1.supercall = false
+//>>excludeEnd("ctx");
+][0];
 $self.path=[];
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -271,14 +272,15 @@ $recv((function(){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $self.path=$recv($self.path).__comma([aNode]);
-result=(
+result=[(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.supercall = true,
 //>>excludeEnd("ctx");
-($methodClass.superclass||$boot.nilAsClass).fn.prototype._visit_.call($self,aNode));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visit_.call($self,aNode))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.supercall = false;
-//>>excludeEnd("ctx");;
+,$ctx2.supercall = false
+//>>excludeEnd("ctx");
+][0];
 return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -313,14 +315,15 @@ var newNode;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-newNode=(
+newNode=[(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitDagNodeVariantRedux_.call($self,aNode));
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitDagNodeVariantRedux_.call($self,aNode))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = false;
-//>>excludeEnd("ctx");;
+,$ctx1.supercall = false
+//>>excludeEnd("ctx");
+][0];
 $1=$recv(aNode).__eq_eq(newNode);
 if(!$core.assert($1)){
 $recv($self.path)._at_put_($recv($self.path)._size(),newNode);
@@ -379,10 +382,11 @@ var allNodes;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=$self._dagChildren();
+$1=[$self._dagChildren()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["dagChildren"]=1;
+,$ctx1.sendIdx["dagChildren"]=1
 //>>excludeEnd("ctx");
+][0];
 allNodes=$recv($1)._asSet();
 $recv($self._dagChildren())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

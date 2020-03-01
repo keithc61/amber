@@ -1032,15 +1032,25 @@ visitIRReturn: anIRReturn
 !
 
 visitIRSend: anIRSend
-	| sends superclass |
-	sends := (anIRSend method sendIndexes at: anIRSend selector) size.
+	| prefixes suffixes workBlock |
+	prefixes := #().
+	suffixes := #().
+	workBlock := [ self visitSend: anIRSend ].
 	
-	anIRSend receiver isSuper
-		ifTrue: [ self visitSuperSend: anIRSend ]
-		ifFalse: [ self visitSend: anIRSend ].
-		
-	anIRSend index < sends
-		ifTrue: [ self stream nextPutSendIndexFor: anIRSend ]
+	anIRSend index < (anIRSend method sendIndexes at: anIRSend selector) size ifTrue: [
+		suffixes add:
+			anIRSend scope alias,
+			'.sendIdx[',
+			anIRSend selector asJavaScriptSource,
+			']=',
+			anIRSend index asString ].
+	
+	anIRSend receiver isSuper ifTrue: [
+		prefixes add: anIRSend scope alias, '.supercall = true'.
+		suffixes add: anIRSend scope alias, '.supercall = false'.
+		workBlock := [ self visitSuperSend: anIRSend ] ].
+
+	self stream nextPutBefore: prefixes after: suffixes with: workBlock
 !
 
 visitIRSequence: anIRSequence
@@ -1092,13 +1102,12 @@ visitSend: anIRSend
 !
 
 visitSuperSend: anIRSend
-	self stream nextPutSupercallFor: anIRSend with: [
-		self stream
-			nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';
-			nextPutAll: anIRSend javaScriptSelector, '.call'.
-		self
-			visitInstructionList: {anIRSend receiver asReceiver}, anIRSend arguments
-			enclosedBetween: '(' and: ')' ]
+	self stream
+		nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';
+		nextPutAll: anIRSend javaScriptSelector, '.call'.
+	self
+		visitInstructionList: {anIRSend receiver asReceiver}, anIRSend arguments
+		enclosedBetween: '(' and: ')'
 ! !
 
 Object subclass: #JSStream
@@ -1144,6 +1153,29 @@ nextPutAssignLhs: aBlock rhs: anotherBlock
 	aBlock value.
 	stream nextPutAll: '='.
 	anotherBlock value
+!
+
+nextPutBefore: prefixCollection after: suffixCollection with: aBlock
+	suffixCollection isEmpty
+		ifTrue: [ self nextPutBefore: prefixCollection with: aBlock ]
+		ifFalse: [
+			self
+				nextPutAll: '['; nextPutBefore: prefixCollection with: aBlock; lf;
+				nextPutAll: '//>>excludeStart("ctx", pragmas.excludeDebugContexts);'; lf.
+			suffixCollection do: [ :each | self nextPutAll: ','; nextPutAll: each ].
+			self
+				lf;
+				nextPutAll: '//>>excludeEnd("ctx");'; lf;
+				nextPutAll: '][0]' ]
+!
+
+nextPutBefore: aCollection with: aBlock
+	aCollection isEmpty ifTrue: [ aBlock value ] ifFalse: [
+		self nextPutAll: '('; lf; nextPutAll: '//>>excludeStart("ctx", pragmas.excludeDebugContexts);'; lf.
+		aCollection do: [ :each | self nextPutAll: each; nextPutAll: ',' ].
+		self lf; nextPutAll: '//>>excludeEnd("ctx");'; lf.
+		aBlock value.
+		self nextPutAll: ')' ]
 !
 
 nextPutBlockContextFor: anIRClosure during: aBlock
@@ -1274,39 +1306,12 @@ nextPutReturnWith: aBlock
 	aBlock value
 !
 
-nextPutSendIndexFor: anIRSend
-	self 
-		nextPutAll: ';'; lf;
-		nextPutAll: '//>>excludeStart("ctx", pragmas.excludeDebugContexts);'; lf;
-		nextPutAll: anIRSend scope alias;
-		nextPutAll: '.sendIdx[';
-		nextPutAll: anIRSend selector asJavaScriptSource;
-		nextPutAll: ']=';
-		nextPutAll: anIRSend index asString;
-		nextPutAll: ';'; lf;
-		nextPutAll: '//>>excludeEnd("ctx")'
-!
-
 nextPutStatementWith: aBlock
 	self omitSemicolon: false.
 	aBlock value.
 	self omitSemicolon ifFalse: [ stream nextPutAll: ';' ].
 	self omitSemicolon: false.
 	stream lf
-!
-
-nextPutSupercallFor: anIRSend with: aBlock
-	self
-		nextPutAll: '('; lf;
-		nextPutAll: '//>>excludeStart("ctx", pragmas.excludeDebugContexts);'; lf;
-		nextPutAll: anIRSend scope alias, '.supercall = true,'; lf;
-		nextPutAll: '//>>excludeEnd("ctx");'; lf.
-	aBlock value.
-	self
-		nextPutAll: ');'; lf;
-		nextPutAll: '//>>excludeStart("ctx", pragmas.excludeDebugContexts);'; lf;
-		nextPutAll: anIRSend scope alias, '.supercall = false;'; lf;
-		nextPutAll: '//>>excludeEnd("ctx");'
 !
 
 nextPutVars: aCollection
