@@ -165,12 +165,12 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1;
 $1=$recv($globals.PlatformDom)._isDomNode_($self.jsObject);
 if($core.assert($1)){
 return $self.jsObject;
 } else {
-$2=[(
+return [(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
@@ -179,7 +179,6 @@ $ctx1.supercall = true,
 ,$ctx1.supercall = false
 //>>excludeEnd("ctx");
 ][0];
-return $2;
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

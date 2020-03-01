@@ -381,13 +381,11 @@ var allNodes;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=[$self._dagChildren()
+allNodes=$recv([$self._dagChildren()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["dagChildren"]=1
 //>>excludeEnd("ctx");
-][0];
-allNodes=$recv($1)._asSet();
+][0])._asSet();
 $recv($self._dagChildren())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {

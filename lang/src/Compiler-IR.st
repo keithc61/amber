@@ -1328,17 +1328,6 @@ IRPragmator setTraitComposition: {TPragmator} asTraitComposition!
 
 !ASTNode methodsFor: '*Compiler-IR'!
 
-isReferenced
-	"Answer true if the receiver is referenced by other nodes.
-	Do not take sequences or assignments into account"
-	
-	self parent isSequenceNode ifTrue: [ ^ false ].
-	self parent isAssignmentNode ifTrue: [ ^ false ].
-	self parent isCascadeNode ifTrue: [ ^ self parent isReferenced ].
-	
-	^ true
-!
-
 requiresSmalltalkContext
 	"Answer true if the receiver requires a smalltalk context.
 	Only send nodes require a context.
@@ -1399,18 +1388,5 @@ asReceiver
 
 requiresSmalltalkContext
 	^ true
-!
-
-shouldBeAliased
-	"Because we keep track of send indexes, some send nodes need additional care for aliasing. 
-	See IRJSVisitor >> visitIRSend:"
-	
-	| sends |
-	
-	super shouldBeAliased ifTrue: [ ^ true ].
-	self isReferenced ifFalse: [ ^ false ].
-	self superSend ifTrue: [ ^ true ].
-	sends := (self method sendIndexes at: self selector) size.
-	^ self index < sends
 ! !
 

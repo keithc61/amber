@@ -144,13 +144,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=[$recv($self.full)._includes_((5))
+[$self._assert_([$recv($self.full)._includes_((5))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["includes:"]=1
 //>>excludeEnd("ctx");
-][0];
-[$self._assert_($1)
+][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:"]=1
 //>>excludeEnd("ctx");
@@ -179,23 +177,20 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
-$1=[$recv($self.empty)._occurrencesOf_((0))
+[$self._assert_equals_([$recv($self.empty)._occurrencesOf_((0))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["occurrencesOf:"]=1
 //>>excludeEnd("ctx");
-][0];
-[$self._assert_equals_($1,(0))
+][0],(0))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$2=[$recv($self.full)._occurrencesOf_((5))
+[$self._assert_equals_([$recv($self.full)._occurrencesOf_((5))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["occurrencesOf:"]=2
 //>>excludeEnd("ctx");
-][0];
-[$self._assert_equals_($2,(1))
+][0],(1))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=2
 //>>excludeEnd("ctx");
@@ -225,14 +220,12 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 $recv($self.full)._remove_((5));
-$1=[$recv($self.full)._includes_("abc")
+$self._assert_([$recv($self.full)._includes_("abc")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["includes:"]=1
 //>>excludeEnd("ctx");
-][0];
-$self._assert_($1);
+][0]);
 $self._deny_($recv($self.full)._includes_((5)));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -364,13 +357,12 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 [$self._timeout_((100))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["timeout:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$1=[$self._async_((function(){
+[$recv([$self._async_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -391,8 +383,7 @@ return $self._finished();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["async:"]=1
 //>>excludeEnd("ctx");
-][0];
-[$recv($1)._valueWithTimeout_((20))
+][0])._valueWithTimeout_((20))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["valueWithTimeout:"]=1
 //>>excludeEnd("ctx");
@@ -420,13 +411,12 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 [$self._timeout_((20))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["timeout:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$1=[$self._async_((function(){
+[$recv([$self._async_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -447,8 +437,7 @@ return $self._finished();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["async:"]=1
 //>>excludeEnd("ctx");
-][0];
-[$recv($1)._valueWithTimeout_((10))
+][0])._valueWithTimeout_((10))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["valueWithTimeout:"]=1
 //>>excludeEnd("ctx");
@@ -584,7 +573,7 @@ var suite,runner,result,assertBlock;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4;
+var $1,$2;
 suite=["fakeError", "fakeErrorFailingInTearDown", "fakeFailure", "testPass"]._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -605,17 +594,15 @@ assertBlock=$self._async_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=[$self._selectorSetOf_($recv(result)._errors())
+[$self._assert_equals_([$self._selectorSetOf_($recv(result)._errors())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["selectorSetOf:"]=1
 //>>excludeEnd("ctx");
-][0];
-$2=[["fakeError"]._asSet()
+][0],[["fakeError"]._asSet()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["asSet"]=1
 //>>excludeEnd("ctx");
-][0];
-[$self._assert_equals_($1,$2)
+][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["assert:equals:"]=1
 //>>excludeEnd("ctx");
@@ -630,10 +617,10 @@ $recv($recv(runner)._announcer())._on_do_($globals.ResultAnnouncement,(function(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$3=$recv($recv(ann)._result()).__eq_eq(result);
-if($core.assert($3)){
-$4=$recv($recv(result)._runs()).__eq($recv(result)._total());
-return $recv($4)._ifTrue_(assertBlock);
+$1=$recv($recv(ann)._result()).__eq_eq(result);
+if($core.assert($1)){
+$2=$recv($recv(result)._runs()).__eq($recv(result)._total());
+return $recv($2)._ifTrue_(assertBlock);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({ann:ann},$ctx1,3)});
@@ -760,24 +747,21 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
-$1=[$self._isAsync()
+[$self._deny_([$self._isAsync()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["isAsync"]=1
 //>>excludeEnd("ctx");
-][0];
-[$self._deny_($1)
+][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["deny:"]=1
 //>>excludeEnd("ctx");
 ][0];
 $self._timeout_((0));
-$2=[$self._isAsync()
+$self._assert_([$self._isAsync()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["isAsync"]=2
 //>>excludeEnd("ctx");
-][0];
-$self._assert_($2);
+][0]);
 $self._finished();
 $self._deny_($self._isAsync());
 return self;
@@ -841,7 +825,7 @@ var suite,runner,result,assertBlock;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1,$2;
 suite=["fakeTimeout", "fakeMultipleTimeoutFailing", "fakeMultipleTimeoutPassing", "testPass"]._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -862,12 +846,11 @@ assertBlock=$self._async_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=[$self._selectorSetOf_($recv(result)._errors())
+[$self._assert_equals_([$self._selectorSetOf_($recv(result)._errors())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["selectorSetOf:"]=1
 //>>excludeEnd("ctx");
-][0];
-[$self._assert_equals_($1,$recv($globals.Set)._new())
+][0],$recv($globals.Set)._new())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["assert:equals:"]=1
 //>>excludeEnd("ctx");
@@ -882,10 +865,10 @@ $recv($recv(runner)._announcer())._on_do_($globals.ResultAnnouncement,(function(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2=$recv($recv(ann)._result()).__eq_eq(result);
-if($core.assert($2)){
-$3=$recv($recv(result)._runs()).__eq($recv(result)._total());
-return $recv($3)._ifTrue_(assertBlock);
+$1=$recv($recv(ann)._result()).__eq_eq(result);
+if($core.assert($1)){
+$2=$recv($recv(result)._runs()).__eq($recv(result)._total());
+return $recv($2)._ifTrue_(assertBlock);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({ann:ann},$ctx1,3)});
@@ -916,11 +899,10 @@ var x;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 $self.flag="bad";
 $self._timeout_((10));
 x=(0);
-$1=[$self._async_((function(){
+$self.flag=[$recv([$self._async_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -947,8 +929,7 @@ return [$self._assert_equals_(x,(1))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["async:"]=1
 //>>excludeEnd("ctx");
-][0];
-$self.flag=[$recv($1)._valueWithTimeout_((0))
+][0])._valueWithTimeout_((0))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["valueWithTimeout:"]=1
 //>>excludeEnd("ctx");

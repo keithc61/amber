@@ -24,13 +24,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=[$self._args()
+$recv([$self._args()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["args"]=1
 //>>excludeEnd("ctx");
-][0];
-$recv($1)._at_put_(aString,$recv($globals.ArgVar)._on_(aString));
+][0])._at_put_(aString,$recv($globals.ArgVar)._on_(aString));
 $recv($recv($self._args())._at_(aString))._scope_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -55,13 +53,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=[$self._temps()
+$recv([$self._temps()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["temps"]=1
 //>>excludeEnd("ctx");
-][0];
-$recv($1)._at_put_(aString,$recv($globals.TempVar)._on_(aString));
+][0])._at_put_(aString,$recv($globals.TempVar)._on_(aString));
 $recv($recv($self._temps())._at_(aString))._scope_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -109,13 +105,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=[$recv($self._args())._keys()
+return $recv([$recv($self._args())._keys()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["keys"]=1
 //>>excludeEnd("ctx");
-][0];
-return $recv($1).__comma($recv($self._temps())._keys());
+][0]).__comma($recv($self._temps())._keys());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"allVariableNames",{})});
 //>>excludeEnd("ctx");
@@ -169,9 +163,8 @@ var identifier;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 identifier=$recv(aNode)._value();
-$1=[$recv($self._pseudoVars())._at_ifAbsent_(identifier,(function(){
+return [$recv($self._pseudoVars())._at_ifAbsent_(identifier,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -199,7 +192,6 @@ return nil;
 ,$ctx1.sendIdx["at:ifAbsent:"]=1
 //>>excludeEnd("ctx");
 ][0];
-return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"bindingFor:",{aNode:aNode,identifier:identifier})});
 //>>excludeEnd("ctx");
@@ -582,7 +574,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$3,$receiver;
+var $1,$2,$receiver;
 $1=[$self._outerScope()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["outerScope"]=1
@@ -595,17 +587,15 @@ $1;
 }
 $2=$self._isInlined();
 if($core.assert($2)){
-$4=[$self._outerScope()
+return [$recv([$self._outerScope()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["outerScope"]=2
 //>>excludeEnd("ctx");
-][0];
-$3=[$recv($4)._scopeLevel()
+][0])._scopeLevel()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["scopeLevel"]=1
 //>>excludeEnd("ctx");
 ][0];
-return $3;
 }
 return $recv($recv($self._outerScope())._scopeLevel()).__plus((1));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -666,13 +656,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=[$self._iVars()
+$recv([$self._iVars()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["iVars"]=1
 //>>excludeEnd("ctx");
-][0];
-$recv($1)._at_put_(aString,$recv($globals.InstanceVar)._on_(aString));
+][0])._at_put_(aString,$recv($globals.InstanceVar)._on_(aString));
 $recv($recv($self._iVars())._at_(aString))._scope_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -721,8 +709,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=[(
+return $recv([(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
@@ -730,8 +717,7 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.supercall = false
 //>>excludeEnd("ctx");
-][0];
-return $recv($1).__comma($recv($self._iVars())._keys());
+][0]).__comma($recv($self._iVars())._keys());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"allVariableNames",{})});
 //>>excludeEnd("ctx");
@@ -1771,7 +1757,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5;
+var $1,$2,$3,$4;
 $1=$recv(aString)._isCapitalized();
 if($core.assert($1)){
 $recv($self._classReferences())._add_(aString);
@@ -1785,14 +1771,13 @@ $2=[$recv($globals.ClassRefVar)._new()
 ,$ctx1.sendIdx["name:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$3=[$recv($2)._yourself()
+return [$recv($2)._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=1
 //>>excludeEnd("ctx");
 ][0];
-return $3;
 }
-$4=$recv($recv($recv($globals.Smalltalk)._globalJsVariables())._includes_(aString))._or_((function(){
+$3=$recv($recv($recv($globals.Smalltalk)._globalJsVariables())._includes_(aString))._or_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -1801,10 +1786,10 @@ return $self._isVariableKnown_inPackage_(aString,$self._thePackage());
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
-if($core.assert($4)){
-$5=$recv($globals.ExternallyKnownVar)._new();
-$recv($5)._name_(aString);
-return $recv($5)._yourself();
+if($core.assert($3)){
+$4=$recv($globals.ExternallyKnownVar)._new();
+$recv($4)._name_(aString);
+return $recv($4)._yourself();
 }
 $self._errorUnknownVariable_(aString);
 return self;
@@ -1941,24 +1926,19 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$4,$3,$2;
-$1=$recv($globals.Compiler)._new();
-$4=[$recv("typeof(".__comma(aString)).__comma(")!== \x22undefined\x22||(function(){try{return(")
+return $recv($recv($globals.Compiler)._new())._eval_forPackage_([$recv([$recv([$recv("typeof(".__comma(aString)).__comma(")!== \x22undefined\x22||(function(){try{return(")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=3
 //>>excludeEnd("ctx");
-][0];
-$3=[$recv($4).__comma(aString)
+][0]).__comma(aString)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=2
 //>>excludeEnd("ctx");
-][0];
-$2=[$recv($3).__comma(",true)}catch(_){return false}})()")
+][0]).__comma(",true)}catch(_){return false}})()")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=1
 //>>excludeEnd("ctx");
-][0];
-return $recv($1)._eval_forPackage_($2,aPackage);
+][0],aPackage);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isVariableKnown:inPackage:",{aString:aString,aPackage:aPackage})});
 //>>excludeEnd("ctx");
@@ -2717,13 +2697,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=[$recv("Variable shadowing error: ".__comma($self._variableName())).__comma(" is already defined")
+return [$recv("Variable shadowing error: ".__comma($self._variableName())).__comma(" is already defined")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=1
 //>>excludeEnd("ctx");
 ][0];
-return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"messageText",{})});
 //>>excludeEnd("ctx");
@@ -2789,13 +2767,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=[$recv("Unknown Variable error: ".__comma($self._variableName())).__comma(" is not defined")
+return [$recv("Unknown Variable error: ".__comma($self._variableName())).__comma(" is not defined")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=1
 //>>excludeEnd("ctx");
 ][0];
-return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"messageText",{})});
 //>>excludeEnd("ctx");

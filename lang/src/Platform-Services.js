@@ -320,25 +320,21 @@ var newInstVars;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5;
+var $1;
 newInstVars=$recv($recv(aClass)._instanceVariableNames())._copyWith_(aString);
 $1=$recv(aClass)._isMetaclass();
 if($core.assert($1)){
-$2=[$self._classBuilder()
+$recv([$self._classBuilder()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["classBuilder"]=1
 //>>excludeEnd("ctx");
-][0];
-$recv($2)._class_slots_(aClass,newInstVars);
+][0])._class_slots_(aClass,newInstVars);
 } else {
-$3=$self._classBuilder();
-$4=$recv(aClass)._superclass();
-$5=[$recv(aClass)._name()
+$recv($self._classBuilder())._addSubclassOf_named_instanceVariableNames_package_($recv(aClass)._superclass(),[$recv(aClass)._name()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["name"]=1
 //>>excludeEnd("ctx");
-][0];
-$recv($3)._addSubclassOf_named_instanceVariableNames_package_($4,$5,newInstVars,$recv($recv(aClass)._package())._name());
+][0],newInstVars,$recv($recv(aClass)._package())._name());
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -670,17 +666,16 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $1,$receiver;
 $1=$recv($recv($globals.Smalltalk)._globals())._at_(aClassName);
 if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
-$2=[$recv("A class named ".__comma(aClassName)).__comma(" already exists")
+$self._error_([$recv("A class named ".__comma(aClassName)).__comma(" already exists")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=1
 //>>excludeEnd("ctx");
-][0];
-$self._error_($2);
+][0]);
 }
 $recv($recv($globals.ClassBuilder)._new())._copyClass_named_(aClass,aClassName);
 return self;
@@ -838,25 +833,22 @@ var destinationClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$3,$1,$5,$4;
+var $1,$2;
 destinationClass=$self._classNamed_(aClassName);
-$2=destinationClass;
-$3=[$recv(aMethod)._origin()
+$1=$recv(destinationClass).__eq_eq([$recv(aMethod)._origin()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["origin"]=1
 //>>excludeEnd("ctx");
-][0];
-$1=$recv($2).__eq_eq($3);
+][0]);
 if($core.assert($1)){
 return self;
 }
-$5=[$recv(aMethod)._origin()
+$2=$recv([$recv(aMethod)._origin()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["origin"]=2
 //>>excludeEnd("ctx");
-][0];
-$4=$recv($5)._isMetaclass();
-if($core.assert($4)){
+][0])._isMetaclass();
+if($core.assert($2)){
 destinationClass=$recv(destinationClass)._theMetaClass();
 destinationClass;
 }
@@ -1133,17 +1125,16 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $1,$receiver;
 $1=$recv($recv($globals.Smalltalk)._globals())._at_(aClassName);
 if(($receiver = $1) == null || $receiver.a$nil){
 $1;
 } else {
-$2=[$recv("A class named ".__comma(aClassName)).__comma(" already exists")
+$self._error_([$recv("A class named ".__comma(aClassName)).__comma(" already exists")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=1
 //>>excludeEnd("ctx");
-][0];
-$self._error_($2);
+][0]);
 }
 $recv($recv($globals.ClassBuilder)._new())._renameClass_to_(aClass,aClassName);
 return self;
@@ -2268,7 +2259,7 @@ var label;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $3,$2,$1,$5,$4;
+var $1;
 [(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -2278,21 +2269,17 @@ $ctx1.supercall = true,
 ,$ctx1.supercall = false
 //>>excludeEnd("ctx");
 ][0];
-$3=[$self._printString()
+$1=$recv($recv([$self._printString()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["printString"]=1
 //>>excludeEnd("ctx");
-][0];
-$2=$recv($3)._size();
-$1=$recv($2).__gt((30));
+][0])._size()).__gt((30));
 if($core.assert($1)){
-$5=[$self._printString()
+label=$recv($recv([$self._printString()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["printString"]=2
 //>>excludeEnd("ctx");
-][0];
-$4=$recv($5)._copyFrom_to_((1),(30));
-label=$recv($4).__comma("...'");
+][0])._copyFrom_to_((1),(30))).__comma("...'");
 label;
 } else {
 label=$self._printString();
