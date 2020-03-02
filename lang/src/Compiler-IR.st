@@ -124,7 +124,7 @@ visitBlockNode: aNode
 			name: each name;
 			scope: aNode scope;
 			yourself) ].
-	aNode dagChildren do: [ :each | closure add: (self visit: each) ].
+	closure add: (self visit: aNode sequenceNode).
 	^ closure
 !
 
@@ -199,7 +199,7 @@ visitMethodNode: aNode
 			scope: aNode scope;
 			yourself) ].
 
-	self method dagChildren addAll: (self visitAllChildren: aNode).
+	self method add: (self visit: aNode sequenceNode).
 
 	aNode scope hasLocalReturn ifFalse: [self method
 		add: (IRReturn new
@@ -219,14 +219,12 @@ visitOrAlias: aNode
 !
 
 visitReturnNode: aNode
-	| return |
-	return := aNode nonLocalReturn
+	^ (aNode nonLocalReturn
 		ifTrue: [ IRNonLocalReturn new ]
-		ifFalse: [ IRReturn new ].
-	return scope: aNode scope.
-	aNode dagChildren do: [ :each |
-		return add: (self visitOrAlias: each) ].
-	^ return
+		ifFalse: [ IRReturn new ])
+		scope: aNode scope;
+		add: (self visitOrAlias: aNode expression);
+		yourself
 !
 
 visitSendNode: aNode

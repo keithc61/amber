@@ -113,24 +113,6 @@ $globals.ASTNode);
 
 $core.addMethod(
 $core.method({
-selector: "isSequenceNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isSequenceNode\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ASTNode);
-
-$core.addMethod(
-$core.method({
 selector: "isSuper",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -591,17 +573,17 @@ selector: "dagChildren",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "dagChildren\x0a\x09^ Array with: self left with: self right",
-referencedClasses: ["Array"],
+source: "dagChildren\x0a\x09^ { self left. self right }",
+referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["with:with:", "left", "right"]
+messageSends: ["left", "right"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($globals.Array)._with_with_($self._left(),$self._right());
+return [$self._left(),$self._right()];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"dagChildren",{})});
 //>>excludeEnd("ctx");
@@ -684,7 +666,7 @@ $globals.AssignmentNode);
 
 
 
-$core.addClass("BlockNode", $globals.ASTNode, ["parameters", "scope"], "Compiler-AST");
+$core.addClass("BlockNode", $globals.ASTNode, ["parameters", "scope", "sequenceNode"], "Compiler-AST");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.BlockNode.comment="I represent an block closure node.";
 //>>excludeEnd("ide");
@@ -707,6 +689,29 @@ return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitBlockNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.BlockNode);
+
+$core.addMethod(
+$core.method({
+selector: "dagChild",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "dagChild\x0a\x09^ self sequenceNode",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["sequenceNode"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self._sequenceNode();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"dagChild",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.BlockNode);
@@ -792,6 +797,43 @@ messageSends: []
 }, function ($methodClass){ return function (aLexicalScope){
 var self=this,$self=this;
 $self.scope=aLexicalScope;
+return self;
+
+}; }),
+$globals.BlockNode);
+
+$core.addMethod(
+$core.method({
+selector: "sequenceNode",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "sequenceNode\x0a\x09^ sequenceNode",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.sequenceNode;
+
+}; }),
+$globals.BlockNode);
+
+$core.addMethod(
+$core.method({
+selector: "sequenceNode:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "sequenceNode: anObject\x0a\x09sequenceNode := anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+$self.sequenceNode=anObject;
 return self;
 
 }; }),
@@ -970,7 +1012,7 @@ $globals.JSStatementNode);
 
 
 
-$core.addClass("MethodNode", $globals.ASTNode, ["selector", "arguments", "pragmas", "scope", "classReferences", "sendIndexes"], "Compiler-AST");
+$core.addClass("MethodNode", $globals.ASTNode, ["selector", "arguments", "pragmas", "scope", "classReferences", "sendIndexes", "sequenceNode"], "Compiler-AST");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodNode.comment="I represent an method node.\x0a\x0aA method node must be the root and only method node of a valid AST.";
 //>>excludeEnd("ide");
@@ -1079,6 +1121,29 @@ var self=this,$self=this;
 $self.classReferences=aCollection;
 return self;
 
+}; }),
+$globals.MethodNode);
+
+$core.addMethod(
+$core.method({
+selector: "dagChild",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "dagChild\x0a\x09^ self sequenceNode",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["sequenceNode"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self._sequenceNode();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"dagChild",{})});
+//>>excludeEnd("ctx");
 }; }),
 $globals.MethodNode);
 
@@ -1288,37 +1353,40 @@ selector: "sequenceNode",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "sequenceNode\x0a\x09^ self dagChildren detect: [ :one | one isSequenceNode ] ifNone: [ nil ]",
+source: "sequenceNode\x0a\x09^ sequenceNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["detect:ifNone:", "dagChildren", "isSequenceNode"]
+messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self._dagChildren())._detect_ifNone_((function(one){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(one)._isSequenceNode();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({one:one},$ctx1,1)});
-//>>excludeEnd("ctx");
-}),(function(){
-return nil;
+return $self.sequenceNode;
 
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"sequenceNode",{})});
-//>>excludeEnd("ctx");
+}; }),
+$globals.MethodNode);
+
+$core.addMethod(
+$core.method({
+selector: "sequenceNode:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aSequenceNode"],
+source: "sequenceNode: aSequenceNode\x0a\x09sequenceNode := aSequenceNode",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aSequenceNode){
+var self=this,$self=this;
+$self.sequenceNode=aSequenceNode;
+return self;
+
 }; }),
 $globals.MethodNode);
 
 
 
-$core.addClass("ReturnNode", $globals.ASTNode, ["scope"], "Compiler-AST");
+$core.addClass("ReturnNode", $globals.ASTNode, ["scope", "expression"], "Compiler-AST");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ReturnNode.comment="I represent an return node. At the AST level, there is not difference between a local return or non-local return.";
 //>>excludeEnd("ide");
@@ -1342,6 +1410,77 @@ return $recv(aVisitor)._visitReturnNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor})});
 //>>excludeEnd("ctx");
+}; }),
+$globals.ReturnNode);
+
+$core.addMethod(
+$core.method({
+selector: "dagChild",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "dagChild\x0a\x09^ self expression",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["expression"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self._expression();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"dagChild",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ReturnNode);
+
+$core.addMethod(
+$core.method({
+selector: "expression",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "expression\x0a\x09^ expression ifNil: [ nodes first ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNil:", "first"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$receiver;
+$1=$self.expression;
+if(($receiver = $1) == null || $receiver.a$nil){
+return $recv($self.nodes)._first();
+} else {
+return $1;
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"expression",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ReturnNode);
+
+$core.addMethod(
+$core.method({
+selector: "expression:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "expression: anObject\x0a\x09expression := anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+$self.expression=anObject;
+return self;
+
 }; }),
 $globals.ReturnNode);
 
@@ -1748,24 +1887,6 @@ return $recv(aVisitor)._visitSequenceNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor})});
 //>>excludeEnd("ctx");
-}; }),
-$globals.SequenceNode);
-
-$core.addMethod(
-$core.method({
-selector: "isSequenceNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isSequenceNode\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
 }; }),
 $globals.SequenceNode);
 
@@ -2657,6 +2778,13 @@ return $self._visitDagNode_(aNode);
 $globals.NodeVisitor);
 
 
+$core.setTraitComposition([{trait: $globals.TDerivedDagChildren}], $globals.AssignmentNode);
+$core.setTraitComposition([{trait: $globals.TSingleDagChild}], $globals.BlockNode);
+$core.setTraitComposition([{trait: $globals.TDagSink}], $globals.JSStatementNode);
+$core.setTraitComposition([{trait: $globals.TSingleDagChild}], $globals.MethodNode);
+$core.setTraitComposition([{trait: $globals.TSingleDagChild}], $globals.ReturnNode);
+$core.setTraitComposition([{trait: $globals.TDerivedDagChildren}], $globals.SendNode);
+$core.setTraitComposition([{trait: $globals.TDagSink}], $globals.ValueNode);
 $core.setTraitComposition([{trait: $globals.TPragmator}], $globals.AstPragmator);
 
 $core.addMethod(

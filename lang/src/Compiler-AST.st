@@ -118,10 +118,6 @@ isReturnNode
 	^ false
 !
 
-isSequenceNode
-	^ false
-!
-
 isSuper
 	^ false
 ! !
@@ -135,7 +131,7 @@ I represent an assignment node.!
 !AssignmentNode methodsFor: 'accessing'!
 
 dagChildren
-	^ Array with: self left with: self right
+	^ { self left. self right }
 !
 
 left
@@ -161,12 +157,16 @@ acceptDagVisitor: aVisitor
 ! !
 
 ASTNode subclass: #BlockNode
-	slots: {#parameters. #scope}
+	slots: {#parameters. #scope. #sequenceNode}
 	package: 'Compiler-AST'!
 !BlockNode commentStamp!
 I represent an block closure node.!
 
 !BlockNode methodsFor: 'accessing'!
+
+dagChild
+	^ self sequenceNode
+!
 
 parameters
 	^ parameters ifNil: [ parameters := Array new ]
@@ -182,6 +182,14 @@ scope
 
 scope: aLexicalScope
 	scope := aLexicalScope
+!
+
+sequenceNode
+	^ sequenceNode
+!
+
+sequenceNode: anObject
+	sequenceNode := anObject
 ! !
 
 !BlockNode methodsFor: 'visiting'!
@@ -255,7 +263,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 ASTNode subclass: #MethodNode
-	slots: {#selector. #arguments. #pragmas. #scope. #classReferences. #sendIndexes}
+	slots: {#selector. #arguments. #pragmas. #scope. #classReferences. #sendIndexes. #sequenceNode}
 	package: 'Compiler-AST'!
 !MethodNode commentStamp!
 I represent an method node.
@@ -278,6 +286,10 @@ classReferences
 
 classReferences: aCollection
 	classReferences := aCollection
+!
+
+dagChild
+	^ self sequenceNode
 !
 
 messageSends
@@ -321,7 +333,11 @@ sendIndexes: aDictionary
 !
 
 sequenceNode
-	^ self dagChildren detect: [ :one | one isSequenceNode ] ifNone: [ nil ]
+	^ sequenceNode
+!
+
+sequenceNode: aSequenceNode
+	sequenceNode := aSequenceNode
 ! !
 
 !MethodNode methodsFor: 'visiting'!
@@ -331,12 +347,24 @@ acceptDagVisitor: aVisitor
 ! !
 
 ASTNode subclass: #ReturnNode
-	slots: {#scope}
+	slots: {#scope. #expression}
 	package: 'Compiler-AST'!
 !ReturnNode commentStamp!
 I represent an return node. At the AST level, there is not difference between a local return or non-local return.!
 
 !ReturnNode methodsFor: 'accessing'!
+
+dagChild
+	^ self expression
+!
+
+expression
+	^ expression ifNil: [ nodes first ]
+!
+
+expression: anObject
+	expression := anObject
+!
 
 scope
 	^ scope
@@ -442,12 +470,6 @@ temps
 
 temps: aCollection
 	temps := aCollection
-! !
-
-!SequenceNode methodsFor: 'testing'!
-
-isSequenceNode
-	^ true
 ! !
 
 !SequenceNode methodsFor: 'visiting'!
@@ -684,6 +706,13 @@ visitVariableNode: aNode
 	^ self visitDagNode: aNode
 ! !
 
+AssignmentNode setTraitComposition: {TDerivedDagChildren} asTraitComposition!
+BlockNode setTraitComposition: {TSingleDagChild} asTraitComposition!
+JSStatementNode setTraitComposition: {TDagSink} asTraitComposition!
+MethodNode setTraitComposition: {TSingleDagChild} asTraitComposition!
+ReturnNode setTraitComposition: {TSingleDagChild} asTraitComposition!
+SendNode setTraitComposition: {TDerivedDagChildren} asTraitComposition!
+ValueNode setTraitComposition: {TDagSink} asTraitComposition!
 AstPragmator setTraitComposition: {TPragmator} asTraitComposition!
 ! !
 

@@ -274,7 +274,7 @@ define(["./boot"], function(__boot) {
         peg$c90 = "^",
         peg$c91 = peg$literalExpectation("^", false),
         peg$c92 = function(expression) {
-        	return newNode($globals.ReturnNode)._dagChildren_([expression]);
+        	return newNode($globals.ReturnNode)._expression_(expression);
         },
         peg$c93 = "|",
         peg$c94 = peg$literalExpectation("|", false),
@@ -300,7 +300,7 @@ define(["./boot"], function(__boot) {
         peg$c106 = function(params, temps, statements) {
         	return newNode($globals.BlockNode)
         		._parameters_(params || [])
-        		._dagChildren_([newSequenceNode($globals.BlockSequenceNode, temps, statements)]);
+        		._sequenceNode_(newSequenceNode($globals.BlockSequenceNode, temps, statements));
         },
         peg$c107 = function(selector) {
         	return newNode($globals.SendNode)._selector_(selector);
@@ -338,7 +338,7 @@ define(["./boot"], function(__boot) {
         			._selector_(pattern[0])
         			._arguments_(pattern[1])
         			._pragmas_((aPragmas || []).concat(zPragmas || []))
-        			._dagChildren_([newSequenceNode($globals.SequenceNode, temps, statements)]);
+        			._sequenceNode_(newSequenceNode($globals.SequenceNode, temps, statements));
         	},
         peg$c119 = function(receiver, tail) { return tail.length > 0 && tail[tail.length-1]._selector() === '->' },
         peg$c120 = function(receiver, tail) {

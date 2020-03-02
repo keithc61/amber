@@ -13,6 +13,10 @@
   + javaScriptConstructor:
 + BlockClosure >>
   + tryIfTrue:catch:
++ BlockNode >>
+  + dagChild
+  + sequenceNode
+  + sequenceNode:
 + ExternallyKnownVar >>
   + isExternallyKnownVar
 + IRInstruction >>
@@ -21,8 +25,15 @@
   + asReceiver
 + IRVariable >>
   + asReceiver
++ MethodNode >>
+  + dagChild
+  + sequenceNode:
 + PseudoVar
   + asReceiver
++ ReturnNode >>
+  + dagChild
+  + expression
+  + expression:
 + SemanticAnalyzer >>
   + errorInvalidAssignment:
   + isVariableKnown:inPackage:

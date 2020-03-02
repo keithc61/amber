@@ -157,7 +157,7 @@ assignment = variable:variable ws ':=' ws expression:expression {
 }
 
 ret = '^' ws expression:expression {
-	return newNode($globals.ReturnNode)._dagChildren_([expression]);
+	return newNode($globals.ReturnNode)._expression_(expression);
 }
 
 temps = '|' vars:(ws variable:identifier {return variable;})* ws '|' {
@@ -185,7 +185,7 @@ wsStatements =
 block = '[' params:wsBlockParamList? ws temps:temps? statements:wsStatements? maybeDotsWs ']' {
 	return newNode($globals.BlockNode)
 		._parameters_(params || [])
-		._dagChildren_([newSequenceNode($globals.BlockSequenceNode, temps, statements)]);
+		._sequenceNode_(newSequenceNode($globals.BlockSequenceNode, temps, statements));
 }
 
 operand = reference / literal / subexpression
@@ -246,7 +246,7 @@ method =
 			._selector_(pattern[0])
 			._arguments_(pattern[1])
 			._pragmas_((aPragmas || []).concat(zPragmas || []))
-			._dagChildren_([newSequenceNode($globals.SequenceNode, temps, statements)]);
+			._sequenceNode_(newSequenceNode($globals.SequenceNode, temps, statements));
 	}
 
 associationSend =

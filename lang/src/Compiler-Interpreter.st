@@ -60,7 +60,7 @@ valueWithPossibleArguments: aCollection
 	context := outerContext newInnerContext.
 
 	"Interpret a copy of the sequence node to avoid creating a new AIBlockClosure"
-	sequenceNode := node dagChildren first copy
+	sequenceNode := node sequenceNode copy
 		parent: nil;
 		yourself.
 		
