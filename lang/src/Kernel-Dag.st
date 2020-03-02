@@ -164,14 +164,17 @@ dagChildren: aCollection
 ! !
 
 DagNode subclass: #DagSink
-	slots: {#nodes}
+	slots: {}
 	package: 'Kernel-Dag'!
 !DagSink commentStamp!
 I am `DagNode` with no direct successors.
 
 Sending `dagChildren:` with empty collection is legal.!
 
-!DagSink methodsFor: 'accessing'!
+Trait named: #TDagSink
+	package: 'Kernel-Dag'!
+
+!TDagSink methodsFor: 'accessing'!
 
 dagChildren
 	^ #()
@@ -179,6 +182,41 @@ dagChildren
 
 dagChildren: aCollection
 	aCollection ifNotEmpty: [ self error: 'A DagSink cannot have children.' ]
+! !
+
+Trait named: #TDerivedDagChildren
+	package: 'Kernel-Dag'!
+
+!TDerivedDagChildren methodsFor: 'accessing'!
+
+addDagChild: aDagNode
+	self error: 'Cannot add child for a TDerivedChildren.'
+!
+
+dagChildren
+	self subclassResponsibility
+!
+
+dagChildren: aCollection
+	self error: 'Cannot set children of a TDerivedChildren.'
+! !
+
+Trait named: #TSingleDagChild
+	package: 'Kernel-Dag'!
+
+!TSingleDagChild methodsFor: 'accessing'!
+
+dagChild
+	self subclassResponsibility
+!
+
+dagChildren
+	^ { self dagChild }
+! !
+
+TDagSink setTraitComposition: {TDerivedDagChildren} asTraitComposition!
+TSingleDagChild setTraitComposition: {TDerivedDagChildren} asTraitComposition!
+DagSink setTraitComposition: {TDagSink} asTraitComposition!
 ! !
 
 !Object methodsFor: '*Kernel-Dag'!

@@ -549,10 +549,13 @@ $globals.DagParentNode);
 
 
 
-$core.addClass("DagSink", $globals.DagNode, ["nodes"], "Kernel-Dag");
+$core.addClass("DagSink", $globals.DagNode, [], "Kernel-Dag");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.DagSink.comment="I am `DagNode` with no direct successors.\x0a\x0aSending `dagChildren:` with empty collection is legal.";
 //>>excludeEnd("ide");
+
+
+$core.addTrait("TDagSink", "Kernel-Dag");
 $core.addMethod(
 $core.method({
 selector: "dagChildren",
@@ -569,7 +572,7 @@ var self=this,$self=this;
 return [];
 
 }; }),
-$globals.DagSink);
+$globals.TDagSink);
 
 $core.addMethod(
 $core.method({
@@ -601,8 +604,134 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"dagChildren:",{aCollection:aCollection})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.DagSink);
+$globals.TDagSink);
 
+
+$core.addTrait("TDerivedDagChildren", "Kernel-Dag");
+$core.addMethod(
+$core.method({
+selector: "addDagChild:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aDagNode"],
+source: "addDagChild: aDagNode\x0a\x09self error: 'Cannot add child for a TDerivedChildren.'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aDagNode){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._error_("Cannot add child for a TDerivedChildren.");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"addDagChild:",{aDagNode:aDagNode})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TDerivedDagChildren);
+
+$core.addMethod(
+$core.method({
+selector: "dagChildren",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "dagChildren\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"dagChildren",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TDerivedDagChildren);
+
+$core.addMethod(
+$core.method({
+selector: "dagChildren:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aCollection"],
+source: "dagChildren: aCollection\x0a\x09self error: 'Cannot set children of a TDerivedChildren.'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aCollection){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._error_("Cannot set children of a TDerivedChildren.");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"dagChildren:",{aCollection:aCollection})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TDerivedDagChildren);
+
+
+$core.addTrait("TSingleDagChild", "Kernel-Dag");
+$core.addMethod(
+$core.method({
+selector: "dagChild",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "dagChild\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"dagChild",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TSingleDagChild);
+
+$core.addMethod(
+$core.method({
+selector: "dagChildren",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "dagChildren\x0a\x09^ { self dagChild }",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["dagChild"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return [$self._dagChild()];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"dagChildren",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TSingleDagChild);
+
+$core.setTraitComposition([{trait: $globals.TDerivedDagChildren}], $globals.TDagSink);
+$core.setTraitComposition([{trait: $globals.TDerivedDagChildren}], $globals.TSingleDagChild);
+$core.setTraitComposition([{trait: $globals.TDagSink}], $globals.DagSink);
 
 $core.addMethod(
 $core.method({
