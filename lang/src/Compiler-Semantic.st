@@ -584,6 +584,7 @@ visitBlockNode: aNode
 
 visitCascadeNode: aNode
 	aNode receiver: aNode dagChildren first receiver.
+	aNode dagChildren allButLast do: [ :each | each beSideEffect ].
 	super visitCascadeNode: aNode
 !
 

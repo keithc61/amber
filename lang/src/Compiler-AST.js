@@ -41,24 +41,6 @@ $globals.ASTNode);
 
 $core.addMethod(
 $core.method({
-selector: "isCascadeNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isCascadeNode\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ASTNode);
-
-$core.addMethod(
-$core.method({
 selector: "isImmutable",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -870,24 +852,6 @@ $globals.CascadeNode);
 
 $core.addMethod(
 $core.method({
-selector: "isCascadeNode",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isCascadeNode\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.CascadeNode);
-
-$core.addMethod(
-$core.method({
 selector: "receiver",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1564,7 +1528,7 @@ $globals.ReturnNode);
 
 
 
-$core.addClass("SendNode", $globals.ASTNode, ["selector", "arguments", "receiver", "index"], "Compiler-AST");
+$core.addClass("SendNode", $globals.ASTNode, ["selector", "arguments", "receiver", "index", "isSideEffect"], "Compiler-AST");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SendNode.comment="I represent an message send node.";
 //>>excludeEnd("ide");
@@ -1635,6 +1599,25 @@ messageSends: []
 }, function ($methodClass){ return function (aCollection){
 var self=this,$self=this;
 $self.arguments=aCollection;
+return self;
+
+}; }),
+$globals.SendNode);
+
+$core.addMethod(
+$core.method({
+selector: "beSideEffect",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "beSideEffect\x0a\x09isSideEffect := true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+$self.isSideEffect=true;
 return self;
 
 }; }),
@@ -1730,6 +1713,35 @@ messageSends: []
 var self=this,$self=this;
 return true;
 
+}; }),
+$globals.SendNode);
+
+$core.addMethod(
+$core.method({
+selector: "isSideEffect",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isSideEffect\x0a\x09^ isSideEffect ifNil: [ false ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNil:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$receiver;
+$1=$self.isSideEffect;
+if(($receiver = $1) == null || $receiver.a$nil){
+return false;
+} else {
+return $1;
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isSideEffect",{})});
+//>>excludeEnd("ctx");
 }; }),
 $globals.SendNode);
 

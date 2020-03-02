@@ -40,6 +40,9 @@
 + ScopeVar >>
   + asReceiver
   + isExternallyKnownVar
++ SendNode >>
+  + beSideEffect
+  + isSideEffect
 + SequenceableCollection >>
   + copyWithFirst:
 + SmalltalkImage >>

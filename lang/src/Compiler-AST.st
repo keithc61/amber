@@ -100,10 +100,6 @@ inPosition: aPoint
 		self positionEnd >= aPoint ])
 !
 
-isCascadeNode
-	^ false
-!
-
 isImmutable
 	^ false
 !
@@ -212,12 +208,6 @@ receiver
 
 receiver: aNode
 	receiver := aNode
-! !
-
-!CascadeNode methodsFor: 'testing'!
-
-isCascadeNode
-	^ true
 ! !
 
 !CascadeNode methodsFor: 'visiting'!
@@ -391,7 +381,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 ASTNode subclass: #SendNode
-	slots: {#selector. #arguments. #receiver. #index}
+	slots: {#selector. #arguments. #receiver. #index. #isSideEffect}
 	package: 'Compiler-AST'!
 !SendNode commentStamp!
 I represent an message send node.!
@@ -406,6 +396,10 @@ arguments: aCollection
 	arguments := aCollection
 !
 
+beSideEffect
+	isSideEffect := true
+!
+
 dagChildren
 	self receiver ifNil: [ ^ self arguments copy ].
 	
@@ -418,6 +412,10 @@ index
 
 index: anInteger
 	index := anInteger
+!
+
+isSideEffect
+	^ isSideEffect ifNil: [ false ]
 !
 
 navigationLink

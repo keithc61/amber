@@ -878,8 +878,7 @@ visitSendNode: aNode
 	result := self sendMessage: message to: receiver superSend: aNode superSend.
 	
 	"For cascade sends, push the reciever if the send is not the last one"
-	(aNode isCascadeSendNode and: [ aNode isLastChild not ])
-		ifFalse: [ self pop; push: result ]
+	aNode isSideEffect ifFalse: [ self pop; push: result ]
 !
 
 visitValueNode: aNode
@@ -975,10 +974,6 @@ AIContext setTraitComposition: {TMethodContext} asTraitComposition!
 
 !ASTNode methodsFor: '*Compiler-Interpreter'!
 
-isLastChild
-	^ self parent dagChildren last = self
-!
-
 isSteppingNode
 	^ false
 !
@@ -1030,10 +1025,6 @@ isSteppingNode
 ! !
 
 !SendNode methodsFor: '*Compiler-Interpreter'!
-
-isCascadeSendNode
-	^ self parent isCascadeNode
-!
 
 isSteppingNode
 	^ true

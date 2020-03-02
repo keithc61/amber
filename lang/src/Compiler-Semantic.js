@@ -2332,17 +2332,30 @@ selector: "visitCascadeNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitCascadeNode: aNode\x0a\x09aNode receiver: aNode dagChildren first receiver.\x0a\x09super visitCascadeNode: aNode",
+source: "visitCascadeNode: aNode\x0a\x09aNode receiver: aNode dagChildren first receiver.\x0a\x09aNode dagChildren allButLast do: [ :each | each beSideEffect ].\x0a\x09super visitCascadeNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["receiver:", "receiver", "first", "dagChildren", "visitCascadeNode:"]
+messageSends: ["receiver:", "receiver", "first", "dagChildren", "do:", "allButLast", "beSideEffect", "visitCascadeNode:"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(aNode)._receiver_($recv($recv($recv(aNode)._dagChildren())._first())._receiver());
+$recv(aNode)._receiver_($recv($recv([$recv(aNode)._dagChildren()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["dagChildren"]=1
+//>>excludeEnd("ctx");
+][0])._first())._receiver());
+$recv($recv($recv(aNode)._dagChildren())._allButLast())._do_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(each)._beSideEffect();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
 [(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,

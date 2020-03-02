@@ -3335,11 +3335,11 @@ selector: "visitSendNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitSendNode: aNode\x0a\x09| receiver args message result |\x0a\x09\x0a\x09args := aNode arguments collect: [ :each | self pop ].\x0a\x09receiver := self peek.\x0a\x09\x0a\x09message := self\x0a\x09\x09messageFromSendNode: aNode\x0a\x09\x09arguments: args reversed.\x0a\x09\x0a\x09result := self sendMessage: message to: receiver superSend: aNode superSend.\x0a\x09\x0a\x09\x22For cascade sends, push the reciever if the send is not the last one\x22\x0a\x09(aNode isCascadeSendNode and: [ aNode isLastChild not ])\x0a\x09\x09ifFalse: [ self pop; push: result ]",
+source: "visitSendNode: aNode\x0a\x09| receiver args message result |\x0a\x09\x0a\x09args := aNode arguments collect: [ :each | self pop ].\x0a\x09receiver := self peek.\x0a\x09\x0a\x09message := self\x0a\x09\x09messageFromSendNode: aNode\x0a\x09\x09arguments: args reversed.\x0a\x09\x0a\x09result := self sendMessage: message to: receiver superSend: aNode superSend.\x0a\x09\x0a\x09\x22For cascade sends, push the reciever if the send is not the last one\x22\x0a\x09aNode isSideEffect ifFalse: [ self pop; push: result ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["collect:", "arguments", "pop", "peek", "messageFromSendNode:arguments:", "reversed", "sendMessage:to:superSend:", "superSend", "ifFalse:", "and:", "isCascadeSendNode", "not", "isLastChild", "push:"]
+messageSends: ["collect:", "arguments", "pop", "peek", "messageFromSendNode:arguments:", "reversed", "sendMessage:to:superSend:", "superSend", "ifFalse:", "isSideEffect", "push:"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 var receiver,args,message,result;
@@ -3363,15 +3363,7 @@ return [$self._pop()
 receiver=$self._peek();
 message=$self._messageFromSendNode_arguments_(aNode,$recv(args)._reversed());
 result=$self._sendMessage_to_superSend_(message,receiver,$recv(aNode)._superSend());
-$1=$recv($recv(aNode)._isCascadeSendNode())._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($recv(aNode)._isLastChild())._not();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
+$1=$recv(aNode)._isSideEffect();
 if(!$core.assert($1)){
 $self._pop();
 $self._push_(result);
@@ -3791,29 +3783,6 @@ $core.setTraitComposition([{trait: $globals.TMethodContext}], $globals.AIContext
 
 $core.addMethod(
 $core.method({
-selector: "isLastChild",
-protocol: "*Compiler-Interpreter",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isLastChild\x0a\x09^ self parent dagChildren last = self",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["=", "last", "dagChildren", "parent"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($recv($recv($self._parent())._dagChildren())._last()).__eq(self);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isLastChild",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTNode);
-
-$core.addMethod(
-$core.method({
 selector: "isSteppingNode",
 protocol: "*Compiler-Interpreter",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3967,29 +3936,6 @@ return true;
 
 }; }),
 $globals.JSStatementNode);
-
-$core.addMethod(
-$core.method({
-selector: "isCascadeSendNode",
-protocol: "*Compiler-Interpreter",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isCascadeSendNode\x0a\x09^ self parent isCascadeNode",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["isCascadeNode", "parent"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self._parent())._isCascadeNode();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isCascadeSendNode",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.SendNode);
 
 $core.addMethod(
 $core.method({
