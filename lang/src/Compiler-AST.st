@@ -15,10 +15,6 @@ location: aLocation
 	self position: aLocation start line @ aLocation start column
 !
 
-method
-	^ self parent ifNotNil: [ :node | node method ]
-!
-
 navigationNodeAt: aPoint ifAbsent: aBlock
 	"Answer the navigation node in the receiver's tree at aPoint 
 	or nil if no navigation node was found.

@@ -177,37 +177,6 @@ $globals.ASTNode);
 
 $core.addMethod(
 $core.method({
-selector: "method",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "method\x0a\x09^ self parent ifNotNil: [ :node | node method ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifNotNil:", "parent", "method"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$receiver;
-$1=$self._parent();
-if(($receiver = $1) == null || $receiver.a$nil){
-return $1;
-} else {
-var node;
-node=$receiver;
-return $recv(node)._method();
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"method",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTNode);
-
-$core.addMethod(
-$core.method({
 selector: "navigationNodeAt:ifAbsent:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
