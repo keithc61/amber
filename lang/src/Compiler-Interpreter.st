@@ -656,13 +656,12 @@ interpret
 !
 
 next
-	| nd nextNode |
+	| nd parent |
 	nd := self node.
-	nextNode := nd parent ifNotNil: [ :parent |
-		(parent nextSiblingNode: nd)
-			ifNil: [ parent ]
-			ifNotNil: [ :sibling | (ASTEnterNode on: self) visit: sibling ] ].
-	self node: nextNode
+	parent := nd parent.
+	(parent ifNotNil: [ parent nextSiblingNode: nd ])
+		ifNil: [ self node: parent ]
+		ifNotNil: [ :sibling | self node: sibling; enterNode ]
 !
 
 proceed

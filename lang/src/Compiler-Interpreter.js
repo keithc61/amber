@@ -2559,38 +2559,41 @@ selector: "next",
 protocol: "interpreting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "next\x0a\x09| nd nextNode |\x0a\x09nd := self node.\x0a\x09nextNode := nd parent ifNotNil: [ :parent |\x0a\x09\x09(parent nextSiblingNode: nd)\x0a\x09\x09\x09ifNil: [ parent ]\x0a\x09\x09\x09ifNotNil: [ :sibling | (ASTEnterNode on: self) visit: sibling ] ].\x0a\x09self node: nextNode",
-referencedClasses: ["ASTEnterNode"],
+source: "next\x0a\x09| nd parent |\x0a\x09nd := self node.\x0a\x09parent := nd parent.\x0a\x09(parent ifNotNil: [ parent nextSiblingNode: nd ])\x0a\x09\x09ifNil: [ self node: parent ]\x0a\x09\x09ifNotNil: [ :sibling | self node: sibling; enterNode ]",
+referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["node", "ifNotNil:", "parent", "ifNil:ifNotNil:", "nextSiblingNode:", "visit:", "on:", "node:"]
+messageSends: ["node", "parent", "ifNil:ifNotNil:", "ifNotNil:", "nextSiblingNode:", "node:", "enterNode"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-var nd,nextNode;
+var nd,parent;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $2,$1,$receiver;
 nd=$self._node();
-$1=$recv(nd)._parent();
-if(($receiver = $1) == null || $receiver.a$nil){
-nextNode=$1;
-} else {
-var parent;
-parent=$receiver;
-$2=$recv(parent)._nextSiblingNode_(nd);
+parent=$recv(nd)._parent();
+$2=parent;
 if(($receiver = $2) == null || $receiver.a$nil){
-nextNode=parent;
+$1=$2;
+} else {
+$1=$recv(parent)._nextSiblingNode_(nd);
+}
+if(($receiver = $1) == null || $receiver.a$nil){
+[$self._node_(parent)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["node:"]=1
+//>>excludeEnd("ctx");
+][0];
 } else {
 var sibling;
 sibling=$receiver;
-nextNode=$recv($recv($globals.ASTEnterNode)._on_(self))._visit_(sibling);
+$self._node_(sibling);
+$self._enterNode();
 }
-}
-$self._node_(nextNode);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"next",{nd:nd,nextNode:nextNode})});
+}, function($ctx1) {$ctx1.fill(self,"next",{nd:nd,parent:parent})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ASTInterpreter);
