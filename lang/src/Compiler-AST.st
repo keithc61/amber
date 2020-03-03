@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Compiler-AST'!
 DagParentNode subclass: #ASTNode
-	slots: {#parent. #position. #source. #shouldBeAliased}
+	slots: {#parent. #position. #source}
 	package: 'Compiler-AST'!
 !ASTNode commentStamp!
 I am the abstract root class of the abstract syntax tree.
@@ -60,14 +60,6 @@ positionStart
 	^ self position
 !
 
-shouldBeAliased
-	^ shouldBeAliased ifNil: [ false ]
-!
-
-shouldBeAliased: aBoolean
-	shouldBeAliased := aBoolean
-!
-
 size
 	^ self source size
 !
@@ -80,7 +72,40 @@ source: aString
 	source := aString
 ! !
 
-!ASTNode methodsFor: 'building'!
+!ASTNode methodsFor: 'testing'!
+
+inPosition: aPoint
+	^ (self positionStart <= aPoint and: [
+		self positionEnd >= aPoint ])
+!
+
+isNavigationNode
+	"Answer true if the node can be navigated to"
+	
+	^ false
+!
+
+isReturnNode
+	^ false
+! !
+
+ASTNode subclass: #ExpressionNode
+	slots: {#shouldBeAliased}
+	package: 'Compiler-AST'!
+!ExpressionNode commentStamp!
+I am the abstract root class for expression nodes.!
+
+!ExpressionNode methodsFor: 'accessing'!
+
+shouldBeAliased
+	^ shouldBeAliased ifNil: [ false ]
+!
+
+shouldBeAliased: aBoolean
+	shouldBeAliased := aBoolean
+! !
+
+!ExpressionNode methodsFor: 'building'!
 
 withTail: aCollection
 	^ aCollection inject: self into: [
@@ -93,24 +118,9 @@ withTail: aCollection
 			yourself ]
 ! !
 
-!ASTNode methodsFor: 'testing'!
-
-inPosition: aPoint
-	^ (self positionStart <= aPoint and: [
-		self positionEnd >= aPoint ])
-!
+!ExpressionNode methodsFor: 'testing'!
 
 isImmutable
-	^ false
-!
-
-isNavigationNode
-	"Answer true if the node can be navigated to"
-	
-	^ false
-!
-
-isReturnNode
 	^ false
 !
 
@@ -118,7 +128,7 @@ isSuper
 	^ false
 ! !
 
-ASTNode subclass: #AssignmentNode
+ExpressionNode subclass: #AssignmentNode
 	slots: {#left. #right}
 	package: 'Compiler-AST'!
 !AssignmentNode commentStamp!
@@ -152,7 +162,7 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitAssignmentNode: self
 ! !
 
-ASTNode subclass: #BlockNode
+ExpressionNode subclass: #BlockNode
 	slots: {#parameters. #scope. #sequenceNode}
 	package: 'Compiler-AST'!
 !BlockNode commentStamp!
@@ -194,7 +204,7 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitBlockNode: self
 ! !
 
-ASTNode subclass: #CascadeNode
+ExpressionNode subclass: #CascadeNode
 	slots: {#receiver}
 	package: 'Compiler-AST'!
 !CascadeNode commentStamp!
@@ -216,7 +226,7 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitCascadeNode: self
 ! !
 
-ASTNode subclass: #DynamicArrayNode
+ExpressionNode subclass: #DynamicArrayNode
 	slots: {}
 	package: 'Compiler-AST'!
 !DynamicArrayNode commentStamp!
@@ -228,7 +238,7 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitDynamicArrayNode: self
 ! !
 
-ASTNode subclass: #DynamicDictionaryNode
+ExpressionNode subclass: #DynamicDictionaryNode
 	slots: {}
 	package: 'Compiler-AST'!
 !DynamicDictionaryNode commentStamp!
@@ -238,6 +248,160 @@ I represent an dynamic dictionary node.!
 
 acceptDagVisitor: aVisitor
 	^ aVisitor visitDynamicDictionaryNode: self
+! !
+
+ExpressionNode subclass: #SendNode
+	slots: {#selector. #arguments. #receiver. #index. #isSideEffect}
+	package: 'Compiler-AST'!
+!SendNode commentStamp!
+I represent an message send node.!
+
+!SendNode methodsFor: 'accessing'!
+
+arguments
+	^ arguments ifNil: [ arguments := #() ]
+!
+
+arguments: aCollection
+	arguments := aCollection
+!
+
+beSideEffect
+	isSideEffect := true
+!
+
+dagChildren
+	self receiver ifNil: [ ^ self arguments copy ].
+	
+	^ self arguments copyWithFirst: self receiver
+!
+
+index
+	^ index
+!
+
+index: anInteger
+	index := anInteger
+!
+
+isSideEffect
+	^ isSideEffect ifNil: [ false ]
+!
+
+navigationLink
+	^ self selector
+!
+
+receiver
+	^ receiver
+!
+
+receiver: aNode
+	receiver := aNode
+!
+
+selector
+	^ selector
+!
+
+selector: aString
+	selector := aString
+!
+
+superSend
+	^ self receiver ifNil: [ false ] ifNotNil: [ :recv | recv isSuper ]
+! !
+
+!SendNode methodsFor: 'testing'!
+
+isNavigationNode
+	^ true
+! !
+
+!SendNode methodsFor: 'visiting'!
+
+acceptDagVisitor: aVisitor
+	^ aVisitor visitSendNode: self
+! !
+
+ExpressionNode subclass: #ValueNode
+	slots: {#value}
+	package: 'Compiler-AST'!
+!ValueNode commentStamp!
+I represent a value node.!
+
+!ValueNode methodsFor: 'accessing'!
+
+value
+	^ value
+!
+
+value: anObject
+	value := anObject
+! !
+
+!ValueNode methodsFor: 'testing'!
+
+isImmutable
+	^ self value isImmutable
+! !
+
+!ValueNode methodsFor: 'visiting'!
+
+acceptDagVisitor: aVisitor
+	^ aVisitor visitValueNode: self
+! !
+
+ValueNode subclass: #VariableNode
+	slots: {#assigned. #binding}
+	package: 'Compiler-AST'!
+!VariableNode commentStamp!
+I represent an variable node.!
+
+!VariableNode methodsFor: 'accessing'!
+
+alias
+	^ self binding alias
+!
+
+assigned
+	^ assigned ifNil: [ false ]
+!
+
+assigned: aBoolean
+	assigned := aBoolean
+!
+
+binding
+	^ binding
+!
+
+binding: aScopeVar
+	binding := aScopeVar
+!
+
+navigationLink
+	^ self value
+! !
+
+!VariableNode methodsFor: 'testing'!
+
+isImmutable
+	^ self binding isImmutable
+!
+
+isNavigationNode
+	^ true
+!
+
+isSuper
+	^ self binding isSuper
+! !
+
+!VariableNode methodsFor: 'visiting'!
+
+acceptDagVisitor: aVisitor
+	^ aVisitor visitVariableNode: self
 ! !
 
 ASTNode subclass: #JSStatementNode
@@ -380,80 +544,6 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitReturnNode: self
 ! !
 
-ASTNode subclass: #SendNode
-	slots: {#selector. #arguments. #receiver. #index. #isSideEffect}
-	package: 'Compiler-AST'!
-!SendNode commentStamp!
-I represent an message send node.!
-
-!SendNode methodsFor: 'accessing'!
-
-arguments
-	^ arguments ifNil: [ arguments := #() ]
-!
-
-arguments: aCollection
-	arguments := aCollection
-!
-
-beSideEffect
-	isSideEffect := true
-!
-
-dagChildren
-	self receiver ifNil: [ ^ self arguments copy ].
-	
-	^ self arguments copyWithFirst: self receiver
-!
-
-index
-	^ index
-!
-
-index: anInteger
-	index := anInteger
-!
-
-isSideEffect
-	^ isSideEffect ifNil: [ false ]
-!
-
-navigationLink
-	^ self selector
-!
-
-receiver
-	^ receiver
-!
-
-receiver: aNode
-	receiver := aNode
-!
-
-selector
-	^ selector
-!
-
-selector: aString
-	selector := aString
-!
-
-superSend
-	^ self receiver ifNil: [ false ] ifNotNil: [ :recv | recv isSuper ]
-! !
-
-!SendNode methodsFor: 'testing'!
-
-isNavigationNode
-	^ true
-! !
-
-!SendNode methodsFor: 'visiting'!
-
-acceptDagVisitor: aVisitor
-	^ aVisitor visitSendNode: self
-! !
-
 ASTNode subclass: #SequenceNode
 	slots: {#temps}
 	package: 'Compiler-AST'!
@@ -486,86 +576,6 @@ I represent an special sequence node for block scopes.!
 
 acceptDagVisitor: aVisitor
 	^ aVisitor visitBlockSequenceNode: self
-! !
-
-ASTNode subclass: #ValueNode
-	slots: {#value}
-	package: 'Compiler-AST'!
-!ValueNode commentStamp!
-I represent a value node.!
-
-!ValueNode methodsFor: 'accessing'!
-
-value
-	^ value
-!
-
-value: anObject
-	value := anObject
-! !
-
-!ValueNode methodsFor: 'testing'!
-
-isImmutable
-	^ self value isImmutable
-! !
-
-!ValueNode methodsFor: 'visiting'!
-
-acceptDagVisitor: aVisitor
-	^ aVisitor visitValueNode: self
-! !
-
-ValueNode subclass: #VariableNode
-	slots: {#assigned. #binding}
-	package: 'Compiler-AST'!
-!VariableNode commentStamp!
-I represent an variable node.!
-
-!VariableNode methodsFor: 'accessing'!
-
-alias
-	^ self binding alias
-!
-
-assigned
-	^ assigned ifNil: [ false ]
-!
-
-assigned: aBoolean
-	assigned := aBoolean
-!
-
-binding
-	^ binding
-!
-
-binding: aScopeVar
-	binding := aScopeVar
-!
-
-navigationLink
-	^ self value
-! !
-
-!VariableNode methodsFor: 'testing'!
-
-isImmutable
-	^ self binding isImmutable
-!
-
-isNavigationNode
-	^ true
-!
-
-isSuper
-	^ self binding isSuper
-! !
-
-!VariableNode methodsFor: 'visiting'!
-
-acceptDagVisitor: aVisitor
-	^ aVisitor visitVariableNode: self
 ! !
 
 Object subclass: #AstPragmator
@@ -704,14 +714,14 @@ visitVariableNode: aNode
 	^ self visitDagNode: aNode
 ! !
 
-AssignmentNode setTraitComposition: {TDerivedDagChildren} asTraitComposition!
-BlockNode setTraitComposition: {TSingleDagChild} asTraitComposition!
 JSStatementNode setTraitComposition: {TDagSink} asTraitComposition!
 MethodNode setTraitComposition: {TSingleDagChild} asTraitComposition!
 ReturnNode setTraitComposition: {TSingleDagChild} asTraitComposition!
-SendNode setTraitComposition: {TDerivedDagChildren} asTraitComposition!
-ValueNode setTraitComposition: {TDagSink} asTraitComposition!
 AstPragmator setTraitComposition: {TPragmator} asTraitComposition!
+ValueNode setTraitComposition: {TDagSink} asTraitComposition!
+SendNode setTraitComposition: {TDerivedDagChildren} asTraitComposition!
+BlockNode setTraitComposition: {TSingleDagChild} asTraitComposition!
+AssignmentNode setTraitComposition: {TDerivedDagChildren} asTraitComposition!
 ! !
 
 !CompiledMethod methodsFor: '*Compiler-AST'!

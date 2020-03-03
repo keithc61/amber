@@ -45,22 +45,22 @@ $core.method({
 selector: "alias:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode"],
-source: "alias: aNode\x0a\x09| variable |\x0a\x0a\x09aNode isImmutable ifTrue: [ ^ self visit: aNode ].\x0a\x0a\x09variable := IRVariable new\x0a\x09\x09variable: (AliasVar new name: '$', self nextAlias);\x0a\x09\x09yourself.\x0a\x0a\x09self addToSequence: (IRAssignment new\x0a\x09\x09add: variable;\x0a\x09\x09add: (self visit: aNode);\x0a\x09\x09yourself).\x0a\x0a\x09self method internalVariables add: variable.\x0a\x0a\x09^ variable",
+args: ["anExpressionNode"],
+source: "alias: anExpressionNode\x0a\x09| variable |\x0a\x0a\x09anExpressionNode isImmutable ifTrue: [ ^ self visit: anExpressionNode ].\x0a\x0a\x09variable := IRVariable new\x0a\x09\x09variable: (AliasVar new name: '$', self nextAlias);\x0a\x09\x09yourself.\x0a\x0a\x09self addToSequence: (IRAssignment new\x0a\x09\x09add: variable;\x0a\x09\x09add: (self visit: anExpressionNode);\x0a\x09\x09yourself).\x0a\x0a\x09self method internalVariables add: variable.\x0a\x0a\x09^ variable",
 referencedClasses: ["IRVariable", "AliasVar", "IRAssignment"],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: ["ifTrue:", "isImmutable", "visit:", "variable:", "new", "name:", ",", "nextAlias", "yourself", "addToSequence:", "add:", "internalVariables", "method"]
-}, function ($methodClass){ return function (aNode){
+}, function ($methodClass){ return function (anExpressionNode){
 var self=this,$self=this;
 var variable;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$4,$3;
-$1=$recv(aNode)._isImmutable();
+$1=$recv(anExpressionNode)._isImmutable();
 if($core.assert($1)){
-return [$self._visit_(aNode)
+return [$self._visit_(anExpressionNode)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["visit:"]=1
 //>>excludeEnd("ctx");
@@ -87,7 +87,7 @@ $4=$recv($globals.IRAssignment)._new();
 ,$ctx1.sendIdx["add:"]=1
 //>>excludeEnd("ctx");
 ][0];
-[$recv($4)._add_($self._visit_(aNode))
+[$recv($4)._add_($self._visit_(anExpressionNode))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["add:"]=2
 //>>excludeEnd("ctx");
@@ -97,7 +97,7 @@ $self._addToSequence_($3);
 $recv($recv($self._method())._internalVariables())._add_(variable);
 return variable;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"alias:",{aNode:aNode,variable:variable})});
+}, function($ctx1) {$ctx1.fill(self,"alias:",{anExpressionNode:anExpressionNode,variable:variable})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.IRASTTranslator);
@@ -899,26 +899,26 @@ $core.method({
 selector: "visitOrAlias:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode"],
-source: "visitOrAlias: aNode\x0a\x09^ aNode shouldBeAliased\x0a\x09\x09ifTrue: [ self alias: aNode ]\x0a\x09\x09ifFalse: [ self visit: aNode ]",
+args: ["anExpressionNode"],
+source: "visitOrAlias: anExpressionNode\x0a\x09^ anExpressionNode shouldBeAliased\x0a\x09\x09ifTrue: [ self alias: anExpressionNode ]\x0a\x09\x09ifFalse: [ self visit: anExpressionNode ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: ["ifTrue:ifFalse:", "shouldBeAliased", "alias:", "visit:"]
-}, function ($methodClass){ return function (aNode){
+}, function ($methodClass){ return function (anExpressionNode){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-$1=$recv(aNode)._shouldBeAliased();
+$1=$recv(anExpressionNode)._shouldBeAliased();
 if($core.assert($1)){
-return $self._alias_(aNode);
+return $self._alias_(anExpressionNode);
 } else {
-return $self._visit_(aNode);
+return $self._visit_(anExpressionNode);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitOrAlias:",{aNode:aNode})});
+}, function($ctx1) {$ctx1.fill(self,"visitOrAlias:",{anExpressionNode:anExpressionNode})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.IRASTTranslator);
@@ -5871,45 +5871,6 @@ selector: "subtreeNeedsAliasing",
 protocol: "*Compiler-IR",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "subtreeNeedsAliasing\x0a\x09^ self shouldBeAliased or: [\x0a\x09\x09self dagChildren anySatisfy: [ :each | each subtreeNeedsAliasing ] ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["or:", "shouldBeAliased", "anySatisfy:", "dagChildren", "subtreeNeedsAliasing"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self._shouldBeAliased())._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($self._dagChildren())._anySatisfy_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $recv(each)._subtreeNeedsAliasing();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subtreeNeedsAliasing",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ASTNode);
-
-$core.addMethod(
-$core.method({
-selector: "subtreeNeedsAliasing",
-protocol: "*Compiler-IR",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
 source: "subtreeNeedsAliasing\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
@@ -5962,6 +5923,45 @@ return true;
 
 }; }),
 $globals.CascadeNode);
+
+$core.addMethod(
+$core.method({
+selector: "subtreeNeedsAliasing",
+protocol: "*Compiler-IR",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "subtreeNeedsAliasing\x0a\x09^ self shouldBeAliased or: [\x0a\x09\x09self dagChildren anySatisfy: [ :each | each subtreeNeedsAliasing ] ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["or:", "shouldBeAliased", "anySatisfy:", "dagChildren", "subtreeNeedsAliasing"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._shouldBeAliased())._or_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($self._dagChildren())._anySatisfy_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(each)._subtreeNeedsAliasing();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"subtreeNeedsAliasing",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ExpressionNode);
 
 $core.addMethod(
 $core.method({

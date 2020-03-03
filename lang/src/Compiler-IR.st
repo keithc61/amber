@@ -63,10 +63,10 @@ addToSequence: anInstruction
 	^ anInstruction
 !
 
-alias: aNode
+alias: anExpressionNode
 	| variable |
 
-	aNode isImmutable ifTrue: [ ^ self visit: aNode ].
+	anExpressionNode isImmutable ifTrue: [ ^ self visit: anExpressionNode ].
 
 	variable := IRVariable new
 		variable: (AliasVar new name: '$', self nextAlias);
@@ -74,7 +74,7 @@ alias: aNode
 
 	self addToSequence: (IRAssignment new
 		add: variable;
-		add: (self visit: aNode);
+		add: (self visit: anExpressionNode);
 		yourself).
 
 	self method internalVariables add: variable.
@@ -212,10 +212,10 @@ visitMethodNode: aNode
 	^ self method
 !
 
-visitOrAlias: aNode
-	^ aNode shouldBeAliased
-		ifTrue: [ self alias: aNode ]
-		ifFalse: [ self visit: aNode ]
+visitOrAlias: anExpressionNode
+	^ anExpressionNode shouldBeAliased
+		ifTrue: [ self alias: anExpressionNode ]
+		ifFalse: [ self visit: anExpressionNode ]
 !
 
 visitReturnNode: aNode
@@ -1334,11 +1334,6 @@ requiresSmalltalkContext
 	See `IRJSTranslator` and `JSStream` for context creation"
 	
 	^ self dagChildren anySatisfy: [ :each | each requiresSmalltalkContext ]
-!
-
-subtreeNeedsAliasing
-	^ self shouldBeAliased or: [
-		self dagChildren anySatisfy: [ :each | each subtreeNeedsAliasing ] ]
 ! !
 
 !AssignmentNode methodsFor: '*Compiler-IR'!
@@ -1357,6 +1352,13 @@ subtreeNeedsAliasing
 
 subtreeNeedsAliasing
 	^ true
+! !
+
+!ExpressionNode methodsFor: '*Compiler-IR'!
+
+subtreeNeedsAliasing
+	^ self shouldBeAliased or: [
+		self dagChildren anySatisfy: [ :each | each subtreeNeedsAliasing ] ]
 ! !
 
 !JSStatementNode methodsFor: '*Compiler-IR'!
