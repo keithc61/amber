@@ -2,6 +2,7 @@
 
 * Deprecate Behavior >> javascriptConstructor(:)
 * Deprecate IRInstruction >> needsBoxingAsReceiver
+* Deprecate VariableNode >> value(:)
 * UnknownVar => ExternallyKnownVar
 * Added Teachable class.
 
@@ -48,6 +49,9 @@
 + SmalltalkImage >>
   + isError:
   + try:ifTrue:catch:
++ VariableNode >>
+  + identifier
+  + identifier:
 + amber/boot api >>
   + detachClass(klass)
 + amber/helpers exports >>

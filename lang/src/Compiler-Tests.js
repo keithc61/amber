@@ -2490,11 +2490,11 @@ selector: "testClassRefVar",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testClassRefVar\x0a\x09| node |\x0a\x09node := VariableNode new\x0a\x09\x09value: 'Object';\x0a\x09\x09yourself.\x0a\x09SemanticAnalyzer new \x0a\x09\x09pushScope: MethodLexicalScope new;\x0a\x09\x09visit: node.\x0a\x09self assert: node binding isClassRefVar",
+source: "testClassRefVar\x0a\x09| node |\x0a\x09node := VariableNode new\x0a\x09\x09identifier: 'Object';\x0a\x09\x09yourself.\x0a\x09SemanticAnalyzer new \x0a\x09\x09pushScope: MethodLexicalScope new;\x0a\x09\x09visit: node.\x0a\x09self assert: node binding isClassRefVar",
 referencedClasses: ["VariableNode", "SemanticAnalyzer", "MethodLexicalScope"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["value:", "new", "yourself", "pushScope:", "visit:", "assert:", "isClassRefVar", "binding"]
+messageSends: ["identifier:", "new", "yourself", "pushScope:", "visit:", "assert:", "isClassRefVar", "binding"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var node;
@@ -2507,7 +2507,7 @@ $1=[$recv($globals.VariableNode)._new()
 ,$ctx1.sendIdx["new"]=1
 //>>excludeEnd("ctx");
 ][0];
-$recv($1)._value_("Object");
+$recv($1)._identifier_("Object");
 node=$recv($1)._yourself();
 $2=[$recv($globals.SemanticAnalyzer)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2530,28 +2530,20 @@ selector: "testInstanceVar",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testInstanceVar\x0a\x09| node scope |\x0a\x09node := VariableNode new\x0a\x09\x09value: 'bzzz';\x0a\x09\x09yourself.\x0a\x09scope := MethodLexicalScope new.\x0a\x09scope addIVar: 'bzzz'.\x0a\x09self assert: (scope bindingFor: node) isInstanceVar",
-referencedClasses: ["VariableNode", "MethodLexicalScope"],
+source: "testInstanceVar\x0a\x09| node scope |\x0a\x09scope := MethodLexicalScope new.\x0a\x09scope addIVar: 'bzzz'.\x0a\x09self assert: (scope bindingFor: 'bzzz') isInstanceVar",
+referencedClasses: ["MethodLexicalScope"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["value:", "new", "yourself", "addIVar:", "assert:", "isInstanceVar", "bindingFor:"]
+messageSends: ["new", "addIVar:", "assert:", "isInstanceVar", "bindingFor:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var node,scope;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=[$recv($globals.VariableNode)._new()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["new"]=1
-//>>excludeEnd("ctx");
-][0];
-$recv($1)._value_("bzzz");
-node=$recv($1)._yourself();
 scope=$recv($globals.MethodLexicalScope)._new();
 $recv(scope)._addIVar_("bzzz");
-$self._assert_($recv($recv(scope)._bindingFor_(node))._isInstanceVar());
+$self._assert_($recv($recv(scope)._bindingFor_("bzzz"))._isInstanceVar());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testInstanceVar",{node:node,scope:scope})});
@@ -2565,31 +2557,23 @@ selector: "testPseudoVar",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testPseudoVar\x0a\x09| node pseudoVars |\x0a\x09pseudoVars := #('self' 'super' 'true' 'false' 'nil').\x0a\x09pseudoVars do: [:each |\x0a\x09\x09node := VariableNode new\x0a\x09\x09value: each;\x0a\x09\x09yourself.\x0a\x09\x09self assert: (MethodLexicalScope new bindingFor: node) isPseudoVar]",
-referencedClasses: ["VariableNode", "MethodLexicalScope"],
+source: "testPseudoVar\x0a\x09| node pseudoVars |\x0a\x09pseudoVars := #('self' 'super' 'true' 'false' 'nil').\x0a\x09pseudoVars do: [:each |\x0a\x09\x09self assert: (MethodLexicalScope new bindingFor: each) isPseudoVar]",
+referencedClasses: ["MethodLexicalScope"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["do:", "value:", "new", "yourself", "assert:", "isPseudoVar", "bindingFor:"]
+messageSends: ["do:", "assert:", "isPseudoVar", "bindingFor:", "new"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var node,pseudoVars;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 pseudoVars=["self", "super", "true", "false", "nil"];
 $recv(pseudoVars)._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=[$recv($globals.VariableNode)._new()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["new"]=1
-//>>excludeEnd("ctx");
-][0];
-$recv($1)._value_(each);
-node=$recv($1)._yourself();
-return $self._assert_($recv($recv($recv($globals.MethodLexicalScope)._new())._bindingFor_(node))._isPseudoVar());
+return $self._assert_($recv($recv($recv($globals.MethodLexicalScope)._new())._bindingFor_(each))._isPseudoVar());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2607,28 +2591,20 @@ selector: "testTempVar",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testTempVar\x0a\x09| node scope |\x0a\x09node := VariableNode new\x0a\x09\x09value: 'bzzz';\x0a\x09\x09yourself.\x0a\x09scope := MethodLexicalScope new.\x0a\x09scope addTemp: 'bzzz'.\x0a\x09self assert: (scope bindingFor: node) isTempVar",
-referencedClasses: ["VariableNode", "MethodLexicalScope"],
+source: "testTempVar\x0a\x09| node scope |\x0a\x09scope := MethodLexicalScope new.\x0a\x09scope addTemp: 'bzzz'.\x0a\x09self assert: (scope bindingFor: 'bzzz') isTempVar",
+referencedClasses: ["MethodLexicalScope"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["value:", "new", "yourself", "addTemp:", "assert:", "isTempVar", "bindingFor:"]
+messageSends: ["new", "addTemp:", "assert:", "isTempVar", "bindingFor:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var node,scope;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=[$recv($globals.VariableNode)._new()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["new"]=1
-//>>excludeEnd("ctx");
-][0];
-$recv($1)._value_("bzzz");
-node=$recv($1)._yourself();
 scope=$recv($globals.MethodLexicalScope)._new();
 $recv(scope)._addTemp_("bzzz");
-$self._assert_($recv($recv(scope)._bindingFor_(node))._isTempVar());
+$self._assert_($recv($recv(scope)._bindingFor_("bzzz"))._isTempVar());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testTempVar",{node:node,scope:scope})});
@@ -2642,29 +2618,20 @@ selector: "testUnknownVar",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testUnknownVar\x0a\x09| node |\x0a\x09node := VariableNode new\x0a\x09\x09value: 'bzzz';\x0a\x09\x09yourself.\x0a\x09self assert: (MethodLexicalScope new bindingFor: node) isNil",
-referencedClasses: ["VariableNode", "MethodLexicalScope"],
+source: "testUnknownVar\x0a\x09self assert: (MethodLexicalScope new bindingFor: 'bzzz') isNil",
+referencedClasses: ["MethodLexicalScope"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["value:", "new", "yourself", "assert:", "isNil", "bindingFor:"]
+messageSends: ["assert:", "isNil", "bindingFor:", "new"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-var node;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=[$recv($globals.VariableNode)._new()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["new"]=1
-//>>excludeEnd("ctx");
-][0];
-$recv($1)._value_("bzzz");
-node=$recv($1)._yourself();
-$self._assert_($recv($recv($recv($globals.MethodLexicalScope)._new())._bindingFor_(node))._isNil());
+$self._assert_($recv($recv($recv($globals.MethodLexicalScope)._new())._bindingFor_("bzzz"))._isNil());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testUnknownVar",{node:node})});
+}, function($ctx1) {$ctx1.fill(self,"testUnknownVar",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ScopeVarTest);

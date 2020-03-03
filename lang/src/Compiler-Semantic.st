@@ -23,12 +23,10 @@ args
 	^ args ifNil: [ args := Dictionary new ]
 !
 
-bindingFor: aNode
-	| identifier |
-	identifier := aNode value.
-	^ self pseudoVars at: identifier ifAbsent: [
-		self args at: identifier ifAbsent: [
-			self temps at: identifier ifAbsent: [ nil ]]]
+bindingFor: aString
+	^ self pseudoVars at: aString ifAbsent: [
+		self args at: aString ifAbsent: [
+			self temps at: aString ifAbsent: [ nil ]]]
 !
 
 blockIndex
@@ -47,12 +45,12 @@ instruction: anIRInstruction
 	instruction := anIRInstruction
 !
 
-lookupVariable: aNode
+lookupVariable: aString
 	| lookup |
-	lookup := (self bindingFor: aNode).
+	lookup := (self bindingFor: aString).
 	lookup ifNil: [
 		lookup := self outerScope ifNotNil: [
-			(self outerScope lookupVariable: aNode) ]].
+			(self outerScope lookupVariable: aString) ]].
 	^ lookup
 !
 
@@ -136,9 +134,9 @@ allVariableNames
 	^ super allVariableNames, self iVars keys
 !
 
-bindingFor: aNode
-	^ (super bindingFor: aNode) ifNil: [
-		self iVars at: aNode value ifAbsent: [ nil ]]
+bindingFor: aString
+	^ (super bindingFor: aString) ifNil: [
+		self iVars at: aString ifAbsent: [ nil ]]
 !
 
 iVars
@@ -564,7 +562,7 @@ visitAssignmentNode: aNode
 	| lhs |
 	super visitAssignmentNode: aNode.
 	lhs := aNode left.
-	lhs isImmutable ifTrue: [ self errorInvalidAssignment: lhs value ].
+	lhs isImmutable ifTrue: [ self errorInvalidAssignment: lhs identifier ].
 	lhs assigned: true
 !
 
@@ -640,7 +638,7 @@ visitVariableNode: aNode
 	If no var is found in scope, represent an externally known variable or throw an error."
 
 	aNode binding:
-		((currentScope lookupVariable: aNode) ifNil: [ self bindUnscopedVariable: aNode value ])
+		((currentScope lookupVariable: aNode identifier) ifNil: [ self bindUnscopedVariable: aNode identifier ])
 ! !
 
 !SemanticAnalyzer class methodsFor: 'instance creation'!

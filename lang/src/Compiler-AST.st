@@ -352,8 +352,8 @@ acceptDagVisitor: aVisitor
 	^ aVisitor visitValueNode: self
 ! !
 
-ValueNode subclass: #VariableNode
-	slots: {#assigned. #binding}
+ExpressionNode subclass: #VariableNode
+	slots: {#identifier. #assigned. #binding}
 	package: 'Compiler-AST'!
 !VariableNode commentStamp!
 I represent an variable node.!
@@ -380,8 +380,26 @@ binding: aScopeVar
 	binding := aScopeVar
 !
 
+identifier
+	^ identifier
+!
+
+identifier: anObject
+	identifier := anObject
+!
+
 navigationLink
-	^ self value
+	^ self identifier
+!
+
+value
+	self deprecatedAPI: 'Use #identifier instead.'.
+	^ self identifier
+!
+
+value: anObject
+	self deprecatedAPI: 'Use #identifier: instead.'.
+	self identifier: anObject
 ! !
 
 !VariableNode methodsFor: 'testing'!
@@ -714,14 +732,15 @@ visitVariableNode: aNode
 	^ self visitDagNode: aNode
 ! !
 
+AssignmentNode setTraitComposition: {TDerivedDagChildren} asTraitComposition!
+BlockNode setTraitComposition: {TSingleDagChild} asTraitComposition!
+SendNode setTraitComposition: {TDerivedDagChildren} asTraitComposition!
+ValueNode setTraitComposition: {TDagSink} asTraitComposition!
+VariableNode setTraitComposition: {TDagSink} asTraitComposition!
 JSStatementNode setTraitComposition: {TDagSink} asTraitComposition!
 MethodNode setTraitComposition: {TSingleDagChild} asTraitComposition!
 ReturnNode setTraitComposition: {TSingleDagChild} asTraitComposition!
 AstPragmator setTraitComposition: {TPragmator} asTraitComposition!
-ValueNode setTraitComposition: {TDagSink} asTraitComposition!
-SendNode setTraitComposition: {TDerivedDagChildren} asTraitComposition!
-BlockNode setTraitComposition: {TSingleDagChild} asTraitComposition!
-AssignmentNode setTraitComposition: {TDerivedDagChildren} asTraitComposition!
 ! !
 
 !CompiledMethod methodsFor: '*Compiler-AST'!

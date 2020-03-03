@@ -225,7 +225,7 @@ define(["./boot"], function(__boot) {
         peg$c69 = peg$literalExpectation("nil", false),
         peg$c70 = function() {return null;},
         peg$c71 = function(identifier) {
-        	return newNode($globals.VariableNode)._value_(identifier);
+        	return newNode($globals.VariableNode)._identifier_(identifier);
         },
         peg$c72 = /^[\\+*\/=><,@%~|&\-]/,
         peg$c73 = peg$classExpectation(["\\", "+", "*", "/", "=", ">", "<", ",", "@", "%", "~", "|", "&", "-"], false, false),

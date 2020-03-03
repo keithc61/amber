@@ -409,7 +409,7 @@ context: anAIContext
 
 visitVariableNode: aNode
 	self context 
-		localAt: aNode value 
+		localAt: aNode identifier 
 		ifAbsent: [ ^ super visitVariableNode: aNode ].
 
 	aNode binding: ASTContextVar new
@@ -703,8 +703,8 @@ stepOver
 
 assign: aNode to: anObject
 	aNode binding isInstanceVar
-		ifTrue: [ self context receiver instVarAt: aNode value put: anObject ]
-		ifFalse: [ self context localAt: aNode value put: anObject ]
+		ifTrue: [ self context receiver instVarAt: aNode identifier put: anObject ]
+		ifFalse: [ self context localAt: aNode identifier put: anObject ]
 !
 
 eval: aString
@@ -887,21 +887,21 @@ visitValueNode: aNode
 
 visitVariableNode: aNode
 	aNode binding isExternallyKnownVar ifTrue: [
-		^ self push: (Platform globals at: aNode value ifAbsent: [ self error: 'Unknown variable' ]) ].
+		^ self push: (Platform globals at: aNode identifier ifAbsent: [ self error: 'Unknown variable' ]) ].
 		
 	self push: (aNode binding isInstanceVar
-		ifTrue: [ self context receiver instVarAt: aNode value ]
+		ifTrue: [ self context receiver instVarAt: aNode identifier ]
 		ifFalse: [ self context 
-			localAt: (aNode binding isSuper ifTrue: [ 'self' ] ifFalse: [ aNode value ])
+			localAt: (aNode binding isSuper ifTrue: [ 'self' ] ifFalse: [ aNode identifier ])
 			ifAbsent: [
-				aNode value = 'nil' ifTrue: [ nil ] ifFalse: [
-				aNode value = 'true' ifTrue: [ true ] ifFalse: [
-				aNode value = 'false' ifTrue: [ false ] ifFalse: [
-				aNode value isCapitalized
+				aNode identifier = 'nil' ifTrue: [ nil ] ifFalse: [
+				aNode identifier = 'true' ifTrue: [ true ] ifFalse: [
+				aNode identifier = 'false' ifTrue: [ false ] ifFalse: [
+				aNode identifier isCapitalized
 					ifTrue: [
 						Smalltalk globals 
-							at: aNode value 
-							ifAbsent: [ Platform globals at: aNode value ] ] ] ] ] ] ])
+							at: aNode identifier 
+							ifAbsent: [ Platform globals at: aNode identifier ] ] ] ] ] ] ])
 ! !
 
 Error subclass: #ASTInterpreterError

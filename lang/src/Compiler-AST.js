@@ -1389,7 +1389,7 @@ $globals.ValueNode);
 
 
 
-$core.addClass("VariableNode", $globals.ValueNode, ["assigned", "binding"], "Compiler-AST");
+$core.addClass("VariableNode", $globals.ExpressionNode, ["identifier", "assigned", "binding"], "Compiler-AST");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.VariableNode.comment="I represent an variable node.";
 //>>excludeEnd("ide");
@@ -1526,6 +1526,43 @@ $globals.VariableNode);
 
 $core.addMethod(
 $core.method({
+selector: "identifier",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "identifier\x0a\x09^ identifier",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.identifier;
+
+}; }),
+$globals.VariableNode);
+
+$core.addMethod(
+$core.method({
+selector: "identifier:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "identifier: anObject\x0a\x09identifier := anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+$self.identifier=anObject;
+return self;
+
+}; }),
+$globals.VariableNode);
+
+$core.addMethod(
+$core.method({
 selector: "isImmutable",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1594,19 +1631,68 @@ selector: "navigationLink",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "navigationLink\x0a\x09^ self value",
+source: "navigationLink\x0a\x09^ self identifier",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["value"]
+messageSends: ["identifier"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self._value();
+return $self._identifier();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"navigationLink",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.VariableNode);
+
+$core.addMethod(
+$core.method({
+selector: "value",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "value\x0a\x09self deprecatedAPI: 'Use #identifier instead.'.\x0a\x09^ self identifier",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["deprecatedAPI:", "identifier"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._deprecatedAPI_("Use #identifier instead.");
+return $self._identifier();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"value",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.VariableNode);
+
+$core.addMethod(
+$core.method({
+selector: "value:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "value: anObject\x0a\x09self deprecatedAPI: 'Use #identifier: instead.'.\x0a\x09self identifier: anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["deprecatedAPI:", "identifier:"]
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._deprecatedAPI_("Use #identifier: instead.");
+$self._identifier_(anObject);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.VariableNode);
@@ -2796,14 +2882,15 @@ return $self._visitDagNode_(aNode);
 $globals.NodeVisitor);
 
 
+$core.setTraitComposition([{trait: $globals.TDerivedDagChildren}], $globals.AssignmentNode);
+$core.setTraitComposition([{trait: $globals.TSingleDagChild}], $globals.BlockNode);
+$core.setTraitComposition([{trait: $globals.TDerivedDagChildren}], $globals.SendNode);
+$core.setTraitComposition([{trait: $globals.TDagSink}], $globals.ValueNode);
+$core.setTraitComposition([{trait: $globals.TDagSink}], $globals.VariableNode);
 $core.setTraitComposition([{trait: $globals.TDagSink}], $globals.JSStatementNode);
 $core.setTraitComposition([{trait: $globals.TSingleDagChild}], $globals.MethodNode);
 $core.setTraitComposition([{trait: $globals.TSingleDagChild}], $globals.ReturnNode);
 $core.setTraitComposition([{trait: $globals.TPragmator}], $globals.AstPragmator);
-$core.setTraitComposition([{trait: $globals.TDagSink}], $globals.ValueNode);
-$core.setTraitComposition([{trait: $globals.TDerivedDagChildren}], $globals.SendNode);
-$core.setTraitComposition([{trait: $globals.TSingleDagChild}], $globals.BlockNode);
-$core.setTraitComposition([{trait: $globals.TDerivedDagChildren}], $globals.AssignmentNode);
 
 $core.addMethod(
 $core.method({

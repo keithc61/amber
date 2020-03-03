@@ -151,28 +151,26 @@ $core.method({
 selector: "bindingFor:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode"],
-source: "bindingFor: aNode\x0a\x09| identifier |\x0a\x09identifier := aNode value.\x0a\x09^ self pseudoVars at: identifier ifAbsent: [\x0a\x09\x09self args at: identifier ifAbsent: [\x0a\x09\x09\x09self temps at: identifier ifAbsent: [ nil ]]]",
+args: ["aString"],
+source: "bindingFor: aString\x0a\x09^ self pseudoVars at: aString ifAbsent: [\x0a\x09\x09self args at: aString ifAbsent: [\x0a\x09\x09\x09self temps at: aString ifAbsent: [ nil ]]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["value", "at:ifAbsent:", "pseudoVars", "args", "temps"]
-}, function ($methodClass){ return function (aNode){
+messageSends: ["at:ifAbsent:", "pseudoVars", "args", "temps"]
+}, function ($methodClass){ return function (aString){
 var self=this,$self=this;
-var identifier;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-identifier=$recv(aNode)._value();
-return [$recv($self._pseudoVars())._at_ifAbsent_(identifier,(function(){
+return [$recv($self._pseudoVars())._at_ifAbsent_(aString,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return [$recv($self._args())._at_ifAbsent_(identifier,(function(){
+return [$recv($self._args())._at_ifAbsent_(aString,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv($self._temps())._at_ifAbsent_(identifier,(function(){
+return $recv($self._temps())._at_ifAbsent_(aString,(function(){
 return nil;
 
 }));
@@ -193,7 +191,7 @@ return nil;
 //>>excludeEnd("ctx");
 ][0];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"bindingFor:",{aNode:aNode,identifier:identifier})});
+}, function($ctx1) {$ctx1.fill(self,"bindingFor:",{aString:aString})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.LexicalScope);
@@ -391,20 +389,20 @@ $core.method({
 selector: "lookupVariable:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode"],
-source: "lookupVariable: aNode\x0a\x09| lookup |\x0a\x09lookup := (self bindingFor: aNode).\x0a\x09lookup ifNil: [\x0a\x09\x09lookup := self outerScope ifNotNil: [\x0a\x09\x09\x09(self outerScope lookupVariable: aNode) ]].\x0a\x09^ lookup",
+args: ["aString"],
+source: "lookupVariable: aString\x0a\x09| lookup |\x0a\x09lookup := (self bindingFor: aString).\x0a\x09lookup ifNil: [\x0a\x09\x09lookup := self outerScope ifNotNil: [\x0a\x09\x09\x09(self outerScope lookupVariable: aString) ]].\x0a\x09^ lookup",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: ["bindingFor:", "ifNil:", "ifNotNil:", "outerScope", "lookupVariable:"]
-}, function ($methodClass){ return function (aNode){
+}, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 var lookup;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$receiver;
-lookup=$self._bindingFor_(aNode);
+lookup=$self._bindingFor_(aString);
 $1=lookup;
 if(($receiver = $1) == null || $receiver.a$nil){
 $2=[$self._outerScope()
@@ -415,7 +413,7 @@ $2=[$self._outerScope()
 if(($receiver = $2) == null || $receiver.a$nil){
 lookup=$2;
 } else {
-lookup=$recv($self._outerScope())._lookupVariable_(aNode);
+lookup=$recv($self._outerScope())._lookupVariable_(aString);
 }
 lookup;
 } else {
@@ -423,7 +421,7 @@ $1;
 }
 return lookup;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"lookupVariable:",{aNode:aNode,lookup:lookup})});
+}, function($ctx1) {$ctx1.fill(self,"lookupVariable:",{aString:aString,lookup:lookup})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.LexicalScope);
@@ -729,13 +727,13 @@ $core.method({
 selector: "bindingFor:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aNode"],
-source: "bindingFor: aNode\x0a\x09^ (super bindingFor: aNode) ifNil: [\x0a\x09\x09self iVars at: aNode value ifAbsent: [ nil ]]",
+args: ["aString"],
+source: "bindingFor: aString\x0a\x09^ (super bindingFor: aString) ifNil: [\x0a\x09\x09self iVars at: aString ifAbsent: [ nil ]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNil:", "bindingFor:", "at:ifAbsent:", "iVars", "value"]
-}, function ($methodClass){ return function (aNode){
+messageSends: ["ifNil:", "bindingFor:", "at:ifAbsent:", "iVars"]
+}, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -745,13 +743,13 @@ $1=[(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
 //>>excludeEnd("ctx");
-($methodClass.superclass||$boot.nilAsClass).fn.prototype._bindingFor_.call($self,aNode))
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._bindingFor_.call($self,aString))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.supercall = false
 //>>excludeEnd("ctx");
 ][0];
 if(($receiver = $1) == null || $receiver.a$nil){
-return $recv($self._iVars())._at_ifAbsent_($recv(aNode)._value(),(function(){
+return $recv($self._iVars())._at_ifAbsent_(aString,(function(){
 return nil;
 
 }));
@@ -759,7 +757,7 @@ return nil;
 return $1;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"bindingFor:",{aNode:aNode})});
+}, function($ctx1) {$ctx1.fill(self,"bindingFor:",{aString:aString})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.MethodLexicalScope);
@@ -2245,11 +2243,11 @@ selector: "visitAssignmentNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitAssignmentNode: aNode\x0a\x09| lhs |\x0a\x09super visitAssignmentNode: aNode.\x0a\x09lhs := aNode left.\x0a\x09lhs isImmutable ifTrue: [ self errorInvalidAssignment: lhs value ].\x0a\x09lhs assigned: true",
+source: "visitAssignmentNode: aNode\x0a\x09| lhs |\x0a\x09super visitAssignmentNode: aNode.\x0a\x09lhs := aNode left.\x0a\x09lhs isImmutable ifTrue: [ self errorInvalidAssignment: lhs identifier ].\x0a\x09lhs assigned: true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["visitAssignmentNode:", "left", "ifTrue:", "isImmutable", "errorInvalidAssignment:", "value", "assigned:"]
+messageSends: ["visitAssignmentNode:", "left", "ifTrue:", "isImmutable", "errorInvalidAssignment:", "identifier", "assigned:"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 var lhs;
@@ -2269,7 +2267,7 @@ $ctx1.supercall = true,
 lhs=$recv(aNode)._left();
 $1=$recv(lhs)._isImmutable();
 if($core.assert($1)){
-$self._errorInvalidAssignment_($recv(lhs)._value());
+$self._errorInvalidAssignment_($recv(lhs)._identifier());
 }
 $recv(lhs)._assigned_(true);
 return self;
@@ -2565,20 +2563,24 @@ selector: "visitVariableNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitVariableNode: aNode\x0a\x09\x22Bind a ScopeVar to aNode by doing a lookup in the current scope.\x0a\x09If no var is found in scope, represent an externally known variable or throw an error.\x22\x0a\x0a\x09aNode binding:\x0a\x09\x09((currentScope lookupVariable: aNode) ifNil: [ self bindUnscopedVariable: aNode value ])",
+source: "visitVariableNode: aNode\x0a\x09\x22Bind a ScopeVar to aNode by doing a lookup in the current scope.\x0a\x09If no var is found in scope, represent an externally known variable or throw an error.\x22\x0a\x0a\x09aNode binding:\x0a\x09\x09((currentScope lookupVariable: aNode identifier) ifNil: [ self bindUnscopedVariable: aNode identifier ])",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["binding:", "ifNil:", "lookupVariable:", "bindUnscopedVariable:", "value"]
+messageSends: ["binding:", "ifNil:", "lookupVariable:", "identifier", "bindUnscopedVariable:"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $2,$1,$receiver;
-$2=$recv($self.currentScope)._lookupVariable_(aNode);
+$2=$recv($self.currentScope)._lookupVariable_([$recv(aNode)._identifier()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["identifier"]=1
+//>>excludeEnd("ctx");
+][0]);
 if(($receiver = $2) == null || $receiver.a$nil){
-$1=$self._bindUnscopedVariable_($recv(aNode)._value());
+$1=$self._bindUnscopedVariable_($recv(aNode)._identifier());
 } else {
 $1=$2;
 }

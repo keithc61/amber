@@ -97,7 +97,7 @@ runtimeLiteral = dynamicDictionary / dynamicArray / block
 literal = runtimeLiteral / parseTimeLiteral
 
 variable = identifier:identifier {
-	return newNode($globals.VariableNode)._value_(identifier);
+	return newNode($globals.VariableNode)._identifier_(identifier);
 }
 
 reference = variable

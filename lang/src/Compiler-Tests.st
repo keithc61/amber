@@ -643,7 +643,7 @@ TestCase subclass: #ScopeVarTest
 testClassRefVar
 	| node |
 	node := VariableNode new
-		value: 'Object';
+		identifier: 'Object';
 		yourself.
 	SemanticAnalyzer new 
 		pushScope: MethodLexicalScope new;
@@ -653,40 +653,27 @@ testClassRefVar
 
 testInstanceVar
 	| node scope |
-	node := VariableNode new
-		value: 'bzzz';
-		yourself.
 	scope := MethodLexicalScope new.
 	scope addIVar: 'bzzz'.
-	self assert: (scope bindingFor: node) isInstanceVar
+	self assert: (scope bindingFor: 'bzzz') isInstanceVar
 !
 
 testPseudoVar
 	| node pseudoVars |
 	pseudoVars := #('self' 'super' 'true' 'false' 'nil').
 	pseudoVars do: [:each |
-		node := VariableNode new
-		value: each;
-		yourself.
-		self assert: (MethodLexicalScope new bindingFor: node) isPseudoVar]
+		self assert: (MethodLexicalScope new bindingFor: each) isPseudoVar]
 !
 
 testTempVar
 	| node scope |
-	node := VariableNode new
-		value: 'bzzz';
-		yourself.
 	scope := MethodLexicalScope new.
 	scope addTemp: 'bzzz'.
-	self assert: (scope bindingFor: node) isTempVar
+	self assert: (scope bindingFor: 'bzzz') isTempVar
 !
 
 testUnknownVar
-	| node |
-	node := VariableNode new
-		value: 'bzzz';
-		yourself.
-	self assert: (MethodLexicalScope new bindingFor: node) isNil
+	self assert: (MethodLexicalScope new bindingFor: 'bzzz') isNil
 ! !
 
 TestCase subclass: #SemanticAnalyzerTest
