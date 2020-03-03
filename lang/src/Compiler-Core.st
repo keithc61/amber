@@ -54,18 +54,41 @@ transformersDictionary
 	self subclassResponsibility
 ! !
 
-AbstractCodeGenerator subclass: #CodeGenerator
+AbstractCodeGenerator subclass: #AstGenerator
 	slots: {#transformersDictionary}
 	package: 'Compiler-Core'!
-!CodeGenerator commentStamp!
-I am a basic code generator. I generate a valid JavaScript output, but no not perform any inlining.
-See `InliningCodeGenerator` for an optimized JavaScript code generation.!
+!AstGenerator commentStamp!
+I am a very basic code generator.
+I generate semantically augemented abstract syntax tree,
+Some initial pragmas (eg. #inlineJS:) are applied to transform the tree,!
 
-!CodeGenerator methodsFor: 'compiling'!
+!AstGenerator methodsFor: 'compiling'!
 
 earlyAstPragmator
 	^ AstEarlyPragmator new
 !
+
+semanticAnalyzer
+	^ (SemanticAnalyzer on: self currentClass)
+		thePackage: self currentPackage;
+		yourself
+!
+
+transformersDictionary
+	^ transformersDictionary ifNil: [ transformersDictionary := Dictionary new
+		at: '1000-earlyPragmas' put: self earlyAstPragmator;
+		at: '2000-semantic' put: self semanticAnalyzer;
+		yourself ]
+! !
+
+AstGenerator subclass: #CodeGenerator
+	slots: {#transformersDictionary}
+	package: 'Compiler-Core'!
+!CodeGenerator commentStamp!
+I am a basic code generator. I generate a valid JavaScript output, but do not perform any inlining.
+See `InliningCodeGenerator` for an optimized JavaScript code generation.!
+
+!CodeGenerator methodsFor: 'compiling'!
 
 irTranslator
 	^ self irTranslatorClass new
@@ -81,16 +104,8 @@ lateIRPragmator
 	^ IRLatePragmator new
 !
 
-semanticAnalyzer
-	^ (SemanticAnalyzer on: self currentClass)
-		thePackage: self currentPackage;
-		yourself
-!
-
 transformersDictionary
-	^ transformersDictionary ifNil: [ transformersDictionary := Dictionary new
-		at: '1000-earlyPragmas' put: self earlyAstPragmator;
-		at: '2000-semantic' put: self semanticAnalyzer;
+	^ transformersDictionary ifNil: [ transformersDictionary := super transformersDictionary
 		at: '5000-astToIr' put: self translator;
 		at: '8000-irToJs' put: self irTranslator;
 		at: '9000-latePragmas' put: self lateIRPragmator;
@@ -146,11 +161,10 @@ currentPackage: anObject
 !Compiler methodsFor: 'compiling'!
 
 ast: aString forClass: aClass protocol: anotherString
-	self
+	^ self
+		codeGeneratorClass: AstGenerator;
 		start: aString forClass: aClass protocol: anotherString;
-		transformerAt: '2500-astCheckpoint' put: [ :x | ^x ];
-		compileNode: (self parse: aString);
-		error: 'AST transformation failed.'
+		compileNode: (self parse: aString)
 !
 
 compile: aString forClass: aClass protocol: anotherString

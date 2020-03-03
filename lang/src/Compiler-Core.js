@@ -248,9 +248,9 @@ $globals.AbstractCodeGenerator);
 
 
 
-$core.addClass("CodeGenerator", $globals.AbstractCodeGenerator, ["transformersDictionary"], "Compiler-Core");
+$core.addClass("AstGenerator", $globals.AbstractCodeGenerator, ["transformersDictionary"], "Compiler-Core");
 //>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.CodeGenerator.comment="I am a basic code generator. I generate a valid JavaScript output, but no not perform any inlining.\x0aSee `InliningCodeGenerator` for an optimized JavaScript code generation.";
+$globals.AstGenerator.comment="I am a very basic code generator.\x0aI generate semantically augemented abstract syntax tree,\x0aSome initial pragmas (eg. #inlineJS:) are applied to transform the tree,";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
@@ -273,8 +273,77 @@ return $recv($globals.AstEarlyPragmator)._new();
 }, function($ctx1) {$ctx1.fill(self,"earlyAstPragmator",{})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.CodeGenerator);
+$globals.AstGenerator);
 
+$core.addMethod(
+$core.method({
+selector: "semanticAnalyzer",
+protocol: "compiling",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "semanticAnalyzer\x0a\x09^ (SemanticAnalyzer on: self currentClass)\x0a\x09\x09thePackage: self currentPackage;\x0a\x09\x09yourself",
+referencedClasses: ["SemanticAnalyzer"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["thePackage:", "on:", "currentClass", "currentPackage", "yourself"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($globals.SemanticAnalyzer)._on_($self._currentClass());
+$recv($1)._thePackage_($self._currentPackage());
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"semanticAnalyzer",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AstGenerator);
+
+$core.addMethod(
+$core.method({
+selector: "transformersDictionary",
+protocol: "compiling",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "transformersDictionary\x0a\x09^ transformersDictionary ifNil: [ transformersDictionary := Dictionary new\x0a\x09\x09at: '1000-earlyPragmas' put: self earlyAstPragmator;\x0a\x09\x09at: '2000-semantic' put: self semanticAnalyzer;\x0a\x09\x09yourself ]",
+referencedClasses: ["Dictionary"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNil:", "at:put:", "new", "earlyAstPragmator", "semanticAnalyzer", "yourself"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$receiver;
+$1=$self.transformersDictionary;
+if(($receiver = $1) == null || $receiver.a$nil){
+$2=$recv($globals.Dictionary)._new();
+[$recv($2)._at_put_("1000-earlyPragmas",$self._earlyAstPragmator())
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["at:put:"]=1
+//>>excludeEnd("ctx");
+][0];
+$recv($2)._at_put_("2000-semantic",$self._semanticAnalyzer());
+$self.transformersDictionary=$recv($2)._yourself();
+return $self.transformersDictionary;
+} else {
+return $1;
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"transformersDictionary",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AstGenerator);
+
+
+
+$core.addClass("CodeGenerator", $globals.AstGenerator, ["transformersDictionary"], "Compiler-Core");
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.CodeGenerator.comment="I am a basic code generator. I generate a valid JavaScript output, but do not perform any inlining.\x0aSee `InliningCodeGenerator` for an optimized JavaScript code generation.";
+//>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
 selector: "irTranslator",
@@ -344,41 +413,15 @@ $globals.CodeGenerator);
 
 $core.addMethod(
 $core.method({
-selector: "semanticAnalyzer",
-protocol: "compiling",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "semanticAnalyzer\x0a\x09^ (SemanticAnalyzer on: self currentClass)\x0a\x09\x09thePackage: self currentPackage;\x0a\x09\x09yourself",
-referencedClasses: ["SemanticAnalyzer"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["thePackage:", "on:", "currentClass", "currentPackage", "yourself"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$recv($globals.SemanticAnalyzer)._on_($self._currentClass());
-$recv($1)._thePackage_($self._currentPackage());
-return $recv($1)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"semanticAnalyzer",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.CodeGenerator);
-
-$core.addMethod(
-$core.method({
 selector: "transformersDictionary",
 protocol: "compiling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "transformersDictionary\x0a\x09^ transformersDictionary ifNil: [ transformersDictionary := Dictionary new\x0a\x09\x09at: '1000-earlyPragmas' put: self earlyAstPragmator;\x0a\x09\x09at: '2000-semantic' put: self semanticAnalyzer;\x0a\x09\x09at: '5000-astToIr' put: self translator;\x0a\x09\x09at: '8000-irToJs' put: self irTranslator;\x0a\x09\x09at: '9000-latePragmas' put: self lateIRPragmator;\x0a\x09\x09yourself ]",
-referencedClasses: ["Dictionary"],
+source: "transformersDictionary\x0a\x09^ transformersDictionary ifNil: [ transformersDictionary := super transformersDictionary\x0a\x09\x09at: '5000-astToIr' put: self translator;\x0a\x09\x09at: '8000-irToJs' put: self irTranslator;\x0a\x09\x09at: '9000-latePragmas' put: self lateIRPragmator;\x0a\x09\x09yourself ]",
+referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNil:", "at:put:", "new", "earlyAstPragmator", "semanticAnalyzer", "translator", "irTranslator", "lateIRPragmator", "yourself"]
+messageSends: ["ifNil:", "at:put:", "transformersDictionary", "translator", "irTranslator", "lateIRPragmator", "yourself"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -387,25 +430,23 @@ return $core.withContext(function($ctx1) {
 var $1,$2,$receiver;
 $1=$self.transformersDictionary;
 if(($receiver = $1) == null || $receiver.a$nil){
-$2=$recv($globals.Dictionary)._new();
-[$recv($2)._at_put_("1000-earlyPragmas",$self._earlyAstPragmator())
+$2=[(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["at:put:"]=1
+$ctx1.supercall = true,
 //>>excludeEnd("ctx");
-][0];
-[$recv($2)._at_put_("2000-semantic",$self._semanticAnalyzer())
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._transformersDictionary.call($self))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["at:put:"]=2
+,$ctx1.supercall = false
 //>>excludeEnd("ctx");
 ][0];
 [$recv($2)._at_put_("5000-astToIr",$self._translator())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["at:put:"]=3
+,$ctx1.sendIdx["at:put:"]=1
 //>>excludeEnd("ctx");
 ][0];
 [$recv($2)._at_put_("8000-irToJs",$self._irTranslator())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["at:put:"]=4
+,$ctx1.sendIdx["at:put:"]=2
 //>>excludeEnd("ctx");
 ][0];
 $recv($2)._at_put_("9000-latePragmas",$self._lateIRPragmator());
@@ -459,28 +500,19 @@ selector: "ast:forClass:protocol:",
 protocol: "compiling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aClass", "anotherString"],
-source: "ast: aString forClass: aClass protocol: anotherString\x0a\x09self\x0a\x09\x09start: aString forClass: aClass protocol: anotherString;\x0a\x09\x09transformerAt: '2500-astCheckpoint' put: [ :x | ^x ];\x0a\x09\x09compileNode: (self parse: aString);\x0a\x09\x09error: 'AST transformation failed.'",
-referencedClasses: [],
+source: "ast: aString forClass: aClass protocol: anotherString\x0a\x09^ self\x0a\x09\x09codeGeneratorClass: AstGenerator;\x0a\x09\x09start: aString forClass: aClass protocol: anotherString;\x0a\x09\x09compileNode: (self parse: aString)\x0a",
+referencedClasses: ["AstGenerator"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["start:forClass:protocol:", "transformerAt:put:", "compileNode:", "parse:", "error:"]
+messageSends: ["codeGeneratorClass:", "start:forClass:protocol:", "compileNode:", "parse:"]
 }, function ($methodClass){ return function (aString,aClass,anotherString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $early={};
-try {
+$self._codeGeneratorClass_($globals.AstGenerator);
 $self._start_forClass_protocol_(aString,aClass,anotherString);
-$self._transformerAt_put_("2500-astCheckpoint",(function(x){
-throw $early=[x];
-
-}));
-$self._compileNode_($self._parse_(aString));
-$self._error_("AST transformation failed.");
-return self;
-}
-catch(e) {if(e===$early)return e[0]; throw e}
+return $self._compileNode_($self._parse_(aString));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"ast:forClass:protocol:",{aString:aString,aClass:aClass,anotherString:anotherString})});
 //>>excludeEnd("ctx");
