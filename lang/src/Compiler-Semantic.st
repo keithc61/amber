@@ -250,7 +250,8 @@ isIdempotent
 !
 
 isImmutable
-	^ false
+	self deprecatedAPI: 'Use #isIdempotent / #isAssignable not instead.'.
+	^ self isIdempotent
 !
 
 isInstanceVar
@@ -291,10 +292,6 @@ isAssignable
 
 isIdempotent
 	^ true
-!
-
-isImmutable
-	^ true
 ! !
 
 ScopeVar subclass: #ArgVar
@@ -310,10 +307,6 @@ isAssignable
 !
 
 isIdempotent
-	^ true
-!
-
-isImmutable
 	^ true
 ! !
 
@@ -337,10 +330,6 @@ isAssignable
 
 isClassRefVar
 	^ true
-!
-
-isImmutable
-	^ true
 ! !
 
 ScopeVar subclass: #ExternallyKnownVar
@@ -356,10 +345,6 @@ isAssignable
 !
 
 isExternallyKnownVar
-	^ true
-!
-
-isImmutable
 	^ true
 ! !
 
@@ -400,10 +385,6 @@ isAssignable
 !
 
 isIdempotent
-	^ true
-!
-
-isImmutable
 	^ true
 !
 

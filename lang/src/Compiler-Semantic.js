@@ -1146,15 +1146,21 @@ selector: "isImmutable",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isImmutable\x0a\x09^ false",
+source: "isImmutable\x0a\x09self deprecatedAPI: 'Use #isIdempotent / #isAssignable not instead.'.\x0a\x09^ self isIdempotent",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: []
+messageSends: ["deprecatedAPI:", "isIdempotent"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return false;
-
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._deprecatedAPI_("Use #isIdempotent / #isAssignable not instead.");
+return $self._isIdempotent();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isImmutable",{})});
+//>>excludeEnd("ctx");
 }; }),
 $globals.ScopeVar);
 
@@ -1378,24 +1384,6 @@ return true;
 }; }),
 $globals.AliasVar);
 
-$core.addMethod(
-$core.method({
-selector: "isImmutable",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isImmutable\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.AliasVar);
-
 
 
 $core.addClass("ArgVar", $globals.ScopeVar, [], "Compiler-Semantic");
@@ -1427,24 +1415,6 @@ protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "isIdempotent\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.ArgVar);
-
-$core.addMethod(
-$core.method({
-selector: "isImmutable",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isImmutable\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -1521,24 +1491,6 @@ return true;
 }; }),
 $globals.ClassRefVar);
 
-$core.addMethod(
-$core.method({
-selector: "isImmutable",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isImmutable\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.ClassRefVar);
-
 
 
 $core.addClass("ExternallyKnownVar", $globals.ScopeVar, [], "Compiler-Semantic");
@@ -1570,24 +1522,6 @@ protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "isExternallyKnownVar\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.ExternallyKnownVar);
-
-$core.addMethod(
-$core.method({
-selector: "isImmutable",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isImmutable\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -1700,24 +1634,6 @@ protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "isIdempotent\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.PseudoVar);
-
-$core.addMethod(
-$core.method({
-selector: "isImmutable",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isImmutable\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],

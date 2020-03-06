@@ -125,7 +125,8 @@ isIdempotent
 !
 
 isImmutable
-	^ false
+	self deprecatedAPI: 'Use #isIdempotent instead.'.
+	^ self isIdempotent
 !
 
 isSuper
@@ -348,10 +349,6 @@ value: anObject
 
 isIdempotent
 	^ self value isImmutable
-!
-
-isImmutable
-	^ self value isImmutable
 ! !
 
 !ValueNode methodsFor: 'visiting'!
@@ -421,7 +418,8 @@ isIdempotent
 !
 
 isImmutable
-	^ self binding isImmutable
+	self deprecatedAPI: 'Use #isIdempotent / #isAssignable not instead.'.
+	^ self isIdempotent "to be consistent with super"
 !
 
 isNavigationNode

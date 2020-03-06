@@ -428,15 +428,21 @@ selector: "isImmutable",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isImmutable\x0a\x09^ false",
+source: "isImmutable\x0a\x09self deprecatedAPI: 'Use #isIdempotent instead.'.\x0a\x09^ self isIdempotent",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: []
+messageSends: ["deprecatedAPI:", "isIdempotent"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return false;
-
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._deprecatedAPI_("Use #isIdempotent instead.");
+return $self._isIdempotent();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isImmutable",{})});
+//>>excludeEnd("ctx");
 }; }),
 $globals.ExpressionNode);
 
@@ -1370,29 +1376,6 @@ $globals.ValueNode);
 
 $core.addMethod(
 $core.method({
-selector: "isImmutable",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isImmutable\x0a\x09^ self value isImmutable",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["isImmutable", "value"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self._value())._isImmutable();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isImmutable",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ValueNode);
-
-$core.addMethod(
-$core.method({
 selector: "value",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1654,17 +1637,18 @@ selector: "isImmutable",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isImmutable\x0a\x09^ self binding isImmutable",
+source: "isImmutable\x0a\x09self deprecatedAPI: 'Use #isIdempotent / #isAssignable not instead.'.\x0a\x09^ self isIdempotent \x22to be consistent with super\x22",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["isImmutable", "binding"]
+messageSends: ["deprecatedAPI:", "isIdempotent"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self._binding())._isImmutable();
+$self._deprecatedAPI_("Use #isIdempotent / #isAssignable not instead.");
+return $self._isIdempotent();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isImmutable",{})});
 //>>excludeEnd("ctx");

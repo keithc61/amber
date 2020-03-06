@@ -3,6 +3,8 @@
 * Deprecate Behavior >> javascriptConstructor(:)
 * Deprecate IRInstruction >> needsBoxingAsReceiver
 * Deprecate VariableNode >> value(:)
+* Deprecate #isImmutable in AST nodes and scope vars
+  * Split into #isIdempotent / #isAssignable.
 * UnknownVar => ExternallyKnownVar
 * Added Teachable class.
 
