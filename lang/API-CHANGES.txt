@@ -6,6 +6,7 @@
 * Deprecate #isImmutable in AST nodes and scope vars
   * Split into #isIdempotent / #isAssignable.
 * UnknownVar => ExternallyKnownVar
+* Remove all typechecking #isFoo methods in ScopeVar hierarchy.
 * Added Teachable class.
 
 + Behavior >>
@@ -20,8 +21,6 @@
   + dagChild
   + sequenceNode
   + sequenceNode:
-+ ExternallyKnownVar >>
-  + isExternallyKnownVar
 + IRInstruction >>
   + asReceiver
 + IRValue >>
@@ -62,8 +61,6 @@
 - AliasVar >>
   - node
   - node:
-- ArgVar >>
-  - isArgVar
 - Error >>
   - beSmalltalkError
   - isSmalltalkError
@@ -85,17 +82,13 @@
 - PseudoVar >>
   - isSelf
 - ScopeVar >>
-  - isArgVar
   - isSelf
-  - isUnknownVar
   - validateAssignment
 - SemanticAnalyzer >>
   - isVariableUndefined:inPackage:
 - SendNode >>
   - shouldBeInlined
   - shouldBeInlined:
-- UnknownVar >>
-  - isUnknownVar
 - VariableNode >>
   - beAssigned
   - isArgument

@@ -648,35 +648,74 @@ TestCase subclass: #ScopeVarTest
 !ScopeVarTest methodsFor: 'tests'!
 
 testClassRefVar
-	| node |
+	| node binding |
 	node := VariableNode new
 		identifier: 'Object';
 		yourself.
 	SemanticAnalyzer new 
 		pushScope: MethodLexicalScope new;
 		visit: node.
-	self assert: node binding isClassRefVar
+	binding := node binding.
+	self deny: binding isAssignable.
+	self deny: binding isIdempotent.
+	self assert: (binding alias includesSubString: 'Object').
+	self assert: (binding alias ~= 'Object')
+!
+
+testExternallyKnownVar
+	| node binding |
+	node := VariableNode new
+		identifier: 'console';
+		yourself.
+	SemanticAnalyzer new 
+		pushScope: MethodLexicalScope new;
+		visit: node.
+	binding := node binding.
+	self deny: binding isAssignable.
+	self deny: binding isIdempotent.
+	self assert: binding alias equals: 'console'
+!
+
+testExternallyUnknownVar
+	| node |
+	node := VariableNode new
+		identifier: 'bzzz';
+		yourself.
+	self 
+		should: [
+			SemanticAnalyzer new 
+			pushScope: MethodLexicalScope new;
+			visit: node ]
+		raise: UnknownVariableError
 !
 
 testInstanceVar
-	| node scope |
-	scope := MethodLexicalScope new.
-	scope addIVar: 'bzzz'.
-	self assert: (scope bindingFor: 'bzzz') isInstanceVar
+	| binding |
+	binding := MethodLexicalScope new
+		addIVar: 'bzzz';
+		bindingFor: 'bzzz'.
+	self assert: binding isAssignable.
+	self deny: binding isIdempotent.
+	self assert: (binding alias includesSubString: 'bzzz').
+	self assert: (binding alias ~= 'bzzz')
 !
 
 testPseudoVar
-	| node pseudoVars |
-	pseudoVars := #('self' 'super' 'true' 'false' 'nil').
-	pseudoVars do: [:each |
-		self assert: (MethodLexicalScope new bindingFor: each) isPseudoVar]
+	#('self' 'super' 'true' 'false' 'nil' 'thisContext') do: [ :each |
+		| binding |
+		binding := MethodLexicalScope new bindingFor: each.
+		self deny: binding isAssignable.
+		self assert: binding isIdempotent ]
 !
 
 testTempVar
-	| node scope |
-	scope := MethodLexicalScope new.
-	scope addTemp: 'bzzz'.
-	self assert: (scope bindingFor: 'bzzz') isTempVar
+	| binding |
+	binding := MethodLexicalScope new
+		addTemp: 'bzzz';
+		bindingFor: 'bzzz'.
+	self assert: binding isAssignable.
+	self deny: binding isIdempotent.
+	self assert: binding alias equals: 'bzzz'
 !
 
 testUnknownVar
@@ -815,11 +854,13 @@ testVariablesLookup
 	analyzer visit: ast.
 
 	"Binding for `a` in the message send"
-	self assert: ast sequenceNode dagChildren first receiver binding isTempVar.
+	self assert: ast sequenceNode dagChildren first receiver binding isAssignable.
+	self assert: ast sequenceNode dagChildren first receiver binding alias equals: 'a'.
 	self assert: ast sequenceNode dagChildren first receiver binding scope == ast scope.
 
 	"Binding for `b`"
-	self assert: ast sequenceNode dagChildren last sequenceNode dagChildren first left binding isTempVar.
+	self assert: ast sequenceNode dagChildren last sequenceNode dagChildren first left binding isAssignable.
+	self assert: ast sequenceNode dagChildren last sequenceNode dagChildren first left binding alias equals: 'b'.
 	self assert: ast sequenceNode dagChildren last sequenceNode dagChildren first left binding scope == ast sequenceNode dagChildren last scope.
 ! !
 

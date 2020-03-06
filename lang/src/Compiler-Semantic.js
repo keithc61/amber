@@ -1088,42 +1088,6 @@ $globals.ScopeVar);
 
 $core.addMethod(
 $core.method({
-selector: "isClassRefVar",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isClassRefVar\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ScopeVar);
-
-$core.addMethod(
-$core.method({
-selector: "isExternallyKnownVar",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isExternallyKnownVar\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ScopeVar);
-
-$core.addMethod(
-$core.method({
 selector: "isIdempotent",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1166,65 +1130,11 @@ $globals.ScopeVar);
 
 $core.addMethod(
 $core.method({
-selector: "isInstanceVar",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isInstanceVar\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ScopeVar);
-
-$core.addMethod(
-$core.method({
-selector: "isPseudoVar",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isPseudoVar\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ScopeVar);
-
-$core.addMethod(
-$core.method({
 selector: "isSuper",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "isSuper\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ScopeVar);
-
-$core.addMethod(
-$core.method({
-selector: "isTempVar",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isTempVar\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -1437,48 +1347,12 @@ return "$globals.".__comma($self._name());
 }; }),
 $globals.ClassRefVar);
 
-$core.addMethod(
-$core.method({
-selector: "isClassRefVar",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isClassRefVar\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.ClassRefVar);
-
 
 
 $core.addClass("ExternallyKnownVar", $globals.ScopeVar, [], "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ExternallyKnownVar.comment="I am a variable known externally (not in method scope).";
 //>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "isExternallyKnownVar",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isExternallyKnownVar\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.ExternallyKnownVar);
-
 
 
 $core.addClass("InstanceVar", $globals.ScopeVar, [], "Compiler-Semantic");
@@ -1526,24 +1400,6 @@ return true;
 }; }),
 $globals.InstanceVar);
 
-$core.addMethod(
-$core.method({
-selector: "isInstanceVar",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isInstanceVar\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.InstanceVar);
-
 
 
 $core.addClass("PseudoVar", $globals.ScopeVar, [], "Compiler-Semantic");
@@ -1580,24 +1436,6 @@ protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "isIdempotent\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.PseudoVar);
-
-$core.addMethod(
-$core.method({
-selector: "isPseudoVar",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isPseudoVar\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -1788,24 +1626,6 @@ protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
 source: "isAssignable\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.TempVar);
-
-$core.addMethod(
-$core.method({
-selector: "isTempVar",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isTempVar\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],

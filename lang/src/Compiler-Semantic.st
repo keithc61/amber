@@ -237,14 +237,6 @@ isAssignable
 	^ false
 !
 
-isClassRefVar
-	^ false
-!
-
-isExternallyKnownVar
-	^ false
-!
-
 isIdempotent
 	^ false
 !
@@ -254,19 +246,7 @@ isImmutable
 	^ self isIdempotent
 !
 
-isInstanceVar
-	^ false
-!
-
-isPseudoVar
-	^ false
-!
-
 isSuper
-	^ false
-!
-
-isTempVar
 	^ false
 ! !
 
@@ -318,23 +298,11 @@ alias
 	^ '$globals.', self name
 ! !
 
-!ClassRefVar methodsFor: 'testing'!
-
-isClassRefVar
-	^ true
-! !
-
 ScopeVar subclass: #ExternallyKnownVar
 	slots: {}
 	package: 'Compiler-Semantic'!
 !ExternallyKnownVar commentStamp!
 I am a variable known externally (not in method scope).!
-
-!ExternallyKnownVar methodsFor: 'testing'!
-
-isExternallyKnownVar
-	^ true
-! !
 
 ScopeVar subclass: #InstanceVar
 	slots: {}
@@ -349,10 +317,6 @@ alias
 !
 
 isAssignable
-	^ true
-!
-
-isInstanceVar
 	^ true
 ! !
 
@@ -373,10 +337,6 @@ alias
 !PseudoVar methodsFor: 'testing'!
 
 isIdempotent
-	^ true
-!
-
-isPseudoVar
 	^ true
 ! !
 
@@ -442,10 +402,6 @@ I am an temporary variable of a method or block.!
 !TempVar methodsFor: 'testing'!
 
 isAssignable
-	^ true
-!
-
-isTempVar
 	^ true
 ! !
 

@@ -2529,14 +2529,14 @@ selector: "testClassRefVar",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testClassRefVar\x0a\x09| node |\x0a\x09node := VariableNode new\x0a\x09\x09identifier: 'Object';\x0a\x09\x09yourself.\x0a\x09SemanticAnalyzer new \x0a\x09\x09pushScope: MethodLexicalScope new;\x0a\x09\x09visit: node.\x0a\x09self assert: node binding isClassRefVar",
+source: "testClassRefVar\x0a\x09| node binding |\x0a\x09node := VariableNode new\x0a\x09\x09identifier: 'Object';\x0a\x09\x09yourself.\x0a\x09SemanticAnalyzer new \x0a\x09\x09pushScope: MethodLexicalScope new;\x0a\x09\x09visit: node.\x0a\x09binding := node binding.\x0a\x09self deny: binding isAssignable.\x0a\x09self deny: binding isIdempotent.\x0a\x09self assert: (binding alias includesSubString: 'Object').\x0a\x09self assert: (binding alias ~= 'Object')",
 referencedClasses: ["VariableNode", "SemanticAnalyzer", "MethodLexicalScope"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["identifier:", "new", "yourself", "pushScope:", "visit:", "assert:", "isClassRefVar", "binding"]
+messageSends: ["identifier:", "new", "yourself", "pushScope:", "visit:", "binding", "deny:", "isAssignable", "isIdempotent", "assert:", "includesSubString:", "alias", "~="]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-var node;
+var node,binding;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -2555,10 +2555,120 @@ $2=[$recv($globals.SemanticAnalyzer)._new()
 ][0];
 $recv($2)._pushScope_($recv($globals.MethodLexicalScope)._new());
 $recv($2)._visit_(node);
-$self._assert_($recv($recv(node)._binding())._isClassRefVar());
+binding=$recv(node)._binding();
+[$self._deny_($recv(binding)._isAssignable())
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["deny:"]=1
+//>>excludeEnd("ctx");
+][0];
+$self._deny_($recv(binding)._isIdempotent());
+[$self._assert_($recv([$recv(binding)._alias()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["alias"]=1
+//>>excludeEnd("ctx");
+][0])._includesSubString_("Object"))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:"]=1
+//>>excludeEnd("ctx");
+][0];
+$self._assert_($recv($recv(binding)._alias()).__tild_eq("Object"));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testClassRefVar",{node:node})});
+}, function($ctx1) {$ctx1.fill(self,"testClassRefVar",{node:node,binding:binding})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ScopeVarTest);
+
+$core.addMethod(
+$core.method({
+selector: "testExternallyKnownVar",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testExternallyKnownVar\x0a\x09| node binding |\x0a\x09node := VariableNode new\x0a\x09\x09identifier: 'console';\x0a\x09\x09yourself.\x0a\x09SemanticAnalyzer new \x0a\x09\x09pushScope: MethodLexicalScope new;\x0a\x09\x09visit: node.\x0a\x09binding := node binding.\x0a\x09self deny: binding isAssignable.\x0a\x09self deny: binding isIdempotent.\x0a\x09self assert: binding alias equals: 'console'",
+referencedClasses: ["VariableNode", "SemanticAnalyzer", "MethodLexicalScope"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["identifier:", "new", "yourself", "pushScope:", "visit:", "binding", "deny:", "isAssignable", "isIdempotent", "assert:equals:", "alias"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var node,binding;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+$1=[$recv($globals.VariableNode)._new()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new"]=1
+//>>excludeEnd("ctx");
+][0];
+$recv($1)._identifier_("console");
+node=$recv($1)._yourself();
+$2=[$recv($globals.SemanticAnalyzer)._new()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new"]=2
+//>>excludeEnd("ctx");
+][0];
+$recv($2)._pushScope_($recv($globals.MethodLexicalScope)._new());
+$recv($2)._visit_(node);
+binding=$recv(node)._binding();
+[$self._deny_($recv(binding)._isAssignable())
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["deny:"]=1
+//>>excludeEnd("ctx");
+][0];
+$self._deny_($recv(binding)._isIdempotent());
+$self._assert_equals_($recv(binding)._alias(),"console");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testExternallyKnownVar",{node:node,binding:binding})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ScopeVarTest);
+
+$core.addMethod(
+$core.method({
+selector: "testExternallyUnknownVar",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testExternallyUnknownVar\x0a\x09| node |\x0a\x09node := VariableNode new\x0a\x09\x09identifier: 'bzzz';\x0a\x09\x09yourself.\x0a\x09self \x0a\x09\x09should: [\x0a\x09\x09\x09SemanticAnalyzer new \x0a\x09\x09\x09pushScope: MethodLexicalScope new;\x0a\x09\x09\x09visit: node ]\x0a\x09\x09raise: UnknownVariableError",
+referencedClasses: ["VariableNode", "SemanticAnalyzer", "MethodLexicalScope", "UnknownVariableError"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["identifier:", "new", "yourself", "should:raise:", "pushScope:", "visit:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var node;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+$1=[$recv($globals.VariableNode)._new()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new"]=1
+//>>excludeEnd("ctx");
+][0];
+$recv($1)._identifier_("bzzz");
+node=$recv($1)._yourself();
+$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$2=[$recv($globals.SemanticAnalyzer)._new()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["new"]=2
+//>>excludeEnd("ctx");
+][0];
+$recv($2)._pushScope_($recv($globals.MethodLexicalScope)._new());
+return $recv($2)._visit_(node);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),$globals.UnknownVariableError);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testExternallyUnknownVar",{node:node})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ScopeVarTest);
@@ -2569,23 +2679,40 @@ selector: "testInstanceVar",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testInstanceVar\x0a\x09| node scope |\x0a\x09scope := MethodLexicalScope new.\x0a\x09scope addIVar: 'bzzz'.\x0a\x09self assert: (scope bindingFor: 'bzzz') isInstanceVar",
+source: "testInstanceVar\x0a\x09| binding |\x0a\x09binding := MethodLexicalScope new\x0a\x09\x09addIVar: 'bzzz';\x0a\x09\x09bindingFor: 'bzzz'.\x0a\x09self assert: binding isAssignable.\x0a\x09self deny: binding isIdempotent.\x0a\x09self assert: (binding alias includesSubString: 'bzzz').\x0a\x09self assert: (binding alias ~= 'bzzz')",
 referencedClasses: ["MethodLexicalScope"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["new", "addIVar:", "assert:", "isInstanceVar", "bindingFor:"]
+messageSends: ["addIVar:", "new", "bindingFor:", "assert:", "isAssignable", "deny:", "isIdempotent", "includesSubString:", "alias", "~="]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-var node,scope;
+var binding;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-scope=$recv($globals.MethodLexicalScope)._new();
-$recv(scope)._addIVar_("bzzz");
-$self._assert_($recv($recv(scope)._bindingFor_("bzzz"))._isInstanceVar());
+var $1;
+$1=$recv($globals.MethodLexicalScope)._new();
+$recv($1)._addIVar_("bzzz");
+binding=$recv($1)._bindingFor_("bzzz");
+[$self._assert_($recv(binding)._isAssignable())
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:"]=1
+//>>excludeEnd("ctx");
+][0];
+$self._deny_($recv(binding)._isIdempotent());
+[$self._assert_($recv([$recv(binding)._alias()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["alias"]=1
+//>>excludeEnd("ctx");
+][0])._includesSubString_("bzzz"))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:"]=2
+//>>excludeEnd("ctx");
+][0];
+$self._assert_($recv($recv(binding)._alias()).__tild_eq("bzzz"));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testInstanceVar",{node:node,scope:scope})});
+}, function($ctx1) {$ctx1.fill(self,"testInstanceVar",{binding:binding})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ScopeVarTest);
@@ -2596,30 +2723,31 @@ selector: "testPseudoVar",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testPseudoVar\x0a\x09| node pseudoVars |\x0a\x09pseudoVars := #('self' 'super' 'true' 'false' 'nil').\x0a\x09pseudoVars do: [:each |\x0a\x09\x09self assert: (MethodLexicalScope new bindingFor: each) isPseudoVar]",
+source: "testPseudoVar\x0a\x09#('self' 'super' 'true' 'false' 'nil' 'thisContext') do: [ :each |\x0a\x09\x09| binding |\x0a\x09\x09binding := MethodLexicalScope new bindingFor: each.\x0a\x09\x09self deny: binding isAssignable.\x0a\x09\x09self assert: binding isIdempotent ]",
 referencedClasses: ["MethodLexicalScope"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["do:", "assert:", "isPseudoVar", "bindingFor:", "new"]
+messageSends: ["do:", "bindingFor:", "new", "deny:", "isAssignable", "assert:", "isIdempotent"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-var node,pseudoVars;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-pseudoVars=["self", "super", "true", "false", "nil"];
-$recv(pseudoVars)._do_((function(each){
+["self", "super", "true", "false", "nil", "thisContext"]._do_((function(each){
+var binding;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $self._assert_($recv($recv($recv($globals.MethodLexicalScope)._new())._bindingFor_(each))._isPseudoVar());
+binding=$recv($recv($globals.MethodLexicalScope)._new())._bindingFor_(each);
+$self._deny_($recv(binding)._isAssignable());
+return $self._assert_($recv(binding)._isIdempotent());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({each:each,binding:binding},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testPseudoVar",{node:node,pseudoVars:pseudoVars})});
+}, function($ctx1) {$ctx1.fill(self,"testPseudoVar",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ScopeVarTest);
@@ -2630,23 +2758,27 @@ selector: "testTempVar",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testTempVar\x0a\x09| node scope |\x0a\x09scope := MethodLexicalScope new.\x0a\x09scope addTemp: 'bzzz'.\x0a\x09self assert: (scope bindingFor: 'bzzz') isTempVar",
+source: "testTempVar\x0a\x09| binding |\x0a\x09binding := MethodLexicalScope new\x0a\x09\x09addTemp: 'bzzz';\x0a\x09\x09bindingFor: 'bzzz'.\x0a\x09self assert: binding isAssignable.\x0a\x09self deny: binding isIdempotent.\x0a\x09self assert: binding alias equals: 'bzzz'",
 referencedClasses: ["MethodLexicalScope"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["new", "addTemp:", "assert:", "isTempVar", "bindingFor:"]
+messageSends: ["addTemp:", "new", "bindingFor:", "assert:", "isAssignable", "deny:", "isIdempotent", "assert:equals:", "alias"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-var node,scope;
+var binding;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-scope=$recv($globals.MethodLexicalScope)._new();
-$recv(scope)._addTemp_("bzzz");
-$self._assert_($recv($recv(scope)._bindingFor_("bzzz"))._isTempVar());
+var $1;
+$1=$recv($globals.MethodLexicalScope)._new();
+$recv($1)._addTemp_("bzzz");
+binding=$recv($1)._bindingFor_("bzzz");
+$self._assert_($recv(binding)._isAssignable());
+$self._deny_($recv(binding)._isIdempotent());
+$self._assert_equals_($recv(binding)._alias(),"bzzz");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testTempVar",{node:node,scope:scope})});
+}, function($ctx1) {$ctx1.fill(self,"testTempVar",{binding:binding})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ScopeVarTest);
@@ -3141,11 +3273,11 @@ selector: "testVariablesLookup",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testVariablesLookup\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ | b | b := a ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09\x22Binding for `a` in the message send\x22\x0a\x09self assert: ast sequenceNode dagChildren first receiver binding isTempVar.\x0a\x09self assert: ast sequenceNode dagChildren first receiver binding scope == ast scope.\x0a\x0a\x09\x22Binding for `b`\x22\x0a\x09self assert: ast sequenceNode dagChildren last sequenceNode dagChildren first left binding isTempVar.\x0a\x09self assert: ast sequenceNode dagChildren last sequenceNode dagChildren first left binding scope == ast sequenceNode dagChildren last scope.",
+source: "testVariablesLookup\x0a\x09| src ast |\x0a\x0a\x09src := 'foo | a | a + 1. [ | b | b := a ]'.\x0a\x09ast := Smalltalk parse: src.\x0a\x09analyzer visit: ast.\x0a\x0a\x09\x22Binding for `a` in the message send\x22\x0a\x09self assert: ast sequenceNode dagChildren first receiver binding isAssignable.\x0a\x09self assert: ast sequenceNode dagChildren first receiver binding alias equals: 'a'.\x0a\x09self assert: ast sequenceNode dagChildren first receiver binding scope == ast scope.\x0a\x0a\x09\x22Binding for `b`\x22\x0a\x09self assert: ast sequenceNode dagChildren last sequenceNode dagChildren first left binding isAssignable.\x0a\x09self assert: ast sequenceNode dagChildren last sequenceNode dagChildren first left binding alias equals: 'b'.\x0a\x09self assert: ast sequenceNode dagChildren last sequenceNode dagChildren first left binding scope == ast sequenceNode dagChildren last scope.",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["parse:", "visit:", "assert:", "isTempVar", "binding", "receiver", "first", "dagChildren", "sequenceNode", "==", "scope", "left", "last"]
+messageSends: ["parse:", "visit:", "assert:", "isAssignable", "binding", "receiver", "first", "dagChildren", "sequenceNode", "assert:equals:", "alias", "==", "scope", "left", "last"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var src,ast;
@@ -3175,16 +3307,16 @@ $recv($self.analyzer)._visit_(ast);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["binding"]=1
 //>>excludeEnd("ctx");
-][0])._isTempVar()
+][0])._isAssignable()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["isTempVar"]=1
+,$ctx1.sendIdx["isAssignable"]=1
 //>>excludeEnd("ctx");
 ][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:"]=1
 //>>excludeEnd("ctx");
 ][0];
-[$self._assert_([$recv([$recv([$recv($recv([$recv([$recv([$recv(ast)._sequenceNode()
+[$self._assert_equals_([$recv([$recv([$recv([$recv([$recv([$recv(ast)._sequenceNode()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["sequenceNode"]=2
 //>>excludeEnd("ctx");
@@ -3196,9 +3328,38 @@ $recv($self.analyzer)._visit_(ast);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["first"]=2
 //>>excludeEnd("ctx");
-][0])._receiver())._binding()
+][0])._receiver()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["receiver"]=2
+//>>excludeEnd("ctx");
+][0])._binding()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["binding"]=2
+//>>excludeEnd("ctx");
+][0])._alias()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["alias"]=1
+//>>excludeEnd("ctx");
+][0],"a")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:equals:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$self._assert_([$recv([$recv([$recv($recv([$recv([$recv([$recv(ast)._sequenceNode()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["sequenceNode"]=3
+//>>excludeEnd("ctx");
+][0])._dagChildren()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["dagChildren"]=3
+//>>excludeEnd("ctx");
+][0])._first()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["first"]=3
+//>>excludeEnd("ctx");
+][0])._receiver())._binding()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["binding"]=3
 //>>excludeEnd("ctx");
 ][0])._scope()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3219,11 +3380,11 @@ $recv($self.analyzer)._visit_(ast);
 ][0];
 [$self._assert_($recv([$recv([$recv([$recv([$recv([$recv([$recv([$recv([$recv(ast)._sequenceNode()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["sequenceNode"]=4
+,$ctx1.sendIdx["sequenceNode"]=5
 //>>excludeEnd("ctx");
 ][0])._dagChildren()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["dagChildren"]=4
+,$ctx1.sendIdx["dagChildren"]=5
 //>>excludeEnd("ctx");
 ][0])._last()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3231,15 +3392,15 @@ $recv($self.analyzer)._visit_(ast);
 //>>excludeEnd("ctx");
 ][0])._sequenceNode()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["sequenceNode"]=3
+,$ctx1.sendIdx["sequenceNode"]=4
 //>>excludeEnd("ctx");
 ][0])._dagChildren()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["dagChildren"]=3
+,$ctx1.sendIdx["dagChildren"]=4
 //>>excludeEnd("ctx");
 ][0])._first()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["first"]=3
+,$ctx1.sendIdx["first"]=4
 //>>excludeEnd("ctx");
 ][0])._left()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3247,20 +3408,20 @@ $recv($self.analyzer)._visit_(ast);
 //>>excludeEnd("ctx");
 ][0])._binding()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["binding"]=3
+,$ctx1.sendIdx["binding"]=4
 //>>excludeEnd("ctx");
-][0])._isTempVar())
+][0])._isAssignable())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:"]=3
 //>>excludeEnd("ctx");
 ][0];
-$self._assert_($recv([$recv($recv($recv($recv([$recv([$recv([$recv([$recv([$recv(ast)._sequenceNode()
+$self._assert_equals_($recv([$recv([$recv([$recv([$recv([$recv([$recv([$recv([$recv(ast)._sequenceNode()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["sequenceNode"]=6
+,$ctx1.sendIdx["sequenceNode"]=7
 //>>excludeEnd("ctx");
 ][0])._dagChildren()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["dagChildren"]=6
+,$ctx1.sendIdx["dagChildren"]=7
 //>>excludeEnd("ctx");
 ][0])._last()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3268,11 +3429,44 @@ $self._assert_($recv([$recv($recv($recv($recv([$recv([$recv([$recv([$recv([$recv
 //>>excludeEnd("ctx");
 ][0])._sequenceNode()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["sequenceNode"]=5
+,$ctx1.sendIdx["sequenceNode"]=6
 //>>excludeEnd("ctx");
 ][0])._dagChildren()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["dagChildren"]=5
+,$ctx1.sendIdx["dagChildren"]=6
+//>>excludeEnd("ctx");
+][0])._first()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["first"]=5
+//>>excludeEnd("ctx");
+][0])._left()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["left"]=2
+//>>excludeEnd("ctx");
+][0])._binding()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["binding"]=5
+//>>excludeEnd("ctx");
+][0])._alias(),"b");
+$self._assert_($recv([$recv($recv($recv($recv([$recv([$recv([$recv([$recv([$recv(ast)._sequenceNode()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["sequenceNode"]=9
+//>>excludeEnd("ctx");
+][0])._dagChildren()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["dagChildren"]=9
+//>>excludeEnd("ctx");
+][0])._last()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["last"]=3
+//>>excludeEnd("ctx");
+][0])._sequenceNode()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["sequenceNode"]=8
+//>>excludeEnd("ctx");
+][0])._dagChildren()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["dagChildren"]=8
 //>>excludeEnd("ctx");
 ][0])._first())._left())._binding())._scope()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
