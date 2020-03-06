@@ -1563,6 +1563,29 @@ $globals.VariableNode);
 
 $core.addMethod(
 $core.method({
+selector: "isAssignable",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isAssignable\x0a\x09^ self binding isAssignable",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["isAssignable", "binding"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._binding())._isAssignable();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isAssignable",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.VariableNode);
+
+$core.addMethod(
+$core.method({
 selector: "isImmutable",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);

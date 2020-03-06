@@ -404,6 +404,10 @@ value: anObject
 
 !VariableNode methodsFor: 'testing'!
 
+isAssignable
+	^ self binding isAssignable
+!
+
 isImmutable
 	^ self binding isImmutable
 !

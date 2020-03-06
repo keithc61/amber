@@ -1070,6 +1070,24 @@ $globals.ScopeVar);
 
 $core.addMethod(
 $core.method({
+selector: "isAssignable",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isAssignable\x0a\x09^ true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return true;
+
+}; }),
+$globals.ScopeVar);
+
+$core.addMethod(
+$core.method({
 selector: "isClassRefVar",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1302,6 +1320,30 @@ $globals.AliasVar.comment="I am an internally defined variable by the compiler";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
+selector: "isAssignable",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isAssignable\x0a\x09self error: 'Alias variable is internal, it should never appear in normal variable context.'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._error_("Alias variable is internal, it should never appear in normal variable context.");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isAssignable",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AliasVar);
+
+$core.addMethod(
+$core.method({
 selector: "isImmutable",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1324,6 +1366,24 @@ $core.addClass("ArgVar", $globals.ScopeVar, [], "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ArgVar.comment="I am an argument of a method or block.";
 //>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "isAssignable",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isAssignable\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.ArgVar);
+
 $core.addMethod(
 $core.method({
 selector: "isImmutable",
@@ -1373,6 +1433,24 @@ $globals.ClassRefVar);
 
 $core.addMethod(
 $core.method({
+selector: "isAssignable",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isAssignable\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.ClassRefVar);
+
+$core.addMethod(
+$core.method({
 selector: "isClassRefVar",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1413,6 +1491,24 @@ $core.addClass("ExternallyKnownVar", $globals.ScopeVar, [], "Compiler-Semantic")
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ExternallyKnownVar.comment="I am a variable known externally (not in method scope).";
 //>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "isAssignable",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isAssignable\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.ExternallyKnownVar);
+
 $core.addMethod(
 $core.method({
 selector: "isExternallyKnownVar",
@@ -1522,6 +1618,24 @@ return $self._name();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"alias",{})});
 //>>excludeEnd("ctx");
+}; }),
+$globals.PseudoVar);
+
+$core.addMethod(
+$core.method({
+selector: "isAssignable",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isAssignable\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
 }; }),
 $globals.PseudoVar);
 
@@ -2261,11 +2375,11 @@ selector: "visitAssignmentNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitAssignmentNode: aNode\x0a\x09| lhs |\x0a\x09super visitAssignmentNode: aNode.\x0a\x09lhs := aNode left.\x0a\x09lhs isImmutable ifTrue: [ self errorInvalidAssignment: lhs identifier ].\x0a\x09lhs assigned: true",
+source: "visitAssignmentNode: aNode\x0a\x09| lhs |\x0a\x09super visitAssignmentNode: aNode.\x0a\x09lhs := aNode left.\x0a\x09lhs isAssignable ifFalse: [ self errorInvalidAssignment: lhs identifier ].\x0a\x09lhs assigned: true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["visitAssignmentNode:", "left", "ifTrue:", "isImmutable", "errorInvalidAssignment:", "identifier", "assigned:"]
+messageSends: ["visitAssignmentNode:", "left", "ifFalse:", "isAssignable", "errorInvalidAssignment:", "identifier", "assigned:"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 var lhs;
@@ -2283,8 +2397,8 @@ $ctx1.supercall = true,
 //>>excludeEnd("ctx");
 ][0];
 lhs=$recv(aNode)._left();
-$1=$recv(lhs)._isImmutable();
-if($core.assert($1)){
+$1=$recv(lhs)._isAssignable();
+if(!$core.assert($1)){
 $self._errorInvalidAssignment_($recv(lhs)._identifier());
 }
 $recv(lhs)._assigned_(true);

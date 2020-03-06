@@ -233,6 +233,10 @@ scope: aScope
 
 !ScopeVar methodsFor: 'testing'!
 
+isAssignable
+	^ true
+!
+
 isClassRefVar
 	^ false
 !
@@ -277,6 +281,10 @@ I am an internally defined variable by the compiler!
 
 !AliasVar methodsFor: 'testing'!
 
+isAssignable
+	self error: 'Alias variable is internal, it should never appear in normal variable context.'
+!
+
 isImmutable
 	^ true
 ! !
@@ -288,6 +296,10 @@ ScopeVar subclass: #ArgVar
 I am an argument of a method or block.!
 
 !ArgVar methodsFor: 'testing'!
+
+isAssignable
+	^ false
+!
 
 isImmutable
 	^ true
@@ -307,6 +319,10 @@ alias
 
 !ClassRefVar methodsFor: 'testing'!
 
+isAssignable
+	^ false
+!
+
 isClassRefVar
 	^ true
 !
@@ -322,6 +338,10 @@ ScopeVar subclass: #ExternallyKnownVar
 I am a variable known externally (not in method scope).!
 
 !ExternallyKnownVar methodsFor: 'testing'!
+
+isAssignable
+	^ false
+!
 
 isExternallyKnownVar
 	^ true
@@ -362,6 +382,10 @@ alias
 ! !
 
 !PseudoVar methodsFor: 'testing'!
+
+isAssignable
+	^ false
+!
 
 isImmutable
 	^ true
@@ -566,7 +590,7 @@ visitAssignmentNode: aNode
 	| lhs |
 	super visitAssignmentNode: aNode.
 	lhs := aNode left.
-	lhs isImmutable ifTrue: [ self errorInvalidAssignment: lhs identifier ].
+	lhs isAssignable ifFalse: [ self errorInvalidAssignment: lhs identifier ].
 	lhs assigned: true
 !
 
