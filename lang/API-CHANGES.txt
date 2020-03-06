@@ -7,6 +7,7 @@
   * Split into #isIdempotent / #isAssignable.
 * UnknownVar => ExternallyKnownVar
 * Remove all typechecking #isFoo methods in ScopeVar hierarchy.
+* Remove most of typechecking #isFoo methods in ASTNode hierarchy.
 * Added Teachable class.
 
 + Behavior >>
