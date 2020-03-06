@@ -245,6 +245,10 @@ isExternallyKnownVar
 	^ false
 !
 
+isIdempotent
+	^ false
+!
+
 isImmutable
 	^ false
 !
@@ -285,6 +289,10 @@ isAssignable
 	self error: 'Alias variable is internal, it should never appear in normal variable context.'
 !
 
+isIdempotent
+	^ true
+!
+
 isImmutable
 	^ true
 ! !
@@ -299,6 +307,10 @@ I am an argument of a method or block.!
 
 isAssignable
 	^ false
+!
+
+isIdempotent
+	^ true
 !
 
 isImmutable
@@ -385,6 +397,10 @@ alias
 
 isAssignable
 	^ false
+!
+
+isIdempotent
+	^ true
 !
 
 isImmutable

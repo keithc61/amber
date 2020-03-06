@@ -1124,6 +1124,24 @@ $globals.ScopeVar);
 
 $core.addMethod(
 $core.method({
+selector: "isIdempotent",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isIdempotent\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.ScopeVar);
+
+$core.addMethod(
+$core.method({
 selector: "isImmutable",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1344,6 +1362,24 @@ $globals.AliasVar);
 
 $core.addMethod(
 $core.method({
+selector: "isIdempotent",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isIdempotent\x0a\x09^ true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return true;
+
+}; }),
+$globals.AliasVar);
+
+$core.addMethod(
+$core.method({
 selector: "isImmutable",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1380,6 +1416,24 @@ messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return false;
+
+}; }),
+$globals.ArgVar);
+
+$core.addMethod(
+$core.method({
+selector: "isIdempotent",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isIdempotent\x0a\x09^ true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return true;
 
 }; }),
 $globals.ArgVar);
@@ -1635,6 +1689,24 @@ messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return false;
+
+}; }),
+$globals.PseudoVar);
+
+$core.addMethod(
+$core.method({
+selector: "isIdempotent",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isIdempotent\x0a\x09^ true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return true;
 
 }; }),
 $globals.PseudoVar);

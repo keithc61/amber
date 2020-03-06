@@ -3111,7 +3111,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($globals.Transcript)._show_([$recv([$recv([$recv($recv(varName).__comma(": ")).__comma($recv($recv(value)._class())._name())
+var $1;
+$1=$globals.Transcript;
+$recv($1)._show_([$recv([$recv([$recv($recv(varName).__comma(": ")).__comma($recv($recv(value)._class())._name())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=3
 //>>excludeEnd("ctx");
@@ -3124,7 +3126,7 @@ $recv($globals.Transcript)._show_([$recv([$recv([$recv($recv(varName).__comma(":
 ,$ctx1.sendIdx[","]=1
 //>>excludeEnd("ctx");
 ][0]);
-$recv($globals.Transcript)._cr();
+$recv($1)._cr();
 $recv($self.interface)._prompt();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3149,8 +3151,10 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($globals.Transcript)._show_("Type :q to exit.");
-$recv($globals.Transcript)._cr();
+var $1;
+$1=$globals.Transcript;
+$recv($1)._show_("Type :q to exit.");
+$recv($1)._cr();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"printWelcome",{})});

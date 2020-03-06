@@ -66,7 +66,7 @@ addToSequence: anInstruction
 alias: anExpressionNode
 	| variable |
 
-	anExpressionNode isImmutable ifTrue: [ ^ self visit: anExpressionNode ].
+	anExpressionNode isIdempotent ifTrue: [ ^ self visit: anExpressionNode ].
 
 	variable := IRVariable new
 		variable: (AliasVar new name: '$', self nextAlias);
@@ -143,7 +143,7 @@ visitBlockSequenceNode: aNode
 visitCascadeNode: aNode
 	| receiver |
 	receiver := aNode receiver.
-	receiver isImmutable ifFalse: [
+	receiver isIdempotent ifFalse: [
 		| alias |
 		alias := self alias: receiver.
 		receiver := VariableNode new binding: alias variable ].

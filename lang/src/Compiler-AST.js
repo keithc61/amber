@@ -406,6 +406,24 @@ $globals.ExpressionNode.comment="I am the abstract root class for expression nod
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
+selector: "isIdempotent",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isIdempotent\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.ExpressionNode);
+
+$core.addMethod(
+$core.method({
 selector: "isImmutable",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1329,6 +1347,29 @@ $globals.ValueNode);
 
 $core.addMethod(
 $core.method({
+selector: "isIdempotent",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isIdempotent\x0a\x09^ self value isImmutable",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["isImmutable", "value"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._value())._isImmutable();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isIdempotent",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ValueNode);
+
+$core.addMethod(
+$core.method({
 selector: "isImmutable",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1580,6 +1621,29 @@ return $core.withContext(function($ctx1) {
 return $recv($self._binding())._isAssignable();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isAssignable",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.VariableNode);
+
+$core.addMethod(
+$core.method({
+selector: "isIdempotent",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isIdempotent\x0a\x09^ self binding isIdempotent",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["isIdempotent", "binding"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._binding())._isIdempotent();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isIdempotent",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.VariableNode);

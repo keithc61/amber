@@ -120,6 +120,10 @@ withTail: aCollection
 
 !ExpressionNode methodsFor: 'testing'!
 
+isIdempotent
+	^ false
+!
+
 isImmutable
 	^ false
 !
@@ -342,6 +346,10 @@ value: anObject
 
 !ValueNode methodsFor: 'testing'!
 
+isIdempotent
+	^ self value isImmutable
+!
+
 isImmutable
 	^ self value isImmutable
 ! !
@@ -406,6 +414,10 @@ value: anObject
 
 isAssignable
 	^ self binding isAssignable
+!
+
+isIdempotent
+	^ self binding isIdempotent
 !
 
 isImmutable

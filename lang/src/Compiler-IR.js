@@ -46,11 +46,11 @@ selector: "alias:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anExpressionNode"],
-source: "alias: anExpressionNode\x0a\x09| variable |\x0a\x0a\x09anExpressionNode isImmutable ifTrue: [ ^ self visit: anExpressionNode ].\x0a\x0a\x09variable := IRVariable new\x0a\x09\x09variable: (AliasVar new name: '$', self nextAlias);\x0a\x09\x09yourself.\x0a\x0a\x09self addToSequence: (IRAssignment new\x0a\x09\x09add: variable;\x0a\x09\x09add: (self visit: anExpressionNode);\x0a\x09\x09yourself).\x0a\x0a\x09self method internalVariables add: variable.\x0a\x0a\x09^ variable",
+source: "alias: anExpressionNode\x0a\x09| variable |\x0a\x0a\x09anExpressionNode isIdempotent ifTrue: [ ^ self visit: anExpressionNode ].\x0a\x0a\x09variable := IRVariable new\x0a\x09\x09variable: (AliasVar new name: '$', self nextAlias);\x0a\x09\x09yourself.\x0a\x0a\x09self addToSequence: (IRAssignment new\x0a\x09\x09add: variable;\x0a\x09\x09add: (self visit: anExpressionNode);\x0a\x09\x09yourself).\x0a\x0a\x09self method internalVariables add: variable.\x0a\x0a\x09^ variable",
 referencedClasses: ["IRVariable", "AliasVar", "IRAssignment"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:", "isImmutable", "visit:", "variable:", "new", "name:", ",", "nextAlias", "yourself", "addToSequence:", "add:", "internalVariables", "method"]
+messageSends: ["ifTrue:", "isIdempotent", "visit:", "variable:", "new", "name:", ",", "nextAlias", "yourself", "addToSequence:", "add:", "internalVariables", "method"]
 }, function ($methodClass){ return function (anExpressionNode){
 var self=this,$self=this;
 var variable;
@@ -58,7 +58,7 @@ var variable;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2,$4,$3;
-$1=$recv(anExpressionNode)._isImmutable();
+$1=$recv(anExpressionNode)._isIdempotent();
 if($core.assert($1)){
 return [$self._visit_(anExpressionNode)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -556,11 +556,11 @@ selector: "visitCascadeNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitCascadeNode: aNode\x0a\x09| receiver |\x0a\x09receiver := aNode receiver.\x0a\x09receiver isImmutable ifFalse: [\x0a\x09\x09| alias |\x0a\x09\x09alias := self alias: receiver.\x0a\x09\x09receiver := VariableNode new binding: alias variable ].\x0a\x09aNode dagChildren do: [ :each | each receiver: receiver ].\x0a\x0a\x09aNode dagChildren allButLast do: [ :each |\x0a\x09\x09self addToSequence: (self visit: each) ].\x0a\x0a\x09^ self visitOrAlias: aNode dagChildren last",
+source: "visitCascadeNode: aNode\x0a\x09| receiver |\x0a\x09receiver := aNode receiver.\x0a\x09receiver isIdempotent ifFalse: [\x0a\x09\x09| alias |\x0a\x09\x09alias := self alias: receiver.\x0a\x09\x09receiver := VariableNode new binding: alias variable ].\x0a\x09aNode dagChildren do: [ :each | each receiver: receiver ].\x0a\x0a\x09aNode dagChildren allButLast do: [ :each |\x0a\x09\x09self addToSequence: (self visit: each) ].\x0a\x0a\x09^ self visitOrAlias: aNode dagChildren last",
 referencedClasses: ["VariableNode"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["receiver", "ifFalse:", "isImmutable", "alias:", "binding:", "new", "variable", "do:", "dagChildren", "receiver:", "allButLast", "addToSequence:", "visit:", "visitOrAlias:", "last"]
+messageSends: ["receiver", "ifFalse:", "isIdempotent", "alias:", "binding:", "new", "variable", "do:", "dagChildren", "receiver:", "allButLast", "addToSequence:", "visit:", "visitOrAlias:", "last"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 var receiver;
@@ -569,7 +569,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 receiver=$recv(aNode)._receiver();
-$1=$recv(receiver)._isImmutable();
+$1=$recv(receiver)._isIdempotent();
 if(!$core.assert($1)){
 var alias;
 alias=$self._alias_(receiver);

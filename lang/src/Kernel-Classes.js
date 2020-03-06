@@ -3394,12 +3394,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
-if(($receiver = $globals.Smalltalk) == null || $receiver.a$nil){
-$globals.Smalltalk;
-} else {
-$1=$self._basicAt_("category");
+var $1,$2,$receiver;
+$1=$globals.Smalltalk;
 if(($receiver = $1) == null || $receiver.a$nil){
+$1;
+} else {
+$2=$self._basicAt_("category");
+if(($receiver = $2) == null || $receiver.a$nil){
 [$self._basicPackage_(nil)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["basicPackage:"]=1
@@ -3435,9 +3436,10 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $receiver;
-if(($receiver = $globals.Smalltalk) == null || $receiver.a$nil){
-$globals.Smalltalk;
+var $1,$receiver;
+$1=$globals.Smalltalk;
+if(($receiver = $1) == null || $receiver.a$nil){
+$1;
 } else {
 $recv($recv($self._package())._organization())._removeElement_(self);
 }
