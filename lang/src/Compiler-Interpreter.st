@@ -1017,6 +1017,27 @@ isSteppingNode
 	^ true
 ! !
 
+!Evaluator methodsFor: '*Compiler-Interpreter'!
+
+evaluate: aString context: aContext
+	"Similar to #evaluate:for:, with the following differences:
+	- instead of compiling and running `aString`, `aString` is interpreted using an `ASTInterpreter`
+	- instead of evaluating against a receiver, evaluate in the context of `aContext`"
+
+	| compiler ast |
+	
+	compiler := Compiler new.
+	[ ast := compiler parseExpression: aString ] 
+		on: Error 
+		do: [ :ex | ^ Terminal alert: ex messageText ].
+		
+	(AISemanticAnalyzer on: aContext receiver class)
+		context: aContext;
+		visit: ast.
+
+	^ aContext evaluateNode: ast
+! !
+
 !JSStatementNode methodsFor: '*Compiler-Interpreter'!
 
 isSteppingNode

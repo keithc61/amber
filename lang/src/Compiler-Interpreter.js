@@ -1,4 +1,4 @@
-define(["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Compiler-Semantic", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Methods", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
+define(["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Compiler-Core", "amber/core/Compiler-Semantic", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Methods", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Interpreter");
 $pkg.innerEval = function (expr) { return eval(expr); };
@@ -3921,6 +3921,57 @@ return true;
 
 }; }),
 $globals.DynamicDictionaryNode);
+
+$core.addMethod(
+$core.method({
+selector: "evaluate:context:",
+protocol: "*Compiler-Interpreter",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aContext"],
+source: "evaluate: aString context: aContext\x0a\x09\x22Similar to #evaluate:for:, with the following differences:\x0a\x09- instead of compiling and running `aString`, `aString` is interpreted using an `ASTInterpreter`\x0a\x09- instead of evaluating against a receiver, evaluate in the context of `aContext`\x22\x0a\x0a\x09| compiler ast |\x0a\x09\x0a\x09compiler := Compiler new.\x0a\x09[ ast := compiler parseExpression: aString ] \x0a\x09\x09on: Error \x0a\x09\x09do: [ :ex | ^ Terminal alert: ex messageText ].\x0a\x09\x09\x0a\x09(AISemanticAnalyzer on: aContext receiver class)\x0a\x09\x09context: aContext;\x0a\x09\x09visit: ast.\x0a\x0a\x09^ aContext evaluateNode: ast",
+referencedClasses: ["Compiler", "Error", "Terminal", "AISemanticAnalyzer"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "on:do:", "parseExpression:", "alert:", "messageText", "context:", "on:", "class", "receiver", "visit:", "evaluateNode:"]
+}, function ($methodClass){ return function (aString,aContext){
+var self=this,$self=this;
+var compiler,ast;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+var $early={};
+try {
+compiler=$recv($globals.Compiler)._new();
+$recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+ast=$recv(compiler)._parseExpression_(aString);
+return ast;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}))._on_do_($globals.Error,(function(ex){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+throw $early=[$recv($globals.Terminal)._alert_($recv(ex)._messageText())];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({ex:ex},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+$1=$recv($globals.AISemanticAnalyzer)._on_($recv($recv(aContext)._receiver())._class());
+$recv($1)._context_(aContext);
+$recv($1)._visit_(ast);
+return $recv(aContext)._evaluateNode_(ast);
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"evaluate:context:",{aString:aString,aContext:aContext,compiler:compiler,ast:ast})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Evaluator);
 
 $core.addMethod(
 $core.method({

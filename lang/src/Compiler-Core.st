@@ -364,25 +364,6 @@ I evaluate code against a receiver, dispatching #evaluate:on: to the receiver.!
 
 !Evaluator methodsFor: 'evaluating'!
 
-evaluate: aString context: aContext
-	"Similar to #evaluate:for:, with the following differences:
-	- instead of compiling and running `aString`, `aString` is interpreted using an `ASTInterpreter`
-	- instead of evaluating against a receiver, evaluate in the context of `aContext`"
-
-	| compiler ast |
-	
-	compiler := Compiler new.
-	[ ast := compiler parseExpression: aString ] 
-		on: Error 
-		do: [ :ex | ^ Terminal alert: ex messageText ].
-		
-	(AISemanticAnalyzer on: aContext receiver class)
-		context: aContext;
-		visit: ast.
-
-	^ aContext evaluateNode: ast
-!
-
 evaluate: aString for: anObject
 	^ anObject evaluate: aString on: self
 !
