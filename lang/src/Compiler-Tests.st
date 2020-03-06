@@ -580,19 +580,25 @@ receiver
 
 !AbstractCodeGeneratorInstallTest methodsFor: 'testing'!
 
-shouldntInstall: aString
+shouldntInstall: aString andRaise: anErrorClass
 	| method |
 
 	[ self
 		should: [ method := self install: aString forClass: receiver class ]
-		raise: ParseError ]
+		raise: anErrorClass ]
 	ensure: [ method ifNotNil: [ receiver class removeCompiledMethod: method ] ]
 ! !
 
 !AbstractCodeGeneratorInstallTest methodsFor: 'tests'!
 
+testInvalidAssignment
+	self shouldntInstall: 'foo:a a:=1' andRaise: InvalidAssignmentError.
+	self shouldntInstall: 'foo false:=1' andRaise: InvalidAssignmentError.
+	self shouldntInstall: 'foo Number:=1' andRaise: InvalidAssignmentError
+!
+
 testMistypedPragmaJSStatement
-	self shouldntInstall: 'foo < inlineJS: ''return ''foo'''' >'
+	self shouldntInstall: 'foo < inlineJS: ''return ''foo'''' >' andRaise: ParseError
 !
 
 testNiladicJSOverride
@@ -617,7 +623,7 @@ testNiladicJSOverrideDifferentNames
 !
 
 testPragmaInBlock
-	self shouldntInstall: 'foo ^ [ < fooBar > 4 ] value'
+	self shouldntInstall: 'foo ^ [ < fooBar > 4 ] value' andRaise: ParseError
 ! !
 
 !AbstractCodeGeneratorInstallTest class methodsFor: 'testing'!

@@ -2219,16 +2219,16 @@ $globals.AbstractCodeGeneratorInstallTest);
 
 $core.addMethod(
 $core.method({
-selector: "shouldntInstall:",
+selector: "shouldntInstall:andRaise:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "shouldntInstall: aString\x0a\x09| method |\x0a\x0a\x09[ self\x0a\x09\x09should: [ method := self install: aString forClass: receiver class ]\x0a\x09\x09raise: ParseError ]\x0a\x09ensure: [ method ifNotNil: [ receiver class removeCompiledMethod: method ] ]",
-referencedClasses: ["ParseError"],
+args: ["aString", "anErrorClass"],
+source: "shouldntInstall: aString andRaise: anErrorClass\x0a\x09| method |\x0a\x0a\x09[ self\x0a\x09\x09should: [ method := self install: aString forClass: receiver class ]\x0a\x09\x09raise: anErrorClass ]\x0a\x09ensure: [ method ifNotNil: [ receiver class removeCompiledMethod: method ] ]",
+referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: ["ensure:", "should:raise:", "install:forClass:", "class", "ifNotNil:", "removeCompiledMethod:"]
-}, function ($methodClass){ return function (aString){
+}, function ($methodClass){ return function (aString,anErrorClass){
 var self=this,$self=this;
 var method;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2252,7 +2252,7 @@ return method;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 //>>excludeEnd("ctx");
-}),$globals.ParseError);
+}),anErrorClass);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2272,7 +2272,41 @@ return $recv($recv($self.receiver)._class())._removeCompiledMethod_(method);
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"shouldntInstall:",{aString:aString,method:method})});
+}, function($ctx1) {$ctx1.fill(self,"shouldntInstall:andRaise:",{aString:aString,anErrorClass:anErrorClass,method:method})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCodeGeneratorInstallTest);
+
+$core.addMethod(
+$core.method({
+selector: "testInvalidAssignment",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testInvalidAssignment\x0a\x09self shouldntInstall: 'foo:a a:=1' andRaise: InvalidAssignmentError.\x0a\x09self shouldntInstall: 'foo false:=1' andRaise: InvalidAssignmentError.\x0a\x09self shouldntInstall: 'foo Number:=1' andRaise: InvalidAssignmentError\x0a",
+referencedClasses: ["InvalidAssignmentError"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["shouldntInstall:andRaise:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+[$self._shouldntInstall_andRaise_("foo:a a:=1",$globals.InvalidAssignmentError)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["shouldntInstall:andRaise:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$self._shouldntInstall_andRaise_("foo false:=1",$globals.InvalidAssignmentError)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["shouldntInstall:andRaise:"]=2
+//>>excludeEnd("ctx");
+][0];
+$self._shouldntInstall_andRaise_("foo Number:=1",$globals.InvalidAssignmentError);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testInvalidAssignment",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.AbstractCodeGeneratorInstallTest);
@@ -2283,17 +2317,17 @@ selector: "testMistypedPragmaJSStatement",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testMistypedPragmaJSStatement\x0a\x09self shouldntInstall: 'foo < inlineJS: ''return ''foo'''' >'",
-referencedClasses: [],
+source: "testMistypedPragmaJSStatement\x0a\x09self shouldntInstall: 'foo < inlineJS: ''return ''foo'''' >' andRaise: ParseError",
+referencedClasses: ["ParseError"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["shouldntInstall:"]
+messageSends: ["shouldntInstall:andRaise:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self._shouldntInstall_("foo < inlineJS: 'return 'foo'' >");
+$self._shouldntInstall_andRaise_("foo < inlineJS: 'return 'foo'' >",$globals.ParseError);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testMistypedPragmaJSStatement",{})});
@@ -2430,17 +2464,17 @@ selector: "testPragmaInBlock",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testPragmaInBlock\x0a\x09self shouldntInstall: 'foo ^ [ < fooBar > 4 ] value'",
-referencedClasses: [],
+source: "testPragmaInBlock\x0a\x09self shouldntInstall: 'foo ^ [ < fooBar > 4 ] value' andRaise: ParseError",
+referencedClasses: ["ParseError"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["shouldntInstall:"]
+messageSends: ["shouldntInstall:andRaise:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$self._shouldntInstall_("foo ^ [ < fooBar > 4 ] value");
+$self._shouldntInstall_andRaise_("foo ^ [ < fooBar > 4 ] value",$globals.ParseError);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testPragmaInBlock",{})});
