@@ -59,8 +59,8 @@ AbstractCodeGenerator subclass: #AstGenerator
 	package: 'Compiler-Core'!
 !AstGenerator commentStamp!
 I am a very basic code generator.
-I generate semantically augemented abstract syntax tree,
-Some initial pragmas (eg. #inlineJS:) are applied to transform the tree,!
+I generate semantically augmented abstract syntax tree,
+Some initial pragmas (eg. #inlineJS:) are applied to transform the tree.!
 
 !AstGenerator methodsFor: 'compiling'!
 

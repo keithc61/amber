@@ -250,7 +250,7 @@ $globals.AbstractCodeGenerator);
 
 $core.addClass("AstGenerator", $globals.AbstractCodeGenerator, ["transformersDictionary"], "Compiler-Core");
 //>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.AstGenerator.comment="I am a very basic code generator.\x0aI generate semantically augemented abstract syntax tree,\x0aSome initial pragmas (eg. #inlineJS:) are applied to transform the tree,";
+$globals.AstGenerator.comment="I am a very basic code generator.\x0aI generate semantically augmented abstract syntax tree,\x0aSome initial pragmas (eg. #inlineJS:) are applied to transform the tree.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
