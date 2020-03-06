@@ -2283,7 +2283,7 @@ selector: "testInvalidAssignment",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testInvalidAssignment\x0a\x09self shouldntInstall: 'foo:a a:=1' andRaise: InvalidAssignmentError.\x0a\x09self shouldntInstall: 'foo false:=1' andRaise: InvalidAssignmentError.\x0a\x09self shouldntInstall: 'foo Number:=1' andRaise: InvalidAssignmentError\x0a",
+source: "testInvalidAssignment\x0a\x09self shouldntInstall: 'foo:a a:=1' andRaise: InvalidAssignmentError.\x0a\x09self shouldntInstall: 'foo false:=1' andRaise: InvalidAssignmentError.\x0a\x09self shouldntInstall: 'foo console:=1' andRaise: InvalidAssignmentError.\x0a\x09self shouldntInstall: 'foo Number:=1' andRaise: InvalidAssignmentError\x0a",
 referencedClasses: ["InvalidAssignmentError"],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -2301,6 +2301,11 @@ return $core.withContext(function($ctx1) {
 [$self._shouldntInstall_andRaise_("foo false:=1",$globals.InvalidAssignmentError)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["shouldntInstall:andRaise:"]=2
+//>>excludeEnd("ctx");
+][0];
+[$self._shouldntInstall_andRaise_("foo console:=1",$globals.InvalidAssignmentError)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["shouldntInstall:andRaise:"]=3
 //>>excludeEnd("ctx");
 ][0];
 $self._shouldntInstall_andRaise_("foo Number:=1",$globals.InvalidAssignmentError);

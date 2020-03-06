@@ -1431,6 +1431,24 @@ return true;
 }; }),
 $globals.ExternallyKnownVar);
 
+$core.addMethod(
+$core.method({
+selector: "isImmutable",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isImmutable\x0a\x09^ true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return true;
+
+}; }),
+$globals.ExternallyKnownVar);
+
 
 
 $core.addClass("InstanceVar", $globals.ScopeVar, [], "Compiler-Semantic");

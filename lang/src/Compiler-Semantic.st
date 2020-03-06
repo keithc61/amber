@@ -325,6 +325,10 @@ I am a variable known externally (not in method scope).!
 
 isExternallyKnownVar
 	^ true
+!
+
+isImmutable
+	^ true
 ! !
 
 ScopeVar subclass: #InstanceVar

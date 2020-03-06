@@ -594,6 +594,7 @@ shouldntInstall: aString andRaise: anErrorClass
 testInvalidAssignment
 	self shouldntInstall: 'foo:a a:=1' andRaise: InvalidAssignmentError.
 	self shouldntInstall: 'foo false:=1' andRaise: InvalidAssignmentError.
+	self shouldntInstall: 'foo console:=1' andRaise: InvalidAssignmentError.
 	self shouldntInstall: 'foo Number:=1' andRaise: InvalidAssignmentError
 !
 
