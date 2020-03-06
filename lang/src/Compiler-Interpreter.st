@@ -701,9 +701,7 @@ stepOver
 !ASTInterpreter methodsFor: 'private'!
 
 assign: aNode to: anObject
-	aNode binding isInstanceVar
-		ifTrue: [ self context receiver instVarAt: aNode identifier put: anObject ]
-		ifFalse: [ self context localAt: aNode identifier put: anObject ]
+	aNode binding inContext: self context put: anObject
 !
 
 eval: aString
@@ -885,22 +883,7 @@ visitValueNode: aNode
 !
 
 visitVariableNode: aNode
-	aNode binding isExternallyKnownVar ifTrue: [
-		^ self push: (Platform globals at: aNode identifier ifAbsent: [ self error: 'Unknown variable' ]) ].
-		
-	self push: (aNode binding isInstanceVar
-		ifTrue: [ self context receiver instVarAt: aNode identifier ]
-		ifFalse: [ self context 
-			localAt: (aNode binding isSuper ifTrue: [ 'self' ] ifFalse: [ aNode identifier ])
-			ifAbsent: [
-				aNode identifier = 'nil' ifTrue: [ nil ] ifFalse: [
-				aNode identifier = 'true' ifTrue: [ true ] ifFalse: [
-				aNode identifier = 'false' ifTrue: [ false ] ifFalse: [
-				aNode identifier isCapitalized
-					ifTrue: [
-						Smalltalk globals 
-							at: aNode identifier 
-							ifAbsent: [ Platform globals at: aNode identifier ] ] ] ] ] ] ])
+	self push: (aNode binding inContext: self context)
 ! !
 
 Error subclass: #ASTInterpreterError
@@ -985,6 +968,12 @@ nextSiblingNode: aNode
 		ifAbsent: [ nil ]
 ! !
 
+!AliasVar methodsFor: '*Compiler-Interpreter'!
+
+inContext: aContext
+	self error: 'Alias variable is internal, it should never appear in normal variable context.'
+! !
+
 !AssignmentNode methodsFor: '*Compiler-Interpreter'!
 
 isSteppingNode
@@ -1003,6 +992,14 @@ nextSiblingNode: aNode
 	"In fact, this should not have been called, ever. IMO. -- herby"
 	
 	^ nil
+! !
+
+!ClassRefVar methodsFor: '*Compiler-Interpreter'!
+
+inContext: aContext
+	^ Smalltalk globals 
+		at: self name 
+		ifAbsent: [ Platform globals at: self name ]
 ! !
 
 !DynamicArrayNode methodsFor: '*Compiler-Interpreter'!
@@ -1038,15 +1035,61 @@ evaluate: aString context: aContext
 	^ aContext evaluateNode: ast
 ! !
 
+!ExternallyKnownVar methodsFor: '*Compiler-Interpreter'!
+
+inContext: aContext
+	^ Platform globals at: self name ifAbsent: [ self error: 'Unknown variable' ]
+! !
+
+!InstanceVar methodsFor: '*Compiler-Interpreter'!
+
+inContext: aContext
+	^ aContext receiver instVarAt: self name
+!
+
+inContext: aContext put: anObject
+	aContext receiver instVarAt: self name put: anObject
+! !
+
 !JSStatementNode methodsFor: '*Compiler-Interpreter'!
 
 isSteppingNode
 	^ true
 ! !
 
+!PseudoVar methodsFor: '*Compiler-Interpreter'!
+
+inContext: aContext
+	^ #{'nil'->nil. 'true'->true. 'false'->false}
+		at: self name
+		ifAbsent: [ super inContext: aContext ]
+! !
+
+!ScopeVar methodsFor: '*Compiler-Interpreter'!
+
+inContext: aContext
+	^ aContext localAt: self name
+!
+
+inContext: aContext put: anObject
+	self error: 'Non-assignable variables should not be changed.'
+! !
+
 !SendNode methodsFor: '*Compiler-Interpreter'!
 
 isSteppingNode
 	^ true
+! !
+
+!SuperVar methodsFor: '*Compiler-Interpreter'!
+
+inContext: aContext
+	^ aContext localAt: 'self'
+! !
+
+!TempVar methodsFor: '*Compiler-Interpreter'!
+
+inContext: aContext put: anObject
+	aContext localAt: self name put: anObject
 ! !
 
