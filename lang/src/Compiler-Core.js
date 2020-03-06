@@ -340,7 +340,7 @@ $globals.AstGenerator);
 
 
 
-$core.addClass("CodeGenerator", $globals.AstGenerator, ["transformersDictionary"], "Compiler-Core");
+$core.addClass("CodeGenerator", $globals.AstGenerator, [], "Compiler-Core");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.CodeGenerator.comment="I am a basic code generator. I generate a valid JavaScript output, but do not perform any inlining.\x0aSee `InliningCodeGenerator` for an optimized JavaScript code generation.";
 //>>excludeEnd("ide");

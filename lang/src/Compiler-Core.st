@@ -82,7 +82,7 @@ transformersDictionary
 ! !
 
 AstGenerator subclass: #CodeGenerator
-	slots: {#transformersDictionary}
+	slots: {}
 	package: 'Compiler-Core'!
 !CodeGenerator commentStamp!
 I am a basic code generator. I generate a valid JavaScript output, but do not perform any inlining.
