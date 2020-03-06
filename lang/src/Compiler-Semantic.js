@@ -1074,14 +1074,14 @@ selector: "isAssignable",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "isAssignable\x0a\x09^ true",
+source: "isAssignable\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return true;
+return false;
 
 }; }),
 $globals.ScopeVar);
@@ -1392,24 +1392,6 @@ $globals.ArgVar.comment="I am an argument of a method or block.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "isAssignable",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isAssignable\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ArgVar);
-
-$core.addMethod(
-$core.method({
 selector: "isIdempotent",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1457,24 +1439,6 @@ $globals.ClassRefVar);
 
 $core.addMethod(
 $core.method({
-selector: "isAssignable",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isAssignable\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ClassRefVar);
-
-$core.addMethod(
-$core.method({
 selector: "isClassRefVar",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1497,24 +1461,6 @@ $core.addClass("ExternallyKnownVar", $globals.ScopeVar, [], "Compiler-Semantic")
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ExternallyKnownVar.comment="I am a variable known externally (not in method scope).";
 //>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "isAssignable",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isAssignable\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
-}; }),
-$globals.ExternallyKnownVar);
-
 $core.addMethod(
 $core.method({
 selector: "isExternallyKnownVar",
@@ -1564,6 +1510,24 @@ $globals.InstanceVar);
 
 $core.addMethod(
 $core.method({
+selector: "isAssignable",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isAssignable\x0a\x09^ true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return true;
+
+}; }),
+$globals.InstanceVar);
+
+$core.addMethod(
+$core.method({
 selector: "isInstanceVar",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1606,24 +1570,6 @@ return $self._name();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"alias",{})});
 //>>excludeEnd("ctx");
-}; }),
-$globals.PseudoVar);
-
-$core.addMethod(
-$core.method({
-selector: "isAssignable",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isAssignable\x0a\x09^ false",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return false;
-
 }; }),
 $globals.PseudoVar);
 
@@ -1835,6 +1781,24 @@ $core.addClass("TempVar", $globals.ScopeVar, [], "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.TempVar.comment="I am an temporary variable of a method or block.";
 //>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "isAssignable",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isAssignable\x0a\x09^ true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return true;
+
+}; }),
+$globals.TempVar);
+
 $core.addMethod(
 $core.method({
 selector: "isTempVar",

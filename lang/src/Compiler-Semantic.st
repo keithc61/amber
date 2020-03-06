@@ -234,7 +234,7 @@ scope: aScope
 !ScopeVar methodsFor: 'testing'!
 
 isAssignable
-	^ true
+	^ false
 !
 
 isClassRefVar
@@ -302,10 +302,6 @@ I am an argument of a method or block.!
 
 !ArgVar methodsFor: 'testing'!
 
-isAssignable
-	^ false
-!
-
 isIdempotent
 	^ true
 ! !
@@ -324,10 +320,6 @@ alias
 
 !ClassRefVar methodsFor: 'testing'!
 
-isAssignable
-	^ false
-!
-
 isClassRefVar
 	^ true
 ! !
@@ -339,10 +331,6 @@ ScopeVar subclass: #ExternallyKnownVar
 I am a variable known externally (not in method scope).!
 
 !ExternallyKnownVar methodsFor: 'testing'!
-
-isAssignable
-	^ false
-!
 
 isExternallyKnownVar
 	^ true
@@ -358,6 +346,10 @@ I am an instance variable of a method or block.!
 
 alias
 	^ '$self.', self name
+!
+
+isAssignable
+	^ true
 !
 
 isInstanceVar
@@ -379,10 +371,6 @@ alias
 ! !
 
 !PseudoVar methodsFor: 'testing'!
-
-isAssignable
-	^ false
-!
 
 isIdempotent
 	^ true
@@ -452,6 +440,10 @@ ScopeVar subclass: #TempVar
 I am an temporary variable of a method or block.!
 
 !TempVar methodsFor: 'testing'!
+
+isAssignable
+	^ true
+!
 
 isTempVar
 	^ true
