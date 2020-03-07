@@ -27,24 +27,30 @@ define(function () {
         if (obj[name] == null) installMethodOfJsObject(obj, name, noop);
     }
 
+    var table = {
+        ':': '_',
+        '&': '_and',
+        '|': '_or',
+        '+': '_plus',
+        '-': '_minus',
+        '*': '_star',
+        '/': '_slash',
+        '\\': '_backslash',
+        '~': '_tild',
+        '%': '_percent',
+        '>': '_gt',
+        '<': '_lt',
+        '=': '_eq',
+        ',': '_comma',
+        '@': '_at'
+    };
+
     /* Convert a Smalltalk selector into a JS selector */
     function st2js (string) {
         return '_' + string
-            .replace(/:/g, '_')
-            .replace(/[\&]/g, '_and')
-            .replace(/[\|]/g, '_or')
-            .replace(/[+]/g, '_plus')
-            .replace(/-/g, '_minus')
-            .replace(/[*]/g, '_star')
-            .replace(/[\/]/g, '_slash')
-            .replace(/[\\]/g, '_backslash')
-            .replace(/[\~]/g, '_tild')
-            .replace(/%/g, '_percent')
-            .replace(/>/g, '_gt')
-            .replace(/</g, '_lt')
-            .replace(/=/g, '_eq')
-            .replace(/,/g, '_comma')
-            .replace(/[@]/g, '_at');
+            .replace(/[:&|+\-*/\\~%><=,@]/g, function (ch) {
+                return table[ch];
+            });
     };
 
     function js2st (selector) {
