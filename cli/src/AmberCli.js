@@ -492,12 +492,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $receiver;
 $self._writeConfigThenDo_((function(err){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(($receiver = err) == null || $receiver.a$nil){
+if(err == null || err.a$nil){
 return $recv(process)._exit();
 } else {
 return $recv(process)._exit_((111));
@@ -583,9 +582,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.basePath;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $recv($self._class())._defaultBasePath();
 } else {
 return $1;
@@ -1032,7 +1031,7 @@ var header,token,auth,parts;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$receiver;
+var $1,$2,$3,$4;
 var $early={};
 try {
 $1=[$recv([$recv($self.username)._isNil()
@@ -1060,7 +1059,7 @@ $2=[$recv($recv(aRequest)._headers())._at_("authorization")
 ,$ctx1.sendIdx["at:"]=1
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $2) == null || $receiver.a$nil){
+if($2 == null || $2.a$nil){
 header="";
 } else {
 header=$2;
@@ -1077,7 +1076,7 @@ $3=[$recv(header)._tokenize_(" ")
 ,$ctx2.sendIdx["tokenize:"]=1
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $3) == null || $receiver.a$nil){
+if($3 == null || $3.a$nil){
 token="";
 } else {
 token=$3;
@@ -1269,7 +1268,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$5,$4,$2,$receiver;
+var $1,$3,$5,$4,$2;
 $1=$recv([$recv(aUrl)._pathname()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["pathname"]=1
@@ -1284,7 +1283,7 @@ $self._respondFileNamed_to_([$recv(aDirname).__comma("index.html")
 } else {
 $3=$recv($recv(aUrl)._pathname()).__comma("/");
 $5=$recv(aUrl)._search();
-if(($receiver = $5) == null || $receiver.a$nil){
+if($5 == null || $5.a$nil){
 $4="";
 } else {
 $4=$5;
@@ -1659,7 +1658,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $recv($self.fs)._stat_then_([$self._basePath()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["basePath"]=1
@@ -1668,7 +1667,7 @@ $recv($self.fs)._stat_then_([$self._basePath()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(($receiver = err) == null || $receiver.a$nil){
+if(err == null || err.a$nil){
 $1=$recv(stat)._isDirectory();
 if(!$core.assert($1)){
 return [$recv(console)._warn_([$recv(["Warning: --base-path parameter ".__comma([$self._basePath()
@@ -2092,9 +2091,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.mimeTypes;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $self.mimeTypes=$self._defaultMimeTypes();
 return $self.mimeTypes;
 } else {
@@ -2386,17 +2385,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $1,$2;
 $self._gruntInitThenDo_((function(error){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(($receiver = error) == null || $receiver.a$nil){
+if(error == null || error.a$nil){
 return $self._initProjectThenDo_((function(error2){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-if(($receiver = error2) == null || $receiver.a$nil){
+if(error2 == null || error2.a$nil){
 $self._finishMessage();
 return $recv(process)._exit();
 } else {
@@ -2492,13 +2491,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$3,$1,$receiver;
+var $2,$3,$1;
 return $self._parseAssignment_do_(buffer,(function(name,expr){
 var varName,value;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(($receiver = name) == null || $receiver.a$nil){
+if(name == null || name.a$nil){
 varName=$self._nextResultName();
 } else {
 varName=name;
@@ -2509,7 +2508,7 @@ $recv((function(){
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 $2=$recv(varName).__comma(" := ");
-if(($receiver = expr) == null || $receiver.a$nil){
+if(expr == null || expr.a$nil){
 $3=buffer;
 } else {
 $3=expr;
@@ -2907,13 +2906,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=[$recv(aClass)._superclass()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["superclass"]=1
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $recv(aClass)._instanceVariableNames();
 } else {
 return $recv([$recv(aClass)._instanceVariableNames()
@@ -2990,9 +2989,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.resultCount;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $self.resultCount=(1);
 } else {
 $self.resultCount=$recv($self.resultCount).__plus((1));
@@ -3339,12 +3338,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $receiver;
 $recv($recv(process)._stdin())._on_do_("keypress",(function(s,key){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(($receiver = key) == null || $receiver.a$nil){
+if(key == null || key.a$nil){
 return key;
 } else {
 return $self._onKeyPress_(key);
@@ -3399,7 +3397,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=[$recv([$recv(aClass)._name()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["name"]=1
@@ -3409,7 +3407,7 @@ $1=[$recv([$recv(aClass)._name()
 ,$ctx1.sendIdx["matchesOf:"]=1
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $recv($recv(aClass)._name()).__comma("2");
 } else {
 var counter;

@@ -226,15 +226,15 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $1,$2;
 $1=$self.position;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $2=$self._parent();
-if(($receiver = $2) == null || $receiver.a$nil){
+if($2 == null || $2.a$nil){
 return $2;
 } else {
 var node;
-node=$receiver;
+node=$2;
 return $recv(node)._position();
 }
 } else {
@@ -366,9 +366,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.source;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return "";
 } else {
 return $1;
@@ -480,9 +480,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.shouldBeAliased;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return false;
 } else {
 return $1;
@@ -744,9 +744,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.parameters;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $self.parameters=$recv($globals.Array)._new();
 return $self.parameters;
 } else {
@@ -1020,9 +1020,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.arguments;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $self.arguments=[];
 return $self.arguments;
 } else {
@@ -1088,13 +1088,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=[$self._receiver()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["receiver"]=1
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $recv([$self._arguments()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["arguments"]=1
@@ -1181,9 +1181,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.isSideEffect;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return false;
 } else {
 return $1;
@@ -1307,13 +1307,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self._receiver();
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return false;
 } else {
 var recv;
-recv=$receiver;
+recv=$1;
 return $recv(recv)._isSuper();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1479,9 +1479,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.assigned;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return false;
 } else {
 return $1;
@@ -1842,9 +1842,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.arguments;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return [];
 } else {
 return $1;
@@ -1991,9 +1991,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.pragmas;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return [];
 } else {
 return $1;
@@ -2239,9 +2239,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.expression;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $recv($self.nodes)._first();
 } else {
 return $1;
@@ -2394,9 +2394,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.temps;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return [];
 } else {
 return $1;

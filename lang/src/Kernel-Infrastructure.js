@@ -346,9 +346,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$recv($globals.JSObjectProxy)._lookupProperty_ofProxy_($recv($recv(aMessage)._selector())._asJavaScriptPropertyName(),self);
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return [(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -360,7 +360,7 @@ $ctx1.supercall = true,
 ][0];
 } else {
 var jsSelector;
-jsSelector=$receiver;
+jsSelector=$1;
 return $recv($globals.JSObjectProxy)._forwardMessage_withArguments_ofProxy_(jsSelector,$recv(aMessage)._arguments(),self);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1329,9 +1329,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.evalBlock;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $recv($globals.Compiler)._eval_(aString);
 } else {
 return $recv($self.evalBlock)._value_(aString);
@@ -1395,9 +1395,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.imports;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $self._imports_([]);
 return $self.imports;
 } else {
@@ -1633,9 +1633,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.dirty;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return false;
 } else {
 return $1;
@@ -2180,9 +2180,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.transport;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $self._transport_($recv($globals.PackageTransport)._fromJson_($self._basicTransport()));
 return $self.transport;
 } else {
@@ -2563,13 +2563,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$recv(anAnnouncement)._theClass();
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $1;
 } else {
 var theClass;
-theClass=$receiver;
+theClass=$1;
 $recv($recv(theClass)._package())._beDirty();
 }
 return self;
@@ -2595,13 +2595,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$recv($recv(anAnnouncement)._method())._package();
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $1;
 } else {
 var package_;
-package_=$receiver;
+package_=$1;
 $recv(package_)._beDirty();
 }
 return self;
@@ -2651,13 +2651,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$recv(anAnnouncement)._package();
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $1;
 } else {
 var package_;
-package_=$receiver;
+package_=$1;
 $recv(package_)._beDirty();
 }
 return self;
@@ -2685,9 +2685,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.current;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $self.current=$self._new();
 return $self.current;
 } else {
@@ -3313,9 +3313,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.globalJsVariables;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $self.globalJsVariables=["window", "document", "process", "global"];
 return $self.globalJsVariables;
 } else {
@@ -3492,9 +3492,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.packageDictionary;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $self.packageDictionary=$recv($globals.Dictionary)._new();
 return $self.packageDictionary;
 } else {
@@ -4054,9 +4054,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.current;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $self.current=[(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,

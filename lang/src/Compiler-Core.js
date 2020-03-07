@@ -157,9 +157,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.source;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return "";
 } else {
 return $1;
@@ -317,9 +317,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $1,$2;
 $1=$self.transformersDictionary;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $2=$recv($globals.Dictionary)._new();
 [$recv($2)._at_put_("1000-earlyPragmas",$self._earlyAstPragmator())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -427,9 +427,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $1,$2;
 $1=$self.transformersDictionary;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $2=[(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -614,9 +614,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.codeGeneratorClass;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $globals.InliningCodeGenerator;
 } else {
 return $1;
@@ -806,8 +806,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $receiver;
-if(($receiver = aPackage) == null || $receiver.a$nil){
+if(aPackage == null || aPackage.a$nil){
 return [$self._eval_(aString)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["eval:"]=1
@@ -960,17 +959,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $1,$2;
 $1=[$recv(anException)._basicAt_("location")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["basicAt:"]=1
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $recv(anException)._pass();
 } else {
 var loc;
-loc=$receiver;
+loc=$1;
 $2=$recv($globals.ParseError)._new();
 $recv($2)._messageText_([$recv([$recv([$recv([$recv("Parse error on line ".__comma($recv([$recv(loc)._start()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

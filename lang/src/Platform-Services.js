@@ -24,13 +24,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=[$recv(anError)._context()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["context"]=1
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $1;
 } else {
 $self._logErrorContext_($recv(anError)._context());
@@ -83,13 +83,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=[$recv(aContext)._home()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["home"]=1
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $1;
 } else {
 $self._logContext_($recv(aContext)._home());
@@ -142,8 +142,8 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
-if(($receiver = aContext) == null || $receiver.a$nil){
+var $1;
+if(aContext == null || aContext.a$nil){
 aContext;
 } else {
 $1=[$recv(aContext)._home()
@@ -151,7 +151,7 @@ $1=[$recv(aContext)._home()
 ,$ctx1.sendIdx["home"]=1
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $1;
 } else {
 $self._logContext_($recv(aContext)._home());
@@ -445,14 +445,14 @@ var protocols;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 protocols=$recv(aClass)._protocols();
 $1=[$recv(aClass)._superclass()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["superclass"]=1
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $1;
 } else {
 $recv(protocols)._addAll_($self._availableProtocolsFor_($recv(aClass)._superclass()));
@@ -503,9 +503,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$recv($recv($globals.Smalltalk)._globals())._at_($recv(aString)._asSymbol());
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $self._error_("Invalid class name");
 } else {
 return $1;
@@ -666,9 +666,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$recv($recv($globals.Smalltalk)._globals())._at_(aClassName);
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $1;
 } else {
 $self._error_([$recv("A class named ".__comma(aClassName)).__comma(" already exists")
@@ -795,10 +795,10 @@ var package_;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $1,$2;
 package_=$recv($globals.Package)._named_(aPackageName);
 $1=package_;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $self._error_("Invalid package name");
 } else {
 $1;
@@ -1125,9 +1125,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$recv($recv($globals.Smalltalk)._globals())._at_(aClassName);
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $1;
 } else {
 $self._error_([$recv("A class named ".__comma(aClassName)).__comma(" already exists")
@@ -1387,9 +1387,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self._current();
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $self._register_(anObject);
 } else {
 $1;
@@ -1424,10 +1424,10 @@ var smalltalkError;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 smalltalkError=$recv($globals.Smalltalk)._asSmalltalkException_(anError);
 $1=$recv(smalltalkError)._context();
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $recv(smalltalkError)._context_($core.getThisContext());
 } else {
 $1;

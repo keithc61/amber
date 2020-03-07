@@ -78,22 +78,6 @@ IRInlinedSend subclass: #IRInlinedIfNilIfNotNil
 !IRInlinedIfNilIfNotNil commentStamp!
 I represent an inlined `#ifNil:ifNotNil:` message send instruction.!
 
-!IRInlinedIfNilIfNotNil methodsFor: 'accessing'!
-
-internalVariables
-	^ { self receiverInternalVariable }
-!
-
-receiverInternalVariable
-	^ IRVariable new
-		variable: (AliasVar new name: self receiverInternalVariableName);
-		yourself.
-!
-
-receiverInternalVariableName
-	^ '$receiver'
-! !
-
 !IRInlinedIfNilIfNotNil methodsFor: 'visiting'!
 
 acceptDagVisitor: aVisitor
@@ -261,11 +245,10 @@ visitIRInlinedIfFalse: anIRInlinedIfFalse
 visitIRInlinedIfNilIfNotNil: anIRInlinedIfNilIfNotNil
 	self stream
 		nextPutIf: [
-			| recvVarName |
-			recvVarName := anIRInlinedIfNilIfNotNil receiverInternalVariableName.
-			self stream nextPutAll: '(', recvVarName, ' = '.
 			self visit: anIRInlinedIfNilIfNotNil dagChildren first.
-			self stream nextPutAll: ') == null || ', recvVarName, '.a$nil' ]
+			self stream nextPutAll: ' == null || '.
+			self visit: anIRInlinedIfNilIfNotNil dagChildren first.
+			self stream nextPutAll: '.a$nil' ]
 		then: [ self visit: anIRInlinedIfNilIfNotNil dagChildren second ]
 		else: [ self visit: anIRInlinedIfNilIfNotNil dagChildren third ]
 !
@@ -398,7 +381,7 @@ inlineClosure: anIRClosure
 		inlinedClosure add: (IRTempDeclaration new name: each; yourself).
 		sequence add: (IRAssignment new
 			add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: each; yourself));
-			add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: '$receiver'; yourself));
+			add: self send receiver;
 			yourself) ].
 			
 	"To ensure the correct order of the closure instructions: first the temps then the sequence"

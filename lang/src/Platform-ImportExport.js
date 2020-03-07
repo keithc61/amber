@@ -1131,7 +1131,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$4,$3,$1,$receiver;
+var $2,$4,$3,$1;
 [$recv(aStream)._lf()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["lf"]=1
@@ -1143,11 +1143,11 @@ $2=[$recv($recv(aClass)._name())._asJavaScriptSource()
 //>>excludeEnd("ctx");
 ][0];
 $4=$recv(aClass)._superclass();
-if(($receiver = $4) == null || $receiver.a$nil){
+if($4 == null || $4.a$nil){
 $3="null";
 } else {
 var superclass;
-superclass=$receiver;
+superclass=$4;
 $3=[$recv(superclass)._asJavaScriptSource()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["asJavaScriptSource"]=2
@@ -1280,7 +1280,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $1,$2;
 [$recv(aStream)._write_("$core.addMethod(")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["write:"]=1
@@ -1334,7 +1334,7 @@ $1=[$recv(aMethod)._instantiateFn()
 ,$ctx1.sendIdx["instantiateFn"]=1
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 [$recv(aStream)._write_(["fn: ",[$recv($recv(aMethod)._fn())._compiledSource()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["compiledSource"]=1
@@ -1448,11 +1448,11 @@ $1;
 //>>excludeEnd("ctx");
 ][0];
 $2=$recv(aMethod)._instantiateFn();
-if(($receiver = $2) == null || $receiver.a$nil){
+if($2 == null || $2.a$nil){
 $2;
 } else {
 var ifn;
-ifn=$receiver;
+ifn=$2;
 [$recv(aStream)._write_([", ",$recv(ifn)._compiledSource()])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["write:"]=14
@@ -3558,17 +3558,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 return $recv($globals.Promise)._new_((function(model){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $1=$recv($globals.Smalltalk)._amdRequire();
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $self._error_("AMD loader not present");
 } else {
 var require;
-require=$receiver;
+require=$1;
 return $recv(require)._value_value_value_([[$recv($recv($self._namespaceFor_(aPackage)).__comma("/")).__comma($recv(aPackage)._name())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx[","]=1
@@ -3664,13 +3664,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$recv($globals.Smalltalk)._amdRequire();
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $self._error_("AMD loader not present");
 } else {
 var require;
-require=$receiver;
+require=$1;
 return $recv($recv(require)._provided())._toUrl_(aString);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4088,8 +4088,8 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
-if(($receiver = anObject) == null || $receiver.a$nil){
+var $1;
+if(anObject == null || anObject.a$nil){
 return [$self._for_($self._defaultType())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["for:"]=1
@@ -4187,13 +4187,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=[$recv(aClass)._type()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["type"]=1
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $1;
 } else {
 $recv($self.registry)._at_put_($recv(aClass)._type(),aClass);
@@ -4351,9 +4351,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.namespace;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $self._defaultNamespace();
 } else {
 return $1;

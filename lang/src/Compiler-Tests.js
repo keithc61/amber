@@ -2234,7 +2234,7 @@ var method;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -2261,7 +2261,7 @@ return method;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $1=method;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $1;
 } else {
 return $recv($recv($self.receiver)._class())._removeCompiledMethod_(method);
@@ -3646,7 +3646,7 @@ var method;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -3661,7 +3661,7 @@ return $recv(aBlock)._value_(method);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $1=method;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $1;
 } else {
 return $recv(aClass)._removeCompiledMethod_(method);
@@ -3873,7 +3873,7 @@ var ctx,ast;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$receiver;
+var $1,$2,$3;
 ast=$self._parse_forClass_(aString,aClass);
 $1=[$recv($globals.AIContext)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3885,11 +3885,11 @@ $recv($1)._selector_($recv(ast)._selector());
 $recv($1)._interpreter_($recv($globals.ASTInterpreter)._new());
 ctx=$recv($1)._yourself();
 $2=$recv(ast)._sequenceNode();
-if(($receiver = $2) == null || $receiver.a$nil){
+if($2 == null || $2.a$nil){
 $2;
 } else {
 var sequence;
-sequence=$receiver;
+sequence=$2;
 $recv($recv(sequence)._temps())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {

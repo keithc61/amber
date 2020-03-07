@@ -124,9 +124,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$globals.XMLHttpRequest;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $self._error_("XMLHttpRequest not available.");
 } else {
 return $recv($globals.XMLHttpRequest)._new();

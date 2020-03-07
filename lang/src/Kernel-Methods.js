@@ -843,9 +843,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.args;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return [];
 } else {
 return $1;
@@ -896,7 +896,7 @@ var result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$5,$4,$2,$6,$8,$10,$9,$7,$receiver;
+var $1,$3,$5,$4,$2,$6,$8,$10,$9,$7;
 result=[$recv(aClass)._name()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["name"]=1
@@ -922,7 +922,7 @@ $5=[$self._methodClass()
 ,$ctx1.sendIdx["methodClass"]=2
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $5) == null || $receiver.a$nil){
+if($5 == null || $5.a$nil){
 $4="nil";
 } else {
 $4=[$recv([$self._methodClass()
@@ -971,7 +971,7 @@ $10=[$self._origin()
 ,$ctx1.sendIdx["origin"]=3
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $10) == null || $receiver.a$nil){
+if($10 == null || $10.a$nil){
 $9="nil";
 } else {
 $9=$recv($self._origin())._name();
@@ -1015,9 +1015,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.pragmas;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return [];
 } else {
 return $1;
@@ -1223,7 +1223,7 @@ var superclass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 superclass=[$recv([$self._methodClass()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["methodClass"]=1
@@ -1234,7 +1234,7 @@ superclass=[$recv([$self._methodClass()
 //>>excludeEnd("ctx");
 ][0];
 $1=superclass;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return false;
 } else {
 $1;
@@ -1316,13 +1316,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self._origin();
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $1;
 } else {
 var class_;
-class_=$receiver;
+class_=$1;
 return $recv(class_)._packageOfProtocol_($self._protocol());
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1410,9 +1410,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.protocol;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $self._defaultProtocol();
 } else {
 return $1;
@@ -1440,11 +1440,11 @@ var oldProtocol;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$3,$5,$receiver;
+var $1,$2,$4,$3,$5;
 oldProtocol=$self._protocol();
 $self.protocol=aString;
 $1=oldProtocol;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $1;
 } else {
 $2=$recv($globals.SystemAnnouncer)._current();
@@ -1455,11 +1455,11 @@ $3=$recv($4)._yourself();
 $recv($2)._announce_($3);
 }
 $5=$self._origin();
-if(($receiver = $5) == null || $receiver.a$nil){
+if($5 == null || $5.a$nil){
 $5;
 } else {
 var origin;
-origin=$receiver;
+origin=$5;
 $recv($recv(origin)._organization())._addElement_(aString);
 $recv(origin)._removeProtocolIfEmpty_(oldProtocol);
 }
@@ -1564,9 +1564,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.source;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return "";
 } else {
 return $1;
@@ -1789,9 +1789,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.maxPoolSize;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $self._defaultMaxPoolSize();
 } else {
 return $1;
@@ -1839,9 +1839,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.default;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $self.default=$self._new();
 return $self.default;
 } else {
@@ -2509,9 +2509,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.index;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return (0);
 } else {
 return $1;
@@ -2556,9 +2556,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.outerContext;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $self._home();
 } else {
 return $1;
@@ -2585,9 +2585,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.selector;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $1;
 } else {
 return $recv($recv($globals.Smalltalk)._core())._js2st_($self.selector);
@@ -3318,7 +3318,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $1,$2;
 $1=$self._isBlockContext();
 if($core.assert($1)){
 return [$recv(["a block (in ".__comma($recv($self._methodContext())._asString())
@@ -3332,11 +3332,11 @@ return [$recv(["a block (in ".__comma($recv($self._methodContext())._asString())
 ][0];
 } else {
 $2=$self._method();
-if(($receiver = $2) == null || $receiver.a$nil){
+if($2 == null || $2.a$nil){
 return "missing method ".__comma($recv($self._selector())._symbolPrintString());
 } else {
 var method;
-method=$receiver;
+method=$2;
 return $recv(method)._asStringForClass_($recv($self._receiver())._class());
 }
 }
@@ -3534,13 +3534,13 @@ var method,lookupClass,receiverClass,supercall;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$receiver;
+var $1,$2,$3;
 $1=[$self._methodContext()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["methodContext"]=1
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return nil;
 } else {
 $1;
@@ -3564,11 +3564,11 @@ method=[$recv(receiverClass)._lookupSelector_([$recv([$self._methodContext()
 //>>excludeEnd("ctx");
 ][0];
 $2=$self._outerContext();
-if(($receiver = $2) == null || $receiver.a$nil){
+if($2 == null || $2.a$nil){
 supercall=false;
 } else {
 var outer;
-outer=$receiver;
+outer=$2;
 supercall=$recv(outer)._supercall();
 }
 $3=supercall;
@@ -3599,17 +3599,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $1,$2;
 $1=$self._isBlockContext();
 if(!$core.assert($1)){
 return self;
 }
 $2=$self._outerContext();
-if(($receiver = $2) == null || $receiver.a$nil){
+if($2 == null || $2.a$nil){
 return $2;
 } else {
 var outer;
-outer=$receiver;
+outer=$2;
 return $recv(outer)._methodContext();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

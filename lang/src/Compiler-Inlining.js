@@ -21,17 +21,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$receiver;
+var $1,$2,$3;
 $1=$recv(aNode)._superSend();
 if(!$core.assert($1)){
 $2=$recv($recv($globals.IRSendInliner)._inlinedSelectors())._includes_($recv(aNode)._selector());
 if($core.assert($2)){
 $3=$recv(aNode)._receiver();
-if(($receiver = $3) == null || $receiver.a$nil){
+if($3 == null || $3.a$nil){
 $3;
 } else {
 var receiver;
-receiver=$receiver;
+receiver=$3;
 $recv(receiver)._shouldBeAliased_(true);
 }
 }
@@ -222,77 +222,6 @@ return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor})});
 //>>excludeEnd("ctx");
-}; }),
-$globals.IRInlinedIfNilIfNotNil);
-
-$core.addMethod(
-$core.method({
-selector: "internalVariables",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "internalVariables\x0a\x09^ { self receiverInternalVariable }",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["receiverInternalVariable"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return [$self._receiverInternalVariable()];
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"internalVariables",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IRInlinedIfNilIfNotNil);
-
-$core.addMethod(
-$core.method({
-selector: "receiverInternalVariable",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "receiverInternalVariable\x0a\x09^ IRVariable new\x0a\x09\x09variable: (AliasVar new name: self receiverInternalVariableName);\x0a\x09\x09yourself.",
-referencedClasses: ["IRVariable", "AliasVar"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["variable:", "new", "name:", "receiverInternalVariableName", "yourself"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=[$recv($globals.IRVariable)._new()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["new"]=1
-//>>excludeEnd("ctx");
-][0];
-$recv($1)._variable_($recv($recv($globals.AliasVar)._new())._name_($self._receiverInternalVariableName()));
-return $recv($1)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"receiverInternalVariable",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IRInlinedIfNilIfNotNil);
-
-$core.addMethod(
-$core.method({
-selector: "receiverInternalVariableName",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "receiverInternalVariableName\x0a\x09^ '$receiver'",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return "$receiver";
-
 }; }),
 $globals.IRInlinedIfNilIfNotNil);
 
@@ -947,11 +876,11 @@ selector: "visitIRInlinedIfNilIfNotNil:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRInlinedIfNilIfNotNil"],
-source: "visitIRInlinedIfNilIfNotNil: anIRInlinedIfNilIfNotNil\x0a\x09self stream\x0a\x09\x09nextPutIf: [\x0a\x09\x09\x09| recvVarName |\x0a\x09\x09\x09recvVarName := anIRInlinedIfNilIfNotNil receiverInternalVariableName.\x0a\x09\x09\x09self stream nextPutAll: '(', recvVarName, ' = '.\x0a\x09\x09\x09self visit: anIRInlinedIfNilIfNotNil dagChildren first.\x0a\x09\x09\x09self stream nextPutAll: ') == null || ', recvVarName, '.a$nil' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfNilIfNotNil dagChildren second ]\x0a\x09\x09else: [ self visit: anIRInlinedIfNilIfNotNil dagChildren third ]",
+source: "visitIRInlinedIfNilIfNotNil: anIRInlinedIfNilIfNotNil\x0a\x09self stream\x0a\x09\x09nextPutIf: [\x0a\x09\x09\x09self visit: anIRInlinedIfNilIfNotNil dagChildren first.\x0a\x09\x09\x09self stream nextPutAll: ' == null || '.\x0a\x09\x09\x09self visit: anIRInlinedIfNilIfNotNil dagChildren first.\x0a\x09\x09\x09self stream nextPutAll: '.a$nil' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfNilIfNotNil dagChildren second ]\x0a\x09\x09else: [ self visit: anIRInlinedIfNilIfNotNil dagChildren third ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["nextPutIf:then:else:", "stream", "receiverInternalVariableName", "nextPutAll:", ",", "visit:", "first", "dagChildren", "second", "third"]
+messageSends: ["nextPutIf:then:else:", "stream", "visit:", "first", "dagChildren", "nextPutAll:", "second", "third"]
 }, function ($methodClass){ return function (anIRInlinedIfNilIfNotNil){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -962,44 +891,43 @@ $recv([$self._stream()
 ,$ctx1.sendIdx["stream"]=1
 //>>excludeEnd("ctx");
 ][0])._nextPutIf_then_else_((function(){
-var recvVarName;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-recvVarName=$recv(anIRInlinedIfNilIfNotNil)._receiverInternalVariableName();
+[$self._visit_([$recv([$recv(anIRInlinedIfNilIfNotNil)._dagChildren()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["dagChildren"]=1
+//>>excludeEnd("ctx");
+][0])._first()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["first"]=1
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["visit:"]=1
+//>>excludeEnd("ctx");
+][0];
 [$recv([$self._stream()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["stream"]=2
 //>>excludeEnd("ctx");
-][0])._nextPutAll_([$recv(["(".__comma(recvVarName)
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx[","]=2
-//>>excludeEnd("ctx");
-][0]).__comma(" = ")
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx[","]=1
-//>>excludeEnd("ctx");
-][0])
+][0])._nextPutAll_(" == null || ")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["nextPutAll:"]=1
 //>>excludeEnd("ctx");
 ][0];
 [$self._visit_($recv([$recv(anIRInlinedIfNilIfNotNil)._dagChildren()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["dagChildren"]=1
+,$ctx2.sendIdx["dagChildren"]=2
 //>>excludeEnd("ctx");
 ][0])._first())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["visit:"]=1
+,$ctx2.sendIdx["visit:"]=2
 //>>excludeEnd("ctx");
 ][0];
-return $recv($self._stream())._nextPutAll_([$recv(") == null || ".__comma(recvVarName)).__comma(".a$nil")
+return $recv($self._stream())._nextPutAll_(".a$nil");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx[","]=3
-//>>excludeEnd("ctx");
-][0]);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({recvVarName:recvVarName},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
 }),(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1007,11 +935,11 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 return [$self._visit_($recv([$recv(anIRInlinedIfNilIfNotNil)._dagChildren()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["dagChildren"]=2
+,$ctx2.sendIdx["dagChildren"]=3
 //>>excludeEnd("ctx");
 ][0])._second())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["visit:"]=2
+,$ctx2.sendIdx["visit:"]=3
 //>>excludeEnd("ctx");
 ][0];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1419,18 +1347,18 @@ selector: "inlineClosure:",
 protocol: "inlining",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRClosure"],
-source: "inlineClosure: anIRClosure\x0a\x09| inlinedClosure sequence statements |\x0a\x0a\x09inlinedClosure := self inlinedClosure.\x0a\x09inlinedClosure \x0a\x09\x09scope: anIRClosure scope;\x0a\x09\x09parent: anIRClosure parent.\x0a\x0a\x09\x22Add the possible temp declarations\x22\x0a\x09anIRClosure tempDeclarations do: [ :each |\x0a\x09\x09\x09inlinedClosure add: each ].\x0a\x0a\x09\x22Add a block sequence\x22\x0a\x09sequence := self inlinedSequence.\x0a\x0a\x09\x22Map the closure arguments to the receiver of the message send\x22\x0a\x09anIRClosure arguments do: [ :each |\x0a\x09\x09inlinedClosure add: (IRTempDeclaration new name: each; yourself).\x0a\x09\x09sequence add: (IRAssignment new\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: each; yourself));\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: '$receiver'; yourself));\x0a\x09\x09\x09yourself) ].\x0a\x09\x09\x09\x0a\x09\x22To ensure the correct order of the closure instructions: first the temps then the sequence\x22\x0a\x09inlinedClosure add: sequence.\x0a\x0a\x09\x22Get all the statements\x22\x0a\x09statements := anIRClosure sequence dagChildren.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements allButLast do: [ :each | sequence add: each ].\x0a\x0a\x09\x09\x22Inlined closures change local returns into result value itself\x22\x0a\x09\x09sequence add: statements last asInlinedBlockResult ].\x0a\x0a\x09^ inlinedClosure",
+source: "inlineClosure: anIRClosure\x0a\x09| inlinedClosure sequence statements |\x0a\x0a\x09inlinedClosure := self inlinedClosure.\x0a\x09inlinedClosure \x0a\x09\x09scope: anIRClosure scope;\x0a\x09\x09parent: anIRClosure parent.\x0a\x0a\x09\x22Add the possible temp declarations\x22\x0a\x09anIRClosure tempDeclarations do: [ :each |\x0a\x09\x09\x09inlinedClosure add: each ].\x0a\x0a\x09\x22Add a block sequence\x22\x0a\x09sequence := self inlinedSequence.\x0a\x0a\x09\x22Map the closure arguments to the receiver of the message send\x22\x0a\x09anIRClosure arguments do: [ :each |\x0a\x09\x09inlinedClosure add: (IRTempDeclaration new name: each; yourself).\x0a\x09\x09sequence add: (IRAssignment new\x0a\x09\x09\x09add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: each; yourself));\x0a\x09\x09\x09add: self send receiver;\x0a\x09\x09\x09yourself) ].\x0a\x09\x09\x09\x0a\x09\x22To ensure the correct order of the closure instructions: first the temps then the sequence\x22\x0a\x09inlinedClosure add: sequence.\x0a\x0a\x09\x22Get all the statements\x22\x0a\x09statements := anIRClosure sequence dagChildren.\x0a\x09\x0a\x09statements ifNotEmpty: [\x0a\x09\x09statements allButLast do: [ :each | sequence add: each ].\x0a\x0a\x09\x09\x22Inlined closures change local returns into result value itself\x22\x0a\x09\x09sequence add: statements last asInlinedBlockResult ].\x0a\x0a\x09^ inlinedClosure",
 referencedClasses: ["IRTempDeclaration", "IRAssignment", "IRVariable", "AliasVar"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["inlinedClosure", "scope:", "scope", "parent:", "parent", "do:", "tempDeclarations", "add:", "inlinedSequence", "arguments", "name:", "new", "yourself", "variable:", "dagChildren", "sequence", "ifNotEmpty:", "allButLast", "asInlinedBlockResult", "last"]
+messageSends: ["inlinedClosure", "scope:", "scope", "parent:", "parent", "do:", "tempDeclarations", "add:", "inlinedSequence", "arguments", "name:", "new", "yourself", "variable:", "receiver", "send", "dagChildren", "sequence", "ifNotEmpty:", "allButLast", "asInlinedBlockResult", "last"]
 }, function ($methodClass){ return function (anIRClosure){
 var self=this,$self=this;
 var inlinedClosure,sequence,statements;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$3,$5,$7,$9,$11,$10,$8,$13,$15,$14,$12,$6;
+var $1,$2,$4,$3,$5,$7,$9,$11,$10,$8,$6;
 inlinedClosure=$self._inlinedClosure();
 $1=inlinedClosure;
 [$recv($1)._scope_([$recv(anIRClosure)._scope()
@@ -1497,55 +1425,21 @@ $9=[$recv($globals.IRVariable)._new()
 ,$ctx2.sendIdx["new"]=3
 //>>excludeEnd("ctx");
 ][0];
-$11=[$recv($globals.AliasVar)._new()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["new"]=4
-//>>excludeEnd("ctx");
-][0];
-[$recv($11)._scope_([$recv(inlinedClosure)._scope()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["scope"]=2
-//>>excludeEnd("ctx");
-][0])
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["scope:"]=2
-//>>excludeEnd("ctx");
-][0];
-[$recv($11)._name_(each)
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["name:"]=2
-//>>excludeEnd("ctx");
-][0];
+$11=$recv($globals.AliasVar)._new();
+$recv($11)._scope_($recv(inlinedClosure)._scope());
+$recv($11)._name_(each);
 $10=[$recv($11)._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["yourself"]=2
 //>>excludeEnd("ctx");
 ][0];
-$8=[$recv($9)._variable_($10)
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["variable:"]=1
-//>>excludeEnd("ctx");
-][0];
+$8=$recv($9)._variable_($10);
 [$recv($7)._add_($8)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["add:"]=4
 //>>excludeEnd("ctx");
 ][0];
-$13=[$recv($globals.IRVariable)._new()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["new"]=5
-//>>excludeEnd("ctx");
-][0];
-$15=$recv($globals.AliasVar)._new();
-$recv($15)._scope_($recv(inlinedClosure)._scope());
-$recv($15)._name_("$receiver");
-$14=[$recv($15)._yourself()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["yourself"]=3
-//>>excludeEnd("ctx");
-][0];
-$12=$recv($13)._variable_($14);
-[$recv($7)._add_($12)
+[$recv($7)._add_($recv($self._send())._receiver())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["add:"]=5
 //>>excludeEnd("ctx");
@@ -2374,9 +2268,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$receiver;
+var $1,$2;
 $1=$self.transformersDictionary;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $2=[(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,

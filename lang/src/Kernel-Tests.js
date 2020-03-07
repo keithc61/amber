@@ -2020,10 +2020,10 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $self._tearDownTheClass();
 $1=$self.theClass;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $1;
 } else {
 $self._deny_($recv($recv($recv($self.theClass)._package())._classes())._includes_($self.theClass));
@@ -14651,7 +14651,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $3,$2,$1,$5,$4,$7,$6,$9,$8,$receiver;
+var $3,$2,$1,$5,$4,$7,$6,$9,$8;
 [$self._deny_($recv([$recv($globals.Object)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["new"]=1
@@ -14666,7 +14666,7 @@ $3=[$recv($globals.Object)._new()
 ,$ctx1.sendIdx["new"]=2
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $3) == null || $receiver.a$nil){
+if($3 == null || $3.a$nil){
 $2=true;
 } else {
 $2=$3;
@@ -14678,7 +14678,7 @@ $5=[$recv($globals.Object)._new()
 ,$ctx1.sendIdx["new"]=3
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $5) == null || $receiver.a$nil){
+if($5 == null || $5.a$nil){
 $4=$5;
 } else {
 $4=true;
@@ -14693,7 +14693,7 @@ $7=[$recv($globals.Object)._new()
 ,$ctx1.sendIdx["new"]=4
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = $7) == null || $receiver.a$nil){
+if($7 == null || $7.a$nil){
 $6=false;
 } else {
 $6=true;
@@ -14704,7 +14704,7 @@ $6=true;
 //>>excludeEnd("ctx");
 ][0];
 $9=$recv($globals.Object)._new();
-if(($receiver = $9) == null || $receiver.a$nil){
+if($9 == null || $9.a$nil){
 $8=false;
 } else {
 $8=true;
@@ -16619,13 +16619,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self._theClass();
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $1;
 } else {
 var theClass;
-theClass=$receiver;
+theClass=$1;
 $recv($recv($globals.Array)._streamContents_((function(s){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -17391,8 +17391,8 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2,$4,$6,$5,$receiver;
-if(($receiver = nil) == null || $receiver.a$nil){
+var $1,$3,$2,$4,$6,$5;
+if(nil == null || nil.a$nil){
 $1=true;
 } else {
 $1=nil;
@@ -17402,7 +17402,7 @@ $1=nil;
 ,$ctx1.sendIdx["assert:equals:"]=1
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = nil) == null || $receiver.a$nil){
+if(nil == null || nil.a$nil){
 $3=nil;
 } else {
 $3=true;
@@ -17417,13 +17417,13 @@ $2=[$recv($3).__eq(true)
 ,$ctx1.sendIdx["deny:"]=1
 //>>excludeEnd("ctx");
 ][0];
-if(($receiver = nil) == null || $receiver.a$nil){
+if(nil == null || nil.a$nil){
 $4=true;
 } else {
 $4=false;
 }
 $self._assert_equals_($4,true);
-if(($receiver = nil) == null || $receiver.a$nil){
+if(nil == null || nil.a$nil){
 $6=false;
 } else {
 $6=true;

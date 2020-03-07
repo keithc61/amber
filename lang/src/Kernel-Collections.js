@@ -7423,10 +7423,10 @@ var bucket;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 bucket=$self._bucketsOfElement_(anObject);
 $1=$recv(bucket)._second();
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 var object,slowBucket;
 object=[$recv(bucket)._first()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -7448,7 +7448,7 @@ return $self.size;
 return object;
 } else {
 var primitiveBucket;
-primitiveBucket=$receiver;
+primitiveBucket=$1;
 return $self._add_in_($recv(bucket)._first(),primitiveBucket);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -7634,10 +7634,10 @@ var bucket;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 bucket=$self._bucketsOfElement_(anObject);
 $1=$recv(bucket)._second();
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 return $recv($recv(bucket)._third())._includes_([$recv(bucket)._first()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["first"]=1
@@ -7645,7 +7645,7 @@ return $recv($recv(bucket)._third())._includes_([$recv(bucket)._first()
 ][0]);
 } else {
 var primitiveBucket;
-primitiveBucket=$receiver;
+primitiveBucket=$1;
 return $self._includes_in_($recv(bucket)._first(),primitiveBucket);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -7857,12 +7857,12 @@ var bucket;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 var $early={};
 try {
 bucket=$self._bucketsOfElement_(anObject);
 $1=$recv(bucket)._second();
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 var obj;
 obj=[$recv(bucket)._first()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -7882,7 +7882,7 @@ $self.size=$recv($self.size).__minus((1));
 return obj;
 } else {
 var primitiveBucket;
-primitiveBucket=$receiver;
+primitiveBucket=$1;
 return $self._remove_in_ifAbsent_($recv(bucket)._first(),primitiveBucket,aBlock);
 }
 }
@@ -8814,9 +8814,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$receiver;
+var $1;
 $1=$self.position;
-if(($receiver = $1) == null || $receiver.a$nil){
+if($1 == null || $1.a$nil){
 $self.position=(0);
 return $self.position;
 } else {
