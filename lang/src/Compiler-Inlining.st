@@ -380,7 +380,7 @@ inlineClosure: anIRClosure
 	anIRClosure arguments do: [ :each |
 		inlinedClosure add: (IRTempDeclaration new name: each; yourself).
 		sequence add: (IRAssignment new
-			add: (IRVariable new variable: (AliasVar new scope: inlinedClosure scope; name: each; yourself));
+			add: (IRVariable new variable: (ArgVar new scope: inlinedClosure scope; name: each; yourself));
 			add: self send receiver;
 			yourself) ].
 			
