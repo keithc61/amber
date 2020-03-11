@@ -1,6 +1,6 @@
 Smalltalk createPackage: 'Compiler-IR'!
 NodeVisitor subclass: #IRASTTranslator
-	slots: {#source. #theClass. #method. #sequence. #nextAlias}
+	slots: {#source. #theClass. #method. #sequence}
 	package: 'Compiler-IR'!
 !IRASTTranslator commentStamp!
 I am the AST (abstract syntax tree) visitor responsible for building the intermediate representation graph.!
@@ -13,12 +13,6 @@ method
 
 method: anIRMethod
 	method := anIRMethod
-!
-
-nextAlias
-	nextAlias ifNil: [ nextAlias := 0 ].
-	nextAlias := nextAlias + 1.
-	^ nextAlias asString
 !
 
 sequence
@@ -69,7 +63,7 @@ alias: anExpressionNode
 	anExpressionNode isIdempotent ifTrue: [ ^ self visit: anExpressionNode ].
 
 	variable := IRVariable new
-		variable: (AliasVar new name: '$', self nextAlias);
+		variable: self method aliasFactory next;
 		yourself.
 
 	self addToSequence: (IRAssignment new
@@ -256,6 +250,26 @@ visitVariableNode: aNode
 	^ IRVariable new
 		variable: aNode binding;
 		yourself
+! !
+
+Object subclass: #IRAliasFactory
+	slots: {#counter}
+	package: 'Compiler-IR'!
+
+!IRAliasFactory methodsFor: 'accessing'!
+
+next
+	counter := counter + 1.
+	^ AliasVar new
+		name: '$', counter asString;
+		yourself
+! !
+
+!IRAliasFactory methodsFor: 'initialization'!
+
+initialize
+	super initialize.
+	counter := 0
 ! !
 
 DagParentNode subclass: #IRInstruction
@@ -477,12 +491,16 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRClosureInstruction subclass: #IRMethod
-	slots: {#theClass. #source. #compiledSource. #attachments. #selector. #pragmas. #classReferences. #sendIndexes. #internalVariables}
+	slots: {#theClass. #source. #compiledSource. #attachments. #selector. #pragmas. #classReferences. #sendIndexes. #internalVariables. #aliasFactory}
 	package: 'Compiler-IR'!
 !IRMethod commentStamp!
 I am a method instruction!
 
 !IRMethod methodsFor: 'accessing'!
+
+aliasFactory
+	^ aliasFactory ifNil: [ aliasFactory := IRAliasFactory new ]
+!
 
 attachments
 	^ attachments ifNil: [ attachments := #{} ]

@@ -4,7 +4,7 @@ var $pkg = $core.addPackage("Compiler-IR");
 $pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("IRASTTranslator", $globals.NodeVisitor, ["source", "theClass", "method", "sequence", "nextAlias"], "Compiler-IR");
+$core.addClass("IRASTTranslator", $globals.NodeVisitor, ["source", "theClass", "method", "sequence"], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRASTTranslator.comment="I am the AST (abstract syntax tree) visitor responsible for building the intermediate representation graph.";
 //>>excludeEnd("ide");
@@ -46,11 +46,11 @@ selector: "alias:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anExpressionNode"],
-source: "alias: anExpressionNode\x0a\x09| variable |\x0a\x0a\x09anExpressionNode isIdempotent ifTrue: [ ^ self visit: anExpressionNode ].\x0a\x0a\x09variable := IRVariable new\x0a\x09\x09variable: (AliasVar new name: '$', self nextAlias);\x0a\x09\x09yourself.\x0a\x0a\x09self addToSequence: (IRAssignment new\x0a\x09\x09add: variable;\x0a\x09\x09add: (self visit: anExpressionNode);\x0a\x09\x09yourself).\x0a\x0a\x09self method internalVariables add: variable.\x0a\x0a\x09^ variable",
-referencedClasses: ["IRVariable", "AliasVar", "IRAssignment"],
+source: "alias: anExpressionNode\x0a\x09| variable |\x0a\x0a\x09anExpressionNode isIdempotent ifTrue: [ ^ self visit: anExpressionNode ].\x0a\x0a\x09variable := IRVariable new\x0a\x09\x09variable: self method aliasFactory next;\x0a\x09\x09yourself.\x0a\x0a\x09self addToSequence: (IRAssignment new\x0a\x09\x09add: variable;\x0a\x09\x09add: (self visit: anExpressionNode);\x0a\x09\x09yourself).\x0a\x0a\x09self method internalVariables add: variable.\x0a\x0a\x09^ variable",
+referencedClasses: ["IRVariable", "IRAssignment"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:", "isIdempotent", "visit:", "variable:", "new", "name:", ",", "nextAlias", "yourself", "addToSequence:", "add:", "internalVariables", "method"]
+messageSends: ["ifTrue:", "isIdempotent", "visit:", "variable:", "new", "next", "aliasFactory", "method", "yourself", "addToSequence:", "add:", "internalVariables"]
 }, function ($methodClass){ return function (anExpressionNode){
 var self=this,$self=this;
 var variable;
@@ -71,11 +71,11 @@ $2=[$recv($globals.IRVariable)._new()
 ,$ctx1.sendIdx["new"]=1
 //>>excludeEnd("ctx");
 ][0];
-$recv($2)._variable_($recv([$recv($globals.AliasVar)._new()
+$recv($2)._variable_($recv($recv([$self._method()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["new"]=2
+,$ctx1.sendIdx["method"]=1
 //>>excludeEnd("ctx");
-][0])._name_("$".__comma($self._nextAlias())));
+][0])._aliasFactory())._next());
 variable=[$recv($2)._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=1
@@ -198,38 +198,6 @@ var self=this,$self=this;
 $self.method=anIRMethod;
 return self;
 
-}; }),
-$globals.IRASTTranslator);
-
-$core.addMethod(
-$core.method({
-selector: "nextAlias",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "nextAlias\x0a\x09nextAlias ifNil: [ nextAlias := 0 ].\x0a\x09nextAlias := nextAlias + 1.\x0a\x09^ nextAlias asString",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifNil:", "+", "asString"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$self.nextAlias;
-if($1 == null || $1.a$nil){
-$self.nextAlias=(0);
-$self.nextAlias;
-} else {
-$1;
-}
-$self.nextAlias=$recv($self.nextAlias).__plus((1));
-return $recv($self.nextAlias)._asString();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nextAlias",{})});
-//>>excludeEnd("ctx");
 }; }),
 $globals.IRASTTranslator);
 
@@ -1122,6 +1090,69 @@ $globals.IRASTTranslator);
 
 
 
+$core.addClass("IRAliasFactory", $globals.Object, ["counter"], "Compiler-IR");
+$core.addMethod(
+$core.method({
+selector: "initialize",
+protocol: "initialization",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "initialize\x0a\x09super initialize.\x0a\x09counter := 0",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["initialize"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+[(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._initialize.call($self))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.supercall = false
+//>>excludeEnd("ctx");
+][0];
+$self.counter=(0);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"initialize",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.IRAliasFactory);
+
+$core.addMethod(
+$core.method({
+selector: "next",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "next\x0a\x09counter := counter + 1.\x0a\x09^ AliasVar new\x0a\x09\x09name: '$', counter asString;\x0a\x09\x09yourself",
+referencedClasses: ["AliasVar"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["+", "name:", "new", ",", "asString", "yourself"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$self.counter=$recv($self.counter).__plus((1));
+$1=$recv($globals.AliasVar)._new();
+$recv($1)._name_("$".__comma($recv($self.counter)._asString()));
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"next",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.IRAliasFactory);
+
+
+
 $core.addClass("IRInstruction", $globals.DagParentNode, ["parent"], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInstruction.comment="I am the abstract root class of the IR (intermediate representation) instructions class hierarchy.\x0aThe IR graph is used to emit JavaScript code using a JSStream.";
@@ -1974,7 +2005,7 @@ $globals.IRClosure);
 
 
 
-$core.addClass("IRMethod", $globals.IRClosureInstruction, ["theClass", "source", "compiledSource", "attachments", "selector", "pragmas", "classReferences", "sendIndexes", "internalVariables"], "Compiler-IR");
+$core.addClass("IRMethod", $globals.IRClosureInstruction, ["theClass", "source", "compiledSource", "attachments", "selector", "pragmas", "classReferences", "sendIndexes", "internalVariables", "aliasFactory"], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRMethod.comment="I am a method instruction";
 //>>excludeEnd("ide");
@@ -1997,6 +2028,36 @@ return $core.withContext(function($ctx1) {
 return $recv(aVisitor)._visitIRMethod_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.IRMethod);
+
+$core.addMethod(
+$core.method({
+selector: "aliasFactory",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "aliasFactory\x0a\x09^ aliasFactory ifNil: [ aliasFactory := IRAliasFactory new ]",
+referencedClasses: ["IRAliasFactory"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNil:", "new"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$self.aliasFactory;
+if($1 == null || $1.a$nil){
+$self.aliasFactory=$recv($globals.IRAliasFactory)._new();
+return $self.aliasFactory;
+} else {
+return $1;
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"aliasFactory",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.IRMethod);
