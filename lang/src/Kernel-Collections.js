@@ -6337,7 +6337,7 @@ var lineCount;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1;
+var $1,$2;
 var $early={};
 try {
 lineCount=(0);
@@ -6346,9 +6346,9 @@ $self._lineIndicesDo_((function(start,endWithoutDelimiters,end){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 lineCount=$recv(lineCount).__plus((1));
-$2=lineCount;
-$1=$recv($2).__eq(anIndex);
-if($core.assert($1)){
+$1=lineCount;
+$2=$recv($1).__eq(anIndex);
+if($core.assert($2)){
 throw $early=[$self._copyFrom_to_(start,endWithoutDelimiters)];
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

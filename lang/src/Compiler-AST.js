@@ -2542,7 +2542,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2;
+var $1,$2,$3;
 $recv($recv([$recv([$self._methodNode()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["methodNode"]=1
@@ -2561,10 +2561,10 @@ return $recv($globals.CompilerError)._signal_("There must be no other code or co
 //>>excludeEnd("ctx");
 }));
 $1=$recv($self._methodNode())._sequenceNode();
-$3=$recv($globals.JSStatementNode)._new();
-$recv($3)._source_(aString);
-$2=$recv($3)._yourself();
-$recv($1)._addDagChild_($2);
+$2=$recv($globals.JSStatementNode)._new();
+$recv($2)._source_(aString);
+$3=$recv($2)._yourself();
+$recv($1)._addDagChild_($3);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"inlineJS:",{aString:aString})});

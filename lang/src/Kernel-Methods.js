@@ -896,7 +896,7 @@ var result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$5,$4,$2,$6,$8,$10,$9,$7;
+var $1,$2,$3,$4,$5,$6,$7,$8,$9,$10;
 result=[$recv(aClass)._name()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["name"]=1
@@ -912,17 +912,17 @@ $1=[$recv([$self._methodClass()
 //>>excludeEnd("ctx");
 ][0];
 if(!$core.assert($1)){
-$3=[$recv(result).__comma(" (")
+$2=[$recv(result).__comma(" (")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=3
 //>>excludeEnd("ctx");
 ][0];
-$5=[$self._methodClass()
+$3=[$self._methodClass()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["methodClass"]=2
 //>>excludeEnd("ctx");
 ][0];
-if($5 == null || $5.a$nil){
+if($3 == null || $3.a$nil){
 $4="nil";
 } else {
 $4=[$recv([$self._methodClass()
@@ -935,12 +935,12 @@ $4=[$recv([$self._methodClass()
 //>>excludeEnd("ctx");
 ][0];
 }
-$2=[$recv($3).__comma($4)
+$5=[$recv($2).__comma($4)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=2
 //>>excludeEnd("ctx");
 ][0];
-result=[$recv($2).__comma(")")
+result=[$recv($5).__comma(")")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=1
 //>>excludeEnd("ctx");
@@ -961,27 +961,27 @@ $6=$recv([$recv([$self._origin()
 //>>excludeEnd("ctx");
 ][0]).__eq($self._methodClass()));
 if(!$core.assert($6)){
-$8=[$recv(result).__comma(" /")
+$7=[$recv(result).__comma(" /")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=6
 //>>excludeEnd("ctx");
 ][0];
-$10=[$self._origin()
+$8=[$self._origin()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["origin"]=3
 //>>excludeEnd("ctx");
 ][0];
-if($10 == null || $10.a$nil){
+if($8 == null || $8.a$nil){
 $9="nil";
 } else {
 $9=$recv($self._origin())._name();
 }
-$7=[$recv($8).__comma($9)
+$10=[$recv($7).__comma($9)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=5
 //>>excludeEnd("ctx");
 ][0];
-result=[$recv($7).__comma("/")
+result=[$recv($10).__comma("/")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=4
 //>>excludeEnd("ctx");
@@ -1440,7 +1440,7 @@ var oldProtocol;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$3,$5;
+var $1,$2,$3,$4,$5;
 oldProtocol=$self._protocol();
 $self.protocol=aString;
 $1=oldProtocol;
@@ -1448,11 +1448,11 @@ if($1 == null || $1.a$nil){
 $1;
 } else {
 $2=$recv($globals.SystemAnnouncer)._current();
-$4=$recv($globals.MethodMoved)._new();
-$recv($4)._method_(self);
-$recv($4)._oldProtocol_(oldProtocol);
-$3=$recv($4)._yourself();
-$recv($2)._announce_($3);
+$3=$recv($globals.MethodMoved)._new();
+$recv($3)._method_(self);
+$recv($3)._oldProtocol_(oldProtocol);
+$4=$recv($3)._yourself();
+$recv($2)._announce_($4);
 }
 $5=$self._origin();
 if($5 == null || $5.a$nil){

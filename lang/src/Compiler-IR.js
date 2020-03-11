@@ -46,18 +46,18 @@ selector: "alias:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anExpressionNode"],
-source: "alias: anExpressionNode\x0a\x09| variable |\x0a\x0a\x09anExpressionNode isIdempotent ifTrue: [ ^ self visit: anExpressionNode ].\x0a\x0a\x09variable := IRVariable new\x0a\x09\x09variable: self method aliasFactory next;\x0a\x09\x09yourself.\x0a\x0a\x09self addToSequence: (IRAssignment new\x0a\x09\x09add: variable;\x0a\x09\x09add: (self visit: anExpressionNode);\x0a\x09\x09yourself).\x0a\x0a\x09self method internalVariables add: variable.\x0a\x0a\x09^ variable",
-referencedClasses: ["IRVariable", "IRAssignment"],
+source: "alias: anExpressionNode\x0a\x09| assignment |\x0a\x0a\x09anExpressionNode isIdempotent ifTrue: [ ^ self visit: anExpressionNode ].\x0a\x0a\x09assignment := self method newAliasingOf: (self visit: anExpressionNode).\x0a\x09self addToSequence: assignment.\x0a\x0a\x09^ assignment left",
+referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:", "isIdempotent", "visit:", "variable:", "new", "next", "aliasFactory", "method", "yourself", "addToSequence:", "add:", "internalVariables"]
+messageSends: ["ifTrue:", "isIdempotent", "visit:", "newAliasingOf:", "method", "addToSequence:", "left"]
 }, function ($methodClass){ return function (anExpressionNode){
 var self=this,$self=this;
-var variable;
+var assignment;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$3;
+var $1;
 $1=$recv(anExpressionNode)._isIdempotent();
 if($core.assert($1)){
 return [$self._visit_(anExpressionNode)
@@ -66,38 +66,11 @@ return [$self._visit_(anExpressionNode)
 //>>excludeEnd("ctx");
 ][0];
 }
-$2=[$recv($globals.IRVariable)._new()
+assignment=$recv($self._method())._newAliasingOf_($self._visit_(anExpressionNode));
+$self._addToSequence_(assignment);
+return $recv(assignment)._left();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["new"]=1
-//>>excludeEnd("ctx");
-][0];
-$recv($2)._variable_($recv($recv([$self._method()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["method"]=1
-//>>excludeEnd("ctx");
-][0])._aliasFactory())._next());
-variable=[$recv($2)._yourself()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["yourself"]=1
-//>>excludeEnd("ctx");
-][0];
-$4=$recv($globals.IRAssignment)._new();
-[$recv($4)._add_(variable)
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["add:"]=1
-//>>excludeEnd("ctx");
-][0];
-[$recv($4)._add_($self._visit_(anExpressionNode))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["add:"]=2
-//>>excludeEnd("ctx");
-][0];
-$3=$recv($4)._yourself();
-$self._addToSequence_($3);
-$recv($recv($self._method())._internalVariables())._add_(variable);
-return variable;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"alias:",{anExpressionNode:anExpressionNode,variable:variable})});
+}, function($ctx1) {$ctx1.fill(self,"alias:",{anExpressionNode:anExpressionNode,assignment:assignment})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.IRASTTranslator);
@@ -329,22 +302,22 @@ var left,right,assignment;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1;
+var $1,$2;
 right=[$self._visit_($recv(aNode)._right())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["visit:"]=1
 //>>excludeEnd("ctx");
 ][0];
 left=$self._visit_($recv(aNode)._left());
-$2=$recv($globals.IRAssignment)._new();
-[$recv($2)._add_(left)
+$1=$recv($globals.IRAssignment)._new();
+[$recv($1)._add_(left)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["add:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$recv($2)._add_(right);
-$1=$recv($2)._yourself();
-$self._addToSequence_($1);
+$recv($1)._add_(right);
+$2=$recv($1)._yourself();
+$self._addToSequence_($2);
 return left;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitAssignmentNode:",{aNode:aNode,left:left,right:right,assignment:assignment})});
@@ -369,7 +342,7 @@ var closure;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$3;
+var $1,$2,$3,$4;
 $1=[$recv($globals.IRClosure)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["new"]=1
@@ -400,11 +373,11 @@ $recv($recv([$recv(aNode)._scope()
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $2=closure;
-$4=$recv($globals.IRTempDeclaration)._new();
-$recv($4)._name_($recv(each)._name());
-$recv($4)._scope_($recv(aNode)._scope());
-$3=$recv($4)._yourself();
-return [$recv($2)._add_($3)
+$3=$recv($globals.IRTempDeclaration)._new();
+$recv($3)._name_($recv(each)._name());
+$recv($3)._scope_($recv(aNode)._scope());
+$4=$recv($3)._yourself();
+return [$recv($2)._add_($4)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["add:"]=1
 //>>excludeEnd("ctx");
@@ -437,7 +410,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2;
+var $1,$2,$3;
 return $self._withSequence_do_([$recv($globals.IRBlockSequence)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["new"]=1
@@ -487,8 +460,8 @@ $1=$recv([$recv([$recv(aNode)._dagChildren()
 if($core.assert($1)){
 return $self._addToSequence_($self._visit_($recv($recv(aNode)._dagChildren())._last()));
 } else {
-$3=$recv($globals.IRBlockReturn)._new();
-$recv($3)._add_($self._visitOrAlias_([$recv([$recv(aNode)._dagChildren()
+$2=$recv($globals.IRBlockReturn)._new();
+$recv($2)._add_($self._visitOrAlias_([$recv([$recv(aNode)._dagChildren()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx3.sendIdx["dagChildren"]=4
 //>>excludeEnd("ctx");
@@ -497,8 +470,8 @@ $recv($3)._add_($self._visitOrAlias_([$recv([$recv(aNode)._dagChildren()
 ,$ctx3.sendIdx["last"]=2
 //>>excludeEnd("ctx");
 ][0]));
-$2=$recv($3)._yourself();
-return [$self._addToSequence_($2)
+$3=$recv($2)._yourself();
+return [$self._addToSequence_($3)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx3.sendIdx["addToSequence:"]=2
 //>>excludeEnd("ctx");
@@ -691,13 +664,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$3,$1,$4,$6,$5,$7,$8,$10,$12,$11,$9,$14,$13;
-$2=[$recv($globals.IRMethod)._new()
+var $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14;
+$1=[$recv($globals.IRMethod)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["new"]=1
 //>>excludeEnd("ctx");
 ][0];
-[$recv($2)._source_([$recv($self._source())._crlfSanitized()
+[$recv($1)._source_([$recv($self._source())._crlfSanitized()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["crlfSanitized"]=1
 //>>excludeEnd("ctx");
@@ -706,7 +679,7 @@ $2=[$recv($globals.IRMethod)._new()
 ,$ctx1.sendIdx["source:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$recv($2)._pragmas_([$recv($recv(aNode)._pragmas())._collect_((function(each){
+$recv($1)._pragmas_([$recv($recv(aNode)._pragmas())._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -722,8 +695,8 @@ return $recv($globals.Message)._selector_arguments_([$recv(each)._selector()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-$3=$recv(eachArg)._isString();
-if($core.assert($3)){
+$2=$recv(eachArg)._isString();
+if($core.assert($2)){
 return $recv(eachArg)._crlfSanitized();
 } else {
 return eachArg;
@@ -740,13 +713,13 @@ return eachArg;
 ,$ctx1.sendIdx["collect:"]=1
 //>>excludeEnd("ctx");
 ][0]);
-$recv($2)._theClass_($self._theClass());
-$recv($2)._arguments_($recv(aNode)._arguments());
-$recv($2)._selector_($recv(aNode)._selector());
-$recv($2)._sendIndexes_($recv(aNode)._sendIndexes());
-$recv($2)._requiresSmalltalkContext_($recv(aNode)._requiresSmalltalkContext());
-$recv($2)._classReferences_($recv(aNode)._classReferences());
-[$recv($2)._scope_([$recv(aNode)._scope()
+$recv($1)._theClass_($self._theClass());
+$recv($1)._arguments_($recv(aNode)._arguments());
+$recv($1)._selector_($recv(aNode)._selector());
+$recv($1)._sendIndexes_($recv(aNode)._sendIndexes());
+$recv($1)._requiresSmalltalkContext_($recv(aNode)._requiresSmalltalkContext());
+$recv($1)._classReferences_($recv(aNode)._classReferences());
+[$recv($1)._scope_([$recv(aNode)._scope()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["scope"]=1
 //>>excludeEnd("ctx");
@@ -755,12 +728,12 @@ $recv($2)._classReferences_($recv(aNode)._classReferences());
 ,$ctx1.sendIdx["scope:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$1=[$recv($2)._yourself()
+$3=[$recv($1)._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=1
 //>>excludeEnd("ctx");
 ][0];
-$self._method_($1);
+$self._method_($3);
 $recv($recv([$recv(aNode)._scope()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["scope"]=2
@@ -774,23 +747,23 @@ $4=[$self._method()
 ,$ctx2.sendIdx["method"]=1
 //>>excludeEnd("ctx");
 ][0];
-$6=[$recv($globals.IRTempDeclaration)._new()
+$5=[$recv($globals.IRTempDeclaration)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["new"]=2
 //>>excludeEnd("ctx");
 ][0];
-$recv($6)._name_($recv(each)._name());
-$recv($6)._scope_([$recv(aNode)._scope()
+$recv($5)._name_($recv(each)._name());
+$recv($5)._scope_([$recv(aNode)._scope()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["scope"]=3
 //>>excludeEnd("ctx");
 ][0]);
-$5=[$recv($6)._yourself()
+$6=[$recv($5)._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["yourself"]=2
 //>>excludeEnd("ctx");
 ][0];
-return [$recv($4)._add_($5)
+return [$recv($4)._add_($6)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["add:"]=1
 //>>excludeEnd("ctx");
@@ -819,41 +792,41 @@ $8=[$self._method()
 ,$ctx1.sendIdx["method"]=3
 //>>excludeEnd("ctx");
 ][0];
-$10=[$recv($globals.IRReturn)._new()
+$9=[$recv($globals.IRReturn)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["new"]=3
 //>>excludeEnd("ctx");
 ][0];
-$12=[$recv($globals.IRVariable)._new()
+$10=[$recv($globals.IRVariable)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["new"]=4
 //>>excludeEnd("ctx");
 ][0];
-$recv($12)._variable_($recv($recv($recv(aNode)._scope())._pseudoVars())._at_("self"));
-$11=[$recv($12)._yourself()
+$recv($10)._variable_($recv($recv($recv(aNode)._scope())._pseudoVars())._at_("self"));
+$11=[$recv($10)._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=3
 //>>excludeEnd("ctx");
 ][0];
-[$recv($10)._add_($11)
+[$recv($9)._add_($11)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["add:"]=4
 //>>excludeEnd("ctx");
 ][0];
-$9=[$recv($10)._yourself()
+$12=[$recv($9)._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=4
 //>>excludeEnd("ctx");
 ][0];
-[$recv($8)._add_($9)
+[$recv($8)._add_($12)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["add:"]=3
 //>>excludeEnd("ctx");
 ][0];
-$14=$recv($globals.IRVerbatim)._new();
-$recv($14)._source_(";".__comma($recv($globals.String)._lf()));
-$13=$recv($14)._yourself();
-$recv($8)._add_($13);
+$13=$recv($globals.IRVerbatim)._new();
+$recv($13)._source_(";".__comma($recv($globals.String)._lf()));
+$14=$recv($13)._yourself();
+$recv($8)._add_($14);
 }
 return $self._method();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -907,20 +880,20 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1;
-$2=$recv(aNode)._nonLocalReturn();
-if($core.assert($2)){
-$1=[$recv($globals.IRNonLocalReturn)._new()
+var $1,$2;
+$1=$recv(aNode)._nonLocalReturn();
+if($core.assert($1)){
+$2=[$recv($globals.IRNonLocalReturn)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["new"]=1
 //>>excludeEnd("ctx");
 ][0];
 } else {
-$1=$recv($globals.IRReturn)._new();
+$2=$recv($globals.IRReturn)._new();
 }
-$recv($1)._scope_($recv(aNode)._scope());
-$recv($1)._add_($self._visitOrAlias_($recv(aNode)._expression()));
-return $recv($1)._yourself();
+$recv($2)._scope_($recv(aNode)._scope());
+$recv($2)._add_($self._visitOrAlias_($recv(aNode)._expression()));
+return $recv($2)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitReturnNode:",{aNode:aNode})});
 //>>excludeEnd("ctx");
@@ -2252,6 +2225,54 @@ messageSends: []
 var self=this,$self=this;
 return self;
 
+}; }),
+$globals.IRMethod);
+
+$core.addMethod(
+$core.method({
+selector: "newAliasingOf:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anIRInstruction"],
+source: "newAliasingOf: anIRInstruction\x0a\x09| variable |\x0a\x0a\x09variable := IRVariable new\x0a\x09\x09variable: self aliasFactory next;\x0a\x09\x09yourself.\x0a\x0a\x09self internalVariables add: variable.\x0a\x0a\x09^ IRAssignment new\x0a\x09\x09add: variable;\x0a\x09\x09add: anIRInstruction;\x0a\x09\x09yourself",
+referencedClasses: ["IRVariable", "IRAssignment"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["variable:", "new", "next", "aliasFactory", "yourself", "add:", "internalVariables"]
+}, function ($methodClass){ return function (anIRInstruction){
+var self=this,$self=this;
+var variable;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+$1=[$recv($globals.IRVariable)._new()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new"]=1
+//>>excludeEnd("ctx");
+][0];
+$recv($1)._variable_($recv($self._aliasFactory())._next());
+variable=[$recv($1)._yourself()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["yourself"]=1
+//>>excludeEnd("ctx");
+][0];
+[$recv($self._internalVariables())._add_(variable)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["add:"]=1
+//>>excludeEnd("ctx");
+][0];
+$2=$recv($globals.IRAssignment)._new();
+[$recv($2)._add_(variable)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["add:"]=2
+//>>excludeEnd("ctx");
+][0];
+$recv($2)._add_(anIRInstruction);
+return $recv($2)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"newAliasingOf:",{anIRInstruction:anIRInstruction,variable:variable})});
+//>>excludeEnd("ctx");
 }; }),
 $globals.IRMethod);
 

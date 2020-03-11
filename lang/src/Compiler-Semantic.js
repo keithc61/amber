@@ -986,7 +986,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$3;
+var $1,$2,$3,$4;
 $1=$self.pseudoVars;
 if($1 == null || $1.a$nil){
 $self.pseudoVars=$recv($globals.Dictionary)._new();
@@ -995,10 +995,10 @@ $recv($recv($globals.PseudoVar)._dictionary())._keysAndValuesDo_((function(each,
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $2=$self.pseudoVars;
-$4=$recv(impl)._on_(each);
-$recv($4)._scope_($self._methodScope());
-$3=$recv($4)._yourself();
-return $recv($2)._at_put_(each,$3);
+$3=$recv(impl)._on_(each);
+$recv($3)._scope_($self._methodScope());
+$4=$recv($3)._yourself();
+return $recv($2)._at_put_(each,$4);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each,impl:impl},$ctx1,2)});
 //>>excludeEnd("ctx");
@@ -2477,18 +2477,18 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1;
-$2=$recv($self.currentScope)._lookupVariable_([$recv(aNode)._identifier()
+var $1,$2;
+$1=$recv($self.currentScope)._lookupVariable_([$recv(aNode)._identifier()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["identifier"]=1
 //>>excludeEnd("ctx");
 ][0]);
-if($2 == null || $2.a$nil){
-$1=$self._bindUnscopedVariable_($recv(aNode)._identifier());
+if($1 == null || $1.a$nil){
+$2=$self._bindUnscopedVariable_($recv(aNode)._identifier());
 } else {
-$1=$2;
+$2=$1;
 }
-$recv(aNode)._binding_($1);
+$recv(aNode)._binding_($2);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitVariableNode:",{aNode:aNode})});

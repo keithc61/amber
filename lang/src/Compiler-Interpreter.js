@@ -2556,16 +2556,16 @@ var nd,parent;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1;
+var $1,$2;
 nd=$self._node();
 parent=$recv(nd)._parent();
-$2=parent;
-if($2 == null || $2.a$nil){
-$1=$2;
-} else {
-$1=$recv(parent)._nextSiblingNode_(nd);
-}
+$1=parent;
 if($1 == null || $1.a$nil){
+$2=$1;
+} else {
+$2=$recv(parent)._nextSiblingNode_(nd);
+}
+if($2 == null || $2.a$nil){
 [$self._node_(parent)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["node:"]=1
@@ -2573,7 +2573,7 @@ if($1 == null || $1.a$nil){
 ][0];
 } else {
 var sibling;
-sibling=$1;
+sibling=$2;
 $self._node_(sibling);
 $self._enterNode();
 }

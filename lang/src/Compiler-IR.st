@@ -58,22 +58,14 @@ addToSequence: anInstruction
 !
 
 alias: anExpressionNode
-	| variable |
+	| assignment |
 
 	anExpressionNode isIdempotent ifTrue: [ ^ self visit: anExpressionNode ].
 
-	variable := IRVariable new
-		variable: self method aliasFactory next;
-		yourself.
+	assignment := self method newAliasingOf: (self visit: anExpressionNode).
+	self addToSequence: assignment.
 
-	self addToSequence: (IRAssignment new
-		add: variable;
-		add: (self visit: anExpressionNode);
-		yourself).
-
-	self method internalVariables add: variable.
-
-	^ variable
+	^ assignment left
 !
 
 aliasTemporally: aCollection
@@ -532,6 +524,21 @@ messageSends
 
 method
 	^ self
+!
+
+newAliasingOf: anIRInstruction
+	| variable |
+
+	variable := IRVariable new
+		variable: self aliasFactory next;
+		yourself.
+
+	self internalVariables add: variable.
+
+	^ IRAssignment new
+		add: variable;
+		add: anIRInstruction;
+		yourself
 !
 
 pragmas

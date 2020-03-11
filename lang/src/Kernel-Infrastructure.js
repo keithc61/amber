@@ -948,7 +948,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2;
+var $1,$2,$3;
 [(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -959,11 +959,11 @@ $ctx1.supercall = true,
 //>>excludeEnd("ctx");
 ][0];
 $1=$recv($globals.SystemAnnouncer)._current();
-$3=$recv($globals.ProtocolAdded)._new();
-$recv($3)._protocol_(aString);
-$recv($3)._theClass_($self._theClass());
-$2=$recv($3)._yourself();
-$recv($1)._announce_($2);
+$2=$recv($globals.ProtocolAdded)._new();
+$recv($2)._protocol_(aString);
+$recv($2)._theClass_($self._theClass());
+$3=$recv($2)._yourself();
+$recv($1)._announce_($3);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"addElement:",{aString:aString})});
@@ -987,7 +987,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2;
+var $1,$2,$3;
 [(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -998,11 +998,11 @@ $ctx1.supercall = true,
 //>>excludeEnd("ctx");
 ][0];
 $1=$recv($globals.SystemAnnouncer)._current();
-$3=$recv($globals.ProtocolRemoved)._new();
-$recv($3)._protocol_(aString);
-$recv($3)._theClass_($self._theClass());
-$2=$recv($3)._yourself();
-$recv($1)._announce_($2);
+$2=$recv($globals.ProtocolRemoved)._new();
+$recv($2)._protocol_(aString);
+$recv($2)._theClass_($self._theClass());
+$3=$recv($2)._yourself();
+$recv($1)._announce_($3);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"removeElement:",{aString:aString})});
@@ -1119,13 +1119,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2;
+var $1,$2,$3;
 $self.dirty=false;
 $1=$recv($globals.SystemAnnouncer)._current();
-$3=$recv($globals.PackageClean)._new();
-$recv($3)._package_(self);
-$2=$recv($3)._yourself();
-$recv($1)._announce_($2);
+$2=$recv($globals.PackageClean)._new();
+$recv($2)._package_(self);
+$3=$recv($2)._yourself();
+$recv($1)._announce_($3);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"beClean",{})});
@@ -1149,13 +1149,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2;
+var $1,$2,$3;
 $self.dirty=true;
 $1=$recv($globals.SystemAnnouncer)._current();
-$3=$recv($globals.PackageDirty)._new();
-$recv($3)._package_(self);
-$2=$recv($3)._yourself();
-$recv($1)._announce_($2);
+$2=$recv($globals.PackageDirty)._new();
+$recv($2)._package_(self);
+$3=$recv($2)._yourself();
+$recv($1)._announce_($3);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"beDirty",{})});
@@ -3674,7 +3674,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$4,$3;
+var $1,$2,$3,$4;
 $1=$recv(aClass)._isMetaclass();
 if($core.assert($1)){
 [$self._error_([$recv($recv(aClass)._asString()).__comma(" is a Metaclass and cannot be removed!")
@@ -3736,10 +3736,10 @@ return $recv(each)._setTraitComposition_([]);
 //>>excludeEnd("ctx");
 }));
 $2=$recv($globals.SystemAnnouncer)._current();
-$4=$recv($globals.ClassRemoved)._new();
-$recv($4)._theClass_(aClass);
-$3=$recv($4)._yourself();
-$recv($2)._announce_($3);
+$3=$recv($globals.ClassRemoved)._new();
+$recv($3)._theClass_(aClass);
+$4=$recv($3)._yourself();
+$recv($2)._announce_($4);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"removeClass:",{aClass:aClass})});

@@ -1268,7 +1268,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$5,$4,$2;
+var $1,$2,$3,$4,$5;
 $1=$recv([$recv(aUrl)._pathname()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["pathname"]=1
@@ -1281,19 +1281,19 @@ $self._respondFileNamed_to_([$recv(aDirname).__comma("index.html")
 //>>excludeEnd("ctx");
 ][0],aResponse);
 } else {
-$3=$recv($recv(aUrl)._pathname()).__comma("/");
-$5=$recv(aUrl)._search();
-if($5 == null || $5.a$nil){
+$2=$recv($recv(aUrl)._pathname()).__comma("/");
+$3=$recv(aUrl)._search();
+if($3 == null || $3.a$nil){
 $4="";
 } else {
-$4=$5;
+$4=$3;
 }
-$2=[$recv($3).__comma($4)
+$5=[$recv($2).__comma($4)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=2
 //>>excludeEnd("ctx");
 ][0];
-$self._respondRedirect_to_($2,aResponse);
+$self._respondRedirect_to_($5,aResponse);
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2228,7 +2228,7 @@ var child,sanitizedTemplatePath;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2;
+var $1,$2,$3;
 sanitizedTemplatePath=[$recv($recv($recv($self.path)._join_with_($self.nmPath,"@ambers/grunt-init-amber-project"))._replace_with_("\x5c\x5c","\x5c\x5c"))._replace_with_(":","\x5c:")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["replace:with:"]=1
@@ -2245,13 +2245,13 @@ $recv($1)._on_do_("close",(function(code){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$3=$recv(code).__eq((0));
-if($core.assert($3)){
-$2=nil;
+$2=$recv(code).__eq((0));
+if($core.assert($2)){
+$3=nil;
 } else {
-$2=code;
+$3=code;
 }
-return $recv(aBlock)._value_($2);
+return $recv(aBlock)._value_($3);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({code:code},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2491,7 +2491,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$3,$1;
+var $1,$2,$3;
 return $self._parseAssignment_do_(buffer,(function(name,expr){
 var varName,value;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2507,18 +2507,18 @@ $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-$2=$recv(varName).__comma(" := ");
+$1=$recv(varName).__comma(" := ");
 if(expr == null || expr.a$nil){
-$3=buffer;
+$2=buffer;
 } else {
-$3=expr;
+$2=expr;
 }
-$1=[$recv($2).__comma($3)
+$3=[$recv($1).__comma($2)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx3.sendIdx[","]=1
 //>>excludeEnd("ctx");
 ][0];
-value=$self._eval_on_($1,$self.session);
+value=$self._eval_on_($3,$self.session);
 return value;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});

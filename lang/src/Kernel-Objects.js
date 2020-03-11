@@ -507,8 +507,8 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1;
-$2=$recv($recv([$recv([$self._class()
+var $1,$2;
+$1=$recv($recv([$recv([$self._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["class"]=1
 //>>excludeEnd("ctx");
@@ -517,12 +517,12 @@ $2=$recv($recv([$recv([$self._class()
 ,$ctx1.sendIdx["name"]=1
 //>>excludeEnd("ctx");
 ][0])._first())._isVowel();
-if($core.assert($2)){
-$1="an ";
+if($core.assert($1)){
+$2="an ";
 } else {
-$1="a ";
+$2="a ";
 }
-[$recv(aStream)._nextPutAll_($1)
+[$recv(aStream)._nextPutAll_($2)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["nextPutAll:"]=1
 //>>excludeEnd("ctx");
@@ -5432,7 +5432,7 @@ var n,d;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1;
+var $1,$2;
 n=[$recv($recv($self.y)._negated()).__at($self.x)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["@"]=1
@@ -5451,9 +5451,9 @@ d=$recv([$recv([$recv(n)._x()
 ,$ctx1.sendIdx["y"]=1
 //>>excludeEnd("ctx");
 ][0]).__star($recv(n)._y()));
-$2=d;
-$1=$recv($2).__eq((0));
-if($core.assert($1)){
+$1=d;
+$2=$recv($1).__eq((0));
+if($core.assert($2)){
 return (-1).__at((0));
 }
 return $recv(n).__slash($recv(d)._sqrt());

@@ -27,6 +27,7 @@
   + asReceiver
 + IRMethod >>
   + aliasFactory
+  + newAliasingOf:
 + IRValue >>
   + asReceiver
 + IRVariable >>
