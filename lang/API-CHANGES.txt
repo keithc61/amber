@@ -1,15 +1,8 @@
 0.24.1:
 
 * Deprecate Behavior >> javascriptConstructor(:)
-* Deprecate IRInstruction >> needsBoxingAsReceiver
-* Deprecate VariableNode >> value(:)
-* Deprecate #isImmutable in AST nodes and scope vars
-  * Split into #isIdempotent / #isAssignable.
-* UnknownVar => ExternallyKnownVar
-* Remove all typechecking #isFoo methods in ScopeVar hierarchy.
-* Remove most of typechecking #isFoo methods in ASTNode hierarchy.
+* Lots of changes in Compiler.
 * Added Teachable class.
-* Added IRAliasFactory helper class.
 
 + Behavior >>
   + alternateConstructorViaSelector:
@@ -19,86 +12,26 @@
   + javaScriptConstructor:
 + BlockClosure >>
   + tryIfTrue:catch:
-+ BlockNode >>
-  + dagChild
-  + sequenceNode
-  + sequenceNode:
-+ IRInstruction >>
-  + asReceiver
-+ IRMethod >>
-  + aliasFactory
-  + newAliasingOf:
-+ IRValue >>
-  + asReceiver
-+ IRVariable >>
-  + asReceiver
-+ MethodNode >>
-  + dagChild
-  + sequenceNode:
-+ PseudoVar
-  + asReceiver
-+ ReturnNode >>
-  + dagChild
-  + expression
-  + expression:
-+ SemanticAnalyzer >>
-  + errorInvalidAssignment:
-  + isVariableKnown:inPackage:
-+ ScopeVar >>
-  + asReceiver
-  + isExternallyKnownVar
-+ SendNode >>
-  + beSideEffect
-  + isSideEffect
 + SequenceableCollection >>
   + copyWithFirst:
 + SmalltalkImage >>
   + isError:
   + try:ifTrue:catch:
-+ VariableNode >>
-  + identifier
-  + identifier:
 + amber/boot api >>
   + detachClass(klass)
 + amber/helpers exports >>
   + $nil
 
-- AliasVar >>
-  - node
-  - node:
 - Error >>
   - beSmalltalkError
   - isSmalltalkError
-- IRASTTranslator >>
-  - nextAlias
-- IRInstruction >>
-  - isSelf
-- IRValue >>
-  - needsBoxingAsReceiver
-- IRVariable >>
-  - isSelf
-  - needsBoxingAsReceiver
 - JavaScriptError >>
   - shouldBeStubbed
   - wrap
 - MethodContext >>
   - stubHere
   - stubToAtMost:
-- MethodLexicalScope >>
-  - unknownVariables
-- PseudoVar >>
-  - isSelf
-- ScopeVar >>
-  - isSelf
-  - validateAssignment
-- SemanticAnalyzer >>
-  - isVariableUndefined:inPackage:
-- SendNode >>
-  - shouldBeInlined
-  - shouldBeInlined:
-- VariableNode >>
-  - beAssigned
-  - isArgument
+
 - amber/boot api >>
   - addElement(arraySet, el)
   - removeElement(arraySet, el)
