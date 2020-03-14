@@ -162,6 +162,7 @@ visitJSStatementNode: aNode
 !
 
 visitMethodNode: aNode
+	| irSequence |
 
 	self method: (IRMethod new
 		source: self source crlfSanitized;
@@ -185,15 +186,14 @@ visitMethodNode: aNode
 			scope: aNode scope;
 			yourself) ].
 
-	self method add: (self visit: aNode sequenceNode).
+	self method add: (irSequence := self visit: aNode sequenceNode).
 
-	aNode scope hasLocalReturn ifFalse: [self method
+	aNode scope hasLocalReturn ifFalse: [ irSequence
 		add: (IRReturn new
 			add: (IRVariable new
 				variable: (aNode scope pseudoVars at: 'self');
 				yourself);
-			yourself);
-		add: (IRVerbatim new source: ';', String lf; yourself) ].
+			yourself) ].
 
 	^ self method
 !

@@ -654,13 +654,14 @@ selector: "visitMethodNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitMethodNode: aNode\x0a\x0a\x09self method: (IRMethod new\x0a\x09\x09source: self source crlfSanitized;\x0a\x09\x09pragmas: (aNode pragmas collect: [ :each |\x0a\x09\x09\x09Message\x0a\x09\x09\x09\x09selector: each selector\x0a\x09\x09\x09\x09arguments: (each arguments collect: [ :eachArg |\x0a\x09\x09\x09\x09\x09eachArg isString ifTrue: [ eachArg crlfSanitized ] ifFalse: [ eachArg ]])]);\x0a\x09\x09theClass: self theClass;\x0a\x09\x09arguments: aNode arguments;\x0a\x09\x09selector: aNode selector;\x0a\x09\x09sendIndexes: aNode sendIndexes;\x0a\x09\x09requiresSmalltalkContext: aNode requiresSmalltalkContext;\x0a\x09\x09classReferences: aNode classReferences;\x0a\x09\x09scope: aNode scope;\x0a\x09\x09yourself).\x0a\x0a\x09aNode scope temps do: [ :each |\x0a\x09\x09self method add: (IRTempDeclaration new\x0a\x09\x09\x09name: each name;\x0a\x09\x09\x09scope: aNode scope;\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09self method add: (self visit: aNode sequenceNode).\x0a\x0a\x09aNode scope hasLocalReturn ifFalse: [self method\x0a\x09\x09add: (IRReturn new\x0a\x09\x09\x09add: (IRVariable new\x0a\x09\x09\x09\x09variable: (aNode scope pseudoVars at: 'self');\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself);\x0a\x09\x09add: (IRVerbatim new source: ';', String lf; yourself) ].\x0a\x0a\x09^ self method",
-referencedClasses: ["IRMethod", "Message", "IRTempDeclaration", "IRReturn", "IRVariable", "IRVerbatim", "String"],
+source: "visitMethodNode: aNode\x0a\x09| irSequence |\x0a\x0a\x09self method: (IRMethod new\x0a\x09\x09source: self source crlfSanitized;\x0a\x09\x09pragmas: (aNode pragmas collect: [ :each |\x0a\x09\x09\x09Message\x0a\x09\x09\x09\x09selector: each selector\x0a\x09\x09\x09\x09arguments: (each arguments collect: [ :eachArg |\x0a\x09\x09\x09\x09\x09eachArg isString ifTrue: [ eachArg crlfSanitized ] ifFalse: [ eachArg ]])]);\x0a\x09\x09theClass: self theClass;\x0a\x09\x09arguments: aNode arguments;\x0a\x09\x09selector: aNode selector;\x0a\x09\x09sendIndexes: aNode sendIndexes;\x0a\x09\x09requiresSmalltalkContext: aNode requiresSmalltalkContext;\x0a\x09\x09classReferences: aNode classReferences;\x0a\x09\x09scope: aNode scope;\x0a\x09\x09yourself).\x0a\x0a\x09aNode scope temps do: [ :each |\x0a\x09\x09self method add: (IRTempDeclaration new\x0a\x09\x09\x09name: each name;\x0a\x09\x09\x09scope: aNode scope;\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09self method add: (irSequence := self visit: aNode sequenceNode).\x0a\x0a\x09aNode scope hasLocalReturn ifFalse: [ irSequence\x0a\x09\x09add: (IRReturn new\x0a\x09\x09\x09add: (IRVariable new\x0a\x09\x09\x09\x09variable: (aNode scope pseudoVars at: 'self');\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09^ self method",
+referencedClasses: ["IRMethod", "Message", "IRTempDeclaration", "IRReturn", "IRVariable"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["method:", "source:", "new", "crlfSanitized", "source", "pragmas:", "collect:", "pragmas", "selector:arguments:", "selector", "arguments", "ifTrue:ifFalse:", "isString", "theClass:", "theClass", "arguments:", "selector:", "sendIndexes:", "sendIndexes", "requiresSmalltalkContext:", "requiresSmalltalkContext", "classReferences:", "classReferences", "scope:", "scope", "yourself", "do:", "temps", "add:", "method", "name:", "name", "visit:", "sequenceNode", "ifFalse:", "hasLocalReturn", "variable:", "at:", "pseudoVars", ",", "lf"]
+messageSends: ["method:", "source:", "new", "crlfSanitized", "source", "pragmas:", "collect:", "pragmas", "selector:arguments:", "selector", "arguments", "ifTrue:ifFalse:", "isString", "theClass:", "theClass", "arguments:", "selector:", "sendIndexes:", "sendIndexes", "requiresSmalltalkContext:", "requiresSmalltalkContext", "classReferences:", "classReferences", "scope:", "scope", "yourself", "do:", "temps", "add:", "method", "name:", "name", "visit:", "sequenceNode", "ifFalse:", "hasLocalReturn", "variable:", "at:", "pseudoVars"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
+var irSequence;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -670,15 +671,11 @@ $1=[$recv($globals.IRMethod)._new()
 ,$ctx1.sendIdx["new"]=1
 //>>excludeEnd("ctx");
 ][0];
-[$recv($1)._source_([$recv($self._source())._crlfSanitized()
+$recv($1)._source_([$recv($self._source())._crlfSanitized()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["crlfSanitized"]=1
 //>>excludeEnd("ctx");
-][0])
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["source:"]=1
-//>>excludeEnd("ctx");
-][0];
+][0]);
 $recv($1)._pragmas_([$recv($recv(aNode)._pragmas())._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -772,65 +769,48 @@ return [$recv($4)._add_($6)
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,5)});
 //>>excludeEnd("ctx");
 }));
-[$recv([$self._method()
+$7=[$self._method()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["method"]=2
 //>>excludeEnd("ctx");
-][0])._add_($self._visit_($recv(aNode)._sequenceNode()))
+][0];
+irSequence=$self._visit_($recv(aNode)._sequenceNode());
+$8=irSequence;
+[$recv($7)._add_($8)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["add:"]=2
 //>>excludeEnd("ctx");
 ][0];
-$7=$recv([$recv(aNode)._scope()
+$9=$recv([$recv(aNode)._scope()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["scope"]=4
 //>>excludeEnd("ctx");
 ][0])._hasLocalReturn();
-if(!$core.assert($7)){
-$8=[$self._method()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["method"]=3
-//>>excludeEnd("ctx");
-][0];
-$9=[$recv($globals.IRReturn)._new()
+if(!$core.assert($9)){
+$10=irSequence;
+$11=[$recv($globals.IRReturn)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["new"]=3
 //>>excludeEnd("ctx");
 ][0];
-$10=[$recv($globals.IRVariable)._new()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["new"]=4
-//>>excludeEnd("ctx");
-][0];
-$recv($10)._variable_($recv($recv($recv(aNode)._scope())._pseudoVars())._at_("self"));
-$11=[$recv($10)._yourself()
+$12=$recv($globals.IRVariable)._new();
+$recv($12)._variable_($recv($recv($recv(aNode)._scope())._pseudoVars())._at_("self"));
+$13=[$recv($12)._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=3
 //>>excludeEnd("ctx");
 ][0];
-[$recv($9)._add_($11)
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["add:"]=4
-//>>excludeEnd("ctx");
-][0];
-$12=[$recv($9)._yourself()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["yourself"]=4
-//>>excludeEnd("ctx");
-][0];
-[$recv($8)._add_($12)
+$recv($11)._add_($13);
+$14=$recv($11)._yourself();
+[$recv($10)._add_($14)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["add:"]=3
 //>>excludeEnd("ctx");
 ][0];
-$13=$recv($globals.IRVerbatim)._new();
-$recv($13)._source_(";".__comma($recv($globals.String)._lf()));
-$14=$recv($13)._yourself();
-$recv($8)._add_($14);
 }
 return $self._method();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitMethodNode:",{aNode:aNode})});
+}, function($ctx1) {$ctx1.fill(self,"visitMethodNode:",{aNode:aNode,irSequence:irSequence})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.IRASTTranslator);
