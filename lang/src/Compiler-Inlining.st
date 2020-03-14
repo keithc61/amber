@@ -601,6 +601,23 @@ SemanticError subclass: #InliningError
 !InliningError commentStamp!
 Instances of InliningError are signaled when using an `InliningCodeGenerator`in a `Compiler`.!
 
+Trait named: #TIRInlinedVisitor
+	package: 'Compiler-Inlining'!
+
+!TIRInlinedVisitor methodsFor: 'visiting'!
+
+visitIRInlinedClosure: anIRInlinedClosure
+	^ self visitIRClosure: anIRInlinedClosure
+!
+
+visitIRInlinedSequence: anIRInlinedSequence
+	^ self visitIRSequence: anIRInlinedSequence
+! !
+
+IRInliner setTraitComposition: {TIRInlinedVisitor} asTraitComposition!
+IRInliningJSTranslator setTraitComposition: {TIRInlinedVisitor} asTraitComposition!
+! !
+
 !IRBlockReturn methodsFor: '*Compiler-Inlining'!
 
 asInlinedBlockResult

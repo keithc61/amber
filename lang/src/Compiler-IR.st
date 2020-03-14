@@ -912,14 +912,6 @@ visitIRDynamicDictionary: anIRDynamicDictionary
 	^ self visitDagNode: anIRDynamicDictionary
 !
 
-visitIRInlinedClosure: anIRInlinedClosure
-	^ self visitIRClosure: anIRInlinedClosure
-!
-
-visitIRInlinedSequence: anIRInlinedSequence
-	^ self visitIRSequence: anIRInlinedSequence
-!
-
 visitIRMethod: anIRMethod
 	^ self visitDagNode: anIRMethod
 !

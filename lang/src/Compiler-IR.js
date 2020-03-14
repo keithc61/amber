@@ -3535,52 +3535,6 @@ $globals.IRVisitor);
 
 $core.addMethod(
 $core.method({
-selector: "visitIRInlinedClosure:",
-protocol: "visiting",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anIRInlinedClosure"],
-source: "visitIRInlinedClosure: anIRInlinedClosure\x0a\x09^ self visitIRClosure: anIRInlinedClosure",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["visitIRClosure:"]
-}, function ($methodClass){ return function (anIRInlinedClosure){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self._visitIRClosure_(anIRInlinedClosure);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitIRInlinedClosure:",{anIRInlinedClosure:anIRInlinedClosure})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IRVisitor);
-
-$core.addMethod(
-$core.method({
-selector: "visitIRInlinedSequence:",
-protocol: "visiting",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anIRInlinedSequence"],
-source: "visitIRInlinedSequence: anIRInlinedSequence\x0a\x09^ self visitIRSequence: anIRInlinedSequence",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["visitIRSequence:"]
-}, function ($methodClass){ return function (anIRInlinedSequence){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self._visitIRSequence_(anIRInlinedSequence);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitIRInlinedSequence:",{anIRInlinedSequence:anIRInlinedSequence})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IRVisitor);
-
-$core.addMethod(
-$core.method({
 selector: "visitIRMethod:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
