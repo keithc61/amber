@@ -2525,7 +2525,7 @@ $globals.AstPragmator);
 
 
 
-$core.addClass("AstEarlyPragmator", $globals.AstPragmator, [], "Compiler-AST");
+$core.addClass("AstSemanticPragmator", $globals.AstPragmator, [], "Compiler-AST");
 $core.addMethod(
 $core.method({
 selector: "inlineJS:",
@@ -2570,7 +2570,7 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"inlineJS:",{aString:aString})});
 //>>excludeEnd("ctx");
 }; }),
-$globals.AstEarlyPragmator);
+$globals.AstSemanticPragmator);
 
 
 

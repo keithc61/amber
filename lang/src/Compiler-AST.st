@@ -645,11 +645,11 @@ value: aMethodNode
 	^ aMethodNode
 ! !
 
-AstPragmator subclass: #AstEarlyPragmator
+AstPragmator subclass: #AstSemanticPragmator
 	slots: {}
 	package: 'Compiler-AST'!
 
-!AstEarlyPragmator methodsFor: 'pragmas'!
+!AstSemanticPragmator methodsFor: 'pragmas'!
 
 inlineJS: aString
 	self methodNode sequenceNode dagChildren ifNotEmpty: [

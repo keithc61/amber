@@ -64,20 +64,20 @@ Some initial pragmas (eg. #inlineJS:) are applied to transform the tree.!
 
 !AstGenerator methodsFor: 'compiling'!
 
-earlyAstPragmator
-	^ AstEarlyPragmator new
-!
-
 semanticAnalyzer
 	^ (SemanticAnalyzer on: self currentClass)
 		thePackage: self currentPackage;
 		yourself
 !
 
+semanticAstPragmator
+	^ AstSemanticPragmator new
+!
+
 transformersDictionary
 	^ transformersDictionary ifNil: [ transformersDictionary := Dictionary new
-		at: '1000-earlyPragmas' put: self earlyAstPragmator;
 		at: '2000-semantic' put: self semanticAnalyzer;
+		at: '2500-semanticPragmas' put: self semanticAstPragmator;
 		yourself ]
 ! !
 

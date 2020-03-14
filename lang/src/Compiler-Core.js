@@ -254,29 +254,6 @@ $globals.AstGenerator.comment="I am a very basic code generator.\x0aI generate s
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "earlyAstPragmator",
-protocol: "compiling",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "earlyAstPragmator\x0a\x09^ AstEarlyPragmator new",
-referencedClasses: ["AstEarlyPragmator"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($globals.AstEarlyPragmator)._new();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"earlyAstPragmator",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.AstGenerator);
-
-$core.addMethod(
-$core.method({
 selector: "semanticAnalyzer",
 protocol: "compiling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -303,15 +280,38 @@ $globals.AstGenerator);
 
 $core.addMethod(
 $core.method({
+selector: "semanticAstPragmator",
+protocol: "compiling",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "semanticAstPragmator\x0a\x09^ AstSemanticPragmator new",
+referencedClasses: ["AstSemanticPragmator"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.AstSemanticPragmator)._new();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"semanticAstPragmator",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AstGenerator);
+
+$core.addMethod(
+$core.method({
 selector: "transformersDictionary",
 protocol: "compiling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "transformersDictionary\x0a\x09^ transformersDictionary ifNil: [ transformersDictionary := Dictionary new\x0a\x09\x09at: '1000-earlyPragmas' put: self earlyAstPragmator;\x0a\x09\x09at: '2000-semantic' put: self semanticAnalyzer;\x0a\x09\x09yourself ]",
+source: "transformersDictionary\x0a\x09^ transformersDictionary ifNil: [ transformersDictionary := Dictionary new\x0a\x09\x09at: '2000-semantic' put: self semanticAnalyzer;\x0a\x09\x09at: '2500-semanticPragmas' put: self semanticAstPragmator;\x0a\x09\x09yourself ]",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNil:", "at:put:", "new", "earlyAstPragmator", "semanticAnalyzer", "yourself"]
+messageSends: ["ifNil:", "at:put:", "new", "semanticAnalyzer", "semanticAstPragmator", "yourself"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -321,12 +321,12 @@ var $1,$2;
 $1=$self.transformersDictionary;
 if($1 == null || $1.a$nil){
 $2=$recv($globals.Dictionary)._new();
-[$recv($2)._at_put_("1000-earlyPragmas",$self._earlyAstPragmator())
+[$recv($2)._at_put_("2000-semantic",$self._semanticAnalyzer())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["at:put:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$recv($2)._at_put_("2000-semantic",$self._semanticAnalyzer());
+$recv($2)._at_put_("2500-semanticPragmas",$self._semanticAstPragmator());
 $self.transformersDictionary=$recv($2)._yourself();
 return $self.transformersDictionary;
 } else {
