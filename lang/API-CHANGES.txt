@@ -1,4 +1,4 @@
-0.24.1:
+0.25.0:
 
 * Deprecate Behavior >> javascriptConstructor(:)
 * Lots of changes in Compiler.
