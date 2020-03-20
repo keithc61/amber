@@ -25,6 +25,12 @@ module.exports = function (grunt) {
         return "define(" + JSON.stringify(deps) + "," + cb + ");"
     }
 
+    var cbRequireAndPromiseMain = function (require) {
+        return new Promise(function (resolve, reject) {
+            require(["app/main"], resolve, reject);
+        });
+    };
+
     var lambdaExports = function (amberPromised) {
         return function (className) {
             var worker, workerPromise = amberPromised.then(function (amber) {
@@ -83,14 +89,14 @@ module.exports = function (grunt) {
                 options: {
                     rawText: {
                         "helios/index": "",
-                        "app": mkDefine(["deploy", "amber/core/Platform-Browser"], id)
+                        "app": mkDefine(["require", "es6-promise/auto"], cbRequireAndPromiseMain),
+                        "app/main": mkDefine(["deploy", "amber/core/Platform-Browser"], id)
                     },
                     pragmas: {
                         excludeIdeData: true,
                         excludeDebugContexts: true
                     },
-                    include: ['config', 'node_modules/requirejs/require', 'es6-promise/auto', 'app'],
-                    insertRequire: ['es6-promise/auto'],
+                    include: ['config', 'node_modules/requirejs/require', 'app'],
                     findNestedDependencies: true,
                     exclude: ['helios/index'],
                     optimize: "uglify2",
@@ -100,10 +106,10 @@ module.exports = function (grunt) {
             devel: {
                 options: {
                     rawText: {
-                        "app": mkDefine(["devel", "amber/core/Platform-Browser"], id)
+                        "app": mkDefine(["require", "es6-promise/auto"], cbRequireAndPromiseMain),
+                        "app/main": mkDefine(["devel", "amber/core/Platform-Browser"], id)
                     },
-                    include: ['config', 'node_modules/requirejs/require', 'es6-promise/auto', 'app'],
-                    insertRequire: ['es6-promise/auto'],
+                    include: ['config', 'node_modules/requirejs/require', 'app', 'app/main'],
                     exclude: ['devel', 'amber/core/Platform-Browser'],
                     out: "the.js"
                 }
@@ -112,7 +118,8 @@ module.exports = function (grunt) {
                 options: {
                     rawText: {
                         "helios/index": "",
-                        "app": mkDefine(["app/main"], lambdaExports),
+                        "app": mkDefine(["app/promise"], lambdaExports),
+                        "app/promise": mkDefine(["require"], cbRequireAndPromiseMain),
                         "app/main": mkDefine(["lambda", "amber/core/Platform-Node"], function (amber) {
                             return amber.initialize().then(function () {
                                 return amber;
@@ -135,11 +142,12 @@ module.exports = function (grunt) {
                 options: {
                     rawText: {
                         "jquery": "/* do not load in node test runner */",
-                        "app": mkDefine(["testing", "amber/core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {
+                        "app/main": mkDefine(["testing", "amber/core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {
                             amber.initialize().then(function () {
                                 amber.globals.NodeTestRunner._main();
                             });
-                        })
+                        }),
+                        "app": mkDefine(["require"], cbRequireAndPromiseMain)
                     },
                     paths: {"amber_devkit": helpers.libPath},
                     pragmas: {
