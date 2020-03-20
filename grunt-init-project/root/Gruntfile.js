@@ -89,14 +89,15 @@ module.exports = function (grunt) {
                 options: {
                     rawText: {
                         "helios/index": "",
-                        "app": mkDefine(["require", "es6-promise/auto"], cbRequireAndPromiseMain),
+                        "app": mkDefine(["require"], cbRequireAndPromiseMain),
                         "app/main": mkDefine(["deploy", "amber/core/Platform-Browser"], id)
                     },
                     pragmas: {
                         excludeIdeData: true,
                         excludeDebugContexts: true
                     },
-                    include: ['config', 'node_modules/requirejs/require', 'app'],
+                    include: ['config', 'node_modules/requirejs/require', 'es6-promise/auto', 'app'],
+                    insertRequire: ['es6-promise/auto'],
                     findNestedDependencies: true,
                     exclude: ['helios/index'],
                     optimize: "uglify2",
@@ -106,10 +107,11 @@ module.exports = function (grunt) {
             devel: {
                 options: {
                     rawText: {
-                        "app": mkDefine(["require", "es6-promise/auto"], cbRequireAndPromiseMain),
+                        "app": mkDefine(["require"], cbRequireAndPromiseMain),
                         "app/main": mkDefine(["devel", "amber/core/Platform-Browser"], id)
                     },
-                    include: ['config', 'node_modules/requirejs/require', 'app', 'app/main'],
+                    include: ['config', 'node_modules/requirejs/require', 'es6-promise/auto', 'app', 'app/main'],
+                    insertRequire: ['es6-promise/auto'],
                     exclude: ['devel', 'amber/core/Platform-Browser'],
                     out: "the.js"
                 }
