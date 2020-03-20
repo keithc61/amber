@@ -118,8 +118,7 @@ module.exports = function (grunt) {
                 options: {
                     rawText: {
                         "helios/index": "",
-                        "app": mkDefine(["app/promise"], lambdaExports),
-                        "app/promise": mkDefine(["require"], cbRequireAndPromiseMain),
+                        "app": mkDefine(["app/main"], lambdaExports),
                         "app/main": mkDefine(["lambda", "amber/core/Platform-Node"], function (amber) {
                             return amber.initialize().then(function () {
                                 return amber;
@@ -142,12 +141,11 @@ module.exports = function (grunt) {
                 options: {
                     rawText: {
                         "jquery": "/* do not load in node test runner */",
-                        "app/main": mkDefine(["testing", "amber/core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {
+                        "app": mkDefine(["testing", "amber/core/Platform-Node", "amber_devkit/NodeTestRunner"], function (amber) {
                             amber.initialize().then(function () {
                                 amber.globals.NodeTestRunner._main();
                             });
-                        }),
-                        "app": mkDefine(["require"], cbRequireAndPromiseMain)
+                        })
                     },
                     paths: {"amber_devkit": helpers.libPath},
                     pragmas: {
