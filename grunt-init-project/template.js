@@ -118,16 +118,16 @@ exports.template = function (grunt, init, done) {
         props.dependencies = {
             "@ambers/contrib-jquery": "^0.6.0",
             "@ambers/contrib-web": "^0.8.2",
-            "@ambers/lang": "^0.24.0",
             "@ambers/domite": "^0.9.0",
-            "es6-promise": "^4.2.6",
-            "@ambers/silk": "^0.6.0"
+            "@ambers/lang": "^0.24.0",
+            "@ambers/silk": "^0.6.0",
+            "es6-promise": "^4.2.6"
         };
         props.devDependencies = {
-            "@ambers/ide-starter-modal": "^0.2.0",
-            "@ambers/sdk": "^0.12.1",
             "@ambers/contrib-legacy": "^0.8.6",
             "@ambers/helios": "^0.11.6",
+            "@ambers/ide-starter-modal": "^0.2.0",
+            "@ambers/sdk": "^0.12.1",
             "grunt": "^1.0.3",
             "grunt-contrib-clean": "^1.1.0",
             "grunt-contrib-requirejs": "^1.0.0",
