@@ -31,9 +31,13 @@
                 //used for all new packages in IDE
                 'transport.defaultAmdNamespace': "{%= namespace %}"
             }).then(function () {
+                // This shows IDE dialog in development mode (module is present).
+                // This silently fails in deploy mode (module is missing).
+                // Thus, no need to have different page for deploy, leading to less bugs.
                 require(["amber-ide-starter-dialog"], function (dlg) {
                     dlg.start();
                 });
+                // Start the app itself.
                 amber.globals.{%= name %}._start();
             });
         });
