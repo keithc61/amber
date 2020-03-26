@@ -2,17 +2,14 @@
 
 {%= description %}
 
-## Getting Started
+## Use {%= name %} library in your project
 
-Install Amber and create an Amber project,
+**DELETE THIS PARAGRAPH, IF {%= name %} IS A LIBRARY. DELETE WHOLE THIS SECTION IF {%= name %} IS AN APP, NOT A LIBRARY.**
+
+If not already done, install Amber and create an Amber project with `amber init`,
 as shown in [Amber Instructions](https://lolg.it/amber/amber#prerequisities).
 
-## Use {%= name %} as a library in a client project
-
-If not already present, create a client project
-in an empty directory with `amber init`.
-
-In a client project, run
+In a project, run
 
 ```sh
 npm install {%= name %} --save
