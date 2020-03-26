@@ -27,6 +27,8 @@ save the change and commit the package. Reload.
 
 ## Contributing
 
+You should have amber cli tooling installed. If you don't, see first box in these [instructions](https://lolg.it/amber/amber#getting-amber-and-setting-up-an-initial-project).
+ 
 To bring project alive (for example after `git clone`):
 
 ```sh
