@@ -27,14 +27,8 @@ save the change and commit the package. Reload.
 
 ## Contributing
 
-You should have amber cli tooling installed. If you don't, see first box in these [instructions](https://lolg.it/amber/amber#getting-amber-and-setting-up-an-initial-project).
- 
-To bring project alive (for example after `git clone`):
+  1. Have amber cli tooling installed. If you don't, see first box in these [instructions](https://lolg.it/amber/amber#getting-amber-and-setting-up-an-initial-project).
 
-```sh
-npm run init
-```
+  1. Fork and/or clone the project, then bring it alive by: `npm run init`.
 
-Developing the project (after brought alive):
- 
-Start server with `amber serve` and go to `http://localhost:4000/` in your browser and follow the instructions
+  1. Developing the project: Start server with `amber serve` and go to `http://localhost:4000/` in your browser. Overlay with buttons to open IDE should appear shortly.
