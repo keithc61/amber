@@ -1194,7 +1194,7 @@ selector: "wrappedSourceOf:",
 protocol: "private",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRMethod"],
-source: "wrappedSourceOf: anIRMethod\x0a\x09^ anIRMethod attachments\x0a\x09\x09ifEmpty: [\x0a\x09\x09\x09'(function ($methodClass){ return ',\x0a\x09\x09\x09anIRMethod compiledSource,\x0a\x09\x09\x09'; })' ]\x0a\x09\x09ifNotEmpty: [ :attachments |\x0a\x09\x09\x09'(function ($methodClass){ return (function(method){Object.defineProperty(method,\x22a$atx\x22,{enumerable:false,configurable:true,writable:true,value:',\x0a\x09\x09\x09attachments asJavaScriptSource,\x0a\x09\x09\x09'});return method})(',\x0a\x09\x09\x09anIRMethod compiledSource,\x0a\x09\x09\x09'); })' ]",
+source: "wrappedSourceOf: anIRMethod\x0a\x09^ anIRMethod attachments\x0a\x09\x09ifEmpty: [\x0a\x09\x09\x09'(function ($methodClass){ return ',\x0a\x09\x09\x09anIRMethod compiledSource,\x0a\x09\x09\x09'; })' ]\x0a\x09\x09ifNotEmpty: [ :attachments |\x0a\x09\x09\x09'(function ($methodClass){ return Object.defineProperty(',\x0a\x09\x09\x09anIRMethod compiledSource,\x0a\x09\x09\x09',\x22a$atx\x22,{enumerable:false,configurable:true,writable:true,value:',\x0a\x09\x09\x09attachments asJavaScriptSource,\x0a\x09\x09\x09'}); })' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -1228,15 +1228,15 @@ return [$recv(["(function ($methodClass){ return ".__comma([$recv(anIRMethod)._c
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return [$recv([$recv([$recv("(function ($methodClass){ return (function(method){Object.defineProperty(method,\x22a$atx\x22,{enumerable:false,configurable:true,writable:true,value:".__comma($recv(attachments)._asJavaScriptSource())).__comma("});return method})(")
+return [$recv([$recv([$recv("(function ($methodClass){ return Object.defineProperty(".__comma($recv(anIRMethod)._compiledSource())).__comma(",\x22a$atx\x22,{enumerable:false,configurable:true,writable:true,value:")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx[","]=5
 //>>excludeEnd("ctx");
-][0]).__comma($recv(anIRMethod)._compiledSource())
+][0]).__comma($recv(attachments)._asJavaScriptSource())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx[","]=4
 //>>excludeEnd("ctx");
-][0]).__comma("); })")
+][0]).__comma("}); })")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx[","]=3
 //>>excludeEnd("ctx");

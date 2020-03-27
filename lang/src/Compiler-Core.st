@@ -309,11 +309,11 @@ wrappedSourceOf: anIRMethod
 			anIRMethod compiledSource,
 			'; })' ]
 		ifNotEmpty: [ :attachments |
-			'(function ($methodClass){ return (function(method){Object.defineProperty(method,"a$atx",{enumerable:false,configurable:true,writable:true,value:',
-			attachments asJavaScriptSource,
-			'});return method})(',
+			'(function ($methodClass){ return Object.defineProperty(',
 			anIRMethod compiledSource,
-			'); })' ]
+			',"a$atx",{enumerable:false,configurable:true,writable:true,value:',
+			attachments asJavaScriptSource,
+			'}); })' ]
 ! !
 
 !Compiler class methodsFor: 'compiling'!
