@@ -407,15 +407,14 @@ inlineSend: anIRSend
 !
 
 inlinedClosure: closure wrapFinalValueIn: aBlock
-	| sequence statements final |
+	| sequence final |
 
 	sequence := closure sequence.
-	statements := sequence dagChildren.
 	
 	sequence dagChildren ifEmpty: [ sequence add: (IRVariable new
 		variable: (closure scope pseudoVars at: 'nil');
 		yourself) ].
-	final := statements last.
+	final := sequence dagChildren last.
 	final yieldsValue ifTrue: [ sequence replace: final with: (aBlock value: final) ].
 
 	^ closure
