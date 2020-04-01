@@ -381,6 +381,16 @@ isSuper
 	^ true
 ! !
 
+SuperVar subclass: #JavaScriptSuperVar
+	slots: {}
+	package: 'Compiler-Semantic'!
+
+!JavaScriptSuperVar methodsFor: 'accessing'!
+
+lookupAsJavaScriptSource
+	^ 'Object.getPrototypeOf($methodClass.fn.prototype)'
+! !
+
 PseudoVar subclass: #ThisContextVar
 	slots: {}
 	package: 'Compiler-Semantic'!

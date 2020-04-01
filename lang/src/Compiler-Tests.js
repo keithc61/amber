@@ -1,4 +1,4 @@
-define(["amber/boot", "require", "amber/core/SUnit"], function($boot,requirejs){"use strict";
+define(["amber/boot", "require", "amber/core/Kernel-Tests", "amber/core/SUnit"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Tests");
 $pkg.innerEval = function (expr) { return eval(expr); };
@@ -1834,6 +1834,200 @@ $core.addClass("CodeGeneratorTest", $globals.AbstractCompilerTest, [], "Compiler
 
 
 $core.addClass("InliningCodeGeneratorTest", $globals.AbstractCompilerTest, [], "Compiler-Tests");
+
+
+$core.addClass("AbstractJavaScriptGatewayTest", $globals.ASTMethodRunningTest, ["theClass"], "Compiler-Tests");
+$core.addMethod(
+$core.method({
+selector: "jsConstructor",
+protocol: "running",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "jsConstructor\x0a\x09<inlineJS: '\x0a\x09\x09var ctr = function () {};\x0a\x09\x09ctr.prototype.foo = function (a,b) {return a+\x22,\x22+b};\x0a\x09\x09return ctr;\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var ctr = function () {};\x0a\x09\x09ctr.prototype.foo = function (a,b) {return a+\x22,\x22+b};\x0a\x09\x09return ctr;\x0a\x09"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+		var ctr = function () {};
+		ctr.prototype.foo = function (a,b) {return a+","+b};
+		return ctr;
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"jsConstructor",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractJavaScriptGatewayTest);
+
+$core.addMethod(
+$core.method({
+selector: "testNiladicSuper",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNiladicSuper\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09self\x0a\x09\x09should: 'foo <jsOverride: #foo> ^ super foo'\x0a\x09\x09receiver: (ObjectMock2 new foo: 'should be shadowed'; yourself)\x0a\x09\x09return: 'undefined,undefined'",
+referencedClasses: ["ObjectMock", "ObjectMock2"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "should:receiver:return:", "foo:", "new", "yourself"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $2,$1;
+$self.theClass=$recv($globals.ObjectMock)._subclass_slots_package_("ObjectMock2",[],"Compiler-Tests");
+$recv($self.theClass)._beJavaScriptSubclassOf_($self._jsConstructor());
+$2=$recv($globals.ObjectMock2)._new();
+$recv($2)._foo_("should be shadowed");
+$1=$recv($2)._yourself();
+$self._should_receiver_return_("foo <jsOverride: #foo> ^ super foo",$1,"undefined,undefined");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testNiladicSuper",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractJavaScriptGatewayTest);
+
+$core.addMethod(
+$core.method({
+selector: "testNiladicSuperDifferentNames",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNiladicSuperDifferentNames\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.\x0a\x09self while: 'bar <jsOverride: #foo> ^ super bar' should: [\x0a\x09\x09self shouldnt: [ receiver bar ] raise: Error.\x0a\x09\x09self assert: receiver bar equals: 'undefined,undefined' ]",
+referencedClasses: ["ObjectMock", "ObjectMock2", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "foo:", "new", "yourself", "while:should:", "shouldnt:raise:", "bar", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$self.theClass=$recv($globals.ObjectMock)._subclass_slots_package_("ObjectMock2",[],"Compiler-Tests");
+$recv($self.theClass)._beJavaScriptSubclassOf_($self._jsConstructor());
+$1=$recv($globals.ObjectMock2)._new();
+$recv($1)._foo_("should be shadowed");
+$self.receiver=$recv($1)._yourself();
+$self._while_should_("bar <jsOverride: #foo> ^ super bar",(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$self._shouldnt_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return [$recv($self.receiver)._bar()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["bar"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+return $self._assert_equals_($recv($self.receiver)._bar(),"undefined,undefined");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testNiladicSuperDifferentNames",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractJavaScriptGatewayTest);
+
+$core.addMethod(
+$core.method({
+selector: "testNiladicSuperNested",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNiladicSuperNested\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09self\x0a\x09\x09should: 'foo <jsOverride: #foo> ^ [ super foo ] value'\x0a\x09\x09receiver: (ObjectMock2 new foo: 'should be shadowed'; yourself)\x0a\x09\x09return: 'undefined,undefined'",
+referencedClasses: ["ObjectMock", "ObjectMock2"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "should:receiver:return:", "foo:", "new", "yourself"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+$self.theClass=$recv($globals.ObjectMock)._subclass_slots_package_("ObjectMock2",[],"Compiler-Tests");
+$recv($self.theClass)._beJavaScriptSubclassOf_($self._jsConstructor());
+$1=$recv($globals.ObjectMock2)._new();
+$recv($1)._foo_("should be shadowed");
+$2=$recv($1)._yourself();
+$self._should_receiver_return_("foo <jsOverride: #foo> ^ [ super foo ] value",$2,"undefined,undefined");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testNiladicSuperNested",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractJavaScriptGatewayTest);
+
+$core.addMethod(
+$core.method({
+selector: "theClass",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "theClass\x0a\x09^ theClass",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.theClass;
+
+}; }),
+$globals.AbstractJavaScriptGatewayTest);
+
+
+$core.addMethod(
+$core.method({
+selector: "isAbstract",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isAbstract\x0a\x09^ self name = AbstractJavaScriptGatewayTest name",
+referencedClasses: ["AbstractJavaScriptGatewayTest"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["=", "name"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$self._name();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["name"]=1;
+//>>excludeEnd("ctx");
+return $recv($1).__eq($recv($globals.AbstractJavaScriptGatewayTest)._name());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isAbstract",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractJavaScriptGatewayTest.a$cls);
+
+
+$core.addClass("InlinedJSGTest", $globals.AbstractJavaScriptGatewayTest, [], "Compiler-Tests");
+
+
+$core.addClass("PlainJSGTest", $globals.AbstractJavaScriptGatewayTest, [], "Compiler-Tests");
 
 
 $core.addClass("ASTPCNodeVisitorTest", $globals.TestCase, [], "Compiler-Tests");
@@ -3995,6 +4189,9 @@ $core.setTraitComposition([{trait: $globals.TCTNonInlined}, {trait: $globals.TCT
 $core.setTraitComposition([{trait: $globals.TCTNonInlined}, {trait: $globals.TCTInterpreted}], $globals.ASTInterpreterTest);
 $core.setTraitComposition([{trait: $globals.TCTNonInlined}, {trait: $globals.TCTExecuted}], $globals.CodeGeneratorTest);
 $core.setTraitComposition([{trait: $globals.TCTInlined}, {trait: $globals.TCTExecuted}], $globals.InliningCodeGeneratorTest);
+$core.setTraitComposition([{trait: $globals.TClassBuildingTest}], $globals.AbstractJavaScriptGatewayTest);
+$core.setTraitComposition([{trait: $globals.TCTInlined}, {trait: $globals.TCTExecuted}], $globals.InlinedJSGTest);
+$core.setTraitComposition([{trait: $globals.TCTNonInlined}, {trait: $globals.TCTExecuted}], $globals.PlainJSGTest);
 $core.setTraitComposition([{trait: $globals.TASTParsingTest}], $globals.ASTPCNodeVisitorTest);
 $core.setTraitComposition([{trait: $globals.TASTParsingTest}], $globals.ASTPositionTest);
 $core.setTraitComposition([{trait: $globals.TASTCompilingTest}], $globals.AbstractCodeGeneratorInstallTest);

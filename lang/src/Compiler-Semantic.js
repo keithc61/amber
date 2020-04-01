@@ -1591,6 +1591,27 @@ $globals.SuperVar);
 
 
 
+$core.addClass("JavaScriptSuperVar", $globals.SuperVar, [], "Compiler-Semantic");
+$core.addMethod(
+$core.method({
+selector: "lookupAsJavaScriptSource",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "lookupAsJavaScriptSource\x0a\x09^ 'Object.getPrototypeOf($methodClass.fn.prototype)'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return "Object.getPrototypeOf($methodClass.fn.prototype)";
+
+}; }),
+$globals.JavaScriptSuperVar);
+
+
+
 $core.addClass("ThisContextVar", $globals.PseudoVar, [], "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ThisContextVar.comment="I am a 'thisContext' pseudo variable.";

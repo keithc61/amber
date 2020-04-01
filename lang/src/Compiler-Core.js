@@ -417,11 +417,11 @@ selector: "transformersDictionary",
 protocol: "compiling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "transformersDictionary\x0a\x09^ transformersDictionary ifNil: [ transformersDictionary := super transformersDictionary\x0a\x09\x09at: '5000-astToIr' put: self translator;\x0a\x09\x09at: '8000-irToJs' put: self irTranslator;\x0a\x09\x09at: '9000-latePragmas' put: self lateIRPragmator;\x0a\x09\x09yourself ]",
+source: "transformersDictionary\x0a\x09^ transformersDictionary ifNil: [ transformersDictionary := super transformersDictionary\x0a\x09\x09at: '5000-astToIr' put: self translator;\x0a\x09\x09at: '7000-irLatePragmas' put: self lateIRPragmator;\x0a\x09\x09at: '8000-irToJs' put: self irTranslator;\x0a\x09\x09yourself ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNil:", "at:put:", "transformersDictionary", "translator", "irTranslator", "lateIRPragmator", "yourself"]
+messageSends: ["ifNil:", "at:put:", "transformersDictionary", "translator", "lateIRPragmator", "irTranslator", "yourself"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -444,12 +444,12 @@ $ctx1.supercall = true,
 ,$ctx1.sendIdx["at:put:"]=1
 //>>excludeEnd("ctx");
 ][0];
-[$recv($2)._at_put_("8000-irToJs",$self._irTranslator())
+[$recv($2)._at_put_("7000-irLatePragmas",$self._lateIRPragmator())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["at:put:"]=2
 //>>excludeEnd("ctx");
 ][0];
-$recv($2)._at_put_("9000-latePragmas",$self._lateIRPragmator());
+$recv($2)._at_put_("8000-irToJs",$self._irTranslator());
 $self.transformersDictionary=$recv($2)._yourself();
 return $self.transformersDictionary;
 } else {

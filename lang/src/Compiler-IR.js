@@ -3347,16 +3347,25 @@ selector: "jsOverride:",
 protocol: "pragmas",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "jsOverride: aString\x0a\x09self irMethod attachments\x0a\x09\x09at: aString\x0a\x09\x09put: (NativeFunction\x0a\x09\x09\x09constructorNamed: #Function\x0a\x09\x09\x09value: 'return this.', irMethod selector asJavaScriptMethodName, '()')",
-referencedClasses: ["NativeFunction"],
+source: "jsOverride: aString\x0a\x09(IRJSSuperSendVisitor new property: aString; yourself)\x0a\x09\x09visit: self irMethod.\x0a\x09self irMethod attachments\x0a\x09\x09at: aString\x0a\x09\x09put: (NativeFunction\x0a\x09\x09\x09constructorNamed: #Function\x0a\x09\x09\x09value: 'return this.', irMethod selector asJavaScriptMethodName, '()')",
+referencedClasses: ["IRJSSuperSendVisitor", "NativeFunction"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["at:put:", "attachments", "irMethod", "constructorNamed:value:", ",", "asJavaScriptMethodName", "selector"]
+messageSends: ["visit:", "property:", "new", "yourself", "irMethod", "at:put:", "attachments", "constructorNamed:value:", ",", "asJavaScriptMethodName", "selector"]
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1,$2;
+$1=$recv($globals.IRJSSuperSendVisitor)._new();
+$recv($1)._property_(aString);
+$2=$recv($1)._yourself();
+$recv($2)._visit_([$self._irMethod()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["irMethod"]=1
+//>>excludeEnd("ctx");
+][0]);
 $recv($recv($self._irMethod())._attachments())._at_put_(aString,$recv($globals.NativeFunction)._constructorNamed_value_("Function",[$recv("return this.".__comma($recv($recv($self.irMethod)._selector())._asJavaScriptMethodName())).__comma("()")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=1
@@ -3762,6 +3771,168 @@ return $self._visitDagNode_(anIRVerbatim);
 //>>excludeEnd("ctx");
 }; }),
 $globals.IRVisitor);
+
+
+
+$core.addClass("IRJSSuperSendVisitor", $globals.IRVisitor, ["selector", "property"], "Compiler-IR");
+$core.addMethod(
+$core.method({
+selector: "property",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "property\x0a\x09^ property",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.property;
+
+}; }),
+$globals.IRJSSuperSendVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "property:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "property: anObject\x0a\x09property := anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+$self.property=anObject;
+return self;
+
+}; }),
+$globals.IRJSSuperSendVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "selector",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "selector\x0a\x09^ selector",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.selector;
+
+}; }),
+$globals.IRJSSuperSendVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "selector:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "selector: anObject\x0a\x09selector := anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+$self.selector=anObject;
+return self;
+
+}; }),
+$globals.IRJSSuperSendVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "visitIRMethod:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anIRMethod"],
+source: "visitIRMethod: anIRMethod\x0a\x09self selector: anIRMethod selector.\x0a\x09^ super visitIRMethod: anIRMethod",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["selector:", "selector", "visitIRMethod:"]
+}, function ($methodClass){ return function (anIRMethod){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._selector_($recv(anIRMethod)._selector());
+return [(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitIRMethod_.call($self,anIRMethod))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.supercall = false
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"visitIRMethod:",{anIRMethod:anIRMethod})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.IRJSSuperSendVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "visitIRSend:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anIRSend"],
+source: "visitIRSend: anIRSend\x0a\x09| receiver |\x0a\x09receiver := anIRSend receiver.\x0a\x09receiver isSuper ifTrue: [\x0a\x09\x09anIRSend selector = self selector ifTrue: [\x0a\x09\x09\x09| old |\x0a\x09\x09\x09old := receiver variable.\x0a\x09\x09\x09receiver variable: (\x0a\x09\x09\x09\x09JavaScriptSuperVar new\x0a\x09\x09\x09\x09\x09scope: old scope;\x0a\x09\x09\x09\x09\x09name: old name;\x0a\x09\x09\x09\x09\x09yourself ).\x0a\x09\x09\x09anIRSend javaScriptSelector: self property ] ].\x0a\x09^ super visitIRSend: anIRSend",
+referencedClasses: ["JavaScriptSuperVar"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["receiver", "ifTrue:", "isSuper", "=", "selector", "variable", "variable:", "scope:", "new", "scope", "name:", "name", "yourself", "javaScriptSelector:", "property", "visitIRSend:"]
+}, function ($methodClass){ return function (anIRSend){
+var self=this,$self=this;
+var receiver;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$3,$4,$5;
+receiver=$recv(anIRSend)._receiver();
+$1=$recv(receiver)._isSuper();
+if($core.assert($1)){
+$2=$recv([$recv(anIRSend)._selector()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["selector"]=1
+//>>excludeEnd("ctx");
+][0]).__eq($self._selector());
+if($core.assert($2)){
+var old;
+old=$recv(receiver)._variable();
+$3=receiver;
+$4=$recv($globals.JavaScriptSuperVar)._new();
+$recv($4)._scope_($recv(old)._scope());
+$recv($4)._name_($recv(old)._name());
+$5=$recv($4)._yourself();
+$recv($3)._variable_($5);
+$recv(anIRSend)._javaScriptSelector_($self._property());
+}
+}
+return [(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitIRSend_.call($self,anIRSend))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.supercall = false
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"visitIRSend:",{anIRSend:anIRSend,receiver:receiver})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.IRJSSuperSendVisitor);
 
 
 

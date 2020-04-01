@@ -463,6 +463,69 @@ AbstractCompilerTest subclass: #InliningCodeGeneratorTest
 	slots: {}
 	package: 'Compiler-Tests'!
 
+ASTMethodRunningTest subclass: #AbstractJavaScriptGatewayTest
+	slots: {#theClass}
+	package: 'Compiler-Tests'!
+
+!AbstractJavaScriptGatewayTest methodsFor: 'accessing'!
+
+theClass
+	^ theClass
+! !
+
+!AbstractJavaScriptGatewayTest methodsFor: 'running'!
+
+jsConstructor
+	<inlineJS: '
+		var ctr = function () {};
+		ctr.prototype.foo = function (a,b) {return a+","+b};
+		return ctr;
+	'>
+! !
+
+!AbstractJavaScriptGatewayTest methodsFor: 'tests'!
+
+testNiladicSuper
+	theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.
+	theClass beJavaScriptSubclassOf: self jsConstructor.
+	self
+		should: 'foo <jsOverride: #foo> ^ super foo'
+		receiver: (ObjectMock2 new foo: 'should be shadowed'; yourself)
+		return: 'undefined,undefined'
+!
+
+testNiladicSuperDifferentNames
+	theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.
+	theClass beJavaScriptSubclassOf: self jsConstructor.
+	receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.
+	self while: 'bar <jsOverride: #foo> ^ super bar' should: [
+		self shouldnt: [ receiver bar ] raise: Error.
+		self assert: receiver bar equals: 'undefined,undefined' ]
+!
+
+testNiladicSuperNested
+	theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.
+	theClass beJavaScriptSubclassOf: self jsConstructor.
+	self
+		should: 'foo <jsOverride: #foo> ^ [ super foo ] value'
+		receiver: (ObjectMock2 new foo: 'should be shadowed'; yourself)
+		return: 'undefined,undefined'
+! !
+
+!AbstractJavaScriptGatewayTest class methodsFor: 'testing'!
+
+isAbstract
+	^ self name = AbstractJavaScriptGatewayTest name
+! !
+
+AbstractJavaScriptGatewayTest subclass: #InlinedJSGTest
+	slots: {}
+	package: 'Compiler-Tests'!
+
+AbstractJavaScriptGatewayTest subclass: #PlainJSGTest
+	slots: {}
+	package: 'Compiler-Tests'!
+
 TestCase subclass: #ASTPCNodeVisitorTest
 	slots: {}
 	package: 'Compiler-Tests'!
@@ -1054,6 +1117,9 @@ ASTDebuggerTest setTraitComposition: {TCTNonInlined. TCTDebugged} asTraitComposi
 ASTInterpreterTest setTraitComposition: {TCTNonInlined. TCTInterpreted} asTraitComposition!
 CodeGeneratorTest setTraitComposition: {TCTNonInlined. TCTExecuted} asTraitComposition!
 InliningCodeGeneratorTest setTraitComposition: {TCTInlined. TCTExecuted} asTraitComposition!
+AbstractJavaScriptGatewayTest setTraitComposition: {TClassBuildingTest} asTraitComposition!
+InlinedJSGTest setTraitComposition: {TCTInlined. TCTExecuted} asTraitComposition!
+PlainJSGTest setTraitComposition: {TCTNonInlined. TCTExecuted} asTraitComposition!
 ASTPCNodeVisitorTest setTraitComposition: {TASTParsingTest} asTraitComposition!
 ASTPositionTest setTraitComposition: {TASTParsingTest} asTraitComposition!
 AbstractCodeGeneratorInstallTest setTraitComposition: {TASTCompilingTest} asTraitComposition!

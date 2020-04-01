@@ -107,8 +107,8 @@ lateIRPragmator
 transformersDictionary
 	^ transformersDictionary ifNil: [ transformersDictionary := super transformersDictionary
 		at: '5000-astToIr' put: self translator;
+		at: '7000-irLatePragmas' put: self lateIRPragmator;
 		at: '8000-irToJs' put: self irTranslator;
-		at: '9000-latePragmas' put: self lateIRPragmator;
 		yourself ]
 !
 
