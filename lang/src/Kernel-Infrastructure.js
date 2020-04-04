@@ -2724,7 +2724,7 @@ return self;
 $globals.PackageStateObserver.a$cls);
 
 
-$core.addClass("Setting", $globals.Object, ["key", "value", "defaultValue"], "Kernel-Infrastructure");
+$core.addClass("Setting", $globals.Object, ["key", "defaultValue"], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Setting.comment="I represent a setting **stored** at `Smalltalk settings`. \x0aIn the current implementation, `Smalltalk settings` is an object persisted in the localStorage.\x0a\x0a## API\x0a\x0aA `Setting` value can be read using `value` and set using `value:`.\x0a\x0aSettings are accessed with `'key' asSetting` or `'key' asSettingIfAbsent: aDefaultValue`.\x0a\x0aTo read the value of a setting you can also use the convenience:\x0a\x0a`theValueSet :=  'any.characteristic' settingValue` \x0a\x0aor with a default using:\x0a\x0a `theEnsuredValueSet := 'any.characteristic' settingValueIfAbsent: true`";
 //>>excludeEnd("ide");

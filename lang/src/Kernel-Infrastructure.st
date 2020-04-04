@@ -712,7 +712,7 @@ initialize
 ! !
 
 Object subclass: #Setting
-	slots: {#key. #value. #defaultValue}
+	slots: {#key. #defaultValue}
 	package: 'Kernel-Infrastructure'!
 !Setting commentStamp!
 I represent a setting **stored** at `Smalltalk settings`. 
