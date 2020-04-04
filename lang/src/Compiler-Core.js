@@ -1144,7 +1144,7 @@ var package_;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1;
 package_=$recv(aClass)._packageOfProtocol_(anotherString);
 [$self._currentPackage_(package_)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1155,8 +1155,7 @@ $1=$recv($self._codeGeneratorClass())._new();
 $recv($1)._source_(aString);
 $recv($1)._currentClass_(aClass);
 $recv($1)._currentPackage_(package_);
-$2=$recv($1)._yourself();
-$self._codeGenerator_($2);
+$self._codeGenerator_($recv($1)._yourself());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"start:forClass:protocol:",{aString:aString,aClass:aClass,anotherString:anotherString,package_:package_})});

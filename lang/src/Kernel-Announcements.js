@@ -398,7 +398,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5;
+var $1,$2,$3;
 $1=$self.subscriptions;
 $2=[$recv($globals.AnnouncementSubscription)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -408,19 +408,17 @@ $2=[$recv($globals.AnnouncementSubscription)._new()
 $3=$recv($globals.AnnouncementValuable)._new();
 $recv($3)._valuable_(aBlock);
 $recv($3)._receiver_(aReceiver);
-$4=[$recv($3)._yourself()
+[$recv($2)._valuable_([$recv($3)._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=1
 //>>excludeEnd("ctx");
-][0];
-[$recv($2)._valuable_($4)
+][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["valuable:"]=1
 //>>excludeEnd("ctx");
 ][0];
 $recv($2)._announcementClass_(aClass);
-$5=$recv($2)._yourself();
-$recv($1)._add_($5);
+$recv($1)._add_($recv($2)._yourself());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"on:do:for:",{aClass:aClass,aBlock:aBlock,aReceiver:aReceiver})});
@@ -483,7 +481,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5;
+var $1,$2,$3;
 $1=$self.subscriptions;
 $2=[$recv($globals.AnnouncementSubscription)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -493,15 +491,13 @@ $2=[$recv($globals.AnnouncementSubscription)._new()
 $3=$recv($globals.MessageSend)._new();
 $recv($3)._receiver_(anObject);
 $recv($3)._selector_(aSelector);
-$4=[$recv($3)._yourself()
+$recv($2)._valuable_([$recv($3)._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=1
 //>>excludeEnd("ctx");
-][0];
-$recv($2)._valuable_($4);
+][0]);
 $recv($2)._announcementClass_(aClass);
-$5=$recv($2)._yourself();
-$recv($1)._add_($5);
+$recv($1)._add_($recv($2)._yourself());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"on:send:to:",{aClass:aClass,aSelector:aSelector,anObject:anObject})});

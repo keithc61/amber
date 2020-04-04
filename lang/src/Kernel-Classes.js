@@ -1651,13 +1651,12 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1,$2;
 $self._basicClass_instanceVariables_(aClass,aCollection);
 $1=$recv($globals.SystemAnnouncer)._current();
 $2=$recv($globals.ClassDefinitionChanged)._new();
 $recv($2)._theClass_(aClass);
-$3=$recv($2)._yourself();
-$recv($1)._announce_($3);
+$recv($1)._announce_($recv($2)._yourself());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"class:slots:",{aClass:aClass,aCollection:aCollection})});
@@ -1682,14 +1681,13 @@ var newClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1,$2;
 newClass=$self._addSubclassOf_named_instanceVariableNames_package_($recv(aClass)._superclass(),className,$recv(aClass)._instanceVariableNames(),$recv($recv(aClass)._package())._name());
 $self._copyClass_to_(aClass,newClass);
 $1=$recv($globals.SystemAnnouncer)._current();
 $2=$recv($globals.ClassAdded)._new();
 $recv($2)._theClass_(newClass);
-$3=$recv($2)._yourself();
-$recv($1)._announce_($3);
+$recv($1)._announce_($recv($2)._yourself());
 return newClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"copyClass:named:",{aClass:aClass,className:className,newClass:newClass})});
@@ -1857,7 +1855,7 @@ var oldClass,newClass,tmp;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1,$2;
 tmp="new*".__comma(className);
 oldClass=$recv($recv($globals.Smalltalk)._globals())._at_(className);
 newClass=$self._addSubclassOf_named_instanceVariableNames_package_(aClass,tmp,aCollection,packageName);
@@ -1909,8 +1907,7 @@ $1=$recv($globals.SystemAnnouncer)._current();
 $2=$recv($globals.ClassMigrated)._new();
 $recv($2)._theClass_(newClass);
 $recv($2)._oldClass_(oldClass);
-$3=$recv($2)._yourself();
-$recv($1)._announce_($3);
+$recv($1)._announce_($recv($2)._yourself());
 return newClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"migrateClassNamed:superclass:instanceVariableNames:package:",{className:className,aClass:aClass,aCollection:aCollection,packageName:packageName,oldClass:oldClass,newClass:newClass,tmp:tmp})});
@@ -1960,14 +1957,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1,$2;
 $self._basicRenameClass_to_(aClass,className);
 $recv(aClass)._recompile();
 $1=$recv($globals.SystemAnnouncer)._current();
 $2=$recv($globals.ClassRenamed)._new();
 $recv($2)._theClass_(aClass);
-$3=$recv($2)._yourself();
-$recv($1)._announce_($3);
+$recv($1)._announce_($recv($2)._yourself());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"renameClass:to:",{aClass:aClass,className:className})});
@@ -2015,7 +2011,7 @@ var newClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4;
+var $1,$2,$3;
 if(packageName == null || packageName.a$nil){
 $1="unclassified";
 } else {
@@ -2025,8 +2021,7 @@ newClass=$self._addSubclassOf_named_instanceVariableNames_package_(aClass,classN
 $2=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.ClassAdded)._new();
 $recv($3)._theClass_(newClass);
-$4=$recv($3)._yourself();
-$recv($2)._announce_($4);
+$recv($2)._announce_($recv($3)._yourself());
 return newClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"superclass:subclass:slots:package:",{aClass:aClass,className:className,aCollection:aCollection,packageName:packageName,newClass:newClass})});
@@ -2963,13 +2958,12 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1,$2;
 $self._basicRemoveCompiledMethod_(aMethod);
 $1=$recv($globals.SystemAnnouncer)._current();
 $2=$recv($globals.MethodRemoved)._new();
 $recv($2)._method_(aMethod);
-$3=$recv($2)._yourself();
-$recv($1)._announce_($3);
+$recv($1)._announce_($recv($2)._yourself());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"removeCompiledMethod:",{aMethod:aMethod})});
@@ -3325,13 +3319,12 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1,$2;
 $self._basicAt_put_("comment",aString);
 $1=$recv($globals.SystemAnnouncer)._current();
 $2=$recv($globals.ClassCommentChanged)._new();
 $recv($2)._theClass_(self);
-$3=$recv($2)._yourself();
-$recv($1)._announce_($3);
+$recv($1)._announce_($recv($2)._yourself());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"comment:",{aString:aString})});
@@ -3490,7 +3483,7 @@ var oldPackage;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4;
+var $1,$2,$3;
 $1=$recv([$self._package()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["package"]=1
@@ -3507,8 +3500,7 @@ $2=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.ClassMoved)._new();
 $recv($3)._theClass_(self);
 $recv($3)._oldPackage_(oldPackage);
-$4=$recv($3)._yourself();
-$recv($2)._announce_($4);
+$recv($2)._announce_($recv($3)._yourself());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"package:",{aPackage:aPackage,oldPackage:oldPackage})});

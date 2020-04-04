@@ -81,23 +81,34 @@ selector: "aliasTemporally:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aCollection"],
-source: "aliasTemporally: aCollection\x0a\x09\x22https://lolg.it/amber/amber/issues/296\x0a\x09\x0a\x09If a node is aliased, all preceding ones are aliased as well.\x0a\x09The tree is iterated twice. First we get the aliasing dependency,\x0a\x09then the aliasing itself is done\x22\x0a\x0a\x09| threshold shouldAlias |\x0a\x09threshold := aCollection reversed\x0a\x09\x09detect: [ :each | each subtreeNeedsAliasing ] ifNone: [ nil ].\x0a\x09threshold ifNil: [ ^ self visitAll: aCollection ].\x0a\x0a\x09shouldAlias := true.\x0a\x09^ aCollection collect: [ :each |\x0a\x09\x09shouldAlias\x0a\x09\x09\x09ifTrue: [ each == threshold ifTrue: [ shouldAlias := false ]. self alias: each ]\x0a\x09\x09\x09ifFalse: [ self visit: each ] ]",
+source: "aliasTemporally: aCollection\x0a\x09\x22https://lolg.it/amber/amber/issues/296\x0a\x09\x0a\x09If a node is aliased, all preceding ones are aliased as well.\x0a\x09The tree is iterated twice. First we get the aliasing dependency,\x0a\x09then the aliasing itself is done\x22\x0a\x0a\x09| threshold shouldAlias |\x0a\x09shouldAlias := false.\x0a\x09threshold := aCollection reversed\x0a\x09\x09detect: [ :each |\x0a\x09\x09\x09shouldAlias\x0a\x09\x09\x09\x09ifTrue: [ true ]\x0a\x09\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09\x09each hasOpeningStatements ifTrue: [ shouldAlias := true ].\x0a\x09\x09\x09\x09\x09each subtreeNeedsAliasing ] ]\x0a\x09\x09ifNone: [ nil ].\x0a\x09threshold ifNil: [ ^ self visitAll: aCollection ].\x0a\x0a\x09shouldAlias := true.\x0a\x09^ aCollection collect: [ :each |\x0a\x09\x09shouldAlias\x0a\x09\x09\x09ifTrue: [ each == threshold ifTrue: [ shouldAlias := false ]. self alias: each ]\x0a\x09\x09\x09ifFalse: [ self visit: each ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["detect:ifNone:", "reversed", "subtreeNeedsAliasing", "ifNil:", "visitAll:", "collect:", "ifTrue:ifFalse:", "ifTrue:", "==", "alias:", "visit:"]
+messageSends: ["detect:ifNone:", "reversed", "ifTrue:ifFalse:", "ifTrue:", "hasOpeningStatements", "subtreeNeedsAliasing", "ifNil:", "visitAll:", "collect:", "==", "alias:", "visit:"]
 }, function ($methodClass){ return function (aCollection){
 var self=this,$self=this;
 var threshold,shouldAlias;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1,$2,$3,$4,$5;
+shouldAlias=false;
 threshold=$recv($recv(aCollection)._reversed())._detect_ifNone_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
+$1=shouldAlias;
+if($core.assert($1)){
+return true;
+} else {
+$2=$recv(each)._hasOpeningStatements();
+if($core.assert($2)){
+shouldAlias=true;
+shouldAlias;
+}
 return $recv(each)._subtreeNeedsAliasing();
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -105,21 +116,21 @@ return $recv(each)._subtreeNeedsAliasing();
 return nil;
 
 }));
-$1=threshold;
-if($1 == null || $1.a$nil){
+$3=threshold;
+if($3 == null || $3.a$nil){
 return $self._visitAll_(aCollection);
 } else {
-$1;
+$3;
 }
 shouldAlias=true;
 return $recv(aCollection)._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2=shouldAlias;
-if($core.assert($2)){
-$3=$recv(each).__eq_eq(threshold);
-if($core.assert($3)){
+$4=shouldAlias;
+if($core.assert($4)){
+$5=$recv(each).__eq_eq(threshold);
+if($core.assert($5)){
 shouldAlias=false;
 shouldAlias;
 }
@@ -128,7 +139,7 @@ return $self._alias_(each);
 return $self._visit_(each);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,4)});
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,7)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -302,7 +313,7 @@ var left,right,assignment;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1;
 right=[$self._visit_($recv(aNode)._right())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["visit:"]=1
@@ -316,8 +327,7 @@ $1=$recv($globals.IRAssignment)._new();
 //>>excludeEnd("ctx");
 ][0];
 $recv($1)._add_(right);
-$2=$recv($1)._yourself();
-$self._addToSequence_($2);
+$self._addToSequence_($recv($1)._yourself());
 return left;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitAssignmentNode:",{aNode:aNode,left:left,right:right,assignment:assignment})});
@@ -342,7 +352,7 @@ var closure;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4;
+var $1,$2,$3;
 $1=[$recv($globals.IRClosure)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["new"]=1
@@ -376,8 +386,7 @@ $2=closure;
 $3=$recv($globals.IRTempDeclaration)._new();
 $recv($3)._name_($recv(each)._name());
 $recv($3)._scope_($recv(aNode)._scope());
-$4=$recv($3)._yourself();
-return [$recv($2)._add_($4)
+return [$recv($2)._add_($recv($3)._yourself())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["add:"]=1
 //>>excludeEnd("ctx");
@@ -410,7 +419,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1,$2;
 return $self._withSequence_do_([$recv($globals.IRBlockSequence)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["new"]=1
@@ -470,8 +479,7 @@ $recv($2)._add_($self._visitOrAlias_([$recv([$recv(aNode)._dagChildren()
 ,$ctx3.sendIdx["last"]=2
 //>>excludeEnd("ctx");
 ][0]));
-$3=$recv($2)._yourself();
-return [$self._addToSequence_($3)
+return [$self._addToSequence_($recv($2)._yourself())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx3.sendIdx["addToSequence:"]=2
 //>>excludeEnd("ctx");
@@ -665,7 +673,7 @@ var irSequence;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14;
+var $1,$2,$3,$4,$5,$6,$7,$8,$9;
 $1=[$recv($globals.IRMethod)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["new"]=1
@@ -725,12 +733,11 @@ $recv($1)._classReferences_($recv(aNode)._classReferences());
 ,$ctx1.sendIdx["scope:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$3=[$recv($1)._yourself()
+$self._method_([$recv($1)._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=1
 //>>excludeEnd("ctx");
-][0];
-$self._method_($3);
+][0]);
 $recv($recv([$recv(aNode)._scope()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["scope"]=2
@@ -739,28 +746,27 @@ $recv($recv([$recv(aNode)._scope()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$4=[$self._method()
+$3=[$self._method()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["method"]=1
 //>>excludeEnd("ctx");
 ][0];
-$5=[$recv($globals.IRTempDeclaration)._new()
+$4=[$recv($globals.IRTempDeclaration)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["new"]=2
 //>>excludeEnd("ctx");
 ][0];
-$recv($5)._name_($recv(each)._name());
-$recv($5)._scope_([$recv(aNode)._scope()
+$recv($4)._name_($recv(each)._name());
+$recv($4)._scope_([$recv(aNode)._scope()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["scope"]=3
 //>>excludeEnd("ctx");
 ][0]);
-$6=[$recv($5)._yourself()
+return [$recv($3)._add_([$recv($4)._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["yourself"]=2
 //>>excludeEnd("ctx");
-][0];
-return [$recv($4)._add_($6)
+][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["add:"]=1
 //>>excludeEnd("ctx");
@@ -769,40 +775,37 @@ return [$recv($4)._add_($6)
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,5)});
 //>>excludeEnd("ctx");
 }));
-$7=[$self._method()
+$5=[$self._method()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["method"]=2
 //>>excludeEnd("ctx");
 ][0];
 irSequence=$self._visit_($recv(aNode)._sequenceNode());
-$8=irSequence;
-[$recv($7)._add_($8)
+[$recv($5)._add_(irSequence)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["add:"]=2
 //>>excludeEnd("ctx");
 ][0];
-$9=$recv([$recv(aNode)._scope()
+$6=$recv([$recv(aNode)._scope()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["scope"]=4
 //>>excludeEnd("ctx");
 ][0])._hasLocalReturn();
-if(!$core.assert($9)){
-$10=irSequence;
-$11=[$recv($globals.IRReturn)._new()
+if(!$core.assert($6)){
+$7=irSequence;
+$8=[$recv($globals.IRReturn)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["new"]=3
 //>>excludeEnd("ctx");
 ][0];
-$12=$recv($globals.IRVariable)._new();
-$recv($12)._variable_($recv($recv($recv(aNode)._scope())._pseudoVars())._at_("self"));
-$13=[$recv($12)._yourself()
+$9=$recv($globals.IRVariable)._new();
+$recv($9)._variable_($recv($recv($recv(aNode)._scope())._pseudoVars())._at_("self"));
+$recv($8)._add_([$recv($9)._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=3
 //>>excludeEnd("ctx");
-][0];
-$recv($11)._add_($13);
-$14=$recv($11)._yourself();
-[$recv($10)._add_($14)
+][0]);
+[$recv($7)._add_($recv($8)._yourself())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["add:"]=3
 //>>excludeEnd("ctx");
@@ -3357,11 +3360,10 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1;
 $1=$recv($globals.IRJSSuperSendVisitor)._new();
 $recv($1)._property_(aString);
-$2=$recv($1)._yourself();
-$recv($2)._visit_([$self._irMethod()
+$recv($recv($1)._yourself())._visit_([$self._irMethod()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["irMethod"]=1
 //>>excludeEnd("ctx");
@@ -3898,7 +3900,7 @@ var receiver;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5;
+var $1,$2,$3,$4;
 receiver=$recv(anIRSend)._receiver();
 $1=$recv(receiver)._isSuper();
 if($core.assert($1)){
@@ -3914,8 +3916,7 @@ $3=receiver;
 $4=$recv($globals.JavaScriptSuperVar)._new();
 $recv($4)._scope_($recv(old)._scope());
 $recv($4)._name_($recv(old)._name());
-$5=$recv($4)._yourself();
-$recv($3)._variable_($5);
+$recv($3)._variable_($recv($4)._yourself());
 $recv(anIRSend)._javaScriptSelector_($self._property());
 }
 }
@@ -6054,11 +6055,11 @@ $globals.ASTNode);
 
 $core.addMethod(
 $core.method({
-selector: "subtreeNeedsAliasing",
+selector: "hasOpeningStatements",
 protocol: "*Compiler-IR",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "subtreeNeedsAliasing\x0a\x09^ true",
+source: "hasOpeningStatements\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -6069,6 +6070,24 @@ return true;
 
 }; }),
 $globals.AssignmentNode);
+
+$core.addMethod(
+$core.method({
+selector: "hasOpeningStatements",
+protocol: "*Compiler-IR",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "hasOpeningStatements\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.BlockNode);
 
 $core.addMethod(
 $core.method({
@@ -6095,11 +6114,11 @@ $globals.BlockNode);
 
 $core.addMethod(
 $core.method({
-selector: "subtreeNeedsAliasing",
+selector: "hasOpeningStatements",
 protocol: "*Compiler-IR",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "subtreeNeedsAliasing\x0a\x09^ true",
+source: "hasOpeningStatements\x0a\x09^ true",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -6110,6 +6129,37 @@ return true;
 
 }; }),
 $globals.CascadeNode);
+
+$core.addMethod(
+$core.method({
+selector: "hasOpeningStatements",
+protocol: "*Compiler-IR",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "hasOpeningStatements\x0a\x09^ self dagChildren anySatisfy: [ :each | each hasOpeningStatements ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["anySatisfy:", "dagChildren", "hasOpeningStatements"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._dagChildren())._anySatisfy_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(each)._hasOpeningStatements();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"hasOpeningStatements",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ExpressionNode);
 
 $core.addMethod(
 $core.method({

@@ -1440,7 +1440,7 @@ var oldProtocol;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5;
+var $1,$2,$3,$4;
 oldProtocol=$self._protocol();
 $self.protocol=aString;
 $1=oldProtocol;
@@ -1451,15 +1451,14 @@ $2=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.MethodMoved)._new();
 $recv($3)._method_(self);
 $recv($3)._oldProtocol_(oldProtocol);
-$4=$recv($3)._yourself();
-$recv($2)._announce_($4);
+$recv($2)._announce_($recv($3)._yourself());
 }
-$5=$self._origin();
-if($5 == null || $5.a$nil){
-$5;
+$4=$self._origin();
+if($4 == null || $4.a$nil){
+$4;
 } else {
 var origin;
-origin=$5;
+origin=$4;
 $recv($recv(origin)._organization())._addElement_(aString);
 $recv(origin)._removeProtocolIfEmpty_(oldProtocol);
 }

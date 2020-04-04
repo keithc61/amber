@@ -986,7 +986,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4;
+var $1,$2,$3;
 $1=$self.pseudoVars;
 if($1 == null || $1.a$nil){
 $self.pseudoVars=$recv($globals.Dictionary)._new();
@@ -997,8 +997,7 @@ return $core.withContext(function($ctx2) {
 $2=$self.pseudoVars;
 $3=$recv(impl)._on_(each);
 $recv($3)._scope_($self._methodScope());
-$4=$recv($3)._yourself();
-return $recv($2)._at_put_(each,$4);
+return $recv($2)._at_put_(each,$recv($3)._yourself());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each,impl:impl},$ctx1,2)});
 //>>excludeEnd("ctx");

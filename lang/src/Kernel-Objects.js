@@ -5432,7 +5432,7 @@ var n,d;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1;
 n=[$recv($recv($self.y)._negated()).__at($self.x)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["@"]=1
@@ -5451,9 +5451,8 @@ d=$recv([$recv([$recv(n)._x()
 ,$ctx1.sendIdx["y"]=1
 //>>excludeEnd("ctx");
 ][0]).__star($recv(n)._y()));
-$1=d;
-$2=$recv($1).__eq((0));
-if($core.assert($2)){
+$1=$recv(d).__eq((0));
+if($core.assert($1)){
 return (-1).__at((0));
 }
 return $recv(n).__slash($recv(d)._sqrt());

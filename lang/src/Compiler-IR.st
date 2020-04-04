@@ -76,8 +76,15 @@ aliasTemporally: aCollection
 	then the aliasing itself is done"
 
 	| threshold shouldAlias |
+	shouldAlias := false.
 	threshold := aCollection reversed
-		detect: [ :each | each subtreeNeedsAliasing ] ifNone: [ nil ].
+		detect: [ :each |
+			shouldAlias
+				ifTrue: [ true ]
+				ifFalse: [
+					each hasOpeningStatements ifTrue: [ shouldAlias := true ].
+					each subtreeNeedsAliasing ] ]
+		ifNone: [ nil ].
 	threshold ifNil: [ ^ self visitAll: aCollection ].
 
 	shouldAlias := true.
@@ -1400,11 +1407,15 @@ requiresSmalltalkContext
 
 !AssignmentNode methodsFor: '*Compiler-IR'!
 
-subtreeNeedsAliasing
+hasOpeningStatements
 	^ true
 ! !
 
 !BlockNode methodsFor: '*Compiler-IR'!
+
+hasOpeningStatements
+	^ false
+!
 
 subtreeNeedsAliasing
 	^ self shouldBeAliased
@@ -1412,11 +1423,15 @@ subtreeNeedsAliasing
 
 !CascadeNode methodsFor: '*Compiler-IR'!
 
-subtreeNeedsAliasing
+hasOpeningStatements
 	^ true
 ! !
 
 !ExpressionNode methodsFor: '*Compiler-IR'!
+
+hasOpeningStatements
+	^ self dagChildren anySatisfy: [ :each | each hasOpeningStatements ]
+!
 
 subtreeNeedsAliasing
 	^ self shouldBeAliased or: [
