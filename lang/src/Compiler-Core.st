@@ -392,6 +392,24 @@ Error subclass: #ParseError
 Instance of ParseError are signaled on any parsing error.
 See `Compiler >> #parse:`!
 
+Trait named: #TPragmator
+	package: 'Compiler-Core'!
+
+!TPragmator methodsFor: 'pragma processing'!
+
+canProcessPragma: aMessage
+	^ self class includesSelector: aMessage selector
+!
+
+processPragma: aMessage
+	(self canProcessPragma: aMessage) ifTrue: [
+		^ aMessage sendTo: self ]
+!
+
+processPragmas: aCollection
+	aCollection do: [ :each | self processPragma: each ]
+! !
+
 !String methodsFor: '*Compiler-Core'!
 
 asVariableName

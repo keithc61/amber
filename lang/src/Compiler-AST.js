@@ -1,4 +1,4 @@
-define(["amber/boot", "require", "amber/core/Kernel-Dag", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Helpers", "amber/core/Kernel-Methods", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
+define(["amber/boot", "require", "amber/core/Compiler-Core", "amber/core/Kernel-Dag", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Methods", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-AST");
 $pkg.innerEval = function (expr) { return eval(expr); };

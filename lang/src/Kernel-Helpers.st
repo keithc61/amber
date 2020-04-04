@@ -50,24 +50,6 @@ isSymbol
 	^ false
 ! !
 
-Trait named: #TPragmator
-	package: 'Kernel-Helpers'!
-
-!TPragmator methodsFor: 'pragma processing'!
-
-canProcessPragma: aMessage
-	^ self class includesSelector: aMessage selector
-!
-
-processPragma: aMessage
-	(self canProcessPragma: aMessage) ifTrue: [
-		^ aMessage sendTo: self ]
-!
-
-processPragmas: aCollection
-	aCollection do: [ :each | self processPragma: each ]
-! !
-
 Trait named: #TSubclassable
 	package: 'Kernel-Helpers'!
 
