@@ -7,7 +7,7 @@ function nodeWrapper() {
         "require = requirejs;\n",
         end: "});\n" +
         "}((" +
-        require("amdefine") +
+        require("@ambers/amdefine") +
         "(module)), require));"
     };
 }
