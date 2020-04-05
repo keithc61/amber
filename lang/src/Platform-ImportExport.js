@@ -1131,7 +1131,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4;
+var $1,$2,$3;
 [$recv(aStream)._lf()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["lf"]=1
@@ -1154,7 +1154,7 @@ $3=[$recv(superclass)._asJavaScriptSource()
 //>>excludeEnd("ctx");
 ][0];
 }
-$4=["$core.addClass(",$1,", ",$3,", ",[$recv($recv(aClass)._instanceVariableNames())._asJavaScriptSource()
+[$recv(aStream)._write_(["$core.addClass(",$1,", ",$3,", ",[$recv($recv(aClass)._instanceVariableNames())._asJavaScriptSource()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["asJavaScriptSource"]=3
 //>>excludeEnd("ctx");
@@ -1162,8 +1162,7 @@ $4=["$core.addClass(",$1,", ",$3,", ",[$recv($recv(aClass)._instanceVariableName
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["asJavaScriptSource"]=4
 //>>excludeEnd("ctx");
-][0],");"];
-[$recv(aStream)._write_($4)
+][0],");"])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["write:"]=1
 //>>excludeEnd("ctx");

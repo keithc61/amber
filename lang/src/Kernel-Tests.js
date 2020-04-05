@@ -14631,7 +14631,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5,$6,$7,$8,$9;
+var $1,$2,$3,$4,$5,$6,$7,$8;
 [$self._deny_($recv([$recv($globals.Object)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["new"]=1
@@ -14651,45 +14651,44 @@ $2=true;
 } else {
 $2=$1;
 }
-$3=$recv($2).__eq(true);
-$self._deny_($3);
-$4=[$recv($globals.Object)._new()
+$self._deny_($recv($2).__eq(true));
+$3=[$recv($globals.Object)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["new"]=3
 //>>excludeEnd("ctx");
 ][0];
-if($4 == null || $4.a$nil){
-$5=$4;
+if($3 == null || $3.a$nil){
+$4=$3;
 } else {
-$5=true;
+$4=true;
 }
-[$self._assert_equals_($5,true)
+[$self._assert_equals_($4,true)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$6=[$recv($globals.Object)._new()
+$5=[$recv($globals.Object)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["new"]=4
 //>>excludeEnd("ctx");
 ][0];
-if($6 == null || $6.a$nil){
-$7=false;
+if($5 == null || $5.a$nil){
+$6=false;
 } else {
-$7=true;
+$6=true;
 }
-[$self._assert_equals_($7,true)
+[$self._assert_equals_($6,true)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=2
 //>>excludeEnd("ctx");
 ][0];
-$8=$recv($globals.Object)._new();
-if($8 == null || $8.a$nil){
-$9=false;
+$7=$recv($globals.Object)._new();
+if($7 == null || $7.a$nil){
+$8=false;
 } else {
-$9=true;
+$8=true;
 }
-$self._assert_equals_($9,true);
+$self._assert_equals_($8,true);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIfNil",{})});
@@ -17370,7 +17369,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5,$6;
+var $1,$2,$3,$4;
 if(nil == null || nil.a$nil){
 $1=true;
 } else {
@@ -17386,29 +17385,27 @@ $2=nil;
 } else {
 $2=true;
 }
-$3=[$recv($2).__eq(true)
+[$self._deny_([$recv($2).__eq(true)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["="]=1
 //>>excludeEnd("ctx");
-][0];
-[$self._deny_($3)
+][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["deny:"]=1
 //>>excludeEnd("ctx");
 ][0];
 if(nil == null || nil.a$nil){
-$4=true;
+$3=true;
 } else {
-$4=false;
+$3=false;
 }
-$self._assert_equals_($4,true);
+$self._assert_equals_($3,true);
 if(nil == null || nil.a$nil){
-$5=false;
+$4=false;
 } else {
-$5=true;
+$4=true;
 }
-$6=$recv($5).__eq(true);
-$self._deny_($6);
+$self._deny_($recv($4).__eq(true));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIfNil",{})});

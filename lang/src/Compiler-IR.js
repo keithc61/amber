@@ -81,18 +81,18 @@ selector: "aliasTemporally:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aCollection"],
-source: "aliasTemporally: aCollection\x0a\x09\x22https://lolg.it/amber/amber/issues/296\x0a\x09\x0a\x09If a node is aliased, all preceding ones are aliased as well.\x0a\x09The tree is iterated twice. First we get the aliasing dependency,\x0a\x09then the aliasing itself is done\x22\x0a\x0a\x09| threshold shouldAlias |\x0a\x09shouldAlias := false.\x0a\x09threshold := aCollection reversed\x0a\x09\x09detect: [ :each |\x0a\x09\x09\x09shouldAlias\x0a\x09\x09\x09\x09ifTrue: [ true ]\x0a\x09\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09\x09each hasOpeningStatements ifTrue: [ shouldAlias := true ].\x0a\x09\x09\x09\x09\x09each subtreeNeedsAliasing ] ]\x0a\x09\x09ifNone: [ nil ].\x0a\x09threshold ifNil: [ ^ self visitAll: aCollection ].\x0a\x0a\x09shouldAlias := true.\x0a\x09^ aCollection collect: [ :each |\x0a\x09\x09shouldAlias\x0a\x09\x09\x09ifTrue: [ each == threshold ifTrue: [ shouldAlias := false ]. self alias: each ]\x0a\x09\x09\x09ifFalse: [ self visit: each ] ]",
+source: "aliasTemporally: aCollection\x0a\x09\x22https://lolg.it/amber/amber/issues/296\x0a\x09\x0a\x09If a node is aliased, all preceding ones are aliased as well.\x0a\x09The tree is iterated twice. First we get the aliasing dependency,\x0a\x09then the aliasing itself is done\x22\x0a\x0a\x09| threshold shouldAlias |\x0a\x09shouldAlias := false.\x0a\x09threshold := aCollection reversed\x0a\x09\x09detect: [ :each |\x0a\x09\x09\x09shouldAlias\x0a\x09\x09\x09\x09ifTrue: [ true ]\x0a\x09\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09\x09(each hasOpeningStatements ifTrue: [ true ] ifFalse: [ each subtreeNeedsAliasing ]) ifTrue: [ shouldAlias := true ].\x0a\x09\x09\x09\x09\x09each shouldBeAliased ] ]\x0a\x09\x09ifNone: [ nil ].\x0a\x09threshold ifNil: [ ^ self visitAll: aCollection ].\x0a\x0a\x09shouldAlias := true.\x0a\x09^ aCollection collect: [ :each |\x0a\x09\x09shouldAlias\x0a\x09\x09\x09ifTrue: [ each == threshold ifTrue: [ shouldAlias := false ]. self alias: each ]\x0a\x09\x09\x09ifFalse: [ self visit: each ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["detect:ifNone:", "reversed", "ifTrue:ifFalse:", "ifTrue:", "hasOpeningStatements", "subtreeNeedsAliasing", "ifNil:", "visitAll:", "collect:", "==", "alias:", "visit:"]
+messageSends: ["detect:ifNone:", "reversed", "ifTrue:ifFalse:", "ifTrue:", "hasOpeningStatements", "subtreeNeedsAliasing", "shouldBeAliased", "ifNil:", "visitAll:", "collect:", "==", "alias:", "visit:"]
 }, function ($methodClass){ return function (aCollection){
 var self=this,$self=this;
 var threshold,shouldAlias;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5;
+var $1,$2,$3,$4,$5,$6;
 shouldAlias=false;
 threshold=$recv($recv(aCollection)._reversed())._detect_ifNone_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -104,10 +104,15 @@ return true;
 } else {
 $2=$recv(each)._hasOpeningStatements();
 if($core.assert($2)){
+$3=true;
+} else {
+$3=$recv(each)._subtreeNeedsAliasing();
+}
+if($core.assert($3)){
 shouldAlias=true;
 shouldAlias;
 }
-return $recv(each)._subtreeNeedsAliasing();
+return $recv(each)._shouldBeAliased();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -116,21 +121,21 @@ return $recv(each)._subtreeNeedsAliasing();
 return nil;
 
 }));
-$3=threshold;
-if($3 == null || $3.a$nil){
+$4=threshold;
+if($4 == null || $4.a$nil){
 return $self._visitAll_(aCollection);
 } else {
-$3;
+$4;
 }
 shouldAlias=true;
 return $recv(aCollection)._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$4=shouldAlias;
-if($core.assert($4)){
-$5=$recv(each).__eq_eq(threshold);
+$5=shouldAlias;
 if($core.assert($5)){
+$6=$recv(each).__eq_eq(threshold);
+if($core.assert($6)){
 shouldAlias=false;
 shouldAlias;
 }
@@ -139,7 +144,7 @@ return $self._alias_(each);
 return $self._visit_(each);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,7)});
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,9)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -6052,11 +6057,11 @@ $globals.AssignmentNode);
 
 $core.addMethod(
 $core.method({
-selector: "hasOpeningStatements",
+selector: "subtreeNeedsAliasing",
 protocol: "*Compiler-IR",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "hasOpeningStatements\x0a\x09^ false",
+source: "subtreeNeedsAliasing\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -6065,29 +6070,6 @@ messageSends: []
 var self=this,$self=this;
 return false;
 
-}; }),
-$globals.BlockNode);
-
-$core.addMethod(
-$core.method({
-selector: "subtreeNeedsAliasing",
-protocol: "*Compiler-IR",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "subtreeNeedsAliasing\x0a\x09^ self shouldBeAliased",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["shouldBeAliased"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $self._shouldBeAliased();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"subtreeNeedsAliasing",{})});
-//>>excludeEnd("ctx");
 }; }),
 $globals.BlockNode);
 
@@ -6115,28 +6097,15 @@ selector: "hasOpeningStatements",
 protocol: "*Compiler-IR",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "hasOpeningStatements\x0a\x09^ self dagChildren anySatisfy: [ :each | each hasOpeningStatements ]",
+source: "hasOpeningStatements\x0a\x09^ false",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["anySatisfy:", "dagChildren", "hasOpeningStatements"]
+messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self._dagChildren())._anySatisfy_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(each)._hasOpeningStatements();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"hasOpeningStatements",{})});
-//>>excludeEnd("ctx");
+return false;
+
 }; }),
 $globals.ExpressionNode);
 
@@ -6146,31 +6115,34 @@ selector: "subtreeNeedsAliasing",
 protocol: "*Compiler-IR",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "subtreeNeedsAliasing\x0a\x09^ self shouldBeAliased or: [\x0a\x09\x09self dagChildren anySatisfy: [ :each | each subtreeNeedsAliasing ] ]",
+source: "subtreeNeedsAliasing\x0a\x09^ self dagChildren anySatisfy: [ :each |\x0a\x09\x09each shouldBeAliased ifTrue: [ true ] ifFalse: [\x0a\x09\x09\x09each hasOpeningStatements ifTrue: [ true ] ifFalse: [\x0a\x09\x09\x09\x09each subtreeNeedsAliasing ] ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["or:", "shouldBeAliased", "anySatisfy:", "dagChildren", "subtreeNeedsAliasing"]
+messageSends: ["anySatisfy:", "dagChildren", "ifTrue:ifFalse:", "shouldBeAliased", "hasOpeningStatements", "subtreeNeedsAliasing"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self._shouldBeAliased())._or_((function(){
+var $1,$2;
+return $recv($self._dagChildren())._anySatisfy_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($self._dagChildren())._anySatisfy_((function(each){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
+$1=$recv(each)._shouldBeAliased();
+if($core.assert($1)){
+return true;
+} else {
+$2=$recv(each)._hasOpeningStatements();
+if($core.assert($2)){
+return true;
+} else {
 return $recv(each)._subtreeNeedsAliasing();
+}
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

@@ -82,8 +82,8 @@ aliasTemporally: aCollection
 			shouldAlias
 				ifTrue: [ true ]
 				ifFalse: [
-					each hasOpeningStatements ifTrue: [ shouldAlias := true ].
-					each subtreeNeedsAliasing ] ]
+					(each hasOpeningStatements ifTrue: [ true ] ifFalse: [ each subtreeNeedsAliasing ]) ifTrue: [ shouldAlias := true ].
+					each shouldBeAliased ] ]
 		ifNone: [ nil ].
 	threshold ifNil: [ ^ self visitAll: aCollection ].
 
@@ -1407,12 +1407,8 @@ hasOpeningStatements
 
 !BlockNode methodsFor: '*Compiler-IR'!
 
-hasOpeningStatements
-	^ false
-!
-
 subtreeNeedsAliasing
-	^ self shouldBeAliased
+	^ false
 ! !
 
 !CascadeNode methodsFor: '*Compiler-IR'!
@@ -1424,12 +1420,14 @@ hasOpeningStatements
 !ExpressionNode methodsFor: '*Compiler-IR'!
 
 hasOpeningStatements
-	^ self dagChildren anySatisfy: [ :each | each hasOpeningStatements ]
+	^ false
 !
 
 subtreeNeedsAliasing
-	^ self shouldBeAliased or: [
-		self dagChildren anySatisfy: [ :each | each subtreeNeedsAliasing ] ]
+	^ self dagChildren anySatisfy: [ :each |
+		each shouldBeAliased ifTrue: [ true ] ifFalse: [
+			each hasOpeningStatements ifTrue: [ true ] ifFalse: [
+				each subtreeNeedsAliasing ] ] ]
 ! !
 
 !JSStatementNode methodsFor: '*Compiler-IR'!

@@ -9,6 +9,7 @@ visitSendNode: aNode
 
 	aNode superSend ifFalse: [ 
 		(IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [
+			aNode shouldBeAliased: true.
 			aNode receiver ifNotNil: [ :receiver |
 				receiver shouldBeAliased: true ] ] ].
 
