@@ -409,11 +409,11 @@ selector: "visitBlockSequenceNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitBlockSequenceNode: aNode\x0a\x09^ self\x0a\x09\x09withSequence: IRBlockSequence new\x0a\x09\x09do: [\x0a\x09\x09\x09aNode dagChildren ifNotEmpty: [\x0a\x09\x09\x09\x09aNode dagChildren allButLast do: [ :each |\x0a\x09\x09\x09\x09\x09self addToSequence: (self visit: each) ].\x0a\x09\x09\x09\x09aNode dagChildren last isReturnNode\x0a\x09\x09\x09\x09\x09ifFalse: [ self addToSequence: (IRBlockReturn new add: (self visitOrAlias: aNode dagChildren last); yourself) ]\x0a\x09\x09\x09\x09\x09ifTrue: [ self addToSequence: (self visit: aNode dagChildren last) ] ]]",
+source: "visitBlockSequenceNode: aNode\x0a\x09^ self\x0a\x09\x09withSequence: IRBlockSequence new\x0a\x09\x09do: [\x0a\x09\x09\x09aNode dagChildren ifNotEmpty: [\x0a\x09\x09\x09\x09aNode dagChildren allButLast do: [ :each |\x0a\x09\x09\x09\x09\x09self addToSequence: (self visit: each) ].\x0a\x09\x09\x09\x09aNode dagChildren last isReturnNode\x0a\x09\x09\x09\x09\x09ifFalse: [ self addToSequence: (IRBlockReturn new add: (self visit: aNode dagChildren last); yourself) ]\x0a\x09\x09\x09\x09\x09ifTrue: [ self addToSequence: (self visit: aNode dagChildren last) ] ]]",
 referencedClasses: ["IRBlockSequence", "IRBlockReturn"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["withSequence:do:", "new", "ifNotEmpty:", "dagChildren", "do:", "allButLast", "addToSequence:", "visit:", "ifFalse:ifTrue:", "isReturnNode", "last", "add:", "visitOrAlias:", "yourself"]
+messageSends: ["withSequence:do:", "new", "ifNotEmpty:", "dagChildren", "do:", "allButLast", "addToSequence:", "visit:", "ifFalse:ifTrue:", "isReturnNode", "last", "add:", "yourself"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -470,7 +470,7 @@ if($core.assert($1)){
 return $self._addToSequence_($self._visit_($recv($recv(aNode)._dagChildren())._last()));
 } else {
 $2=$recv($globals.IRBlockReturn)._new();
-$recv($2)._add_($self._visitOrAlias_([$recv([$recv(aNode)._dagChildren()
+$recv($2)._add_([$self._visit_([$recv([$recv(aNode)._dagChildren()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx3.sendIdx["dagChildren"]=4
 //>>excludeEnd("ctx");
@@ -478,7 +478,11 @@ $recv($2)._add_($self._visitOrAlias_([$recv([$recv(aNode)._dagChildren()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx3.sendIdx["last"]=2
 //>>excludeEnd("ctx");
-][0]));
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["visit:"]=2
+//>>excludeEnd("ctx");
+][0]);
 return [$self._addToSequence_($recv($2)._yourself())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx3.sendIdx["addToSequence:"]=2
@@ -505,11 +509,11 @@ selector: "visitCascadeNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitCascadeNode: aNode\x0a\x09| receiver |\x0a\x09receiver := aNode receiver.\x0a\x09receiver isIdempotent ifFalse: [\x0a\x09\x09| alias |\x0a\x09\x09alias := self alias: receiver.\x0a\x09\x09receiver := VariableNode new binding: alias variable ].\x0a\x09aNode dagChildren do: [ :each | each receiver: receiver ].\x0a\x0a\x09aNode dagChildren allButLast do: [ :each |\x0a\x09\x09self addToSequence: (self visit: each) ].\x0a\x0a\x09^ self visitOrAlias: aNode dagChildren last",
+source: "visitCascadeNode: aNode\x0a\x09| receiver |\x0a\x09receiver := aNode receiver.\x0a\x09receiver isIdempotent ifFalse: [\x0a\x09\x09| alias |\x0a\x09\x09alias := self alias: receiver.\x0a\x09\x09receiver := VariableNode new binding: alias variable ].\x0a\x09aNode dagChildren do: [ :each | each receiver: receiver ].\x0a\x0a\x09aNode dagChildren allButLast do: [ :each |\x0a\x09\x09self addToSequence: (self visit: each) ].\x0a\x0a\x09^ self visit: aNode dagChildren last",
 referencedClasses: ["VariableNode"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["receiver", "ifFalse:", "isIdempotent", "alias:", "binding:", "new", "variable", "do:", "dagChildren", "receiver:", "allButLast", "addToSequence:", "visit:", "visitOrAlias:", "last"]
+messageSends: ["receiver", "ifFalse:", "isIdempotent", "alias:", "binding:", "new", "variable", "do:", "dagChildren", "receiver:", "allButLast", "addToSequence:", "visit:", "last"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 var receiver;
@@ -550,12 +554,16 @@ $recv($recv([$recv(aNode)._dagChildren()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $self._addToSequence_($self._visit_(each));
+return $self._addToSequence_([$self._visit_(each)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["visit:"]=1
+//>>excludeEnd("ctx");
+][0]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
 //>>excludeEnd("ctx");
 }));
-return $self._visitOrAlias_($recv($recv(aNode)._dagChildren())._last());
+return $self._visit_($recv($recv(aNode)._dagChildren())._last());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitCascadeNode:",{aNode:aNode,receiver:receiver})});
 //>>excludeEnd("ctx");
@@ -820,44 +828,15 @@ $globals.IRASTTranslator);
 
 $core.addMethod(
 $core.method({
-selector: "visitOrAlias:",
-protocol: "visiting",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anExpressionNode"],
-source: "visitOrAlias: anExpressionNode\x0a\x09^ anExpressionNode shouldBeAliased\x0a\x09\x09ifTrue: [ self alias: anExpressionNode ]\x0a\x09\x09ifFalse: [ self visit: anExpressionNode ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifTrue:ifFalse:", "shouldBeAliased", "alias:", "visit:"]
-}, function ($methodClass){ return function (anExpressionNode){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$recv(anExpressionNode)._shouldBeAliased();
-if($core.assert($1)){
-return $self._alias_(anExpressionNode);
-} else {
-return $self._visit_(anExpressionNode);
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"visitOrAlias:",{anExpressionNode:anExpressionNode})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IRASTTranslator);
-
-$core.addMethod(
-$core.method({
 selector: "visitReturnNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitReturnNode: aNode\x0a\x09^ (aNode nonLocalReturn\x0a\x09\x09ifTrue: [ IRNonLocalReturn new ]\x0a\x09\x09ifFalse: [ IRReturn new ])\x0a\x09\x09scope: aNode scope;\x0a\x09\x09add: (self visitOrAlias: aNode expression);\x0a\x09\x09yourself\x0a",
+source: "visitReturnNode: aNode\x0a\x09^ (aNode nonLocalReturn\x0a\x09\x09ifTrue: [ IRNonLocalReturn new ]\x0a\x09\x09ifFalse: [ IRReturn new ])\x0a\x09\x09scope: aNode scope;\x0a\x09\x09add: (self visit: aNode expression);\x0a\x09\x09yourself\x0a",
 referencedClasses: ["IRNonLocalReturn", "IRReturn"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["scope:", "ifTrue:ifFalse:", "nonLocalReturn", "new", "scope", "add:", "visitOrAlias:", "expression", "yourself"]
+messageSends: ["scope:", "ifTrue:ifFalse:", "nonLocalReturn", "new", "scope", "add:", "visit:", "expression", "yourself"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -875,7 +854,7 @@ $2=[$recv($globals.IRNonLocalReturn)._new()
 $2=$recv($globals.IRReturn)._new();
 }
 $recv($2)._scope_($recv(aNode)._scope());
-$recv($2)._add_($self._visitOrAlias_($recv(aNode)._expression()));
+$recv($2)._add_($self._visit_($recv(aNode)._expression()));
 return $recv($2)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitReturnNode:",{aNode:aNode})});

@@ -129,7 +129,7 @@ visitBlockSequenceNode: aNode
 				aNode dagChildren allButLast do: [ :each |
 					self addToSequence: (self visit: each) ].
 				aNode dagChildren last isReturnNode
-					ifFalse: [ self addToSequence: (IRBlockReturn new add: (self visitOrAlias: aNode dagChildren last); yourself) ]
+					ifFalse: [ self addToSequence: (IRBlockReturn new add: (self visit: aNode dagChildren last); yourself) ]
 					ifTrue: [ self addToSequence: (self visit: aNode dagChildren last) ] ]]
 !
 
@@ -145,7 +145,7 @@ visitCascadeNode: aNode
 	aNode dagChildren allButLast do: [ :each |
 		self addToSequence: (self visit: each) ].
 
-	^ self visitOrAlias: aNode dagChildren last
+	^ self visit: aNode dagChildren last
 !
 
 visitDynamicArrayNode: aNode
@@ -205,18 +205,12 @@ visitMethodNode: aNode
 	^ self method
 !
 
-visitOrAlias: anExpressionNode
-	^ anExpressionNode shouldBeAliased
-		ifTrue: [ self alias: anExpressionNode ]
-		ifFalse: [ self visit: anExpressionNode ]
-!
-
 visitReturnNode: aNode
 	^ (aNode nonLocalReturn
 		ifTrue: [ IRNonLocalReturn new ]
 		ifFalse: [ IRReturn new ])
 		scope: aNode scope;
-		add: (self visitOrAlias: aNode expression);
+		add: (self visit: aNode expression);
 		yourself
 !
 
