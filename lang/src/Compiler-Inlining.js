@@ -11,33 +11,41 @@ selector: "visitSendNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitSendNode: aNode\x0a\x0a\x09aNode superSend ifFalse: [ \x0a\x09\x09(IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [\x0a\x09\x09\x09aNode shouldBeAliased: true.\x0a\x09\x09\x09aNode receiver ifNotNil: [ :receiver |\x0a\x09\x09\x09\x09receiver shouldBeAliased: true ] ] ].\x0a\x0a\x09^ super visitSendNode: aNode",
+source: "visitSendNode: aNode\x0a\x0a\x09aNode superSend ifFalse: [ \x0a\x09\x09(IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [\x0a\x09\x09\x09aNode shouldBeAliased: true.\x0a\x09\x09\x09aNode receiver ifNotNil: [ :receiver |\x0a\x09\x09\x09\x09(IRSendInliner inlinedSelectorsNeedingIdempotentReceiver includes: aNode selector) ifTrue: [\x0a\x09\x09\x09\x09\x09receiver shouldBeAliased: true ] ] ] ].\x0a\x0a\x09^ super visitSendNode: aNode",
 referencedClasses: ["IRSendInliner"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifFalse:", "superSend", "ifTrue:", "includes:", "inlinedSelectors", "selector", "shouldBeAliased:", "ifNotNil:", "receiver", "visitSendNode:"]
+messageSends: ["ifFalse:", "superSend", "ifTrue:", "includes:", "inlinedSelectors", "selector", "shouldBeAliased:", "ifNotNil:", "receiver", "inlinedSelectorsNeedingIdempotentReceiver", "visitSendNode:"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
-$1=$recv(aNode)._superSend();
-if(!$core.assert($1)){
-$2=$recv($recv($globals.IRSendInliner)._inlinedSelectors())._includes_($recv(aNode)._selector());
-if($core.assert($2)){
+var $1;
+if(!$core.assert($recv(aNode)._superSend())){
+if($core.assert([$recv($recv($globals.IRSendInliner)._inlinedSelectors())._includes_([$recv(aNode)._selector()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["selector"]=1
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["includes:"]=1
+//>>excludeEnd("ctx");
+][0])){
 [$recv(aNode)._shouldBeAliased_(true)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["shouldBeAliased:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$3=$recv(aNode)._receiver();
-if($3 == null || $3.a$nil){
-$3;
+$1=$recv(aNode)._receiver();
+if($1 == null || $1.a$nil){
+$1;
 } else {
 var receiver;
-receiver=$3;
+receiver=$1;
+if($core.assert($recv($recv($globals.IRSendInliner)._inlinedSelectorsNeedingIdempotentReceiver())._includes_($recv(aNode)._selector()))){
 $recv(receiver)._shouldBeAliased_(true);
+}
 }
 }
 }
@@ -626,9 +634,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$self._shouldInlineAssignment_(anIRAssignment);
-if($core.assert($1)){
+if($core.assert($self._shouldInlineAssignment_(anIRAssignment))){
 return $recv($self._assignmentInliner())._inlineAssignment_(anIRAssignment);
 } else {
 return [(
@@ -663,13 +669,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
-$1=$recv([$recv(anIRNonLocalReturn)._scope()
+if($core.assert($recv([$recv(anIRNonLocalReturn)._scope()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["scope"]=1
 //>>excludeEnd("ctx");
-][0])._canFlattenNonLocalReturns();
-if($core.assert($1)){
+][0])._canFlattenNonLocalReturns())){
 var localReturn;
 $recv($recv([$recv(anIRNonLocalReturn)._scope()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -680,8 +684,7 @@ localReturn=$self._flattenedReturn_(anIRNonLocalReturn);
 $recv(anIRNonLocalReturn)._replaceWith_(localReturn);
 return $self._visitIRReturn_(localReturn);
 }
-$2=$self._shouldInlineReturn_(anIRNonLocalReturn);
-if($core.assert($2)){
+if($core.assert($self._shouldInlineReturn_(anIRNonLocalReturn))){
 return $recv($self._nonLocalReturnInliner())._inlineReturn_(anIRNonLocalReturn);
 } else {
 return [(
@@ -716,9 +719,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$self._shouldInlineReturn_(anIRReturn);
-if($core.assert($1)){
+if($core.assert($self._shouldInlineReturn_(anIRReturn))){
 return $recv($self._returnInliner())._inlineReturn_(anIRReturn);
 } else {
 return [(
@@ -753,9 +754,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$self._shouldInlineSend_(anIRSend);
-if($core.assert($1)){
+if($core.assert($self._shouldInlineSend_(anIRSend))){
 return $recv($self._sendInliner())._inlineSend_(anIRSend);
 } else {
 return [(
@@ -1602,7 +1601,7 @@ var sequence,final;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1,$2;
 sequence=$recv(closure)._sequence();
 $recv([$recv(sequence)._dagChildren()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1621,8 +1620,7 @@ return $recv($1)._add_($recv($2)._yourself());
 //>>excludeEnd("ctx");
 }));
 final=$recv($recv(sequence)._dagChildren())._last();
-$3=$recv(final)._yieldsValue();
-if($core.assert($3)){
+if($core.assert($recv(final)._yieldsValue())){
 $recv(sequence)._replace_with_(final,$recv(aBlock)._value_(final));
 }
 return closure;
@@ -1795,17 +1793,14 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
-$1=$recv(anIRInstruction)._isClosure();
-if(!$core.assert($1)){
+if(!$core.assert($recv(anIRInstruction)._isClosure())){
 [$self._inliningError_("Message argument should be a block")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["inliningError:"]=1
 //>>excludeEnd("ctx");
 ][0];
 }
-$2=$recv($recv($recv(anIRInstruction)._arguments())._size()).__eq((0));
-if(!$core.assert($2)){
+if(!$core.assert($recv($recv($recv(anIRInstruction)._arguments())._size()).__eq((0)))){
 $self._inliningError_("Inlined block should have zero argument");
 }
 return self;
@@ -1831,17 +1826,14 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
-$1=$recv(anIRInstruction)._isClosure();
-if(!$core.assert($1)){
+if(!$core.assert($recv(anIRInstruction)._isClosure())){
 [$self._inliningError_("Message argument should be a block")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["inliningError:"]=1
 //>>excludeEnd("ctx");
 ][0];
 }
-$2=$recv($recv($recv(anIRInstruction)._arguments())._size()).__lt_eq((1));
-if(!$core.assert($2)){
+if(!$core.assert($recv($recv($recv(anIRInstruction)._arguments())._size()).__lt_eq((1)))){
 $self._inliningError_("Inlined block should have at most one argument");
 }
 return self;
@@ -1946,6 +1938,24 @@ $globals.IRSendInliner.a$cls);
 
 $core.addMethod(
 $core.method({
+selector: "inlinedSelectorsNeedingIdempotentReceiver",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "inlinedSelectorsNeedingIdempotentReceiver\x0a\x09^ #('ifNil:' 'ifNotNil:' 'ifNil:ifNotNil:' 'ifNotNil:ifNil:')",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return ["ifNil:", "ifNotNil:", "ifNil:ifNotNil:", "ifNotNil:ifNil:"];
+
+}; }),
+$globals.IRSendInliner.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "shouldInline:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1960,13 +1970,10 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
-$1=$recv($self._inlinedSelectors())._includes_($recv(anIRSend)._selector());
-if(!$core.assert($1)){
+if(!$core.assert($recv($self._inlinedSelectors())._includes_($recv(anIRSend)._selector()))){
 return false;
 }
-$2=$recv($recv(anIRSend)._receiver())._isSuper();
-if($core.assert($2)){
+if($core.assert($recv($recv(anIRSend)._receiver())._isSuper())){
 return false;
 }
 return $recv($recv(anIRSend)._arguments())._allSatisfy_((function(each){

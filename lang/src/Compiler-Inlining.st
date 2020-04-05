@@ -11,7 +11,8 @@ visitSendNode: aNode
 		(IRSendInliner inlinedSelectors includes: aNode selector) ifTrue: [
 			aNode shouldBeAliased: true.
 			aNode receiver ifNotNil: [ :receiver |
-				receiver shouldBeAliased: true ] ] ].
+				(IRSendInliner inlinedSelectorsNeedingIdempotentReceiver includes: aNode selector) ifTrue: [
+					receiver shouldBeAliased: true ] ] ] ].
 
 	^ super visitSendNode: aNode
 ! !
@@ -490,6 +491,10 @@ mustBeNiladicOrUnaryClosure: anIRInstruction
 
 inlinedSelectors
 	^ #('ifTrue:' 'ifFalse:' 'ifTrue:ifFalse:' 'ifFalse:ifTrue:' 'ifNil:' 'ifNotNil:' 'ifNil:ifNotNil:' 'ifNotNil:ifNil:')
+!
+
+inlinedSelectorsNeedingIdempotentReceiver
+	^ #('ifNil:' 'ifNotNil:' 'ifNil:ifNotNil:' 'ifNotNil:ifNil:')
 !
 
 shouldInline: anIRSend

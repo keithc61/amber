@@ -320,10 +320,8 @@ var newInstVars;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 newInstVars=$recv($recv(aClass)._instanceVariableNames())._copyWith_(aString);
-$1=$recv(aClass)._isMetaclass();
-if($core.assert($1)){
+if($core.assert($recv(aClass)._isMetaclass())){
 $recv([$self._classBuilder()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["classBuilder"]=1
@@ -795,7 +793,7 @@ var package_;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1;
 package_=$recv($globals.Package)._named_(aPackageName);
 $1=package_;
 if($1 == null || $1.a$nil){
@@ -803,8 +801,7 @@ $self._error_("Invalid package name");
 } else {
 $1;
 }
-$2=$recv(package_).__eq_eq($recv(aClass)._package());
-if($core.assert($2)){
+if($core.assert($recv(package_).__eq_eq($recv(aClass)._package()))){
 return self;
 }
 $recv(aClass)._package_(package_);
@@ -833,22 +830,19 @@ var destinationClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
 destinationClass=$self._classNamed_(aClassName);
-$1=$recv(destinationClass).__eq_eq([$recv(aMethod)._origin()
+if($core.assert($recv(destinationClass).__eq_eq([$recv(aMethod)._origin()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["origin"]=1
 //>>excludeEnd("ctx");
-][0]);
-if($core.assert($1)){
+][0]))){
 return self;
 }
-$2=$recv([$recv(aMethod)._origin()
+if($core.assert($recv([$recv(aMethod)._origin()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["origin"]=2
 //>>excludeEnd("ctx");
-][0])._isMetaclass();
-if($core.assert($2)){
+][0])._isMetaclass())){
 destinationClass=$recv(destinationClass)._theMetaClass();
 destinationClass;
 }
@@ -1456,9 +1450,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv(anError)._wasHandled();
-if(!$core.assert($1)){
+if(!$core.assert($recv(anError)._wasHandled())){
 $recv($self._current())._handleError_(anError);
 $recv(anError)._beHandled();
 }
@@ -2259,7 +2251,6 @@ var label;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 [(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -2269,12 +2260,11 @@ $ctx1.supercall = true,
 ,$ctx1.supercall = false
 //>>excludeEnd("ctx");
 ][0];
-$1=$recv($recv([$self._printString()
+if($core.assert($recv($recv([$self._printString()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["printString"]=1
 //>>excludeEnd("ctx");
-][0])._size()).__gt((30));
-if($core.assert($1)){
+][0])._size()).__gt((30)))){
 label=$recv($recv([$self._printString()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["printString"]=2

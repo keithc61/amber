@@ -896,13 +896,13 @@ var result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5,$6,$7,$8;
+var $1,$2,$3,$4,$5,$6;
 result=[$recv(aClass)._name()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["name"]=1
 //>>excludeEnd("ctx");
 ][0];
-$1=[$recv([$self._methodClass()
+if(!$core.assert([$recv([$self._methodClass()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["methodClass"]=1
 //>>excludeEnd("ctx");
@@ -910,22 +910,21 @@ $1=[$recv([$self._methodClass()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["="]=1
 //>>excludeEnd("ctx");
-][0];
-if(!$core.assert($1)){
-$2=[$recv(result).__comma(" (")
+][0])){
+$1=[$recv(result).__comma(" (")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=3
 //>>excludeEnd("ctx");
 ][0];
-$3=[$self._methodClass()
+$2=[$self._methodClass()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["methodClass"]=2
 //>>excludeEnd("ctx");
 ][0];
-if($3 == null || $3.a$nil){
-$4="nil";
+if($2 == null || $2.a$nil){
+$3="nil";
 } else {
-$4=[$recv([$self._methodClass()
+$3=[$recv([$self._methodClass()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["methodClass"]=3
 //>>excludeEnd("ctx");
@@ -935,7 +934,7 @@ $4=[$recv([$self._methodClass()
 //>>excludeEnd("ctx");
 ][0];
 }
-result=[$recv([$recv($2).__comma($4)
+result=[$recv([$recv($1).__comma($3)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=2
 //>>excludeEnd("ctx");
@@ -946,7 +945,7 @@ result=[$recv([$recv($2).__comma($4)
 ][0];
 result;
 }
-$5=$recv([$recv([$self._origin()
+if(!$core.assert($recv([$recv([$self._origin()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["origin"]=1
 //>>excludeEnd("ctx");
@@ -958,24 +957,23 @@ $5=$recv([$recv([$self._origin()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["origin"]=2
 //>>excludeEnd("ctx");
-][0]).__eq($self._methodClass()));
-if(!$core.assert($5)){
-$6=[$recv(result).__comma(" /")
+][0]).__eq($self._methodClass())))){
+$4=[$recv(result).__comma(" /")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=6
 //>>excludeEnd("ctx");
 ][0];
-$7=[$self._origin()
+$5=[$self._origin()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["origin"]=3
 //>>excludeEnd("ctx");
 ][0];
-if($7 == null || $7.a$nil){
-$8="nil";
+if($5 == null || $5.a$nil){
+$6="nil";
 } else {
-$8=$recv($self._origin())._name();
+$6=$recv($self._origin())._name();
 }
-result=[$recv([$recv($6).__comma($8)
+result=[$recv([$recv($4).__comma($6)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=5
 //>>excludeEnd("ctx");
@@ -1180,15 +1178,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 var $early={};
 try {
 $recv($self._methodClass())._allSubclassesDo_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$recv(each)._includesSelector_($self.selector);
-if($core.assert($1)){
+if($core.assert($recv(each)._includesSelector_($self.selector))){
 throw $early=[true];
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1663,9 +1659,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv($self.poolSize).__lt($self._maxPoolSize());
-if($core.assert($1)){
+if($core.assert($recv($self.poolSize).__lt($self._maxPoolSize()))){
 $self._addWorker();
 }
 $recv($self.queue)._nextPut_(aBlock);
@@ -1728,7 +1722,6 @@ var sentinel;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 sentinel=$recv($globals.Object)._new();
 return (function(){
 var block;
@@ -1740,8 +1733,7 @@ block=$recv($self.queue)._nextIfAbsent_((function(){
 return sentinel;
 
 }));
-$1=$recv(block).__eq_eq(sentinel);
-if(!$core.assert($1)){
+if(!$core.assert($recv(block).__eq_eq(sentinel))){
 return $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
@@ -3315,9 +3307,8 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
-$1=$self._isBlockContext();
-if($core.assert($1)){
+var $1;
+if($core.assert($self._isBlockContext())){
 return [$recv(["a block (in ".__comma($recv($self._methodContext())._asString())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=2
@@ -3328,12 +3319,12 @@ return [$recv(["a block (in ".__comma($recv($self._methodContext())._asString())
 //>>excludeEnd("ctx");
 ][0];
 } else {
-$2=$self._method();
-if($2 == null || $2.a$nil){
+$1=$self._method();
+if($1 == null || $1.a$nil){
 return "missing method ".__comma($recv($self._selector())._symbolPrintString());
 } else {
 var method;
-method=$2;
+method=$1;
 return $recv(method)._asStringForClass_($recv($self._receiver())._class());
 }
 }
@@ -3384,7 +3375,6 @@ var context;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 var $early={};
 try {
 context=self;
@@ -3400,8 +3390,7 @@ return $recv(context)._isNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$recv(testBlock)._value_(context);
-if($core.assert($1)){
+if($core.assert($recv(testBlock)._value_(context))){
 throw $early=[context];
 }
 context=$recv(context)._outerContext();
@@ -3531,7 +3520,7 @@ var method,lookupClass,receiverClass,supercall;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1,$2;
 $1=[$self._methodContext()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["methodContext"]=1
@@ -3568,8 +3557,7 @@ var outer;
 outer=$2;
 supercall=$recv(outer)._supercall();
 }
-$3=supercall;
-if($core.assert($3)){
+if($core.assert(supercall)){
 return $recv($recv($recv(method)._methodClass())._superclass())._lookupSelector_($recv($self._methodContext())._selector());
 } else {
 return method;
@@ -3596,17 +3584,16 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
-$1=$self._isBlockContext();
-if(!$core.assert($1)){
+var $1;
+if(!$core.assert($self._isBlockContext())){
 return self;
 }
-$2=$self._outerContext();
-if($2 == null || $2.a$nil){
-return $2;
+$1=$self._outerContext();
+if($1 == null || $1.a$nil){
+return $1;
 } else {
 var outer;
-outer=$2;
+outer=$1;
 return $recv(outer)._methodContext();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3698,8 +3685,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv($self._isBlockContext())._and_((function(){
+if($core.assert($recv($self._isBlockContext())._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -3711,8 +3697,7 @@ return $recv([$self._outerContext()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
-}));
-if($core.assert($1)){
+})))){
 return $recv($self._outerContext())._receiver();
 } else {
 return $self._basicReceiver();

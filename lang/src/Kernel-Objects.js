@@ -395,9 +395,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$self._isMemberOf_(aClass);
-if($core.assert($1)){
+if($core.assert($self._isMemberOf_(aClass))){
 return true;
 } else {
 return $recv($self._class())._inheritsFrom_(aClass);
@@ -507,8 +505,8 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
-$1=$recv($recv([$recv([$self._class()
+var $1;
+if($core.assert($recv($recv([$recv([$self._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["class"]=1
 //>>excludeEnd("ctx");
@@ -516,13 +514,12 @@ $1=$recv($recv([$recv([$self._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["name"]=1
 //>>excludeEnd("ctx");
-][0])._first())._isVowel();
-if($core.assert($1)){
-$2="an ";
+][0])._first())._isVowel())){
+$1="an ";
 } else {
-$2="a ";
+$1="a ";
 }
-[$recv(aStream)._nextPutAll_($2)
+[$recv(aStream)._nextPutAll_($1)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["nextPutAll:"]=1
 //>>excludeEnd("ctx");
@@ -4306,13 +4303,10 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
-$1=$self._isZero();
-if($core.assert($1)){
+if($core.assert($self._isZero())){
 return (0);
 }
-$2=$self._positive();
-if($core.assert($2)){
+if($core.assert($self._positive())){
 return (1);
 } else {
 return (-1);
@@ -4532,16 +4526,13 @@ var array,value,pos;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
 value=self;
 array=$recv($globals.Array)._new();
 pos=(1);
-$1=$recv(step).__eq((0));
-if($core.assert($1)){
+if($core.assert($recv(step).__eq((0)))){
 $self._error_("step must be non-zero");
 }
-$2=$recv(step).__lt((0));
-if($core.assert($2)){
+if($core.assert($recv(step).__lt((0)))){
 [$recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -4628,14 +4619,11 @@ var value;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
 value=self;
-$1=$recv(step).__eq((0));
-if($core.assert($1)){
+if($core.assert($recv(step).__eq((0)))){
 $self._error_("step must be non-zero");
 }
-$2=$recv(step).__lt((0));
-if($core.assert($2)){
+if($core.assert($recv(step).__lt((0)))){
 [$recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -5432,7 +5420,6 @@ var n,d;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 n=[$recv($recv($self.y)._negated()).__at($self.x)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["@"]=1
@@ -5451,8 +5438,7 @@ d=$recv([$recv([$recv(n)._x()
 ,$ctx1.sendIdx["y"]=1
 //>>excludeEnd("ctx");
 ][0]).__star($recv(n)._y()));
-$1=$recv(d).__eq((0));
-if($core.assert($1)){
+if($core.assert($recv(d).__eq((0)))){
 return (-1).__at((0));
 }
 return $recv(n).__slash($recv(d)._sqrt());
@@ -5479,10 +5465,8 @@ var r;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 r=$self._r();
-$1=$recv(r).__eq((0));
-if($core.assert($1)){
+if($core.assert($recv(r).__eq((0)))){
 return [$recv($globals.Point)._x_y_((0),(0))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["x:y:"]=1
@@ -5518,14 +5502,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 [$recv($self.x)._printOn_(aStream)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["printOn:"]=1
 //>>excludeEnd("ctx");
 ][0];
 $recv(aStream)._nextPutAll_("@");
-$1=$recv($recv($self.y)._notNil())._and_((function(){
+if($core.assert($recv($recv($self.y)._notNil())._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -5533,8 +5516,7 @@ return $recv($self.y)._negative();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
-}));
-if($core.assert($1)){
+})))){
 $recv(aStream)._space();
 }
 $recv($self.y)._printOn_(aStream);

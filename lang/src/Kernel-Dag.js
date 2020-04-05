@@ -149,16 +149,15 @@ var newChildren,oldChildren;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1;
 oldChildren=$recv(aNode)._dagChildren();
 newChildren=$self._visitAllChildren_(aNode);
-$1=$recv(oldChildren).__eq(newChildren);
-if($core.assert($1)){
+if($core.assert($recv(oldChildren).__eq(newChildren))){
 return aNode;
 } else {
-$2=$recv(aNode)._copy();
-$recv($2)._dagChildren_(newChildren);
-return $recv($2)._yourself();
+$1=$recv(aNode)._copy();
+$recv($1)._dagChildren_(newChildren);
+return $recv($1)._yourself();
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -314,7 +313,6 @@ var newNode;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 newNode=[(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -324,8 +322,7 @@ $ctx1.supercall = true,
 ,$ctx1.supercall = false
 //>>excludeEnd("ctx");
 ][0];
-$1=$recv(aNode).__eq_eq(newNode);
-if(!$core.assert($1)){
+if(!$core.assert($recv(aNode).__eq_eq(newNode))){
 $recv($self.path)._at_put_($recv($self.path)._size(),newNode);
 }
 return newNode;

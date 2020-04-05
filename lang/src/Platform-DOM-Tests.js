@@ -21,9 +21,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv($globals.PlatformDom)._isFeasible();
-if($core.assert($1)){
+if($core.assert($recv($globals.PlatformDom)._isFeasible())){
 $self._assert_equals_("&copy;"._htmlTextContent(),"©");
 }
 return self;
@@ -49,9 +47,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv($globals.PlatformDom)._isFeasible();
-if($core.assert($1)){
+if($core.assert($recv($globals.PlatformDom)._isFeasible())){
 $self._shouldnt_raise_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {

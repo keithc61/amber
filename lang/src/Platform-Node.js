@@ -155,9 +155,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$self._isFeasible();
-if($core.assert($1)){
+if($core.assert($self._isFeasible())){
 $recv($globals.Platform)._registerIfNone_($self._new());
 }
 return self;

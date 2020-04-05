@@ -92,7 +92,6 @@ var learning;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 var $early={};
 try {
 learning=$recv($self._learnings())._at_ifAbsent_($recv(aMessage)._selector(),(function(){
@@ -112,8 +111,7 @@ $ctx2.supercall = true,
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-$1=$recv($recv(learning)._class()).__eq_eq($globals.Association);
-if($core.assert($1)){
+if($core.assert($recv($recv(learning)._class()).__eq_eq($globals.Association))){
 return $recv(learning)._value();
 } else {
 return $recv(learning)._valueWithPossibleArguments_($recv(aMessage)._arguments());
@@ -142,9 +140,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv($self.learnings)._isNil();
-if($core.assert($1)){
+if($core.assert($recv($self.learnings)._isNil())){
 $self.learnings=$recv($globals.Dictionary)._new();
 $self.learnings;
 }
@@ -366,15 +362,13 @@ var c;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 $self._errorIfNotAsync_("#async");
 c=$self.context;
 return (function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$self._isAsync();
-if($core.assert($1)){
+if($core.assert($self._isAsync())){
 return $recv(c)._execute_(aBlock);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -446,9 +440,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$self._isAsync();
-if(!$core.assert($1)){
+if(!$core.assert($self._isAsync())){
 $self._error_($recv(aString).__comma(" used without prior #timeout:"));
 }
 return self;
@@ -809,10 +801,8 @@ var selectors;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 selectors=$self._testSelectors();
-$1=$self._shouldInheritSelectors();
-if($core.assert($1)){
+if($core.assert($self._shouldInheritSelectors())){
 $recv(selectors)._addAll_($recv($self._superclass())._allTestSelectors());
 }
 return selectors;
@@ -1041,7 +1031,6 @@ var failed;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
 [$recv($self.testCase)._context_(self)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["context:"]=1
@@ -1063,7 +1052,7 @@ return failed;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $recv($self.testCase)._context_(nil);
-$1=$recv(failed)._and_((function(){
+if($core.assert($recv(failed)._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -1075,12 +1064,10 @@ return [$recv($self.testCase)._isAsync()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
 //>>excludeEnd("ctx");
-}));
-if($core.assert($1)){
+})))){
 $recv($self.testCase)._finished();
 }
-$2=$recv($self.testCase)._isAsync();
-if(!$core.assert($2)){
+if(!$core.assert($recv($self.testCase)._isAsync())){
 return $recv($self.testCase)._tearDown();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1194,7 +1181,6 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -1223,8 +1209,7 @@ $ctx3.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$recv($self.testCase)._isAsync();
-if(!$core.assert($1)){
+if(!$core.assert($recv($self.testCase)._isAsync())){
 $recv($self.result)._increaseRuns();
 return $recv($self.finished)._value();
 }
@@ -1541,13 +1526,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv([$self._runs()
+if(!$core.assert($recv([$self._runs()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["runs"]=1
 //>>excludeEnd("ctx");
-][0]).__eq_eq($self._total());
-if(!$core.assert($1)){
+][0]).__eq_eq($self._total()))){
 return $recv(aBlock)._value_($recv($self._runs()).__plus((1)));
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1805,7 +1788,6 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 [(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -1827,8 +1809,7 @@ var runs;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 runs=$recv($self.result)._runs();
-$1=$recv(runs).__lt($recv($self.result)._total());
-if($core.assert($1)){
+if($core.assert($recv(runs).__lt($recv($self.result)._total()))){
 return $recv($self._contextOf_($recv(runs).__plus((1))))._start();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

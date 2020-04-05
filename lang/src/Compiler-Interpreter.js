@@ -388,23 +388,22 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
-$1=$self._isBlockContext();
-if($core.assert($1)){
-$2=$self._outerContext();
-if($2 == null || $2.a$nil){
-return $2;
+var $1,$2;
+if($core.assert($self._isBlockContext())){
+$1=$self._outerContext();
+if($1 == null || $1.a$nil){
+return $1;
 } else {
 var context;
-context=$2;
+context=$1;
 return $recv(context)._ast();
 }
 }
-$3=$self.ast;
-if($3 == null || $3.a$nil){
+$2=$self.ast;
+if($2 == null || $2.a$nil){
 $self._initializeAST();
 } else {
-$3;
+$2;
 }
 return $self.ast;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1826,13 +1825,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1;
 $self.result=$recv([$self._interpreter()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["interpreter"]=1
 //>>excludeEnd("ctx");
 ][0])._result();
-$1=[$recv([$self._interpreter()
+if($core.assert([$recv([$self._interpreter()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["interpreter"]=2
 //>>excludeEnd("ctx");
@@ -1840,22 +1839,20 @@ $1=[$recv([$self._interpreter()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["atEnd"]=1
 //>>excludeEnd("ctx");
-][0];
-if($core.assert($1)){
-$2=$recv($self._context())._outerContext();
-if($2 == null || $2.a$nil){
-$2;
+][0])){
+$1=$recv($self._context())._outerContext();
+if($1 == null || $1.a$nil){
+$1;
 } else {
 var outerContext;
-outerContext=$2;
+outerContext=$1;
 $self._context_(outerContext);
 }
-$3=$recv([$self._interpreter()
+if(!$core.assert($recv([$self._interpreter()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["interpreter"]=3
 //>>excludeEnd("ctx");
-][0])._atEnd();
-if(!$core.assert($3)){
+][0])._atEnd())){
 $recv($self._interpreter())._skip();
 }
 }
@@ -1990,9 +1987,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv($self._context())._isTopContext();
-if($core.assert($1)){
+if($core.assert($recv($self._context())._isTopContext())){
 $recv($self._interpreter())._stepOver();
 } else {
 $recv([$self._interpreter()
@@ -2239,9 +2234,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$self.forceAtEnd;
-if($core.assert($1)){
+if($core.assert($self.forceAtEnd)){
 return true;
 }
 return $recv($self._hasReturned())._or_((function(){
@@ -2786,9 +2779,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$self._hasReturned();
-if($core.assert($1)){
+if($core.assert($self._hasReturned())){
 return $self._returnValue();
 } else {
 return $recv($self._context())._receiver();
@@ -2900,13 +2891,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv([$recv(aContext)._interpreter()
+if($core.assert($recv([$recv(aContext)._interpreter()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["interpreter"]=1
 //>>excludeEnd("ctx");
-][0])._hasReturned();
-if($core.assert($1)){
+][0])._hasReturned())){
 $self.returned=true;
 $self._returnValue_($recv($recv(aContext)._interpreter())._returnValue());
 }
@@ -3069,9 +3058,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$self._hasReturned();
-if(!$core.assert($1)){
+if(!$core.assert($self._hasReturned())){
 [(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -3335,7 +3322,6 @@ var receiver,args,message,result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 args=$recv($recv(aNode)._arguments())._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -3352,8 +3338,7 @@ return [$self._pop()
 receiver=$self._peek();
 message=$self._messageFromSendNode_arguments_(aNode,$recv(args)._reversed());
 result=$self._sendMessage_to_superSend_(message,receiver,$recv(aNode)._superSend());
-$1=$recv(aNode)._isSideEffect();
-if(!$core.assert($1)){
+if(!$core.assert($recv(aNode)._isSideEffect())){
 $self._pop();
 $self._push_(result);
 }
@@ -3605,7 +3590,6 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
 [(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -3615,7 +3599,7 @@ $ctx1.supercall = true,
 ,$ctx1.supercall = false
 //>>excludeEnd("ctx");
 ][0];
-$1=[$recv([$self._selector()
+if($core.assert([$recv([$self._selector()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["selector"]=1
 //>>excludeEnd("ctx");
@@ -3623,10 +3607,8 @@ $1=[$recv([$self._selector()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["="]=1
 //>>excludeEnd("ctx");
-][0];
-if($core.assert($1)){
-$2=$recv($self._trackedIndex()).__eq($self._index());
-if($core.assert($2)){
+][0])){
+if($core.assert($recv($self._trackedIndex()).__eq($self._index()))){
 $self.currentNode=aNode;
 $self.currentNode;
 }

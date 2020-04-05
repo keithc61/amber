@@ -572,7 +572,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1;
 $1=[$self._outerScope()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["outerScope"]=1
@@ -583,8 +583,7 @@ return (1);
 } else {
 $1;
 }
-$2=$self._isInlined();
-if($core.assert($2)){
+if($core.assert($self._isInlined())){
 return [$recv([$self._outerScope()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["outerScope"]=2
@@ -1679,27 +1678,26 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4;
-$1=$recv(aString)._isCapitalized();
-if($core.assert($1)){
+var $1,$2;
+if($core.assert($recv(aString)._isCapitalized())){
 $recv($self._classReferences())._add_(aString);
-$2=[$recv($globals.ClassRefVar)._new()
+$1=[$recv($globals.ClassRefVar)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["new"]=1
 //>>excludeEnd("ctx");
 ][0];
-[$recv($2)._name_(aString)
+[$recv($1)._name_(aString)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["name:"]=1
 //>>excludeEnd("ctx");
 ][0];
-return [$recv($2)._yourself()
+return [$recv($1)._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=1
 //>>excludeEnd("ctx");
 ][0];
 }
-$3=$recv($recv($recv($globals.Smalltalk)._globalJsVariables())._includes_(aString))._or_((function(){
+if($core.assert($recv($recv($recv($globals.Smalltalk)._globalJsVariables())._includes_(aString))._or_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -1707,11 +1705,10 @@ return $self._isVariableKnown_inPackage_(aString,$self._thePackage());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
-}));
-if($core.assert($3)){
-$4=$recv($globals.ExternallyKnownVar)._new();
-$recv($4)._name_(aString);
-return $recv($4)._yourself();
+})))){
+$2=$recv($globals.ExternallyKnownVar)._new();
+$recv($2)._name_(aString);
+return $recv($2)._yourself();
 }
 $self._errorUnknownVariable_(aString);
 return self;
@@ -2178,7 +2175,6 @@ var lhs;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 [(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -2189,8 +2185,7 @@ $ctx1.supercall = true,
 //>>excludeEnd("ctx");
 ][0];
 lhs=$recv(aNode)._left();
-$1=$recv(lhs)._isAssignable();
-if(!$core.assert($1)){
+if(!$core.assert($recv(lhs)._isAssignable())){
 $self._errorInvalidAssignment_($recv(lhs)._identifier());
 }
 $recv(lhs)._assigned_(true);
@@ -2371,10 +2366,8 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 $recv(aNode)._scope_($self.currentScope);
-$1=$recv($self.currentScope)._isMethodScope();
-if($core.assert($1)){
+if($core.assert($recv($self.currentScope)._isMethodScope())){
 $recv($self.currentScope)._localReturn_(true);
 } else {
 $recv($recv($self.currentScope)._methodScope())._addNonLocalReturn_($self.currentScope);

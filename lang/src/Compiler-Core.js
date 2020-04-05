@@ -1040,7 +1040,6 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 $recv(aClass)._includingPossibleMetaDo_((function(eachSide){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -1049,8 +1048,7 @@ return $recv($recv($recv(eachSide)._methodDictionary())._values())._do_displayin
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-$1=$recv($recv(each)._origin()).__eq(eachSide);
-if($core.assert($1)){
+if($core.assert($recv($recv(each)._origin()).__eq(eachSide))){
 return $self._install_forClass_protocol_($recv(each)._source(),eachSide,$recv(each)._protocol());
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1551,9 +1549,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$self._canProcessPragma_(aMessage);
-if($core.assert($1)){
+if($core.assert($self._canProcessPragma_(aMessage))){
 return $recv(aMessage)._sendTo_(self);
 }
 return self;
@@ -1611,9 +1607,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv($recv($globals.Smalltalk)._reservedWords())._includes_(self);
-if($core.assert($1)){
+if($core.assert($recv($recv($globals.Smalltalk)._reservedWords())._includes_(self))){
 return $self.__comma("_");
 } else {
 return self;

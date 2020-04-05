@@ -563,7 +563,6 @@ var lookupClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 var $early={};
 try {
 lookupClass=self;
@@ -579,8 +578,7 @@ return $recv(lookupClass).__eq(nil);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$recv(lookupClass)._includesSelector_(selector);
-if($core.assert($1)){
+if($core.assert($recv(lookupClass)._includesSelector_(selector))){
 throw $early=[$recv(lookupClass)._methodAt_(selector)];
 }
 lookupClass=$recv(lookupClass)._superclass();
@@ -1418,7 +1416,7 @@ var theClass,thePackage;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1,$2;
 theClass=$recv($recv($globals.Smalltalk)._globals())._at_(className);
 thePackage=$recv($globals.Package)._named_(packageName);
 $1=theClass;
@@ -1426,14 +1424,13 @@ if($1 == null || $1.a$nil){
 $1;
 } else {
 $recv(theClass)._package_(thePackage);
-$2=$recv($recv(theClass)._superclass()).__eq_eq(aClass);
-if(!$core.assert($2)){
+if(!$core.assert($recv($recv(theClass)._superclass()).__eq_eq(aClass))){
 return $self._migrateClassNamed_superclass_instanceVariableNames_package_(className,aClass,aCollection,packageName);
 }
 }
-$3=$self._basicAddSubclassOf_named_instanceVariableNames_package_(aClass,className,aCollection,packageName);
-$recv($3)._recompile();
-return $recv($3)._yourself();
+$2=$self._basicAddSubclassOf_named_instanceVariableNames_package_(aClass,className,aCollection,packageName);
+$recv($2)._recompile();
+return $recv($2)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"addSubclassOf:named:instanceVariableNames:package:",{aClass:aClass,className:className,aCollection:aCollection,packageName:packageName,theClass:theClass,thePackage:thePackage})});
 //>>excludeEnd("ctx");
@@ -1542,9 +1539,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv(aClass)._isMetaclass();
-if(!$core.assert($1)){
+if(!$core.assert($recv(aClass)._isMetaclass())){
 $self._error_($recv($recv(aClass)._name()).__comma(" is not a metaclass"));
 }
 $recv($recv($globals.Smalltalk)._core())._setSlots_to_(aClass,aCollection);
@@ -1711,7 +1706,6 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
 $recv(anotherClass)._comment_($recv(aClass)._comment());
 [$recv([$recv(aClass)._methodDictionary()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1721,7 +1715,7 @@ $recv(anotherClass)._comment_($recv(aClass)._comment());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=[$recv([$recv(each)._origin()
+if($core.assert([$recv([$recv(each)._origin()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["origin"]=1
 //>>excludeEnd("ctx");
@@ -1729,8 +1723,7 @@ $1=[$recv([$recv(each)._origin()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["="]=1
 //>>excludeEnd("ctx");
-][0];
-if($core.assert($1)){
+][0])){
 return [$recv([$recv($globals.Compiler)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["new"]=1
@@ -1783,12 +1776,11 @@ $recv($recv([$recv(aClass)._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2=$recv($recv(each)._origin()).__eq([$recv(aClass)._class()
+if($core.assert($recv($recv(each)._origin()).__eq([$recv(aClass)._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["class"]=4
 //>>excludeEnd("ctx");
-][0]);
-if($core.assert($2)){
+][0]))){
 return $recv($recv($globals.Compiler)._new())._install_forClass_protocol_($recv(each)._source(),[$recv(anotherClass)._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["class"]=5
@@ -2826,9 +2818,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv(aString)._beginsWith_("*");
-if(!$core.assert($1)){
+if(!$core.assert($recv(aString)._beginsWith_("*"))){
 return $self._package();
 }
 return $recv($globals.Package)._named_ifAbsent_($recv(aString)._allButFirst(),(function(){
@@ -3483,24 +3473,23 @@ var oldPackage;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
-$1=$recv([$self._package()
+var $1,$2;
+if($core.assert($recv([$self._package()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["package"]=1
 //>>excludeEnd("ctx");
-][0]).__eq(aPackage);
-if($core.assert($1)){
+][0]).__eq(aPackage))){
 return self;
 }
 oldPackage=$self._package();
 $self._leaveOrganization();
 $self._basicAt_put_("category",$recv(aPackage)._name());
 $self._enterOrganization();
-$2=$recv($globals.SystemAnnouncer)._current();
-$3=$recv($globals.ClassMoved)._new();
-$recv($3)._theClass_(self);
-$recv($3)._oldPackage_(oldPackage);
-$recv($2)._announce_($recv($3)._yourself());
+$1=$recv($globals.SystemAnnouncer)._current();
+$2=$recv($globals.ClassMoved)._new();
+$recv($2)._theClass_(self);
+$recv($2)._oldPackage_(oldPackage);
+$recv($1)._announce_($recv($2)._yourself());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"package:",{aPackage:aPackage,oldPackage:oldPackage})});

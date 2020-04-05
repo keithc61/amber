@@ -165,9 +165,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv($globals.PlatformDom)._isDomNode_($self.jsObject);
-if($core.assert($1)){
+if($core.assert($recv($globals.PlatformDom)._isDomNode_($self.jsObject))){
 return $self.jsObject;
 } else {
 return [(

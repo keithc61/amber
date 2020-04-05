@@ -573,7 +573,6 @@ var suite,runner,result,assertBlock;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
 suite=["fakeError", "fakeErrorFailingInTearDown", "fakeFailure", "testPass"]._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -617,10 +616,8 @@ $recv($recv(runner)._announcer())._on_do_($globals.ResultAnnouncement,(function(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$recv($recv(ann)._result()).__eq_eq(result);
-if($core.assert($1)){
-$2=$recv($recv(result)._runs()).__eq($recv(result)._total());
-return $recv($2)._ifTrue_(assertBlock);
+if($core.assert($recv($recv(ann)._result()).__eq_eq(result))){
+return $recv($recv($recv(result)._runs()).__eq($recv(result)._total()))._ifTrue_(assertBlock);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({ann:ann},$ctx1,3)});
@@ -825,7 +822,6 @@ var suite,runner,result,assertBlock;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
 suite=["fakeTimeout", "fakeMultipleTimeoutFailing", "fakeMultipleTimeoutPassing", "testPass"]._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -865,10 +861,8 @@ $recv($recv(runner)._announcer())._on_do_($globals.ResultAnnouncement,(function(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$recv($recv(ann)._result()).__eq_eq(result);
-if($core.assert($1)){
-$2=$recv($recv(result)._runs()).__eq($recv(result)._total());
-return $recv($2)._ifTrue_(assertBlock);
+if($core.assert($recv($recv(ann)._result()).__eq_eq(result))){
+return $recv($recv($recv(result)._runs()).__eq($recv(result)._total()))._ifTrue_(assertBlock);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({ann:ann},$ctx1,3)});

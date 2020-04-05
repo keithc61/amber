@@ -66,9 +66,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$self._handlesAnnouncement_(anAnnouncement);
-if($core.assert($1)){
+if($core.assert($self._handlesAnnouncement_(anAnnouncement))){
 $recv($self._valuable())._value_(anAnnouncement);
 }
 return self;

@@ -289,9 +289,7 @@ var command,selector;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv($self._commandLineSwitches())._includes_(aSwitch);
-if($core.assert($1)){
+if($core.assert($recv($self._commandLineSwitches())._includes_(aSwitch))){
 selector=$recv($recv(aSwitch)._replace_with_("-[a-z]",(function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -636,9 +634,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv($self.fs)._existsSync_($self._withBasePath_("index.html"));
-if(!$core.assert($1)){
+if(!$core.assert($recv($self.fs)._existsSync_($self._withBasePath_("index.html")))){
 [$recv(console)._warn_("Warning: project directory does not contain index.html.")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["warn:"]=1
@@ -717,7 +713,6 @@ var uri,filename;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 uri=$recv($self.url)._parse_($recv(aRequest)._url());
 filename=$recv($self.path)._join_with_($self._basePath(),$recv(uri)._pathname());
 $recv($self.fs)._exists_do_(filename,(function(aBoolean){
@@ -725,8 +720,7 @@ $recv($self.fs)._exists_do_(filename,(function(aBoolean){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if($core.assert(aBoolean)){
-$1=$recv($recv($self.fs)._statSync_(filename))._isDirectory();
-if($core.assert($1)){
+if($core.assert($recv($recv($self.fs)._statSync_(filename))._isDirectory())){
 return $self._respondDirectoryNamed_from_to_(filename,uri,aResponse);
 } else {
 return $self._respondFileNamed_to_(filename,aResponse);
@@ -787,9 +781,7 @@ var file,stream;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
-$1=$self._isAuthenticated_(aRequest);
-if(!$core.assert($1)){
+if(!$core.assert($self._isAuthenticated_(aRequest))){
 $self._respondAuthenticationRequiredTo_(aResponse);
 return nil;
 }
@@ -858,8 +850,7 @@ $recv(aRequest)._on_do_("end",(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2=$recv(stream)._writable();
-if($core.assert($2)){
+if($core.assert($recv(stream)._writable())){
 return $recv(stream)._end();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -889,8 +880,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
-$1=[$recv([$recv(aRequest)._method()
+if($core.assert([$recv([$recv(aRequest)._method()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["method"]=1
 //>>excludeEnd("ctx");
@@ -898,11 +888,10 @@ $1=[$recv([$recv(aRequest)._method()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["="]=1
 //>>excludeEnd("ctx");
-][0];
-if($core.assert($1)){
+][0])){
 $self._handlePUTRequest_respondTo_(aRequest,aResponse);
 }
-$2=[$recv([$recv(aRequest)._method()
+if($core.assert([$recv([$recv(aRequest)._method()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["method"]=2
 //>>excludeEnd("ctx");
@@ -910,12 +899,10 @@ $2=[$recv([$recv(aRequest)._method()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["="]=2
 //>>excludeEnd("ctx");
-][0];
-if($core.assert($2)){
+][0])){
 $self._handleGETRequest_respondTo_(aRequest,aResponse);
 }
-$3=$recv($recv(aRequest)._method()).__eq("OPTIONS");
-if($core.assert($3)){
+if($core.assert($recv($recv(aRequest)._method()).__eq("OPTIONS"))){
 $self._handleOPTIONSRequest_respondTo_(aRequest,aResponse);
 }
 return self;
@@ -1031,10 +1018,10 @@ var header,token,auth,parts;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4;
+var $1,$2;
 var $early={};
 try {
-$1=[$recv([$recv($self.username)._isNil()
+if($core.assert([$recv([$recv($self.username)._isNil()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["isNil"]=1
 //>>excludeEnd("ctx");
@@ -1050,19 +1037,18 @@ return $recv($self.password)._isNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["and:"]=1
 //>>excludeEnd("ctx");
-][0];
-if($core.assert($1)){
+][0])){
 return true;
 }
-$2=[$recv($recv(aRequest)._headers())._at_("authorization")
+$1=[$recv($recv(aRequest)._headers())._at_("authorization")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["at:"]=1
 //>>excludeEnd("ctx");
 ][0];
-if($2 == null || $2.a$nil){
+if($1 == null || $1.a$nil){
 header="";
 } else {
-header=$2;
+header=$1;
 }
 $recv(header)._ifEmpty_ifNotEmpty_((function(){
 throw $early=[false];
@@ -1071,15 +1057,15 @@ throw $early=[false];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$3=[$recv(header)._tokenize_(" ")
+$2=[$recv(header)._tokenize_(" ")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["tokenize:"]=1
 //>>excludeEnd("ctx");
 ][0];
-if($3 == null || $3.a$nil){
+if($2 == null || $2.a$nil){
 token="";
 } else {
-token=$3;
+token=$2;
 }
 auth=$self._base64Decode_([$recv(token)._at_((2))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1087,7 +1073,7 @@ auth=$self._base64Decode_([$recv(token)._at_((2))
 //>>excludeEnd("ctx");
 ][0]);
 parts=$recv(auth)._tokenize_(":");
-$4=$recv([$recv($self.username).__eq([$recv(parts)._at_((1))
+if($core.assert($recv([$recv($self.username).__eq([$recv(parts)._at_((1))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["at:"]=3
 //>>excludeEnd("ctx");
@@ -1103,8 +1089,7 @@ return $recv($self.password).__eq($recv(parts)._at_((2)));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,7)});
 //>>excludeEnd("ctx");
-}));
-if($core.assert($4)){
+})))){
 throw $early=[true];
 } else {
 throw $early=[false];
@@ -1268,27 +1253,26 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4;
-$1=$recv([$recv(aUrl)._pathname()
+var $1,$2,$3;
+if($core.assert($recv([$recv(aUrl)._pathname()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["pathname"]=1
 //>>excludeEnd("ctx");
-][0])._endsWith_("/");
-if($core.assert($1)){
+][0])._endsWith_("/"))){
 $self._respondFileNamed_to_([$recv(aDirname).__comma("index.html")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=1
 //>>excludeEnd("ctx");
 ][0],aResponse);
 } else {
-$2=$recv($recv(aUrl)._pathname()).__comma("/");
-$3=$recv(aUrl)._search();
-if($3 == null || $3.a$nil){
-$4="";
+$1=$recv($recv(aUrl)._pathname()).__comma("/");
+$2=$recv(aUrl)._search();
+if($2 == null || $2.a$nil){
+$3="";
 } else {
-$4=$3;
+$3=$2;
 }
-$self._respondRedirect_to_([$recv($2).__comma($4)
+$self._respondRedirect_to_([$recv($1).__comma($3)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=2
 //>>excludeEnd("ctx");
@@ -1318,14 +1302,12 @@ var type,filename;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
 filename=aFilename;
 $recv($self.fs)._readFile_do_(filename,(function(ex,file){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$recv(ex)._notNil();
-if($core.assert($1)){
+if($core.assert($recv(ex)._notNil())){
 $recv(console)._log_([$recv(filename).__comma(" does not exist")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx[","]=1
@@ -1334,8 +1316,7 @@ $recv(console)._log_([$recv(filename).__comma(" does not exist")
 return $self._respondNotFoundTo_(aResponse);
 } else {
 type=$recv($self._class())._mimeTypeFor_(filename);
-$2=$recv(type).__eq("application/javascript");
-if($core.assert($2)){
+if($core.assert($recv(type).__eq("application/javascript"))){
 type=$recv(type).__comma(";charset=utf-8");
 type;
 }
@@ -1422,13 +1403,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv([$self._fallbackPage()
+if(!$core.assert($recv([$self._fallbackPage()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["fallbackPage"]=1
 //>>excludeEnd("ctx");
-][0])._isNil();
-if(!$core.assert($1)){
+][0])._isNil())){
 return $self._respondFileNamed_to_($self._fallbackPage(),aResponse);
 }
 $recv(aResponse)._writeHead_options_((404),$globals.HashedCollection._newFromPairs_(["Content-Type","text/html"]));
@@ -1657,7 +1636,6 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 $recv($self.fs)._stat_then_([$self._basePath()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["basePath"]=1
@@ -1667,8 +1645,7 @@ $recv($self.fs)._stat_then_([$self._basePath()
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if(err == null || err.a$nil){
-$1=$recv(stat)._isDirectory();
-if(!$core.assert($1)){
+if(!$core.assert($recv(stat)._isDirectory())){
 return [$recv(console)._warn_([$recv(["Warning: --base-path parameter ".__comma([$self._basePath()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["basePath"]=2
@@ -1830,7 +1807,6 @@ var server,popFront,front,optionName,optionValue,switches;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
 var $early={};
 try {
 switches=$self._commandLineSwitches();
@@ -1839,8 +1815,7 @@ $recv(options)._ifEmpty_((function(){
 throw $early=[server];
 
 }));
-$1=$recv($recv(options)._size())._even();
-if(!$core.assert($1)){
+if(!$core.assert($recv($recv(options)._size())._even())){
 [$recv(console)._log_("Using default parameters.")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["log:"]=1
@@ -1895,8 +1870,7 @@ optionName=[$recv(popFront)._value_(options)
 //>>excludeEnd("ctx");
 ][0];
 optionValue=$recv(popFront)._value_(options);
-$2=$recv(switches)._includes_(optionName);
-if($core.assert($2)){
+if($core.assert($recv(switches)._includes_(optionName))){
 optionName=$self._selectorForCommandLineSwitch_(optionName);
 return $recv(server)._perform_withArguments_(optionName,[optionValue]);
 } else {
@@ -2013,7 +1987,6 @@ var fileServer,args;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 var $early={};
 try {
 args=$recv(process)._argv();
@@ -2022,8 +1995,7 @@ $recv(args)._detect_ifNone_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$recv(each).__eq("--help");
-if($core.assert($1)){
+if($core.assert($recv(each).__eq("--help"))){
 return $recv($globals.FileServer)._printHelp();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2227,7 +2199,7 @@ var child,sanitizedTemplatePath;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1,$2;
 sanitizedTemplatePath=[$recv($recv($recv($self.path)._join_with_($self.nmPath,"@ambers/grunt-init-amber-project"))._replace_with_("\x5c\x5c","\x5c\x5c"))._replace_with_(":","\x5c:")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["replace:with:"]=1
@@ -2244,13 +2216,12 @@ $recv($1)._on_do_("close",(function(code){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2=$recv(code).__eq((0));
-if($core.assert($2)){
-$3=nil;
+if($core.assert($recv(code).__eq((0)))){
+$2=nil;
 } else {
-$3=code;
+$2=code;
 }
-return $recv(aBlock)._value_($3);
+return $recv(aBlock)._value_($2);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({code:code},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -2343,7 +2314,6 @@ var modulePath,packageJson,binSection,scriptPath;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 modulePath=$recv($self.path)._dirname_($recv($recv(require)._provided())._resolve_([$recv(aString).__comma("/package.json")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=1
@@ -2355,8 +2325,7 @@ binSection=[$recv(packageJson)._at_("bin")
 ,$ctx1.sendIdx["at:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$1=$recv(binSection)._isString();
-if($core.assert($1)){
+if($core.assert($recv(binSection)._isString())){
 scriptPath=binSection;
 } else {
 scriptPath=$recv(binSection)._at_(anotherString);
@@ -2823,15 +2792,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 var $early={};
 try {
 $recv($self._commands())._keysAndValuesDo_((function(names,cmd){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$recv(names)._includes_(aString);
-if($core.assert($1)){
+if($core.assert($recv(names)._includes_(aString))){
 $recv(cmd)._value();
 throw $early=[true];
 }
@@ -3017,8 +2984,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv($recv(key)._ctrl())._and_((function(){
+if($core.assert($recv($recv(key)._ctrl())._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -3026,8 +2992,7 @@ return $recv($recv(key)._name()).__eq("l");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
-}));
-if($core.assert($1)){
+})))){
 $self._clearScreen();
 }
 return self;
@@ -3054,7 +3019,6 @@ var assignment;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 assignment=$recv($recv(aString)._tokenize_(":="))._collect_((function(s){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -3064,7 +3028,7 @@ return $recv(s)._trimBoth();
 }, function($ctx2) {$ctx2.fillBlock({s:s},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-$1=$recv($recv($recv(assignment)._size()).__eq((2)))._and_((function(){
+if($core.assert($recv($recv($recv(assignment)._size()).__eq((2)))._and_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -3076,8 +3040,7 @@ return $self._isIdentifier_([$recv(assignment)._first()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
-}));
-if($core.assert($1)){
+})))){
 return [$recv(aBlock)._value_value_($recv(assignment)._first(),$recv(assignment)._last())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["value:value:"]=1
@@ -3176,7 +3139,6 @@ var show;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
 show=(function(varName,value){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -3186,10 +3148,8 @@ return $self._presentResultNamed_withValue_(varName,value);
 }, function($ctx2) {$ctx2.fillBlock({varName:varName,value:value},$ctx1,1)});
 //>>excludeEnd("ctx");
 });
-$1=$self._executeCommand_(buffer);
-if(!$core.assert($1)){
-$2=$self._isVariableDefined_(buffer);
-if($core.assert($2)){
+if(!$core.assert($self._executeCommand_(buffer))){
+if($core.assert($self._isVariableDefined_(buffer))){
 $recv(show)._value_value_(buffer,$recv($self.session)._perform_(buffer));
 } else {
 $self._assignNewVariable_do_(buffer,show);

@@ -22,7 +22,6 @@ var method,dirty;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 dirty=[$recv([$recv([$self._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["class"]=1
@@ -64,8 +63,7 @@ $recv([$self._class()
 ,$ctx1.sendIdx["class"]=5
 //>>excludeEnd("ctx");
 ][0])._removeCompiledMethod_(method);
-$1=dirty;
-if($core.assert($1)){
+if($core.assert(dirty)){
 $recv($recv($self._class())._package())._beDirty();
 }
 return self;
@@ -1445,111 +1443,103 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16;
-$1=[true._yourself()
+var $1,$2,$3,$4,$5,$6,$7,$8;
+if($core.assert([true._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=1
 //>>excludeEnd("ctx");
-][0];
-if($core.assert($1)){
-$2="alternative block";
+][0])){
+$1="alternative block";
 }
-[$self._assert_equals_($2,"alternative block")
+[$self._assert_equals_($1,"alternative block")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$3=[true._yourself()
+if(!$core.assert([true._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=2
 //>>excludeEnd("ctx");
-][0];
-if(!$core.assert($3)){
-$4="alternative block";
+][0])){
+$2="alternative block";
 }
-[$self._assert_equals_($4,nil)
+[$self._assert_equals_($2,nil)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=2
 //>>excludeEnd("ctx");
 ][0];
-$5=[false._yourself()
+if($core.assert([false._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=3
 //>>excludeEnd("ctx");
-][0];
-if($core.assert($5)){
-$6="alternative block";
+][0])){
+$3="alternative block";
 }
-[$self._assert_equals_($6,nil)
+[$self._assert_equals_($3,nil)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=3
 //>>excludeEnd("ctx");
 ][0];
-$7=[false._yourself()
+if(!$core.assert([false._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=4
 //>>excludeEnd("ctx");
-][0];
-if(!$core.assert($7)){
-$8="alternative block";
+][0])){
+$4="alternative block";
 }
-[$self._assert_equals_($8,"alternative block")
+[$self._assert_equals_($4,"alternative block")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=4
 //>>excludeEnd("ctx");
 ][0];
-$9=[false._yourself()
+if($core.assert([false._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=5
 //>>excludeEnd("ctx");
-][0];
-if($core.assert($9)){
-$10="alternative block";
+][0])){
+$5="alternative block";
 } else {
-$10="alternative block2";
+$5="alternative block2";
 }
-[$self._assert_equals_($10,"alternative block2")
+[$self._assert_equals_($5,"alternative block2")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=5
 //>>excludeEnd("ctx");
 ][0];
-$11=[false._yourself()
+if($core.assert([false._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=6
 //>>excludeEnd("ctx");
-][0];
-if($core.assert($11)){
-$12="alternative block2";
+][0])){
+$6="alternative block2";
 } else {
-$12="alternative block";
+$6="alternative block";
 }
-[$self._assert_equals_($12,"alternative block")
+[$self._assert_equals_($6,"alternative block")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=6
 //>>excludeEnd("ctx");
 ][0];
-$13=[true._yourself()
+if($core.assert([true._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=7
 //>>excludeEnd("ctx");
-][0];
-if($core.assert($13)){
-$14="alternative block";
+][0])){
+$7="alternative block";
 } else {
-$14="alternative block2";
+$7="alternative block2";
 }
-[$self._assert_equals_($14,"alternative block")
+[$self._assert_equals_($7,"alternative block")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=7
 //>>excludeEnd("ctx");
 ][0];
-$15=true._yourself();
-if($core.assert($15)){
-$16="alternative block2";
+if($core.assert(true._yourself())){
+$8="alternative block2";
 } else {
-$16="alternative block";
+$8="alternative block";
 }
-$self._assert_equals_($16,"alternative block2");
+$self._assert_equals_($8,"alternative block2");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testIfTrueIfFalseWithBoxing",{})});
