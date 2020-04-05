@@ -315,14 +315,18 @@ inlinedSequence
 !IRSendInliner methodsFor: 'inlining'!
 
 ifFalse: anIRInstruction
+	self mustBeNiladicClosure: anIRInstruction.
 	^ self inlinedSend: IRInlinedIfFalse new withBlock: anIRInstruction
 !
 
 ifFalse: anIRInstruction ifTrue: anotherIRInstruction
-	^ self perform: #ifTrue:ifFalse: withArguments: { anotherIRInstruction. anIRInstruction }
+	self mustBeNiladicClosure: anIRInstruction.
+	self mustBeNiladicClosure: anotherIRInstruction.
+	^ self inlinedSend: IRInlinedIfTrueIfFalse new withBlock: anotherIRInstruction withBlock: anIRInstruction
 !
 
 ifNil: anIRInstruction
+	self mustBeNiladicClosure: anIRInstruction.
 	^ self
 		inlinedSend: IRInlinedIfNilIfNotNil new
 		withBlock: anIRInstruction
@@ -335,10 +339,13 @@ ifNil: anIRInstruction
 !
 
 ifNil: anIRInstruction ifNotNil: anotherIRInstruction
+	self mustBeNiladicClosure: anIRInstruction.
+	self mustBeNiladicOrUnaryClosure: anotherIRInstruction.
 	^ self inlinedSend: IRInlinedIfNilIfNotNil new withBlock: anIRInstruction withBlock: anotherIRInstruction
 !
 
 ifNotNil: anIRInstruction
+	self mustBeNiladicOrUnaryClosure: anIRInstruction.
 	^ self
 		inlinedSend: IRInlinedIfNilIfNotNil new
 		withBlock: (IRClosure new
@@ -351,14 +358,19 @@ ifNotNil: anIRInstruction
 !
 
 ifNotNil: anIRInstruction ifNil: anotherIRInstruction
+	self mustBeNiladicOrUnaryClosure: anIRInstruction.
+	self mustBeNiladicClosure: anotherIRInstruction.
 	^ self inlinedSend: IRInlinedIfNilIfNotNil new withBlock: anotherIRInstruction withBlock: anIRInstruction
 !
 
 ifTrue: anIRInstruction
+	self mustBeNiladicClosure: anIRInstruction.
 	^ self inlinedSend: IRInlinedIfTrue new withBlock: anIRInstruction
 !
 
 ifTrue: anIRInstruction ifFalse: anotherIRInstruction
+	self mustBeNiladicClosure: anIRInstruction.
+	self mustBeNiladicClosure: anotherIRInstruction.
 	^ self inlinedSend: IRInlinedIfTrueIfFalse new withBlock: anIRInstruction withBlock: anotherIRInstruction
 !
 
@@ -431,9 +443,6 @@ inlineSend: anIRSend andReplace: anIRInstruction
 inlinedSend: inlinedSend withBlock: anIRInstruction
 	| inlinedClosure |
 
-	anIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].
-	anIRInstruction arguments size = 0 ifFalse: [ self inliningError: 'Inlined block should have zero argument' ].
-
 	inlinedClosure := self translator visit: (self inlineClosure: anIRInstruction).
 
 	inlinedSend
@@ -450,9 +459,6 @@ inlinedSend: inlinedSend withBlock: anIRInstruction
 inlinedSend: inlinedSend withBlock: anIRInstruction withBlock: anotherIRInstruction
 	| inlinedClosure1 inlinedClosure2 |
 
-	anIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].
-	anotherIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].
-
 	inlinedClosure1 := self translator visit: (self inlineClosure: anIRInstruction).
 	inlinedClosure2 := self translator visit: (self inlineClosure: anotherIRInstruction).
 
@@ -466,6 +472,18 @@ inlinedSend: inlinedSend withBlock: anIRInstruction withBlock: anotherIRInstruct
 		addAll: inlinedSend internalVariables.
 		
 	^ inlinedSend
+! !
+
+!IRSendInliner methodsFor: 'testing'!
+
+mustBeNiladicClosure: anIRInstruction
+	anIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].
+	anIRInstruction arguments size = 0 ifFalse: [ self inliningError: 'Inlined block should have zero argument' ]
+!
+
+mustBeNiladicOrUnaryClosure: anIRInstruction
+	anIRInstruction isClosure ifFalse: [ self inliningError: 'Message argument should be a block' ].
+	anIRInstruction arguments size <= 1 ifFalse: [ self inliningError: 'Inlined block should have at most one argument' ]
 ! !
 
 !IRSendInliner class methodsFor: 'accessing'!
