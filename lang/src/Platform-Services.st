@@ -593,7 +593,7 @@ inspectOn: anInspector
 	variables := Dictionary new.
 	variables at: '#self' put: self.
 	self class allInstanceVariableNames do: [ :each |
-		variables at: each put: (self instVarAt: each) ].
+		variables at: each put: (self instVarNamed: each) ].
 	anInspector
 		setLabel: self printString;
 		setVariables: variables
@@ -645,7 +645,7 @@ inspectOn: anInspector
 	variables at: '#selector' put: self selector.
 	variables at: '#locals' put: self locals.
 	self class instanceVariableNames do: [ :each |
-		variables at: each put: (self instVarAt: each) ].
+		variables at: each put: (self instVarNamed: each) ].
 	anInspector
 		setLabel: self printString;
 		setVariables: variables

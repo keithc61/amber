@@ -3913,17 +3913,17 @@ selector: "inContext:",
 protocol: "*Compiler-Interpreter",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aContext"],
-source: "inContext: aContext\x0a\x09^ aContext receiver instVarAt: self name",
+source: "inContext: aContext\x0a\x09^ aContext receiver instVarNamed: self name",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["instVarAt:", "receiver", "name"]
+messageSends: ["instVarNamed:", "receiver", "name"]
 }, function ($methodClass){ return function (aContext){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv(aContext)._receiver())._instVarAt_($self._name());
+return $recv($recv(aContext)._receiver())._instVarNamed_($self._name());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"inContext:",{aContext:aContext})});
 //>>excludeEnd("ctx");
@@ -3936,17 +3936,17 @@ selector: "inContext:put:",
 protocol: "*Compiler-Interpreter",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aContext", "anObject"],
-source: "inContext: aContext put: anObject\x0a\x09aContext receiver instVarAt: self name put: anObject",
+source: "inContext: aContext put: anObject\x0a\x09aContext receiver instVarNamed: self name put: anObject",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["instVarAt:put:", "receiver", "name"]
+messageSends: ["instVarNamed:put:", "receiver", "name"]
 }, function ($methodClass){ return function (aContext,anObject){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv($recv(aContext)._receiver())._instVarAt_put_($self._name(),anObject);
+$recv($recv(aContext)._receiver())._instVarNamed_put_($self._name(),anObject);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"inContext:put:",{aContext:aContext,anObject:anObject})});

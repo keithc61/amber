@@ -24,11 +24,11 @@ identityHash
 	'>
 !
 
-instVarAt: aString
+instVarNamed: aString
 	<inlineJS: 'return $self[aString]'>
 !
 
-instVarAt: aString put: anObject
+instVarNamed: aString put: anObject
 	<inlineJS: '$self[aString] = anObject'>
 !
 
@@ -232,7 +232,7 @@ asJavaScriptObject
 	| variables |
 	variables := HashedCollection new.
 	self class allInstanceVariableNames do: [ :each |
-		variables at: each put: (self instVarAt: each) asJavaScriptObject ].
+		variables at: each put: (self instVarNamed: each) asJavaScriptObject ].
 	^ variables
 !
 

@@ -2644,11 +2644,11 @@ testIfNil
 testInstVars
 	| o |
 	o := ObjectMock new.
-	self assert: (o instVarAt: #foo) equals: nil.
+	self assert: (o instVarNamed: #foo) equals: nil.
 
-	o instVarAt: #foo put: 1.
-	self assert: (o instVarAt: #foo) equals: 1.
-	self assert: (o instVarAt: 'foo') equals: 1
+	o instVarNamed: #foo put: 1.
+	self assert: (o instVarNamed: #foo) equals: 1.
+	self assert: (o instVarNamed: 'foo') equals: 1
 !
 
 testNilUndefined

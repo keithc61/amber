@@ -1044,11 +1044,11 @@ inContext: aContext
 !InstanceVar methodsFor: '*Compiler-Interpreter'!
 
 inContext: aContext
-	^ aContext receiver instVarAt: self name
+	^ aContext receiver instVarNamed: self name
 !
 
 inContext: aContext put: anObject
-	aContext receiver instVarAt: self name put: anObject
+	aContext receiver instVarNamed: self name put: anObject
 ! !
 
 !JSStatementNode methodsFor: '*Compiler-Interpreter'!

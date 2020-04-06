@@ -333,11 +333,11 @@ $globals.ProtoObject);
 
 $core.addMethod(
 $core.method({
-selector: "instVarAt:",
+selector: "instVarNamed:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "instVarAt: aString\x0a\x09<inlineJS: 'return $self[aString]'>",
+source: "instVarNamed: aString\x0a\x09<inlineJS: 'return $self[aString]'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [["inlineJS:", ["return $self[aString]"]]],
@@ -350,18 +350,18 @@ return $core.withContext(function($ctx1) {
 return $self[aString];
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"instVarAt:",{aString:aString})});
+}, function($ctx1) {$ctx1.fill(self,"instVarNamed:",{aString:aString})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ProtoObject);
 
 $core.addMethod(
 $core.method({
-selector: "instVarAt:put:",
+selector: "instVarNamed:put:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "anObject"],
-source: "instVarAt: aString put: anObject\x0a\x09<inlineJS: '$self[aString] = anObject'>",
+source: "instVarNamed: aString put: anObject\x0a\x09<inlineJS: '$self[aString] = anObject'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [["inlineJS:", ["$self[aString] = anObject"]]],
@@ -374,7 +374,7 @@ return $core.withContext(function($ctx1) {
 $self[aString] = anObject;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"instVarAt:put:",{aString:aString,anObject:anObject})});
+}, function($ctx1) {$ctx1.fill(self,"instVarNamed:put:",{aString:aString,anObject:anObject})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ProtoObject);
@@ -707,11 +707,11 @@ selector: "asJavaScriptObject",
 protocol: "converting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJavaScriptObject\x0a\x09| variables |\x0a\x09variables := HashedCollection new.\x0a\x09self class allInstanceVariableNames do: [ :each |\x0a\x09\x09variables at: each put: (self instVarAt: each) asJavaScriptObject ].\x0a\x09^ variables",
+source: "asJavaScriptObject\x0a\x09| variables |\x0a\x09variables := HashedCollection new.\x0a\x09self class allInstanceVariableNames do: [ :each |\x0a\x09\x09variables at: each put: (self instVarNamed: each) asJavaScriptObject ].\x0a\x09^ variables",
 referencedClasses: ["HashedCollection"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["new", "do:", "allInstanceVariableNames", "class", "at:put:", "asJavaScriptObject", "instVarAt:"]
+messageSends: ["new", "do:", "allInstanceVariableNames", "class", "at:put:", "asJavaScriptObject", "instVarNamed:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var variables;
@@ -723,7 +723,7 @@ $recv($recv($self._class())._allInstanceVariableNames())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv(variables)._at_put_(each,$recv($self._instVarAt_(each))._asJavaScriptObject());
+return $recv(variables)._at_put_(each,$recv($self._instVarNamed_(each))._asJavaScriptObject());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");

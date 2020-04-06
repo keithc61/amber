@@ -14692,11 +14692,11 @@ selector: "testInstVars",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testInstVars\x0a\x09| o |\x0a\x09o := ObjectMock new.\x0a\x09self assert: (o instVarAt: #foo) equals: nil.\x0a\x0a\x09o instVarAt: #foo put: 1.\x0a\x09self assert: (o instVarAt: #foo) equals: 1.\x0a\x09self assert: (o instVarAt: 'foo') equals: 1",
+source: "testInstVars\x0a\x09| o |\x0a\x09o := ObjectMock new.\x0a\x09self assert: (o instVarNamed: #foo) equals: nil.\x0a\x0a\x09o instVarNamed: #foo put: 1.\x0a\x09self assert: (o instVarNamed: #foo) equals: 1.\x0a\x09self assert: (o instVarNamed: 'foo') equals: 1",
 referencedClasses: ["ObjectMock"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["new", "assert:equals:", "instVarAt:", "instVarAt:put:"]
+messageSends: ["new", "assert:equals:", "instVarNamed:", "instVarNamed:put:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var o;
@@ -14704,26 +14704,26 @@ var o;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 o=$recv($globals.ObjectMock)._new();
-[$self._assert_equals_([$recv(o)._instVarAt_("foo")
+[$self._assert_equals_([$recv(o)._instVarNamed_("foo")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["instVarAt:"]=1
+,$ctx1.sendIdx["instVarNamed:"]=1
 //>>excludeEnd("ctx");
 ][0],nil)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$recv(o)._instVarAt_put_("foo",(1));
-[$self._assert_equals_([$recv(o)._instVarAt_("foo")
+$recv(o)._instVarNamed_put_("foo",(1));
+[$self._assert_equals_([$recv(o)._instVarNamed_("foo")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["instVarAt:"]=2
+,$ctx1.sendIdx["instVarNamed:"]=2
 //>>excludeEnd("ctx");
 ][0],(1))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=2
 //>>excludeEnd("ctx");
 ][0];
-$self._assert_equals_($recv(o)._instVarAt_("foo"),(1));
+$self._assert_equals_($recv(o)._instVarNamed_("foo"),(1));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testInstVars",{o:o})});
