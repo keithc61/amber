@@ -4,6 +4,165 @@ var $pkg = $core.addPackage("Compiler-Semantic");
 $pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
+$core.addClass("JSSuperSendVisitor", $globals.NodeVisitor, ["selector", "property"], "Compiler-Semantic");
+$core.addMethod(
+$core.method({
+selector: "property",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "property\x0a\x09^ property",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.property;
+
+}; }),
+$globals.JSSuperSendVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "property:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "property: anObject\x0a\x09property := anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+$self.property=anObject;
+return self;
+
+}; }),
+$globals.JSSuperSendVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "selector",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "selector\x0a\x09^ selector",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.selector;
+
+}; }),
+$globals.JSSuperSendVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "selector:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "selector: anObject\x0a\x09selector := anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+$self.selector=anObject;
+return self;
+
+}; }),
+$globals.JSSuperSendVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "visitMethodNode:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNode"],
+source: "visitMethodNode: aNode\x0a\x09self selector: aNode selector.\x0a\x09^ super visitMethodNode: aNode",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["selector:", "selector", "visitMethodNode:"]
+}, function ($methodClass){ return function (aNode){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._selector_($recv(aNode)._selector());
+return [(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitMethodNode_.call($self,aNode))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.supercall = false
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"visitMethodNode:",{aNode:aNode})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.JSSuperSendVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "visitSendNode:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNode"],
+source: "visitSendNode: aNode\x0a\x09| receiver |\x0a\x09receiver := aNode receiver.\x0a\x09receiver isSuper ifTrue: [\x0a\x09\x09aNode selector = self selector ifTrue: [\x0a\x09\x09\x09| old |\x0a\x09\x09\x09old := receiver binding.\x0a\x09\x09\x09receiver binding: (\x0a\x09\x09\x09\x09JavaScriptSuperVar new\x0a\x09\x09\x09\x09\x09scope: old scope;\x0a\x09\x09\x09\x09\x09name: old name;\x0a\x09\x09\x09\x09\x09yourself ).\x0a\x09\x09\x09aNode javaScriptSelector: self property ] ].\x0a\x09^ super visitSendNode: aNode",
+referencedClasses: ["JavaScriptSuperVar"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["receiver", "ifTrue:", "isSuper", "=", "selector", "binding", "binding:", "scope:", "new", "scope", "name:", "name", "yourself", "javaScriptSelector:", "property", "visitSendNode:"]
+}, function ($methodClass){ return function (aNode){
+var self=this,$self=this;
+var receiver;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+receiver=$recv(aNode)._receiver();
+if($core.assert($recv(receiver)._isSuper())){
+if($core.assert($recv([$recv(aNode)._selector()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["selector"]=1
+//>>excludeEnd("ctx");
+][0]).__eq($self._selector()))){
+var old;
+old=$recv(receiver)._binding();
+$1=receiver;
+$2=$recv($globals.JavaScriptSuperVar)._new();
+$recv($2)._scope_($recv(old)._scope());
+$recv($2)._name_($recv(old)._name());
+$recv($1)._binding_($recv($2)._yourself());
+$recv(aNode)._javaScriptSelector_($self._property());
+}
+}
+return [(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._visitSendNode_.call($self,aNode))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.supercall = false
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"visitSendNode:",{aNode:aNode,receiver:receiver})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.JSSuperSendVisitor);
+
+
+
 $core.addClass("LexicalScope", $globals.Object, ["node", "instruction", "temps", "args", "outerScope", "blockIndex"], "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.LexicalScope.comment="I represent a lexical scope where variable names are associated with ScopeVars\x0aInstances are used for block scopes. Method scopes are instances of MethodLexicalScope.\x0a\x0aI am attached to a ScopeVar and method/block nodes.\x0aEach context (method/closure) get a fresh scope that inherits from its outer scope.";
@@ -2747,5 +2906,32 @@ return self;
 }; }),
 $globals.UnknownVariableError);
 
+
+$core.addMethod(
+$core.method({
+selector: "jsOverride:",
+protocol: "*Compiler-Semantic",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "jsOverride: aString\x0a\x09(JSSuperSendVisitor new property: aString; yourself)\x0a\x09\x09visit: self methodNode",
+referencedClasses: ["JSSuperSendVisitor"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["visit:", "property:", "new", "yourself", "methodNode"]
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($globals.JSSuperSendVisitor)._new();
+$recv($1)._property_(aString);
+$recv($recv($1)._yourself())._visit_($self._methodNode());
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"jsOverride:",{aString:aString})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AstSemanticPragmator);
 
 });

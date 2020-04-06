@@ -218,6 +218,7 @@ visitSendNode: aNode
 	send := IRSend new.
 	send
 		selector: aNode selector;
+		javaScriptSelector: aNode javaScriptSelector;
 		index: aNode index.
 	
 	(self aliasTemporally: aNode dagChildren) do: [ :each | send add: each ].
@@ -871,8 +872,6 @@ IRPragmator subclass: #IRLatePragmator
 !IRLatePragmator methodsFor: 'pragmas'!
 
 jsOverride: aString
-	(IRJSSuperSendVisitor new property: aString; yourself)
-		visit: self irMethod.
 	self irMethod attachments
 		at: aString
 		put: (NativeFunction
@@ -952,49 +951,6 @@ visitIRVariable: anIRVariable
 
 visitIRVerbatim: anIRVerbatim
 	^ self visitDagNode: anIRVerbatim
-! !
-
-IRVisitor subclass: #IRJSSuperSendVisitor
-	slots: {#selector. #property}
-	package: 'Compiler-IR'!
-
-!IRJSSuperSendVisitor methodsFor: 'accessing'!
-
-property
-	^ property
-!
-
-property: anObject
-	property := anObject
-!
-
-selector
-	^ selector
-!
-
-selector: anObject
-	selector := anObject
-!
-
-visitIRMethod: anIRMethod
-	self selector: anIRMethod selector.
-	^ super visitIRMethod: anIRMethod
-!
-
-visitIRSend: anIRSend
-	| receiver |
-	receiver := anIRSend receiver.
-	receiver isSuper ifTrue: [
-		anIRSend selector = self selector ifTrue: [
-			| old |
-			old := receiver variable.
-			receiver variable: (
-				JavaScriptSuperVar new
-					scope: old scope;
-					name: old name;
-					yourself ).
-			anIRSend javaScriptSelector: self property ] ].
-	^ super visitIRSend: anIRSend
 ! !
 
 IRVisitor subclass: #IRJSTranslator

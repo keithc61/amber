@@ -256,7 +256,7 @@ acceptDagVisitor: aVisitor
 ! !
 
 ExpressionNode subclass: #SendNode
-	slots: {#selector. #arguments. #receiver. #index. #isSideEffect}
+	slots: {#selector. #arguments. #receiver. #index. #javaScriptSelector. #isSideEffect}
 	package: 'Compiler-AST'!
 !SendNode commentStamp!
 I represent an message send node.!
@@ -291,6 +291,14 @@ index: anInteger
 
 isSideEffect
 	^ isSideEffect ifNil: [ false ]
+!
+
+javaScriptSelector
+	^ javaScriptSelector
+!
+
+javaScriptSelector: aString
+	javaScriptSelector := aString
 !
 
 navigationLink

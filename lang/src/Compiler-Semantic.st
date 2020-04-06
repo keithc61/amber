@@ -1,4 +1,47 @@
 Smalltalk createPackage: 'Compiler-Semantic'!
+NodeVisitor subclass: #JSSuperSendVisitor
+	slots: {#selector. #property}
+	package: 'Compiler-Semantic'!
+
+!JSSuperSendVisitor methodsFor: 'accessing'!
+
+property
+	^ property
+!
+
+property: anObject
+	property := anObject
+!
+
+selector
+	^ selector
+!
+
+selector: anObject
+	selector := anObject
+!
+
+visitMethodNode: aNode
+	self selector: aNode selector.
+	^ super visitMethodNode: aNode
+!
+
+visitSendNode: aNode
+	| receiver |
+	receiver := aNode receiver.
+	receiver isSuper ifTrue: [
+		aNode selector = self selector ifTrue: [
+			| old |
+			old := receiver binding.
+			receiver binding: (
+				JavaScriptSuperVar new
+					scope: old scope;
+					name: old name;
+					yourself ).
+			aNode javaScriptSelector: self property ] ].
+	^ super visitSendNode: aNode
+! !
+
 Object subclass: #LexicalScope
 	slots: {#node. #instruction. #temps. #args. #outerScope. #blockIndex}
 	package: 'Compiler-Semantic'!
@@ -701,5 +744,12 @@ variableName
 
 variableName: aString
 	variableName := aString
+! !
+
+!AstSemanticPragmator methodsFor: '*Compiler-Semantic'!
+
+jsOverride: aString
+	(JSSuperSendVisitor new property: aString; yourself)
+		visit: self methodNode
 ! !
 

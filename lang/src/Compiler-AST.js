@@ -977,7 +977,7 @@ $globals.DynamicDictionaryNode);
 
 
 
-$core.addClass("SendNode", $globals.ExpressionNode, ["selector", "arguments", "receiver", "index", "isSideEffect"], "Compiler-AST");
+$core.addClass("SendNode", $globals.ExpressionNode, ["selector", "arguments", "receiver", "index", "javaScriptSelector", "isSideEffect"], "Compiler-AST");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SendNode.comment="I represent an message send node.";
 //>>excludeEnd("ide");
@@ -1191,6 +1191,43 @@ return $1;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isSideEffect",{})});
 //>>excludeEnd("ctx");
+}; }),
+$globals.SendNode);
+
+$core.addMethod(
+$core.method({
+selector: "javaScriptSelector",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "javaScriptSelector\x0a\x09^ javaScriptSelector",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.javaScriptSelector;
+
+}; }),
+$globals.SendNode);
+
+$core.addMethod(
+$core.method({
+selector: "javaScriptSelector:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "javaScriptSelector: aString\x0a\x09javaScriptSelector := aString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+$self.javaScriptSelector=aString;
+return self;
+
 }; }),
 $globals.SendNode);
 
