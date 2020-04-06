@@ -1,6 +1,7 @@
 0.25.0:
 
 * Deprecate Behavior >> javascriptConstructor(:)
+* Deprecate ProtoObject >> instVarAt:(put:)
 * Lots of changes in Compiler.
 * Added Teachable class.
 
@@ -12,6 +13,9 @@
   + javaScriptConstructor:
 + BlockClosure >>
   + tryIfTrue:catch:
++ ProtoObject >>
+  + instVarNamed:
+  + instVarNamed:put:
 + SequenceableCollection >>
   + copyWithFirst:
 + SmalltalkImage >>
