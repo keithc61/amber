@@ -79,11 +79,10 @@ aliasTemporally: aCollection
 	shouldAlias := false.
 	threshold := aCollection reversed
 		detect: [ :each |
-			shouldAlias
-				ifTrue: [ true ]
-				ifFalse: [
+			shouldAlias ifTrue: [ true ] ifFalse: [
+				each shouldBeAliased ifTrue: [ true ] ifFalse: [
 					(each hasOpeningStatements ifTrue: [ true ] ifFalse: [ each subtreeNeedsAliasing ]) ifTrue: [ shouldAlias := true ].
-					each shouldBeAliased ] ]
+					false ] ] ]
 		ifNone: [ nil ].
 	threshold ifNil: [ ^ self visitAll: aCollection ].
 

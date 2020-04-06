@@ -77,11 +77,11 @@ selector: "aliasTemporally:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aCollection"],
-source: "aliasTemporally: aCollection\x0a\x09\x22https://lolg.it/amber/amber/issues/296\x0a\x09\x0a\x09If a node is aliased, all preceding ones are aliased as well.\x0a\x09The tree is iterated twice. First we get the aliasing dependency,\x0a\x09then the aliasing itself is done\x22\x0a\x0a\x09| threshold shouldAlias |\x0a\x09shouldAlias := false.\x0a\x09threshold := aCollection reversed\x0a\x09\x09detect: [ :each |\x0a\x09\x09\x09shouldAlias\x0a\x09\x09\x09\x09ifTrue: [ true ]\x0a\x09\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09\x09(each hasOpeningStatements ifTrue: [ true ] ifFalse: [ each subtreeNeedsAliasing ]) ifTrue: [ shouldAlias := true ].\x0a\x09\x09\x09\x09\x09each shouldBeAliased ] ]\x0a\x09\x09ifNone: [ nil ].\x0a\x09threshold ifNil: [ ^ self visitAll: aCollection ].\x0a\x0a\x09shouldAlias := true.\x0a\x09^ aCollection collect: [ :each |\x0a\x09\x09shouldAlias\x0a\x09\x09\x09ifTrue: [ each == threshold ifTrue: [ shouldAlias := false ]. self alias: each ]\x0a\x09\x09\x09ifFalse: [ self visit: each ] ]",
+source: "aliasTemporally: aCollection\x0a\x09\x22https://lolg.it/amber/amber/issues/296\x0a\x09\x0a\x09If a node is aliased, all preceding ones are aliased as well.\x0a\x09The tree is iterated twice. First we get the aliasing dependency,\x0a\x09then the aliasing itself is done\x22\x0a\x0a\x09| threshold shouldAlias |\x0a\x09shouldAlias := false.\x0a\x09threshold := aCollection reversed\x0a\x09\x09detect: [ :each |\x0a\x09\x09\x09shouldAlias ifTrue: [ true ] ifFalse: [\x0a\x09\x09\x09\x09each shouldBeAliased ifTrue: [ true ] ifFalse: [\x0a\x09\x09\x09\x09\x09(each hasOpeningStatements ifTrue: [ true ] ifFalse: [ each subtreeNeedsAliasing ]) ifTrue: [ shouldAlias := true ].\x0a\x09\x09\x09\x09\x09false ] ] ]\x0a\x09\x09ifNone: [ nil ].\x0a\x09threshold ifNil: [ ^ self visitAll: aCollection ].\x0a\x0a\x09shouldAlias := true.\x0a\x09^ aCollection collect: [ :each |\x0a\x09\x09shouldAlias\x0a\x09\x09\x09ifTrue: [ each == threshold ifTrue: [ shouldAlias := false ]. self alias: each ]\x0a\x09\x09\x09ifFalse: [ self visit: each ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["detect:ifNone:", "reversed", "ifTrue:ifFalse:", "ifTrue:", "hasOpeningStatements", "subtreeNeedsAliasing", "shouldBeAliased", "ifNil:", "visitAll:", "collect:", "==", "alias:", "visit:"]
+messageSends: ["detect:ifNone:", "reversed", "ifTrue:ifFalse:", "shouldBeAliased", "ifTrue:", "hasOpeningStatements", "subtreeNeedsAliasing", "ifNil:", "visitAll:", "collect:", "==", "alias:", "visit:"]
 }, function ($methodClass){ return function (aCollection){
 var self=this,$self=this;
 var threshold,shouldAlias;
@@ -97,6 +97,9 @@ return $core.withContext(function($ctx2) {
 if($core.assert(shouldAlias)){
 return true;
 } else {
+if($core.assert($recv(each)._shouldBeAliased())){
+return true;
+} else {
 if($core.assert($recv(each)._hasOpeningStatements())){
 $1=true;
 } else {
@@ -106,7 +109,8 @@ if($core.assert($1)){
 shouldAlias=true;
 shouldAlias;
 }
-return $recv(each)._shouldBeAliased();
+return false;
+}
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -136,7 +140,7 @@ return $self._alias_(each);
 return $self._visit_(each);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,9)});
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,11)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
