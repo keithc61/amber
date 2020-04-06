@@ -736,13 +736,25 @@ messageNotUnderstood: aMessage receiver: anObject
 		signal
 !
 
-sendMessage: aMessage to: anObject superSend: aBoolean
-	| method |
+sendJavaScript: aString superMessage: aMessage to: anObject
+	| methodBlock parent |
 	
-	aBoolean ifFalse: [ ^ aMessage sendTo: anObject ].
-	anObject class superclass ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].
+	parent := self context method methodClass superPrototype.
+	parent ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].
 	
-	method := (self context method methodClass superclass lookupSelector: aMessage selector)
+	methodBlock := (parent at: aString)
+		ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].
+		
+	^ methodBlock applyTo: anObject arguments: aMessage arguments
+!
+
+sendSuperMessage: aMessage to: anObject
+	| method parent |
+	
+	parent := self context method methodClass superclass.
+	parent ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].
+	
+	method := (parent lookupSelector: aMessage selector)
 		ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].
 		
 	^ method sendTo: anObject arguments: aMessage arguments
@@ -872,7 +884,11 @@ visitSendNode: aNode
 		messageFromSendNode: aNode
 		arguments: args reversed.
 	
-	result := self sendMessage: message to: receiver superSend: aNode superSend.
+	result := aNode superSend
+		ifFalse: [ message sendTo: receiver ]
+		ifTrue: [ aNode receiver binding isJavaScriptSuper
+			ifFalse: [ self sendSuperMessage: message to: receiver ]
+			ifTrue: [ self sendJavaScript: aNode javaScriptSelector superMessage: message to: receiver ] ].
 	
 	"For cascade sends, push the reciever if the send is not the last one"
 	aNode isSideEffect ifFalse: [ self pop; push: result ]
@@ -1057,6 +1073,12 @@ isSteppingNode
 	^ true
 ! !
 
+!JavaScriptSuperVar methodsFor: '*Compiler-Interpreter'!
+
+isJavaScriptSuper
+	^ true
+! !
+
 !PseudoVar methodsFor: '*Compiler-Interpreter'!
 
 inContext: aContext
@@ -1085,6 +1107,10 @@ isSteppingNode
 
 inContext: aContext
 	^ aContext localAt: 'self'
+!
+
+isJavaScriptSuper
+	^ false
 ! !
 
 !TempVar methodsFor: '*Compiler-Interpreter'!

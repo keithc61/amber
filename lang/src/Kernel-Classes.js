@@ -694,6 +694,30 @@ $globals.Behavior);
 
 $core.addMethod(
 $core.method({
+selector: "superPrototype",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "superPrototype\x0a\x09<inlineJS: 'return Object.getPrototypeOf($self.fn.prototype)'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Object.getPrototypeOf($self.fn.prototype)"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return Object.getPrototypeOf($self.fn.prototype);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"superPrototype",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Behavior);
+
+$core.addMethod(
+$core.method({
 selector: "superclass",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);

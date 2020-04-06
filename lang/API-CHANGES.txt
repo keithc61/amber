@@ -11,6 +11,7 @@
   + beJavaScriptSubclassOf:
   + javaScriptConstructor
   + javaScriptConstructor:
+  + superPrototype
 + BlockClosure >>
   + tryIfTrue:catch:
 + ProtoObject >>

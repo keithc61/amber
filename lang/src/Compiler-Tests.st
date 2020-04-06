@@ -518,7 +518,15 @@ isAbstract
 	^ self name = AbstractJavaScriptGatewayTest name
 ! !
 
+AbstractJavaScriptGatewayTest subclass: #DebuggedJSGTest
+	slots: {}
+	package: 'Compiler-Tests'!
+
 AbstractJavaScriptGatewayTest subclass: #InlinedJSGTest
+	slots: {}
+	package: 'Compiler-Tests'!
+
+AbstractJavaScriptGatewayTest subclass: #InterpretedJSGTest
 	slots: {}
 	package: 'Compiler-Tests'!
 
@@ -1125,5 +1133,7 @@ ASTPositionTest setTraitComposition: {TASTParsingTest} asTraitComposition!
 AbstractCodeGeneratorInstallTest setTraitComposition: {TASTCompilingTest} asTraitComposition!
 CodeGeneratorInstallTest setTraitComposition: {TCTNonInlined} asTraitComposition!
 InliningCodeGeneratorInstallTest setTraitComposition: {TCTInlined} asTraitComposition!
+InterpretedJSGTest setTraitComposition: {TCTNonInlined. TCTInterpreted} asTraitComposition!
+DebuggedJSGTest setTraitComposition: {TCTNonInlined. TCTDebugged} asTraitComposition!
 ! !
 

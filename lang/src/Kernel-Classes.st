@@ -117,6 +117,10 @@ subclasses
 	self subclassResponsibility
 !
 
+superPrototype
+	<inlineJS: 'return Object.getPrototypeOf($self.fn.prototype)'>
+!
+
 superclass
 	^ superclass
 !

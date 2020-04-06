@@ -2829,30 +2829,24 @@ $globals.ASTInterpreter);
 
 $core.addMethod(
 $core.method({
-selector: "sendMessage:to:superSend:",
+selector: "sendJavaScript:superMessage:to:",
 protocol: "private",
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aMessage", "anObject", "aBoolean"],
-source: "sendMessage: aMessage to: anObject superSend: aBoolean\x0a\x09| method |\x0a\x09\x0a\x09aBoolean ifFalse: [ ^ aMessage sendTo: anObject ].\x0a\x09anObject class superclass ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].\x0a\x09\x0a\x09method := (self context method methodClass superclass lookupSelector: aMessage selector)\x0a\x09\x09ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].\x0a\x09\x09\x0a\x09^ method sendTo: anObject arguments: aMessage arguments",
+args: ["aString", "aMessage", "anObject"],
+source: "sendJavaScript: aString superMessage: aMessage to: anObject\x0a\x09| methodBlock parent |\x0a\x09\x0a\x09parent := self context method methodClass superPrototype.\x0a\x09parent ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].\x0a\x09\x0a\x09methodBlock := (parent at: aString)\x0a\x09\x09ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].\x0a\x09\x09\x0a\x09^ methodBlock applyTo: anObject arguments: aMessage arguments",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifFalse:", "sendTo:", "ifNil:", "superclass", "class", "messageNotUnderstood:receiver:", "lookupSelector:", "methodClass", "method", "context", "selector", "sendTo:arguments:", "arguments"]
-}, function ($methodClass){ return function (aMessage,anObject,aBoolean){
+messageSends: ["superPrototype", "methodClass", "method", "context", "ifNil:", "messageNotUnderstood:receiver:", "at:", "applyTo:arguments:", "arguments"]
+}, function ($methodClass){ return function (aString,aMessage,anObject){
 var self=this,$self=this;
-var method;
+var methodBlock,parent;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2;
-if(!$core.assert(aBoolean)){
-return $recv(aMessage)._sendTo_(anObject);
-}
-$1=[$recv($recv(anObject)._class())._superclass()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["superclass"]=1
-//>>excludeEnd("ctx");
-][0];
+parent=$recv($recv($recv($self._context())._method())._methodClass())._superPrototype();
+$1=parent;
 if($1 == null || $1.a$nil){
 return [$self._messageNotUnderstood_receiver_(aMessage,anObject)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2862,7 +2856,49 @@ return [$self._messageNotUnderstood_receiver_(aMessage,anObject)
 } else {
 $1;
 }
-$2=$recv($recv($recv($recv($self._context())._method())._methodClass())._superclass())._lookupSelector_($recv(aMessage)._selector());
+$2=$recv(parent)._at_(aString);
+if($2 == null || $2.a$nil){
+return $self._messageNotUnderstood_receiver_(aMessage,anObject);
+} else {
+methodBlock=$2;
+}
+return $recv(methodBlock)._applyTo_arguments_(anObject,$recv(aMessage)._arguments());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"sendJavaScript:superMessage:to:",{aString:aString,aMessage:aMessage,anObject:anObject,methodBlock:methodBlock,parent:parent})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ASTInterpreter);
+
+$core.addMethod(
+$core.method({
+selector: "sendSuperMessage:to:",
+protocol: "private",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aMessage", "anObject"],
+source: "sendSuperMessage: aMessage to: anObject\x0a\x09| method parent |\x0a\x09\x0a\x09parent := self context method methodClass superclass.\x0a\x09parent ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].\x0a\x09\x0a\x09method := (parent lookupSelector: aMessage selector)\x0a\x09\x09ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].\x0a\x09\x09\x0a\x09^ method sendTo: anObject arguments: aMessage arguments",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["superclass", "methodClass", "method", "context", "ifNil:", "messageNotUnderstood:receiver:", "lookupSelector:", "selector", "sendTo:arguments:", "arguments"]
+}, function ($methodClass){ return function (aMessage,anObject){
+var self=this,$self=this;
+var method,parent;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+parent=$recv($recv($recv($self._context())._method())._methodClass())._superclass();
+$1=parent;
+if($1 == null || $1.a$nil){
+return [$self._messageNotUnderstood_receiver_(aMessage,anObject)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["messageNotUnderstood:receiver:"]=1
+//>>excludeEnd("ctx");
+][0];
+} else {
+$1;
+}
+$2=$recv(parent)._lookupSelector_($recv(aMessage)._selector());
 if($2 == null || $2.a$nil){
 return $self._messageNotUnderstood_receiver_(aMessage,anObject);
 } else {
@@ -2870,7 +2906,7 @@ method=$2;
 }
 return $recv(method)._sendTo_arguments_(anObject,$recv(aMessage)._arguments());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"sendMessage:to:superSend:",{aMessage:aMessage,anObject:anObject,aBoolean:aBoolean,method:method})});
+}, function($ctx1) {$ctx1.fill(self,"sendSuperMessage:to:",{aMessage:aMessage,anObject:anObject,method:method,parent:parent})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ASTInterpreter);
@@ -3311,11 +3347,11 @@ selector: "visitSendNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitSendNode: aNode\x0a\x09| receiver args message result |\x0a\x09\x0a\x09args := aNode arguments collect: [ :each | self pop ].\x0a\x09receiver := self peek.\x0a\x09\x0a\x09message := self\x0a\x09\x09messageFromSendNode: aNode\x0a\x09\x09arguments: args reversed.\x0a\x09\x0a\x09result := self sendMessage: message to: receiver superSend: aNode superSend.\x0a\x09\x0a\x09\x22For cascade sends, push the reciever if the send is not the last one\x22\x0a\x09aNode isSideEffect ifFalse: [ self pop; push: result ]",
+source: "visitSendNode: aNode\x0a\x09| receiver args message result |\x0a\x09\x0a\x09args := aNode arguments collect: [ :each | self pop ].\x0a\x09receiver := self peek.\x0a\x09\x0a\x09message := self\x0a\x09\x09messageFromSendNode: aNode\x0a\x09\x09arguments: args reversed.\x0a\x09\x0a\x09result := aNode superSend\x0a\x09\x09ifFalse: [ message sendTo: receiver ]\x0a\x09\x09ifTrue: [ aNode receiver binding isJavaScriptSuper\x0a\x09\x09\x09ifFalse: [ self sendSuperMessage: message to: receiver ]\x0a\x09\x09\x09ifTrue: [ self sendJavaScript: aNode javaScriptSelector superMessage: message to: receiver ] ].\x0a\x09\x0a\x09\x22For cascade sends, push the reciever if the send is not the last one\x22\x0a\x09aNode isSideEffect ifFalse: [ self pop; push: result ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["collect:", "arguments", "pop", "peek", "messageFromSendNode:arguments:", "reversed", "sendMessage:to:superSend:", "superSend", "ifFalse:", "isSideEffect", "push:"]
+messageSends: ["collect:", "arguments", "pop", "peek", "messageFromSendNode:arguments:", "reversed", "ifFalse:ifTrue:", "superSend", "sendTo:", "isJavaScriptSuper", "binding", "receiver", "sendSuperMessage:to:", "sendJavaScript:superMessage:to:", "javaScriptSelector", "ifFalse:", "isSideEffect", "push:"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 var receiver,args,message,result;
@@ -3337,7 +3373,15 @@ return [$self._pop()
 }));
 receiver=$self._peek();
 message=$self._messageFromSendNode_arguments_(aNode,$recv(args)._reversed());
-result=$self._sendMessage_to_superSend_(message,receiver,$recv(aNode)._superSend());
+if($core.assert($recv(aNode)._superSend())){
+if($core.assert($recv($recv($recv(aNode)._receiver())._binding())._isJavaScriptSuper())){
+result=$self._sendJavaScript_superMessage_to_($recv(aNode)._javaScriptSelector(),message,receiver);
+} else {
+result=$self._sendSuperMessage_to_(message,receiver);
+}
+} else {
+result=$recv(message)._sendTo_(receiver);
+}
 if(!$core.assert($recv(aNode)._isSideEffect())){
 $self._pop();
 $self._push_(result);
@@ -3974,6 +4018,24 @@ $globals.JSStatementNode);
 
 $core.addMethod(
 $core.method({
+selector: "isJavaScriptSuper",
+protocol: "*Compiler-Interpreter",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isJavaScriptSuper\x0a\x09^ true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return true;
+
+}; }),
+$globals.JavaScriptSuperVar);
+
+$core.addMethod(
+$core.method({
 selector: "inContext:",
 protocol: "*Compiler-Interpreter",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4096,6 +4158,24 @@ return $recv(aContext)._localAt_("self");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"inContext:",{aContext:aContext})});
 //>>excludeEnd("ctx");
+}; }),
+$globals.SuperVar);
+
+$core.addMethod(
+$core.method({
+selector: "isJavaScriptSuper",
+protocol: "*Compiler-Interpreter",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isJavaScriptSuper\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
 }; }),
 $globals.SuperVar);
 

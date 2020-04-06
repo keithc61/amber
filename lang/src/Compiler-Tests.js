@@ -2021,7 +2021,13 @@ return $recv([$self._name()
 $globals.AbstractJavaScriptGatewayTest.a$cls);
 
 
+$core.addClass("DebuggedJSGTest", $globals.AbstractJavaScriptGatewayTest, [], "Compiler-Tests");
+
+
 $core.addClass("InlinedJSGTest", $globals.AbstractJavaScriptGatewayTest, [], "Compiler-Tests");
+
+
+$core.addClass("InterpretedJSGTest", $globals.AbstractJavaScriptGatewayTest, [], "Compiler-Tests");
 
 
 $core.addClass("PlainJSGTest", $globals.AbstractJavaScriptGatewayTest, [], "Compiler-Tests");
@@ -4181,5 +4187,7 @@ $core.setTraitComposition([{trait: $globals.TASTParsingTest}], $globals.ASTPosit
 $core.setTraitComposition([{trait: $globals.TASTCompilingTest}], $globals.AbstractCodeGeneratorInstallTest);
 $core.setTraitComposition([{trait: $globals.TCTNonInlined}], $globals.CodeGeneratorInstallTest);
 $core.setTraitComposition([{trait: $globals.TCTInlined}], $globals.InliningCodeGeneratorInstallTest);
+$core.setTraitComposition([{trait: $globals.TCTNonInlined}, {trait: $globals.TCTInterpreted}], $globals.InterpretedJSGTest);
+$core.setTraitComposition([{trait: $globals.TCTNonInlined}, {trait: $globals.TCTDebugged}], $globals.DebuggedJSGTest);
 
 });
