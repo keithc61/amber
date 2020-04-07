@@ -712,6 +712,20 @@ testDyadicJSOverrideArgMismatch
 		andRaise: CompilerError
 !
 
+testDyadicJSOverrideDifferentNames
+	receiver := ObjectMock new.
+	receiver foo: 4.
+	self while: 'quux: anInteger foo: anotherInteger
+		<jsOverride: #mux args: #(anInteger anotherInteger)>
+		^ (foo := foo * anInteger + anotherInteger)' should: [
+		self should: [ receiver mux ] raise: MessageNotUnderstood.
+		self should: [ receiver mux: 2 and: -1 ] raise: MessageNotUnderstood.
+		self assert: (receiver basicPerform: #mux withArguments: #(2 -2)) equals: 6.
+		self assert: (receiver quux: 1 foo: 4) equals: 10.
+		self should: [ receiver basicPerform: #quux ] raise: Error.
+		self assert: receiver foo equals: 10 ]
+!
+
 testDyadicJSOverrideInOneArg
 	receiver := ObjectMock new.
 	self
@@ -745,20 +759,6 @@ testDyadicJSOverrideRepeatedArgs
 		<jsOverride: #mux args: #(anInteger anInteger)>
 		^ (foo := foo * anInteger + anotherInteger)'
 		andRaise: CompilerError
-!
-
-testDyadicSOverrideDifferentNames
-	receiver := ObjectMock new.
-	receiver foo: 4.
-	self while: 'quux: anInteger foo: anotherInteger
-		<jsOverride: #mux args: #(anInteger anotherInteger)>
-		^ (foo := foo * anInteger + anotherInteger)' should: [
-		self should: [ receiver mux ] raise: MessageNotUnderstood.
-		self should: [ receiver mux: 2 and: -1 ] raise: MessageNotUnderstood.
-		self assert: (receiver basicPerform: #mux withArguments: #(2 -2)) equals: 6.
-		self assert: (receiver quux: 1 foo: 4) equals: 10.
-		self should: [ receiver basicPerform: #quux ] raise: Error.
-		self assert: receiver foo equals: 10 ]
 !
 
 testInvalidAssignment
