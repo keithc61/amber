@@ -779,14 +779,14 @@ constructorNamed: aString value: anObject
 
 constructorNamed: aString value: anObject value: anObject2
 	<inlineJS: '
-		var nativeFunc=$globals.Platform._globals[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return new nativeFunc(anObject,anObject2);
 	'>
 !
 
 constructorNamed: aString value: anObject value: anObject2 value: anObject3
 	<inlineJS: '
-		var nativeFunc=$globals.Platform._globals[aString];
+		var nativeFunc=$globals.Platform._globals()[aString];
 		return new nativeFunc(anObject,anObject2, anObject3);
 	'>
 !
