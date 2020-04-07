@@ -2810,6 +2810,59 @@ $globals.ClassTest);
 
 $core.addMethod(
 $core.method({
+selector: "testMethodAttachmentsAreRemoved2",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testMethodAttachmentsAreRemoved2\x0a\x09| instance theMethod anObject |\x0a\x09theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09anObject := #{#foo -> 'oof'}.\x0a\x09theMethod := Compiler new\x0a\x09\x09compile: 'bar' forClass: ObjectMock2 protocol: '**test'.\x0a\x09self\x0a\x09\x09augmentMethodInstantiationOf: theMethod\x0a\x09\x09withAttachments: #{#a -> 42. #b -> anObject}.\x0a\x09ObjectMock2 addCompiledMethod: theMethod.\x0a\x09ObjectMock2 new bar.\x0a\x09ObjectMock2 removeCompiledMethod: theMethod.\x0a\x09self assert: (ObjectMock2 new basicAt: #a) equals: nil.\x0a\x09self assert: (ObjectMock2 new basicAt: #b) equals: nil",
+referencedClasses: ["ObjectMock", "Compiler", "ObjectMock2"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["copyClass:named:", "compile:forClass:protocol:", "new", "augmentMethodInstantiationOf:withAttachments:", "addCompiledMethod:", "bar", "removeCompiledMethod:", "assert:equals:", "basicAt:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var instance,theMethod,anObject;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.theClass=$recv($self.builder)._copyClass_named_($globals.ObjectMock,"ObjectMock2");
+anObject=$globals.HashedCollection._newFromPairs_(["foo","oof"]);
+theMethod=$recv([$recv($globals.Compiler)._new()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new"]=1
+//>>excludeEnd("ctx");
+][0])._compile_forClass_protocol_("bar",$globals.ObjectMock2,"**test");
+$self._augmentMethodInstantiationOf_withAttachments_(theMethod,$globals.HashedCollection._newFromPairs_(["a",(42),"b",anObject]));
+$recv($globals.ObjectMock2)._addCompiledMethod_(theMethod);
+$recv([$recv($globals.ObjectMock2)._new()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new"]=2
+//>>excludeEnd("ctx");
+][0])._bar();
+$recv($globals.ObjectMock2)._removeCompiledMethod_(theMethod);
+[$self._assert_equals_([$recv([$recv($globals.ObjectMock2)._new()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new"]=3
+//>>excludeEnd("ctx");
+][0])._basicAt_("a")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["basicAt:"]=1
+//>>excludeEnd("ctx");
+][0],nil)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:equals:"]=1
+//>>excludeEnd("ctx");
+][0];
+$self._assert_equals_($recv($recv($globals.ObjectMock2)._new())._basicAt_("b"),nil);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testMethodAttachmentsAreRemoved2",{instance:instance,theMethod:theMethod,anObject:anObject})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ClassTest);
+
+$core.addMethod(
+$core.method({
 selector: "testMethodAttachmentsAreReplaced",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);

@@ -10,7 +10,7 @@ define(['./junk-drawer'], function ($goodies) {
     var deleteKeysFrom = $goodies.deleteKeysFrom;
     var extendWithMethods = $goodies.extendWithMethods;
 
-    function installMethodOfJsObjectEx (obj, name, fn) {
+    function uninstallMethodOfJsObjectEx (obj, name) {
         var attachments;
         var old = Object.getOwnPropertyDescriptor(obj, name);
         if (old != null && (old = old.value) != null) {
@@ -19,7 +19,12 @@ define(['./junk-drawer'], function ($goodies) {
                 deleteKeysFrom(Object.keys(attachments), obj);
             }
         }
-        attachments = fn.a$atx;
+        delete obj[name];
+    }
+
+    function installMethodOfJsObjectEx (obj, name, fn) {
+        uninstallMethodOfJsObjectEx(obj, name);
+        var attachments = fn.a$atx;
         if (attachments != null) {
             extendWithMethods(obj, attachments);
         }
@@ -253,7 +258,7 @@ define(['./junk-drawer'], function ($goodies) {
             };
 
             emit.behaviorMethodRemoved = function (method, klass) {
-                delete klass.fn.prototype[method.jsSelector];
+                uninstallMethodOfJsObjectEx(klass.fn.prototype, method.jsSelector);
                 propagateMethodChange(klass, method, null);
             };
 

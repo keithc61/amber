@@ -590,6 +590,22 @@ testMethodAttachmentsAreRemoved
 	self assert: (ObjectMock2 new basicAt: #b) equals: nil
 !
 
+testMethodAttachmentsAreRemoved2
+	| instance theMethod anObject |
+	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.
+	anObject := #{#foo -> 'oof'}.
+	theMethod := Compiler new
+		compile: 'bar' forClass: ObjectMock2 protocol: '**test'.
+	self
+		augmentMethodInstantiationOf: theMethod
+		withAttachments: #{#a -> 42. #b -> anObject}.
+	ObjectMock2 addCompiledMethod: theMethod.
+	ObjectMock2 new bar.
+	ObjectMock2 removeCompiledMethod: theMethod.
+	self assert: (ObjectMock2 new basicAt: #a) equals: nil.
+	self assert: (ObjectMock2 new basicAt: #b) equals: nil
+!
+
 testMethodAttachmentsAreReplaced
 	| instance theMethod anObject |
 	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.
